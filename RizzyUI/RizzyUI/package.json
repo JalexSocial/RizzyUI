@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "css:build": "npx tailwindcss build -i ./wwwroot/css/rizzui.css -o ./wwwroot/dist/rizzyui.css"
+    "css:build": "npx tailwindcss build -i ./wwwroot/css/rizzyui.css -o ./wwwroot/dist/rizzyui.css"
   },
   "keywords": [],
   "author": "",
