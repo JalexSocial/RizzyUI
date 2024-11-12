@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <EnableSourceControlManagerQueries>true</EnableSourceControlManagerQueries>
+        <UseRazorSourceGenerator>true</UseRazorSourceGenerator>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <SupportedPlatform Include="browser" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.10" />
+        <PackageReference Include="Blazor.HeroIcons" Version="2.1.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <UpToDateCheckBuilt Include="wwwroot/css/rizzyui.css" Set="Css" />
+        <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
+    </ItemGroup>
+
+    <Target Name="Tailwind" BeforeTargets="Build">
+        <Exec Command="npm run css:build" />
+    </Target>
+
+</Project>
