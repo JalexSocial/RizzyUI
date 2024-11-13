@@ -5,16 +5,22 @@
 <button type="button" class="@_variants[Variant] @_variantsizes[Size] @classes" aria-label="@AssistiveLabel" @attributes="@attributes">@ChildContent</button>
 
 @code {
-	[CascadingParameter]
-	public ButtonGroup? Group { get; set; }
+    [CascadingParameter]
+    public ButtonGroup? Group { get; set; }
 
     [Parameter] 
     public string AssistiveLabel { get; set; } = "Action Button";
 
-	[Parameter]
-	public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
+    /// <summary>
+    /// Button variation (primary, secondary, etc)
+    /// </summary>
+    [Parameter]
+    public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
 
-	[Parameter]
+    /// <summary>
+    /// Button size
+    /// </summary>
+    [Parameter]
 	public ButtonSize Size { get; set; } = ButtonSize.Medium;
 
 	protected override void OnParametersSet()

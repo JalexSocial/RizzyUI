@@ -6,8 +6,20 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableSourceControlManagerQueries>true</EnableSourceControlManagerQueries>
         <UseRazorSourceGenerator>true</UseRazorSourceGenerator>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Remove="DefaultDocumentation.json" />
+    </ItemGroup>
+	
+    <ItemGroup>
+        <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
+    </ItemGroup>
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
