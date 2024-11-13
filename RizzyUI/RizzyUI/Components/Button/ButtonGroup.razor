@@ -1,0 +1,24 @@
+﻿@namespace RizzyUI
+
+@inherits RizzyComponent
+
+<CascadingValue Value="this">
+    <div class="inline-flex @classes" @attributes="attributes">
+        @ChildContent
+    </div>
+</CascadingValue>
+
+@code {
+    private readonly List<Button> _buttons = new();
+
+    public List<Button> Buttons => _buttons;
+
+    internal void AddButton(Button button)
+    {
+        if (!_buttons.Contains(button))
+        {
+            _buttons.Add(button);
+            StateHasChanged();
+        }
+    }
+}

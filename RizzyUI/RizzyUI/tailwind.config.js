@@ -89,7 +89,13 @@ module.exports = {
                 'on-warning': 'var(--rizzyui-on-warning)',
                 'success': 'var(--rizzyui-success)',
                 'on-success': 'var(--rizzyui-on-success)',
-            }
+            },
+            borderWidth: {
+                DEFAULT: 'var(--rizzyui-border-width)',
+            },
+            borderRadius: {
+                DEFAULT: 'var(--rizzyui-border-radius)',
+            },
         },
     },
     plugins: [
@@ -134,9 +140,7 @@ module.exports = {
 
                     /* Border and Radius */
                     '--rizzyui-border-width': '1px',
-                    '--rizzyui-border-width-strong': '2px',
                     '--rizzyui-border-radius': '4px',
-                    '--rizzyui-border-radius-large': '8px',
                 },
             });
         }),
