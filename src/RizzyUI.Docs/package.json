@@ -1,0 +1,30 @@
+{
+  "name": "rizzyui.docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "css:build": "npx tailwindcss build -i ./Static/css/app.css -o ./wwwroot/css/app.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.4",
+    "@tailwindcss/typography": "^0.5.9",
+    "css-loader": "^6.8.1",
+    "eslint": "^8.52.0",
+    "style-loader": "^3.3.3",
+    "tailwindcss": "^3.4.13",
+    "tailwindcss-inset": "^1.0.0",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.23"
+  }
+}
