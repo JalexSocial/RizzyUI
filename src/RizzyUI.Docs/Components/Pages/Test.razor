@@ -1,0 +1,50 @@
+﻿@page "/test"
+
+<Sidebar>
+    <MenuContent>
+        <SidebarLinks>
+            <SidebarLinkItem Icon="DashboardIcon" Title="Dashboard" Href="#"/>
+
+            <SidebarLinkItem Icon="UserManagementIcon" Title="User Management" Collapsible="false">
+                <SidebarLinkItem Title="Users" Href="#"/>
+                <SidebarLinkItem Title="Permissions" Href="#"/>
+                <SidebarLinkItem Title="Activity Log" Href="#"/>
+            </SidebarLinkItem>
+
+            <SidebarLinkItem Icon="ProductsIcon" Title="Products" Collapsible="true">
+                <SidebarLinkItem Title="All Products" Href="#"/>
+                <SidebarLinkItem Title="Inventory" Href="#"/>
+                <SidebarLinkItem Title="Reviews" Href="#"/>
+            </SidebarLinkItem>
+
+            <SidebarLinkItem Icon="OrdersIcon" Title="Orders" Collapsible="true" Collapsed="false">
+                <SidebarLinkItem Title="Pending" Href="#">
+                    <TrailerContent>
+                        <span class="ml-auto font-bold">3</span>
+                    </TrailerContent>
+                </SidebarLinkItem>
+                <SidebarLinkItem Title="Shipped" Href="#">
+                    <TrailerContent>
+                        <span class="ml-auto font-bold">12</span>
+                    </TrailerContent>
+                </SidebarLinkItem>
+                <SidebarLinkItem Title="Completed" Href="#">
+                    <TrailerContent>
+                        <span class="ml-auto font-bold">38</span>
+                    </TrailerContent>
+                </SidebarLinkItem>
+                <SidebarLinkItem Title="Returns" Href="#">
+                    <TrailerContent>
+                        <span class="ml-auto font-bold">2</span>
+                    </TrailerContent>
+                </SidebarLinkItem>
+            </SidebarLinkItem>
+
+            <SidebarLinkItem Icon="SettingsIcon" Title="Settings" Href="#"/>
+        </SidebarLinks>
+
+    </MenuContent>
+    <MainContent>
+        <!-- Add main content here -->
+    </MainContent>
+</Sidebar>
