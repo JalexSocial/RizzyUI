@@ -860,10 +860,6 @@ select {
   position: fixed;
 }
 
-.absolute {
-  position: absolute;
-}
-
 .relative {
   position: relative;
 }
@@ -876,16 +872,8 @@ select {
   left: 0px;
 }
 
-.left-2 {
-  left: 0.5rem;
-}
-
 .right-4 {
   right: 1rem;
-}
-
-.top-1\/2 {
-  top: 50%;
 }
 
 .top-4 {
@@ -898,15 +886,6 @@ select {
 
 .z-20 {
   z-index: 20;
-}
-
-.my-4 {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-.ml-2 {
-  margin-left: 0.5rem;
 }
 
 .ml-auto {
@@ -930,29 +909,21 @@ select {
   height: 1.25rem;
 }
 
-.h-svh {
-  height: 100svh;
+.size-6 {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-.w-24 {
-  width: 6rem;
+.h-svh {
+  height: 100svh;
 }
 
 .w-60 {
   width: 15rem;
 }
 
-.w-fit {
-  width: -moz-fit-content;
-  width: fit-content;
-}
-
 .w-full {
   width: 100%;
-}
-
-.max-w-xs {
-  max-width: 20rem;
 }
 
 .shrink-0 {
@@ -961,11 +932,6 @@ select {
 
 .-translate-x-60 {
   --tw-translate-x: -15rem;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.-translate-y-1\/2 {
-  --tw-translate-y: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -998,10 +964,6 @@ select {
 
 .justify-between {
   justify-content: space-between;
-}
-
-.gap-1 {
-  gap: 0.25rem;
 }
 
 .gap-2 {
@@ -1040,10 +1002,6 @@ select {
 .rounded-r-lg {
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
-}
-
-.border {
-  border-width: var(--borderWidth);
 }
 
 .border-l {
@@ -1118,14 +1076,6 @@ select {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
-.fill-black {
-  fill: #000;
-}
-
-.fill-blue-700 {
-  fill: #1d4ed8;
-}
-
 .p-4 {
   padding: 1rem;
 }
@@ -1198,10 +1148,6 @@ select {
   padding-left: 1rem;
 }
 
-.pl-9 {
-  padding-left: 2.25rem;
-}
-
 .text-left {
   text-align: left;
 }
@@ -1210,18 +1156,9 @@ select {
   text-align: center;
 }
 
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
-
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
-}
-
-.font-bold {
-  font-weight: 700;
 }
 
 .font-medium {
@@ -1230,11 +1167,6 @@ select {
 
 .tracking-wide {
   letter-spacing: 0.025em;
-}
-
-.text-black {
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
 }
 
 .text-onDanger {
@@ -1273,10 +1205,6 @@ select {
 .text-slate-700 {
   --tw-text-opacity: 1;
   color: rgb(51 65 85 / var(--tw-text-opacity, 1));
-}
-
-.text-slate-700\/50 {
-  color: rgb(51 65 85 / 0.5);
 }
 
 .underline-offset-2 {
@@ -1348,10 +1276,6 @@ select {
 
 .focus-visible\:outline-offset-2:focus-visible {
   outline-offset: 2px;
-}
-
-.focus-visible\:outline-blue-700:focus-visible {
-  outline-color: #1d4ed8;
 }
 
 .focus-visible\:outline-danger:focus-visible {
@@ -1438,10 +1362,6 @@ select {
   background-color: rgb(15 23 42 / var(--tw-bg-opacity, 1));
 }
 
-.dark\:bg-slate-900\/50:is(.dark *) {
-  background-color: rgb(15 23 42 / 0.5);
-}
-
 .dark\:bg-success:is(.dark *) {
   background-color: var(--success);
 }
@@ -1456,14 +1376,6 @@ select {
 
 .dark\:bg-warning:is(.dark *) {
   background-color: var(--warning);
-}
-
-.dark\:fill-blue-600:is(.dark *) {
-  fill: #2563eb;
-}
-
-.dark\:fill-white:is(.dark *) {
-  fill: #fff;
 }
 
 .dark\:text-onDanger:is(.dark *) {
@@ -1508,15 +1420,6 @@ select {
   color: rgb(203 213 225 / var(--tw-text-opacity, 1));
 }
 
-.dark\:text-slate-300\/50:is(.dark *) {
-  color: rgb(203 213 225 / 0.5);
-}
-
-.dark\:text-white:is(.dark *) {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
-}
-
 .dark\:hover\:bg-blue-600\/5:hover:is(.dark *) {
   background-color: rgb(37 99 235 / 0.05);
 }
@@ -1524,10 +1427,6 @@ select {
 .dark\:hover\:text-white:hover:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
-}
-
-.dark\:focus-visible\:outline-blue-600:focus-visible:is(.dark *) {
-  outline-color: #2563eb;
 }
 
 .dark\:focus-visible\:outline-danger:focus-visible:is(.dark *) {

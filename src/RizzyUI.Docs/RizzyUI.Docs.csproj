@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.0.19" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RizzyUI\RizzyUI.csproj" />
   </ItemGroup>
 

@@ -7,9 +7,9 @@
     <a class="sr-only" href="#main-content">skip to the main content</a>
 
     <!-- dark overlay for when the sidebar is open on smaller screens  -->
-    <div x-cloak x-show="showSidebar" class="fixed inset-0 z-10 bg-slate-900/10 backdrop-blur-sm md:hidden" aria-hidden="true" x-on:click="showSidebar = false" x-transition.opacity=""></div>
+    <div x-cloak x-show="showSidebar" class="z-10 bg-slate-900/10 fixed inset-0 backdrop-blur-sm md:hidden" aria-hidden="true" x-on:click="showSidebar = false" x-transition.opacity=""></div>
 
-    <nav x-cloak class="fixed left-0 z-20 flex h-svh w-60 shrink-0 flex-col border-r border-slate-300 bg-slate-100 p-4 transition-transform duration-300 md:w-64 md:translate-x-0 md:relative dark:border-slate-700 dark:bg-slate-800" x-bind:class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
+    <nav x-cloak class="z-20 shrink-0 fixed left-0 flex h-svh w-60 flex-col border-r border-slate-300 bg-slate-100 p-4 transition-transform duration-300 dark:border-slate-700 dark:bg-slate-800 md:w-64 md:translate-x-0 md:relative" x-bind:class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
         <!-- logo  -->
         <a href="#" class="ml-2 w-fit text-2xl font-bold text-black dark:text-white">
             <span class="sr-only">homepage</span>
@@ -22,27 +22,27 @@
                 </g>
             </svg>
         </a>
-
+        
         <!-- search  -->
         <div class="relative my-4 flex w-full max-w-xs flex-col gap-1 text-slate-700 dark:text-slate-300">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" class="absolute left-2 top-1/2 size-5 -translate-y-1/2 text-slate-700/50 dark:text-slate-300/50" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" class="-translate-y-1/2 text-slate-700/50 absolute left-2 top-1/2 size-5 dark:text-slate-300/50" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
             </svg>
-            <input type="search" class="w-full border border-slate-300 rounded-xl bg-white px-2 py-1.5 pl-9 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:cursor-not-allowed disabled:opacity-75 dark:border-slate-700 dark:bg-slate-900/50 dark:focus-visible:outline-blue-600" name="search" aria-label="Search" placeholder="Search" />
+            <input type="search" class="w-full rounded-xl border border-slate-300 bg-white px-2 py-1.5 pl-9 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:cursor-not-allowed disabled:opacity-75 dark:border-slate-700 dark:bg-slate-900/50 dark:focus-visible:outline-blue-600" name="search" aria-label="Search" placeholder="Search" />
         </div>
 
         <!-- sidebar links  -->
         <div class="flex flex-col gap-2 overflow-y-auto pb-6">
 
-            <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl font-medium text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+            <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm font-medium text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                 <span>About</span>
             </a>
 
-            <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl font-medium text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+            <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm font-medium text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                 <span>Support Us</span>
             </a>
 
-            <a href="#" target="_blank" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl font-medium text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+            <a href="#" target="_blank" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm font-medium text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                 <span>GitHub</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4" aria-hidden="true">
                     <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 0 0-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-4a.75.75 0 0 1 1.5 0v4A2.25 2.25 0 0 1 12.75 17h-8.5A2.25 2.25 0 0 1 2 14.75v-8.5A2.25 2.25 0 0 1 4.25 4h5a.75.75 0 0 1 0 1.5h-5Z" clip-rule="evenodd" />
@@ -50,104 +50,104 @@
                 </svg>
             </a>
 
-            <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl font-medium text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+            <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm font-medium text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                 <span>Get Started</span>
             </a>
             <ul class="pl-4">
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>Overview</span>
                     </a>
                 </li>
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>API Authentication</span>
                     </a>
                 </li>
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>Rate Limiting</span>
                     </a>
                 </li>
             </ul>
 
-            <a href="#" class="flex items-center gap-2 mt-2 px-2 py-1.5 text-sm rounded-xl font-medium text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+            <a href="#" class="underline-offset-2 mt-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm font-medium text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                 <span>Endpoints</span>
             </a>
             <ul class="pl-4">
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>Create User</span>
-                        <span class="w-fit inline-flex overflow-hidden bg-sky-600/10 text-xs font-medium text-sky-600">POST</span>
+                        <span class="bg-sky-600/10 inline-flex w-fit overflow-hidden text-xs font-medium text-sky-600">POST</span>
                     </a>
                 </li>
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>Get User</span>
-                        <span class="w-fit inline-flex overflow-hidden bg-green-600/10 text-xs font-medium text-green-600">GET</span>
+                        <span class="bg-green-600/10 inline-flex w-fit overflow-hidden text-xs font-medium text-green-600">GET</span>
                     </a>
                 </li>
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>Update User</span>
-                        <span class="w-fit inline-flex overflow-hidden bg-amber-500/10 text-xs font-medium text-amber-500">PUT</span>
+                        <span class="bg-amber-500/10 inline-flex w-fit overflow-hidden text-xs font-medium text-amber-500">PUT</span>
                     </a>
                 </li>
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>Delete User</span>
-                        <span class="w-fit inline-flex overflow-hidden bg-red-600/10 text-xs font-medium text-red-600">DELETE</span>
+                        <span class="bg-red-600/10 inline-flex w-fit overflow-hidden text-xs font-medium text-red-600">DELETE</span>
                     </a>
                 </li>
             </ul>
 
-            <a href="#" class="flex items-center gap-2 mt-2 px-2 py-1.5 text-sm rounded-xl font-medium text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+            <a href="#" class="underline-offset-2 mt-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm font-medium text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                 <span>Authentication</span>
             </a>
             <ul class="pl-4">
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>API Keys</span>
                     </a>
                 </li>
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>OAuth 2.0</span>
                     </a>
                 </li>
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>JWT Tokens</span>
                     </a>
                 </li>
             </ul>
 
-            <a href="#" class="flex items-center mt-2 gap-2 px-2 py-1.5 text-sm rounded-xl font-medium text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+            <a href="#" class="underline-offset-2 mt-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm font-medium text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                 <span>SDKs & Libraries</span>
             </a>
             <ul class="pl-4">
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>Laravel</span>
                     </a>
                 </li>
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>JavaScript</span>
                     </a>
                 </li>
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>Python</span>
                     </a>
                 </li>
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>Ruby</span>
                     </a>
                 </li>
-                <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
-                    <a href="#" class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
+                <li class="border-l border-slate-300 px-2 py-0.5 dark:border-slate-700">
+                    <a href="#" class="underline-offset-2 flex items-center gap-2 rounded-xl px-2 py-1.5 text-sm text-slate-700 hover:bg-blue-700/5 hover:text-black focus:outline-none focus-visible:underline dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white">
                         <span>PHP</span>
                     </a>
                 </li>
@@ -156,7 +156,7 @@
     </nav>
 
     <!-- main content  -->
-    <div id="main-content" class="h-svh w-full overflow-y-auto p-4 bg-white dark:bg-slate-900">
+    <div id="main-content" class="h-svh w-full overflow-y-auto bg-white p-4 dark:bg-slate-900">
         <!-- Add main content here  -->
 
         <h1>Hello, world!</h1>
@@ -168,7 +168,7 @@
     </div>
 
     <!-- toggle button for small screen  -->
-    <button class="fixed right-4 top-4 z-20 rounded-full bg-blue-700 p-4 md:hidden text-slate-100 dark:bg-blue-600 dark:text-slate-100" x-on:click="showSidebar = ! showSidebar">
+    <button class="z-20 fixed right-4 top-4 rounded-full bg-blue-700 p-4 text-slate-100 dark:bg-blue-600 dark:text-slate-100 md:hidden" x-on:click="showSidebar = ! showSidebar">
         <svg x-show="showSidebar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5" aria-hidden="true">
             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
         </svg>

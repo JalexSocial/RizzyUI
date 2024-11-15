@@ -1,5 +1,6 @@
 ﻿@namespace RizzyUI
 
+@using Blazicons
 @inherits RizzyComponent
 
 @* SidebarLinkItem Component *@
@@ -9,11 +10,11 @@
     <li>
         <div x-data="{ isExpanded: @((!Collapsed).ToString().ToLowerInvariant()) }" class="flex flex-col">
             <button type="button" x-on:click="isExpanded = ! isExpanded" id="@ButtonId" aria-controls="@CollapseId" x-bind:aria-expanded="isExpanded.toString()" class="@ButtonClass">
-                @if (!string.IsNullOrEmpty(Icon))
+                @if (Icon != null)
                 {
-                    <svg class="size-5 shrink-0" aria-hidden="true">
-                        @((MarkupString)IconDictionary[Icon])
-                    </svg>
+                    <div class="size-6 shrink-0" aria-hidden="true">
+                        <Blazicon Svg="@Icon"></Blazicon>
+                    </div>
                 }
                 <span class="mr-auto text-left">@Title</span>
                 @if (TrailerContent != null)
@@ -42,11 +43,11 @@ else
     {
         <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
             <a href="@Href" target="@Target" class="@LinkClass">
-                @if (!string.IsNullOrEmpty(Icon))
+                @if (Icon != null)
                 {
-                    <svg class="size-5 shrink-0" aria-hidden="true">
-                        @((MarkupString)IconDictionary[Icon])
-                    </svg>
+                    <div class="size-6 shrink-0" aria-hidden="true">
+                        <Blazicon Svg="@Icon"></Blazicon>
+                    </div>
                 }
                 <span>@Title</span>
                 @if (TrailerContent != null)
@@ -69,42 +70,42 @@ else
     else
     {
         <li class="px-1 py-0.5 first:mt-2">
-        <a href="@Href" target="@Target" class="@LinkClass">
-            @if (!string.IsNullOrEmpty(Icon))
+            <a href="@Href" target="@Target" class="@LinkClass">
+                @if (Icon != null)
+                {
+                    <div class="size-6 shrink-0" aria-hidden="true">
+                        <Blazicon Svg="@Icon"></Blazicon>
+                    </div>
+                }
+                <span>@Title</span>
+                @if (TrailerContent != null)
+                {
+                    <div class="ml-auto">
+                        @TrailerContent
+                    </div>
+                }
+            </a>
+            @if (ChildContent != null)
             {
-                <svg class="size-5 shrink-0" aria-hidden="true">
-                    @((MarkupString)IconDictionary[Icon])
-                </svg>
+                <ul class="pl-4">
+                    <CascadingValue Value="this">
+                        @ChildContent
+                    </CascadingValue>
+                </ul>
             }
-            <span>@Title</span>
-            @if (TrailerContent != null)
-            {
-                <div class="ml-auto">
-                    @TrailerContent
-                </div>
-            }
-        </a>
-        @if (ChildContent != null)
-        {
-            <ul class="pl-4">
-                <CascadingValue Value="this">
-                    @ChildContent
-                </CascadingValue>
-            </ul>
-        }
         </li>
     }
 }
 
 @code {
     [Parameter]
-    public string Icon { get; set; }
+    public SvgIcon? Icon { get; set; }
 
     [Parameter]
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
     [Parameter]
-    public string Href { get; set; }
+    public string Href { get; set; } = "#";
 
     [Parameter]
     public string Target { get; set; } = "_self";
@@ -123,7 +124,7 @@ else
 
     private string _buttonId;
     private string _collapseId;
-    protected bool HasChildren { get; set; } = false;
+    private bool HasChildren { get; set; } = false;
 
     protected override void OnInitialized()
     {
