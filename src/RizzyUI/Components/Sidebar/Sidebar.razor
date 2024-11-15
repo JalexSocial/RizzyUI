@@ -2,23 +2,30 @@
 
 @inherits RizzyComponent
 
+@*
+/// <summary>
+/// Represents a responsive layout component with a collapsible sidebar and main content area.
+/// This component includes a toggle button for small screens and handles accessibility features.
+/// </summary>
+*@
+
 <div x-data="{ showSidebar: false }" class="relative flex w-full flex-col md:flex-row">
     <!-- This allows screen readers to skip the sidebar and go directly to the main content. -->
     <a class="sr-only" href="#@MainContentId">skip to the main content</a>
 
-    <!-- dark overlay for when the sidebar is open on smaller screens  -->
+    <!-- Dark overlay when the sidebar is open on smaller screens -->
     <div x-cloak x-show="showSidebar" class="z-10 bg-slate-900/10 fixed inset-0 backdrop-blur-sm md:hidden" aria-hidden="true" x-on:click="showSidebar = false" x-transition.opacity></div>
 
     <nav x-cloak class="z-20 shrink-0 fixed left-0 flex h-svh w-60 flex-col border-r border-slate-300 bg-slate-100 p-4 transition-transform duration-300 dark:border-slate-700 dark:bg-slate-800 md:w-64 md:translate-x-0 md:relative" x-bind:class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
         @MenuContent
     </nav>
 
-    <!-- main content -->
+    <!-- Main content -->
     <div id="@MainContentId" class="h-svh w-full overflow-y-auto bg-white p-4 dark:bg-slate-900">
         @MainContent
     </div>
 
-    <!-- toggle button for small screen -->
+    <!-- Toggle button for small screens -->
     <button class="z-20 fixed right-4 top-4 rounded-full bg-blue-700 p-4 text-slate-100 dark:bg-blue-600 dark:text-slate-100 md:hidden" x-on:click="showSidebar = ! showSidebar">
         <svg x-show="showSidebar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5" aria-hidden="true">
             <!-- Close icon SVG content -->
@@ -34,12 +41,21 @@
 
 @code {
 
-	[Parameter]
-	public string MainContentId { get; set; } = "main-content";
+    /// <summary>
+    /// Gets or sets the identifier for the main content area, used for navigation and accessibility.
+    /// </summary>
+    [Parameter]
+    public string MainContentId { get; set; } = "main-content";
 
+    /// <summary>
+    /// Gets or sets the content to be rendered inside the sidebar navigation area.
+    /// </summary>
     [Parameter]
     public RenderFragment? MenuContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets the main content to be displayed in the main content area.
+    /// </summary>
     [Parameter]
     public RenderFragment? MainContent { get; set; }
 }
