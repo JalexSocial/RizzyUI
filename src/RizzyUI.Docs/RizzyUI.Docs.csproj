@@ -26,4 +26,9 @@
     <Target Name="Tailwind" BeforeTargets="Build">
         <Exec Command="npm run css:build" />
     </Target>
+
+    <Target Name="EnsureNodeModules" BeforeTargets="Build">
+        <Exec Command="npm install" />
+    </Target>
+
 </Project>

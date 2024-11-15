@@ -43,7 +43,6 @@
     --rizzyui-on-success: theme('colors.white'); /* white */
 }
 
-
 /*! @import */
 @tailwind base;
 @tailwind components;
