@@ -11,9 +11,9 @@ module.exports = {
     content: [
         "./Components/**/*.{razor,html,cshtml,js}"
     ],
-    corePlugins: {
-        preflight: false,
-    },
+    safelist: [
+        'md:flex-row'
+    ],
     darkMode: 'class',
     theme: {
         extend: {
