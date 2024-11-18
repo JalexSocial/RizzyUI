@@ -1,9 +1,11 @@
+using RizzyUI;
 using RizzyUI.Docs.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents();
+builder.Services.AddRizzyUI();
 
 var app = builder.Build();
 

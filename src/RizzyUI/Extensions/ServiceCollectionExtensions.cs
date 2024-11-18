@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensions
 	/// Add RizzyUI services to <see cref="IServiceCollection"/>.
 	/// </summary>
 	/// <param name="services">The <see cref="IServiceCollection"/>.</param>
-	public static void AddRizzyUIServices(this IServiceCollection services)
+	public static void AddRizzyUI(this IServiceCollection services)
 	{
 		services.AddTailwindMerge();
 	}

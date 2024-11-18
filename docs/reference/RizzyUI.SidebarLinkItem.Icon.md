@@ -5,7 +5,7 @@
 Gets or sets the icon to display for the link item.
 
 ```csharp
-public SvgIcon? Icon { get; set; }
+public Blazicons.SvgIcon? Icon { get; set; }
 ```
 
 #### Property Value

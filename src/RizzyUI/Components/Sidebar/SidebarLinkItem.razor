@@ -145,6 +145,12 @@ else
     public string Target { get; set; } = "_self";
 
     /// <summary>
+    /// Child content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
     /// Gets or sets additional content to display after the title, such as badges or indicators.
     /// </summary>
     [Parameter]
