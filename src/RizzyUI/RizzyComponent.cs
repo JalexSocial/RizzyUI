@@ -6,7 +6,8 @@ namespace RizzyUI;
 
 public class RizzyComponent : ComponentBase
 {
-	protected virtual string RootClass { get; set; } = string.Empty;
+	protected string Class { get; set; } = string.Empty;
+    protected virtual string RootClass { get; set; } = string.Empty;
 
     [Inject] protected TwMerge TwMerge { get; set; } = default!;
 
@@ -23,7 +24,8 @@ public class RizzyComponent : ComponentBase
 
 		if (AdditionalAttributes?.TryGetValue("class", out object? userClasses) == true)
 		{
-			RootClass = TwMerge.Merge(RootClass, userClasses.ToString()) ?? string.Empty;
+			//RootClass = TwMerge.Merge(RootClass, userClasses.ToString()) ?? string.Empty;
+			Class = userClasses.ToString() ?? string.Empty;
 
 			AdditionalAttributes.Remove("class");
 		}

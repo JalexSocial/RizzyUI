@@ -2,7 +2,7 @@
 
 @inherits RizzyComponent
 
-<button type="button" class="@_variants[Variant] @_variantsizes[Size]" aria-label="@AssistiveLabel" @attributes="@AdditionalAttributes">@ChildContent</button>
+<button type="button" class="@RootClass" aria-label="@AssistiveLabel" @attributes="@AdditionalAttributes">@ChildContent</button>
 
 @code {
 
@@ -22,33 +22,35 @@
     /// Button size
     /// </summary>
     [Parameter]
-	public ButtonSize Size { get; set; } = ButtonSize.Medium;
+    public ButtonSize Size { get; set; } = ButtonSize.Medium;
 
-	protected override void OnParametersSet()
-	{
-		base.OnParametersSet();
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
 
-		string trailer = string.Empty;
+        string trailer = string.Empty;
         if (Group != null)
         {
-			Group.AddButton(this);
+            Group.AddButton(this);
 
             var idx = Group.Buttons.IndexOf(this);
 
             if (idx == 0)
             {
-                classes += " rounded-none rounded-l-lg";
+                trailer = " rounded-none rounded-l-lg";
             }
-			else if (idx == Group.Buttons.Count - 1)
+            else if (idx == Group.Buttons.Count - 1)
             {
-				classes += " rounded-none rounded-r-lg border-l-0";
+                trailer = " rounded-none rounded-r-lg border-l-0";
             }
-			else
+            else
             {
-				classes += " rounded-none border-l-0";
-			}
+                trailer = " rounded-none border-l-0";
+            }
         }
-	}
+
+        RootClass = TwMerge.Merge(_variants[Variant], _variantsizes[Size], Class, trailer) ?? string.Empty;
+    }
 
     private readonly Dictionary<ButtonVariant, string> _variants = new Dictionary<ButtonVariant, string>()
     {
