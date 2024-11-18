@@ -749,6 +749,39 @@ select {
   outline: 1px auto -webkit-focus-ring-color;
 }
 
+:root {
+  --surface: #fff;
+  --onSurface: #334155;
+  --onSurfaceStrong: #000;
+  --surfaceAlt: #f1f5f9;
+  --primary: #1d4ed8;
+  --onPrimary: #f1f5f9;
+  --secondary: #4338ca;
+  --onSecondary: #f1f5f9;
+  --outline: #cbd5e1;
+  --outlineStrong: #1e293b;
+  --surfaceDark: #0f172a;
+  --onSurfaceDark: #cbd5e1;
+  --onSurfaceStrongDark: #fff;
+  --surfaceAltDark: #1e293b;
+  --primaryDark: #2563eb;
+  --onPrimaryDark: #f1f5f9;
+  --secondaryDark: #4f46e5;
+  --onSecondaryDark: #f1f5f9;
+  --outlineDark: #334155;
+  --outlineStrongDark: #cbd5e1;
+  --danger: #dc2626;
+  --onDanger: #fff;
+  --info: #0284c7;
+  --onInfo: #fff;
+  --warning: #f59e0b;
+  --onWarning: #fff;
+  --success: #16a34a;
+  --onSuccess: #fff;
+  --borderWidth: 1px;
+  --borderRadius: 4px;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -838,7 +871,7 @@ select {
 }
 
 .border {
-  border-width: 1px;
+  border-width: var(--borderWidth);
 }
 
 .border-slate-300 {
@@ -890,6 +923,10 @@ select {
 .text-black {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.text-danger {
+  color: var(--danger);
 }
 
 .text-slate-700 {
