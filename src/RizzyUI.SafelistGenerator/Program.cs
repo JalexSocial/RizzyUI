@@ -47,11 +47,13 @@ class Program
             if (rule is ICssStyleRule styleRule)
             {
                 // Split the selector text and filter class selectors
-                var selectors = styleRule.SelectorText?.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (styleRule.SelectorText is null) continue;
 
-                if (selectors is null) continue;
+                var selector = styleRule.SelectorText ?? string.Empty;
+                if (selector.Contains("dark"))
+                {
 
-                var selector = String.Join(' ', selectors);
+                }
 
                 if (selector.StartsWith("."))
                 {
@@ -61,6 +63,24 @@ class Program
 
                     classNames.Add(clean);
                 }
+            }
+            else if (rule is ICssMediaRule mediaRule)
+            {
+	            foreach (var mRule in mediaRule.Rules)
+	            {
+                    if (mRule is ICssStyleRule mediaStyleRule)
+		            {
+			            var selector = mediaStyleRule.SelectorText ?? string.Empty;
+
+			            if (selector.StartsWith("."))
+			            {
+				            var clean = selector.TrimStart('.');
+				            clean = clean.Replace(@"\", "");
+
+				            classNames.Add(clean);
+			            }
+		            }
+	            }
             }
         }
 
