@@ -6,14 +6,14 @@ import aspectRatio from "@tailwindcss/aspect-ratio";
 import forms from "@tailwindcss/forms";
 import typography from "@tailwindcss/typography";
 
+import rizzyui from "../RizzyUI/Scripts/rizzyui-tailwind/plugin";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
         "./Components/**/*.{razor,html,cshtml,js}"
     ],
-    safelist: [
-        'md:flex-row'
-    ],
+    safelist: rizzyui.safelist,
     darkMode: 'class',
     theme: {
         extend: {
@@ -26,6 +26,7 @@ module.exports = {
         aspectRatio,
         forms,
         typography,
+        rizzyui,
         plugin(function ({ addVariant }) {
             addVariant('htmx-settling', ['&.htmx-settling', '.htmx-settling &']);
             addVariant('htmx-request', ['&.htmx-request', '.htmx-request &']);

@@ -11,6 +11,10 @@
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
+    <UsingTask TaskName="SafelistBuildTask"
+               TaskFactory="TaskHostFactory"
+               AssemblyFile="..\RizzyUI.SafelistBuilder\bin\Debug\netstandard2.0\RizzyUI.SafelistBuilder.dll" />
+    
     <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
@@ -35,12 +39,26 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\RizzyUI.SafelistBuilder\RizzyUI.SafelistBuilder.csproj" ReferenceOutputAssembly="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <UpToDateCheckBuilt Include="wwwroot/css/rizzyui.css" Set="Css" />
         <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Scripts\rizzyui-tailwind\plugin.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
     <Target Name="Tailwind" BeforeTargets="Build">
         <Exec Command="npm run css:build" />
+    </Target>
+
+    <Target Name="RunSafelistBuildTask" AfterTargets="Build">
+        <SafelistBuildTask CssFilePath="rizzyui.css" OutputDirectory="Scripts/rizzyui-tailwind/" />
     </Target>
 
 </Project>

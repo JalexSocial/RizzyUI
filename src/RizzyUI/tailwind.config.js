@@ -9,7 +9,7 @@ import typography from "@tailwindcss/typography";
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        "./Components/**/*.{razor,html,cshtml,js}",
+        "./Components/**/*.{razor,html,cshtml,js,cs}",
         './wwwroot/js/rizzyui.js'
     ],
     darkMode: 'class',
