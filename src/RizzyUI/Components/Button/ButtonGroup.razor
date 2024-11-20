@@ -19,6 +19,7 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <inheritdoc/>
     protected override string? RootClass()
     {
         return $"inline-flex {AdditionalAttributes?.GetValueOrDefault("class")}";
