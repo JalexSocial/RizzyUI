@@ -51,6 +51,7 @@
 
     <Target Name="Tailwind" BeforeTargets="Build">
         <Exec Command="npm run css:build" />
+        <Exec Command="dotnet run --project ../RizzyUI.SafelistGenerator -- $(MSBuildThisFileDirectory)wwwroot\dist\rizzyui.css $(MSBuildThisFileDirectory)Scripts\rizzyui-tailwind\" />
     </Target>
 
 </Project>

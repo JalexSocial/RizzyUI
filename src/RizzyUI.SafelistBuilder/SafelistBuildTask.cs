@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using AngleSharp.Css.Dom;
 using AngleSharp.Css.Parser;
@@ -36,6 +37,8 @@ namespace RizzyUI.SafelistBuilder
 
                 // Serialize the class names
                 string serializedArray = JsonSerializer.Serialize(classNames);
+
+                Console.WriteLine($"Discovered the following used Tailwind classes:\n {serializedArray}");
 
                 // Prepare the output content
                 string outputContent = $"module.exports = {serializedArray};";

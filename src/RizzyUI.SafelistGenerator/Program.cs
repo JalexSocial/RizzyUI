@@ -1,21 +1,16 @@
-﻿using AngleSharp.Css.Dom;
-using AngleSharp.Css.Parser;
-using System.Text.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.VisualBasic;
+﻿using RizzyUI.SafelistBuilder;
+
+namespace RizzyUI.SafelistGenerator;
 
 class Program
 {
     static void Main(string[] args)
     {
         // Path to your CSS file
-        string cssFilePath = "../../../../RizzyUI/wwwroot/dist/rizzyui.css";
-        string outputDirectory = "../../../../RizzyUI/Scripts/rizzyui-tailwind";
+        string cssFilePath = args.Length == 2 ? args[0] : "../../../../RizzyUI/wwwroot/dist/rizzyui.css";
+        string outputDirectory = args.Length == 2 ? args[1] : "../../../../RizzyUI/Scripts/rizzyui-tailwind";
 
+        Console.WriteLine($"Generating safelist using CSS '{cssFilePath}' and output path '{outputDirectory}'");
         SafelistBuildTask task = new SafelistBuildTask
         {
             CssFilePath = cssFilePath,

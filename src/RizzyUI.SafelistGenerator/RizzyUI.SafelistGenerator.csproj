@@ -14,4 +14,8 @@
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RizzyUI.SafelistBuilder\RizzyUI.SafelistBuilder.csproj" />
+  </ItemGroup>
+
 </Project>
