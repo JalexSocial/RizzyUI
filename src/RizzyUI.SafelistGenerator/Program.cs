@@ -13,12 +13,13 @@ class Program
     static void Main(string[] args)
     {
         // Path to your CSS file
-        string cssFilePath = "rizzyui.css";
+        string cssFilePath = "../../../../RizzyUI/wwwroot/dist/rizzyui.css";
+        string outputDirectory = "../../../../RizzyUI/Scripts/rizzyui-tailwind";
 
         SafelistBuildTask task = new SafelistBuildTask
         {
-            CssFilePath = "rizzyui.css",
-            OutputDirectory = "./"
+            CssFilePath = cssFilePath,
+            OutputDirectory = outputDirectory
         };
 
         task.Execute();

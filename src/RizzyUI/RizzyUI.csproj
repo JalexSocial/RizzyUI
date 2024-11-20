@@ -10,11 +10,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
-
-    <UsingTask TaskName="SafelistBuildTask"
-               TaskFactory="TaskHostFactory"
-               AssemblyFile="..\RizzyUI.SafelistBuilder\bin\Debug\netstandard2.0\RizzyUI.SafelistBuilder.dll" />
-    
+  
     <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
@@ -55,10 +51,6 @@
 
     <Target Name="Tailwind" BeforeTargets="Build">
         <Exec Command="npm run css:build" />
-    </Target>
-
-    <Target Name="RunSafelistBuildTask" AfterTargets="Build">
-        <SafelistBuildTask CssFilePath="rizzyui.css" OutputDirectory="Scripts/rizzyui-tailwind/" />
     </Target>
 
 </Project>
