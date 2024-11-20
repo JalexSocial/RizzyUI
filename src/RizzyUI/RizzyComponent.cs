@@ -8,6 +8,9 @@ namespace RizzyUI;
 
 public class RizzyComponent : ComponentBase
 {
+    /// <summary>
+    /// Reference to Tailwind Merge service
+    /// </summary>
     [Inject] protected TwMerge TwMerge { get; set; } = default!;
 
     /// <summary>
@@ -17,9 +20,16 @@ public class RizzyComponent : ComponentBase
     [Parameter]
     public string Element { get; set; } = "div";
 
+    /// <summary>
+    /// Captures any additional unmatched attributes
+    /// </summary>
     [SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "False positive. This is a parameter.")]
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
+    /// <summary>
+    /// Method that provides a set of CSS root classes to the component
+    /// </summary>
+    /// <returns></returns>
     protected virtual string? RootClass () => AdditionalAttributes?.GetValueOrDefault("class", string.Empty).ToString();
 }

@@ -17,4 +17,5 @@ Derived
 
 | Properties | |
 | :--- | :--- |
+| [AdditionalAttributes](RizzyUI.RizzyComponent.AdditionalAttributes 'RizzyUI.RizzyComponent.AdditionalAttributes') | Captures any additional unmatched attributes |
 | [Element](RizzyUI.RizzyComponent.Element 'RizzyUI.RizzyComponent.Element') | Specifies the root HTML element to render (e.g., "div", "a", "button").<br/>If not set, defaults to "div". |
