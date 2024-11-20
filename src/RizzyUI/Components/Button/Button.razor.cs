@@ -5,6 +5,8 @@ namespace RizzyUI;
 
 public partial class Button : RizzyComponent
 {
+    private const string _baseStyle = "cursor-pointer whitespace-nowrap rounded font-medium tracking-wide text-center transition hover:opacity-75 active:opacity-100 disabled:opacity-75 disabled:cursor-not-allowed";
+
     [CascadingParameter] public ButtonGroup? Group { get; set; }
 
     [Parameter] public string AssistiveLabel { get; set; } = "Action Button";
@@ -20,6 +22,13 @@ public partial class Button : RizzyComponent
     /// </summary>
     [Parameter]
     public ButtonSize Size { get; set; } = ButtonSize.Medium;
+
+    /// <summary>
+    /// Makes the button to have the outlines.
+    /// </summary>
+    [Parameter]
+    public bool Outline { get; set; }
+
 
     /// <summary>
     /// Child content for the button
@@ -54,7 +63,7 @@ public partial class Button : RizzyComponent
             }
         }
 
-        return TwMerge.Merge(AdditionalAttributes, _variants[Variant], _variantsizes[Size], trailer);
+        return TwMerge.Merge(AdditionalAttributes, _baseStyle, Outline ? _outlineVariants[Variant] : _variants[Variant], _variantSizes[Size], trailer);
     }
 
     protected override void OnParametersSet()
@@ -69,54 +78,36 @@ public partial class Button : RizzyComponent
 
     private readonly Dictionary<ButtonVariant, string> _variants = new Dictionary<ButtonVariant, string>()
     {
-        {
-            ButtonVariant.Primary, "cursor-pointer whitespace-nowrap rounded bg-primary font-medium tracking-wide text-onPrimary transition hover:opacity-75 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primaryDark dark:text-onPrimaryDark dark:focus-visible:outline-primaryDark"
-        },
-        {
-            ButtonVariant.Secondary, "cursor-pointer whitespace-nowrap rounded bg-secondary font-medium tracking-wide text-onSecondary transition hover:opacity-75 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-secondaryDark dark:text-onSecondaryDark dark:focus-visible:outline-secondaryDark"
-        },
-        {
-            ButtonVariant.Alternate, "cursor-pointer whitespace-nowrap rounded bg-surfaceAlt font-medium tracking-wide text-onSurface transition hover:opacity-75 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surfaceAlt active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-surfaceAltDark dark:text-onSurfaceDark dark:focus-visible:outline-surfaceAltDark"
-        },
-        {
-            ButtonVariant.Inverse, "cursor-pointer whitespace-nowrap rounded bg-surface font-medium tracking-wide text-onSurface transition hover:opacity-75 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surface active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-surfaceDark dark:text-onSurfaceStrongDark dark:focus-visible:outline-surfaceDark"
-        },
-        {
-            ButtonVariant.Information, "cursor-pointer whitespace-nowrap rounded bg-info font-medium tracking-wide text-onInfo transition hover:opacity-75 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-info active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-info dark:text-onInfo dark:focus-visible:outline-info"
-        },
-        {
-            ButtonVariant.Danger, "cursor-pointer whitespace-nowrap rounded bg-danger font-medium tracking-wide text-onDanger transition hover:opacity-75 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-danger dark:text-onDanger dark:focus-visible:outline-danger"
-        },
-        {
-            ButtonVariant.Warning, "cursor-pointer whitespace-nowrap rounded bg-warning font-medium tracking-wide text-onWarning transition hover:opacity-75 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-warning active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-warning dark:text-onWarning dark:focus-visible:outline-warning"
-        },
-        {
-            ButtonVariant.Success, "cursor-pointer whitespace-nowrap rounded bg-success font-medium tracking-wide text-onSuccess transition hover:opacity-75 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-success dark:text-onSuccess dark:focus-visible:outline-success"
-        },
-        {
-            ButtonVariant.Ghost, "cursor-pointer whitespace-nowrap rounded bg-transparent font-medium tracking-wide text-onSurface transition hover:opacity-75 text-center focus-visible:outline-none active:opacity-100 disabled:opacity-75 disabled:cursor-not-allowed"
-        }
+        { ButtonVariant.Primary, "bg-primary text-onPrimary focus-visible:outline-primary dark:bg-primaryDark dark:text-onPrimaryDark dark:focus-visible:outline-primaryDark" },
+        { ButtonVariant.Secondary, "bg-secondary text-onSecondary focus-visible:outline-secondary dark:bg-secondaryDark dark:text-onSecondaryDark dark:focus-visible:outline-secondaryDark" },
+        { ButtonVariant.Alternate, "bg-surfaceAlt text-onSurface focus-visible:outline-surfaceAlt dark:bg-surfaceAltDark dark:text-onSurfaceDark dark:focus-visible:outline-surfaceAltDark" },
+        { ButtonVariant.Inverse, "bg-surface text-onSurface focus-visible:outline-surface dark:bg-surfaceDark dark:text-onSurfaceStrongDark dark:focus-visible:outline-surfaceDark" },
+        { ButtonVariant.Information, "bg-info text-onInfo focus-visible:outline-info dark:bg-info dark:text-onInfo dark:focus-visible:outline-info" },
+        { ButtonVariant.Danger, "bg-danger text-onDanger focus-visible:outline-danger dark:bg-danger dark:text-onDanger dark:focus-visible:outline-danger" },
+        { ButtonVariant.Warning, "bg-warning text-onWarning focus-visible:outline-warning dark:bg-warning dark:text-onWarning dark:focus-visible:outline-warning" },
+        { ButtonVariant.Success, "bg-success text-onSuccess focus-visible:outline-success dark:bg-success dark:text-onSuccess dark:focus-visible:outline-success" },
+        { ButtonVariant.Ghost, "bg-transparent text-onSurface focus-visible:outline-none" }
     };
 
-    private readonly Dictionary<ButtonSize, string> _variantsizes = new Dictionary<ButtonSize, string>()
+    private readonly Dictionary<ButtonVariant, string> _outlineVariants = new Dictionary<ButtonVariant, string>()
     {
-        {
-            ButtonSize.ExtraSmall, "px-2 py-1 text-sm"
-        },
-        {
-            ButtonSize.Small, "px-3 py-2 text-sm"
-        },
+        { ButtonVariant.Primary, "bg-transparent border border-primary text-primary focus-visible:outline-primary dark:border-primaryDark dark:text-primaryDark dark:focus-visible:outline-primaryDark" },
+        { ButtonVariant.Secondary, "bg-transparent border border-secondary text-secondary focus-visible:outline-secondary dark:border-secondaryDark dark:text-secondaryDark dark:focus-visible:outline-secondaryDark" },
+        { ButtonVariant.Alternate, "bg-transparent border border-outline text-outline focus-visible:outline-outline dark:border-outlineDark dark:text-outlineDark dark:focus-visible:outline-outlineDark" },
+        { ButtonVariant.Inverse, "bg-transparent border border-onSurfaceStrong text-onSurfaceStrong focus-visible:outline-onSurfaceStrong dark:border-onSurfaceStrongDark dark:text-onSurfaceStrongDark dark:focus-visible:outline-onSurfaceStrongDark" },
+        { ButtonVariant.Information, "bg-transparent border border-info text-info focus-visible:outline-info dark:border-info dark:text-info dark:focus-visible:outline-info" },
+        { ButtonVariant.Danger, "bg-transparent border border-danger text-danger focus-visible:outline-danger dark:border-danger dark:text-danger dark:focus-visible:outline-danger" },
+        { ButtonVariant.Warning, "bg-transparent border border-warning text-warning focus-visible:outline-warning dark:border-warning dark:text-warning dark:focus-visible:outline-warning" },
+        { ButtonVariant.Success, "bg-transparent border border-success text-success focus-visible:outline-success dark:border-success dark:text-success dark:focus-visible:outline-success" },
+        { ButtonVariant.Ghost, "bg-transparent border text-onSurface hover:opacity-75 focus-visible:outline-none dark:text-onSurfaceDark" }
+    };
 
-        {
-            ButtonSize.Medium, "px-4 py-2 text-md"
-        },
-
-        {
-            ButtonSize.Large, "px-6 py-3 text-md"
-        },
-
-        {
-            ButtonSize.ExtraLarge, "px-8 py-4 text-md"
-        },
+    private readonly Dictionary<ButtonSize, string> _variantSizes = new Dictionary<ButtonSize, string>()
+    {
+        { ButtonSize.ExtraSmall, "px-2 py-1 text-sm" },
+        { ButtonSize.Small, "px-3 py-2 text-sm" },
+        { ButtonSize.Medium, "px-4 py-2 text-md" },
+        { ButtonSize.Large, "px-6 py-3 text-md" },
+        { ButtonSize.ExtraLarge, "px-8 py-4 text-md" },
     };
 }
