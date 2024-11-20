@@ -1047,6 +1047,10 @@ select {
   border-bottom-right-radius: 0.5rem;
 }
 
+.border {
+  border-width: var(--borderWidth);
+}
+
 .border-l {
   border-left-width: var(--borderWidth);
 }
