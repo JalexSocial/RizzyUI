@@ -32,14 +32,14 @@ const rizzyui = plugin(
                 '--outlineStrongDark': theme('colors.slate.300'),
 
                 /* Status Colors */
-                '--danger': '220 38 38',
-                '--onDanger': theme('colors.white'),
-                '--info': theme('colors.sky.600'),
-                '--onInfo': theme('colors.white'),
-                '--warning': theme('colors.amber.500'),
-                '--onWarning': theme('colors.white'),
-                '--success': theme('colors.green.600'),
-                '--onSuccess': theme('colors.white'),
+                '--danger': '220 38 38', /* theme('colors.red.600') */
+                '--onDanger': '255 255 255', /* theme('colors.white') */
+                '--info': '2 132 199', /* theme('colors.sky.600') */
+                '--onInfo': '255 255 255', /* theme('colors.white') */
+                '--warning': '245 158 11', /* theme('colors.amber.500') */
+                '--onWarning': '255 255 255', /* theme('colors.white') */
+                '--success': '22 163 74', /* theme('colors.green.600') */
+                '--onSuccess': '255 255 255', /* theme('colors.white') */
 
                 /* Border and Radius */
                 '--borderWidth': '1px',
@@ -123,29 +123,14 @@ const rizzyui = plugin(
                     outlineStrongDark: 'var(--outlineStrongDark)',
 
                     /* Status Colors */
-                    onDanger: 'var(--onDanger)',
-                    onInfo: 'var(--onInfo)',
-                    onWarning: 'var(--onWarning)',
-                    onSuccess: 'var(--onSuccess)',
                     danger: 'rgb(var(--danger))',
-                    info: {
-                        DEFAULT: 'var(--info)',
-                        '10': 'rgba(var(--info), 0.1)',
-                        '15': 'rgba(var(--info), 0.15)',
-                        '20': 'rgba(var(--info), 0.2)',
-                    },
-                    warning: {
-                        DEFAULT: 'var(--warning)',
-                        '10': 'rgba(var(--warning), 0.1)',
-                        '15': 'rgba(var(--warning), 0.15)',
-                        '20': 'rgba(var(--warning), 0.2)',
-                    },
-                    success: {
-                        DEFAULT: 'var(--success)',
-                        '10': 'rgba(var(--success), 0.1)',
-                        '15': 'rgba(var(--success), 0.15)',
-                        '20': 'rgba(var(--success), 0.2)',
-                    },
+                    onDanger: 'var(--onDanger)',
+                    info: 'rgb(var(--info))',
+                    onInfo: 'var(--onInfo)',
+                    warning: 'var(--warning)',
+                    onWarning: 'var(--onWarning)',
+                    success: 'var(--success)',
+                    onSuccess: 'var(--onSuccess)',
                 },
                 borderWidth: {
                     DEFAULT: 'var(--borderWidth)',

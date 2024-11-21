@@ -771,13 +771,13 @@ select {
   --outlineDark: #334155;
   --outlineStrongDark: #cbd5e1;
   --danger: 220 38 38;
-  --onDanger: #fff;
-  --info: #0284c7;
-  --onInfo: #fff;
-  --warning: #f59e0b;
-  --onWarning: #fff;
-  --success: #16a34a;
-  --onSuccess: #fff;
+  --onDanger: 255 255 255;
+  --info: 2 132 199;
+  --onInfo: 255 255 255;
+  --warning: 245 158 11;
+  --onWarning: 255 255 255;
+  --success: 22 163 74;
+  --onSuccess: 255 255 255;
   --borderWidth: 1px;
   --borderRadius: 4px;
 }
@@ -1062,7 +1062,7 @@ select {
 }
 
 .border-info {
-  border-color: var(--info);
+  border-color: rgb(var(--info));
 }
 
 .border-onSurfaceStrong {
@@ -1108,6 +1108,14 @@ select {
   background-color: rgb(var(--danger));
 }
 
+.bg-danger\/10 {
+  background-color: rgb(var(--danger) / 0.1);
+}
+
+.bg-danger\/15 {
+  background-color: rgb(var(--danger) / 0.15);
+}
+
 .bg-emerald-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(16 185 129 / var(--tw-bg-opacity, 1));
@@ -1119,7 +1127,15 @@ select {
 }
 
 .bg-info {
-  background-color: var(--info);
+  background-color: rgb(var(--info));
+}
+
+.bg-info\/10 {
+  background-color: rgb(var(--info) / 0.1);
+}
+
+.bg-info\/15 {
+  background-color: rgb(var(--info) / 0.15);
 }
 
 .bg-primary {
@@ -1324,7 +1340,7 @@ select {
 }
 
 .text-info {
-  color: var(--info);
+  color: rgb(var(--info));
 }
 
 .text-onDanger {
