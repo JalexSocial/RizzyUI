@@ -779,7 +779,7 @@ select {
   --success: 22 163 74;
   --onSuccess: 255 255 255;
   --borderWidth: 1px;
-  --borderRadius: 4px;
+  --borderRadius: 6px;
 }
 
 .sr-only {
@@ -870,11 +870,6 @@ select {
 .size-5 {
   width: 1.25rem;
   height: 1.25rem;
-}
-
-.size-6 {
-  width: 1.5rem;
-  height: 1.5rem;
 }
 
 .h-4 {
@@ -1087,11 +1082,11 @@ select {
 }
 
 .border-success {
-  border-color: var(--success);
+  border-color: rgb(var(--success));
 }
 
 .border-warning {
-  border-color: var(--warning);
+  border-color: rgb(var(--warning));
 }
 
 .bg-blue-500 {
@@ -1161,7 +1156,15 @@ select {
 }
 
 .bg-success {
-  background-color: var(--success);
+  background-color: rgb(var(--success));
+}
+
+.bg-success\/10 {
+  background-color: rgb(var(--success) / 0.1);
+}
+
+.bg-success\/15 {
+  background-color: rgb(var(--success) / 0.15);
 }
 
 .bg-surface {
@@ -1177,7 +1180,15 @@ select {
 }
 
 .bg-warning {
-  background-color: var(--warning);
+  background-color: rgb(var(--warning));
+}
+
+.bg-warning\/10 {
+  background-color: rgb(var(--warning) / 0.1);
+}
+
+.bg-warning\/15 {
+  background-color: rgb(var(--warning) / 0.15);
 }
 
 .bg-white {
@@ -1188,14 +1199,6 @@ select {
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
-}
-
-.bg-opacity-10 {
-  --tw-bg-opacity: 0.1;
-}
-
-.bg-opacity-15 {
-  --tw-bg-opacity: 0.15;
 }
 
 .fill-black {
@@ -1344,11 +1347,11 @@ select {
 }
 
 .text-onDanger {
-  color: var(--onDanger);
+  color: rgb(var(--onDanger));
 }
 
 .text-onInfo {
-  color: var(--onInfo);
+  color: rgb(var(--onInfo));
 }
 
 .text-onPrimary {
@@ -1360,7 +1363,7 @@ select {
 }
 
 .text-onSuccess {
-  color: var(--onSuccess);
+  color: rgb(var(--onSuccess));
 }
 
 .text-onSurface {
@@ -1372,7 +1375,7 @@ select {
 }
 
 .text-onWarning {
-  color: var(--onWarning);
+  color: rgb(var(--onWarning));
 }
 
 .text-outline {
@@ -1402,11 +1405,11 @@ select {
 }
 
 .text-success {
-  color: var(--success);
+  color: rgb(var(--success));
 }
 
 .text-warning {
-  color: var(--warning);
+  color: rgb(var(--warning));
 }
 
 .underline-offset-2 {

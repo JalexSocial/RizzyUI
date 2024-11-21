@@ -108,7 +108,7 @@
   --tw-contain-style:  ;
 }
 
-/*! tailwindcss v3.4.15 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v3.4.14 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -779,7 +779,7 @@ select {
   --success: 22 163 74;
   --onSuccess: 255 255 255;
   --borderWidth: 1px;
-  --borderRadius: 4px;
+  --borderRadius: 6px;
 }
 
 .sr-only {
@@ -853,11 +853,6 @@ select {
 .size-5 {
   width: 1.25rem;
   height: 1.25rem;
-}
-
-.size-6 {
-  width: 1.5rem;
-  height: 1.5rem;
 }
 
 .h-4 {
@@ -1048,25 +1043,25 @@ select {
 
 .border-slate-300 {
   --tw-border-opacity: 1;
-  border-color: rgb(203 213 225 / var(--tw-border-opacity, 1));
+  border-color: rgb(203 213 225 / var(--tw-border-opacity));
 }
 
 .border-success {
-  border-color: var(--success);
+  border-color: rgb(var(--success));
 }
 
 .border-warning {
-  border-color: var(--warning);
+  border-color: rgb(var(--warning));
 }
 
 .bg-blue-500 {
   --tw-bg-opacity: 1;
-  background-color: rgb(59 130 246 / var(--tw-bg-opacity, 1));
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
 }
 
 .bg-blue-700 {
   --tw-bg-opacity: 1;
-  background-color: rgb(29 78 216 / var(--tw-bg-opacity, 1));
+  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
 
 .bg-danger {
@@ -1083,12 +1078,12 @@ select {
 
 .bg-emerald-500 {
   --tw-bg-opacity: 1;
-  background-color: rgb(16 185 129 / var(--tw-bg-opacity, 1));
+  background-color: rgb(16 185 129 / var(--tw-bg-opacity));
 }
 
 .bg-gray-500 {
   --tw-bg-opacity: 1;
-  background-color: rgb(107 114 128 / var(--tw-bg-opacity, 1));
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
 }
 
 .bg-info {
@@ -1109,7 +1104,7 @@ select {
 
 .bg-red-500 {
   --tw-bg-opacity: 1;
-  background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1));
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 
 .bg-secondary {
@@ -1118,7 +1113,7 @@ select {
 
 .bg-slate-100 {
   --tw-bg-opacity: 1;
-  background-color: rgb(241 245 249 / var(--tw-bg-opacity, 1));
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
 }
 
 .bg-slate-900\/10 {
@@ -1126,7 +1121,15 @@ select {
 }
 
 .bg-success {
-  background-color: var(--success);
+  background-color: rgb(var(--success));
+}
+
+.bg-success\/10 {
+  background-color: rgb(var(--success) / 0.1);
+}
+
+.bg-success\/15 {
+  background-color: rgb(var(--success) / 0.15);
 }
 
 .bg-surface {
@@ -1142,25 +1145,25 @@ select {
 }
 
 .bg-warning {
-  background-color: var(--warning);
+  background-color: rgb(var(--warning));
+}
+
+.bg-warning\/10 {
+  background-color: rgb(var(--warning) / 0.1);
+}
+
+.bg-warning\/15 {
+  background-color: rgb(var(--warning) / 0.15);
 }
 
 .bg-white {
   --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
-  background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
-}
-
-.bg-opacity-10 {
-  --tw-bg-opacity: 0.1;
-}
-
-.bg-opacity-15 {
-  --tw-bg-opacity: 0.15;
+  background-color: rgb(234 179 8 / var(--tw-bg-opacity));
 }
 
 .p-1 {
@@ -1247,6 +1250,11 @@ select {
   text-align: center;
 }
 
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -1283,11 +1291,11 @@ select {
 }
 
 .text-onDanger {
-  color: var(--onDanger);
+  color: rgb(var(--onDanger));
 }
 
 .text-onInfo {
-  color: var(--onInfo);
+  color: rgb(var(--onInfo));
 }
 
 .text-onPrimary {
@@ -1299,7 +1307,7 @@ select {
 }
 
 .text-onSuccess {
-  color: var(--onSuccess);
+  color: rgb(var(--onSuccess));
 }
 
 .text-onSurface {
@@ -1311,7 +1319,7 @@ select {
 }
 
 .text-onWarning {
-  color: var(--onWarning);
+  color: rgb(var(--onWarning));
 }
 
 .text-outline {
@@ -1328,20 +1336,20 @@ select {
 
 .text-slate-100 {
   --tw-text-opacity: 1;
-  color: rgb(241 245 249 / var(--tw-text-opacity, 1));
+  color: rgb(241 245 249 / var(--tw-text-opacity));
 }
 
 .text-slate-700 {
   --tw-text-opacity: 1;
-  color: rgb(51 65 85 / var(--tw-text-opacity, 1));
+  color: rgb(51 65 85 / var(--tw-text-opacity));
 }
 
 .text-success {
-  color: var(--success);
+  color: rgb(var(--success));
 }
 
 .text-warning {
-  color: var(--warning);
+  color: rgb(var(--warning));
 }
 
 .underline-offset-2 {
@@ -1406,7 +1414,7 @@ select {
 
 .hover\:text-black:hover {
   --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
+  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
 .hover\:opacity-75:hover {
@@ -1452,7 +1460,7 @@ select {
 }
 
 .focus-visible\:outline-success:focus-visible {
-  outline-color: var(--success);
+  outline-color: rgb(var(--success));
 }
 
 .focus-visible\:outline-surface:focus-visible {
@@ -1464,7 +1472,7 @@ select {
 }
 
 .focus-visible\:outline-warning:focus-visible {
-  outline-color: var(--warning);
+  outline-color: rgb(var(--warning));
 }
 
 .active\:opacity-100:active {
@@ -1505,20 +1513,20 @@ select {
 
 .dark\:border-slate-700:is(.dark *) {
   --tw-border-opacity: 1;
-  border-color: rgb(51 65 85 / var(--tw-border-opacity, 1));
+  border-color: rgb(51 65 85 / var(--tw-border-opacity));
 }
 
 .dark\:border-success:is(.dark *) {
-  border-color: var(--success);
+  border-color: rgb(var(--success));
 }
 
 .dark\:border-warning:is(.dark *) {
-  border-color: var(--warning);
+  border-color: rgb(var(--warning));
 }
 
 .dark\:bg-blue-600:is(.dark *) {
   --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
 .dark\:bg-danger:is(.dark *) {
@@ -1539,16 +1547,16 @@ select {
 
 .dark\:bg-slate-800:is(.dark *) {
   --tw-bg-opacity: 1;
-  background-color: rgb(30 41 59 / var(--tw-bg-opacity, 1));
+  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
 }
 
 .dark\:bg-slate-900:is(.dark *) {
   --tw-bg-opacity: 1;
-  background-color: rgb(15 23 42 / var(--tw-bg-opacity, 1));
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
 }
 
 .dark\:bg-success:is(.dark *) {
-  background-color: var(--success);
+  background-color: rgb(var(--success));
 }
 
 .dark\:bg-surfaceAltDark:is(.dark *) {
@@ -1560,7 +1568,7 @@ select {
 }
 
 .dark\:bg-warning:is(.dark *) {
-  background-color: var(--warning);
+  background-color: rgb(var(--warning));
 }
 
 .dark\:text-danger:is(.dark *) {
@@ -1572,11 +1580,11 @@ select {
 }
 
 .dark\:text-onDanger:is(.dark *) {
-  color: var(--onDanger);
+  color: rgb(var(--onDanger));
 }
 
 .dark\:text-onInfo:is(.dark *) {
-  color: var(--onInfo);
+  color: rgb(var(--onInfo));
 }
 
 .dark\:text-onPrimaryDark:is(.dark *) {
@@ -1588,7 +1596,7 @@ select {
 }
 
 .dark\:text-onSuccess:is(.dark *) {
-  color: var(--onSuccess);
+  color: rgb(var(--onSuccess));
 }
 
 .dark\:text-onSurfaceDark:is(.dark *) {
@@ -1600,7 +1608,7 @@ select {
 }
 
 .dark\:text-onWarning:is(.dark *) {
-  color: var(--onWarning);
+  color: rgb(var(--onWarning));
 }
 
 .dark\:text-outlineDark:is(.dark *) {
@@ -1617,20 +1625,20 @@ select {
 
 .dark\:text-slate-100:is(.dark *) {
   --tw-text-opacity: 1;
-  color: rgb(241 245 249 / var(--tw-text-opacity, 1));
+  color: rgb(241 245 249 / var(--tw-text-opacity));
 }
 
 .dark\:text-slate-300:is(.dark *) {
   --tw-text-opacity: 1;
-  color: rgb(203 213 225 / var(--tw-text-opacity, 1));
+  color: rgb(203 213 225 / var(--tw-text-opacity));
 }
 
 .dark\:text-success:is(.dark *) {
-  color: var(--success);
+  color: rgb(var(--success));
 }
 
 .dark\:text-warning:is(.dark *) {
-  color: var(--warning);
+  color: rgb(var(--warning));
 }
 
 .dark\:hover\:bg-blue-600\/5:hover:is(.dark *) {
@@ -1639,7 +1647,7 @@ select {
 
 .dark\:hover\:text-white:hover:is(.dark *) {
   --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .dark\:focus-visible\:outline-danger:focus-visible:is(.dark *) {
@@ -1667,7 +1675,7 @@ select {
 }
 
 .dark\:focus-visible\:outline-success:focus-visible:is(.dark *) {
-  outline-color: var(--success);
+  outline-color: rgb(var(--success));
 }
 
 .dark\:focus-visible\:outline-surfaceAltDark:focus-visible:is(.dark *) {
@@ -1679,7 +1687,7 @@ select {
 }
 
 .dark\:focus-visible\:outline-warning:focus-visible:is(.dark *) {
-  outline-color: var(--warning);
+  outline-color: rgb(var(--warning));
 }
 
 @media (min-width: 640px) {

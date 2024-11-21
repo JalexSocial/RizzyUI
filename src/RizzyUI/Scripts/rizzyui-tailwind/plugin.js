@@ -43,7 +43,7 @@ const rizzyui = plugin(
 
                 /* Border and Radius */
                 '--borderWidth': '1px',
-                '--borderRadius': '4px',
+                '--borderRadius': '6px',
             },
         });
 
@@ -124,13 +124,13 @@ const rizzyui = plugin(
 
                     /* Status Colors */
                     danger: 'rgb(var(--danger))',
-                    onDanger: 'var(--onDanger)',
+                    onDanger: 'rgb(var(--onDanger))',
                     info: 'rgb(var(--info))',
-                    onInfo: 'var(--onInfo)',
-                    warning: 'var(--warning)',
-                    onWarning: 'var(--onWarning)',
-                    success: 'var(--success)',
-                    onSuccess: 'var(--onSuccess)',
+                    onInfo: 'rgb(var(--onInfo))',
+                    warning: 'rgb(var(--warning))',
+                    onWarning: 'rgb(var(--onWarning))',
+                    success: 'rgb(var(--success))',
+                    onSuccess: 'rgb(var(--onSuccess))',
                 },
                 borderWidth: {
                     DEFAULT: 'var(--borderWidth)',
