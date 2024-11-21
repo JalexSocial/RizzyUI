@@ -1,0 +1,44 @@
+﻿@namespace RizzyUI
+
+@using Blazicons
+@inherits RizzyComponent
+
+<h3 @attributes="@AdditionalAttributes" class="@RootClass()">@Title</h3>
+
+@code
+{
+    private const string _baseStyle = "text-sm font-semibold";
+    private string _iconCss = "bg-info";
+
+    [CascadingParameter]
+	public AlertVariant Variant { get; set; }
+
+	[Parameter]
+	public string Title { get; set; } = string.Empty;
+
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, _baseStyle, _iconCss);
+    }
+
+    protected override void OnInitialized()
+    {
+	    switch (Variant)
+	    {
+		    case AlertVariant.Information:
+			    _iconCss = "bg-info";
+			    break;
+		    case AlertVariant.Success:
+			    _iconCss = "bg-success";
+			    break;
+		    case AlertVariant.Warning:
+			    _iconCss = "bg-warning";
+			    break;
+		    case AlertVariant.Danger:
+			    _iconCss = "bg-danger";
+			    break;
+	    }
+
+	    base.OnInitialized();
+    }
+}

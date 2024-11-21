@@ -4,9 +4,8 @@ namespace RizzyUI;
 
 public enum AlertVariant
 {
-    Default,
+    Information,
     Success,
-    Info,
     Warning,
     Danger,
 }
