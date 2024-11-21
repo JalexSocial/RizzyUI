@@ -10,9 +10,6 @@
 {
     private string _baseStyle = "text-xs font-medium sm:text-sm";
 
-    [CascadingParameter]
-    public AlertVariant Variant { get; set; } = AlertVariant.Information;
-
 	/// <summary>
 	/// Child content for the alert
 	/// </summary>
@@ -24,20 +21,4 @@
         return TwMerge.Merge(AdditionalAttributes, _baseStyle);
     }
 
-    protected override void OnInitialized()
-    {
-	    switch (Variant)
-	    {
-		    case AlertVariant.Information:
-			    break;
-		    case AlertVariant.Success:
-			    break;
-		    case AlertVariant.Warning:
-			    break;
-		    case AlertVariant.Danger:
-			    break;
-	    }
-
-	    base.OnInitialized();
-    }
 }

@@ -32,7 +32,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\RizzyUI.SafelistBuilder\RizzyUI.SafelistBuilder.csproj" ReferenceOutputAssembly="false"/>
+      <ProjectReference Include="..\RizzyUI.SafelistBuilder\RizzyUI.SafelistBuilder.csproj" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
     <ItemGroup>

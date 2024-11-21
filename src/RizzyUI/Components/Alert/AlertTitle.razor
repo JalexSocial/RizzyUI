@@ -11,7 +11,7 @@
     private string _textCss = "text-info";
 
     [CascadingParameter]
-	public AlertVariant Variant { get; set; }
+	public Alert? AlertParent { get; set; }
 
     /// <summary>
     /// Child content for the alert title
@@ -26,7 +26,7 @@
 
     protected override void OnParametersSet()
     {
-	    switch (Variant)
+	    switch (AlertParent?.Variant)
 	    {
 		    case AlertVariant.Information:
 			    _textCss = "text-info";

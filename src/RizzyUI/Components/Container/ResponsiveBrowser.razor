@@ -1,0 +1,68 @@
+﻿@namespace RizzyUI
+
+@inherits RizzyComponent
+
+<div x-data="{ screenSize: '' }" class="overflow-hidden border border-outline dark:border-outlineDark rounded">
+    <div class="bg-surfaceAlt dark:bg-surfaceDarkAlt w-full px-4 py-3 lg:py-1.5 pr-0 flex items-center justify-between border-outline dark:border-outlineDark border-b">
+        <div class="flex gap-1.5">
+            <div class="rounded-full size-3 bg-red-500"></div>
+            <div class="rounded-full size-3 bg-yellow-500"></div>
+            <div class="rounded-full size-3 bg-green-500"></div>
+        </div>
+        <div class="hidden lg:flex items-center justify-center gap-4 text-onSurface dark:text-onSurfaceDark">
+            <div class="flex items-center gap-1 bg-surfaceAlt dark:bg-surfaceDarkAlt border-outline dark:border-outlineDark rounded-full px-4">
+                <button title="Desktop Screen" x-on:click="screenSize=''" class="focus:outline-none focus-visible:bg-surfaceDark/10 p-1 hover:bg-surfaceDark/10 dark:hover:bg-surface/10 dark:focus-visible:bg-surface/10 transition rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" :class="[
+                    screenSize == '' ? 'text-onSurfaceStrong dark:text-onSurfaceDarkStrong forced-color-adjust-auto' :
+                    'opacity-60'
+                ]" viewBox="0 0 16 16" class="text-onSurfaceStrong dark:text-onSurfaceDarkStrong forced-color-adjust-auto">
+                        <title>Desktop</title>
+                        <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4c0 .667.083 1.167.25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75c.167-.333.25-.833.25-1.5H2s-2 0-2-2V4zm1.398-.855a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4.01V10c0 .325.078.502.145.602.07.105.17.188.302.254a1.464 1.464 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.758.758 0 0 0 .254-.302 1.464 1.464 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.757.757 0 0 0-.302-.254A1.46 1.46 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145z"></path>
+                    </svg>
+                </button>
+                <button x-on:click="screenSize='max-w-2xl'" title="Tablet Screen" class="focus:outline-none focus-visible:bg-surfaceDark/10 p-1 hover:bg-surfaceDark/10 dark:hover:bg-surface/10 dark:focus-visible:bg-surface/10 transition rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" :class="[
+                    screenSize == 'max-w-2xl' ?
+                    'text-onSurfaceStrong dark:text-onSurfaceDarkStrong forced-color-adjust-auto' :
+                    'opacity-60'
+                ]" viewBox="0 0 16 16" class="opacity-60">
+                        <title>Tablet</title>
+                        <path d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"></path>
+                        <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
+                    </svg>
+                </button>
+                <button x-on:click="screenSize='max-w-sm'" title="Phone Screen" class="focus:outline-none focus-visible:bg-surfaceDark/10 p-1 hover:bg-surfaceDark/10 dark:hover:bg-surface/10 dark:focus-visible:bg-surface/10 transition rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" :class="[
+                    screenSize == 'max-w-sm' ?
+                    'text-onSurfaceStrong dark:text-onSurfaceDarkStrong forced-color-adjust-auto' :
+                    'opacity-60'
+                ]" viewBox="0 0 16 16" class="opacity-60">
+                        <title>Phone</title>
+                        <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z"></path>
+                        <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="bg-pattern flex justify-center
+        dark:bg-surfaceDark bg-surface">
+        <div class="@@container relative overflow-hidden w-full bg-surface dark:bg-surfaceDark border-outline dark:border-outlineDark border-none" :class="[
+                 screenSize,
+                 screenSize === '' ? 'border-none' : 'border-x',
+             ]">
+
+            <div class="mx-auto flex flex-col items-start justify-center gap-4 p-8 rounded">
+                @ChildContent
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Child content for the responsive browser
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
