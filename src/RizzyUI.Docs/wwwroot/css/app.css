@@ -770,7 +770,7 @@ select {
   --onSecondaryDark: #f1f5f9;
   --outlineDark: #334155;
   --outlineStrongDark: #cbd5e1;
-  --danger: #dc2626;
+  --danger: 220 38 38;
   --onDanger: #fff;
   --info: #0284c7;
   --onInfo: #fff;
@@ -870,6 +870,11 @@ select {
 .size-5 {
   width: 1.25rem;
   height: 1.25rem;
+}
+
+.size-6 {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .h-4 {
@@ -1053,7 +1058,7 @@ select {
 }
 
 .border-danger {
-  border-color: var(--danger);
+  border-color: rgb(var(--danger));
 }
 
 .border-info {
@@ -1100,7 +1105,7 @@ select {
 }
 
 .bg-danger {
-  background-color: var(--danger);
+  background-color: rgb(var(--danger));
 }
 
 .bg-emerald-500 {
@@ -1167,6 +1172,14 @@ select {
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
+}
+
+.bg-opacity-10 {
+  --tw-bg-opacity: 0.1;
+}
+
+.bg-opacity-15 {
+  --tw-bg-opacity: 0.15;
 }
 
 .fill-black {
@@ -1307,7 +1320,7 @@ select {
 }
 
 .text-danger {
-  color: var(--danger);
+  color: rgb(var(--danger));
 }
 
 .text-info {

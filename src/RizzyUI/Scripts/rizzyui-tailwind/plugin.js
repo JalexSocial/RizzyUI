@@ -32,7 +32,7 @@ const rizzyui = plugin(
                 '--outlineStrongDark': theme('colors.slate.300'),
 
                 /* Status Colors */
-                '--danger': theme('colors.red.600'),
+                '--danger': '220 38 38',
                 '--onDanger': theme('colors.white'),
                 '--info': theme('colors.sky.600'),
                 '--onInfo': theme('colors.white'),
@@ -123,14 +123,29 @@ const rizzyui = plugin(
                     outlineStrongDark: 'var(--outlineStrongDark)',
 
                     /* Status Colors */
-                    danger: 'var(--danger)',
                     onDanger: 'var(--onDanger)',
-                    info: 'var(--info)',
                     onInfo: 'var(--onInfo)',
-                    warning: 'var(--warning)',
                     onWarning: 'var(--onWarning)',
-                    success: 'var(--success)',
                     onSuccess: 'var(--onSuccess)',
+                    danger: 'rgb(var(--danger))',
+                    info: {
+                        DEFAULT: 'var(--info)',
+                        '10': 'rgba(var(--info), 0.1)',
+                        '15': 'rgba(var(--info), 0.15)',
+                        '20': 'rgba(var(--info), 0.2)',
+                    },
+                    warning: {
+                        DEFAULT: 'var(--warning)',
+                        '10': 'rgba(var(--warning), 0.1)',
+                        '15': 'rgba(var(--warning), 0.15)',
+                        '20': 'rgba(var(--warning), 0.2)',
+                    },
+                    success: {
+                        DEFAULT: 'var(--success)',
+                        '10': 'rgba(var(--success), 0.1)',
+                        '15': 'rgba(var(--success), 0.15)',
+                        '20': 'rgba(var(--success), 0.2)',
+                    },
                 },
                 borderWidth: {
                     DEFAULT: 'var(--borderWidth)',
