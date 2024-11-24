@@ -1,6 +1,6 @@
-### [RizzyUI](RizzyUI 'RizzyUI').[ResponsiveBrowser](RizzyUI.ResponsiveBrowser 'RizzyUI.ResponsiveBrowser')
+### [RizzyUI](RizzyUI 'RizzyUI').[Browser](RizzyUI.Browser 'RizzyUI.Browser')
 
-## ResponsiveBrowser.ChildContent Property
+## Browser.ChildContent Property
 
 Child content for the responsive browser
 

@@ -5,11 +5,11 @@
 | [Alert](RizzyUI.Alert 'RizzyUI.Alert') | |
 | [AlertDescription](RizzyUI.AlertDescription 'RizzyUI.AlertDescription') | |
 | [AlertTitle](RizzyUI.AlertTitle 'RizzyUI.AlertTitle') | |
+| [Browser](RizzyUI.Browser 'RizzyUI.Browser') | |
 | [Button](RizzyUI.Button 'RizzyUI.Button') | |
 | [ButtonGroup](RizzyUI.ButtonGroup 'RizzyUI.ButtonGroup') | |
 | [ColorUtil](RizzyUI.ColorUtil 'RizzyUI.ColorUtil') | |
 | [HtmlElement](RizzyUI.HtmlElement 'RizzyUI.HtmlElement') | A generic Blazor component that renders a specified HTML element with optional content and attributes. |
-| [ResponsiveBrowser](RizzyUI.ResponsiveBrowser 'RizzyUI.ResponsiveBrowser') | |
 | [RizzyComponent](RizzyUI.RizzyComponent 'RizzyUI.RizzyComponent') | |
 | [ServiceCollectionExtensions](RizzyUI.ServiceCollectionExtensions 'RizzyUI.ServiceCollectionExtensions') | |
 | [Sidebar](RizzyUI.Sidebar 'RizzyUI.Sidebar') | |
