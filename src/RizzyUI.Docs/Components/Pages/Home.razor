@@ -7,41 +7,91 @@
 
 Welcome to your new app.
 
-<Button Variant="ButtonVariant.Primary" Size="ButtonSize.Large">Test</Button>
-<Button Variant="ButtonVariant.Secondary" Size="ButtonSize.Large">Test</Button>
-<Button Variant="ButtonVariant.Alternate" Size="ButtonSize.Large">Test</Button>
-<Button Variant="ButtonVariant.Inverse" Size="ButtonSize.Large">Test</Button>
-<Button Variant="ButtonVariant.Information" Size="ButtonSize.Large">Test</Button>
-<Button Variant="ButtonVariant.Danger" Size="ButtonSize.Large">Test</Button>
-<Button Variant="ButtonVariant.Warning" Size="ButtonSize.Large">Test</Button>
-<Button Variant="ButtonVariant.Success" Size="ButtonSize.Large">Test</Button>
-<Button Variant="ButtonVariant.Ghost" Size="ButtonSize.Large">Test</Button>
+<Button Variant="ButtonVariant.Primary" Size="Size.Large">Test</Button>
+<Button Variant="ButtonVariant.Secondary" Size="Size.Large">Test</Button>
+<Button Variant="ButtonVariant.Alternate" Size="Size.Large">Test</Button>
+<Button Variant="ButtonVariant.Inverse" Size="Size.Large">Test</Button>
+<Button Variant="ButtonVariant.Information" Size="Size.Large">Test</Button>
+<Button Variant="ButtonVariant.Danger" Size="Size.Large">Test</Button>
+<Button Variant="ButtonVariant.Warning" Size="Size.Large">Test</Button>
+<Button Variant="ButtonVariant.Success" Size="Size.Large">Test</Button>
+<Button Variant="ButtonVariant.Ghost" Size="Size.Large">Test</Button>
 
-<Button Variant="ButtonVariant.Primary" Size="ButtonSize.Large" Outline>Test</Button>
-<Button Variant="ButtonVariant.Secondary" Size="ButtonSize.Large" Outline>Test</Button>
-<Button Variant="ButtonVariant.Alternate" Size="ButtonSize.Large" Outline>Test</Button>
-<Button Variant="ButtonVariant.Inverse" Size="ButtonSize.Large" Outline>Test</Button>
-<Button Variant="ButtonVariant.Information" Size="ButtonSize.Large" Outline>Test</Button>
-<Button Variant="ButtonVariant.Danger" Size="ButtonSize.Large" Outline>Test</Button>
-<Button Variant="ButtonVariant.Warning" Size="ButtonSize.Large" Outline>Test</Button>
-<Button Variant="ButtonVariant.Success" Size="ButtonSize.Large" Outline>Test</Button>
-<Button Variant="ButtonVariant.Ghost" Size="ButtonSize.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Primary" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Secondary" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Alternate" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Inverse" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Information" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Danger" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Warning" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Success" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Ghost" Size="Size.Large" Outline>Test</Button>
 
 <ResponsiveBrowser>
-    <Alert Variant="AlertVariant.Information" Dismissable="true">
-        <AlertTitle>Update Available</AlertTitle>
-        <AlertDescription>A new version is available. Please update to the latest version.</AlertDescription>
-    </Alert>
-    <Alert Variant="AlertVariant.Success" Dismissable="true">
-        <AlertTitle>Successfully Subscribed</AlertTitle>
-        <AlertDescription>Success! You've subscribed to our newsletter. Welcome aboard!</AlertDescription>
-    </Alert>
-    <Alert Variant="AlertVariant.Warning" Dismissable="true">
-        <AlertTitle>Credit Card Expires Soon</AlertTitle>
-        <AlertDescription>Your credit card expires soon. Please update your payment information.</AlertDescription>
-    </Alert>
-    <Alert Variant="AlertVariant.Danger" Dismissable="true">
-        <AlertTitle>Invalid Email Address</AlertTitle>
-        <AlertDescription>The email address you entered is invalid. Please try again.</AlertDescription>
-    </Alert>
+
+	<div class="mx-auto flex flex-col items-start justify-center gap-4 rounded p-8">
+
+		<Alert Variant="AlertVariant.Information" Dismissable="true">
+			<AlertTitle>Update Available</AlertTitle>
+			<AlertDescription>A new version is available. Please update to the latest version.</AlertDescription>
+		</Alert>
+		<Alert Variant="AlertVariant.Success" Dismissable="true">
+			<AlertTitle>Successfully Subscribed</AlertTitle>
+			<AlertDescription>Success! You've subscribed to our newsletter. Welcome aboard!</AlertDescription>
+		</Alert>
+		<Alert Variant="AlertVariant.Warning" Dismissable="true">
+			<AlertTitle>Credit Card Expires Soon</AlertTitle>
+			<AlertDescription>Your credit card expires soon. Please update your payment information.</AlertDescription>
+		</Alert>
+		<Alert Variant="AlertVariant.Danger" Dismissable="true">
+			<AlertTitle>Invalid Email Address</AlertTitle>
+			<AlertDescription>The email address you entered is invalid. Please try again.</AlertDescription>
+		</Alert>
+
+	</div>
+
+</ResponsiveBrowser>
+
+<ResponsiveBrowser class="my-4">
+	<div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+		<Avatar Size="Size.ExtraSmall" />
+		<Avatar Size="Size.Small"/>
+		<Avatar Size="Size.Medium"/>
+		<Avatar Size="Size.Large"/>
+		<Avatar Size="Size.ExtraLarge"/>
+	</div>
+</ResponsiveBrowser>
+
+<ResponsiveBrowser class="my-4">
+	<div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+		<Avatar Size="Size.ExtraSmall" Initials="JS" />
+		<Avatar Size="Size.Small" Initials="JS" />
+		<Avatar Size="Size.Medium" Initials="JS"/>
+		<Avatar Size="Size.Large" Initials="JS"/>
+		<Avatar Size="Size.ExtraLarge" Initials="JS"/>
+	</div>
+</ResponsiveBrowser>
+
+<ResponsiveBrowser class="my-4">
+    <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+	    <Avatar Size="Size.ExtraSmall" ImageSource="/images/profile/51.jpg" />
+	    <Avatar Size="Size.Small" ImageSource="/images/profile/51.jpg" />
+	    <Avatar Size="Size.Medium" ImageSource="/images/profile/51.jpg" />
+	    <Avatar Size="Size.Large" ImageSource="/images/profile/51.jpg" />
+	    <Avatar Size="Size.ExtraLarge" ImageSource="/images/profile/51.jpg" />
+    </div>
+</ResponsiveBrowser>
+
+<ResponsiveBrowser class="my-4">
+	<div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Gray" ImageSource="/images/profile/51.jpg" />
+		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Teal" ImageSource="/images/profile/51.jpg" />
+		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Blue" ImageSource="/images/profile/51.jpg" />
+		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Indigo" ImageSource="/images/profile/51.jpg" />
+        <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Purple" ImageSource="/images/profile/51.jpg" />
+        <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Pink" ImageSource="/images/profile/51.jpg" />
+        <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Red" ImageSource="/images/profile/51.jpg" />
+		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Orange" ImageSource="/images/profile/51.jpg" />
+		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Yellow" ImageSource="/images/profile/51.jpg" />
+	</div>
 </ResponsiveBrowser>

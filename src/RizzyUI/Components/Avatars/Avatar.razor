@@ -1,0 +1,118 @@
+﻿@namespace RizzyUI
+
+@inherits RizzyComponent
+
+<div @attributes="@AdditionalAttributes" class="@RootClass()" role="img" aria-label="@AlternateText">
+    @if (IndicatorVisible)
+    {
+            <div class="border-2 absolute right-0 top-0 @_indicatorSizes[Size] rounded-full border-white @(IndicatorColor.ToDarkBackgroundClass())"></div>
+    }
+    @if (!string.IsNullOrEmpty(ImageSource))
+    {
+        <img src="@ImageSource" alt="@AlternateText" class="inline-block @_variantsizes[Size] @_variantShapes[Shape]"/>
+    }
+    else if (!string.IsNullOrEmpty(Initials))
+    {
+        <div class="inline-flex @_variantsizes[Size] @_variantShapes[Shape] items-center justify-center bg-gray-100 @_initialsSizes[Size] text-gray-500 dark:bg-gray-700 dark:text-gray-500">
+            @Initials
+        </div>
+    }
+    else
+    {
+        <div class="inline-flex @_variantsizes[Size] @_variantShapes[Shape] items-center justify-center bg-gray-100 text-gray-300 dark:bg-gray-700 dark:text-gray-500">
+            <svg class="hi-solid hi-user inline-block @_placeholderSizes[Size]"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg">
+                <path
+                fill-rule="evenodd"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clip-rule="evenodd"/>
+            </svg>
+        </div>
+    }
+</div>
+
+@code {
+    private const string _baseStyle = "relative inline-block";
+
+    private string _initials = string.Empty;
+
+    [Parameter] 
+    public string ImageSource { get; set; } = string.Empty;
+
+	[Parameter]
+	public string DisplayName { get; set; } = string.Empty;
+
+	[Parameter]
+	public string Initials
+	{
+		get => _initials;
+		set => _initials = value.Length > 2 ? value.Substring(0, 2).ToUpper() : value.ToUpper();
+	}
+
+	[Parameter]
+	public AvatarShape Shape { get; set; } = AvatarShape.Circle;
+
+	[Parameter]
+	public Size Size { get; set; } = Size.Medium;
+
+    [Parameter] 
+    public bool IndicatorVisible { get; set; } = false;
+
+    [Parameter]
+    public AccentColor IndicatorColor { get; set; } = AccentColor.Emerald;
+
+    [Parameter]
+    public bool Border { get; set; } = false;
+
+    private string AlternateText => (DisplayName).Length == 0 ? "User Avatar" : $"{DisplayName}";
+
+    protected override string? RootClass()
+    {
+	    return TwMerge.Merge(AdditionalAttributes, _baseStyle);
+    }
+	
+    private static readonly Dictionary<AvatarShape, string> _variantShapes = new Dictionary<AvatarShape, string>()
+	{
+		{ AvatarShape.Circle, "rounded-full" },
+		{ AvatarShape.Square, "rounded-lg" }
+	};
+
+    private static readonly Dictionary<Size, string> _variantsizes = new Dictionary<Size, string>()
+	{
+		{ Size.ExtraSmall, "size-6" },
+		{ Size.Small, "size-8" },
+		{ Size.Medium, "size-10" },
+		{ Size.Large, "size-14" },
+		{ Size.ExtraLarge, "size-20" },
+	};
+
+	private static readonly Dictionary<Size, string> _initialsSizes = new Dictionary<Size, string>()
+    {
+        { Size.ExtraSmall, "text-sm" },
+        { Size.Small, "" },
+        { Size.Medium, "" },
+        { Size.Large, "text-2xl" },
+        { Size.ExtraLarge, "text-4xl" },
+    };
+
+	private static readonly Dictionary<Size, string> _placeholderSizes = new Dictionary<Size, string>()
+    {
+        { Size.ExtraSmall, "size-4" },
+        { Size.Small, "size-5" },
+        { Size.Medium, "size-6" },
+        { Size.Large, "size-8" },
+        { Size.ExtraLarge, "size-10" },
+    };
+
+	private static readonly Dictionary<Size, string> _indicatorSizes = new Dictionary<Size, string>()
+	{
+		{ Size.ExtraSmall, "size-3" },
+		{ Size.Small, "size-3" },
+		{ Size.Medium, "size-3" },
+		{ Size.Large, "size-4" },
+		{ Size.ExtraLarge, "size-5" },
+	};
+
+}

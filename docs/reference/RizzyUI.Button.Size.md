@@ -5,8 +5,8 @@
 Button size
 
 ```csharp
-public RizzyUI.ButtonSize Size { get; set; }
+public RizzyUI.Size Size { get; set; }
 ```
 
 #### Property Value
-[RizzyUI.ButtonSize](https://docs.microsoft.com/en-us/dotnet/api/RizzyUI.ButtonSize 'RizzyUI.ButtonSize')
+[RizzyUI.Size](https://docs.microsoft.com/en-us/dotnet/api/RizzyUI.Size 'RizzyUI.Size')

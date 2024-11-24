@@ -35,7 +35,7 @@ public enum ButtonVariant
     Ghost
 }
 
-public enum ButtonSize
+public enum Size
 {
     ExtraSmall,
     Small,
@@ -44,10 +44,10 @@ public enum ButtonSize
     ExtraLarge
 }
 
-public enum AvatarVariant
+public enum AvatarShape
 {
-    Default,
-    Rounded
+    Circle,
+    Square
 }
 
 public enum AvatarSize
@@ -75,7 +75,7 @@ public enum ModalSize
 	SevenXL      // max-w-7xl (1280px)
 }
 
-public enum PillColor
+public enum AccentColor
 {
     Gray,
     Emerald,

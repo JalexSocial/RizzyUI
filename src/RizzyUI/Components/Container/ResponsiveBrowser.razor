@@ -2,7 +2,7 @@
 
 @inherits RizzyComponent
 
-<div x-data="{ screenSize: '' }" class="overflow-hidden border border-outline dark:border-outlineDark rounded">
+<div x-data="{ screenSize: '' }" class="@RootClass()">
     <div class="bg-surfaceAlt dark:bg-surfaceDarkAlt w-full px-4 py-3 lg:py-1.5 pr-0 flex items-center justify-between border-outline dark:border-outlineDark border-b">
         <div class="flex gap-1.5">
             <div class="rounded-full size-3 bg-red-500"></div>
@@ -52,17 +52,23 @@
                  screenSize === '' ? 'border-none' : 'border-x',
              ]">
 
-            <div class="mx-auto flex flex-col items-start justify-center gap-4 p-8 rounded">
-                @ChildContent
-            </div>
+	        @ChildContent
+
         </div>
     </div>
 </div>
 
 @code {
+    private const string _baseStyle = "overflow-hidden border border-outline dark:border-outlineDark rounded";
+
     /// <summary>
     /// Child content for the responsive browser
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, _baseStyle);
+    }
 }

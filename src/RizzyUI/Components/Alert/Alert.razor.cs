@@ -66,7 +66,7 @@ public partial class Alert : RizzyComponent
 		return TwMerge.Merge(AdditionalAttributes, _baseStyle, _alertVariants[Variant]);
 	}
 
-	private readonly Dictionary<AlertVariant, string> _alertVariants = new Dictionary<AlertVariant, string>()
+	private static readonly Dictionary<AlertVariant, string> _alertVariants = new Dictionary<AlertVariant, string>()
 	{
 		{ AlertVariant.Information, "border-info bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark" },
 		{ AlertVariant.Success, "border-success bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark" },

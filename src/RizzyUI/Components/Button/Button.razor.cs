@@ -21,7 +21,7 @@ public partial class Button : RizzyComponent
     /// Button size
     /// </summary>
     [Parameter]
-    public ButtonSize Size { get; set; } = ButtonSize.Medium;
+    public Size Size { get; set; } = Size.Medium;
 
     /// <summary>
     /// Makes the button to have the outlines.
@@ -76,7 +76,7 @@ public partial class Button : RizzyComponent
         }
     }
 
-    private readonly Dictionary<ButtonVariant, string> _variants = new Dictionary<ButtonVariant, string>()
+    private static readonly Dictionary<ButtonVariant, string> _variants = new Dictionary<ButtonVariant, string>()
     {
         { ButtonVariant.Primary, "bg-primary text-onPrimary focus-visible:outline-primary dark:bg-primaryDark dark:text-onPrimaryDark dark:focus-visible:outline-primaryDark" },
         { ButtonVariant.Secondary, "bg-secondary text-onSecondary focus-visible:outline-secondary dark:bg-secondaryDark dark:text-onSecondaryDark dark:focus-visible:outline-secondaryDark" },
@@ -88,8 +88,7 @@ public partial class Button : RizzyComponent
         { ButtonVariant.Success, "bg-success text-onSuccess focus-visible:outline-success dark:bg-success dark:text-onSuccess dark:focus-visible:outline-success" },
         { ButtonVariant.Ghost, "bg-transparent text-onSurface focus-visible:outline-none" }
     };
-
-    private readonly Dictionary<ButtonVariant, string> _outlineVariants = new Dictionary<ButtonVariant, string>()
+    private static readonly Dictionary<ButtonVariant, string> _outlineVariants = new Dictionary<ButtonVariant, string>()
     {
         { ButtonVariant.Primary, "bg-transparent border border-primary text-primary focus-visible:outline-primary dark:border-primaryDark dark:text-primaryDark dark:focus-visible:outline-primaryDark" },
         { ButtonVariant.Secondary, "bg-transparent border border-secondary text-secondary focus-visible:outline-secondary dark:border-secondaryDark dark:text-secondaryDark dark:focus-visible:outline-secondaryDark" },
@@ -102,12 +101,12 @@ public partial class Button : RizzyComponent
         { ButtonVariant.Ghost, "bg-transparent border text-onSurface hover:opacity-75 focus-visible:outline-none dark:text-onSurfaceDark" }
     };
 
-    private readonly Dictionary<ButtonSize, string> _variantSizes = new Dictionary<ButtonSize, string>()
+    private static readonly Dictionary<Size, string> _variantSizes = new Dictionary<Size, string>()
     {
-        { ButtonSize.ExtraSmall, "px-2 py-1 text-sm" },
-        { ButtonSize.Small, "px-3 py-2 text-sm" },
-        { ButtonSize.Medium, "px-4 py-2 text-md" },
-        { ButtonSize.Large, "px-6 py-3 text-md" },
-        { ButtonSize.ExtraLarge, "px-8 py-4 text-md" },
+        { Size.ExtraSmall, "px-2 py-1 text-sm" },
+        { Size.Small, "px-3 py-2 text-sm" },
+        { Size.Medium, "px-4 py-2 text-md" },
+        { Size.Large, "px-6 py-3 text-md" },
+        { Size.ExtraLarge, "px-8 py-4 text-md" },
     };
 }
