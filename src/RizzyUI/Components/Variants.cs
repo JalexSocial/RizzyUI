@@ -50,15 +50,6 @@ public enum AvatarShape
     Square
 }
 
-public enum AvatarSize
-{
-    ExtraSmall,
-    Small,
-    Medium,
-    Large,
-    ExtraLarge
-}
-
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public enum ModalSize
 {
@@ -103,27 +94,4 @@ public enum ProgressBarColor
     Red,
     Orange,
     Emerald,
-}
-
-public class IndicatorColor
-{
-    private readonly string _classes;
-
-    private IndicatorColor(string classes)
-    {
-        _classes = classes;
-    }
-
-    public static IndicatorColor Gray => new("bg-gray-500");
-    public static IndicatorColor Yellow => new("bg-yellow-500");
-    public static IndicatorColor Red => new("bg-red-500");
-    public static IndicatorColor Blue => new("bg-blue-500");
-    public static IndicatorColor Green => new("bg-emerald-500");
-
-    public string Value => _classes;
-
-    public override string ToString()
-    {
-        return _classes;
-    }
 }

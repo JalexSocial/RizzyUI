@@ -27,7 +27,7 @@ Welcome to your new app.
 <Button Variant="ButtonVariant.Success" Size="Size.Large" Outline>Test</Button>
 <Button Variant="ButtonVariant.Ghost" Size="Size.Large" Outline>Test</Button>
 
-<ResponsiveBrowser>
+<Browser>
 
 	<div class="mx-auto flex flex-col items-start justify-center gap-4 rounded p-8">
 
@@ -50,9 +50,16 @@ Welcome to your new app.
 
 	</div>
 
-</ResponsiveBrowser>
+</Browser>
 
-<ResponsiveBrowser class="my-4">
+<Browser class="my-4">
+	<div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+		<Avatar Size="Size.Large" Shape="AvatarShape.Circle" ImageSource="/images/profile/51.jpg" />
+		<Avatar Size="Size.ExtraLarge" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
+	</div>
+</Browser>
+
+<Browser class="my-4">
 	<div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
 		<Avatar Size="Size.ExtraSmall" />
 		<Avatar Size="Size.Small"/>
@@ -60,9 +67,9 @@ Welcome to your new app.
 		<Avatar Size="Size.Large"/>
 		<Avatar Size="Size.ExtraLarge"/>
 	</div>
-</ResponsiveBrowser>
+</Browser>
 
-<ResponsiveBrowser class="my-4">
+<Browser class="my-4">
 	<div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
 		<Avatar Size="Size.ExtraSmall" Initials="JS" />
 		<Avatar Size="Size.Small" Initials="JS" />
@@ -70,9 +77,9 @@ Welcome to your new app.
 		<Avatar Size="Size.Large" Initials="JS"/>
 		<Avatar Size="Size.ExtraLarge" Initials="JS"/>
 	</div>
-</ResponsiveBrowser>
+</Browser>
 
-<ResponsiveBrowser class="my-4">
+<Browser class="my-4">
     <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
 	    <Avatar Size="Size.ExtraSmall" ImageSource="/images/profile/51.jpg" />
 	    <Avatar Size="Size.Small" ImageSource="/images/profile/51.jpg" />
@@ -80,9 +87,9 @@ Welcome to your new app.
 	    <Avatar Size="Size.Large" ImageSource="/images/profile/51.jpg" />
 	    <Avatar Size="Size.ExtraLarge" ImageSource="/images/profile/51.jpg" />
     </div>
-</ResponsiveBrowser>
+</Browser>
 
-<ResponsiveBrowser class="my-4">
+<Browser class="my-4">
 	<div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
 		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Gray" ImageSource="/images/profile/51.jpg" />
 		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Teal" ImageSource="/images/profile/51.jpg" />
@@ -94,4 +101,5 @@ Welcome to your new app.
 		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Orange" ImageSource="/images/profile/51.jpg" />
 		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Yellow" ImageSource="/images/profile/51.jpg" />
 	</div>
-</ResponsiveBrowser>
+</Browser>
+
