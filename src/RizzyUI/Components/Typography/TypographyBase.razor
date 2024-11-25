@@ -3,5 +3,104 @@
 @inherits RizzyComponent
 
 @code {
+    [Parameter] 
+    public Color TextColor { get; set; } = Color.OnPrimary;
 
+    [Parameter] 
+    public TextWeight TextWeight { get; set; } = TextWeight.Normal;
+
+    [Parameter] 
+    public TextSize TextSize { get; set; } = TextSize.Medium;
+
+    [Parameter] 
+    public TextDecoration TextDecoration { get; set; } = TextDecoration.None;
+
+    [Parameter] 
+    public TextTransform TextTransform { get; set; } = TextTransform.None;
+
+    protected string GetTypographyBaseCss()
+    {
+        return $"{TextColor.ToTextClass()} {GetTextSizeCss(TextSize)} {GetTextWeightCss(TextWeight)} {GetTextTransformCss(TextTransform)} {GetTextDecorationCss(TextDecoration)}";
+    }
+
+    /// <summary>
+    /// Gets the CSS class associated with the specified text weight.
+    /// </summary>
+    /// <param name="weight">The <see cref="TextWeight"/> enum value representing the weight of the text.</param>
+    /// <returns>A string containing the CSS class for the specified text weight.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when an invalid <see cref="TextWeight"/> value is provided.
+    /// </exception>
+    protected static string GetTextWeightCss(TextWeight weight)
+    {
+        return weight switch
+        {
+            TextWeight.Thin => "font-thin",
+            TextWeight.Normal => "font-normal",
+            TextWeight.Bold => "font-bold",
+            TextWeight.ExtraBold => "font-extrabold",
+            _ => throw new ArgumentOutOfRangeException(nameof(weight), weight, null)
+        };
+    }
+
+    /// <summary>
+    /// Gets the CSS class associated with the specified text size.
+    /// </summary>
+    /// <param name="size">The <see cref="TextSize"/> enum value representing the size of the text.</param>
+    /// <returns>A string containing the CSS class for the specified text size.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when an invalid <see cref="TextSize"/> value is provided.
+    /// </exception>
+    protected static string GetTextSizeCss(TextSize size)
+    {
+        return size switch
+        {
+            TextSize.Small => "text-sm",
+            TextSize.Medium => "text-base",
+            TextSize.Large => "text-lg",
+            TextSize.ExtraLarge => "text-xl",
+            TextSize.TwoXL => "text-2xl",
+            _ => throw new ArgumentOutOfRangeException(nameof(size), size, null)
+        };
+    }
+
+    /// <summary>
+    /// Gets the Tailwind CSS class associated with the specified text transform.
+    /// </summary>
+    /// <param name="transform">The <see cref="TextTransform"/> enum value representing the desired text transformation.</param>
+    /// <returns>A string containing the Tailwind CSS class for the specified text transform.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when an invalid <see cref="TextTransform"/> value is provided.
+    /// </exception>
+    protected static string GetTextTransformCss(TextTransform transform)
+    {
+        return transform switch
+        {
+            TextTransform.None => "normal-case",
+            TextTransform.Uppercase => "uppercase",
+            TextTransform.Lowercase => "lowercase",
+            TextTransform.Capitalize => "capitalize",
+            _ => throw new ArgumentOutOfRangeException(nameof(transform), transform, null)
+        };
+    }
+
+    /// <summary>
+    /// Gets the Tailwind CSS class associated with the specified text decoration.
+    /// </summary>
+    /// <param name="decoration">The <see cref="TextDecoration"/> enum value representing the desired text decoration.</param>
+    /// <returns>A string containing the Tailwind CSS class for the specified text decoration.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when an invalid <see cref="TextDecoration"/> value is provided.
+    /// </exception>
+    protected static string GetTextDecorationCss(TextDecoration decoration)
+    {
+        return decoration switch
+        {
+            TextDecoration.None => "no-underline",
+            TextDecoration.Underline => "underline",
+            TextDecoration.Overline => "overline",
+            TextDecoration.LineThrough => "line-through",
+            _ => throw new ArgumentOutOfRangeException(nameof(decoration), decoration, null)
+        };
+    }
 }

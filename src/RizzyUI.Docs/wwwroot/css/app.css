@@ -1038,6 +1038,10 @@ select {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -1281,6 +1285,38 @@ select {
   background-color: rgb(var(--info) / 0.15);
 }
 
+.bg-onDanger {
+  background-color: rgb(var(--onDanger));
+}
+
+.bg-onInfo {
+  background-color: rgb(var(--onInfo));
+}
+
+.bg-onPrimary {
+  background-color: var(--onPrimary);
+}
+
+.bg-onSecondary {
+  background-color: var(--onSecondary);
+}
+
+.bg-onSuccess {
+  background-color: rgb(var(--onSuccess));
+}
+
+.bg-onSurface {
+  background-color: var(--onSurface);
+}
+
+.bg-onSurfaceStrong {
+  background-color: var(--onSurfaceStrong);
+}
+
+.bg-onWarning {
+  background-color: rgb(var(--onWarning));
+}
+
 .bg-orange-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 215 170 / var(--tw-bg-opacity, 1));
@@ -1289,6 +1325,14 @@ select {
 .bg-orange-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 115 22 / var(--tw-bg-opacity, 1));
+}
+
+.bg-outline {
+  background-color: var(--outline);
+}
+
+.bg-outlineStrong {
+  background-color: var(--outlineStrong);
 }
 
 .bg-pink-200 {
@@ -1513,6 +1557,16 @@ select {
   line-height: 2.5rem;
 }
 
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -1532,12 +1586,40 @@ select {
   font-weight: 700;
 }
 
+.font-extrabold {
+  font-weight: 800;
+}
+
 .font-medium {
   font-weight: 500;
 }
 
+.font-normal {
+  font-weight: 400;
+}
+
 .font-semibold {
   font-weight: 600;
+}
+
+.font-thin {
+  font-weight: 100;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.normal-case {
+  text-transform: none;
 }
 
 .tracking-wide {
@@ -1628,6 +1710,10 @@ select {
   color: var(--outline);
 }
 
+.text-outlineStrong {
+  color: var(--outlineStrong);
+}
+
 .text-pink-700 {
   --tw-text-opacity: 1;
   color: rgb(190 24 93 / var(--tw-text-opacity, 1));
@@ -1669,6 +1755,14 @@ select {
   color: rgb(var(--success));
 }
 
+.text-surface {
+  color: var(--surface);
+}
+
+.text-surfaceAlt {
+  color: var(--surfaceAlt);
+}
+
 .text-teal-700 {
   --tw-text-opacity: 1;
   color: rgb(15 118 110 / var(--tw-text-opacity, 1));
@@ -1697,6 +1791,10 @@ select {
 
 .opacity-60 {
   opacity: 0.6;
+}
+
+.outline {
+  outline-style: solid;
 }
 
 .backdrop-blur-sm {

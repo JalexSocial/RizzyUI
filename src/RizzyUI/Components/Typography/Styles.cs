@@ -4,14 +4,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RizzyUI.Components.Typography;
+namespace RizzyUI;
 
-public enum HeadingSize
+public enum HeadingLevel
 {
-    Heading1,
-    Heading2,
-    Heading3,
-    Heading4,
-    Heading5,
-    Heading6
+    H1,
+    H2,
+    H3,
+    H4,
+    H5,
+    H6
+}
+
+public enum TextWeight
+{
+    Thin,
+    Normal,
+    Bold,
+    ExtraBold
+}
+
+public enum TextSize
+{
+    Small,
+    Medium,
+    Large,
+    ExtraLarge,
+    TwoXL
+}
+
+public enum TextDecoration
+{
+    None,
+    Underline,
+    Overline,
+    LineThrough
+}
+
+public enum TextTransform
+{
+    None,
+    Uppercase,
+    Lowercase,
+    Capitalize
 }

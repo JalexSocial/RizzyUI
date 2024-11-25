@@ -63,14 +63,26 @@ public partial class Alert : RizzyComponent
 
     protected override string? RootClass()
 	{
-		return TwMerge.Merge(AdditionalAttributes, _baseStyle, _alertVariants[Variant]);
+		return TwMerge.Merge(AdditionalAttributes, _baseStyle, GetAlertVariantCss(Variant));
 	}
 
-	private static readonly Dictionary<AlertVariant, string> _alertVariants = new Dictionary<AlertVariant, string>()
-	{
-		{ AlertVariant.Information, "border-info bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark" },
-		{ AlertVariant.Success, "border-success bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark" },
-		{ AlertVariant.Warning, "border-warning bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark" },
-		{ AlertVariant.Danger, "border-danger bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark" }
-	};
+    /// <summary>
+    /// Gets the CSS classes associated with the specified alert variant.
+    /// </summary>
+    /// <param name="variant">The <see cref="AlertVariant"/> enum value representing the type of alert.</param>
+    /// <returns>A string containing the CSS classes for the specified alert variant.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when an invalid <see cref="AlertVariant"/> value is provided.
+    /// </exception>
+    protected static string GetAlertVariantCss(AlertVariant variant)
+    {
+        return variant switch
+        {
+            AlertVariant.Information => "border-info bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark",
+            AlertVariant.Success => "border-success bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark",
+            AlertVariant.Warning => "border-warning bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark",
+            AlertVariant.Danger => "border-danger bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark",
+            _ => throw new ArgumentOutOfRangeException(nameof(variant), variant, null)
+        };
+    }
 }

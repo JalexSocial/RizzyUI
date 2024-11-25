@@ -15,3 +15,4 @@
 | [Sidebar](RizzyUI.Sidebar 'RizzyUI.Sidebar') | |
 | [SidebarLinkItem](RizzyUI.SidebarLinkItem 'RizzyUI.SidebarLinkItem') | |
 | [SidebarLinks](RizzyUI.SidebarLinks 'RizzyUI.SidebarLinks') | |
+| [TypographyBase](RizzyUI.TypographyBase 'RizzyUI.TypographyBase') | |

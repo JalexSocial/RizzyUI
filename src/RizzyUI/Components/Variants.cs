@@ -66,8 +66,34 @@ public enum ModalSize
 	SevenXL      // max-w-7xl (1280px)
 }
 
+public enum Color
+{
+    // Surface Colors
+    Surface,
+    OnSurface,
+    OnSurfaceStrong,
+    SurfaceAlt,
+    Primary,
+    OnPrimary,
+    Secondary,
+    OnSecondary,
+    Outline,
+    OutlineStrong,
+
+    // Status Colors
+    Danger,
+    OnDanger,
+    Info,
+    OnInfo,
+    Warning,
+    OnWarning,
+    Success,
+    OnSuccess
+}
+
 public enum AccentColor
 {
+    Inherit, // no accent color
     Gray,
     Emerald,
     Teal,

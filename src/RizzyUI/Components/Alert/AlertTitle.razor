@@ -26,22 +26,25 @@
 
     protected override void OnParametersSet()
     {
-	    switch (AlertParent?.Variant)
-	    {
-		    case AlertVariant.Information:
-			    _textCss = "text-info";
-			    break;
-		    case AlertVariant.Success:
-			    _textCss = "text-success";
-			    break;
-		    case AlertVariant.Warning:
-			    _textCss = "text-warning";
-			    break;
-		    case AlertVariant.Danger:
-			    _textCss = "text-danger";
-			    break;
-	    }
+        _textCss = GetAlertTextCss(AlertParent?.Variant);
 
 	    base.OnParametersSet();
+    }
+
+    /// <summary>
+    /// Gets the CSS class associated with the text style for the specified alert variant.
+    /// </summary>
+    /// <param name="variant">The <see cref="AlertVariant"/> enum value representing the type of alert.</param>
+    /// <returns>A string containing the CSS class for the text style of the specified alert variant.</returns>
+    protected static string GetAlertTextCss(AlertVariant? variant)
+    {
+        return variant switch
+        {
+            AlertVariant.Information => "text-info",
+            AlertVariant.Success => "text-success",
+            AlertVariant.Warning => "text-warning",
+            AlertVariant.Danger => "text-danger",
+            _ => "text-info"
+        };
     }
 }

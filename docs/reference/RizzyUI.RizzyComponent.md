@@ -17,7 +17,8 @@ Derived
 &#8627; [ButtonGroup](RizzyUI.ButtonGroup 'RizzyUI.ButtonGroup')  
 &#8627; [Sidebar](RizzyUI.Sidebar 'RizzyUI.Sidebar')  
 &#8627; [SidebarLinkItem](RizzyUI.SidebarLinkItem 'RizzyUI.SidebarLinkItem')  
-&#8627; [SidebarLinks](RizzyUI.SidebarLinks 'RizzyUI.SidebarLinks')
+&#8627; [SidebarLinks](RizzyUI.SidebarLinks 'RizzyUI.SidebarLinks')  
+&#8627; [TypographyBase](RizzyUI.TypographyBase 'RizzyUI.TypographyBase')
 
 | Properties | |
 | :--- | :--- |
