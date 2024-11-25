@@ -17,7 +17,7 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito Sans', 'open sans', ...defaultTheme.fontFamily.sans],
+                sans: ['Figtree', 'open sans', ...defaultTheme.fontFamily.sans],
             }
         },
     },

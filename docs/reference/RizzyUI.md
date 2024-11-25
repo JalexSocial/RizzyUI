@@ -9,10 +9,20 @@
 | [Button](RizzyUI.Button 'RizzyUI.Button') | |
 | [ButtonGroup](RizzyUI.ButtonGroup 'RizzyUI.ButtonGroup') | |
 | [ColorUtil](RizzyUI.ColorUtil 'RizzyUI.ColorUtil') | |
+| [Heading](RizzyUI.Heading 'RizzyUI.Heading') | |
 | [HtmlElement](RizzyUI.HtmlElement 'RizzyUI.HtmlElement') | A generic Blazor component that renders a specified HTML element with optional content and attributes. |
+| [Paragraph](RizzyUI.Paragraph 'RizzyUI.Paragraph') | |
 | [RizzyComponent](RizzyUI.RizzyComponent 'RizzyUI.RizzyComponent') | |
 | [ServiceCollectionExtensions](RizzyUI.ServiceCollectionExtensions 'RizzyUI.ServiceCollectionExtensions') | |
 | [Sidebar](RizzyUI.Sidebar 'RizzyUI.Sidebar') | |
 | [SidebarLinkItem](RizzyUI.SidebarLinkItem 'RizzyUI.SidebarLinkItem') | |
 | [SidebarLinks](RizzyUI.SidebarLinks 'RizzyUI.SidebarLinks') | |
-| [TypographyBase](RizzyUI.TypographyBase 'RizzyUI.TypographyBase') | |
+
+| Enums | |
+| :--- | :--- |
+| [HeadingLevel](RizzyUI.HeadingLevel 'RizzyUI.HeadingLevel') | Represents the heading level, corresponding to HTML heading tags. |
+| [Leading](RizzyUI.Leading 'RizzyUI.Leading') | Represents the line height. |
+| [TextDecoration](RizzyUI.TextDecoration 'RizzyUI.TextDecoration') | Represents text decoration styles. |
+| [TextSize](RizzyUI.TextSize 'RizzyUI.TextSize') | Represents the font size. |
+| [TextTransform](RizzyUI.TextTransform 'RizzyUI.TextTransform') | Represents text transformation styles. |
+| [TextWeight](RizzyUI.TextWeight 'RizzyUI.TextWeight') | Represents the font weight. |

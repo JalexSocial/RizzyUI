@@ -58,7 +58,7 @@ const rizzyui = plugin(
         theme: {
             extend: {
                 fontFamily: {
-                    sans: ['Nunito Sans', 'Open Sans', ...defaultTheme.fontFamily.sans],
+                    sans: ['Figtree', 'Open Sans', ...defaultTheme.fontFamily.sans],
                 },
                 maxWidth: {
                     '8xl': '90rem',

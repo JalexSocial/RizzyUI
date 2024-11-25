@@ -69,12 +69,18 @@ namespace RizzyUI.SafelistBuilder
                 if (rule is ICssStyleRule styleRule)
                 {
                     if (styleRule.SelectorText is null) continue;
+                    
+                    // TODO: IGNORE pseudoselectors
 
                     var selector = styleRule.SelectorText;
 
                     if (selector.StartsWith("."))
                     {
                         var clean = selector.TrimStart('.').Replace(@"\", "");
+                        if (clean.EndsWith(":hover"))
+                        {
+
+                        }
                         classNames.Add(clean);
                     }
                 }
@@ -84,11 +90,17 @@ namespace RizzyUI.SafelistBuilder
                     {
                         if (mRule is ICssStyleRule mediaStyleRule)
                         {
+                            // TODO: IGNORE pseudoselectors
+
                             var selector = mediaStyleRule.SelectorText;
 
                             if (selector.StartsWith("."))
                             {
                                 var clean = selector.TrimStart('.').Replace(@"\", "");
+                                if (clean.EndsWith(":hover"))
+                                {
+
+                                }
                                 classNames.Add(clean);
                             }
                         }

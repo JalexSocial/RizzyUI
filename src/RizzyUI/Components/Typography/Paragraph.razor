@@ -1,5 +1,29 @@
-﻿<h3>Paragraph</h3>
+﻿@namespace RizzyUI
+@using System.Net.Mime
+@inherits TypographyBase
+
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">@ChildContent</HtmlElement>
+
 
 @code {
+    private const string _baseStyle = "mb-4 leading-relaxed";
 
+    /// <summary>
+    /// Child content for the heading
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Element = "p";
+        TextColor ??= Color.OnSurface;
+        
+        base.OnInitialized();
+    }
+
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, _baseStyle, GetTypographyBaseCss());
+    }
 }
