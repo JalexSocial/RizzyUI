@@ -72,6 +72,7 @@ namespace RizzyUI.SafelistBuilder
                     
                     // TODO: IGNORE pseudoselectors
 
+                    var stors = styleRule.Selector;
                     var selector = styleRule.SelectorText;
 
                     if (selector.StartsWith("."))
