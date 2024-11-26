@@ -8,28 +8,29 @@ const rizzyui = plugin(
         // Add base styles
         addBase({
             ':root': {
-                '--surface': theme('colors.white'),
-                '--onSurface': theme('colors.slate.700'),
-                '--onSurfaceStrong': theme('colors.black'),
-                '--surfaceAlt': theme('colors.slate.100'),
-                '--primary': theme('colors.blue.700'),
-                '--onPrimary': theme('colors.slate.100'),
-                '--secondary': theme('colors.indigo.700'),
-                '--onSecondary': theme('colors.slate.100'),
-                '--outline': theme('colors.slate.300'),
-                '--outlineStrong': theme('colors.slate.800'),
+                /* General Colors */
+                '--surface': '255 255 255', /* theme('colors.white') */
+                '--onSurface': '51 65 85', /* theme('colors.slate.700') */
+                '--onSurfaceStrong': '0 0 0', /* theme('colors.black') */
+                '--surfaceAlt': '241 245 249', /* theme('colors.slate.100') */
+                '--primary': '29 78 216', /* theme('colors.blue.700') */
+                '--onPrimary': '241 245 249', /* theme('colors.slate.100') */
+                '--secondary': '67 56 202', /* theme('colors.indigo.700') */
+                '--onSecondary': '241 245 249', /* theme('colors.slate.100') */
+                '--outline': '203 213 225', /* theme('colors.slate.300') */
+                '--outlineStrong': '30 41 59', /* theme('colors.slate.800') */
 
                 /* Dark Mode Variables */
-                '--surfaceDark': theme('colors.slate.900'),
-                '--onSurfaceDark': theme('colors.slate.300'),
-                '--onSurfaceStrongDark': theme('colors.white'),
-                '--surfaceAltDark': theme('colors.slate.800'),
-                '--primaryDark': theme('colors.blue.600'),
-                '--onPrimaryDark': theme('colors.slate.100'),
-                '--secondaryDark': theme('colors.indigo.600'),
-                '--onSecondaryDark': theme('colors.slate.100'),
-                '--outlineDark': theme('colors.slate.700'),
-                '--outlineStrongDark': theme('colors.slate.300'),
+                '--surfaceDark': '15 23 42', /* theme('colors.slate.900') */
+                '--onSurfaceDark': '203 213 225', /* theme('colors.slate.300') */
+                '--onSurfaceStrongDark': '255 255 255', /* theme('colors.white') */
+                '--surfaceAltDark': '30 41 59', /* theme('colors.slate.800') */
+                '--primaryDark': '37 99 235', /* theme('colors.blue.600') */
+                '--onPrimaryDark': '241 245 249', /* theme('colors.slate.100') */
+                '--secondaryDark': '79 70 229', /* theme('colors.indigo.600') */
+                '--onSecondaryDark': '241 245 249', /* theme('colors.slate.100') */
+                '--outlineDark': '51 65 85', /* theme('colors.slate.700') */
+                '--outlineStrongDark': '203 213 225', /* theme('colors.slate.300') */
 
                 /* Status Colors */
                 '--danger': '220 38 38', /* theme('colors.red.600') */
@@ -99,28 +100,28 @@ const rizzyui = plugin(
                     },
                 },
                 colors: {
-                    surface: 'var(--surface)',
-                    onSurface: 'var(--onSurface)',
-                    onSurfaceStrong: 'var(--onSurfaceStrong)',
-                    surfaceAlt: 'var(--surfaceAlt)',
-                    primary: 'var(--primary)',
-                    onPrimary: 'var(--onPrimary)',
-                    secondary: 'var(--secondary)',
-                    onSecondary: 'var(--onSecondary)',
-                    outline: 'var(--outline)',
-                    outlineStrong: 'var(--outlineStrong)',
+                    surface: 'rgb(var(--surface))',
+                    onSurface: 'rgb(var(--onSurface))',
+                    onSurfaceStrong: 'rgb(var(--onSurfaceStrong))',
+                    surfaceAlt: 'rgb(var(--surfaceAlt))',
+                    primary: 'rgb(var(--primary))',
+                    onPrimary: 'rgb(var(--onPrimary))',
+                    secondary: 'rgb(var(--secondary))',
+                    onSecondary: 'rgb(var(--onSecondary))',
+                    outline: 'rgb(var(--outline))',
+                    outlineStrong: 'rgb(var(--outlineStrong))',
 
                     /* Dark Mode Colors */
-                    surfaceDark: 'var(--surfaceDark)',
-                    onSurfaceDark: 'var(--onSurfaceDark)',
-                    onSurfaceStrongDark: 'var(--onSurfaceStrongDark)',
-                    surfaceAltDark: 'var(--surfaceAltDark)',
-                    primaryDark: 'var(--primaryDark)',
-                    onPrimaryDark: 'var(--onPrimaryDark)',
-                    secondaryDark: 'var(--secondaryDark)',
-                    onSecondaryDark: 'var(--onSecondaryDark)',
-                    outlineDark: 'var(--outlineDark)',
-                    outlineStrongDark: 'var(--outlineStrongDark)',
+                    surfaceDark: 'rgb(var(--surfaceDark))',
+                    onSurfaceDark: 'rgb(var(--onSurfaceDark))',
+                    onSurfaceStrongDark: 'rgb(var(--onSurfaceStrongDark))',
+                    surfaceAltDark: 'rgb(var(--surfaceAltDark))',
+                    primaryDark: 'rgb(var(--primaryDark))',
+                    onPrimaryDark: 'rgb(var(--onPrimaryDark))',
+                    secondaryDark: 'rgb(var(--secondaryDark))',
+                    onSecondaryDark: 'rgb(var(--onSecondaryDark))',
+                    outlineDark: 'rgb(var(--outlineDark))',
+                    outlineStrongDark: 'rgb(var(--outlineStrongDark))',
 
                     /* Status Colors */
                     danger: 'rgb(var(--danger))',

@@ -14,19 +14,19 @@
     <a class="sr-only" href="#@MainContentId">skip to the main content</a>
 
     <!-- Dark overlay when the sidebar is open on smaller screens -->
-    <div x-cloak x-show="showSidebar" class="z-10 bg-slate-900/10 fixed inset-0 backdrop-blur-sm md:hidden" aria-hidden="true" x-on:click="showSidebar = false" x-transition.opacity></div>
+    <div x-cloak x-show="showSidebar" class="z-10 bg-surfaceDark/10 fixed inset-0 backdrop-blur-sm md:hidden" aria-hidden="true" x-on:click="showSidebar = false" x-transition.opacity></div>
 
-    <nav x-cloak class="z-20 shrink-0 fixed left-0 flex h-svh w-60 flex-col border-r border-slate-300 bg-slate-100 p-4 transition-transform duration-300 dark:border-slate-700 dark:bg-slate-800 md:w-64 md:translate-x-0 md:relative" x-bind:class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
+    <nav x-cloak class="z-20 shrink-0 fixed left-0 flex h-svh w-60 flex-col border-r border-outline bg-surfaceAlt p-4 transition-transform duration-300 dark:border-outlineDark dark:surfaceAltDark md:w-64 md:translate-x-0 md:relative" x-bind:class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
         @MenuContent
     </nav>
 
     <!-- Main content -->
-    <div id="@MainContentId" class="h-svh w-full overflow-y-auto bg-white p-4 dark:bg-slate-900">
+    <div id="@MainContentId" class="h-svh w-full overflow-y-auto bg-surface p-4 dark:bg-surfaceDark">
         @MainContent
     </div>
 
     <!-- Toggle button for small screens -->
-    <button class="z-20 fixed right-4 top-4 rounded-full bg-blue-700 p-4 text-slate-100 dark:bg-blue-600 dark:text-slate-100 md:hidden" x-on:click="showSidebar = ! showSidebar">
+    <button class="z-20 fixed right-4 top-4 rounded-full bg-primary p-4 text-onPrimary dark:bg-primaryDark dark:text-onPrimaryDark md:hidden" x-on:click="showSidebar = ! showSidebar">
         <svg x-show="showSidebar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5" aria-hidden="true">
             <!-- Close icon SVG content -->
             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
