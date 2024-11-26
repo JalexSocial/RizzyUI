@@ -218,13 +218,13 @@ else
     /// <summary>
     /// Gets the CSS class string for the collapsible button.
     /// </summary>
-    private string ButtonClass => "flex items-center justify-between rounded-xl gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-slate-700 hover:bg-blue-700/5 hover:text-black dark:text-slate-300 dark:hover:text-white dark:hover:bg-blue-600/5";
+    private string ButtonClass => "flex items-center justify-between rounded gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-slate-700 hover:bg-blue-700/5 hover:text-black dark:text-slate-300 dark:hover:text-white dark:hover:bg-blue-600/5";
 
     /// <summary>
     /// Gets the CSS class string for the link element, adjusted based on parent and children.
     /// </summary>
     private string LinkClass => Parent?.HasChildren == true
-        ? "flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white"
-        : "flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl font-medium text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white";
+        ? "flex items-center gap-2 px-2 py-1.5 text-sm rounded text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white"
+        : "flex items-center gap-2 px-2 py-1.5 text-sm rounded font-medium text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white";
 
 }
