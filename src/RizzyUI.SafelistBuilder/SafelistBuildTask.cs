@@ -70,20 +70,9 @@ namespace RizzyUI.SafelistBuilder
                 {
                     if (styleRule.SelectorText is null) continue;
                     
-                    // TODO: IGNORE pseudoselectors
-
-                    var stors = styleRule.Selector;
                     var selector = styleRule.SelectorText;
 
-                    if (selector.StartsWith("."))
-                    {
-                        var clean = selector.TrimStart('.').Replace(@"\", "");
-                        if (clean.EndsWith(":hover"))
-                        {
-
-                        }
-                        classNames.Add(clean);
-                    }
+                    ParseRules(classNames, styleRule);
                 }
                 else if (rule is ICssMediaRule mediaRule)
                 {
@@ -91,25 +80,28 @@ namespace RizzyUI.SafelistBuilder
                     {
                         if (mRule is ICssStyleRule mediaStyleRule)
                         {
-                            // TODO: IGNORE pseudoselectors
-
-                            var selector = mediaStyleRule.SelectorText;
-
-                            if (selector.StartsWith("."))
-                            {
-                                var clean = selector.TrimStart('.').Replace(@"\", "");
-                                if (clean.EndsWith(":hover"))
-                                {
-
-                                }
-                                classNames.Add(clean);
-                            }
+                            ParseRules(classNames, mediaStyleRule);
                         }
                     }
                 }
             }
 
             return classNames;
+        }
+
+        private void ParseRules(HashSet<string> classNames, ICssStyleRule styleRule)
+        {
+            if (styleRule.Selector is CompoundSelector)
+            {
+                var stors = ((CompoundSelector)styleRule.Selector).ToList().Where(x => x is ClassSelector).Select(x => x.Text.TrimStart('.').Replace(@"\", ""));
+                foreach (var n in stors)
+                    classNames.Add(n);
+            }
+            else if (styleRule.Selector is ClassSelector)
+            {
+                var clean = styleRule.SelectorText.TrimStart('.').Replace(@"\", "");
+                classNames.Add(clean);
+            }
         }
     }
 }

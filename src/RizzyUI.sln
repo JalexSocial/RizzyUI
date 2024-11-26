@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RizzyUI.SafelistBuilder", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Css", "AngleSharp.Css\src\AngleSharp.Css\AngleSharp.Css.csproj", "{18EB0784-FCF6-4C40-9150-96D11AA382F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Core", "AngleSharp\src\AngleSharp\AngleSharp.Core.csproj", "{0334454A-4BF3-4772-ADB7-DF3C40B53654}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{18EB0784-FCF6-4C40-9150-96D11AA382F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18EB0784-FCF6-4C40-9150-96D11AA382F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18EB0784-FCF6-4C40-9150-96D11AA382F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0334454A-4BF3-4772-ADB7-DF3C40B53654}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0334454A-4BF3-4772-ADB7-DF3C40B53654}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0334454A-4BF3-4772-ADB7-DF3C40B53654}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0334454A-4BF3-4772-ADB7-DF3C40B53654}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
