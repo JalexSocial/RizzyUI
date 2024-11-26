@@ -8,6 +8,7 @@
 | [Browser](RizzyUI.Browser 'RizzyUI.Browser') | |
 | [Button](RizzyUI.Button 'RizzyUI.Button') | |
 | [ButtonGroup](RizzyUI.ButtonGroup 'RizzyUI.ButtonGroup') | |
+| [CodeViewer](RizzyUI.CodeViewer 'RizzyUI.CodeViewer') | |
 | [ColorUtil](RizzyUI.ColorUtil 'RizzyUI.ColorUtil') | |
 | [Heading](RizzyUI.Heading 'RizzyUI.Heading') | |
 | [HtmlElement](RizzyUI.HtmlElement 'RizzyUI.HtmlElement') | A generic Blazor component that renders a specified HTML element with optional content and attributes. |

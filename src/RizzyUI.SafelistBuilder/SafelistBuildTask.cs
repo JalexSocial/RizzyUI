@@ -70,8 +70,6 @@ namespace RizzyUI.SafelistBuilder
                 {
                     if (styleRule.SelectorText is null) continue;
                     
-                    var selector = styleRule.SelectorText;
-
                     ParseRules(classNames, styleRule);
                 }
                 else if (rule is ICssMediaRule mediaRule)
@@ -91,10 +89,13 @@ namespace RizzyUI.SafelistBuilder
 
         private void ParseRules(HashSet<string> classNames, ICssStyleRule styleRule)
         {
-            if (styleRule.Selector is CompoundSelector)
+            if (styleRule.Selector is CompoundSelector selector)
             {
-                var stors = ((CompoundSelector)styleRule.Selector).ToList().Where(x => x is ClassSelector).Select(x => x.Text.TrimStart('.').Replace(@"\", ""));
-                foreach (var n in stors)
+                var selectors = selector.ToList()
+                    .Where(x => x is ClassSelector)
+                    .Select(x => x.Text.TrimStart('.').Replace(@"\", ""));
+
+                foreach (var n in selectors)
                     classNames.Add(n);
             }
             else if (styleRule.Selector is ClassSelector)
