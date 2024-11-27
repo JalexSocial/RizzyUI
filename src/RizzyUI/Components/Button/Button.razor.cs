@@ -134,7 +134,7 @@ public partial class Button : RizzyComponent
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when an invalid <see cref="Size"/> value is provided.
     /// </exception>
-    public static string GetButtonSizeCss(Size size)
+    protected static string GetButtonSizeCss(Size size)
     {
         return size switch
         {
