@@ -1,0 +1,12 @@
+### [RizzyUI](RizzyUI 'RizzyUI').[CodeLanguage](RizzyUI.CodeLanguage 'RizzyUI.CodeLanguage')
+
+## CodeLanguage.N1ql Field
+
+N1QL query language.
+
+```csharp
+public const string N1ql = n1ql;
+```
+
+#### Field Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')

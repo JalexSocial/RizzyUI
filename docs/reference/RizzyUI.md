@@ -8,6 +8,7 @@
 | [Browser](RizzyUI.Browser 'RizzyUI.Browser') | |
 | [Button](RizzyUI.Button 'RizzyUI.Button') | |
 | [ButtonGroup](RizzyUI.ButtonGroup 'RizzyUI.ButtonGroup') | |
+| [CodeLanguage](RizzyUI.CodeLanguage 'RizzyUI.CodeLanguage') | Provides constants for language aliases supported by Highlight.js. |
 | [CodeViewer](RizzyUI.CodeViewer 'RizzyUI.CodeViewer') | |
 | [ColorUtil](RizzyUI.ColorUtil 'RizzyUI.ColorUtil') | |
 | [FragmentComponent](RizzyUI.FragmentComponent 'RizzyUI.FragmentComponent') | Component that encapsulates a RenderFragment for use as a partial or child component. |

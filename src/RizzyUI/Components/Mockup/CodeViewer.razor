@@ -1,14 +1,10 @@
 ﻿@namespace RizzyUI
 
 @using System.Web
-@using Microsoft.Extensions.DependencyInjection
-@using Microsoft.Extensions.Logging
-@using Microsoft.Extensions.Logging.Abstractions
+@using RizzyUI.Components.Utility
 @inherits RizzyComponent
 
 <div class="mt-2 overflow-auto" x-data="{
-        codeLang: 'html',
-        codeTab: 'html',
         expand: false,
         border: true,
         codeStyle: '',
@@ -32,7 +28,7 @@
     }">
     <!-- Code Config -->
     <div class="border-b-0 border-outline bg-surfaceAlt font-inter flex flex-col items-start justify-between gap-4 rounded-xl rounded-b-none border p-4 text-sm text-slate-400 dark:border-outlineDark dark:bg-surfaceDarkAlt md:flex-row md:items-center md:gap-2" :class="[border ? 'border' : 'border-none' ]">
-        <span class="text-onSurface dark:text-onSurfaceDark">Source</span>
+        <span class="text-onSurface dark:text-onSurfaceDark">@ViewerTitle</span>
     </div>
     <!-- /Code Config -->
 
@@ -40,7 +36,7 @@
             copyHTML() {
                 navigator.clipboard.writeText($refs.codeBlock.textContent)
             }
-        }" class="border-outlineDark bg-surfaceAltDark text-onSurfaceStrong max-h-[400px] w-full overflow-y-auto !rounded-b-none rounded-b-xl border" :class="[ expand ? '' : 'max-h-[400px]', border ? 'border' : 'border-none', 'rounded-b']">
+        }" class="border-outlineDark bg-surfaceAltDark text-onSurfaceStrong w-full overflow-y-auto !rounded-b-none rounded-b-xl border" x-bind:class="[ expand ? '' : 'max-h-[400px]', border ? 'border' : 'border-none', 'rounded-b']">
         <!-- code  -->
         <div>
             <div class="border-outlineDark bg-surfaceDark/40 text-onSurfaceDark flex h-11 items-center justify-between border-b" :class="[border ? 'border-b' : '']">
@@ -54,9 +50,9 @@
                 </button>
             </div>
 
-            <div class="scroll-on font-source-code-pro relative max-h-60 overflow-y-auto" :class="[ expand ? '' : 'max-h-60' ]">
+            <div class="scroll-on font-source-code-pro relative overflow-y-auto" :class="[ expand ? '' : 'max-h-60' ]">
                 <pre x-ref="codeBlock" class="scroll-on text-white/60 overflow-x-auto text-sm" tabindex="0">
-                    <code class="language-cshtml-razor" id="@CodeId">@CodeContent</code>
+                    <code class="@CodeLanguage.GetLanguageClass(Language)" id="@CodeId">@CodeContent</code>
                 </pre>
             </div>
         </div>
@@ -74,6 +70,12 @@
     private string CodeContent { get; set; } = string.Empty;
 
     /// <summary>
+    /// Language string for highlight.js. Uses constants defined in CodeLanguage
+    /// </summary>
+    [Parameter] 
+    public string Language { get; set; } = "html";
+
+    /// <summary>
     /// HTML escaped source code for the code viewer
     /// </summary>
     [Parameter]
@@ -81,6 +83,9 @@
 
     [Parameter]
     public string? Source { get; set; }
+
+    [Parameter] 
+    public string ViewerTitle { get; set; } = "Source";
 
     protected override async Task OnParametersSetAsync()
     {
@@ -98,30 +103,9 @@
 
     private async Task<string> RenderSourceAsync()
     {
-	    if (Source != null) return Source.Trim();
+        if (Source != null) return Source.Trim();
 
-	    IServiceCollection services = new ServiceCollection();
-	    services.AddSingleton<ILoggerFactory>(new NullLoggerFactory());
-
-	    IServiceProvider serviceProvider = services.BuildServiceProvider();
-	    ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-
-	    await using var htmlRenderer = new HtmlRenderer(serviceProvider, loggerFactory);
-
-	    var html = await htmlRenderer.Dispatcher.InvokeAsync(async () =>
-	    {
-		    var dictionary = new Dictionary<string, object?>
-		    {
-			    { "Fragment", ChildContent }
-		    };
-
-		    var parameters = ParameterView.FromDictionary(dictionary);
-		    var output = await htmlRenderer.RenderComponentAsync<FragmentComponent>(parameters);
-
-		    return output.ToHtmlString();
-	    });
-
-	    return html;
+        return await ChildContent.RenderHtml();
     }
 
 }
