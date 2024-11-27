@@ -44,7 +44,7 @@
     /// </summary>
     /// <param name="level">The <see cref="HeadingLevel"/> enum value representing the level of the heading.</param>
     /// <returns>A string containing the CSS classes for the specified heading level.</returns>
-    public static string GetHeadingStyles(HeadingLevel? level)
+    protected static string GetHeadingStyles(HeadingLevel? level)
     {
         return level switch
         {
