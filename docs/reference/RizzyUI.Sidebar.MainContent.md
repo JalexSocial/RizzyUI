@@ -1,3 +1,4 @@
+#### [RizzyUI](index 'index')
 ### [RizzyUI](RizzyUI 'RizzyUI').[Sidebar](RizzyUI.Sidebar 'RizzyUI.Sidebar')
 
 ## Sidebar.MainContent Property

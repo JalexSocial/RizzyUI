@@ -1,3 +1,4 @@
+#### [RizzyUI](index 'index')
 ### [RizzyUI](RizzyUI 'RizzyUI').[Heading](RizzyUI.Heading 'RizzyUI.Heading')
 
 ## Heading.ChildContent Property

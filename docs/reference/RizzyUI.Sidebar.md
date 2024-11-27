@@ -1,3 +1,4 @@
+#### [RizzyUI](index 'index')
 ### [RizzyUI](RizzyUI 'RizzyUI')
 
 ## Sidebar Class

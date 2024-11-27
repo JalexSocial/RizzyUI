@@ -1,3 +1,4 @@
+#### [RizzyUI](index 'index')
 ### [RizzyUI](RizzyUI 'RizzyUI').[SidebarLinkItem](RizzyUI.SidebarLinkItem 'RizzyUI.SidebarLinkItem')
 
 ## SidebarLinkItem.Target Property

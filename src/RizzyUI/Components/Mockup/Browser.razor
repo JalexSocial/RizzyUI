@@ -2,7 +2,7 @@
 
 @inherits RizzyComponent
 
-<div x-data="{ screenSize: '' }" class="@RootClass()">
+<div x-data="{ screenSize: '' }" @attributes="@AdditionalAttributes" class="@RootClass()">
     <div class="bg-surfaceAlt dark:bg-surfaceAltDark w-full px-4 py-3 lg:py-1.5 pr-0 flex items-center justify-between border-outline dark:border-outlineDark border-b">
         <div class="flex gap-1.5">
             <div class="size-3 rounded-full bg-red-500"></div>

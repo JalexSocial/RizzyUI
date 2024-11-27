@@ -1,3 +1,5 @@
+#### [RizzyUI](index 'index')
+
 ## RizzyUI Namespace
 
 | Classes | |

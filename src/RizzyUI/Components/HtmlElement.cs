@@ -7,7 +7,7 @@ namespace RizzyUI;
 /// <summary>
 /// A generic Blazor component that renders a specified HTML element with optional content and attributes.
 /// </summary>
-public class HtmlElement : ComponentBase
+public sealed class HtmlElement : ComponentBase
 {
     /// <summary>
     /// Specifies the root HTML element to render (e.g., "div", "a", "button").

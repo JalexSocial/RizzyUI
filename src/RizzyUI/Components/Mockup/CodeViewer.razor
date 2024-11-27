@@ -1,15 +1,18 @@
 ﻿@namespace RizzyUI
 
 @using System.Web
-@using RizzyUI.Components.Utility
+@using RizzyUI.Utility
+@using RizzyUI.Utility.Serialization.Converters
+@using System.Text.Json
+
 @inherits RizzyComponent
 
-<div class="mt-2 overflow-auto" x-data="{
+<div @attributes="@AdditionalAttributes" class="@RootClass()" x-data="{
         expand: false,
         border: true,
         codeStyle: '',
         init() {
-		     loadjs(['@Constants.ContentUrl("js/vendor/highlightjs/highlight.js")', '@Constants.ContentUrl("js/vendor/highlightjs/styles/stackoverflow-dark.css")' , '@Constants.ContentUrl("js/vendor/highlightjs-plugin/cshtml-razor.min.js")' ],
+		     loadjs(@_assets,
 		     {
 		              success: () => {
 		                // Ensure Highlight.js styles are applied after the script loads
@@ -36,7 +39,7 @@
             copyHTML() {
                 navigator.clipboard.writeText($refs.codeBlock.textContent)
             }
-        }" class="border-outlineDark bg-surfaceAltDark text-onSurfaceStrong w-full overflow-y-auto !rounded-b-none rounded-b-xl border" x-bind:class="[ expand ? '' : 'max-h-[400px]', border ? 'border' : 'border-none', 'rounded-b']">
+        }" class="border-outlineDark bg-surfaceAltDark text-onSurfaceStrong w-full overflow-y-auto !rounded-b-none rounded-b-xl border" :class="[ expand ? '' : 'max-h-[400px]', border ? 'border' : 'border-none', 'rounded-b']">
         <!-- code  -->
         <div>
             <div class="border-outlineDark bg-surfaceDark/40 text-onSurfaceDark flex h-11 items-center justify-between border-b" :class="[border ? 'border-b' : '']">
@@ -66,8 +69,27 @@
 </div>
 
 @code {
+    private string _baseStyle = "mt-2 overflow-auto";
     private string CodeId { get; set; } = $"code{Guid.NewGuid():N}";
     private string CodeContent { get; set; } = string.Empty;
+    private string _assets = string.Empty;
+
+    /// <summary>
+    /// Default assets loaded for CodeViewer
+    /// </summary>
+    public static string[] DefaultAssets =
+    [
+        Constants.ContentUrl("js/vendor/highlightjs/highlight.js"),
+        Constants.ContentUrl("js/vendor/highlightjs-plugin/cshtml-razor.min.js"),
+        Constants.ContentUrl("js/vendor/highlightjs/styles/stackoverflow-dark.css")
+    ];
+
+    /// <summary>
+    /// (optional) Javascript and CSS assets that are loaded when component is instantiated.  Assets are requested
+    /// in parallel but loaded sequentially
+    /// </summary>
+    [Parameter] 
+    public string[] ComponentAssets { get; set; } = DefaultAssets;
 
     /// <summary>
     /// Language string for highlight.js. Uses constants defined in CodeLanguage
@@ -81,11 +103,23 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Optional string representation of the code viewer source.  Note that if unset the code between the
+    /// &lt;CodeViewer&gt; tags is used
+    /// </summary>
     [Parameter]
     public string? Source { get; set; }
 
+    /// <summary>
+    /// Title for the CodeViewer card
+    /// </summary>
     [Parameter] 
     public string ViewerTitle { get; set; } = "Source";
+
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, _baseStyle);
+    }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -96,14 +130,17 @@
         else
         {
             CodeContent = await RenderSourceAsync();
-            CodeContent = HttpUtility.HtmlDecode(CodeContent.Trim());
+            CodeContent = HttpUtility.HtmlDecode(CodeContent.TrimEmptyLines());
         }
-    }
 
+        var options = new JsonSerializerOptions();
+        options.Converters.Add(new SingleQuoteStringConverter());
+        _assets = JsonSerializer.Serialize(ComponentAssets, options);
+    }
 
     private async Task<string> RenderSourceAsync()
     {
-        if (Source != null) return Source.Trim();
+        if (Source != null) return Source.TrimEmptyLines();
 
         return await ChildContent.RenderHtml();
     }

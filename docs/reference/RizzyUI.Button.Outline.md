@@ -1,3 +1,4 @@
+#### [RizzyUI](index 'index')
 ### [RizzyUI](RizzyUI 'RizzyUI').[Button](RizzyUI.Button 'RizzyUI.Button')
 
 ## Button.Outline Property

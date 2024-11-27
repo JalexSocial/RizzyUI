@@ -1,3 +1,4 @@
+#### [RizzyUI](index 'index')
 ### [RizzyUI](RizzyUI 'RizzyUI').[ServiceCollectionExtensions](RizzyUI.ServiceCollectionExtensions 'RizzyUI.ServiceCollectionExtensions')
 
 ## ServiceCollectionExtensions.AddRizzyUI(this IServiceCollection) Method

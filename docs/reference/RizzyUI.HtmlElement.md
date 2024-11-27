@@ -1,3 +1,4 @@
+#### [RizzyUI](index 'index')
 ### [RizzyUI](RizzyUI 'RizzyUI')
 
 ## HtmlElement Class
@@ -5,7 +6,7 @@
 A generic Blazor component that renders a specified HTML element with optional content and attributes.
 
 ```csharp
-public class HtmlElement : Microsoft.AspNetCore.Components.ComponentBase
+public sealed class HtmlElement : Microsoft.AspNetCore.Components.ComponentBase
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; HtmlElement

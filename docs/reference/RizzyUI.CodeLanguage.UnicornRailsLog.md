@@ -1,3 +1,4 @@
+#### [RizzyUI](index 'index')
 ### [RizzyUI](RizzyUI 'RizzyUI').[CodeLanguage](RizzyUI.CodeLanguage 'RizzyUI.CodeLanguage')
 
 ## CodeLanguage.UnicornRailsLog Field

@@ -1,3 +1,4 @@
+#### [RizzyUI](index 'index')
 ### [RizzyUI](RizzyUI 'RizzyUI').[RizzyComponent](RizzyUI.RizzyComponent 'RizzyUI.RizzyComponent')
 
 ## RizzyComponent.AdditionalAttributes Property
