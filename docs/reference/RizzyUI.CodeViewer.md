@@ -10,4 +10,4 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [ChildContent](RizzyUI.CodeViewer.ChildContent 'RizzyUI.CodeViewer.ChildContent') | Child content for the code viewer |
+| [ChildContent](RizzyUI.CodeViewer.ChildContent 'RizzyUI.CodeViewer.ChildContent') | HTML escaped source code for the code viewer |

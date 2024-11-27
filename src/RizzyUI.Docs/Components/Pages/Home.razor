@@ -124,14 +124,39 @@ Welcome to your new app.
 </Browser>
 
 <CodeViewer>
-    // Code
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Gray&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Teal&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Blue&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Indigo&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Purple&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Pink&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Red&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Orange&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Yellow&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	// Code
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Gray&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Teal&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Blue&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Indigo&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Purple&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Pink&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Red&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Orange&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Yellow&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	
+	@@namespace RizzyUI
+
+	@@inherits RizzyComponent
+
+	&lt;div @@attributes=&quot;@@AdditionalAttributes&quot; class=&quot;@@RootClass()&quot;&gt;
+	@@ChildContent
+	&lt;/div&gt;
+
+	@@code
+	{
+		private string _baseStyle = &quot;text-xs font-medium sm:text-sm&quot;;
+
+		/// &lt;summary&gt;
+		/// Child content for the alert
+		/// &lt;/summary&gt;
+		[Parameter]
+		public RenderFragment? ChildContent { get; set; }
+
+		protected override string? RootClass()
+		{
+			return TwMerge.Merge(AdditionalAttributes, _baseStyle);
+		}
+
+	}
 </CodeViewer>

@@ -2,7 +2,7 @@
 
 ## CodeViewer.ChildContent Property
 
-Child content for the code viewer
+HTML escaped source code for the code viewer
 
 ```csharp
 public Microsoft.AspNetCore.Components.RenderFragment? ChildContent { get; set; }
