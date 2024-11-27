@@ -70,7 +70,7 @@
     </div>
 </Browser>
 
-<CodeViewer Language=@CodeLanguage.Razor>
+<CodeViewer Language=@CodeLanguage.Razor class="mb-10">
     &lt;Avatar Size=&quot;Size.ExtraSmall&quot; /&gt;
     &lt;Avatar Size=&quot;Size.Small&quot; /&gt;
     &lt;Avatar Size=&quot;Size.Medium&quot; /&gt;
@@ -103,6 +103,13 @@
     &lt;Avatar Size=&quot;Size.ExtraLarge&quot; Initials=&quot;JS&quot;/&gt;
 </CodeViewer>
 
+<Heading Level="HeadingLevel.H2">
+    Avatar with Status Indicator
+</Heading>
+<Paragraph TextColor="Color.OnSurface">
+    An avatar with a status indicator in various colors.
+</Paragraph>
+
 <Browser class="my-4">
 	<div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
 		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Gray" ImageSource="/images/profile/51.jpg" />
@@ -117,7 +124,7 @@
 	</div>
 </Browser>
 
-<CodeViewer Language=@CodeLanguage.Razor>
+<CodeViewer Language=@CodeLanguage.Razor class="mb-10">
 	// Code
 	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Gray&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
 	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Teal&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
@@ -128,29 +135,4 @@
 	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Red&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
 	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Orange&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
 	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Yellow&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-	
-	@@namespace RizzyUI
-
-	@@inherits RizzyComponent
-
-	&lt;div @@attributes=&quot;@@AdditionalAttributes&quot; class=&quot;@@RootClass()&quot;&gt;
-	@@ChildContent
-	&lt;/div&gt;
-
-	@@code
-	{
-		private string _baseStyle = &quot;text-xs font-medium sm:text-sm&quot;;
-
-		/// &lt;summary&gt;
-		/// Child content for the alert
-		/// &lt;/summary&gt;
-		[Parameter]
-		public RenderFragment? ChildContent { get; set; }
-
-		protected override string? RootClass()
-		{
-			return TwMerge.Merge(AdditionalAttributes, _baseStyle);
-		}
-
-	}
 </CodeViewer>
