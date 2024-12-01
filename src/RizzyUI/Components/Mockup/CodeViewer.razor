@@ -53,8 +53,8 @@
                 </button>
             </div>
 
-            <div class="scroll-on font-source-code-pro relative overflow-y-auto" :class="[ expand ? '' : 'max-h-60' ]">
-                <pre x-ref="codeBlock" class="scroll-on text-white/60 overflow-x-auto text-sm" tabindex="0">
+            <div class="relative overflow-y-auto" :class="[ expand ? '' : 'max-h-60' ]">
+                <pre x-ref="codeBlock" class="text-white/60 overflow-x-auto text-sm" tabindex="0">
                     <code class="@CodeLanguage.GetLanguageClass(Language)" id="@CodeId">@CodeContent</code>
                 </pre>
             </div>
