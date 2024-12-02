@@ -5,7 +5,7 @@
 
 <CascadingValue Value="this">
 	
-    <div x-data="{
+	<div x-data="{
         buttonRef: $refs.@(ButtonRefId),
         tabSelected: @_selectedTabIndex,
 		tabButton: null,
@@ -26,6 +26,10 @@
         tabReselect(tabIndex){
             this.tabSelected = tabIndex;
             this.tabRepositionMarker(this.buttonRef.children.item(this.tabSelected-1));
+        },
+        tabButtonActive(tabButton){
+            const tabId = tabButton.id.split('-').slice(-1);
+            return this.tabSelected == tabId;
         }
     }"
 		 x-init="tabRepositionMarker(buttonRef.children.item(tabSelected-1));" x-on:resize.window="tabRepositionMarker(tabButton);" class="@RootClass()" @attributes="AdditionalAttributes">
