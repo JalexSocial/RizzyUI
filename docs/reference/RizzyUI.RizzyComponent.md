@@ -19,7 +19,10 @@ Derived
 &#8627; [CodeViewer](RizzyUI.CodeViewer 'RizzyUI.CodeViewer')  
 &#8627; [Sidebar](RizzyUI.Sidebar 'RizzyUI.Sidebar')  
 &#8627; [SidebarLinkItem](RizzyUI.SidebarLinkItem 'RizzyUI.SidebarLinkItem')  
-&#8627; [SidebarLinks](RizzyUI.SidebarLinks 'RizzyUI.SidebarLinks')
+&#8627; [SidebarLinks](RizzyUI.SidebarLinks 'RizzyUI.SidebarLinks')  
+&#8627; [Tab](RizzyUI.Tab 'RizzyUI.Tab')  
+&#8627; [TabPanel](RizzyUI.TabPanel 'RizzyUI.TabPanel')  
+&#8627; [TabStrip](RizzyUI.TabStrip 'RizzyUI.TabStrip')
 
 | Properties | |
 | :--- | :--- |

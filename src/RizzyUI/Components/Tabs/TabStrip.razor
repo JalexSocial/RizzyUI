@@ -1,0 +1,56 @@
+﻿@using System.Text.RegularExpressions
+@inherits RizzyUI.RizzyComponent
+
+@namespace RizzyUI
+
+<CascadingValue Value="this">
+	
+		<div x-ref="@Parent?.ButtonRefId" class=@RootClass()>
+			@ChildContent
+			<div x-ref="tabMarker" class="z-10 absolute left-0 h-full w-1/2 duration-300 ease-out after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-primary" x-cloak>
+				<div class="h-full w-full"></div>
+			</div>
+		</div>
+
+</CascadingValue>
+
+@code {
+    private const string _baseStyle = "bg-surface text-primary relative inline-grid h-10 select-none items-center justify-center p-1 dark:bg-surfaceDark dark:text-primaryDark";
+
+	[CascadingParameter]
+	private Tabs? Parent { get; set; } = default!;
+
+    /// <summary>
+    /// Child content for the alert
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    protected override string? RootClass()
+    {
+	    return TwMerge.Merge(AdditionalAttributes, _baseStyle, GetColumnsCss());
+    }
+
+    /// <summary>
+    /// Specifically defined columns for the tab strip so TailwindCSS can be used
+    /// </summary>
+    private string GetColumnsCss()
+    {
+        return Parent?._tabs.Count switch
+        {
+	        1 => "grid-cols-1",
+	        2 => "grid-cols-2",
+	        3 => "grid-cols-3",
+	        4 => "grid-cols-4",
+	        5 => "grid-cols-5",
+	        6 => "grid-cols-6",
+	        7 => "grid-cols-7",
+	        8 => "grid-cols-8",
+	        9 => "grid-cols-9",
+	        10 => "grid-cols-10",
+	        11 => "grid-cols-11",
+	        12 => "grid-cols-12",
+	        _ => "grid-cols-1"
+        };
+    }
+}

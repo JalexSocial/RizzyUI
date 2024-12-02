@@ -1,0 +1,93 @@
+﻿@using System.Text.RegularExpressions
+@inherits RizzyUI.RizzyComponent
+
+@namespace RizzyUI
+
+<CascadingValue Value="this">
+	
+    <div x-data="{
+        buttonRef: $refs.@(ButtonRefId),
+        tabSelected: @_selectedTabIndex,
+		tabButton: null,
+        tabId: $id('tabs'),
+        tabButtonClicked(tabButton){
+            this.tabSelected = tabButton.id.replace(this.tabId + '-', '');
+            this.tabRepositionMarker(tabButton);
+        },
+        tabRepositionMarker(tabButton){
+			this.tabButton = tabButton;
+            this.$refs.tabMarker.style.width=tabButton.offsetWidth + 'px';
+            this.$refs.tabMarker.style.height=tabButton.offsetHeight + 'px';
+            this.$refs.tabMarker.style.left=tabButton.offsetLeft + 'px';
+        },
+        tabContentActive(tabContent){
+            return this.tabSelected == tabContent.id.replace(this.tabId + '-content-', '');
+        },
+        tabReselect(tabIndex){
+            this.tabSelected = tabIndex;
+            this.tabRepositionMarker(this.buttonRef.children.item(this.tabSelected-1));
+        }
+    }"
+		 x-init="tabRepositionMarker(buttonRef.children.item(tabSelected-1));" x-on:resize.window="tabRepositionMarker(tabButton);" class="@RootClass()" @attributes="AdditionalAttributes">
+
+		@Menu
+		
+		<div>
+			@Content
+		</div>
+
+    </div>
+
+</CascadingValue>
+
+@* ReSharper disable once InconsistentNaming *@
+@code {
+    internal string ButtonRefId { get; set; } = $"tabButtons" + Uid();
+    private int _selectedTabIndex = 1;
+    internal List<Tab> _tabs = new();
+
+    [Parameter]
+    public string SelectedTabName { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public RenderFragment Menu { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public RenderFragment Content { get; set; } = default!;
+
+	public Tab? ActiveTab { get; private set; }
+
+    internal void AddTab(Tab tab)
+	{
+		_tabs.Add(tab);
+
+		if (_tabs.Count == 1)
+		{
+			ActiveTab = tab;
+			_selectedTabIndex = 1;
+		}
+
+		if (!string.IsNullOrEmpty(SelectedTabName))
+		{
+			var tb = _tabs.FirstOrDefault(tab => tab.Name == SelectedTabName);
+
+			if (tb != null)
+			{
+				ActiveTab = tb;
+				_selectedTabIndex = _tabs.IndexOf(ActiveTab) + 1;
+			}
+		}
+
+		StateHasChanged();
+	}
+
+	void ActivateTab(Tab page)
+	{
+		ActiveTab = page;
+	}
+
+	private static string Uid()
+	{
+		return "tb" + Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
+	}
+}

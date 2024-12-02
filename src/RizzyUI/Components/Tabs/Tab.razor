@@ -1,0 +1,37 @@
+﻿@inherits RizzyUI.RizzyComponent
+
+@namespace RizzyUI
+
+<button :id="$id(tabId)" x-on:click="tabButtonClicked($el);" type="button" role="tab" aria-selected="false" aria-controls="@Name.ToLowerInvariant() + '-panel'" class=@RootClass() @attributes="AdditionalAttributes">@ChildContent</button>
+
+@code {
+    private const string _baseStyle = "z-20 relative inline-flex h-8 w-full cursor-pointer items-center justify-center whitespace-nowrap rounded-md px-3 text-sm font-medium transition-all";
+
+	[CascadingParameter]
+	private Tabs? Parent { get; set; }
+
+	[Parameter, EditorRequired]
+	public string Name { get; set; } = default!;
+
+	/// <summary>
+	/// Child content for the tab
+	/// </summary>
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, _baseStyle);
+    }
+
+	protected override void OnInitialized()
+	{
+		if (Parent == null)
+			throw new ArgumentNullException(nameof(Parent), "Tab must exist within a Tabs component");
+
+		base.OnInitialized();
+
+		Parent.AddTab(this);
+	}
+
+}

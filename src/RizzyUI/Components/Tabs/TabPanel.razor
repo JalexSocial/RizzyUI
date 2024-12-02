@@ -1,0 +1,40 @@
+﻿@inherits RizzyUI.RizzyComponent
+
+@namespace RizzyUI
+
+<div :id="$id(tabId + '-content')" x-show="tabContentActive($el)" role="tabpanel" aria-labelledby="@Parent?.ButtonRefId" class="relative" x-cloak>
+
+	<div id="@(Name.ToLowerInvariant())-panel" class=@RootClass() @attributes="AdditionalAttributes">
+		@ChildContent
+	</div>
+
+</div>
+
+@code {
+    private const string _baseStyle = "flex flex-col";
+
+	[CascadingParameter]
+	private Tabs? Parent { get; set; }
+
+	[Parameter, EditorRequired]
+	public string Name { get; set; } = default!;
+
+	/// <summary>
+	/// Child content for the alert
+	/// </summary>
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	protected override string? RootClass()
+	{
+		return TwMerge.Merge(AdditionalAttributes, _baseStyle);
+	}
+
+	protected override void OnInitialized()
+	{
+		if (Parent == null)
+			throw new ArgumentNullException(nameof(Parent), "Tab Panel must exist within a Tabs component");
+
+		base.OnInitialized();
+	}
+}
