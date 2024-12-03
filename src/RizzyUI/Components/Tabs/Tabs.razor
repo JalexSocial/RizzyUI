@@ -4,94 +4,127 @@
 @namespace RizzyUI
 
 <CascadingValue Value="this">
-	
-	<div x-data="{
-        buttonRef: $refs.@(ButtonRefId),
-        tabSelected: @_selectedTabIndex,
-		tabButton: null,
-        tabId: $id('tabs'),
-        tabButtonClicked(tabButton){
-            this.tabSelected = tabButton.id.replace(this.tabId + '-', '');
-            this.tabRepositionMarker(tabButton);
-        },
-        tabRepositionMarker(tabButton){
-			this.tabButton = tabButton;
-            this.$refs.tabMarker.style.width=tabButton.offsetWidth + 'px';
-            this.$refs.tabMarker.style.height=tabButton.offsetHeight + 'px';
-            this.$refs.tabMarker.style.left=tabButton.offsetLeft + 'px';
-        },
-        tabContentActive(tabContent){
-            return this.tabSelected == tabContent.id.replace(this.tabId + '-content-', '');
-        },
-        tabReselect(tabIndex){
-            this.tabSelected = tabIndex;
-            this.tabRepositionMarker(this.buttonRef.children.item(this.tabSelected-1));
-        },
-        tabButtonActive(tabButton){
-            const tabId = tabButton.id.split('-').slice(-1);
-            return this.tabSelected == tabId;
-        }
-    }"
-		 x-init="tabRepositionMarker(buttonRef.children.item(tabSelected-1));" x-on:resize.window="tabRepositionMarker(tabButton);" class="@RootClass()" @attributes="AdditionalAttributes">
+    <div
+        x-data="{
+            buttonRef: $refs.@(ButtonRefId),
+            tabSelected: '@(ActiveTab?.Name?.ToLowerInvariant() ?? string.Empty)',
+            tabButton: null,
+            tabButtonClicked(tabButton){
+                this.tabSelected = tabButton.getAttribute('data-name');
+                this.tabRepositionMarker(tabButton);
+                tabButton.focus();
+            },
+            tabRepositionMarker(tabButton){
+                this.tabButton = tabButton;
+                this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
+                this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
+                this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
+            },
+            tabContentActive(tabContent){
+                return this.tabSelected === tabContent.getAttribute('data-name');
+            },
+            tabButtonActive(tabButton){
+                return this.tabSelected === tabButton.getAttribute('data-name');
+            },
+            handleKeyDown(event){
+                const key = event.key;
+                const tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
+                const currentIndex = tabButtons.findIndex(button => this.tabButtonActive(button));
+                let newIndex = currentIndex;
 
-		@Menu
-		
-		<div>
-			@Content
-		</div>
+                if (key === 'ArrowRight') {
+                    newIndex = (currentIndex + 1) % tabButtons.length;
+                    event.preventDefault();
+                } else if (key === 'ArrowLeft') {
+                    newIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
+                    event.preventDefault();
+                } else if (key === 'Home') {
+                    newIndex = 0;
+                    event.preventDefault();
+                } else if (key === 'End') {
+                    newIndex = tabButtons.length - 1;
+                    event.preventDefault();
+                }
 
+                if (newIndex !== currentIndex) {
+                    this.tabButtonClicked(tabButtons[newIndex]);
+                }
+            }
+        }"
+        x-init="tabRepositionMarker(buttonRef.querySelector('[data-name=\'' + tabSelected + '\']'));"
+        x-on:resize.window="tabRepositionMarker(tabButton);"
+        class="@RootClass()"
+        @attributes="AdditionalAttributes"
+    >
+        @Menu
+
+        <div>
+            @Content
+        </div>
     </div>
-
 </CascadingValue>
 
-@* ReSharper disable once InconsistentNaming *@
 @code {
-    internal string ButtonRefId { get; set; } = $"tabButtons" + Uid();
-    private int _selectedTabIndex = 1;
+    /// <summary>
+    /// Reference ID for the tab buttons container.
+    /// </summary>
+    internal string ButtonRefId { get; set; } = $"tabButtons{Uid()}";
+
+    /// <summary>
+    /// List of all tabs within the Tabs component.
+    /// </summary>
     internal List<Tab> _tabs = new();
 
+    /// <summary>
+    /// Name of the initially selected tab.
+    /// </summary>
     [Parameter]
     public string SelectedTabName { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Render fragment for the tab menu.
+    /// </summary>
     [Parameter, EditorRequired]
     public RenderFragment Menu { get; set; } = default!;
 
+    /// <summary>
+    /// Render fragment for the tab content.
+    /// </summary>
     [Parameter, EditorRequired]
     public RenderFragment Content { get; set; } = default!;
 
-	public Tab? ActiveTab { get; private set; }
+    /// <summary>
+    /// The currently active tab.
+    /// </summary>
+    public Tab? ActiveTab { get; private set; }
 
+    /// <summary>
+    /// Registers a tab with the Tabs component.
+    /// </summary>
+    /// <param name="tab">The <see cref="Tab"/> to add.</param>
     internal void AddTab(Tab tab)
-	{
-		_tabs.Add(tab);
+    {
+        _tabs.Add(tab);
 
-		if (_tabs.Count == 1)
-		{
-			ActiveTab = tab;
-			_selectedTabIndex = 1;
-		}
+        if (_tabs.Count == 1 || (string.IsNullOrEmpty(SelectedTabName) && ActiveTab == null))
+        {
+            ActiveTab = tab;
+        }
 
-		if (!string.IsNullOrEmpty(SelectedTabName))
-		{
-			var tb = _tabs.FirstOrDefault(tab => tab.Name == SelectedTabName);
+        if (!string.IsNullOrEmpty(SelectedTabName) && tab.Name.Equals(SelectedTabName, StringComparison.OrdinalIgnoreCase))
+        {
+            ActiveTab = tab;
+        }
 
-			if (tb != null)
-			{
-				ActiveTab = tb;
-				_selectedTabIndex = _tabs.IndexOf(ActiveTab) + 1;
-			}
-		}
+        StateHasChanged();
+    }
 
-		StateHasChanged();
-	}
-
-	void ActivateTab(Tab page)
-	{
-		ActiveTab = page;
-	}
-
-	private static string Uid()
-	{
-		return "tb" + Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
-	}
+    /// <summary>
+    /// Generates a unique identifier for the tabs.
+    /// </summary>
+    /// <returns>A unique string identifier.</returns>
+    private static string Uid()
+    {
+        return "tb" + Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
+    }
 }
