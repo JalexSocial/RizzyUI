@@ -69,8 +69,8 @@
 </div>
 
 @code {
-    private string _baseStyle = "mt-2 overflow-auto";
-    private string CodeId { get; set; } = $"code{Guid.NewGuid():N}";
+    private const string BaseStyle = "mt-2 overflow-auto";
+    private string CodeId { get; set; } = IdGenerator.UniqueId("code");
     private string CodeContent { get; set; } = string.Empty;
     private string _assets = string.Empty;
 
@@ -118,7 +118,7 @@
 
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, _baseStyle);
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle);
     }
 
     protected override async Task OnParametersSetAsync()

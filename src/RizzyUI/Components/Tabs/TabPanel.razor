@@ -4,6 +4,7 @@
 
 <div
     id="@(Name.ToLowerInvariant() + "-panel")"
+    data-name="@Name.ToLowerInvariant()"
     x-show="tabContentActive($el)"
     role="tabpanel"
     aria-labelledby="@(Name.ToLowerInvariant() + "-tab")"
@@ -11,13 +12,13 @@
     class="relative"
     x-cloak
 >
-    <div class="@RootClass()" @attributes="AdditionalAttributes">
+    <div @attributes="AdditionalAttributes" class="@RootClass()">
         @ChildContent
     </div>
 </div>
 
 @code {
-    private const string _baseStyle = "flex flex-col";
+    private const string BaseStyle = "flex flex-col";
 
     [CascadingParameter]
     private Tabs? Parent { get; set; }
@@ -40,7 +41,7 @@
     /// <returns>A string containing the combined CSS classes.</returns>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, _baseStyle);
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle);
     }
 
     /// <summary>

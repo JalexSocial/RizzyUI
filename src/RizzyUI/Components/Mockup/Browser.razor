@@ -48,7 +48,7 @@
 </div>
 
 @code {
-    private const string _baseStyle = "overflow-hidden border border-outline dark:border-outlineDark rounded";
+    private const string BaseStyle = "overflow-hidden border border-outline dark:border-outlineDark rounded";
 
     /// <summary>
     /// Child content for the responsive browser
@@ -58,6 +58,6 @@
 
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, _baseStyle);
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle);
     }
 }

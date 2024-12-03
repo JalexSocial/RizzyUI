@@ -921,6 +921,10 @@ select {
   display: inline-flex;
 }
 
+.grid {
+  display: grid;
+}
+
 .inline-grid {
   display: inline-grid;
 }

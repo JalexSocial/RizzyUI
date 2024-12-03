@@ -11,4 +11,4 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [ChildContent](RizzyUI.TabStrip.ChildContent 'RizzyUI.TabStrip.ChildContent') | Child content for the alert |
+| [ChildContent](RizzyUI.TabStrip.ChildContent 'RizzyUI.TabStrip.ChildContent') | Child content for the tab strip, typically consisting of [Tab](RizzyUI.Tab 'RizzyUI.Tab') components. |

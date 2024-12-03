@@ -1,6 +1,7 @@
 ﻿@namespace RizzyUI
 
 @using Blazicons
+@using RizzyUI.Utility
 @inherits RizzyComponent
 
 @* SidebarLinkItem Component *@
@@ -194,7 +195,7 @@ else
     {
         if (Collapsible)
         {
-            var guid = Guid.NewGuid().ToString("N");
+            var guid = IdGenerator.UniqueId("sb");
             _buttonId = $"btn-{guid}";
             _collapseId = $"clps-{guid}";
         }

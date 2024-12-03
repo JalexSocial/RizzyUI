@@ -6,7 +6,7 @@
 
 
 @code {
-    private const string _baseStyle = "mb-4 leading-relaxed";
+    private const string BaseStyle = "mb-4 leading-relaxed";
 
     /// <summary>
     /// Child content for the heading
@@ -24,6 +24,6 @@
 
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, _baseStyle, GetTypographyBaseCss());
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle, GetTypographyBaseCss());
     }
 }

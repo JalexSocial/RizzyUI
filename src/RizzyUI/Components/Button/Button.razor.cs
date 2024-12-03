@@ -5,7 +5,7 @@ namespace RizzyUI;
 
 public partial class Button : RizzyComponent
 {
-    private const string _baseStyle = "cursor-pointer whitespace-nowrap rounded font-medium tracking-wide text-center transition hover:opacity-75 active:opacity-100 disabled:opacity-75 disabled:cursor-not-allowed";
+    private const string BaseStyle = "cursor-pointer whitespace-nowrap rounded font-medium tracking-wide text-center transition hover:opacity-75 active:opacity-100 disabled:opacity-75 disabled:cursor-not-allowed";
 
     [CascadingParameter] public ButtonGroup? Group { get; set; }
 
@@ -63,7 +63,7 @@ public partial class Button : RizzyComponent
             }
         }
 
-        return TwMerge.Merge(AdditionalAttributes, _baseStyle, Outline ? GetButtonOutlineVariantCss(Variant) : GetButtonVariantCss(Variant), GetButtonSizeCss(Size), trailer);
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle, Outline ? GetButtonOutlineVariantCss(Variant) : GetButtonVariantCss(Variant), GetButtonSizeCss(Size), trailer);
     }
 
     protected override void OnParametersSet()

@@ -7,7 +7,7 @@
 
 @code
 {
-    private const string _baseStyle = "text-sm font-semibold";
+    private const string BaseStyle = "text-sm font-semibold";
     private string _textCss = "text-info";
 
     [CascadingParameter]
@@ -21,7 +21,7 @@
 
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, _baseStyle, _textCss);
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle, _textCss);
     }
 
     protected override void OnParametersSet()

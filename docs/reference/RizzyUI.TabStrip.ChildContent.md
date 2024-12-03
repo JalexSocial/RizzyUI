@@ -3,7 +3,7 @@
 
 ## TabStrip.ChildContent Property
 
-Child content for the alert
+Child content for the tab strip, typically consisting of [Tab](RizzyUI.Tab 'RizzyUI.Tab') components.
 
 ```csharp
 public Microsoft.AspNetCore.Components.RenderFragment? ChildContent { get; set; }

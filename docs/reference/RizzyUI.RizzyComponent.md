@@ -22,6 +22,7 @@ Derived
 &#8627; [SidebarLinks](RizzyUI.SidebarLinks 'RizzyUI.SidebarLinks')  
 &#8627; [Tab](RizzyUI.Tab 'RizzyUI.Tab')  
 &#8627; [TabPanel](RizzyUI.TabPanel 'RizzyUI.TabPanel')  
+&#8627; [Tabs](RizzyUI.Tabs 'RizzyUI.Tabs')  
 &#8627; [TabStrip](RizzyUI.TabStrip 'RizzyUI.TabStrip')
 
 | Properties | |

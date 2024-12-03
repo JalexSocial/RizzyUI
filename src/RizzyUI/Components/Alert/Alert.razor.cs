@@ -6,7 +6,7 @@ namespace RizzyUI;
 
 public partial class Alert : RizzyComponent
 {
-	private const string _baseStyle = "relative w-full overflow-hidden rounded border";
+	private const string BaseStyle = "relative w-full overflow-hidden rounded border";
 	private string _bgLight = "bg-info/10";
 	private string _bgLighter = "bg-info/15";
     private string _iconColor = "text-info";
@@ -63,7 +63,7 @@ public partial class Alert : RizzyComponent
 
     protected override string? RootClass()
 	{
-		return TwMerge.Merge(AdditionalAttributes, _baseStyle, GetAlertVariantCss(Variant));
+		return TwMerge.Merge(AdditionalAttributes, BaseStyle, GetAlertVariantCss(Variant));
 	}
 
     /// <summary>

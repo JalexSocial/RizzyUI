@@ -11,4 +11,5 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [ChildContent](RizzyUI.Tab.ChildContent 'RizzyUI.Tab.ChildContent') | Child content for the tab |
+| [ChildContent](RizzyUI.Tab.ChildContent 'RizzyUI.Tab.ChildContent') | Child content to be displayed inside the tab button. |
+| [Name](RizzyUI.Tab.Name 'RizzyUI.Tab.Name') | The unique name of the tab. |

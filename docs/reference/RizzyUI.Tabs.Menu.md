@@ -1,12 +1,12 @@
 #### [RizzyUI](index 'index')
-### [RizzyUI](RizzyUI 'RizzyUI').[TabPanel](RizzyUI.TabPanel 'RizzyUI.TabPanel')
+### [RizzyUI](RizzyUI 'RizzyUI').[Tabs](RizzyUI.Tabs 'RizzyUI.Tabs')
 
-## TabPanel.ChildContent Property
+## Tabs.Menu Property
 
-Child content to be displayed inside the tab panel.
+Render fragment for the tab menu.
 
 ```csharp
-public Microsoft.AspNetCore.Components.RenderFragment? ChildContent { get; set; }
+public Microsoft.AspNetCore.Components.RenderFragment Menu { get; set; }
 ```
 
 #### Property Value

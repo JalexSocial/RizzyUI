@@ -34,7 +34,7 @@
 </div>
 
 @code {
-    private const string _baseStyle = "relative inline-block";
+    private const string BaseStyle = "relative inline-block";
 
     private string _initials = string.Empty;
 
@@ -70,7 +70,7 @@
 
     protected override string? RootClass()
     {
-	    return TwMerge.Merge(AdditionalAttributes, _baseStyle);
+	    return TwMerge.Merge(AdditionalAttributes, BaseStyle);
     }
 	
     private static readonly Dictionary<AvatarShape, string> _variantShapes = new Dictionary<AvatarShape, string>()

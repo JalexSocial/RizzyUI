@@ -24,6 +24,7 @@
 | [SidebarLinks](RizzyUI.SidebarLinks 'RizzyUI.SidebarLinks') | |
 | [Tab](RizzyUI.Tab 'RizzyUI.Tab') | |
 | [TabPanel](RizzyUI.TabPanel 'RizzyUI.TabPanel') | |
+| [Tabs](RizzyUI.Tabs 'RizzyUI.Tabs') | |
 | [TabStrip](RizzyUI.TabStrip 'RizzyUI.TabStrip') | |
 
 | Enums | |

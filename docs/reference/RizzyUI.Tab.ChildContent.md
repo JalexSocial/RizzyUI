@@ -3,7 +3,7 @@
 
 ## Tab.ChildContent Property
 
-Child content for the tab
+Child content to be displayed inside the tab button.
 
 ```csharp
 public Microsoft.AspNetCore.Components.RenderFragment? ChildContent { get; set; }

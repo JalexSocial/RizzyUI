@@ -8,6 +8,20 @@ namespace RizzyUI.Extensions;
 
 internal static class StringExtensions
 {
+    private static Random _random = new(System.Environment.TickCount);
+
+    /// <summary>
+    /// Shuffle the characters in a string
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public static string Shuffle(this string input)
+    {
+        return new string(input.ToCharArray()
+            .OrderBy(x => _random.Next())
+            .ToArray());
+    }
+
     public static string TrimEmptyLines(this string input)
     {
         if (string.IsNullOrWhiteSpace(input))

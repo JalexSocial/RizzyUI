@@ -11,4 +11,5 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [ChildContent](RizzyUI.TabPanel.ChildContent 'RizzyUI.TabPanel.ChildContent') | Child content for the alert |
+| [ChildContent](RizzyUI.TabPanel.ChildContent 'RizzyUI.TabPanel.ChildContent') | Child content to be displayed inside the tab panel. |
+| [Name](RizzyUI.TabPanel.Name 'RizzyUI.TabPanel.Name') | The unique name of the tab panel, matching its corresponding tab. |

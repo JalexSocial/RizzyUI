@@ -23,6 +23,7 @@
         <PackageReference Include="Blazicons" Version="2.0.28" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.0.19" />
         <PackageReference Include="TailwindMerge.NET" Version="0.3.0" />
+        <PackageReference Include="Sqids" Version="3.1.0" />
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
     </ItemGroup>
