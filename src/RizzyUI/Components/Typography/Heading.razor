@@ -1,7 +1,16 @@
 ﻿@namespace RizzyUI
 @inherits TypographyBase
 
-<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">@ChildContent</HtmlElement>
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
+    @if (ChildContent == null)
+    {
+        @QuickReferenceTitle
+    }
+    else
+    {
+        @ChildContent
+    }
+</HtmlElement>
 
 @code {
     [Parameter, EditorRequired] 
@@ -13,6 +22,18 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Title to be used in the Quick Reference outline.
+    /// </summary>
+    [Parameter]
+    public string? QuickReferenceTitle { get; set; }
+
+    /// <summary>
+    /// Reference to the QuickReferenceContainer.
+    /// </summary>
+    [CascadingParameter]
+    private QuickReferenceContainer? QuickReferenceContainer { get; set; }
+    
     protected override void OnParametersSet()
     {
         Element = Level switch
@@ -29,6 +50,11 @@
                 TextColor = Color.OnSurfaceStrong;
             else
                 TextColor = Color.OnSurface;
+        }
+
+        if (QuickReferenceContainer != null && !string.IsNullOrEmpty(QuickReferenceTitle))
+        {
+            QuickReferenceContainer.RegisterHeading(Level, QuickReferenceTitle);
         }
 
         base.OnParametersSet();

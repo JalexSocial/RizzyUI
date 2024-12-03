@@ -17,6 +17,7 @@ Derived
 &#8627; [Button](RizzyUI.Button 'RizzyUI.Button')  
 &#8627; [ButtonGroup](RizzyUI.ButtonGroup 'RizzyUI.ButtonGroup')  
 &#8627; [CodeViewer](RizzyUI.CodeViewer 'RizzyUI.CodeViewer')  
+&#8627; [QuickReferenceContainer](RizzyUI.QuickReferenceContainer 'RizzyUI.QuickReferenceContainer')  
 &#8627; [Sidebar](RizzyUI.Sidebar 'RizzyUI.Sidebar')  
 &#8627; [SidebarLinkItem](RizzyUI.SidebarLinkItem 'RizzyUI.SidebarLinkItem')  
 &#8627; [SidebarLinks](RizzyUI.SidebarLinks 'RizzyUI.SidebarLinks')  

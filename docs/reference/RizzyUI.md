@@ -15,8 +15,10 @@
 | [ColorUtil](RizzyUI.ColorUtil 'RizzyUI.ColorUtil') | |
 | [FragmentComponent](RizzyUI.FragmentComponent 'RizzyUI.FragmentComponent') | Component that encapsulates a RenderFragment for use as a partial or child component. |
 | [Heading](RizzyUI.Heading 'RizzyUI.Heading') | |
+| [HeadingItem](RizzyUI.HeadingItem 'RizzyUI.HeadingItem') | Represents a heading item with level and title. |
 | [HtmlElement](RizzyUI.HtmlElement 'RizzyUI.HtmlElement') | A generic Blazor component that renders a specified HTML element with optional content and attributes. |
 | [Paragraph](RizzyUI.Paragraph 'RizzyUI.Paragraph') | |
+| [QuickReferenceContainer](RizzyUI.QuickReferenceContainer 'RizzyUI.QuickReferenceContainer') | |
 | [RizzyComponent](RizzyUI.RizzyComponent 'RizzyUI.RizzyComponent') | |
 | [ServiceCollectionExtensions](RizzyUI.ServiceCollectionExtensions 'RizzyUI.ServiceCollectionExtensions') | |
 | [Sidebar](RizzyUI.Sidebar 'RizzyUI.Sidebar') | |
