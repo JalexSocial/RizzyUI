@@ -12,4 +12,5 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | Properties | |
 | :--- | :--- |
 | [ChildContent](RizzyUI.Heading.ChildContent 'RizzyUI.Heading.ChildContent') | Child content for the heading |
+| [Id](RizzyUI.Heading.Id 'RizzyUI.Heading.Id') | The unique ID for the heading element. |
 | [QuickReferenceTitle](RizzyUI.Heading.QuickReferenceTitle 'RizzyUI.Heading.QuickReferenceTitle') | Title to be used in the Quick Reference outline. |

@@ -1,7 +1,8 @@
 ﻿@namespace RizzyUI
+@using RizzyUI.Utility
 @inherits TypographyBase
 
-<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" x-intersect.half="if (typeof setCurrentHeading === 'function') { setCurrentHeading($el.id) }">
     @if (ChildContent == null)
     {
         @QuickReferenceTitle
@@ -36,6 +37,11 @@
     [CascadingParameter]
     private QuickReferenceContainer? QuickReferenceContainer { get; set; }
 
+    /// <summary>
+    /// The unique ID for the heading element.
+    /// </summary>
+    public string Id { get; set; } = IdGenerator.UniqueId("heading");
+
     protected override void OnParametersSet()
     {
         Element = Level switch
@@ -56,7 +62,7 @@
 
         if (!_registered && QuickReferenceContainer != null && !string.IsNullOrEmpty(QuickReferenceTitle))
         {
-            QuickReferenceContainer.RegisterHeading(Level, QuickReferenceTitle);
+            QuickReferenceContainer.RegisterHeading(Level, QuickReferenceTitle, Id);
             _registered = true;
         }
 

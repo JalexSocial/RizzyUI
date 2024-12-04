@@ -5,10 +5,13 @@
     @foreach (var heading in QuickReferenceContainer.GetHeadingItems())
     {
         <div class="@GetIndentation(heading.Level)">
-            @heading.Title
+            <a href="#@heading.Id" :class="{'font-bold': currentHeadingId === '@heading.Id'}">
+                @heading.Title
+            </a>
         </div>
     }
 </div>
+
 
 @code {
     /// <summary>
