@@ -13,6 +13,8 @@
 </HtmlElement>
 
 @code {
+    private bool _registered = false;
+
     [Parameter, EditorRequired] 
     public required HeadingLevel Level { get; set; } 
 
@@ -33,7 +35,7 @@
     /// </summary>
     [CascadingParameter]
     private QuickReferenceContainer? QuickReferenceContainer { get; set; }
-    
+
     protected override void OnParametersSet()
     {
         Element = Level switch
@@ -46,15 +48,16 @@
 
         if (this.TextColor is null)
         {
-            if (Level == HeadingLevel.H1 || Level == HeadingLevel.H2)
+            if (Level is HeadingLevel.H1 or HeadingLevel.H2)
                 TextColor = Color.OnSurfaceStrong;
             else
                 TextColor = Color.OnSurface;
         }
 
-        if (QuickReferenceContainer != null && !string.IsNullOrEmpty(QuickReferenceTitle))
+        if (!_registered && QuickReferenceContainer != null && !string.IsNullOrEmpty(QuickReferenceTitle))
         {
             QuickReferenceContainer.RegisterHeading(Level, QuickReferenceTitle);
+            _registered = true;
         }
 
         base.OnParametersSet();
