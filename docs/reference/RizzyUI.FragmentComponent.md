@@ -10,3 +10,7 @@ public class FragmentComponent : Microsoft.AspNetCore.Components.ComponentBase
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; FragmentComponent
+
+| Properties | |
+| :--- | :--- |
+| [Fragment](RizzyUI.FragmentComponent.Fragment 'RizzyUI.FragmentComponent.Fragment') | Fragment to render |

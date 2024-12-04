@@ -8,6 +8,9 @@ namespace RizzyUI;
 /// </summary>
 public class FragmentComponent : ComponentBase
 {
+    /// <summary>
+    /// Fragment to render
+    /// </summary>
 	[Parameter]
 	public RenderFragment? Fragment { get; set; }
 

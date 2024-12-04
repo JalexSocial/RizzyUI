@@ -16,6 +16,18 @@
     private readonly List<HeadingItem> _headingItems = new();
 
     /// <summary>
+    /// Lowest heading level (H1 is lowest) to include in the quick reference
+    /// </summary>
+    [Parameter] 
+    public HeadingLevel MinimumHeadingLevel { get; set; } = HeadingLevel.H2;
+
+    /// <summary>
+    /// Greatest heading level (h4 is greatest) to include in the quick reference
+    /// </summary>
+    [Parameter] 
+    public HeadingLevel MaximumHeadingLevel { get; set; } = HeadingLevel.H4;
+
+    /// <summary>
     /// Child content of the QuickReferenceContainer.
     /// </summary>
     [Parameter]
@@ -29,7 +41,8 @@
     /// <param name="id">The unique ID of the heading element.</param>
     internal void RegisterHeading(HeadingLevel level, string title, string id)
     {
-        _headingItems.Add(new HeadingItem(level, title, id));
+        if (level >= MinimumHeadingLevel && level <= MaximumHeadingLevel)
+            _headingItems.Add(new HeadingItem(level, title, id));
     }
 
     /// <summary>
