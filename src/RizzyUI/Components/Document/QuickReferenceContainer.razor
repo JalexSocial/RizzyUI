@@ -1,9 +1,12 @@
 ﻿@using System.Collections.Generic
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using RizzyUI.Utility.Serialization.Converters
 @namespace RizzyUI
 @inherits RizzyComponent
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
-    <div x-data="{ currentHeadingId: '', setCurrentHeading(id) { this.currentHeadingId = id } }">
+    <div x-data="{ headings: @_headingItemsSerialized, currentHeadingId: '@(_headingItems.FirstOrDefault()?.Id ?? string.Empty)', setCurrentHeading(id) { console.log(id); if (this.headings.includes(id)) { this.currentHeadingId = id; } } }">
         <CascadingValue Value="this">
             @ChildContent
         </CascadingValue>
@@ -14,6 +17,7 @@
 
 @code {
     private readonly List<HeadingItem> _headingItems = new();
+    private string _headingItemsSerialized = string.Empty;
 
     /// <summary>
     /// Lowest heading level (H1 is lowest) to include in the quick reference
@@ -43,6 +47,12 @@
     {
         if (level >= MinimumHeadingLevel && level <= MaximumHeadingLevel)
             _headingItems.Add(new HeadingItem(level, title, id));
+
+        var options = new JsonSerializerOptions();
+        options.Converters.Add(new SingleQuoteStringConverter());
+        _headingItemsSerialized = JsonSerializer.Serialize(_headingItems?.Select(x => x.Id), options);
+
+        StateHasChanged();
     }
 
     /// <summary>

@@ -13,6 +13,7 @@ Derived
 &#8627; [Alert](RizzyUI.Alert 'RizzyUI.Alert')  
 &#8627; [AlertDescription](RizzyUI.AlertDescription 'RizzyUI.AlertDescription')  
 &#8627; [AlertTitle](RizzyUI.AlertTitle 'RizzyUI.AlertTitle')  
+&#8627; [ArticleLayout](RizzyUI.ArticleLayout 'RizzyUI.ArticleLayout')  
 &#8627; [Browser](RizzyUI.Browser 'RizzyUI.Browser')  
 &#8627; [Button](RizzyUI.Button 'RizzyUI.Button')  
 &#8627; [ButtonGroup](RizzyUI.ButtonGroup 'RizzyUI.ButtonGroup')  

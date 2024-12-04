@@ -3,27 +3,35 @@
 <PageTitle>Home</PageTitle>
 
 <QuickReferenceContainer>
-	<QuickReference class="my-custom-class" />
+    <ArticleLayout>
+        <SideContent>
+            <div class="py-5">
+                <QuickReference />
+            </div>
+        </SideContent>
+        <MainContent>
+            <Heading Level="HeadingLevel.H1" QuickReferenceTitle="Introduction">
+                Introduction
+            </Heading>
+            <p>Some introductory text.</p>
 
-	<Heading Level="HeadingLevel.H1" QuickReferenceTitle="Introduction">
-		Introduction
-	</Heading>
-	<p>Some introductory text.</p>
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Getting Started">
+                Getting Started
+            </Heading>
+            <p>Steps to get started.</p>
 
-	<Heading Level="HeadingLevel.H2" QuickReferenceTitle="Getting Started">
-		Getting Started
-	</Heading>
-	<p>Steps to get started.</p>
+            <Heading Level="HeadingLevel.H3" QuickReferenceTitle="Installation">
+                Installation
+            </Heading>
+            <p>Installation instructions.</p>
 
-	<Heading Level="HeadingLevel.H3" QuickReferenceTitle="Installation">
-		Installation
-	</Heading>
-	<p>Installation instructions.</p>
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Advanced Topics">
+                Advanced Topics
+            </Heading>
+            <p>Details about advanced topics.</p>
 
-	<Heading Level="HeadingLevel.H2" QuickReferenceTitle="Advanced Topics">
-		Advanced Topics
-	</Heading>
-	<p>Details about advanced topics.</p>
+        </MainContent>
+    </ArticleLayout>
 </QuickReferenceContainer> 
 
 <Heading Level="HeadingLevel.H1" TextColor="Color.OnSurfaceStrong">Sensible Styling</Heading>

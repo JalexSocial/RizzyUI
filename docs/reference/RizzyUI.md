@@ -7,6 +7,7 @@
 | [Alert](RizzyUI.Alert 'RizzyUI.Alert') | |
 | [AlertDescription](RizzyUI.AlertDescription 'RizzyUI.AlertDescription') | |
 | [AlertTitle](RizzyUI.AlertTitle 'RizzyUI.AlertTitle') | |
+| [ArticleLayout](RizzyUI.ArticleLayout 'RizzyUI.ArticleLayout') | |
 | [Browser](RizzyUI.Browser 'RizzyUI.Browser') | |
 | [Button](RizzyUI.Button 'RizzyUI.Button') | |
 | [ButtonGroup](RizzyUI.ButtonGroup 'RizzyUI.ButtonGroup') | |
