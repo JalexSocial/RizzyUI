@@ -60,7 +60,7 @@
     /// <returns>A string containing the Tailwind CSS class for margin-left.</returns>
     private string GetIndentation(HeadingLevel level)
     {
-        level = (HeadingLevel)((int)level - (int)QuickReferenceContainer.MinimumHeadingLevel);
+        level -= QuickReferenceContainer.MinimumHeadingLevel; 
 
         return level switch
         {
