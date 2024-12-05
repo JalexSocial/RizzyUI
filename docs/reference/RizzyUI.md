@@ -19,6 +19,7 @@
 | [HeadingItem](RizzyUI.HeadingItem 'RizzyUI.HeadingItem') | Represents a heading item with level, title, and ID. |
 | [HtmlElement](RizzyUI.HtmlElement 'RizzyUI.HtmlElement') | A generic Blazor component that renders a specified HTML element with optional content and attributes. |
 | [Paragraph](RizzyUI.Paragraph 'RizzyUI.Paragraph') | |
+| [QuickReference](RizzyUI.QuickReference 'RizzyUI.QuickReference') | |
 | [QuickReferenceContainer](RizzyUI.QuickReferenceContainer 'RizzyUI.QuickReferenceContainer') | |
 | [RizzyComponent](RizzyUI.RizzyComponent 'RizzyUI.RizzyComponent') | |
 | [ServiceCollectionExtensions](RizzyUI.ServiceCollectionExtensions 'RizzyUI.ServiceCollectionExtensions') | |
