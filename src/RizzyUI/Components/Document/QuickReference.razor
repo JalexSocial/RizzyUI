@@ -5,14 +5,16 @@
     <p class="mb-4 font-bold text-onSurfaceStrong dark:text-onSurfaceDarkStrong">
         @Title
     </p>
-    @foreach (var heading in QuickReferenceContainer.GetHeadingItems())
-    {
-        <div class="@GetIndentation(heading.Level)">
-            <a href="#@heading.Id" :class="{'font-bold': currentHeadingId === '@heading.Id'}">
-                @heading.Title
-            </a>
-        </div>
-    }
+    <ul>
+        @foreach (var heading in QuickReferenceContainer.GetHeadingItems())
+        {
+            <li class="@GetIndentation(heading.Level)">
+                <a href="#@heading.Id" :class="{'font-bold': currentHeadingId === '@heading.Id'}">
+                    @heading.Title
+                </a>
+            </li>
+        }
+    </ul>
 </div>
 
 
@@ -58,8 +60,8 @@
     /// <returns>A string containing the Tailwind CSS class for margin-left.</returns>
     private string GetIndentation(HeadingLevel level)
     {
-        level = (HeadingLevel)((int)level - (int)QuickReferenceContainer.MinimumHeadingLevel + 1);
-        int min = (int)QuickReferenceContainer.MinimumHeadingLevel;
+        level = (HeadingLevel)((int)level - (int)QuickReferenceContainer.MinimumHeadingLevel);
+
         return level switch
         {
             HeadingLevel.H1 => "ml-0",
