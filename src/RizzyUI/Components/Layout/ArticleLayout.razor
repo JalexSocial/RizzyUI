@@ -1,0 +1,101 @@
+﻿@namespace RizzyUI
+
+@inherits RizzyComponent
+
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
+    <div class="mx-auto flex max-w-7xl grow flex-col overflow-x-auto overflow-y-hidden p-8">
+        @MainContent
+
+        <div class="@GetSideColumnCss(ColumnWidth, IsSideFixed)">
+            @SideContent
+        </div>
+    </div>
+</HtmlElement>
+
+@*
+/// <summary>
+/// A Razor component that renders a responsive two-column layout with side content and main content.
+/// The side column can be fixed or scrollable and its width is adjustable via predefined sizes.
+/// </summary>
+*@
+@code {
+    /// <summary>
+    /// Base CSS class for the root element.
+    /// </summary>
+    private const string BaseStyle = "flex w-full justify-between pr-0 text-onSurface dark:text-onSurface";
+
+    /// <summary>
+    /// Gets or sets the width of the side column.
+    /// Default is <see cref="Size.Large"/>.
+    /// </summary>
+    [Parameter]
+    public Size ColumnWidth { get; set; } = Size.Large;
+
+    /// <summary>
+    /// Gets or sets the content to render in the side column.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? SideContent { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets the content to render in the main content area.
+    /// This parameter is required.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public required RenderFragment MainContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the side column is fixed.
+    /// Default is <c>true</c>.
+    /// </summary>
+    [Parameter]
+    public bool IsSideFixed { get; set; } = true;
+
+    /// <summary>
+    /// Builds the CSS class for the root element by merging additional attributes with the base style.
+    /// </summary>
+    /// <returns>The merged CSS class string.</returns>
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle, GetMainColumnCss(ColumnWidth));
+    }
+
+    /// <summary>
+    /// Gets the CSS classes for the side column based on the specified size and whether it is fixed.
+    /// </summary>
+    /// <param name="size">The size of the side column.</param>
+    /// <param name="isFixed">Indicates whether the side column should be fixed.</param>
+    /// <returns>A string containing the CSS classes for the side column.</returns>
+    protected static string GetSideColumnCss(Size size, bool isFixed)
+    {
+        var fixedCss = isFixed ? "h-fill fixed right-0 top-16 z-0 hidden shrink-0 flex-col gap-2 overflow-y-auto p-8 pl-0 text-sm xl:flex " : "";
+
+        return fixedCss + (size switch
+        {
+            Size.ExtraSmall => "w-48",
+            Size.Small => "w-56",
+            Size.Medium => "w-64",
+            Size.Large => "w-72",
+            Size.ExtraLarge => "w-80",
+            _ => throw new ArgumentOutOfRangeException(nameof(size), size, null)
+        });
+    }
+
+    /// <summary>
+    /// Gets the CSS classes for the main content area based on the specified side column size.
+    /// </summary>
+    /// <param name="size">The size of the side column.</param>
+    /// <returns>A string containing the CSS classes for the main content area.</returns>
+    protected static string GetMainColumnCss(Size size)
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "xl:pr-48",
+            Size.Small => "xl:pr-56",
+            Size.Medium => "xl:pr-64",
+            Size.Large => "xl:pr-72",
+            Size.ExtraLarge => "xl:pr-80",
+            _ => throw new ArgumentOutOfRangeException(nameof(size), size, null)
+        };
+    }
+}

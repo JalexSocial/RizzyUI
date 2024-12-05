@@ -5,3 +5,12 @@
 <ul class="flex flex-col gap-2 overflow-y-auto pb-6">
     @ChildContent
 </ul>
+
+@code
+{
+    /// <summary>
+    /// Child content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

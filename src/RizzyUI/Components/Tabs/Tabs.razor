@@ -1,0 +1,123 @@
+﻿@using System.Text.RegularExpressions
+@using RizzyUI.Utility
+@inherits RizzyUI.RizzyComponent
+
+@namespace RizzyUI
+
+<CascadingValue Value="this">
+    <div
+        x-data="{
+            buttonRef: $refs.@(ButtonRefId),
+            tabSelected: '@(ActiveTab?.Name?.ToLowerInvariant() ?? string.Empty)',
+            tabButton: null,
+            tabButtonClicked(tabButton){
+                this.tabSelected = tabButton.getAttribute('data-name');
+                this.tabRepositionMarker(tabButton);
+                tabButton.focus();
+            },
+            tabRepositionMarker(tabButton){
+                this.tabButton = tabButton;
+                this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
+                this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
+                this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
+            },
+            tabContentActive(tabContent){
+                return this.tabSelected === tabContent.getAttribute('data-name');
+            },
+            tabButtonActive(tabButton){
+                return this.tabSelected === tabButton.getAttribute('data-name');
+            },
+            handleKeyDown(event){
+                const key = event.key;
+                const tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
+                const currentIndex = tabButtons.findIndex(button => this.tabButtonActive(button));
+                let newIndex = currentIndex;
+
+                if (key === 'ArrowRight') {
+                    newIndex = (currentIndex + 1) % tabButtons.length;
+                    event.preventDefault();
+                } else if (key === 'ArrowLeft') {
+                    newIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
+                    event.preventDefault();
+                } else if (key === 'Home') {
+                    newIndex = 0;
+                    event.preventDefault();
+                } else if (key === 'End') {
+                    newIndex = tabButtons.length - 1;
+                    event.preventDefault();
+                }
+
+                if (newIndex !== currentIndex) {
+                    this.tabButtonClicked(tabButtons[newIndex]);
+                }
+            }
+        }"
+        x-init="tabRepositionMarker(buttonRef.querySelector('[data-name=\'' + tabSelected + '\']'));"
+        x-on:resize.window="tabRepositionMarker(tabButton);"
+        @attributes="AdditionalAttributes"
+        class="@RootClass()"
+    >
+        @Menu
+
+        <div>
+            @Content
+        </div>
+    </div>
+</CascadingValue>
+
+@code {
+
+    /// <summary>
+    /// Reference ID for the tab buttons container.
+    /// </summary>
+    internal string ButtonRefId { get; set; } = IdGenerator.UniqueId("tabButtons");
+
+    /// <summary>
+    /// List of all tabs within the Tabs component.
+    /// </summary>
+    internal List<Tab> _tabs = new();
+
+    /// <summary>
+    /// Name of the initially selected tab.
+    /// </summary>
+    [Parameter]
+    public string SelectedTabName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Render fragment for the tab menu.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public required RenderFragment Menu { get; set; } = default!;
+
+    /// <summary>
+    /// Render fragment for the tab content.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public required RenderFragment Content { get; set; } = default!;
+
+    /// <summary>
+    /// The currently active tab.
+    /// </summary>
+    public Tab? ActiveTab { get; private set; }
+
+    /// <summary>
+    /// Registers a tab with the Tabs component.
+    /// </summary>
+    /// <param name="tab">The <see cref="Tab"/> to add.</param>
+    internal void AddTab(Tab tab)
+    {
+        _tabs.Add(tab);
+
+        if (_tabs.Count == 1 || (string.IsNullOrEmpty(SelectedTabName) && ActiveTab == null))
+        {
+            ActiveTab = tab;
+        }
+
+        if (!string.IsNullOrEmpty(SelectedTabName) && tab.Name.Equals(SelectedTabName, StringComparison.OrdinalIgnoreCase))
+        {
+            ActiveTab = tab;
+        }
+
+        StateHasChanged();
+    }
+}

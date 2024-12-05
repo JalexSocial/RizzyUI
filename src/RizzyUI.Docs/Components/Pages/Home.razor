@@ -2,10 +2,179 @@
 
 <PageTitle>Home</PageTitle>
 
+<Heading Level="HeadingLevel.H1" TextColor="Color.OnSurfaceStrong">Sensible Styling</Heading>
+<Paragraph>
+    Lorem ipsum odor amet, consectetuer adipiscing elit. In luctus eget morbi netus nascetur nec felis. Nascetur ridiculus nullam nisi ante sit ipsum. Faucibus mus sodales magnis ridiculus efficitur scelerisque. Nec montes elementum ut iaculis; dignissim tellus vulputate. Adipiscing sit ac sem molestie ullamcorper, phasellus varius sem. Tempor ad adipiscing fringilla nisl rhoncus imperdiet nisi. Egestas aliquam feugiat imperdiet rhoncus erat.
+</Paragraph>
+<Paragraph>
+    Ipsum sit cubilia lacinia; facilisis egestas himenaeos suspendisse. Nulla sed parturient natoque platea per sed pretium varius. Elit efficitur sodales felis elit adipiscing nam tortor vivamus orci. Pretium consequat justo, per lacus condimentum cubilia. Natoque platea ut montes eu per metus. Per dui curabitur justo non himenaeos dapibus nec viverra. Bibendum quam maximus felis ornare magna.
+</Paragraph>
 
-<h1>Hello, world!</h1>
+<Heading Level="HeadingLevel.H2">Sensible Styling</Heading>
+<Paragraph TextColor="Color.OnSurface">
+    Begin building apps fast!
+</Paragraph>
+
+<Heading Level="HeadingLevel.H3">Sensible Styling</Heading>
+<Paragraph>
+    Begin building apps fast!
+</Paragraph>
+
+<Heading Level="HeadingLevel.H4">Sensible Styling</Heading>
+<Paragraph>
+    Begin building apps fast!
+</Paragraph>
+
+<Tabs SelectedTabName="activity">
+    <Menu>
+        <TabStrip>
+            <Tab Name="activity">Activity</Tab>
+            <Tab Name="events">Events</Tab>
+            <Tab Name="pages">Pages</Tab>
+            <Tab Name="members">Members</Tab>
+        </TabStrip>
+    </Menu>
+    <Content>
+        <TabPanel Name="activity">Activity Content</TabPanel>
+        <TabPanel Name="events">Events Content</TabPanel>
+        <TabPanel Name="pages">Pages Content</TabPanel>
+        <TabPanel Name="members">Members Content</TabPanel>
+    </Content>
+</Tabs>
 
 Welcome to your new app.
-        
-<Button Variant="ButtonVariant.Danger" Size="ButtonSize.Large">Test</Button>
+
+<Button Variant=ButtonVariant.Primary>Test</Button>
+<Button Variant=ButtonVariant.Secondary>Test</Button>
+<Button Variant=ButtonVariant.Alternate>Test</Button>
+<Button Variant=ButtonVariant.Inverse>Test</Button>
+<Button Variant=ButtonVariant.Information>Test</Button>
+<Button Variant=ButtonVariant.Danger>Test</Button>
+<Button Variant=ButtonVariant.Warning>Test</Button>
+<Button Variant=ButtonVariant.Success>Test</Button>
+<Button Variant=ButtonVariant.Ghost>Test</Button>
+
+<Button Variant="ButtonVariant.Primary" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Secondary" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Alternate" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Inverse" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Information" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Danger" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Warning" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Success" Size="Size.Large" Outline>Test</Button>
+<Button Variant="ButtonVariant.Ghost" Size="Size.Large" Outline>Test</Button>
+
+<Browser>
+
+	<div class="mx-auto flex flex-col items-start justify-center gap-4 rounded p-8">
+
+		<Alert Variant="AlertVariant.Information" Dismissable>
+			<AlertTitle>Update Available</AlertTitle>
+			<AlertDescription>A new version is available. Please update to the latest version.</AlertDescription>
+		</Alert>
+		<Alert Variant="AlertVariant.Success" Dismissable>
+			<AlertTitle>Successfully Subscribed</AlertTitle>
+			<AlertDescription>Success! You've subscribed to our newsletter. Welcome aboard!</AlertDescription>
+		</Alert>
+		<Alert Variant="AlertVariant.Warning">
+			<AlertTitle>Credit Card Expires Soon</AlertTitle>
+			<AlertDescription>Your credit card expires soon. Please update your payment information.</AlertDescription>
+		</Alert>
+		<Alert Variant="AlertVariant.Danger">
+			<AlertTitle>Invalid Email Address</AlertTitle>
+			<AlertDescription>The email address you entered is invalid. Please try again.</AlertDescription>
+		</Alert>
+
+	</div>
+
+</Browser>
+
+<Browser class="my-4">
+	<div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+		<Avatar Size="Size.ExtraLarge" Shape="AvatarShape.Circle" ImageSource="/images/profile/51.jpg" />
+		<Avatar Size="Size.ExtraLarge" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
+	</div>
+</Browser>
+
+<Browser class="my-4">
+	<div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+		<Avatar Size="Size.ExtraSmall" />
+		<Avatar Size="Size.Small"/>
+		<Avatar Size="Size.Medium"/>
+		<Avatar Size="Size.Large"/>
+		<Avatar Size="Size.ExtraLarge"/>
+	</div>
+</Browser>
+
+<Browser class="my-4">
+	<div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+		<Avatar Size="Size.ExtraSmall" Initials="JS" />
+		<Avatar Size="Size.Small" Initials="JS" />
+		<Avatar Size="Size.Medium" Initials="JS"/>
+		<Avatar Size="Size.Large" Initials="JS"/>
+		<Avatar Size="Size.ExtraLarge" Initials="JS"/>
+	</div>
+</Browser>
+
+<Browser class="my-4">
+    <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+	    <Avatar Size="Size.ExtraSmall" ImageSource="/images/profile/51.jpg" />
+	    <Avatar Size="Size.Small" ImageSource="/images/profile/51.jpg" />
+	    <Avatar Size="Size.Medium" ImageSource="/images/profile/51.jpg" />
+	    <Avatar Size="Size.Large" ImageSource="/images/profile/51.jpg" />
+	    <Avatar Size="Size.ExtraLarge" ImageSource="/images/profile/51.jpg" />
+    </div>
+</Browser>
+
+<Browser class="my-4">
+	<div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Gray" ImageSource="/images/profile/51.jpg" />
+		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Teal" ImageSource="/images/profile/51.jpg" />
+		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Blue" ImageSource="/images/profile/51.jpg" />
+		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Indigo" ImageSource="/images/profile/51.jpg" />
+        <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Purple" ImageSource="/images/profile/51.jpg" />
+        <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Pink" ImageSource="/images/profile/51.jpg" />
+        <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Red" ImageSource="/images/profile/51.jpg" />
+		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Orange" ImageSource="/images/profile/51.jpg" />
+		<Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Yellow" ImageSource="/images/profile/51.jpg" />
+	</div>
+</Browser>
+
+<CodeViewer Language=@CodeLanguage.Razor>
+	// Code
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Gray&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Teal&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Blue&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Indigo&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Purple&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Pink&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Red&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Orange&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	&lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Yellow&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	
+	@@namespace RizzyUI
+
+	@@inherits RizzyComponent
+
+	&lt;div @@attributes=&quot;@@AdditionalAttributes&quot; class=&quot;@@RootClass()&quot;&gt;
+	@@ChildContent
+	&lt;/div&gt;
+
+	@@code
+	{
+		private string _baseStyle = &quot;text-xs font-medium sm:text-sm&quot;;
+
+		/// &lt;summary&gt;
+		/// Child content for the alert
+		/// &lt;/summary&gt;
+		[Parameter]
+		public RenderFragment? ChildContent { get; set; }
+
+		protected override string? RootClass()
+		{
+			return TwMerge.Merge(AdditionalAttributes, _baseStyle);
+		}
+
+	}
+</CodeViewer>
 

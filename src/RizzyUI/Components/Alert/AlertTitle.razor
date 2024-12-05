@@ -1,0 +1,50 @@
+﻿@namespace RizzyUI
+
+@using Blazicons
+@inherits RizzyComponent
+
+<h3 @attributes="@AdditionalAttributes" class="@RootClass()">@ChildContent</h3>
+
+@code
+{
+    private const string BaseStyle = "text-sm font-semibold";
+    private string _textCss = "text-info";
+
+    [CascadingParameter]
+	public Alert? AlertParent { get; set; }
+
+    /// <summary>
+    /// Child content for the alert title
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle, _textCss);
+    }
+
+    protected override void OnParametersSet()
+    {
+        _textCss = GetAlertTextCss(AlertParent?.Variant);
+
+	    base.OnParametersSet();
+    }
+
+    /// <summary>
+    /// Gets the CSS class associated with the text style for the specified alert variant.
+    /// </summary>
+    /// <param name="variant">The <see cref="AlertVariant"/> enum value representing the type of alert.</param>
+    /// <returns>A string containing the CSS class for the text style of the specified alert variant.</returns>
+    protected static string GetAlertTextCss(AlertVariant? variant)
+    {
+        return variant switch
+        {
+            AlertVariant.Information => "text-info",
+            AlertVariant.Success => "text-success",
+            AlertVariant.Warning => "text-warning",
+            AlertVariant.Danger => "text-danger",
+            _ => "text-info"
+        };
+    }
+}

@@ -1,0 +1,149 @@
+﻿@page "/components/avatar"
+
+<PageTitle>Avatar</PageTitle>
+
+<QuickReferenceContainer>
+    <ArticleLayout>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <Heading Level="HeadingLevel.H1">Avatar</Heading>
+            <Paragraph>
+                Avatars are a great way to personalize your website and make it more engaging. They can be used to represent a person, a group of people, or even a brand.
+            </Paragraph>
+
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Avatar">Default Avatar</Heading>
+            <Paragraph TextColor="Color.OnSurface">
+                A circle avatar in various sizes.
+            </Paragraph>
+
+            <Browser>
+                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+                    <Avatar Size="Size.ExtraSmall" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Small" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Medium" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Large" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.ExtraLarge" ImageSource="/images/profile/51.jpg" />
+                </div>
+            </Browser>
+
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                &lt;Avatar Size=&quot;Size.ExtraSmall&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Small&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Medium&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Large&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.ExtraLarge&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+            </CodeViewer>
+
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Square Avatar">Square Avatar</Heading>
+            <Paragraph>
+                A square avatar in various sizes.
+            </Paragraph>
+
+            <Browser class="my-4">
+                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+                    <Avatar Size="Size.ExtraSmall" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Small" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Medium" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Large" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.ExtraLarge" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
+                </div>
+            </Browser>
+
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                &lt;Avatar Size=&quot;Size.ExtraSmall&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Small&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Medium&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot;/&gt;
+                &lt;Avatar Size=&quot;Size.Large&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot;/&gt;
+                &lt;Avatar Size=&quot;Size.ExtraLarge&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot;/&gt;
+            </CodeViewer>
+
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Avatar with Icon Placeholder">
+                Avatar with Icon Placeholder
+            </Heading>
+            <Paragraph TextColor="Color.OnSurface">
+                An avatar in various sizes with an icon placeholder.
+            </Paragraph>
+
+            <Browser class="my-4">
+                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+                    <Avatar Size="Size.ExtraSmall" />
+                    <Avatar Size="Size.Small" />
+                    <Avatar Size="Size.Medium" />
+                    <Avatar Size="Size.Large" />
+                    <Avatar Size="Size.ExtraLarge" />
+                </div>
+            </Browser>
+
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                &lt;Avatar Size=&quot;Size.ExtraSmall&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Small&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Medium&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Large&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.ExtraLarge&quot; /&gt;
+            </CodeViewer>
+
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Avatar with Initials Placeholder">
+                Avatar with Initials Placeholder
+            </Heading>
+            <Paragraph TextColor="Color.OnSurface">
+                An avatar with an initials placeholder.
+            </Paragraph>
+
+            <Browser class="my-4">
+                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+                    <Avatar Size="Size.ExtraSmall" Initials="JS" />
+                    <Avatar Size="Size.Small" Initials="JS" />
+                    <Avatar Size="Size.Medium" Initials="JS" />
+                    <Avatar Size="Size.Large" Initials="JS" />
+                    <Avatar Size="Size.ExtraLarge" Initials="JS" />
+                </div>
+            </Browser>
+
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                &lt;Avatar Size=&quot;Size.ExtraSmall&quot; Initials=&quot;JS&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Small&quot; Initials=&quot;JS&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Medium&quot; Initials=&quot;JS&quot;/&gt;
+                &lt;Avatar Size=&quot;Size.Large&quot; Initials=&quot;JS&quot;/&gt;
+                &lt;Avatar Size=&quot;Size.ExtraLarge&quot; Initials=&quot;JS&quot;/&gt;
+            </CodeViewer>
+
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Avatar with Status Indicator">
+                Avatar with Status Indicator
+            </Heading>
+            <Paragraph TextColor="Color.OnSurface">
+                An avatar with a status indicator in various colors.
+            </Paragraph>
+
+            <Browser class="my-4">
+                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Gray" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Teal" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Blue" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Indigo" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Purple" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Pink" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Red" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Orange" ImageSource="/images/profile/51.jpg" />
+                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Yellow" ImageSource="/images/profile/51.jpg" />
+                </div>
+            </Browser>
+
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                // Code
+                &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Gray&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Teal&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Blue&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Indigo&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Purple&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Pink&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Red&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Orange&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+                &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorColor=&quot;AccentColor.Yellow&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+            </CodeViewer>
+
+
+        </MainContent>
+    </ArticleLayout>
+</QuickReferenceContainer>

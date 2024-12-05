@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Build.Framework" Version="17.4.0" />
+      <PackageReference Include="System.Text.Json" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AngleSharp.Css\src\AngleSharp.Css\AngleSharp.Css.csproj" />
+    </ItemGroup>
+
+</Project>

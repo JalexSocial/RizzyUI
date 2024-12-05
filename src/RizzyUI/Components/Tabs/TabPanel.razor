@@ -1,0 +1,58 @@
+﻿@inherits RizzyUI.RizzyComponent
+
+@namespace RizzyUI
+
+<div
+    id="@(Name.ToLowerInvariant() + "-panel")"
+    data-name="@Name.ToLowerInvariant()"
+    x-show="tabContentActive($el)"
+    role="tabpanel"
+    aria-labelledby="@(Name.ToLowerInvariant() + "-tab")"
+    tabindex="0"
+    class="relative"
+    x-cloak
+>
+    <div @attributes="AdditionalAttributes" class="@RootClass()">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    private const string BaseStyle = "flex flex-col";
+
+    [CascadingParameter]
+    private Tabs? Parent { get; set; }
+
+    /// <summary>
+    /// The unique name of the tab panel, matching its corresponding tab.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public string Name { get; set; } = default!;
+
+    /// <summary>
+    /// Child content to be displayed inside the tab panel.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Builds the root CSS class string for the tab panel.
+    /// </summary>
+    /// <returns>A string containing the combined CSS classes.</returns>
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle);
+    }
+
+    /// <summary>
+    /// Initializes the tab panel component and ensures it is within a <see cref="Tabs"/> component.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown if the tab panel is not placed within a <see cref="Tabs"/> component.</exception>
+    protected override void OnInitialized()
+    {
+        if (Parent == null)
+            throw new ArgumentNullException(nameof(Parent), "Tab Panel must exist within a Tabs component");
+
+        base.OnInitialized();
+    }
+}

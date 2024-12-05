@@ -1,0 +1,74 @@
+﻿@namespace RizzyUI
+@inherits RizzyComponent
+
+<div class="@RootClass()">
+    <p class="mb-4 font-bold text-onSurfaceStrong dark:text-onSurfaceDarkStrong">
+        @Title
+    </p>
+    <ul>
+        @foreach (var heading in QuickReferenceContainer.GetHeadingItems())
+        {
+            <li class="@GetIndentation(heading.Level)">
+                <a href="#@heading.Id" :class="{'font-bold': currentHeadingId === '@heading.Id'}">
+                    @heading.Title
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+
+@code {
+    /// <summary>
+    /// Reference to the QuickReferenceContainer.
+    /// </summary>
+    [CascadingParameter]
+    private QuickReferenceContainer QuickReferenceContainer { get; set; } = default!;
+
+    /// <summary>
+    /// Title that appears above quick reference outline
+    /// </summary>
+    [Parameter] 
+    public string Title { get; set; } = "On this page";
+
+    /// <summary>
+    /// Throws an exception if not placed within a QuickReferenceContainer.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        if (QuickReferenceContainer == null)
+        {
+            throw new InvalidOperationException("QuickReference must be placed within a QuickReferenceContainer.");
+        }
+    }
+
+    /// <summary>
+    /// Builds the root CSS class string for the QuickReference.
+    /// </summary>
+    /// <returns>A string containing the combined CSS classes.</returns>
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle);
+    }
+
+    private const string BaseStyle = "";
+
+    /// <summary>
+    /// Gets the Tailwind CSS class for indentation based on the heading level.
+    /// </summary>
+    /// <param name="level">The heading level.</param>
+    /// <returns>A string containing the Tailwind CSS class for margin-left.</returns>
+    private string GetIndentation(HeadingLevel level)
+    {
+        level -= QuickReferenceContainer.MinimumHeadingLevel; 
+
+        return level switch
+        {
+            HeadingLevel.H1 => "ml-0",
+            HeadingLevel.H2 => "ml-4",
+            HeadingLevel.H3 => "ml-8",
+            HeadingLevel.H4 => "ml-12",
+            _ => "ml-0"
+        };
+    }
+}

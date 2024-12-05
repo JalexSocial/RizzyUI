@@ -1,6 +1,7 @@
 ﻿@namespace RizzyUI
 
 @using Blazicons
+@using RizzyUI.Utility
 @inherits RizzyComponent
 
 @* SidebarLinkItem Component *@
@@ -41,7 +42,7 @@ else
     <!-- Non-collapsible item -->
     @if (Parent is { HasChildren: true, Collapsible: false })
     {
-        <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700">
+        <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700 transition duration-200 hover:border-l-2 hover:border-outlineStrong hover:text-onSurfaceStrong dark:hover:border-x-outlineDarkStrong dark:hover:text-onSurfaceDarkStrong">
             <a href="@Href" target="@Target" class="@LinkClass">
                 @if (Icon != null)
                 {
@@ -145,6 +146,12 @@ else
     public string Target { get; set; } = "_self";
 
     /// <summary>
+    /// Child content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
     /// Gets or sets additional content to display after the title, such as badges or indicators.
     /// </summary>
     [Parameter]
@@ -188,7 +195,7 @@ else
     {
         if (Collapsible)
         {
-            var guid = Guid.NewGuid().ToString("N");
+            var guid = IdGenerator.UniqueId("sb");
             _buttonId = $"btn-{guid}";
             _collapseId = $"clps-{guid}";
         }
@@ -212,13 +219,13 @@ else
     /// <summary>
     /// Gets the CSS class string for the collapsible button.
     /// </summary>
-    private string ButtonClass => "flex items-center justify-between rounded-xl gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-slate-700 hover:bg-blue-700/5 hover:text-black dark:text-slate-300 dark:hover:text-white dark:hover:bg-blue-600/5";
+    private string ButtonClass => "flex items-center justify-between rounded gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-onSurface hover:bg-primary/5 hover:text-black dark:text-onSurfaceDark dark:hover:text-white dark:hover:bg-primaryDark/5";
 
     /// <summary>
     /// Gets the CSS class string for the link element, adjusted based on parent and children.
     /// </summary>
     private string LinkClass => Parent?.HasChildren == true
-        ? "flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white"
-        : "flex items-center gap-2 px-2 py-1.5 text-sm rounded-xl font-medium text-slate-700 underline-offset-2 hover:bg-blue-700/5 hover:text-black focus-visible:underline focus:outline-none dark:text-slate-300 dark:hover:bg-blue-600/5 dark:hover:text-white";
+        ? "flex items-center gap-2 px-2 py-1.5 text-sm rounded text-onSurface underline-offset-2 hover:bg-primary/5 hover:text-black focus-visible:underline focus:outline-none dark:text-onSurfaceDark dark:hover:bg-primaryDark/5 dark:hover:text-white"
+        : "flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-onSurface underline-offset-2 hover:bg-primary/5 hover:text-onSurfaceStrong focus-visible:underline focus:outline-none dark:text-onSurfaceDark dark:hover:bg-primaryDark/5 dark:hover:text-onSurfaceDarkStrong rounded-xl";
 
 }

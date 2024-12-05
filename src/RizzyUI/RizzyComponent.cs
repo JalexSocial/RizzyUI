@@ -1,26 +1,35 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
+using TailwindMerge;
+using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
 public class RizzyComponent : ComponentBase
 {
-	protected IReadOnlyDictionary<string, object>? attributes;
-	protected string classes = "";
+    /// <summary>
+    /// Reference to Tailwind Merge service
+    /// </summary>
+    [Inject] protected TwMerge TwMerge { get; set; } = default!;
 
-	[Parameter(CaptureUnmatchedValues = true)]
-	public IReadOnlyDictionary<string, object> AdditionalAttributes { get; set; } = new Dictionary<string, object>();
+    /// <summary>
+    /// Specifies the root HTML element to render (e.g., "div", "a", "button").
+    /// If not set, defaults to "div".
+    /// </summary>
+    [Parameter]
+    public string Element { get; set; } = "div";
 
-	[Parameter]
-	public RenderFragment? ChildContent { get; set; } = default!;
+    /// <summary>
+    /// Captures any additional unmatched attributes
+    /// </summary>
+    [SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "False positive. This is a parameter.")]
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-	protected override void OnParametersSet()
-	{
-		base.OnParametersSet();
-
-		classes = $"{AdditionalAttributes.GetValueOrDefault("class")}";
-
-		attributes = AdditionalAttributes
-			.Where(x => x.Key != "class")
-			.ToDictionary(k => k.Key, v => v.Value);
-	}
+    /// <summary>
+    /// Method that provides a set of CSS root classes to the component
+    /// </summary>
+    /// <returns></returns>
+    protected virtual string? RootClass () => AdditionalAttributes?.GetValueOrDefault("class", string.Empty).ToString();
 }

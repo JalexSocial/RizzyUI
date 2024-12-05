@@ -1,3 +1,4 @@
+#### [RizzyUI](index 'index')
 ### [RizzyUI](RizzyUI 'RizzyUI')
 
 ## SidebarLinkItem Class
@@ -6,10 +7,11 @@
 public class SidebarLinkItem : RizzyUI.RizzyComponent
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [RizzyUI.RizzyComponent](https://docs.microsoft.com/en-us/dotnet/api/RizzyUI.RizzyComponent 'RizzyUI.RizzyComponent') &#129106; SidebarLinkItem
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [RizzyComponent](RizzyUI.RizzyComponent 'RizzyUI.RizzyComponent') &#129106; SidebarLinkItem
 
 | Properties | |
 | :--- | :--- |
+| [ChildContent](RizzyUI.SidebarLinkItem.ChildContent 'RizzyUI.SidebarLinkItem.ChildContent') | Child content |
 | [Collapsed](RizzyUI.SidebarLinkItem.Collapsed 'RizzyUI.SidebarLinkItem.Collapsed') | Gets or sets a value indicating whether the collapsible link item is initially collapsed. |
 | [Collapsible](RizzyUI.SidebarLinkItem.Collapsible 'RizzyUI.SidebarLinkItem.Collapsible') | Gets or sets a value indicating whether the link item is collapsible. |
 | [Href](RizzyUI.SidebarLinkItem.Href 'RizzyUI.SidebarLinkItem.Href') | Gets or sets the URL to navigate to when the link is clicked. |

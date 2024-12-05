@@ -3,7 +3,7 @@
 @inherits RizzyComponent
 
 <CascadingValue Value="this">
-    <div class="inline-flex @classes" @attributes="attributes">
+    <div @attributes="AdditionalAttributes" class=@RootClass()>
         @ChildContent
     </div>
 </CascadingValue>
@@ -12,6 +12,18 @@
     private readonly List<Button> _buttons = new();
 
     public List<Button> Buttons => _buttons;
+
+    /// <summary>
+    /// Child content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <inheritdoc/>
+    protected override string? RootClass()
+    {
+        return $"inline-flex {AdditionalAttributes?.GetValueOrDefault("class")}";
+    }
 
     internal void AddButton(Button button)
     {

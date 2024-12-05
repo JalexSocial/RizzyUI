@@ -1,0 +1,4 @@
+[submodule "src/AngleSharp"]
+	url = https://github.com/JalexSocial/AngleSharp.git
+[submodule "src/AngleSharp.Css"]
+	url = https://github.com/JalexSocial/AngleSharp.Css.git

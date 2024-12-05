@@ -1,0 +1,123 @@
+﻿@namespace RizzyUI
+
+@inherits RizzyComponent
+
+@code {
+    [Parameter] 
+    public Color? TextColor { get; set; }
+
+    [Parameter] 
+    public TextWeight? Weight { get; set; }
+
+    [Parameter] 
+    public TextSize? Size { get; set; }
+
+    [Parameter]
+    public Leading? LineHeight { get; set; }
+
+    [Parameter] 
+    public TextDecoration? Decoration { get; set; }
+
+    [Parameter] 
+    public TextTransform? Transform { get; set; }
+
+    /// <summary>
+    /// Builds a string of Tailwind CSS classes based on the configuration of the component
+    /// </summary>
+    /// <returns></returns>
+    protected string GetTypographyBaseCss()
+    {
+        return $"{TextColor?.ToTextClass()} {GetTextSizeCss(Size)} {GetTextWeightCss(Weight)} {GetTextTransformCss(Transform)} {GetTextDecorationCss(Decoration)} {GetLineHeightClass(LineHeight)}";
+    }
+
+    /// <summary>
+    /// Gets the CSS class associated with the specified text weight.
+    /// </summary>
+    /// <param name="weight">The <see cref="TextWeight"/> enum value representing the weight of the text.</param>
+    /// <returns>A string containing the CSS class for the specified text weight.</returns>
+    protected static string GetTextWeightCss(TextWeight? weight)
+    {
+        return weight switch
+        {
+            TextWeight.Thin => "font-thin",
+            TextWeight.Normal => "font-normal",
+            TextWeight.Bold => "font-bold",
+            TextWeight.ExtraBold => "font-extrabold",
+            _ => string.Empty
+        };
+    }
+
+    /// <summary>
+    /// Gets the CSS class associated with the specified text size.
+    /// </summary>
+    /// <param name="size">The <see cref="TextSize"/> enum value representing the size of the text.</param>
+    /// <returns>A string containing the CSS class for the specified text size.</returns>
+    protected static string GetTextSizeCss(TextSize? size)
+    {
+        return size switch
+        {
+            TextSize.Small => "text-sm",
+            TextSize.Medium => "text-base",
+            TextSize.Large => "text-lg",
+            TextSize.ExtraLarge => "text-xl",
+            TextSize.TwoXL => "text-2xl",
+            TextSize.ThreeXL => "text-3xl",
+            TextSize.FourXL => "text-4xl",
+            TextSize.FiveXL => "text-5xl",
+            _ => string.Empty
+        };
+    }
+
+    /// <summary>
+    /// Gets the Tailwind CSS class associated with the specified text transform.
+    /// </summary>
+    /// <param name="transform">The <see cref="TextTransform"/> enum value representing the desired text transformation.</param>
+    /// <returns>A string containing the Tailwind CSS class for the specified text transform.</returns>
+    protected static string GetTextTransformCss(TextTransform? transform)
+    {
+        return transform switch
+        {
+            TextTransform.None => "normal-case",
+            TextTransform.Uppercase => "uppercase",
+            TextTransform.Lowercase => "lowercase",
+            TextTransform.Capitalize => "capitalize",
+            _ => string.Empty
+        };
+    }
+
+    /// <summary>
+    /// Gets the Tailwind CSS class associated with the specified text decoration.
+    /// </summary>
+    /// <param name="decoration">The <see cref="TextDecoration"/> enum value representing the desired text decoration.</param>
+    /// <returns>A string containing the Tailwind CSS class for the specified text decoration.</returns>
+    protected static string GetTextDecorationCss(TextDecoration? decoration)
+    {
+        return decoration switch
+        {
+            TextDecoration.None => "no-underline",
+            TextDecoration.Underline => "underline",
+            TextDecoration.Overline => "overline",
+            TextDecoration.LineThrough => "line-through",
+            _ => string.Empty
+        };
+    }
+
+    /// <summary>
+    /// Gets the CSS class associated with the specified line height.
+    /// </summary>
+    /// <param name="leading">The <see cref="Leading"/> enum value representing the line height.</param>
+    /// <returns>A string containing the CSS class for the specified line height.</returns>
+    protected static string GetLineHeightClass(Leading? leading)
+    {
+        return leading switch
+        {
+            Leading.None => "leading-none",
+            Leading.Tight => "leading-tight",
+            Leading.Snug => "leading-snug",
+            Leading.Normal => "leading-normal",
+            Leading.Relaxed => "leading-relaxed",
+            Leading.Loose => "leading-loose",
+            _ => string.Empty
+        };
+    }
+}

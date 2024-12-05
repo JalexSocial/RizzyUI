@@ -1,3 +1,4 @@
+#### [RizzyUI](index 'index')
 ### [RizzyUI](RizzyUI 'RizzyUI').[SidebarLinkItem](RizzyUI.SidebarLinkItem 'RizzyUI.SidebarLinkItem')
 
 ## SidebarLinkItem.Icon Property
@@ -5,7 +6,7 @@
 Gets or sets the icon to display for the link item.
 
 ```csharp
-public Blazicons.SvgIcon? Icon { get; set; }
+public SvgIcon? Icon { get; set; }
 ```
 
 #### Property Value

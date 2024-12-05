@@ -1,25 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
+        <LangVersion>12.0</LangVersion>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableSourceControlManagerQueries>true</EnableSourceControlManagerQueries>
         <UseRazorSourceGenerator>true</UseRazorSourceGenerator>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
-
+  
     <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
-
+  
     <ItemGroup>
         <Content Remove="DefaultDocumentation.json" />
     </ItemGroup>
-	
+
     <ItemGroup>
         <PackageReference Include="Blazicons" Version="2.0.28" />
+        <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.0.19" />
+        <PackageReference Include="TailwindMerge.NET" Version="0.3.0" />
+        <PackageReference Include="Sqids" Version="3.1.0" />
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -27,8 +33,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-        <PackageReference Include="Blazor.HeroIcons" Version="2.1.5" />
+      <ProjectReference Include="..\RizzyUI.SafelistBuilder\RizzyUI.SafelistBuilder.csproj" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
     <ItemGroup>
@@ -36,12 +41,15 @@
         <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Scripts\rizzyui-tailwind\plugin.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
     <Target Name="Tailwind" BeforeTargets="Build">
         <Exec Command="npm run css:build" />
-    </Target>
-
-    <Target Name="EnsureNodeModules" BeforeTargets="Build">
-        <Exec Command="npm install" />
+        <Exec Command="dotnet run --project ../RizzyUI.SafelistGenerator -- $(MSBuildThisFileDirectory)wwwroot\dist\rizzyui.css $(MSBuildThisFileDirectory)Scripts\rizzyui-tailwind\" />
     </Target>
 
 </Project>
