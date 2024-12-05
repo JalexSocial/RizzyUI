@@ -3,9 +3,9 @@
 @inherits RizzyComponent
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
-    <div class="@GetMainColumnCss(ColumnWidth)">
+    <div class="mx-auto flex max-w-7xl grow flex-col overflow-x-auto overflow-y-hidden p-8">
         @MainContent
-        
+
         <div class="@GetSideColumnCss(ColumnWidth, IsSideFixed)">
             @SideContent
         </div>
@@ -57,7 +57,7 @@
     /// <returns>The merged CSS class string.</returns>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, BaseStyle);
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle, GetMainColumnCss(ColumnWidth));
     }
 
     /// <summary>

@@ -37,6 +37,6 @@ public static class IdGenerator
         var encodedNumber = _encoder.Encode(uniqueNumber);
 
         string finalPrefix = string.IsNullOrWhiteSpace(prefix) ? "id" : prefix;
-        return $"{finalPrefix}_{encodedNumber}";
+        return $"{finalPrefix}{encodedNumber}";
     }
 }
