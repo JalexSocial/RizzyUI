@@ -73,7 +73,7 @@ public static class StaticResourcesInfoProviderExtensions
         Throw.IfNull(provider);
         Throw.IfNull(env);
 
-        var rizzyUIwebRootPath = Path.Combine(env.WebRootPath, @"..\..\RizzyUI\wwwroot");
+        var rizzyUIwebRootPath = Path.GetFullPath(Path.Combine(env.WebRootPath, @"..\..\RizzyUI\wwwroot"));
 
         AddWebResources(provider, env.WebRootPath, string.Empty);
         AddWebResources(provider, rizzyUIwebRootPath, "/_content/RizzyUI");
