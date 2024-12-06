@@ -5,11 +5,11 @@
     <p class="mb-4 font-bold text-onSurfaceStrong dark:text-onSurfaceDarkStrong">
         @Title
     </p>
-    <ul>
+    <ul class="flex flex-col gap-2">
         @foreach (var heading in QuickReferenceContainer.GetHeadingItems())
         {
             <li class="@GetIndentation(heading.Level)">
-                <a href="#@heading.Id" :class="{'font-bold': currentHeadingId === '@heading.Id'}">
+                <a href="#@heading.Id" :class="{'font-bold': currentHeadingId === '@heading.Id'}" x-on:click="setTimeout(() => { currentHeadingId = '@heading.Id'; }, 10)">
                     @heading.Title
                 </a>
             </li>

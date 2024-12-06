@@ -13,6 +13,8 @@
   
     <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <DefaultDocumentationLogLevel>Error</DefaultDocumentationLogLevel>
+        <DefaultDocumentationSections>Default</DefaultDocumentationSections>
     </PropertyGroup>
   
     <ItemGroup>
@@ -30,10 +32,6 @@
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\RizzyUI.SafelistBuilder\RizzyUI.SafelistBuilder.csproj" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
     <ItemGroup>
