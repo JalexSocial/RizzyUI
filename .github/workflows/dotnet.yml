@@ -70,7 +70,7 @@ jobs:
 
       # Generate Static Documentation
       - name: Generate Static Documentation
-        run: dotnet run --project src/RizzyUI.Docs/RizzyUI.Docs.csproj -- --generate-static
+        run: dotnet run --configuration Release --no-build --project src/RizzyUI.Docs/RizzyUI.Docs.csproj -- --generate-static
 
       # Commit and Push Documentation to 'docs' Branch
       - name: Commit and Push Documentation to 'docs' Branch
