@@ -1,0 +1,82 @@
+name: RizzyUI CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout Repository and Submodules
+      - name: Checkout Repository and Submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      # Cache NuGet packages to speed up builds
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      # Setup .NET SDKs (8.x and 9.x)
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+
+      # Restore Dependencies
+      - name: Restore Dependencies
+        run: dotnet restore src/RizzyUI.sln
+
+      # Build the Solution in Release mode
+      - name: Build Solution
+        run: dotnet build src/RizzyUI.sln --configuration Release --no-restore
+
+      # Publish NuGet Package using brandedoutcast/publish-nuget action
+      #- name: Publish NuGet Package 
+      #  uses: brandedoutcast/publish-nuget@v2.5.2  
+      #  with:   
+      #    PROJECT_FILE_PATH: src/RizzyUI/RizzyUI.csproj   
+      #    NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      # Generate Static Documentation
+      - name: Generate Static Documentation
+        run: dotnet run --project src/RizzyUI.Docs/RizzyUI.Docs.csproj -- --generate-static
+
+      # Commit and Push Documentation to 'docs' Branch
+      - name: Commit and Push Documentation to 'docs' Branch
+        run: |
+          # Configure Git
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+
+          # Fetch existing 'docs' branch if it exists
+          git fetch origin docs
+
+          # Checkout 'docs' branch or create it if it doesn't exist
+          git checkout docs || git checkout --orphan docs
+
+          # Remove all existing files from the 'docs' branch
+          git rm -rf . || echo "No files to remove"
+
+          # Copy the generated docs into the root of the 'docs' branch
+          cp -r docs/* .
+
+          # Add all changes to Git
+          git add .
+
+          # Commit changes if there are any
+          git commit -m 'Update documentation' || echo "No changes to commit"
+
+          # Push the 'docs' branch to the repository
+          git push --set-upstream origin docs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
