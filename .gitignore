@@ -350,4 +350,4 @@ MigrationBackup/
 
 # Reference documentation can all be generated client side
 docs/*
-!docs/README.md
+!docs/keep.txt
