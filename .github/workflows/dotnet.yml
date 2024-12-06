@@ -20,14 +20,22 @@ jobs:
         with:
           node-version: 14  # Use the desired Node.js version
 
-      - name: Install npm packages
+      - name: Install npm packages for RizzyUI
         working-directory: ./src/RizzyUI  # Specify the directory containing package.json
         run: npm install
 
-      - name: Link tailwindcss
+      - name: Link tailwindcss for RizzyUI
         working-directory: ./src/RizzyUI  # Specify the directory where you want to run the command
         run: npm link tailwindcss
        
+      - name: Install npm packages for RizzyUI.Docs
+        working-directory: ./src/RizzyUI.Docs  # Specify the directory containing package.json
+        run: npm install
+
+      - name: Link tailwindcss for RizzyUI.Docs
+        working-directory: ./src/RizzyUI.Docs  # Specify the directory where you want to run the command
+        run: npm link tailwindcss
+               
       # Cache NuGet packages to speed up builds
       - name: Cache NuGet packages
         uses: actions/cache@v3
