@@ -15,6 +15,19 @@ jobs:
         with:
           submodules: true
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14  # Use the desired Node.js version
+
+      - name: Install npm packages
+        working-directory: ./src/RizzyUI  # Specify the directory containing package.json
+        run: npm install
+
+      - name: Link tailwindcss
+        working-directory: ./src/RizzyUI  # Specify the directory where you want to run the command
+        run: npm link tailwindcss
+       
       # Cache NuGet packages to speed up builds
       - name: Cache NuGet packages
         uses: actions/cache@v3
