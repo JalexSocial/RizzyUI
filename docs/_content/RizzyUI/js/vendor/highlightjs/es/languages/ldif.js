@@ -1,2 +1,0 @@
-﻿var hljsGrammar=(function(){'use strict';function ldif(hljs){return{name:'LDIF',contains:[{className:'attribute',match:'^dn(?=:)',relevance:10},{className:'attribute',match:'^\\w+(?=:)'},{className:'literal',match:'^-'},hljs.HASH_COMMENT_MODE]};}
-return ldif;})();;export default hljsGrammar;

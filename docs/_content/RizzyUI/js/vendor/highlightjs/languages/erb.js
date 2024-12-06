@@ -1,2 +1,0 @@
-﻿(function(){var hljsGrammar=(function(){'use strict';function erb(hljs){return{name:'ERB',subLanguage:'xml',contains:[hljs.COMMENT('<%#','%>'),{begin:'<%[%=-]?',end:'[%-]?%>',subLanguage:'ruby',excludeBegin:true,excludeEnd:true}]};}
-return erb;})();hljs.registerLanguage('erb',hljsGrammar);})();

@@ -1,2 +1,0 @@
-﻿var hljsGrammar=(function(){'use strict';function phpTemplate(hljs){return{name:"PHP template",subLanguage:'xml',contains:[{begin:/<\?(php|=)?/,end:/\?>/,subLanguage:'php',contains:[{begin:'/\\*',end:'\\*/',skip:true},{begin:'b"',end:'"',skip:true},{begin:'b\'',end:'\'',skip:true},hljs.inherit(hljs.APOS_STRING_MODE,{illegal:null,className:null,contains:null,skip:true}),hljs.inherit(hljs.QUOTE_STRING_MODE,{illegal:null,className:null,contains:null,skip:true})]}]};}
-return phpTemplate;})();;export default hljsGrammar;

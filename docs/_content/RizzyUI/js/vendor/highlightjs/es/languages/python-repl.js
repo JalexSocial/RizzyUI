@@ -1,2 +1,0 @@
-﻿var hljsGrammar=(function(){'use strict';function pythonRepl(hljs){return{aliases:['pycon'],contains:[{className:'meta.prompt',starts:{end:/ |$/,starts:{end:'$',subLanguage:'python'}},variants:[{begin:/^>>>(?=[ ]|$)/},{begin:/^\.\.\.(?=[ ]|$)/}]}]};}
-return pythonRepl;})();;export default hljsGrammar;

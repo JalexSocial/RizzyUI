@@ -1,2 +1,0 @@
-﻿(function(){var hljsGrammar=(function(){'use strict';function juliaRepl(hljs){return{name:'Julia REPL',contains:[{className:'meta.prompt',begin:/^julia>/,relevance:10,starts:{end:/^(?![ ]{6})/,subLanguage:'julia'},},],aliases:['jldoctest'],};}
-return juliaRepl;})();hljs.registerLanguage('julia-repl',hljsGrammar);})();

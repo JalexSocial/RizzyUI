@@ -1,2 +1,0 @@
-﻿(function(){var hljsGrammar=(function(){'use strict';function vbscriptHtml(hljs){return{name:'VBScript in HTML',subLanguage:'xml',contains:[{begin:'<%',end:'%>',subLanguage:'vbscript'}]};}
-return vbscriptHtml;})();hljs.registerLanguage('vbscript-html',hljsGrammar);})();
