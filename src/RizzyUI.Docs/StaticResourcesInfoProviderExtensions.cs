@@ -140,7 +140,7 @@ public static class StaticResourcesInfoProviderExtensions
             {
                 // Get all public types defined in the assembly
                 types = assembly.ExportedTypes;
-            }
+            } 
             catch (ReflectionTypeLoadException ex)
             {
                 // Handle exceptions for types that can't be loaded

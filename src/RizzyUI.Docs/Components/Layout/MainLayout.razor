@@ -2,6 +2,9 @@
 @using RizzyUI
 
 <Sidebar>
+    <NavbarContent>
+        <Navbar>Testing</Navbar>
+    </NavbarContent>
     <MenuContent>
         <!-- logo  -->
         <a href="#" class="ml-2 w-fit text-2xl font-bold text-black dark:text-white">
@@ -12,24 +15,24 @@
         <!-- search  -->
         <div class="relative my-4 flex w-full max-w-xs flex-col gap-1 text-slate-700 dark:text-slate-300">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" class="-translate-y-1/2 text-slate-700/50 absolute left-2 top-1/2 size-5 dark:text-slate-300/50" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
             </svg>
-            <input type="search" class="w-full rounded-xl border border-slate-300 bg-white px-2 py-1.5 pl-9 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:cursor-not-allowed disabled:opacity-75 dark:border-slate-700 dark:bg-slate-900/50 dark:focus-visible:outline-blue-600" name="search" aria-label="Search" placeholder="Search" />
+            <input type="search" class="w-full rounded-xl border border-slate-300 bg-white px-2 py-1.5 pl-9 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:cursor-not-allowed disabled:opacity-75 dark:border-slate-700 dark:bg-slate-900/50 dark:focus-visible:outline-blue-600" name="search" aria-label="Search" placeholder="Search"/>
         </div>
 
         <SidebarLinks>
-            <SidebarLinkItem Icon="MdiIcon.ViewDashboard" Title="Dashboard" Href="#" />
+            <SidebarLinkItem Icon="MdiIcon.ViewDashboard" Title="Dashboard" Href="#"/>
 
             <SidebarLinkItem Icon="MdiIcon.Account" Title="User Management" Collapsible="false">
-                <SidebarLinkItem Title="Users" Href="#" />
-                <SidebarLinkItem Title="Permissions" Href="#" />
-                <SidebarLinkItem Title="Activity Log" Href="#" />
+                <SidebarLinkItem Title="Users" Href="#"/>
+                <SidebarLinkItem Title="Permissions" Href="#"/>
+                <SidebarLinkItem Title="Activity Log" Href="#"/>
             </SidebarLinkItem>
 
             <SidebarLinkItem Icon="MdiIcon.FileCabinet" Title="Products" Collapsible="true">
-                <SidebarLinkItem Title="All Products" Href="#" />
-                <SidebarLinkItem Title="Inventory" Href="#" />
-                <SidebarLinkItem Title="Reviews" Href="#" />
+                <SidebarLinkItem Title="All Products" Href="#"/>
+                <SidebarLinkItem Title="Inventory" Href="#"/>
+                <SidebarLinkItem Title="Reviews" Href="#"/>
             </SidebarLinkItem>
 
             <SidebarLinkItem Icon="MdiIcon.CashRegister" Title="Orders" Collapsible="true" Collapsed="false">
@@ -55,7 +58,7 @@
                 </SidebarLinkItem>
             </SidebarLinkItem>
 
-            <SidebarLinkItem Icon="MdiIcon.Cog" Title="Settings" Href="#" />
+            <SidebarLinkItem Icon="MdiIcon.Cog" Title="Settings" Href="#"/>
         </SidebarLinks>
 
     </MenuContent>
