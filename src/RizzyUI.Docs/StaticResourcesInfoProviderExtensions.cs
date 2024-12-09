@@ -144,7 +144,7 @@ public static class StaticResourcesInfoProviderExtensions
             catch (ReflectionTypeLoadException ex)
             {
                 // Handle exceptions for types that can't be loaded
-                types = ex.Types.Where(t => t != null);
+                types = (IEnumerable<Type>)ex.Types.Where(t => t != null);
             }
             catch
             {

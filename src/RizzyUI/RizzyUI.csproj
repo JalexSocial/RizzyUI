@@ -11,7 +11,7 @@
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
   
-    <PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DefaultDocumentationLogLevel>Error</DefaultDocumentationLogLevel>
         <DefaultDocumentationSections>Default</DefaultDocumentationSections>
