@@ -33,7 +33,7 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>();
 
-#if DEBUG
+#if !DEBUG
 
 var ssgOutputPath = "../../docs";
 if (!Directory.Exists(ssgOutputPath))
