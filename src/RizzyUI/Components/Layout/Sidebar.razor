@@ -9,28 +9,33 @@
 /// </summary>
 *@
 
-<div x-data="{ showSidebar: false }" class="relative flex w-full flex-col md:flex-row">
-    <!-- This allows screen readers to skip the sidebar and go directly to the main content. -->
-    <a class="sr-only" href="#@MainContentId">skip to the main content</a>
+<div x-data="{ showSidebar: false }">
+    @if (NavbarContent != null)
+    {
+        @NavbarContent
+    }
 
-    <!-- Dark overlay when the sidebar is open on smaller screens -->
-    <div x-cloak x-show="showSidebar" class="z-40 bg-surfaceDark/10 fixed inset-0 backdrop-blur-sm md:hidden" aria-hidden="true" x-on:click="showSidebar = false" x-transition.opacity></div>
+    <div class=@GetNavbarTopCss()>
+        <div class="relative flex w-full flex-col md:flex-row">
+            <!-- This allows screen readers to skip the sidebar and go directly to the main content. -->
+            <a class="sr-only" href="#@MainContentId">skip to the main content</a>
 
-    <aside x-cloak class="z-50 shrink-0 fixed left-0 flex h-svh w-60 flex-col border-r border-outline bg-surfaceAlt p-4 transition-transform duration-300 dark:border-outlineDark dark:bg-surfaceAltDark md:w-64 md:translate-x-0 md:relative" x-bind:class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
-        @MenuContent
-    </aside>
+            <!-- Dark overlay when the sidebar is open on smaller screens -->
+            <div x-cloak x-show="showSidebar" class="z-30 bg-surfaceDark/10 fixed inset-0 backdrop-blur-sm md:hidden" aria-hidden="true" x-on:click="showSidebar = false" x-transition.opacity></div>
 
-    <!-- Main content -->
-    <div id="@MainContentId" class="h-svh w-full overflow-y-auto bg-surface p-4 dark:bg-surfaceDark">
-        @if (NavbarContent != null)
-        {
-            @NavbarContent
-        }
+            <aside x-cloak class="fixed top-16 left-0 h-full w-60 bg-surfaceAlt border-r border-outline z-40 p-4 transition-transform duration-300 dark:bg-surfaceAltDark dark:border-outlineDark" :class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
+                @MenuContent
+            </aside>
 
-        @MainContent
+            <!-- Main content -->
+            <div id="@MainContentId" class="md:pl-60 h-svh w-full bg-surface dark:bg-surfaceDark">
+                <div class="p-4">
+                    @MainContent
+                </div>
+            </div>
+        </div>
     </div>
 
-    
     @if (NavbarContent == null)
     {
         <!-- Toggle button for small screens -->
@@ -73,4 +78,9 @@
     /// </summary>
     [Parameter]
     public RenderFragment? MainContent { get; set; }
+
+    private string GetNavbarTopCss()
+    {
+        return NavbarContent is null ? "" : "mt-16";
+    }
 }
