@@ -9,7 +9,7 @@
 /// </summary>
 *@
 
-<div x-data="{ showSidebar: false }">
+<div x-data="{ showSidebar: true }">
     @if (NavbarContent != null)
     {
         @NavbarContent
@@ -23,7 +23,7 @@
             <!-- Dark overlay when the sidebar is open on smaller screens -->
             <div x-cloak x-show="showSidebar" class="z-30 bg-surfaceDark/10 fixed inset-0 backdrop-blur-sm md:hidden" aria-hidden="true" x-on:click="showSidebar = false" x-transition.opacity></div>
 
-            <aside x-cloak class="fixed top-16 left-0 h-full w-60 bg-surfaceAlt border-r border-outline z-40 p-4 transition-transform duration-300 dark:bg-surfaceAltDark dark:border-outlineDark" :class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
+            <aside x-cloak class="fixed left-0 h-full w-60 bg-surfaceAlt border-r border-outline z-40 p-4 transition-transform duration-300 dark:bg-surfaceAltDark dark:border-outlineDark @GetAsideCss()" :class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
                 @MenuContent
             </aside>
 
@@ -82,5 +82,10 @@
     private string GetNavbarTopCss()
     {
         return NavbarContent is null ? "" : "mt-16";
+    }
+
+    private string GetAsideCss()
+    {
+	    return NavbarContent is null ? "top-0" : "top-16";
     }
 }
