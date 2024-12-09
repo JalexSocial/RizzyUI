@@ -1,4 +1,5 @@
-﻿using AspNetStatic;
+﻿using System.Diagnostics;
+using AspNetStatic;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
@@ -90,6 +91,11 @@ public static class StaticResourcesInfoProviderExtensions
                     .Replace(webRootPath, string.Empty)
                     .Replace(Path.DirectorySeparatorChar, '/'))
             ;
+
+        foreach (var file in allWebRootFiles)
+        {
+            Debug.WriteLine($"Processing {file}");
+        }
 
         string[] cssExts = [".css", ".scss"];
         string[] jsExts = [".js", ".json"];
