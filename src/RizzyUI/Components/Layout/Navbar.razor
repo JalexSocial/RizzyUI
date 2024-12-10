@@ -5,20 +5,20 @@
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
     <!-- Navbar Toggle Button -->
-    <button type="button" class="xl:hidden inline-block text-onSurface dark:text-onSurfaceDark" x-on:click="showSidebar = ! showSidebar">
+    <button type="button" class="md:hidden inline-block text-onSurface dark:text-onSurfaceDark" x-on:click="showSidebar = ! showSidebar">
 
         <div class="text-xl"><Blazicon Svg="MdiIcon.Menu" /></div>
         
         <span class="sr-only">@ScreenReaderText</span>
     </button>
 
-    <div>
+    <div class="h-full w-full flex items-center">
         @ChildContent
     </div>
 </HtmlElement>
 
 @code {
-    private const string BaseStyle = "fixed top-0 z-50 hidden h-16 w-screen items-center justify-between border-outline bg-surfaceAlt/75 px-10 py-2 backdrop-blur-xl md:flex dark:border-outlineDark dark:bg-surfaceDarkAlt/40 border-b";
+    private const string BaseStyle = "fixed top-0 z-50 h-16 w-screen items-center justify-between border-outline bg-surfaceAlt/75 px-4 py-2 backdrop-blur-xl flex dark:border-outlineDark dark:bg-surfaceDarkAlt/40 border-b";
 
     /// <summary>
     /// Content inside the navbar

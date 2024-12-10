@@ -3,14 +3,23 @@
 
 <Sidebar>
     <NavbarContent>
-        <Navbar>Testing</Navbar>
+        <Navbar>
+            <div x-data="{ visible: false }" 
+                 x-init="visible = true"
+                 x-show="visible"
+                 x-transition:enter="transition-all duration-700 ease-out"
+                 x-transition:enter-start="opacity-0 -translate-x-32"
+                 x-transition:enter-end="opacity-100 translate-x-0">
+                <!-- logo  -->
+                <a href="/" class="text-2xl font-bold text-black dark:text-white">
+                    <span class="sr-only">RizzyUI Home</span>
+                    <img src="/images/logo.svg" class="w-28 md:w-44 px-2" />
+                </a>            
+            </div>
+        </Navbar>
     </NavbarContent>
     <MenuContent>
-        <!-- logo  -->
-        <a href="#" class="ml-2 w-fit text-2xl font-bold text-black dark:text-white">
-            <span class="sr-only">homepage</span>
-            <img src="/images/logo.svg" class="w-full px-2"/>
-        </a>
+
 
         <!-- search  -->
         <div class="relative my-4 flex w-full max-w-xs flex-col gap-1 text-slate-700 dark:text-slate-300">
