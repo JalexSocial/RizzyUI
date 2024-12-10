@@ -5,9 +5,9 @@
 
 <CascadingValue Value="this">
     <div x-ref="@Parent?.ButtonRefId"
-         role="tablist"
-         @attributes="AdditionalAttributes"
-         class="@RootClass()">
+    role="tablist"
+    @attributes="AdditionalAttributes"
+    class="@RootClass()">
         @ChildContent
         <div x-ref="tabMarker" class="z-10 absolute left-0 h-full w-1/2 duration-300 ease-out after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-primary" x-cloak>
             <div class="h-full w-full"></div>
@@ -16,10 +16,16 @@
 </CascadingValue>
 
 @code {
-    private const string BaseStyle = "bg-surface text-onSurface relative inline-grid h-10 select-none items-center justify-center p-1 dark:bg-surfaceDark dark:text-onSurfaceDark";
+    private const string BaseStyle = "bg-surface text-onSurface relative inline-grid gap-4 h-10 select-none items-center dark:bg-surfaceDark dark:text-onSurfaceDark";
 
     [CascadingParameter]
     private Tabs? Parent { get; set; } = default!;
+
+    /// <summary>
+    /// Horizontal alignment of tab content within the tab
+    /// </summary>
+    [Parameter] 
+    public Justify Justify { get; set; } = Justify.Start;
 
     /// <summary>
     /// Child content for the tab strip, typically consisting of <see cref="Tab"/> components.

@@ -44,6 +44,13 @@ public enum Size
     ExtraLarge
 }
 
+public enum Justify
+{
+    Start,
+    Center,
+    End
+}
+
 public enum AvatarShape
 {
     Circle,

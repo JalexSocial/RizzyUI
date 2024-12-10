@@ -6,7 +6,7 @@
 @inherits RizzyComponent
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
-    <div x-data="{ headings: @_headingItemsSerialized, currentHeadingId: '@(_headingItems.FirstOrDefault()?.Id ?? string.Empty)', setCurrentHeading(id) { console.log(id); if (this.headings.includes(id)) { this.currentHeadingId = id; } } }">
+    <div x-data="{ headings: @_headingItemsSerialized, currentHeadingId: '@(_headingItems.FirstOrDefault()?.Id ?? string.Empty)', setCurrentHeading(id) { if (this.headings.includes(id)) { this.currentHeadingId = id; } } }">
         <CascadingValue Value="this">
             @ChildContent
         </CascadingValue>

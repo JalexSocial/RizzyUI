@@ -79,13 +79,7 @@
     [Parameter]
     public RenderFragment? MainContent { get; set; }
 
-    private string GetNavbarTopCss()
-    {
-        return NavbarContent is null ? "" : "mt-16";
-    }
+    private string GetNavbarTopCss() => NavbarContent is null ? "" : "mt-16";
 
-    private string GetAsideCss()
-    {
-	    return NavbarContent is null ? "top-0" : "top-16";
-    }
+    private string GetAsideCss() => NavbarContent is null ? "top-0" : "top-16";
 }

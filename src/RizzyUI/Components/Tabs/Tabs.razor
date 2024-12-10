@@ -60,7 +60,7 @@
         @Menu
 
         <div>
-            @Content
+            @TabPanels
         </div>
     </div>
 </CascadingValue>
@@ -90,10 +90,10 @@
     public required RenderFragment Menu { get; set; } = default!;
 
     /// <summary>
-    /// Render fragment for the tab content.
+    /// Render fragment for the tab panels.
     /// </summary>
     [Parameter, EditorRequired]
-    public required RenderFragment Content { get; set; } = default!;
+    public required RenderFragment TabPanels { get; set; } = default!;
 
     /// <summary>
     /// The currently active tab.

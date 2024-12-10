@@ -1,0 +1,63 @@
+﻿@page "/components/tabs"
+
+<PageTitle>Tabs</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Tabs</Heading>
+            <Paragraph>
+                Tabs are a great way to display different sections of your website. They can be used to indicate the current section, navigate to the next or previous section, and more.
+            </Paragraph>
+
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Avatar" class="scroll-mt-20">Default Tabs</Heading>
+            <Paragraph TextColor="Color.OnSurface">
+                A list of tabs with a tab panel.
+            </Paragraph>
+
+            <Browser>
+                <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
+                    <Tabs>
+                        <Menu>
+                            <TabStrip>
+                                <Tab Name="groups">Groups</Tab>
+                                <Tab Name="likes">Likes</Tab>
+                                <Tab Name="comments">Comments</Tab>
+                                <Tab Name="saved">Saved</Tab>
+                            </TabStrip>
+                        </Menu>
+                        <TabPanels>
+                            <TabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</TabPanel>
+                            <TabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</TabPanel>
+                            <TabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</TabPanel>
+                            <TabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</TabPanel>
+                        </TabPanels>
+                    </Tabs>
+                </div>
+            </Browser>
+
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;Tabs&gt;
+        &lt;Menu&gt;
+            &lt;TabStrip&gt;
+                &lt;Tab Name=&quot;groups&quot;&gt;Groups&lt;/Tab&gt;
+                &lt;Tab Name=&quot;likes&quot;&gt;Likes&lt;/Tab&gt;
+                &lt;Tab Name=&quot;comments&quot;&gt;Comments&lt;/Tab&gt;
+                &lt;Tab Name=&quot;saved&quot;&gt;Saved&lt;/Tab&gt;
+            &lt;/TabStrip&gt;
+        &lt;/Menu&gt;
+        &lt;TabPanels&gt;
+            &lt;TabPanel Name=&quot;groups&quot;&gt;&lt;strong&gt;&lt;u&gt;Groups&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+            &lt;TabPanel Name=&quot;likes&quot;&gt;&lt;strong&gt;&lt;u&gt;Likes&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+            &lt;TabPanel Name=&quot;comments&quot;&gt;&lt;strong&gt;&lt;u&gt;Comments&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+            &lt;TabPanel Name=&quot;saved&quot;&gt;&lt;strong&gt;&lt;u&gt;Saved&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+        &lt;/TabPanels&gt;
+    &lt;/Tabs&gt;
+            </CodeViewer>
+
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>
