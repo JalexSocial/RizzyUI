@@ -41,7 +41,9 @@
     /// <returns>A string containing the combined CSS classes.</returns>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, BaseStyle);
+        return TwMerge.Merge(AdditionalAttributes, 
+            BaseStyle, 
+            Parent?.TabTextColor.ToTextClass() ?? string.Empty);
     }
 
     /// <summary>

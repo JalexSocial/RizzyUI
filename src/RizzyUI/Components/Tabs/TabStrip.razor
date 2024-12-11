@@ -16,7 +16,7 @@
 </CascadingValue>
 
 @code {
-    private const string BaseStyle = "relative inline-grid gap-4 h-10 select-none items-center";
+    private const string BaseStyle = "relative inline-grid select-none items-center";
 
     [CascadingParameter]
     private Tabs? Parent { get; set; } = default!;
@@ -26,6 +26,12 @@
     /// </summary>
     [Parameter] 
     public Justify Justify { get; set; } = Justify.Center;
+
+    /// <summary>
+    /// Gap spacing between tabs
+    /// </summary>
+    [Parameter] 
+    public Size SpaceBetween { get; set; } = Size.Medium;
 
     /// <summary>
     /// Child content for the tab strip, typically consisting of <see cref="Tab"/> components.
@@ -42,7 +48,8 @@
         return TwMerge.Merge(AdditionalAttributes, 
             BaseStyle, 
             Parent?.TabTextColor.ToTextClass() ?? string.Empty,
-            GetColumnsCss());
+            GetColumnsCss(),
+            GetGapCss());
     }
 
     /// <summary>
@@ -66,6 +73,19 @@
             11 => "grid-cols-11",
             12 => "grid-cols-12",
             _ => "grid-cols-1"
+        };
+    }
+
+    private string GetGapCss()
+    {
+        return SpaceBetween switch
+        {
+            Size.ExtraSmall => "gap-0",
+            Size.Small => "gap-1",
+            Size.Medium => "gap-2",
+            Size.Large => "gap-3",
+            Size.ExtraLarge => "gap-4",
+            _ => "gap-2"
         };
     }
 }

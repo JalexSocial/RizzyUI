@@ -13,7 +13,7 @@
                 Tabs are a great way to display different sections of your website. They can be used to indicate the current section, navigate to the next or previous section, and more.
             </Paragraph>
 
-            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Avatar" class="scroll-mt-20">Default Tabs</Heading>
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Tabs" class="scroll-mt-20">Default Tabs</Heading>
             <Paragraph TextColor="Color.OnSurface">
                 A list of tabs with a tab panel.
             </Paragraph>
@@ -57,7 +57,107 @@
         &lt;/TabPanels&gt;
     &lt;/Tabs&gt;
             </CodeViewer>
+            
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Tabs with icon" class="scroll-mt-20">Tabs with icon</Heading>
+            <Paragraph TextColor="Color.OnSurface">
+                A list of tabs with icons and a tab panel.
+            </Paragraph>
 
+            <Browser>
+                <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
+                    <Tabs>
+                        <Menu>
+                            <TabStrip>
+                                <Tab Name="groups">
+                                    <div class="pr-2"><Blazicon Svg="MdiIcon.AccountGroup" /></div>
+                                    Groups
+                                </Tab>
+                                <Tab Name="likes">Likes</Tab>
+                                <Tab Name="comments">Comments</Tab>
+                                <Tab Name="saved">Saved</Tab>
+                            </TabStrip>
+                        </Menu>
+                        <TabPanels>
+                            <TabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</TabPanel>
+                            <TabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</TabPanel>
+                            <TabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</TabPanel>
+                            <TabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</TabPanel>
+                        </TabPanels>
+                    </Tabs>
+                </div>
+            </Browser>
+
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;Tabs&gt;
+        &lt;Menu&gt;
+            &lt;TabStrip&gt;
+                &lt;Tab Name=&quot;groups&quot;&gt;Groups&lt;/Tab&gt;
+                &lt;Tab Name=&quot;likes&quot;&gt;Likes&lt;/Tab&gt;
+                &lt;Tab Name=&quot;comments&quot;&gt;Comments&lt;/Tab&gt;
+                &lt;Tab Name=&quot;saved&quot;&gt;Saved&lt;/Tab&gt;
+            &lt;/TabStrip&gt;
+        &lt;/Menu&gt;
+        &lt;TabPanels&gt;
+            &lt;TabPanel Name=&quot;groups&quot;&gt;&lt;strong&gt;&lt;u&gt;Groups&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+            &lt;TabPanel Name=&quot;likes&quot;&gt;&lt;strong&gt;&lt;u&gt;Likes&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+            &lt;TabPanel Name=&quot;comments&quot;&gt;&lt;strong&gt;&lt;u&gt;Comments&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+            &lt;TabPanel Name=&quot;saved&quot;&gt;&lt;strong&gt;&lt;u&gt;Saved&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+        &lt;/TabPanels&gt;
+    &lt;/Tabs&gt;
+            </CodeViewer>            
+
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Colored Tabs" class="scroll-mt-20">Colored Tabs</Heading>
+            <Paragraph TextColor="Color.OnSurface">
+                A list of colored tabs with a tab panel.
+            </Paragraph>
+
+            <Browser>
+                <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
+                    <Tabs SelectedTabName="events" 
+                          TabBackgroundColor="Color.SurfaceAlt"
+                          SelectedTabUnderlineColor="Color.Warning"
+                          TabTextColor="Color.OnSurface"
+                          SelectedTabTextColor="Color.OnSurfaceStrong">
+                        <Menu>
+                            <TabStrip Justify="Justify.Center" SpaceBetween="Size.Small">
+                                <Tab Name="activity">Activity</Tab>
+                                <Tab Name="events">Events</Tab>
+                                <Tab Name="pages">Pages</Tab>
+                                <Tab Name="members">Members</Tab>
+                            </TabStrip>
+                        </Menu>
+                        <TabPanels>
+                            <TabPanel Name="activity" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Activity Content</TabPanel>
+                            <TabPanel Name="events" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Events Content</TabPanel>
+                            <TabPanel Name="pages" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Pages Content</TabPanel>
+                            <TabPanel Name="members" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Members Content</TabPanel>
+                        </TabPanels>
+                    </Tabs>
+                </div>
+            </Browser>
+
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;Tabs SelectedTabName=&quot;activity&quot; 
+          TabBackgroundColor=&quot;Color.SurfaceAlt&quot;
+          SelectedTabUnderlineColor=&quot;Color.Warning&quot;
+          TabTextColor=&quot;Color.OnSurface&quot;
+          SelectedTabTextColor=&quot;Color.OnSurfaceStrong&quot;&gt;
+        &lt;Menu&gt;
+            &lt;TabStrip Justify=&quot;Justify.Center&quot; SpaceBetween=&quot;Size.Medium&quot;&gt;
+                &lt;Tab Name=&quot;activity&quot;&gt;Activity&lt;/Tab&gt;
+                &lt;Tab Name=&quot;events&quot;&gt;Events&lt;/Tab&gt;
+                &lt;Tab Name=&quot;pages&quot;&gt;Pages&lt;/Tab&gt;
+                &lt;Tab Name=&quot;members&quot;&gt;Members&lt;/Tab&gt;
+            &lt;/TabStrip&gt;
+        &lt;/Menu&gt;
+        &lt;TabPanels&gt;
+            &lt;TabPanel Name=&quot;activity&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Activity Content&lt;/TabPanel&gt;
+            &lt;TabPanel Name=&quot;events&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Events Content&lt;/TabPanel&gt;
+            &lt;TabPanel Name=&quot;pages&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Pages Content&lt;/TabPanel&gt;
+            &lt;TabPanel Name=&quot;members&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Members Content&lt;/TabPanel&gt;
+        &lt;/TabPanels&gt;
+    &lt;/Tabs&gt;
+            </CodeViewer>
         </MainContent>
     </Article>
 </QuickReferenceContainer>

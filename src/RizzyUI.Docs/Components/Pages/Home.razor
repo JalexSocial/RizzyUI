@@ -26,11 +26,12 @@
 </Paragraph>
 
 <Tabs SelectedTabName="activity" 
-      TabBackgroundColor="Color.Success"
-      SelectedTabUnderlineColor="Color.Success"
-      SelectedTabTextColor="Color.OnSuccess">
+      TabBackgroundColor="Color.SurfaceAlt"
+      SelectedTabUnderlineColor="Color.Warning"
+      TabTextColor="Color.OnSurface"
+      SelectedTabTextColor="Color.OnSurfaceStrong">
     <Menu>
-        <TabStrip>
+        <TabStrip Justify="Justify.Center" SpaceBetween="Size.Medium">
             <Tab Name="activity">Activity</Tab>
             <Tab Name="events">Events</Tab>
             <Tab Name="pages">Pages</Tab>
@@ -38,10 +39,10 @@
         </TabStrip>
     </Menu>
     <TabPanels>
-        <TabPanel Name="activity">Activity Content</TabPanel>
-        <TabPanel Name="events">Events Content</TabPanel>
-        <TabPanel Name="pages">Pages Content</TabPanel>
-        <TabPanel Name="members">Members Content</TabPanel>
+        <TabPanel Name="activity" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Activity Content</TabPanel>
+        <TabPanel Name="events" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Events Content</TabPanel>
+        <TabPanel Name="pages" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Pages Content</TabPanel>
+        <TabPanel Name="members" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Members Content</TabPanel>
     </TabPanels>
 </Tabs>
 
