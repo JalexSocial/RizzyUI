@@ -14,13 +14,13 @@
     aria-controls="@(Name.ToLowerInvariant() + "-panel")"
     @attributes="AdditionalAttributes"
     class="@RootClass()"
-    :class="tabButtonActive($el) ? 'text-primary' : ''"
+    :class="tabButtonActive($el) ? '@(Parent?.SelectedTabTextColor.ToTextClass() ?? "text-primary")' : ''"
 >
     @ChildContent
 </button>
 
 @code {
-    private const string BaseStyle = "z-20 relative inline-flex h-8 gap-4 w-full cursor-pointer items-center whitespace-nowrap rounded-md font-medium transition-all mr-1";
+    private const string BaseStyle = "z-10 relative inline-flex h-8 gap-4 w-full cursor-pointer items-center whitespace-nowrap rounded rounded-b-none font-medium transition-all mr-1";
 
     [CascadingParameter]
     private Tabs? Parent { get; set; }
@@ -46,7 +46,10 @@
     /// <returns>A string containing the combined CSS classes.</returns>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, BaseStyle, GetJustifyCss());
+        return TwMerge.Merge(AdditionalAttributes, 
+            BaseStyle, 
+            Parent?.TabBackgroundColor.ToBackgroundClass() ?? string.Empty, 
+            GetJustifyCss());
     }
 
     /// <summary>

@@ -75,6 +75,8 @@ public enum ModalSize
 
 public enum Color
 {
+    None,
+
     // Surface Colors
     Surface,
     OnSurface,

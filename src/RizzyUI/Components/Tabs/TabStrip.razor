@@ -9,14 +9,14 @@
     @attributes="AdditionalAttributes"
     class="@RootClass()">
         @ChildContent
-        <div x-ref="tabMarker" class="z-10 opacity-0 absolute left-0 h-full w-1/2 duration-300 ease-out after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full after:bg-primary" x-cloak>
+        <div x-ref="tabMarker" class="z-20 opacity-0 absolute left-0 h-full w-1/2 duration-300 ease-out after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full @(Parent?.SelectedTabUnderlineColor.ToBackgroundClass("after") ?? string.Empty)" x-cloak>
             <div class="h-full w-full"></div>
         </div>
     </div>
 </CascadingValue>
 
 @code {
-    private const string BaseStyle = "bg-surface text-onSurface relative inline-grid gap-4 h-10 select-none items-center dark:bg-surfaceDark dark:text-onSurfaceDark";
+    private const string BaseStyle = "relative inline-grid gap-4 h-10 select-none items-center";
 
     [CascadingParameter]
     private Tabs? Parent { get; set; } = default!;
@@ -25,7 +25,7 @@
     /// Horizontal alignment of tab content within the tab
     /// </summary>
     [Parameter] 
-    public Justify Justify { get; set; } = Justify.Start;
+    public Justify Justify { get; set; } = Justify.Center;
 
     /// <summary>
     /// Child content for the tab strip, typically consisting of <see cref="Tab"/> components.
@@ -39,7 +39,10 @@
     /// <returns>A string containing the combined CSS classes.</returns>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, BaseStyle, GetColumnsCss());
+        return TwMerge.Merge(AdditionalAttributes, 
+            BaseStyle, 
+            Parent?.TabTextColor.ToTextClass() ?? string.Empty,
+            GetColumnsCss());
     }
 
     /// <summary>

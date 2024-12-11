@@ -6,7 +6,7 @@
 
 <CascadingValue Value="this">
     <div
-        x-data="{
+    x-data="{
             buttonRef: $refs.@(ButtonRefId),
             tabSelected: '@(ActiveTab?.Name?.ToLowerInvariant() ?? string.Empty)',
             tabButton: null,
@@ -53,10 +53,10 @@
                 }
             }
         }"
-        x-init="tabRepositionMarker(buttonRef.querySelector('[data-name=\'' + tabSelected + '\']'));"
-        x-on:resize.window="tabRepositionMarker(tabButton);"
-        @attributes="AdditionalAttributes"
-        class="@RootClass()"
+    x-init="tabRepositionMarker(buttonRef.querySelector('[data-name=\'' + tabSelected + '\']'));"
+    x-on:resize.window="tabRepositionMarker(tabButton);"
+    @attributes="AdditionalAttributes"
+    class="@RootClass()"
     >
         @Menu
 
@@ -83,6 +83,30 @@
     /// </summary>
     [Parameter]
     public string SelectedTabName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Text color for the tab
+    /// </summary>
+    [Parameter]
+    public Color TabTextColor { get; set; } = Color.OnSurface;
+
+    /// <summary>
+    /// Color for both the selected tab text 
+    /// </summary>
+    [Parameter] 
+    public Color SelectedTabTextColor { get; set; } = Color.Primary;
+
+    /// <summary>
+    /// Color for both the selected tab underline
+    /// </summary>
+    [Parameter]
+    public Color SelectedTabUnderlineColor { get; set; } = Color.Primary;
+
+    /// <summary>
+    /// Background color for the tab
+    /// </summary>
+    [Parameter]
+    public Color TabBackgroundColor { get; set; } = Color.Surface;
 
     /// <summary>
     /// Render fragment for the tab menu.

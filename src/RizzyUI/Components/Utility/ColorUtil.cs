@@ -91,6 +91,8 @@ public static class ColorUtil
     {
         return color switch
         {
+            Color.None => "",
+
             // Surface Colors
             Color.Surface => "text-surface dark:text-surfaceDark",
             Color.OnSurface => "text-onSurface dark:text-onSurfaceDark",
@@ -126,6 +128,8 @@ public static class ColorUtil
     {
         return color switch
         {
+            Color.None => "",
+
             // Surface Colors
             Color.Surface => "bg-surface dark:bg-surfaceDark",
             Color.OnSurface => "bg-onSurface dark:bg-onSurfaceDark",
@@ -152,5 +156,48 @@ public static class ColorUtil
         };
     }
 
+    /// <summary>
+    /// Converts a Color to a background class string, including dark mode variants for Surface colors.
+    /// </summary>
+    /// <param name="color">The color enum value.</param>
+    /// <param name="pseudoSelector">Tailwind pseudo element modifier ("before" or "after")</param>
+    /// <returns>A string representing the corresponding CSS background class.</returns>
+    public static string ToBackgroundClass(this Color color, string pseudoSelector)
+    {
+        var ps = pseudoSelector + ":";
+
+        return color switch
+        {
+            Color.None => "",
+
+            // Surface Colors
+            Color.Surface => $"{ps}bg-surface dark:{ps}bg-surfaceDark",
+            Color.OnSurface => $"{ps}bg-onSurface dark:{ps}bg-onSurfaceDark",
+            Color.OnSurfaceStrong => $"{ps}bg-onSurfaceStrong dark:{ps}bg-onSurfaceStrongDark",
+            Color.SurfaceAlt => $"{ps}bg-surfaceAlt dark:{ps}bg-surfaceAltDark",
+            Color.Primary => $"{ps}bg-primary dark:{ps}bg-primaryDark",
+            Color.OnPrimary => $"{ps}bg-onPrimary dark:{ps}bg-onPrimaryDark",
+            Color.Secondary => $"{ps}bg-secondary dark:{ps}bg-secondaryDark",
+            Color.OnSecondary => $"{ps}bg-onSecondary dark:{ps}bg-onSecondaryDark",
+            Color.Outline => $"{ps}bg-outline dark:{ps}bg-outlineDark",
+            Color.OutlineStrong => $"{ps}bg-outlineStrong dark:{ps}bg-outlineStrongDark",
+
+            // Status Colors (no dark variants)
+            Color.Danger => ps + "bg-danger",
+            Color.OnDanger => ps + "bg-onDanger",
+            Color.Info => ps + "bg-info",
+            Color.OnInfo => ps + "bg-onInfo",
+            Color.Warning => ps + "bg-warning",
+            Color.OnWarning => ps + "bg-onWarning",
+            Color.Success => ps + "bg-success",
+            Color.OnSuccess => ps + "bg-onSuccess",
+
+            _ => "bg-surface dark:bg-surfaceDark"
+        };
+    }
+
+    // ReSharper disable once UnusedMember.Local
+    private const string TwBackgroundClassAfterDiscovery =
+        "after:bg-surface dark:after:bg-surfaceDark after:bg-onsurface dark:after:bg-onsurfaceDark after:bg-onsurfacestrong dark:after:bg-onsurfacestrongDark after:bg-surfacealt dark:after:bg-surfacealtDark after:bg-primary dark:after:bg-primaryDark after:bg-onprimary dark:after:bg-onprimaryDark after:bg-secondary dark:after:bg-secondaryDark after:bg-onsecondary dark:after:bg-onsecondaryDark after:bg-outline dark:after:bg-outlineDark after:bg-outlinestrong dark:after:bg-outlinestrongDark after:bg-danger after:bg-ondanger after:bg-info after:bg-oninfo after:bg-warning after:bg-onwarning after:bg-success after:bg-onsuccess after:bg-surface dark:after:bg-surfaceDark";
 
 }

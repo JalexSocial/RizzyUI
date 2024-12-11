@@ -1390,10 +1390,6 @@ select {
   border-radius: 0.5rem;
 }
 
-.rounded-md {
-  border-radius: 0.375rem;
-}
-
 .rounded-none {
   border-radius: 0px;
 }
@@ -1605,8 +1601,16 @@ select {
   background-color: rgb(var(--onPrimary));
 }
 
+.bg-onPrimaryDark {
+  background-color: rgb(var(--onPrimaryDark));
+}
+
 .bg-onSecondary {
   background-color: rgb(var(--onSecondary));
+}
+
+.bg-onSecondaryDark {
+  background-color: rgb(var(--onSecondaryDark));
 }
 
 .bg-onSuccess {
@@ -1617,8 +1621,16 @@ select {
   background-color: rgb(var(--onSurface));
 }
 
+.bg-onSurfaceDark {
+  background-color: rgb(var(--onSurfaceDark));
+}
+
 .bg-onSurfaceStrong {
   background-color: rgb(var(--onSurfaceStrong));
+}
+
+.bg-onSurfaceStrongDark {
+  background-color: rgb(var(--onSurfaceStrongDark));
 }
 
 .bg-onWarning {
@@ -1639,8 +1651,16 @@ select {
   background-color: rgb(var(--outline));
 }
 
+.bg-outlineDark {
+  background-color: rgb(var(--outlineDark));
+}
+
 .bg-outlineStrong {
   background-color: rgb(var(--outlineStrong));
+}
+
+.bg-outlineStrongDark {
+  background-color: rgb(var(--outlineStrongDark));
 }
 
 .bg-pink-200 {
@@ -1655,6 +1675,10 @@ select {
 
 .bg-primary {
   background-color: rgb(var(--primary));
+}
+
+.bg-primaryDark {
+  background-color: rgb(var(--primaryDark));
 }
 
 .bg-purple-200 {
@@ -1679,6 +1703,10 @@ select {
 
 .bg-secondary {
   background-color: rgb(var(--secondary));
+}
+
+.bg-secondaryDark {
+  background-color: rgb(var(--secondaryDark));
 }
 
 .bg-success {
@@ -1707,6 +1735,10 @@ select {
 
 .bg-surfaceAltDark {
   background-color: rgb(var(--surfaceAltDark));
+}
+
+.bg-surfaceDark {
+  background-color: rgb(var(--surfaceDark));
 }
 
 .bg-surfaceDark\/10 {
@@ -2298,9 +2330,44 @@ h1:focus {
   width: 100%;
 }
 
+.after\:bg-danger::after {
+  content: var(--tw-content);
+  background-color: rgb(var(--danger));
+}
+
+.after\:bg-info::after {
+  content: var(--tw-content);
+  background-color: rgb(var(--info));
+}
+
+.after\:bg-outline::after {
+  content: var(--tw-content);
+  background-color: rgb(var(--outline));
+}
+
 .after\:bg-primary::after {
   content: var(--tw-content);
   background-color: rgb(var(--primary));
+}
+
+.after\:bg-secondary::after {
+  content: var(--tw-content);
+  background-color: rgb(var(--secondary));
+}
+
+.after\:bg-success::after {
+  content: var(--tw-content);
+  background-color: rgb(var(--success));
+}
+
+.after\:bg-surface::after {
+  content: var(--tw-content);
+  background-color: rgb(var(--surface));
+}
+
+.after\:bg-warning::after {
+  content: var(--tw-content);
+  background-color: rgb(var(--warning));
 }
 
 .first\:mt-2:first-child {
@@ -2654,6 +2721,26 @@ h1:focus {
 .dark\:text-white:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.dark\:after\:bg-outlineDark:is(.dark *)::after {
+  content: var(--tw-content);
+  background-color: rgb(var(--outlineDark));
+}
+
+.dark\:after\:bg-primaryDark:is(.dark *)::after {
+  content: var(--tw-content);
+  background-color: rgb(var(--primaryDark));
+}
+
+.dark\:after\:bg-secondaryDark:is(.dark *)::after {
+  content: var(--tw-content);
+  background-color: rgb(var(--secondaryDark));
+}
+
+.dark\:after\:bg-surfaceDark:is(.dark *)::after {
+  content: var(--tw-content);
+  background-color: rgb(var(--surfaceDark));
 }
 
 .dark\:hover\:bg-primaryDark\/5:hover:is(.dark *) {
