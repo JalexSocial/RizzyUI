@@ -4,67 +4,89 @@ using Microsoft.AspNetCore.Components;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Represents an alert component that displays a message with optional icon, variant,
+/// and dismiss functionality.
+/// </summary>
 public partial class Alert : RizzyComponent
 {
-	private const string BaseStyle = "relative w-full overflow-hidden rounded border";
-	private string _bgLight = "bg-info/10";
-	private string _bgLighter = "bg-info/15";
+    /// <summary>
+    /// Base CSS classes applied to the alert container.
+    /// </summary>
+    private const string BaseStyle = "relative w-full overflow-hidden rounded border";
+
+    private string _bgLight = "bg-info/10";
+    private string _bgLighter = "bg-info/15";
     private string _iconColor = "text-info";
 
-    [Parameter]
-	public AlertVariant Variant { get; set; } = AlertVariant.Information;
-
-	[Parameter]
-	public SvgIcon? Icon { get; set; }
-
-    [Parameter]
-	public bool Dismissable { get; set; } = false;
-
-
     /// <summary>
-    /// Child content for the alert
+    /// Gets or sets the variant of the alert, which determines its visual appearance.
     /// </summary>
     [Parameter]
-	public RenderFragment? ChildContent { get; set; }
+    public AlertVariant Variant { get; set; } = AlertVariant.Information;
 
+    /// <summary>
+    /// Gets or sets the icon displayed in the alert. Defaults to a context-appropriate icon based on the <see cref="Variant"/>.
+    /// </summary>
+    [Parameter]
+    public SvgIcon? Icon { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the alert can be dismissed by the user.
+    /// </summary>
+    [Parameter]
+    public bool Dismissable { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets the content to be displayed inside the alert.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Sets the internal state of the alert component when parameters change.
+    /// </summary>
     protected override void OnParametersSet()
     {
-
-		switch (Variant)
-		{
-			case AlertVariant.Information:
-				Icon ??= MdiIcon.InformationSlabCircle;
-				_bgLight = "bg-info/10";
-				_bgLighter = "bg-info/15";
+        switch (Variant)
+        {
+            case AlertVariant.Information:
+                Icon ??= MdiIcon.InformationSlabCircle;
+                _bgLight = "bg-info/10";
+                _bgLighter = "bg-info/15";
                 _iconColor = "text-info";
                 break;
-			case AlertVariant.Success:
-				Icon ??= MdiIcon.CheckCircle;
-				_bgLight = "bg-success/10";
-				_bgLighter = "bg-success/15";
+            case AlertVariant.Success:
+                Icon ??= MdiIcon.CheckCircle;
+                _bgLight = "bg-success/10";
+                _bgLighter = "bg-success/15";
                 _iconColor = "text-success";
                 break;
-			case AlertVariant.Warning:
-				Icon ??= MdiIcon.AlertCircle;
-				_bgLight = "bg-warning/10";
-				_bgLighter = "bg-warning/15";
+            case AlertVariant.Warning:
+                Icon ??= MdiIcon.AlertCircle;
+                _bgLight = "bg-warning/10";
+                _bgLighter = "bg-warning/15";
                 _iconColor = "text-warning";
                 break;
-			case AlertVariant.Danger:
-				Icon ??= MdiIcon.CloseCircle;
-				_bgLight = "bg-danger/10";
-				_bgLighter = "bg-danger/15";
+            case AlertVariant.Danger:
+                Icon ??= MdiIcon.CloseCircle;
+                _bgLight = "bg-danger/10";
+                _bgLighter = "bg-danger/15";
                 _iconColor = "text-danger";
                 break;
-		}
+        }
 
-		base.OnParametersSet();
-	}
+        base.OnParametersSet();
+    }
 
+    /// <summary>
+    /// Generates the root CSS class for the alert component, merging the base style with variant-specific styles.
+    /// </summary>
+    /// <returns>A string representing the combined CSS class for the alert.</returns>
     protected override string? RootClass()
-	{
-		return TwMerge.Merge(AdditionalAttributes, BaseStyle, GetAlertVariantCss(Variant));
-	}
+    {
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle, GetAlertVariantCss(Variant));
+    }
 
     /// <summary>
     /// Gets the CSS classes associated with the specified alert variant.
