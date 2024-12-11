@@ -20,6 +20,7 @@
                 this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
                 this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
                 this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
+                setTimeout(()=>{ this.$refs.tabMarker.style.opacity=1; }, 150);
             },
             tabContentActive(tabContent){
                 return this.tabSelected === tabContent.getAttribute('data-name');

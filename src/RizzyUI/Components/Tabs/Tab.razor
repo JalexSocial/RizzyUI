@@ -14,7 +14,7 @@
     aria-controls="@(Name.ToLowerInvariant() + "-panel")"
     @attributes="AdditionalAttributes"
     class="@RootClass()"
-    :class="tabButtonActive($el) ? 'text-primary' : 'text-onSurface'"
+    :class="tabButtonActive($el) ? 'text-primary' : ''"
 >
     @ChildContent
 </button>
