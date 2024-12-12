@@ -9,7 +9,7 @@
         @foreach (var heading in QuickReferenceContainer.GetHeadingItems())
         {
             <li class="@GetIndentation(heading.Level)">
-                <a href="#@heading.Id" :class="{'font-bold': currentHeadingId === '@heading.Id'}" x-on:click="setTimeout(() => { currentHeadingId = '@heading.Id'; }, 10)">
+                <a href="#@heading.Id" data-headingid="@heading.Id" :class="{'font-bold': currentHeadingId === '@heading.Id'}" x-on:click="handleHeadingClick">
                     @heading.Title
                 </a>
             </li>
