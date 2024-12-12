@@ -7,7 +7,7 @@
 <CascadingValue Value="@this">
     <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()" role="alert" aria-live="assertive" aria-labelledby="alert-title" aria-describedby="alert-description" x-cloak
                  x-show="showAlert"
-                 x-data="{showAlert: true }"
+                 x-data="rzAlert"
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0"
                  x-transition:enter-end="opacity-100"
@@ -29,7 +29,7 @@
 		    {
 			    <button
 				    type="button"
-				    x-on:click="showAlert = false"
+				    x-on:click="dismiss"
 				    aria-label="Close alert"
 				    class="ml-auto">
 
