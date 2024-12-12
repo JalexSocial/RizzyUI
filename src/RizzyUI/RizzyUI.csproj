@@ -22,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Blazicons" Version="2.0.28" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.0.19" />
         <PackageReference Include="TailwindMerge.NET" Version="0.3.0" />

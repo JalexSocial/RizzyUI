@@ -3,15 +3,24 @@ using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
 using TailwindMerge;
 using RizzyUI.Extensions;
+using RizzyUI.Services;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Base class for all RizzyUI components
+/// </summary>
 public class RizzyComponent : ComponentBase
 {
     /// <summary>
     /// Reference to Tailwind Merge service
     /// </summary>
     [Inject] protected TwMerge TwMerge { get; set; } = default!;
+
+    /// <summary>
+    /// Reference to RizzyNonceProvider service
+    /// </summary>
+    [Inject] protected IRizzyNonceProvider RizzyNonceProvider { get; set; } = default!;
 
     /// <summary>
     /// Specifies the root HTML element to render (e.g., "div", "a", "button").
