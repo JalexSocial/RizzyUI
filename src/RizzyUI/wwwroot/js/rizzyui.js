@@ -99,4 +99,65 @@ document.addEventListener('alpine:init', () => {
                 }
             }
         });
+
+    Alpine.data('rzTabs',
+        () => {
+            return {
+                buttonRef: null,
+                tabSelected: '',
+                tabButton: null,
+                init() {
+                    this.buttonRef = document.getElementById(this.$el.dataset.buttonref);
+                    this.tabSelected = this.$el.dataset.tabselected;
+                    this.tabButton = this.buttonRef.querySelector('[data-name=\'' + this.tabSelected + '\']');
+
+                    this.tabRepositionMarker(this.tabButton);
+                },
+                tabButtonClicked(tabButton){
+                    this.tabSelected = tabButton.getAttribute('data-name');
+                    this.tabRepositionMarker(tabButton);
+                    tabButton.focus();
+                },
+                tabRepositionMarker(tabButton){
+                    this.tabButton = tabButton;
+                    this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
+                    this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
+                    this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
+                    setTimeout(() => { this.$refs.tabMarker.style.opacity = 1; }, 150);
+                },
+                tabContentActive(tabContent){
+                    return this.tabSelected === tabContent.getAttribute('data-name');
+                },
+                tabButtonActive(tabButton){
+                    return this.tabSelected === tabButton.getAttribute('data-name');
+                },
+                handleResize() {
+                    tabRepositionMarker(tabButton);
+                },
+                handleKeyDown(event){
+                    const key = event.key;
+                    const tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
+                    const currentIndex = tabButtons.findIndex(button => this.tabButtonActive(button));
+                    let newIndex = currentIndex;
+
+                    if (key === 'ArrowRight') {
+                        newIndex = (currentIndex + 1) % tabButtons.length;
+                        event.preventDefault();
+                    } else if (key === 'ArrowLeft') {
+                        newIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
+                        event.preventDefault();
+                    } else if (key === 'Home') {
+                        newIndex = 0;
+                        event.preventDefault();
+                    } else if (key === 'End') {
+                        newIndex = tabButtons.length - 1;
+                        event.preventDefault();
+                    }
+
+                    if (newIndex !== currentIndex) {
+                        this.tabButtonClicked(tabButtons[newIndex]);
+                    }
+                }
+        }
+        });
 })
