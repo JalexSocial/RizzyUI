@@ -113,8 +113,11 @@ document.addEventListener('alpine:init', () => {
 
                     this.tabRepositionMarker(this.tabButton);
                 },
-                tabButtonClicked(tabButton){
-                    this.tabSelected = tabButton.getAttribute('data-name');
+                tabButtonClicked(tabButton) {
+                    if (tabButton instanceof Event)
+                        tabButton = tabButton.target;
+
+                    this.tabSelected = tabButton.dataset.name;
                     this.tabRepositionMarker(tabButton);
                     tabButton.focus();
                 },
@@ -127,23 +130,23 @@ document.addEventListener('alpine:init', () => {
                 },
                 tabContentActive(tabContent) {
                     tabContent = tabContent ?? this.$el;
-                    return this.tabSelected === tabContent.getAttribute('data-name');
+                    return this.tabSelected === tabContent.dataset.name;
                 },
                 tabButtonActive(tabButton) {
                     tabButton = tabButton ?? this.$el;
-                    return this.tabSelected === tabButton.getAttribute('data-name');
+                    return this.tabSelected === tabButton.dataset.name;
                 },
                 selectedTabTextColor() {
                     const color = this.$el.dataset.selectedtextcolor ?? '';
 
-                    if (tabButtonActive(this.$el)) {
+                    if (this.tabButtonActive(this.$el)) {
                         return color;
                     }
 
                     return '';
                 },
                 handleResize() {
-                    tabRepositionMarker(tabButton);
+                    this.tabRepositionMarker(this.tabButton);
                 },
                 handleKeyDown(event){
                     const key = event.key;
