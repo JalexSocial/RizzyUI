@@ -11,8 +11,23 @@ namespace RizzyUI.Services;
 /// </summary>
 public interface IRizzyNonceProvider
 {
+	/// <summary>
+	/// Retrieves the nonce values for inline scripts and styles. If the nonce values
+	/// have already been generated for the current HTTP request, they are returned
+	/// from the cache; otherwise, new nonce values are generated, cached, and returned.
+	/// </summary>
+	/// <returns>
+	/// An instance of <see cref="RizzyNonceValues"/> containing the generated nonce values.
+	/// </returns>
+	public RizzyNonceValues GetNonceValues();
+
     /// <summary>
-    /// Gets the nonce values for the current request.
+    /// The nonce to add to any inlined scripts
     /// </summary>
-    RizzyNonceValues GetNonceValues();
+    public string InlineScriptNonce { get; }
+
+	/// <summary>
+	/// The nonce to add to any inlined styles
+	/// </summary>
+	public string InlineStyleNonce { get; }
 }

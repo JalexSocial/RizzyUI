@@ -8,9 +8,9 @@
 @inherits RizzyComponent
 
 <div @attributes="@AdditionalAttributes" class="@RootClass()" 
-     data-assets="@_assets"
-     data-codeid="@CodeId" 
-     x-data="rzCodeViewer">
+data-assets="@_assets"
+data-codeid="@CodeId" 
+x-data="rzCodeViewer">
     <!-- Code Config -->
     <div class="border-b-0 border-outline bg-surfaceAlt font-inter flex flex-col items-start justify-between gap-4 rounded-xl rounded-b-none border p-4 text-sm text-slate-400 dark:border-outlineDark dark:bg-surfaceDarkAlt md:flex-row md:items-center md:gap-2" :class="[border ? 'border' : 'border-none' ]">
         <span class="text-onSurface dark:text-onSurfaceDark">@ViewerTitle</span>
@@ -51,6 +51,7 @@
     private string CodeId { get; set; } = IdGenerator.UniqueId("code");
     private string CodeContent { get; set; } = string.Empty;
     private string _assets = string.Empty;
+    private string _nonce = string.Empty; 
 
     /// <summary>
     /// Default assets loaded for CodeViewer
@@ -112,6 +113,7 @@
         }
 
         _assets = JsonSerializer.Serialize(ComponentAssets);
+        _nonce = JsonSerializer.Serialize(RizzyNonceProvider.GetNonceValues());
     }
 
     private async Task<string> RenderSourceAsync()
