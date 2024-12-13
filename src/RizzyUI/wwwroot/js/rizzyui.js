@@ -27,8 +27,23 @@ document.addEventListener('alpine:init', () => {
 
                 setPhoneScreenSize() {
                     this.screenSize = 'max-w-sm';
-                }
+                },
 
+                getBrowserBorderCss() {
+                    return [this.screenSize, this.screenSize === '' ? 'border-none' : 'border-x'];
+                },
+
+                getDesktopScreenCss() {
+                    return [ this.screenSize === '' ? 'text-onSurfaceStrong forced-color-adjust-auto dark:text-onSurfaceDarkStrong' : 'opacity-60' ];
+                },
+
+                getTabletScreenCss() {
+                    return [ this.screenSize === 'max-w-2xl' ? 'text-onSurfaceStrong forced-color-adjust-auto dark:text-onSurfaceStrongDark' : 'opacity-60' ];
+                },
+
+                getPhoneScreenCss() {
+                    return [ this.screenSize === 'max-w-sm' ? 'text-onSurfaceStrong forced-color-adjust-auto dark:text-onSurfaceStrongDark' : 'opacity-60'];
+                }
             }
         });
 
@@ -39,19 +54,6 @@ document.addEventListener('alpine:init', () => {
                 border: true,
                 codeStyle: '',
                 copied: false,
-                notCopied() {
-                    return !this.copied;
-                },
-                toggleCopied() {
-                    this.copied = !this.copied;
-                },
-                toggleExpand() {
-                    this.expand = !this.expand;
-                },
-                copyHTML() {
-                    navigator.clipboard.writeText(this.$refs.codeBlock.textContent);
-                    this.copied = !this.copied;
-                },
                 init() {
                     // Retrieve the assets from the dataset
                     const assets = JSON.parse(this.$el.dataset.assets);
@@ -75,6 +77,28 @@ document.addEventListener('alpine:init', () => {
                         inlineScriptNonce: scriptNonce,
                         inlineStyleNonce: styleNonce
                     });
+                },
+                notCopied() {
+                    return !this.copied;
+                },
+                toggleCopied() {
+                    this.copied = !this.copied;
+                },
+                toggleExpand() {
+                    this.expand = !this.expand;
+                },
+                copyHTML() {
+                    navigator.clipboard.writeText(this.$refs.codeBlock.textContent);
+                    this.copied = !this.copied;
+                },
+                getCopiedCss() {
+                    return [this.copied ? 'focus-visible:outline-success' : 'focus-visible:outline-onSurfaceDark'];
+                },
+                getExpandCss() {
+                    return [this.expand ? '' : 'max-h-60'];
+                },
+                getExpandButtonCss() {
+                    return this.expand ? 'rotate-180' : 'rotate-0';
                 }
             }
         });
