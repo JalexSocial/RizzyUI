@@ -174,4 +174,73 @@ document.addEventListener('alpine:init', () => {
                 }
         }
         });
+
+    Alpine.data('rzSidebar',
+        () => {
+            return {
+                showSidebar: false,
+
+                isSidebarHidden() { return !this.showSidebar; },
+
+                toggleSidebar() { this.showSidebar = !this.showSidebar; },
+
+                hideSidebar() { this.showSidebar = false; },
+
+                getSidebarTranslation() {
+                    return this.showSidebar ? 'translate-x-0' : '-translate-x-60';
+                }
+            }
+        });
+
+    Alpine.data('rzSidebarLinkItem',
+        () => {
+            return {
+                isExpanded: false,
+
+                init() {
+                    this.isExpanded = this.$el.dataset.expanded;
+                },
+
+                isCollapsed() { return !this.isExpanded; },
+
+                toggleExpanded() { this.isExpanded = !this.isExpanded; },
+
+                hideSidebar() { this.showSidebar = false; },
+
+                getExpandedClass() {
+                    return this.isExpanded ? 'rotate-180' : 'rotate-0';
+                }
+            }
+        });
+
+    Alpine.data('rzHeading',
+        () => {
+            return {
+                observer: null,
+
+                init() {
+                    if (typeof this.setCurrentHeading === 'function') {
+
+                        const callback = (entries, observer) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    this.setCurrentHeading(this.$el.id);
+                                }
+                            });
+                        };
+
+                        const options = { threshold: 0.5 };
+                        this.observer = new IntersectionObserver(callback, options);
+
+                        // Start observing the element
+                        this.observer.observe(this.$el);
+                    }
+                },
+
+                destroy() {
+                    if (this.observer != null)
+                        this.observer.disconnect();
+                }
+            }
+        });
 })
