@@ -125,11 +125,22 @@ document.addEventListener('alpine:init', () => {
                     this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
                     setTimeout(() => { this.$refs.tabMarker.style.opacity = 1; }, 150);
                 },
-                tabContentActive(tabContent){
+                tabContentActive(tabContent) {
+                    tabContent = tabContent ?? this.$el;
                     return this.tabSelected === tabContent.getAttribute('data-name');
                 },
-                tabButtonActive(tabButton){
+                tabButtonActive(tabButton) {
+                    tabButton = tabButton ?? this.$el;
                     return this.tabSelected === tabButton.getAttribute('data-name');
+                },
+                selectedTabTextColor() {
+                    const color = this.$el.dataset.selectedtextcolor ?? '';
+
+                    if (tabButtonActive(this.$el)) {
+                        return color;
+                    }
+
+                    return '';
                 },
                 handleResize() {
                     tabRepositionMarker(tabButton);
