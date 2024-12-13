@@ -10,7 +10,9 @@
 
 <div @attributes="@AdditionalAttributes" class="@RootClass()" 
 data-assets="@_assets"
-data-codeid="@CodeId" 
+data-codeid="@CodeId"
+data-scriptnonce="@Nonce.InlineScriptNonce"
+data-stylenonce="@Nonce.InlineStyleNonce"
 x-data="rzCodeViewer">
     <!-- Code Config -->
     <div class="border-b-0 border-outline bg-surfaceAlt font-inter flex flex-col items-start justify-between gap-4 rounded-xl rounded-b-none border p-4 text-sm text-slate-400 dark:border-outlineDark dark:bg-surfaceDarkAlt md:flex-row md:items-center md:gap-2" :class="[border ? 'border' : 'border-none' ]">
@@ -52,7 +54,6 @@ x-data="rzCodeViewer">
     private string CodeId { get; set; } = IdGenerator.UniqueId("code");
     private string CodeContent { get; set; } = string.Empty;
     private string _assets = string.Empty;
-    private RizzyNonceValues _nonce = RizzyNonceValues.DefaultValue; 
 
     /// <summary>
     /// Default assets loaded for CodeViewer
@@ -114,7 +115,7 @@ x-data="rzCodeViewer">
         }
 
         _assets = JsonSerializer.Serialize(ComponentAssets);
-        _nonce = RizzyNonceProvider.GetNonceValues();
+        Nonce = RizzyNonceProvider.GetNonceValues();
     }
 
     private async Task<string> RenderSourceAsync()

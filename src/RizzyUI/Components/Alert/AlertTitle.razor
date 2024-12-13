@@ -10,6 +10,9 @@
     private const string BaseStyle = "text-sm font-semibold";
     private string _textCss = "text-info";
 
+    /// <summary>
+    /// Parent Alert component that this title belongs to
+    /// </summary>
     [CascadingParameter]
 	public Alert? AlertParent { get; set; }
 
