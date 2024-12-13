@@ -4,6 +4,7 @@
 @using RizzyUI.Utility
 @using RizzyUI.Utility.Serialization.Converters
 @using System.Text.Json
+@using RizzyUI.Services
 
 @inherits RizzyComponent
 
@@ -51,7 +52,7 @@ x-data="rzCodeViewer">
     private string CodeId { get; set; } = IdGenerator.UniqueId("code");
     private string CodeContent { get; set; } = string.Empty;
     private string _assets = string.Empty;
-    private string _nonce = string.Empty; 
+    private RizzyNonceValues _nonce = RizzyNonceValues.DefaultValue; 
 
     /// <summary>
     /// Default assets loaded for CodeViewer
@@ -113,7 +114,7 @@ x-data="rzCodeViewer">
         }
 
         _assets = JsonSerializer.Serialize(ComponentAssets);
-        _nonce = JsonSerializer.Serialize(RizzyNonceProvider.GetNonceValues());
+        _nonce = RizzyNonceProvider.GetNonceValues();
     }
 
     private async Task<string> RenderSourceAsync()

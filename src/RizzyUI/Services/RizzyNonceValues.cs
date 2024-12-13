@@ -12,6 +12,12 @@ namespace RizzyUI.Services;
 public sealed class RizzyNonceValues
 {
     /// <summary>
+    /// Default empty nonce
+    /// </summary>
+	public static RizzyNonceValues DefaultValue => new RizzyNonceValues
+		{ InlineScriptNonce = string.Empty, InlineStyleNonce = string.Empty };
+
+    /// <summary>
     /// The nonce to add to any inlined scripts
     /// </summary>
     public required string InlineScriptNonce { get; set; }
