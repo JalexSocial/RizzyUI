@@ -16,9 +16,9 @@ jobs:
           submodules: true
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 14  # Use the desired Node.js version
+          node-version: 18
 
       - name: Install npm packages for RizzyUI
         working-directory: ./src/RizzyUI  # Specify the directory containing package.json
