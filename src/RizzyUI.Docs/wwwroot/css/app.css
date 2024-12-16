@@ -2062,6 +2062,10 @@ select {
   color: rgb(var(--onSurface));
 }
 
+.text-onSurface\/60 {
+  color: rgb(var(--onSurface) / 0.6);
+}
+
 .text-onSurfaceDark {
   color: rgb(var(--onSurfaceDark));
 }
@@ -2143,10 +2147,6 @@ select {
 
 .text-warning {
   color: rgb(var(--warning));
-}
-
-.text-white\/60 {
-  color: rgb(255 255 255 / 0.6);
 }
 
 .text-yellow-800 {
@@ -2585,6 +2585,10 @@ h1:focus {
 
 .dark\:bg-surfaceAltDark\/40:is(.dark *) {
   background-color: rgb(var(--surfaceAltDark) / 0.4);
+}
+
+.dark\:bg-surfaceAltDark\/50:is(.dark *) {
+  background-color: rgb(var(--surfaceAltDark) / 0.5);
 }
 
 .dark\:bg-surfaceDark:is(.dark *) {
