@@ -91,6 +91,9 @@ document.addEventListener('alpine:init', () => {
                     navigator.clipboard.writeText(this.$refs.codeBlock.textContent);
                     this.copied = !this.copied;
                 },
+                getCopiedTitle() {
+                    return this.copied ? 'copied' : 'copy';
+                },
                 getCopiedCss() {
                     return [this.copied ? 'focus-visible:outline-success' : 'focus-visible:outline-onSurfaceDark'];
                 },
@@ -99,6 +102,12 @@ document.addEventListener('alpine:init', () => {
                 },
                 getExpandButtonCss() {
                     return this.expand ? 'rotate-180' : 'rotate-0';
+                },
+                getExpandMaxHeightCss() {
+                    return [this.expand ? '' : 'max-h-[400px]', this.border ? 'border' : 'border-none', 'rounded-b'];
+                },
+                getBorderCss() {
+                    return [this.border ? 'border-b' : ''];
                 }
             }
         });

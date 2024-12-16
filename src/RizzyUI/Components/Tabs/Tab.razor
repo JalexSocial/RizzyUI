@@ -11,7 +11,7 @@
     type="button"
     role="tab"
     :aria-selected="tabButtonActive"
-    :tabindex="0"
+    tabindex="0"
     aria-controls="@(Name.ToLowerInvariant() + "-panel")"
     @attributes="AdditionalAttributes"
     class="@RootClass()"
@@ -68,7 +68,7 @@
 
     private string GetJustifyCss()
     {
-        return TabStrip.Justify switch
+        return TabStrip?.Justify switch
         {
             Justify.Start => "justify-start",
             Justify.Center => "justify-center",
