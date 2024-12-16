@@ -59,7 +59,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 # Support
 
-For support, please open an issue on the [GitHub repository](https://github.com/yourusername/RizzyUI/issues).
+For support, please open an issue on the [GitHub repository](https://github.com/jalexsocial/RizzyUI/issues).
 
 ---
 
