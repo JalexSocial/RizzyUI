@@ -4,12 +4,12 @@
 @namespace RizzyUI
 
 <CascadingValue Value="this">
-    <div x-ref="@Parent?.ButtonRefId"
+    <div id="@Parent?.ButtonRefId"
     role="tablist"
     @attributes="AdditionalAttributes"
     class="@RootClass()">
         @ChildContent
-        <div x-ref="tabMarker" class="z-20 opacity-0 absolute left-0 h-full w-1/2 duration-300 ease-out after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full @(Parent?.SelectedTabUnderlineColor.ToBackgroundClass("after") ?? string.Empty)" x-cloak>
+        <div x-ref="tabMarker" class="z-20 opacity-0 absolute pointer-events-none left-0 h-full w-1/2 duration-300 ease-out after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-full @(Parent?.SelectedTabUnderlineColor.ToBackgroundClass("after") ?? string.Empty)" x-cloak>
             <div class="h-full w-full"></div>
         </div>
     </div>

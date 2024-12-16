@@ -17,6 +17,9 @@
   <ItemGroup>
     <PackageReference Include="AspNetStatic" Version="0.24.0" />
     <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.0.19" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>

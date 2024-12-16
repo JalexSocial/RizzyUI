@@ -5,58 +5,13 @@
 @namespace RizzyUI
 
 <CascadingValue Value="this">
-    <div
-    x-data="{
-            buttonRef: $refs.@(ButtonRefId),
-            tabSelected: '@(ActiveTab?.Name?.ToLowerInvariant() ?? string.Empty)',
-            tabButton: null,
-            tabButtonClicked(tabButton){
-                this.tabSelected = tabButton.getAttribute('data-name');
-                this.tabRepositionMarker(tabButton);
-                tabButton.focus();
-            },
-            tabRepositionMarker(tabButton){
-                this.tabButton = tabButton;
-                this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
-                this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
-                this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
-                setTimeout(()=>{ this.$refs.tabMarker.style.opacity=1; }, 150);
-            },
-            tabContentActive(tabContent){
-                return this.tabSelected === tabContent.getAttribute('data-name');
-            },
-            tabButtonActive(tabButton){
-                return this.tabSelected === tabButton.getAttribute('data-name');
-            },
-            handleKeyDown(event){
-                const key = event.key;
-                const tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
-                const currentIndex = tabButtons.findIndex(button => this.tabButtonActive(button));
-                let newIndex = currentIndex;
-
-                if (key === 'ArrowRight') {
-                    newIndex = (currentIndex + 1) % tabButtons.length;
-                    event.preventDefault();
-                } else if (key === 'ArrowLeft') {
-                    newIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
-                    event.preventDefault();
-                } else if (key === 'Home') {
-                    newIndex = 0;
-                    event.preventDefault();
-                } else if (key === 'End') {
-                    newIndex = tabButtons.length - 1;
-                    event.preventDefault();
-                }
-
-                if (newIndex !== currentIndex) {
-                    this.tabButtonClicked(tabButtons[newIndex]);
-                }
-            }
-        }"
-    x-init="tabRepositionMarker(buttonRef.querySelector('[data-name=\'' + tabSelected + '\']'));"
-    x-on:resize.window="tabRepositionMarker(tabButton);"
-    @attributes="AdditionalAttributes"
-    class="@RootClass()"
+    <div 
+        data-tabselected="@(ActiveTab?.Name?.ToLowerInvariant() ?? string.Empty)"
+        data-buttonref="@(ButtonRefId)"
+        x-data="rzTabs"
+        x-on:resize.window="handleResize"
+        @attributes="AdditionalAttributes"
+        class="@RootClass()"
     >
         @Menu
 

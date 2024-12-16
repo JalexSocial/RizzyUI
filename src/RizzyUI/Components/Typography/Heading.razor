@@ -2,7 +2,8 @@
 @using RizzyUI.Utility
 @inherits TypographyBase
 
-<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" x-intersect.half="if (typeof setCurrentHeading === 'function') { setCurrentHeading($el.id) }">
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" 
+             x-data="rzHeading">
     @if (ChildContent == null)
     {
         @QuickReferenceTitle

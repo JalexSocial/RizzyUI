@@ -5,17 +5,17 @@
 <button 
     id="@(Name.ToLowerInvariant() + "-tab")"
     data-name="@Name.ToLowerInvariant()"
-    x-on:click="tabButtonClicked($el);"
-    x-on:keydown="handleKeyDown($event);"
+    data-selectedtextcolor="@(Parent?.SelectedTabTextColor.ToTextClass() ?? "text-primary")"
+    x-on:click="tabButtonClicked"
+    x-on:keydown="handleKeyDown"
     type="button"
     role="tab"
-    :aria-selected="tabButtonActive($el)"
-    :tabindex="tabButtonActive($el) ? '0' : '-1'"
+    :aria-selected="tabButtonActive"
+    tabindex="0"
     aria-controls="@(Name.ToLowerInvariant() + "-panel")"
     @attributes="AdditionalAttributes"
     class="@RootClass()"
-    :class="tabButtonActive($el) ? '@(Parent?.SelectedTabTextColor.ToTextClass() ?? "text-primary")' : ''"
->
+    :class="selectedTabTextColor">
     @ChildContent
 </button>
 
@@ -68,7 +68,7 @@
 
     private string GetJustifyCss()
     {
-        return TabStrip.Justify switch
+        return TabStrip?.Justify switch
         {
             Justify.Start => "justify-start",
             Justify.Center => "justify-center",

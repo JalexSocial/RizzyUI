@@ -828,8 +828,8 @@ select {
   border-width: 0;
 }
 
-.visible {
-  visibility: visible;
+.pointer-events-none {
+  pointer-events: none;
 }
 
 .static {
@@ -1162,11 +1162,6 @@ select {
 
 .grow {
   flex-grow: 1;
-}
-
-.-translate-x-32 {
-  --tw-translate-x: -8rem;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .-translate-x-60 {
@@ -2067,6 +2062,10 @@ select {
   color: rgb(var(--onSurface));
 }
 
+.text-onSurface\/60 {
+  color: rgb(var(--onSurface) / 0.6);
+}
+
 .text-onSurfaceDark {
   color: rgb(var(--onSurfaceDark));
 }
@@ -2148,10 +2147,6 @@ select {
 
 .text-warning {
   color: rgb(var(--warning));
-}
-
-.text-white\/60 {
-  color: rgb(255 255 255 / 0.6);
 }
 
 .text-yellow-800 {
@@ -2237,10 +2232,6 @@ select {
 
 .duration-300 {
   transition-duration: 300ms;
-}
-
-.duration-700 {
-  transition-duration: 700ms;
 }
 
 .ease-in {
@@ -2594,6 +2585,10 @@ h1:focus {
 
 .dark\:bg-surfaceAltDark\/40:is(.dark *) {
   background-color: rgb(var(--surfaceAltDark) / 0.4);
+}
+
+.dark\:bg-surfaceAltDark\/50:is(.dark *) {
+  background-color: rgb(var(--surfaceAltDark) / 0.5);
 }
 
 .dark\:bg-surfaceDark:is(.dark *) {
