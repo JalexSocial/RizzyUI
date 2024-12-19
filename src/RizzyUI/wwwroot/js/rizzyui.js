@@ -126,6 +126,11 @@ document.addEventListener('alpine:init', () => {
                         this.currentHeadingId = id;
                     }
                 },
+                getSelectedCss() {
+                    const id = this.$el.dataset.headingid;
+
+                    return { 'font-bold': this.currentHeadingId === id };
+                },
                 init() {
                     this.headings = JSON.parse(this.$el.dataset.headings);
                     this.currentHeadingId = this.$el.dataset.currentheadingid;
