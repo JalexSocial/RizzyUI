@@ -19,7 +19,7 @@
             </Paragraph>
 
             <Browser>
-                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-3">
 	                <Button Variant=ButtonVariant.Primary>Primary</Button>
 	                <Button Variant=ButtonVariant.Secondary>Secondary</Button>
 	                <Button Variant=ButtonVariant.Alternate>Alternate</Button>
@@ -50,7 +50,7 @@
             </Paragraph>
 
             <Browser>
-	            <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+	            <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-3">
 		            <Button Variant=ButtonVariant.Primary Outline>Primary</Button>
                     <Button Variant=ButtonVariant.Secondary Outline>Secondary</Button>
                     <Button Variant=ButtonVariant.Alternate Outline>Alternate</Button>
@@ -62,7 +62,41 @@
                     <Button Variant=ButtonVariant.Ghost Outline>Ghost</Button>
 	            </div>
             </Browser>
+            
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;Button Variant=ButtonVariant.Primary Outline&gt;Primary&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Secondary Outline&gt;Secondary&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Alternate Outline&gt;Alternate&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Inverse Outline&gt;Inverse&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Information Outline&gt;Information&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Danger Outline&gt;Danger&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Warning Outline&gt;Warning&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Success Outline&gt;Success&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Ghost Outline&gt;Ghost&lt;/Button&gt;           
+            </CodeViewer>
+            
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Button Sizing" class="scroll-mt-20">Button Sizing</Heading>
+            <Paragraph TextColor="Color.OnSurface">
+                Buttons are available in a number of different sizes.
+            </Paragraph>
 
+            <Browser>
+                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-3">
+                    <Button Variant=ButtonVariant.Primary Size=Size.ExtraSmall>Primary</Button>
+                    <Button Variant=ButtonVariant.Primary Size=Size.Small>Primary</Button>
+                    <Button Variant=ButtonVariant.Primary Size=Size.Medium>Primary</Button>
+                    <Button Variant=ButtonVariant.Primary Size=Size.Large>Primary</Button>
+                    <Button Variant=ButtonVariant.Primary Size=Size.ExtraLarge>Primary</Button>
+                </div>
+            </Browser>
+            
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;Button Variant=ButtonVariant.Primary Size=Size.ExtraSmall&gt;Primary&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Primary Size=Size.Small&gt;Primary&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Primary Size=Size.Medium&gt;Primary&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Primary Size=Size.Large&gt;Primary&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Primary Size=Size.ExtraLarge&gt;Primary&lt;/Button&gt;
+            </CodeViewer>
         </MainContent>
     </Article>
 </QuickReferenceContainer>

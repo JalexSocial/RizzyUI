@@ -81,8 +81,8 @@ document.addEventListener('alpine:init', () => {
                 notCopied() {
                     return !this.copied;
                 },
-                toggleCopied() {
-                    this.copied = !this.copied;
+                disableCopied() {
+                    this.copied = false;
                 },
                 toggleExpand() {
                     this.expand = !this.expand;

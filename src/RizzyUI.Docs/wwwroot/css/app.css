@@ -1067,10 +1067,6 @@ select {
   height: 100%;
 }
 
-.h-svh {
-  height: 100svh;
-}
-
 .max-h-60 {
   max-height: 15rem;
 }
@@ -2608,6 +2604,10 @@ h1:focus {
   background-color: rgb(var(--success));
 }
 
+.dark\:bg-surface:is(.dark *) {
+  background-color: rgb(var(--surface));
+}
+
 .dark\:bg-surfaceAltDark:is(.dark *) {
   background-color: rgb(var(--surfaceAltDark));
 }
@@ -2675,6 +2675,10 @@ h1:focus {
 
 .dark\:text-onSurfaceDark:is(.dark *) {
   color: rgb(var(--onSurfaceDark));
+}
+
+.dark\:text-onSurfaceStrong:is(.dark *) {
+  color: rgb(var(--onSurfaceStrong));
 }
 
 .dark\:text-onSurfaceStrongDark:is(.dark *) {
@@ -2804,12 +2808,12 @@ h1:focus {
   outline-color: rgb(var(--success));
 }
 
-.dark\:focus-visible\:outline-surfaceAltDark:focus-visible:is(.dark *) {
-  outline-color: rgb(var(--surfaceAltDark));
+.dark\:focus-visible\:outline-surface:focus-visible:is(.dark *) {
+  outline-color: rgb(var(--surface));
 }
 
-.dark\:focus-visible\:outline-surfaceDark:focus-visible:is(.dark *) {
-  outline-color: rgb(var(--surfaceDark));
+.dark\:focus-visible\:outline-surfaceAltDark:focus-visible:is(.dark *) {
+  outline-color: rgb(var(--surfaceAltDark));
 }
 
 .dark\:focus-visible\:outline-warning:focus-visible:is(.dark *) {
@@ -2951,6 +2955,10 @@ h1:focus {
 @media (min-width: 1536px) {
   .\32xl\:grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .\32xl\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .\32xl\:grid-cols-4 {
