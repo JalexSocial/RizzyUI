@@ -89,6 +89,8 @@ const rizzyui = plugin(
         addUtilities(scrollbarHoverUtilities, {
             variants: ['responsive'],
         });
+
+
     },
     {
         // Theme extensions
