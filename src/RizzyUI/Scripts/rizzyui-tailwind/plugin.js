@@ -4,7 +4,7 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const safelist = require('./safelist');
 
 const rizzyui = plugin(
-    function ({ addBase, addVariant, theme }) {
+    function ({ addBase, addVariant, addUtilities, theme }) {
         // Add base styles
         addBase({
             ':root': {
@@ -53,6 +53,42 @@ const rizzyui = plugin(
         addVariant('htmx-request', ['&.htmx-request', '.htmx-request &']);
         addVariant('htmx-swapping', ['&.htmx-swapping', '.htmx-swapping &']);
         addVariant('htmx-added', ['&.htmx-added', '.htmx-added &']);
+
+        const scrollbarHoverUtilities = {
+            /* Custom Scrollbar Styles */
+            '.scrollbar-hover': {
+                /* Webkit-based browsers (Chrome, Safari, Edge) */
+                /* Define scrollbar size */
+                '&::-webkit-scrollbar': {
+                    width: '6px',
+                    height: '6px',
+                },
+                '&::-webkit-scrollbar-track': {
+                    background: 'transparent',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: 'rgba(0, 0, 0, 0)', // Transparent
+                    borderRadius: '3px',
+                    transition: 'background-color 0.3s',
+                },
+                /* Show scrollbar on hover */
+                '&:hover::-webkit-scrollbar-thumb': {
+                    backgroundColor: 'rgba(107, 114, 128, 0.7)', // Tailwind's gray-500 with opacity
+                },
+
+                /* Firefox */
+                'scrollbar-width': 'thin',
+                'scrollbar-color': 'transparent transparent',
+                /* Show scrollbar on hover */
+                '&:hover': {
+                    'scrollbar-color': '#6b7280 transparent', // Tailwind's gray-500
+                },
+            },
+        };
+
+        addUtilities(scrollbarHoverUtilities, {
+            variants: ['responsive'],
+        });
     },
     {
         // Theme extensions

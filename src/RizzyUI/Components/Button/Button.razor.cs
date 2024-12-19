@@ -91,7 +91,7 @@ public partial class Button : RizzyComponent
             ButtonVariant.Primary => "bg-primary text-onPrimary focus-visible:outline-primary dark:bg-primaryDark dark:text-onPrimaryDark dark:focus-visible:outline-primaryDark",
             ButtonVariant.Secondary => "bg-secondary text-onSecondary focus-visible:outline-secondary dark:bg-secondaryDark dark:text-onSecondaryDark dark:focus-visible:outline-secondaryDark",
             ButtonVariant.Alternate => "bg-surfaceAlt text-onSurface focus-visible:outline-surfaceAlt dark:bg-surfaceAltDark dark:text-onSurfaceDark dark:focus-visible:outline-surfaceAltDark",
-            ButtonVariant.Inverse => "bg-surface text-onSurface focus-visible:outline-surface dark:bg-surfaceDark dark:text-onSurfaceStrongDark dark:focus-visible:outline-surfaceDark",
+            ButtonVariant.Inverse => "bg-surfaceDark text-onSurfaceDark focus-visible:outline-surface dark:bg-surface dark:text-onSurfaceStrong dark:focus-visible:outline-surface",
             ButtonVariant.Information => "bg-info text-onInfo focus-visible:outline-info dark:bg-info dark:text-onInfo dark:focus-visible:outline-info",
             ButtonVariant.Danger => "bg-danger text-onDanger focus-visible:outline-danger dark:bg-danger dark:text-onDanger dark:focus-visible:outline-danger",
             ButtonVariant.Warning => "bg-warning text-onWarning focus-visible:outline-warning dark:bg-warning dark:text-onWarning dark:focus-visible:outline-warning",

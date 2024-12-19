@@ -1,0 +1,68 @@
+﻿@page "/components/buttons"
+
+<PageTitle>Buttons</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Buttons</Heading>
+            <Paragraph>
+	            Buttons are a fundamental element of any user interface. Users can use them to trigger actions, such as submitting a form, opening a modal, or navigating to another page.            
+            </Paragraph>
+
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Button" class="scroll-mt-20">Default Button</Heading>
+            <Paragraph TextColor="Color.OnSurface">
+	            Buttons with a solid background, you can use them to draw attention to the most important actions you want users to take.
+            </Paragraph>
+
+            <Browser>
+                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+	                <Button Variant=ButtonVariant.Primary>Primary</Button>
+	                <Button Variant=ButtonVariant.Secondary>Secondary</Button>
+	                <Button Variant=ButtonVariant.Alternate>Alternate</Button>
+	                <Button Variant=ButtonVariant.Inverse>Inverse</Button>
+	                <Button Variant=ButtonVariant.Information>Information</Button>
+	                <Button Variant=ButtonVariant.Danger>Danger</Button>
+	                <Button Variant=ButtonVariant.Warning>Warning</Button>
+	                <Button Variant=ButtonVariant.Success>Success</Button>
+	                <Button Variant=ButtonVariant.Ghost>Ghost</Button>
+                </div>
+            </Browser>
+
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;Button Variant=ButtonVariant.Primary&gt;Primary&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Secondary&gt;Secondary&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Alternate&gt;Alternate&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Inverse&gt;Inverse&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Information&gt;Information&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Danger&gt;Danger&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Warning&gt;Warning&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Success&gt;Success&lt;/Button&gt;
+    &lt;Button Variant=ButtonVariant.Ghost&gt;Ghost&lt;/Button&gt;            
+            </CodeViewer>
+			
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Outline Button" class="scroll-mt-20">Outline Button</Heading>
+            <Paragraph TextColor="Color.OnSurface">
+                Buttons defined by a border rather than a solid background. You can use them to emphasize alternative or less critical actions without overwhelming the user interface.
+            </Paragraph>
+
+            <Browser>
+	            <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
+		            <Button Variant=ButtonVariant.Primary Outline>Primary</Button>
+                    <Button Variant=ButtonVariant.Secondary Outline>Secondary</Button>
+                    <Button Variant=ButtonVariant.Alternate Outline>Alternate</Button>
+                    <Button Variant=ButtonVariant.Inverse Outline>Inverse</Button>
+                    <Button Variant=ButtonVariant.Information Outline>Information</Button>
+                    <Button Variant=ButtonVariant.Danger Outline>Danger</Button>
+                    <Button Variant=ButtonVariant.Warning Outline>Warning</Button>
+                    <Button Variant=ButtonVariant.Success Outline>Success</Button>
+                    <Button Variant=ButtonVariant.Ghost Outline>Ghost</Button>
+	            </div>
+            </Browser>
+
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>

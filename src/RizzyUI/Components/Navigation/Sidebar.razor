@@ -23,7 +23,7 @@
             <!-- Dark overlay when the sidebar is open on smaller screens -->
             <div x-cloak x-show="showSidebar" class="z-30 bg-surfaceDark/10 fixed inset-0 backdrop-blur-sm md:hidden" aria-hidden="true" x-on:click="hideSidebar" x-transition.opacity></div>
 
-            <aside x-cloak class="fixed left-0 h-full w-60 bg-surfaceAlt border-r border-outline z-40 p-4 transition-transform duration-300 dark:bg-surfaceAltDark dark:border-outlineDark md:w-60 md:translate-x-0 @GetAsideCss()" :class="getSidebarTranslation" aria-label="sidebar navigation">
+            <aside x-cloak class="fixed left-0 h-full w-60 overflow-y-auto scrollbar-hover bg-surfaceAlt border-r border-outline z-40 p-4 transition-transform duration-300 dark:bg-surfaceAltDark dark:border-outlineDark md:w-60 md:translate-x-0 @GetAsideCss()" :class="getSidebarTranslation" aria-label="sidebar navigation">
                 @MenuContent
             </aside>
 
