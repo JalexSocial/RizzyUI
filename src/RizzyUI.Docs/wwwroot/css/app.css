@@ -852,6 +852,10 @@ select {
   inset: 0px;
 }
 
+.bottom-0 {
+  bottom: 0px;
+}
+
 .left-0 {
   left: 0px;
 }
@@ -2029,6 +2033,11 @@ select {
   color: rgb(0 0 0 / var(--tw-text-opacity, 1));
 }
 
+.text-blue-600 {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity, 1));
+}
+
 .text-blue-700 {
   --tw-text-opacity: 1;
   color: rgb(29 78 216 / var(--tw-text-opacity, 1));
@@ -2437,6 +2446,10 @@ h1:focus {
   color: rgb(var(--onSurfaceStrong));
 }
 
+.hover\:underline:hover {
+  text-decoration-line: underline;
+}
+
 .hover\:opacity-75:hover {
   opacity: 0.75;
 }
@@ -2672,6 +2685,11 @@ h1:focus {
 
 .dark\:fill-white:is(.dark *) {
   fill: #fff;
+}
+
+.dark\:text-blue-500:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity, 1));
 }
 
 .dark\:text-danger:is(.dark *) {
