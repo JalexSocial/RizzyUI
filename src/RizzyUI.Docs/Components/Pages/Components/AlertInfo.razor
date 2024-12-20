@@ -1,0 +1,67 @@
+﻿@page "/components/alert"
+
+<PageTitle>Alert</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Alert</Heading>
+            <Paragraph>
+	            Alerts allow you to communicate important information to users and offer feedback on their actions.
+            </Paragraph>
+
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Alert" class="scroll-mt-20">Default Alert</Heading>
+            <Paragraph TextColor="Color.OnSurface">
+	            An alert with an icon, title, and message allows you to inform users about critical updates or changes in the system. You can toggle the icon on or off.
+            </Paragraph>
+
+            <Browser>
+
+	            <div class="mx-auto flex flex-col items-start justify-center gap-4 rounded p-8">
+
+		            <Alert Variant="AlertVariant.Information" Dismissable>
+			            <AlertTitle>Update Available</AlertTitle>
+			            <AlertDescription>A new version is available. Please update to the latest version.</AlertDescription>
+		            </Alert>
+		            <Alert Variant="AlertVariant.Success" Dismissable>
+			            <AlertTitle>Successfully Subscribed</AlertTitle>
+			            <AlertDescription>Success! You've subscribed to our newsletter. Welcome aboard!</AlertDescription>
+		            </Alert>
+		            <Alert Variant="AlertVariant.Warning">
+			            <AlertTitle>Credit Card Expires Soon</AlertTitle>
+			            <AlertDescription>Your credit card expires soon. Please update your payment information.</AlertDescription>
+		            </Alert>
+		            <Alert Variant="AlertVariant.Danger">
+			            <AlertTitle>Invalid Email Address</AlertTitle>
+			            <AlertDescription>The email address you entered is invalid. Please try again.</AlertDescription>
+		            </Alert>
+
+	            </div>
+
+            </Browser>
+
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;Alert Variant=&quot;AlertVariant.Information&quot; Dismissable&gt;
+        &lt;AlertTitle&gt;Update Available&lt;/AlertTitle&gt;
+        &lt;AlertDescription&gt;A new version is available. Please update to the latest version.&lt;/AlertDescription&gt;
+    &lt;/Alert&gt;
+    &lt;Alert Variant=&quot;AlertVariant.Success&quot; Dismissable&gt;
+        &lt;AlertTitle&gt;Successfully Subscribed&lt;/AlertTitle&gt;
+        &lt;AlertDescription&gt;Success! You&#39;ve subscribed to our newsletter. Welcome aboard!&lt;/AlertDescription&gt;
+    &lt;/Alert&gt;
+    &lt;Alert Variant=&quot;AlertVariant.Warning&quot;&gt;
+        &lt;AlertTitle&gt;Credit Card Expires Soon&lt;/AlertTitle&gt;
+        &lt;AlertDescription&gt;Your credit card expires soon. Please update your payment information.&lt;/AlertDescription&gt;
+    &lt;/Alert&gt;
+    &lt;Alert Variant=&quot;AlertVariant.Danger&quot;&gt;
+        &lt;AlertTitle&gt;Invalid Email Address&lt;/AlertTitle&gt;
+        &lt;AlertDescription&gt;The email address you entered is invalid. Please try again.&lt;/AlertDescription&gt;
+    &lt;/Alert&gt;
+            </CodeViewer>
+            
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>

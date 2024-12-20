@@ -2718,6 +2718,10 @@ select {
     gap: 0.5rem;
   }
 
+  .md\:p-6 {
+    padding: 1.5rem;
+  }
+
   .md\:pl-60 {
     padding-left: 15rem;
   }
@@ -2732,6 +2736,11 @@ select {
     line-height: 2.25rem;
   }
 
+  .md\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
@@ -2741,6 +2750,10 @@ select {
 @media (min-width: 1024px) {
   .lg\:flex {
     display: flex;
+  }
+
+  .lg\:p-8 {
+    padding: 2rem;
   }
 
   .lg\:py-1\.5 {

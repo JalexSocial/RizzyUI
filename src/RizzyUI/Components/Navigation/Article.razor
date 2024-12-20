@@ -3,13 +3,15 @@
 @inherits RizzyComponent
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
-    <div class="mx-auto flex max-w-7xl grow flex-col overflow-x-auto overflow-y-hidden p-8">
-        @MainContent
+	<div class="mx-auto flex max-w-7xl grow flex-col overflow-x-auto overflow-y-hidden p-8">
+		<article class="text-base md:text-lg">
+			@MainContent
+		</article>
 
-        <div class="@GetSideColumnCss(ColumnWidth, IsSideFixed)">
-            @SideContent
-        </div>
-    </div>
+		<aside class="@GetSideColumnCss(ColumnWidth, IsSideFixed)">
+			@SideContent
+		</aside>
+	</div>
 </HtmlElement>
 
 @*

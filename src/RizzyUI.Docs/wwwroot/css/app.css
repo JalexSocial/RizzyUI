@@ -1229,8 +1229,8 @@ select {
   scroll-margin-top: 5rem;
 }
 
-.list-inside {
-  list-style-position: inside;
+.list-outside {
+  list-style-position: outside;
 }
 
 .list-disc {
@@ -1343,6 +1343,12 @@ select {
 
 .gap-4 {
   gap: 1rem;
+}
+
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
 
 .overflow-auto {
@@ -1887,6 +1893,10 @@ select {
 
 .pr-2 {
   padding-right: 0.5rem;
+}
+
+.ps-10 {
+  padding-inline-start: 2.5rem;
 }
 
 .text-left {
@@ -2896,6 +2906,10 @@ h1:focus {
     gap: 0.5rem;
   }
 
+  .md\:p-6 {
+    padding: 1.5rem;
+  }
+
   .md\:pl-60 {
     padding-left: 15rem;
   }
@@ -2910,6 +2924,11 @@ h1:focus {
     line-height: 2.25rem;
   }
 
+  .md\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
@@ -2919,6 +2938,10 @@ h1:focus {
 @media (min-width: 1024px) {
   .lg\:flex {
     display: flex;
+  }
+
+  .lg\:p-8 {
+    padding: 2rem;
   }
 
   .lg\:py-1\.5 {
