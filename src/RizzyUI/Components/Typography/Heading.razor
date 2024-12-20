@@ -57,9 +57,9 @@
         if (this.TextColor is null)
         {
             if (Level is HeadingLevel.H1 or HeadingLevel.H2)
-                TextColor = Color.OnSurfaceStrong;
+                TextColor = SemanticColor.OnSurfaceStrong;
             else
-                TextColor = Color.OnSurface;
+                TextColor = SemanticColor.OnSurface;
         }
 
         if (!_registered && QuickReferenceContainer != null && !string.IsNullOrEmpty(QuickReferenceTitle))

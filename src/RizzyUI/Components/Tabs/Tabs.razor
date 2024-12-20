@@ -43,25 +43,25 @@
     /// Text color for the tab
     /// </summary>
     [Parameter]
-    public Color TabTextColor { get; set; } = Color.OnSurface;
+    public SemanticColor TabTextColor { get; set; } = SemanticColor.OnSurface;
 
     /// <summary>
-    /// Color for both the selected tab text 
+    /// SemanticColor for both the selected tab text 
     /// </summary>
     [Parameter] 
-    public Color SelectedTabTextColor { get; set; } = Color.Primary;
+    public SemanticColor SelectedTabTextColor { get; set; } = SemanticColor.Primary;
 
     /// <summary>
-    /// Color for both the selected tab underline
+    /// SemanticColor for both the selected tab underline
     /// </summary>
     [Parameter]
-    public Color SelectedTabUnderlineColor { get; set; } = Color.Primary;
+    public SemanticColor SelectedTabUnderlineColor { get; set; } = SemanticColor.Primary;
 
     /// <summary>
     /// Background color for the tab
     /// </summary>
     [Parameter]
-    public Color TabBackgroundColor { get; set; } = Color.Surface;
+    public SemanticColor TabBackgroundColor { get; set; } = SemanticColor.Surface;
 
     /// <summary>
     /// Render fragment for the tab menu.

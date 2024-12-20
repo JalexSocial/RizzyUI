@@ -137,9 +137,9 @@ public enum ModalSize
 }
 
 /// <summary>
-/// Color options for components, including surface and status colors.
+/// SemanticColor options for components, including surface and status colors.
 /// </summary>
-public enum Color
+public enum SemanticColor
 {
     /// <summary>No color specified.</summary>
     None,
@@ -226,7 +226,7 @@ public enum ProgressBarSize
 }
 
 /// <summary>
-/// Color options for progress bar components.
+/// SemanticColor options for progress bar components.
 /// </summary>
 public enum ProgressBarColor
 {

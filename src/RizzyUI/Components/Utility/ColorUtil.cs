@@ -83,114 +83,114 @@ public static class ColorUtil
 	}
 
     /// <summary>
-    /// Converts a Color to a text class string, including dark mode variants for Surface colors.
+    /// Converts a SemanticColor to a text class string, including dark mode variants for Surface colors.
     /// </summary>
     /// <param name="color">The color enum value.</param>
     /// <returns>A string representing the corresponding CSS class.</returns>
-    public static string ToTextClass(this Color color)
+    public static string ToTextClass(this SemanticColor color)
     {
         return color switch
         {
-            Color.None => "",
+            SemanticColor.None => "",
 
             // Surface Colors
-            Color.Surface => "text-surface dark:text-surfaceDark",
-            Color.OnSurface => "text-onSurface dark:text-onSurfaceDark",
-            Color.OnSurfaceStrong => "text-onSurfaceStrong dark:text-onSurfaceStrongDark",
-            Color.SurfaceAlt => "text-surfaceAlt dark:text-surfaceAltDark",
-            Color.Primary => "text-primary dark:text-primaryDark",
-            Color.OnPrimary => "text-onPrimary dark:text-onPrimaryDark",
-            Color.Secondary => "text-secondary dark:text-secondaryDark",
-            Color.OnSecondary => "text-onSecondary dark:text-onSecondaryDark",
-            Color.Outline => "text-outline dark:text-outlineDark",
-            Color.OutlineStrong => "text-outlineStrong dark:text-outlineStrongDark",
+            SemanticColor.Surface => "text-surface dark:text-surfaceDark",
+            SemanticColor.OnSurface => "text-onSurface dark:text-onSurfaceDark",
+            SemanticColor.OnSurfaceStrong => "text-onSurfaceStrong dark:text-onSurfaceStrongDark",
+            SemanticColor.SurfaceAlt => "text-surfaceAlt dark:text-surfaceAltDark",
+            SemanticColor.Primary => "text-primary dark:text-primaryDark",
+            SemanticColor.OnPrimary => "text-onPrimary dark:text-onPrimaryDark",
+            SemanticColor.Secondary => "text-secondary dark:text-secondaryDark",
+            SemanticColor.OnSecondary => "text-onSecondary dark:text-onSecondaryDark",
+            SemanticColor.Outline => "text-outline dark:text-outlineDark",
+            SemanticColor.OutlineStrong => "text-outlineStrong dark:text-outlineStrongDark",
 
             // Status Colors (no dark variants)
-            Color.Danger => "text-danger",
-            Color.OnDanger => "text-onDanger",
-            Color.Info => "text-info",
-            Color.OnInfo => "text-onInfo",
-            Color.Warning => "text-warning",
-            Color.OnWarning => "text-onWarning",
-            Color.Success => "text-success",
-            Color.OnSuccess => "text-onSuccess",
+            SemanticColor.Danger => "text-danger",
+            SemanticColor.OnDanger => "text-onDanger",
+            SemanticColor.Info => "text-info",
+            SemanticColor.OnInfo => "text-onInfo",
+            SemanticColor.Warning => "text-warning",
+            SemanticColor.OnWarning => "text-onWarning",
+            SemanticColor.Success => "text-success",
+            SemanticColor.OnSuccess => "text-onSuccess",
 
             _ => "text-onSurface dark:text-onSurfaceDark"
         };
     }
 
     /// <summary>
-    /// Converts a Color to a background class string, including dark mode variants for Surface colors.
+    /// Converts a SemanticColor to a background class string, including dark mode variants for Surface colors.
     /// </summary>
     /// <param name="color">The color enum value.</param>
     /// <returns>A string representing the corresponding CSS background class.</returns>
-    public static string ToBackgroundClass(this Color color)
+    public static string ToBackgroundClass(this SemanticColor color)
     {
         return color switch
         {
-            Color.None => "",
+            SemanticColor.None => "",
 
             // Surface Colors
-            Color.Surface => "bg-surface dark:bg-surfaceDark",
-            Color.OnSurface => "bg-onSurface dark:bg-onSurfaceDark",
-            Color.OnSurfaceStrong => "bg-onSurfaceStrong dark:bg-onSurfaceStrongDark",
-            Color.SurfaceAlt => "bg-surfaceAlt dark:bg-surfaceAltDark",
-            Color.Primary => "bg-primary dark:bg-primaryDark",
-            Color.OnPrimary => "bg-onPrimary dark:bg-onPrimaryDark",
-            Color.Secondary => "bg-secondary dark:bg-secondaryDark",
-            Color.OnSecondary => "bg-onSecondary dark:bg-onSecondaryDark",
-            Color.Outline => "bg-outline dark:bg-outlineDark",
-            Color.OutlineStrong => "bg-outlineStrong dark:bg-outlineStrongDark",
+            SemanticColor.Surface => "bg-surface dark:bg-surfaceDark",
+            SemanticColor.OnSurface => "bg-onSurface dark:bg-onSurfaceDark",
+            SemanticColor.OnSurfaceStrong => "bg-onSurfaceStrong dark:bg-onSurfaceStrongDark",
+            SemanticColor.SurfaceAlt => "bg-surfaceAlt dark:bg-surfaceAltDark",
+            SemanticColor.Primary => "bg-primary dark:bg-primaryDark",
+            SemanticColor.OnPrimary => "bg-onPrimary dark:bg-onPrimaryDark",
+            SemanticColor.Secondary => "bg-secondary dark:bg-secondaryDark",
+            SemanticColor.OnSecondary => "bg-onSecondary dark:bg-onSecondaryDark",
+            SemanticColor.Outline => "bg-outline dark:bg-outlineDark",
+            SemanticColor.OutlineStrong => "bg-outlineStrong dark:bg-outlineStrongDark",
 
             // Status Colors (no dark variants)
-            Color.Danger => "bg-danger",
-            Color.OnDanger => "bg-onDanger",
-            Color.Info => "bg-info",
-            Color.OnInfo => "bg-onInfo",
-            Color.Warning => "bg-warning",
-            Color.OnWarning => "bg-onWarning",
-            Color.Success => "bg-success",
-            Color.OnSuccess => "bg-onSuccess",
+            SemanticColor.Danger => "bg-danger",
+            SemanticColor.OnDanger => "bg-onDanger",
+            SemanticColor.Info => "bg-info",
+            SemanticColor.OnInfo => "bg-onInfo",
+            SemanticColor.Warning => "bg-warning",
+            SemanticColor.OnWarning => "bg-onWarning",
+            SemanticColor.Success => "bg-success",
+            SemanticColor.OnSuccess => "bg-onSuccess",
 
             _ => "bg-surface dark:bg-surfaceDark"
         };
     }
 
     /// <summary>
-    /// Converts a Color to a background class string, including dark mode variants for Surface colors.
+    /// Converts a SemanticColor to a background class string, including dark mode variants for Surface colors.
     /// </summary>
     /// <param name="color">The color enum value.</param>
     /// <param name="pseudoSelector">Tailwind pseudo element modifier ("before" or "after")</param>
     /// <returns>A string representing the corresponding CSS background class.</returns>
-    public static string ToBackgroundClass(this Color color, string pseudoSelector)
+    public static string ToBackgroundClass(this SemanticColor color, string pseudoSelector)
     {
         var ps = pseudoSelector + ":";
 
         return color switch
         {
-            Color.None => "",
+            SemanticColor.None => "",
 
             // Surface Colors
-            Color.Surface => $"{ps}bg-surface dark:{ps}bg-surfaceDark",
-            Color.OnSurface => $"{ps}bg-onSurface dark:{ps}bg-onSurfaceDark",
-            Color.OnSurfaceStrong => $"{ps}bg-onSurfaceStrong dark:{ps}bg-onSurfaceStrongDark",
-            Color.SurfaceAlt => $"{ps}bg-surfaceAlt dark:{ps}bg-surfaceAltDark",
-            Color.Primary => $"{ps}bg-primary dark:{ps}bg-primaryDark",
-            Color.OnPrimary => $"{ps}bg-onPrimary dark:{ps}bg-onPrimaryDark",
-            Color.Secondary => $"{ps}bg-secondary dark:{ps}bg-secondaryDark",
-            Color.OnSecondary => $"{ps}bg-onSecondary dark:{ps}bg-onSecondaryDark",
-            Color.Outline => $"{ps}bg-outline dark:{ps}bg-outlineDark",
-            Color.OutlineStrong => $"{ps}bg-outlineStrong dark:{ps}bg-outlineStrongDark",
+            SemanticColor.Surface => $"{ps}bg-surface dark:{ps}bg-surfaceDark",
+            SemanticColor.OnSurface => $"{ps}bg-onSurface dark:{ps}bg-onSurfaceDark",
+            SemanticColor.OnSurfaceStrong => $"{ps}bg-onSurfaceStrong dark:{ps}bg-onSurfaceStrongDark",
+            SemanticColor.SurfaceAlt => $"{ps}bg-surfaceAlt dark:{ps}bg-surfaceAltDark",
+            SemanticColor.Primary => $"{ps}bg-primary dark:{ps}bg-primaryDark",
+            SemanticColor.OnPrimary => $"{ps}bg-onPrimary dark:{ps}bg-onPrimaryDark",
+            SemanticColor.Secondary => $"{ps}bg-secondary dark:{ps}bg-secondaryDark",
+            SemanticColor.OnSecondary => $"{ps}bg-onSecondary dark:{ps}bg-onSecondaryDark",
+            SemanticColor.Outline => $"{ps}bg-outline dark:{ps}bg-outlineDark",
+            SemanticColor.OutlineStrong => $"{ps}bg-outlineStrong dark:{ps}bg-outlineStrongDark",
 
             // Status Colors (no dark variants)
-            Color.Danger => ps + "bg-danger",
-            Color.OnDanger => ps + "bg-onDanger",
-            Color.Info => ps + "bg-info",
-            Color.OnInfo => ps + "bg-onInfo",
-            Color.Warning => ps + "bg-warning",
-            Color.OnWarning => ps + "bg-onWarning",
-            Color.Success => ps + "bg-success",
-            Color.OnSuccess => ps + "bg-onSuccess",
+            SemanticColor.Danger => ps + "bg-danger",
+            SemanticColor.OnDanger => ps + "bg-onDanger",
+            SemanticColor.Info => ps + "bg-info",
+            SemanticColor.OnInfo => ps + "bg-onInfo",
+            SemanticColor.Warning => ps + "bg-warning",
+            SemanticColor.OnWarning => ps + "bg-onWarning",
+            SemanticColor.Success => ps + "bg-success",
+            SemanticColor.OnSuccess => ps + "bg-onSuccess",
 
             _ => "bg-surface dark:bg-surfaceDark"
         };

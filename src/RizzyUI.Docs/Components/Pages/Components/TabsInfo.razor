@@ -14,7 +14,7 @@
             </Paragraph>
 
             <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Tabs" class="scroll-mt-20">Default Tabs</Heading>
-            <Paragraph TextColor="Color.OnSurface">
+            <Paragraph TextColor="SemanticColor.OnSurface">
                 A list of tabs with a tab panel.
             </Paragraph>
 
@@ -59,7 +59,7 @@
             </CodeViewer>
             
             <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Tabs with icon" class="scroll-mt-20">Tabs with icon</Heading>
-            <Paragraph TextColor="Color.OnSurface">
+            <Paragraph TextColor="SemanticColor.OnSurface">
                 A list of tabs with icons and a tab panel.
             </Paragraph>
 
@@ -106,18 +106,18 @@
     &lt;/Tabs&gt;
             </CodeViewer>            
 
-            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Colored Tabs" class="scroll-mt-20">Colored Tabs</Heading>
-            <Paragraph TextColor="Color.OnSurface">
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="SemanticColored Tabs" class="scroll-mt-20">SemanticColored Tabs</Heading>
+            <Paragraph TextColor="SemanticColor.OnSurface">
                 A list of colored tabs with a tab panel.
             </Paragraph>
 
             <Browser>
                 <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
                     <Tabs SelectedTabName="events" 
-                          TabBackgroundColor="Color.SurfaceAlt"
-                          SelectedTabUnderlineColor="Color.Warning"
-                          TabTextColor="Color.OnSurface"
-                          SelectedTabTextColor="Color.OnSurfaceStrong">
+                          TabBackgroundColor="SemanticColor.SurfaceAlt"
+                          SelectedTabUnderlineColor="SemanticColor.Warning"
+                          TabTextColor="SemanticColor.OnSurface"
+                          SelectedTabTextColor="SemanticColor.OnSurfaceStrong">
                         <Menu>
                             <TabStrip Justify="Justify.Center" SpaceBetween="Size.Small">
                                 <Tab Name="activity">Activity</Tab>
@@ -138,10 +138,10 @@
 
             <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
     &lt;Tabs SelectedTabName=&quot;activity&quot; 
-          TabBackgroundColor=&quot;Color.SurfaceAlt&quot;
-          SelectedTabUnderlineColor=&quot;Color.Warning&quot;
-          TabTextColor=&quot;Color.OnSurface&quot;
-          SelectedTabTextColor=&quot;Color.OnSurfaceStrong&quot;&gt;
+          TabBackgroundSemanticColor=&quot;SemanticColor.SurfaceAlt&quot;
+          SelectedTabUnderlineSemanticColor=&quot;SemanticColor.Warning&quot;
+          TabTextSemanticColor=&quot;SemanticColor.OnSurface&quot;
+          SelectedTabTextSemanticColor=&quot;SemanticColor.OnSurfaceStrong&quot;&gt;
         &lt;Menu&gt;
             &lt;TabStrip Justify=&quot;Justify.Center&quot; SpaceBetween=&quot;Size.Medium&quot;&gt;
                 &lt;Tab Name=&quot;activity&quot;&gt;Activity&lt;/Tab&gt;
