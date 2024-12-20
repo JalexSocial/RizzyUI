@@ -13,6 +13,16 @@ namespace RizzyUI;
 public static class Colors
 {
     /// <summary>
+    /// The color white.
+    /// </summary>
+    public static readonly RgbColor White = new RgbColor(255, 255, 255);
+
+    /// <summary>
+    /// The color black.
+    /// </summary>
+    public static readonly RgbColor Black = new RgbColor(0, 0, 0);
+
+    /// <summary>
     /// Red color scale.
     /// </summary>
     public static readonly ColorScale Red = new Red();
