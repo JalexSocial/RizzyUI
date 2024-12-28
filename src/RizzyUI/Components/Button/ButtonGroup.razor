@@ -2,35 +2,54 @@
 
 @inherits RizzyComponent
 
+/// <summary>
+	/// Represents a group of buttons that are displayed together and managed as a single unit.
+	/// </summary>
 <CascadingValue Value="this">
-    <div @attributes="AdditionalAttributes" class=@RootClass()>
-        @ChildContent
-    </div>
+	<div @attributes="AdditionalAttributes" class="@RootClass()">
+		@ChildContent
+	</div>
 </CascadingValue>
 
 @code {
-    private readonly List<Button> _buttons = new();
+	/// <summary>
+	/// Internal list that holds the buttons added to the group.
+	/// </summary>
+	private readonly List<Button> _buttons = new();
 
-    public List<Button> Buttons => _buttons;
+	/// <summary>
+	/// Gets the list of buttons contained in this button group.
+	/// </summary>
+	public List<Button> Buttons => _buttons;
 
-    /// <summary>
-    /// Child content
-    /// </summary>
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+	/// <summary>
+	/// The child content to be rendered inside the button group.
+	/// Typically, this includes the buttons that are part of the group.
+	/// </summary>
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
 
-    /// <inheritdoc/>
-    protected override string? RootClass()
-    {
-        return $"inline-flex {AdditionalAttributes?.GetValueOrDefault("class")}";
-    }
+	/// <summary>
+	/// Computes the root CSS classes for the button group.
+	/// Combines the default inline-flex display with any additional classes provided via attributes.
+	/// </summary>
+	/// <returns>A string containing the CSS classes.</returns>
+	protected override string? RootClass()
+	{
+		return $"inline-flex {AdditionalAttributes?.GetValueOrDefault("class")}";
+	}
 
-    internal void AddButton(Button button)
-    {
-        if (!_buttons.Contains(button))
-        {
-            _buttons.Add(button);
-            StateHasChanged();
-        }
-    }
+	/// <summary>
+	/// Adds a button to the button group if it is not already present.
+	/// Triggers a state change to update the UI accordingly.
+	/// </summary>
+	/// <param name="button">The <see cref="Button"/> instance to add to the group.</param>
+	internal void AddButton(Button button)
+	{
+		if (!_buttons.Contains(button))
+		{
+			_buttons.Add(button);
+			StateHasChanged();
+		}
+	}
 }

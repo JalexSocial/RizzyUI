@@ -42,8 +42,8 @@ else
     <!-- Non-collapsible item -->
     @if (Parent is { HasChildren: true, Collapsible: false })
     {
-        <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700 transition duration-200 hover:border-l-2 hover:border-outlineStrong hover:text-onSurfaceStrong dark:hover:border-x-outlineDarkStrong dark:hover:text-onSurfaceDarkStrong">
-            <a href="@Href" target="@Target" class="@LinkClass">
+        <li class="border-l px-2 py-0.5 border-slate-300 dark:border-slate-700 transition duration-200 hover:border-l-2 hover:border-outlineStrong hover:text-onSurfaceStrong dark:hover:border-x-outlineStrongDark dark:hover:text-onSurfaceStrongDark">
+            <a @attributes="@AdditionalAttributes" href="@Href" target="@Target" class="@LinkClass">
                 @if (Icon != null)
                 {
                     <div class="text-xl" aria-hidden="true">

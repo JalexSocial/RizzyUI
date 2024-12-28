@@ -1,7 +1,6 @@
 import defaultTheme from "tailwindcss/defaultTheme";
 import colors from "tailwindcss/colors";
 
-import aspectRatio from "@tailwindcss/aspect-ratio";
 import forms from "@tailwindcss/forms";
 import typography from "@tailwindcss/typography";
 
@@ -22,7 +21,6 @@ module.exports = {
         },
     },
     plugins: [
-        aspectRatio,
         forms,
         typography,
         rizzyui

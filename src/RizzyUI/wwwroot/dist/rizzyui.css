@@ -108,7 +108,7 @@
   --tw-contain-style:  ;
 }
 
-/*! tailwindcss v3.4.15 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -1004,6 +1004,10 @@ select {
 
 .hidden {
   display: none;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
 }
 
 .size-10 {
@@ -2622,12 +2626,21 @@ select {
   background-color: rgb(var(--surfaceDark));
 }
 
+.dark\:hover\:border-x-outlineStrongDark:hover:is(.dark *) {
+  border-left-color: rgb(var(--outlineStrongDark));
+  border-right-color: rgb(var(--outlineStrongDark));
+}
+
 .dark\:hover\:bg-primaryDark\/5:hover:is(.dark *) {
   background-color: rgb(var(--primaryDark) / 0.05);
 }
 
 .dark\:hover\:bg-surface\/10:hover:is(.dark *) {
   background-color: rgb(var(--surface) / 0.1);
+}
+
+.dark\:hover\:text-onSurfaceStrongDark:hover:is(.dark *) {
+  color: rgb(var(--onSurfaceStrongDark));
 }
 
 .dark\:hover\:text-white:hover:is(.dark *) {

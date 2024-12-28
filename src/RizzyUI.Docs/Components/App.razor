@@ -8,6 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'nonce-@_nonceValues.InlineScriptNonce'; font-src fonts.gstatic.com; style-src 'self' fonts.googleapis.com 'nonce-@_nonceValues.InlineStyleNonce'">
+    <meta name="htmx-config" content='{"inlineScriptNonce":"@_nonceValues.InlineScriptNonce","inlineStyleNonce":"@_nonceValues.InlineStyleNonce"}'>
 
     <!--<link rel="stylesheet" href="_content/RizzyUI/dist/rizzyui.css" />-->
 
@@ -24,6 +25,8 @@
     <!--
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     -->
+    <script nonce="@_nonceValues.InlineScriptNonce" src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+
     <script nonce="@_nonceValues.InlineScriptNonce" src="/_content/RizzyUI/js/vendor/loadjs/loadjs.js"></script>
     <script nonce="@_nonceValues.InlineScriptNonce" src="/_content/RizzyUI/js/rizzyui.js"></script>
 
