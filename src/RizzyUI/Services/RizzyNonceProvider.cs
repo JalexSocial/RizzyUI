@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
+using RizzyUI.Utility;
 
 namespace RizzyUI.Services;
 
@@ -16,6 +17,21 @@ public sealed class RizzyNonceProvider : IRizzyNonceProvider
     private const string NonceKey = "RizzyNonceValues";
 
     /// <summary>
+    /// Defines the custom header name for the inline script nonce.
+    /// </summary>
+    private const string ScriptNonceHeader = "Rizzy-Script-Nonce";
+
+    /// <summary>
+    /// Defines the custom header name for the inline style nonce.
+    /// </summary>
+    private const string StyleNonceHeader = "Rizzy-Style-Nonce";
+
+    /// <summary>
+    /// Generates secure nonce values
+    /// </summary>
+    private readonly RizzyNonceGenerator _generator;
+
+    /// <summary>
     /// The HTTP context accessor used to retrieve the current <see cref="HttpContext"/>.
     /// </summary>
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -26,56 +42,66 @@ public sealed class RizzyNonceProvider : IRizzyNonceProvider
     /// <param name="httpContextAccessor">
     /// The <see cref="IHttpContextAccessor"/> used to access the current <see cref="HttpContext"/>.
     /// </param>
+    /// <param name="generator"></param>
     /// <exception cref="ArgumentNullException">
     /// Thrown if <paramref name="httpContextAccessor"/> is <c>null</c>.
     /// </exception>
-    public RizzyNonceProvider(IHttpContextAccessor httpContextAccessor)
+    public RizzyNonceProvider(IHttpContextAccessor httpContextAccessor, RizzyNonceGenerator generator)
     {
         _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+        _generator = generator;
     }
 
     /// <summary>
     /// Retrieves the nonce values for inline scripts and styles. If the nonce values
-    /// have already been generated for the current HTTP request, they are returned
-    /// from the cache; otherwise, new nonce values are generated, cached, and returned.
+    /// have already been generated for the current HTTP request or provided via headers,
+    /// they are returned from the cache; otherwise, new nonce values are generated, cached, and returned.
     /// </summary>
     /// <returns>
-    /// An instance of <see cref="RizzyNonceValues"/> containing the generated nonce values.
+    /// An instance of <see cref="RizzyNonceValues"/> containing the generated or reused nonce values.
     /// </returns>
     /// <exception cref="InvalidOperationException">
     /// Thrown if there is no current <see cref="HttpContext"/>.
     /// </exception>
     public RizzyNonceValues GetNonceValues()
     {
-        var context = _httpContextAccessor.HttpContext
-                      ?? throw new InvalidOperationException("No HttpContext available.");
+	    var context = _httpContextAccessor.HttpContext
+	                  ?? throw new InvalidOperationException("No HttpContext available.");
 
-        if (context.Items[NonceKey] is RizzyNonceValues nonceValues)
-        {
-            return nonceValues;
-        }
+	    if (context.Items[NonceKey] is RizzyNonceValues cachedNonceValues)
+	    {
+		    return cachedNonceValues;
+	    }
 
-        nonceValues = new RizzyNonceValues
-        {
-            InlineScriptNonce = GenerateNonce(),
-            InlineStyleNonce = GenerateNonce()
-        };
+	    // Attempt to retrieve nonce values from headers
+	    context.Request.Headers.TryGetValue(ScriptNonceHeader, out var scriptNonceValues);
+	    context.Request.Headers.TryGetValue(StyleNonceHeader, out var styleNonceValues);
 
-        context.Items[NonceKey] = nonceValues;
-        return nonceValues;
-    }
+	    var scriptNonce = scriptNonceValues.FirstOrDefault();
+	    var styleNonce = styleNonceValues.FirstOrDefault();
 
-    /// <summary>
-    /// Generates a cryptographically secure nonce value encoded in Base64.
-    /// </summary>
-    /// <returns>
-    /// A <see cref="string"/> representing the generated nonce.
-    /// </returns>
-    private string GenerateNonce()
-    {
-        var bytes = new byte[16];
-        RandomNumberGenerator.Fill(bytes);
-        return Convert.ToBase64String(bytes); 
+	    // Validate and reuse nonce values if both are present and valid
+	    if (!string.IsNullOrEmpty(scriptNonce) && _generator.ValidateNonce(scriptNonce) &&
+	        !string.IsNullOrEmpty(styleNonce) && _generator.ValidateNonce(styleNonce))
+	    {
+		    // Reuse nonce values from headers
+		    var nonceValues = new RizzyNonceValues
+		    {
+			    InlineScriptNonce = scriptNonce,
+			    InlineStyleNonce = styleNonce
+		    };
+		    context.Items[NonceKey] = nonceValues;
+		    return nonceValues;
+	    }
+
+	    // Generate new nonce values if validation fails or headers are missing
+	    var newNonceValues = new RizzyNonceValues
+	    {
+		    InlineScriptNonce = _generator.CreateNonce(),
+		    InlineStyleNonce = _generator.CreateNonce()
+	    };
+	    context.Items[NonceKey] = newNonceValues;
+	    return newNonceValues;
     }
 
     /// <summary>

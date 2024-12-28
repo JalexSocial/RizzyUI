@@ -1,4 +1,17 @@
 ﻿/* RizzyUI JS */
+if (!document.__htmx_nonceprovider) {
+    document.addEventListener("htmx:configRequest", (event) => {
+        const headers = event.detail.headers;
+        if (htmx.config.inlineScriptNonce) {
+            headers['Rizzy-Script-Nonce'] = htmx.config.inlineScriptNonce;
+        }
+        if (htmx.config.inlineStyleNonce) {
+            headers['Rizzy-Style-Nonce'] = htmx.config.inlineStyleNonce;
+        }
+    });
+
+    document.__htmx_nonceprovider = true;
+}
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('rzAlert',
