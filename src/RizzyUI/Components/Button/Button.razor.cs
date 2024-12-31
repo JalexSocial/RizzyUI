@@ -5,7 +5,7 @@ namespace RizzyUI;
 
 public partial class Button : RizzyComponent
 {
-    private const string BaseStyle = "cursor-pointer whitespace-nowrap rounded font-medium tracking-wide text-center transition hover:opacity-75 active:opacity-100 disabled:opacity-75 disabled:cursor-not-allowed";
+    private const string BaseStyle = "inline-flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap rounded font-medium tracking-wide text-center transition hover:opacity-75 active:opacity-100 hover:shadow-sm disabled:opacity-75 disabled:cursor-not-allowed";
 
     [CascadingParameter] public ButtonGroup? Group { get; set; }
 

@@ -1,0 +1,37 @@
+﻿@namespace RizzyUI
+@inherits RizzyUI.RizzyComponent
+
+<!-- Card Footer -->
+<div @attributes="AdditionalAttributes" class="@RootClass()">
+    @ChildContent
+</div>
+<!-- END Card Footer -->
+
+@code
+{
+    private const string BaseStyle = "px-5 py-4 text-sm last:rounded-b-lg";
+
+	/// <summary>
+	/// Child content for the card
+	/// </summary>
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Background color
+    /// </summary>
+    [Parameter]
+    public SemanticColor BackgroundColor { get; set; } = SemanticColor.SurfaceAlt;
+
+    /// <summary>
+    /// Text color
+    /// </summary>
+    [Parameter]
+    public SemanticColor TextColor { get; set; } = SemanticColor.OnSurface;
+
+    /// <inheritdoc cref="RizzyComponent"/>
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle, BackgroundColor.ToBackgroundClass(), TextColor.ToTextClass());
+    }
+}

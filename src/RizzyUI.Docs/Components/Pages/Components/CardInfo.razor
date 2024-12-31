@@ -1,0 +1,118 @@
+﻿@page "/components/card"
+
+<PageTitle>Card</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Card</Heading>
+            <Paragraph>
+                Cards are a great way to display information in a visually appealing format. They can be used to display images, text, and more.
+            </Paragraph>
+			
+            <section class="my-8 py-2">
+
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Card" class="scroll-mt-20">Blog Post Card</Heading>
+            <Paragraph TextColor="SemanticColor.OnSurface">
+	            A card with an image, title, and description.
+            </Paragraph>
+
+            <Browser>
+
+	            <div class="mx-auto flex flex-col items-start justify-center gap-4 rounded p-8">
+
+		            <Card class="max-w-sm">
+			            <div class="h-44 md:h-64 overflow-hidden"> 
+				            <img src="/images/card2.jpg" class="h-full object-cover transition duration-700 ease-out group-hover:scale-105" alt="coffee beans spilling out from a coffee mug" />
+			            </div>
+
+			            <CardBody BackgroundColor="SemanticColor.SurfaceAlt">
+				            <span class="text-sm font-medium">Features</span>
+                            <Heading Level="HeadingLevel.H2">Elevate your Coffee Brew With This One Trick</Heading>
+				            <Paragraph class="text-sm">
+					            Whether you're a barista or a coffee enthusiast, this guide provides expert tips on selecting quality beans, mastering 
+					            the grind, and refining your brewing technique to elevate your coffee ritual and savor every sip.
+				            </Paragraph>							
+			            </CardBody>
+			            <CardFooter>
+                            <Button Variant="ButtonVariant.Primary">View</Button>
+			            </CardFooter>
+		            </Card>
+
+	            </div>
+
+            </Browser>
+
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+
+            </CodeViewer>
+
+        </section>
+		
+            <section class="my-8 py-2">
+
+            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Card" class="scroll-mt-20">Default Card</Heading>
+            <Paragraph TextColor="SemanticColor.OnSurface">
+	            A card with a header and footer
+            </Paragraph>
+
+            <Browser>
+
+	            <div class="mx-auto flex flex-col items-start justify-center gap-4 rounded p-8">
+
+                        <Card class="w-full">
+                            <CardHeader>
+                                <div>
+                                    <CardTitle>Information</CardTitle>
+                                    <CardSubtitle>This is a subtitle</CardSubtitle>
+                                </div>
+                                <CardButtons>
+	                                <Button Size="Size.Small" Variant="ButtonVariant.Information">
+		                                <Blazicon Svg="MdiIcon.Plus"></Blazicon>
+                                        <span>New Project</span>
+	                                </Button>
+	                                <Button Size="Size.Small" Variant="ButtonVariant.Information">
+		                                <Blazicon Svg="MdiIcon.AccountMultiple"></Blazicon>
+		                                <span>Clients</span>
+	                                </Button>
+                                </CardButtons>
+                            </CardHeader>
+                            <CardBody>Body content here</CardBody>
+                            <CardFooter>Footer content here</CardFooter>
+                        </Card>
+
+	            </div>
+
+            </Browser>
+
+            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;Card class=&quot;w-full&quot;&gt;
+        &lt;CardHeader&gt;
+            &lt;div&gt;
+                &lt;CardTitle&gt;Information&lt;/CardTitle&gt;
+                &lt;CardSubtitle&gt;This is a subtitle&lt;/CardSubtitle&gt;
+            &lt;/div&gt;
+            &lt;CardButtons&gt;
+                &lt;Button Size=&quot;Size.Small&quot; Variant=&quot;ButtonVariant.Information&quot;&gt;
+                    &lt;Blazicon Svg=&quot;MdiIcon.Plus&quot;&gt;&lt;/Blazicon&gt;
+                    &lt;span&gt;New Project&lt;/span&gt;
+                &lt;/Button&gt;
+                &lt;Button Size=&quot;Size.Small&quot; Variant=&quot;ButtonVariant.Information&quot;&gt;
+                    &lt;Blazicon Svg=&quot;MdiIcon.AccountMultiple&quot;&gt;&lt;/Blazicon&gt;
+                    &lt;span&gt;Clients&lt;/span&gt;
+                &lt;/Button&gt;
+            &lt;/CardButtons&gt;
+        &lt;/CardHeader&gt;
+        &lt;CardBody&gt;Body content here&lt;/CardBody&gt;
+        &lt;CardFooter&gt;Footer content here&lt;/CardFooter&gt;
+    &lt;/Card&gt;
+            </CodeViewer>
+
+        </section>
+
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>

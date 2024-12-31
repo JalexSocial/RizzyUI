@@ -1,0 +1,31 @@
+﻿@namespace RizzyUI
+@inherits RizzyUI.RizzyComponent
+
+<HtmlElement Element="@Element" @attributes="AdditionalAttributes" class="@RootClass()">
+	@ChildContent
+</HtmlElement>
+
+@code
+{
+    private const string BaseStyle = "text-sm font-medium text-onSurface dark:text-onSurfaceDark";
+
+    protected override void OnInitialized()
+    {
+	    base.OnInitialized();
+
+	    this.Element = "h4";
+    }
+
+    /// <summary>
+	/// Child content for the card
+	/// </summary>
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	/// <inheritdoc cref="RizzyComponent"/>
+	protected override string? RootClass()
+	{
+		return TwMerge.Merge(AdditionalAttributes, BaseStyle);
+	}
+
+}

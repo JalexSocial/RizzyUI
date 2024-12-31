@@ -1,0 +1,24 @@
+﻿@namespace RizzyUI
+@inherits RizzyUI.RizzyComponent
+
+<div @attributes="AdditionalAttributes" class="@RootClass()">
+	@ChildContent
+</div>
+
+@code
+{
+    private const string BaseStyle = "-my-4";
+
+	/// <summary>
+	/// Child content for the card buttons
+	/// </summary>
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	/// <inheritdoc cref="RizzyComponent"/>
+	protected override string? RootClass()
+	{
+		return TwMerge.Merge(AdditionalAttributes, BaseStyle);
+	}
+
+}

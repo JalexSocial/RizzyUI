@@ -4,7 +4,7 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const safelist = require('./safelist');
 
 const rizzyui = plugin(
-    function ({ addBase, addVariant, addUtilities, theme }) {
+    function({ addBase, addVariant, addUtilities, theme }) {
         // Add base styles
         addBase({
             ':root': {
@@ -87,9 +87,8 @@ const rizzyui = plugin(
         };
 
         addUtilities(scrollbarHoverUtilities, {
-            variants: ['responsive'],
+            variants: ['responsive', 'hover'],
         });
-
 
     },
     {

@@ -16,7 +16,7 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', 'open sans', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', 'Figtree', 'open sans', ...defaultTheme.fontFamily.sans],
             }
         },
     },
