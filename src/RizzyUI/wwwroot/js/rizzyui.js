@@ -127,16 +127,38 @@ document.addEventListener('alpine:init', () => {
 
     Alpine.data('rzEmbeddedPreview', () => {
         return {
-            resizeIframe() {
-                console.log(this);
+            init() {
+                try {
+                    const iframe = this.$refs.iframe;
 
-                const iframe = this.$refs.iframe;
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+                    if (iframeDoc.readyState === 'complete') {
+                        this.resizeIframe(iframe);
+                    } else {
+                        iframe.addEventListener('load',
+                            () => {
+                                console.log('Iframe has fully loaded.');
+                                this.resizeIframe(iframe);
+                            });
+                    }
+                } catch (error) {
+                    console.error('Cannot access iframe content');
+                }
+            },
+            resizeIframe(iframe) {
+
                 if (iframe) {
                     try {
                         const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
                         const iframeBody = iframeDocument.body;
-                        const newHeight = iframeBody.scrollHeight + 50;
-                        iframe.style.height = newHeight + 'px';
+
+                        if (!iframeBody) {
+                            setInterval(() => { this.resizeIframe(iframe); }, 150);
+                        } else {
+                            const newHeight = iframeBody.scrollHeight + 50;
+                            iframe.style.height = newHeight + 'px';
+                        }
                     } catch (error) {
                         console.error('Error resizing iframe:', error);
                     }

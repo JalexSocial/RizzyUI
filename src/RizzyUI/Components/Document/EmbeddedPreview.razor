@@ -3,12 +3,11 @@
 
 @inherits RizzyComponent
 
-<HtmlElement x-data="rzEmbeddedPreview" class="w-full">
-    <iframe
+<HtmlElement class="w-full">
+    <iframe x-data="rzEmbeddedPreview"
 	    class="w-full"
 	    srcdoc="@_content"
-	    x-ref="iframe"
-	    x-on:load="resizeIframe">
+	    x-ref="iframe">
     </iframe>
 </HtmlElement>
 
