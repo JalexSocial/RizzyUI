@@ -34,23 +34,38 @@
             </div>
         </div>
     </div>
-    <div class="bg-pattern bg-surface flex justify-center dark:bg-surfaceDark">
-        <div class="@@container bg-surface border-outline relative w-full overflow-hidden border-none dark:bg-surfaceDark dark:border-outlineDark" :class="getBrowserBorderCss">
-
-	        @ChildContent
+    <div class="grid-pattern bg-surface flex justify-center dark:bg-surfaceDark">
+        <div class="container bg-surface border-outline relative w-full overflow-hidden transition-all border-none dark:bg-surfaceDark dark:border-outlineDark" :class="getBrowserBorderCss">
+			
+            @if (Layout != null)
+            {
+	            <EmbeddedPreview Layout="@Layout">
+                    @ChildContent
+	            </EmbeddedPreview>
+            }
+            else
+            {
+	            @ChildContent
+            }
 
         </div>
     </div>
 </div>
 
 @code {
-    private const string BaseStyle = "overflow-hidden border border-outline dark:border-outlineDark rounded";
+    private static readonly string BaseStyle = "overflow-hidden border border-outline dark:border-outlineDark rounded";
 
     /// <summary>
     /// Child content for the responsive browser
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Optional Layout for content - If present then content will be rendered to an iframe using
+    /// the layout
+    /// </summary>
+    [Parameter] public Type? Layout { get; set; }
 
     protected override string? RootClass()
     {

@@ -125,6 +125,26 @@ document.addEventListener('alpine:init', () => {
             }
         });
 
+    Alpine.data('rzEmbeddedPreview', () => {
+        return {
+            resizeIframe() {
+                console.log(this);
+
+                const iframe = this.$refs.iframe;
+                if (iframe) {
+                    try {
+                        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                        const iframeBody = iframeDocument.body;
+                        const newHeight = iframeBody.scrollHeight + 50;
+                        iframe.style.height = newHeight + 'px';
+                    } catch (error) {
+                        console.error('Error resizing iframe:', error);
+                    }
+                }
+            },
+        }
+    });
+
     Alpine.data('rzQuickReferenceContainer',
         () => {
             return {

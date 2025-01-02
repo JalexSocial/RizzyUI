@@ -20,7 +20,7 @@
 </button>
 
 @code {
-    private const string BaseStyle = "z-10 relative inline-flex h-8 px-2 w-full cursor-pointer items-center whitespace-nowrap rounded rounded-b-none font-medium transition-all mr-1";
+    private static readonly string BaseStyle = "z-10 relative inline-flex h-8 px-2 w-full cursor-pointer items-center whitespace-nowrap rounded rounded-b-none font-medium transition-all mr-1";
 
     [CascadingParameter]
     private Tabs? Parent { get; set; }

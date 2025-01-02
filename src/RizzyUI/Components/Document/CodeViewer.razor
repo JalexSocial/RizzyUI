@@ -20,7 +20,7 @@ x-data="rzCodeViewer">
     </div>
     <!-- /Code Config -->
 
-    <div class="border-outlineDark bg-surfaceAltDark text-onSurfaceStrong w-full overflow-y-auto !rounded-b-none rounded-b-xl border" :class="getExpandMaxHeightCss">
+    <div class="border-outlineDark bg-surfaceAltDark text-onSurfaceStrong w-full overflow-y-auto transition-all !rounded-b-none rounded-b-xl border" :class="getExpandMaxHeightCss">
         <!-- code  -->
         <div>
             <div class="border-outlineDark bg-surfaceDark/40 text-onSurfaceDark flex h-11 items-center justify-between border-b" :class="getBorderCss">
@@ -50,7 +50,7 @@ x-data="rzCodeViewer">
 </div>
 
 @code {
-    private const string BaseStyle = "mt-2 overflow-auto";
+    private static readonly string BaseStyle = "mt-2 overflow-auto";
     private string CodeId { get; set; } = IdGenerator.UniqueId("code");
     private string CodeContent { get; set; } = string.Empty;
     private string _assets = string.Empty;
@@ -64,6 +64,8 @@ x-data="rzCodeViewer">
         Constants.ContentUrl("js/vendor/highlightjs-plugin/cshtml-razor.min.js"),
         Constants.ContentUrl("js/vendor/highlightjs/styles/stackoverflow-dark.css")
     ];
+
+    [Inject] IServiceProvider ServiceProvider { get; set; }
 
     /// <summary>
     /// (optional) Javascript and CSS assets that are loaded when component is instantiated.  Assets are requested
@@ -122,7 +124,7 @@ x-data="rzCodeViewer">
     {
         if (Source != null) return Source.TrimEmptyLines();
 
-        return await ChildContent.RenderHtml();
+        return await ChildContent.RenderHtml(ServiceProvider);
     }
 
 }

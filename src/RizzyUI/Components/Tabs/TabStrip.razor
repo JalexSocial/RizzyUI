@@ -16,7 +16,7 @@
 </CascadingValue>
 
 @code {
-    private const string BaseStyle = "relative inline-grid select-none items-center";
+    private static readonly string BaseStyle = "relative inline-grid select-none items-center";
 
     [CascadingParameter]
     private Tabs? Parent { get; set; } = default!;

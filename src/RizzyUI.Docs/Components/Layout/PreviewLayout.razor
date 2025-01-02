@@ -1,0 +1,60 @@
+﻿@inherits LayoutComponentBase
+@using RizzyUI
+@using RizzyUI.Services
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'nonce-@_nonceValues.InlineScriptNonce'; font-src fonts.gstatic.com; style-src 'self' fonts.googleapis.com 'nonce-@_nonceValues.InlineStyleNonce'">
+    <meta name="htmx-config" content='{"inlineScriptNonce":"@_nonceValues.InlineScriptNonce","inlineStyleNonce":"@_nonceValues.InlineStyleNonce"}'>
+
+    <link nonce="@_nonceValues.InlineStyleNonce" rel="stylesheet" href="/css/app.css" />
+    <link nonce="@_nonceValues.InlineStyleNonce" rel="stylesheet" href="/RizzyUI.Docs.styles.css" />
+    <HeadOutlet />
+    <RizzyThemeProvider />
+
+    <script defer nonce="@_nonceValues.InlineScriptNonce" src="https://cdn.jsdelivr.net/npm/@@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+    <script defer nonce="@_nonceValues.InlineScriptNonce" src="https://cdn.jsdelivr.net/npm/@@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+
+
+    <script defer nonce="@_nonceValues.InlineScriptNonce" src="https://cdn.jsdelivr.net/npm/@@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>
+    <!--
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    -->
+    <script nonce="@_nonceValues.InlineScriptNonce" src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+
+    <script nonce="@_nonceValues.InlineScriptNonce" src="/_content/RizzyUI/js/vendor/loadjs/loadjs.js"></script>
+    <script nonce="@_nonceValues.InlineScriptNonce" src="/_content/RizzyUI/js/rizzyui.js"></script>
+
+    <link rel="preconnect" nonce="@_nonceValues.InlineScriptNonce" href="https://fonts.googleapis.com">
+    <link rel="preconnect" nonce="@_nonceValues.InlineScriptNonce" href="https://fonts.gstatic.com" crossorigin>
+    <link nonce="@_nonceValues.InlineStyleNonce" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" nonce="@_nonceValues.InlineScriptNonce" href="https://fonts.gstatic.com" crossorigin>
+    <link nonce="@_nonceValues.InlineScriptNonce" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    @Body
+</body>
+
+</html>
+
+@code {
+	private RizzyNonceValues _nonceValues = RizzyNonceValues.DefaultValue;
+
+	[Inject] IRizzyNonceProvider? NonceProviderService { get; set; }
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+
+		_nonceValues = NonceProviderService?.GetNonceValues() ?? _nonceValues;
+	}
+
+}

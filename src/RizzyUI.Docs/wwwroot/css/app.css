@@ -941,6 +941,10 @@ select {
   margin-bottom: auto;
 }
 
+.mb-0 {
+  margin-bottom: 0px;
+}
+
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -2391,6 +2395,28 @@ select {
   scrollbar-color: #6b7280 transparent;
 }
 
+.grid-pattern {
+  background: 
+      repeating-linear-gradient(
+        90deg,
+        rgb(var(--surfaceAlt)) 0,
+        rgb(var(--surfaceAlt)) 5%,
+        transparent 0,
+        transparent 50%
+      ),
+      repeating-linear-gradient(
+        180deg,
+        rgb(var(--surfaceAlt)) 0,
+        rgb(var(--surfaceAlt)) 5%,
+        transparent 0,
+        transparent 50%
+      )
+    ;
+  background-size: 1.5em 1.5em;
+  background-color: rgb(var(--surface));
+  opacity: 1;
+}
+
 h1:focus {
   outline: none;
 }
@@ -2488,11 +2514,6 @@ h1:focus {
 
 .first\:mt-2:first-child {
   margin-top: 0.5rem;
-}
-
-.first\:rounded-t-lg:first-child {
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
 }
 
 .last\:rounded-b-lg:last-child {
@@ -3046,8 +3067,8 @@ h1:focus {
 }
 
 @media (min-width: 640px) {
-  .sm\:flex {
-    display: flex;
+  .sm\:flex-row {
+    flex-direction: row;
   }
 
   .sm\:items-center {

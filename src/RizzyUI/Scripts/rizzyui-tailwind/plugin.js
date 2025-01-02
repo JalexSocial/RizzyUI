@@ -54,7 +54,7 @@ const rizzyui = plugin(
         addVariant('htmx-swapping', ['&.htmx-swapping', '.htmx-swapping &']);
         addVariant('htmx-added', ['&.htmx-added', '.htmx-added &']);
 
-        const scrollbarHoverUtilities = {
+        const rzUtilities = {
             /* Custom Scrollbar Styles */
             '.scrollbar-hover': {
                 /* Webkit-based browsers (Chrome, Safari, Edge) */
@@ -84,9 +84,30 @@ const rizzyui = plugin(
                     'scrollbar-color': '#6b7280 transparent', // Tailwind's gray-500
                 },
             },
+            '.grid-pattern': {
+                background: `
+      repeating-linear-gradient(
+        90deg,
+        rgb(var(--surfaceAlt)) 0,
+        rgb(var(--surfaceAlt)) 5%,
+        transparent 0,
+        transparent 50%
+      ),
+      repeating-linear-gradient(
+        180deg,
+        rgb(var(--surfaceAlt)) 0,
+        rgb(var(--surfaceAlt)) 5%,
+        transparent 0,
+        transparent 50%
+      )
+    `,
+                'background-size': '1.5em 1.5em',
+                'background-color': 'rgb(var(--surface))',
+                opacity: '1',
+            },
         };
 
-        addUtilities(scrollbarHoverUtilities, {
+        addUtilities(rzUtilities, {
             variants: ['responsive', 'hover'],
         });
 
@@ -175,7 +196,7 @@ const rizzyui = plugin(
                 },
                 borderRadius: {
                     DEFAULT: 'var(--borderRadius)',
-                },
+                }
             },
         },
     }

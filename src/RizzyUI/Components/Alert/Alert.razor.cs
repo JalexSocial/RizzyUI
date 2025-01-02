@@ -13,7 +13,7 @@ public partial class Alert : RizzyComponent
     /// <summary>
     /// Base CSS classes applied to the alert container.
     /// </summary>
-    private const string BaseStyle = "relative w-full overflow-hidden rounded border";
+    private static readonly string BaseStyle = "relative w-full overflow-hidden rounded border";
 
     private string _bgLight = "bg-info/10";
     private string _bgLighter = "bg-info/15";

@@ -1304,12 +1304,6 @@ select {
   gap: 1rem;
 }
 
-.space-y-3 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
-}
-
 .overflow-auto {
   overflow: auto;
 }
@@ -2245,6 +2239,28 @@ select {
   scrollbar-color: #6b7280 transparent;
 }
 
+.grid-pattern {
+  background: 
+      repeating-linear-gradient(
+        90deg,
+        rgb(var(--surfaceAlt)) 0,
+        rgb(var(--surfaceAlt)) 5%,
+        transparent 0,
+        transparent 50%
+      ),
+      repeating-linear-gradient(
+        180deg,
+        rgb(var(--surfaceAlt)) 0,
+        rgb(var(--surfaceAlt)) 5%,
+        transparent 0,
+        transparent 50%
+      )
+    ;
+  background-size: 1.5em 1.5em;
+  background-color: rgb(var(--surface));
+  opacity: 1;
+}
+
 .after\:absolute::after {
   content: var(--tw-content);
   position: absolute;
@@ -2312,11 +2328,6 @@ select {
 
 .first\:mt-2:first-child {
   margin-top: 0.5rem;
-}
-
-.first\:rounded-t-lg:first-child {
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
 }
 
 .last\:rounded-b-lg:last-child {
@@ -2748,8 +2759,8 @@ select {
 }
 
 @media (min-width: 640px) {
-  .sm\:flex {
-    display: flex;
+  .sm\:flex-row {
+    flex-direction: row;
   }
 
   .sm\:items-center {
@@ -2758,12 +2769,6 @@ select {
 
   .sm\:justify-between {
     justify-content: space-between;
-  }
-
-  .sm\:space-y-0 > :not([hidden]) ~ :not([hidden]) {
-    --tw-space-y-reverse: 0;
-    margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
-    margin-bottom: calc(0px * var(--tw-space-y-reverse));
   }
 
   .sm\:text-left {

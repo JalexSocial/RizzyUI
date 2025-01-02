@@ -197,7 +197,7 @@ public static class ColorUtil
     }
 
     // ReSharper disable once UnusedMember.Local
-    private const string TwBackgroundClassAfterDiscovery =
+    private static readonly string TwBackgroundClassAfterDiscovery =
         "after:bg-surface dark:after:bg-surfaceDark after:bg-onsurface dark:after:bg-onsurfaceDark after:bg-onsurfacestrong dark:after:bg-onsurfacestrongDark after:bg-surfacealt dark:after:bg-surfacealtDark after:bg-primary dark:after:bg-primaryDark after:bg-onprimary dark:after:bg-onprimaryDark after:bg-secondary dark:after:bg-secondaryDark after:bg-onsecondary dark:after:bg-onsecondaryDark after:bg-outline dark:after:bg-outlineDark after:bg-outlinestrong dark:after:bg-outlinestrongDark after:bg-danger after:bg-ondanger after:bg-info after:bg-oninfo after:bg-warning after:bg-onwarning after:bg-success after:bg-onsuccess after:bg-surface dark:after:bg-surfaceDark";
 
 }

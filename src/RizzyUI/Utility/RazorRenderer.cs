@@ -8,15 +8,11 @@ namespace RizzyUI.Utility;
 
 internal static class RazorRenderer
 {
-    public static async Task<string> RenderHtml(this RenderFragment? fragment)
+    public static async Task<string> RenderHtml(this RenderFragment? fragment, IServiceProvider serviceProvider)
     {
         if (fragment is null)
             return string.Empty;
 
-        IServiceCollection services = new ServiceCollection();
-        services.AddSingleton<ILoggerFactory>(new NullLoggerFactory());
-
-        IServiceProvider serviceProvider = services.BuildServiceProvider();
         ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
 
         await using var htmlRenderer = new HtmlRenderer(serviceProvider, loggerFactory);

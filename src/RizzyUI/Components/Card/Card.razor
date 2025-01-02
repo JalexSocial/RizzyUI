@@ -7,8 +7,11 @@
 
 @code
 {
-    private const string BaseStyle = "flex flex-col rounded overflow-hidden shadow-sm border border-outline dark:border-outlineDark";
+    private static readonly string BaseStyle = "flex flex-col rounded overflow-hidden shadow-sm border border-outline dark:border-outlineDark";
 
+    /// <summary>
+    /// Initialization
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();

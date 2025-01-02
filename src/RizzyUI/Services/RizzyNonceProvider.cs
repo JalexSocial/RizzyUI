@@ -14,17 +14,17 @@ public sealed class RizzyNonceProvider : IRizzyNonceProvider
     /// <summary>
     /// The key used to store nonce values in the <see cref="HttpContext.Items"/> collection.
     /// </summary>
-    private const string NonceKey = "RizzyNonceValues";
+    private static readonly string NonceKey = "RizzyNonceValues";
 
     /// <summary>
     /// Defines the custom header name for the inline script nonce.
     /// </summary>
-    private const string ScriptNonceHeader = "Rizzy-Script-Nonce";
+    private static readonly string ScriptNonceHeader = "Rizzy-Script-Nonce";
 
     /// <summary>
     /// Defines the custom header name for the inline style nonce.
     /// </summary>
-    private const string StyleNonceHeader = "Rizzy-Style-Nonce";
+    private static readonly string StyleNonceHeader = "Rizzy-Style-Nonce";
 
     /// <summary>
     /// Generates secure nonce values
