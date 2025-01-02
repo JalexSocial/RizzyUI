@@ -1096,6 +1096,10 @@ select {
   max-height: 400px;
 }
 
+.min-h-64 {
+  min-height: 16rem;
+}
+
 .w-1\/2 {
   width: 50%;
 }

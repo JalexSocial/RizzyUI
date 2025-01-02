@@ -1129,6 +1129,10 @@ select {
   max-height: 400px;
 }
 
+.min-h-64 {
+  min-height: 16rem;
+}
+
 .min-h-\[18rem\] {
   min-height: 18rem;
 }

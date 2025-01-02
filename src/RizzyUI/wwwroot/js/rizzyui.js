@@ -131,17 +131,13 @@ document.addEventListener('alpine:init', () => {
                 try {
                     const iframe = this.$refs.iframe;
 
-                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    this.resizeIframe(iframe);
+                    iframe.addEventListener('load',
+                        () => {
+                            console.log('Iframe has fully loaded.');
+                            this.resizeIframe(iframe);
+                        });
 
-                    if (iframeDoc.readyState === 'complete') {
-                        this.resizeIframe(iframe);
-                    } else {
-                        iframe.addEventListener('load',
-                            () => {
-                                console.log('Iframe has fully loaded.');
-                                this.resizeIframe(iframe);
-                            });
-                    }
                 } catch (error) {
                     console.error('Cannot access iframe content');
                 }
@@ -156,7 +152,7 @@ document.addEventListener('alpine:init', () => {
                         if (!iframeBody) {
                             setInterval(() => { this.resizeIframe(iframe); }, 150);
                         } else {
-                            const newHeight = iframeBody.scrollHeight + 50;
+                            const newHeight = iframeBody.scrollHeight + 15;
                             iframe.style.height = newHeight + 'px';
                         }
                     } catch (error) {

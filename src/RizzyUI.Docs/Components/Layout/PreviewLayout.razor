@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'nonce-@_nonceValues.InlineScriptNonce'; font-src fonts.gstatic.com; style-src 'self' fonts.googleapis.com 'nonce-@_nonceValues.InlineStyleNonce'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src localhost:* 'nonce-@_nonceValues.InlineScriptNonce'; font-src fonts.gstatic.com; style-src 'self' fonts.googleapis.com 'nonce-@_nonceValues.InlineStyleNonce'">
     <meta name="htmx-config" content='{"inlineScriptNonce":"@_nonceValues.InlineScriptNonce","inlineStyleNonce":"@_nonceValues.InlineStyleNonce"}'>
 
     <link nonce="@_nonceValues.InlineStyleNonce" rel="stylesheet" href="/css/app.css" />
@@ -39,7 +39,7 @@
 
 </head>
 
-<body>
+<body class="overflow-hidden">
     @Body
 </body>
 
