@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: -.125em;
+}
+
 h1:focus {
     outline: none;
 }
