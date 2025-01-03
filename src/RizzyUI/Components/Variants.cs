@@ -66,6 +66,25 @@ public enum ButtonVariant
 }
 
 /// <summary>
+/// Appearance option for divider
+/// </summary>
+public enum DividerStyle
+{
+    /// <summary>
+    /// Solid line
+    /// </summary>
+    Solid,
+    /// <summary>
+    /// Dashed line
+    /// </summary>
+    Dashed,
+    /// <summary>
+    /// Dotted line
+    /// </summary>
+    Dotted
+}
+
+/// <summary>
 /// Size options for various components to define their dimensions.
 /// </summary>
 public enum Size
@@ -93,6 +112,19 @@ public enum Justify
     Center,
     /// <summary>Align items to the end.</summary>
     End
+}
+
+/// <summary>
+/// Alignment options.
+/// </summary>
+public enum Align
+{
+	/// <summary>Align items to the start.</summary>
+	Start,
+	/// <summary>Center align items.</summary>
+	Center,
+	/// <summary>Align items to the end.</summary>
+	End
 }
 
 /// <summary>

@@ -2,9 +2,9 @@
 @inherits RizzyUI.RizzyComponent
 
 <!-- Card Header -->
-<div @attributes="AdditionalAttributes" role="heading" aria-level="3" class="@RootClass()">
+<HtmlElement Element="@Element" @attributes="AdditionalAttributes" role="heading" aria-level="3" class="@RootClass()">
 	@ChildContent
-</div>
+</HtmlElement>
 <!-- END Card Header -->
 
 @code

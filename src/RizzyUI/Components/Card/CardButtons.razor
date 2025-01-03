@@ -1,13 +1,13 @@
 ﻿@namespace RizzyUI
 @inherits RizzyUI.RizzyComponent
 
-<div @attributes="AdditionalAttributes" class="@RootClass()">
+<HtmlElement Element="@Element" @attributes="AdditionalAttributes" class="@RootClass()">
 	@ChildContent
-</div>
+</HtmlElement>
 
 @code
 {
-    private static readonly string BaseStyle = "flex items-center gap-2 -my-4";
+    private static readonly string BaseStyle = "md:flex items-center gap-2 md:-my-4";
 
 	/// <summary>
 	/// Child content for the card buttons

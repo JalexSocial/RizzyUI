@@ -1,11 +1,9 @@
 ﻿@namespace RizzyUI
 @inherits RizzyUI.RizzyComponent
 
-<!-- Card Footer -->
-<div @attributes="AdditionalAttributes" class="@RootClass()">
+<HtmlElement Element="@Element" @attributes="AdditionalAttributes" class="@RootClass()">
     @ChildContent
-</div>
-<!-- END Card Footer -->
+</HtmlElement>
 
 @code
 {

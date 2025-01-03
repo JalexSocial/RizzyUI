@@ -2,9 +2,9 @@
 @inherits RizzyUI.RizzyComponent
 
 <!-- Card Body -->
-<div @attributes="AdditionalAttributes" class="@RootClass()">
+<HtmlElement Element="@Element" @attributes="AdditionalAttributes" class="@RootClass()">
     @ChildContent
-</div>
+</HtmlElement>
 
 @code
 {
