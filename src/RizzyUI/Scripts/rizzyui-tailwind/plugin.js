@@ -46,6 +46,11 @@ const rizzyui = plugin(
                 '--borderWidth': '1px',
                 '--borderRadius': '6px',
             },
+            'svg': {
+                width: '1em',
+                height: '1em',
+                'vertical-align': '-.125em',
+            },
         });
 
         // Add custom variants

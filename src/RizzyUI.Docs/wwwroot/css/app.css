@@ -782,6 +782,12 @@ select {
   --borderRadius: 6px;
 }
 
+svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: -.125em;
+}
+
 .container {
   width: 100%;
 }
@@ -2426,6 +2432,12 @@ select {
   background-size: 1.5em 1.5em;
   background-color: rgb(var(--surface));
   opacity: 1;
+}
+
+svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: -.125em;
 }
 
 h1:focus {
