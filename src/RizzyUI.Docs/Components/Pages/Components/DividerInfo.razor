@@ -1,0 +1,135 @@
+﻿@page "/components/divider"
+
+<PageTitle>Divider</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Divider</Heading>
+            <Paragraph>
+                The Divider component is a versatile UI element used to separate content, providing a clear visual distinction between different sections or elements within your application. It enhances readability and organizes the layout by creating logical divisions.
+            </Paragraph>
+			
+            <section class="my-8 py-2">
+
+	            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Divider" class="scroll-mt-20">Default Divider</Heading>
+	            <Paragraph TextColor="SemanticColor.OnSurface">
+		            A basic divider shown in solid, dashed, and dotted styles
+	            </Paragraph>
+
+	            <Browser Layout="typeof(PreviewLayout)">
+
+		            <div class="mx-auto p-8 mb-5">
+						
+			            <Divider/>
+						
+			            <Divider Style="@DividerStyle.Dashed"/>
+						
+			            <Divider Style="@DividerStyle.Dotted"/>
+
+		            </div>
+
+	            </Browser>
+
+	            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;Divider/&gt;
+		
+    &lt;Divider Style=&quot;@DividerStyle.Dashed&quot;/&gt;
+		
+    &lt;Divider Style=&quot;@DividerStyle.Dotted&quot;/&gt;
+	            </CodeViewer>
+
+	        </section>
+
+            <section class="my-8 py-2">
+
+	            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Divider with Label" class="scroll-mt-20">Divider with Label</Heading>
+	            <Paragraph TextColor="SemanticColor.OnSurface">
+		            A divider with text label shown in solid, dashed, and dotted styles
+	            </Paragraph>
+
+	            <Browser Layout="typeof(PreviewLayout)">
+
+		            <div class="mx-auto p-8 mb-5">
+						
+			            <Divider Style=@DividerStyle.Solid>Solid</Divider>
+
+			            <Divider Style=@DividerStyle.Dashed>Dashed</Divider>
+
+			            <Divider Style=@DividerStyle.Dotted>Dotted</Divider>
+
+		            </div>
+
+	            </Browser>
+
+	            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;Divider Style=@@DividerStyle.Solid&gt;Solid&lt;/Divider&gt;
+
+    &lt;Divider Style=@@DividerStyle.Dashed&gt;Dashed&lt;/Divider&gt;
+
+    &lt;Divider Style=@@DividerStyle.Dotted&gt;Dotted&lt;/Divider&gt;
+	            </CodeViewer>
+
+            </section>
+			
+            <section class="my-8 py-2">
+
+	            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Divider with Aligned Label" class="scroll-mt-20">Divider with Aligned Label</Heading>
+	            <Paragraph TextColor="SemanticColor.OnSurface">
+		            A divider with text label aligned to start, center, and end
+	            </Paragraph>
+
+	            <Browser Layout="typeof(PreviewLayout)">
+
+		            <div class="mx-auto p-8 mb-5">
+
+                        <Divider LabelAlignment="Align.Start" class="text-onSurface dark:text-onSurfaceDark">Start</Divider>
+
+                        <Divider LabelAlignment="Align.Center" class="text-onSurface dark:text-onSurfaceDark">Center</Divider>
+
+                        <Divider LabelAlignment="Align.End" class="text-onSurface dark:text-onSurfaceDark">End</Divider>
+
+		            </div>
+
+	            </Browser>
+
+	            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;Divider LabelAlignment=&quot;Align.Start&quot; class=&quot;text-onSurface dark:text-onSurfaceDark&quot;&gt;Start&lt;/Divider&gt;
+
+    &lt;Divider LabelAlignment=&quot;Align.Center&quot; class=&quot;text-onSurface dark:text-onSurfaceDark&quot;&gt;Center&lt;/Divider&gt;
+
+    &lt;Divider LabelAlignment=&quot;Align.End&quot; class=&quot;text-onSurface dark:text-onSurfaceDark&quot;&gt;Middle&lt;/Divider&gt;
+
+	            </CodeViewer>
+
+            </section>			
+
+            <section class="my-8 py-2">
+
+	            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Divider with Icon" class="scroll-mt-20">Divider with Icon</Heading>
+	            <Paragraph TextColor="SemanticColor.OnSurface">
+		            A divider with icon label styled by Tailwind classes
+	            </Paragraph>
+
+	            <Browser Layout="typeof(PreviewLayout)">
+
+		            <div class="mx-auto p-8 mb-5">
+						
+			            <Divider Style=@DividerStyle.Solid class="text-lg text-onSurface dark:text-onSurfaceDark"><Blazicon Svg="MdiIcon.PlusCircle"/></Divider>
+
+		            </div>
+
+	            </Browser>
+
+	            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;Divider Style=@@DividerStyle.Solid class=&quot;text-lg text-onSurface dark:text-onSurfaceDark&quot;&gt;&lt;Blazicon Svg=&quot;MdiIcon.PlusCircle&quot;/&gt;&lt;/Divider&gt;
+	            </CodeViewer>
+
+            </section>
+
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>
