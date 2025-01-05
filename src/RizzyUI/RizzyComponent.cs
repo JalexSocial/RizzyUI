@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Diagnostics.CodeAnalysis;
-using System.Collections.Generic;
-using TailwindMerge;
-using RizzyUI.Extensions;
 using RizzyUI.Services;
+using System.Diagnostics.CodeAnalysis;
+using TailwindMerge;
 
 namespace RizzyUI;
 
@@ -48,5 +46,5 @@ public class RizzyComponent : ComponentBase
     /// Method that provides a set of CSS root classes to the component
     /// </summary>
     /// <returns></returns>
-    protected virtual string? RootClass () => AdditionalAttributes?.GetValueOrDefault("class", string.Empty).ToString();
+    protected virtual string? RootClass() => AdditionalAttributes?.GetValueOrDefault("class", string.Empty).ToString();
 }

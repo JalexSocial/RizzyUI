@@ -1,6 +1,6 @@
 ﻿using Blazicons;
-using RizzyUI.Extensions;
 using Microsoft.AspNetCore.Components;
+using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
@@ -57,10 +57,10 @@ public partial class Alert : RizzyComponent
         switch (Variant)
         {
             case AlertVariant.Alternate:
-	            _bgLight = "bg-surfaceAlt/10";
-	            _bgLighter = "bg-surfaceAlt/15";
-	            _iconColor = "text-onSurface";
-	            break;
+                _bgLight = "bg-surfaceAlt/10";
+                _bgLighter = "bg-surfaceAlt/15";
+                _iconColor = "text-onSurface";
+                break;
             case AlertVariant.Information:
                 Icon ??= MdiIcon.InformationSlabCircle;
                 _bgLight = "bg-info/10";

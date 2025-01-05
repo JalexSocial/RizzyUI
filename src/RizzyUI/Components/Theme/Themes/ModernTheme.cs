@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RizzyUI;
+﻿namespace RizzyUI;
 
 /// <summary>
 /// Represents the Modern theme for the application. Inherits from <see cref="RizzyTheme"/>.

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Security.Cryptography;
-using Microsoft.AspNetCore.Http;
-using RizzyUI.Utility;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace RizzyUI.Services;
 
@@ -65,43 +62,43 @@ public sealed class RizzyNonceProvider : IRizzyNonceProvider
     /// </exception>
     public RizzyNonceValues GetNonceValues()
     {
-	    var context = _httpContextAccessor.HttpContext
-	                  ?? throw new InvalidOperationException("No HttpContext available.");
+        var context = _httpContextAccessor.HttpContext
+                      ?? throw new InvalidOperationException("No HttpContext available.");
 
-	    if (context.Items[NonceKey] is RizzyNonceValues cachedNonceValues)
-	    {
-		    return cachedNonceValues;
-	    }
+        if (context.Items[NonceKey] is RizzyNonceValues cachedNonceValues)
+        {
+            return cachedNonceValues;
+        }
 
-	    // Attempt to retrieve nonce values from headers
-	    context.Request.Headers.TryGetValue(ScriptNonceHeader, out var scriptNonceValues);
-	    context.Request.Headers.TryGetValue(StyleNonceHeader, out var styleNonceValues);
+        // Attempt to retrieve nonce values from headers
+        context.Request.Headers.TryGetValue(ScriptNonceHeader, out var scriptNonceValues);
+        context.Request.Headers.TryGetValue(StyleNonceHeader, out var styleNonceValues);
 
-	    var scriptNonce = scriptNonceValues.FirstOrDefault();
-	    var styleNonce = styleNonceValues.FirstOrDefault();
+        var scriptNonce = scriptNonceValues.FirstOrDefault();
+        var styleNonce = styleNonceValues.FirstOrDefault();
 
-	    // Validate and reuse nonce values if both are present and valid
-	    if (!string.IsNullOrEmpty(scriptNonce) && _generator.ValidateNonce(scriptNonce) &&
-	        !string.IsNullOrEmpty(styleNonce) && _generator.ValidateNonce(styleNonce))
-	    {
-		    // Reuse nonce values from headers
-		    var nonceValues = new RizzyNonceValues
-		    {
-			    InlineScriptNonce = scriptNonce,
-			    InlineStyleNonce = styleNonce
-		    };
-		    context.Items[NonceKey] = nonceValues;
-		    return nonceValues;
-	    }
+        // Validate and reuse nonce values if both are present and valid
+        if (!string.IsNullOrEmpty(scriptNonce) && _generator.ValidateNonce(scriptNonce) &&
+            !string.IsNullOrEmpty(styleNonce) && _generator.ValidateNonce(styleNonce))
+        {
+            // Reuse nonce values from headers
+            var nonceValues = new RizzyNonceValues
+            {
+                InlineScriptNonce = scriptNonce,
+                InlineStyleNonce = styleNonce
+            };
+            context.Items[NonceKey] = nonceValues;
+            return nonceValues;
+        }
 
-	    // Generate new nonce values if validation fails or headers are missing
-	    var newNonceValues = new RizzyNonceValues
-	    {
-		    InlineScriptNonce = _generator.CreateNonce(),
-		    InlineStyleNonce = _generator.CreateNonce()
-	    };
-	    context.Items[NonceKey] = newNonceValues;
-	    return newNonceValues;
+        // Generate new nonce values if validation fails or headers are missing
+        var newNonceValues = new RizzyNonceValues
+        {
+            InlineScriptNonce = _generator.CreateNonce(),
+            InlineStyleNonce = _generator.CreateNonce()
+        };
+        context.Items[NonceKey] = newNonceValues;
+        return newNonceValues;
     }
 
     /// <summary>

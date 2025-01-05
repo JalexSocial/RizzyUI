@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using TailwindMerge;
 
 namespace RizzyUI.Extensions;
@@ -29,6 +24,6 @@ internal static class TwMergeExtensions
             return classAttributeValue;
         }
 
-        return twMerge.Merge([..classNames, classAttributeValue]) ?? string.Empty;
+        return twMerge.Merge([.. classNames, classAttributeValue]) ?? string.Empty;
     }
 }

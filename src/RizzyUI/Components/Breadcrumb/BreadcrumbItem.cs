@@ -58,14 +58,14 @@ public class BreadcrumbItem : RizzyComponent
             builder.AddAttribute(3, "class", "text-onSurface dark:text-onSurfaceDark hover:text-onSurfaceStrong dark:hover:text-onSurfaceStrongDark");
             if (Icon != null)
             {
-	            builder.OpenElement(4, "span");
-	            builder.AddAttribute(5, "class", "text-xl");
+                builder.OpenElement(4, "span");
+                builder.AddAttribute(5, "class", "text-xl");
 
-	            builder.OpenComponent<Blazicon>(6);
-	            builder.AddAttribute(7, "Svg", Icon);
-	            builder.CloseComponent();
+                builder.OpenComponent<Blazicon>(6);
+                builder.AddAttribute(7, "Svg", Icon);
+                builder.CloseComponent();
 
-	            builder.CloseElement();
+                builder.CloseElement();
             }
             else
             {

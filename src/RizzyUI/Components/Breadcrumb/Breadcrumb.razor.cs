@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazicons;
+using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
-using System.Collections.Generic;
-using System.Linq;
-using Blazicons;
 
 namespace RizzyUI;
 

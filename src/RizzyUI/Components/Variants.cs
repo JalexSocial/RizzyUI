@@ -123,12 +123,12 @@ public enum Justify
 /// </summary>
 public enum Align
 {
-	/// <summary>Align items to the start.</summary>
-	Start,
-	/// <summary>Center align items.</summary>
-	Center,
-	/// <summary>Align items to the end.</summary>
-	End
+    /// <summary>Align items to the start.</summary>
+    Start,
+    /// <summary>Center align items.</summary>
+    Center,
+    /// <summary>Align items to the end.</summary>
+    End
 }
 
 /// <summary>
@@ -251,23 +251,23 @@ public enum AccentColor
 /// </summary>
 public enum StatusColor
 {
-	/// <summary>Primary status color.</summary>
-	Primary,
+    /// <summary>Primary status color.</summary>
+    Primary,
 
-	/// <summary>Secondary status color.</summary>
-	Secondary,
+    /// <summary>Secondary status color.</summary>
+    Secondary,
 
-	/// <summary>Success status color.</summary>
-	Success,
+    /// <summary>Success status color.</summary>
+    Success,
 
-	/// <summary>Info status color.</summary>
-	Info,
+    /// <summary>Info status color.</summary>
+    Info,
 
-	/// <summary>Warning status color.</summary>
-	Warning,
+    /// <summary>Warning status color.</summary>
+    Warning,
 
-	/// <summary>Danger status color.</summary>
-	Danger
+    /// <summary>Danger status color.</summary>
+    Danger
 }
 
 /// <summary>
@@ -275,10 +275,10 @@ public enum StatusColor
 /// </summary>
 public enum ProgressLabelPosition
 {
-	/// <summary>Label is positioned inside the progress bar.</summary>
-	Inside,
+    /// <summary>Label is positioned inside the progress bar.</summary>
+    Inside,
 
-	/// <summary>Label is positioned outside the progress bar.</summary>
-	Outside
+    /// <summary>Label is positioned outside the progress bar.</summary>
+    Outside
 }
 

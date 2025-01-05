@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RizzyUI;
+﻿namespace RizzyUI;
 
 /// <summary>
 /// Represents the theme data for the application. Holds semantic colors and other design tokens.
 /// </summary>
-public class RizzyTheme (string name, string themeCode)
+public class RizzyTheme(string name, string themeCode)
 {
     /// <summary>
     /// Full proper name of the theme.

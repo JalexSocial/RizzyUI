@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
-using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace RizzyUI;
 
@@ -20,7 +18,7 @@ public partial class Progress : RizzyComponent
     /// </summary>
     protected override void OnParametersSet()
     {
-	    Nonce = RizzyNonceProvider.GetNonceValues();
+        Nonce = RizzyNonceProvider.GetNonceValues();
     }
 
     /// <summary>

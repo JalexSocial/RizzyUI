@@ -12,13 +12,13 @@ public class FragmentComponent : ComponentBase
     /// Fragment to render
     /// </summary>
 	[Parameter]
-	public RenderFragment? Fragment { get; set; }
+    public RenderFragment? Fragment { get; set; }
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder)
-	{
-		if (Fragment != null)
-		{
-			builder.AddContent(0, Fragment);
-		}
-	}
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        if (Fragment != null)
+        {
+            builder.AddContent(0, Fragment);
+        }
+    }
 }

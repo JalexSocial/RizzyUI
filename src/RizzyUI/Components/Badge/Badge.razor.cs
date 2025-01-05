@@ -30,15 +30,15 @@ public partial class Badge : RizzyComponent
     /// Icon for badge
     /// </summary>
     [Parameter]
-    public SvgIcon? Icon { get; set; } 
-    
+    public SvgIcon? Icon { get; set; }
+
     /// <summary>
     /// Text for badge
     /// </summary>
     [Parameter]
     public string Label { get; set; } = string.Empty;
 
-	/// <summary>
+    /// <summary>
     /// Child content for the badge, allowing for text and additional elements.  If present, overrides use of
     /// Text and Icon
     /// </summary>
@@ -51,10 +51,10 @@ public partial class Badge : RizzyComponent
     /// <returns>A string containing the CSS classes for the root span.</returns>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, BaseStyle, 
-	        Soft ? GetSoftBadgeColorCss() : GetBadgeColorCss());
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle,
+            Soft ? GetSoftBadgeColorCss() : GetBadgeColorCss());
     }
-	
+
     /// <summary>
     /// Maps the SemanticColor to the corresponding Tailwind CSS classes.
     /// Handles both base colors and their "On" variants.
@@ -69,7 +69,7 @@ public partial class Badge : RizzyComponent
                 "border-onSurface bg-surface text-onSurface dark:border-surfaceDark dark:bg-surfaceDark dark:text-onSurfaceDark",
 
             SemanticColor.SurfaceAlt =>
-	            "border-onSurface bg-surfaceAlt text-onSurface dark:border-surfaceAltDark dark:bg-surfaceAltDark dark:text-onSurfaceDark",
+                "border-onSurface bg-surfaceAlt text-onSurface dark:border-surfaceAltDark dark:bg-surfaceAltDark dark:text-onSurfaceDark",
 
             // Primary and its variants
             SemanticColor.Primary or SemanticColor.OnPrimary =>
@@ -120,7 +120,7 @@ public partial class Badge : RizzyComponent
                 "border-surfaceAlt bg-surface dark:bg-surfaceDark/10 text-onSurface dark:border-surfaceDark dark:text-surfaceDark",
 
             SemanticColor.SurfaceAlt =>
-	            "border-onSurface bg-surfaceAlt dark:bg-surfaceDark/10 text-onSurface dark:border-onSurfaceDark dark:text-onSurfaceDark",
+                "border-onSurface bg-surfaceAlt dark:bg-surfaceDark/10 text-onSurface dark:border-onSurfaceDark dark:text-onSurfaceDark",
 
             // Primary and its variants
             SemanticColor.Primary or SemanticColor.OnPrimary =>
