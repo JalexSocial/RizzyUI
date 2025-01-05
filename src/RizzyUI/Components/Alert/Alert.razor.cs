@@ -44,12 +44,23 @@ public partial class Alert : RizzyComponent
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
+    /// Gets or sets whether to display a pulse behind the icon
+    /// </summary>
+    [Parameter]
+    public bool Pulse { get; set; } = false;
+
+    /// <summary>
     /// Sets the internal state of the alert component when parameters change.
     /// </summary>
     protected override void OnParametersSet()
     {
         switch (Variant)
         {
+            case AlertVariant.Alternate:
+	            _bgLight = "bg-surfaceAlt/10";
+	            _bgLighter = "bg-surfaceAlt/15";
+	            _iconColor = "text-onSurface";
+	            break;
             case AlertVariant.Information:
                 Icon ??= MdiIcon.InformationSlabCircle;
                 _bgLight = "bg-info/10";
@@ -100,6 +111,7 @@ public partial class Alert : RizzyComponent
     {
         return variant switch
         {
+            AlertVariant.Alternate => "border-outline bg-surfaceAlt text-onSurface dark:bg-surfaceAltDark dark:text-onSurfaceDark",
             AlertVariant.Information => "border-info bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark",
             AlertVariant.Success => "border-success bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark",
             AlertVariant.Warning => "border-warning bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark",

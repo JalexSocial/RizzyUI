@@ -127,23 +127,18 @@ document.addEventListener('alpine:init', () => {
 
     Alpine.data('rzEmbeddedPreview', () => {
         return {
-            height: 0,
             init() {
                 try {
                     const iframe = this.$refs.iframe;
+                    const resize = this.debounce(() => { this.resizeIframe(iframe); }, 50);
 
+                    // If init is called after the iframe loads, make sure we still resize the iframe
                     this.resizeIframe(iframe);
-                    iframe.addEventListener('load', () => {
-                            this.resizeIframe(iframe);
-                        });
 
+                    // observe any changes in size to the iframe
                     const resizeObserver = new ResizeObserver(entries => {
                         for (let entry of entries) {
-
-                            if (this.height != entry.contentRect.height) {
-                                this.height = entry.contentRect.height;
-                                this.resizeIframe(iframe);
-                            }
+                            resize();
                         }
                     });
 
@@ -172,8 +167,118 @@ document.addEventListener('alpine:init', () => {
                     }
                 }
             },
+            debounce(func, timeout = 300) {
+                let timer;
+                return (...args) => {
+                    clearTimeout(timer);
+                    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+                };
+            }
         }
     });
+
+    Alpine.data('rzProgress', () => ({
+        currentVal: 0,
+        minVal: 0,
+        maxVal: 100,
+        percentage: 0,
+        label: '',
+
+        init() {
+            const element = this.$el;
+            console.log('Initializing progress bar');
+
+            // Retrieve data attributes from the root element
+            this.currentVal = parseInt(element.getAttribute('data-current-val')) || 0;
+            this.minVal = parseInt(element.getAttribute('data-min-val')) || 0;
+            this.maxVal = parseInt(element.getAttribute('data-max-val')) || 100;
+            this.label = element.getAttribute('data-label');
+
+            // Calculate initial percentage
+            this.calculatePercentage();
+
+            // Update ARIA attributes
+            element.setAttribute('aria-valuenow', this.currentVal);
+            element.setAttribute('aria-valuemin', this.minVal);
+            element.setAttribute('aria-valuemax', this.maxVal);
+            element.setAttribute('aria-valuetext', `${this.percentage}%`);
+
+            // Set the width of the progress bar
+            this.updateProgressBar();
+
+            // Listen for custom events to update progress
+            this.$watch('currentVal', () => {
+                this.calculatePercentage();
+                this.updateProgressBar();
+                element.setAttribute('aria-valuenow', this.currentVal);
+                element.setAttribute('aria-valuetext', `${this.percentage}%`);
+            });
+        },
+
+        calculatePercentage() {
+            if (this.maxVal === this.minVal) {
+                this.percentage = 0;
+            } else {
+                this.percentage = Math.min(Math.max(((this.currentVal - this.minVal) / (this.maxVal - this.minVal)) * 100, 0), 100);
+            }
+        },
+
+        buildLabel() {
+            var label = this.label || '{percent}%';
+            this.calculatePercentage();
+            return label.replace('{percent}', this.percentage);
+        },
+
+        buildInsideLabelPosition() {
+            const progressBar = this.$refs.progressBar;
+            const barLabel = this.$refs.progressBarLabel;
+            const innerLabel = this.$refs.innerLabel;
+
+            if (barLabel && progressBar && innerLabel) {
+                innerLabel.innerText = this.buildLabel();
+
+                if (barLabel.clientWidth > progressBar.clientWidth) {
+                    barLabel.style.left = (progressBar.clientWidth + 10) + 'px';
+                } else {
+                    barLabel.style.left = (progressBar.clientWidth / 2 - barLabel.clientWidth / 2) + 'px';
+                }
+            }
+        },
+
+        getLabelCss() {
+            const barLabel = this.$refs.progressBarLabel;
+            const progressBar = this.$refs.progressBar;
+
+            if (barLabel && progressBar && barLabel.clientWidth > progressBar.clientWidth) {
+                return "text-onSurface dark:text-onSurfaceDark";
+            }
+
+            return "";
+        },
+
+        updateProgressBar() {
+            const progressBar = this.$refs.progressBar;
+            if (progressBar) {
+                progressBar.style.width = `${this.percentage}%`;
+                this.buildInsideLabelPosition();
+            }
+        },
+
+        // Method to update progress value
+        setProgress(value) {
+            this.currentVal = value;
+        },
+
+        // Method to increment progress value
+        increment(val = 1) {
+            this.currentVal = Math.min(this.currentVal + val, this.maxVal);
+        },
+
+        // Method to decrement progress value
+        decrement(val = 1) {
+            this.currentVal = Math.max(this.currentVal - val, this.minVal);
+        }
+    }));
 
     Alpine.data('rzQuickReferenceContainer',
         () => {

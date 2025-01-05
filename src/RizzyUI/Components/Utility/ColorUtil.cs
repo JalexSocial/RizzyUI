@@ -120,6 +120,25 @@ public static class ColorUtil
     }
 
     /// <summary>
+    /// Converts a StatusColor to a text class string, including dark mode variants for Status colors.
+    /// </summary>
+    /// <param name="color">The color enum value.</param>
+    /// <returns>A string representing the corresponding CSS class.</returns>
+    public static string ToTextClass(this StatusColor color)
+    {
+	    return color switch
+	    {
+		    StatusColor.Primary => "text-onPrimary dark:text-onPrimaryDark",
+		    StatusColor.Danger => "text-onDanger dark:text-onDangerDark",
+		    StatusColor.Info => "text-onInfo dark:text-onInfoDark",
+		    StatusColor.Secondary => "text-onSecondary dark:text-onSecondaryDark",
+		    StatusColor.Success => "text-onSuccess dark:text-onSuccessDark",
+		    StatusColor.Warning => "text-onWarning dark:text-onWarningDark",
+            _ => "text-onPrimary dark:text-onPrimaryDark"
+	    };
+    }
+
+    /// <summary>
     /// Converts a SemanticColor to a background class string, including dark mode variants for Surface colors.
     /// </summary>
     /// <param name="color">The color enum value.</param>

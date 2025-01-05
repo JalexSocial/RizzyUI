@@ -1,0 +1,16 @@
+﻿@namespace RizzyUI
+@using Blazicons
+
+@inherits RizzyComponent
+
+<HtmlElement Element="span" @attributes="AdditionalAttributes" class="@RootClass()">
+    <span class="flex items-center gap-1 px-2 py-1">
+	    <span class="flex items-center gap-1">
+            @if (Icon != null)
+            {
+	            <Blazicon Svg="Icon"/>
+            }
+		    @ChildContent @Label
+	    </span>
+	</span>
+</HtmlElement>

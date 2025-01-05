@@ -1,0 +1,266 @@
+﻿@page "/components/progress"
+
+<PageTitle>Progress</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Progress</Heading>
+            <Paragraph>
+                The Progress component is a dynamic UI element that visually represents the completion status of a task or operation. It enhances user experience by providing immediate feedback on ongoing processes, such as file uploads, data processing, or loading sequences.
+            </Paragraph>
+			
+            <section class="my-8 py-2">
+
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Progress Bar" class="scroll-mt-20">Default Progress Bar</Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    A basic progress bar displaying the completion percentage without any labels.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+
+                    <div class="mx-auto p-8 mb-5">
+						
+                        <Progress CurrentValue="20" MinValue="0" MaxValue="100" Variant="StatusColor.Primary" AriaLabel="Default progress bar" />
+
+                    </div>
+
+                </Browser>
+
+                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;Progress CurrentValue="20" MinValue="0" MaxValue="100" Variant="StatusColor.Primary" AriaLabel="Default progress bar" /&gt;
+                </CodeViewer>
+
+            </section>
+
+            <section class="my-8 py-2">
+
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Progress Bar with Label Inside" class="scroll-mt-20">Progress Bar with Label Inside</Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    A progress bar that includes a label centered within the bar to display the current progress percentage.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+
+                    <div class="mx-auto p-8 mb-5 space-y-4">
+						
+                        <Progress 
+                            CurrentValue="1" 
+                            MinValue="0" 
+                            MaxValue="100"
+                            Label="Completed {percent}%"
+                            LabelPosition="ProgressLabelPosition.Inside" 
+                            Variant="StatusColor.Success" 
+                            AriaLabel="Progress bar with label inside" 
+                        />
+						
+                        <Progress 
+	                        CurrentValue="45" 
+	                        MinValue="0" 
+	                        MaxValue="100"
+	                        Label="Completed {percent}%"
+	                        LabelPosition="ProgressLabelPosition.Inside" 
+	                        Variant="StatusColor.Success" 
+	                        AriaLabel="Progress bar with label inside" 
+                        />
+
+                    </div>
+
+                </Browser>
+
+                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;Progress 
+    CurrentValue=&quot;1&quot; 
+    MinValue=&quot;0&quot; 
+    MaxValue=&quot;100&quot;
+    Label=&quot;Completed {percent}%&quot;
+    LabelPosition=&quot;ProgressLabelPosition.Inside&quot; 
+    Variant=&quot;StatusColor.Success&quot; 
+    AriaLabel=&quot;Progress bar with label inside&quot; 
+/&gt;
+
+&lt;Progress 
+    CurrentValue=&quot;45&quot; 
+    MinValue=&quot;0&quot; 
+    MaxValue=&quot;100&quot;
+    Label=&quot;Completed {percent}%&quot;
+    LabelPosition=&quot;ProgressLabelPosition.Inside&quot; 
+    Variant=&quot;StatusColor.Success&quot; 
+    AriaLabel=&quot;Progress bar with label inside&quot; 
+/&gt;
+                </CodeViewer>
+
+            </section>
+			
+            <section class="my-8 py-2">
+
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Progress Bar with Label Outside" class="scroll-mt-20">Progress Bar with Label Outside</Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    A progress bar that displays a label outside the bar, providing a clear indication of the current progress percentage alongside the bar.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+
+                    <div class="mx-auto p-8 mb-5">
+						
+                        <Progress 
+                            CurrentValue="70" 
+                            MinValue="0" 
+                            MaxValue="100" 
+                            Label="{percent}% Compressed" 
+                            LabelPosition="ProgressLabelPosition.Outside" 
+                            Variant="StatusColor.Warning" 
+                            AriaLabel="Progress bar with label outside" 
+                        />
+
+                    </div>
+
+                </Browser>
+
+                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;Progress 
+    CurrentValue="70" 
+    MinValue="0" 
+    MaxValue="100" 
+    Label="{percent}% Compressed" 
+    LabelPosition="ProgressLabelPosition.Outside" 
+    Variant="StatusColor.Warning" 
+    AriaLabel="Progress bar with label outside" 
+/&gt;
+                </CodeViewer>
+
+            </section>
+			
+            <section class="my-8 py-2">
+
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Progress Bar Color Variants" class="scroll-mt-20">Progress Bar Color Variants</Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    Progress bars can be styled with different color variants to represent various statuses or contexts, such as primary, secondary, success, info, warning, and danger.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+
+                    <div class="mx-auto p-8 mb-5 space-y-4">
+						
+                        <!-- Primary Progress Bar -->
+                        <Progress 
+                            CurrentValue="40" 
+                            MinValue="0" 
+                            MaxValue="100" 
+                            Variant="StatusColor.Primary" 
+                            AriaLabel="Primary progress bar" 
+                        />
+
+                        <!-- Secondary Progress Bar -->
+                        <Progress 
+                            CurrentValue="60" 
+                            MinValue="0" 
+                            MaxValue="100" 
+                            Variant="StatusColor.Secondary" 
+                            AriaLabel="Secondary progress bar" 
+                        />
+
+                        <!-- Success Progress Bar -->
+                        <Progress 
+                            CurrentValue="80" 
+                            MinValue="0" 
+                            MaxValue="100" 
+                            Variant="StatusColor.Success" 
+                            AriaLabel="Success progress bar" 
+                        />
+
+                        <!-- Info Progress Bar -->
+                        <Progress 
+                            CurrentValue="50" 
+                            MinValue="0" 
+                            MaxValue="100" 
+                            Variant="StatusColor.Info" 
+                            AriaLabel="Info progress bar" 
+                        />
+
+                        <!-- Warning Progress Bar -->
+                        <Progress 
+                            CurrentValue="30" 
+                            MinValue="0" 
+                            MaxValue="100" 
+                            Variant="StatusColor.Warning" 
+                            AriaLabel="Warning progress bar" 
+                        />
+
+                        <!-- Danger Progress Bar -->
+                        <Progress 
+                            CurrentValue="90" 
+                            MinValue="0" 
+                            MaxValue="100" 
+                            Variant="StatusColor.Danger" 
+                            AriaLabel="Danger progress bar" 
+                        />
+
+                    </div>
+
+                </Browser>
+
+                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;!-- Primary Progress Bar --&gt;
+&lt;Progress 
+    CurrentValue="40" 
+    MinValue="0" 
+    MaxValue="100" 
+    Variant="StatusColor.Primary" 
+    AriaLabel="Primary progress bar" 
+/&gt;
+
+&lt;!-- Secondary Progress Bar --&gt;
+&lt;Progress 
+    CurrentValue="60" 
+    MinValue="0" 
+    MaxValue="100" 
+    Variant="StatusColor.Secondary" 
+    AriaLabel="Secondary progress bar" 
+/&gt;
+
+&lt;!-- Success Progress Bar --&gt;
+&lt;Progress 
+    CurrentValue="80" 
+    MinValue="0" 
+    MaxValue="100" 
+    Variant="StatusColor.Success" 
+    AriaLabel="Success progress bar" 
+/&gt;
+
+&lt;!-- Info Progress Bar --&gt;
+&lt;Progress 
+    CurrentValue="50" 
+    MinValue="0" 
+    MaxValue="100" 
+    Variant="StatusColor.Info" 
+    AriaLabel="Info progress bar" 
+/&gt;
+
+&lt;!-- Warning Progress Bar --&gt;
+&lt;Progress 
+    CurrentValue="30" 
+    MinValue="0" 
+    MaxValue="100" 
+    Variant="StatusColor.Warning" 
+    AriaLabel="Warning progress bar" 
+/&gt;
+
+&lt;!-- Danger Progress Bar --&gt;
+&lt;Progress 
+    CurrentValue="90" 
+    MinValue="0" 
+    MaxValue="100" 
+    Variant="StatusColor.Danger" 
+    AriaLabel="Danger progress bar" 
+/&gt;
+                </CodeViewer>
+
+            </section>			
+
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>

@@ -7,6 +7,10 @@ namespace RizzyUI;
 /// </summary>
 public enum AlertVariant
 {
+    /// <summary>
+    /// Alert using the alternate background color
+    /// </summary>
+    Alternate,
     /// <summary>Informational alert, typically blue or neutral.</summary>
     Information,
     /// <summary>Success alert, often green to indicate positive feedback.</summary>
@@ -243,31 +247,38 @@ public enum AccentColor
 }
 
 /// <summary>
-/// Size options for progress bar components.
+/// Defines the status color variants
 /// </summary>
-public enum ProgressBarSize
+public enum StatusColor
 {
-    /// <summary>Tiny progress bar.</summary>
-    Tiny,
-    /// <summary>Small progress bar.</summary>
-    Small,
-    /// <summary>Normal progress bar.</summary>
-    Normal,
-    /// <summary>Large progress bar.</summary>
-    Large
+	/// <summary>Primary status color.</summary>
+	Primary,
+
+	/// <summary>Secondary status color.</summary>
+	Secondary,
+
+	/// <summary>Success status color.</summary>
+	Success,
+
+	/// <summary>Info status color.</summary>
+	Info,
+
+	/// <summary>Warning status color.</summary>
+	Warning,
+
+	/// <summary>Danger status color.</summary>
+	Danger
 }
 
 /// <summary>
-/// SemanticColor options for progress bar components.
+/// Defines the label position options for the Progress component.
 /// </summary>
-public enum ProgressBarColor
+public enum ProgressLabelPosition
 {
-    /// <summary>Primary color for progress bars.</summary>
-    Primary,
-    /// <summary>Red color for progress bars.</summary>
-    Red,
-    /// <summary>Orange color for progress bars.</summary>
-    Orange,
-    /// <summary>Emerald green color for progress bars.</summary>
-    Emerald
+	/// <summary>Label is positioned inside the progress bar.</summary>
+	Inside,
+
+	/// <summary>Label is positioned outside the progress bar.</summary>
+	Outside
 }
+

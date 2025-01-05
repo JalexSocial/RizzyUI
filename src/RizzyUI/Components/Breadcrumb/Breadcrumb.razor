@@ -1,0 +1,22 @@
+﻿@namespace RizzyUI
+@using Blazicons
+
+@inherits RizzyComponent
+
+<CascadingValue Value="this">
+	<HtmlElement Element="nav" @attributes="@AdditionalAttributes" class="@RootClass()" aria-label="breadcrumb">
+        @ChildContent
+		<ol class="flex flex-wrap items-center gap-1">
+			@foreach (var item in Items)
+			{
+                <li class="flex items-center gap-1 text-onSurface dark:text-onSurfaceDark">
+					@item.Content
+					@if (item != Items.Last())
+					{
+						<Blazicon Svg="Separator"/>
+					}
+				</li>
+			}
+		</ol>
+	</HtmlElement>
+</CascadingValue>

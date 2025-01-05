@@ -16,13 +16,20 @@
                  x-transition:leave-end="opacity-0">
 	    
 	    <div class="@_bgLight flex w-full items-center gap-2 p-4">
-            <div class="@_bgLighter @_iconColor text-2xl rounded-full p-1" aria-hidden="true">
-			    @if (Icon != null)
-			    {
-				    <Blazicon Svg="Icon"></Blazicon>
-			    }
-		    </div>
-		    <div class="ml-2">
+            @if (Icon != null)
+            {
+	            <div class="relative flex rounded-full p-1 @(Pulse ? "" : _bgLighter) @_iconColor text-2xl justify-center" aria-hidden="true">
+		            @if (Pulse)
+		            {
+			            <div class="absolute @_bgLighter animate-ping motion-reduce:animate-none size-6 aspect-square rounded-full"></div>
+		            }
+		            @if (Icon != null)
+		            {
+			            <Blazicon Svg="Icon"></Blazicon>
+		            }
+	            </div>
+            }
+            <div class="ml-2">
 			    @ChildContent
 		    </div>
 		    @if (Dismissable)

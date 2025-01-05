@@ -29,6 +29,11 @@ public partial class Button : RizzyComponent
     [Parameter]
     public bool Outline { get; set; }
 
+    /// <summary>
+    /// Label for button (if ChildContent not provided)
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
 
     /// <summary>
     /// Child content for the button

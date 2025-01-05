@@ -16,6 +16,12 @@ public sealed class RizzyNonceGenerator
 {
 	private readonly byte[] _hmacKey;
 
+    /// <summary>
+    /// Construct a nonce with an optional pre-existing base-64 encoded HMAC key
+    /// </summary>
+    /// <remarks>HMAC key must be base-64 encoded and at least 256 bits (32 bytes)</remarks>
+    /// <param name="options">Configuration options for RizzyUI</param>
+    /// <exception cref="ArgumentException"></exception>
 	public RizzyNonceGenerator(IOptions<RizzyUIConfig> options)
 	{
 		if (string.IsNullOrEmpty(options.Value.NonceHMACKey))

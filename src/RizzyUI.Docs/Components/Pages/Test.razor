@@ -67,7 +67,12 @@
 	</MenuContent>
     <MainContent>
 	    <!-- Add main content here -->
-		
+	    <Breadcrumb Separator="MdiIcon.ChevronRight">
+		    <BreadcrumbItem Href="/" Label="Home" Icon="MdiIcon.Home" />
+		    <BreadcrumbItem Href="/components" Label="Components"/>
+		    <BreadcrumbItem Label="Breadcrumb" IsActive="true"/>
+	    </Breadcrumb>
+
 	    <Card>
 		    <CardHeader>
 			    <div>
@@ -103,6 +108,8 @@
 			    Body content here
 			    <Divider Label="Test" Style="@DividerStyle.Dotted" LabelAlignment="Align.End"/>
 			    Body content here
+			    <Badge>Test</Badge>
+			    <Badge Soft>Test</Badge>
 		    </CardBody>
 		    <CardFooter>Footer content here</CardFooter>
 	    </Card>

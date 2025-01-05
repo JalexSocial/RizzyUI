@@ -1,0 +1,111 @@
+﻿@page "/components/breadcrumb"
+
+<PageTitle>Breadcrumb</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Breadcrumb</Heading>
+            <Paragraph>
+                The Breadcrumb component is a navigation aid that allows users to keep track of their locations within programs, documents, or websites. It enhances user experience by providing a clear path of navigation, making it easier to understand and navigate the application's structure.
+            </Paragraph>
+			
+            <section class="my-8 py-2">
+
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Breadcrumb with Chevron" class="scroll-mt-20">Breadcrumb with Chevron</Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    A breadcrumb navigation with chevron (arrow) separators. This style provides a modern and clean look, making the navigation path clear and intuitive.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+
+                    <div class="mx-auto p-8 mb-5">
+						
+                        <Breadcrumb>
+                            <BreadcrumbItem Href="/" Label="Home"/>
+                            <BreadcrumbItem Href="/components" Label="Components" />
+                            <BreadcrumbItem Label="Breadcrumb" IsActive="true" />
+                        </Breadcrumb>
+						
+                    </div>
+
+                </Browser>
+
+                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;Breadcrumb&gt;
+    &lt;BreadcrumbItem Href="/" Label="Home" /&gt;
+    &lt;BreadcrumbItem Href="/components" Label="Components" /&gt;
+    &lt;BreadcrumbItem Label="Breadcrumb" IsActive="true" /&gt;
+&lt;/Breadcrumb&gt;
+                </CodeViewer>
+
+            </section>
+
+            <section class="my-8 py-2">
+
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Breadcrumb with Slash" class="scroll-mt-20">Breadcrumb with Slash</Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    A breadcrumb navigation with slash ("/") separators. This traditional style is simple and widely recognized, making it easy for users to follow their navigation path.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+
+                    <div class="mx-auto p-8 mb-5">
+						
+                        <Breadcrumb Separator="MdiIcon.SlashForward">
+                            <BreadcrumbItem Href="/" Label="Home" Icon="MdiIcon.Home" />
+                            <BreadcrumbItem Href="/components" Label="Components" />
+                            <BreadcrumbItem Label="Breadcrumb" IsActive="true" />
+                        </Breadcrumb>
+						
+                    </div>
+
+                </Browser>
+
+                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;Breadcrumb Separator="MdiIcon.SlashForward"&gt;
+    &lt;BreadcrumbItem Href="/" Label="Home" Icon="MdiIcon.Home" /&gt;
+    &lt;BreadcrumbItem Href="/components" Label="Components" /&gt;
+    &lt;BreadcrumbItem Label="Breadcrumb" IsActive="true" /&gt;
+&lt;/Breadcrumb&gt;
+                </CodeViewer>
+
+            </section>
+			
+            <section class="my-8 py-2">
+
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Breadcrumb with Icon" class="scroll-mt-20">Breadcrumb with Icon</Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    A breadcrumb navigation where the first item includes an icon, providing a visual cue for the starting point of navigation. This enhances the aesthetic appeal and usability of the breadcrumb.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+
+                    <div class="mx-auto p-8 mb-5">
+						
+                        <Breadcrumb>
+	                        <BreadcrumbItem Href="/" Label="Home" Icon="MdiIcon.Home" />
+                            <BreadcrumbItem Href="/components" Label="Components" />
+                            <BreadcrumbItem Label="Breadcrumb" IsActive="true" />
+                        </Breadcrumb>
+						
+                    </div>
+
+                </Browser>
+
+                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;Breadcrumb&gt;
+    &lt;BreadcrumbItem Href="/" Label="Home" Icon="MdiIcon.Home" /&gt;
+    &lt;BreadcrumbItem Href="/components" Label="Components" /&gt;
+    &lt;BreadcrumbItem Label="Breadcrumb" IsActive="true" /&gt;
+&lt;/Breadcrumb&gt;
+                </CodeViewer>
+
+            </section>
+
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>
