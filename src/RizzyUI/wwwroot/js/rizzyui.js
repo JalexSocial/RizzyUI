@@ -206,6 +206,12 @@ document.addEventListener('alpine:init', () => {
             // Set the width of the progress bar
             this.updateProgressBar();
 
+            const resizeObserver = new ResizeObserver(entries => {
+                this.updateProgressBar();
+            });
+
+            resizeObserver.observe(element);
+
             // Listen for custom events to update progress
             this.$watch('currentVal', () => {
                 this.calculatePercentage();
