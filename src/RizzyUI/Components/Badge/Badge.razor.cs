@@ -66,7 +66,7 @@ public partial class Badge : RizzyComponent
         {
             // Surface and its variants
             SemanticColor.Surface or SemanticColor.OnSurface or SemanticColor.OnSurfaceStrong =>
-                "border-onSurface bg-surface text-onSurface dark:border-surfaceDark dark:bg-surfaceDark dark:text-onSurfaceDark",
+                "border-outline bg-surface text-onSurface dark:border-outlineStrongDark dark:bg-surfaceDark dark:text-onSurfaceDark",
 
             SemanticColor.SurfaceAlt =>
                 "border-onSurface bg-surfaceAlt text-onSurface dark:border-surfaceAltDark dark:bg-surfaceAltDark dark:text-onSurfaceDark",
@@ -117,7 +117,7 @@ public partial class Badge : RizzyComponent
         {
             // Surface and its variants
             SemanticColor.Surface or SemanticColor.OnSurface or SemanticColor.OnSurfaceStrong =>
-                "border-surfaceAlt bg-surface dark:bg-surfaceDark/10 text-onSurface dark:border-surfaceDark dark:text-surfaceDark",
+                "border-outline bg-surface dark:bg-surfaceDark/10 text-onSurface dark:border-outlineStrongDark dark:text-surfaceDark",
 
             SemanticColor.SurfaceAlt =>
                 "border-onSurface bg-surfaceAlt dark:bg-surfaceDark/10 text-onSurface dark:border-onSurfaceDark dark:text-onSurfaceDark",

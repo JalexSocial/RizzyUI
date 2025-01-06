@@ -108,7 +108,7 @@
   --tw-contain-style:  ;
 }
 
-/*! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v3.4.15 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -1519,10 +1519,6 @@ svg {
   border-color: rgb(var(--success));
 }
 
-.border-surfaceAlt {
-  border-color: rgb(var(--surfaceAlt));
-}
-
 .border-warning {
   border-color: rgb(var(--warning));
 }
@@ -2655,6 +2651,10 @@ svg {
   border-color: rgb(var(--outlineDark));
 }
 
+.dark\:border-outlineStrongDark:is(.dark *) {
+  border-color: rgb(var(--outlineStrongDark));
+}
+
 .dark\:border-primaryDark:is(.dark *) {
   border-color: rgb(var(--primaryDark));
 }
@@ -2674,10 +2674,6 @@ svg {
 
 .dark\:border-surfaceAltDark:is(.dark *) {
   border-color: rgb(var(--surfaceAltDark));
-}
-
-.dark\:border-surfaceDark:is(.dark *) {
-  border-color: rgb(var(--surfaceDark));
 }
 
 .dark\:border-warning:is(.dark *) {

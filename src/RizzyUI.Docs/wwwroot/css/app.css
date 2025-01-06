@@ -2903,6 +2903,10 @@ h1:focus {
   border-color: rgb(var(--outlineDark));
 }
 
+.dark\:border-outlineStrongDark:is(.dark *) {
+  border-color: rgb(var(--outlineStrongDark));
+}
+
 .dark\:border-primaryDark:is(.dark *) {
   border-color: rgb(var(--primaryDark));
 }

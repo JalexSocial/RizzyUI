@@ -23,12 +23,13 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Blazicons" Version="2.0.28" />
-        <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.0.19" />
+        <PackageReference Include="Rizzy" Version="2.0.12" />
+        <PackageReference Include="Blazicons" Version="2.1.30" />
+        <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23" />
         <PackageReference Include="TailwindMerge.NET" Version="0.3.0" />
         <PackageReference Include="Sqids" Version="3.1.0" />
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
     </ItemGroup>
 
     <ItemGroup>
@@ -45,6 +46,10 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
+
+    <Target Name="Webpack" BeforeTargets="Build">
+        <Exec Command="npm run build" />
+    </Target>
 
     <Target Name="Tailwind" BeforeTargets="Build">
         <Exec Command="npm run css:build" />
