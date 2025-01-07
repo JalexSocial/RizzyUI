@@ -2030,6 +2030,10 @@ svg {
   padding-left: 0px;
 }
 
+.pl-24 {
+  padding-left: 6rem;
+}
+
 .pl-3 {
   padding-left: 0.75rem;
 }
@@ -3114,6 +3118,11 @@ h1:focus {
 
 .dark\:text-danger:is(.dark *) {
   color: rgb(var(--danger));
+}
+
+.dark\:text-gray-100:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(243 244 246 / var(--tw-text-opacity, 1));
 }
 
 .dark\:text-gray-300:is(.dark *) {

@@ -1,12 +1,22 @@
 using AspNetStatic;
+using Rizzy;
+using Rizzy.Components;
 using RizzyUI;
 using RizzyUI.Docs;
 using RizzyUI.Docs.Components;
+using RizzyUI.Docs.Components.Layout;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var provider = new StaticResourcesInfoProvider();
+
+builder.AddRizzy(config =>
+{
+    // Not using Rizzy for anything in this app
+    // config.RootComponent = typeof(HtmxApp<AppLayout>);
+    // config.DefaultLayout = typeof(HtmxLayout<MainLayout>);
+});
 
 builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
     new StaticResourcesInfoProvider()

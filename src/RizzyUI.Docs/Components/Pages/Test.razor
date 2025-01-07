@@ -1,4 +1,6 @@
 ﻿@page "/test"
+@using Rizzy.Components
+@using RizzyUI.Docs.Models
 
 <Sidebar>
 	<MenuContent>
@@ -72,8 +74,72 @@
 		    <BreadcrumbItem Href="/components" Label="Components"/>
 		    <BreadcrumbItem Label="Breadcrumb" IsActive="true"/>
 	    </Breadcrumb>
+        
+	<FormCard Icon="@MdiIcon.FaceManProfile" Title="User Details"> 
+		<Description>This is a user details form where you enter information about yourself.</Description>
+		<Content>
+			<RzEditForm FormContext="Context" class="form-children-spacing dark:text-gray-100">
+				<RzValidationSummary/>
 
-	    <Card>
+				<Field>
+					<FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
+					<TextEdit For="@(() => Model.Name)" class="pl-24" x-model="name" PrependText="https://"/>
+					<RzValidationMessage For="@(() => Model.Name)"/>
+				</Field>
+
+				<TextField For="@(() => Model.PhoneNumber)" Role="@TextRole.Tel" Placeholder="Enter your phone number..">
+					<FieldHelp>This is a helpful description</FieldHelp>
+				</TextField>
+
+
+                    <!--
+
+                <NumberField For="@(() => Model.Age)" Placeholder="Enter your age..">
+					<FieldHelp>How old are you?</FieldHelp>
+				</NumberField>
+
+				<div x-data>
+					<select>
+						<option value="">Select an option</option>
+						<option value="1">Option 1</option>
+						<option value="2">Option 2</option>
+						<option value="3">Option 3</option>
+					</select>
+				</div>
+                <RadioGroupField For="@(() => Model.Product)" DisplayName="Product" Orientation="Orientation.Vertical">
+					<RadioGroupItem TValue="string" Label="Modern" Value="@("modern")">
+						<Description>
+							This is the default one
+						</Description>
+					</RadioGroupItem>
+					<RadioGroupItem TValue="string" Label="Minimal" Value="@("minimal")">
+						<Description>
+							If you love simplicity
+						</Description>
+					</RadioGroupItem>
+					<RadioGroupItem TValue="string" Label="Classic" Value="@("classic")">
+						<Description>
+							Our legacy design
+						</Description>
+					</RadioGroupItem>
+				</RadioGroupField>
+
+				<SwitchField For="@(() => Model.Eligible)" DisplayName="Eligible">
+					<Description>
+						Are you eligible to receive benefits?
+					</Description>
+				</SwitchField>
+				
+				<DateField For="@(() => Model.Birthday)" DisplayName="Date of Birth"></DateField>
+                    -->
+				<Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
+					<span>Save</span>
+				</Button>
+			</RzEditForm>
+		</Content>
+	</FormCard>        
+
+        <Card>
 		    <CardHeader>
 			    <div>
 				    <CardTitle>Information</CardTitle>
@@ -124,3 +190,19 @@
 	    </Card>
     </MainContent>
 </Sidebar>
+
+@code
+{
+    private Customer Model;
+    private RzFormContext Context;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Model = new();
+        Context = new("customer", Model);
+    }
+
+    
+}
