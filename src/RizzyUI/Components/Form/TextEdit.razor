@@ -1,0 +1,70 @@
+﻿@using Rizzy.Components
+@namespace RizzyUI
+@using System.Linq.Expressions
+@inherits InputBase<string>
+
+<div class="relative">
+    @if (PrependText != null)
+    {
+            <div class="pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-lg border-r border-gray-200 bg-gray-100 pl-3 pr-1 text-gray-700 dark:border-gray-600 dark:bg-gray-900/50 dark:text-gray-300">
+                @PrependText
+            </div>     
+    }
+    <RzInputText @ref="_elem" type="@_role" Value="@_value" ValueExpression="For" placeholder="@_placeholder" @attributes="@AdditionalAttributes" class="@RootClass()"/>
+</div>
+
+@code {
+	private static readonly string BaseStyle = "block w-full rounded border border-outline px-3 py-2 leading-6 placeholder-gray-500 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:placeholder-gray-400 dark:focus:border-primary";
+
+    private RzInputText? _elem;
+    private string _value = string.Empty;
+	private string _role = "text";
+    private string _placeholder = string.Empty;
+    private string _cssClasses = string.Empty;
+
+    [CascadingParameter]
+    private RzEditForm? EditForm { get; set; }
+
+    [CascadingParameter]
+    public EditContext EditContext { get; set; } = default!;
+
+    [CascadingParameter]
+    public TextField? TextField { get; set; }
+
+	[Parameter]
+    public TextRole Role { get; set; } = TextRole.Text;
+
+	[Parameter]
+    public string Placeholder { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? PrependText { get; set; }
+
+    public string Id
+    {
+	    get
+	    {
+		    if (_elem?.AdditionalAttributes != null && _elem.AdditionalAttributes.ContainsKey("id"))
+		    {
+			    return _elem.AdditionalAttributes["id"] as string ?? string.Empty;
+		    }
+
+		    return string.Empty;
+	    }
+    }
+
+	protected override void OnParametersSet()
+	{
+        base.OnParametersSet();
+
+		_role = GetParameterValue("type", Role.ToString().ToLowerInvariant());
+        _placeholder = GetParameterValue("placeholder", Placeholder);
+
+        _value = For.Compile().Invoke();
+    }
+
+	protected override string? RootClass()
+	{
+		return TwMerge.Merge(AdditionalAttributes, BaseStyle);
+	}
+}
