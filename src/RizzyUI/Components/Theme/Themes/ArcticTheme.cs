@@ -7,7 +7,7 @@
 public class ArcticTheme : RizzyTheme
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultTheme"/> class with predefined values.
+    /// Initializes a new instance of the <see cref="RizzyTheme"/> class with predefined values.
     /// </summary>
     public ArcticTheme() : base("Arctic", "arctic")
     {

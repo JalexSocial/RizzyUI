@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
-using RizzyUI.Services;
+using Rizzy.Nonce;
 using System.Text;
 
 namespace RizzyUI;

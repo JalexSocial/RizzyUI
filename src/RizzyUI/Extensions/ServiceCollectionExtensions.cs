@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using RizzyUI.Services;
 using TailwindMerge.Extensions;
+using Rizzy.Nonce;
 
 namespace RizzyUI;
 
@@ -35,10 +35,12 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRizzyUI(this IServiceCollection services)
     {
         services.AddTailwindMerge();
-        services.AddSingleton<RizzyNonceGenerator>();
+
+        // Register the nonce generator if not yet registered
+        services.TryAddSingleton<RizzyNonceGenerator>();
 
         // Ensure IHttpContextAccessor is registered
-        services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddHttpContextAccessor();
 
         // Register the default RizzyNonceProvider only if IRizzyNonceProvider hasn't been registered
         services.TryAddScoped<IRizzyNonceProvider, RizzyNonceProvider>();

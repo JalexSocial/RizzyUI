@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using RizzyUI.Services;
+using Rizzy.Nonce;
 using System.Diagnostics.CodeAnalysis;
 using TailwindMerge;
 
