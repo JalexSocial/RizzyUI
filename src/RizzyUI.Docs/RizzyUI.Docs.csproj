@@ -28,12 +28,12 @@
     <ProjectReference Include="..\RizzyUI\RizzyUI.csproj" />
   </ItemGroup>
 
-    <Target Name="Tailwind" BeforeTargets="Build">
-        <Exec Command="npm run css:build" />
-    </Target>
-
     <Target Name="EnsureNodeModules" BeforeTargets="Build">
         <Exec Command="npm install" />
+    </Target>
+
+    <Target Name="Tailwind" BeforeTargets="Build">
+        <Exec Command="npm run css:build" />
     </Target>
 
 </Project>

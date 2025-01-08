@@ -9,18 +9,18 @@
 
 @if (DisplayName != null)
 {
-	<label for="@_for" @attributes="AdditionalAttributes" class="@RootClass()">
-		@DisplayName
-		@ChildContent
-	</label>
+    <label for="@_for" @attributes="AdditionalAttributes" class="@RootClass()">
+        @DisplayName
+        @ChildContent
+    </label>
 }
 
 @code {
     private static readonly string BaseStyle = "font-medium";
-	private string _for = string.Empty;
+    private string _for = string.Empty;
 
-	[CascadingParameter]
-	private RzEditForm? EditForm { get; set; }
+    [CascadingParameter]
+    private RzEditForm? EditForm { get; set; }
 
     /// <summary>
     /// Child content for the field label
@@ -28,59 +28,67 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-	/// <summary>
-	/// Specifies the field for which validation messages should be displayed.
-	/// </summary>
-	[Parameter] 
-	public Expression<Func<TValue>>? For { get; set; }
+    /// <summary>
+    /// Specifies the field for which validation messages should be displayed.
+    /// </summary>
+    [Parameter] 
+    public Expression<Func<TValue>>? For { get; set; }
 
-	[Parameter]
-	public string? DisplayName { get; set; }
+    /// <summary>
+    /// Name to display in the field label
+    /// </summary>
+    [Parameter]
+    public string? DisplayName { get; set; }
 
-	protected override void OnParametersSet()
-	{
-		if (EditForm is null)
-			throw new InvalidEnumArgumentException("FieldLabel must be part of an RzEditForm");
+    /// <summary>
+    /// Initialize the field label, ideally using For to detect field information
+    /// </summary>
+    /// <exception cref="InvalidEnumArgumentException"></exception>
+    protected override void OnParametersSet()
+    {
+        if (EditForm is null)
+            throw new InvalidEnumArgumentException("FieldLabel must be part of an RzEditForm");
 
-		SetDisplayName();
+        SetDisplayName();
 
-		if (For != null)
-		{
-			FieldIdentifier field = FieldIdentifier.Create(For);
+        if (For != null)
+        {
+            FieldIdentifier field = FieldIdentifier.Create(For);
 
-			if (EditForm.FieldMapping.TryGetValue(field, out RzEditForm.FieldMap? map))
-			{
-				_for = map.Id;
-			}
-		}
+            if (EditForm.FieldMapping.TryGetValue(field, out RzEditForm.FieldMap? map))
+            {
+                _for = map.Id;
+            }
+        }
 
-		base.OnParametersSet();
-	}
+        base.OnParametersSet();
+    }
 
-	private void SetDisplayName()
-	{
-		// Display name is set, nothing more to do
-		if (!string.IsNullOrEmpty(DisplayName))
-			return;
+    private void SetDisplayName()
+    {
+        // Display name is set, nothing more to do
+        if (!string.IsNullOrEmpty(DisplayName))
+            return;
 
-		if (For == null)
-		{
-			throw new InvalidOperationException($"{nameof(For)} is required if display name is not set.");
-		}
+        if (For == null)
+        {
+            throw new InvalidOperationException($"{nameof(For)} is required if display name is not set.");
+        }
 
-		//FieldIdentifier _fieldIdentifier = FieldIdentifier.Create(For);
+        //FieldIdentifier _fieldIdentifier = FieldIdentifier.Create(For);
 
-		if (For.Body is MemberExpression memberExpression)
-		{
-			var displayAttribute = memberExpression.Member.GetCustomAttributes(typeof(DisplayAttribute), true)
-				.FirstOrDefault() as DisplayAttribute;
+        if (For.Body is MemberExpression memberExpression)
+        {
+            var displayAttribute = memberExpression.Member.GetCustomAttributes(typeof(DisplayAttribute), true)
+                .FirstOrDefault() as DisplayAttribute;
 
-			// If DisplayAttribute is not present, use the field name
-			DisplayName = displayAttribute?.Name ?? memberExpression.Member.Name;
-		}
+            // If DisplayAttribute is not present, use the field name
+            DisplayName = displayAttribute?.Name ?? memberExpression.Member.Name;
+        }
 
-	}
+    }
 
+    /// <inheritdoc cref="RizzyComponent.RootClass"/>
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, BaseStyle);
