@@ -110,6 +110,11 @@ const rizzyui = plugin(
                 'background-color': 'rgb(var(--surface))',
                 opacity: '1',
             },
+            '.form-children-spacing': {
+                '> *:not(input[type="hidden"]) + *:not(input[type="hidden"])': {
+                    marginTop: theme('spacing.6'),
+                },
+            },
         };
 
         addUtilities(rzUtilities, {
