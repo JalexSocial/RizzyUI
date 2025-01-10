@@ -20,39 +20,62 @@
 </Field>
 
 @code {
+    /// <summary>
+    /// Gets or sets the current edit context.
+    /// </summary>
     [CascadingParameter]
     public EditContext? EditContext { get; set; }
 
+    /// <summary>
+    /// Gets or sets the parent edit form.
+    /// </summary>
     [CascadingParameter]
     private RzEditForm? EditForm { get; set; }
 
+    /// <summary>
+    /// Gets or sets the role of the text input.
+    /// </summary>
     [Parameter]
     public TextRole Role { get; set; } = TextRole.Text;
 
+    /// <summary>
+    /// Gets or sets the placeholder text for the input.
+    /// </summary>
     [Parameter]
     public string Placeholder { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the display name for the field label.
+    /// </summary>
     [Parameter]
     public string? DisplayName { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the field is required.
+    /// </summary>
     [Parameter]
     public bool Required { get; set; } = false;
 
+    /// <summary>
+    /// Gets or sets the render fragment for additional field help content.
+    /// </summary>
     [Parameter]
     public RenderFragment? FieldHelp { get; set; }
 
     /// <summary>
     /// Specifies the field for which validation messages should be displayed.
     /// </summary>
-    [Parameter, EditorRequired] 
+    [Parameter, EditorRequired]
     public Expression<Func<string>>? For { get; set; }
 
+    /// <summary>
+    /// Called when component parameters have been set.
+    /// </summary>
     protected override void OnParametersSet()
     {
         if (EditForm is null)
-		    throw new InvalidEnumArgumentException("This field must be part of an RzEditForm");
+            throw new InvalidEnumArgumentException("This field must be part of an RzEditForm");
 
-	    base.OnParametersSet();
+        base.OnParametersSet();
     }
-
 }

@@ -13,7 +13,7 @@ public class InputBase<TValue> : RizzyComponent
 	/// Expression identifying the model property to bind.
 	/// </summary>
 	[Parameter, EditorRequired]
-	public Expression<Func<TValue>> For { get; set; } = default!;
+	public required Expression<Func<TValue>> For { get; set; }
 
 	/// <summary>
 	/// Retrieves a parameter value from additional attributes with type safety.
