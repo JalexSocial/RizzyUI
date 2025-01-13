@@ -27,12 +27,6 @@
     public EditContext? EditContext { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent edit form.
-    /// </summary>
-    [CascadingParameter]
-    private RzEditForm? EditForm { get; set; }
-
-    /// <summary>
     /// Gets or sets the role of the text input.
     /// </summary>
     [Parameter]
@@ -73,8 +67,8 @@
     /// </summary>
     protected override void OnParametersSet()
     {
-        if (EditForm is null)
-            throw new InvalidEnumArgumentException("This field must be part of an RzEditForm");
+        if (EditContext is null)
+            throw new InvalidEnumArgumentException("This field must be part of an EditForm");
 
         base.OnParametersSet();
     }

@@ -186,7 +186,6 @@ document.addEventListener('alpine:init', () => {
 
         init() {
             const element = this.$el;
-            console.log('Initializing progress bar');
 
             // Retrieve data attributes from the root element
             this.currentVal = parseInt(element.getAttribute('data-current-val')) || 0;

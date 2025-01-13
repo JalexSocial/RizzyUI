@@ -4,6 +4,8 @@
 @using Rizzy.Components
 @using System.ComponentModel
 @using System.Collections.ObjectModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Rizzy
 @inherits RizzyComponent
 @typeparam TValue
 
@@ -19,8 +21,11 @@
     private static readonly string BaseStyle = "font-medium";
     private string _for = string.Empty;
 
-    [CascadingParameter]
-    private RzEditForm? EditForm { get; set; }
+    [Inject] 
+    private RzViewContext ViewContext { get; set; } = default!;
+
+    [CascadingParameter] 
+    private EditContext? EditContext { get; set; } = default!;
 
     /// <summary>
     /// Child content for the field label
@@ -46,8 +51,8 @@
     /// <exception cref="InvalidEnumArgumentException"></exception>
     protected override void OnParametersSet()
     {
-        if (EditForm is null)
-            throw new InvalidEnumArgumentException("FieldLabel must be part of an RzEditForm");
+        if (EditContext is null)
+            throw new InvalidEnumArgumentException("FieldLabel must be part of an EditForm");
 
         SetDisplayName();
 
@@ -55,7 +60,9 @@
         {
             FieldIdentifier field = FieldIdentifier.Create(For);
 
-            if (EditForm.FieldMapping.TryGetValue(field, out RzEditForm.FieldMap? map))
+            var fieldMap = ViewContext.GetOrAddFieldMapping(EditContext);
+    
+            if (fieldMap.TryGetValue(field, out RzFormFieldMap? map))
             {
                 _for = map.Id;
             }

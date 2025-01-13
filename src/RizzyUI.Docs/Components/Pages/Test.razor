@@ -78,7 +78,7 @@
 	<FormCard Icon="@MdiIcon.FaceManProfile" Title="User Details" class="mb-5"> 
 		<Description>This is a user details form where you enter information about yourself.</Description>
 		<Content>
-                <RzEditForm FormContext="Context" class="form-children-spacing">
+                <EditForm Model="Model" class="form-children-spacing">
 				<RzValidationSummary/>
 
 				<Field>
@@ -135,7 +135,7 @@
 				<Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
 					<span>Save</span>
 				</Button>
-			</RzEditForm>
+			</EditForm>
 		</Content>
 	</FormCard>        
 
@@ -194,14 +194,12 @@
 @code
 {
     private Customer Model;
-    private RzFormContext Context;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
         Model = new();
-        Context = new("customer", Model);
     }
 
     
