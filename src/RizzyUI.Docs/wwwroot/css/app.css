@@ -2173,6 +2173,10 @@ svg {
   text-transform: none;
 }
 
+.italic {
+  font-style: italic;
+}
+
 .leading-5 {
   line-height: 1.25rem;
 }
@@ -2437,6 +2441,14 @@ svg {
 
 .outline {
   outline-style: solid;
+}
+
+.outline-danger {
+  outline-color: rgb(var(--danger));
+}
+
+.outline-success {
+  outline-color: rgb(var(--success));
 }
 
 .brightness-75 {

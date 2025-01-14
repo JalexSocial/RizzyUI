@@ -1,4 +1,6 @@
-﻿namespace RizzyUI.Docs.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RizzyUI.Docs.Models;
 
 /// <summary>
 /// Represents a customer with personal and contact information.
@@ -13,6 +15,7 @@ public class Customer
     /// <summary>
     /// Gets or sets the full name of the customer.
     /// </summary>
+    [MaxLength(10)]
     public string Name { get; set; } = "Jane Johnson";
 
     /// <summary>

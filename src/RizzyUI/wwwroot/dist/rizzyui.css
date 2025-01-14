@@ -108,7 +108,7 @@
   --tw-contain-style:  ;
 }
 
-/*! tailwindcss v3.4.15 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -2055,6 +2055,10 @@ svg {
   text-transform: none;
 }
 
+.italic {
+  font-style: italic;
+}
+
 .leading-6 {
   line-height: 1.5rem;
 }
@@ -2297,6 +2301,14 @@ svg {
 
 .outline {
   outline-style: solid;
+}
+
+.outline-danger {
+  outline-color: rgb(var(--danger));
+}
+
+.outline-success {
+  outline-color: rgb(var(--success));
 }
 
 .backdrop-blur-sm {
