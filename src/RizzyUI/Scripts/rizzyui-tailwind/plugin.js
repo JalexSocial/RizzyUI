@@ -115,7 +115,27 @@ const rizzyui = plugin(
                     marginTop: theme('spacing.6'),
                 },
             },
+            '.field-validation-error': {
+                color: 'rgb(var(--danger))',
+                fontStyle: 'italic',
+            },
+            '.input-validation-error': {
+                borderColor: 'rgb(var(--danger))',
+                outlineColor: 'rgb(var(--danger))',
+            },
+            '.input-validation-valid': {
+                borderColor: 'rgb(var(--success))',
+                outlineColor: 'rgb(var(--success))',
+            },
+            '.validation-summary-errors': {
+                color: 'rgb(var(--danger))',
+                fontStyle: 'italic',
+            },
+            '.validation-summary-valid span': {
+                display: 'none',
+            },
         };
+
 
         addUtilities(rzUtilities, {
             variants: ['responsive', 'hover'],
@@ -213,4 +233,8 @@ const rizzyui = plugin(
 );
 
 module.exports = rizzyui;
-module.exports.safelist = safelist;
+module.exports.safelist = [...safelist,
+    'field-validation-error',
+    'input-validation-error',
+    'input-validation-valid',
+    'validation-summary-errors'];

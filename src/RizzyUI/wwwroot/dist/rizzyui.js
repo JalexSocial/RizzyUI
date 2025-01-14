@@ -346,12 +346,6 @@ if (!document.__htmx_nonceprovider) {
 document.addEventListener('alpine:init', () => {
 
     let v = new aspnetValidation.ValidationService();
-    v.ValidationInputCssClassName = 'border-danger outline-danger';                   // change from default of 'input-validation-error'
-    v.ValidationInputValidCssClassName = 'border-success outline-success';                // change from default of 'input-validation-valid'
-    v.ValidationMessageCssClassName = 'text-danger italic';           // change from default of 'field-validation-error'
-    v.ValidationMessageValidCssClassName = '';             // change from default of 'field-validation-valid'
-    v.ValidationSummaryCssClassName      = 'text-danger';  // unnecessary: bootstrap lacks validation summary component
-    v.ValidationSummaryValidCssClassName = 'hidden';  
     v.bootstrap({ watch: true });
 
     window.validation = v;

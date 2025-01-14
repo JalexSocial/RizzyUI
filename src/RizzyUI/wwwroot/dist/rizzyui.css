@@ -2055,10 +2055,6 @@ svg {
   text-transform: none;
 }
 
-.italic {
-  font-style: italic;
-}
-
 .leading-6 {
   line-height: 1.5rem;
 }
@@ -2301,14 +2297,6 @@ svg {
 
 .outline {
   outline-style: solid;
-}
-
-.outline-danger {
-  outline-color: rgb(var(--danger));
-}
-
-.outline-success {
-  outline-color: rgb(var(--success));
 }
 
 .backdrop-blur-sm {
