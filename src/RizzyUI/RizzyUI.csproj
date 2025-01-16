@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <LangVersion>12.0</LangVersion>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFrameworks>net8.0</TargetFrameworks>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableSourceControlManagerQueries>true</EnableSourceControlManagerQueries>
@@ -23,7 +23,7 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Rizzy" Version="3.0.1" />
+        <PackageReference Include="Rizzy" Version="3.0.2" />
         <PackageReference Include="Blazicons" Version="2.1.30" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23" />
         <PackageReference Include="TailwindMerge.NET" Version="0.3.0" />

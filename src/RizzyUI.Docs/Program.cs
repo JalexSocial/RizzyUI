@@ -4,7 +4,6 @@ using Rizzy.Components;
 using RizzyUI;
 using RizzyUI.Docs;
 using RizzyUI.Docs.Components;
-using RizzyUI.Docs.Components.Layout;
 
 var builder = WebApplication.CreateBuilder(args);
 

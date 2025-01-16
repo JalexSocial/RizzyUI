@@ -1,7 +1,6 @@
 ﻿@namespace RizzyUI
 
 @using System.Web
-@using RizzyUI.Utility
 @using System.Text.Json
 @using Rizzy.Utility
 
@@ -67,7 +66,8 @@ x-data="rzCodeViewer">
     /// <summary>
     /// ServiceProvider for razor html rendering
     /// </summary>
-    [Inject] IServiceProvider ServiceProvider { get; set; }
+    [Inject]
+    private IServiceProvider ServiceProvider { get; set; } = default!;
 
     /// <summary>
     /// (optional) Javascript and CSS assets that are loaded when component is instantiated.  Assets are requested
@@ -101,11 +101,13 @@ x-data="rzCodeViewer">
     [Parameter] 
     public string ViewerTitle { get; set; } = "Source";
 
+    /// <inheritdoc/>
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, BaseStyle);
     }
 
+    /// <inheritdoc/>
     protected override async Task OnParametersSetAsync()
     {
         if (Source != null)

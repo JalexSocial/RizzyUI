@@ -4,6 +4,7 @@
 @using Rizzy.Components
 @using System.ComponentModel
 @using System.Collections.ObjectModel
+@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using Rizzy
 @inherits RizzyComponent
@@ -21,8 +22,8 @@
     private static readonly string BaseStyle = "font-medium";
     private string _for = string.Empty;
 
-    [Inject] 
-    private RzViewContext ViewContext { get; set; } = default!;
+    [CascadingParameter] 
+    private HttpContext? HttpContext { get; set; } 
 
     [CascadingParameter] 
     private EditContext? EditContext { get; set; } = default!;
@@ -60,9 +61,9 @@
         {
             FieldIdentifier field = FieldIdentifier.Create(For);
 
-            var fieldMap = ViewContext.GetOrAddFieldMapping(EditContext);
+            var fieldMap = HttpContext?.GetOrAddFieldMapping(EditContext);
     
-            if (fieldMap.TryGetValue(field, out RzFormFieldMap? map))
+            if (fieldMap != null && fieldMap.TryGetValue(field, out RzFormFieldMap? map))
             {
                 _for = map.Id;
             }
