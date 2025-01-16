@@ -1,8 +1,6 @@
-﻿using System.Diagnostics;
-using AspNetStatic;
+﻿using AspNetStatic;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Routing;
+using System.Diagnostics;
 using System.Reflection;
 using ThrowGuard;
 
@@ -104,7 +102,7 @@ public static class StaticResourcesInfoProviderExtensions
 
         provider.Add(allWebRootFiles
                 .Where(r => cssExts.Contains(Path.GetExtension(r), comparer))
-                .Select(r => new CssResource(r) { Route = $"{virtualPathPrefix}{r}"}))
+                .Select(r => new CssResource(r) { Route = $"{virtualPathPrefix}{r}" }))
             ;
 
         provider.Add(allWebRootFiles
@@ -146,7 +144,7 @@ public static class StaticResourcesInfoProviderExtensions
             {
                 // Get all public types defined in the assembly
                 types = assembly.ExportedTypes;
-            } 
+            }
             catch (ReflectionTypeLoadException ex)
             {
                 // Handle exceptions for types that can't be loaded

@@ -1,6 +1,5 @@
 using AspNetStatic;
 using Rizzy;
-using Rizzy.Components;
 using RizzyUI;
 using RizzyUI.Docs;
 using RizzyUI.Docs.Components;

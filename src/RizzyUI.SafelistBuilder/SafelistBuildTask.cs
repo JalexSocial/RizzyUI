@@ -1,11 +1,11 @@
-﻿using System;
+﻿using AngleSharp.Css.Dom;
+using AngleSharp.Css.Parser;
+using Microsoft.Build.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using AngleSharp.Css.Dom;
-using AngleSharp.Css.Parser;
-using Microsoft.Build.Framework;
 
 namespace RizzyUI.SafelistBuilder
 {
@@ -69,7 +69,7 @@ namespace RizzyUI.SafelistBuilder
                 if (rule is ICssStyleRule styleRule)
                 {
                     if (styleRule.SelectorText is null) continue;
-                    
+
                     ParseRules(classNames, styleRule);
                 }
                 else if (rule is ICssMediaRule mediaRule)
@@ -116,7 +116,7 @@ namespace RizzyUI.SafelistBuilder
             }
             else
             {
-                
+
             }
         }
     }
