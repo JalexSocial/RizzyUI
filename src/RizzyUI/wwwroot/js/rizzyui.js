@@ -163,15 +163,20 @@ document.addEventListener('alpine:init', () => {
 
                     if (iframe) {
                         try {
-                            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                            const iframeBody = iframeDocument.body;
+                            const iframeDocument = iframe.contentDocument || iframe.contentWindow?.document;
 
-                            if (!iframeBody) {
-                                setInterval(() => { this.resizeIframe(iframe); }, 150);
-                            } else {
-                                const newHeight = iframeBody.scrollHeight + 15;
-                                
-                                iframe.style.height = newHeight + 'px';
+                            if (iframeDocument) {
+
+                                const iframeBody = iframeDocument.body;
+
+                                if (!iframeBody) {
+                                    setInterval(() => { this.resizeIframe(iframe); }, 150);
+                                } else {
+                                    const newHeight = iframeBody.scrollHeight + 15;
+
+                                    iframe.style.height = newHeight + 'px';
+                                }
+
                             }
                         } catch (error) {
                             console.error('Error resizing iframe:', error);

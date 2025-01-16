@@ -3,6 +3,7 @@
 @using System.Text
 @using System.Web
 @using System.Text.Json
+@using Rizzy.Nonce
 @using Rizzy.Utility
 
 @inherits RizzyComponent
@@ -10,8 +11,8 @@
 <div @attributes="@AdditionalAttributes" class="@RootClass()" 
 data-assets="@_assets"
 data-codeid="@CodeId"
-data-scriptnonce="@Nonce.InlineScriptNonce"
-data-stylenonce="@Nonce.InlineStyleNonce"
+data-scriptnonce="@Nonce.GetNonce(NonceType.Script)"
+data-stylenonce="@Nonce.GetNonce(NonceType.Style)"
 x-data="rzCodeViewer">
     <!-- Code Config -->
     <div class="border-b-0 border-outline bg-surfaceAlt font-inter flex flex-col items-start justify-between gap-4 rounded-xl rounded-b-none border p-4 text-sm text-slate-400 dark:border-outlineDark dark:bg-surfaceAltDark md:flex-row md:items-center md:gap-2" :class="getBorderCss">

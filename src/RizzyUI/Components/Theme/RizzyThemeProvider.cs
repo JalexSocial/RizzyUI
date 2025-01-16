@@ -33,7 +33,7 @@ public class RizzyThemeProvider : ComponentBase
         var actualTheme = Theme ?? RizzyTheme.Default;
         var css = GenerateRootVariables(actualTheme);
 
-        builder.AddMarkupContent(1, $"<style nonce=\"{RizzyNonceProvider.InlineStyleNonce}\">{css}</style>");
+        builder.AddMarkupContent(1, $"<style nonce=\"{RizzyNonceProvider.GetNonceFor(NonceType.Style)}\">{css}</style>");
     }
 
     /// <summary>

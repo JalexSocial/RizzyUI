@@ -1,5 +1,6 @@
 ﻿@namespace RizzyUI
 
+@using Rizzy.Nonce
 @inherits RizzyComponent
 
 <HtmlElement Element="div"
@@ -25,7 +26,7 @@
 		</div>
 	}
     <div class="relative flex w-full overflow-hidden rounded bg-outline dark:bg-outlineDark @(LabelPosition == ProgressLabelPosition.Inside ? "h-4" : "h-2.5")">
-		<div class="p-0.5 text-center text-xs font-semibold leading-none transition-all @ProgressBarClass" x-ref="progressBar" nonce="@Nonce.InlineStyleNonce">
+        <div class="p-0.5 text-center text-xs font-semibold leading-none transition-all @ProgressBarClass" x-ref="progressBar" nonce="@Nonce.GetNonce(NonceType.Style)">
 			@if (LabelPosition == ProgressLabelPosition.Inside && !string.IsNullOrEmpty(Label))
 			{
                 <div class="absolute" x-ref="progressBarLabel" :class="getLabelCss">
