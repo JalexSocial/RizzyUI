@@ -1,0 +1,67 @@
+﻿@using System.Linq.Expressions
+@typeparam TValue
+@namespace RizzyUI
+@inherits RizzyComponent
+
+<Field @attributes="AdditionalAttributes" class="@RootClass()">
+    <FieldLabel DisplayName="@DisplayName" For="@For"></FieldLabel>
+    <RadioGroup TValue="TValue" DisplayName="@DisplayName" Name="@Name" For="@For" Value="@Value" Orientation="@Orientation">
+        @ChildContent
+    </RadioGroup>
+    <RzValidationMessage For="@For" />
+</Field>
+
+@code {
+    private static readonly string BaseStyle = ""; // Optionally, include any additional styling for the Field container.
+
+    /// <summary>
+    /// Gets or sets the display name for the field.
+    /// </summary>
+    [Parameter]
+    public string? DisplayName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the orientation of the radio group.
+    /// </summary>
+    [Parameter]
+    public Orientation Orientation { get; set; } = Orientation.Vertical;
+
+    /// <summary>
+    /// Specifies the field for which validation messages should be displayed.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public required Expression<Func<TValue>>? For { get; set; }
+
+    /// <summary>
+    /// Gets or sets the current value of the radio group.
+    /// </summary>
+    [Parameter]
+    public TValue? Value { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name attribute for the group.
+    /// </summary>
+    [Parameter]
+    public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the child content to be rendered inside the radio group.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (For != null)
+        {
+            Value = For.Compile().Invoke();
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle);
+    }
+}

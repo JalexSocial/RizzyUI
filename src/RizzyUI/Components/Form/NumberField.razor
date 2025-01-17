@@ -1,0 +1,53 @@
+﻿@using System.Linq.Expressions
+@typeparam TValue
+@namespace RizzyUI
+@inherits RizzyComponent
+
+<Field @attributes="AdditionalAttributes" class="@RootClass()">
+	<FieldLabel DisplayName="@DisplayName" For="@For"></FieldLabel>
+	<NumberEdit TValue="TValue" For="@For" Placeholder="@Placeholder" />
+	@if (FieldHelp != null)
+	{
+		<FieldHelp>@FieldHelp</FieldHelp>
+	}
+	<RzValidationMessage For="@For" />
+</Field>
+
+@code {
+	private static readonly string BaseStyle = ""; // Optionally add additional container styling.
+
+	/// <summary>
+	/// Gets or sets the field for which validation messages should be displayed.
+	/// </summary>
+	[Parameter, EditorRequired]
+	public Expression<Func<TValue>> For { get; set; } = default!;
+
+	/// <summary>
+	/// Gets or sets the placeholder text.
+	/// </summary>
+	[Parameter]
+	public string Placeholder { get; set; } = string.Empty;
+
+	/// <summary>
+	/// Gets or sets the display name for the field.
+	/// </summary>
+	[Parameter]
+	public string? DisplayName { get; set; }
+
+	/// <summary>
+	/// Gets or sets the field help content.
+	/// </summary>
+	[Parameter]
+	public RenderFragment? FieldHelp { get; set; }
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+	}
+
+	/// <inheritdoc/>
+	protected override string? RootClass()
+	{
+		return TwMerge.Merge(AdditionalAttributes, BaseStyle);
+	}
+}
