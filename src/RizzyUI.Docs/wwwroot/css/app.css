@@ -3411,10 +3411,9 @@ h1:focus {
   border-color: rgb(var(--outline));
 }
 
-.dark\:before\:bg-neutral-400:is(.dark *)::before {
+.dark\:before\:bg-onPrimaryDark:is(.dark *)::before {
   content: var(--tw-content);
-  --tw-bg-opacity: 1;
-  background-color: rgb(163 163 163 / var(--tw-bg-opacity, 1));
+  background-color: rgb(var(--onPrimaryDark));
 }
 
 .dark\:after\:border-outline:is(.dark *)::after {
@@ -3450,9 +3449,9 @@ h1:focus {
   background-color: rgb(var(--onPrimaryDark));
 }
 
-.dark\:checked\:before\:bg-primaryDark:checked:is(.dark *)::before {
+.dark\:checked\:before\:bg-onPrimaryDark:checked:is(.dark *)::before {
   content: var(--tw-content);
-  background-color: rgb(var(--primaryDark));
+  background-color: rgb(var(--onPrimaryDark));
 }
 
 .dark\:hover\:border-gray-600:hover:is(.dark *) {
