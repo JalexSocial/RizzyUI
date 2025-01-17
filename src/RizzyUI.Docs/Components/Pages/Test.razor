@@ -91,9 +91,9 @@
 					<FieldHelp>This is a helpful description</FieldHelp>
 				</TextField>
 
-				<SwitchField For="@(() => Model.IsActive)" DisplayName="Active?">
+				<ToggleField For="@(() => Model.IsActive)" DisplayName="Active?">
                     <FieldHelp>Is this person active?</FieldHelp>
-				</SwitchField>
+				</ToggleField>
                     <!--
 
                 <NumberField For="@(() => Model.Age)" Placeholder="Enter your age..">
@@ -126,11 +126,11 @@
 					</RadioGroupItem>
 				</RadioGroupField>
 
-				<SwitchField For="@(() => Model.Eligible)" DisplayName="Eligible">
+				<ToggleField For="@(() => Model.Eligible)" DisplayName="Eligible">
 					<Description>
 						Are you eligible to receive benefits?
 					</Description>
-				</SwitchField>
+				</ToggleField>
 				
 				<DateField For="@(() => Model.Birthday)" DisplayName="Date of Birth"></DateField>
                     -->
