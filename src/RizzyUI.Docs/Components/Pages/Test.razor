@@ -91,7 +91,9 @@
 					<FieldHelp>This is a helpful description</FieldHelp>
 				</TextField>
 
-
+				<SwitchField For="@(() => Model.IsActive)" DisplayName="Active?">
+                    <FieldHelp>Is this person active?</FieldHelp>
+				</SwitchField>
                     <!--
 
                 <NumberField For="@(() => Model.Age)" Placeholder="Enter your age..">

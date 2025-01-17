@@ -1,0 +1,77 @@
+﻿@namespace RizzyUI
+@using System.Linq.Expressions
+@using System.ComponentModel
+@using Rizzy.Utility
+@inherits RizzyComponent
+
+<Field @attributes="AdditionalAttributes" class="@RootClass()">
+    <div class="space-x-2">
+        <div class="flex items-center justify-between space-x-3">
+            <FieldLabel DisplayName="@DisplayName" For="@For" class="font-medium leading-relaxed">
+                @if (Description != null)
+                {
+                    <span class="block text-sm text-onSurface dark:text-onSurfaceDark">
+                        @Description
+                    </span>
+                }
+            </FieldLabel>
+                <RzInputCheckbox ValueExpression="@For"
+                                 Value="@(Value ?? false)"
+                             class="relative w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-primary disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-primary checked:border-primary focus:checked:border-primary dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-600
+                           before:inline-block before:size-6 before:bg-white checked:before:bg-primary before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-primary"
+                                 role="switch" />
+        </div>
+    </div>
+</Field>
+
+@code {
+    // Generate a unique id for the toggle control once.
+    private string _switchId = IdGenerator.UniqueId("toggleSwitch");
+
+    /// <summary>
+    /// Gets the id used for the checkbox input.
+    /// </summary>
+    protected string SwitchId => _switchId;
+
+    private static readonly string BaseStyle = ""; // Add any container styling if needed.
+
+    /// <summary>
+    /// Gets or sets the display name for the field.
+    /// </summary>
+    [Parameter]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the description displayed beneath the field label.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Description { get; set; }
+
+    /// <summary>
+    /// Specifies the field for which validation messages should be displayed.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public Expression<Func<bool>>? For { get; set; }
+
+    /// <summary>
+    /// Gets or sets the current value of the switch.
+    /// </summary>
+    [Parameter]
+    public bool? Value { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (For != null && Value == null)
+        {
+            Value = For.Compile().Invoke();
+        }
+
+        base.OnParametersSet();
+    }
+
+    /// <inheritdoc/>
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle);
+    }
+}
