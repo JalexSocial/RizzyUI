@@ -1,0 +1,23 @@
+﻿@using RizzyUI
+@using Blazicons
+@namespace RizzyUI
+
+@inherits RizzyComponent
+
+<HtmlElement Element="button"
+             @attributes="AdditionalAttributes"
+             class="@RootClass()"
+             type="button"
+             aria-label="Toggle dark mode"
+             x-data="rzDarkModeToggle"
+             x-on:click="toggle"
+             x-cloak
+             :aria-pressed="isDark">
+    <div x-show="isLight">
+        <Blazicon Svg="@DarkIcon" class="transition-transform duration-300 ease-out" />
+    </div>
+
+    <div x-show="isDark">
+        <Blazicon Svg="@LightIcon" class="transition-transform duration-300 ease-out" />
+    </div>
+</HtmlElement>

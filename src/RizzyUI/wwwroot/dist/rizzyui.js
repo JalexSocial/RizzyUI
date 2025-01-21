@@ -355,6 +355,60 @@ document.addEventListener('alpine:init', () => {
             console.log(error);
         }
 
+        Alpine.data('rzDarkModeToggle', () => ({
+
+            mode: 'light',
+
+            init() {
+                const storedMode = localStorage.getItem('darkMode') ?? 'auto';
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+                localStorage.setItem('darkMode', storedMode);
+
+                const applyTheme = () => {
+                    document.documentElement.classList.toggle('dark',
+                        storedMode === 'dark' || (storedMode === 'auto' && prefersDark));
+                };
+
+                applyTheme();
+
+                // Reapply theme on OS-level changes to the color scheme
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+            },
+
+            // Getter properties used by the Razor markup
+            isDark() {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var storedMode = localStorage.getItem('darkMode');
+
+                return this.mode === 'dark' || (this.mode === 'auto' && prefersDark);
+            },
+            isLight() {
+                return !this.isDark();
+            },
+
+            toggle() {
+                var storedMode = localStorage.getItem('darkMode');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+                if (storedMode === 'light')
+                    storedMode = 'dark';
+                else if (storedMode === 'dark')
+                    storedMode = 'light';
+                else if (storedMode === 'auto') {
+                    if (prefersDark)
+                        storedMode = 'light';
+                    else
+                        storedMode = 'dark';
+                }
+
+                localStorage.setItem('darkMode', storedMode);
+                this.mode = storedMode;
+
+                document.documentElement.classList.toggle('dark', storedMode === 'dark' || (storedMode === 'auto' && prefersDark));
+            }
+        }));
+
         Alpine.data('rzAlert',
             () => {
                 return {

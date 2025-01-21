@@ -2902,6 +2902,10 @@ h1:focus {
   background-color: rgb(var(--surface) / 0.1);
 }
 
+.hover\:bg-surfaceAlt:hover {
+  background-color: rgb(var(--surfaceAlt));
+}
+
 .hover\:bg-surfaceDark\/10:hover {
   background-color: rgb(var(--surfaceDark) / 0.1);
 }
@@ -3470,6 +3474,10 @@ h1:focus {
 
 .dark\:hover\:bg-surface\/10:hover:is(.dark *) {
   background-color: rgb(var(--surface) / 0.1);
+}
+
+.dark\:hover\:bg-surfaceAltDark:hover:is(.dark *) {
+  background-color: rgb(var(--surfaceAltDark));
 }
 
 .dark\:hover\:text-gray-200:hover:is(.dark *) {

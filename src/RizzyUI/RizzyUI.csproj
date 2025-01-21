@@ -23,6 +23,7 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Blazicons.Ionicons" Version="2.2.18" />
         <PackageReference Include="Rizzy" Version="4.0.1" />
         <PackageReference Include="Blazicons" Version="2.1.30" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23" />
