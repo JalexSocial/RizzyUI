@@ -34,6 +34,11 @@ public class RizzyThemeProvider : ComponentBase
         var css = GenerateRootVariables(actualTheme);
 
         builder.AddMarkupContent(1, $"<style nonce=\"{RizzyNonceProvider.GetNonceFor(NonceType.Style)}\">{css}</style>");
+        builder.AddMarkupContent(2, $@"<script nonce=""{RizzyNonceProvider.GetNonceFor(NonceType.Script)}"">
+		    const storedMode = localStorage.getItem('darkMode') ?? 'auto';
+		    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+		    document.documentElement.classList.toggle('dark', storedMode === 'dark' || (storedMode === 'auto' && prefersDark));
+        </script>");
     }
 
     /// <summary>
