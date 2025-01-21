@@ -1978,6 +1978,14 @@ svg {
   background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
 }
 
+.fill-\[\#0095FF\] {
+  fill: #0095FF;
+}
+
+.fill-\[\#00FF3C\] {
+  fill: #00FF3C;
+}
+
 .fill-black {
   fill: #000;
 }
@@ -2546,6 +2554,10 @@ svg {
   transition-duration: 300ms;
 }
 
+.duration-500 {
+  transition-duration: 500ms;
+}
+
 .duration-700 {
   transition-duration: 700ms;
 }
@@ -2639,6 +2651,14 @@ svg {
 .validation-summary-errors {
   color: rgb(var(--danger));
   font-style: italic;
+}
+
+.\[clip-rule\:evenodd\] {
+  clip-rule: evenodd;
+}
+
+.\[fill-rule\:evenodd\] {
+  fill-rule: evenodd;
 }
 
 h1:focus {
@@ -2902,12 +2922,12 @@ h1:focus {
   background-color: rgb(var(--surface) / 0.1);
 }
 
-.hover\:bg-surfaceAlt:hover {
-  background-color: rgb(var(--surfaceAlt));
-}
-
 .hover\:bg-surfaceDark\/10:hover {
   background-color: rgb(var(--surfaceDark) / 0.1);
+}
+
+.hover\:bg-surfaceDark\/5:hover {
+  background-color: rgb(var(--surfaceDark) / 0.05);
 }
 
 .hover\:text-black:hover {
@@ -3476,8 +3496,8 @@ h1:focus {
   background-color: rgb(var(--surface) / 0.1);
 }
 
-.dark\:hover\:bg-surfaceAltDark:hover:is(.dark *) {
-  background-color: rgb(var(--surfaceAltDark));
+.dark\:hover\:bg-surface\/5:hover:is(.dark *) {
+  background-color: rgb(var(--surface) / 0.05);
 }
 
 .dark\:hover\:text-gray-200:hover:is(.dark *) {

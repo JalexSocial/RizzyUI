@@ -2,7 +2,7 @@
 @inherits RizzyComponent
 
 <div class="@RootClass()">
-    <p class="mb-4 font-bold text-onSurfaceStrong dark:text-onSurfaceDarkStrong">
+    <p class="mb-4 font-bold">
         @Title
     </p>
     <ul class="flex flex-col gap-2">
@@ -51,7 +51,7 @@
         return TwMerge.Merge(AdditionalAttributes, BaseStyle);
     }
 
-    private static readonly string BaseStyle = "";
+    private static readonly string BaseStyle = "text-onSurfaceStrong dark:text-onSurfaceStrongDark";
 
     /// <summary>
     /// Gets the Tailwind CSS class for indentation based on the heading level.

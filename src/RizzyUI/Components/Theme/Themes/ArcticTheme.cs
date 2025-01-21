@@ -27,7 +27,7 @@ public class ArcticTheme : RizzyTheme
         SurfaceDark = Colors.Slate.L900;        // #0F172A (15,23,42)
         OnSurfaceDark = Colors.Slate.L300;      // #CBD5E1 (203,213,225)
         OnSurfaceStrongDark = Colors.White;     // White
-        SurfaceAltDark = Colors.Slate.L800;     // #1E293B (30,41,59)
+        SurfaceAltDark = Colors.Slate.L900;     
         PrimaryDark = Colors.Blue.L600;         // #2563EB (37,99,235)
         OnPrimaryDark = Colors.Slate.L100;      // #F1F5F9
         SecondaryDark = Colors.Indigo.L600;     // #4F46E5 (79,70,229)
