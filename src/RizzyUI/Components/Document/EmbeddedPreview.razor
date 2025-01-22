@@ -1,11 +1,11 @@
-﻿@using RizzyUI.Utility
-@using Rizzy.Utility
+﻿@using Rizzy.Utility
 @namespace RizzyUI
 
 @inherits RizzyComponent
 
 <HtmlElement class="w-full">
-    <iframe x-data="rzEmbeddedPreview"
+	<iframe x-data="rzEmbeddedPreview"
+        id="@Id"
         class="w-full transition-all min-h-28"
 	    srcdoc="@_content"
 	    x-ref="iframe">
@@ -15,6 +15,7 @@
 
 @code {
     private string? _content;
+    private string Id { get; set; } = IdGenerator.UniqueId("preview");
 
     /// <summary>
     /// ServiceProvider reference needed to render any components to string correctly

@@ -37,6 +37,13 @@
     <link rel="preconnect" nonce="@NonceProvider.GetNonceFor(NonceType.Script)" href="https://fonts.gstatic.com" crossorigin>
     <link nonce="@NonceProvider.GetNonceFor(NonceType.Script)" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
+    <script nonce="@NonceProvider.GetNonceFor(NonceType.Script)">
+	    window.addEventListener('message', (event) => {
+		    if (event.data && typeof event.data.darkMode === 'boolean') {
+                document.documentElement.classList.toggle('dark', event.data.darkMode);
+		    }
+	    });
+    </script>
 </head>
 
 <body class="overflow-hidden">

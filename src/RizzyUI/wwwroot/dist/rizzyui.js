@@ -405,7 +405,14 @@ document.addEventListener('alpine:init', () => {
                 localStorage.setItem('darkMode', storedMode);
                 this.mode = storedMode;
 
-                document.documentElement.classList.toggle('dark', storedMode === 'dark' || (storedMode === 'auto' && prefersDark));
+                const isDark = storedMode === 'dark' || (storedMode === 'auto' && prefersDark);
+                document.documentElement.classList.toggle('dark', isDark);
+
+                const darkModeEvent = new CustomEvent('darkModeToggle', {
+                    detail: { darkMode: isDark }
+                });
+
+                window.dispatchEvent(darkModeEvent);
             }
         }));
 
@@ -522,13 +529,15 @@ document.addEventListener('alpine:init', () => {
 
         Alpine.data('rzEmbeddedPreview', () => {
             return {
+                iframe: null,
+                onDarkModeToggle: null,
                 init() {
                     try {
-                        const iframe = this.$refs.iframe;
-                        const resize = this.debounce(() => { this.resizeIframe(iframe); }, 50);
+                        this.iframe = this.$refs.iframe;
+                        const resize = this.debounce(() => { this.resizeIframe(this.iframe); }, 50);
 
                         // If init is called after the iframe loads, make sure we still resize the iframe
-                        this.resizeIframe(iframe);
+                        this.resizeIframe(this.iframe);
 
                         // observe any changes in size to the iframe
                         const resizeObserver = new ResizeObserver(entries => {
@@ -537,7 +546,14 @@ document.addEventListener('alpine:init', () => {
                             }
                         });
 
-                        resizeObserver.observe(iframe);
+                        resizeObserver.observe(this.iframe);
+
+                        const iframe = this.iframe;
+                        this.onDarkModeToggle = (event) => {
+                            iframe.contentWindow.postMessage(event.detail, '*');
+                        };
+
+                        window.addEventListener('darkModeToggle', this.onDarkModeToggle);
 
                     } catch (error) {
                         console.error('Cannot access iframe content');
@@ -573,6 +589,9 @@ document.addEventListener('alpine:init', () => {
                         clearTimeout(timer);
                         timer = setTimeout(() => { func.apply(this, args); }, timeout);
                     };
+                },
+                destroy() {
+                    window.removeEventListener('darkModeToggle', this.onDarkModeToggle);
                 }
             }
         });
