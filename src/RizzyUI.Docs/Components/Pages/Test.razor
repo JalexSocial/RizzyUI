@@ -91,10 +91,29 @@
 					<FieldHelp>This is a helpful description</FieldHelp>
 				</TextField>
 
-				<ToggleField For="@(() => Model.IsActive)" DisplayName="Active?">
+                <ToggleField For="@(() => Model.IsActive)" DisplayName="Active?">
                     <FieldHelp>Is this person active?</FieldHelp>
-				</ToggleField>
-                    <!--
+                </ToggleField>
+                
+                <RadioGroupField For="@(() => Model.PreferredContactMethod)" DisplayName="Product" Orientation="Orientation.Vertical">
+                    <RadioGroupItem TValue="string" Label="Modern" Value="@("email")">
+                        <Description>
+                            We'll blast you with emails galore
+                        </Description>
+                    </RadioGroupItem>
+                    <RadioGroupItem TValue="string" Label="Minimal" Value="@("text")">
+                        <Description>
+                            If you love simplicity every 5 minutes
+                        </Description>
+                    </RadioGroupItem>
+                    <RadioGroupItem TValue="string" Label="Classic" Value="@("phone")">
+                        <Description>
+                            Our legacy method
+                        </Description>
+                    </RadioGroupItem>
+                </RadioGroupField>
+
+                <!--
 
                 <NumberField For="@(() => Model.Age)" Placeholder="Enter your age..">
 					<FieldHelp>How old are you?</FieldHelp>

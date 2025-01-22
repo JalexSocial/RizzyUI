@@ -360,8 +360,14 @@ document.addEventListener('alpine:init', () => {
             mode: 'light',
 
             init() {
-                const storedMode = localStorage.getItem('darkMode') ?? 'auto';
+                const allowedModes = ['light', 'dark', 'auto'];
+
+                let storedMode = localStorage.getItem('darkMode') ?? 'auto';
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+                if (!allowedModes.includes(storedMode)) {
+                    storedMode = 'light';
+                }
 
                 localStorage.setItem('darkMode', storedMode);
 

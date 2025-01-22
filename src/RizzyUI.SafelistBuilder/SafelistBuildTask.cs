@@ -105,9 +105,17 @@ namespace RizzyUI.SafelistBuilder
             }
             else if (styleRule.Selector is ComplexSelector cs)
             {
-                var rule = cs.BaseSelector.TrimStart('.');
-                if (!string.IsNullOrEmpty(rule))
-                    classNames.Add(rule);
+                foreach (var combinator in cs.Combinators)
+                {
+                    if (combinator.Selector.Text.StartsWith("."))
+                    {
+                        var rule = combinator.Selector.Text.TrimStart('.');
+                        if (!string.IsNullOrEmpty(rule))
+                            classNames.Add(rule.Replace("\\", ""));
+
+                    }
+                }
+
             }
             else if (styleRule.Selector is TypeSelector)
             {
