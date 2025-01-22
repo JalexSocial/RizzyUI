@@ -91,23 +91,44 @@ const rizzyui = plugin(
             },
             '.grid-pattern': {
                 background: `
-      repeating-linear-gradient(
-        90deg,
-        rgb(var(--surfaceAlt)) 0,
-        rgb(var(--surfaceAlt)) 5%,
-        transparent 0,
-        transparent 50%
-      ),
-      repeating-linear-gradient(
-        180deg,
-        rgb(var(--surfaceAlt)) 0,
-        rgb(var(--surfaceAlt)) 5%,
-        transparent 0,
-        transparent 50%
-      )
-    `,
+                  repeating-linear-gradient(
+                    90deg,
+                    rgb(var(--surfaceAlt)) 0,
+                    rgb(var(--surfaceAlt)) 5%,
+                    transparent 0,
+                    transparent 50%
+                  ),
+                  repeating-linear-gradient(
+                    180deg,
+                    rgb(var(--surfaceAlt)) 0,
+                    rgb(var(--surfaceAlt)) 5%,
+                    transparent 0,
+                    transparent 50%
+                  )
+                `,
                 'background-size': '1.5em 1.5em',
                 'background-color': 'rgb(var(--surface))',
+                opacity: '1',
+            },
+            '.dark .grid-pattern': {
+                background: `
+                      repeating-linear-gradient(
+                        90deg,
+                        rgb(var(--surfaceAltDark)) 0,
+                        rgb(var(--surfaceAltDark)) 5%,
+                        transparent 0,
+                        transparent 50%
+                      ),
+                      repeating-linear-gradient(
+                        180deg,
+                        rgb(var(--surfaceAltDark)) 0,
+                        rgb(var(--surfaceAltDark)) 5%,
+                        transparent 0,
+                        transparent 50%
+                      )
+                    `,
+                'background-size': '1.5em 1.5em',
+                'background-color': 'rgb(var(--surfaceDark))',
                 opacity: '1',
             },
             '.form-children-spacing': {

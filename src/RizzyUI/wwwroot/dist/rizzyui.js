@@ -352,7 +352,7 @@ document.addEventListener('alpine:init', () => {
 
             window.validation = v;
         } catch (error) {
-            console.log(error);
+            console.log("error: aspnetValidation is not available");
         }
 
         Alpine.data('rzDarkModeToggle', () => ({
@@ -449,7 +449,7 @@ document.addEventListener('alpine:init', () => {
                     },
 
                     getDesktopScreenCss() {
-                        return [ this.screenSize === '' ? 'text-onSurfaceStrong forced-color-adjust-auto dark:text-onSurfaceDarkStrong' : 'opacity-60' ];
+                        return [this.screenSize === '' ? 'text-onSurfaceStrong forced-color-adjust-auto dark:text-onSurfaceStrongDark' : 'opacity-60' ];
                     },
 
                     getTabletScreenCss() {

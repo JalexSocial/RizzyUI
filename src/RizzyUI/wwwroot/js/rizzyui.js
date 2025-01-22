@@ -22,7 +22,7 @@ document.addEventListener('alpine:init', () => {
 
             window.validation = v;
         } catch (error) {
-            console.log(error);
+            console.log("error: aspnetValidation is not available");
         }
 
         Alpine.data('rzDarkModeToggle', () => ({
