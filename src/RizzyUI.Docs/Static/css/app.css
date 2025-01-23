@@ -1,13 +1,121 @@
-/*! @import */
 @import "tailwindcss";
-@plugin "../../../RizzyUI/Scripts/rizzyui-tailwind/plugin";
 
 @variant dark (&:where(.dark, .dark *));
 
-h1:focus {
-    outline: none;
+@theme {
+    --color-surface: oklch(1 0 0);
+    --color-onSurface: oklch(0.372 0.044 257.287);
+    --color-onSurfaceStrong: oklch(0 0 0);
+    --color-surfaceAlt: oklch(0.968 0.007 247.896);
+    --color-primary: oklch(0.488 0.243 264.376);
+    --color-onPrimary: oklch(0.968 0.007 247.896);
+    --color-secondary: oklch(0.457 0.24 277.023);
+    --color-onSecondary: oklch(0.968 0.007 247.896);
+    --color-outline: oklch(0.869 0.022 252.894);
+    --color-outlineStrong: oklch(0.279 0.041 260.031);
+    --color-surfaceDark: oklch(0.208 0.042 265.755);
+    --color-onSurfaceDark: oklch(0.869 0.022 252.894);
+    --color-onSurfaceStrongDark: oklch(1 0 0);
+    --color-surfaceAltDark: oklch(0.279 0.041 260.031);
+    --color-primaryDark: oklch(0.546 0.245 262.881);
+    --color-onPrimaryDark: oklch(0.968 0.007 247.896);
+    --color-secondaryDark: oklch(0.511 0.262 276.966);
+    --color-onSecondaryDark: oklch(0.968 0.007 247.896);
+    --color-outlineDark: oklch(0.372 0.044 257.287);
+    --color-outlineStrongDark: oklch(0.869 0.022 252.894);
+    --color-danger: oklch(0.577 0.245 27.325);
+    --color-onDanger: oklch(1 0 0);
+    --color-info: oklch(0.588 0.158 241.966);
+    --color-onInfo: oklch(1 0 0);
+    --color-warning: oklch(0.769 0.188 70.08);
+    --color-onWarning: oklch(1 0 0);
+    --color-success: oklch(0.627 0.194 149.214);
+    --color-onSuccess: oklch(1 0 0);
+    --borderWidth: 1px;
+    --borderRadius: 6px;
 }
 
-.darker-border-checkbox.form-check-input {
-    border-color: #929292;
+svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+}
+
+/* Custom Scrollbar Styles */
+.scrollbar-hover::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.scrollbar-hover::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollbar-hover::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(107, 114, 128, 0.7);
+}
+
+.scrollbar-hover {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+    .scrollbar-hover:hover {
+        scrollbar-color: #6b7280 transparent;
+    }
+
+/* Grid Pattern */
+.grid-pattern {
+    background: repeating-linear-gradient( 90deg, var(--color-surfaceAlt) 0, var(--color-surfaceAlt) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surfaceAlt) 0, var(--color-surfaceAlt) 5%, transparent 0, transparent 50% );
+    background-size: 1.5em 1.5em;
+    background-color: var(--color-surface);
+    opacity: 1;
+}
+
+/* Dark Mode Grid Pattern */
+.dark .grid-pattern {
+    background: repeating-linear-gradient( 90deg, var(--color-surfaceAltDark) 0, var(--color-surfaceAltDark) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surfaceAltDark) 0, var(--color-surfaceAltDark) 5%, transparent 0, transparent 50% );
+    background-size: 1.5em 1.5em;
+    background-color: var(--color-surfaceDark);
+    opacity: 1;
+}
+
+/* Form Children Spacing */
+.form-children-spacing > *:not(input[type="hidden"]) + *:not(input[type="hidden"]) {
+    margin-top: 1.5rem; /* Equivalent to theme('spacing.6') */
+}
+
+/* Field Validation Error */
+.field-validation-error {
+    color: var(--color-danger);
+    font-style: italic;
+}
+
+/* Input Validation Error */
+.input-validation-error {
+    border-color: var(--color-danger);
+    outline-color: var(--color-danger);
+}
+
+/* Input Validation Valid */
+.input-validation-valid {
+    border-color: var(--color-success);
+    outline-color: var(--color-success);
+}
+
+/* Validation Summary Errors */
+.validation-summary-errors {
+    color: var(--color-danger);
+    font-style: italic;
+}
+
+/* Validation Summary Valid */
+.validation-summary-valid span {
+    display: none;
 }

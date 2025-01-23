@@ -14,5 +14,5 @@ public readonly record struct Oklch(float L, float C, float H, float Alpha = 1.0
     /// <summary>
     /// Outputs the standard CSS function syntax: oklch(L C H / Alpha).
     /// </summary>
-    public string ToCssString() => $"{L} {C} {H}";
+    public string ToCssString() => $"oklch({L} {C} {H})";
 }
