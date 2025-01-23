@@ -1,7 +1,8 @@
 ﻿namespace RizzyUI;
 
 /// <summary>
-/// Represents the theme data for the application. Holds semantic colors and other design tokens.
+/// Represents the theme data for the application. Holds semantic colors and other design tokens,
+/// now using OKLCH instead of RGB.
 /// </summary>
 public class RizzyTheme(string name, string themeCode)
 {
@@ -16,144 +17,144 @@ public class RizzyTheme(string name, string themeCode)
     public string ThemeCode { get; init; } = themeCode;
 
     /// <summary>
-    /// Gets the surface background color in light mode.
+    /// Gets the surface background color in light mode, in Okclh.
     /// </summary>
-    public RgbColor Surface { get; init; }
+    public Oklch Surface { get; init; }
 
     /// <summary>
     /// Gets the color used for content displayed on the surface in light mode.
     /// </summary>
-    public RgbColor OnSurface { get; init; }
+    public Oklch OnSurface { get; init; }
 
     /// <summary>
     /// Gets the color used for strongly emphasized content displayed on the surface in light mode.
     /// </summary>
-    public RgbColor OnSurfaceStrong { get; init; }
+    public Oklch OnSurfaceStrong { get; init; }
 
     /// <summary>
     /// Gets the alternate surface background color in light mode.
     /// </summary>
-    public RgbColor SurfaceAlt { get; init; }
+    public Oklch SurfaceAlt { get; init; }
 
     /// <summary>
     /// Gets the primary brand color in light mode.
     /// </summary>
-    public RgbColor Primary { get; init; }
+    public Oklch Primary { get; init; }
 
     /// <summary>
     /// Gets the color used for content displayed on the primary color in light mode.
     /// </summary>
-    public RgbColor OnPrimary { get; init; }
+    public Oklch OnPrimary { get; init; }
 
     /// <summary>
     /// Gets the secondary brand color in light mode.
     /// </summary>
-    public RgbColor Secondary { get; init; }
+    public Oklch Secondary { get; init; }
 
     /// <summary>
     /// Gets the color used for content displayed on the secondary color in light mode.
     /// </summary>
-    public RgbColor OnSecondary { get; init; }
+    public Oklch OnSecondary { get; init; }
 
     /// <summary>
     /// Gets the outline color used for borders and dividers in light mode.
     /// </summary>
-    public RgbColor Outline { get; init; }
+    public Oklch Outline { get; init; }
 
     /// <summary>
     /// Gets the stronger outline color used for heavier borders in light mode.
     /// </summary>
-    public RgbColor OutlineStrong { get; init; }
+    public Oklch OutlineStrong { get; init; }
 
     /// <summary>
     /// Gets the surface background color in dark mode.
     /// </summary>
-    public RgbColor SurfaceDark { get; init; }
+    public Oklch SurfaceDark { get; init; }
 
     /// <summary>
     /// Gets the color used for content displayed on the surface in dark mode.
     /// </summary>
-    public RgbColor OnSurfaceDark { get; init; }
+    public Oklch OnSurfaceDark { get; init; }
 
     /// <summary>
     /// Gets the color used for strongly emphasized content displayed on the surface in dark mode.
     /// </summary>
-    public RgbColor OnSurfaceStrongDark { get; init; }
+    public Oklch OnSurfaceStrongDark { get; init; }
 
     /// <summary>
     /// Gets the alternate surface background color in dark mode.
     /// </summary>
-    public RgbColor SurfaceAltDark { get; init; }
+    public Oklch SurfaceAltDark { get; init; }
 
     /// <summary>
     /// Gets the primary brand color in dark mode.
     /// </summary>
-    public RgbColor PrimaryDark { get; init; }
+    public Oklch PrimaryDark { get; init; }
 
     /// <summary>
     /// Gets the color used for content displayed on the primary color in dark mode.
     /// </summary>
-    public RgbColor OnPrimaryDark { get; init; }
+    public Oklch OnPrimaryDark { get; init; }
 
     /// <summary>
     /// Gets the secondary brand color in dark mode.
     /// </summary>
-    public RgbColor SecondaryDark { get; init; }
+    public Oklch SecondaryDark { get; init; }
 
     /// <summary>
     /// Gets the color used for content displayed on the secondary color in dark mode.
     /// </summary>
-    public RgbColor OnSecondaryDark { get; init; }
+    public Oklch OnSecondaryDark { get; init; }
 
     /// <summary>
     /// Gets the outline color used for borders and dividers in dark mode.
     /// </summary>
-    public RgbColor OutlineDark { get; init; }
+    public Oklch OutlineDark { get; init; }
 
     /// <summary>
     /// Gets the stronger outline color used for heavier borders in dark mode.
     /// </summary>
-    public RgbColor OutlineStrongDark { get; init; }
+    public Oklch OutlineStrongDark { get; init; }
 
     /// <summary>
     /// Gets the color used to indicate dangerous or error states.
     /// </summary>
-    public RgbColor Danger { get; init; }
+    public Oklch Danger { get; init; }
 
     /// <summary>
     /// Gets the color used for content displayed on a dangerous or error surface.
     /// </summary>
-    public RgbColor OnDanger { get; init; }
+    public Oklch OnDanger { get; init; }
 
     /// <summary>
     /// Gets the color used to indicate informational states.
     /// </summary>
-    public RgbColor Info { get; init; }
+    public Oklch Info { get; init; }
 
     /// <summary>
     /// Gets the color used for content displayed on an informational surface.
     /// </summary>
-    public RgbColor OnInfo { get; init; }
+    public Oklch OnInfo { get; init; }
 
     /// <summary>
     /// Gets the color used to indicate warning states.
     /// </summary>
-    public RgbColor Warning { get; init; }
+    public Oklch Warning { get; init; }
 
     /// <summary>
     /// Gets the color used for content displayed on a warning surface.
     /// </summary>
-    public RgbColor OnWarning { get; init; }
+    public Oklch OnWarning { get; init; }
 
     /// <summary>
     /// Gets the color used to indicate success states.
     /// </summary>
-    public RgbColor Success { get; init; }
+    public Oklch Success { get; init; }
 
     /// <summary>
     /// Gets the color used for content displayed on a success surface.
     /// </summary>
-    public RgbColor OnSuccess { get; init; }
+    public Oklch OnSuccess { get; init; }
 
     /// <summary>
     /// Gets the default border width.
