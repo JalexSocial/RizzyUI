@@ -3,6 +3,7 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
+    --default-font-family: 'Inter', 'Figtree', 'open sans';
     --color-surface: oklch(1 0 0);
     --color-onSurface: oklch(0.372 0.044 257.287);
     --color-onSurfaceStrong: oklch(0 0 0);
@@ -35,7 +36,7 @@
     --borderRadius: 6px;
 }
 
-svg {
+svg[blazicon] {
     width: 1em;
     height: 1em;
     vertical-align: -0.125em;
