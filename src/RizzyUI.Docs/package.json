@@ -23,8 +23,6 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "@tailwindcss/cli": "^4.0.0",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.23"
+    "@tailwindcss/cli": "^4.0.0"
   }
 }
