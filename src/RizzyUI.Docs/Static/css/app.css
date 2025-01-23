@@ -1,5 +1,8 @@
 /*! @import */
 @import "tailwindcss";
+@plugin "../../../RizzyUI/Scripts/rizzyui-tailwind/plugin";
+
+@variant dark (&:where(.dark, .dark *));
 
 h1:focus {
     outline: none;
