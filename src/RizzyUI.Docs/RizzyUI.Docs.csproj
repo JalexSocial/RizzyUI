@@ -24,14 +24,11 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RizzyUI\RizzyUI.csproj" />
-  </ItemGroup>
+    <Import Project="..\RizzyBuildSafelistTask\RizzyUI.targets" Condition="Exists('..\RizzyBuildSafelistTask\RizzyUI.targets')" />
 
-  <ItemGroup>
-    <None Update="safelist.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <ItemGroup>
+    <ProjectReference Include="..\RizzyBuildSafelistTask\RizzyBuildSafelistTask.csproj" />
+    <ProjectReference Include="..\RizzyUI\RizzyUI.csproj" />
   </ItemGroup>
 
     <Target Name="EnsureNodeModules" BeforeTargets="Build">

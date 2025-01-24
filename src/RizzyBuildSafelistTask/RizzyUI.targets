@@ -1,0 +1,9 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <UsingTask
+        TaskName="RizzyUI.BuildRizzySafelistTask"
+        AssemblyFile="$(MSBuildThisFileDirectory)bin\$(Configuration)\netstandard2.0\RizzyBuildSafelistTask.dll" />
+
+    <Target Name="BuildRizzySafelistTask" AfterTargets="Build">
+        <BuildRizzySafelistTask OutputDirectory="$(ProjectDir)" />
+    </Target>
+</Project>

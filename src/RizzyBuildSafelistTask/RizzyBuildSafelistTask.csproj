@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="safelist.js" />
+  </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Build.Framework" Version="17.12.6" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.12.6" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Include the .targets file in the build folder of the NuGet package -->
+        <None Include="RizzyUI.targets">
+            <Pack>true</Pack>
+            <PackagePath>build/netstandard2.0/</PackagePath>
+        </None>
+    </ItemGroup>
+
+</Project>
