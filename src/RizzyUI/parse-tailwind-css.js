@@ -4,7 +4,6 @@ const path = require('path');
 const postcss = require('postcss');
 const selectorParser = require('postcss-selector-parser');
 
-// 1) Utility function to parse a single selector string and collect classes
 function collectClassesFromSelector(selector, classSet) {
     // Use postcss-selector-parser to walk the AST of the selector
     const transform = selectorParser(selectors => {
@@ -21,13 +20,10 @@ function collectClassesFromSelector(selector, classSet) {
 }
 
 function getAllTailwindClassesFromFile(filePath) {
-    // 2) Read the Tailwind-generated CSS file
     const cssContent = fs.readFileSync(filePath, 'utf-8');
 
-    // 3) Parse with PostCSS
     const root = postcss.parse(cssContent);
 
-    // 4) Use a Set to avoid duplicates
     const classNames = new Set();
 
     // 5) Walk each CSS rule in the file
@@ -39,13 +35,16 @@ function getAllTailwindClassesFromFile(filePath) {
         });
     });
 
-    // 6) Convert the set to an array if needed
     return [...classNames];
 }
 
-// Change the path below to match where your CSS file is located
 const cssFilePath = path.join(__dirname, 'wwwroot', 'dist', 'rizzyui.css');
 
-// 7) Run and log the results
 const allClasses = getAllTailwindClassesFromFile(cssFilePath);
-console.dir(allClasses, { maxArrayLength: null });
+
+const safelistJsContent = `module.exports = ${JSON.stringify(allClasses, null, null)};`;
+
+const outputPath = path.join(__dirname, 'safelist.js');
+fs.writeFileSync(outputPath, safelistJsContent, 'utf-8');
+
+console.log(`Safelist written to ${outputPath}`);

@@ -28,12 +28,6 @@
     <ProjectReference Include="..\RizzyUI\RizzyUI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="safelist.js">
-      <SubType>Code</SubType>
-    </None>
-  </ItemGroup>
-
     <Target Name="EnsureNodeModules" BeforeTargets="Build">
         <Exec Command="npm install" />
     </Target>
