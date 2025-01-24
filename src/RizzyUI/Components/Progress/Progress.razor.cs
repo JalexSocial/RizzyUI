@@ -82,12 +82,12 @@ public partial class Progress : RizzyComponent
     /// </summary>
     private string ProgressBarClass => Variant switch
     {
-        StatusColor.Primary => "h-full rounded bg-primary dark:bg-primaryDark text-onPrimary dark:text-onPrimaryDark",
-        StatusColor.Secondary => "h-full rounded bg-secondary dark:bg-secondaryDark text-onSecondary dark:text-onSecondaryDark",
-        StatusColor.Success => "h-full rounded bg-success dark:bg-success text-onSuccess dark:text-onSuccessDark",
-        StatusColor.Info => "h-full rounded bg-info dark:bg-info text-onInfo dark:text-onInfoDark",
-        StatusColor.Warning => "h-full rounded bg-warning dark:bg-warning text-onWarning dark:text-onWarningDark",
-        StatusColor.Danger => "h-full rounded bg-danger dark:bg-danger text-onDanger dark:text-onDangerDark",
+        StatusColor.Primary => "h-full rounded-theme bg-primary dark:bg-primary-dark text-on-primary dark:text-on-primary-dark",
+        StatusColor.Secondary => "h-full rounded-theme bg-secondary dark:bg-secondary-dark text-on-secondary dark:text-on-secondary-dark",
+        StatusColor.Success => "h-full rounded-theme bg-success dark:bg-success text-on-success dark:text-on-success-dark",
+        StatusColor.Info => "h-full rounded-theme bg-info dark:bg-info text-onInfo dark:text-onInfoDark",
+        StatusColor.Warning => "h-full rounded-theme bg-warning dark:bg-warning text-on-warning dark:text-on-warning-dark",
+        StatusColor.Danger => "h-full rounded-theme bg-danger dark:bg-danger text-on-danger dark:text-on-danger-dark",
         _ => throw new ArgumentOutOfRangeException()
     };
 

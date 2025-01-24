@@ -28,11 +28,24 @@
     <ProjectReference Include="..\RizzyUI\RizzyUI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="safelist.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="safelist.js"/>
+    </ItemGroup>
+
+    <!--
+    Download safelist.js from repository on build 
+    <Target Name="DownloadRizzyUISafelist" BeforeTargets="Build">
+        <DownloadFile
+            SourceUrl="https://raw.githubusercontent.com/JalexSocial/RizzyUI/refs/heads/main/src/RizzyUI/safelist.js"
+            DestinationFolder="$(MSBuildProjectDirectory)">
+            <Output TaskParameter="DownloadedFile" ItemName="Content" />
+        </DownloadFile>
+    </Target>
+    -->
+
+    <Target Name="CopyRizzyUISafelist" BeforeTargets="Build">
+        <Copy SourceFiles="..\RizzyUI\safelist.js" DestinationFolder="$(ProjectDir)"/>
+    </Target>
 
     <Target Name="EnsureNodeModules" BeforeTargets="Build">
         <Exec Command="npm install" />

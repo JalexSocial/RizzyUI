@@ -5,7 +5,7 @@ namespace RizzyUI;
 
 public partial class Button : RizzyComponent
 {
-    private static readonly string BaseStyle = "inline-flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap rounded font-medium tracking-wide text-center transition hover:opacity-75 active:opacity-100 hover:shadow-sm disabled:opacity-75 disabled:cursor-not-allowed";
+    private static readonly string BaseStyle = "inline-flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap rounded-theme font-medium tracking-wide text-center transition hover:opacity-75 active:opacity-100 hover:shadow-sm disabled:opacity-75 disabled:cursor-not-allowed";
 
     [CascadingParameter] public ButtonGroup? Group { get; set; }
 
@@ -93,15 +93,15 @@ public partial class Button : RizzyComponent
     {
         return variant switch
         {
-            ButtonVariant.Primary => "bg-primary text-onPrimary focus-visible:outline-primary dark:bg-primaryDark dark:text-onPrimaryDark dark:focus-visible:outline-primaryDark",
-            ButtonVariant.Secondary => "bg-secondary text-onSecondary focus-visible:outline-secondary dark:bg-secondaryDark dark:text-onSecondaryDark dark:focus-visible:outline-secondaryDark",
-            ButtonVariant.Alternate => "bg-surfaceAlt text-onSurface focus-visible:outline-surfaceAlt dark:bg-surfaceAltDark dark:text-onSurfaceDark dark:focus-visible:outline-surfaceAltDark",
-            ButtonVariant.Inverse => "bg-surfaceDark text-onSurfaceDark focus-visible:outline-surface dark:bg-surface dark:text-onSurfaceStrong dark:focus-visible:outline-surface",
+            ButtonVariant.Primary => "bg-primary text-on-primary focus-visible:outline-primary dark:bg-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark",
+            ButtonVariant.Secondary => "bg-secondary text-on-secondary focus-visible:outline-secondary dark:bg-secondary-dark dark:text-on-secondary-dark dark:focus-visible:outline-secondary-dark",
+            ButtonVariant.Alternate => "bg-surface-alt text-on-surface focus-visible:outline-surface-alt dark:bg-surface-dark-alt dark:text-on-surface-dark dark:focus-visible:outline-surface-dark-alt",
+            ButtonVariant.Inverse => "bg-surface-dark text-on-surface-dark focus-visible:outline-surface dark:bg-surface dark:text-on-surface-strong dark:focus-visible:outline-surface",
             ButtonVariant.Information => "bg-info text-onInfo focus-visible:outline-info dark:bg-info dark:text-onInfo dark:focus-visible:outline-info",
-            ButtonVariant.Danger => "bg-danger text-onDanger focus-visible:outline-danger dark:bg-danger dark:text-onDanger dark:focus-visible:outline-danger",
-            ButtonVariant.Warning => "bg-warning text-onWarning focus-visible:outline-warning dark:bg-warning dark:text-onWarning dark:focus-visible:outline-warning",
-            ButtonVariant.Success => "bg-success text-onSuccess focus-visible:outline-success dark:bg-success dark:text-onSuccess dark:focus-visible:outline-success",
-            ButtonVariant.Ghost => "bg-transparent text-onSurface focus-visible:outline-none",
+            ButtonVariant.Danger => "bg-danger text-on-danger focus-visible:outline-danger dark:bg-danger dark:text-on-danger dark:focus-visible:outline-danger",
+            ButtonVariant.Warning => "bg-warning text-on-warning focus-visible:outline-warning dark:bg-warning dark:text-on-warning dark:focus-visible:outline-warning",
+            ButtonVariant.Success => "bg-success text-on-success focus-visible:outline-success dark:bg-success dark:text-on-success dark:focus-visible:outline-success",
+            ButtonVariant.Ghost => "bg-transparent text-on-surface focus-visible:outline-none",
             _ => throw new ArgumentOutOfRangeException(nameof(variant), variant, null)
         };
     }
@@ -118,15 +118,15 @@ public partial class Button : RizzyComponent
     {
         return variant switch
         {
-            ButtonVariant.Primary => "bg-transparent border border-primary text-primary focus-visible:outline-primary dark:border-primaryDark dark:text-primaryDark dark:focus-visible:outline-primaryDark",
-            ButtonVariant.Secondary => "bg-transparent border border-secondary text-secondary focus-visible:outline-secondary dark:border-secondaryDark dark:text-secondaryDark dark:focus-visible:outline-secondaryDark",
-            ButtonVariant.Alternate => "bg-transparent border border-outline text-outline focus-visible:outline-outline dark:border-outlineDark dark:text-outlineDark dark:focus-visible:outline-outlineDark",
-            ButtonVariant.Inverse => "bg-transparent border border-onSurfaceStrong text-onSurfaceStrong focus-visible:outline-onSurfaceStrong dark:border-onSurfaceStrongDark dark:text-onSurfaceStrongDark dark:focus-visible:outline-onSurfaceStrongDark",
+            ButtonVariant.Primary => "bg-transparent border border-primary text-primary focus-visible:outline-primary dark:border-primary-dark dark:text-primary-dark dark:focus-visible:outline-primary-dark",
+            ButtonVariant.Secondary => "bg-transparent border border-secondary text-secondary focus-visible:outline-secondary dark:border-secondary-dark dark:text-secondary-dark dark:focus-visible:outline-secondary-dark",
+            ButtonVariant.Alternate => "bg-transparent border border-outline text-outline focus-visible:outline-outline dark:border-outline-dark dark:text-outline-dark dark:focus-visible:outline-outline-dark",
+            ButtonVariant.Inverse => "bg-transparent border border-on-surface-strong text-on-surface-strong focus-visible:outline-on-surface-strong dark:border-on-surface-dark-strong dark:text-on-surface-dark-strong dark:focus-visible:outline-on-surface-dark-strong",
             ButtonVariant.Information => "bg-transparent border border-info text-info focus-visible:outline-info dark:border-info dark:text-info dark:focus-visible:outline-info",
             ButtonVariant.Danger => "bg-transparent border border-danger text-danger focus-visible:outline-danger dark:border-danger dark:text-danger dark:focus-visible:outline-danger",
             ButtonVariant.Warning => "bg-transparent border border-warning text-warning focus-visible:outline-warning dark:border-warning dark:text-warning dark:focus-visible:outline-warning",
             ButtonVariant.Success => "bg-transparent border border-success text-success focus-visible:outline-success dark:border-success dark:text-success dark:focus-visible:outline-success",
-            ButtonVariant.Ghost => "bg-transparent border text-onSurface hover:opacity-75 focus-visible:outline-none dark:text-onSurfaceDark",
+            ButtonVariant.Ghost => "bg-transparent border text-on-surface hover:opacity-75 focus-visible:outline-none dark:text-on-surface-dark",
             _ => throw new ArgumentOutOfRangeException(nameof(variant), variant, null)
         };
     }

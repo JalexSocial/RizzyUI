@@ -55,7 +55,7 @@ public class BreadcrumbItem : RizzyComponent
             builder.OpenElement(0, "a");
             builder.AddAttribute(1, "href", Href);
             builder.AddMultipleAttributes(2, AdditionalAttributes);
-            builder.AddAttribute(3, "class", "text-onSurface dark:text-onSurfaceDark hover:text-onSurfaceStrong dark:hover:text-onSurfaceStrongDark");
+            builder.AddAttribute(3, "class", "text-on-surface dark:text-on-surface-dark hover:text-on-surface-strong dark:hover:text-on-surface-dark-strong");
             if (Icon != null)
             {
                 builder.OpenElement(4, "span");
@@ -76,7 +76,7 @@ public class BreadcrumbItem : RizzyComponent
         else
         {
             builder.OpenElement(0, "span");
-            builder.AddAttribute(1, "class", "font-bold text-onSurface dark:text-onSurfaceDark");
+            builder.AddAttribute(1, "class", "font-bold text-on-surface dark:text-on-surface-dark");
             builder.AddAttribute(2, "aria-current", "page");
             builder.AddMultipleAttributes(3, AdditionalAttributes);
             if (Icon != null)

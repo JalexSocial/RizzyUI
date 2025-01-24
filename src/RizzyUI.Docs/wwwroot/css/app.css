@@ -378,35 +378,37 @@
       --font-mono--font-variation-settings
     );
     --color-surface: var(--color-white);
-    --color-onSurface: var(--color-slate-700);
-    --color-onSurfaceStrong: var(--color-black);
-    --color-surfaceAlt: var(--color-slate-100);
+    --color-on-surface: var(--color-slate-700);
+    --color-on-surface-strong: var(--color-black);
+    --color-surface-alt: var(--color-slate-100);
     --color-primary: var(--color-blue-700);
-    --color-onPrimary: var(--color-slate-100);
+    --color-on-primary: var(--color-slate-100);
     --color-secondary: var(--color-indigo-700);
-    --color-onSecondary: var(--color-slate-100);
+    --color-on-secondary: var(--color-slate-100);
     --color-outline: var(--color-slate-300);
-    --color-outlineStrong: var(--color-slate-800);
-    --color-surfaceDark: var(--color-slate-900);
-    --color-onSurfaceDark: var(--color-slate-300);
-    --color-onSurfaceStrongDark: var(--color-white);
-    --color-surfaceAltDark: var(--color-slate-800);
-    --color-primaryDark: var(--color-blue-600);
-    --color-onPrimaryDark: var(--color-slate-100);
-    --color-secondaryDark: var(--color-indigo-600);
-    --color-onSecondaryDark: var(--color-slate-100);
-    --color-outlineDark: var(--color-slate-700);
-    --color-outlineStrongDark: var(--color-slate-300);
+    --color-outline-strong: var(--color-slate-800);
+    --color-surface-dark: var(--color-slate-900);
+    --color-on-surface-dark: var(--color-slate-300);
+    --color-on-surface-dark-strong: var(--color-white);
+    --color-surface-dark-alt: var(--color-slate-800);
+    --color-primary-dark: var(--color-blue-600);
+    --color-on-primary-dark: var(--color-slate-100);
+    --color-secondary-dark: var(--color-indigo-600);
+    --color-on-secondary-dark: var(--color-slate-100);
+    --color-outline-dark: var(--color-slate-700);
+    --color-outline-dark-strong: var(--color-slate-300);
     --color-danger: var(--color-red-600);
-    --color-onDanger: var(--color-white);
+    --color-on-danger: var(--color-white);
     --color-info: var(--color-sky-600);
     --color-onInfo: var(--color-white);
     --color-warning: var(--color-amber-500);
-    --color-onWarning: var(--color-white);
+    --color-on-warning: var(--color-white);
     --color-success: var(--color-green-600);
-    --color-onSuccess: var(--color-white);
+    --color-on-success: var(--color-white);
     --borderWidth: 1px;
     --borderRadius: 6px;
+    --radius-theme: var(--borderRadius);
+    --border-theme: var(--borderWidth);
   }
 }
 @layer base {
@@ -1143,6 +1145,9 @@
   .rounded-none {
     border-radius: 0;
   }
+  .rounded-theme {
+    border-radius: var(--radius-theme);
+  }
   .rounded-xl {
     border-radius: var(--radius-xl);
   }
@@ -1235,17 +1240,17 @@
   .border-info {
     border-color: var(--color-info);
   }
-  .border-onSurface {
-    border-color: var(--color-onSurface);
+  .border-on-surface {
+    border-color: var(--color-on-surface);
   }
-  .border-onSurfaceStrong {
-    border-color: var(--color-onSurfaceStrong);
+  .border-on-surface-strong {
+    border-color: var(--color-on-surface-strong);
   }
   .border-outline {
     border-color: var(--color-outline);
   }
-  .border-outlineDark {
-    border-color: var(--color-outlineDark);
+  .border-outline-dark {
+    border-color: var(--color-outline-dark);
   }
   .border-primary {
     border-color: var(--color-primary);
@@ -1313,41 +1318,41 @@
   .bg-info\/15 {
     background-color: color-mix(in oklab, var(--color-info) 15%, transparent);
   }
-  .bg-onDanger {
-    background-color: var(--color-onDanger);
+  .bg-on-danger {
+    background-color: var(--color-on-danger);
+  }
+  .bg-on-primary {
+    background-color: var(--color-on-primary);
+  }
+  .bg-on-primary-dark {
+    background-color: var(--color-on-primary-dark);
+  }
+  .bg-on-secondary {
+    background-color: var(--color-on-secondary);
+  }
+  .bg-on-secondary-dark {
+    background-color: var(--color-on-secondary-dark);
+  }
+  .bg-on-success {
+    background-color: var(--color-on-success);
+  }
+  .bg-on-surface {
+    background-color: var(--color-on-surface);
+  }
+  .bg-on-surface-dark {
+    background-color: var(--color-on-surface-dark);
+  }
+  .bg-on-surface-dark-strong {
+    background-color: var(--color-on-surface-dark-strong);
+  }
+  .bg-on-surface-strong {
+    background-color: var(--color-on-surface-strong);
+  }
+  .bg-on-warning {
+    background-color: var(--color-on-warning);
   }
   .bg-onInfo {
     background-color: var(--color-onInfo);
-  }
-  .bg-onPrimary {
-    background-color: var(--color-onPrimary);
-  }
-  .bg-onPrimaryDark {
-    background-color: var(--color-onPrimaryDark);
-  }
-  .bg-onSecondary {
-    background-color: var(--color-onSecondary);
-  }
-  .bg-onSecondaryDark {
-    background-color: var(--color-onSecondaryDark);
-  }
-  .bg-onSuccess {
-    background-color: var(--color-onSuccess);
-  }
-  .bg-onSurface {
-    background-color: var(--color-onSurface);
-  }
-  .bg-onSurfaceDark {
-    background-color: var(--color-onSurfaceDark);
-  }
-  .bg-onSurfaceStrong {
-    background-color: var(--color-onSurfaceStrong);
-  }
-  .bg-onSurfaceStrongDark {
-    background-color: var(--color-onSurfaceStrongDark);
-  }
-  .bg-onWarning {
-    background-color: var(--color-onWarning);
   }
   .bg-orange-200 {
     background-color: var(--color-orange-200);
@@ -1358,17 +1363,17 @@
   .bg-outline {
     background-color: var(--color-outline);
   }
+  .bg-outline-dark {
+    background-color: var(--color-outline-dark);
+  }
+  .bg-outline-dark-strong {
+    background-color: var(--color-outline-dark-strong);
+  }
+  .bg-outline-strong {
+    background-color: var(--color-outline-strong);
+  }
   .bg-outline\/10 {
     background-color: color-mix(in oklab, var(--color-outline) 10%, transparent);
-  }
-  .bg-outlineDark {
-    background-color: var(--color-outlineDark);
-  }
-  .bg-outlineStrong {
-    background-color: var(--color-outlineStrong);
-  }
-  .bg-outlineStrongDark {
-    background-color: var(--color-outlineStrongDark);
   }
   .bg-pink-200 {
     background-color: var(--color-pink-200);
@@ -1379,11 +1384,11 @@
   .bg-primary {
     background-color: var(--color-primary);
   }
+  .bg-primary-dark {
+    background-color: var(--color-primary-dark);
+  }
   .bg-primary\/10 {
     background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
-  }
-  .bg-primaryDark {
-    background-color: var(--color-primaryDark);
   }
   .bg-purple-200 {
     background-color: var(--color-purple-200);
@@ -1400,11 +1405,11 @@
   .bg-secondary {
     background-color: var(--color-secondary);
   }
+  .bg-secondary-dark {
+    background-color: var(--color-secondary-dark);
+  }
   .bg-secondary\/10 {
     background-color: color-mix(in oklab, var(--color-secondary) 10%, transparent);
-  }
-  .bg-secondaryDark {
-    background-color: var(--color-secondaryDark);
   }
   .bg-success {
     background-color: var(--color-success);
@@ -1418,29 +1423,29 @@
   .bg-surface {
     background-color: var(--color-surface);
   }
-  .bg-surfaceAlt {
-    background-color: var(--color-surfaceAlt);
+  .bg-surface-alt {
+    background-color: var(--color-surface-alt);
   }
-  .bg-surfaceAlt\/10 {
-    background-color: color-mix(in oklab, var(--color-surfaceAlt) 10%, transparent);
+  .bg-surface-alt\/10 {
+    background-color: color-mix(in oklab, var(--color-surface-alt) 10%, transparent);
   }
-  .bg-surfaceAlt\/15 {
-    background-color: color-mix(in oklab, var(--color-surfaceAlt) 15%, transparent);
+  .bg-surface-alt\/15 {
+    background-color: color-mix(in oklab, var(--color-surface-alt) 15%, transparent);
   }
-  .bg-surfaceAlt\/75 {
-    background-color: color-mix(in oklab, var(--color-surfaceAlt) 75%, transparent);
+  .bg-surface-alt\/75 {
+    background-color: color-mix(in oklab, var(--color-surface-alt) 75%, transparent);
   }
-  .bg-surfaceAltDark {
-    background-color: var(--color-surfaceAltDark);
+  .bg-surface-dark {
+    background-color: var(--color-surface-dark);
   }
-  .bg-surfaceDark {
-    background-color: var(--color-surfaceDark);
+  .bg-surface-dark-alt {
+    background-color: var(--color-surface-dark-alt);
   }
-  .bg-surfaceDark\/10 {
-    background-color: color-mix(in oklab, var(--color-surfaceDark) 10%, transparent);
+  .bg-surface-dark\/10 {
+    background-color: color-mix(in oklab, var(--color-surface-dark) 10%, transparent);
   }
-  .bg-surfaceDark\/40 {
-    background-color: color-mix(in oklab, var(--color-surfaceDark) 40%, transparent);
+  .bg-surface-dark\/40 {
+    background-color: color-mix(in oklab, var(--color-surface-dark) 40%, transparent);
   }
   .bg-teal-200 {
     background-color: var(--color-teal-200);
@@ -1727,35 +1732,35 @@
   .text-info {
     color: var(--color-info);
   }
-  .text-onDanger {
-    color: var(--color-onDanger);
+  .text-on-danger {
+    color: var(--color-on-danger);
+  }
+  .text-on-primary {
+    color: var(--color-on-primary);
+  }
+  .text-on-secondary {
+    color: var(--color-on-secondary);
+  }
+  .text-on-success {
+    color: var(--color-on-success);
+  }
+  .text-on-surface {
+    color: var(--color-on-surface);
+  }
+  .text-on-surface-dark {
+    color: var(--color-on-surface-dark);
+  }
+  .text-on-surface-strong {
+    color: var(--color-on-surface-strong);
+  }
+  .text-on-surface\/60 {
+    color: color-mix(in oklab, var(--color-on-surface) 60%, transparent);
+  }
+  .text-on-warning {
+    color: var(--color-on-warning);
   }
   .text-onInfo {
     color: var(--color-onInfo);
-  }
-  .text-onPrimary {
-    color: var(--color-onPrimary);
-  }
-  .text-onSecondary {
-    color: var(--color-onSecondary);
-  }
-  .text-onSuccess {
-    color: var(--color-onSuccess);
-  }
-  .text-onSurface {
-    color: var(--color-onSurface);
-  }
-  .text-onSurface\/60 {
-    color: color-mix(in oklab, var(--color-onSurface) 60%, transparent);
-  }
-  .text-onSurfaceDark {
-    color: var(--color-onSurfaceDark);
-  }
-  .text-onSurfaceStrong {
-    color: var(--color-onSurfaceStrong);
-  }
-  .text-onWarning {
-    color: var(--color-onWarning);
   }
   .text-orange-700 {
     color: var(--color-orange-700);
@@ -1763,8 +1768,8 @@
   .text-outline {
     color: var(--color-outline);
   }
-  .text-outlineStrong {
-    color: var(--color-outlineStrong);
+  .text-outline-strong {
+    color: var(--color-outline-strong);
   }
   .text-pink-700 {
     color: var(--color-pink-700);
@@ -1799,8 +1804,8 @@
   .text-surface {
     color: var(--color-surface);
   }
-  .text-surfaceAlt {
-    color: var(--color-surfaceAlt);
+  .text-surface-alt {
+    color: var(--color-surface-alt);
   }
   .text-teal-700 {
     color: var(--color-teal-700);
@@ -1853,9 +1858,9 @@
       color: var(--color-gray-500);
     }
   }
-  .placeholder-onSurface {
+  .placeholder-on-surface {
     &::placeholder {
-      color: var(--color-onSurface);
+      color: var(--color-on-surface);
     }
   }
   .opacity-0 {
@@ -2102,10 +2107,10 @@
       border-color: var(--color-outline);
     }
   }
-  .before\:bg-onPrimary {
+  .before\:bg-on-primary {
     &::before {
       content: var(--tw-content);
-      background-color: var(--color-onPrimary);
+      background-color: var(--color-on-primary);
     }
   }
   .before\:ring-0 {
@@ -2303,11 +2308,11 @@
       }
     }
   }
-  .checked\:before\:bg-onPrimary {
+  .checked\:before\:bg-on-primary {
     &:checked {
       &::before {
         content: var(--tw-content);
-        background-color: var(--color-onPrimary);
+        background-color: var(--color-on-primary);
       }
     }
   }
@@ -2326,10 +2331,10 @@
       }
     }
   }
-  .hover\:border-outlineStrong {
+  .hover\:border-outline-strong {
     &:hover {
       @media (hover: hover) {
-        border-color: var(--color-outlineStrong);
+        border-color: var(--color-outline-strong);
       }
     }
   }
@@ -2340,24 +2345,24 @@
       }
     }
   }
+  .hover\:bg-surface-dark\/5 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: color-mix(in oklab, var(--color-surface-dark) 5%, transparent);
+      }
+    }
+  }
+  .hover\:bg-surface-dark\/10 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: color-mix(in oklab, var(--color-surface-dark) 10%, transparent);
+      }
+    }
+  }
   .hover\:bg-surface\/10 {
     &:hover {
       @media (hover: hover) {
         background-color: color-mix(in oklab, var(--color-surface) 10%, transparent);
-      }
-    }
-  }
-  .hover\:bg-surfaceDark\/5 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: color-mix(in oklab, var(--color-surfaceDark) 5%, transparent);
-      }
-    }
-  }
-  .hover\:bg-surfaceDark\/10 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: color-mix(in oklab, var(--color-surfaceDark) 10%, transparent);
       }
     }
   }
@@ -2375,10 +2380,10 @@
       }
     }
   }
-  .hover\:text-onSurfaceStrong {
+  .hover\:text-on-surface-strong {
     &:hover {
       @media (hover: hover) {
-        color: var(--color-onSurfaceStrong);
+        color: var(--color-on-surface-strong);
       }
     }
   }
@@ -2460,9 +2465,9 @@
       border-color: var(--color-primary);
     }
   }
-  .focus-visible\:bg-surfaceDark\/10 {
+  .focus-visible\:bg-surface-dark\/10 {
     &:focus-visible {
-      background-color: color-mix(in oklab, var(--color-surfaceDark) 10%, transparent);
+      background-color: color-mix(in oklab, var(--color-surface-dark) 10%, transparent);
     }
   }
   .focus-visible\:underline {
@@ -2502,14 +2507,14 @@
       outline-color: var(--color-info);
     }
   }
-  .focus-visible\:outline-onSurfaceDark {
+  .focus-visible\:outline-on-surface-dark {
     &:focus-visible {
-      outline-color: var(--color-onSurfaceDark);
+      outline-color: var(--color-on-surface-dark);
     }
   }
-  .focus-visible\:outline-onSurfaceStrong {
+  .focus-visible\:outline-on-surface-strong {
     &:focus-visible {
-      outline-color: var(--color-onSurfaceStrong);
+      outline-color: var(--color-on-surface-strong);
     }
   }
   .focus-visible\:outline-outline {
@@ -2537,9 +2542,9 @@
       outline-color: var(--color-surface);
     }
   }
-  .focus-visible\:outline-surfaceAlt {
+  .focus-visible\:outline-surface-alt {
     &:focus-visible {
-      outline-color: var(--color-surfaceAlt);
+      outline-color: var(--color-surface-alt);
     }
   }
   .focus-visible\:outline-warning {
@@ -2612,6 +2617,11 @@
   .sm\:justify-between {
     @media (width >= 40rem) {
       justify-content: space-between;
+    }
+  }
+  .sm\:bg-red-500 {
+    @media (width >= 40rem) {
+      background-color: var(--color-red-500);
     }
   }
   .sm\:text-left {
@@ -2875,34 +2885,34 @@
       border-color: var(--color-info);
     }
   }
-  .dark\:border-onSurfaceDark {
+  .dark\:border-on-surface-dark {
     &:where(.dark, .dark *) {
-      border-color: var(--color-onSurfaceDark);
+      border-color: var(--color-on-surface-dark);
     }
   }
-  .dark\:border-onSurfaceStrongDark {
+  .dark\:border-on-surface-dark-strong {
     &:where(.dark, .dark *) {
-      border-color: var(--color-onSurfaceStrongDark);
+      border-color: var(--color-on-surface-dark-strong);
     }
   }
-  .dark\:border-outlineDark {
+  .dark\:border-outline-dark {
     &:where(.dark, .dark *) {
-      border-color: var(--color-outlineDark);
+      border-color: var(--color-outline-dark);
     }
   }
-  .dark\:border-outlineStrongDark {
+  .dark\:border-outline-dark-strong {
     &:where(.dark, .dark *) {
-      border-color: var(--color-outlineStrongDark);
+      border-color: var(--color-outline-dark-strong);
     }
   }
-  .dark\:border-primaryDark {
+  .dark\:border-primary-dark {
     &:where(.dark, .dark *) {
-      border-color: var(--color-primaryDark);
+      border-color: var(--color-primary-dark);
     }
   }
-  .dark\:border-secondaryDark {
+  .dark\:border-secondary-dark {
     &:where(.dark, .dark *) {
-      border-color: var(--color-secondaryDark);
+      border-color: var(--color-secondary-dark);
     }
   }
   .dark\:border-slate-700 {
@@ -2915,9 +2925,9 @@
       border-color: var(--color-success);
     }
   }
-  .dark\:border-surfaceAltDark {
+  .dark\:border-surface-dark-alt {
     &:where(.dark, .dark *) {
-      border-color: var(--color-surfaceAltDark);
+      border-color: var(--color-surface-dark-alt);
     }
   }
   .dark\:border-warning {
@@ -2960,59 +2970,59 @@
       background-color: color-mix(in oklab, var(--color-info) 10%, transparent);
     }
   }
-  .dark\:bg-onPrimaryDark {
+  .dark\:bg-on-primary-dark {
     &:where(.dark, .dark *) {
-      background-color: var(--color-onPrimaryDark);
+      background-color: var(--color-on-primary-dark);
     }
   }
-  .dark\:bg-onSecondaryDark {
+  .dark\:bg-on-secondary-dark {
     &:where(.dark, .dark *) {
-      background-color: var(--color-onSecondaryDark);
+      background-color: var(--color-on-secondary-dark);
     }
   }
-  .dark\:bg-onSurfaceDark {
+  .dark\:bg-on-surface-dark {
     &:where(.dark, .dark *) {
-      background-color: var(--color-onSurfaceDark);
+      background-color: var(--color-on-surface-dark);
     }
   }
-  .dark\:bg-onSurfaceStrongDark {
+  .dark\:bg-on-surface-dark-strong {
     &:where(.dark, .dark *) {
-      background-color: var(--color-onSurfaceStrongDark);
+      background-color: var(--color-on-surface-dark-strong);
     }
   }
-  .dark\:bg-outlineDark {
+  .dark\:bg-outline-dark {
     &:where(.dark, .dark *) {
-      background-color: var(--color-outlineDark);
+      background-color: var(--color-outline-dark);
     }
   }
-  .dark\:bg-outlineDark\/10 {
+  .dark\:bg-outline-dark-strong {
     &:where(.dark, .dark *) {
-      background-color: color-mix(in oklab, var(--color-outlineDark) 10%, transparent);
+      background-color: var(--color-outline-dark-strong);
     }
   }
-  .dark\:bg-outlineStrongDark {
+  .dark\:bg-outline-dark\/10 {
     &:where(.dark, .dark *) {
-      background-color: var(--color-outlineStrongDark);
+      background-color: color-mix(in oklab, var(--color-outline-dark) 10%, transparent);
     }
   }
-  .dark\:bg-primaryDark {
+  .dark\:bg-primary-dark {
     &:where(.dark, .dark *) {
-      background-color: var(--color-primaryDark);
+      background-color: var(--color-primary-dark);
     }
   }
-  .dark\:bg-primaryDark\/10 {
+  .dark\:bg-primary-dark\/10 {
     &:where(.dark, .dark *) {
-      background-color: color-mix(in oklab, var(--color-primaryDark) 10%, transparent);
+      background-color: color-mix(in oklab, var(--color-primary-dark) 10%, transparent);
     }
   }
-  .dark\:bg-secondaryDark {
+  .dark\:bg-secondary-dark {
     &:where(.dark, .dark *) {
-      background-color: var(--color-secondaryDark);
+      background-color: var(--color-secondary-dark);
     }
   }
-  .dark\:bg-secondaryDark\/10 {
+  .dark\:bg-secondary-dark\/10 {
     &:where(.dark, .dark *) {
-      background-color: color-mix(in oklab, var(--color-secondaryDark) 10%, transparent);
+      background-color: color-mix(in oklab, var(--color-secondary-dark) 10%, transparent);
     }
   }
   .dark\:bg-slate-900\/50 {
@@ -3035,29 +3045,29 @@
       background-color: var(--color-surface);
     }
   }
-  .dark\:bg-surfaceAltDark {
+  .dark\:bg-surface-dark {
     &:where(.dark, .dark *) {
-      background-color: var(--color-surfaceAltDark);
+      background-color: var(--color-surface-dark);
     }
   }
-  .dark\:bg-surfaceAltDark\/40 {
+  .dark\:bg-surface-dark-alt {
     &:where(.dark, .dark *) {
-      background-color: color-mix(in oklab, var(--color-surfaceAltDark) 40%, transparent);
+      background-color: var(--color-surface-dark-alt);
     }
   }
-  .dark\:bg-surfaceAltDark\/50 {
+  .dark\:bg-surface-dark-alt\/40 {
     &:where(.dark, .dark *) {
-      background-color: color-mix(in oklab, var(--color-surfaceAltDark) 50%, transparent);
+      background-color: color-mix(in oklab, var(--color-surface-dark-alt) 40%, transparent);
     }
   }
-  .dark\:bg-surfaceDark {
+  .dark\:bg-surface-dark-alt\/50 {
     &:where(.dark, .dark *) {
-      background-color: var(--color-surfaceDark);
+      background-color: color-mix(in oklab, var(--color-surface-dark-alt) 50%, transparent);
     }
   }
-  .dark\:bg-surfaceDark\/10 {
+  .dark\:bg-surface-dark\/10 {
     &:where(.dark, .dark *) {
-      background-color: color-mix(in oklab, var(--color-surfaceDark) 10%, transparent);
+      background-color: color-mix(in oklab, var(--color-surface-dark) 10%, transparent);
     }
   }
   .dark\:bg-warning {
@@ -3110,9 +3120,49 @@
       color: var(--color-info);
     }
   }
-  .dark\:text-onDanger {
+  .dark\:text-on-danger {
     &:where(.dark, .dark *) {
-      color: var(--color-onDanger);
+      color: var(--color-on-danger);
+    }
+  }
+  .dark\:text-on-primary-dark {
+    &:where(.dark, .dark *) {
+      color: var(--color-on-primary-dark);
+    }
+  }
+  .dark\:text-on-secondary-dark {
+    &:where(.dark, .dark *) {
+      color: var(--color-on-secondary-dark);
+    }
+  }
+  .dark\:text-on-success {
+    &:where(.dark, .dark *) {
+      color: var(--color-on-success);
+    }
+  }
+  .dark\:text-on-surface {
+    &:where(.dark, .dark *) {
+      color: var(--color-on-surface);
+    }
+  }
+  .dark\:text-on-surface-dark {
+    &:where(.dark, .dark *) {
+      color: var(--color-on-surface-dark);
+    }
+  }
+  .dark\:text-on-surface-dark-strong {
+    &:where(.dark, .dark *) {
+      color: var(--color-on-surface-dark-strong);
+    }
+  }
+  .dark\:text-on-surface-strong {
+    &:where(.dark, .dark *) {
+      color: var(--color-on-surface-strong);
+    }
+  }
+  .dark\:text-on-warning {
+    &:where(.dark, .dark *) {
+      color: var(--color-on-warning);
     }
   }
   .dark\:text-onInfo {
@@ -3120,59 +3170,19 @@
       color: var(--color-onInfo);
     }
   }
-  .dark\:text-onPrimaryDark {
+  .dark\:text-outline-dark {
     &:where(.dark, .dark *) {
-      color: var(--color-onPrimaryDark);
+      color: var(--color-outline-dark);
     }
   }
-  .dark\:text-onSecondaryDark {
+  .dark\:text-outline-dark-strong {
     &:where(.dark, .dark *) {
-      color: var(--color-onSecondaryDark);
+      color: var(--color-outline-dark-strong);
     }
   }
-  .dark\:text-onSuccess {
+  .dark\:text-primary-dark {
     &:where(.dark, .dark *) {
-      color: var(--color-onSuccess);
-    }
-  }
-  .dark\:text-onSurface {
-    &:where(.dark, .dark *) {
-      color: var(--color-onSurface);
-    }
-  }
-  .dark\:text-onSurfaceDark {
-    &:where(.dark, .dark *) {
-      color: var(--color-onSurfaceDark);
-    }
-  }
-  .dark\:text-onSurfaceStrong {
-    &:where(.dark, .dark *) {
-      color: var(--color-onSurfaceStrong);
-    }
-  }
-  .dark\:text-onSurfaceStrongDark {
-    &:where(.dark, .dark *) {
-      color: var(--color-onSurfaceStrongDark);
-    }
-  }
-  .dark\:text-onWarning {
-    &:where(.dark, .dark *) {
-      color: var(--color-onWarning);
-    }
-  }
-  .dark\:text-outlineDark {
-    &:where(.dark, .dark *) {
-      color: var(--color-outlineDark);
-    }
-  }
-  .dark\:text-outlineStrongDark {
-    &:where(.dark, .dark *) {
-      color: var(--color-outlineStrongDark);
-    }
-  }
-  .dark\:text-primaryDark {
-    &:where(.dark, .dark *) {
-      color: var(--color-primaryDark);
+      color: var(--color-primary-dark);
     }
   }
   .dark\:text-red-400 {
@@ -3180,9 +3190,9 @@
       color: var(--color-red-400);
     }
   }
-  .dark\:text-secondaryDark {
+  .dark\:text-secondary-dark {
     &:where(.dark, .dark *) {
-      color: var(--color-secondaryDark);
+      color: var(--color-secondary-dark);
     }
   }
   .dark\:text-slate-300 {
@@ -3200,14 +3210,14 @@
       color: var(--color-success);
     }
   }
-  .dark\:text-surfaceAltDark {
+  .dark\:text-surface-dark {
     &:where(.dark, .dark *) {
-      color: var(--color-surfaceAltDark);
+      color: var(--color-surface-dark);
     }
   }
-  .dark\:text-surfaceDark {
+  .dark\:text-surface-dark-alt {
     &:where(.dark, .dark *) {
-      color: var(--color-surfaceDark);
+      color: var(--color-surface-dark-alt);
     }
   }
   .dark\:text-warning {
@@ -3227,10 +3237,10 @@
       }
     }
   }
-  .dark\:placeholder-onSurfaceDark {
+  .dark\:placeholder-on-surface-dark {
     &:where(.dark, .dark *) {
       &::placeholder {
-        color: var(--color-onSurfaceDark);
+        color: var(--color-on-surface-dark);
       }
     }
   }
@@ -3256,11 +3266,11 @@
       }
     }
   }
-  .dark\:before\:bg-onPrimaryDark {
+  .dark\:before\:bg-on-primary-dark {
     &:where(.dark, .dark *) {
       &::before {
         content: var(--tw-content);
-        background-color: var(--color-onPrimaryDark);
+        background-color: var(--color-on-primary-dark);
       }
     }
   }
@@ -3272,58 +3282,58 @@
       }
     }
   }
-  .dark\:after\:bg-outlineDark {
+  .dark\:after\:bg-outline-dark {
     &:where(.dark, .dark *) {
       &::after {
         content: var(--tw-content);
-        background-color: var(--color-outlineDark);
+        background-color: var(--color-outline-dark);
       }
     }
   }
-  .dark\:after\:bg-primaryDark {
+  .dark\:after\:bg-primary-dark {
     &:where(.dark, .dark *) {
       &::after {
         content: var(--tw-content);
-        background-color: var(--color-primaryDark);
+        background-color: var(--color-primary-dark);
       }
     }
   }
-  .dark\:after\:bg-secondaryDark {
+  .dark\:after\:bg-secondary-dark {
     &:where(.dark, .dark *) {
       &::after {
         content: var(--tw-content);
-        background-color: var(--color-secondaryDark);
+        background-color: var(--color-secondary-dark);
       }
     }
   }
-  .dark\:after\:bg-surfaceDark {
+  .dark\:after\:bg-surface-dark {
     &:where(.dark, .dark *) {
       &::after {
         content: var(--tw-content);
-        background-color: var(--color-surfaceDark);
+        background-color: var(--color-surface-dark);
       }
     }
   }
-  .dark\:checked\:border-primaryDark {
+  .dark\:checked\:border-primary-dark {
     &:where(.dark, .dark *) {
       &:checked {
-        border-color: var(--color-primaryDark);
+        border-color: var(--color-primary-dark);
       }
     }
   }
-  .dark\:checked\:bg-onPrimaryDark {
+  .dark\:checked\:bg-on-primary-dark {
     &:where(.dark, .dark *) {
       &:checked {
-        background-color: var(--color-onPrimaryDark);
+        background-color: var(--color-on-primary-dark);
       }
     }
   }
-  .dark\:checked\:before\:bg-onPrimaryDark {
+  .dark\:checked\:before\:bg-on-primary-dark {
     &:where(.dark, .dark *) {
       &:checked {
         &::before {
           content: var(--tw-content);
-          background-color: var(--color-onPrimaryDark);
+          background-color: var(--color-on-primary-dark);
         }
       }
     }
@@ -3337,20 +3347,20 @@
       }
     }
   }
-  .dark\:hover\:border-x-outlineStrongDark {
+  .dark\:hover\:border-x-outline-dark-strong {
     &:where(.dark, .dark *) {
       &:hover {
         @media (hover: hover) {
-          border-inline-color: var(--color-outlineStrongDark);
+          border-inline-color: var(--color-outline-dark-strong);
         }
       }
     }
   }
-  .dark\:hover\:bg-primaryDark\/5 {
+  .dark\:hover\:bg-primary-dark\/5 {
     &:where(.dark, .dark *) {
       &:hover {
         @media (hover: hover) {
-          background-color: color-mix(in oklab, var(--color-primaryDark) 5%, transparent);
+          background-color: color-mix(in oklab, var(--color-primary-dark) 5%, transparent);
         }
       }
     }
@@ -3382,11 +3392,11 @@
       }
     }
   }
-  .dark\:hover\:text-onSurfaceStrongDark {
+  .dark\:hover\:text-on-surface-dark-strong {
     &:where(.dark, .dark *) {
       &:hover {
         @media (hover: hover) {
-          color: var(--color-onSurfaceStrongDark);
+          color: var(--color-on-surface-dark-strong);
         }
       }
     }
@@ -3421,10 +3431,10 @@
       }
     }
   }
-  .dark\:focus-visible\:border-primaryDark {
+  .dark\:focus-visible\:border-primary-dark {
     &:where(.dark, .dark *) {
       &:focus-visible {
-        border-color: var(--color-primaryDark);
+        border-color: var(--color-primary-dark);
       }
     }
   }
@@ -3456,31 +3466,31 @@
       }
     }
   }
-  .dark\:focus-visible\:outline-onSurfaceStrongDark {
+  .dark\:focus-visible\:outline-on-surface-dark-strong {
     &:where(.dark, .dark *) {
       &:focus-visible {
-        outline-color: var(--color-onSurfaceStrongDark);
+        outline-color: var(--color-on-surface-dark-strong);
       }
     }
   }
-  .dark\:focus-visible\:outline-outlineDark {
+  .dark\:focus-visible\:outline-outline-dark {
     &:where(.dark, .dark *) {
       &:focus-visible {
-        outline-color: var(--color-outlineDark);
+        outline-color: var(--color-outline-dark);
       }
     }
   }
-  .dark\:focus-visible\:outline-primaryDark {
+  .dark\:focus-visible\:outline-primary-dark {
     &:where(.dark, .dark *) {
       &:focus-visible {
-        outline-color: var(--color-primaryDark);
+        outline-color: var(--color-primary-dark);
       }
     }
   }
-  .dark\:focus-visible\:outline-secondaryDark {
+  .dark\:focus-visible\:outline-secondary-dark {
     &:where(.dark, .dark *) {
       &:focus-visible {
-        outline-color: var(--color-secondaryDark);
+        outline-color: var(--color-secondary-dark);
       }
     }
   }
@@ -3498,10 +3508,10 @@
       }
     }
   }
-  .dark\:focus-visible\:outline-surfaceAltDark {
+  .dark\:focus-visible\:outline-surface-dark-alt {
     &:where(.dark, .dark *) {
       &:focus-visible {
-        outline-color: var(--color-surfaceAltDark);
+        outline-color: var(--color-surface-dark-alt);
       }
     }
   }
@@ -3524,6 +3534,12 @@ svg[blazicon] {
   width: 1em;
   height: 1em;
   vertical-align: -0.125em;
+}
+.rounded {
+  border-radius: var(--borderRadius);
+}
+.border {
+  border-width: var(--borderWidth);
 }
 .scrollbar-hover::-webkit-scrollbar {
   width: 6px;
@@ -3548,16 +3564,14 @@ svg[blazicon] {
   scrollbar-color: #6b7280 transparent;
 }
 .grid-pattern {
-  background: repeating-linear-gradient( 90deg, var(--color-surfaceAlt) 0, var(--color-surfaceAlt) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surfaceAlt) 0, var(--color-surfaceAlt) 5%, transparent 0, transparent 50% );
+  background: repeating-linear-gradient( 90deg, var(--color-surface-alt) 0, var(--color-surface-alt) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surface-alt) 0, var(--color-surface-alt) 5%, transparent 0, transparent 50% );
   background-size: 1.5em 1.5em;
   background-color: var(--color-surface);
   opacity: 1;
-}
-.dark .grid-pattern {
-  background: repeating-linear-gradient( 90deg, var(--color-surfaceAltDark) 0, var(--color-surfaceAltDark) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surfaceAltDark) 0, var(--color-surfaceAltDark) 5%, transparent 0, transparent 50% );
-  background-size: 1.5em 1.5em;
-  background-color: var(--color-surfaceDark);
-  opacity: 1;
+  &:where(.dark, .dark *) {
+    background: repeating-linear-gradient( 90deg, var(--color-surface-dark-alt) 0, var(--color-surface-dark-alt) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surface-dark-alt) 0, var(--color-surface-dark-alt) 5%, transparent 0, transparent 50% );
+    background-color: var(--color-surface-dark);
+  }
 }
 .form-children-spacing > *:not(input[type="hidden"]) + *:not(input[type="hidden"]) {
   margin-top: 1.5rem;

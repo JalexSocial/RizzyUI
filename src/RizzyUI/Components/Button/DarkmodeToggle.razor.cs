@@ -22,7 +22,7 @@ public partial class DarkmodeToggle : RizzyComponent
     /// Base CSS for the toggle button.
     /// </summary>
     private static readonly string BaseStyle =
-        "inline-flex text-xl items-center justify-center p-2 mr-2 rounded transition-colors ease-in-out duration-300 focus:outline-none";
+        "inline-flex text-xl items-center justify-center p-2 mr-2 rounded-theme transition-colors ease-in-out duration-300 focus:outline-none";
 
     /// <inheritdoc/>
     protected override string? RootClass()
@@ -32,7 +32,7 @@ public partial class DarkmodeToggle : RizzyComponent
         return TwMerge.Merge(
             AdditionalAttributes,
             BaseStyle,
-            "text-onSurface dark:text-onSurfaceDark bg-surface dark:bg-surfaceDark hover:bg-surfaceDark/5 dark:text-onSurfaceDark dark:hover:bg-surface/5"
+            "text-on-surface dark:text-on-surface-dark bg-surface dark:bg-surface-dark hover:bg-surface-dark/5 dark:text-on-surface-dark dark:hover:bg-surface/5"
         );
     }
 }

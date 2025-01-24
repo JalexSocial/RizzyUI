@@ -22,15 +22,9 @@
     </ItemGroup>
   
     <ItemGroup>
-      <None Remove="safelist.js" />
+      <None Include="safelist.js" />
     </ItemGroup>
   
-    <ItemGroup>
-      <EmbeddedResource Include="safelist.js">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </EmbeddedResource>
-    </ItemGroup>
-
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Blazicons.Ionicons" Version="2.2.18" />
@@ -51,12 +45,12 @@
         <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
     </ItemGroup>
 
+    <Target Name="Tailwind" BeforeTargets="Build">
+        <Exec Command="npm run css:build" />
+        <Exec Command="npm run safelist:build" />
+    </Target>
+
     <Target Name="Webpack" BeforeTargets="Build">
         <Exec Command="npm run build" />
     </Target>
-
-    <Target Name="Tailwind" BeforeTargets="Build">
-        <Exec Command="npm run css:build" />
-    </Target>
-
 </Project>

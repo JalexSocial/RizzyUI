@@ -66,18 +66,18 @@ public partial class Badge : RizzyComponent
         {
             // Surface and its variants
             SemanticColor.Surface or SemanticColor.OnSurface or SemanticColor.OnSurfaceStrong =>
-                "border-outline bg-surface text-onSurface dark:border-outlineStrongDark dark:bg-surfaceDark dark:text-onSurfaceDark",
+                "border-outline bg-surface text-on-surface dark:border-outline-dark-strong dark:bg-surface-dark dark:text-on-surface-dark",
 
             SemanticColor.SurfaceAlt =>
-                "border-onSurface bg-surfaceAlt text-onSurface dark:border-surfaceAltDark dark:bg-surfaceAltDark dark:text-onSurfaceDark",
+                "border-on-surface bg-surface-alt text-on-surface dark:border-surface-dark-alt dark:bg-surface-dark-alt dark:text-on-surface-dark",
 
             // Primary and its variants
             SemanticColor.Primary or SemanticColor.OnPrimary =>
-                "border-primary bg-primary text-onPrimary dark:border-primaryDark dark:bg-primaryDark dark:text-onPrimaryDark",
+                "border-primary bg-primary text-on-primary dark:border-primary-dark dark:bg-primary-dark dark:text-on-primary-dark",
 
             // Secondary and its variants
             SemanticColor.Secondary or SemanticColor.OnSecondary =>
-                "border-secondary bg-secondary text-onSecondary dark:border-secondaryDark dark:bg-secondaryDark dark:text-onSecondaryDark",
+                "border-secondary bg-secondary text-on-secondary dark:border-secondary-dark dark:bg-secondary-dark dark:text-on-secondary-dark",
 
             // Info and its variants
             SemanticColor.Info or SemanticColor.OnInfo =>
@@ -85,19 +85,19 @@ public partial class Badge : RizzyComponent
 
             // Success and its variants
             SemanticColor.Success or SemanticColor.OnSuccess =>
-                "border-success bg-success text-onSuccess dark:border-success dark:bg-success dark:text-onSuccess",
+                "border-success bg-success text-on-success dark:border-success dark:bg-success dark:text-on-success",
 
             // Warning and its variants
             SemanticColor.Warning or SemanticColor.OnWarning =>
-                "border-warning bg-warning text-onWarning dark:border-warning dark:bg-warning dark:text-onWarning",
+                "border-warning bg-warning text-on-warning dark:border-warning dark:bg-warning dark:text-on-warning",
 
             // Danger and its variants
             SemanticColor.Danger or SemanticColor.OnDanger =>
-                "border-danger bg-danger text-onDanger dark:border-danger dark:bg-danger dark:text-onDanger",
+                "border-danger bg-danger text-on-danger dark:border-danger dark:bg-danger dark:text-on-danger",
 
             // Outline and its variants
             SemanticColor.Outline or SemanticColor.OutlineStrong =>
-                "border-outline bg-transparent text-outline dark:border-outlineDark dark:text-outlineDark",
+                "border-outline bg-transparent text-outline dark:border-outline-dark dark:text-outline-dark",
 
             // Default / None
             SemanticColor.None =>
@@ -117,18 +117,18 @@ public partial class Badge : RizzyComponent
         {
             // Surface and its variants
             SemanticColor.Surface or SemanticColor.OnSurface or SemanticColor.OnSurfaceStrong =>
-                "border-outline bg-surface dark:bg-surfaceDark/10 text-onSurface dark:border-outlineStrongDark dark:text-surfaceDark",
+                "border-outline bg-surface dark:bg-surface-dark/10 text-on-surface dark:border-outline-dark-strong dark:text-surface-dark",
 
             SemanticColor.SurfaceAlt =>
-                "border-onSurface bg-surfaceAlt dark:bg-surfaceDark/10 text-onSurface dark:border-onSurfaceDark dark:text-onSurfaceDark",
+                "border-on-surface bg-surface-alt dark:bg-surface-dark/10 text-on-surface dark:border-on-surface-dark dark:text-on-surface-dark",
 
             // Primary and its variants
             SemanticColor.Primary or SemanticColor.OnPrimary =>
-                "border-primary bg-primary/10 dark:bg-primaryDark/10 text-primary dark:border-primaryDark dark:text-onPrimaryDark",
+                "border-primary bg-primary/10 dark:bg-primary-dark/10 text-primary dark:border-primary-dark dark:text-on-primary-dark",
 
             // Secondary and its variants
             SemanticColor.Secondary or SemanticColor.OnSecondary =>
-                "border-secondary bg-secondary/10 dark:bg-secondaryDark/10 text-secondary dark:border-secondaryDark dark:text-onSecondaryDark",
+                "border-secondary bg-secondary/10 dark:bg-secondary-dark/10 text-secondary dark:border-secondary-dark dark:text-on-secondary-dark",
 
             // Info and its variants
             SemanticColor.Info or SemanticColor.OnInfo =>
@@ -136,19 +136,19 @@ public partial class Badge : RizzyComponent
 
             // Success and its variants
             SemanticColor.Success or SemanticColor.OnSuccess =>
-                "border-success bg-success/10 dark:bg-success/10 text-success dark:border-success dark:text-onSuccess",
+                "border-success bg-success/10 dark:bg-success/10 text-success dark:border-success dark:text-on-success",
 
             // Warning and its variants
             SemanticColor.Warning or SemanticColor.OnWarning =>
-                "border-warning bg-warning/10 dark:bg-warning/10 text-warning dark:border-warning dark:text-onWarning",
+                "border-warning bg-warning/10 dark:bg-warning/10 text-warning dark:border-warning dark:text-on-warning",
 
             // Danger and its variants
             SemanticColor.Danger or SemanticColor.OnDanger =>
-                "border-danger bg-danger/10 dark:bg-danger/10 text-danger dark:border-danger dark:text-onDanger",
+                "border-danger bg-danger/10 dark:bg-danger/10 text-danger dark:border-danger dark:text-on-danger",
 
             // Outline and its variants
             SemanticColor.Outline or SemanticColor.OutlineStrong =>
-                "border-outline bg-outline/10 dark:bg-outlineDark/10 text-onSurface dark:border-outlineDark dark:text-onSurfaceDark",
+                "border-outline bg-outline/10 dark:bg-outline-dark/10 text-on-surface dark:border-outline-dark dark:text-on-surface-dark",
 
             // Default / None
             SemanticColor.None =>

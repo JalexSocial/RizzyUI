@@ -26,14 +26,14 @@ public class ModernTheme : RizzyTheme
         // Dark mode colors
         SurfaceDark = Colors.Neutral.L950;            // neutral-950: (7, 7, 7)
         OnSurfaceDark = Colors.Neutral.L300;          // neutral-300: (209, 213, 219)
-        OnSurfaceStrongDark = Colors.White;           // white: (255, 255, 255)
+        OnSurfaceDarkStrong = Colors.White;           // white: (255, 255, 255)
         SurfaceAltDark = Colors.Neutral.L900;         // neutral-900: (17, 24, 39)
         PrimaryDark = Colors.White;                   // white: (255, 255, 255)
         OnPrimaryDark = Colors.Black;                 // black: (0, 0, 0)
         SecondaryDark = Colors.Neutral.L300;          // neutral-300: (209, 213, 219)
         OnSecondaryDark = Colors.Black;               // black: (0, 0, 0)
         OutlineDark = Colors.Neutral.L700;            // neutral-700: (55, 65, 81)
-        OutlineStrongDark = Colors.Neutral.L300;      // neutral-300: (209, 213, 219)
+        OutlineDarkStrong = Colors.Neutral.L300;      // neutral-300: (209, 213, 219)
 
         // Shared Colors
         Danger = Colors.Red.L500;                      // red-500: (239, 68, 68)

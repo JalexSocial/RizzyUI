@@ -455,15 +455,15 @@ document.addEventListener('alpine:init', () => {
                     },
 
                     getDesktopScreenCss() {
-                        return [this.screenSize === '' ? 'text-onSurfaceStrong forced-color-adjust-auto dark:text-onSurfaceStrongDark' : 'opacity-60' ];
+                        return [this.screenSize === '' ? 'text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong' : 'opacity-60' ];
                     },
 
                     getTabletScreenCss() {
-                        return [ this.screenSize === 'max-w-2xl' ? 'text-onSurfaceStrong forced-color-adjust-auto dark:text-onSurfaceStrongDark' : 'opacity-60' ];
+                        return [ this.screenSize === 'max-w-2xl' ? 'text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong' : 'opacity-60' ];
                     },
 
                     getPhoneScreenCss() {
-                        return [ this.screenSize === 'max-w-sm' ? 'text-onSurfaceStrong forced-color-adjust-auto dark:text-onSurfaceStrongDark' : 'opacity-60'];
+                        return [ this.screenSize === 'max-w-sm' ? 'text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong' : 'opacity-60'];
                     }
                 }
             });
@@ -516,7 +516,7 @@ document.addEventListener('alpine:init', () => {
                         return this.copied ? 'copied' : 'copy';
                     },
                     getCopiedCss() {
-                        return [this.copied ? 'focus-visible:outline-success' : 'focus-visible:outline-onSurfaceDark'];
+                        return [this.copied ? 'focus-visible:outline-success' : 'focus-visible:outline-on-surface-dark'];
                     },
                     getExpandCss() {
                         return [this.expand ? '' : 'max-h-60'];
@@ -680,7 +680,7 @@ document.addEventListener('alpine:init', () => {
                 const progressBar = this.$refs.progressBar;
 
                 if (barLabel && progressBar && barLabel.clientWidth > progressBar.clientWidth) {
-                    return "text-onSurface dark:text-onSurfaceDark";
+                    return "text-on-surface dark:text-on-surface-dark";
                 }
 
                 return "";

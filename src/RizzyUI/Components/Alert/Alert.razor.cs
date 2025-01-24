@@ -13,7 +13,7 @@ public partial class Alert : RizzyComponent
     /// <summary>
     /// Base CSS classes applied to the alert container.
     /// </summary>
-    private static readonly string BaseStyle = "relative w-full overflow-hidden rounded border";
+    private static readonly string BaseStyle = "relative w-full overflow-hidden rounded-theme border";
 
     private string _bgLight = "bg-info/10";
     private string _bgLighter = "bg-info/15";
@@ -57,9 +57,9 @@ public partial class Alert : RizzyComponent
         switch (Variant)
         {
             case AlertVariant.Alternate:
-                _bgLight = "bg-surfaceAlt/10";
-                _bgLighter = "bg-surfaceAlt/15";
-                _iconColor = "text-onSurface";
+                _bgLight = "bg-surface-alt/10";
+                _bgLighter = "bg-surface-alt/15";
+                _iconColor = "text-on-surface";
                 break;
             case AlertVariant.Information:
                 Icon ??= MdiIcon.InformationSlabCircle;
@@ -111,11 +111,11 @@ public partial class Alert : RizzyComponent
     {
         return variant switch
         {
-            AlertVariant.Alternate => "border-outline bg-surfaceAlt text-onSurface dark:bg-surfaceAltDark dark:text-onSurfaceDark",
-            AlertVariant.Information => "border-info bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark",
-            AlertVariant.Success => "border-success bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark",
-            AlertVariant.Warning => "border-warning bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark",
-            AlertVariant.Danger => "border-danger bg-surface text-onSurface dark:bg-surfaceDark dark:text-onSurfaceDark",
+            AlertVariant.Alternate => "border-outline bg-surface-alt text-on-surface dark:bg-surface-dark-alt dark:text-on-surface-dark",
+            AlertVariant.Information => "border-info bg-surface text-on-surface dark:bg-surface-dark dark:text-on-surface-dark",
+            AlertVariant.Success => "border-success bg-surface text-on-surface dark:bg-surface-dark dark:text-on-surface-dark",
+            AlertVariant.Warning => "border-warning bg-surface text-on-surface dark:bg-surface-dark dark:text-on-surface-dark",
+            AlertVariant.Danger => "border-danger bg-surface text-on-surface dark:bg-surface-dark dark:text-on-surface-dark",
             _ => throw new ArgumentOutOfRangeException(nameof(variant), variant, null)
         };
     }

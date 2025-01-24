@@ -8,7 +8,7 @@
 <div class="relative">
     @if (PrependText != null)
     {
-        <div class="pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-lg border-r border-outline bg-surfaceAlt pl-3 pr-1 text-onSurface dark:border-outlineDark dark:bg-surfaceAltDark dark:text-onSurfaceDark">
+        <div class="pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-lg border-r border-outline bg-surface-alt pl-3 pr-1 text-on-surface dark:border-outline-dark dark:bg-surface-dark-alt dark:text-on-surface-dark">
             @PrependText
         </div>
     }
@@ -17,7 +17,7 @@
 
 @code {
     // Base CSS classes for the input element.
-    private static readonly string BaseStyle = "block w-full rounded-lg border border-outline px-3 py-2 leading-6 placeholder-onSurface dark:border-outlineDark dark:bg-surfaceAltDark dark:placeholder-onSurfaceDark focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50";
+    private static readonly string BaseStyle = "block w-full rounded-lg border border-outline px-3 py-2 leading-6 placeholder-on-surface dark:border-outline-dark dark:bg-surface-dark-alt dark:placeholder-on-surface-dark focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50";
 
     private TValue _value = default!;
     private RzInputNumber<TValue>? _elem;

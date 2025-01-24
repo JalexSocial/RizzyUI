@@ -26,14 +26,14 @@ public class HighContrastTheme : RizzyTheme
         // Dark mode colors
         SurfaceDark = Colors.Gray.L900;             // gray-900: (17, 24, 39)
         OnSurfaceDark = Colors.Gray.L300;           // gray-300: (209, 213, 219)
-        OnSurfaceStrongDark = Colors.Gray.L100;     // gray-100: (245, 245, 245)
+        OnSurfaceDarkStrong = Colors.Gray.L100;     // gray-100: (245, 245, 245)
         SurfaceAltDark = Colors.Gray.L800;          // gray-800: (31, 41, 55)
         PrimaryDark = Colors.Sky.L400;              // sky-400: (14, 165, 233)
         OnPrimaryDark = Colors.Black;               // black: (0, 0, 0)
         SecondaryDark = Colors.Indigo.L400;         // indigo-400: (147, 51, 234)
         OnSecondaryDark = Colors.Black;             // black: (0, 0, 0)
         OutlineDark = Colors.Gray.L500;             // gray-500: (107, 114, 128)
-        OutlineStrongDark = Colors.Gray.L300;       // gray-300: (209, 213, 219)
+        OutlineDarkStrong = Colors.Gray.L300;       // gray-300: (209, 213, 219)
 
         // Shared Colors
         Danger = Colors.Red.L500;                    // red-500: (239, 68, 68)

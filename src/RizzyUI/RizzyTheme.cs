@@ -79,7 +79,7 @@ public class RizzyTheme(string name, string themeCode)
     /// <summary>
     /// Gets the color used for strongly emphasized content displayed on the surface in dark mode.
     /// </summary>
-    public Oklch OnSurfaceStrongDark { get; init; }
+    public Oklch OnSurfaceDarkStrong { get; init; }
 
     /// <summary>
     /// Gets the alternate surface background color in dark mode.
@@ -114,7 +114,7 @@ public class RizzyTheme(string name, string themeCode)
     /// <summary>
     /// Gets the stronger outline color used for heavier borders in dark mode.
     /// </summary>
-    public Oklch OutlineStrongDark { get; init; }
+    public Oklch OutlineDarkStrong { get; init; }
 
     /// <summary>
     /// Gets the color used to indicate dangerous or error states.

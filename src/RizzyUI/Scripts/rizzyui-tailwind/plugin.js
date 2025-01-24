@@ -12,37 +12,37 @@ const rizzyui = plugin(
 
         /* Light Mode (example subset, adapt as needed) */
         '--color-surface': '1 0 0', /* theme('colors.white') => L=1, C=0, H=0  */
-        '--color-onSurface': '.372 .044 257.287', /* theme('colors.slate.700') */
-        '--color-onSurfaceStrong': '0 0 0', /* black => L=0, C=0, H=0 */
-        '--color-surfaceAlt': '.968 .007 247.896', /* slate.100 => see your list */
+        '--color-on-surface': '.372 .044 257.287', /* theme('colors.slate.700') */
+        '--color-on-surface-strong': '0 0 0', /* black => L=0, C=0, H=0 */
+        '--color-surface-alt': '.968 .007 247.896', /* slate.100 => see your list */
         '--color-primary': '.488 .243 264.376', /* blue.700 */
-        '--color-onPrimary': '.968 .007 247.896', /* slate.100 */
+        '--color-on-primary': '.968 .007 247.896', /* slate.100 */
         '--color-secondary': '.457 .24 277.023', /* indigo.700 */
-        '--color-onSecondary': '.968 .007 247.896', /* slate.100 */
+        '--color-on-secondary': '.968 .007 247.896', /* slate.100 */
         '--color-outline': '.869 .022 252.894', /* slate.300 */
-        '--color-outlineStrong': '.279 .041 260.031', /* slate.800 */
+        '--color-outline-strong': '.279 .041 260.031', /* slate.800 */
 
         /* Dark Mode */
-        '--color-surfaceDark': '.208 .042 265.755', /* slate.900 */
-        '--color-onSurfaceDark': '.869 .022 252.894', /* slate.300 */
-        '--color-onSurfaceStrongDark': '1 0 0', /* white => L=1, C=0, H=0 */
-        '--color-surfaceAltDark': '.279 .041 260.031', /* slate.800 */
-        '--color-primaryDark': '.546 .245 262.881', /* blue.600 */
-        '--color-onPrimaryDark': '.968 .007 247.896', /* slate.100 */
-        '--color-secondaryDark': '.511 .262 276.966', /* indigo.600 */
-        '--color-onSecondaryDark': '.968 .007 247.896', /* slate.100 */
-        '--color-outlineDark': '.372 .044 257.287', /* slate.700 */
-        '--color-outlineStrongDark': '.869 .022 252.894', /* slate.300 */
+        '--color-surface-dark': '.208 .042 265.755', /* slate.900 */
+        '--color-on-surface-dark': '.869 .022 252.894', /* slate.300 */
+        '--color-on-surface-dark-strong': '1 0 0', /* white => L=1, C=0, H=0 */
+        '--color-surface-dark-alt': '.279 .041 260.031', /* slate.800 */
+        '--color-primary-dark': '.546 .245 262.881', /* blue.600 */
+        '--color-on-primary-dark': '.968 .007 247.896', /* slate.100 */
+        '--color-secondary-dark': '.511 .262 276.966', /* indigo.600 */
+        '--color-on-secondary-dark': '.968 .007 247.896', /* slate.100 */
+        '--color-outline-dark': '.372 .044 257.287', /* slate.700 */
+        '--color-outline-dark-strong': '.869 .022 252.894', /* slate.300 */
 
         /* Status Colors */
         '--color-danger': '.577 .245 27.325', /* red.600 */
-        '--color-onDanger': '1 0 0', /* white */
+        '--color-on-danger': '1 0 0', /* white */
         '--color-info': '.588 .158 241.966', /* sky.600 */
         '--color-onInfo': '1 0 0', /* white */
         '--color-warning': '.769 .188 70.08', /* amber.500 */
-        '--color-onWarning': '1 0 0', /* white */
+        '--color-on-warning': '1 0 0', /* white */
         '--color-success': '.627 .194 149.214', /* green.600 */
-        '--color-onSuccess': '1 0 0', /* white */
+        '--color-on-success': '1 0 0', /* white */
 
         /* Border and Radius (unchanged) */
         '--borderWidth': '1px',
@@ -89,15 +89,15 @@ const rizzyui = plugin(
         background: `
           repeating-linear-gradient(
             90deg,
-            oklch(var(--color-surfaceAlt)) 0,
-            oklch(var(--color-surfaceAlt)) 5%,
+            oklch(var(--color-surface-alt)) 0,
+            oklch(var(--color-surface-alt)) 5%,
             transparent 0,
             transparent 50%
           ),
           repeating-linear-gradient(
             180deg,
-            oklch(var(--color-surfaceAlt)) 0,
-            oklch(var(--color-surfaceAlt)) 5%,
+            oklch(var(--color-surface-alt)) 0,
+            oklch(var(--color-surface-alt)) 5%,
             transparent 0,
             transparent 50%
           )
@@ -110,21 +110,21 @@ const rizzyui = plugin(
         background: `
           repeating-linear-gradient(
             90deg,
-            oklch(var(--color-surfaceAltDark)) 0,
-            oklch(var(--color-surfaceAltDark)) 5%,
+            oklch(var(--color-surface-dark-alt)) 0,
+            oklch(var(--color-surface-dark-alt)) 5%,
             transparent 0,
             transparent 50%
           ),
           repeating-linear-gradient(
             180deg,
-            oklch(var(--color-surfaceAltDark)) 0,
-            oklch(var(--color-surfaceAltDark)) 5%,
+            oklch(var(--color-surface-dark-alt)) 0,
+            oklch(var(--color-surface-dark-alt)) 5%,
             transparent 0,
             transparent 50%
           )
         `,
         'background-size': '1.5em 1.5em',
-        'background-color': 'oklch(var(--color-surfaceDark))',
+        'background-color': 'oklch(var(--color-surface-dark))',
         opacity: '1',
       },
       '.form-children-spacing': {
@@ -205,37 +205,37 @@ const rizzyui = plugin(
         colors: {
           // Use oklch(var(--color-*)) references
           surface: 'oklch(var(--color-surface) / <alpha-value>)',
-          onSurface: 'oklch(var(--color-onSurface) / <alpha-value>)',
-            onSurfaceStrong: 'oklch(var(--color-onSurfaceStrong) / <alpha-value>)',
-            surfaceAlt: 'oklch(var(--color-surfaceAlt) / <alpha-value>)',
+          on-surface: 'oklch(var(--color-on-surface) / <alpha-value>)',
+            on-surface-strong: 'oklch(var(--color-on-surface-strong) / <alpha-value>)',
+            surface-alt: 'oklch(var(--color-surface-alt) / <alpha-value>)',
             primary: 'oklch(var(--color-primary) / <alpha-value>)',
-            onPrimary: 'oklch(var(--color-onPrimary) / <alpha-value>)',
+            on-primary: 'oklch(var(--color-on-primary) / <alpha-value>)',
             secondary: 'oklch(var(--color-secondary) / <alpha-value>)',
-            onSecondary: 'oklch(var(--color-onSecondary) / <alpha-value>)',
+            on-secondary: 'oklch(var(--color-on-secondary) / <alpha-value>)',
             outline: 'oklch(var(--color-outline) / <alpha-value>)',
-            outlineStrong: 'oklch(var(--color-outlineStrong) / <alpha-value>)',
+            outline-strong: 'oklch(var(--color-outline-strong) / <alpha-value>)',
 
           // Dark Mode
-            surfaceDark: 'oklch(var(--color-surfaceDark) / <alpha-value>)',
-            onSurfaceDark: 'oklch(var(--color-onSurfaceDark) / <alpha-value>)',
-            onSurfaceStrongDark: 'oklch(var(--color-onSurfaceStrongDark) / <alpha-value>)',
-            surfaceAltDark: 'oklch(var(--color-surfaceAltDark) / <alpha-value>)',
-            primaryDark: 'oklch(var(--color-primaryDark) / <alpha-value>)',
-            onPrimaryDark: 'oklch(var(--color-onPrimaryDark) / <alpha-value>)',
-            secondaryDark: 'oklch(var(--color-secondaryDark) / <alpha-value>)',
-            onSecondaryDark: 'oklch(var(--color-onSecondaryDark) / <alpha-value>)',
-            outlineDark: 'oklch(var(--color-outlineDark) / <alpha-value>)',
-            outlineStrongDark: 'oklch(var(--color-outlineStrongDark) / <alpha-value>)',
+            surface-dark: 'oklch(var(--color-surface-dark) / <alpha-value>)',
+            on-surface-dark: 'oklch(var(--color-on-surface-dark) / <alpha-value>)',
+            on-surface-dark-strong: 'oklch(var(--color-on-surface-dark-strong) / <alpha-value>)',
+            surface-dark-alt: 'oklch(var(--color-surface-dark-alt) / <alpha-value>)',
+            primary-dark: 'oklch(var(--color-primary-dark) / <alpha-value>)',
+            on-primary-dark: 'oklch(var(--color-on-primary-dark) / <alpha-value>)',
+            secondary-dark: 'oklch(var(--color-secondary-dark) / <alpha-value>)',
+            on-secondary-dark: 'oklch(var(--color-on-secondary-dark) / <alpha-value>)',
+            outline-dark: 'oklch(var(--color-outline-dark) / <alpha-value>)',
+            outline-dark-strong: 'oklch(var(--color-outline-dark-strong) / <alpha-value>)',
 
           // Status
             danger: 'oklch(var(--color-danger) / <alpha-value>)',
-            onDanger: 'oklch(var(--color-onDanger) / <alpha-value>)',
+            on-danger: 'oklch(var(--color-on-danger) / <alpha-value>)',
             info: 'oklch(var(--color-info) / <alpha-value>)',
             onInfo: 'oklch(var(--color-onInfo) / <alpha-value>)',
             warning: 'oklch(var(--color-warning) / <alpha-value>)',
-            onWarning: 'oklch(var(--color-onWarning) / <alpha-value>)',
+            on-warning: 'oklch(var(--color-on-warning) / <alpha-value>)',
             success: 'oklch(var(--color-success) / <alpha-value>)',
-            onSuccess: 'oklch(var(--color-onSuccess) / <alpha-value>)',
+            on-success: 'oklch(var(--color-on-success) / <alpha-value>)',
         },
         borderWidth: {
           DEFAULT: 'var(--borderWidth)',

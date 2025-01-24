@@ -5,35 +5,44 @@
 @theme {
     --default-font-family: 'Inter', 'Figtree', 'open sans';
     --color-surface: var(--color-white);
-    --color-onSurface: var(--color-slate-700);
-    --color-onSurfaceStrong: var(--color-black);
-    --color-surfaceAlt: var(--color-slate-100);
+    --color-on-surface: var(--color-slate-700);
+    --color-on-surface-strong: var(--color-black);
+    --color-surface-alt: var(--color-slate-100);
     --color-primary: var(--color-blue-700);
-    --color-onPrimary: var(--color-slate-100);
+    --color-on-primary: var(--color-slate-100);
     --color-secondary: var(--color-indigo-700);
-    --color-onSecondary: var(--color-slate-100);
+    --color-on-secondary: var(--color-slate-100);
     --color-outline: var(--color-slate-300);
-    --color-outlineStrong: var(--color-slate-800);
-    --color-surfaceDark: var(--color-slate-900);
-    --color-onSurfaceDark: var(--color-slate-300);
-    --color-onSurfaceStrongDark: var(--color-white);
-    --color-surfaceAltDark: var(--color-slate-800);
-    --color-primaryDark: var(--color-blue-600);
-    --color-onPrimaryDark: var(--color-slate-100);
-    --color-secondaryDark: var(--color-indigo-600);
-    --color-onSecondaryDark: var(--color-slate-100);
-    --color-outlineDark: var(--color-slate-700);
-    --color-outlineStrongDark: var(--color-slate-300);
+    --color-outline-strong: var(--color-slate-800);
+    --color-surface-dark: var(--color-slate-900);
+    --color-on-surface-dark: var(--color-slate-300);
+    --color-on-surface-dark-strong: var(--color-white);
+    --color-surface-dark-alt: var(--color-slate-800);
+    --color-primary-dark: var(--color-blue-600);
+    --color-on-primary-dark: var(--color-slate-100);
+    --color-secondary-dark: var(--color-indigo-600);
+    --color-on-secondary-dark: var(--color-slate-100);
+    --color-outline-dark: var(--color-slate-700);
+    --color-outline-dark-strong: var(--color-slate-300);
     --color-danger: var(--color-red-600);
-    --color-onDanger: var(--color-white);
+    --color-on-danger: var(--color-white);
     --color-info: var(--color-sky-600);
     --color-onInfo: var(--color-white);
     --color-warning: var(--color-amber-500);
-    --color-onWarning: var(--color-white);
+    --color-on-warning: var(--color-white);
     --color-success: var(--color-green-600);
-    --color-onSuccess: var(--color-white);
+    --color-on-success: var(--color-white);
     --borderWidth: 1px;
     --borderRadius: 6px;
+    --radius-theme: var(--borderRadius);
+}
+
+.rounded {
+    border-radius: var(--borderRadius);
+}
+
+.border {
+    border-width: var(--borderWidth);
 }
 
 svg[blazicon] {
@@ -73,14 +82,14 @@ svg[blazicon] {
 
 /* Grid Pattern */
 .grid-pattern {
-    background: repeating-linear-gradient( 90deg, var(--color-surfaceAlt) 0, var(--color-surfaceAlt) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surfaceAlt) 0, var(--color-surfaceAlt) 5%, transparent 0, transparent 50% );
+    background: repeating-linear-gradient( 90deg, var(--color-surface-alt) 0, var(--color-surface-alt) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surface-alt) 0, var(--color-surface-alt) 5%, transparent 0, transparent 50% );
     background-size: 1.5em 1.5em;
     background-color: var(--color-surface);
     opacity: 1;
 
     @variant dark {
-        background: repeating-linear-gradient( 90deg, var(--color-surfaceAltDark) 0, var(--color-surfaceAltDark) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surfaceAltDark) 0, var(--color-surfaceAltDark) 5%, transparent 0, transparent 50% );
-        background-color: var(--color-surfaceDark);
+        background: repeating-linear-gradient( 90deg, var(--color-surface-dark-alt) 0, var(--color-surface-dark-alt) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surface-dark-alt) 0, var(--color-surface-dark-alt) 5%, transparent 0, transparent 50% );
+        background-color: var(--color-surface-dark);
     }
 }
 
