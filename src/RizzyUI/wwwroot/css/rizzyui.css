@@ -77,14 +77,11 @@ svg[blazicon] {
     background-size: 1.5em 1.5em;
     background-color: var(--color-surface);
     opacity: 1;
-}
 
-/* Dark Mode Grid Pattern */
-.dark .grid-pattern {
-    background: repeating-linear-gradient( 90deg, var(--color-surfaceAltDark) 0, var(--color-surfaceAltDark) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surfaceAltDark) 0, var(--color-surfaceAltDark) 5%, transparent 0, transparent 50% );
-    background-size: 1.5em 1.5em;
-    background-color: var(--color-surfaceDark);
-    opacity: 1;
+    @variant dark {
+        background: repeating-linear-gradient( 90deg, var(--color-surfaceAltDark) 0, var(--color-surfaceAltDark) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surfaceAltDark) 0, var(--color-surfaceAltDark) 5%, transparent 0, transparent 50% );
+        background-color: var(--color-surfaceDark);
+    }
 }
 
 /* Form Children Spacing */

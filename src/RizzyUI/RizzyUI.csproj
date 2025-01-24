@@ -20,6 +20,16 @@
     <ItemGroup>
         <Content Remove="DefaultDocumentation.json" />
     </ItemGroup>
+  
+    <ItemGroup>
+      <None Remove="safelist.js" />
+    </ItemGroup>
+  
+    <ItemGroup>
+      <EmbeddedResource Include="safelist.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -39,12 +49,6 @@
     <ItemGroup>
         <UpToDateCheckBuilt Include="wwwroot/css/rizzyui.css" Set="Css" />
         <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="safelist.js">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 
     <Target Name="Webpack" BeforeTargets="Build">
