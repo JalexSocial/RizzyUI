@@ -3,26 +3,28 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "webpack",
-        "css:build": "npx @tailwindcss/cli -i ./wwwroot/css/rizzyui.css -o ./wwwroot/dist/rizzyui.css"
-    },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "css:build": "npx @tailwindcss/cli -i ./wwwroot/css/rizzyui.css -o ./wwwroot/dist/rizzyui.css"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-    "devDependencies": {
-        "@tailwindcss/forms": "^0.5.4",
-        "@tailwindcss/typography": "^0.5.9",
-        "css-loader": "^6.8.1",
-        "eslint": "^8.52.0",
-        "style-loader": "^3.3.3",
-        "tailwindcss": "^4.0.0",
-        "tailwindcss-inset": "^1.0.0",
-        "webpack": "^5.89.0",
-        "webpack-cli": "^5.1.4"
-    },
-    "dependencies": {
-        "@tailwindcss/cli": "^4.0.0"
-    }
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.4",
+    "@tailwindcss/typography": "^0.5.9",
+    "css-loader": "^6.8.1",
+    "eslint": "^8.52.0",
+    "style-loader": "^3.3.3",
+    "tailwindcss": "^4.0.0",
+    "tailwindcss-inset": "^1.0.0",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "postcss": "^8.5.1",
+    "postcss-selector-parser": "^7.0.0"
+  }
 }

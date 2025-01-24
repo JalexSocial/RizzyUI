@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace RizzyUI.SafelistBuilder
 {
@@ -25,6 +26,9 @@ namespace RizzyUI.SafelistBuilder
             {
                 // Read the CSS file content
                 string cssContent = File.ReadAllText(CssFilePath);
+
+                // Flatten all the layers since we only are looking for unique classes
+                cssContent = ExtractCssFromLayers(cssContent);
 
                 // Create a CSS parser
                 var parser = new CssParser();
@@ -58,6 +62,17 @@ namespace RizzyUI.SafelistBuilder
 
                 return false;
             }
+        }
+
+        public string ExtractCssFromLayers(string cssText)
+        {
+	        // Regex pattern to match @layer rule and capture the inner CSS content
+	        var layerPattern = new Regex(@"@layer\s+[\w-]+\s*{([^}]*)}", RegexOptions.Singleline);
+
+	        // Replace all @layer blocks with the inner CSS content
+	        string result = layerPattern.Replace(cssText, match => match.Groups[1].Value.Trim());
+
+	        return result;
         }
 
         private IEnumerable<string> GetClassNames(ICssStyleSheet stylesheet)
