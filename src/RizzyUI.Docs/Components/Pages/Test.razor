@@ -95,7 +95,8 @@
                     <FieldHelp>Is this person active?</FieldHelp>
                 </ToggleField>
                 
-                <RadioGroupField For="@(() => Model.PreferredContactMethod)" DisplayName="Product" Orientation="Orientation.Vertical">
+                <RadioGroupField For="@(() => Model.PreferredContactMethod)" DisplayName="Product" 
+                                 Orientation="Orientation.Vertical" CheckboxIcon="MdiIcon.CheckboxMarked">
                     <RadioGroupItem TValue="string" Label="Modern" Value="@("email")">
                         <Description>
                             We'll blast you with emails galore
@@ -107,10 +108,11 @@
                         </Description>
                     </RadioGroupItem>
                     <RadioGroupItem TValue="string" Label="Classic" Value="@("phone")">
-                        <Description>
-                            Our legacy method
-                        </Description>
+	                    <Description>
+		                    Our legacy method
+	                    </Description>
                     </RadioGroupItem>
+                    <DateEdit For="@Model.BirthDate"/>
                 </RadioGroupField>
 
                 <!--

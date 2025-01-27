@@ -203,6 +203,45 @@ document.addEventListener('alpine:init', () => {
                 }
             });
 
+        Alpine.data('rzDateEdit', () => ({
+            options: {},
+            placeholder: '',
+            prependText: '',
+            init() {
+                // Retrieve configuration from dataset
+                const cfgString = this.$el.dataset.config;
+                if (cfgString) {
+                    const parsed = JSON.parse(cfgString);
+                    if (parsed) {
+                        this.options = parsed.options || {};
+                        this.placeholder = parsed.placeholder || '';
+                        this.prependText = parsed.prependText || '';
+                    }
+                }
+
+                // Load any needed assets
+                const assets = JSON.parse(this.$el.dataset.assets);
+                const scriptNonce = this.$el.dataset.scriptnonce;
+                const styleNonce = this.$el.dataset.stylenonce;
+
+                loadjs(assets, {
+                    success: () => {
+                        // Once loaded, initialize Flatpickr on the target input
+                        const inputElem = this.$refs.dateInput;
+                        if (window.flatpickr && inputElem) {
+                            window.flatpickr(inputElem, this.options);
+                        }
+                    },
+                    error: () => {
+                        console.error('Failed to load Flatpickr assets.');
+                    },
+                    async: false,
+                    inlineScriptNonce: scriptNonce,
+                    inlineStyleNonce: styleNonce
+                });
+            }
+        }));
+
         Alpine.data('rzEmbeddedPreview', () => {
             return {
                 iframe: null,

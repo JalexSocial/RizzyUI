@@ -1,26 +1,19 @@
 ﻿@typeparam TValue
 @namespace RizzyUI
+@using Blazicons
 @inherits RizzyComponent
 
 <label @attributes="AdditionalAttributes" class="group relative flex">
     <RzInputRadio TValue="TValue" class="opacity-0 peer absolute left-0 top-0 appearance-none" Name="@ParentRadioGroup?.Name" Id="@Id" Value="@Value" />
-    <span class="z-1 text-primary opacity-0 absolute bottom-0 right-0 top-0 flex scale-50 cursor-pointer items-center px-4 transition peer-checked:scale-100 peer-checked:opacity-100">
-        <svg class="hi-mini hi-check-circle inline-block size-5"
-             xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 20 20"
-             fill="currentColor"
-             aria-hidden="true">
-            <path fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                  clip-rule="evenodd"/>
-        </svg>
+    <span class="z-1 text-primary text-xl opacity-0 absolute bottom-0 right-0 top-0 flex scale-50 cursor-pointer items-center px-4 transition peer-checked:scale-100 peer-checked:opacity-100">
+	    <Blazicon Svg="CheckboxIcon"/>
     </span>
-    <span class="group-hover:border-primary relative flex grow cursor-pointer rounded-lg border p-4 dark:border-on-surface-dark peer-checked:border-primary dark:peer-checked:border-primary dark:peer-checked:bg-primary dark:peer-checked:bg-opacity-10 peer-focus:ring peer-focus:ring-primary">
+    <span class="group-hover:border-primary relative flex grow cursor-pointer rounded-lg border p-4 peer-checked:bg-surface-alt dark:border-on-surface-dark peer-checked:border-primary dark:peer-checked:border-primary dark:peer-checked:bg-surface-dark-alt dark:peer-checked:bg-opacity-10 peer-focus:ring peer-focus:ring-primary">
         <div class="flex">
             @if (Icon != null)
             {
-                <div class="mr-2">
-                    ICON HERE size-5
+                <div class="mr-2 text-2xl content-center">
+	                <Blazicon Svg="Icon"/>
                 </div>
             }
             <span class="grow pr-8 text-sm">
@@ -36,6 +29,8 @@
 </label>
 
 @code {
+	private SvgIcon CheckboxIcon { get; set; } = MdiIcon.CheckboxMarkedCircle;
+
     /// <summary>
     /// Gets or sets the parent radio group.
     /// </summary>
@@ -46,7 +41,7 @@
     /// Gets or sets the name of the icon (if any) displayed alongside the label.
     /// </summary>
     [Parameter]
-    public string? Icon { get; set; }
+    public SvgIcon? Icon { get; set; }
 
     /// <summary>
     /// Gets or sets the label of the radio item.
@@ -82,5 +77,8 @@
     {
         base.OnParametersSet();
         ParentRadioGroup?.AddRadioItem(this);
+
+        if (ParentRadioGroup != null)
+	        CheckboxIcon = ParentRadioGroup.CheckboxIcon;
     }
 }

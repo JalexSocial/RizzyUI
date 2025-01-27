@@ -1,4 +1,5 @@
 ﻿@using System.Linq.Expressions
+@using Blazicons
 @typeparam TValue
 @namespace RizzyUI
 @inherits RizzyComponent
@@ -39,6 +40,12 @@
     /// </summary>
     [Parameter]
     public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the name of the icon (if any) displayed alongside the label.
+    /// </summary>
+    [Parameter]
+    public SvgIcon CheckboxIcon { get; set; } = MdiIcon.CheckboxMarkedCircle;
 
     /// <summary>
     /// Gets or sets the current selected value.
