@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Content Include="Static\css\app.css" />
+    <Content Include="Static\css\vendor\flatpickr.css" />
+
   </ItemGroup>
 
   <ItemGroup>
@@ -29,7 +31,7 @@
   </ItemGroup>
 
     <ItemGroup>
-        <None Include="safelist.js"/>
+        <None Include="safelist.js" />
     </ItemGroup>
 
     <!--
@@ -44,7 +46,7 @@
     -->
 
     <Target Name="CopyRizzyUISafelist" BeforeTargets="Build">
-        <Copy SourceFiles="..\RizzyUI\safelist.js" DestinationFolder="$(ProjectDir)"/>
+        <Copy SourceFiles="..\RizzyUI\safelist.js" DestinationFolder="$(ProjectDir)" />
     </Target>
 
     <Target Name="EnsureNodeModules" BeforeTargets="Build">

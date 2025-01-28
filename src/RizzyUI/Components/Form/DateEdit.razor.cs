@@ -25,7 +25,7 @@ public sealed partial class DateEdit : RizzyComponent
     private static readonly string[] DefaultAssets =
     {
         // Flatpickr CSS
-        "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css",
+        /*"https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css",*/
         // Flatpickr JS
         "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js"
     };
