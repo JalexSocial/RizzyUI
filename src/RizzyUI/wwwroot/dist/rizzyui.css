@@ -2172,6 +2172,11 @@
       background-color: var(--color-primary);
     }
   }
+  .checked\:bg-none {
+    &:checked {
+      background-image: none;
+    }
+  }
   .checked\:text-primary {
     &:checked {
       color: var(--color-primary);

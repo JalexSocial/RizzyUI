@@ -2309,6 +2309,11 @@
       background-color: var(--color-primary);
     }
   }
+  .checked\:bg-none {
+    &:checked {
+      background-image: none;
+    }
+  }
   .checked\:text-primary {
     &:checked {
       color: var(--color-primary);
@@ -3819,7 +3824,7 @@ svg[blazicon] {
   --tw-font-weight: var(--font-weight-light);
   font-weight: var(--font-weight-light);
   color: inherit;
-  span .cur-month {
+  span.cur-month {
     margin-left: 0.5ch;
     display: inline-block;
     padding: calc(var(--spacing) * 0);
