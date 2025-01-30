@@ -87,7 +87,7 @@
         if (!string.IsNullOrEmpty(PrependText))
         {
             AdditionalAttributes?.Add("nonce", RizzyNonceProvider.GetNonceFor(NonceType.Style));
-            AdditionalAttributes?.Add("style", $"padding-left: {PrependText.Length+1}ch");
+            AdditionalAttributes?.Add("style", $"padding-left: {PrependText.Length+3}ch");
         }
     }
 
