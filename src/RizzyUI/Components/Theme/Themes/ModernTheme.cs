@@ -15,6 +15,7 @@ public class ModernTheme : RizzyTheme
         Surface = Colors.White;                      // white: (255, 255, 255)
         OnSurface = Colors.Neutral.L600;             // neutral-600: (75, 85, 99)
         OnSurfaceStrong = Colors.Neutral.L900;       // neutral-900: (17, 24, 39)
+        OnSurfaceMuted = Colors.Neutral.L500;
         SurfaceAlt = Colors.Neutral.L50;             // neutral-50: (249, 250, 251)
         Primary = Colors.Black;                      // black: (0, 0, 0)
         OnPrimary = Colors.Neutral.L100;             // neutral-100: (245, 245, 245)
@@ -27,6 +28,7 @@ public class ModernTheme : RizzyTheme
         SurfaceDark = Colors.Neutral.L950;            // neutral-950: (7, 7, 7)
         OnSurfaceDark = Colors.Neutral.L300;          // neutral-300: (209, 213, 219)
         OnSurfaceDarkStrong = Colors.White;           // white: (255, 255, 255)
+        OnSurfaceDarkMuted = Colors.Neutral.L500;
         SurfaceAltDark = Colors.Neutral.L900;         // neutral-900: (17, 24, 39)
         PrimaryDark = Colors.White;                   // white: (255, 255, 255)
         OnPrimaryDark = Colors.Black;                 // black: (0, 0, 0)

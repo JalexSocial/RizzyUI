@@ -15,6 +15,7 @@ public class NewsTheme : RizzyTheme
         Surface = Colors.Zinc.L50;                      // zinc-50: (250, 250, 249)
         OnSurface = Colors.Neutral.L600;                // neutral-600: (75, 85, 99)
         OnSurfaceStrong = Colors.Neutral.L900;          // neutral-900: (17, 24, 39)
+        OnSurfaceMuted = Colors.Neutral.L500;
         SurfaceAlt = Colors.Zinc.L100;                   // zinc-100: (244, 244, 245)
         Primary = Colors.Sky.L700;                       // sky-700: (14, 165, 233)
         OnPrimary = Colors.White;                        // white: (255, 255, 255)
@@ -27,6 +28,7 @@ public class NewsTheme : RizzyTheme
         SurfaceDark = Colors.Zinc.L900;                   // zinc-900: (15, 23, 42)
         OnSurfaceDark = Colors.Zinc.L200;                 // zinc-200: (229, 231, 235)
         OnSurfaceDarkStrong = Colors.Zinc.L50;            // zinc-50: (250, 250, 249)
+        OnSurfaceDarkMuted = Colors.Neutral.L500;
         SurfaceAltDark = Colors.Zinc.L800;                // zinc-800: (31, 41, 55)
         PrimaryDark = Colors.Sky.L600;                    // sky-600: (8, 51, 68)
         OnPrimaryDark = Colors.White;                     // white: (255, 255, 255)

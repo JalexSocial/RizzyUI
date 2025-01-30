@@ -9,6 +9,7 @@
     --color-surface: var(--color-white);
     --color-on-surface: var(--color-slate-700);
     --color-on-surface-strong: var(--color-black);
+    --color-on-surface-muted: var(--color-neutral-500);
     --color-surface-alt: var(--color-slate-100);
     --color-primary: var(--color-blue-700);
     --color-on-primary: var(--color-slate-100);
@@ -19,6 +20,7 @@
     --color-surface-dark: var(--color-slate-900);
     --color-on-surface-dark: var(--color-slate-300);
     --color-on-surface-dark-strong: var(--color-white);
+    --color-on-surface-dark-muted: var(--color-neutral-500);
     --color-surface-dark-alt: var(--color-slate-800);
     --color-primary-dark: var(--color-blue-600);
     --color-on-primary-dark: var(--color-slate-100);

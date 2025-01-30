@@ -83,7 +83,7 @@
 
 				<Field>
 					<FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
-					<TextEdit For="@(() => Model.Name)"/>
+					<TextEdit For="@(() => Model.Name)" PrependText="Name"/>
 					<RzValidationMessage For="@(() => Model.Name)"/>
 				</Field>
 

@@ -15,6 +15,7 @@ public class HighContrastTheme : RizzyTheme
         Surface = Colors.Gray.L50;                  // gray-50: (249, 250, 251)
         OnSurface = Colors.Gray.L800;               // gray-800: (31, 41, 55)
         OnSurfaceStrong = Colors.Gray.L950;         // gray-950: (10, 10, 10)
+        OnSurfaceMuted = Colors.Neutral.L500;
         SurfaceAlt = Colors.Gray.L200;              // gray-200: (229, 231, 235)
         Primary = Colors.Sky.L900;                  // sky-900: (8, 51, 68)
         OnPrimary = Colors.White;                   // white: (255, 255, 255)
@@ -27,6 +28,7 @@ public class HighContrastTheme : RizzyTheme
         SurfaceDark = Colors.Gray.L900;             // gray-900: (17, 24, 39)
         OnSurfaceDark = Colors.Gray.L300;           // gray-300: (209, 213, 219)
         OnSurfaceDarkStrong = Colors.Gray.L100;     // gray-100: (245, 245, 245)
+        OnSurfaceDarkMuted = Colors.Neutral.L500;
         SurfaceAltDark = Colors.Gray.L800;          // gray-800: (31, 41, 55)
         PrimaryDark = Colors.Sky.L400;              // sky-400: (14, 165, 233)
         OnPrimaryDark = Colors.Black;               // black: (0, 0, 0)

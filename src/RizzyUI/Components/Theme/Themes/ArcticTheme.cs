@@ -15,6 +15,7 @@ public class ArcticTheme : RizzyTheme
         Surface = Colors.White;                 // White
         OnSurface = Colors.Slate.L700;          // #334155 (51,65,85)
         OnSurfaceStrong = Colors.Black;         // Black
+        OnSurfaceMuted = Colors.Neutral.L500;
         SurfaceAlt = Colors.Slate.L100;         // #F1F5F9 (241,245,249)
         Primary = Colors.Blue.L700;             // #1D4ED8 (29,78,216)
         OnPrimary = Colors.Slate.L100;          // #F1F5F9
@@ -27,6 +28,7 @@ public class ArcticTheme : RizzyTheme
         SurfaceDark = Colors.Slate.L900;        // #0F172A (15,23,42)
         OnSurfaceDark = Colors.Slate.L300;      // #CBD5E1 (203,213,225)
         OnSurfaceDarkStrong = Colors.White;     // White
+        OnSurfaceDarkMuted = Colors.Neutral.L500;
         SurfaceAltDark = Colors.Slate.L800;     
         PrimaryDark = Colors.Blue.L600;         // #2563EB (37,99,235)
         OnPrimaryDark = Colors.Slate.L100;      // #F1F5F9

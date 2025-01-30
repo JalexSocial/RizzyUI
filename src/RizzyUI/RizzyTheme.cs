@@ -32,6 +32,11 @@ public class RizzyTheme(string name, string themeCode)
     public Oklch OnSurfaceStrong { get; init; }
 
     /// <summary>
+    /// Gets the color used for disabled or inactive text elements.
+    /// </summary>
+    public Oklch OnSurfaceMuted { get; init; }
+
+    /// <summary>
     /// Gets the alternate surface background color in light mode.
     /// </summary>
     public Oklch SurfaceAlt { get; init; }
@@ -80,6 +85,12 @@ public class RizzyTheme(string name, string themeCode)
     /// Gets the color used for strongly emphasized content displayed on the surface in dark mode.
     /// </summary>
     public Oklch OnSurfaceDarkStrong { get; init; }
+
+    /// <summary>
+    /// Gets the color used for disabled or inactive text elements.
+    /// </summary>
+    public Oklch OnSurfaceDarkMuted { get; init; }
+
 
     /// <summary>
     /// Gets the alternate surface background color in dark mode.

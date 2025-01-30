@@ -1,6 +1,8 @@
-﻿@using Rizzy.Components
+﻿@using System.Diagnostics.CodeAnalysis
+@using Rizzy.Components
 @namespace RizzyUI
 @using System.Linq.Expressions
+@using Rizzy.Nonce
 @inherits InputBase<string>
 
 <div class="relative">
@@ -10,10 +12,11 @@
             @PrependText
         </div>
     }
-    <RzInputText @ref="_elem" type="@_role" Value="@_value" ValueExpression="For" placeholder="@_placeholder" @attributes="@AdditionalAttributes" class="@RootClass()" />
+    <RzInputText @ref="_elem" type="@_role" Value="@_value" ValueExpression="For" placeholder="@_placeholder" @attributes="@AdditionalAttributes" class="@RootClass()"/>
 </div>
 
 @code {
+
     /// <summary>
     /// Base CSS classes applied to the input element.
     /// </summary>
@@ -79,6 +82,13 @@
         _role = GetParameterValue("type", Role.ToString().ToLowerInvariant());
         _placeholder = GetParameterValue("placeholder", Placeholder);
         _value = For.Compile().Invoke();
+
+        AdditionalAttributes ??= new();
+        if (!string.IsNullOrEmpty(PrependText))
+        {
+            AdditionalAttributes?.Add("nonce", RizzyNonceProvider.GetNonceFor(NonceType.Style));
+            AdditionalAttributes?.Add("style", $"padding-left: {PrependText.Length+1}ch");
+        }
     }
 
     /// <summary>
