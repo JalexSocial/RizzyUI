@@ -83,11 +83,13 @@
 
 				<Field>
 					<FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
-					<TextEdit For="@(() => Model.Name)" PrependText="Name"/>
+					<TextEdit For="@(() => Model.Name)" PrependText="http://"/>
 					<RzValidationMessage For="@(() => Model.Name)"/>
 				</Field>
 
-				<TextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel" Placeholder="Enter your phone number..">
+                <TextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel" 
+                           Placeholder="Enter your phone number.."
+                           PrependIcon="@MdiIcon.Phone">
 					<FieldHelp>This is a helpful description</FieldHelp>
 				</TextField>
 
@@ -108,12 +110,13 @@
                         </Description>
                     </RadioGroupItem>
                     <RadioGroupItem TValue="string" Label="Classic" Value="@("phone")">
-	                    <Description>
-		                    Our legacy method
-	                    </Description>
+                        <Description>
+                            Our legacy method
+                        </Description>
                     </RadioGroupItem>
-                    <DateEdit For="@Model.BirthDate"/>
                 </RadioGroupField>
+
+                <DateEdit For="@Model.BirthDate"/>
 
                 <!--
 

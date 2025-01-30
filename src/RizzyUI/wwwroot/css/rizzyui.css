@@ -40,6 +40,10 @@
     --border-theme: var(--borderWidth);
 }
 
+@utility plch-* {
+    padding-left: calc(--value(integer) * 1ch);
+}
+
 .rounded {
     border-radius: var(--borderRadius);
 }

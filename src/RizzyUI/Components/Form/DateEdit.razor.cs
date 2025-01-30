@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Components;
 
 namespace RizzyUI;
 
@@ -15,6 +16,7 @@ using Rizzy.Utility;
 public sealed partial class DateEdit : RizzyComponent
 {
     private static readonly string BaseStyle = "w-full"; // Root container styling
+    private string PrependStyle { get; set; } = string.Empty;
 
     private static readonly string InputBaseStyle =
         "block w-full rounded-theme border border-outline px-3 py-2 leading-6 " +
@@ -23,12 +25,12 @@ public sealed partial class DateEdit : RizzyComponent
         "dark:placeholder-on-surface-dark dark:focus:border-primary-dark";
 
     private static readonly string[] DefaultAssets =
-    {
+    [
         // Flatpickr CSS
         /*"https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css",*/
         // Flatpickr JS
         "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js"
-    };
+    ];
 
     // Serialized Alpine data for the external rzDateEdit definition.
     private string _serializedConfig = string.Empty;
@@ -45,6 +47,7 @@ public sealed partial class DateEdit : RizzyComponent
     /// <summary>
     /// Gets or sets the Flatpickr configuration options.
     /// </summary>
+    [Parameter]
     public FlatpickrOptions Options { get; set; } = new()
     {
         Locale = "en"
@@ -53,17 +56,20 @@ public sealed partial class DateEdit : RizzyComponent
     /// <summary>
     /// Gets or sets the placeholder text for the date input.
     /// </summary>
+    [Parameter]
     public string Placeholder { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets any text to prepend inside the input region (e.g., currency symbol).
     /// </summary>
+    [Parameter]
     public string? PrependText { get; set; }
 
     /// <summary>
     /// Gets or sets the CDN or local asset URLs required by this component.
     /// By default, uses the Flatpickr CDN paths.
     /// </summary>
+    [Parameter]
     public string[] ComponentAssets { get; set; } = DefaultAssets;
 
     /// <inheritdoc/>
@@ -96,7 +102,7 @@ public sealed partial class DateEdit : RizzyComponent
         // If we have prepend text, shift the input left padding accordingly.
         bool hasPrepend = !string.IsNullOrEmpty(PrependText);
         _inputStyle = hasPrepend
-            ? $"{InputBaseStyle} ps-14"
+            ? $"{InputBaseStyle} plch-{PrependText!.Length + 3}"
             : InputBaseStyle;
 
         // Prepare the data object for Alpine, matching the original shape if needed.

@@ -135,4 +135,7 @@ svg[blazicon] {
 /* Flatpickr styling */
 @import "./vendor/flatpickr.css";
 
-
+/* Utility class for character based left padding - used with forms */
+@utility plch-* {
+    padding-left: calc(--value(integer) * 1ch);
+}

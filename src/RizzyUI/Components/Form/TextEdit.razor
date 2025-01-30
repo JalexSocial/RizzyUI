@@ -2,25 +2,38 @@
 @using Rizzy.Components
 @namespace RizzyUI
 @using System.Linq.Expressions
+@using Blazicons
 @using Rizzy.Nonce
 @inherits InputBase<string>
 
 <div class="relative">
-    @if (PrependText != null)
+    @if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
     {
-        <div class="pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-lg border-r border-gray-200 bg-gray-100 pl-3 pr-1 text-gray-700 dark:border-gray-600 dark:bg-gray-900/50 dark:text-gray-300">
-            @PrependText
+        <div class="pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-lg border-r border-gray-200 bg-gray-100 pl-2 pr-2 text-gray-700 dark:border-gray-600 dark:bg-gray-900/50 dark:text-gray-300">
+            @if (!string.IsNullOrEmpty(PrependText))
+            {
+                @PrependText
+            }
+            else
+            {
+                <div class="text-xl"><Blazicon Svg="PrependIcon" /></div>
+
+            }
         </div>
     }
     <RzInputText @ref="_elem" type="@_role" Value="@_value" ValueExpression="For" placeholder="@_placeholder" @attributes="@AdditionalAttributes" class="@RootClass()"/>
 </div>
 
 @code {
+    // Allow tailwind to pick up possible usage of these styles
+    private static readonly string TailwindClasses = "plch-0 plch-1 plch-2 plch-3 plch-4 plch-5 plch-6 plch-7 plch-8 plch-9 plch-10 plch-11 plch-12 plch-13 plch-14 plch-15 plch-16 plch-17 plch-18 plch-19 plch-20 plch-21 plch-22 plch-23 plch-24 plch-25";
 
     /// <summary>
     /// Base CSS classes applied to the input element.
     /// </summary>
     private static readonly string BaseStyle = "block w-full rounded-theme border border-outline px-3 py-2 leading-6 placeholder-gray-500 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:placeholder-gray-400 dark:focus:border-primary";
+
+    private string PrependStyle { get; set; } = string.Empty;
     private RzInputText? _elem;
     private string _value = string.Empty;
     private string _role = "text";
@@ -57,6 +70,13 @@
     public string? PrependText { get; set; }
 
     /// <summary>
+    /// Gets or sets the text to prepend icon inside the input field.
+    /// </summary>
+    /// <remarks>Only one of PrependText or PrependIcon can be defined</remarks>
+    [Parameter]
+    public SvgIcon? PrependIcon { get; set; }
+
+    /// <summary>
     /// Gets the ID attribute of the input element, if provided.
     /// </summary>
     public string Id
@@ -83,11 +103,19 @@
         _placeholder = GetParameterValue("placeholder", Placeholder);
         _value = For.Compile().Invoke();
 
+        if (!string.IsNullOrEmpty(PrependText) && PrependIcon != null)
+        {
+            throw new InvalidOperationException($"{nameof(PrependText)} and {nameof(PrependIcon)} cannot both be set at the same time.");
+        }
+
         AdditionalAttributes ??= new();
         if (!string.IsNullOrEmpty(PrependText))
         {
-            AdditionalAttributes?.Add("nonce", RizzyNonceProvider.GetNonceFor(NonceType.Style));
-            AdditionalAttributes?.Add("style", $"padding-left: {PrependText.Length+3}ch");
+            PrependStyle = $"plch-{Math.Min(PrependText!.Length + 2, 25)}";
+        }
+        else if (PrependIcon != null)
+        {
+            PrependStyle = "plch-5";
         }
     }
 
@@ -97,6 +125,6 @@
     /// <returns>A string containing the merged CSS classes.</returns>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, BaseStyle);
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle, PrependStyle);
     }
 }

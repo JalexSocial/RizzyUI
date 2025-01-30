@@ -2,6 +2,7 @@
 @using System.Linq.Expressions
 @using Rizzy.Components
 @using System.ComponentModel
+@using Blazicons
 @inherits RizzyComponent
 
 <Field class="@RootClass()">
@@ -11,7 +12,7 @@
             <span class="text-sm text-red-600 dark:text-red-400">*</span>
         }
     </FieldLabel>
-    <TextEdit For="@For" Role="@Role" Placeholder="@Placeholder" @attributes="AdditionalAttributes" />
+    <TextEdit For="@For" Role="@Role" Placeholder="@Placeholder" PrependIcon="@PrependIcon" PrependText="@PrependText" @attributes="AdditionalAttributes" />
     @if (FieldHelp != null)
     {
         <FieldHelp>@FieldHelp</FieldHelp>
@@ -61,6 +62,19 @@
     /// </summary>
     [Parameter, EditorRequired]
     public Expression<Func<string>>? For { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text to prepend inside the input field.
+    /// </summary>
+    [Parameter]
+    public string? PrependText { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text to prepend icon inside the input field.
+    /// </summary>
+    /// <remarks>Only one of PrependText or PrependIcon can be defined</remarks>
+    [Parameter]
+    public SvgIcon? PrependIcon { get; set; }
 
     /// <summary>
     /// Called when component parameters have been set.

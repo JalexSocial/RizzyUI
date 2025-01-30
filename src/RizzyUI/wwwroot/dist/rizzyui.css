@@ -1,7 +1,7 @@
-/*! tailwindcss v4.0.0 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.0.1 | MIT License | https://tailwindcss.com */
 @layer theme, base, components, utilities;
 @layer theme {
-  :root {
+  :root, :host {
     --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
@@ -1493,6 +1493,9 @@
   .pr-1 {
     padding-right: calc(var(--spacing) * 1);
   }
+  .pr-2 {
+    padding-right: calc(var(--spacing) * 2);
+  }
   .pr-8 {
     padding-right: calc(var(--spacing) * 8);
   }
@@ -1502,11 +1505,92 @@
   .pl-0 {
     padding-left: calc(var(--spacing) * 0);
   }
+  .pl-2 {
+    padding-left: calc(var(--spacing) * 2);
+  }
   .pl-3 {
     padding-left: calc(var(--spacing) * 3);
   }
   .pl-4 {
     padding-left: calc(var(--spacing) * 4);
+  }
+  .plch-0 {
+    padding-left: calc(0 * 1ch);
+  }
+  .plch-1 {
+    padding-left: calc(1 * 1ch);
+  }
+  .plch-2 {
+    padding-left: calc(2 * 1ch);
+  }
+  .plch-3 {
+    padding-left: calc(3 * 1ch);
+  }
+  .plch-4 {
+    padding-left: calc(4 * 1ch);
+  }
+  .plch-5 {
+    padding-left: calc(5 * 1ch);
+  }
+  .plch-6 {
+    padding-left: calc(6 * 1ch);
+  }
+  .plch-7 {
+    padding-left: calc(7 * 1ch);
+  }
+  .plch-8 {
+    padding-left: calc(8 * 1ch);
+  }
+  .plch-9 {
+    padding-left: calc(9 * 1ch);
+  }
+  .plch-10 {
+    padding-left: calc(10 * 1ch);
+  }
+  .plch-11 {
+    padding-left: calc(11 * 1ch);
+  }
+  .plch-12 {
+    padding-left: calc(12 * 1ch);
+  }
+  .plch-13 {
+    padding-left: calc(13 * 1ch);
+  }
+  .plch-14 {
+    padding-left: calc(14 * 1ch);
+  }
+  .plch-15 {
+    padding-left: calc(15 * 1ch);
+  }
+  .plch-16 {
+    padding-left: calc(16 * 1ch);
+  }
+  .plch-17 {
+    padding-left: calc(17 * 1ch);
+  }
+  .plch-18 {
+    padding-left: calc(18 * 1ch);
+  }
+  .plch-19 {
+    padding-left: calc(19 * 1ch);
+  }
+  .plch-20 {
+    padding-left: calc(20 * 1ch);
+  }
+  .plch-21 {
+    padding-left: calc(21 * 1ch);
+  }
+  .plch-22 {
+    padding-left: calc(22 * 1ch);
+  }
+  .plch-23 {
+    padding-left: calc(23 * 1ch);
+  }
+  .plch-24 {
+    padding-left: calc(24 * 1ch);
+  }
+  .plch-25 {
+    padding-left: calc(25 * 1ch);
   }
   .text-center {
     text-align: center;
