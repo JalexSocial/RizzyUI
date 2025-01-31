@@ -540,6 +540,7 @@ document.addEventListener('alpine:init', () => {
             init() {
                 // Retrieve configuration from dataset
                 const cfgString = this.$el.dataset.config;
+                const inputElem = document.getElementById(this.$el.dataset.uid + "-input");
                 if (cfgString) {
                     const parsed = JSON.parse(cfgString);
                     if (parsed) {
@@ -557,7 +558,7 @@ document.addEventListener('alpine:init', () => {
                 loadjs(assets, {
                     success: () => {
                         // Once loaded, initialize Flatpickr on the target input
-                        const inputElem = this.$refs.dateInput;
+                        //const inputElem = this.$refs.pickerWrapper.textInput;
                         if (window.flatpickr && inputElem) {
                             window.flatpickr(inputElem, this.options);
                         }

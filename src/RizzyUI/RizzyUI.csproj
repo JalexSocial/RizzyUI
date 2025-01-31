@@ -57,4 +57,9 @@
     <Target Name="Webpack" BeforeTargets="Build">
         <Exec Command="npm run build" />
     </Target>
+
+    <Target Name="LLM" AfterTargets="Build">
+        <Exec Command="npm run llm" />
+    </Target>
+
 </Project>

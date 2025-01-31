@@ -1,5 +1,5 @@
 ﻿@using Rizzy.Nonce
-
+@using Blazicons
 @namespace RizzyUI
 
 @inherits RizzyComponent
@@ -15,15 +15,24 @@
              data-stylenonce="@Nonce.GetNonce(NonceType.Style)"
              role="group" aria-label="Date picker">
 
-	<div class="relative" x-ref="pickerWrapper">
-		@if (!string.IsNullOrEmpty(PrependText))
+    <div class="relative" x-data="rzPrependInput" x-ref="pickerWrapper">
+	    @if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
 		{
-			<div class="pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-theme border-r border-outline bg-surface-alt px-3 text-on-surface dark:border-outline-dark dark:bg-surface-dark-alt dark:text-on-surface-dark">
-				@PrependText
+            <div x-ref="prependContainer" class="pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-theme border-r border-outline bg-surface-alt px-3 text-on-surface dark:border-outline-dark dark:bg-surface-dark-alt dark:text-on-surface-dark">
+				@if (!string.IsNullOrEmpty(PrependText))
+				{
+					@PrependText
+				}
+				else
+				{
+					<div class="text-xl"><Blazicon Svg="PrependIcon" /></div>
+
+				}
 			</div>
 		}
 
-		<input x-ref="dateInput"
+	    <input x-ref="textInput"
+               id="@_uid-input"
 		       type="text"
 		       class="@_inputStyle"
 		       aria-label="Select date" />

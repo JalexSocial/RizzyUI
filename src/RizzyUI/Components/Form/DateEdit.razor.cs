@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Blazicons;
 using Microsoft.AspNetCore.Components;
 
 namespace RizzyUI;
@@ -60,10 +61,17 @@ public sealed partial class DateEdit : RizzyComponent
     public string Placeholder { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets any text to prepend inside the input region (e.g., currency symbol).
+    /// Gets or sets the text to prepend inside the input field.
     /// </summary>
     [Parameter]
     public string? PrependText { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text to prepend icon inside the input field.
+    /// </summary>
+    /// <remarks>Only one of PrependText or PrependIcon can be defined</remarks>
+    [Parameter]
+    public SvgIcon? PrependIcon { get; set; }
 
     /// <summary>
     /// Gets or sets the CDN or local asset URLs required by this component.
