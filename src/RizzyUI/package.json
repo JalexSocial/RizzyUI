@@ -27,6 +27,7 @@
     "dependencies": {
         "@tailwindcss/cli": "^4.0.0",
         "postcss": "^8.5.1",
-        "postcss-selector-parser": "^7.0.0"
+        "postcss-selector-parser": "^7.0.0",
+        "repomix": "^0.2.24"
     }
 }

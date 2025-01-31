@@ -228,7 +228,6 @@ document.addEventListener('alpine:init', () => {
                 loadjs(assets, {
                     success: () => {
                         // Once loaded, initialize Flatpickr on the target input
-                        //const inputElem = this.$refs.pickerWrapper.textInput;
                         if (window.flatpickr && inputElem) {
                             window.flatpickr(inputElem, this.options);
                         }
