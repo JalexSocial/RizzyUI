@@ -641,6 +641,46 @@ document.addEventListener('alpine:init', () => {
             }
         });
 
+        Alpine.data('rzPrependInput', () => {
+            return {
+                init() {
+                    // On component init, measure the prepend container's width
+                    // and apply that as padding to the text input.
+                    let self = this;
+
+                    setTimeout(() => { self.updatePadding(); }, 50);
+
+                    // If you'd like the padding to adapt if the user resizes the window:
+                    window.addEventListener('resize', this.updatePadding);
+                },
+
+                destroy() {
+                    // Clean up the event listener when this component is removed
+                    window.removeEventListener('resize', this.updatePadding);
+                },
+
+                updatePadding() {
+                    // Using x-ref to find the prepend container and the actual text input
+                    const prependDiv = this.$refs.prependContainer;
+                    const inputElem = this.$refs.textInput;
+
+                    if (!prependDiv || !inputElem) {
+                        return;
+                    }
+
+                    // Get the rendered width of the prepend container (in px).
+                    const prependWidth = prependDiv.offsetWidth;
+
+                    // Optionally add a small buffer to keep text from hugging the border:
+                    const leftPadding = prependWidth + 10;
+
+                    // Apply inline style on the input to exactly match that width
+                    inputElem.style.paddingLeft = leftPadding + 'px';
+                    inputElem.classList.remove('text-transparent');
+                }
+            };
+        });
+
         Alpine.data('rzProgress', () => ({
             currentVal: 0,
             minVal: 0,
