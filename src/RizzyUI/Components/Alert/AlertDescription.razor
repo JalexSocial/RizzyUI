@@ -2,23 +2,6 @@
 
 @inherits RizzyComponent
 
-<div @attributes="@AdditionalAttributes" class="@RootClass()">
-    @ChildContent
-</div>
-
-@code
-{
-    private static readonly string BaseStyle = "text-xs font-medium sm:text-sm";
-
-	/// <summary>
-	/// Child content for the alert
-	/// </summary>
-	[Parameter]
-	public RenderFragment? ChildContent { get; set; }
-
-    protected override string? RootClass()
-    {
-        return TwMerge.Merge(AdditionalAttributes, BaseStyle);
-    }
-
-}
+<HtmlElement Element="@Element" @attributes="AdditionalAttributes" class="@RootClass()">
+	@ChildContent
+</HtmlElement>
