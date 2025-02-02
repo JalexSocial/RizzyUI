@@ -355,6 +355,45 @@ document.addEventListener('alpine:init', () => {
             console.log("error: aspnetValidation is not available");
         }
 
+        Alpine.data('rzAccordion', () => ({
+            selected: '',
+            allowMultiple: false,
+            init() {
+                this.allowMultiple = this.$el.dataset.multiple === "true";
+            },
+            destroy() {
+
+            }
+        }));
+
+        Alpine.data('rzAccordionSection', () => ({
+            open: false,
+            sectionId: "",
+            init() {
+                this.open = this.$el.dataset.isOpen === "true";
+                this.sectionId = this.$el.dataset.sectionId;
+
+                var self = this;
+                this.$watch('selected', (value, oldValue) => {
+                    if (value !== self.sectionId && !self.allowMultiple) {
+                        self.open = false;
+                    }
+                })
+            },
+            destroy() {
+
+            },
+            toggle() {
+                this.selected = this.sectionId;
+                this.open = !this.open;
+            },
+            // Computed getter for the icon rotation class.
+            iconRotation() {
+                return open ? "rotate-180" : "";
+            }
+
+        }));
+
         Alpine.data('rzDarkModeToggle', () => ({
 
             mode: 'light',
@@ -569,6 +608,33 @@ document.addEventListener('alpine:init', () => {
                     inlineScriptNonce: scriptNonce,
                     inlineStyleNonce: styleNonce
                 });
+            }
+        }));
+
+        Alpine.data('rzDropdown', () => ({
+            dropdownOpen: false,
+            openedWithKeyboard: false,
+            toggleDropdown() {
+                this.dropdownOpen = !this.dropdownOpen;
+            },
+            openDropdown() {
+                this.dropdownOpen = true;
+                this.openedWithKeyboard = false;
+            },
+            openWithKeyboard() {
+                this.dropdownOpen = true;
+                this.openedWithKeyboard = true;
+                this.focusWrapNext();
+            },
+            closeDropdown() {
+                this.dropdownOpen = false;
+                this.openedWithKeyboard = false;
+            },
+            focusWrapNext() {
+                this.$focus.wrap().next();
+            },
+            focusWrapPrevious() {
+                this.$focus.wrap().previous();
             }
         }));
 

@@ -1,0 +1,19 @@
+﻿@using Blazicons;
+
+@namespace RizzyUI
+
+@inherits RizzyComponent
+
+<a role="menuitem" @attributes="AdditionalAttributes" class="@RootClass()" x-on:click="closeDropdown" tabindex="0">
+    @if (Icon != null)
+    {
+        <span class="text-xl"><Blazicon Svg="@Icon" class="size-5 flex-none opacity-25 group-hover:opacity-50" /></span>
+    }
+	<span class="grow">@Title</span>
+	@if (Count != null)
+	{
+		<div class="inline-flex rounded-full border px-1.5 py-0.5 text-xs font-semibold">
+			@Count
+		</div>
+	}
+</a>

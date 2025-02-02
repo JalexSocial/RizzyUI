@@ -8,7 +8,7 @@
         "build": "webpack",
         "css:build": "npx @tailwindcss/cli -i ./wwwroot/css/rizzyui.css -o ./wwwroot/dist/rizzyui.css",
         "safelist:build": "node parse-tailwind-css.js",
-        "llm": "repomix --include \"**/*.razor,**/*.razor.cs,**/*.cs,**/js/rizzyui.js\" --ignore \"obj/,bin/\" --remove-empty-lines --remove-comments --style \"xml\" --output \"llmquery.xml\""
+        "llm": "repomix --instruction-file-path \"llm-instructions.txt\" --include \"**/*.razor,**/*.razor.cs,**/*.cs,**/js/rizzyui.js\" --ignore \"obj/,bin/\" --remove-empty-lines --remove-comments --style \"xml\" --output \"llmquery.xml\""
     },
     "keywords": [],
     "author": "",

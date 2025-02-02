@@ -1,0 +1,230 @@
+﻿@page "/components/dropdown"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Extensions
+@inherits RizzyComponent
+
+<PageTitle>Dropdown</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
+                Dropdown
+            </Heading>
+            <Paragraph>
+                Dropdowns offer you a user-friendly and space‑efficient method to present a list of options or actions that are activated when you click or hover. They are ideal for providing a compact navigation menu or for contextual actions.
+            </Paragraph>
+
+            <!-- Example 1: Dropdown with Avatar Trigger -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Avatar Dropdown" class="scroll-mt-20">
+                    Dropdown with Avatar Trigger
+                </Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    In this example the dropdown is activated on click with an Avatar as the trigger. The menu options include Dashboard, Settings, and Sign Out.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-60">
+                        <Dropdown>
+                            <Trigger>
+                                <!-- Use the Avatar component as the trigger -->
+                                <Avatar ImageSource="/images/profile/51.jpg" Initials="JD" Shape="AvatarShape.Circle" Size="Size.Medium" />
+                            </Trigger>
+                            <Content>
+                                <DropdownSection>
+                                    <DropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
+                                    <DropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
+                                    <DropdownMenuItem Icon="MdiIcon.Logout" Title="Sign Out" />
+                                </DropdownSection>
+                            </Content>
+                        </Dropdown>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;Dropdown&gt;
+    &lt;Trigger&gt;
+        &lt;Avatar ImageSource=&quot;/images/avatar.png&quot; Initials=&quot;JD&quot; Shape=&quot;AvatarShape.Circle&quot; Size=&quot;Size.Medium&quot; /&gt;
+    &lt;/Trigger&gt;
+    &lt;Content&gt;
+        &lt;DropdownSection&gt;
+                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
+                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
+                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
+        &lt;/DropdownSection&gt;
+    &lt;/Content&gt;
+&lt;/Dropdown&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Example 2: Dropdown with Button Trigger -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Button Dropdown" class="scroll-mt-20">
+                    Dropdown with Button Trigger
+                </Heading>
+                <Paragraph>
+                    In this example the dropdown is activated on click with a Button as the trigger. The menu options are grouped into two sections. The first section contains Dashboard, Messages, and Favorites. The second section contains Profile and Settings, and the Sign Out option is displayed on its own at the bottom.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-100">
+                        <Dropdown>
+                            <Trigger>
+                                <Button Variant="ButtonVariant.Primary" Label="Menu" ></Button>
+                            </Trigger>
+                            <Content>
+                                <DropdownSection>
+                                    <DropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
+                                    <DropdownMenuItem Icon="MdiIcon.Chat" Title="Messages" />
+                                    <DropdownMenuItem Icon="MdiIcon.Heart" Title="Favorites" />
+                                </DropdownSection>
+                                <DropdownSection>
+	                                <DropdownMenuItem Icon="MdiIcon.Circle" Title="Profile" />
+	                                <DropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
+                                </DropdownSection>
+                                <DropdownSection>
+	                                <DropdownMenuItem Icon="MdiIcon.Logout" Title="Sign Out" />
+                                </DropdownSection>
+                            </Content>
+                        </Dropdown>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+					&lt;Dropdown&gt;
+					    &lt;Trigger&gt;
+					        &lt;Button Variant=&quot;ButtonVariant.Primary&quot; Label=&quot;Menu&quot; /&gt;
+					    &lt;/Trigger&gt;
+					    &lt;Content&gt;
+					        &lt;DropdownSection&gt;
+					            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
+					            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Chat&quot; Title=&quot;Messages&quot; /&gt;
+					            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Heart&quot; Title=&quot;Favorites&quot; /&gt;
+					        &lt;/DropdownSection&gt;
+					        &lt;DropdownSection&gt;
+					            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Circle&quot; Title=&quot;Profile&quot; /&gt;
+					            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
+					        &lt;/DropdownSection&gt;
+					        &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
+					    &lt;/Content&gt;
+					&lt;/Dropdown&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Parameters Table -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Dropdown Parameters" class="scroll-mt-20">
+                    Dropdown Component Parameters
+                </Heading>
+                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
+                    <thead>
+                        <tr class="bg-surface-alt dark:bg-surface-dark-alt">
+                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Property
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Trigger</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                RenderFragment – The content used as the dropdown trigger (for example, an Avatar or a Button). (Required)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Content</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                RenderFragment – The dropdown menu content, typically composed of one or more DropdownSection components. (Required)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuItem Parameters" class="scroll-mt-20">
+                    DropdownMenuItem Component Parameters
+                </Heading>
+                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
+                    <thead>
+                        <tr class="bg-surface-alt dark:bg-surface-dark-alt">
+                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Property
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Icon</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                string – The icon identifier to display (for example, <code>HeroiconName.Home</code>). (Required)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Title</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                string – The label text for the menu item. (Required)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Count</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                int? – An optional numeric badge displayed alongside the title.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownSection Parameters" class="scroll-mt-20">
+                    DropdownSection Component Parameters
+                </Heading>
+                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
+                    <thead>
+                        <tr class="bg-surface-alt dark:bg-surface-dark-alt">
+                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Property
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>ChildContent</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                RenderFragment – The content rendered within the dropdown section.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>

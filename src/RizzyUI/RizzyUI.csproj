@@ -47,6 +47,7 @@
 
     <ItemGroup>
       <Folder Include="Components\Form\Models\" />
+      <Folder Include="Components\Modal\" />
     </ItemGroup>
 
     <Target Name="Tailwind" BeforeTargets="Build">

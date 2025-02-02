@@ -1,0 +1,293 @@
+Instructions:
+
+Your Role: Senior C# Developer
+Specialization: ASP.NET and Blazor Razor Components
+Context: Static Blazor Razor component development
+
+Coding Standards:
+- Use file-scoped namespaces.
+- Use Tailwind 4.0 for all css styling
+- Adhere to best practices for clean, efficient, and maintainable code.
+- Comments: Include XML documentation comments only for public and protected methods and properties.
+- Components: Properly structure ASP.NET and Blazor Razor components within a static rendered context.
+- Code in a manner that is consistent with the existing codebase
+- Utilize XML documentation (///) for public and protected members to provide clear explanations and usage details. 
+- Avoid adding comments or documentation to private or internal members unless explicitly requested.
+- Follow consistent formatting and naming conventions as per standard C# guidelines.
+- Ensure code is clean, well-organized, and free of unnecessary complexity.
+- Error Handling: Implement robust error handling where appropriate, following best practices.
+- Dependencies: Manage and reference necessary namespaces and packages appropriately, avoiding unused or redundant references.
+- When utilizing TwMerge.Merge with a first parameter of AdditionalAttributes, you must recognize that it is an extension method and use the RizzyUI.Extensions namespace at the top of the document
+- Components must adhere to Web Content Accessibility Guidelines 2.2 or higher
+- Components should derive directly from RizzyComponent and not utilize a base class when possible. 
+- Components must be split into two files: a .razor file that primarily contains markup and `@inherits RizzyComponent` and a .razor.cs file that contains a partial class containing all the component code
+- The RootClass RizzyComponent method should be utilized for the root class of the component. Any classes for the root element of the component should be defined in a private static read only string named "BaseStyle". For example,
+```
+    private static readonly string BaseStyle = "inline-flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap rounded font-medium tracking-wide text-center transition hover:opacity-75 active:opacity-100 hover:shadow-sm disabled:opacity-75 disabled:cursor-not-allowed";
+```
+- The root element of the component should always include the following:
+```
+@attributes="@AdditionalAttributes" class="@RootClass()"
+```
+- Where possible, use HtmlElement as the root element.  Adjust the root html element type by using the "Element" parameter.
+- The root element class should be generated with the RootClass() method, which should be overridden from the RizzyComponent class as follows:
+
+```
+    protected override string? RootClass()
+    {
+        string trailer = string.Empty;
+        if (Group != null)
+        {
+            var idx = Group.Buttons.IndexOf(this);
+
+            if (idx == 0)
+            {
+                trailer = " rounded-none rounded-l-lg";
+            }
+            else if (idx == Group.Buttons.Count - 1)
+            {
+                trailer = " rounded-none rounded-r-lg border-l-0";
+            }
+            else
+            {
+                trailer = " rounded-none border-l-0";
+            }
+        }
+
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle, Outline ? GetButtonOutlineVariantCss(Variant) : GetButtonVariantCss(Variant), GetButtonSizeCss(Size), trailer);
+    }
+```
+
+Please note that TwMerge.Merge takes a dictionary as first parameter (which is ALWAYS AdditionalAttributes, followed by a string params list of tailwind classes).  This merge method properly combines any redundant or overlapping Tailwind classes such that if I define "bg-primary" and later in the string define "bg-secondary" then "bg-primary" is removed from the resulting string.
+
+Additional Notes:
+
+If any alpine data definitions need to be created for use with x-data then output them as a separate block of javascript code and I will merge them in with the other alpine code.
+
+- **External Definitions:** All Alpine.js logic should reside in external JavaScript (for example, in an external Alpine.data definition). Do not embed inline scripts other than method or property names.
+
+- **Method/Property Referencing:** In your Razor markup, only reference the Alpine methods or properties by name (e.g., use `x-show="notDark"` or `x-on:click="toggleDark"`) without adding parentheses.
+
+- **Automatic Initialization:** You should not manually call `x-init="init()"` in your component because Alpine automatically calls the `init` method when the component is created.
+
+- **State and Interactivity:** The Alpine data object should handle all state management
+
+All components are rendered using static rendering, so event handlers or callbacks may not be used.
+
+Any component interactivity must be implemented in javascript using Alpine.js.  See `rizzyui.js` as an example that includes the Alpine.data declarations used by component x-data parameters.
+
+Data can be passed from component markup to the Alpine.data javascript code using data attributes. Those data attributes can be referenced using `$this.$el.dataset` in the init() method.
+Add a destroy method for any alpine javascript to clean up any event handlers or other used objects, if necessary.
+Any data defined with Alpine.data must be prefixed with "rz" followed by the name of the component.  So if a component named Alert has x-data, then it will have the parameter x-data="rzAlert" and that will be the name for the alpine data store.
+ 
+Special security instructions:
+
+This project also uses Alpine.js but is being used in conjunction with a content security policy that strictly disallows inline scripts.  Therefore, any Alpine.js code must be written in a way that alpine attributes reference code in an external javascript file.  Therefore, you may need to write Alpine.data directives if the component needs to use scripting.  
+
+**Alpine.js Programming Guidelines Under a Strict CSP**
+
+1. **Use the CSP Build**  
+   Include the CSP-compatible Alpine.js library (instead of the default) so it won’t violate `"unsafe-eval"` in your Content Security Policy.
+
+   ```html
+   <script
+       defer
+       nonce="YOUR_NONCE"
+       src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"
+   ></script>
+   ```
+
+2. **No Inline Scripts**  
+   Do **not** place JavaScript directly in HTML attributes or inline `<script>` tags with Alpine expressions (e.g., `x-on:click="count++"`). Instead, define all logic in an external file or in a `<script>` block that references `Alpine.data()`.
+
+3. **Use `Alpine.data()`**  
+   Create named components via `Alpine.data('name', () => ({}))`. In your HTML, set `x-data="name"` to attach that component.
+
+4. **Reference Methods by Key**  
+   Within templates, call methods or reference properties *by name*, without inline expressions.  
+   - **Invalid:** `x-data="{ count: 1 }"` or `@click="count++"`  
+   - **Valid:** `x-data="counter"` and `@click="increment"`
+
+5. **Access Nested Properties with Dot Notation**  
+   If your data is nested, you can use dot notation to reach deeper properties (e.g., `foo.count`).
+
+---
+
+### Example
+
+**HTML (with CSP and Alpine usage)**
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'nonce-abc123';">
+    <script
+        defer
+        nonce="abc123"
+        src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"
+    ></script>
+</head>
+<body>
+    <div x-data="counter">
+        <button x-on:click="increment">Increment</button>
+        <span x-text="count"></span>
+    </div>
+
+    <!-- External or separate script block -->
+    <script nonce="abc123">
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('counter', () => ({
+                count: 0,
+                increment() {
+                    this.count++
+                }
+            }))
+        })
+    </script>
+</body>
+</html>
+```
+
+## Tailwind Semantic Color Tokens available for styling
+
+### **Default (Light) Mode Colors**
+
+- **surface**  
+  • **Token:** `--color-surface`  
+  • **Usage:** For primary backgrounds (e.g. `bg-surface`).
+
+- **on-surface**  
+  • **Token:** `--color-on-surface`  
+  • **Usage:** For text or icons placed on the surface (e.g. `text-on-surface`).
+
+- **on-surface-strong**  
+  • **Token:** `--color-on-surface-strong`  
+  • **Usage:** A stronger variant for elements on the surface (e.g. `text-on-surface-strong`).
+
+- **on-surface-muted**  
+  • **Token:** `--color-on-surface-muted`  
+  • **Usage:** A muted option for text/icons on the surface.
+
+- **surface-alt**  
+  • **Token:** `--color-surface-alt`  
+  • **Usage:** Alternate background for surfaces (e.g. for subtle patterns or secondary areas).
+
+- **primary**  
+  • **Token:** `--color-primary`  
+  • **Usage:** Primary brand or action color (e.g. `bg-primary`, `text-primary`).
+
+- **on-primary**  
+  • **Token:** `--color-on-primary`  
+  • **Usage:** Text or icon color used on a primary-colored background.
+
+- **secondary**  
+  • **Token:** `--color-secondary`  
+  • **Usage:** Secondary accent color (e.g. `bg-secondary`, `text-secondary`).
+
+- **on-secondary**  
+  • **Token:** `--color-on-secondary`  
+  • **Usage:** For text/icons on secondary backgrounds.
+
+- **outline**  
+  • **Token:** `--color-outline`  
+  • **Usage:** Used for borders or outlines (e.g. `border-outline`).
+
+- **outline-strong**  
+  • **Token:** `--color-outline-strong`  
+  • **Usage:** A stronger outline alternative (e.g. `border-outline-strong`).
+
+---
+
+### **Dark Mode Colors**
+
+- **surface-dark**  
+  • **Token:** `--color-surface-dark`  
+  • **Usage:** The primary dark background (e.g. `bg-surface-dark`).
+
+- **on-surface-dark**  
+  • **Token:** `--color-on-surface-dark`  
+  • **Usage:** Text/icons on dark surfaces.
+
+- **on-surface-dark-strong**  
+  • **Token:** `--color-on-surface-dark-strong`  
+  • **Usage:** A stronger text variant for dark backgrounds.
+
+- **on-surface-dark-muted**  
+  • **Token:** `--color-on-surface-dark-muted`  
+  • **Usage:** A muted text/icon color for dark surfaces.
+
+- **surface-dark-alt**  
+  • **Token:** `--color-surface-dark-alt`  
+  • **Usage:** Alternate background in dark mode areas.
+
+- **primary-dark**  
+  • **Token:** `--color-primary-dark`  
+  • **Usage:** Dark variant of the primary color.
+
+- **on-primary-dark**  
+  • **Token:** `--color-on-primary-dark`  
+  • **Usage:** For text/icons on primary-dark backgrounds.
+
+- **secondary-dark**  
+  • **Token:** `--color-secondary-dark`  
+  • **Usage:** Dark variant of the secondary color.
+
+- **on-secondary-dark**  
+  • **Token:** `--color-on-secondary-dark`  
+  • **Usage:** For elements on secondary-dark backgrounds.
+
+- **outline-dark**  
+  • **Token:** `--color-outline-dark`  
+  • **Usage:** Dark variant for borders or outlines.
+
+- **outline-dark-strong**  
+  • **Token:** `--color-outline-dark-strong`  
+  • **Usage:** A stronger dark outline option.
+
+---
+
+### **Status & Utility Colors**
+
+- **danger**  
+  • **Token:** `--color-danger`  
+  • **Usage:** Used for error or danger states (e.g. `bg-danger`, `text-danger`).
+
+- **on-danger**  
+  • **Token:** `--color-on-danger`  
+  • **Usage:** Text or icon color to be used on danger backgrounds.
+
+- **info**  
+  • **Token:** `--color-info`  
+  • **Usage:** Informational color (e.g. `bg-info`, `text-info`).
+
+- **onInfo**  
+  • **Token:** `--color-onInfo`  
+  • **Usage:** Color for text/icons on info backgrounds  
+    *(Note: the token name uses mixed case as defined in your configuration).*
+
+- **warning**  
+  • **Token:** `--color-warning`  
+  • **Usage:** For warnings or cautionary messages (e.g. `bg-warning`, `text-warning`).
+
+- **on-warning**  
+  • **Token:** `--color-on-warning`  
+  • **Usage:** For text/icons on warning backgrounds.
+
+- **success**  
+  • **Token:** `--color-success`  
+  • **Usage:** Indicates success or confirmation (e.g. `bg-success`, `text-success`).
+
+- **on-success**  
+  • **Token:** `--color-on-success`  
+  • **Usage:** For elements placed on success backgrounds.
+
+---
+
+## How to Use These Tokens in Tailwind Classes
+
+Once defined in your theme configuration, these semantic tokens can be referenced in your Tailwind classes by name. For example:
+- `bg-surface` sets the background color to the value of `--color-surface`.
+- `text-on-primary` applies the text color defined by `--color-on-primary`.
+- `border-outline-dark` uses the dark outline color from `--color-outline-dark`.
