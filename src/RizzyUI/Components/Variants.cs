@@ -132,6 +132,104 @@ public enum Align
 }
 
 /// <summary>
+/// Anchor point options
+/// </summary>
+public enum AnchorPoint
+{
+    /// <summary>
+    /// Anchor to top start 
+    /// </summary>
+    TopStart,
+
+    /// <summary>
+    /// Anchor to top with center-alignment
+    /// </summary>
+    TopCenter,
+
+    /// <summary>
+    /// Anchor to top end
+    /// </summary>
+    TopEnd,
+
+    /// <summary>
+    /// Anchor to Start middle
+    /// </summary>
+    Start,
+
+    /// <summary>
+    /// Anchor to end middle
+    /// </summary>
+    End,
+
+    /// <summary>
+    /// Anchor to bottom end
+    /// </summary>
+    BottomEnd,
+
+    /// <summary>
+    /// Anchor to bottom start
+    /// </summary>
+    BottomStart,
+
+    /// <summary>
+    /// Anchor to bottom center
+    /// </summary>
+    BottomCenter
+}
+
+/// <summary>
+/// Specifies the origin point for transformations.
+/// </summary>
+public enum OriginPoint
+{
+	/// <summary>
+	/// Origin at the center.
+	/// </summary>
+	OriginCenter,
+
+	/// <summary>
+	/// Origin at the top.
+	/// </summary>
+	OriginTop,
+
+	/// <summary>
+	/// Origin at the top-right.
+	/// </summary>
+	OriginTopRight,
+
+	/// <summary>
+	/// Origin at the right.
+	/// </summary>
+	OriginRight,
+
+	/// <summary>
+	/// Origin at the bottom-right.
+	/// </summary>
+	OriginBottomRight,
+
+	/// <summary>
+	/// Origin at the bottom.
+	/// </summary>
+	OriginBottom,
+
+	/// <summary>
+	/// Origin at the bottom-left.
+	/// </summary>
+	OriginBottomLeft,
+
+	/// <summary>
+	/// Origin at the left.
+	/// </summary>
+	OriginLeft,
+
+	/// <summary>
+	/// Origin at the top-left.
+	/// </summary>
+	OriginTopLeft
+}
+
+
+/// <summary>
 /// Shape options for avatar components.
 /// </summary>
 public enum AvatarShape

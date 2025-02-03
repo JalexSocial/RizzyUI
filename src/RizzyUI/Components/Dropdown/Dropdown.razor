@@ -28,7 +28,7 @@
 			     x-on:keydown.down.prevent="focusWrapNext" x-on:keydown.up.prevent="focusWrapPrevious"
 			     role="menu"
 			     aria-labelledby="rz-dropdown-trigger"
-			     class="z-10 absolute right-0 mt-2 w-64 origin-top-right rounded-theme shadow-xl dark:shadow-gray-900">
+			     class="@DropdownClass()">
 				<div class="border border-outline divide-y divide-gray-100 rounded-lg bg-surface ring-black dark:divide-gray-700 dark:bg-surface-dark dark:border-outline-dark">
 					@Content
 				</div>
