@@ -9,7 +9,7 @@ public partial class Dropdown : RizzyComponent
 	private static readonly string BaseStyle = ""; // No extra root-level styling
 
 	private static readonly string BaseDropdownStyle =
-        "z-10 absolute origin-top-right right-0 mt-2 w-64 rounded-theme shadow-xl dark:shadow-gray-900";
+        "z-10 absolute right-0 mt-2 w-64 rounded-theme shadow-xl dark:shadow-gray-900";
 
     /// <summary>
     /// Gets or sets the render fragment that defines the dropdown trigger.
@@ -33,7 +33,7 @@ public partial class Dropdown : RizzyComponent
     /// Gets or sets the point on the dropdown where it attaches to the trigger
     /// </summary>
     [Parameter]
-	public OriginPoint Origin { get; set; } = OriginPoint.OriginTop;
+	public OriginPoint Origin { get; set; } = OriginPoint.OriginTopRight;
 
     /// <inheritdoc/>
     protected override string? RootClass()
