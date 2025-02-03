@@ -366,6 +366,8 @@ document.addEventListener('alpine:init', () => {
             }
         }));
 
+        Alpine.plugin(focus);
+
         Alpine.data('rzAccordionSection', () => ({
             open: false,
             sectionId: "",

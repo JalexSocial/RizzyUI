@@ -24,7 +24,7 @@
 			     x-transition:leave-start="opacity-100 scale-100"
 			     x-transition:leave-end="opacity-0 scale-90"
 			     x-on:click.outside="closeDropdown"
-                 x-trap.noscroll="openedWithKeyboard"
+                 x-trap="openedWithKeyboard"
 			     x-on:keydown.down.prevent="focusWrapNext" x-on:keydown.up.prevent="focusWrapPrevious"
 			     role="menu"
 			     aria-labelledby="rz-dropdown-trigger"

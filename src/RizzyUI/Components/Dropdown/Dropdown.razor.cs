@@ -9,7 +9,7 @@ public partial class Dropdown : RizzyComponent
 	private static readonly string BaseStyle = ""; // No extra root-level styling
 
 	private static readonly string BaseDropdownStyle =
-        "z-10 absolute right-0 mt-2 w-64 rounded-theme shadow-xl dark:shadow-gray-900";
+        "z-10 absolute w-64 rounded-theme shadow-xl dark:shadow-gray-900";
 
     /// <summary>
     /// Gets or sets the render fragment that defines the dropdown trigger.
@@ -29,12 +29,6 @@ public partial class Dropdown : RizzyComponent
 	[Parameter]
 	public AnchorPoint Anchor { get; set; } = AnchorPoint.BottomCenter;
 
-    /// <summary>
-    /// Gets or sets the point on the dropdown where it attaches to the trigger
-    /// </summary>
-    [Parameter]
-	public OriginPoint Origin { get; set; } = OriginPoint.OriginTopRight;
-
     /// <inheritdoc/>
     protected override string? RootClass()
 	{
@@ -48,46 +42,22 @@ public partial class Dropdown : RizzyComponent
     /// <returns></returns>
     private string? DropdownClass()
     {
-	    return TwMerge.Merge(null, BaseDropdownStyle, GetAnchorCss(Anchor), GetOriginCss(Origin));
+	    return TwMerge.Merge(null, BaseDropdownStyle, GetAnchorCss(Anchor));
     }
 
 	private static string GetAnchorCss(AnchorPoint anchor)
 	{
 		return anchor switch
 		{
-			AnchorPoint.TopStart => "",
-			AnchorPoint.TopCenter => "",
-			AnchorPoint.TopEnd => "",
-			AnchorPoint.Start => "",
-			AnchorPoint.End => "",
-			AnchorPoint.BottomStart => "",
-			AnchorPoint.BottomCenter => "",
-			AnchorPoint.BottomEnd => "",
+			AnchorPoint.TopStart => "bottom-full right-full mb-2 origin-bottom-right",
+			AnchorPoint.TopCenter => "left-1/2 bottom-full transform -translate-x-1/2 mb-2 origin-bottom",
+			AnchorPoint.TopEnd => "bottom-full left-full mb-2 origin-bottom-left",
+			AnchorPoint.Start => "right-full top-1/2 -translate-y-1/2 me-2 origin-right",
+			AnchorPoint.End => "left-full top-1/2 -translate-y-1/2 ms-2 origin-left",
+			AnchorPoint.BottomStart => "right-full mt-2 origin-top-right",
+			AnchorPoint.BottomCenter => "-translate-x-1/2 mt-2 origin-top",
+			AnchorPoint.BottomEnd => "left-full mt-2 origin-top-left",
 			_ => ""
 		};
 	}
-
-	/// <summary>
-	/// Gets the corresponding CSS class for the given origin point.
-	/// </summary>
-	/// <param name="origin">The origin point.</param>
-	/// <returns>The CSS class name representing the transform-origin value.</returns>
-	private static string GetOriginCss(OriginPoint origin)
-	{
-		return origin switch
-		{
-			OriginPoint.OriginCenter => "origin-center",
-			OriginPoint.OriginTop => "origin-top",
-			OriginPoint.OriginTopRight => "origin-top-right",
-			OriginPoint.OriginRight => "origin-right",
-			OriginPoint.OriginBottomRight => "origin-bottom-right",
-			OriginPoint.OriginBottom => "origin-bottom",
-			OriginPoint.OriginBottomLeft => "origin-bottom-left",
-			OriginPoint.OriginLeft => "origin-left",
-			OriginPoint.OriginTopLeft => "origin-top-left",
-			_ => "origin-center" // Default to center if an unknown value is provided
-		};
-	}
-
-
 }
