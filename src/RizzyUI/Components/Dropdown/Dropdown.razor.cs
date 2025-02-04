@@ -8,8 +8,7 @@ public partial class Dropdown : RizzyComponent
 {
 	private static readonly string BaseStyle = ""; // No extra root-level styling
 
-	private static readonly string BaseDropdownStyle =
-        "z-10 absolute w-64 rounded-theme shadow-xl dark:shadow-gray-900";
+	private static readonly string BaseDropdownStyle = "z-60 absolute w-64 rounded-theme shadow-xl dark:shadow-gray-900";
 
     /// <summary>
     /// Gets or sets the render fragment that defines the dropdown trigger.
@@ -42,21 +41,22 @@ public partial class Dropdown : RizzyComponent
     /// <returns></returns>
     private string? DropdownClass()
     {
-	    return TwMerge.Merge(null, BaseDropdownStyle, GetAnchorCss(Anchor));
+	    return TwMerge.Merge(null, BaseDropdownStyle);
     }
 
+    // TODO: Remove me
 	private static string GetAnchorCss(AnchorPoint anchor)
 	{
 		return anchor switch
 		{
-			AnchorPoint.TopStart => "bottom-full right-full mb-2 origin-bottom-right",
+			AnchorPoint.TopStart => "bottom-full right-0 mb-2 origin-bottom-right",
 			AnchorPoint.TopCenter => "left-1/2 bottom-full transform -translate-x-1/2 mb-2 origin-bottom",
-			AnchorPoint.TopEnd => "bottom-full left-full mb-2 origin-bottom-left",
+			AnchorPoint.TopEnd => "bottom-full left-0 mb-2 origin-bottom-left",
 			AnchorPoint.Start => "right-full top-1/2 -translate-y-1/2 me-2 origin-right",
 			AnchorPoint.End => "left-full top-1/2 -translate-y-1/2 ms-2 origin-left",
-			AnchorPoint.BottomStart => "right-full mt-2 origin-top-right",
+			AnchorPoint.BottomStart => "right-0 mt-2 origin-top-right",
 			AnchorPoint.BottomCenter => "-translate-x-1/2 mt-2 origin-top",
-			AnchorPoint.BottomEnd => "left-full mt-2 origin-top-left",
+			AnchorPoint.BottomEnd => "left-0 mt-2 origin-top-left",
 			_ => ""
 		};
 	}

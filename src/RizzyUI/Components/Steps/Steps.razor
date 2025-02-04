@@ -1,0 +1,62 @@
+﻿@namespace RizzyUI
+@using Blazicons
+@inherits RizzyComponent
+
+<HtmlElement Element="ol" @attributes="AdditionalAttributes" class="@RootClass()" aria-label="@AriaLabel">
+    @for (int i = 0; i < Items.Count; i++)
+    {
+        var step = Items[i];
+        <li class="flex items-center text-sm" 
+            aria-label="@(string.IsNullOrEmpty(step.AriaLabel) ? step.Label : step.AriaLabel)"
+            @(step.Status == StepStatus.Current ? "aria-current=\"step\"" : "")>
+            
+            @* Render connector before every step except the first *@
+            @if (i > 0)
+            {
+                <span class="@GetConnectorCss(Items[i - 1])" aria-hidden="true"></span>
+            }
+            
+            <div class="flex flex-col items-center gap-1 pl-2">
+                <div class="flex items-center gap-2">
+                    @if (step.Status == StepStatus.Completed)
+                    {
+                        <span class="flex size-6 items-center justify-center rounded-full border @GetCompletedCircleClasses()">
+                            @if (step.Icon is not null)
+                            {
+                                <Blazicon Svg="step.Icon" class="size-4" />
+                            }
+                            else
+                            {
+                                <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                </svg>
+                                <span class="sr-only">completed</span>
+                            }
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="flex size-6 shrink-0 items-center justify-center rounded-full border @GetStepCircleClasses(step.Status)">
+                            @if (step.Icon is not null)
+                            {
+                                <Blazicon Svg="step.Icon" class="size-4" />
+                            }
+                            else
+                            {
+                                @(i + 1)
+                            }
+                        </span>
+                    }
+                    @if (ShowLabels && !string.IsNullOrEmpty(step.Label))
+                    {
+                        <span class="@GetLabelClasses(step.Status) hidden w-max sm:inline">@step.Label</span>
+                    }
+                </div>
+                @if (!string.IsNullOrEmpty(step.Caption))
+                {
+                    <span class="text-xs text-on-surface-muted dark:text-on-surface-dark-muted">@step.Caption</span>
+                }
+            </div>
+        </li>
+    }
+</HtmlElement>

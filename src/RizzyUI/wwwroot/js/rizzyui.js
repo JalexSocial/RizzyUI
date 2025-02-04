@@ -281,31 +281,119 @@ document.addEventListener('alpine:init', () => {
             }
         }));
 
-        Alpine.data('rzDropdown', () => ({
-            dropdownOpen: false,
-            openedWithKeyboard: false,
-            toggleDropdown() {
-                this.dropdownOpen = !this.dropdownOpen;
-            },
-            openDropdown() {
-                this.dropdownOpen = true;
-                this.openedWithKeyboard = false;
-            },
-            openWithKeyboard() {
-                this.dropdownOpen = true;
-                this.openedWithKeyboard = true;
-                this.focusWrapNext();
-            },
-            closeDropdown() {
-                this.dropdownOpen = false;
-                this.openedWithKeyboard = false;
-            },
-            focusWrapNext() {
-                this.$focus.wrap().next();
-            },
-            focusWrapPrevious() {
-                this.$focus.wrap().previous();
+    Alpine.data('rzDropdown', () => ({
+        dropdownEl: null,
+        anchorCss: "",
+        dropdownOpen: false,
+        openedWithKeyboard: false,
+        init() {
+            this.dropdownEl = this.$el;
+            this.anchorCss = this.getAnchorCss();
+        },
+
+        toggleDropdown() {
+            this.anchorCss = this.getAnchorCss();
+            this.dropdownOpen = !this.dropdownOpen;
+        },
+        openDropdown() {
+            this.anchorCss = this.getAnchorCss();
+            this.dropdownOpen = true;
+            this.openedWithKeyboard = false;
+        },
+        openWithKeyboard() {
+            this.anchorCss = this.getAnchorCss();
+            this.dropdownOpen = true;
+            this.openedWithKeyboard = true;
+            this.focusWrapNext();
+        },
+        closeDropdown() {
+            this.dropdownOpen = false;
+            this.openedWithKeyboard = false;
+        },
+        focusWrapNext() {
+            this.$focus.wrap().next();
+        },
+        focusWrapPrevious() {
+            this.$focus.wrap().previous();
+        },
+        getAnchorCss() {
+            // Retrieve the default anchor string (e.g., "top-start")
+            let defaultAnchor = this.dropdownEl.getAttribute('data-anchor') || "";
+
+            // Mapping from normalized anchor string to Tailwind classes.
+            const anchorClasses = {
+                "topstart": "bottom-full right-0 mb-2 origin-bottom-right",
+                "topcenter": "left-1/2 bottom-full transform -translate-x-1/2 mb-2 origin-bottom",
+                "topend": "bottom-full left-0 mb-2 origin-bottom-left",
+                "start": "right-full top-1/2 -translate-y-1/2 me-2 origin-right",
+                "end": "left-full top-1/2 -translate-y-1/2 ms-2 origin-left",
+                "bottomstart": "right-0 mt-2 origin-top-right",
+                "bottomcenter": "-translate-x-1/2 mt-2 origin-top",
+                "bottomend": "left-0 mt-2 origin-top-left"
+            };
+
+            // Use the default classes initially.
+            let cssClasses = anchorClasses[defaultAnchor] || "";
+
+            // Get the trigger element’s bounding rectangle.
+            // Here we assume the dropdown container (with x-ref="dropdownEl") is the trigger’s container.
+            const triggerRect = this.dropdownEl.getBoundingClientRect();
+
+            // Now measure the dropdown menu “off-screen”:
+            const originalMenu = this.dropdownEl.querySelector('[role="menu"]');
+            let clone = originalMenu.cloneNode(true);
+            // Force the clone to render off-screen.
+            clone.style.position = 'absolute';
+            clone.style.top = '-9999px';
+            clone.style.left = '-9999px';
+            clone.style.visibility = 'hidden';
+            clone.style.display = 'block';
+            document.body.appendChild(clone);
+            const cloneRect = clone.getBoundingClientRect();
+            document.body.removeChild(clone);
+
+            // Assume a margin (for example, 8px) based on the Tailwind spacing (mb-2 typically equals 0.5rem).
+            const margin = 8;
+
+            // Determine if the default placement would clip the dropdown.
+            let wouldClip = false;
+            if (defaultAnchor.startsWith("top")) {
+                // For a top anchor, the dropdown would appear above the trigger.
+                if (triggerRect.top < cloneRect.height + margin) {
+                    wouldClip = true;
+                }
+            } else if (defaultAnchor.startsWith("bottom")) {
+                // For a bottom anchor, the dropdown appears below the trigger.
+                if (triggerRect.bottom + cloneRect.height + margin > window.innerHeight) {
+                    wouldClip = true;
+                }
+            } else if (defaultAnchor === "start") {
+                if (triggerRect.left < cloneRect.width + margin) {
+                    wouldClip = true;
+                }
+            } else if (defaultAnchor === "end") {
+                if (triggerRect.right + cloneRect.width + margin > window.innerWidth) {
+                    wouldClip = true;
+                }
             }
+
+            // If clipping is detected, choose the fallback anchor.
+            if (wouldClip) {
+                const fallbackMapping = {
+                    "topstart": "bottomstart",
+                    "topcenter": "bottomcenter",
+                    "topend": "bottomend",
+                    "bottomstart": "topstart",
+                    "bottomcenter": "topcenter",
+                    "bottomend": "topend",
+                    "start": "end",
+                    "end": "start"
+                };
+                let fallbackAnchor = fallbackMapping[defaultAnchor] || defaultAnchor;
+                cssClasses = anchorClasses[fallbackAnchor] || cssClasses;
+            }
+            return cssClasses;
+        }
         }));
 
         Alpine.data('rzEmbeddedPreview', () => {

@@ -67,97 +67,107 @@
 		</SidebarLinks>
 
 	</MenuContent>
-	<MainContent>
-		
-		<div class="p-8">
-			<Dropdown>
-				<Trigger>
-					<Button Variant="ButtonVariant.Primary" Label="Open Menu"></Button>
-				</Trigger>
-				<Content>
-					<DropdownSection>
-						<DropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
-						<DropdownMenuItem Icon="MdiIcon.FaceManProfile" Title="Profile" Count="5" />
-					</DropdownSection>
-					<DropdownSection>
-						<DropdownMenuItem Icon="MdiIcon.Logout" Title="Logout" />
-					</DropdownSection>
-				</Content>
-			</Dropdown>
-		</div>
+<MainContent>
+    
+    <Steps Orientation="Orientation.Horizontal" 
+           ShowLabels="true" 
+           AriaLabel="Registration Progress" 
+           ActiveColor="StatusColor.Primary">
+        <Step Label="Create an account" Status="StepStatus.Completed" Caption="Account created" />
+        <Step Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection" />
+        <Step Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart" />
+        <Step Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey" />
+    </Steps>
 
-		<Accordion AllowMultipleOpen="false">
-			<AccordionSection Title="What browsers are supported?">
-				<p>
-					Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
-					Check our <a href="#" class="underline underline-offset-2 text-primary dark:text-primary-dark">documentation</a> for more info.
-				</p>
-			</AccordionSection>
-			<AccordionSection Title="How can I contact customer support?">
-				<p>
-					Reach out to our support team via email at 
-					<a href="#" class="underline underline-offset-2 text-primary dark:text-primary-dark">support@example.com</a>
-					or call 1-800-123-4567.
-				</p>
-			</AccordionSection>
-			<AccordionSection Title="What is the refund policy?">
-				<p>
-					Please refer to our <a href="#" class="underline underline-offset-2 text-primary dark:text-primary-dark">refund policy page</a> for details.
-				</p>
-			</AccordionSection>
-		</Accordion>
+    <div class="p-8">
+        <Dropdown Anchor="AnchorPoint.TopStart">
+            <Trigger>
+                <Button Variant="ButtonVariant.Primary" Label="Open Menu"></Button>
+            </Trigger>
+            <Content>
+                <DropdownSection>
+                    <DropdownMenuItem Icon="MdiIcon.Cog" Title="Settings"/>
+                    <DropdownMenuItem Icon="MdiIcon.FaceManProfile" Title="Profile" Count="5"/>
+                </DropdownSection>
+                <DropdownSection>
+                    <DropdownMenuItem Icon="MdiIcon.Logout" Title="Logout"/>
+                </DropdownSection>
+            </Content>
+        </Dropdown>
+    </div>
 
-		<!-- Add main content here -->
-		<Breadcrumb Separator="MdiIcon.ChevronRight">
-			<BreadcrumbItem Href="/" Label="Home" Icon="MdiIcon.Home"/>
-			<BreadcrumbItem Href="/components" Label="Components"/>
-			<BreadcrumbItem Label="Breadcrumb" IsActive="true"/>
-		</Breadcrumb>
+    <Accordion AllowMultipleOpen="false">
+        <AccordionSection Title="What browsers are supported?">
+            <p>
+                Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
+                Check our <a href="#" class="underline underline-offset-2 text-primary dark:text-primary-dark">documentation</a> for more info.
+            </p>
+        </AccordionSection>
+        <AccordionSection Title="How can I contact customer support?">
+            <p>
+                Reach out to our support team via email at
+                <a href="#" class="underline underline-offset-2 text-primary dark:text-primary-dark">support@example.com</a>
+                or call 1-800-123-4567.
+            </p>
+        </AccordionSection>
+        <AccordionSection Title="What is the refund policy?">
+            <p>
+                Please refer to our <a href="#" class="underline underline-offset-2 text-primary dark:text-primary-dark">refund policy page</a> for details.
+            </p>
+        </AccordionSection>
+    </Accordion>
 
-		<FormCard Icon="@MdiIcon.FaceManProfile" Title="User Details" class="mb-5">
-			<Description>This is a user details form where you enter information about yourself.</Description>
-			<Content>
-				<EditForm Model="Model" class="form-children-spacing">
-					<RzValidationSummary/>
+    <!-- Add main content here -->
+    <Breadcrumb Separator="MdiIcon.ChevronRight">
+        <BreadcrumbItem Href="/" Label="Home" Icon="MdiIcon.Home"/>
+        <BreadcrumbItem Href="/components" Label="Components"/>
+        <BreadcrumbItem Label="Breadcrumb" IsActive="true"/>
+    </Breadcrumb>
 
-					<Field>
-						<FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
-						<TextEdit For="@(() => Model.Name)" PrependText="http://"/>
-						<RzValidationMessage For="@(() => Model.Name)"/>
-					</Field>
+    <FormCard Icon="@MdiIcon.FaceManProfile" Title="User Details" class="mb-5">
+        <Description>This is a user details form where you enter information about yourself.</Description>
+        <Content>
+            <EditForm Model="Model" class="form-children-spacing">
+                <RzValidationSummary/>
 
-					<TextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
-					           Placeholder="Enter your phone number.."
-					           PrependIcon="@MdiIcon.Phone">
-						<FieldHelp>This is a helpful description</FieldHelp>
-					</TextField>
+                <Field>
+                    <FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
+                    <TextEdit For="@(() => Model.Name)" PrependText="http://"/>
+                    <RzValidationMessage For="@(() => Model.Name)"/>
+                </Field>
 
-					<ToggleField For="@(() => Model.IsActive)" DisplayName="Active?">
-						<FieldHelp>Is this person active?</FieldHelp>
-					</ToggleField>
+                <TextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
+                           Placeholder="Enter your phone number.."
+                           PrependIcon="@MdiIcon.Phone">
+                    <FieldHelp>This is a helpful description</FieldHelp>
+                </TextField>
 
-					<RadioGroupField For="@(() => Model.PreferredContactMethod)" DisplayName="Product"
-					                 Orientation="Orientation.Vertical" CheckboxIcon="MdiIcon.CheckboxMarked">
-						<RadioGroupItem TValue="string" Label="Modern" Value="@("email")">
-							<Description>
-								We'll blast you with emails galore
-							</Description>
-						</RadioGroupItem>
-						<RadioGroupItem TValue="string" Label="Minimal" Value="@("text")">
-							<Description>
-								If you love simplicity every 5 minutes
-							</Description>
-						</RadioGroupItem>
-						<RadioGroupItem TValue="string" Label="Classic" Value="@("phone")">
-							<Description>
-								Our legacy method
-							</Description>
-						</RadioGroupItem>
-					</RadioGroupField>
+                <ToggleField For="@(() => Model.IsActive)" DisplayName="Active?">
+                    <FieldHelp>Is this person active?</FieldHelp>
+                </ToggleField>
 
-					<DateEdit For="@Model.BirthDate" PrependIcon="MdiIcon.Calendar"/>
+                <RadioGroupField For="@(() => Model.PreferredContactMethod)" DisplayName="Product"
+                                 Orientation="Orientation.Vertical" CheckboxIcon="MdiIcon.CheckboxMarked">
+                    <RadioGroupItem TValue="string" Label="Modern" Value="@("email")">
+                        <Description>
+                            We'll blast you with emails galore
+                        </Description>
+                    </RadioGroupItem>
+                    <RadioGroupItem TValue="string" Label="Minimal" Value="@("text")">
+                        <Description>
+                            If you love simplicity every 5 minutes
+                        </Description>
+                    </RadioGroupItem>
+                    <RadioGroupItem TValue="string" Label="Classic" Value="@("phone")">
+                        <Description>
+                            Our legacy method
+                        </Description>
+                    </RadioGroupItem>
+                </RadioGroupField>
 
-					<!--
+                <DateEdit For="@Model.BirthDate" PrependIcon="MdiIcon.Calendar"/>
+
+                <!--
 
                 <NumberField For="@(() => Model.Age)" Placeholder="Enter your age..">
 					<FieldHelp>How old are you?</FieldHelp>
@@ -197,63 +207,63 @@
 				
 				<DateField For="@(() => Model.Birthday)" DisplayName="Date of Birth"></DateField>
                     -->
-					<Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
-						<span>Save</span>
-					</Button>
-				</EditForm>
-			</Content>
-		</FormCard>
+                <Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
+                    <span>Save</span>
+                </Button>
+            </EditForm>
+        </Content>
+    </FormCard>
 
-		<Card>
-			<CardHeader>
-				<div>
-					<CardTitle>Information</CardTitle>
-					<CardSubtitle>This is a subtitle</CardSubtitle>
-				</div>
-				<CardButtons>
-					<a href="javascript:void(0)"
-					   class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold leading-5 text-gray-800 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:ring focus:ring-gray-300/25 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600/40 dark:active:border-gray-700">
-						<svg class="hi-mini hi-plus inline-block size-4 opacity-50"javascript:void(0)
-						     xmlns="http://www.w3.org/2000/svg"
-						     viewBox="0 0 20 20"
-						     fill="currentColor"
-						     aria-hidden="true">
-							<path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/>
-						</svg>
-						<span>New Project</span>
-					</a>
-					<a href="javascript:void(0)"
-					   class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold leading-5 text-gray-800 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:ring focus:ring-gray-300/25 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600/40 dark:active:border-gray-700">
-						<svg class="hi-mini hi-users inline-block size-4 opacity-50"
-						     xmlns="http://www.w3.org/2000/svg"
-						     viewBox="0 0 20 20"
-						     fill="currentColor"
-						     aria-hidden="true">
-							<path d="M7 8a3 3 0 100-6 3 3 0 000 6zM14.5 9a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM1.615 16.428a1.224 1.224 0 01-.569-1.175 6.002 6.002 0 0111.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 017 18a9.953 9.953 0 01-5.385-1.572zM14.5 16h-.106c.07-.297.088-.611.048-.933a7.47 7.47 0 00-1.588-3.755 4.502 4.502 0 015.874 2.636.818.818 0 01-.36.98A7.465 7.465 0 0114.5 16z"/>
-						</svg>
-						<span>Clients</span>
-					</a>
-				</CardButtons>
-			</CardHeader>
-			<CardBody>
-				Body content here
-				<Divider Label="Test" Style="@DividerStyle.Dotted" LabelAlignment="Align.End"/>
-				Body content here
-				<Badge>Test</Badge>
-				<Badge Soft>Test</Badge>
-			</CardBody>
-			<CardFooter>Footer content here</CardFooter>
-		</Card>
+    <Card>
+        <CardHeader>
+            <div>
+                <CardTitle>Information</CardTitle>
+                <CardSubtitle>This is a subtitle</CardSubtitle>
+            </div>
+            <CardButtons>
+                <a href="javascript:void(0)"
+                   class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold leading-5 text-gray-800 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:ring focus:ring-gray-300/25 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600/40 dark:active:border-gray-700">
+                    <svg class="hi-mini hi-plus inline-block size-4 opacity-50"javascript:void(0)
+                         xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 20 20"
+                         fill="currentColor"
+                         aria-hidden="true">
+                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/>
+                    </svg>
+                    <span>New Project</span>
+                </a>
+                <a href="javascript:void(0)"
+                   class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold leading-5 text-gray-800 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:ring focus:ring-gray-300/25 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600/40 dark:active:border-gray-700">
+                    <svg class="hi-mini hi-users inline-block size-4 opacity-50"
+                         xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 20 20"
+                         fill="currentColor"
+                         aria-hidden="true">
+                        <path d="M7 8a3 3 0 100-6 3 3 0 000 6zM14.5 9a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM1.615 16.428a1.224 1.224 0 01-.569-1.175 6.002 6.002 0 0111.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 017 18a9.953 9.953 0 01-5.385-1.572zM14.5 16h-.106c.07-.297.088-.611.048-.933a7.47 7.47 0 00-1.588-3.755 4.502 4.502 0 015.874 2.636.818.818 0 01-.36.98A7.465 7.465 0 0114.5 16z"/>
+                    </svg>
+                    <span>Clients</span>
+                </a>
+            </CardButtons>
+        </CardHeader>
+        <CardBody>
+            Body content here
+            <Divider Label="Test" Style="@DividerStyle.Dotted" LabelAlignment="Align.End"/>
+            Body content here
+            <Badge>Test</Badge>
+            <Badge Soft>Test</Badge>
+        </CardBody>
+        <CardFooter>Footer content here</CardFooter>
+    </Card>
 
 
-		<Card class="max-w-sm overflow-hidden">
-			<img src="/images/card1.jpg" class="w-full h-auto object-cover brightness-75"
-			     alt="Card background"/>
-			<CardBody>
-				<p>Body content here</p>
-			</CardBody>
-		</Card>
-	</MainContent>
+    <Card class="max-w-sm overflow-hidden">
+        <img src="/images/card1.jpg" class="w-full h-auto object-cover brightness-75"
+             alt="Card background"/>
+        <CardBody>
+            <p>Body content here</p>
+        </CardBody>
+    </Card>
+</MainContent>
 </Sidebar>
 
 @code
