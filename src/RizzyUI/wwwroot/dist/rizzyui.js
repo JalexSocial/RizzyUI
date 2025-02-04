@@ -647,10 +647,12 @@ document.addEventListener('alpine:init', () => {
             this.$focus.wrap().previous();
         },
         getAnchorCss() {
-            // Retrieve the default anchor string (e.g., "top-start")
-            let defaultAnchor = this.dropdownEl.getAttribute('data-anchor') || "";
+            // Retrieve and normalize the default anchor string from data-anchor.
+            let defaultAnchorRaw = this.dropdownEl.getAttribute('data-anchor') || "";
+            // Remove hyphens and convert to lowercase: "top-start" becomes "topstart"
+            let defaultAnchor = defaultAnchorRaw.replace(/-/g, "").toLowerCase();
 
-            // Mapping from normalized anchor string to Tailwind classes.
+            // Mapping from normalized anchor string to Tailwind CSS classes.
             const anchorClasses = {
                 "topstart": "bottom-full right-0 mb-2 origin-bottom-right",
                 "topcenter": "left-1/2 bottom-full transform -translate-x-1/2 mb-2 origin-bottom",
@@ -666,34 +668,50 @@ document.addEventListener('alpine:init', () => {
             let cssClasses = anchorClasses[defaultAnchor] || "";
 
             // Get the trigger element’s bounding rectangle.
-            // Here we assume the dropdown container (with x-ref="dropdownEl") is the trigger’s container.
+            // (We assume the dropdown container itself is the trigger.)
             const triggerRect = this.dropdownEl.getBoundingClientRect();
 
-            // Now measure the dropdown menu “off-screen”:
-            const originalMenu = this.dropdownEl.querySelector('[role="menu"]');
-            let clone = originalMenu.cloneNode(true);
-            // Force the clone to render off-screen.
-            clone.style.position = 'absolute';
-            clone.style.top = '-9999px';
-            clone.style.left = '-9999px';
-            clone.style.visibility = 'hidden';
-            clone.style.display = 'block';
-            document.body.appendChild(clone);
-            const cloneRect = clone.getBoundingClientRect();
-            document.body.removeChild(clone);
+            // --- Off-screen measurement ---
+            // Create a temporary container (preserving layout context) as a child of the dropdown.
+            let tempContainer = document.createElement('div');
+            tempContainer.style.cssText =
+                "position: absolute; top: 0; left: 0; visibility: hidden; pointer-events: none;";
+            this.dropdownEl.appendChild(tempContainer);
 
-            // Assume a margin (for example, 8px) based on the Tailwind spacing (mb-2 typically equals 0.5rem).
+            // Clone the dropdown menu element (with role="menu")
+            const originalMenu = this.dropdownEl.querySelector('[role="menu"]');
+            if (!originalMenu) {
+                // If no menu is found, simply return the default classes.
+                return cssClasses;
+            }
+            let clone = originalMenu.cloneNode(true);
+            // Remove any animation/transition styles.
+            clone.style.transition = "none";
+            clone.style.transform = "none";
+            clone.style.opacity = "1";
+            // Ensure the clone is rendered as block.
+            clone.style.display = "block";
+            // Append the clone to the temporary container.
+            tempContainer.appendChild(clone);
+
+            // Force a reflow by reading the bounding rect.
+            let cloneRect = clone.getBoundingClientRect();
+            // Clean up the temporary container.
+            tempContainer.parentNode.removeChild(tempContainer);
+            // --- End off-screen measurement ---
+
+            // Use a small margin (for example, 8px) as spacing.
             const margin = 8;
 
             // Determine if the default placement would clip the dropdown.
             let wouldClip = false;
             if (defaultAnchor.startsWith("top")) {
-                // For a top anchor, the dropdown would appear above the trigger.
+                // Dropdown appears above trigger.
                 if (triggerRect.top < cloneRect.height + margin) {
                     wouldClip = true;
                 }
             } else if (defaultAnchor.startsWith("bottom")) {
-                // For a bottom anchor, the dropdown appears below the trigger.
+                // Dropdown appears below trigger.
                 if (triggerRect.bottom + cloneRect.height + margin > window.innerHeight) {
                     wouldClip = true;
                 }
@@ -707,7 +725,7 @@ document.addEventListener('alpine:init', () => {
                 }
             }
 
-            // If clipping is detected, choose the fallback anchor.
+            // If clipping is detected, select a fallback anchor.
             if (wouldClip) {
                 const fallbackMapping = {
                     "topstart": "bottomstart",
@@ -722,8 +740,11 @@ document.addEventListener('alpine:init', () => {
                 let fallbackAnchor = fallbackMapping[defaultAnchor] || defaultAnchor;
                 cssClasses = anchorClasses[fallbackAnchor] || cssClasses;
             }
+
+            // Store and return the final class string.
             return cssClasses;
         }
+
         }));
 
         Alpine.data('rzEmbeddedPreview', () => {
@@ -795,11 +816,17 @@ document.addEventListener('alpine:init', () => {
             }
         });
 
-        Alpine.data('rzPrependInput', () => {
+    Alpine.data('rzPrependInput', () => {
+
             return {
+                prependContainer: null,
+                textInput: null,
                 init() {
                     // On component init, measure the prepend container's width
                     // and apply that as padding to the text input.
+                    this.prependContainer = this.$refs.prependContainer;
+                    this.textInput = this.$refs.textInput;
+
                     let self = this;
 
                     setTimeout(() => { self.updatePadding(); }, 50);
@@ -815,8 +842,8 @@ document.addEventListener('alpine:init', () => {
 
                 updatePadding() {
                     // Using x-ref to find the prepend container and the actual text input
-                    const prependDiv = this.$refs.prependContainer;
-                    const inputElem = this.$refs.textInput;
+                    const prependDiv = this.prependContainer;
+                    const inputElem = this.textInput;
 
                     if (!prependDiv || !inputElem) {
                         return;
