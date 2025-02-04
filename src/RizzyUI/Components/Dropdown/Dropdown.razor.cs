@@ -43,21 +43,4 @@ public partial class Dropdown : RizzyComponent
     {
 	    return TwMerge.Merge(null, BaseDropdownStyle);
     }
-
-    // TODO: Remove me
-	private static string GetAnchorCss(AnchorPoint anchor)
-	{
-		return anchor switch
-		{
-			AnchorPoint.TopStart => "bottom-full right-0 mb-2 origin-bottom-right",
-			AnchorPoint.TopCenter => "left-1/2 bottom-full transform -translate-x-1/2 mb-2 origin-bottom",
-			AnchorPoint.TopEnd => "bottom-full left-0 mb-2 origin-bottom-left",
-			AnchorPoint.Start => "right-full top-1/2 -translate-y-1/2 me-2 origin-right",
-			AnchorPoint.End => "left-full top-1/2 -translate-y-1/2 ms-2 origin-left",
-			AnchorPoint.BottomStart => "right-0 mt-2 origin-top-right",
-			AnchorPoint.BottomCenter => "-translate-x-1/2 mt-2 origin-top",
-			AnchorPoint.BottomEnd => "left-0 mt-2 origin-top-left",
-			_ => ""
-		};
-	}
 }
