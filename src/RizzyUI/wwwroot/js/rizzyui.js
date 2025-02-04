@@ -465,11 +465,17 @@ document.addEventListener('alpine:init', () => {
             }
         });
 
-        Alpine.data('rzPrependInput', () => {
+    Alpine.data('rzPrependInput', () => {
+
             return {
+                prependContainer: null,
+                textInput: null,
                 init() {
                     // On component init, measure the prepend container's width
                     // and apply that as padding to the text input.
+                    this.prependContainer = this.$refs.prependContainer;
+                    this.textInput = this.$refs.textInput;
+
                     let self = this;
 
                     setTimeout(() => { self.updatePadding(); }, 50);
@@ -485,8 +491,8 @@ document.addEventListener('alpine:init', () => {
 
                 updatePadding() {
                     // Using x-ref to find the prepend container and the actual text input
-                    const prependDiv = this.$refs.prependContainer;
-                    const inputElem = this.$refs.textInput;
+                    const prependDiv = this.prependContainer;
+                    const inputElem = this.textInput;
 
                     if (!prependDiv || !inputElem) {
                         return;
