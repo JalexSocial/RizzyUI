@@ -69,16 +69,6 @@
 	</MenuContent>
 <MainContent>
     
-    <Steps Orientation="Orientation.Horizontal" 
-           ShowLabels="true" 
-           AriaLabel="Registration Progress" 
-           ActiveColor="StatusColor.Primary">
-        <Step Label="Create an account" Status="StepStatus.Completed" Caption="Account created" />
-        <Step Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection" />
-        <Step Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart" />
-        <Step Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey" />
-    </Steps>
-
     <div class="p-8">
         <Dropdown Anchor="AnchorPoint.TopStart">
             <Trigger>
@@ -95,6 +85,16 @@
             </Content>
         </Dropdown>
     </div>
+
+    <Steps Orientation="Orientation.Horizontal" 
+           ShowLabels="true" 
+           AriaLabel="Registration Progress" 
+           ActiveColor="StatusColor.Primary">
+	    <Step Label="Create an account" Status="StepStatus.Completed" Caption="Account created" />
+	    <Step Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection" />
+	    <Step Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart" />
+	    <Step Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey" />
+    </Steps>
 
     <Accordion AllowMultipleOpen="false">
         <AccordionSection Title="What browsers are supported?">

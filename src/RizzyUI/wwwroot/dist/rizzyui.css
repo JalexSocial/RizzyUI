@@ -919,6 +919,9 @@
   .max-w-sm {
     max-width: var(--container-sm);
   }
+  .flex-1 {
+    flex: 1;
+  }
   .flex-none {
     flex: none;
   }

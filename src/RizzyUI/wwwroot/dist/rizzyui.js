@@ -647,9 +647,7 @@ document.addEventListener('alpine:init', () => {
             this.$focus.wrap().previous();
         },
         getAnchorCss() {
-            // Retrieve and normalize the default anchor string from data-anchor.
             let defaultAnchorRaw = this.dropdownEl.getAttribute('data-anchor') || "";
-            // Remove hyphens and convert to lowercase: "top-start" becomes "topstart"
             let defaultAnchor = defaultAnchorRaw.replace(/-/g, "").toLowerCase();
 
             // Mapping from normalized anchor string to Tailwind CSS classes.
@@ -664,11 +662,9 @@ document.addEventListener('alpine:init', () => {
                 "bottomend": "left-0 mt-2 origin-top-left"
             };
 
-            // Use the default classes initially.
             let cssClasses = anchorClasses[defaultAnchor] || "";
 
             // Get the trigger element’s bounding rectangle.
-            // (We assume the dropdown container itself is the trigger.)
             const triggerRect = this.dropdownEl.getBoundingClientRect();
 
             // --- Off-screen measurement ---
@@ -685,7 +681,6 @@ document.addEventListener('alpine:init', () => {
                 return cssClasses;
             }
             let clone = originalMenu.cloneNode(true);
-            // Remove any animation/transition styles.
             clone.style.transition = "none";
             clone.style.transform = "none";
             clone.style.opacity = "1";
@@ -696,11 +691,9 @@ document.addEventListener('alpine:init', () => {
 
             // Force a reflow by reading the bounding rect.
             let cloneRect = clone.getBoundingClientRect();
-            // Clean up the temporary container.
             tempContainer.parentNode.removeChild(tempContainer);
-            // --- End off-screen measurement ---
 
-            // Use a small margin (for example, 8px) as spacing.
+            // Use a small margin as spacing.
             const margin = 8;
 
             // Determine if the default placement would clip the dropdown.
