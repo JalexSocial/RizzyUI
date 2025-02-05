@@ -16,7 +16,10 @@
                 Dropdown
             </Heading>
             <Paragraph>
-                Dropdowns offer you a user-friendly and space‑efficient method to present a list of options or actions that are activated when you click or hover. They are ideal for providing a compact navigation menu or for contextual actions.
+                Dropdowns provide a user‑friendly and space‑efficient way to display a list of options or actions.
+                When the trigger element is activated (via click or keyboard events), the dropdown menu appears with a smooth transition.
+                The component supports any renderable trigger (such as a Button, Avatar, etc.), multiple menu sections, dynamic alignment via the <code>Anchor</code> property, and full keyboard accessibility.
+                All interactivity is handled via Alpine.js (using the <code>rzDropdown</code> data object), ensuring a CSP‑compliant, accessible experience.
             </Paragraph>
 
             <!-- Example 1: Dropdown with Avatar Trigger -->
@@ -25,12 +28,12 @@
                     Dropdown with Avatar Trigger
                 </Heading>
                 <Paragraph TextColor="SemanticColor.OnSurface">
-                    In this example the dropdown is activated on click with an Avatar as the trigger. The menu options include Dashboard, Settings, and Sign Out.
+                    In this example the dropdown is activated by clicking an Avatar. The menu options include Dashboard, Settings, and Sign Out.
                 </Paragraph>
 
                 <Browser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-60">
-                        <Dropdown>
+                        <Dropdown Anchor="AnchorPoint.BottomCenter">
                             <Trigger>
                                 <!-- Use the Avatar component as the trigger -->
                                 <Avatar ImageSource="/images/profile/51.jpg" Initials="JD" Shape="AvatarShape.Circle" Size="Size.Medium" />
@@ -47,40 +50,43 @@
                 </Browser>
 
                 <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Dropdown&gt;
+&lt;Dropdown Anchor=&quot;AnchorPoint.BottomCenter&quot;&gt;
     &lt;Trigger&gt;
-        &lt;Avatar ImageSource=&quot;/images/avatar.png&quot; Initials=&quot;JD&quot; Shape=&quot;AvatarShape.Circle&quot; Size=&quot;Size.Medium&quot; /&gt;
+        &lt;Avatar ImageSource=&quot;/images/profile/51.jpg&quot; Initials=&quot;JD&quot; Shape=&quot;AvatarShape.Circle&quot; Size=&quot;Size.Medium&quot; /&gt;
     &lt;/Trigger&gt;
     &lt;Content&gt;
         &lt;DropdownSection&gt;
-                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
-                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
-                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
         &lt;/DropdownSection&gt;
     &lt;/Content&gt;
 &lt;/Dropdown&gt;
                 </CodeViewer>
             </section>
 
-            <!-- Example 2: Dropdown with Button Trigger -->
+            <!-- Example 2: Dropdown with Button Trigger and Multiple Sections -->
             <section class="my-8 py-2">
                 <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Button Dropdown" class="scroll-mt-20">
                     Dropdown with Button Trigger
                 </Heading>
                 <Paragraph>
-                    In this example the dropdown is activated on click with a Button as the trigger. The menu options are grouped into two sections. The first section contains Dashboard, Messages, and Favorites. The second section contains Profile and Settings, and the Sign Out option is displayed on its own at the bottom.
+                    In this example the dropdown is activated with a Button trigger. The menu is organized into multiple sections:
+                    the first section contains Dashboard, Messages (with a numeric badge), and Favorites;
+                    the second section contains Profile and Settings; and a final standalone Sign Out option is provided.
+                    The dropdown will automatically adjust its alignment to remain fully visible.
                 </Paragraph>
 
                 <Browser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-100">
-                        <Dropdown>
+                        <Dropdown Anchor="AnchorPoint.BottomCenter">
                             <Trigger>
-                                <Button Variant="ButtonVariant.Primary" Label="Menu" ></Button>
+                                <Button Variant="ButtonVariant.Primary" Label="Menu" />
                             </Trigger>
                             <Content>
                                 <DropdownSection>
                                     <DropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
-                                    <DropdownMenuItem Icon="MdiIcon.Chat" Title="Messages" Count="6"/>
+                                    <DropdownMenuItem Icon="MdiIcon.Chat" Title="Messages" Count="6" />
                                     <DropdownMenuItem Icon="MdiIcon.Heart" Title="Favorites" />
                                 </DropdownSection>
                                 <DropdownSection>
@@ -96,27 +102,70 @@
                 </Browser>
 
                 <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-					&lt;Dropdown&gt;
-					    &lt;Trigger&gt;
-					        &lt;Button Variant=&quot;ButtonVariant.Primary&quot; Label=&quot;Menu&quot; /&gt;
-					    &lt;/Trigger&gt;
-					    &lt;Content&gt;
-					        &lt;DropdownSection&gt;
-					            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
-					            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Chat&quot; Title=&quot;Messages&quot; /&gt;
-					            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Heart&quot; Title=&quot;Favorites&quot; /&gt;
-					        &lt;/DropdownSection&gt;
-					        &lt;DropdownSection&gt;
-					            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Circle&quot; Title=&quot;Profile&quot; /&gt;
-					            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
-					        &lt;/DropdownSection&gt;
-					        &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
-					    &lt;/Content&gt;
-					&lt;/Dropdown&gt;
+&lt;Dropdown Anchor=&quot;AnchorPoint.BottomCenter&quot;&gt;
+    &lt;Trigger&gt;
+        &lt;Button Variant=&quot;ButtonVariant.Primary&quot; Label=&quot;Menu&quot; /&gt;
+    &lt;/Trigger&gt;
+    &lt;Content&gt;
+        &lt;DropdownSection&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Chat&quot; Title=&quot;Messages&quot; Count=&quot;6&quot; /&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Heart&quot; Title=&quot;Favorites&quot; /&gt;
+        &lt;/DropdownSection&gt;
+        &lt;DropdownSection&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Circle&quot; Title=&quot;Profile&quot; /&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
+        &lt;/DropdownSection&gt;
+        &lt;DropdownSection&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
+        &lt;/DropdownSection&gt;
+    &lt;/Content&gt;
+&lt;/Dropdown&gt;
                 </CodeViewer>
             </section>
 
-            <!-- Parameters Table -->
+            <!-- Example 3: Dropdown with Custom Anchor Point -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Anchor Dropdown" class="scroll-mt-20">
+                    Dropdown with Custom Anchor Point
+                </Heading>
+                <Paragraph>
+                    You can control the dropdown’s alignment using the <code>Anchor</code> property. For instance,
+                    setting <code>Anchor="AnchorPoint.TopEnd"</code> positions the dropdown menu above the trigger and aligned to its end.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 min-h-60 flex flex-col flex-wrap justify-end content-center">
+                        <Dropdown Anchor="AnchorPoint.TopEnd">
+                            <Trigger>
+                                <Button Variant="ButtonVariant.Secondary" Label="Options" />
+                            </Trigger>
+                            <Content>
+                                <DropdownSection>
+                                    <DropdownMenuItem Icon="MdiIcon.Cog" Title="Preferences" />
+                                    <DropdownMenuItem Icon="MdiIcon.Information" Title="About" />
+                                </DropdownSection>
+                            </Content>
+                        </Dropdown>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;Dropdown Anchor=&quot;AnchorPoint.TopEnd&quot;&gt;
+    &lt;Trigger&gt;
+        &lt;Button Variant=&quot;ButtonVariant.Secondary&quot; Label=&quot;Options&quot; /&gt;
+    &lt;/Trigger&gt;
+    &lt;Content&gt;
+        &lt;DropdownSection&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Settings&quot; Title=&quot;Preferences&quot; /&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Info&quot; Title=&quot;About&quot; /&gt;
+        &lt;/DropdownSection&gt;
+    &lt;/Content&gt;
+&lt;/Dropdown&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Dropdown Component Parameters -->
             <section class="my-8 py-2">
                 <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Dropdown Parameters" class="scroll-mt-20">
                     Dropdown Component Parameters
@@ -138,7 +187,7 @@
                                 <strong>Trigger</strong>
                             </td>
                             <td class="text-base p-4">
-                                RenderFragment – The content used as the dropdown trigger (for example, an Avatar or a Button). (Required)
+                                <em>RenderFragment</em> – The content that serves as the interactive trigger for the dropdown (for example, an Avatar, Button, etc.). (Required)
                             </td>
                         </tr>
                         <tr>
@@ -146,13 +195,25 @@
                                 <strong>Content</strong>
                             </td>
                             <td class="text-base p-4">
-                                RenderFragment – The dropdown menu content, typically composed of one or more DropdownSection components. (Required)
+                                <em>RenderFragment</em> – The menu content rendered inside the dropdown. Typically, this includes one or more <code>DropdownSection</code> components. (Required)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Anchor</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>AnchorPoint</em> – Determines the preferred alignment of the dropdown relative to its trigger.
+                                Options include: <code>TopStart</code>, <code>TopCenter</code>, <code>TopEnd</code>,
+                                <code>Start</code>, <code>End</code>, <code>BottomEnd</code>, <code>BottomStart</code>,
+                                and <code>BottomCenter</code>. The default value is <code>BottomCenter</code>.
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </section>
 
+            <!-- DropdownMenuItem Component Parameters -->
             <section class="my-8 py-2">
                 <Heading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuItem Parameters" class="scroll-mt-20">
                     DropdownMenuItem Component Parameters
@@ -174,7 +235,7 @@
                                 <strong>Icon</strong>
                             </td>
                             <td class="text-base p-4">
-                                string – The icon identifier to display (for example, <code>HeroiconName.Home</code>). (Required)
+                                <em>SvgIcon</em> – An optional icon (from Blazicons) to display alongside the title.
                             </td>
                         </tr>
                         <tr>
@@ -182,7 +243,7 @@
                                 <strong>Title</strong>
                             </td>
                             <td class="text-base p-4">
-                                string – The label text for the menu item. (Required)
+                                <em>string</em> – The label text for the menu item. (Required)
                             </td>
                         </tr>
                         <tr>
@@ -190,13 +251,14 @@
                                 <strong>Count</strong>
                             </td>
                             <td class="text-base p-4">
-                                int? – An optional numeric badge displayed alongside the title.
+                                <em>int?</em> – An optional numeric badge displayed alongside the title.
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </section>
 
+            <!-- DropdownSection Component Parameters -->
             <section class="my-8 py-2">
                 <Heading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownSection Parameters" class="scroll-mt-20">
                     DropdownSection Component Parameters
@@ -218,7 +280,7 @@
                                 <strong>ChildContent</strong>
                             </td>
                             <td class="text-base p-4">
-                                RenderFragment – The content rendered within the dropdown section.
+                                <em>RenderFragment</em> – The content rendered within the dropdown section.
                             </td>
                         </tr>
                     </tbody>

@@ -10,7 +10,7 @@
 	@for (int i = 0; i < Items.Count; i++)
 	{
 		var step = Items[i];
-		<li class="flex items-center text-sm @( i > 0 ? "w-full" : "")"
+		<li class="flex items-center relative text-sm @( i > 0 ? "w-full" : "")"
 		    aria-label="@(string.IsNullOrEmpty(step.AriaLabel) ? step.Label : step.AriaLabel)">
 
 			@* Render connector before every step except the first *@

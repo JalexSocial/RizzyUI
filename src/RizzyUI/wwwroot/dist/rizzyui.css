@@ -620,6 +620,9 @@
   .bottom-0 {
     bottom: calc(var(--spacing) * 0);
   }
+  .bottom-8 {
+    bottom: calc(var(--spacing) * 8);
+  }
   .bottom-full {
     bottom: 100%;
   }
@@ -628,6 +631,9 @@
   }
   .left-1\/2 {
     left: calc(1/2 * 100%);
+  }
+  .left-3 {
+    left: calc(var(--spacing) * 3);
   }
   .left-full {
     left: 100%;
@@ -847,6 +853,9 @@
   .h-8 {
     height: calc(var(--spacing) * 8);
   }
+  .h-10 {
+    height: calc(var(--spacing) * 10);
+  }
   .h-11 {
     height: calc(var(--spacing) * 11);
   }
@@ -864,6 +873,9 @@
   }
   .min-h-28 {
     min-height: calc(var(--spacing) * 28);
+  }
+  .w-0\.5 {
+    width: calc(var(--spacing) * 0.5);
   }
   .w-1\/2 {
     width: calc(1/2 * 100%);
@@ -2533,6 +2545,13 @@
       }
     }
   }
+  .hover\:underline {
+    &:hover {
+      @media (hover: hover) {
+        text-decoration-line: underline;
+      }
+    }
+  }
   .hover\:opacity-75 {
     &:hover {
       @media (hover: hover) {
@@ -2553,6 +2572,11 @@
       border-color: var(--color-primary);
     }
   }
+  .focus\:underline {
+    &:focus {
+      text-decoration-line: underline;
+    }
+  }
   .focus\:ring {
     &:focus {
       --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentColor);
@@ -2562,6 +2586,15 @@
   .focus\:ring-primary {
     &:focus {
       --tw-ring-color: var(--color-primary);
+    }
+  }
+  .focus\:outline-hidden {
+    &:focus {
+      outline-style: none;
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
     }
   }
   .focus\:outline-offset-0 {

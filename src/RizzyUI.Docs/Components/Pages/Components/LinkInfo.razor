@@ -1,0 +1,158 @@
+﻿@page "/components/link"
+@using RizzyUI
+@using RizzyUI.Extensions
+@inherits RizzyComponent
+
+<PageTitle>Link</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <!-- Page Title and Overview -->
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
+                Link
+            </Heading>
+            <Paragraph>
+                Links are a great way to direct users to a specific page or section of your website.
+                The <code>Link</code> component provides consistent styling for links throughout your application.
+                It wraps an anchor element (<code>&lt;a&gt;</code>) with predefined RizzyUI styling using our design tokens and Tailwind CSS.
+            </Paragraph>
+
+            <!-- Example 1: Default Link -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Link" class="scroll-mt-20">
+                    Default Link
+                </Heading>
+                <Paragraph>
+                    The default link below uses the standard styling.
+                </Paragraph>
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-20">
+                        <Link Href="javascript:void(0);">Read if bored</Link>
+                    </div>
+                </Browser>
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;Link Href=&quot;#&quot;&gt;Read if bored&lt;/Link&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Example 2: Link Within Text -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Link within Text" class="scroll-mt-20">
+                    Link within Text
+                </Heading>
+                <Paragraph>
+                    You can seamlessly embed the Link component within text content.
+                </Paragraph>
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-20">
+                        <p class="text-on-surface dark:text-on-surface-dark">
+                            Follow us on <Link Href="javascript:void(0);">social media</Link> and become our virtual BFF. We promise not to send cat videos (just kidding, we totally will).
+                        </p>
+                    </div>
+                </Browser>
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;p class=&quot;text-on-surface dark:text-on-surface-dark&quot;&gt;
+    Follow us on &lt;Link Href=&quot;#&quot;&gt;social media&lt;/Link&gt; and become our virtual BFF. We promise not to send cat videos (just kidding, we totally will).
+&lt;/p&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Example 3: Link with Icon -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Link with Icon" class="scroll-mt-20">
+                    Link with Icon
+                </Heading>
+                <Paragraph>
+                    The Link component can include icons. In this example, a Blazicon (<code>MdiIcon.ArrowRight</code>) is appended after the link text.
+                </Paragraph>
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-20">
+                        <p class="text-on-surface dark:text-on-surface-dark">
+                            Find out more 
+                            <Link Href="#">
+                                about our company
+                                <Blazicon Svg="MdiIcon.ArrowRight" class="size-4 inline" />
+                            </Link>
+                        </p>
+                    </div>
+                </Browser>
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;p class=&quot;text-on-surface dark:text-on-surface-dark&quot;&gt;
+    Find out more &lt;Link Href=&quot;#&quot;&gt;
+        about our company
+        &lt;Blazicon Svg=&quot;MdiIcon.ArrowRight&quot; class=&quot;size-4 inline&quot; /&gt;
+    &lt;/Link&gt;
+&lt;/p&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Example 4: Extra Attributes for Button-like Styling -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Extra Attributes for Styling" class="scroll-mt-20">
+                    Link Styled as Button
+                </Heading>
+                <Paragraph>
+                    The Link component accepts extra attributes via <code>AdditionalAttributes</code>.
+                    This lets you add extra styling classes to style the link like a button.
+                </Paragraph>
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-20">
+                        <Link Href="javascript:void(0);"
+                              class="whitespace-nowrap rounded bg-primary border border-primary px-4 py-2 text-center text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75 dark:border-primary-dark dark:bg-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark"
+                              role="button">
+                            I'm a link
+                        </Link>
+                    </div>
+                </Browser>
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;Link Href=&quot;#&quot; 
+      class=&quot;whitespace-nowrap rounded bg-primary border border-primary px-4 py-2 text-center text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75 dark:border-primary-dark dark:bg-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark&quot; 
+      role=&quot;button&quot;&gt;
+    I&apos;m a link
+&lt;/Link&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Parameters Table: Link -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Link Component Parameters" class="scroll-mt-20">
+                    Link Component Parameters
+                </Heading>
+                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
+                    <thead>
+                        <tr class="bg-surface-alt dark:bg-surface-dark-alt">
+                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Property
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Href</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>string</em> – The URL the link navigates to. Defaults to <code>#</code> if not provided.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>ChildContent</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>RenderFragment</em> – The content to be rendered inside the link. This may include text, icons, or other markup.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>

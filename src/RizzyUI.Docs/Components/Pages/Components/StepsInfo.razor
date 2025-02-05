@@ -1,0 +1,262 @@
+﻿@page "/components/steps"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Extensions
+@inherits RizzyComponent
+
+<PageTitle>Steps</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <!-- Page Title and Overview -->
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
+                Steps
+            </Heading>
+            <Paragraph>
+                The Steps component provides a visual progress indicator to guide users through multi‑step processes.
+                Each step is displayed as a circle (with either a number or an icon) along with an associated label and optional caption.
+                Use the <code>StepStatus</code> enum to define whether a step is completed, current, or upcoming.
+                The component supports both horizontal and vertical orientations and adapts its styling based on the active status.
+            </Paragraph>
+
+            <!-- Example 1: Horizontal Steps -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Horizontal Steps" class="scroll-mt-20">
+                    Horizontal Steps Example
+                </Heading>
+                <Paragraph>
+                    In the example below, a horizontal Steps component is used to display a registration process.
+                    The first step is marked as completed, the second is current, and the remaining steps are upcoming.
+                    The active steps use the color defined by <code>StatusColor.Primary</code>.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-60">
+                        <Steps Orientation="Orientation.Horizontal" 
+                               ShowLabels="true" 
+                               AriaLabel="Registration Progress" 
+                               ActiveColor="StatusColor.Primary">
+                            <Step Label="Create an account" Status="StepStatus.Completed" Caption="Account created" />
+                            <Step Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection" />
+                            <Step Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart" />
+                            <Step Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey" />
+                        </Steps>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;Steps Orientation=&quot;Orientation.Horizontal&quot; 
+       ShowLabels=&quot;true&quot; 
+       AriaLabel=&quot;Registration Progress&quot; 
+       ActiveColor=&quot;StatusColor.Primary&quot;&gt;
+    &lt;Step Label=&quot;Create an account&quot; Status=&quot;StepStatus.Completed&quot; Caption=&quot;Account created&quot; /&gt;
+    &lt;Step Label=&quot;Select a plan&quot; Status=&quot;StepStatus.Current&quot; Caption=&quot;Plan selection&quot; /&gt;
+    &lt;Step Label=&quot;Checkout&quot; Status=&quot;StepStatus.Upcoming&quot; Caption=&quot;Review your cart&quot; /&gt;
+    &lt;Step Label=&quot;Get started&quot; Status=&quot;StepStatus.Upcoming&quot; Caption=&quot;Begin your journey&quot; /&gt;
+&lt;/Steps&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Example 2: Vertical Steps -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Vertical Steps" class="scroll-mt-20">
+                    Vertical Steps Example
+                </Heading>
+                <Paragraph>
+                    In this example the Steps component is rendered vertically. Vertical orientation is ideal for processes
+                    where space permits a stacked layout. In this case, the steps represent an onboarding process with two completed steps,
+                    one current step, and one upcoming step. The active steps use the color defined by <code>StatusColor.Success</code>.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-80">
+                        <Steps Orientation="Orientation.Vertical" 
+                               ShowLabels="true" 
+                               AriaLabel="Onboarding Progress" 
+                               ActiveColor="StatusColor.Success">
+                            <Step Label="Sign Up" Status="StepStatus.Completed" Caption="Account created" />
+                            <Step Label="Verify Email" Status="StepStatus.Completed" Caption="Email verified" />
+                            <Step Label="Complete Profile" Status="StepStatus.Current" Caption="Profile incomplete" />
+                            <Step Label="Get Started" Status="StepStatus.Upcoming" Caption="Start exploring" />
+                        </Steps>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;Steps Orientation=&quot;Orientation.Vertical&quot; 
+       ShowLabels=&quot;true&quot; 
+       AriaLabel=&quot;Onboarding Progress&quot; 
+       ActiveColor=&quot;StatusColor.Success&quot;&gt;
+    &lt;Step Label=&quot;Sign Up&quot; Status=&quot;StepStatus.Completed&quot; Caption=&quot;Account created&quot; /&gt;
+    &lt;Step Label=&quot;Verify Email&quot; Status=&quot;StepStatus.Completed&quot; Caption=&quot;Email verified&quot; /&gt;
+    &lt;Step Label=&quot;Complete Profile&quot; Status=&quot;StepStatus.Current&quot; Caption=&quot;Profile incomplete&quot; /&gt;
+    &lt;Step Label=&quot;Get Started&quot; Status=&quot;StepStatus.Upcoming&quot; Caption=&quot;Start exploring&quot; /&gt;
+&lt;/Steps&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Example 3: Dropdown with Button Trigger and Multiple Sections -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Button Dropdown" class="scroll-mt-20">
+                    Dropdown with Button Trigger
+                </Heading>
+                <Paragraph>
+                    In this example the dropdown is activated with a Button trigger. The menu is organized into multiple sections:
+                    the first section contains Dashboard, Messages (with a numeric badge), and Favorites;
+                    the second section contains Profile and Settings; and a final standalone Sign Out option is provided.
+                    The dropdown will automatically adjust its alignment to remain fully visible.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-100">
+                        <Dropdown Anchor="AnchorPoint.BottomCenter">
+                            <Trigger>
+                                <Button Variant="ButtonVariant.Primary" Label="Menu" />
+                            </Trigger>
+                            <Content>
+                                <DropdownSection>
+                                    <DropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
+                                    <DropdownMenuItem Icon="MdiIcon.Chat" Title="Messages" Count="6" />
+                                    <DropdownMenuItem Icon="MdiIcon.Heart" Title="Favorites" />
+                                </DropdownSection>
+                                <DropdownSection>
+	                                <DropdownMenuItem Icon="MdiIcon.Circle" Title="Profile" />
+	                                <DropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
+                                </DropdownSection>
+                                <DropdownSection>
+	                                <DropdownMenuItem Icon="MdiIcon.Logout" Title="Sign Out" />
+                                </DropdownSection>
+                            </Content>
+                        </Dropdown>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;Dropdown Anchor=&quot;AnchorPoint.BottomCenter&quot;&gt;
+    &lt;Trigger&gt;
+        &lt;Button Variant=&quot;ButtonVariant.Primary&quot; Label=&quot;Menu&quot; /&gt;
+    &lt;/Trigger&gt;
+    &lt;Content&gt;
+        &lt;DropdownSection&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Chat&quot; Title=&quot;Messages&quot; Count=&quot;6&quot; /&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Heart&quot; Title=&quot;Favorites&quot; /&gt;
+        &lt;/DropdownSection&gt;
+        &lt;DropdownSection&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Circle&quot; Title=&quot;Profile&quot; /&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
+        &lt;/DropdownSection&gt;
+        &lt;DropdownSection&gt;
+            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
+        &lt;/DropdownSection&gt;
+    &lt;/Content&gt;
+&lt;/Dropdown&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Parameters Table: Steps -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Steps Component Parameters" class="scroll-mt-20">
+                    Steps Component Parameters
+                </Heading>
+                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
+                    <thead>
+                        <tr class="bg-surface-alt dark:bg-surface-dark-alt">
+                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Property
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Orientation</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>Orientation</em> – Specifies the layout direction of the steps. Options are <code>Orientation.Horizontal</code> or <code>Orientation.Vertical</code>. (Default: Horizontal)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>ShowLabels</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>bool</em> – Determines whether step labels are rendered. (Default: false)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>AriaLabel</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>string</em> – Provides an accessible label for the steps container.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>ActiveColor</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>StatusColor</em> – Determines the color used for completed and current steps.
+                                Options: <code>StatusColor.Primary</code>, <code>StatusColor.Secondary</code>, <code>StatusColor.Success</code>, <code>StatusColor.Info</code>, <code>StatusColor.Warning</code>, or <code>StatusColor.Danger</code>.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Parameters Table: Step -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Step Component Parameters" class="scroll-mt-20">
+                    Step Component Parameters
+                </Heading>
+                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
+                    <thead>
+                        <tr class="bg-surface-alt dark:bg-surface-dark-alt">
+                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Property
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Label</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>string</em> – The main label for the step. (Required)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Status</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>StepStatus</em> – Indicates the step’s current status. Options are <code>StepStatus.Completed</code>, <code>StepStatus.Current</code>, and <code>StepStatus.Upcoming</code>. (Required)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Caption</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>string</em> – Optional supplementary text that provides additional context for the step.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>

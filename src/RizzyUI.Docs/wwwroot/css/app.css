@@ -620,6 +620,9 @@
   .bottom-0 {
     bottom: calc(var(--spacing) * 0);
   }
+  .bottom-8 {
+    bottom: calc(var(--spacing) * 8);
+  }
   .bottom-full {
     bottom: 100%;
   }
@@ -631,6 +634,9 @@
   }
   .left-2 {
     left: calc(var(--spacing) * 2);
+  }
+  .left-3 {
+    left: calc(var(--spacing) * 3);
   }
   .left-full {
     left: 100%;
@@ -859,6 +865,9 @@
   .h-8 {
     height: calc(var(--spacing) * 8);
   }
+  .h-10 {
+    height: calc(var(--spacing) * 10);
+  }
   .h-11 {
     height: calc(var(--spacing) * 11);
   }
@@ -880,11 +889,17 @@
   .max-h-\[400px\] {
     max-height: 400px;
   }
+  .min-h-20 {
+    min-height: calc(var(--spacing) * 20);
+  }
   .min-h-28 {
     min-height: calc(var(--spacing) * 28);
   }
   .min-h-60 {
     min-height: calc(var(--spacing) * 60);
+  }
+  .min-h-80 {
+    min-height: calc(var(--spacing) * 80);
   }
   .min-h-100 {
     min-height: calc(var(--spacing) * 100);
@@ -894,6 +909,9 @@
   }
   .min-h-\[18rem\] {
     min-height: 18rem;
+  }
+  .w-0\.5 {
+    width: calc(var(--spacing) * 0.5);
   }
   .w-1\/2 {
     width: calc(1/2 * 100%);
@@ -2685,6 +2703,13 @@
       }
     }
   }
+  .hover\:no-underline {
+    &:hover {
+      @media (hover: hover) {
+        text-decoration-line: none;
+      }
+    }
+  }
   .hover\:underline {
     &:hover {
       @media (hover: hover) {
@@ -2712,6 +2737,11 @@
       border-color: var(--color-primary);
     }
   }
+  .focus\:underline {
+    &:focus {
+      text-decoration-line: underline;
+    }
+  }
   .focus\:ring {
     &:focus {
       --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentColor);
@@ -2726,6 +2756,15 @@
   .focus\:ring-primary {
     &:focus {
       --tw-ring-color: var(--color-primary);
+    }
+  }
+  .focus\:outline-hidden {
+    &:focus {
+      outline-style: none;
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
     }
   }
   .focus\:outline-offset-0 {
@@ -2899,6 +2938,11 @@
   .active\:-outline-offset-2 {
     &:active {
       outline-offset: calc(2px * -1);
+    }
+  }
+  .active\:outline-offset-0 {
+    &:active {
+      outline-offset: 0px;
     }
   }
   .disabled\:pointer-events-none {

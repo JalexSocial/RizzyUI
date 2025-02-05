@@ -71,7 +71,7 @@ public record StepData
 /// </xmldoc>
 public partial class Steps : RizzyComponent
 {
-    private static readonly string BaseStyle = "flex w-full items-center gap-2";
+    private static readonly string BaseStyle = "flex gap-2";
 
     /// <summary>
     /// Gets or sets the list of steps to display.
@@ -140,7 +140,11 @@ public partial class Steps : RizzyComponent
     private string GetConnectorCss(StepData previousStep)
     {
         bool active = previousStep.Status == StepStatus.Completed || previousStep.Status == StepStatus.Current;
-        return active ? $"h-0.5 flex-1 {GetActiveBackgroundClass()}" : "h-0.5 flex-1 bg-outline dark:bg-outline-dark";
+        
+        if (Orientation == Orientation.Vertical)
+	        return active ? $"absolute bottom-8 left-3 h-10 w-0.5 {GetActiveBackgroundClass()}" : "absolute bottom-8 left-3 h-10 w-0.5 bg-outline dark:bg-outline-dark";
+
+        return active ? $"h-0.5 flex-1 mr-1 {GetActiveBackgroundClass()}" : "h-0.5 flex-1 mr-1 bg-outline dark:bg-outline-dark";
     }
 
     /// <summary>
