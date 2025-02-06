@@ -33,6 +33,9 @@ the guidelines below and the code provided is extremely important.
       ```
     - **MyComponent.razor.cs:**
       ```csharp
+      using Microsoft.AspNetCore.Components;
+      using RizzyUI.Extensions;
+
       namespace RizzyUI;
 
       /// <xmldoc>
@@ -61,6 +64,11 @@ the guidelines below and the code provided is extremely important.
   - **All components must directly inherit from `RizzyComponent`.**
     - This base class (see **RizzyComponent.cs**) provides standard properties like `AdditionalAttributes`, a default `RootClass()` method, and manages Nonce values.
   
+- **Code Review**
+  - If you create a razor component that uses a Blazicon component, remember to add `@using Blazicons` at the top of the page
+  - Any partial classes for a razor component that use TwMerge.Merge should remember to add `using RizzyUI.Extensions;` at the top of the page
+  - Any partial classes for a razor component should *always* include `using Microsoft.AspNetCore.Components;` at the top of the page
+
 ---
 
 ## 2. Root Element and Class Generation

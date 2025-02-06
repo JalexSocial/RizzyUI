@@ -8,33 +8,36 @@
             <QuickReference />
         </SideContent>
         <MainContent>
-	        <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Buttons</Heading>
-	        <Paragraph>
-		        Buttons are a fundamental element of any user interface. Users can use them to trigger actions, such as submitting a form, opening a modal, or navigating to another page.
-	        </Paragraph>
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Buttons</Heading>
+            <Paragraph>
+                Buttons are a fundamental element of any user interface. Users can use them to trigger actions,
+                such as submitting a form, opening a modal, or navigating to another page.
+            </Paragraph>
 
+            <!-- Default Buttons -->
             <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Button" class="scroll-mt-20">
+                    Default Button
+                </Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    Buttons with a solid background – use them to draw attention to the most important actions.
+                </Paragraph>
 
-		        <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Button" class="scroll-mt-20">Default Button</Heading>
-		        <Paragraph TextColor="SemanticColor.OnSurface">
-			        Buttons with a solid background, you can use them to draw attention to the most important actions you want users to take.
-		        </Paragraph>
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="grid-cols-2 text-base mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-3">
+                        <Button Variant=ButtonVariant.Primary>Primary</Button>
+                        <Button Variant=ButtonVariant.Secondary>Secondary</Button>
+                        <Button Variant=ButtonVariant.Alternate>Alternate</Button>
+                        <Button Variant=ButtonVariant.Inverse>Inverse</Button>
+                        <Button Variant=ButtonVariant.Information>Information</Button>
+                        <Button Variant=ButtonVariant.Danger>Danger</Button>
+                        <Button Variant=ButtonVariant.Warning>Warning</Button>
+                        <Button Variant=ButtonVariant.Success>Success</Button>
+                        <Button Variant=ButtonVariant.Ghost>Ghost</Button>
+                    </div>
+                </Browser>
 
-		        <Browser Layout="typeof(PreviewLayout)">
-			        <div class="grid-cols-2 text-base mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-3">
-				        <Button Variant=ButtonVariant.Primary>Primary</Button>
-				        <Button Variant=ButtonVariant.Secondary>Secondary</Button>
-				        <Button Variant=ButtonVariant.Alternate>Alternate</Button>
-				        <Button Variant=ButtonVariant.Inverse>Inverse</Button>
-				        <Button Variant=ButtonVariant.Information>Information</Button>
-				        <Button Variant=ButtonVariant.Danger>Danger</Button>
-				        <Button Variant=ButtonVariant.Warning>Warning</Button>
-				        <Button Variant=ButtonVariant.Success>Success</Button>
-				        <Button Variant=ButtonVariant.Ghost>Ghost</Button>
-			        </div>
-		        </Browser>
-
-		        <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
 &lt;Button Variant=ButtonVariant.Primary&gt;Primary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Secondary&gt;Secondary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Alternate&gt;Alternate&lt;/Button&gt;
@@ -44,32 +47,34 @@
 &lt;Button Variant=ButtonVariant.Warning&gt;Warning&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Success&gt;Success&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Ghost&gt;Ghost&lt;/Button&gt;
-		        </CodeViewer>
+                </CodeViewer>
+            </section>
 
-	        </section>
+            <!-- Outline Buttons -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Outline Button" class="scroll-mt-20">
+                    Outline Button
+                </Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    Buttons defined by a border rather than a solid background. Use them to emphasize alternative or
+                    less critical actions without overwhelming the interface.
+                </Paragraph>
 
-	        <section class="my-8 py-2">
-
-		        <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Outline Button" class="scroll-mt-20">Outline Button</Heading>
-		        <Paragraph TextColor="SemanticColor.OnSurface">
-			        Buttons defined by a border rather than a solid background. You can use them to emphasize alternative or less critical actions without overwhelming the user interface.
-		        </Paragraph>
-
-		        <Browser Layout="typeof(PreviewLayout)">
+                <Browser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-2 text-base mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-3">
-				        <Button Variant=ButtonVariant.Primary Outline>Primary</Button>
-				        <Button Variant=ButtonVariant.Secondary Outline>Secondary</Button>
-				        <Button Variant=ButtonVariant.Alternate Outline>Alternate</Button>
-				        <Button Variant=ButtonVariant.Inverse Outline>Inverse</Button>
-				        <Button Variant=ButtonVariant.Information Outline>Information</Button>
-				        <Button Variant=ButtonVariant.Danger Outline>Danger</Button>
-				        <Button Variant=ButtonVariant.Warning Outline>Warning</Button>
-				        <Button Variant=ButtonVariant.Success Outline>Success</Button>
-				        <Button Variant=ButtonVariant.Ghost Outline>Ghost</Button>
-			        </div>
-		        </Browser>
+                        <Button Variant=ButtonVariant.Primary Outline>Primary</Button>
+                        <Button Variant=ButtonVariant.Secondary Outline>Secondary</Button>
+                        <Button Variant=ButtonVariant.Alternate Outline>Alternate</Button>
+                        <Button Variant=ButtonVariant.Inverse Outline>Inverse</Button>
+                        <Button Variant=ButtonVariant.Information Outline>Information</Button>
+                        <Button Variant=ButtonVariant.Danger Outline>Danger</Button>
+                        <Button Variant=ButtonVariant.Warning Outline>Warning</Button>
+                        <Button Variant=ButtonVariant.Success Outline>Success</Button>
+                        <Button Variant=ButtonVariant.Ghost Outline>Ghost</Button>
+                    </div>
+                </Browser>
 
-		        <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
 &lt;Button Variant=ButtonVariant.Primary Outline&gt;Primary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Secondary Outline&gt;Secondary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Alternate Outline&gt;Alternate&lt;/Button&gt;
@@ -79,35 +84,166 @@
 &lt;Button Variant=ButtonVariant.Warning Outline&gt;Warning&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Success Outline&gt;Success&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Ghost Outline&gt;Ghost&lt;/Button&gt;
-		        </CodeViewer>
-
+                </CodeViewer>
             </section>
 
-	        <section class="my-8 py-2">
+            <!-- Button Sizing -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Button Sizing" class="scroll-mt-20">
+                    Button Sizing
+                </Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    Buttons are available in several sizes.
+                </Paragraph>
 
-		        <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Button Sizing" class="scroll-mt-20">Button Sizing</Heading>
-		        <Paragraph TextColor="SemanticColor.OnSurface">
-			        Buttons are available in a number of different sizes.
-		        </Paragraph>
-
-		        <Browser Layout="typeof(PreviewLayout)">
+                <Browser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-2 text-base mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-3">
-				        <Button Variant=ButtonVariant.Primary Size=Size.ExtraSmall>Primary</Button>
-				        <Button Variant=ButtonVariant.Primary Size=Size.Small>Primary</Button>
-				        <Button Variant=ButtonVariant.Primary Size=Size.Medium>Primary</Button>
-				        <Button Variant=ButtonVariant.Primary Size=Size.Large>Primary</Button>
-				        <Button Variant=ButtonVariant.Primary Size=Size.ExtraLarge>Primary</Button>
-			        </div>
-		        </Browser>
+                        <Button Variant=ButtonVariant.Primary Size=Size.ExtraSmall>Primary</Button>
+                        <Button Variant=ButtonVariant.Primary Size=Size.Small>Primary</Button>
+                        <Button Variant=ButtonVariant.Primary Size=Size.Medium>Primary</Button>
+                        <Button Variant=ButtonVariant.Primary Size=Size.Large>Primary</Button>
+                        <Button Variant=ButtonVariant.Primary Size=Size.ExtraLarge>Primary</Button>
+                    </div>
+                </Browser>
 
-		        <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
 &lt;Button Variant=ButtonVariant.Primary Size=Size.ExtraSmall&gt;Primary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Primary Size=Size.Small&gt;Primary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Primary Size=Size.Medium&gt;Primary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Primary Size=Size.Large&gt;Primary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Primary Size=Size.ExtraLarge&gt;Primary&lt;/Button&gt;
-		        </CodeViewer>
-	        </section>
+                </CodeViewer>
+            </section>
+
+            <!-- Disabled Animation Demo -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="No Animation Button" class="scroll-mt-20">
+                    No Animation Button
+                </Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    This example demonstrates a Button with disabled animation by setting <code>Animate</code> to <code>false</code>.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="grid-cols-1 text-base mx-auto grid min-h-[10rem] place-content-evenly place-items-center gap-4 rounded-xl p-8">
+                        <Button Variant=ButtonVariant.Primary Animate="false">
+                            Primary (No Animation)
+                        </Button>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;Button Variant=ButtonVariant.Primary Animate="false"&gt;Primary (No Animation)&lt;/Button&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Custom Styled Button Demo -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Styled Button" class="scroll-mt-20">
+                    Custom Styled Button
+                </Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    This example demonstrates a Button with completely custom styling. Instead of using the <code>ButtonVariant</code> parameter,
+                    a custom CSS class is applied to achieve a unique color scheme.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="grid-cols-1 text-base mx-auto grid min-h-[10rem] place-content-evenly place-items-center gap-4 rounded-xl p-8">
+                        <Button class="bg-linear-45 from-indigo-500 via-purple-500 to-pink-500 hover:text-white hover:-rotate-5 hover:scale-105 hover:from-pink-500 hover:via-indigo-600 hover:to-purple-500 px-6 py-3 transition-all rounded-lg shadow-lg">
+                            Custom Styled Button
+                        </Button>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;Button class="bg-linear-45 from-indigo-500 via-purple-500 to-pink-500 hover:text-white hover:-rotate-5 hover:scale-105 hover:from-pink-500 hover:via-indigo-600 hover:to-purple-500 px-6 py-3 transition-all rounded-lg shadow-lg"&gt;
+    Custom Styled Button
+&lt;/Button&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Button Component Parameters -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Button Component Parameters" class="scroll-mt-20">
+                    Button Component Parameters
+                </Heading>
+                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
+                    <thead>
+                        <tr class="bg-surface-alt dark:bg-surface-dark-alt">
+                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Property
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>AssistiveLabel</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>string</em> – Accessible label for screen readers. (Default: "Action Button")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Variant</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>ButtonVariant</em> – Determines the button style.
+                                Options: <code>Primary</code>, <code>Secondary</code>, <code>Alternate</code>,
+                                <code>Inverse</code>, <code>Information</code>, <code>Danger</code>,
+                                <code>Warning</code>, <code>Success</code>, <code>Ghost</code>.
+                                (Default: <code>Primary</code>)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Size</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>Size</em> – Specifies the size of the button.
+                                Options: <code>ExtraSmall</code>, <code>Small</code>, <code>Medium</code>,
+                                <code>Large</code>, <code>ExtraLarge</code>. (Default: <code>Medium</code>)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Outline</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>bool</em> – If set to <code>true</code>, renders the button with an outline style instead of a solid background. (Default: false)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Animate</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>bool</em> – Controls whether the button animations (such as active scaling) are enabled. (Default: true)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Label</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>string</em> – Optional text label if no child content is provided.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>ChildContent</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>RenderFragment</em> – The content displayed inside the button.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
 
         </MainContent>
     </Article>

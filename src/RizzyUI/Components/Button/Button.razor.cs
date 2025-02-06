@@ -36,6 +36,12 @@ public partial class Button : RizzyComponent
     public string Label { get; set; } = string.Empty;
 
     /// <summary>
+    /// Enable click animation (default: true)
+    /// </summary>
+    [Parameter]
+    public bool Animate { get; set; } = true;
+
+    /// <summary>
     /// Child content for the button
     /// </summary>
     [Parameter]
@@ -68,9 +74,16 @@ public partial class Button : RizzyComponent
             }
         }
 
-        return TwMerge.Merge(AdditionalAttributes, BaseStyle, Outline ? GetButtonOutlineVariantCss(Variant) : GetButtonVariantCss(Variant), GetButtonSizeCss(Size), trailer);
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle, 
+	        Outline ? GetButtonOutlineVariantCss(Variant) : GetButtonVariantCss(Variant), 
+            Animate ? "transform active:scale-90 motion-reduce:transition-none transition-transform" : "",
+            GetButtonSizeCss(Size), 
+	        trailer);
     }
 
+    /// <summary>
+    /// Adds this button to a group if it is part of one
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

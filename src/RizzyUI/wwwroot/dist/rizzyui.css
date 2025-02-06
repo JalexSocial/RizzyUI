@@ -1472,6 +1472,9 @@
   .bg-red-500 {
     background-color: var(--color-red-500);
   }
+  .bg-rose-500 {
+    background-color: var(--color-rose-500);
+  }
   .bg-secondary {
     background-color: var(--color-secondary);
   }
@@ -1811,6 +1814,10 @@
     --tw-font-weight: var(--font-weight-extrabold);
     font-weight: var(--font-weight-extrabold);
   }
+  .font-light {
+    --tw-font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-light);
+  }
   .font-medium {
     --tw-font-weight: var(--font-weight-medium);
     font-weight: var(--font-weight-medium);
@@ -1926,6 +1933,9 @@
   }
   .text-red-700 {
     color: var(--color-red-700);
+  }
+  .text-rose-500 {
+    color: var(--color-rose-500);
   }
   .text-secondary {
     color: var(--color-secondary);
@@ -2733,6 +2743,14 @@
       outline-style: none;
     }
   }
+  .active\:scale-90 {
+    &:active {
+      --tw-scale-x: 90%;
+      --tw-scale-y: 90%;
+      --tw-scale-z: 90%;
+      scale: var(--tw-scale-x) var(--tw-scale-y);
+    }
+  }
   .active\:opacity-100 {
     &:active {
       opacity: 100%;
@@ -2766,6 +2784,11 @@
   .motion-reduce\:animate-none {
     @media (prefers-reduced-motion: reduce) {
       animation: none;
+    }
+  }
+  .motion-reduce\:transition-none {
+    @media (prefers-reduced-motion: reduce) {
+      transition-property: none;
     }
   }
   .sm\:inline {

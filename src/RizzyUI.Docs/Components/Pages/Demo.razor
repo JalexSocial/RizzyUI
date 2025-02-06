@@ -1,1 +1,99 @@
 ﻿@page "/demo"
+
+@namespace RizzyUI
+@inherits RizzyComponent
+@using Blazicons
+@using RizzyUI
+
+@layout EmptyLayout
+
+<HtmlElement Element="div" @attributes="AdditionalAttributes">
+    <!-- Main Layout: Sidebar and Main Content -->
+    <Sidebar MainContentId="main-content">
+        <NavbarContent>
+	        <Navbar>
+		        <div class="flex items-center pl-4 space-x-4">
+			        <Link Href="#" Underline="true">Admin Dashboard</Link>
+		        </div>
+		        <div class="flex items-center space-x-4">
+			        <!-- Dark mode toggle using our RizzyUI component -->
+			        <DarkmodeToggle />
+		        </div>
+	        </Navbar>
+        </NavbarContent>
+        <MenuContent>
+	        <div class="p-1 mb-2">
+                <SearchButton class="bg-surface" />
+	        </div>
+	        <SidebarLinks>
+		        <SidebarLinkItem Href="#" Title="Dashboard" Icon="@MdiIcon.ViewDashboardOutline"/>
+		        <SidebarLinkItem Href="#" Title="Users" Icon="@MdiIcon.AccountGroupOutline"/>
+		        <SidebarLinkItem Href="#" Title="Reports" Icon="@MdiIcon.FileChartOutline"/>
+		        <SidebarLinkItem Href="#" Title="Settings" Icon="@MdiIcon.CogOutline"/>
+	        </SidebarLinks>
+        </MenuContent>
+        <MainContent>
+            <!-- A Skip Link for accessibility -->
+            <a class="sr-only" href="#main-content">Skip to main content</a>
+
+            <!-- Breadcrumb Navigation -->
+            <Breadcrumb Separator="@MdiIcon.ChevronRight">
+                <BreadcrumbItem Href="#" Label="Home" IsActive="false" />
+                <BreadcrumbItem Href="#" Label="Admin" IsActive="true" />
+            </Breadcrumb>
+
+            <!-- Dashboard Metrics -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Total Users</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <p class="text-2xl font-bold">1,024</p>
+                        <p class="text-sm text-on-surface-muted">Registered Users</p>
+                    </CardBody>
+                    <CardFooter>
+                        <p class="text-xs">Updated 5 mins ago</p>
+                    </CardFooter>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Active Sessions</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <p class="text-2xl font-bold">256</p>
+                        <p class="text-sm text-on-surface-muted">Users Online</p>
+                    </CardBody>
+                    <CardFooter>
+                        <p class="text-xs">Real-time data</p>
+                    </CardFooter>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Revenue</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <p class="text-2xl font-bold">$12,345</p>
+                        <p class="text-sm text-on-surface-muted">Today</p>
+                    </CardBody>
+                    <CardFooter>
+                        <p class="text-xs">Includes all transactions</p>
+                    </CardFooter>
+                </Card>
+            </div>
+
+            <!-- System Notification Alert -->
+            <Alert Variant="AlertVariant.Information">
+                <AlertTitle>System Notice</AlertTitle>
+                <AlertDescription>Your system is running smoothly.</AlertDescription>
+            </Alert>
+
+            <!-- Progress Bar Example -->
+            <div class="mt-6">
+                <Progress CurrentValue="75" MinValue="0" MaxValue="100" Label="System Health: {percent}%" Variant="StatusColor.Success" />
+            </div>
+        </MainContent>
+    </Sidebar>
+</HtmlElement>
