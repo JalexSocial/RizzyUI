@@ -8,7 +8,7 @@
     <button type="button" class="md:hidden inline-block text-on-surface dark:text-on-surface-dark" x-on:click="toggleSidebar">
 
         <div class="text-xl"><Blazicon Svg="MdiIcon.Menu" /></div>
-        
+
         <span class="sr-only">@ScreenReaderText</span>
     </button>
 
@@ -33,6 +33,9 @@
     [Parameter] 
     public string? ScreenReaderText { get; set; } = "Toggle side navigation";
 
+    /// <summary>
+    /// Set the root element type to "nav"
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();

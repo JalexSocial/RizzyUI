@@ -17,9 +17,14 @@
                 Navbar
             </Heading>
             <Paragraph>
-                The Navbar component provides a fixed top navigation bar that remains visible as users scroll.
-                It supports responsive behavior with a mobile toggle button to show or hide side navigation.
-                The component leverages our design tokens and Tailwind CSS for consistent styling and integrates Alpine.js for interactivity.
+	            The Navbar component provides a fixed top navigation bar that remains visible as users scroll.
+	            It supports responsive behavior with a mobile toggle button to show or hide side navigation.
+	            The component leverages our design tokens and Tailwind CSS for consistent styling and integrates Alpine.js for interactivity.
+				
+	            <Alert Variant="AlertVariant.Information">
+		            <AlertTitle>Special Note</AlertTitle>
+                    <AlertDescription>The Navbar component works in conjunction with the Sidebar component. When the hamburger menu is present, a click makes a call to <i>toggleSidebar()</i> which is made available via x-data from Sidebar.</AlertDescription>
+	            </Alert>
             </Paragraph>
 
             <!-- Example 1: Simple Navbar with Child Content -->
@@ -33,7 +38,7 @@
                 <Browser Layout="typeof(PreviewLayout)">
                     <div class="">
 	                    <Navbar ScreenReaderText="Toggle side navigation">
-		                    <div>
+		                    <div class="p-2 text-on-surface dark:text-on-surface-dark">
                                 RizzyUI
 		                    </div>
 		                    <div class="flex items-center gap-4">
@@ -45,16 +50,16 @@
                     </div>
                 </Browser>
                 <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-	                    &lt;Navbar ScreenReaderText=&quot;Toggle side navigation&quot;&gt;
-		                    &lt;div&gt;
-                                RizzyUI
-		                    &lt;/div&gt;
-		                    &lt;div class=&quot;flex items-center gap-4&quot;&gt;
-			                    &lt;Link Href=&quot;/&quot;&gt;Home&lt;/Link&gt;
-			                    &lt;Link Href=&quot;/about&quot;&gt;About&lt;/Link&gt;
-			                    &lt;Link Href=&quot;/contact&quot;&gt;Contact&lt;/Link&gt;
-		                    &lt;/div&gt;
-	                    &lt;/Navbar&gt;
+					&lt;Navbar ScreenReaderText=&quot;Toggle side navigation&quot;&gt;
+					    &lt;div class="p-2 text-on-surface dark:text-on-surface-dark"&gt;
+					        RizzyUI
+					    &lt;/div&gt;
+					    &lt;div class=&quot;flex items-center gap-4&quot;&gt;
+					        &lt;Link Href=&quot;/&quot;&gt;Home&lt;/Link&gt;
+					        &lt;Link Href=&quot;/about&quot;&gt;About&lt;/Link&gt;
+					        &lt;Link Href=&quot;/contact&quot;&gt;Contact&lt;/Link&gt;
+					    &lt;/div&gt;
+					&lt;/Navbar&gt;
                 </CodeViewer>
             </section>
 
@@ -70,7 +75,7 @@
                 <Browser Layout="typeof(PreviewLayout)">
                     <div class="">
 	                    <Navbar ScreenReaderText="Open side navigation">
-		                    <div>
+                            <div class="p-2 text-on-surface dark:text-on-surface-dark">
 			                    RizzyUI
 		                    </div>
 		                    <div class="flex items-center gap-4">
@@ -84,6 +89,9 @@
                 </Browser>
                 <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;Navbar ScreenReaderText=&quot;Open side navigation&quot;&gt;
+    &lt;div class="p-2 text-on-surface dark:text-on-surface-dark"&gt;
+        RizzyUI
+    &lt;/div&gt;
     &lt;div class=&quot;flex items-center gap-4&quot;&gt;
         &lt;Link Href=&quot;/&quot;&gt;Dashboard&lt;/Link&gt;
         &lt;Link Href=&quot;/profile&quot;&gt;Profile&lt;/Link&gt;
