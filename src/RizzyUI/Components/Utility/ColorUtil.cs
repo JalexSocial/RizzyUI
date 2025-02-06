@@ -210,6 +210,6 @@ public static class ColorUtil
 
     // ReSharper disable once UnusedMember.Local
     private static readonly string TwBackgroundClassAfterDiscovery =
-        "after:bg-surface dark:after:bg-surface-dark after:bg-onsurface dark:after:bg-onsurface-dark after:bg-onsurfacestrong dark:after:bg-onsurfacestrongDark after:bg-surfacealt dark:after:bg-surfacealtDark after:bg-primary dark:after:bg-primary-dark after:bg-onprimary dark:after:bg-onprimary-dark after:bg-secondary dark:after:bg-secondary-dark after:bg-onsecondary dark:after:bg-onsecondary-dark after:bg-outline dark:after:bg-outline-dark after:bg-outlinestrong dark:after:bg-outlinestrongDark after:bg-danger after:bg-ondanger after:bg-info after:bg-oninfo after:bg-warning after:bg-onwarning after:bg-success after:bg-onsuccess after:bg-surface dark:after:bg-surface-dark";
+        "after:bg-surface dark:after:bg-surface-dark after:bg-on-surface dark:after:bg-on-surface-dark after:bg-on-surface-strong dark:after:bg-on-surface-dark-strong after:bg-surface-alt dark:after:bg-surface-dark-alt after:bg-primary dark:after:bg-primary-dark after:bg-on-primary dark:after:bg-on-primary-dark after:bg-secondary dark:after:bg-secondary-dark after:bg-on-secondary dark:after:bg-on-secondary-dark after:bg-outline dark:after:bg-outline-dark after:bg-outline-strong dark:after:bg-outline-dark-strong after:bg-danger after:bg-on-danger after:bg-info after:bg-on-info after:bg-warning after:bg-on-warning after:bg-success after:bg-on-success after:bg-surface dark:after:bg-surface-dark";
 
 }
