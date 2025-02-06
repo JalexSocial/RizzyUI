@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace RizzyUI;
 
+/*
 /// <summary>
 /// Represents a defined Semantic theme color
 /// </summary>
@@ -25,7 +26,7 @@ public record SemanticColor : Color
 	}
 
 	/// <summary>No color specified.</summary>
-	private static SemanticColor None => new SemanticColor(Colors.Transparent);
+	public static SemanticColor None => new SemanticColor(Colors.Transparent);
 
     /// <summary>Surface color, typically for backgrounds.</summary>
     public static SemanticColor Surface => new SemanticColor(new ("--color-surface", "surface"), 
@@ -80,7 +81,7 @@ public record SemanticColor : Color
     public static SemanticColor Info => new SemanticColor(new Color("--color-info", "info"));
 
     /// <summary>Foreground color on info background.</summary>
-    private static SemanticColor OnInfo => new SemanticColor(new Color("--color-on-info", "on-info"));
+    public static SemanticColor OnInfo => new SemanticColor(new Color("--color-on-info", "on-info"));
 
     /// <summary>Warning color, often yellow for caution.</summary>
     public static SemanticColor Warning => new SemanticColor(new Color("--color-warning", "warning"));
@@ -104,10 +105,10 @@ public record SemanticColor : Color
         if (_dark == null)
 			return base.ToCssClassString(utility);
 
-        return $"{utility}-{_tailwindClass} dark:{utility}-{_tailwindClass}";
+        return $"{utility}-{_tailwindClass} dark:{_dark.ToCssClassString(utility)}";
     }
 }
-
+*/
 
 /// <summary>
 /// Represents a CSS color variable or Oklch color

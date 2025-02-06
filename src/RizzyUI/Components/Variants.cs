@@ -270,7 +270,6 @@ public enum ModalSize
     SevenXL
 }
 
-/*
 /// <summary>
 /// SemanticColor options for components, including surface and status colors.
 /// </summary>
@@ -315,7 +314,6 @@ public enum SemanticColor
     /// <summary>Foreground color on success background.</summary>
     OnSuccess
 }
-*/
 
 /// <summary>
 /// Accent color options for highlighting elements.
