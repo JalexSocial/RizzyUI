@@ -115,6 +115,9 @@ public record SemanticColor : Color
 /// </summary>
 public record Color
 {
+    /// <summary>
+    /// Identifies color type internally
+    /// </summary>
 	protected enum ColorType
 	{
 		Variable,
@@ -122,11 +125,26 @@ public record Color
 		Rgb // Unsupported for now
 	};
 
+    /// <summary>
+    /// Type of color
+    /// </summary>
 	protected readonly ColorType _type;
-	protected readonly Oklch _oklchColor;
-	protected readonly string _variable;
-	protected readonly string _tailwindClass;
 
+    /// <summary>
+    /// Stores oklch color (if _type is ColorType.Oklch)
+    /// </summary>
+	protected readonly Oklch _oklchColor;
+
+    /// <summary>
+    /// Stores variable string name (if _type is ColorType.Variable)
+    /// </summary>
+	protected readonly string _variable;
+
+    /// <summary>
+    /// Stores tailwind classname for color (e.g. rose-500)
+    /// </summary>
+	protected readonly string _tailwindClass;
+        
     /// <summary>
     /// Stores a color in Oklch format
     /// </summary>

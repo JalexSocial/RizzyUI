@@ -2393,10 +2393,58 @@
       background-color: var(--color-info);
     }
   }
+  .after\:bg-on-danger {
+    &::after {
+      content: var(--tw-content);
+      background-color: var(--color-on-danger);
+    }
+  }
+  .after\:bg-on-primary {
+    &::after {
+      content: var(--tw-content);
+      background-color: var(--color-on-primary);
+    }
+  }
+  .after\:bg-on-secondary {
+    &::after {
+      content: var(--tw-content);
+      background-color: var(--color-on-secondary);
+    }
+  }
+  .after\:bg-on-success {
+    &::after {
+      content: var(--tw-content);
+      background-color: var(--color-on-success);
+    }
+  }
+  .after\:bg-on-surface {
+    &::after {
+      content: var(--tw-content);
+      background-color: var(--color-on-surface);
+    }
+  }
+  .after\:bg-on-surface-strong {
+    &::after {
+      content: var(--tw-content);
+      background-color: var(--color-on-surface-strong);
+    }
+  }
+  .after\:bg-on-warning {
+    &::after {
+      content: var(--tw-content);
+      background-color: var(--color-on-warning);
+    }
+  }
   .after\:bg-outline {
     &::after {
       content: var(--tw-content);
       background-color: var(--color-outline);
+    }
+  }
+  .after\:bg-outline-strong {
+    &::after {
+      content: var(--tw-content);
+      background-color: var(--color-outline-strong);
     }
   }
   .after\:bg-primary {
@@ -2421,6 +2469,12 @@
     &::after {
       content: var(--tw-content);
       background-color: var(--color-surface);
+    }
+  }
+  .after\:bg-surface-alt {
+    &::after {
+      content: var(--tw-content);
+      background-color: var(--color-surface-alt);
     }
   }
   .after\:bg-warning {
@@ -3433,11 +3487,51 @@
       }
     }
   }
+  .dark\:after\:bg-on-primary-dark {
+    &:where(.dark, .dark *) {
+      &::after {
+        content: var(--tw-content);
+        background-color: var(--color-on-primary-dark);
+      }
+    }
+  }
+  .dark\:after\:bg-on-secondary-dark {
+    &:where(.dark, .dark *) {
+      &::after {
+        content: var(--tw-content);
+        background-color: var(--color-on-secondary-dark);
+      }
+    }
+  }
+  .dark\:after\:bg-on-surface-dark {
+    &:where(.dark, .dark *) {
+      &::after {
+        content: var(--tw-content);
+        background-color: var(--color-on-surface-dark);
+      }
+    }
+  }
+  .dark\:after\:bg-on-surface-dark-strong {
+    &:where(.dark, .dark *) {
+      &::after {
+        content: var(--tw-content);
+        background-color: var(--color-on-surface-dark-strong);
+      }
+    }
+  }
   .dark\:after\:bg-outline-dark {
     &:where(.dark, .dark *) {
       &::after {
         content: var(--tw-content);
         background-color: var(--color-outline-dark);
+      }
+    }
+  }
+  .dark\:after\:bg-outline-dark-strong {
+    &:where(.dark, .dark *) {
+      &::after {
+        content: var(--tw-content);
+        background-color: var(--color-outline-dark-strong);
       }
     }
   }
@@ -3462,6 +3556,14 @@
       &::after {
         content: var(--tw-content);
         background-color: var(--color-surface-dark);
+      }
+    }
+  }
+  .dark\:after\:bg-surface-dark-alt {
+    &:where(.dark, .dark *) {
+      &::after {
+        content: var(--tw-content);
+        background-color: var(--color-surface-dark-alt);
       }
     }
   }
