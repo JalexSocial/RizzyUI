@@ -124,96 +124,6 @@
         <BreadcrumbItem Label="Breadcrumb" IsActive="true"/>
     </Breadcrumb>
 
-    <FormCard Icon="@MdiIcon.FaceManProfile" Title="User Details" class="mb-5">
-        <Description>This is a user details form where you enter information about yourself.</Description>
-        <Content>
-            <EditForm Model="Model" class="form-children-spacing">
-                <RzValidationSummary/>
-
-                <Field>
-                    <FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
-                    <TextEdit For="@(() => Model.Name)" PrependText="http://"/>
-                    <RzValidationMessage For="@(() => Model.Name)"/>
-                </Field>
-
-                <TextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
-                           Placeholder="Enter your phone number.."
-                           PrependIcon="@MdiIcon.Phone">
-                    <FieldHelp>This is a helpful description</FieldHelp>
-                </TextField>
-
-                <ToggleField For="@(() => Model.IsActive)" DisplayName="Active?">
-                    <FieldHelp>Is this person active?</FieldHelp>
-                </ToggleField>
-
-                <RadioGroupField For="@(() => Model.PreferredContactMethod)" DisplayName="Product"
-                                 Orientation="Orientation.Vertical" CheckboxIcon="MdiIcon.CheckboxMarked">
-                    <RadioGroupItem TValue="string" Label="Modern" Value="@("email")">
-                        <Description>
-                            We'll blast you with emails galore
-                        </Description>
-                    </RadioGroupItem>
-                    <RadioGroupItem TValue="string" Label="Minimal" Value="@("text")">
-                        <Description>
-                            If you love simplicity every 5 minutes
-                        </Description>
-                    </RadioGroupItem>
-                    <RadioGroupItem TValue="string" Label="Classic" Value="@("phone")">
-                        <Description>
-                            Our legacy method
-                        </Description>
-                    </RadioGroupItem>
-                </RadioGroupField>
-
-                <DateEdit For="@Model.BirthDate" PrependIcon="MdiIcon.Calendar"/>
-
-                <!--
-
-                <NumberField For="@(() => Model.Age)" Placeholder="Enter your age..">
-					<FieldHelp>How old are you?</FieldHelp>
-				</NumberField>
-
-				<div x-data>
-					<select>
-						<option value="">Select an option</option>
-						<option value="1">Option 1</option>
-						<option value="2">Option 2</option>
-						<option value="3">Option 3</option>
-					</select>
-				</div>
-                <RadioGroupField For="@(() => Model.Product)" DisplayName="Product" Orientation="Orientation.Vertical">
-					<RadioGroupItem TValue="string" Label="Modern" Value="@("modern")">
-						<Description>
-							This is the default one
-						</Description>
-					</RadioGroupItem>
-					<RadioGroupItem TValue="string" Label="Minimal" Value="@("minimal")">
-						<Description>
-							If you love simplicity
-						</Description>
-					</RadioGroupItem>
-					<RadioGroupItem TValue="string" Label="Classic" Value="@("classic")">
-						<Description>
-							Our legacy design
-						</Description>
-					</RadioGroupItem>
-				</RadioGroupField>
-
-				<ToggleField For="@(() => Model.Eligible)" DisplayName="Eligible">
-					<Description>
-						Are you eligible to receive benefits?
-					</Description>
-				</ToggleField>
-				
-				<DateField For="@(() => Model.Birthday)" DisplayName="Date of Birth"></DateField>
-                    -->
-                <Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
-                    <span>Save</span>
-                </Button>
-            </EditForm>
-        </Content>
-    </FormCard>
-
     <Card>
         <CardHeader>
             <div>
@@ -246,11 +156,103 @@
             </CardButtons>
         </CardHeader>
         <CardBody>
-            Body content here
-            <Divider Label="Test" Style="@DividerStyle.Dotted" LabelAlignment="Align.End"/>
-            Body content here
-            <Badge>Test</Badge>
-            <Badge Soft>Test</Badge>
+		    <FormSection Layout="SectionLayout.TwoColumn" Title="User Details" class="mb-5">
+		        <Description>This is a user details form where you enter information about yourself.</Description>
+		        <Content>
+		            <EditForm Model="Model" class="form-children-spacing">
+		                <RzValidationSummary/>
+
+		                <Field>
+		                    <FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
+		                    <TextEdit For="@(() => Model.Name)" PrependText="http://"/>
+		                    <RzValidationMessage For="@(() => Model.Name)"/>
+		                </Field>
+
+		                <TextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
+		                           Placeholder="Enter your phone number.."
+		                           PrependIcon="@MdiIcon.Phone">
+		                    <FieldHelp>This is a helpful description</FieldHelp>
+		                </TextField>
+
+		                <ToggleField For="@(() => Model.IsActive)" DisplayName="Active?">
+		                    <FieldHelp>Is this person active?</FieldHelp>
+		                </ToggleField>
+
+		                <RadioGroupField For="@(() => Model.PreferredContactMethod)" DisplayName="Product"
+		                                 Orientation="Orientation.Vertical" CheckboxIcon="MdiIcon.CheckboxMarked">
+			                <RadioGroupItem TValue="string" Label="Modern" Value="@("email")">
+				                <Description>
+					                We'll blast you with emails galore
+				                </Description>
+			                </RadioGroupItem>
+			                <RadioGroupItem TValue="string" Label="Minimal" Value="@("text")">
+				                <Description>
+					                If you love simplicity every 5 minutes
+				                </Description>
+			                </RadioGroupItem>
+			                <RadioGroupItem TValue="string" Label="Classic" Value="@("phone")">
+				                <Description>
+					                Our legacy method
+				                </Description>
+			                </RadioGroupItem>
+		                </RadioGroupField>
+						
+		                <CheckboxGroupField TValue="string" For="() => Model.Interests" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
+			                <CheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports" />
+			                <CheckboxGroupItem TValue="string" Value="@("Music")" Title="Music" />
+		                    <CheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel" />
+		                    <CheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology" />
+		                </CheckboxGroupField>
+
+		                <DateEdit For="@Model.BirthDate" PrependIcon="MdiIcon.Calendar"/>
+
+		                <!--
+
+		                <NumberField For="@(() => Model.Age)" Placeholder="Enter your age..">
+							<FieldHelp>How old are you?</FieldHelp>
+						</NumberField>
+
+						<div x-data>
+							<select>
+								<option value="">Select an option</option>
+								<option value="1">Option 1</option>
+								<option value="2">Option 2</option>
+								<option value="3">Option 3</option>
+							</select>
+						</div>
+		                <RadioGroupField For="@(() => Model.Product)" DisplayName="Product" Orientation="Orientation.Vertical">
+							<RadioGroupItem TValue="string" Label="Modern" Value="@("modern")">
+								<Description>
+									This is the default one
+								</Description>
+							</RadioGroupItem>
+							<RadioGroupItem TValue="string" Label="Minimal" Value="@("minimal")">
+								<Description>
+									If you love simplicity
+								</Description>
+							</RadioGroupItem>
+							<RadioGroupItem TValue="string" Label="Classic" Value="@("classic")">
+								<Description>
+									Our legacy design
+								</Description>
+							</RadioGroupItem>
+						</RadioGroupField>
+
+						<ToggleField For="@(() => Model.Eligible)" DisplayName="Eligible">
+							<Description>
+								Are you eligible to receive benefits?
+							</Description>
+						</ToggleField>
+						
+						<DateField For="@(() => Model.Birthday)" DisplayName="Date of Birth"></DateField>
+		                    -->
+		                <Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
+		                    <span>Save</span>
+		                </Button>
+		            </EditForm>
+		        </Content>
+		    </FormSection>
+
         </CardBody>
         <CardFooter>Footer content here</CardFooter>
     </Card>

@@ -52,5 +52,11 @@ public class Customer
     /// Gets or sets the birth date of the customer.
     /// </summary>
     public DateTime BirthDate { get; set; } = DateTime.Now.AddYears(-29).AddMonths(3).AddDays(9);
+
+    /// <summary>
+    /// Gets or sets the interests of the customer.
+    /// This property is used to demonstrate the checkbox group components.
+    /// </summary>
+    public List<string> Interests { get; set; } = ["Sports"];
 }
 

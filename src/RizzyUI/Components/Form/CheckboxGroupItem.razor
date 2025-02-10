@@ -1,0 +1,9 @@
+﻿@namespace RizzyUI
+@typeparam TValue
+@inherits RizzyComponent
+
+<label @attributes="AdditionalAttributes" class="@RootClass()">
+	<RzInputCheckbox @bind-Value="isChecked" class="@CheckboxClass" />
+	<span class="ml-2">@Title</span>
+	@ChildContent
+</label>

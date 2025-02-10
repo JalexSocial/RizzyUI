@@ -1,0 +1,63 @@
+﻿@namespace RizzyUI
+@using Blazicons
+@inherits RizzyComponent
+
+<div class="@RootClass()">
+    <div class="@GetDescriptionCss(Layout)">
+			@if (!string.IsNullOrEmpty(Title))
+			{
+				<h2 class="text-base/7 font-semibold text-on-surface-strong dark:text-on-surface-dark-strong">Profile</h2>
+			}
+			@if (Description != null)
+			{
+				<p class="text-sm text-on-surface dark:text-on-surface-dark">
+					@Description
+				</p>
+			}
+	</div>
+    <div class="@GetContentCss(Layout)">
+        @Content
+    </div>
+</div>
+
+@code {
+    private static readonly string BaseStyle = "";
+
+    [Parameter, EditorRequired]
+	public string Title { get; set; } = string.Empty;
+
+	[Parameter]
+	public RenderFragment? Description { get; set; }
+
+	[Parameter]
+	public RenderFragment? Content { get; set; }
+
+	[Parameter]
+	public SectionLayout Layout { get; set; } = SectionLayout.TwoColumn;
+
+	protected override string? RootClass()
+	{
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle, Layout == SectionLayout.TwoColumn ? "md:flex md:space-x-5" : "mb-5");
+	}
+
+	private static string GetDescriptionCss(SectionLayout layout)
+	{
+		return layout switch
+		{
+            SectionLayout.TwoColumn => "md:w-1/3 md:flex-none",
+			SectionLayout.Stacked => "pb-5 mb-10 border-b-1 border-outline dark:border-outline-dark",
+			_ => ""
+		};
+	}
+
+    private static string GetContentCss(SectionLayout layout)
+    {
+	    return layout switch
+	    {
+            SectionLayout.TwoColumn => "space-y-6 md:w-1/2",
+		    SectionLayout.Stacked => "",
+		    _ => ""
+	    };
+    }
+
+}

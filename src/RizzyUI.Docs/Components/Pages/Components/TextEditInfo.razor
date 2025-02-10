@@ -1,0 +1,202 @@
+﻿@page "/components/textedit"
+@namespace RizzyUI.Pages
+@using Rizzy.Components
+@using RizzyUI
+@using RizzyUI.Extensions
+@using Blazicons
+@using RizzyUI.Docs.Models
+@inherits RizzyComponent
+
+<PageTitle>TextEdit</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <!-- Page Title and Overview -->
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
+                TextEdit and TextField
+            </Heading>
+            <Paragraph>
+                The <code>TextEdit</code> component provides basic text input functionality with support for prepend text or icons.
+                It is intended as a low‑level input element for use within our form field components.
+                The <code>TextField</code> component wraps <code>TextEdit</code> along with a label, help text, and validation messages,
+                creating a complete form field experience. Both components are used within an <code>EditForm</code> to enable model binding and validation.
+            </Paragraph>
+
+            <!-- Example 1: TextEdit Usage -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="TextEdit Example" class="scroll-mt-20">
+                    TextEdit Example
+                </Heading>
+                <Paragraph>
+                    In the example below an <code>EditForm</code> is used with a single field that demonstrates the <code>TextEdit</code> component.
+                    A prepend text of <code>http://</code> is applied to indicate that the field expects a web address.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+	                <div class="mx-auto p-5">
+		                <EditForm Model="Model" class="form-children-spacing">
+			                <RzValidationSummary/>
+							
+			                <Field>
+				                <FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
+				                <TextEdit For="@(() => Model.Name)"/>
+				                <RzValidationMessage For="@(() => Model.Name)"/>
+			                </Field>
+
+			                <Field>
+				                <FieldLabel DisplayName="Email" For="@(() => Model.Email)"></FieldLabel>
+				                <TextEdit For="@(() => Model.Email)" PrependText="@("@")"/>
+				                <RzValidationMessage For="@(() => Model.Email)"/>
+			                </Field>
+
+		                </EditForm>
+	                </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;EditForm Model="Model" class="form-children-spacing"&gt;
+    &lt;RzValidationSummary /&gt;
+
+    &lt;Field&gt;
+        &lt;FieldLabel DisplayName="Website" For="@@(() =&gt; Model.Name)"&gt;&lt;/FieldLabel&gt;
+        &lt;TextEdit For="@@(() =&gt; Model.Name)" PrependText="http://" /&gt;
+        &lt;RzValidationMessage For="@@(() =&gt; Model.Name)" /&gt;
+    &lt;/Field&gt;
+
+    &lt;Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium"&gt;
+        &lt;span&gt;Submit&lt;/span&gt;
+    &lt;/Button&gt;
+&lt;/EditForm&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Example 2: TextField Usage -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="TextField Example" class="scroll-mt-20">
+                    TextField Example
+                </Heading>
+                <Paragraph>
+                    The <code>TextField</code> component encapsulates a complete form field experience by combining a label, an input (via <code>TextEdit</code>),
+                    optional help content, and validation messages. The example below shows how to use it inside an <code>EditForm</code>.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+	                <div class="mx-auto p-5">
+		                <EditForm Model="Model" class="form-children-spacing">
+			                <RzValidationSummary/>
+
+			                <TextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
+			                           Placeholder="Enter your phone number.." PrependIcon="@MdiIcon.Phone">
+				                <FieldHelp>This is a helpful description</FieldHelp>
+			                </TextField>
+
+		                </EditForm>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;EditForm Model="Model" class="form-children-spacing"&gt;
+    &lt;RzValidationSummary /&gt;
+
+    &lt;TextField For="@@(() =&gt; Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
+               Placeholder="Enter your phone number.." PrependIcon="@MdiIcon.Phone"&gt;
+        &lt;FieldHelp&gt;This is a helpful description&lt;/FieldHelp&gt;
+    &lt;/TextField&gt;
+
+    &lt;Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium"&gt;
+        &lt;span&gt;Save&lt;/span&gt;
+    &lt;/Button&gt;
+&lt;/EditForm&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Customer Model Reference -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Customer Model" class="scroll-mt-20">
+                    Customer Model Reference
+                </Heading>
+                <Paragraph>
+                    The following code defines a sample <code>Customer</code> model that is used in these examples:
+                </Paragraph>
+                <CodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
+&lt;!-- Customer.cs --&gt;
+&lt;summary&gt;
+Represents a customer with personal and contact information.
+&lt;/summary&gt;
+public class Customer
+{
+    &lt;summary&gt;
+    Gets or sets the unique identifier for the customer.
+    &lt;/summary&gt;
+    public int CustomerId { get; set; } = 1234;
+
+    &lt;summary&gt;
+    Gets or sets the full name of the customer.
+    &lt;/summary&gt;
+    [MaxLength(10)]
+    public string Name { get; set; } = "Jane Johnson";
+
+    &lt;summary&gt;
+    Gets or sets the email address of the customer.
+    &lt;/summary&gt;
+    public string Email { get; set; } = "johnsonj@gmail.com";
+
+    &lt;summary&gt;
+    Gets or sets the phone number of the customer.
+    &lt;/summary&gt;
+    public string PhoneNumber { get; set; } = "555-555-5555";
+
+    &lt;summary&gt;
+    Gets or sets the age of the customer.
+    &lt;/summary&gt;
+    public int Age { get; set; } = 29;
+
+    &lt;summary&gt;
+    Gets or sets a value indicating whether the customer is active.
+    &lt;/summary&gt;
+    public bool IsActive { get; set; } = true;
+
+    &lt;summary&gt;
+    Gets or sets the gender of the customer.
+    &lt;/summary&gt;
+    public string Gender { get; set; } = "female";
+
+    &lt;summary&gt;
+    Gets or sets the preferred method of contact for the customer.
+    &lt;/summary&gt;
+    public string PreferredContactMethod { get; set; } = "email";
+
+    &lt;summary&gt;
+    Gets or sets the birth date of the customer.
+    &lt;/summary&gt;
+    public DateTime BirthDate { get; set; } = DateTime.Now.AddYears(-29).AddMonths(3).AddDays(9);
+
+    &lt;summary&gt;
+    Gets or sets the interests of the customer.
+    This property is used to demonstrate the checkbox group components.
+    &lt;/summary&gt;
+    public List&lt;string&gt; Interests { get; set; } = new List&lt;string&gt; { "Sports" };
+}
+                </CodeViewer>
+            </section>
+
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>
+
+@code
+{
+	private Customer Model;
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+
+		Model = new();
+	}
+   
+}
