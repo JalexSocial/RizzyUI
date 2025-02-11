@@ -509,6 +509,9 @@ document.addEventListener('alpine:init', () => {
                     const inputElem = this.textInput;
 
                     if (!prependDiv || !inputElem) {
+                        if (inputElem) {
+                            inputElem.classList.remove('text-transparent');
+                        }
                         return;
                     }
 
