@@ -33,7 +33,7 @@
                 </Heading>
                 <Paragraph>
                     In the example below an <code>EditForm</code> is used with a single field that demonstrates the <code>TextEdit</code> component.
-                    A prepend text of <code>http://</code> is applied to indicate that the field expects a web address.
+                    A prepend text of <code>@@</code> is applied to indicate that the field expects an email address.
                 </Paragraph>
 
                 <Browser Layout="typeof(PreviewLayout)">
@@ -62,14 +62,17 @@
     &lt;RzValidationSummary /&gt;
 
     &lt;Field&gt;
-        &lt;FieldLabel DisplayName="Website" For="@@(() =&gt; Model.Name)"&gt;&lt;/FieldLabel&gt;
-        &lt;TextEdit For="@@(() =&gt; Model.Name)" PrependText="http://" /&gt;
+        &lt;FieldLabel DisplayName="Name" For="@@(() =&gt; Model.Name)"&gt;&lt;/FieldLabel&gt;
+        &lt;TextEdit For="@@(() =&gt; Model.Name)"/&gt;
         &lt;RzValidationMessage For="@@(() =&gt; Model.Name)" /&gt;
     &lt;/Field&gt;
+	
+    &lt;Field&gt;
+        &lt;FieldLabel DisplayName="Email" For="@@(() =&gt; Model.Email)"&gt;&lt;/FieldLabel&gt;
+        &lt;TextEdit For="@@(() =&gt; Model.Email)" PrependText="@@("@@")" /&gt;
+        &lt;RzValidationMessage For="@@(() =&gt; Model.Email)" /&gt;
+    &lt;/Field&gt;
 
-    &lt;Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium"&gt;
-        &lt;span&gt;Submit&lt;/span&gt;
-    &lt;/Button&gt;
 &lt;/EditForm&gt;
                 </CodeViewer>
             </section>
