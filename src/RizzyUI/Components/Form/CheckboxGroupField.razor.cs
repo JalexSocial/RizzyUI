@@ -45,7 +45,7 @@ public partial class CheckboxGroupField<TValue> : RizzyComponent
     /// Child content to be rendered inside the checkbox group.
     /// </xmldoc>
     [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    public RenderFragment? CheckboxGroupContent { get; set; }
 
     /// <xmldoc>
     /// Optional field help content.

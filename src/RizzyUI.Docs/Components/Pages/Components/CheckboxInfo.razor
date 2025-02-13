@@ -73,27 +73,28 @@
                         <EditForm Model="Model" class="form-children-spacing">
                             <RzValidationSummary/>
                             <CheckboxGroupField TValue="string" For="@(() => Model.Interests)" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
-                                <CheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports" />
-                                <CheckboxGroupItem TValue="string" Value="@("Music")" Title="Music" />
-                                <CheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel" />
-                                <CheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology" />
-                                <FieldHelp>Select all interests that apply.</FieldHelp>
+	                            <CheckboxGroupContent>
+		                            <CheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports"/>
+		                            <CheckboxGroupItem TValue="string" Value="@("Music")" Title="Music"/>
+		                            <CheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel"/>
+		                            <CheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology"/>
+	                            </CheckboxGroupContent>
+	                            <FieldHelp>Select all interests that apply.</FieldHelp>
                             </CheckboxGroupField>
                         </EditForm>
                     </div>
                 </Browser>
 
                 <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;EditForm Model="Model" class="form-children-spacing"&gt;
-    &lt;RzValidationSummary /&gt;
-    &lt;CheckboxGroupField TValue="string" For="@@(() =&gt; Model.Interests)" DisplayName="Select Your Interests" Orientation="@@Orientation.Vertical"&gt;
-        &lt;CheckboxGroupItem TValue="string" Value="@@("Sports")" Title="Sports" /&gt;
-        &lt;CheckboxGroupItem TValue="string" Value="@@("Music")" Title="Music" /&gt;
-        &lt;CheckboxGroupItem TValue="string" Value="@@("Travel")" Title="Travel" /&gt;
-        &lt;CheckboxGroupItem TValue="string" Value="@@("Technology")" Title="Technology" /&gt;
-        &lt;FieldHelp&gt;Select all interests that apply.&lt;/FieldHelp&gt;
-    &lt;/CheckboxGroupField&gt;
-&lt;/EditForm&gt;
+                            &lt;CheckboxGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.Interests)&quot; DisplayName=&quot;Select Your Interests&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;
+	                            &lt;CheckboxGroupContent&gt;
+		                            &lt;CheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Sports&quot;)&quot; Title=&quot;Sports&quot;/&gt;
+		                            &lt;CheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Music&quot;)&quot; Title=&quot;Music&quot;/&gt;
+		                            &lt;CheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Travel&quot;)&quot; Title=&quot;Travel&quot;/&gt;
+		                            &lt;CheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Technology&quot;)&quot; Title=&quot;Technology&quot;/&gt;
+	                            &lt;/CheckboxGroupContent&gt;
+	                            &lt;FieldHelp&gt;Select all interests that apply.&lt;/FieldHelp&gt;
+                            &lt;/CheckboxGroupField&gt;
                 </CodeViewer>
             </section>
 

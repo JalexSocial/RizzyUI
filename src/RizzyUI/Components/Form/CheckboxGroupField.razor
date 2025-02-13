@@ -5,7 +5,7 @@
 <Field @attributes="AdditionalAttributes" class="@RootClass()">
 	<FieldLabel DisplayName="@DisplayName" For="@For"></FieldLabel>
 	<CheckboxGroup TValue="TValue" For="@For" Values="@Values" ValuesChanged="@ValuesChanged" Orientation="@Orientation">
-		@ChildContent
+        @CheckboxGroupContent
 	</CheckboxGroup>
 	<RzValidationMessage For="@For" />
 </Field>
