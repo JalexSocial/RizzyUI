@@ -1,0 +1,181 @@
+﻿@page "/components/checkboxgroup"
+@namespace RizzyUI
+
+@using Rizzy.Components
+@using RizzyUI
+@using RizzyUI.Extensions
+@using Blazicons
+@using RizzyUI.Docs.Models
+
+<PageTitle>CheckboxGroup and CheckboxGroupField</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <!-- Page Title and Overview -->
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
+                CheckboxGroup and CheckboxGroupField
+            </Heading>
+            <Paragraph>
+                The <code>CheckboxGroup</code> component enables users to select one or more options from a group of checkboxes, with support for model binding and validation. The <code>CheckboxGroupField</code> component extends this functionality by wrapping <code>CheckboxGroup</code> within a complete form field experience, including a label, help text, and validation messages.
+            </Paragraph>
+
+            <!-- Example 1: CheckboxGroup Usage -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="CheckboxGroup Example" class="scroll-mt-20">
+                    CheckboxGroup Example
+                </Heading>
+                <Paragraph>
+                    In the example below, an <code>EditForm</code> is used with a <code>CheckboxGroup</code> to capture multiple interests from a user. The <code>Interests</code> property of the <code>Customer</code> model is utilized for binding.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-5">
+                        <EditForm Model="Model" class="form-children-spacing">
+                            <RzValidationSummary/>
+                            <CheckboxGroup TValue="string" For="@(() => Model.Interests)" Orientation="Orientation.Vertical">
+                                <CheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports" />
+                                <CheckboxGroupItem TValue="string" Value="@("Music")" Title="Music" />
+                                <CheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel" />
+                                <CheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology" />
+                            </CheckboxGroup>
+                        </EditForm>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;EditForm Model="Model" class="form-children-spacing"&gt;
+    &lt;RzValidationSummary /&gt;
+    &lt;CheckboxGroup TValue="string" For="@@(() =&gt; Model.Interests)" Orientation="@@Orientation.Vertical"&gt;
+        &lt;CheckboxGroupItem TValue="string" Value="@@("Sports")" Title="Sports" /&gt;
+        &lt;CheckboxGroupItem TValue="string" Value="@@("Music")" Title="Music" /&gt;
+        &lt;CheckboxGroupItem TValue="string" Value="@@("Travel")" Title="Travel" /&gt;
+        &lt;CheckboxGroupItem TValue="string" Value="@@("Technology")" Title="Technology" /&gt;
+    &lt;/CheckboxGroup&gt;
+&lt;/EditForm&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Example 2: CheckboxGroupField Usage -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="CheckboxGroupField Example" class="scroll-mt-20">
+                    CheckboxGroupField Example
+                </Heading>
+                <Paragraph>
+                    The <code>CheckboxGroupField</code> component encapsulates a complete form field experience by combining a label, the checkbox group, help text, and validation messages. The example below demonstrates its usage with the <code>Interests</code> property of the <code>Customer</code> model.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-5">
+                        <EditForm Model="Model" class="form-children-spacing">
+                            <RzValidationSummary/>
+                            <CheckboxGroupField TValue="string" For="@(() => Model.Interests)" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
+                                <CheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports" />
+                                <CheckboxGroupItem TValue="string" Value="@("Music")" Title="Music" />
+                                <CheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel" />
+                                <CheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology" />
+                                <FieldHelp>Select all interests that apply.</FieldHelp>
+                            </CheckboxGroupField>
+                        </EditForm>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;EditForm Model="Model" class="form-children-spacing"&gt;
+    &lt;RzValidationSummary /&gt;
+    &lt;CheckboxGroupField TValue="string" For="@@(() =&gt; Model.Interests)" DisplayName="Select Your Interests" Orientation="@@Orientation.Vertical"&gt;
+        &lt;CheckboxGroupItem TValue="string" Value="@@("Sports")" Title="Sports" /&gt;
+        &lt;CheckboxGroupItem TValue="string" Value="@@("Music")" Title="Music" /&gt;
+        &lt;CheckboxGroupItem TValue="string" Value="@@("Travel")" Title="Travel" /&gt;
+        &lt;CheckboxGroupItem TValue="string" Value="@@("Technology")" Title="Technology" /&gt;
+        &lt;FieldHelp&gt;Select all interests that apply.&lt;/FieldHelp&gt;
+    &lt;/CheckboxGroupField&gt;
+&lt;/EditForm&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Customer Model Reference -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Customer Model" class="scroll-mt-20">
+                    Customer Model Reference
+                </Heading>
+                <Paragraph>
+                    The following code defines a sample <code>Customer</code> model that is used in these examples:
+                </Paragraph>
+                <CodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
+&lt;!-- Customer.cs --&gt;
+&lt;summary&gt;
+Represents a customer with personal and contact information.
+&lt;/summary&gt;
+public class Customer
+{
+    &lt;summary&gt;
+    Gets or sets the unique identifier for the customer.
+    &lt;/summary&gt;
+    public int CustomerId { get; set; } = 1234;
+
+    &lt;summary&gt;
+    Gets or sets the full name of the customer.
+    &lt;/summary&gt;
+    [MaxLength(10)]
+    public string Name { get; set; } = "Jane Johnson";
+
+    &lt;summary&gt;
+    Gets or sets the email address of the customer.
+    &lt;/summary&gt;
+    public string Email { get; set; } = "johnsonj@gmail.com";
+
+    &lt;summary&gt;
+    Gets or sets the phone number of the customer.
+    &lt;/summary&gt;
+    public string PhoneNumber { get; set; } = "555-555-5555";
+
+    &lt;summary&gt;
+    Gets or sets the age of the customer.
+    &lt;/summary&gt;
+    public int Age { get; set; } = 29;
+
+    &lt;summary&gt;
+    Gets or sets a value indicating whether the customer is active.
+    &lt;/summary&gt;
+    public bool IsActive { get; set; } = true;
+
+    &lt;summary&gt;
+    Gets or sets the gender of the customer.
+    &lt;/summary&gt;
+    public string Gender { get; set; } = "female";
+
+    &lt;summary&gt;
+    Gets or sets the preferred method of contact for the customer.
+    &lt;/summary&gt;
+    public string PreferredContactMethod { get; set; } = "email";
+
+    &lt;summary&gt;
+    Gets or sets the birth date of the customer.
+    &lt;/summary&gt;
+    public DateTime BirthDate { get; set; } = DateTime.Now.AddYears(-29).AddMonths(3).AddDays(9);
+
+    &lt;summary&gt;
+    Gets or sets the interests of the customer.
+    This property is used to demonstrate the checkbox group components.
+    &lt;/summary&gt;
+    public List&lt;string&gt; Interests { get; set; } = new List&lt;string&gt; { "Sports" };
+}
+                </CodeViewer>
+            </section>
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>
+
+@code {
+    private Customer Model;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model = new();
+    }
+}
