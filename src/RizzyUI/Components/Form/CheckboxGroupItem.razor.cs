@@ -9,7 +9,7 @@ namespace RizzyUI;
 public partial class CheckboxGroupItem<TValue> : RizzyComponent
 {
     private static readonly string BaseStyle = "inline-flex items-center";
-    private static readonly string CheckboxBaseClass = "size-4 rounded-sm border border-gray-200 text-primary-500 focus:border-primary-500 focus:ring-3 focus:ring-primary-500/50 dark:border-gray-600 dark:bg-gray-800 dark:ring-offset-gray-900 dark:checked:border-transparent dark:checked:bg-primary-500 dark:focus:border-primary-500";
+    private static readonly string CheckboxBaseClass = "size-4 rounded-sm border border-outline-strong text-primary-500 focus:border-primary-500 focus:ring-3 focus:ring-primary-500/50 dark:border-outline-dark-strong dark:bg-gray-800 dark:ring-offset-gray-900 dark:checked:border-transparent dark:checked:bg-primary-500 dark:focus:border-primary-500";
 
     /// <xmldoc>
     /// Gets or sets the parent checkbox group context.

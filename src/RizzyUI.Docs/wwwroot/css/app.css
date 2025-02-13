@@ -692,6 +692,9 @@
   .my-4 {
     margin-block: calc(var(--spacing) * 4);
   }
+  .my-5 {
+    margin-block: calc(var(--spacing) * 5);
+  }
   .my-8 {
     margin-block: calc(var(--spacing) * 8);
   }
@@ -1767,6 +1770,9 @@
   }
   .pr-8 {
     padding-right: calc(var(--spacing) * 8);
+  }
+  .pb-1 {
+    padding-bottom: calc(var(--spacing) * 1);
   }
   .pb-2 {
     padding-bottom: calc(var(--spacing) * 2);
@@ -4304,6 +4310,10 @@ svg[blazicon] {
 }
 .form-children-spacing > *:not(input[type="hidden"]) + *:not(input[type="hidden"]) {
   margin-top: 1.5rem;
+}
+.validation-errors {
+  color: var(--color-danger);
+  font-style: italic;
 }
 .field-validation-error {
   color: var(--color-danger);

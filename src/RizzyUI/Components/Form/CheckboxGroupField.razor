@@ -4,7 +4,11 @@
 
 <Field @attributes="AdditionalAttributes" class="@RootClass()">
 	<FieldLabel DisplayName="@DisplayName" For="@For"></FieldLabel>
-	<CheckboxGroup TValue="TValue" For="@For" Values="@Values" ValuesChanged="@ValuesChanged" Orientation="@Orientation">
+	@if (FieldHelp != null)
+	{
+		<FieldHelp>@FieldHelp</FieldHelp>
+	}
+	<CheckboxGroup TValue="TValue" For="@For" Values="@Values" ValuesChanged="@ValuesChanged" Orientation="@Orientation" class="my-5">
         @CheckboxGroupContent
 	</CheckboxGroup>
 	<RzValidationMessage For="@For" />
