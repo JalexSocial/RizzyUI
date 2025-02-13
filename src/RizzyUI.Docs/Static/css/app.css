@@ -103,6 +103,11 @@ svg[blazicon] {
     margin-top: 1.5rem; /* Equivalent to theme('spacing.6') */
 }
 
+.validation-errors {
+    color: var(--color-danger);
+    font-style: italic;
+}
+
 /* Field Validation Error */
 .field-validation-error {
     color: var(--color-danger);

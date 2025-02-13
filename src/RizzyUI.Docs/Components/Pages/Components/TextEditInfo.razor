@@ -25,6 +25,11 @@
                 The <code>TextField</code> component wraps <code>TextEdit</code> along with a label, help text, and validation messages,
                 creating a complete form field experience. Both components are used within an <code>EditForm</code> to enable model binding and validation.
             </Paragraph>
+            
+            <Alert Variant="AlertVariant.Information" Pulse>
+                <AlertTitle>Special Note</AlertTitle>
+                <AlertDescription>RizzyUI form controls depend on the Rizzy library for form control support. RizzyUI form controls provide client-side data annotations validation. <Link Href="https://jalexsocial.github.io/rizzy.docs/docs/forms/overview/" target="_blank">Click here for specific Rizzy form control documentation.</Link></AlertDescription>
+            </Alert>
 
             <!-- Example 1: TextEdit Usage -->
             <section class="my-8 py-2">
@@ -39,8 +44,10 @@
                 <Browser Layout="typeof(PreviewLayout)">
 	                <div class="mx-auto p-5">
 		                <EditForm Model="Model" class="form-children-spacing">
-			                <RzValidationSummary/>
-							
+                            <DataAnnotationsValidator/>
+                            <InitialValidator/>
+                            <RzValidationSummary/>
+
 			                <Field>
 				                <FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
 				                <TextEdit For="@(() => Model.Name)"/>

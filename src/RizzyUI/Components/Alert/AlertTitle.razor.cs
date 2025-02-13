@@ -11,7 +11,7 @@ public partial class AlertTitle : RizzyComponent
     /// <summary>
     /// The base CSS style for the alert title.
     /// </summary>
-    private static readonly string BaseStyle = "text-sm font-semibold";
+    private static readonly string BaseStyle = "text-sm font-semibold pb-1";
 
     /// <summary>
     /// Holds the CSS class for text color based on the alert variant.
