@@ -3,14 +3,23 @@ using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Represents a clickable button with customizable styling, variant, and size. Interactivity is managed via external Alpine.js data objects.
+/// </summary>
 public partial class Button : RizzyComponent
 {
     private static readonly string BaseStyle = "inline-flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap rounded-theme font-medium tracking-wide text-center transition hover:opacity-75 active:opacity-100 hover:shadow-sm disabled:opacity-75 disabled:cursor-not-allowed";
 
+    /// <summary>
+    /// Cascaded ButtonGroup this component belongs to (optional)
+    /// </summary>
     [CascadingParameter] public ButtonGroup? Group { get; set; }
 
-    [Parameter] public string AssistiveLabel { get; set; } = "Action Button";
-
+    /// <summary>
+    /// Gets or sets the accessible label for the button, used by assistive technologies.
+    /// </summary>
+    [Parameter]
+    public string AssistiveLabel { get; set; } = "Action Button";
     /// <summary>
     /// Button variation (primary, secondary, etc)
     /// </summary>
@@ -47,12 +56,14 @@ public partial class Button : RizzyComponent
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
         this.Element = "button";
     }
 
+    /// <inheritdoc />>
     protected override string? RootClass()
     {
         string trailer = string.Empty;

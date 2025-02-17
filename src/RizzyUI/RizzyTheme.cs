@@ -1,4 +1,5 @@
-﻿namespace RizzyUI;
+﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+namespace RizzyUI;
 
 /// <summary>
 /// Represents the theme data for the application. Holds semantic colors and other design tokens,

@@ -5,6 +5,9 @@ using TailwindMerge.Extensions;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Set of extensions to add RizzyUI services
+/// </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>
@@ -13,6 +16,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection to add RizzyUI services to.</param>
     /// <param name="configure">An action to configure RizzyUI options.</param>
     /// <returns>The updated service collection.</returns>
+    // ReSharper disable once InconsistentNaming
     public static IServiceCollection AddRizzyUI(this IServiceCollection services, Action<RizzyUIConfig> configure)
     {
         if (configure == null)
@@ -31,6 +35,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services">The service collection to add RizzyUI services to.</param>
     /// <returns>The updated service collection.</returns>
+    // ReSharper disable once InconsistentNaming
     public static IServiceCollection AddRizzyUI(this IServiceCollection services)
     {
         services.AddTailwindMerge();

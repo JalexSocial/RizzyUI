@@ -3,6 +3,9 @@ using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Renders a user avatar, supporting image sources, initials fallback, and optional status indicators with customizable shape and size.
+/// </summary>
 public partial class Avatar : RizzyComponent
 {
     /// <summary>
@@ -32,7 +35,9 @@ public partial class Avatar : RizzyComponent
     /// Only the first two characters are used and are converted to uppercase.
     /// </summary>
     [Parameter]
+#pragma warning disable BL0007
     public string Initials
+#pragma warning restore BL0007
     {
         get => _initials;
         set => _initials = value.Length > 2 ? value.Substring(0, 2).ToUpper() : value.ToUpper();

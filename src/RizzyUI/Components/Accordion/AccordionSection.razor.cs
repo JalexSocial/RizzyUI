@@ -4,6 +4,9 @@ using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Represents a section of an accordion component that can be expanded or collapsed to show or hide its content.
+/// </summary>
 public partial class AccordionSection : RizzyComponent
 {
 	// Generate a unique ID for this section.

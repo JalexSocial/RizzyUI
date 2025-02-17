@@ -3,6 +3,9 @@ using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Provides additional descriptive content for an alert, intended to supplement the primary alert message.
+/// </summary>
 public partial class AlertDescription : RizzyComponent
 {
 	private static readonly string BaseStyle = "text-xs font-medium sm:text-sm";

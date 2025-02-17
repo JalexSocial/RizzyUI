@@ -4,7 +4,7 @@
 @inherits TypographyBase
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" 
-             x-data="rzHeading">
+x-data="rzHeading">
     @if (ChildContent == null)
     {
         @QuickReferenceTitle
@@ -18,6 +18,9 @@
 @code {
     private bool _registered = false;
 
+    /// <summary>
+    /// Represents the heading level, corresponding to HTML heading tags.
+    /// </summary>
     [Parameter, EditorRequired] 
     public required HeadingLevel Level { get; set; } 
 
@@ -44,6 +47,7 @@
     /// </summary>
     public string Id { get; set; } = IdGenerator.UniqueId("heading");
 
+    /// <inheritdoc cref="RizzyComponent"/>
     protected override void OnParametersSet()
     {
         Element = Level switch

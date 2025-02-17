@@ -3,23 +3,47 @@
 @inherits RizzyComponent
 
 @code {
-    [Parameter] 
-    public SemanticColor? TextColor { get; set; }
+	/// <summary>
+	/// Gets or sets the text color for the typography component.
+	/// This property accepts a <see cref="SemanticColor"/> value that is used to determine the text color class.
+	/// </summary>
+	[Parameter] 
+	public SemanticColor? TextColor { get; set; }
 
-    [Parameter] 
-    public TextWeight? Weight { get; set; }
+	/// <summary>
+	/// Gets or sets the font weight for the typography component.
+	/// This property accepts a <see cref="TextWeight"/> enum value to define the weight (e.g., Thin, Normal, Bold, ExtraBold).
+	/// </summary>
+	[Parameter] 
+	public TextWeight? Weight { get; set; }
 
-    [Parameter] 
-    public TextSize? Size { get; set; }
+	/// <summary>
+	/// Gets or sets the text size for the typography component.
+	/// This property accepts a <see cref="TextSize"/> enum value that specifies the text size (e.g., Small, Medium, Large).
+	/// </summary>
+	[Parameter] 
+	public TextSize? Size { get; set; }
 
-    [Parameter]
-    public Leading? LineHeight { get; set; }
+	/// <summary>
+	/// Gets or sets the line height for the typography component.
+	/// This property accepts a <see cref="Leading"/> enum value to control the spacing between lines of text.
+	/// </summary>
+	[Parameter]
+	public Leading? LineHeight { get; set; }
 
-    [Parameter] 
-    public TextDecoration? Decoration { get; set; }
+	/// <summary>
+	/// Gets or sets the text decoration for the typography component.
+	/// This property accepts a <see cref="TextDecoration"/> enum value to specify decoration such as underline, overline, or line-through.
+	/// </summary>
+	[Parameter] 
+	public TextDecoration? Decoration { get; set; }
 
-    [Parameter] 
-    public TextTransform? Transform { get; set; }
+	/// <summary>
+	/// Gets or sets the text transformation for the typography component.
+	/// This property accepts a <see cref="TextTransform"/> enum value that determines if the text is transformed to uppercase, lowercase, or capitalized.
+	/// </summary>
+	[Parameter] 
+	public TextTransform? Transform { get; set; }
 
     /// <summary>
     /// Builds a string of Tailwind CSS classes based on the configuration of the component
@@ -35,7 +59,7 @@
     /// </summary>
     /// <param name="weight">The <see cref="TextWeight"/> enum value representing the weight of the text.</param>
     /// <returns>A string containing the CSS class for the specified text weight.</returns>
-    protected static string GetTextWeightCss(TextWeight? weight)
+    private static string GetTextWeightCss(TextWeight? weight)
     {
         return weight switch
         {
@@ -52,7 +76,7 @@
     /// </summary>
     /// <param name="size">The <see cref="TextSize"/> enum value representing the size of the text.</param>
     /// <returns>A string containing the CSS class for the specified text size.</returns>
-    protected static string GetTextSizeCss(TextSize? size)
+    private static string GetTextSizeCss(TextSize? size)
     {
         return size switch
         {
@@ -73,7 +97,7 @@
     /// </summary>
     /// <param name="transform">The <see cref="TextTransform"/> enum value representing the desired text transformation.</param>
     /// <returns>A string containing the Tailwind CSS class for the specified text transform.</returns>
-    protected static string GetTextTransformCss(TextTransform? transform)
+    private static string GetTextTransformCss(TextTransform? transform)
     {
         return transform switch
         {
@@ -90,7 +114,7 @@
     /// </summary>
     /// <param name="decoration">The <see cref="TextDecoration"/> enum value representing the desired text decoration.</param>
     /// <returns>A string containing the Tailwind CSS class for the specified text decoration.</returns>
-    protected static string GetTextDecorationCss(TextDecoration? decoration)
+    private static string GetTextDecorationCss(TextDecoration? decoration)
     {
         return decoration switch
         {
@@ -107,7 +131,7 @@
     /// </summary>
     /// <param name="leading">The <see cref="Leading"/> enum value representing the line height.</param>
     /// <returns>A string containing the CSS class for the specified line height.</returns>
-    protected static string GetLineHeightClass(Leading? leading)
+    private static string GetLineHeightClass(Leading? leading)
     {
         return leading switch
         {

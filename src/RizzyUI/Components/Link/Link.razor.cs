@@ -17,6 +17,9 @@ public partial class Link : RizzyComponent
 	[Parameter]
 	public string? Href { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether underline should be visible on hover or focus
+    /// </summary>
 	[Parameter]
 	public bool Underline { get; set; } = true;
 

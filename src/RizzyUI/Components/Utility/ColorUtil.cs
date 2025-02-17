@@ -1,5 +1,8 @@
 ﻿namespace RizzyUI;
 
+/// <summary>
+/// Provides utility methods for converting accent and semantic color values to complete Tailwind CSS class strings for background and text styling.
+/// </summary>
 public static class ColorUtil
 {
     /// <summary>
@@ -209,7 +212,10 @@ public static class ColorUtil
     }
 
     // ReSharper disable once UnusedMember.Local
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "This is to allow Tailwind utilities to discover used classes")]
+#pragma warning disable CS0414 // Field is assigned but its value is never used
     private static readonly string TwBackgroundClassAfterDiscovery =
-        "after:bg-surface dark:after:bg-surface-dark after:bg-on-surface dark:after:bg-on-surface-dark after:bg-on-surface-strong dark:after:bg-on-surface-dark-strong after:bg-surface-alt dark:after:bg-surface-dark-alt after:bg-primary dark:after:bg-primary-dark after:bg-on-primary dark:after:bg-on-primary-dark after:bg-secondary dark:after:bg-secondary-dark after:bg-on-secondary dark:after:bg-on-secondary-dark after:bg-outline dark:after:bg-outline-dark after:bg-outline-strong dark:after:bg-outline-dark-strong after:bg-danger after:bg-on-danger after:bg-info after:bg-on-info after:bg-warning after:bg-on-warning after:bg-success after:bg-on-success after:bg-surface dark:after:bg-surface-dark";
+#pragma warning restore CS0414 // Field is assigned but its value is never used
+	    "after:bg-surface dark:after:bg-surface-dark after:bg-on-surface dark:after:bg-on-surface-dark after:bg-on-surface-strong dark:after:bg-on-surface-dark-strong after:bg-surface-alt dark:after:bg-surface-dark-alt after:bg-primary dark:after:bg-primary-dark after:bg-on-primary dark:after:bg-on-primary-dark after:bg-secondary dark:after:bg-secondary-dark after:bg-on-secondary dark:after:bg-on-secondary-dark after:bg-outline dark:after:bg-outline-dark after:bg-outline-strong dark:after:bg-outline-dark-strong after:bg-danger after:bg-on-danger after:bg-info after:bg-on-info after:bg-warning after:bg-on-warning after:bg-success after:bg-on-success after:bg-surface dark:after:bg-surface-dark";
 
 }

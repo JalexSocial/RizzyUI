@@ -120,9 +120,20 @@ public record Color
     /// </summary>
 	protected enum ColorType
 	{
+        /// <summary>
+        /// Color is a CSS variable
+        /// </summary>
 		Variable,
+
+        /// <summary>
+        /// Color is in Oklch format
+        /// </summary>
 		Oklch,
-		Rgb // Unsupported for now
+
+        /// <summary>
+        /// Color is in Rgb format (unsupported for now)
+        /// </summary>
+		Rgb
 	};
 
     /// <summary>
@@ -213,6 +224,7 @@ public record Color
 /// <summary>
 /// Represents a color in OKLCH space, plus an alpha (default 1.0).
 /// </summary>
+// ReSharper disable once IdentifierTypo
 public readonly record struct Oklch(float L, float C, float H, float Alpha = 1.0f)
 {
 }

@@ -4,6 +4,9 @@ using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Renders a dark mode toggle button that switches between light and dark themes. Interactivity is handled via external Alpine.js data objects.
+/// </summary>
 public partial class DarkmodeToggle : RizzyComponent
 {
     /// <summary>

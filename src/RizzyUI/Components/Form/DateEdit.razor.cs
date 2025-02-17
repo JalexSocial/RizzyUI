@@ -114,7 +114,7 @@ public sealed partial class DateEdit : RizzyComponent
             : InputBaseStyle;
 
         // Prepare the data object for Alpine, matching the original shape if needed.
-        var alpineData = new FlatpickrDataOptions(Options, Placeholder, PrependText);
+        var alpineData = new FlatpickrDataOptions(Options, Placeholder, PrependText ?? string.Empty);
 
         // Serialize the data for the 'rzDateEdit' Alpine component.
         _serializedConfig = JsonSerializer.Serialize(alpineData, options: new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull }  );

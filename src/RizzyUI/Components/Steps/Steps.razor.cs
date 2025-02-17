@@ -218,6 +218,7 @@ public partial class Steps : RizzyComponent
         _ => "text-on-primary dark:text-on-primary-dark"
     };
 
+    /// <inheritdoc />>
     protected override void OnAfterRender(bool firstRender)
     {
         // On first render, trigger a state update so that any registered steps are rendered.

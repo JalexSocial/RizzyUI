@@ -9,6 +9,14 @@ namespace Jalex.UI.Components.Form.Converters;
 /// </summary>
 public class CalendarPositionConverter : JsonConverter<CalendarPosition>
 {
+    /// <summary>
+    /// Converts string enum representation of CalendarPosition into it's enum counterpart
+    /// </summary>
+    /// <param name="reader"></param>
+    /// <param name="typeToConvert"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public override CalendarPosition Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         string value = reader.GetString() ?? string.Empty;
@@ -32,6 +40,13 @@ public class CalendarPositionConverter : JsonConverter<CalendarPosition>
         };
     }
 
+    /// <summary>
+    /// Converts CalendarPosition enum to text
+    /// </summary>
+    /// <param name="writer"></param>
+    /// <param name="value"></param>
+    /// <param name="options"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public override void Write(Utf8JsonWriter writer, CalendarPosition value, JsonSerializerOptions options)
     {
         // Convert enum values to specific string representations for serialization

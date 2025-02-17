@@ -4,6 +4,9 @@ using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Represents a dropdown component with a customizable trigger and content area, managing its open/close state via Alpine.js.
+/// </summary>
 public partial class Dropdown : RizzyComponent
 {
 	private static readonly string BaseStyle = ""; // No extra root-level styling

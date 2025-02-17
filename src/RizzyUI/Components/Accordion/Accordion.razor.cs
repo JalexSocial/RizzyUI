@@ -3,6 +3,9 @@ using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Represents an accordion component that allows for collapsible sections.
+/// </summary>
 public partial class Accordion : RizzyComponent
 {
 	private static readonly string BaseStyle =

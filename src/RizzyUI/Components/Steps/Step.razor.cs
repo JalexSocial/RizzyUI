@@ -45,6 +45,7 @@ public partial class Step : RizzyComponent
     [CascadingParameter]
     private Steps? ParentSteps { get; set; }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
