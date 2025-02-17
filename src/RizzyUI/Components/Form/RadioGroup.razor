@@ -6,7 +6,7 @@
 
 <CascadingValue Value="this">
     <RzInputRadioGroup TValue="TValue" ValueExpression="@For" Value="@Value">
-        <div @attributes="AdditionalAttributes" class="@RootClass() @(Orientation == Orientation.Vertical ? "grid-cols-1" : $"grid-cols-{_items.Count}") grid gap-2 pt-2">
+        <div @attributes="AdditionalAttributes" class="@RootClass() @(Orientation == Orientation.Vertical ? "grid-cols-1" : $"grid-cols-{_items.Count}") grid gap-2 pt-3">
             @ChildContent
         </div>
     </RzInputRadioGroup>

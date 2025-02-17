@@ -198,10 +198,12 @@
 		                </RadioGroupField>
 						
 		                <CheckboxGroupField TValue="string" For="() => Model.Interests" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
-			                <CheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports" />
-			                <CheckboxGroupItem TValue="string" Value="@("Music")" Title="Music" />
-		                    <CheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel" />
-		                    <CheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology" />
+			                <CheckboxGroupContent>
+				                <CheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports"/>
+				                <CheckboxGroupItem TValue="string" Value="@("Music")" Title="Music"/>
+				                <CheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel"/>
+				                <CheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology"/>
+			                </CheckboxGroupContent>
 		                </CheckboxGroupField>
 
 		                <DateEdit For="@Model.BirthDate" PrependIcon="MdiIcon.Calendar"/>
