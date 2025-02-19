@@ -86,6 +86,29 @@
         </Dropdown>
     </div>
 
+    <Card x-data="demoTest">
+        <CardBody>
+            <Tabs id="tabDemo">
+                <Menu>
+                    <TabStrip>
+                        <Tab Name="groups">Groups</Tab>
+                        <Tab Name="likes">Likes</Tab>
+                        <Tab Name="comments">Comments</Tab>
+                        <Tab Name="saved">Saved</Tab>
+                    </TabStrip>
+                </Menu>
+                <TabPanels>
+                    <TabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</TabPanel>
+                    <TabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</TabPanel>
+                    <TabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</TabPanel>
+                    <TabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</TabPanel>
+                </TabPanels>
+            </Tabs>
+
+                <Button Size="Size.Large" x-on:click="handleButtonClick">Do Something</Button>
+        </CardBody>
+    </Card>
+
     <Steps Orientation="Orientation.Horizontal" 
            ShowLabels="true" 
            AriaLabel="Registration Progress" 
