@@ -1,9 +1,20 @@
-﻿@namespace RizzyUI
+﻿@using Blazicons
+
+@namespace RizzyUI
+
 @typeparam TValue
 @inherits RizzyComponent
 
 <label @attributes="AdditionalAttributes" class="@RootClass()">
-	<RzInputCheckbox @bind-Value="isChecked" class="@CheckboxClass" />
+	<div class="relative">
+		<RzInputCheckbox @bind-Value="isChecked" class="@CheckboxClass" />
+		@if (isChecked)
+		{
+			<div class="absolute inset-0 flex items-center justify-center">
+				<Blazicon Svg="Parent?.CheckedIcon"/>
+            </div>
+		}
+	</div>
 	<span class="ml-2">@Title</span>
 	@ChildContent
 </label>

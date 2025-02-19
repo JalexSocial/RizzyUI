@@ -4,59 +4,59 @@ using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
-/// <xmldoc>
+/// <summary>
 /// Represents a form field component that wraps a group of checkbox items with a label and validation message.
-/// </xmldoc>
+/// </summary>
 public partial class CheckboxGroupField<TValue> : RizzyComponent
 {
     private static readonly string BaseStyle = "";
 
-    /// <xmldoc>
+    /// <summary>
     /// Gets or sets the display name for the field label.
-    /// </xmldoc>
+    /// </summary>
     [Parameter]
     public string? DisplayName { get; set; }
 
-    /// <xmldoc>
+    /// <summary>
     /// Specifies the field for which validation messages should be displayed.
-    /// </xmldoc>
+    /// </summary>
     [Parameter, EditorRequired]
     public Expression<Func<IList<TValue>>>? For { get; set; }
 
-    /// <xmldoc>
+    /// <summary>
     /// Gets or sets the selected values in the checkbox group.
-    /// </xmldoc>
+    /// </summary>
     [Parameter]
     public IList<TValue>? Values { get; set; }
 
-    /// <xmldoc>
+    /// <summary>
     /// Event callback when the selected values change.
-    /// </xmldoc>
+    /// </summary>
     [Parameter]
     public EventCallback<IList<TValue>> ValuesChanged { get; set; }
 
-    /// <xmldoc>
+    /// <summary>
     /// Gets or sets the orientation of the checkbox group.
-    /// </xmldoc>
+    /// </summary>
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
-    /// <xmldoc>
+    /// <summary>
     /// Child content to be rendered inside the checkbox group.
-    /// </xmldoc>
+    /// </summary>
     [Parameter]
     public RenderFragment? CheckboxGroupContent { get; set; }
 
-    /// <xmldoc>
+    /// <summary>
     /// Optional field help content.
-    /// </xmldoc>
+    /// </summary>
     [Parameter]
     public RenderFragment? FieldHelp { get; set; }
 
-    /// <xmldoc>
+    /// <summary>
     /// During parameter setting, if the For expression is provided and the Values property is empty,
     /// extract the current value from the model.
-    /// </xmldoc>
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -71,9 +71,9 @@ public partial class CheckboxGroupField<TValue> : RizzyComponent
         }
     }
 
-    /// <xmldoc>
+    /// <summary>
     /// Computes the CSS class for the checkbox group field container.
-    /// </xmldoc>
+    /// </summary>
     protected override string? RootClass() =>
         TwMerge.Merge(AdditionalAttributes, BaseStyle);
 }

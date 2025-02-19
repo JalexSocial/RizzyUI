@@ -3,57 +3,65 @@ using RizzyUI.Extensions;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Linq;
+using Blazicons;
 
 namespace RizzyUI;
 
-/// <xmldoc>
+/// <summary>
 /// Represents a group of checkbox items that support multiple selection.
-/// </xmldoc>
+/// </summary>
 public partial class CheckboxGroup<TValue> : RizzyComponent
 {
     private static readonly string BaseStyle = "flex flex-wrap gap-4";
 
-    /// <xmldoc>
+    /// <summary>
     /// Gets or sets the selected values in the checkbox group.
-    /// </xmldoc>
+    /// </summary>
     [Parameter]
     public IList<TValue> Values { get; set; } = new List<TValue>();
 
-    /// <xmldoc>
+    /// <summary>
     /// Gets or sets the event callback when the selected values change.
-    /// </xmldoc>
+    /// </summary>
     [Parameter]
     public EventCallback<IList<TValue>> ValuesChanged { get; set; }
 
-    /// <xmldoc>
+    /// <summary>
     /// Gets or sets the expression for the bound value, used for validation.
-    /// </xmldoc>
+    /// </summary>
     [Parameter]
     public Expression<Func<IList<TValue>>>? For { get; set; }
 
-    /// <xmldoc>
+    /// <summary>
     /// Gets or sets the orientation of the checkbox group.
-    /// </xmldoc>
+    /// </summary>
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
-    /// <xmldoc>
+    /// <summary>
     /// Gets or sets the child content to be rendered inside the checkbox group.
-    /// </xmldoc>
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <xmldoc>
+    /// <summary>
+    /// Gets or sets the custom icon to display when a checkbox is checked.
+    /// Defaults to MdiIcon.Check.
+    /// </summary>
+    [Parameter]
+    public SvgIcon CheckedIcon { get; set; } = MdiIcon.Check;
+
+    /// <summary>
     /// Determines whether the specified value is selected.
-    /// </xmldoc>
+    /// </summary>
     /// <param name="value">The value to check.</param>
     /// <returns>True if the value is selected; otherwise, false.</returns>
     public bool IsSelected(TValue value) =>
         Values.Any(x => EqualityComparer<TValue>.Default.Equals(x, value));
 
-    /// <xmldoc>
+    /// <summary>
     /// Toggles the selection state of the specified value.
-    /// </xmldoc>
+    /// </summary>
     /// <param name="value">The value to toggle.</param>
     /// <param name="isChecked">True to select the value; false to deselect.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
@@ -81,9 +89,9 @@ public partial class CheckboxGroup<TValue> : RizzyComponent
         StateHasChanged();
     }
 
-    /// <xmldoc>
+    /// <summary>
     /// Computes the root CSS class by merging default and orientation‑specific styles.
-    /// </xmldoc>
+    /// </summary>
     protected override string? RootClass()
     {
         string layoutClass = Orientation == Orientation.Horizontal
