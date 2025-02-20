@@ -36,10 +36,20 @@ public partial class CheckboxGroupItem<TValue> : RizzyComponent
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
+    /// Initializes the root element
+    /// </summary>
+    protected override void OnInitialized()
+    {
+	    base.OnInitialized();
+
+	    this.Element = "label";
+    }
+
+    /// <summary>
     /// Gets or sets the checked state of the checkbox.
     /// This property binds to the parent group's selection.
     /// </summary>
-    private bool isChecked
+    private bool IsChecked
     {
         get => Parent != null && Parent.IsSelected(Value!);
         set => Parent?.ToggleValueAsync(Value!, value);

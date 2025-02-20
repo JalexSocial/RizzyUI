@@ -507,6 +507,27 @@ document.addEventListener('alpine:init', () => {
                 }
             });
 
+        Alpine.data('rzCheckboxGroupItem',
+            () => {
+                return {
+                    checkbox: null,
+                    isChecked: false,
+
+                    init() {
+                        this.checkbox = this.$refs.chk;
+                        this.isChecked = this.checkbox.checked;
+                    },
+
+                    toggleCheckbox() {
+                        this.isChecked = this.checkbox.checked;
+                    },
+
+                    getIconCss() {
+                        return this.isChecked ? "" : "hidden";
+                    }
+                }
+            });
+
         Alpine.data('rzCodeViewer',
             () => {
                 return {

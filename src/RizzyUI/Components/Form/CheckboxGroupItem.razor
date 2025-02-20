@@ -5,16 +5,13 @@
 @typeparam TValue
 @inherits RizzyComponent
 
-<label @attributes="AdditionalAttributes" class="@RootClass()">
+<HtmlElement Element="@Element" x-data="rzCheckboxGroupItem" @attributes="AdditionalAttributes" class="@RootClass()">
 	<div class="relative">
-		<RzInputCheckbox @bind-Value="isChecked" class="@CheckboxClass" />
-		@if (isChecked)
-		{
-			<div class="absolute inset-0 flex items-center justify-center">
-				<Blazicon Svg="Parent?.CheckedIcon"/>
-            </div>
-		}
+		<RzInputCheckbox @bind-Value="IsChecked" class="@CheckboxClass" x-on:change="toggleCheckbox" x-ref="chk"/>
+		<div class="absolute inset-0 flex items-center justify-center text-on-primary dark:text-on-primary-dark" :class="getIconCss">
+			<Blazicon Svg="Parent?.CheckedIcon"/>
+        </div>
 	</div>
 	<span class="ml-2">@Title</span>
 	@ChildContent
-</label>
+</HtmlElement>
