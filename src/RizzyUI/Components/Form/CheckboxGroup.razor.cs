@@ -49,7 +49,7 @@ public partial class CheckboxGroup<TValue> : RizzyComponent
     /// Defaults to MdiIcon.Check.
     /// </summary>
     [Parameter]
-    public SvgIcon CheckedIcon { get; set; } = MdiIcon.Check;
+    public SvgIcon CheckedIcon { get; set; } = MdiIcon.CheckBold;
 
     /// <summary>
     /// Determines whether the specified value is selected.

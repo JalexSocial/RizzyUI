@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazicons;
+using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
@@ -36,6 +37,13 @@ public partial class CheckboxGroupItem<TValue> : RizzyComponent
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
+    /// Gets or sets the custom icon to display when a checkbox is checked.
+    /// Defaults to the icon set by the CheckboxGroup it is contained within followed by MdiIcon.CheckBold.
+    /// </summary>
+    [Parameter]
+    public SvgIcon? CheckedIcon { get; set; }
+
+    /// <summary>
     /// Initializes the root element
     /// </summary>
     protected override void OnInitialized()
@@ -43,6 +51,16 @@ public partial class CheckboxGroupItem<TValue> : RizzyComponent
 	    base.OnInitialized();
 
 	    this.Element = "label";
+    }
+
+    /// <summary>
+    /// Initialize correct checkbox icon
+    /// </summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        CheckedIcon = Parent?.CheckedIcon ?? MdiIcon.CheckBold;
     }
 
     /// <summary>
