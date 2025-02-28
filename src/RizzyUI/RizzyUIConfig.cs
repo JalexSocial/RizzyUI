@@ -7,7 +7,7 @@ public sealed class RizzyUIConfig
 {
     /// <summary>
     /// Gets or sets the Nonce HMAC Key as a base-64 encoded string. This key is used to sign generated nonce values
-    /// such that they may be revalidated when
+    /// such that they may be revalidated when using htmx.
     /// </summary>
     // ReSharper disable once InconsistentNaming
     public string NonceHMACKey { get; set; } = string.Empty;

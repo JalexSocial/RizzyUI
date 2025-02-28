@@ -1,13 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <LangVersion>12.0</LangVersion>
         <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
         <Nullable>enable</Nullable>
+        <IsPackable>true</IsPackable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <Deterministic>true</Deterministic>
+        <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+        <DebugType>embedded</DebugType>
         <EnableSourceControlManagerQueries>true</EnableSourceControlManagerQueries>
         <UseRazorSourceGenerator>true</UseRazorSourceGenerator>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <PackageId>RizzyUI</PackageId>
+        <Company>Michael Tanczos</Company>
+        <Authors>Michael Tanczos</Authors>
+        <Title>RizzyUI - Tailwind static Razor components for Rizzy</Title>
+        <Description>
+            This package allows you to build applications quickly using the Rizzy library and this set of SSR only components.
+        </Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>blazor, htmx, blazor-ssr, blazor-web-app</PackageTags>
+        <Copyright>Michael Tanczos</Copyright>
+        <PackageIcon>rizzy.png</PackageIcon>
+        <PackageProjectUrl>https://github.com/jalexsocial/Rizzy</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/jalexsocial/RizzyUI</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <Version>0.1</Version>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
   
@@ -62,5 +86,11 @@
     <Target Name="LLM" AfterTargets="Build">
         <Exec Command="npm run llm" />
     </Target>
+
+    <ItemGroup>
+        <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
+    </ItemGroup>
 
 </Project>
