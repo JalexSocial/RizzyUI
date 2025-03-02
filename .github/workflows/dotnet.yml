@@ -62,11 +62,11 @@ jobs:
         run: dotnet build src/RizzyUI.sln --configuration Release --no-restore
 
       # Publish NuGet Package using brandedoutcast/publish-nuget action
-      #- name: Publish NuGet Package 
-      #  uses: brandedoutcast/publish-nuget@v2.5.2  
-      #  with:   
-      #    PROJECT_FILE_PATH: src/RizzyUI/RizzyUI.csproj   
-      #    NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+      - name: Publish NuGet Package 
+        uses: brandedoutcast/publish-nuget@v2.5.2  
+        with:   
+          PROJECT_FILE_PATH: src/RizzyUI/RizzyUI.csproj   
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
 
       # Generate Static Documentation
       - name: Generate Static Documentation
