@@ -349,5 +349,6 @@ healthchecksdb
 MigrationBackup/
 
 # Reference documentation can all be generated client side
-docs/*
 !docs/_config.yml
+docs/reference/*
+docs/_content/*
