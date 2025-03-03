@@ -1,5 +1,6 @@
 using AspNetStatic;
 using Rizzy;
+using Rizzy.Htmx;
 using RizzyUI;
 using RizzyUI.Docs;
 using RizzyUI.Docs.Components;
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 var provider = new StaticResourcesInfoProvider();
 
 builder.Services.AddRizzy();
+builder.Services.AddHtmx();
 
 builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
     new StaticResourcesInfoProvider()

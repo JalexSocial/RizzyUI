@@ -5,8 +5,8 @@
     --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-      "Liberation Mono", "Courier New", monospace;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
     --color-red-50: oklch(0.971 0.013 17.38);
     --color-red-100: oklch(0.936 0.032 17.717);
     --color-red-200: oklch(0.885 0.062 18.334);
@@ -327,12 +327,9 @@
     --shadow-2xs: 0 1px rgb(0 0 0 / 0.05);
     --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-      0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-      0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
-      0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
     --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
     --inset-shadow-2xs: inset 0 1px rgb(0 0 0 / 0.05);
     --inset-shadow-xs: inset 0 1px 1px rgb(0 0 0 / 0.05);
@@ -1803,84 +1800,6 @@
   }
   .pl-9 {
     padding-left: calc(var(--spacing) * 9);
-  }
-  .plch-0 {
-    padding-left: calc(0 * 1ch);
-  }
-  .plch-1 {
-    padding-left: calc(1 * 1ch);
-  }
-  .plch-2 {
-    padding-left: calc(2 * 1ch);
-  }
-  .plch-3 {
-    padding-left: calc(3 * 1ch);
-  }
-  .plch-4 {
-    padding-left: calc(4 * 1ch);
-  }
-  .plch-5 {
-    padding-left: calc(5 * 1ch);
-  }
-  .plch-6 {
-    padding-left: calc(6 * 1ch);
-  }
-  .plch-7 {
-    padding-left: calc(7 * 1ch);
-  }
-  .plch-8 {
-    padding-left: calc(8 * 1ch);
-  }
-  .plch-9 {
-    padding-left: calc(9 * 1ch);
-  }
-  .plch-10 {
-    padding-left: calc(10 * 1ch);
-  }
-  .plch-11 {
-    padding-left: calc(11 * 1ch);
-  }
-  .plch-12 {
-    padding-left: calc(12 * 1ch);
-  }
-  .plch-13 {
-    padding-left: calc(13 * 1ch);
-  }
-  .plch-14 {
-    padding-left: calc(14 * 1ch);
-  }
-  .plch-15 {
-    padding-left: calc(15 * 1ch);
-  }
-  .plch-16 {
-    padding-left: calc(16 * 1ch);
-  }
-  .plch-17 {
-    padding-left: calc(17 * 1ch);
-  }
-  .plch-18 {
-    padding-left: calc(18 * 1ch);
-  }
-  .plch-19 {
-    padding-left: calc(19 * 1ch);
-  }
-  .plch-20 {
-    padding-left: calc(20 * 1ch);
-  }
-  .plch-21 {
-    padding-left: calc(21 * 1ch);
-  }
-  .plch-22 {
-    padding-left: calc(22 * 1ch);
-  }
-  .plch-23 {
-    padding-left: calc(23 * 1ch);
-  }
-  .plch-24 {
-    padding-left: calc(24 * 1ch);
-  }
-  .plch-25 {
-    padding-left: calc(25 * 1ch);
   }
   .text-center {
     text-align: center;

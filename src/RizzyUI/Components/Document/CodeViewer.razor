@@ -110,7 +110,7 @@ x-data="rzCodeViewer">
     }
 
     /// <inheritdoc/>
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         if (Source != null)
         {
@@ -118,7 +118,7 @@ x-data="rzCodeViewer">
         }
         else
         {
-            CodeContent = await RenderSourceAsync();
+            CodeContent = RenderSource();
             CodeContent = HttpUtility.HtmlDecode(CodeContent.TrimEmptyLines());
         }
 
@@ -128,11 +128,11 @@ x-data="rzCodeViewer">
         Nonce = RizzyNonceProvider.GetNonceValues();
     }
 
-    private async Task<string> RenderSourceAsync()
+    private string RenderSource()
     {
         if (Source != null) return Source.TrimEmptyLines();
 
-        return await ChildContent.RenderHtml(ServiceProvider);
+        return ChildContent.AsMarkupString();
     }
 
     /// <summary>

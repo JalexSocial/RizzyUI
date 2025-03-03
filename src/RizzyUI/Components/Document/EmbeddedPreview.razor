@@ -51,6 +51,6 @@
 		};
 
 		// Use the async RenderHtml extension method to render the fragment
-		_content = fragment.RenderHtml(ServiceProvider).Result;
+		_content = fragment.RenderHtmlAsync(ServiceProvider).Result;
 	}
 }
