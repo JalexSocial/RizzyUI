@@ -12,6 +12,7 @@ var provider = new StaticResourcesInfoProvider();
 
 builder.Services.AddRizzy();
 builder.Services.AddHtmx();
+builder.Services.AddMvcCore().AddDataAnnotations();
 
 builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
     new StaticResourcesInfoProvider()
