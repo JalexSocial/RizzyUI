@@ -69,6 +69,137 @@
 	</MenuContent>
 <MainContent>
     
+    <Markdown>
+            ## What is CSP?
+
+            A Content Security Policy (CSP) is a security mechanism that helps prevent cross-site scripting (XSS) and other code injection attacks by restricting the sources from which content (e.g., scripts, styles, images) can be loaded. A typical CSP might look like this:
+
+            ```html
+            &lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39;; base-uri &#39;self&#39;; script-src &#39;self&#39; &#39;nonce-&lt;REPLACE_WITH_ONE_TIME_USE_RANDOM_STRING&gt;&#39;; style-src &#39;self&#39; &#39;nonce-&lt;REPLACE_WITH_ONE_TIME_USE_RANDOM_STRING&gt;&#39;;&quot; /&gt;
+            ```
+
+            ## Using Nonces with Inline Content
+
+            Nonces (numbers used once) allow inline content to execute when its nonce matches the value specified in the CSP header. The general workflow is:
+
+            1. **Generate Nonces:** Secure, random nonce values are created.
+            2. **Inject Nonces:** Nonce values are applied as attributes to inline `&lt;script&gt;`, `&lt;style&gt;`, or other elements.
+            3. **CSP Enforcement:** The server sends a CSP header or meta tag that includes these nonce values, and only inline content tagged with the correct nonce is executed.
+
+            ## Generating and Validating Nonces with Rizzy
+
+            Rizzy provides an interface, `IRizzyNonceProvider`, for generating nonce values. The provider uses a cryptographically secure HMAC key to generate and validate nonce tokens. An HMAC key must be provided during application startup or can be generated automatically for you. You do not need to provide a NonceHMACKey configuration value if you want to have the key generated automatically.
+
+            ### IRizzyNonceProvider
+
+            | Member                     | Type               | Description                                                                                                                                                                                                                      |
+            |----------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+            | **GetNonceValues()**       | `RizzyNonceValues` | Retrieves all nonce values for the current HTTP request. If they have not been generated for this request, new nonce values are generated, cached, and returned.                                                             |
+            | **GetNonceFor(NonceType)** | `string`           | Retrieves (or generates) the nonce value for a given nonce type. For example, `GetNonceFor(NonceType.Script)` returns the nonce used in inline script elements.                                                                |
+
+            ### NonceType Enumeration
+
+            The `NonceType` enumeration defines the supported types of nonce values. These are used to specify the nonce for various content types in the CSP and inline elements.
+
+            | Enum Value | Description                                                       |
+            |------------|-------------------------------------------------------------------|
+            | **Script** | Nonce for inline `&lt;script&gt;` tags.                                 |
+            | **Style**  | Nonce for inline `&lt;style&gt;` tags.                                  |
+            | **Font**   | Nonce for font requests.                                          |
+            | **Image**  | Nonce for image elements.                                         |
+            | **Connect**| Nonce for connect requests (e.g., WebSocket connections, AJAX).     |
+
+            ## HMAC Key Configuration
+
+            Nonces require an HMAC key for generation and validation. Configure the key on application startup (the key must be a Base64-encoded string at least 256 bits in length):
+
+            ```csharp
+            builder.Services.AddRizzy(config =&gt;
+            {
+            config.NonceHMACKey = &quot;Your_Base64_Encoded_HMAC_Key&quot;;
+            });
+            ```
+
+            For distributed environments, ensure that all instances share the same HMAC key. Otherwise, the key can be generated automatically during startup. You do not need to provide a NonceHMACKey configuration value if you want to have the key generated automatically by Rizzy.
+
+            ### Generating a Secure HMAC Key
+
+            Below is an example of generating a secure Base64-encoded HMAC key:
+
+            ```csharp
+            /// &lt;summary&gt;
+            /// Generates a secure HMAC key using a cryptographically secure random number generator.
+            /// &lt;/summary&gt;
+            /// &lt;param name=&quot;keySizeInBytes&quot;&gt;Size of the key in bytes (e.g., 32 for 256-bit).&lt;/param&gt;
+            /// &lt;returns&gt;Base64-encoded HMAC key.&lt;/returns&gt;
+            private byte[] GenerateSecureHmacKey(int keySizeInBytes = 32)
+            {
+            byte[] key = new byte[keySizeInBytes];
+            RandomNumberGenerator.Fill(key);
+            return key;
+            }
+
+            private string GetBase64Key() =&gt; Convert.ToBase64String(GenerateSecureHmacKey());
+            ```
+
+            ## Usage in a Blazor Application (App.razor)
+
+            Below is a simplified example of using the nonce values in a Blazor component. Nonce values are injected into the CSP meta tag and applied to inline script and stylesheet links using the `GetNonceFor(NonceType.X)` methods.
+
+            ```razor
+            @@using Rizzy.Nonce
+
+            &lt;!DOCTYPE html&gt;
+            &lt;html lang=&quot;en&quot;&gt;
+            &lt;head&gt;
+            &lt;meta charset=&quot;utf-8&quot; /&gt;
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+            &lt;meta http-equiv=&quot;Content-Security-Policy&quot;
+            content=&quot;default-src &#39;self&#39;;
+            connect-src &#39;self&#39; localhost:* http://localhost:* ws://localhost:* wss://localhost:*;
+            script-src &#39;self&#39; &#39;nonce-@@NonceProvider.GetNonceFor(NonceType.Script)&#39;;
+            style-src &#39;self&#39; &#39;nonce-@@NonceProvider.GetNonceFor(NonceType.Style)&#39;;&quot;&gt;
+            &lt;!-- Link to stylesheets with nonce attributes --&gt;
+            &lt;link nonce=&quot;@@NonceProvider.GetNonceFor(NonceType.Style)&quot; rel=&quot;stylesheet&quot; href=&quot;/css/app.css&quot; /&gt;
+
+            &lt;HeadOutlet /&gt;
+
+            &lt;!-- Link to scripts with nonce attributes --&gt;
+            &lt;script defer nonce=&quot;@@NonceProvider.GetNonceFor(NonceType.Script)&quot; src=&quot;https://cdn.jsdelivr.net/npm/@@alpinejs/csp@3.x.x/dist/cdn.min.js&quot;&gt;&lt;/script&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+            &lt;Routes /&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;
+
+            @@code {
+            [Inject] private IRizzyNonceProvider NonceProvider { get; set; } = null!;
+            }
+            ```
+
+            ## Usage with HTMX to Automatically Generate Nonces
+
+            Configure HTMX to use the IRizzyNonceProvider implementation to correctly configure nonce values in the HTMX configuration.
+
+            ```razor
+            builder.Services.AddHtmx(config =&gt;
+            {
+            config.GenerateScriptNonce = true;
+            config.GenerateStyleNonce = true;
+            })
+            ```
+
+            ## Summary
+
+            - **CSP:** Enforces permitted sources for content. Nonces ensure that only inline content with the correct one-time value is executed.
+            - **Nonce Generation:** Nonces are generated using secure random bytes combined with an HMAC signature. An HMAC key is required for this process.
+            - **IRizzyNonceProvider:** Provides nonce values for the current request; use `GetNonceFor(NonceType.X)` to retrieve a specific nonce.
+            - **NonceType Enumeration:** Defines supported nonce types—Script, Style, Font, Image, and Connect.
+            - **HMAC Key:** Must be configured (or generated) and shared in distributed environments.
+
+            This implementation secures web applications by ensuring that only inline elements with validated, type-specific nonces are executed, thereby reducing the risk of XSS attacks.
+        </Markdown>
+
     <div class="p-8">
         <Dropdown Anchor="AnchorPoint.TopStart">
             <Trigger>
@@ -105,18 +236,18 @@
                 </TabPanels>
             </Tabs>
 
-                <Button Size="Size.Large" x-on:click="handleButtonClick">Do Something</Button>
+            <Button Size="Size.Large" x-on:click="handleButtonClick">Do Something</Button>
         </CardBody>
     </Card>
 
-    <Steps Orientation="Orientation.Horizontal" 
-           ShowLabels="true" 
-           AriaLabel="Registration Progress" 
+    <Steps Orientation="Orientation.Horizontal"
+           ShowLabels="true"
+           AriaLabel="Registration Progress"
            ActiveColor="StatusColor.Primary">
-	    <Step Label="Create an account" Status="StepStatus.Completed" Caption="Account created" />
-	    <Step Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection" />
-	    <Step Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart" />
-	    <Step Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey" />
+        <Step Label="Create an account" Status="StepStatus.Completed" Caption="Account created"/>
+        <Step Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection"/>
+        <Step Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart"/>
+        <Step Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey"/>
     </Steps>
 
     <Accordion AllowMultipleOpen="false">
@@ -179,59 +310,59 @@
             </CardButtons>
         </CardHeader>
         <CardBody>
-		    <FormSection Layout="SectionLayout.TwoColumn" Title="User Details" class="mb-5">
-		        <Description>This is a user details form where you enter information about yourself.</Description>
-		        <Content>
-		            <EditForm Model="Model" class="form-children-spacing">
-		                <RzValidationSummary/>
+            <FormSection Layout="SectionLayout.TwoColumn" Title="User Details" class="mb-5">
+                <Description>This is a user details form where you enter information about yourself.</Description>
+                <Content>
+                    <EditForm Model="Model" class="form-children-spacing">
+                        <RzValidationSummary/>
 
-		                <Field>
-		                    <FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
-		                    <TextEdit For="@(() => Model.Name)" PrependText="http://"/>
-		                    <RzValidationMessage For="@(() => Model.Name)"/>
-		                </Field>
+                        <Field>
+                            <FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
+                            <TextEdit For="@(() => Model.Name)" PrependText="http://"/>
+                            <RzValidationMessage For="@(() => Model.Name)"/>
+                        </Field>
 
-		                <TextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
-		                           Placeholder="Enter your phone number.."
-		                           PrependIcon="@MdiIcon.Phone">
-		                    <FieldHelp>This is a helpful description</FieldHelp>
-		                </TextField>
+                        <TextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
+                                   Placeholder="Enter your phone number.."
+                                   PrependIcon="@MdiIcon.Phone">
+                            <FieldHelp>This is a helpful description</FieldHelp>
+                        </TextField>
 
-		                <ToggleField For="@(() => Model.IsActive)" DisplayName="Active?">
-		                    <FieldHelp>Is this person active?</FieldHelp>
-		                </ToggleField>
+                        <ToggleField For="@(() => Model.IsActive)" DisplayName="Active?">
+                            <FieldHelp>Is this person active?</FieldHelp>
+                        </ToggleField>
 
-		                <RadioGroupField For="@(() => Model.PreferredContactMethod)" DisplayName="Product"
-		                                 Orientation="Orientation.Vertical" CheckboxIcon="MdiIcon.CheckboxMarked">
-			                <RadioGroupItem TValue="string" Label="Modern" Value="@("email")">
-				                <Description>
-					                We'll blast you with emails galore
-				                </Description>
-			                </RadioGroupItem>
-			                <RadioGroupItem TValue="string" Label="Minimal" Value="@("text")">
-				                <Description>
-					                If you love simplicity every 5 minutes
-				                </Description>
-			                </RadioGroupItem>
-			                <RadioGroupItem TValue="string" Label="Classic" Value="@("phone")">
-				                <Description>
-					                Our legacy method
-				                </Description>
-			                </RadioGroupItem>
-		                </RadioGroupField>
-						
-		                <CheckboxGroupField TValue="string" For="() => Model.Interests" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
-			                <CheckboxGroupContent>
-				                <CheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports"/>
-				                <CheckboxGroupItem TValue="string" Value="@("Music")" Title="Music"/>
-				                <CheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel"/>
-				                <CheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology"/>
-			                </CheckboxGroupContent>
-		                </CheckboxGroupField>
+                        <RadioGroupField For="@(() => Model.PreferredContactMethod)" DisplayName="Product"
+                                         Orientation="Orientation.Vertical" CheckboxIcon="MdiIcon.CheckboxMarked">
+                            <RadioGroupItem TValue="string" Label="Modern" Value="@("email")">
+                                <Description>
+                                    We'll blast you with emails galore
+                                </Description>
+                            </RadioGroupItem>
+                            <RadioGroupItem TValue="string" Label="Minimal" Value="@("text")">
+                                <Description>
+                                    If you love simplicity every 5 minutes
+                                </Description>
+                            </RadioGroupItem>
+                            <RadioGroupItem TValue="string" Label="Classic" Value="@("phone")">
+                                <Description>
+                                    Our legacy method
+                                </Description>
+                            </RadioGroupItem>
+                        </RadioGroupField>
 
-		                <DateEdit For="@Model.BirthDate" PrependIcon="MdiIcon.Calendar"/>
+                        <CheckboxGroupField TValue="string" For="() => Model.Interests" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
+                            <CheckboxGroupContent>
+                                <CheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports"/>
+                                <CheckboxGroupItem TValue="string" Value="@("Music")" Title="Music"/>
+                                <CheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel"/>
+                                <CheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology"/>
+                            </CheckboxGroupContent>
+                        </CheckboxGroupField>
 
-		                <!--
+                        <DateEdit For="@Model.BirthDate" PrependIcon="MdiIcon.Calendar"/>
+
+                        <!--
 
 		                <NumberField For="@(() => Model.Age)" Placeholder="Enter your age..">
 							<FieldHelp>How old are you?</FieldHelp>
@@ -271,12 +402,12 @@
 						
 						<DateField For="@(() => Model.Birthday)" DisplayName="Date of Birth"></DateField>
 		                    -->
-		                <Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
-		                    <span>Save</span>
-		                </Button>
-		            </EditForm>
-		        </Content>
-		    </FormSection>
+                        <Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
+                            <span>Save</span>
+                        </Button>
+                    </EditForm>
+                </Content>
+            </FormSection>
 
         </CardBody>
         <CardFooter>Footer content here</CardFooter>
