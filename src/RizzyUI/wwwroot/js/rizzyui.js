@@ -500,6 +500,29 @@ document.addEventListener('alpine:init', () => {
             }
         });
 
+    Alpine.data('rzMarkdown',
+        () => {
+            return {
+                init() {
+                    // Retrieve the assets from the dataset
+                    const assets = JSON.parse(this.$el.dataset.assets);
+                    const scriptNonce = this.$el.dataset.scriptnonce;
+                    const styleNonce = this.$el.dataset.stylenonce;
+
+                    loadjs(assets, {
+                        success: () => {
+                        },
+                        error: () => {
+                            console.error('Failed to load Highlight.js');
+                        },
+                        async: false,
+                        inlineScriptNonce: scriptNonce,
+                        inlineStyleNonce: styleNonce
+                    });
+                },
+            }
+        });
+
     Alpine.data('rzPrependInput', () => {
 
             return {

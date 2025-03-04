@@ -1,6 +1,11 @@
 ﻿@namespace RizzyUI
+@using Rizzy.Nonce
 @inherits RizzyComponent
 
-<HtmlElement Element="div" @attributes="@AdditionalAttributes" class="@RootClass()">
+<HtmlElement Element="div" @attributes="@AdditionalAttributes" class="@RootClass()"
+             data-assets="@_assets"
+             data-scriptnonce="@Nonce.GetNonce(NonceType.Script)"
+             data-stylenonce="@Nonce.GetNonce(NonceType.Style)"
+             x-data="rzMarkdown">
     @OutputHtml
 </HtmlElement>
