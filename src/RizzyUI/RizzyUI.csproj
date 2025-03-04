@@ -56,7 +56,7 @@
         <PackageReference Include="Rizzy" Version="4.0.5" />
         <PackageReference Include="Blazicons" Version="2.1.30" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23" />
-        <PackageReference Include="TailwindMerge.NET" Version="0.3.0" />
+        <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
     </ItemGroup>

@@ -14,6 +14,11 @@ public partial class Markdown : RizzyComponent
 {
     private static readonly string BaseStyle = "prose lg:prose-xl";
 
+    /// <summary>
+    /// Pipeline to use with Markdown components
+    /// </summary>
+    public static MarkdownPipeline? Pipeline { get; set; }
+
     /// <xmldoc>
     /// Gets or sets the html-encoded markdown content provided as child content.
     /// </xmldoc>
@@ -37,6 +42,15 @@ public partial class Markdown : RizzyComponent
     /// </xmldoc>
     protected override string? RootClass() => TwMerge.Merge(AdditionalAttributes, BaseStyle);
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Pipeline ??= new MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .Build();
+    }
+
     /// <xmldoc>
     /// Called when component parameters have been set. Converts the markdown content (via AsMarkupString())
     /// into HTML using Markdig and stores it in OutputHtml.
@@ -58,7 +72,7 @@ public partial class Markdown : RizzyComponent
         }
         
         // Convert the markdown to HTML using Markdig.
-        string html = Markdig.Markdown.ToHtml(markdownText);
+        string html = Markdig.Markdown.ToHtml(markdownText, Pipeline);
 
         // Wrap the HTML string in a MarkupString so it renders as HTML.
         OutputHtml = new MarkupString(html);
