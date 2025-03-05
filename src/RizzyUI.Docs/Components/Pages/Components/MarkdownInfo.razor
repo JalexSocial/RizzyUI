@@ -1,0 +1,153 @@
+﻿@page "/components/markdown"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Extensions
+@inherits RizzyComponent
+
+<PageTitle>Markdown</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
+                Markdown
+            </Heading>
+            <Paragraph>
+                The Markdown component converts GitHub‑style Markdown into HTML. It supports headings, paragraphs, lists, inline code,
+                code blocks, links, images, and more. The conversion is powered by Markdig and syntax highlighting is applied via Highlight.js
+                using the <code>rzMarkdown</code> Alpine.js data object.
+            </Paragraph>
+            <Paragraph>
+                For a full-featured markdown demo, <Link href="/markdown-demo">click here</Link>.
+            </Paragraph>
+
+            <Alert Variant="AlertVariant.Warning">
+                <AlertTitle>Special Note</AlertTitle>
+                <AlertDescription>
+                    The Markdown component requires the Tailwind Typography component in order to render correctly.
+                </AlertDescription>
+            </Alert>
+
+            <!-- Example 1: Basic Markdown Rendering -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Markdown" class="scroll-mt-20">
+                    Basic Markdown Rendering
+                </Heading>
+                <Paragraph TextColor="SemanticColor.OnSurface">
+                    This example demonstrates rendering simple Markdown with headings, paragraphs, lists, and inline styling.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-60">
+                        <Markdown>
+                            # Welcome to RizzyUI Markdown
+
+                            This is an example of **bold text**, *italic text*, and `inline code`.
+
+                            - List Item One
+                            - List Item Two
+                            - List Item Three
+
+                            [Visit our website](https://rizzyui.com)
+                        </Markdown>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Markdown" class="mb-10">
+                    &lt;Markdown&gt;
+                    # Welcome to RizzyUI Markdown
+
+                    This is an example of **bold text**, *italic text*, and `inline code`.
+
+                    - List Item One
+                    - List Item Two
+                    - List Item Three
+
+                    [Visit our website](https://rizzyui.com)
+                    &lt;/Markdown&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Example 2: Markdown with Code Block -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Markdown with Code Block" class="scroll-mt-20">
+                    Markdown with Code Block
+                </Heading>
+                <Paragraph>
+                    In this example, the Markdown component renders a code block with syntax highlighting for C#.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-60">
+                        <Markdown>
+                            ## C# Code Example
+
+                            ```csharp
+                            public class HelloWorld {
+                                public void SayHello() {
+                                    Console.WriteLine("Hello, world!");
+                                }
+                            }
+                            ```
+                        </Markdown>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Markdown" class="mb-10">
+                    &lt;Markdown&gt;
+                    ## C# Code Example
+
+                    ```csharp
+                    public class HelloWorld {
+                        public void SayHello() {
+                            Console.WriteLine("Hello, world!");
+                        }
+                    }
+                    ```
+                    &lt;/Markdown&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Markdown Component Parameters -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Markdown Parameters" class="scroll-mt-20">
+                    Markdown Component Parameters
+                </Heading>
+                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
+                    <thead>
+                        <tr class="bg-surface-alt dark:bg-surface-dark-alt">
+                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Property
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Content</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>RenderFragment</em> – The Markdown content to be converted to HTML.
+                                Alternatively, you can pass a string via the <code>Content</code> parameter.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>ComponentAssets</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>string[]</em> – Optional array of asset URLs (JavaScript/CSS) to load for syntax highlighting.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>

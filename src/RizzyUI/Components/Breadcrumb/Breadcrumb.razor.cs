@@ -12,7 +12,7 @@ public partial class Breadcrumb : RizzyComponent
     /// <summary>
     /// Base CSS classes for the breadcrumb component.
     /// </summary>
-    private static readonly string BaseStyle = "text-sm font-medium text-on-primary dark:text-on-primary-dark mb-2";
+    private static readonly string BaseStyle = "text-sm font-medium text-on-primary dark:text-on-primary-dark mb-4";
 
     /// <summary>
     /// Gets the list of breadcrumb items registered with this breadcrumb component.

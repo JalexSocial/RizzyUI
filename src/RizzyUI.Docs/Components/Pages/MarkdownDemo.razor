@@ -1,0 +1,222 @@
+﻿@page "/markdown-demo"
+
+<PageTitle>Markdown Demo</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <Breadcrumb>
+                <BreadcrumbItem Href="/" Label="Home"/>
+                <BreadcrumbItem Href="/components/markdown" Label="Markdown"/>
+                <BreadcrumbItem Label="Markdown Demo"/>
+            </Breadcrumb>
+            <Markdown>
+# Markdown Demo
+
+Welcome to the **Markdown Demo**. This document demonstrates a wide range of Markdown features as well as how the RizzyUI library can be used in your Blazor projects. It includes examples of headings, paragraphs, lists, code blocks, tables, block quotes, links, images, and more.
+
+---
+
+## Introduction
+
+RizzyUI is a modern, component-based library for building **ASP.NET Blazor** applications. It follows strict coding guidelines and integrates deeply with Tailwind CSS for styling and Alpine.js for client-side interactivity.
+
+&gt; **Note:** RizzyUI follows the CSS-first approach, ensuring that design tokens (e.g., `--color-surface`, `--color-primary`) are used throughout for consistent theming.
+
+RizzyUI emphasizes:
+- **Separation of Concerns:** Each component is split into a markup file (`.razor`) and a code-behind file (`.razor.cs`).
+- **Accessibility:** Uses semantic HTML and ARIA attributes.
+- **Theming:** Leverages design tokens and Tailwind CSS 4.0.
+
+---
+
+## Features
+
+RizzyUI offers a comprehensive set of features:
+
+- **Component Architecture**
+  - Two-file separation (markup and code-behind)
+  - File-scoped namespaces
+- **Styling**
+  - Uses Tailwind CSS 4.0 exclusively
+  - Supports both light and dark modes
+  - Design tokens for colors, spacing, borders, and more
+- **Interactivity**
+  - Integrates with Alpine.js for lightweight client-side behaviors
+- **Accessibility**
+  - ARIA attributes and skip navigation links
+- **Customizability**
+  - Variants, sizes, and state-based styling through helper methods
+
+---
+
+## Components
+
+### Alerts
+
+RizzyUI includes a fully accessible alert component. Alerts automatically handle focus, use ARIA attributes, and can be dismissed via Alpine.js interactivity.
+
+#### Example Usage
+
+```razor
+&lt;Alert Variant=&quot;AlertVariant.Information&quot;&gt;
+    &lt;AlertTitle&gt;Information Alert&lt;/AlertTitle&gt;
+    &lt;AlertDescription&gt;
+        This is an informational message about the RizzyUI library.
+    &lt;/AlertDescription&gt;
+&lt;/Alert&gt;
+```
+
+### Buttons
+
+Buttons in RizzyUI are designed to be both accessible and responsive. They support different variants like `Primary`, `Secondary`, and `Ghost`.
+
+```razor
+&lt;Button Variant=&quot;ButtonVariant.Primary&quot; AssistiveLabel=&quot;Submit Form&quot;&gt;
+    Submit
+&lt;/Button&gt;
+```
+
+### Form Fields
+
+RizzyUI provides a set of form components, including text fields, checkboxes, radio groups, and toggles. These components ensure proper validation and accessibility compliance.
+
+- **TextField:** Combines labels, placeholders, and inline validation.
+- **CheckboxGroup:** Supports grouping of multiple options with flexible layouts.
+- **RadioGroup:** Provides customizable radio button groups.
+
+---
+
+## Theming
+
+RizzyUI themes are based on design tokens that are declared in CSS custom properties. For example:
+
+- **Light Mode:**
+  - `--color-surface`: Primary background color.
+  - `--color-primary`: Primary action color.
+- **Dark Mode:**
+  - `--color-surface-dark`: Dark variant for backgrounds.
+  - `--color-primary-dark`: Dark variant for primary actions.
+
+### Theme Provider Example
+
+```razor
+&lt;RizzyThemeProvider Theme=&quot;new ArcticTheme()&quot;&gt;
+    &lt;!-- Your application content goes here --&gt;
+&lt;/RizzyThemeProvider&gt;
+```
+
+---
+
+## Advanced Markdown Features
+
+### Code Blocks
+
+RizzyUI documentation often includes code examples. You can include fenced code blocks with syntax highlighting:
+
+```csharp
+// Example C# code
+public partial class MyComponent : RizzyComponent
+{
+    private static readonly string BaseStyle = &quot;p-4 bg-surface text-on-surface&quot;;
+
+    protected override string? RootClass() =&gt;
+        TwMerge.Merge(AdditionalAttributes, BaseStyle);
+}
+```
+
+```json
+{
+    &quot;Theme&quot;: &quot;Arctic&quot;,
+    &quot;PrimaryColor&quot;: &quot;#1e3a8a&quot;,
+    &quot;SecondaryColor&quot;: &quot;#4338ca&quot;
+}
+```
+
+### Tables
+
+You can use tables to display structured data:
+
+| Feature              | Description                                                    |
+| -------------------- | -------------------------------------------------------------- |
+| **Component Model**  | Two-file separation with Razor markup and code-behind          |
+| **Styling**          | Tailwind CSS 4.0 with design tokens                            |
+| **Interactivity**    | Alpine.js integration                                          |
+| **Accessibility**    | Full ARIA support and semantic HTML                            |
+
+### Lists
+
+Both ordered and unordered lists can be used:
+
+#### Unordered List
+
+- Clean separation of markup and logic
+- Responsive design using Tailwind CSS
+- Comprehensive theming support
+
+#### Ordered List
+
+1. **Initialize** the RizzyUI library.
+2. **Configure** your project with `AddRizzyUI()`.
+3. **Build** your components using provided guidelines.
+
+### Blockquotes
+
+Blockquotes help emphasize important notes:
+
+&gt; **Reminder:** Always split your components into two files—one for markup and one for logic.
+
+### Inline Code
+
+Use inline code formatting for references to methods or tokens, e.g., `TwMerge.Merge` or `--color-surface`.
+
+---
+
+## Document Hierarchy
+
+The document hierarchy is built using multiple heading levels. Here’s an example breakdown:
+
+### Level 1: RizzyUI Documentation
+
+The top-level document title.
+
+### Level 2: Introduction, Features, Components, Theming, Usage
+
+These sections provide a broad overview of the library.
+
+#### Level 3: Under Components
+
+- **Alerts**
+- **Buttons**
+- **Form Fields**
+
+#### Level 3: Under Theming
+
+- **Theme Provider**
+- **Design Tokens**
+
+#### Level 4: Additional details or examples can be nested as needed.
+
+This hierarchy supports both navigation and automated registration into a Quick Reference sidebar.
+
+---
+
+## Conclusion
+
+RizzyUI is a robust library that emphasizes modern web development practices in Blazor. Its modular design, strict adherence to Tailwind CSS, and seamless integration with Alpine.js make it an excellent choice for building accessible, responsive applications.
+
+For further details, refer to the component source code and the RizzyUI Component Coding Guidelines.
+
+
+            </Markdown>
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>
+
+
+@code {
+
+}

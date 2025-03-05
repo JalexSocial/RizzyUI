@@ -99,65 +99,6 @@
                 </CodeViewer>
             </section>
 
-            <!-- Example 3: Dropdown with Button Trigger and Multiple Sections -->
-            <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Button Dropdown" class="scroll-mt-20">
-                    Dropdown with Button Trigger
-                </Heading>
-                <Paragraph>
-                    In this example the dropdown is activated with a Button trigger. The menu is organized into multiple sections:
-                    the first section contains Dashboard, Messages (with a numeric badge), and Favorites;
-                    the second section contains Profile and Settings; and a final standalone Sign Out option is provided.
-                    The dropdown will automatically adjust its alignment to remain fully visible.
-                </Paragraph>
-
-                <Browser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-100">
-                        <Dropdown Anchor="AnchorPoint.BottomCenter">
-                            <Trigger>
-                                <Button Variant="ButtonVariant.Primary" Label="Menu" />
-                            </Trigger>
-                            <Content>
-                                <DropdownSection>
-                                    <DropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
-                                    <DropdownMenuItem Icon="MdiIcon.Chat" Title="Messages" Count="6" />
-                                    <DropdownMenuItem Icon="MdiIcon.Heart" Title="Favorites" />
-                                </DropdownSection>
-                                <DropdownSection>
-	                                <DropdownMenuItem Icon="MdiIcon.Circle" Title="Profile" />
-	                                <DropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
-                                </DropdownSection>
-                                <DropdownSection>
-	                                <DropdownMenuItem Icon="MdiIcon.Logout" Title="Sign Out" />
-                                </DropdownSection>
-                            </Content>
-                        </Dropdown>
-                    </div>
-                </Browser>
-
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Dropdown Anchor=&quot;AnchorPoint.BottomCenter&quot;&gt;
-    &lt;Trigger&gt;
-        &lt;Button Variant=&quot;ButtonVariant.Primary&quot; Label=&quot;Menu&quot; /&gt;
-    &lt;/Trigger&gt;
-    &lt;Content&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Chat&quot; Title=&quot;Messages&quot; Count=&quot;6&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Heart&quot; Title=&quot;Favorites&quot; /&gt;
-        &lt;/DropdownSection&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Circle&quot; Title=&quot;Profile&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
-        &lt;/DropdownSection&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
-        &lt;/DropdownSection&gt;
-    &lt;/Content&gt;
-&lt;/Dropdown&gt;
-                </CodeViewer>
-            </section>
-
             <!-- Parameters Table: Steps -->
             <section class="my-8 py-2">
                 <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Steps Component Parameters" class="scroll-mt-20">
