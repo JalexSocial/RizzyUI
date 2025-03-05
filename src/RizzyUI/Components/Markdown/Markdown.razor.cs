@@ -68,7 +68,7 @@ public partial class Markdown : RizzyComponent
 
         Pipeline ??= new MarkdownPipelineBuilder()
             .UseAdvancedExtensions()
-            .UseHighlightJs()
+            .UseRizzySyntaxHighlighting()
             .Build();
     }
 

@@ -841,6 +841,7 @@ document.addEventListener('alpine:init', () => {
 
                     loadjs(assets, {
                         success: () => {
+                            window.hljs.highlightAll();
                         },
                         error: () => {
                             console.error('Failed to load Highlight.js');

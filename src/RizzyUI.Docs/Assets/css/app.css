@@ -137,5 +137,15 @@ svg[blazicon] {
     display: none;
 }
 
+.prose .hljs {
+    color: var(--tw-prose-pre-code) !important;
+    background-color: var(--tw-prose-pre-bg) !important;
+}
+
+.prose :not(pre) > code.hljs {
+    color: inherit !important;
+    background: none !important;
+}
+
 /* Flatpickr styling */
 @import "./vendor/flatpickr.css";

@@ -5096,6 +5096,14 @@ svg[blazicon] {
 .validation-summary-valid span {
   display: none;
 }
+.prose .hljs {
+  color: var(--tw-prose-pre-code) !important;
+  background-color: var(--tw-prose-pre-bg) !important;
+}
+.prose :not(pre) > code.hljs {
+  color: inherit !important;
+  background: none !important;
+}
 .flatpickr-calendar {
   visibility: hidden;
   position: absolute;
