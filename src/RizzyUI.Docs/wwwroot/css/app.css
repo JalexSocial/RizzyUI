@@ -2038,6 +2038,9 @@
   .border-success {
     border-color: var(--color-success);
   }
+  .border-surface-tertiary\/70 {
+    border-color: color-mix(in oklab, var(--color-surface-tertiary) 70%, transparent);
+  }
   .border-transparent {
     border-color: transparent;
   }
@@ -2190,6 +2193,9 @@
   }
   .bg-surface-alt\/75 {
     background-color: color-mix(in oklab, var(--color-surface-alt) 75%, transparent);
+  }
+  .bg-surface-tertiary {
+    background-color: var(--color-surface-tertiary);
   }
   .bg-teal-200 {
     background-color: var(--color-teal-200);
@@ -2554,6 +2560,9 @@
   }
   .text-on-surface-strong {
     color: var(--color-on-surface-strong);
+  }
+  .text-on-surface-tertiary {
+    color: var(--color-on-surface-tertiary);
   }
   .text-on-surface\/60 {
     color: color-mix(in oklab, var(--color-on-surface) 60%, transparent);
