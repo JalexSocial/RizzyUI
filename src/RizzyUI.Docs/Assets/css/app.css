@@ -40,6 +40,11 @@
     --borderRadius: 6px;
     --radius-theme: var(--borderRadius);
     --border-theme: var(--borderWidth);
+
+    /* Typography code styles */
+    --tw-prose-code: var(--highlight-color);
+    --tw-prose-pre-code: var(--highlight-color);
+    --tw-prose-pre-bg: var(--highlight-bg)
 }
 
 svg[blazicon] {
@@ -149,3 +154,4 @@ svg[blazicon] {
 
 /* Flatpickr styling */
 @import "./vendor/flatpickr.css";
+@import "./vendor/highlightjs.css";

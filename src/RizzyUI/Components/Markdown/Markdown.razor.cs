@@ -3,7 +3,6 @@ using Rizzy.Utility;
 using RizzyUI.Extensions;
 using Microsoft.AspNetCore.Components;
 using Markdig;
-using Pek.Markdig.HighlightJs;
 using System.Text.Json;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
@@ -52,7 +51,7 @@ public partial class Markdown : RizzyComponent
     [
         Constants.ContentUrl("js/vendor/highlightjs/highlight.js"),
         Constants.ContentUrl("js/vendor/highlightjs-plugin/cshtml-razor.min.js"),
-        Constants.ContentUrl("js/vendor/highlightjs/styles/stackoverflow-dark.css")
+        //Constants.ContentUrl("js/vendor/highlightjs/styles/stackoverflow-dark.css")
     ];
 
     /// <summary>
