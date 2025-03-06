@@ -11,23 +11,14 @@
     --color-on-surface-strong: var(--color-black);
     --color-on-surface-muted: var(--color-neutral-500);
     --color-surface-alt: var(--color-slate-100);
+    --color-surface-tertiary: var(--color-slate-700);
+    --color-on-surface-tertiary: var(--color-slate-300);
     --color-primary: var(--color-blue-700);
     --color-on-primary: var(--color-slate-100);
     --color-secondary: var(--color-indigo-700);
     --color-on-secondary: var(--color-slate-100);
     --color-outline: var(--color-slate-300);
     --color-outline-strong: var(--color-slate-800);
-    --color-surface-dark: var(--color-slate-900);
-    --color-on-surface-dark: var(--color-slate-300);
-    --color-on-surface-dark-strong: var(--color-white);
-    --color-on-surface-dark-muted: var(--color-neutral-500);
-    --color-surface-dark-alt: var(--color-slate-800);
-    --color-primary-dark: var(--color-blue-600);
-    --color-on-primary-dark: var(--color-slate-100);
-    --color-secondary-dark: var(--color-indigo-600);
-    --color-on-secondary-dark: var(--color-slate-100);
-    --color-outline-dark: var(--color-slate-700);
-    --color-outline-dark-strong: var(--color-slate-300);
     --color-danger: var(--color-red-600);
     --color-on-danger: var(--color-white);
     --color-info: var(--color-sky-600);
@@ -40,10 +31,30 @@
     --borderRadius: 6px;
     --radius-theme: var(--borderRadius);
     --border-theme: var(--borderWidth);
+    /* Typography code styles */
+    --tw-prose-code: var(--highlight-color);
+    --tw-prose-pre-code: var(--highlight-color);
+    --tw-prose-pre-bg: var(--highlight-bg)
 }
 
-@utility plch-* {
-    padding-left: calc(--value(integer) * 1ch);
+@layer theme {
+    * {
+        @variant dark {
+            --color-surface: var(--color-slate-900);
+            --color-on-surface: var(--color-slate-300);
+            --color-on-surface-strong: var(--color-white);
+            --color-on-surface-muted: var(--color-neutral-500);
+            --color-surface-alt: var(--color-slate-800);
+            --color-surface-tertiary: var(--color-slate-700);
+            --color-on-surface-tertiary: var(--color-slate-300);
+            --color-primary: var(--color-blue-600);
+            --color-on-primary: var(--color-slate-100);
+            --color-secondary: var(--color-indigo-600);
+            --color-on-secondary: var(--color-slate-100);
+            --color-outline: var(--color-slate-700);
+            --color-outline-strong: var(--color-slate-300);
+        }
+    }
 }
 
 .rounded {

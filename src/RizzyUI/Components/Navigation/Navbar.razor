@@ -5,7 +5,7 @@
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
     <!-- Navbar Toggle Button -->
-    <button type="button" class="md:hidden inline-block text-on-surface dark:text-on-surface-dark" x-on:click="toggleSidebar">
+    <button type="button" class="md:hidden inline-block text-on-surface " x-on:click="toggleSidebar">
 
         <div class="text-xl"><Blazicon Svg="MdiIcon.Menu" /></div>
 
@@ -18,7 +18,7 @@
 </HtmlElement>
 
 @code {
-    private static readonly string BaseStyle = "fixed top-0 z-50 h-16 w-screen items-center justify-between border-outline bg-surface-alt/75 px-4 py-2 backdrop-blur-xl flex dark:border-outline-dark dark:bg-surface-dark-alt/40 border-b";
+    private static readonly string BaseStyle = "fixed top-0 z-50 h-16 w-screen items-center justify-between border-outline bg-surface-alt/75 px-4 py-2 backdrop-blur-xl flex   border-b";
 
     /// <summary>
     /// Content inside the navbar

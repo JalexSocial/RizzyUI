@@ -18,115 +18,14 @@ public class RizzyTheme(string name, string themeCode)
     public string ThemeCode { get; init; } = themeCode;
 
     /// <summary>
-    /// Gets the surface background color in light mode
+    /// Color scheme for light mode variant
     /// </summary>
-    public Color Surface { get; init; }
+    public RizzyThemeVariant Light { get; set; } = new();
 
     /// <summary>
-    /// Gets the color used for content displayed on the surface in light mode.
+    /// Color scheme for dark mode variant
     /// </summary>
-    public Color OnSurface { get; init; }
-
-    /// <summary>
-    /// Gets the color used for strongly emphasized content displayed on the surface in light mode.
-    /// </summary>
-    public Color OnSurfaceStrong { get; init; }
-
-    /// <summary>
-    /// Gets the color used for disabled or inactive text elements.
-    /// </summary>
-    public Color OnSurfaceMuted { get; init; }
-
-    /// <summary>
-    /// Gets the alternate surface background color in light mode.
-    /// </summary>
-    public Color SurfaceAlt { get; init; }
-
-    /// <summary>
-    /// Gets the primary brand color in light mode.
-    /// </summary>
-    public Color Primary { get; init; }
-
-    /// <summary>
-    /// Gets the color used for content displayed on the primary color in light mode.
-    /// </summary>
-    public Color OnPrimary { get; init; }
-
-    /// <summary>
-    /// Gets the secondary brand color in light mode.
-    /// </summary>
-    public Color Secondary { get; init; }
-
-    /// <summary>
-    /// Gets the color used for content displayed on the secondary color in light mode.
-    /// </summary>
-    public Color OnSecondary { get; init; }
-
-    /// <summary>
-    /// Gets the outline color used for borders and dividers in light mode.
-    /// </summary>
-    public Color Outline { get; init; }
-
-    /// <summary>
-    /// Gets the stronger outline color used for heavier borders in light mode.
-    /// </summary>
-    public Color OutlineStrong { get; init; }
-
-    /// <summary>
-    /// Gets the surface background color in dark mode.
-    /// </summary>
-    public Color SurfaceDark { get; init; }
-
-    /// <summary>
-    /// Gets the color used for content displayed on the surface in dark mode.
-    /// </summary>
-    public Color OnSurfaceDark { get; init; }
-
-    /// <summary>
-    /// Gets the color used for strongly emphasized content displayed on the surface in dark mode.
-    /// </summary>
-    public Color OnSurfaceDarkStrong { get; init; }
-
-    /// <summary>
-    /// Gets the color used for disabled or inactive text elements.
-    /// </summary>
-    public Color OnSurfaceDarkMuted { get; init; }
-
-
-    /// <summary>
-    /// Gets the alternate surface background color in dark mode.
-    /// </summary>
-    public Color SurfaceAltDark { get; init; }
-
-    /// <summary>
-    /// Gets the primary brand color in dark mode.
-    /// </summary>
-    public Color PrimaryDark { get; init; }
-
-    /// <summary>
-    /// Gets the color used for content displayed on the primary color in dark mode.
-    /// </summary>
-    public Color OnPrimaryDark { get; init; }
-
-    /// <summary>
-    /// Gets the secondary brand color in dark mode.
-    /// </summary>
-    public Color SecondaryDark { get; init; }
-
-    /// <summary>
-    /// Gets the color used for content displayed on the secondary color in dark mode.
-    /// </summary>
-    public Color OnSecondaryDark { get; init; }
-
-    /// <summary>
-    /// Gets the outline color used for borders and dividers in dark mode.
-    /// </summary>
-    public Color OutlineDark { get; init; }
-
-    /// <summary>
-    /// Gets the stronger outline color used for heavier borders in dark mode.
-    /// </summary>
-    public Color OutlineDarkStrong { get; init; }
+    public RizzyThemeVariant Dark { get; set; } = new();
 
     /// <summary>
     /// Gets the color used to indicate dangerous or error states.

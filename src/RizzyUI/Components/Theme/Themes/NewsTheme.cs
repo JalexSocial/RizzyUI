@@ -12,30 +12,40 @@ public class NewsTheme : RizzyTheme
     public NewsTheme() : base("News", "news")
     {
         // Light mode colors
-        Surface = Colors.Zinc.L50;                      // zinc-50: (250, 250, 249)
-        OnSurface = Colors.Neutral.L600;                // neutral-600: (75, 85, 99)
-        OnSurfaceStrong = Colors.Neutral.L900;          // neutral-900: (17, 24, 39)
-        OnSurfaceMuted = Colors.Neutral.L500;
-        SurfaceAlt = Colors.Zinc.L100;                   // zinc-100: (244, 244, 245)
-        Primary = Colors.Sky.L700;                       // sky-700: (14, 165, 233)
-        OnPrimary = Colors.White;                        // white: (255, 255, 255)
-        Secondary = Colors.Black;                        // black: (0, 0, 0)
-        OnSecondary = Colors.White;                      // white: (255, 255, 255)
-        Outline = Colors.Zinc.L300;                       // zinc-300: (209, 213, 219)
-        OutlineStrong = Colors.Zinc.L500;                 // zinc-500: (113, 113, 122)
+        Light = new RizzyThemeVariant()
+        {
+            Surface = Colors.Zinc.L50, // zinc-50: (250, 250, 249)
+            OnSurface = Colors.Neutral.L600, // neutral-600: (75, 85, 99)
+            OnSurfaceStrong = Colors.Neutral.L900, // neutral-900: (17, 24, 39)
+            OnSurfaceMuted = Colors.Neutral.L500,
+            SurfaceAlt = Colors.Zinc.L100, // zinc-100: (244, 244, 245)
+            SurfaceTertiary = Colors.Zinc.L700,
+            OnSurfaceTertiary = Colors.Zinc.L200,
+            Primary = Colors.Sky.L700, // sky-700: (14, 165, 233)
+            OnPrimary = Colors.White, // white: (255, 255, 255)
+            Secondary = Colors.Black, // black: (0, 0, 0)
+            OnSecondary = Colors.White, // white: (255, 255, 255)
+            Outline = Colors.Zinc.L300, // zinc-300: (209, 213, 219)
+            OutlineStrong = Colors.Zinc.L500 // zinc-500: (113, 113, 122)
+        };
 
         // Dark mode colors
-        SurfaceDark = Colors.Zinc.L900;                   // zinc-900: (15, 23, 42)
-        OnSurfaceDark = Colors.Zinc.L200;                 // zinc-200: (229, 231, 235)
-        OnSurfaceDarkStrong = Colors.Zinc.L50;            // zinc-50: (250, 250, 249)
-        OnSurfaceDarkMuted = Colors.Neutral.L500;
-        SurfaceAltDark = Colors.Zinc.L800;                // zinc-800: (31, 41, 55)
-        PrimaryDark = Colors.Sky.L600;                    // sky-600: (8, 51, 68)
-        OnPrimaryDark = Colors.White;                     // white: (255, 255, 255)
-        SecondaryDark = Colors.White;                     // white: (255, 255, 255)
-        OnSecondaryDark = Colors.Black;                   // black: (0, 0, 0)
-        OutlineDark = Colors.Zinc.L700;                   // zinc-700: (38, 38, 38)
-        OutlineDarkStrong = Colors.Zinc.L500;             // zinc-500: (113, 113, 122)
+        Dark = new RizzyThemeVariant()
+        {
+            Surface = Colors.Zinc.L900, // zinc-900: (15, 23, 42)
+            OnSurface = Colors.Zinc.L200, // zinc-200: (229, 231, 235)
+            OnSurfaceStrong = Colors.Zinc.L50, // zinc-50: (250, 250, 249)
+            OnSurfaceMuted = Colors.Neutral.L500,
+            SurfaceAlt = Colors.Zinc.L800, // zinc-800: (31, 41, 55)
+            SurfaceTertiary = Colors.Zinc.L700,
+            OnSurfaceTertiary = Colors.Zinc.L200,
+            Primary = Colors.Sky.L600, // sky-600: (8, 51, 68)
+            OnPrimary = Colors.White, // white: (255, 255, 255)
+            Secondary = Colors.White, // white: (255, 255, 255)
+            OnSecondary = Colors.Black, // black: (0, 0, 0)
+            Outline = Colors.Zinc.L700, // zinc-700: (38, 38, 38)
+            OutlineStrong = Colors.Zinc.L500 // zinc-500: (113, 113, 122)
+        };
 
         // Shared Colors
         Danger = Colors.Red.L700;                          // red-700: (185, 28, 28)

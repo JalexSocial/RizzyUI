@@ -50,30 +50,19 @@ public class RizzyThemeProvider : ComponentBase
     {
         var sb = new StringBuilder();
         sb.AppendLine(":root {");
-        sb.AppendLine($"--color-surface: {theme.Surface.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface: {theme.OnSurface.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface-strong: {theme.OnSurfaceStrong.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface-muted: {theme.OnSurfaceMuted.ToCssColorString()};");
-        sb.AppendLine($"--color-surface-alt: {theme.SurfaceAlt.ToCssColorString()};");
-        sb.AppendLine($"--color-primary: {theme.Primary.ToCssColorString()};");
-        sb.AppendLine($"--color-on-primary: {theme.OnPrimary.ToCssColorString()};");
-        sb.AppendLine($"--color-secondary: {theme.Secondary.ToCssColorString()};");
-        sb.AppendLine($"--color-on-secondary: {theme.OnSecondary.ToCssColorString()};");
-        sb.AppendLine($"--color-outline: {theme.Outline.ToCssColorString()};");
-        sb.AppendLine($"--color-outline-strong: {theme.OutlineStrong.ToCssColorString()};");
-
-        sb.AppendLine($"--color-surface-dark: {theme.SurfaceDark.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface-dark: {theme.OnSurfaceDark.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface-dark-strong: {theme.OnSurfaceDarkStrong.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface-dark-muted: {theme.OnSurfaceDarkMuted.ToCssColorString()};");
-        sb.AppendLine($"--color-surface-dark-alt: {theme.SurfaceAltDark.ToCssColorString()};");
-        sb.AppendLine($"--color-primary-dark: {theme.PrimaryDark.ToCssColorString()};");
-        sb.AppendLine($"--color-on-primary-dark: {theme.OnPrimaryDark.ToCssColorString()};");
-        sb.AppendLine($"--color-secondary-dark: {theme.SecondaryDark.ToCssColorString()};");
-        sb.AppendLine($"--color-on-secondary-dark: {theme.OnSecondaryDark.ToCssColorString()};");
-        sb.AppendLine($"--color-outline-dark: {theme.OutlineDark.ToCssColorString()};");
-        sb.AppendLine($"--color-outline-dark-strong: {theme.OutlineDarkStrong.ToCssColorString()};");
-
+        sb.AppendLine($"--color-surface: {theme.Light.Surface.ToCssColorString()};");
+        sb.AppendLine($"--color-on-surface: {theme.Light.OnSurface.ToCssColorString()};");
+        sb.AppendLine($"--color-on-surface-strong: {theme.Light.OnSurfaceStrong.ToCssColorString()};");
+        sb.AppendLine($"--color-on-surface-muted: {theme.Light.OnSurfaceMuted.ToCssColorString()};");
+        sb.AppendLine($"--color-surface-alt: {theme.Light.SurfaceAlt.ToCssColorString()};");
+        sb.AppendLine($"--color-surface-tertiary: {theme.Light.SurfaceTertiary.ToCssColorString()};");
+        sb.AppendLine($"--color-on-surface-tertiary: {theme.Light.OnSurfaceTertiary.ToCssColorString()};");
+        sb.AppendLine($"--color-primary: {theme.Light.Primary.ToCssColorString()};");
+        sb.AppendLine($"--color-on-primary: {theme.Light.OnPrimary.ToCssColorString()};");
+        sb.AppendLine($"--color-secondary: {theme.Light.Secondary.ToCssColorString()};");
+        sb.AppendLine($"--color-on-secondary: {theme.Light.OnSecondary.ToCssColorString()};");
+        sb.AppendLine($"--color-outline: {theme.Light.Outline.ToCssColorString()};");
+        sb.AppendLine($"--color-outline-strong: {theme.Light.OutlineStrong.ToCssColorString()};");
         sb.AppendLine($"--color-danger: {theme.Danger.ToCssColorString()};");
         sb.AppendLine($"--color-on-danger: {theme.OnDanger.ToCssColorString()};");
         sb.AppendLine($"--color-info: {theme.Info.ToCssColorString()};");
@@ -82,9 +71,24 @@ public class RizzyThemeProvider : ComponentBase
         sb.AppendLine($"--color-on-warning: {theme.OnWarning.ToCssColorString()};");
         sb.AppendLine($"--color-success: {theme.Success.ToCssColorString()};");
         sb.AppendLine($"--color-on-success: {theme.OnSuccess.ToCssColorString()};");
-
         sb.AppendLine($"--borderWidth: {theme.BorderWidth};");
         sb.AppendLine($"--borderRadius: {theme.BorderRadius};");
+        sb.AppendLine("}");
+
+        sb.AppendLine("&:where(.dark, .dark *) {");
+        sb.AppendLine($"--color-surface: {theme.Dark.Surface.ToCssColorString()};");
+        sb.AppendLine($"--color-on-surface: {theme.Dark.OnSurface.ToCssColorString()};");
+        sb.AppendLine($"--color-on-surface-strong: {theme.Dark.OnSurfaceStrong.ToCssColorString()};");
+        sb.AppendLine($"--color-on-surface-muted: {theme.Dark.OnSurfaceMuted.ToCssColorString()};");
+        sb.AppendLine($"--color-surface-alt: {theme.Dark.SurfaceAlt.ToCssColorString()};");
+        sb.AppendLine($"--color-surface-tertiary: {theme.Dark.SurfaceTertiary.ToCssColorString()};");
+        sb.AppendLine($"--color-on-surface-tertiary: {theme.Dark.OnSurfaceTertiary.ToCssColorString()};");
+        sb.AppendLine($"--color-primary: {theme.Dark.Primary.ToCssColorString()};");
+        sb.AppendLine($"--color-on-primary: {theme.Dark.OnPrimary.ToCssColorString()};");
+        sb.AppendLine($"--color-secondary: {theme.Dark.Secondary.ToCssColorString()};");
+        sb.AppendLine($"--color-on-secondary: {theme.Dark.OnSecondary.ToCssColorString()};");
+        sb.AppendLine($"--color-outline: {theme.Dark.Outline.ToCssColorString()};");
+        sb.AppendLine($"--color-outline-strong: {theme.Dark.OutlineStrong.ToCssColorString()};");
         sb.AppendLine("}");
 
         return sb.ToString();

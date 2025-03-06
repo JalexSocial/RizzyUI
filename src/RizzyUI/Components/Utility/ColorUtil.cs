@@ -90,16 +90,16 @@ public static class ColorUtil
             SemanticColor.None => "",
 
             // Surface Colors
-            SemanticColor.Surface => "text-surface dark:text-surface-dark",
-            SemanticColor.OnSurface => "text-on-surface dark:text-on-surface-dark",
-            SemanticColor.OnSurfaceStrong => "text-on-surface-strong dark:text-on-surface-dark-strong",
-            SemanticColor.SurfaceAlt => "text-surface-alt dark:text-surface-dark-alt",
-            SemanticColor.Primary => "text-primary dark:text-primary-dark",
-            SemanticColor.OnPrimary => "text-on-primary dark:text-on-primary-dark",
-            SemanticColor.Secondary => "text-secondary dark:text-secondary-dark",
-            SemanticColor.OnSecondary => "text-on-secondary dark:text-on-secondary-dark",
-            SemanticColor.Outline => "text-outline dark:text-outline-dark",
-            SemanticColor.OutlineStrong => "text-outline-strong dark:text-outline-dark-strong",
+            SemanticColor.Surface => "text-surface ",
+            SemanticColor.OnSurface => "text-on-surface ",
+            SemanticColor.OnSurfaceStrong => "text-on-surface-strong ",
+            SemanticColor.SurfaceAlt => "text-surface-alt ",
+            SemanticColor.Primary => "text-primary ",
+            SemanticColor.OnPrimary => "text-on-primary ",
+            SemanticColor.Secondary => "text-secondary ",
+            SemanticColor.OnSecondary => "text-on-secondary ",
+            SemanticColor.Outline => "text-outline ",
+            SemanticColor.OutlineStrong => "text-outline-strong ",
 
             // Status Colors (no dark variants)
             SemanticColor.Danger => "text-danger",
@@ -111,7 +111,7 @@ public static class ColorUtil
             SemanticColor.Success => "text-success",
             SemanticColor.OnSuccess => "text-on-success",
 
-            _ => "text-on-surface dark:text-on-surface-dark"
+            _ => "text-on-surface "
         };
     }
 
@@ -124,13 +124,13 @@ public static class ColorUtil
     {
         return color switch
         {
-            StatusColor.Primary => "text-on-primary dark:text-on-primary-dark",
-            StatusColor.Danger => "text-on-danger dark:text-on-dangerDark",
-            StatusColor.Info => "text-onInfo dark:text-onInfoDark",
-            StatusColor.Secondary => "text-on-secondary dark:text-on-secondary-dark",
-            StatusColor.Success => "text-on-success dark:text-on-successDark",
-            StatusColor.Warning => "text-on-warning dark:text-on-warningDark",
-            _ => "text-on-primary dark:text-on-primary-dark"
+            StatusColor.Primary => "text-on-primary ",
+            StatusColor.Danger => "text-on-danger",
+            StatusColor.Info => "text-onInfo",
+            StatusColor.Secondary => "text-on-secondary",
+            StatusColor.Success => "text-on-success",
+            StatusColor.Warning => "text-on-warning",
+            _ => "text-on-primary "
         };
     }
 
@@ -146,16 +146,16 @@ public static class ColorUtil
             SemanticColor.None => "",
 
             // Surface Colors
-            SemanticColor.Surface => "bg-surface dark:bg-surface-dark",
-            SemanticColor.OnSurface => "bg-on-surface dark:bg-on-surface-dark",
-            SemanticColor.OnSurfaceStrong => "bg-on-surface-strong dark:bg-on-surface-dark-strong",
-            SemanticColor.SurfaceAlt => "bg-surface-alt dark:bg-surface-dark-alt",
-            SemanticColor.Primary => "bg-primary dark:bg-primary-dark",
-            SemanticColor.OnPrimary => "bg-on-primary dark:bg-on-primary-dark",
-            SemanticColor.Secondary => "bg-secondary dark:bg-secondary-dark",
-            SemanticColor.OnSecondary => "bg-on-secondary dark:bg-on-secondary-dark",
-            SemanticColor.Outline => "bg-outline dark:bg-outline-dark",
-            SemanticColor.OutlineStrong => "bg-outline-strong dark:bg-outline-dark-strong",
+            SemanticColor.Surface => "bg-surface",
+            SemanticColor.OnSurface => "bg-on-surface",
+            SemanticColor.OnSurfaceStrong => "bg-on-surface-strong",
+            SemanticColor.SurfaceAlt => "bg-surface-alt",
+            SemanticColor.Primary => "bg-primary",
+            SemanticColor.OnPrimary => "bg-on-primary",
+            SemanticColor.Secondary => "bg-secondary",
+            SemanticColor.OnSecondary => "bg-on-secondary",
+            SemanticColor.Outline => "bg-outline",
+            SemanticColor.OutlineStrong => "bg-outline-strong",
 
             // Status Colors (no dark variants)
             SemanticColor.Danger => "bg-danger",
@@ -167,7 +167,7 @@ public static class ColorUtil
             SemanticColor.Success => "bg-success",
             SemanticColor.OnSuccess => "bg-on-success",
 
-            _ => "bg-surface dark:bg-surface-dark"
+            _ => "bg-surface "
         };
     }
 
@@ -186,16 +186,16 @@ public static class ColorUtil
             SemanticColor.None => "",
 
             // Surface Colors
-            SemanticColor.Surface => $"{ps}bg-surface dark:{ps}bg-surface-dark",
-            SemanticColor.OnSurface => $"{ps}bg-on-surface dark:{ps}bg-on-surface-dark",
-            SemanticColor.OnSurfaceStrong => $"{ps}bg-on-surface-strong dark:{ps}bg-on-surface-dark-strong",
-            SemanticColor.SurfaceAlt => $"{ps}bg-surface-alt dark:{ps}bg-surface-dark-alt",
-            SemanticColor.Primary => $"{ps}bg-primary dark:{ps}bg-primary-dark",
-            SemanticColor.OnPrimary => $"{ps}bg-on-primary dark:{ps}bg-on-primary-dark",
-            SemanticColor.Secondary => $"{ps}bg-secondary dark:{ps}bg-secondary-dark",
-            SemanticColor.OnSecondary => $"{ps}bg-on-secondary dark:{ps}bg-on-secondary-dark",
-            SemanticColor.Outline => $"{ps}bg-outline dark:{ps}bg-outline-dark",
-            SemanticColor.OutlineStrong => $"{ps}bg-outline-strong dark:{ps}bg-outline-dark-strong",
+            SemanticColor.Surface => $"{ps}bg-surface",
+            SemanticColor.OnSurface => $"{ps}bg-on-surface",
+            SemanticColor.OnSurfaceStrong => $"{ps}bg-on-surface-strong",
+            SemanticColor.SurfaceAlt => $"{ps}bg-surface-alt",
+            SemanticColor.Primary => $"{ps}bg-primary",
+            SemanticColor.OnPrimary => $"{ps}bg-on-primary",
+            SemanticColor.Secondary => $"{ps}bg-secondary",
+            SemanticColor.OnSecondary => $"{ps}bg-on-secondary",
+            SemanticColor.Outline => $"{ps}bg-outline",
+            SemanticColor.OutlineStrong => $"{ps}bg-outline-strong",
 
             // Status Colors (no dark variants)
             SemanticColor.Danger => ps + "bg-danger",
@@ -207,7 +207,7 @@ public static class ColorUtil
             SemanticColor.Success => ps + "bg-success",
             SemanticColor.OnSuccess => ps + "bg-on-success",
 
-            _ => "bg-surface dark:bg-surface-dark"
+            _ => "bg-surface "
         };
     }
 
@@ -216,6 +216,6 @@ public static class ColorUtil
 #pragma warning disable CS0414 // Field is assigned but its value is never used
     private static readonly string TwBackgroundClassAfterDiscovery =
 #pragma warning restore CS0414 // Field is assigned but its value is never used
-	    "after:bg-surface dark:after:bg-surface-dark after:bg-on-surface dark:after:bg-on-surface-dark after:bg-on-surface-strong dark:after:bg-on-surface-dark-strong after:bg-surface-alt dark:after:bg-surface-dark-alt after:bg-primary dark:after:bg-primary-dark after:bg-on-primary dark:after:bg-on-primary-dark after:bg-secondary dark:after:bg-secondary-dark after:bg-on-secondary dark:after:bg-on-secondary-dark after:bg-outline dark:after:bg-outline-dark after:bg-outline-strong dark:after:bg-outline-dark-strong after:bg-danger after:bg-on-danger after:bg-info after:bg-on-info after:bg-warning after:bg-on-warning after:bg-success after:bg-on-success after:bg-surface dark:after:bg-surface-dark";
+	    "after:bg-surface after:bg-on-surface after:bg-on-surface-strong after:bg-surface-alt after:bg-primary after:bg-on-primary after:bg-secondary after:bg-on-secondary after:bg-outline after:bg-outline-strong after:bg-danger after:bg-on-danger after:bg-info after:bg-on-info after:bg-warning after:bg-on-warning after:bg-success after:bg-on-success after:bg-surface";
 
 }

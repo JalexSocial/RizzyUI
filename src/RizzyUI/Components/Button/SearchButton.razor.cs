@@ -9,7 +9,7 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class SearchButton : RizzyComponent
 {
-	private static readonly string BaseStyle = "btn-search flex h-10 w-full cursor-pointer items-center justify-between border-outline bg-surface-alt p-2 px-4 font-light transition-all duration-200 dark:border-outline-dark dark:bg-surface-dark-alt rounded-theme border";
+	private static readonly string BaseStyle = "btn-search flex h-10 w-full cursor-pointer items-center justify-between border-outline bg-surface-alt p-2 px-4 font-light transition-all duration-200   rounded-theme border";
 
 	/// <xmldoc>
 	/// Gets or sets the text label for the search button. This label is used for both the button’s visible text and the aria-label.

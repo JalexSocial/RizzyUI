@@ -10,8 +10,8 @@ public partial class Accordion : RizzyComponent
 {
 	private static readonly string BaseStyle =
 		"w-full divide-y divide-outline overflow-hidden rounded border border-outline " +
-		"bg-surface-alt/40 text-on-surface dark:divide-outline-dark dark:border-outline-dark " +
-		"dark:bg-surface-dark-alt/50 dark:text-on-surface-dark";
+		"bg-surface-alt/40 text-on-surface dark:divide-outline-dark  " +
+		" ";
 
 	/// <summary>
 	/// When true, multiple sections may be open simultaneously.

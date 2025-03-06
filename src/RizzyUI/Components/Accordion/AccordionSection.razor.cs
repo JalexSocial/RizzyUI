@@ -17,9 +17,9 @@ public partial class AccordionSection : RizzyComponent
 	private static readonly string ButtonBaseStyle =
 		"flex w-full items-center justify-between gap-4 bg-surface-alt p-4 text-left " +
 		"underline-offset-2 hover:bg-surface-alt/75 focus-visible:bg-surface-alt/75 " +
-		"focus-visible:underline focus-visible:outline-hidden dark:bg-surface-dark-alt " +
+		"focus-visible:underline focus-visible:outline-hidden  " +
 		"dark:hover:bg-surface-dark-alt/75 dark:focus-visible:bg-surface-dark-alt/75 " +
-		"text-on-surface dark:text-on-surface-dark font-medium";
+		"text-on-surface  font-medium";
 
 	private static readonly string ContentBaseStyle =
 		"p-4 text-sm sm:text-base text-pretty";

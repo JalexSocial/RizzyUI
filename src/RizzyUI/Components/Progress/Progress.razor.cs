@@ -82,8 +82,8 @@ public partial class Progress : RizzyComponent
     /// </summary>
     private string ProgressBarClass => Variant switch
     {
-        StatusColor.Primary => "h-full rounded-theme bg-primary dark:bg-primary-dark text-on-primary dark:text-on-primary-dark",
-        StatusColor.Secondary => "h-full rounded-theme bg-secondary dark:bg-secondary-dark text-on-secondary dark:text-on-secondary-dark",
+        StatusColor.Primary => "h-full rounded-theme bg-primary  text-on-primary ",
+        StatusColor.Secondary => "h-full rounded-theme bg-secondary  text-on-secondary ",
         StatusColor.Success => "h-full rounded-theme bg-success dark:bg-success text-on-success dark:text-on-success-dark",
         StatusColor.Info => "h-full rounded-theme bg-info dark:bg-info text-onInfo dark:text-onInfoDark",
         StatusColor.Warning => "h-full rounded-theme bg-warning dark:bg-warning text-on-warning dark:text-on-warning-dark",

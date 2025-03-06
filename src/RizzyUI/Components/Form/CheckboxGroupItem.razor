@@ -8,7 +8,7 @@
 <HtmlElement Element="@Element" x-data="rzCheckboxGroupItem" @attributes="AdditionalAttributes" class="@RootClass()">
 	<div class="relative">
 		<RzInputCheckbox @bind-Value="IsChecked" class="@CheckboxClass" x-on:change="toggleCheckbox" x-ref="chk"/>
-		<div class="absolute inset-0 flex items-center justify-center text-on-primary dark:text-on-primary-dark" :class="getIconCss">
+		<div class="absolute inset-0 flex items-center justify-center text-on-primary " :class="getIconCss">
 			<Blazicon Svg="CheckedIcon"/>
         </div>
 	</div>

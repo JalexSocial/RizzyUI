@@ -9,7 +9,6 @@
 
   /* Dark mode override (parent .dark) */
   .dark & {
-    @apply bg-surface-dark text-on-surface-dark;
     box-shadow: 1px 0 0 #20222c, -1px 0 0 #20222c, 0 1px 0 #20222c, 0 -1px 0 #20222c, 0 3px 13px rgba(0,0,0,0.08);
   }
 
@@ -68,9 +67,7 @@
     .dark &::before {
       border-bottom-color: #20222c;
     }
-    .dark &::after {
-      border-bottom-color: var(--color-surface-dark);
-    }
+
   }
 
   &.arrowBottom {
@@ -91,9 +88,7 @@
     .dark &::before {
       border-top-color: #20222c;
     }
-    .dark &::after {
-      border-top-color: var(--color-surface-dark);
-    }
+
   }
 
   &.arrowCenter {
@@ -126,21 +121,17 @@
   .flatpickr-month {
     @apply flex-1 bg-surface text-on-surface fill-current h-8 leading-none 
       text-center relative select-none overflow-hidden;
-
-    .dark & {
-      @apply bg-surface-dark text-on-surface-dark;
-    }
   }
 
   /* Prev/next month arrows */
   .flatpickr-prev-month,
   .flatpickr-next-month {
     @apply select-none no-underline cursor-pointer h-[34px] z-[3] 
-      text-on-surface dark:text-on-surface-dark fill-on-surface dark:fill-on-surface-dark 
+      text-on-surface fill-on-surface
       p-2.5 top-0;
 
     .dark & {
-      @apply text-on-surface-dark fill-current;
+      @apply fill-current;
     }
 
     svg {
@@ -185,7 +176,7 @@
   }
 
   .flatpickr-monthDropdown-months {
-    @apply appearance-none bg-surface dark:bg-surface-dark border-0 rounded-none 
+    @apply appearance-none bg-surface border-0 rounded-none 
       text-inherit cursor-pointer text-base font-light leading-none outline-none py-0 pl-1 pr-2 ml-1 relative;
 
     padding-right: 3rem;
@@ -232,10 +223,6 @@
   @apply bg-transparent border border-transparent rounded-full box-border text-on-surface 
     cursor-pointer font-normal inline-block relative flex-none text-center w-[14.2857143%] 
      h-[39px] leading-[39px];
-
-  .dark & {
-    @apply text-on-surface-dark;
-  }
 
   &:hover,
   &:focus,
@@ -328,10 +315,6 @@
     @apply bg-transparent shadow-none border-0 rounded-none text-center 
       m-0 p-0 h-full leading-10 text-on-surface text-sm focus:outline-none;
 
-    .dark & {
-      @apply text-on-surface-dark;
-    }
-
     &.flatpickr-hour {
       @apply font-bold;
     }
@@ -350,10 +333,6 @@
   .flatpickr-time-separator,
   .flatpickr-am-pm {
     @apply float-left h-full leading-10 font-bold w-[2%] select-none self-center text-on-surface;
-
-    .dark & {
-      @apply text-on-surface-dark;
-    }
   }
 
   .flatpickr-am-pm {

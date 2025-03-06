@@ -13,7 +13,7 @@ public partial class DropdownMenuItem : RizzyComponent
 	private static readonly string BaseStyle =
 		"group flex items-center justify-between space-x-2 rounded-theme cursor-pointer border border-transparent " +
 		"px-2.5 py-2 text-sm font-medium text-on-surface hover:bg-primary/10 hover:text-primary " +
-        "focus-visible:bg-primary/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:text-on-surface-dark dark:hover:bg-surface-dark-alt dark:focus-visible:bg-primary/10 dark:focus-visible:text-on-surface-dark-strong";
+        "focus-visible:bg-primary/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden  dark:hover:bg-surface-dark-alt dark:focus-visible:bg-primary/10 dark:focus-visible:text-on-surface-dark-strong";
 
 	/// <summary>
 	/// Gets or sets the icon name to be displayed in the menu item.

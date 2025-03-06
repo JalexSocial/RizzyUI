@@ -220,13 +220,13 @@ else
     /// <summary>
     /// Gets the CSS class string for the collapsible button.
     /// </summary>
-    private string ButtonClass => "flex items-center justify-between rounded-theme gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-on-surface hover:bg-primary/5 hover:text-black dark:text-on-surface-dark dark:hover:text-white dark:hover:bg-primary-dark/5";
+    private string ButtonClass => "flex items-center justify-between rounded-theme gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-on-surface hover:bg-primary/5 hover:text-black  dark:hover:text-white dark:hover:bg-primary-dark/5";
 
     /// <summary>
     /// Gets the CSS class string for the link element, adjusted based on parent and children.
     /// </summary>
     private string LinkClass => Parent?.HasChildren == true
-        ? "flex items-center gap-2 px-2 py-1.5 text-sm rounded-theme text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-black focus-visible:underline focus:outline-none dark:text-on-surface-dark dark:hover:bg-primary-dark/5 dark:hover:text-white"
-        : "flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-on-surface-strong focus-visible:underline focus:outline-none dark:text-on-surface-dark dark:hover:bg-primary-dark/5 dark:hover:text-on-surface-darkStrong rounded-theme";
+        ? "flex items-center gap-2 px-2 py-1.5 text-sm rounded-theme text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-black focus-visible:underline focus:outline-none  dark:hover:bg-primary-dark/5 dark:hover:text-white"
+        : "flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-on-surface-strong focus-visible:underline focus:outline-none  dark:hover:bg-primary-dark/5 dark:hover:text-on-surface-darkStrong rounded-theme";
 
 }

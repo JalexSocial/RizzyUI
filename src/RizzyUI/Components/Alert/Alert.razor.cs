@@ -111,11 +111,11 @@ public partial class Alert : RizzyComponent
     {
         return variant switch
         {
-            AlertVariant.Alternate => "border-outline bg-surface-alt text-on-surface dark:bg-surface-dark-alt dark:text-on-surface-dark",
-            AlertVariant.Information => "border-info bg-surface text-on-surface dark:bg-surface-dark dark:text-on-surface-dark",
-            AlertVariant.Success => "border-success bg-surface text-on-surface dark:bg-surface-dark dark:text-on-surface-dark",
-            AlertVariant.Warning => "border-warning bg-surface text-on-surface dark:bg-surface-dark dark:text-on-surface-dark",
-            AlertVariant.Danger => "border-danger bg-surface text-on-surface dark:bg-surface-dark dark:text-on-surface-dark",
+            AlertVariant.Alternate => "border-outline bg-surface-alt text-on-surface",
+            AlertVariant.Information => "border-info bg-surface text-on-surface",
+            AlertVariant.Success => "border-success bg-surface text-on-surface",
+            AlertVariant.Warning => "border-warning bg-surface text-on-surface",
+            AlertVariant.Danger => "border-danger bg-surface text-on-surface",
             _ => throw new ArgumentOutOfRangeException(nameof(variant), variant, null)
         };
     }

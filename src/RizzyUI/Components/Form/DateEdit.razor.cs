@@ -22,7 +22,7 @@ public sealed partial class DateEdit : RizzyComponent
     private static readonly string InputBaseStyle =
         "block w-full rounded-theme border border-outline px-3 py-2 leading-6 " +
         "placeholder-on-surface focus:border-primary focus:ring focus:ring-primary " +
-        "focus:ring-opacity-50 dark:border-outline-dark dark:bg-surface-dark-alt " +
+        "focus:ring-opacity-50   " +
         "dark:placeholder-on-surface-dark dark:focus:border-primary-dark";
 
     private static readonly string[] DefaultAssets =

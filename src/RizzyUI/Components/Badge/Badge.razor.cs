@@ -66,18 +66,18 @@ public partial class Badge : RizzyComponent
         {
             // Surface and its variants
             SemanticColor.Surface or SemanticColor.OnSurface or SemanticColor.OnSurfaceStrong =>
-                "border-outline bg-surface text-on-surface dark:border-outline-dark-strong dark:bg-surface-dark dark:text-on-surface-dark",
+                "border-outline bg-surface text-on-surface   ",
 
             SemanticColor.SurfaceAlt =>
-                "border-on-surface bg-surface-alt text-on-surface dark:border-surface-dark-alt dark:bg-surface-dark-alt dark:text-on-surface-dark",
+                "border-on-surface bg-surface-alt text-on-surface   ",
 
             // Primary and its variants
             SemanticColor.Primary or SemanticColor.OnPrimary =>
-                "border-primary bg-primary text-on-primary dark:border-primary-dark dark:bg-primary-dark dark:text-on-primary-dark",
+                "border-primary bg-primary text-on-primary   ",
 
             // Secondary and its variants
             SemanticColor.Secondary or SemanticColor.OnSecondary =>
-                "border-secondary bg-secondary text-on-secondary dark:border-secondary-dark dark:bg-secondary-dark dark:text-on-secondary-dark",
+                "border-secondary bg-secondary text-on-secondary   ",
 
             // Info and its variants
             SemanticColor.Info or SemanticColor.OnInfo =>
@@ -97,7 +97,7 @@ public partial class Badge : RizzyComponent
 
             // Outline and its variants
             SemanticColor.Outline or SemanticColor.OutlineStrong =>
-                "border-outline bg-transparent text-outline dark:border-outline-dark dark:text-outline-dark",
+                "border-outline bg-transparent text-outline  ",
 
             // Default / None
             SemanticColor.None =>
@@ -117,18 +117,18 @@ public partial class Badge : RizzyComponent
         {
             // Surface and its variants
             SemanticColor.Surface or SemanticColor.OnSurface or SemanticColor.OnSurfaceStrong =>
-                "border-outline bg-surface dark:bg-surface-dark/10 text-on-surface dark:border-outline-dark-strong dark:text-surface-dark",
+                "border-outline bg-surface  text-on-surface  ",
 
             SemanticColor.SurfaceAlt =>
-                "border-on-surface bg-surface-alt dark:bg-surface-dark/10 text-on-surface dark:border-on-surface-dark dark:text-on-surface-dark",
+                "border-on-surface bg-surface-alt  text-on-surface  ",
 
             // Primary and its variants
             SemanticColor.Primary or SemanticColor.OnPrimary =>
-                "border-primary bg-primary/10 dark:bg-primary-dark/10 text-primary dark:border-primary-dark dark:text-on-primary-dark",
+                "border-primary bg-primary/10  text-primary  ",
 
             // Secondary and its variants
             SemanticColor.Secondary or SemanticColor.OnSecondary =>
-                "border-secondary bg-secondary/10 dark:bg-secondary-dark/10 text-secondary dark:border-secondary-dark dark:text-on-secondary-dark",
+                "border-secondary bg-secondary/10  text-secondary  ",
 
             // Info and its variants
             SemanticColor.Info or SemanticColor.OnInfo =>
@@ -148,7 +148,7 @@ public partial class Badge : RizzyComponent
 
             // Outline and its variants
             SemanticColor.Outline or SemanticColor.OutlineStrong =>
-                "border-outline bg-outline/10 dark:bg-outline-dark/10 text-on-surface dark:border-outline-dark dark:text-on-surface-dark",
+                "border-outline bg-outline/10  text-on-surface  ",
 
             // Default / None
             SemanticColor.None =>

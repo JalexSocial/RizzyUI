@@ -8,7 +8,7 @@
     <span class="z-1 text-primary text-xl opacity-0 absolute bottom-0 right-0 top-0 flex scale-50 cursor-pointer items-center px-4 transition peer-checked:scale-100 peer-checked:opacity-100">
 	    <Blazicon Svg="CheckboxIcon"/>
     </span>
-    <span class="group-hover:border-primary relative flex grow cursor-pointer rounded-lg border p-4 peer-checked:bg-surface-alt dark:border-on-surface-dark peer-checked:border-primary dark:peer-checked:border-primary dark:peer-checked:bg-surface-dark-alt dark:peer-checked:bg-opacity-10 peer-focus:ring peer-focus:ring-primary">
+    <span class="group-hover:border-primary relative flex grow cursor-pointer rounded-lg border p-4 peer-checked:bg-surface-alt  peer-checked:border-primary dark:peer-checked:border-primary dark:peer-checked:bg-surface-dark-alt dark:peer-checked:bg-opacity-10 peer-focus:ring peer-focus:ring-primary">
         <div class="flex">
             @if (Icon != null)
             {
@@ -20,7 +20,7 @@
                 <span class="mb-1 block font-bold">@Label</span>
                 @if (Description != null)
                 {
-                    <span class="block text-on-surface dark:text-on-surface-dark">@Description</span>
+                    <span class="block text-on-surface ">@Description</span>
                 }
                 @ChildContent
             </span>

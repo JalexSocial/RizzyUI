@@ -35,7 +35,7 @@ public partial class DarkmodeToggle : RizzyComponent
         return TwMerge.Merge(
             AdditionalAttributes,
             BaseStyle,
-            "text-on-surface dark:text-on-surface-dark bg-surface dark:bg-surface-dark hover:bg-surface-dark/5 dark:text-on-surface-dark dark:hover:bg-surface/5"
+            "text-on-surface  bg-surface  hover:bg-surface-dark/5  dark:hover:bg-surface/5"
         );
     }
 }

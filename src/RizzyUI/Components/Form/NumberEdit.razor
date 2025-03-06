@@ -9,7 +9,7 @@
 <div class="relative" x-data="rzPrependInput">
 	@if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
     {
-        <div x-ref="prependContainer" class="pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-lg border-r border-outline bg-surface-alt pl-3 pr-1 text-on-surface dark:border-outline-dark dark:bg-surface-dark-alt dark:text-on-surface-dark">
+        <div x-ref="prependContainer" class="pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-lg border-r border-outline bg-surface-alt pl-3 pr-1 text-on-surface   ">
 	        @if (!string.IsNullOrEmpty(PrependText))
 	        {
 		        @PrependText
@@ -26,7 +26,7 @@
 
 @code {
     // Base CSS classes for the input element.
-    private static readonly string BaseStyle = "block w-full rounded-lg border border-outline px-3 py-2 leading-6 placeholder-on-surface dark:border-outline-dark dark:bg-surface-dark-alt dark:placeholder-on-surface-dark focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 transition-opacity text-transparent";
+    private static readonly string BaseStyle = "block w-full rounded-lg border border-outline px-3 py-2 leading-6 placeholder-on-surface   dark:placeholder-on-surface-dark focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 transition-opacity text-transparent";
 
     private TValue _value = default!;
     private RzInputNumber<TValue>? _elem;

@@ -18,7 +18,7 @@ namespace RizzyUI;
 public partial class Markdown : RizzyComponent
 {
     private string _assets = string.Empty;
-    private static readonly string BaseStyle = "prose lg:prose-xl dark:prose-invert text-on-surface dark:text-on-surface-dark";
+    private static readonly string BaseStyle = "prose lg:prose-xl dark:prose-invert text-on-surface ";
 
     /// <summary>
     /// Pipeline to use with Markdown components

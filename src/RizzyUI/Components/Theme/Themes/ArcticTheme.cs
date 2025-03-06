@@ -12,30 +12,40 @@ public class ArcticTheme : RizzyTheme
     public ArcticTheme() : base("Arctic", "arctic")
     {
         // Light mode colors
-        Surface = Colors.White;                 // White
-        OnSurface = Colors.Slate.L700;          // #334155 (51,65,85)
-        OnSurfaceStrong = Colors.Black;         // Black
-        OnSurfaceMuted = Colors.Neutral.L500;
-        SurfaceAlt = Colors.Slate.L100;         // #F1F5F9 (241,245,249)
-        Primary = Colors.Blue.L700;             // #1D4ED8 (29,78,216)
-        OnPrimary = Colors.Slate.L100;          // #F1F5F9
-        Secondary = Colors.Indigo.L700;         // #4338CA (67,56,202)
-        OnSecondary = Colors.Slate.L100;        // #F1F5F9
-        Outline = Colors.Slate.L300;            // #CBD5E1 (203,213,225)
-        OutlineStrong = Colors.Slate.L800;      // #1E293B (30,41,59)
+        Light = new RizzyThemeVariant
+        {
+            Surface = Colors.White, // White
+            OnSurface = Colors.Slate.L700, // #334155 (51,65,85)
+            OnSurfaceStrong = Colors.Black, // Black
+            OnSurfaceMuted = Colors.Neutral.L500,
+            SurfaceAlt = Colors.Slate.L100, // #F1F5F9 (241,245,249)
+            SurfaceTertiary = Colors.Slate.L800,
+            OnSurfaceTertiary = Colors.Slate.L300,
+            Primary = Colors.Blue.L700, // #1D4ED8 (29,78,216)
+            OnPrimary = Colors.Slate.L100, // #F1F5F9
+            Secondary = Colors.Indigo.L700, // #4338CA (67,56,202)
+            OnSecondary = Colors.Slate.L100, // #F1F5F9
+            Outline = Colors.Slate.L300, // #CBD5E1 (203,213,225)
+            OutlineStrong = Colors.Slate.L800 // #1E293B (30,41,59)
+        };
 
         // Dark mode colors
-        SurfaceDark = Colors.Slate.L900;        // #0F172A (15,23,42)
-        OnSurfaceDark = Colors.Slate.L300;      // #CBD5E1 (203,213,225)
-        OnSurfaceDarkStrong = Colors.White;     // White
-        OnSurfaceDarkMuted = Colors.Neutral.L500;
-        SurfaceAltDark = Colors.Slate.L800;     
-        PrimaryDark = Colors.Blue.L600;         // #2563EB (37,99,235)
-        OnPrimaryDark = Colors.Slate.L100;      // #F1F5F9
-        SecondaryDark = Colors.Indigo.L600;     // #4F46E5 (79,70,229)
-        OnSecondaryDark = Colors.Slate.L100;    // #F1F5F9
-        OutlineDark = Colors.Slate.L700;        // #334155 (51,65,85)
-        OutlineDarkStrong = Colors.Slate.L300;  // #CBD5E1 (203,213,225)
+        Dark = new RizzyThemeVariant()
+        {
+            Surface = Colors.Slate.L900, // #0F172A (15,23,42)
+            OnSurface = Colors.Slate.L300, // #CBD5E1 (203,213,225)
+            OnSurfaceStrong = Colors.White, // White
+            OnSurfaceMuted = Colors.Neutral.L500,
+            SurfaceAlt = Colors.Slate.L800,
+            SurfaceTertiary = Colors.Slate.L700,
+            OnSurfaceTertiary = Colors.Slate.L300,
+            Primary = Colors.Blue.L600, // #2563EB (37,99,235)
+            OnPrimary = Colors.Slate.L100, // #F1F5F9
+            Secondary = Colors.Indigo.L600, // #4F46E5 (79,70,229)
+            OnSecondary = Colors.Slate.L100, // #F1F5F9
+            Outline = Colors.Slate.L700, // #334155 (51,65,85)
+            OutlineStrong = Colors.Slate.L300 // #CBD5E1 (203,213,225)
+        };
 
         // Status colors
         Danger = Colors.Red.L600;               // #DC2626 (220,38,38)

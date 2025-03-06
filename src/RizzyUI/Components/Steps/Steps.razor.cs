@@ -142,9 +142,9 @@ public partial class Steps : RizzyComponent
         bool active = previousStep.Status == StepStatus.Completed || previousStep.Status == StepStatus.Current;
         
         if (Orientation == Orientation.Vertical)
-	        return active ? $"absolute bottom-8 left-3 h-10 w-0.5 {GetActiveBackgroundClass()}" : "absolute bottom-8 left-3 h-10 w-0.5 bg-outline dark:bg-outline-dark";
+	        return active ? $"absolute bottom-8 left-3 h-10 w-0.5 {GetActiveBackgroundClass()}" : "absolute bottom-8 left-3 h-10 w-0.5 bg-outline ";
 
-        return active ? $"h-0.5 flex-1 mr-1 {GetActiveBackgroundClass()}" : "h-0.5 flex-1 mr-1 bg-outline dark:bg-outline-dark";
+        return active ? $"h-0.5 flex-1 mr-1 {GetActiveBackgroundClass()}" : "h-0.5 flex-1 mr-1 bg-outline ";
     }
 
     /// <summary>
@@ -160,8 +160,8 @@ public partial class Steps : RizzyComponent
     private string GetStepCircleClasses(StepStatus status) => status switch
     {
         StepStatus.Current => $"border {GetActiveBorderClass()} {GetActiveBackgroundClass()} font-bold {GetActiveTextClass()} outline outline-2 outline-offset-2 outline-{ActiveColor.ToString().ToLowerInvariant()} dark:outline-{ActiveColor.ToString().ToLowerInvariant()}",
-        StepStatus.Upcoming => "border border-outline bg-surface-alt font-medium text-on-surface dark:border-outline-dark dark:bg-surface-dark-alt dark:text-on-surface-dark",
-        _ => "border border-outline bg-surface-alt font-medium text-on-surface dark:border-outline-dark dark:bg-surface-dark-alt dark:text-on-surface-dark"
+        StepStatus.Upcoming => "border border-outline bg-surface-alt font-medium text-on-surface   ",
+        _ => "border border-outline bg-surface-alt font-medium text-on-surface   "
     };
 
     /// <summary>
@@ -172,8 +172,8 @@ public partial class Steps : RizzyComponent
     {
         StepStatus.Completed => $"text-{ActiveColor.ToString().ToLowerInvariant()} dark:text-{ActiveColor.ToString().ToLowerInvariant()}-dark",
         StepStatus.Current => $"font-bold text-{ActiveColor.ToString().ToLowerInvariant()} dark:text-{ActiveColor.ToString().ToLowerInvariant()}-dark",
-        StepStatus.Upcoming => "text-on-surface dark:text-on-surface-dark",
-        _ => "text-on-surface dark:text-on-surface-dark"
+        StepStatus.Upcoming => "text-on-surface ",
+        _ => "text-on-surface "
     };
 
     /// <summary>
@@ -181,13 +181,13 @@ public partial class Steps : RizzyComponent
     /// </summary>
     private string GetActiveBackgroundClass() => ActiveColor switch
     {
-        StatusColor.Primary => "bg-primary dark:bg-primary-dark",
-        StatusColor.Secondary => "bg-secondary dark:bg-secondary-dark",
+        StatusColor.Primary => "bg-primary ",
+        StatusColor.Secondary => "bg-secondary ",
         StatusColor.Success => "bg-success dark:bg-success",
         StatusColor.Info => "bg-info dark:bg-info",
         StatusColor.Warning => "bg-warning dark:bg-warning",
         StatusColor.Danger => "bg-danger dark:bg-danger",
-        _ => "bg-primary dark:bg-primary-dark"
+        _ => "bg-primary "
     };
 
     /// <summary>
@@ -195,13 +195,13 @@ public partial class Steps : RizzyComponent
     /// </summary>
     private string GetActiveBorderClass() => ActiveColor switch
     {
-        StatusColor.Primary => "border-primary dark:border-primary-dark",
-        StatusColor.Secondary => "border-secondary dark:border-secondary-dark",
+        StatusColor.Primary => "border-primary ",
+        StatusColor.Secondary => "border-secondary ",
         StatusColor.Success => "border-success dark:border-success",
         StatusColor.Info => "border-info dark:border-info",
         StatusColor.Warning => "border-warning dark:border-warning",
         StatusColor.Danger => "border-danger dark:border-danger",
-        _ => "border-primary dark:border-primary-dark"
+        _ => "border-primary "
     };
 
     /// <summary>
@@ -209,13 +209,13 @@ public partial class Steps : RizzyComponent
     /// </summary>
     private string GetActiveTextClass() => ActiveColor switch
     {
-        StatusColor.Primary => "text-on-primary dark:text-on-primary-dark",
-        StatusColor.Secondary => "text-on-secondary dark:text-on-secondary-dark",
+        StatusColor.Primary => "text-on-primary ",
+        StatusColor.Secondary => "text-on-secondary ",
         StatusColor.Success => "text-on-success dark:text-on-success",
         StatusColor.Info => "text-onInfo dark:text-onInfo",
         StatusColor.Warning => "text-on-warning dark:text-on-warning",
         StatusColor.Danger => "text-on-danger dark:text-on-danger",
-        _ => "text-on-primary dark:text-on-primary-dark"
+        _ => "text-on-primary "
     };
 
     /// <inheritdoc />>
