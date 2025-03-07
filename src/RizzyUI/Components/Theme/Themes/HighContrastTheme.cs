@@ -26,7 +26,8 @@ public class HighContrastTheme : RizzyTheme
             Secondary = Colors.Indigo.L900, // indigo-900: (17, 24, 39)
             OnSecondary = Colors.White, // white: (255, 255, 255)
             Outline = Colors.Gray.L500, // gray-500: (107, 114, 128)
-            OutlineStrong = Colors.Gray.L900 // gray-900: (17, 24, 39)
+            OutlineStrong = Colors.Gray.L900, // gray-900: (17, 24, 39)
+            Code = CodeThemes.Github
         };
 
         // Dark mode colors
@@ -44,7 +45,8 @@ public class HighContrastTheme : RizzyTheme
             Secondary = Colors.Indigo.L400, // indigo-400: (147, 51, 234)
             OnSecondary = Colors.Black, // black: (0, 0, 0)
             Outline = Colors.Gray.L500, // gray-500: (107, 114, 128)
-            OutlineStrong = Colors.Gray.L300 // gray-300: (209, 213, 219)
+            OutlineStrong = Colors.Gray.L300, // gray-300: (209, 213, 219)
+            Code = CodeThemes.DefaultDark
         };
 
         // Shared Colors

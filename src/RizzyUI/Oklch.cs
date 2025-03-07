@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace RizzyUI;
@@ -144,17 +145,17 @@ public record Color
     /// <summary>
     /// Stores oklch color (if _type is ColorType.Oklch)
     /// </summary>
-	protected readonly Oklch _oklchColor;
-
+	private readonly Oklch _oklchColor;
+    
     /// <summary>
     /// Stores variable string name (if _type is ColorType.Variable)
     /// </summary>
-	protected readonly string _variable;
+	private readonly string _variable;
 
     /// <summary>
     /// Stores tailwind classname for color (e.g. rose-500)
     /// </summary>
-	protected readonly string _tailwindClass;
+	private readonly string _tailwindClass;
         
     /// <summary>
     /// Stores a color in Oklch format
@@ -181,6 +182,20 @@ public record Color
     }
 
     /// <summary>
+    /// Stores a color as RGB
+    /// </summary>
+    /// <param name="rgbHexColor">Hex color starting with a pound sign</param>
+    public Color(string rgbHexColor)
+    {
+	    if (!IsValidHexColor(rgbHexColor))
+		    throw new ArgumentException($"{nameof(rgbHexColor)} must be a valid CSS rgb hex color starting with a #");
+
+	    _type = ColorType.Rgb;
+	    _variable = rgbHexColor;
+	    _tailwindClass = string.Empty;
+    }
+
+    /// <summary>
     /// Initializes a color using another color as a base
     /// </summary>
     /// <param name="other"></param>
@@ -188,9 +203,11 @@ public record Color
     {
 	    _type = other._type;
 	    _oklchColor = other._oklchColor;
-	    _variable = other._variable;
+	    _variable = other._variable.ToLowerInvariant();
 	    _tailwindClass = other._tailwindClass;
     }
+
+    private static bool IsValidHexColor (string color) => Regex.IsMatch(color, @"^#(?:[0-9A-Fa-f]{3,4}|[0-9A-Fa-f]{6,8})$");
 
 	/// <summary>
 	/// Outputs the standard CSS function syntax: oklch(L C H / Alpha) or var(--color-rose-500)
@@ -203,7 +220,7 @@ public record Color
                 ? $"oklch({_oklchColor.L} {_oklchColor.C} {_oklchColor.H})"
                 : $"oklch({_oklchColor.L} {_oklchColor.C} {_oklchColor.H} / {_oklchColor.Alpha})",
 
-            ColorType.Rgb => string.Empty,
+            ColorType.Rgb => _variable,
 
             ColorType.Variable => $"var({_variable})",
             _ => throw new NotImplementedException()

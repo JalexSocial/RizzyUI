@@ -26,7 +26,8 @@ public class NewsTheme : RizzyTheme
             Secondary = Colors.Black, // black: (0, 0, 0)
             OnSecondary = Colors.White, // white: (255, 255, 255)
             Outline = Colors.Zinc.L300, // zinc-300: (209, 213, 219)
-            OutlineStrong = Colors.Zinc.L500 // zinc-500: (113, 113, 122)
+            OutlineStrong = Colors.Zinc.L500, // zinc-500: (113, 113, 122)
+            Code = CodeThemes.Github
         };
 
         // Dark mode colors
@@ -44,7 +45,8 @@ public class NewsTheme : RizzyTheme
             Secondary = Colors.White, // white: (255, 255, 255)
             OnSecondary = Colors.Black, // black: (0, 0, 0)
             Outline = Colors.Zinc.L700, // zinc-700: (38, 38, 38)
-            OutlineStrong = Colors.Zinc.L500 // zinc-500: (113, 113, 122)
+            OutlineStrong = Colors.Zinc.L500, // zinc-500: (113, 113, 122)
+            Code = CodeThemes.DefaultDark
         };
 
         // Shared Colors

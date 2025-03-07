@@ -73,6 +73,18 @@ public class RizzyThemeProvider : ComponentBase
         sb.AppendLine($"--color-on-success: {theme.OnSuccess.ToCssColorString()};");
         sb.AppendLine($"--borderWidth: {theme.BorderWidth};");
         sb.AppendLine($"--borderRadius: {theme.BorderRadius};");
+        sb.AppendLine($"--highlight-bg: {theme.Light.Code.Background.ToCssColorString()};");
+        sb.AppendLine($"--highlight-color: {theme.Light.Code.Color.ToCssColorString()};");
+        sb.AppendLine($"--highlight-comment: {theme.Light.Code.Comment.ToCssColorString()};");
+        sb.AppendLine($"--highlight-keyword: {theme.Light.Code.Keyword.ToCssColorString()};");
+        sb.AppendLine($"--highlight-attribute: {theme.Light.Code.Attribute.ToCssColorString()};");
+        sb.AppendLine($"--highlight-symbol: {theme.Light.Code.Symbol.ToCssColorString()};");
+        sb.AppendLine($"--highlight-namespace: {theme.Light.Code.Namespace.ToCssColorString()};");
+        sb.AppendLine($"--highlight-variable: {theme.Light.Code.Variable.ToCssColorString()};");
+        sb.AppendLine($"--highlight-literal: {theme.Light.Code.Literal.ToCssColorString()};");
+        sb.AppendLine($"--highlight-punctuation: {theme.Light.Code.Punctuation.ToCssColorString()};");
+        sb.AppendLine($"--highlight-deletion: {theme.Light.Code.Deletion.ToCssColorString()};");
+        sb.AppendLine($"--highlight-addition: {theme.Light.Code.Addition.ToCssColorString()};");
         sb.AppendLine("}");
 
         sb.AppendLine("&:where(.dark, .dark *) {");
@@ -89,6 +101,18 @@ public class RizzyThemeProvider : ComponentBase
         sb.AppendLine($"--color-on-secondary: {theme.Dark.OnSecondary.ToCssColorString()};");
         sb.AppendLine($"--color-outline: {theme.Dark.Outline.ToCssColorString()};");
         sb.AppendLine($"--color-outline-strong: {theme.Dark.OutlineStrong.ToCssColorString()};");
+        sb.AppendLine($"--highlight-bg: {theme.Dark.Code.Background.ToCssColorString()};");
+        sb.AppendLine($"--highlight-color: {theme.Dark.Code.Color.ToCssColorString()};");
+        sb.AppendLine($"--highlight-comment: {theme.Dark.Code.Comment.ToCssColorString()};");
+        sb.AppendLine($"--highlight-keyword: {theme.Dark.Code.Keyword.ToCssColorString()};");
+        sb.AppendLine($"--highlight-attribute: {theme.Dark.Code.Attribute.ToCssColorString()};");
+        sb.AppendLine($"--highlight-symbol: {theme.Dark.Code.Symbol.ToCssColorString()};");
+        sb.AppendLine($"--highlight-namespace: {theme.Dark.Code.Namespace.ToCssColorString()};");
+        sb.AppendLine($"--highlight-variable: {theme.Dark.Code.Variable.ToCssColorString()};");
+        sb.AppendLine($"--highlight-literal: {theme.Dark.Code.Literal.ToCssColorString()};");
+        sb.AppendLine($"--highlight-punctuation: {theme.Dark.Code.Punctuation.ToCssColorString()};");
+        sb.AppendLine($"--highlight-deletion: {theme.Dark.Code.Deletion.ToCssColorString()};");
+        sb.AppendLine($"--highlight-addition: {theme.Dark.Code.Addition.ToCssColorString()};");
         sb.AppendLine("}");
 
         return sb.ToString();

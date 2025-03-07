@@ -72,5 +72,9 @@ public class RizzyThemeVariant
     /// </summary>
     public Color OutlineStrong { get; init; }
 
+    /// <summary>
+    /// Gets the code theme for this variant
+    /// </summary>
+    public RizzyCodeTheme Code { get; init; }
 }
 

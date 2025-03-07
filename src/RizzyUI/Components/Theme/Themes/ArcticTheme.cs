@@ -26,7 +26,8 @@ public class ArcticTheme : RizzyTheme
             Secondary = Colors.Indigo.L700, // #4338CA (67,56,202)
             OnSecondary = Colors.Slate.L100, // #F1F5F9
             Outline = Colors.Slate.L300, // #CBD5E1 (203,213,225)
-            OutlineStrong = Colors.Slate.L800 // #1E293B (30,41,59)
+            OutlineStrong = Colors.Slate.L800, // #1E293B (30,41,59)
+            Code = CodeThemes.Github
         };
 
         // Dark mode colors
@@ -44,7 +45,8 @@ public class ArcticTheme : RizzyTheme
             Secondary = Colors.Indigo.L600, // #4F46E5 (79,70,229)
             OnSecondary = Colors.Slate.L100, // #F1F5F9
             Outline = Colors.Slate.L700, // #334155 (51,65,85)
-            OutlineStrong = Colors.Slate.L300 // #CBD5E1 (203,213,225)
+            OutlineStrong = Colors.Slate.L300, // #CBD5E1 (203,213,225)
+            Code = CodeThemes.DefaultDark
         };
 
         // Status colors

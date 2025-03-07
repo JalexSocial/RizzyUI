@@ -5,7 +5,7 @@ namespace RizzyUI;
 /// <summary>
 /// Defines a syntax highlighting color theme for code.
 /// </summary>
-public class RizzyCodeTheme
+public class RizzyCodeTheme 
 {
     /// <summary>
     /// Gets the background color used for code highlighting.
@@ -40,7 +40,7 @@ public class RizzyCodeTheme
     /// <summary>
     /// Gets the color used for namespaces.
     /// </summary>
-    public Color @Namespace { get; init; }
+    public Color Namespace { get; init; }
 
     /// <summary>
     /// Gets the color used for variables.
@@ -66,4 +66,47 @@ public class RizzyCodeTheme
     /// Gets the color used to indicate additions.
     /// </summary>
     public Color Addition { get; init; }
+
+    /// <summary>
+    /// Initialize theme
+    /// </summary>
+    /// <param name="background"></param>
+    /// <param name="color"></param>
+    /// <param name="comment"></param>
+    /// <param name="keyword"></param>
+    /// <param name="attribute"></param>
+    /// <param name="symbol"></param>
+    /// <param name="nameSpace"></param>
+    /// <param name="variable"></param>
+    /// <param name="literal"></param>
+    /// <param name="punctuation"></param>
+    /// <param name="deletion"></param>
+    /// <param name="addition"></param>
+    public RizzyCodeTheme(
+	    string background,
+	    string color,
+	    string comment,
+	    string keyword,
+	    string attribute,
+	    string symbol,
+	    string nameSpace,
+	    string variable,
+	    string literal,
+	    string punctuation,
+	    string deletion,
+	    string addition)
+    {
+	    Background = new(background);
+	    Color = new(color);
+	    Comment = new(comment);
+	    Keyword = new(keyword);
+	    Attribute = new(attribute);
+	    Symbol = new(symbol);
+	    Namespace = new(nameSpace);
+	    Variable = new(variable);
+	    Literal = new(literal);
+	    Punctuation = new(punctuation);
+	    Deletion = new(deletion);
+	    Addition = new(addition);
+    }
 }

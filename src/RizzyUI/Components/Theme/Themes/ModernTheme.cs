@@ -26,7 +26,8 @@ public class ModernTheme : RizzyTheme
             Secondary = Colors.Neutral.L800, // neutral-800: (31, 41, 55)
             OnSecondary = Colors.White, // white: (255, 255, 255)
             Outline = Colors.Neutral.L300, // neutral-300: (209, 213, 219)
-            OutlineStrong = Colors.Neutral.L800 // neutral-800: (31, 41, 55)
+            OutlineStrong = Colors.Neutral.L800, // neutral-800: (31, 41, 55)
+            Code = CodeThemes.Github
         };
 
         // Dark mode colors
@@ -44,7 +45,8 @@ public class ModernTheme : RizzyTheme
             Secondary = Colors.Neutral.L300, // neutral-300: (209, 213, 219)
             OnSecondary = Colors.Black, // black: (0, 0, 0)
             Outline = Colors.Neutral.L700, // neutral-700: (55, 65, 81)
-            OutlineStrong = Colors.Neutral.L300 // neutral-300: (209, 213, 219)
+            OutlineStrong = Colors.Neutral.L300, // neutral-300: (209, 213, 219)
+            Code = CodeThemes.DefaultDark
         };
 
         // Shared Colors
