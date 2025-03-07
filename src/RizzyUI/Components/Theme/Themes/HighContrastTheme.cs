@@ -19,8 +19,8 @@ public class HighContrastTheme : RizzyTheme
             OnSurfaceStrong = Colors.Gray.L950, // gray-950: (10, 10, 10)
             OnSurfaceMuted = Colors.Neutral.L500,
             SurfaceAlt = Colors.Gray.L200, // gray-200: (229, 231, 235)
-            SurfaceTertiary = Colors.Gray.L700,
-            OnSurfaceTertiary = Colors.Gray.L300,
+            SurfaceTertiary = Colors.Gray.L300,
+            OnSurfaceTertiary = Colors.Gray.L700,
             Primary = Colors.Sky.L900, // sky-900: (8, 51, 68)
             OnPrimary = Colors.White, // white: (255, 255, 255)
             Secondary = Colors.Indigo.L900, // indigo-900: (17, 24, 39)

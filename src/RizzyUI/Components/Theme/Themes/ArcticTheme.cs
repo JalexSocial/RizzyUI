@@ -19,8 +19,8 @@ public class ArcticTheme : RizzyTheme
             OnSurfaceStrong = Colors.Black, // Black
             OnSurfaceMuted = Colors.Neutral.L500,
             SurfaceAlt = Colors.Slate.L100, // #F1F5F9 (241,245,249)
-            SurfaceTertiary = Colors.Slate.L800,
-            OnSurfaceTertiary = Colors.Slate.L300,
+            SurfaceTertiary = Colors.Slate.L200,
+            OnSurfaceTertiary = Colors.Slate.L600,
             Primary = Colors.Blue.L700, // #1D4ED8 (29,78,216)
             OnPrimary = Colors.Slate.L100, // #F1F5F9
             Secondary = Colors.Indigo.L700, // #4338CA (67,56,202)

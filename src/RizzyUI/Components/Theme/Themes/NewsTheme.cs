@@ -19,8 +19,8 @@ public class NewsTheme : RizzyTheme
             OnSurfaceStrong = Colors.Neutral.L900, // neutral-900: (17, 24, 39)
             OnSurfaceMuted = Colors.Neutral.L500,
             SurfaceAlt = Colors.Zinc.L100, // zinc-100: (244, 244, 245)
-            SurfaceTertiary = Colors.Zinc.L700,
-            OnSurfaceTertiary = Colors.Zinc.L200,
+            SurfaceTertiary = Colors.Zinc.L200,
+            OnSurfaceTertiary = Colors.Zinc.L500,
             Primary = Colors.Sky.L700, // sky-700: (14, 165, 233)
             OnPrimary = Colors.White, // white: (255, 255, 255)
             Secondary = Colors.Black, // black: (0, 0, 0)

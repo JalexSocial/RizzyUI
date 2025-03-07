@@ -35,7 +35,7 @@ x-data="rzCodeViewer">
             </div>
 
             <div class="relative overflow-y-auto" :class="getExpandCss">
-                <pre x-ref="codeBlock" class="text-on-surface/60 overflow-x-auto text-sm" tabindex="0">
+                <pre x-ref="codeBlock" class="text-on-surface/60 overflow-x-auto text-sm p-8" tabindex="0">
                     <code class="@CodeLanguage.GetLanguageClass(Language)" id="@CodeId">@CodeContent</code>
                 </pre>
             </div>
@@ -62,7 +62,6 @@ x-data="rzCodeViewer">
     [
         Constants.ContentUrl("js/vendor/highlightjs/highlight.js"),
         Constants.ContentUrl("js/vendor/highlightjs-plugin/cshtml-razor.min.js"),
-        Constants.ContentUrl("js/vendor/highlightjs/styles/stackoverflow-dark.css")
     ];
 
     /// <summary>

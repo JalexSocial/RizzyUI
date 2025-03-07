@@ -19,8 +19,8 @@ public class ModernTheme : RizzyTheme
             OnSurfaceStrong = Colors.Neutral.L900, // neutral-900: (17, 24, 39)
             OnSurfaceMuted = Colors.Neutral.L500,
             SurfaceAlt = Colors.Neutral.L50, // neutral-50: (249, 250, 251)
-            SurfaceTertiary = Colors.Neutral.L800,
-            OnSurfaceTertiary = Colors.Neutral.L300,
+            SurfaceTertiary = Colors.Neutral.L100,
+            OnSurfaceTertiary = Colors.Neutral.L500,
             Primary = Colors.Black, // black: (0, 0, 0)
             OnPrimary = Colors.Neutral.L100, // neutral-100: (245, 245, 245)
             Secondary = Colors.Neutral.L800, // neutral-800: (31, 41, 55)

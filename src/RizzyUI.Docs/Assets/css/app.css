@@ -31,10 +31,6 @@
     --borderRadius: 6px;
     --radius-theme: var(--borderRadius);
     --border-theme: var(--borderWidth);
-    /* Typography code styles */
-    --tw-prose-code: var(--highlight-color);
-    --tw-prose-pre-code: var(--highlight-color);
-    --tw-prose-pre-bg: var(--highlight-bg)
 }
 
 
@@ -58,111 +54,107 @@
     }
 }
 
-    svg[blazicon] {
-        width: 1em;
-        height: 1em;
-        vertical-align: -0.125em;
+svg[blazicon] {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+}
+
+.rounded {
+    border-radius: var(--borderRadius);
+}
+
+.border {
+    border-width: var(--borderWidth);
+}
+
+pre:has(> code) {
+    border-color: var(--color-outline);
+    border-radius: var(--borderRadius);
+    border-width: var(--borderWidth);
+}
+
+/* Custom Scrollbar Styles */
+.scrollbar-hover::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.scrollbar-hover::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollbar-hover::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(107, 114, 128, 0.7);
+}
+
+.scrollbar-hover {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+    .scrollbar-hover:hover {
+        scrollbar-color: #6b7280 transparent;
     }
 
-    .rounded {
-        border-radius: var(--borderRadius);
-    }
+/* Grid Pattern */
+.grid-pattern {
+    background: repeating-linear-gradient( 90deg, var(--color-surface-alt) 0, var(--color-surface-alt) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surface-alt) 0, var(--color-surface-alt) 5%, transparent 0, transparent 50% );
+    background-size: 1.5em 1.5em;
+    background-color: var(--color-surface);
+    opacity: 1;
 
-    .border {
-        border-width: var(--borderWidth);
-    }
-
-    /* Custom Scrollbar Styles */
-    .scrollbar-hover::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
-    }
-
-    .scrollbar-hover::-webkit-scrollbar-track {
-        background: transparent;
-    }
-
-    .scrollbar-hover::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0);
-        border-radius: 3px;
-        transition: background-color 0.3s;
-    }
-
-    .scrollbar-hover:hover::-webkit-scrollbar-thumb {
-        background-color: rgba(107, 114, 128, 0.7);
-    }
-
-    .scrollbar-hover {
-        scrollbar-width: thin;
-        scrollbar-color: transparent transparent;
-    }
-
-        .scrollbar-hover:hover {
-            scrollbar-color: #6b7280 transparent;
-        }
-
-    /* Grid Pattern */
-    .grid-pattern {
+    @variant dark {
         background: repeating-linear-gradient( 90deg, var(--color-surface-alt) 0, var(--color-surface-alt) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surface-alt) 0, var(--color-surface-alt) 5%, transparent 0, transparent 50% );
-        background-size: 1.5em 1.5em;
         background-color: var(--color-surface);
-        opacity: 1;
-
-        @variant dark {
-            background: repeating-linear-gradient( 90deg, var(--color-surface-dark-alt) 0, var(--color-surface-dark-alt) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-surface-dark-alt) 0, var(--color-surface-dark-alt) 5%, transparent 0, transparent 50% );
-            background-color: var(--color-surface-dark);
-        }
     }
+}
 
-    /* Form Children Spacing */
-    .form-children-spacing > *:not(input[type="hidden"]) + *:not(input[type="hidden"]) {
-        margin-top: 1.5rem; /* Equivalent to theme('spacing.6') */
-    }
+/* Form Children Spacing */
+.form-children-spacing > *:not(input[type="hidden"]) + *:not(input[type="hidden"]) {
+    margin-top: 1.5rem; /* Equivalent to theme('spacing.6') */
+}
 
-    .validation-errors {
-        color: var(--color-danger);
-        font-style: italic;
-    }
+.validation-errors {
+    color: var(--color-danger);
+    font-style: italic;
+}
 
-    /* Field Validation Error */
-    .field-validation-error {
-        color: var(--color-danger);
-        font-style: italic;
-    }
+/* Field Validation Error */
+.field-validation-error {
+    color: var(--color-danger);
+    font-style: italic;
+}
 
-    /* Input Validation Error */
-    .input-validation-error {
-        border-color: var(--color-danger);
-        outline-color: var(--color-danger);
-    }
+/* Input Validation Error */
+.input-validation-error {
+    border-color: var(--color-danger);
+    outline-color: var(--color-danger);
+}
 
-    /* Input Validation Valid */
-    .input-validation-valid {
-        border-color: var(--color-success);
-        outline-color: var(--color-success);
-    }
+/* Input Validation Valid */
+.input-validation-valid {
+    border-color: var(--color-success);
+    outline-color: var(--color-success);
+}
 
-    /* Validation Summary Errors */
-    .validation-summary-errors {
-        color: var(--color-danger);
-        font-style: italic;
-    }
+/* Validation Summary Errors */
+.validation-summary-errors {
+    color: var(--color-danger);
+    font-style: italic;
+}
 
-    /* Validation Summary Valid */
-    .validation-summary-valid span {
-        display: none;
-    }
+/* Validation Summary Valid */
+.validation-summary-valid span {
+    display: none;
+}
 
-    .prose .hljs {
-        color: var(--tw-prose-pre-code) !important;
-        background-color: var(--tw-prose-pre-bg) !important;
-    }
-
-    .prose :not(pre) > code.hljs {
-        color: inherit !important;
-        background: none !important;
-    }
-
-    /* Flatpickr styling */
-    @import "./vendor/flatpickr.css";
-    @import "./vendor/highlightjs.css";
+/* Flatpickr styling */
+@import "./vendor/flatpickr.css";
+@import "./vendor/highlightjs.css";

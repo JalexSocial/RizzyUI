@@ -50,6 +50,8 @@ public class RizzyThemeProvider : ComponentBase
     {
         var sb = new StringBuilder();
         sb.AppendLine(":root {");
+
+        // Base variant theme colors
         sb.AppendLine($"--color-surface: {theme.Light.Surface.ToCssColorString()};");
         sb.AppendLine($"--color-on-surface: {theme.Light.OnSurface.ToCssColorString()};");
         sb.AppendLine($"--color-on-surface-strong: {theme.Light.OnSurfaceStrong.ToCssColorString()};");
@@ -85,8 +87,17 @@ public class RizzyThemeProvider : ComponentBase
         sb.AppendLine($"--highlight-punctuation: {theme.Light.Code.Punctuation.ToCssColorString()};");
         sb.AppendLine($"--highlight-deletion: {theme.Light.Code.Deletion.ToCssColorString()};");
         sb.AppendLine($"--highlight-addition: {theme.Light.Code.Addition.ToCssColorString()};");
+        
+        // Typography code styles 
+        sb.AppendLine(".prose {");
+        sb.AppendLine($"--tw-prose-code: var(--highlight-color);");
+        sb.AppendLine($"--tw-prose-pre-code: var(--highlight-color);");
+        sb.AppendLine($"--tw-prose-pre-bg: var(--highlight-bg)");
         sb.AppendLine("}");
 
+        sb.AppendLine("}");
+
+        // Dark mode variant theme colors
         sb.AppendLine("&:where(.dark, .dark *) {");
         sb.AppendLine($"--color-surface: {theme.Dark.Surface.ToCssColorString()};");
         sb.AppendLine($"--color-on-surface: {theme.Dark.OnSurface.ToCssColorString()};");
