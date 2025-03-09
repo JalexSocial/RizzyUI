@@ -48,6 +48,10 @@ public static class ServiceCollectionExtensions
 
         // Register the default RizzyNonceProvider only if IRizzyNonceProvider hasn't been registered
         services.TryAddScoped<IRizzyNonceProvider, RizzyNonceProvider>();
+        services.Configure<RizzyUIConfig>(config =>
+        {
+
+        });
 
         return services;
     }

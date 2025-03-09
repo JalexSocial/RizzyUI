@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using Rizzy.Nonce;
 using System.Text;
+using Microsoft.Extensions.Options;
 
 namespace RizzyUI;
 
@@ -12,6 +13,9 @@ namespace RizzyUI;
 /// </summary>
 public class RizzyThemeProvider : ComponentBase
 {
+    [Inject]
+    private IOptions<RizzyUIConfig>? RizzyConfig { get; set; }
+
     /// <summary>
     /// NonceProvider service that provides scoped per-request nonce values to RizzyUI
     /// components
@@ -30,7 +34,7 @@ public class RizzyThemeProvider : ComponentBase
     /// <param name="builder">The <see cref="RenderTreeBuilder"/> used to build the component's output.</param>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        var actualTheme = Theme ?? RizzyTheme.Default;
+        var actualTheme = Theme ?? RizzyConfig?.Value.DefaultTheme ?? RizzyTheme.Default;
         var css = GenerateRootVariables(actualTheme);
 
         builder.AddMarkupContent(1, $"<style nonce=\"{RizzyNonceProvider.GetNonceFor(NonceType.Style)}\">{css}</style>");

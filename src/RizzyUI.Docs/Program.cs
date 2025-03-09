@@ -20,7 +20,10 @@ builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
         .AddAllWebRootContent(builder.Environment));  // from AspNetStaticContrib project
 
 builder.Services.AddRazorComponents();
-builder.Services.AddRizzyUI();
+builder.Services.AddRizzyUI(config =>
+{
+	config.DefaultTheme = new HighContrastTheme();
+});
 
 var app = builder.Build();
 

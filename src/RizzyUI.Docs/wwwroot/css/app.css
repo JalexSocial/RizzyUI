@@ -5163,6 +5163,9 @@ html.dark {
   --highlight-deletion: #de7176;
   --highlight-addition: #76c490;
 }
+pre:has(> code) {
+  background: var(--highlight-bg);
+}
 .hljs {
   color: var(--highlight-color);
   background: var(--highlight-bg);
