@@ -1,0 +1,212 @@
+﻿@page "/themes"
+
+<PageTitle>Themes</PageTitle>
+
+<QuickReferenceContainer>
+    <Article>
+        <SideContent><QuickReference/></SideContent>
+        <MainContent>
+	        <Markdown>
+# Using Themes with RizzyUI
+
+RizzyUI leverages themes to ensure consistent styling across all components. Themes define design tokens (such as colors, border widths, and radii) for both light and dark modes, allowing your application to easily switch between or customize visual appearances.
+
+## Adding the Theme Provider
+
+To apply a theme across your application, you **must place the `&lt;RizzyThemeProvider&gt;` component in the `&lt;head&gt;` section** of your HTML template. This ensures that theme variables (declared as CSS custom properties) are available before any RizzyUI components render.
+
+**Example:**
+
+```html
+&lt;head&gt;
+  &lt;!-- Other head elements --&gt;
+  &lt;RizzyThemeProvider /&gt;
+  &lt;!-- Other head elements --&gt;
+&lt;/head&gt;
+```
+
+## Providing a Theme
+
+There are two ways to supply a theme to your application:
+
+### Directly via the Theme Parameter
+
+You can pass a specific theme to the `Theme` parameter of the `&lt;RizzyThemeProvider&gt;` component.
+
+**Example:**
+
+```razor
+&lt;RizzyThemeProvider Theme=&quot;new HighContrastTheme()&quot; /&gt;
+```
+
+This directly applies the **HighContrastTheme** (or any other theme you choose) to your application.
+
+### Setting a Default Theme via Configuration
+
+Alternatively, you can set a default theme when configuring RizzyUI in your startup code. If no explicit theme is provided to `&lt;RizzyThemeProvider&gt;`, the provider will use the default theme specified in the configuration.
+
+**Example (in Program.cs or Startup.cs):**
+
+```csharp
+builder.Services.AddRizzyUI(config =&gt;
+{
+    config.DefaultTheme = new HighContrastTheme();
+});
+```
+
+In this example, the **HighContrastTheme** is set as the default theme for your application.
+
+## Customizing Themes
+
+RizzyUI includes several built-in themes (such as `ArcticTheme`, `HighContrastTheme`, `ModernTheme`, and `NewsTheme`), but you can also create a custom theme by inheriting from the `RizzyTheme` class.
+
+### Custom Theme Example
+
+```csharp
+namespace MyApp.Themes;
+
+public class CustomTheme : RizzyTheme
+{
+    public CustomTheme() : base(&quot;Custom&quot;, &quot;custom&quot;)
+    {
+        Light = new RizzyThemeVariant
+        {
+            Surface = Colors.White,
+            OnSurface = Colors.Gray.L700,
+            OnSurfaceStrong = Colors.Black,
+            SurfaceAlt = Colors.Gray.L100,
+            Primary = Colors.Blue.L700,
+            OnPrimary = Colors.White,
+            // Define additional tokens as required...
+        };
+        Dark = new RizzyThemeVariant
+        {
+            Surface = Colors.Gray.L900,
+            OnSurface = Colors.Gray.L300,
+            OnSurfaceStrong = Colors.White,
+            SurfaceAlt = Colors.Gray.L800,
+            Primary = Colors.Blue.L600,
+            OnPrimary = Colors.Black,
+            // Define additional tokens as required...
+        };
+        Danger = Colors.Red.L600;
+        OnDanger = Colors.White;
+        // Set other status colors...
+        BorderWidth = &quot;1px&quot;;
+        BorderRadius = &quot;6px&quot;;
+    }
+}
+```
+
+Once you have created your custom theme, you can apply it by either passing it directly to `&lt;RizzyThemeProvider&gt;` or by configuring it as the default theme.
+
+## How Themes Are Applied
+
+After you configure a theme, all RizzyUI components will automatically use the defined design tokens. For example:
+
+- Classes like `bg-surface` and `text-on-surface` reference the `--color-surface` and `--color-on-surface` tokens from your current theme.
+- In dark mode, the theme provider swaps these tokens with the dark variant values (e.g., `bg-surface-dark`).
+
+This approach ensures that your components maintain a consistent look and feel, regardless of the theme or mode (light/dark) in use.
+
+# Using Themes and Colors in RizzyUI
+
+RizzyUI uses a comprehensive color system based on Tailwind CSS design tokens. The library defines a set of color scales that match Tailwind’s color palettes. Each color scale is exposed via the static **Colors** class. For example, the color scale for Rose is accessed as **Colors.Rose**, and its various shades are provided as properties like **L50, L100, …, L950**.
+
+## Color Scales Overview
+
+The following table lists all the color scales defined in RizzyUI **Colors** along with their corresponding Tailwind color names:
+
+| ColorScale    | Tailwind Color Name |
+|--------------|---------------------|
+| **Amber**    | amber               |
+| **Blue**     | blue                |
+| **Cyan**     | cyan                |
+| **Emerald**  | emerald             |
+| **Fuchsia**  | fuchsia             |
+| **Gray**     | gray                |
+| **Green**    | green               |
+| **Indigo**   | indigo              |
+| **Lime**     | lime                |
+| **Neutral**  | neutral             |
+| **Orange**   | orange              |
+| **Pink**     | pink                |
+| **Purple**   | purple              |
+| **Red**      | red                 |
+| **Rose**     | rose                |
+| **Sky**      | sky                 |
+| **Slate**    | slate               |
+| **Stone**    | stone               |
+| **Teal**     | teal                |
+| **Violet**   | violet              |
+| **Yellow**   | yellow              |
+| **Zinc**     | zinc                |
+
+
+## How Shades Map to Tailwind Classes
+
+Each color scale class (e.g. **Colors.Rose**) exposes properties representing different intensity levels. These properties are named following the pattern **L&lt;number&gt;** where the number corresponds to the Tailwind numeric scale. For example:
+
+- **Colors.Rose.L500**  
+  This property returns the color corresponding to **rose-500** in Tailwind.  
+- **Colors.Blue.L200**  
+  This is equivalent to the Tailwind class **blue-200**.
+
+### Details
+
+- **Numeric Scale:**  
+  The numeric value (L50, L100, L200, etc.) directly maps to the intensity in Tailwind. Lower numbers (e.g., L50, L100) are lighter shades, while higher numbers (e.g., L900, L950) are darker shades.
+  
+- **Usage in Components:**  
+  When using theme tokens in your component styles (via Tailwind classes like `bg-primary` or `text-on-surface`), the underlying theme may reference these color scales. For instance, a theme might set its primary color as **Colors.Blue.L700** so that any component using `bg-primary` will get the same blue tone as defined by Tailwind’s **blue-700**.
+
+- **Consistency:**  
+  This direct mapping ensures that when you use a color scale in code—for example, in a custom theme or a component’s variant—the numeric suffix always corresponds to the same Tailwind color. It simplifies maintenance and helps guarantee visual consistency across your application.
+
+## Example
+
+If you want to apply the “Rose” color at intensity **500** as a background, you could use the following Tailwind class:
+
+```razor
+&lt;div class=&quot;bg-rose-500 text-on-surface&quot;&gt;
+    This div uses the rose color at intensity 500.
+&lt;/div&gt;
+```
+
+Under the hood, **Colors.Rose.L500** in the theme provider will supply the same color value as Tailwind’s **rose-500**.
+
+## Semantic Colors in RizzyUI Themes
+
+Semantic colors in RizzyUI provide a meaningful and consistent way to style components. Instead of hardcoding specific color values, the library uses semantic tokens that map to design choices. For example, a theme defines its background, text, accent, and status colors using these tokens. When you apply a theme (via the `&lt;RizzyThemeProvider&gt;` or through configuration), components reference these semantic tokens (such as `Surface`, `Primary`, or `Danger`) to determine their visual appearance. This abstraction allows you to change the look of your entire application simply by switching themes or adjusting the theme’s values.
+
+The semantic colors are defined in the `SemanticColor` enum and include the following values:
+
+| **Semantic Color**   | **Role/Usage**                                                                                                                                                                                                                                                                                                  |
+|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **None**             | Indicates that no semantic color is applied. Useful as a placeholder when no styling is desired.                                                                                                                                                                                                               |
+| **Surface**          | The primary background color for components (e.g., the default container or card background). Often referenced using the `bg-surface` class.                                                                                                                                                                   |
+| **OnSurface**        | Used for text and icons displayed on a Surface background. This ensures adequate contrast (e.g., using `text-on-surface`).                                                                                                                                                                                      |
+| **OnSurfaceStrong**  | A stronger variant for text on a Surface background, typically used for headings or prominent labels (e.g., `text-on-surface-strong`).                                                                                                                                                                            |
+| **SurfaceAlt**       | An alternate background color used to differentiate sections or secondary surfaces (e.g., `bg-surface-alt`).                                                                                                                                                                                                     |
+| **Primary**          | The main accent or brand color used in interactive elements like buttons or links (e.g., `bg-primary`).                                                                                                                                                                                                          |
+| **OnPrimary**        | Used for text and icons placed on a Primary-colored background, ensuring readability (e.g., `text-on-primary`).                                                                                                                                                                                                 |
+| **Secondary**        | A secondary accent color that complements the primary color. Often used for additional interactive elements (e.g., `bg-secondary`).                                                                                                                                                                               |
+| **OnSecondary**      | For text and icons on a Secondary-colored background (e.g., `text-on-secondary`).                                                                                                                                                                                                                                 |
+| **Outline**          | Defines the color for borders and outlines, providing visual separation (e.g., `border-outline`).                                                                                                                                                                                                                 |
+| **OutlineStrong**    | A stronger version of the outline color, used where a more pronounced border is required (e.g., `border-outline-strong`).                                                                                                                                                                                         |
+| **Danger**           | Indicates error states or destructive actions. This color is used to draw attention to problems (e.g., `bg-danger`).                                                                                                                                                                                              |
+| **OnDanger**         | Used for text or icons on a Danger background, ensuring contrast and readability (e.g., `text-on-danger`).                                                                                                                                                                                                       |
+| **Info**             | Represents informational messages, providing context or guidance (e.g., `bg-info`).                                                                                                                                                                                                                               |
+| **OnInfo**           | Used for text and icons on an Info background (e.g., `text-on-info`).                                                                                                                                                                                                                                               |
+| **Warning**          | Used to signal caution or alert messages. It draws attention without the severity of a danger color (e.g., `bg-warning`).                                                                                                                                                                                         |
+| **OnWarning**        | For text and icons displayed on a Warning background, ensuring they remain legible (e.g., `text-on-warning`).                                                                                                                                                                                                     |
+| **Success**          | Indicates successful operations, confirmations, or positive statuses (e.g., `bg-success`).                                                                                                                                                                                                                        |
+| **OnSuccess**        | Used for text or icons on a Success background (e.g., `text-on-success`), ensuring clear communication of success.                                                                                                                                                                                                 |
+
+By using these semantic color tokens within your themes, you can easily adjust the visual appearance of your entire application. Whether you choose one of the built-in themes (like **HighContrastTheme**, **ModernTheme**, or **NewsTheme**) or create a custom theme, these tokens ensure a consistent, accessible, and easily maintainable design throughout your RizzyUI-powered application.
+
+			</Markdown>
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>
+
