@@ -80,5 +80,25 @@ public class RizzyTheme(string name, string themeCode)
     /// <summary>
     /// A default theme instance, using the values from the provided Tailwind configuration.
     /// </summary>
-    public static RizzyTheme Default => new ArcticTheme();
+    public static RizzyTheme Default => RizzyTheme.ArcticTheme;
+
+    /// <summary>
+    /// Icy theme with cool blues and neutral grays
+    /// </summary>
+    public static RizzyTheme ArcticTheme => new ArcticTheme();
+
+    /// <summary>
+    /// High contrast theme
+    /// </summary>
+    public static RizzyTheme HighContrastTheme = new HighContrastTheme();
+
+    /// <summary>
+    /// Professional theme with neutral colors
+    /// </summary>
+    public static RizzyTheme ModernTheme = new ModernTheme();
+
+    /// <summary>
+    /// Newsy theme
+    /// </summary>
+    public static RizzyTheme NewsTheme = new NewsTheme();
 }
