@@ -1581,6 +1581,12 @@
   .max-w-7xl {
     max-width: var(--container-7xl);
   }
+  .max-w-none {
+    max-width: none;
+  }
+  .max-w-prose {
+    max-width: 65ch;
+  }
   .max-w-sm {
     max-width: var(--container-sm);
   }
@@ -4560,6 +4566,26 @@
       --color-outline: var(--color-slate-700);
       --color-outline-strong: var(--color-slate-300);
     }
+  }
+}
+@layer utilities {
+  .prose-compact {
+    max-width: 56ch;
+  }
+  .prose-comfortable {
+    max-width: 64ch;
+  }
+  .prose-relaxed {
+    max-width: 72ch;
+  }
+  .prose-wide {
+    max-width: 80ch;
+  }
+  .prose-ultrawide {
+    max-width: 100ch;
+  }
+  .prose-full {
+    max-width: none;
   }
 }
 svg[blazicon] {

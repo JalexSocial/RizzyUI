@@ -29,7 +29,7 @@
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>0.6.0-alpha</Version>
+        <Version>0.6.1-alpha</Version>
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
@@ -68,11 +68,6 @@
     <ItemGroup>
         <UpToDateCheckBuilt Include="wwwroot/css/rizzyui.css" Set="Css" />
         <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Components\Form\Models\" />
-      <Folder Include="Components\Modal\" />
     </ItemGroup>
 
     <Target Name="Tailwind" BeforeTargets="Build">

@@ -22,7 +22,7 @@ builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
 builder.Services.AddRazorComponents();
 builder.Services.AddRizzyUI(config =>
 {
-	config.DefaultTheme = new HighContrastTheme();
+	config.DefaultTheme = RizzyTheme.NewsTheme;
 });
 
 var app = builder.Build();

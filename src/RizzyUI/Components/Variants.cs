@@ -106,6 +106,48 @@ public enum Size
 }
 
 /// <summary>
+/// Defines available width options for prose content, measured in approximate characters per line (CPL).
+/// </summary>
+public enum ProseWidth
+{
+    /// <summary>
+    /// A compact width, approximately 56 characters per line. 
+    /// Best for sidebars, footnotes, or narrow content blocks.
+    /// </summary>
+    Compact,
+
+    /// <summary>
+    /// A comfortable width, approximately 64 characters per line.
+    /// Ideal for general prose readability in documentation and articles.
+    /// </summary>
+    Comfortable,
+
+    /// <summary>
+    /// A relaxed width, approximately 72 characters per line.
+    /// Provides more space while maintaining good readability.
+    /// </summary>
+    Relaxed,
+
+    /// <summary>
+    /// A wide width, approximately 80 characters per line.
+    /// Suitable for blog posts, long-form content, and expanded reading areas.
+    /// </summary>
+    Wide,
+
+    /// <summary>
+    /// An ultrawide width, approximately 100 characters per line.
+    /// Best for technical documentation, research papers, or code-heavy content.
+    /// </summary>
+    UltraWide,
+
+    /// <summary>
+    /// No maximum width constraint. 
+    /// Useful for tables, charts, or content requiring full-width display.
+    /// </summary>
+    Full
+}
+
+/// <summary>
 /// Justification options for layout alignment.
 /// </summary>
 public enum Justify

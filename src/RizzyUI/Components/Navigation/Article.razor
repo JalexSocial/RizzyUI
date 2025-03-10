@@ -3,15 +3,15 @@
 @inherits RizzyComponent
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
-	<div class="mx-auto flex max-w-7xl grow flex-col overflow-x-auto overflow-y-hidden">
-		<article class="text-base md:text-lg">
-			@MainContent
-		</article>
+    <div class="mx-auto flex max-w-7xl grow flex-col overflow-x-auto overflow-y-hidden">
+        <article class="@GetArticleCss(ProseWidth)">
+            @MainContent
+        </article>
 
-		<aside class="@GetSideColumnCss(ColumnWidth, IsSideFixed)">
-			@SideContent
-		</aside>
-	</div>
+        <aside class="@GetSideColumnCss(ColumnWidth, IsSideFixed)">
+            @SideContent
+        </aside>
+    </div>
 </HtmlElement>
 
 @*
@@ -25,6 +25,13 @@
     /// Base CSS class for the root element.
     /// </summary>
     private static readonly string BaseStyle = "flex w-full justify-between pr-0 text-on-surface dark:text-on-surface";
+
+    /// <summary>
+    /// Gets or sets the maximum character width of the article.
+    /// Default is <see cref="ProseWidth.Full"/>, unrestricted width.
+    /// </summary>
+    [Parameter]
+    public ProseWidth ProseWidth { get; set; } = ProseWidth.Full;
 
     /// <summary>
     /// Gets or sets the width of the side column.
@@ -81,6 +88,25 @@
             Size.ExtraLarge => "w-80",
             _ => throw new ArgumentOutOfRangeException(nameof(size), size, null)
         });
+    }
+
+    /// <summary>
+    /// Gets the CSS classes for the article
+    /// </summary>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    protected static string GetArticleCss(ProseWidth size)
+    {
+        return size switch
+        {
+            ProseWidth.Compact => "prose-compact",
+            ProseWidth.Comfortable => "prose-comfortable",
+            ProseWidth.Relaxed => "prose-relaxed",
+            ProseWidth.Wide => "prose-wide",
+            ProseWidth.UltraWide => "prose-ultrawide",
+            ProseWidth.Full => "prose-full",
+            _ => ""
+        };
     }
 
     /// <summary>

@@ -54,6 +54,15 @@
     }
 }
 
+@layer utilities {
+    .prose-compact { max-width: 56ch; }
+    .prose-comfortable { max-width: 64ch; }
+    .prose-relaxed { max-width: 72ch; }
+    .prose-wide { max-width: 80ch; }
+    .prose-ultrawide { max-width: 100ch; }
+    .prose-full { max-width: none; }
+}
+
 svg[blazicon] {
     width: 1em;
     height: 1em;

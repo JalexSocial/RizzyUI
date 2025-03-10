@@ -3,10 +3,10 @@
 <PageTitle>Themes</PageTitle>
 
 <QuickReferenceContainer>
-    <Article>
+    <Article ProseWidth="ProseWidth.UltraWide">
         <SideContent><QuickReference/></SideContent>
         <MainContent>
-	        <Markdown>
+	        <Markdown ProseWidth="ProseWidth.UltraWide">
 # Using Themes with RizzyUI
 
 RizzyUI leverages themes to ensure consistent styling across all components. Themes define design tokens (such as colors, border widths, and radii) for both light and dark modes, allowing your application to easily switch between or customize visual appearances.
@@ -36,7 +36,7 @@ You can pass a specific theme to the `Theme` parameter of the `&lt;RizzyThemePro
 **Example:**
 
 ```razor
-&lt;RizzyThemeProvider Theme=&quot;new HighContrastTheme()&quot; /&gt;
+&lt;RizzyThemeProvider Theme=&quot;RizzyTheme.HighContrastTheme&quot; /&gt;
 ```
 
 This directly applies the **HighContrastTheme** (or any other theme you choose) to your application.
@@ -50,7 +50,7 @@ Alternatively, you can set a default theme when configuring RizzyUI in your star
 ```csharp
 builder.Services.AddRizzyUI(config =&gt;
 {
-    config.DefaultTheme = new HighContrastTheme();
+    config.DefaultTheme = RizzyTheme.HighContrastTheme() // or new HighContrastTheme();
 });
 ```
 

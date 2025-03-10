@@ -18,7 +18,7 @@ namespace RizzyUI;
 public partial class Markdown : RizzyComponent
 {
     private string _assets = string.Empty;
-    private static readonly string BaseStyle = "prose dark:prose-invert text-on-surface ";
+    private static readonly string BaseStyle = "prose dark:prose-invert text-on-surface max-w-none";
 
     /// <summary>
     /// Pipeline to use with Markdown components
@@ -45,6 +45,11 @@ public partial class Markdown : RizzyComponent
     public string? Content { get; set; } = string.Empty;
 
     /// <summary>
+    /// Width option for prose content
+    /// </summary>
+    [Parameter] public ProseWidth ProseWidth { get; set; } = ProseWidth.Comfortable;
+
+    /// <summary>
     /// Default assets loaded for Markdown
     /// </summary>
     public static string[] DefaultAssets =
@@ -69,7 +74,7 @@ public partial class Markdown : RizzyComponent
     /// <xmldoc>
     /// Computes the final CSS class string for the root element by merging AdditionalAttributes with the base style.
     /// </xmldoc>
-    protected override string? RootClass() => TwMerge.Merge(AdditionalAttributes, BaseStyle);
+    protected override string? RootClass() => TwMerge.Merge(AdditionalAttributes, BaseStyle, GetContainerCss(ProseWidth));
 
     protected override void OnInitialized()
     {
@@ -112,6 +117,25 @@ public partial class Markdown : RizzyComponent
 
         _assets = JsonSerializer.Serialize(ComponentAssets);
         Nonce = RizzyNonceProvider.GetNonceValues();
+    }
+
+    /// <summary>
+    /// Gets the CSS classes for the markdown
+    /// </summary>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    protected static string GetContainerCss(ProseWidth size)
+    {
+        return size switch
+        {
+            ProseWidth.Compact => "prose-compact",
+            ProseWidth.Comfortable => "prose-comfortable",
+            ProseWidth.Relaxed => "prose-relaxed",
+            ProseWidth.Wide => "prose-wide",
+            ProseWidth.UltraWide => "prose-ultrawide",
+            ProseWidth.Full => "prose-full",
+            _ => ""
+        };
     }
 
     private string RenderOutput(string markdownText)
