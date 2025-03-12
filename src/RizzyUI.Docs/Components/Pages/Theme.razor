@@ -50,7 +50,7 @@ Alternatively, you can set a default theme when configuring RizzyUI in your star
 ```csharp
 builder.Services.AddRizzyUI(config =&gt;
 {
-    config.DefaultTheme = RizzyTheme.HighContrastTheme() // or new HighContrastTheme();
+    config.DefaultTheme = RizzyTheme.HighContrastTheme // or new HighContrastTheme();
 });
 ```
 
@@ -105,7 +105,7 @@ Once you have created your custom theme, you can apply it by either passing it d
 After you configure a theme, all RizzyUI components will automatically use the defined design tokens. For example:
 
 - Classes like `bg-surface` and `text-on-surface` reference the `--color-surface` and `--color-on-surface` tokens from your current theme.
-- In dark mode, the theme provider swaps these tokens with the dark variant values (e.g., `bg-surface-dark`).
+- In dark mode, the theme provider swaps these tokens with the dark variant values.
 
 This approach ensures that your components maintain a consistent look and feel, regardless of the theme or mode (light/dark) in use.
 
