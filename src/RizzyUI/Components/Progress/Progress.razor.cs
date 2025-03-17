@@ -14,14 +14,6 @@ public partial class Progress : RizzyComponent
     private static readonly string BaseStyle = "w-full";
 
     /// <summary>
-    /// Initialize nonce values
-    /// </summary>
-    protected override void OnParametersSet()
-    {
-        Nonce = RizzyNonceProvider.GetNonceValues();
-    }
-
-    /// <summary>
     /// Gets or sets the current value of the progress bar.
     /// </summary>
     [Parameter]

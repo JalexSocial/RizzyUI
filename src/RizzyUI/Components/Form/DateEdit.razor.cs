@@ -93,7 +93,6 @@ public sealed partial class DateEdit : RizzyComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        Nonce = RizzyNonceProvider.GetNonceValues();
 
         // If the user has provided a binding expression, we can attempt to read the current value.
         if (For is not null)

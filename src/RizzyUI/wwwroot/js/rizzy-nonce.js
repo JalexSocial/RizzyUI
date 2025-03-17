@@ -3,14 +3,20 @@ if (!document.__htmx_noncehandler) {
     // Based on safe-nonce by Michael West
     htmx.defineExtension('rizzy-nonce', {
         transformResponse: function (text, xhr, elt) {
+
+            text = text.replace(/ignore:rizzy-nonce/g, ''); // Remove attempts to ignore rizzy-nonce
+
+            // If the document Nonce isn't available we can't inject it
+            if (!htmx.config.documentNonce)
+                return text;
+
             htmx.config.refreshOnHistoryMiss = true; // disable ajax fetching on history miss because it doesn't handle nonce replacment
 
-            let replaceRegex = new RegExp(`<script(\\s[^>]*>|>).*?<\\/script(\\s[^>]*>|>)`, 'gis') // remove all script tags regex
             let nonce = xhr.getResponseHeader('HX-Nonce');
             if (!nonce) {
                 const csp = xhr.getResponseHeader('content-security-policy')
                 if (csp) {
-                    const cspMatch = csp.match(/(default|script)-src[^;]*'nonce-([^']*)'/i)
+                    const cspMatch = csp.match(/(style|script)-src[^;]*'nonce-([^']*)'/i)
                     if (cspMatch) {
                         nonce = cspMatch[2];
                     }
@@ -22,10 +28,14 @@ if (!document.__htmx_noncehandler) {
                     nonce = ''; // ignore nonce header if request is not some domain 
                 }
             }
+
+            let replaceRegex = new RegExp(`<script(\\s[^>]*>|>).*?<\\/script(\\s[^>]*>|>)`, 'gis') // remove all script tags regex
+
             if (nonce) { // if nonce is valid then change regex to remove all scripts without this nonce
                 replaceRegex = new RegExp(`<script(\\s(?!nonce="${nonce.replace(/[\\\[\]\/^*.+?$(){}'#:!=|]/g, '\\$&')}")[^>]*>|>).*?<\\/script(\\s[^>]*>|>)`, 'gis')
             }
-            return text.replace(replaceRegex, '').replace(/ignore:safe-nonce/g, '') // remove script tags and strip ignore extension
+
+            return text.replace(replaceRegex, ''); // remove script tags and strip ignore extension
         },
         onEvent: function (name, evt) {
             if (name === 'htmx:load') {

@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @using RizzyUI
+@using Rizzy.Htmx
+@using Rizzy
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,36 +10,36 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src localhost:* 'nonce-@NonceProvider.GetNonceFor(NonceType.Script)'; font-src fonts.gstatic.com; style-src 'self' fonts.googleapis.com 'nonce-@NonceProvider.GetNonceFor(NonceType.Style)'">
-    <meta name="htmx-config" content='{"inlineScriptNonce":"@NonceProvider.GetNonceFor(NonceType.Script)","inlineStyleNonce":"@NonceProvider.GetNonceFor(NonceType.Style)"}'>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src localhost:* 'nonce-@Nonce'; font-src fonts.gstatic.com; style-src 'self' fonts.googleapis.com 'nonce-@Nonce'">
+    <HtmxConfigHeadOutlet/>
 
-    <link nonce="@NonceProvider.GetNonceFor(NonceType.Style)" rel="stylesheet" href="/css/app.css" />
-    <link nonce="@NonceProvider.GetNonceFor(NonceType.Style)" rel="stylesheet" href="/RizzyUI.Docs.styles.css" />
+    <link nonce="@Nonce" rel="stylesheet" href="/css/app.css" />
+    <link nonce="@Nonce" rel="stylesheet" href="/RizzyUI.Docs.styles.css" />
 
-    <HeadOutlet />
+    <RzHeadOutlet />
     <RizzyThemeProvider />
 
-    <script defer nonce="@NonceProvider.GetNonceFor(NonceType.Script)" src="https://cdn.jsdelivr.net/npm/@@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
-    <script defer nonce="@NonceProvider.GetNonceFor(NonceType.Script)" src="https://cdn.jsdelivr.net/npm/@@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
-    <script defer nonce="@NonceProvider.GetNonceFor(NonceType.Script)" src="https://cdn.jsdelivr.net/npm/@@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+    <script defer nonce="@Nonce" src="https://cdn.jsdelivr.net/npm/@@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+    <script defer nonce="@Nonce" src="https://cdn.jsdelivr.net/npm/@@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer nonce="@Nonce" src="https://cdn.jsdelivr.net/npm/@@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
 
-    <script defer nonce="@NonceProvider.GetNonceFor(NonceType.Script)" src="https://cdn.jsdelivr.net/npm/@@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>
+    <script defer nonce="@Nonce" src="https://cdn.jsdelivr.net/npm/@@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>
     <!--
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@@3.x.x/dist/cdn.min.js"></script>
     -->
-    <script nonce="@NonceProvider.GetNonceFor(NonceType.Script)" src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+    <script nonce="@Nonce" src="https://unpkg.com/htmx.org@@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
     
-    <script nonce="@NonceProvider.GetNonceFor(NonceType.Script)" src="/_content/RizzyUI/js/vendor/aspnet-validation/aspnet-validation.js"></script>
-    <script nonce="@NonceProvider.GetNonceFor(NonceType.Script)" src="/_content/RizzyUI/dist/rizzyui.js"></script>
+    <script nonce="@Nonce" src="/_content/RizzyUI/js/vendor/aspnet-validation/aspnet-validation.js"></script>
+    <script nonce="@Nonce" src="/_content/RizzyUI/dist/rizzyui.js"></script>
 
-    <link rel="preconnect" nonce="@NonceProvider.GetNonceFor(NonceType.Script)" href="https://fonts.googleapis.com">
-    <link rel="preconnect" nonce="@NonceProvider.GetNonceFor(NonceType.Script)" href="https://fonts.gstatic.com" crossorigin>
-    <link nonce="@NonceProvider.GetNonceFor(NonceType.Style)" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" nonce="@Nonce" href="https://fonts.googleapis.com">
+    <link rel="preconnect" nonce="@Nonce" href="https://fonts.gstatic.com" crossorigin>
+    <link nonce="@Nonce" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@@0,300..900;1,300..900&display=swap" rel="stylesheet">
 
-    <link rel="preconnect" nonce="@NonceProvider.GetNonceFor(NonceType.Script)" href="https://fonts.gstatic.com" crossorigin>
-    <link nonce="@NonceProvider.GetNonceFor(NonceType.Script)" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" nonce="@Nonce" href="https://fonts.gstatic.com" crossorigin>
+    <link nonce="@Nonce" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
-    <script nonce="@NonceProvider.GetNonceFor(NonceType.Script)">
+    <script nonce="@Nonce">
 	    window.addEventListener('message', (event) => {
 		    if (event.data && typeof event.data.darkMode === 'boolean') {
                 document.documentElement.classList.toggle('dark', event.data.darkMode);
@@ -53,5 +55,15 @@
 </html>
 
 @code {
+    private string Nonce { get; set; } = string.Empty;
+
     [Inject] private IRizzyNonceProvider NonceProvider { get; set; } = null!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Nonce = NonceProvider.GetNonce();
+    }
+
 }

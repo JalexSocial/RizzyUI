@@ -147,7 +147,6 @@
             Below is a simplified example of using the nonce values in a Blazor component. Nonce values are injected into the CSP meta tag and applied to inline script and stylesheet links using the `GetNonceFor(NonceType.X)` methods.
 
             ```razor
-            @
 
             &lt;!DOCTYPE html&gt;
             &lt;html lang=&quot;en&quot;&gt;
@@ -426,14 +425,6 @@
 
 @code
 {
-    private Customer Model;
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        Model = new();
-    }
-
-    
+    private Customer Model = new();
+   
 }

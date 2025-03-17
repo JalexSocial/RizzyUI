@@ -76,6 +76,9 @@ public partial class Markdown : RizzyComponent
     /// </xmldoc>
     protected override string? RootClass() => TwMerge.Merge(AdditionalAttributes, BaseStyle, GetContainerCss(ProseWidth));
 
+    /// <summary>
+    /// Initialization of Markdown component
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -116,7 +119,6 @@ public partial class Markdown : RizzyComponent
         }
 
         _assets = JsonSerializer.Serialize(ComponentAssets);
-        Nonce = RizzyNonceProvider.GetNonceValues();
     }
 
     /// <summary>

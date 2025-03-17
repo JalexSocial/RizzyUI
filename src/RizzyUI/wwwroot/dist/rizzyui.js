@@ -1,9 +1,9 @@
 /******/ (() => { // webpackBootstrap
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other entry modules.
 (() => {
-/*!****************************************!*\
-  !*** ./wwwroot/js/blazor-streaming.js ***!
-  \****************************************/
+/*!***************************************!*\
+  !*** ./wwwroot/js/rizzy-streaming.js ***!
+  \***************************************/
 ﻿/*
  * Blazor Stream Rendering HTMX Extension
  * Author: Michael Tanczos
@@ -16,29 +16,29 @@
     var enableDomPreservation = true;
     var componentLoaded = false;
 
-    class BlazorStreamingUpdate extends HTMLElement {
+    class blazorStreamingUpdate extends HTMLElement {
         connectedCallback() {
             const blazorSsrElement = this.parentNode
 
             // Synchronously remove this from the DOM to minimize our chance of affecting anything else
-            blazorSsrElement.parentNode?.removeChild(blazorSsrElement)
+            blazorSsrElement.parentNode?.removeChild(blazorSsrElement);
 
             // When this element receives content, if it's <template blazor-component-id="...">...</template>,
             // insert the template content into the DOM
             blazorSsrElement.childNodes.forEach(node => {
                 if (node instanceof HTMLTemplateElement) {
-                    const componentId = node.getAttribute("blazor-component-id")
+                    const componentId = node.getAttribute("blazor-component-id");
                     if (componentId) {
-                        insertStreamingContentIntoDocument(componentId, node.content)
+                        insertStreamingContentIntoDocument(componentId, node.content);
                     }
                 }
             })
 
-            htmx?.process(document.body)
+            htmx?.process(document.body);
         }
     }
 
-    htmx.defineExtension("blazor-streaming",
+    htmx.defineExtension("rizzy-streaming",
         {
             /**
              * Init saves the provided reference to the internal HTMX API.
@@ -53,7 +53,7 @@
                 // set a function in the public API for creating new EventSource objects
                 if (htmx.blazorSwapSsr == undefined) {
                     if (customElements.get('blazor-ssr-end') === undefined) {
-                        customElements.define('blazor-ssr-end', BlazorStreamingUpdate);
+                        customElements.define('blazor-ssr-end', blazorStreamingUpdate);
                     }
                     htmx.blazorSwapSsr = blazorSwapSsr;
                 }
@@ -325,24 +325,73 @@
 
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other entry modules.
 (() => {
+/*!***********************************!*\
+  !*** ./wwwroot/js/rizzy-nonce.js ***!
+  \***********************************/
+if (!document.__htmx_noncehandler) {
+
+    // Based on safe-nonce by Michael West
+    htmx.defineExtension('rizzy-nonce', {
+        transformResponse: function (text, xhr, elt) {
+
+            text = text.replace(/ignore:rizzy-nonce/g, ''); // Remove attempts to ignore rizzy-nonce
+
+            // If the document Nonce isn't available we can't inject it
+            if (!htmx.config.documentNonce)
+                return text;
+
+            htmx.config.refreshOnHistoryMiss = true; // disable ajax fetching on history miss because it doesn't handle nonce replacment
+
+            let nonce = xhr.getResponseHeader('HX-Nonce');
+            if (!nonce) {
+                const csp = xhr.getResponseHeader('content-security-policy')
+                if (csp) {
+                    const cspMatch = csp.match(/(style|script)-src[^;]*'nonce-([^']*)'/i)
+                    if (cspMatch) {
+                        nonce = cspMatch[2];
+                    }
+                }
+            }
+            if (window.location.hostname) {
+                const responseURL = new URL(xhr.responseURL);
+                if (responseURL.hostname !== window.location.hostname) {
+                    nonce = ''; // ignore nonce header if request is not some domain 
+                }
+            }
+
+            let replaceRegex = new RegExp(`<script(\\s[^>]*>|>).*?<\\/script(\\s[^>]*>|>)`, 'gis') // remove all script tags regex
+
+            if (nonce) { // if nonce is valid then change regex to remove all scripts without this nonce
+                replaceRegex = new RegExp(`<script(\\s(?!nonce="${nonce.replace(/[\\\[\]\/^*.+?$(){}'#:!=|]/g, '\\$&')}")[^>]*>|>).*?<\\/script(\\s[^>]*>|>)`, 'gis')
+            }
+
+            return text.replace(replaceRegex, ''); // remove script tags and strip ignore extension
+        },
+        onEvent: function (name, evt) {
+            if (name === 'htmx:load') {
+                Array.from(evt.detail.elt.querySelectorAll('script')).forEach((script) => {
+                    if (script.nonce !== htmx.config.inlineScriptNonce) {
+                        script.remove(); // remove all scripts with invalid nonce from page loaded content so it can't get saved in history where inlineScriptNonce can enable bad scripts
+                    }
+                });
+                Array.from(evt.detail.elt.querySelectorAll(
+                    '[hx-ext*="ignore:rizzy-nonce"], [data-hx-ext*="ignore:rizzy-nonce"]')).forEach((elt) => {
+                    elt.remove(); // remove content that tries to disable rizzy-nonce extension
+                });
+            }
+        }
+    })
+
+    document.__htmx_noncehandler = true;
+}
+})();
+
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other entry modules.
+(() => {
 /*!*******************************!*\
   !*** ./wwwroot/js/rizzyui.js ***!
   \*******************************/
 ﻿/* RizzyUI JS */
-if (!document.__htmx_nonceprovider) {
-    document.addEventListener("htmx:configRequest", (event) => {
-        const headers = event.detail.headers;
-        if (htmx.config.inlineScriptNonce) {
-            headers['Rizzy-Script-Nonce'] = htmx.config.inlineScriptNonce;
-        }
-        if (htmx.config.inlineStyleNonce) {
-            headers['Rizzy-Style-Nonce'] = htmx.config.inlineStyleNonce;
-        }
-    });
-
-    document.__htmx_nonceprovider = true;
-}
-
 document.addEventListener('alpine:init', () => {
 
         try {

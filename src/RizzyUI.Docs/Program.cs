@@ -11,7 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 var provider = new StaticResourcesInfoProvider();
 
 builder.Services.AddRizzy();
-//builder.Services.AddHtmx();
+builder.Services.AddHtmx();
+builder.Services.AddRizzyUI(config =>
+{
+    config.DefaultTheme = RizzyTheme.ArcticTheme;
+});
+
 //builder.Services.AddMvcCore().AddDataAnnotations();
 
 builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
@@ -20,10 +25,7 @@ builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
         .AddAllWebRootContent(builder.Environment));  // from AspNetStaticContrib project
 
 builder.Services.AddRazorComponents();
-builder.Services.AddRizzyUI(config =>
-{
-	config.DefaultTheme = RizzyTheme.ArcticTheme;
-});
+
 
 var app = builder.Build();
 
