@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
-using Rizzy.Nonce;
 using System.Text;
 using Microsoft.Extensions.Options;
+using Rizzy;
+using Rizzy.Htmx;
 
 namespace RizzyUI;
 
@@ -37,8 +38,8 @@ public class RizzyThemeProvider : ComponentBase
         var actualTheme = Theme ?? RizzyConfig?.Value.DefaultTheme ?? RizzyTheme.Default;
         var css = GenerateRootVariables(actualTheme);
 
-        builder.AddMarkupContent(1, $"<style nonce=\"{RizzyNonceProvider.GetNonceFor(NonceType.Style)}\">{css}</style>");
-        builder.AddMarkupContent(2, $@"<script nonce=""{RizzyNonceProvider.GetNonceFor(NonceType.Script)}"">
+        builder.AddMarkupContent(1, $"<style nonce=\"{RizzyNonceProvider.GetNonce()}\">{css}</style>");
+        builder.AddMarkupContent(2, $@"<script nonce=""{RizzyNonceProvider.GetNonce()}"">
 		    const storedMode = localStorage.getItem('darkMode') ?? 'auto';
 		    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 		    document.documentElement.classList.toggle('dark', storedMode === 'dark' || (storedMode === 'auto' && prefersDark));
@@ -99,8 +100,6 @@ public class RizzyThemeProvider : ComponentBase
         sb.AppendLine($"--tw-prose-pre-bg: var(--highlight-bg)");
         sb.AppendLine("}");
 
-        sb.AppendLine("}");
-
         // Dark mode variant theme colors
         sb.AppendLine("&:where(.dark, .dark *) {");
         sb.AppendLine($"--color-surface: {theme.Dark.Surface.ToCssColorString()};");
@@ -128,6 +127,8 @@ public class RizzyThemeProvider : ComponentBase
         sb.AppendLine($"--highlight-punctuation: {theme.Dark.Code.Punctuation.ToCssColorString()};");
         sb.AppendLine($"--highlight-deletion: {theme.Dark.Code.Deletion.ToCssColorString()};");
         sb.AppendLine($"--highlight-addition: {theme.Dark.Code.Addition.ToCssColorString()};");
+        sb.AppendLine("}");
+
         sb.AppendLine("}");
 
         return sb.ToString();

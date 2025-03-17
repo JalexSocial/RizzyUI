@@ -10,29 +10,29 @@
     var enableDomPreservation = true;
     var componentLoaded = false;
 
-    class BlazorStreamingUpdate extends HTMLElement {
+    class blazorStreamingUpdate extends HTMLElement {
         connectedCallback() {
             const blazorSsrElement = this.parentNode
 
             // Synchronously remove this from the DOM to minimize our chance of affecting anything else
-            blazorSsrElement.parentNode?.removeChild(blazorSsrElement)
+            blazorSsrElement.parentNode?.removeChild(blazorSsrElement);
 
             // When this element receives content, if it's <template blazor-component-id="...">...</template>,
             // insert the template content into the DOM
             blazorSsrElement.childNodes.forEach(node => {
                 if (node instanceof HTMLTemplateElement) {
-                    const componentId = node.getAttribute("blazor-component-id")
+                    const componentId = node.getAttribute("blazor-component-id");
                     if (componentId) {
-                        insertStreamingContentIntoDocument(componentId, node.content)
+                        insertStreamingContentIntoDocument(componentId, node.content);
                     }
                 }
             })
 
-            htmx?.process(document.body)
+            htmx?.process(document.body);
         }
     }
 
-    htmx.defineExtension("blazor-streaming",
+    htmx.defineExtension("rizzy-streaming",
         {
             /**
              * Init saves the provided reference to the internal HTMX API.
@@ -47,7 +47,7 @@
                 // set a function in the public API for creating new EventSource objects
                 if (htmx.blazorSwapSsr == undefined) {
                     if (customElements.get('blazor-ssr-end') === undefined) {
-                        customElements.define('blazor-ssr-end', BlazorStreamingUpdate);
+                        customElements.define('blazor-ssr-end', blazorStreamingUpdate);
                     }
                     htmx.blazorSwapSsr = blazorSwapSsr;
                 }

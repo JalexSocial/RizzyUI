@@ -1,4 +1,4 @@
-﻿@using Rizzy.Nonce
+﻿
 @using Blazicons
 @namespace RizzyUI
 
@@ -11,8 +11,8 @@
              data-config="@_serializedConfig"
              data-uid="@_uid"
              data-assets="@_assets"
-             data-scriptnonce="@Nonce.GetNonce(NonceType.Script)"
-             data-stylenonce="@Nonce.GetNonce(NonceType.Style)"
+             data-scriptnonce="@Nonce"
+             data-stylenonce="@Nonce"
              role="group" aria-label="Date picker">
 
     <div class="relative" x-data="rzPrependInput" x-ref="pickerWrapper">

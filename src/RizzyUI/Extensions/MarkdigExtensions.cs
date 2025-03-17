@@ -57,13 +57,13 @@ public class RizzyCodeBlockExtension : IMarkdownExtension
 /// </summary>
 public class RizzyCodeBlockRenderer : HtmlObjectRenderer<CodeBlock>
 {
-    private readonly CodeBlockRenderer _originalRenderer;
+    private readonly CodeBlockRenderer? _originalRenderer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RizzyCodeBlockRenderer"/> class.
     /// </summary>
     /// <param name="originalRenderer">The original code block renderer, if any.</param>
-    public RizzyCodeBlockRenderer(CodeBlockRenderer originalRenderer = null)
+    public RizzyCodeBlockRenderer(CodeBlockRenderer? originalRenderer = null)
     {
         _originalRenderer = originalRenderer;
     }
@@ -121,13 +121,13 @@ public class RizzyCodeBlockRenderer : HtmlObjectRenderer<CodeBlock>
 /// </summary>
 public class RizzyCodeInlineRenderer : HtmlObjectRenderer<CodeInline>
 {
-    private readonly CodeInlineRenderer _originalRenderer;
+    private readonly CodeInlineRenderer? _originalRenderer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RizzyCodeInlineRenderer"/> class.
     /// </summary>
     /// <param name="originalRenderer">The original inline code renderer, if any.</param>
-    public RizzyCodeInlineRenderer(CodeInlineRenderer originalRenderer = null)
+    public RizzyCodeInlineRenderer(CodeInlineRenderer? originalRenderer = null)
     {
         _originalRenderer = originalRenderer;
     }

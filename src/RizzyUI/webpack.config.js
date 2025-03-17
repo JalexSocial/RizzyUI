@@ -7,7 +7,8 @@ module.exports = [
     {
         name: 'unminified',
         entry: [
-            path.resolve(__dirname, 'wwwroot/js/blazor-streaming.js'),
+            path.resolve(__dirname, 'wwwroot/js/rizzy-streaming.js'),
+            path.resolve(__dirname, 'wwwroot/js/rizzy-nonce.js'),
             path.resolve(__dirname, 'wwwroot/js/rizzyui.js'),
             path.resolve(__dirname, 'wwwroot/js/vendor/loadjs/loadjs.js')
         ],
@@ -23,7 +24,8 @@ module.exports = [
     {
         name: 'minified',
         entry: [
-            path.resolve(__dirname, 'wwwroot/js/blazor-streaming.js'),
+            path.resolve(__dirname, 'wwwroot/js/rizzy-streaming.js'),
+            path.resolve(__dirname, 'wwwroot/js/rizzy-nonce.js'),
             path.resolve(__dirname, 'wwwroot/js/rizzyui.js'),
             path.resolve(__dirname, 'wwwroot/js/vendor/loadjs/loadjs.js')
         ],

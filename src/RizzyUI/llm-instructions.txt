@@ -282,8 +282,8 @@ the guidelines below and the code provided is extremely important.
     ```razor
     data-config="@_serializedConfig"
     data-assets="@_assets"
-    data-scriptnonce="@Nonce.GetNonce(NonceType.Script)"
-    data-stylenonce="@Nonce.GetNonce(NonceType.Style)"
+    data-scriptnonce="@Nonce"
+    data-stylenonce="@Nonce"
     ```
 
 ---

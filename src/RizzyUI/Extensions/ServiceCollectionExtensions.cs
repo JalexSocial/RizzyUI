@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Rizzy.Nonce;
+using Rizzy;
+using Rizzy.Htmx;
 using TailwindMerge.Extensions;
 
 namespace RizzyUI;
@@ -39,9 +40,6 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRizzyUI(this IServiceCollection services)
     {
         services.AddTailwindMerge();
-
-        // Register the nonce generator if not yet registered
-        services.TryAddSingleton<RizzyNonceGenerator>();
 
         // Ensure IHttpContextAccessor is registered
         services.AddHttpContextAccessor();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Rizzy.Nonce;
 using System.Diagnostics.CodeAnalysis;
+using Rizzy;
+using Rizzy.Htmx;
 using TailwindMerge;
 
 namespace RizzyUI;
@@ -10,6 +11,8 @@ namespace RizzyUI;
 /// </summary>
 public class RizzyComponent : ComponentBase
 {
+    private string? _nonce;
+
     /// <summary>
     /// Reference to Tailwind Merge service
     /// </summary>
@@ -37,10 +40,10 @@ public class RizzyComponent : ComponentBase
 
     /// <summary>
     /// Nonce values used if component requires dynamic script loading.  If needed, Nonce
-    /// should be updated by calling Nonce = RizzyNonceProvider.GetNonceValues() in OnParametersSet
-    /// to match scoped nonce values
+    /// should be updated by calling Nonce = RizzyNonceProvider.GetNonce() in OnParametersSet
+    /// to match scoped nonce value
     /// </summary>
-    protected RizzyNonceValues Nonce = RizzyNonceValues.DefaultValue;
+    protected string Nonce => _nonce ??= RizzyNonceProvider.GetNonce();
 
     /// <summary>
     /// Method that provides a set of CSS root classes to the component

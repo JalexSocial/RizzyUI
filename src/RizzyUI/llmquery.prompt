@@ -2113,7 +2113,7 @@ public static class CodeLanguage
 @using System.Text
 @using System.Web
 @using System.Text.Json
-@using Rizzy.Nonce
+
 @using Rizzy.Utility
 
 @inherits RizzyComponent
@@ -2121,8 +2121,8 @@ public static class CodeLanguage
 <div @attributes="@AdditionalAttributes" class="@RootClass()" 
 data-assets="@_assets"
 data-codeid="@CodeId"
-data-scriptnonce="@Nonce.GetNonce(NonceType.Script)"
-data-stylenonce="@Nonce.GetNonce(NonceType.Style)"
+data-scriptnonce="@Nonce"
+data-stylenonce="@Nonce"
 x-data="rzCodeViewer">
     <!-- Code Config -->
     <div class="border-b-0 border-outline bg-surface-alt flex flex-col items-start justify-between gap-4 rounded-theme rounded-b-none border p-4 text-sm text-slate-400   md:flex-row md:items-center md:gap-2" :class="getBorderCss">
@@ -2803,7 +2803,7 @@ public partial class CheckboxGroupItem<TValue> : RizzyComponent
 </file>
 
 <file path="Components/Form/DateEdit.razor">
-@using Rizzy.Nonce
+
 @using Blazicons
 @namespace RizzyUI
 
@@ -2816,8 +2816,8 @@ public partial class CheckboxGroupItem<TValue> : RizzyComponent
              data-config="@_serializedConfig"
              data-uid="@_uid"
              data-assets="@_assets"
-             data-scriptnonce="@Nonce.GetNonce(NonceType.Script)"
-             data-stylenonce="@Nonce.GetNonce(NonceType.Style)"
+             data-scriptnonce="@Nonce"
+             data-stylenonce="@Nonce"
              role="group" aria-label="Date picker">
 
     <div class="relative" x-data="rzPrependInput" x-ref="pickerWrapper">
@@ -3768,7 +3768,7 @@ public class FlatpickrOptions
 @namespace RizzyUI
 @using System.Linq.Expressions
 @using Blazicons
-@using Rizzy.Nonce
+
 @inherits InputBase<string>
 
 <div class="relative" x-data="rzPrependInput">
@@ -4164,13 +4164,13 @@ public partial class Link : RizzyComponent
 
 <file path="Components/Markdown/Markdown.razor">
 @namespace RizzyUI
-@using Rizzy.Nonce
+
 @inherits RizzyComponent
 
 <HtmlElement Element="div" @attributes="@AdditionalAttributes" class="@RootClass()"
              data-assets="@_assets"
-             data-scriptnonce="@Nonce.GetNonce(NonceType.Script)"
-             data-stylenonce="@Nonce.GetNonce(NonceType.Style)"
+             data-scriptnonce="@Nonce"
+             data-stylenonce="@Nonce"
              x-data="rzMarkdown">
     @OutputHtml
 </HtmlElement>
@@ -4836,7 +4836,7 @@ else
 <file path="Components/Progress/Progress.razor">
 @namespace RizzyUI
 
-@using Rizzy.Nonce
+
 @inherits RizzyComponent
 
 <HtmlElement Element="div"
@@ -4862,7 +4862,7 @@ else
 		</div>
 	}
     <div class="relative flex w-full overflow-hidden rounded-theme bg-outline  @(LabelPosition == ProgressLabelPosition.Inside ? "h-4" : "h-2.5")">
-        <div class="p-0.5 text-center text-xs font-semibold leading-none transition-all @ProgressBarClass" x-ref="progressBar" nonce="@Nonce.GetNonce(NonceType.Style)">
+        <div class="p-0.5 text-center text-xs font-semibold leading-none transition-all @ProgressBarClass" x-ref="progressBar" nonce="@Nonce">
 			@if (LabelPosition == ProgressLabelPosition.Inside && !string.IsNullOrEmpty(Label))
 			{
                 <div class="absolute" x-ref="progressBarLabel" :class="getLabelCss">
@@ -8137,8 +8137,8 @@ the guidelines below and the code provided is extremely important.
     ```razor
     data-config="@_serializedConfig"
     data-assets="@_assets"
-    data-scriptnonce="@Nonce.GetNonce(NonceType.Script)"
-    data-stylenonce="@Nonce.GetNonce(NonceType.Style)"
+    data-scriptnonce="@Nonce"
+    data-stylenonce="@Nonce"
     ```
 
 ---
