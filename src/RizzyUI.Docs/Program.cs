@@ -11,7 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 var provider = new StaticResourcesInfoProvider();
 
 builder.Services.AddRizzy();
-builder.Services.AddHtmx();
+builder.Services.AddHtmx(config =>
+{
+	config.GenerateStyleNonce = true;
+});
 builder.Services.AddRizzyUI(config =>
 {
     config.DefaultTheme = RizzyTheme.ArcticTheme;
