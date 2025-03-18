@@ -12,7 +12,7 @@
 
     class blazorStreamingUpdate extends HTMLElement {
         connectedCallback() {
-            const blazorSsrElement = this.parentNode
+            const blazorSsrElement = this.parentNode;
 
             // Synchronously remove this from the DOM to minimize our chance of affecting anything else
             blazorSsrElement.parentNode?.removeChild(blazorSsrElement);
@@ -26,7 +26,7 @@
                         insertStreamingContentIntoDocument(componentId, node.content);
                     }
                 }
-            })
+            });
 
             htmx?.process(document.body);
         }
