@@ -97,7 +97,7 @@
                             container.id = cid;
 
                             // Swap in a container div to hold the streaming html
-                            swap(element, container.outerHTML, swapSpec);
+                            swap(element, container.outerHTML, swapSpec, xhr);
 
                             // The very first swap into the container can be a replacement swap
                             swapSpec.swapStyle = "innerHTML";
@@ -108,7 +108,7 @@
 
                         // Compute any new html in this chunk
                         diff = e.currentTarget.response.substring(last);
-                        swap(container, diff, swapSpec);
+                        swap(container, diff, swapSpec, xhr);
 
                         swapSpec.settleDelay = 0;
                         swapSpec.swapStyle = "beforeend";
@@ -140,13 +140,13 @@
         return false;
     }
 
-    function blazorSwapSsr(start, end, docFrag) {
+    function blazorSwapSsr(start, end, docFrag, xhr) {
         var newDiv = wrap(start, end, 'ssr' + crypto.randomUUID());
 
         var container = document.createElement('div');
         container.appendChild(docFrag);
 
-        swap(newDiv, container.innerHTML);
+        swap(newDiv, container.innerHTML, xhr);
 
         unwrap(newDiv);
     }
@@ -210,10 +210,10 @@
      * @param {HTMLElement} elt
      * @param {string} content
      */
-    function swap(elt, content, swapSpec) {
+    function swap(elt, content, swapSpec, xhr) {
 
         api.withExtensions(elt, function (extension) {
-            content = extension.transformResponse(content, null, elt);
+            content = extension.transformResponse(content, xhr, elt);
         });
 
         swapSpec ??= api.getSwapSpecification(elt);

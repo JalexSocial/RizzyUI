@@ -103,7 +103,7 @@
                             container.id = cid;
 
                             // Swap in a container div to hold the streaming html
-                            swap(element, container.outerHTML, swapSpec);
+                            swap(element, container.outerHTML, swapSpec, xhr);
 
                             // The very first swap into the container can be a replacement swap
                             swapSpec.swapStyle = "innerHTML";
@@ -114,7 +114,7 @@
 
                         // Compute any new html in this chunk
                         diff = e.currentTarget.response.substring(last);
-                        swap(container, diff, swapSpec);
+                        swap(container, diff, swapSpec, xhr);
 
                         swapSpec.settleDelay = 0;
                         swapSpec.swapStyle = "beforeend";
@@ -146,13 +146,13 @@
         return false;
     }
 
-    function blazorSwapSsr(start, end, docFrag) {
+    function blazorSwapSsr(start, end, docFrag, xhr) {
         var newDiv = wrap(start, end, 'ssr' + crypto.randomUUID());
 
         var container = document.createElement('div');
         container.appendChild(docFrag);
 
-        swap(newDiv, container.innerHTML);
+        swap(newDiv, container.innerHTML, xhr);
 
         unwrap(newDiv);
     }
@@ -216,10 +216,10 @@
      * @param {HTMLElement} elt
      * @param {string} content
      */
-    function swap(elt, content, swapSpec) {
+    function swap(elt, content, swapSpec, xhr) {
 
         api.withExtensions(elt, function (extension) {
-            content = extension.transformResponse(content, null, elt);
+            content = extension.transformResponse(content, xhr, elt);
         });
 
         swapSpec ??= api.getSwapSpecification(elt);
@@ -341,13 +341,13 @@ if (!document.__htmx_noncehandler) {
                     documentNonce = "";
                 }
 
-                htmx.config.refreshOnHistoryMiss =
-                    true; // disable ajax fetching on history miss because it doesn't handle nonce replacment
+                // disable ajax fetching on history miss because it doesn't handle nonce replacment
+                htmx.config.refreshOnHistoryMiss = true; 
 
                 // CSP nonce determination based on safe-nonce by Michael West
-                let nonce = xhr.getResponseHeader('HX-Nonce');
+                let nonce = xhr?.getResponseHeader('HX-Nonce');
                 if (!nonce) {
-                    const csp = xhr.getResponseHeader('content-security-policy');
+                    const csp = xhr?.getResponseHeader('content-security-policy');
                     if (csp) {
                         const cspMatch = csp.match(/(style|script)-src[^;]*'nonce-([^']*)'/i);
                         if (cspMatch) {
@@ -355,12 +355,14 @@ if (!document.__htmx_noncehandler) {
                         }
                     }
                 }
-                if (window.location.hostname) {
+                if (xhr && window.location.hostname) {
                     const responseURL = new URL(xhr.responseURL);
                     if (responseURL.hostname !== window.location.hostname) {
                         nonce = ''; // ignore nonce header if request is not some domain 
                     }
                 }
+
+                nonce ??= '';
 
                 return this.processUnsafeHtml(text, documentNonce, nonce);
             },
@@ -376,7 +378,7 @@ if (!document.__htmx_noncehandler) {
                     });
 
                 // Select all <script> and <style> tags
-                const elements = doc.querySelectorAll("script, style");
+                const elements = doc.querySelectorAll("script, style, link");
 
                 // Iterate through each element
                 elements.forEach(elt => {

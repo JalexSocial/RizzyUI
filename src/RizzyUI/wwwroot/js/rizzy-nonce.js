@@ -11,13 +11,13 @@ if (!document.__htmx_noncehandler) {
                     documentNonce = "";
                 }
 
-                htmx.config.refreshOnHistoryMiss =
-                    true; // disable ajax fetching on history miss because it doesn't handle nonce replacment
+                // disable ajax fetching on history miss because it doesn't handle nonce replacment
+                htmx.config.refreshOnHistoryMiss = true; 
 
                 // CSP nonce determination based on safe-nonce by Michael West
-                let nonce = xhr.getResponseHeader('HX-Nonce');
+                let nonce = xhr?.getResponseHeader('HX-Nonce');
                 if (!nonce) {
-                    const csp = xhr.getResponseHeader('content-security-policy');
+                    const csp = xhr?.getResponseHeader('content-security-policy');
                     if (csp) {
                         const cspMatch = csp.match(/(style|script)-src[^;]*'nonce-([^']*)'/i);
                         if (cspMatch) {
@@ -25,12 +25,14 @@ if (!document.__htmx_noncehandler) {
                         }
                     }
                 }
-                if (window.location.hostname) {
+                if (xhr && window.location.hostname) {
                     const responseURL = new URL(xhr.responseURL);
                     if (responseURL.hostname !== window.location.hostname) {
                         nonce = ''; // ignore nonce header if request is not some domain 
                     }
                 }
+
+                nonce ??= '';
 
                 return this.processUnsafeHtml(text, documentNonce, nonce);
             },
@@ -46,7 +48,7 @@ if (!document.__htmx_noncehandler) {
                     });
 
                 // Select all <script> and <style> tags
-                const elements = doc.querySelectorAll("script, style");
+                const elements = doc.querySelectorAll("script, style, link");
 
                 // Iterate through each element
                 elements.forEach(elt => {
