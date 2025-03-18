@@ -44,6 +44,7 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+app.UseRizzy();
 
 app.MapRazorComponents<App>();
 
