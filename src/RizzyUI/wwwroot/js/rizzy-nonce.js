@@ -39,31 +39,53 @@ if (!document.__htmx_noncehandler) {
             processUnsafeHtml: function(text, documentNonce, newScriptNonce) {
                 // Parse the raw HTML string into an HTMLDocument
                 const parser = new DOMParser();
-                const doc = parser.parseFromString(text, "text/html");
+                let doc = null;
 
-                // Remove any attempts to disable rizzy-nonce extension
-                Array.from(doc.querySelectorAll('[hx-ext*="ignore:rizzy-nonce"], [data-hx-ext*="ignore:rizzy-nonce"]'))
-                    .forEach((elt) => {
-                        elt.remove();
-                    });
+                try {
+                    var escape = document.createElement('textarea');
+                    escape.textContent = text;
 
-                // Select all <script> and <style> tags
-                const elements = doc.querySelectorAll("script, style, link");
+                    text = '<body><template>' + text + '</template></body>';
+                    doc = parser.parseFromString(text, "text/html");
 
-                // Iterate through each element
-                elements.forEach(elt => {
-                    const nonce = elt.getAttribute("nonce");
-                    if (nonce === newScriptNonce) {
-                        // Update the nonce attribute if it matches the existing one
-                        elt.setAttribute("nonce", documentNonce);
-                    } else {
-                        // Remove the element if the nonce doesn't match (or is missing)
-                        elt.remove();
+                    let frag = doc.querySelector("template").content;
+
+                    if (frag) {
+                        // Remove any attempts to disable rizzy-nonce extension
+                        Array.from(frag.querySelectorAll('[hx-ext*="ignore:rizzy-nonce"], [data-hx-ext*="ignore:rizzy-nonce"]'))
+                            .forEach((elt) => {
+                                elt.remove();
+                            });
+
+                        // Select all <script> and <style> tags
+                        const elements = frag.querySelectorAll("script, style, link");
+
+                        // Iterate through each element
+                        elements.forEach(elt => {
+                            const nonce = elt.getAttribute("nonce");
+                            if (nonce === newScriptNonce) {
+                                // Update the nonce attribute if it matches the existing one
+                                elt.setAttribute("nonce", documentNonce);
+                            } else {
+                                // Remove the element if the nonce doesn't match (or is missing)
+                                elt.remove();
+                            }
+                        });
+
+                        var container = document.createElement('body');
+                        container.appendChild(frag.cloneNode(true));
+
+                        // Serialize the document back into an HTML string and return it
+                        return container.outerHTML;
                     }
-                });
 
-                // Serialize the document back into an HTML string and return it
-                return doc.documentElement.outerHTML;
+                } catch (_) { }
+                {
+
+                }
+
+                return '';
+
             }
         });
 
