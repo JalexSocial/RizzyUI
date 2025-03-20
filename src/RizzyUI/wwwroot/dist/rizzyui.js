@@ -440,15 +440,34 @@ if (!document.__htmx_noncehandler) {
 ﻿/* RizzyUI JS */
 document.addEventListener('alpine:init', () => {
 
-        try {
+    try {
 
-            let v = new aspnetValidation.ValidationService();
-            v.bootstrap({ watch: true });
+        let v = new aspnetValidation.ValidationService();
+        v.bootstrap({ watch: true });
 
-            window.validation = v;
-        } catch (error) {
-            console.log("error: aspnetValidation is not available");
-        }
+        window.validation = v;
+    } catch (error) {
+        console.log("error: aspnetValidation is not available");
+    }
+
+    // Generate a unique bundle id for a set of script paths
+    async function generateBundleId(paths) {
+        paths = [...paths].sort();
+        const joinedPaths = paths.join('|');
+        const encoder = new TextEncoder();
+        const data = encoder.encode(joinedPaths);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        // Convert bytes to hex string
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function require(paths, callbackFn) {
+        generateBundleId(paths).then(bundleId => {
+            if (!loadjs.isDefined(bundleId)) loadjs(paths, bundleId);
+            loadjs.ready(bundleId, callbackFn);
+        });
+    }
 
         Alpine.data('rzAccordion', () => ({
             selected: '',
@@ -637,22 +656,19 @@ document.addEventListener('alpine:init', () => {
                         const scriptNonce = this.$el.dataset.scriptnonce;
                         const styleNonce = this.$el.dataset.stylenonce;
 
-                        loadjs(assets, {
-                            success: () => {
-                                // Ensure Highlight.js styles are applied after the script loads
-                                const codeBlock = document.getElementById(codeId);
+                        require(assets, {
+                                success: function() {
+                                    // Ensure Highlight.js styles are applied after the script loads
+                                    const codeBlock = document.getElementById(codeId);
 
-                                if (window.hljs && codeBlock) {
-                                    window.hljs.highlightElement(codeBlock);
+                                    if (window.hljs && codeBlock) {
+                                        window.hljs.highlightElement(codeBlock);
+                                    }
+                                },
+                                error: function() {
+                                    console.error('Failed to load Highlight.js');
                                 }
-                            },
-                            error: () => {
-                                console.error('Failed to load Highlight.js');
-                            },
-                            async: false,
-                            inlineScriptNonce: scriptNonce,
-                            inlineStyleNonce: styleNonce
-                        });
+                            });
                     },
                     notCopied() {
                         return !this.copied;
