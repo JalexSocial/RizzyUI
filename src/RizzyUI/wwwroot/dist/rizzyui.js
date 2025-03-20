@@ -367,46 +367,55 @@ if (!document.__htmx_noncehandler) {
                 return this.processUnsafeHtml(text, documentNonce, nonce);
             },
             processUnsafeHtml: function(text, documentNonce, newScriptNonce) {
-                // Parse the raw HTML string into an HTMLDocument
+                //const noncePattern = new RegExp(`(['"])${newScriptNonce}\\1`, 'gi');
+
+                // Replace any occurrences of the nonce provided by the server with
+                // the existing document nonce. Note that at minimum the server text originates
+                // from is same-origin and the newScriptNonce that is replaced is determined
+                // from response headers which are only available when processing the xmlHttpRequest
+                text = text.replaceAll(newScriptNonce, documentNonce);
+
                 const parser = new DOMParser();
-                let doc = null;
 
                 try {
-                    var escape = document.createElement('textarea');
-                    escape.textContent = text;
+                    // At this point any remaining elements that don't have the correct
+                    // nonce will cause console errors to be emitted. We are going to strip
+                    // out those elements and any attempts to block rizzy-nonce in the included markup.
+                    let doc = parser.parseFromString(text, "text/html");
 
-                    text = '<body><template>' + text + '</template></body>';
-                    doc = parser.parseFromString(text, "text/html");
-
-                    let frag = doc.querySelector("template").content;
-
-                    if (frag) {
+                    if (doc) {
                         // Remove any attempts to disable rizzy-nonce extension
-                        Array.from(frag.querySelectorAll('[hx-ext*="ignore:rizzy-nonce"], [data-hx-ext*="ignore:rizzy-nonce"]'))
+                        Array.from(doc.querySelectorAll('[hx-ext*="ignore:rizzy-nonce"], [data-hx-ext*="ignore:rizzy-nonce"]'))
                             .forEach((elt) => {
                                 elt.remove();
                             });
 
                         // Select all <script> and <style> tags
-                        const elements = frag.querySelectorAll("script, style, link");
+                        const elements = doc.querySelectorAll("script, style, link");
 
                         // Iterate through each element
                         elements.forEach(elt => {
                             const nonce = elt.getAttribute("nonce");
-                            if (nonce === newScriptNonce) {
-                                // Update the nonce attribute if it matches the existing one
-                                elt.setAttribute("nonce", documentNonce);
-                            } else {
+                            if (nonce !== documentNonce) {
                                 // Remove the element if the nonce doesn't match (or is missing)
                                 elt.remove();
                             }
                         });
 
-                        var container = document.createElement('body');
-                        container.appendChild(frag.cloneNode(true));
+                        const iframes = doc.querySelectorAll("iframe[srcdoc]");
+
+                        // Iterate through each element
+                        iframes.forEach(elt => {
+                            if (elt.srcdoc) {
+                                console.log(elt.srcdoc);
+                                elt.srcdoc = elt.srcdoc.replaceAll(newScriptNonce, documentNonce);
+                                console.log(elt.srcdoc);
+
+                            }
+                        });
 
                         // Serialize the document back into an HTML string and return it
-                        return container.outerHTML;
+                        return doc.documentElement.outerHTML;
                     }
 
                 } catch (_) { }
