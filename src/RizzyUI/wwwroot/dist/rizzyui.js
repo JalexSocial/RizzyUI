@@ -465,7 +465,7 @@ document.addEventListener('alpine:init', () => {
     function require(paths, callbackFn) {
         generateBundleId(paths).then(bundleId => {
             if (!loadjs.isDefined(bundleId)) loadjs(paths, bundleId);
-            loadjs.ready(bundleId, callbackFn);
+            loadjs.ready([bundleId], callbackFn);
         });
     }
 
