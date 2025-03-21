@@ -4,8 +4,7 @@
 
 <HtmlElement Element="div" @attributes="@AdditionalAttributes" class="@RootClass()"
              data-assets="@_assets"
-             data-scriptnonce="@Nonce"
-             data-stylenonce="@Nonce"
+             data-nonce="@Nonce"
              x-data="rzMarkdown">
     @OutputHtml
 </HtmlElement>

@@ -72,18 +72,6 @@ if (!document.__htmx_noncehandler) {
                             }
                         });
 
-                        const iframes = doc.querySelectorAll("iframe[srcdoc]");
-
-                        // Iterate through each element
-                        iframes.forEach(elt => {
-                            if (elt.srcdoc) {
-                                console.log(elt.srcdoc);
-                                elt.srcdoc = elt.srcdoc.replaceAll(newScriptNonce, documentNonce);
-                                console.log(elt.srcdoc);
-
-                            }
-                        });
-
                         // Serialize the document back into an HTML string and return it
                         return doc.documentElement.outerHTML;
                     }
