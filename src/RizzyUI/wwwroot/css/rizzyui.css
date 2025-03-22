@@ -63,6 +63,10 @@
     .prose-full { max-width: none; }
 }
 
+[x-cloak] {
+    display: none !important;
+}
+
 svg[blazicon] {
     width: 1em;
     height: 1em;

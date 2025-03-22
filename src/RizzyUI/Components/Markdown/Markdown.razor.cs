@@ -23,7 +23,8 @@ public partial class Markdown : RizzyComponent
     /// <summary>
     /// Pipeline to use with Markdown components
     /// </summary>
-    public static MarkdownPipeline? Pipeline { get; set; }
+    [Parameter]
+    public MarkdownPipeline? Pipeline { get; set; }
 
     /// <summary>
     /// Reference to the QuickReferenceContainer.
