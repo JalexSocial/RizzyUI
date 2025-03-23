@@ -25,7 +25,14 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
+        "@alpinejs/collapse": "^3.14.9",
+        "@alpinejs/focus": "^3.14.9",
+        "@alpinejs/intersect": "^3.14.9",
+        "@babel/preset-env": "^7.26.9",
         "@tailwindcss/cli": "^4.0.0",
+        "alpinejs": "^3.14.9",
+        "babel-loader": "^10.0.0",
+        "htmx.org": "^2.0.4",
         "postcss": "^8.5.1",
         "postcss-selector-parser": "^7.0.0",
         "repomix": "^0.2.24"

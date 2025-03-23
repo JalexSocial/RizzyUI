@@ -36,5 +36,37 @@ module.exports = [
         mode: 'production', // Enables minification and optimizations
         // Source maps are optional for minified bundle
         // devtool: 'source-map',
+    },
+
+    {
+        name: 'moduletest',
+        entry: path.resolve(__dirname, 'wwwroot/js/rizzy-test.js'),
+        output: {
+            filename: 'rizzy-test.js',
+            path: path.resolve(__dirname, 'wwwroot/dist/rizzyui'),
+        },
+        mode: 'development', // Enables unminified output
+        devtool: 'source-map', // Optional: Generates source maps for easier debugging
+        module: {
+            rules: [
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
+                    }
+                }
+            ]
+        },
+        resolve: {
+            extensions: ['.js'], // Automatically resolve these extensions
+            modules: ['node_modules'], // Allow imports from node_modules
+        },
+        experiments: {
+            outputModule: true,
+        }
     }
 ];
