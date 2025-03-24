@@ -3,6 +3,7 @@
 const path = require('path');
 
 module.exports = [
+    /*
     // Unminified Bundle Configuration
     {
         name: 'unminified',
@@ -37,12 +38,12 @@ module.exports = [
         // Source maps are optional for minified bundle
         // devtool: 'source-map',
     },
-
+    */
     {
-        name: 'moduletest',
-        entry: path.resolve(__dirname, 'wwwroot/js/rizzy-test.js'),
+        name: 'rizzyui-csp',
+        entry: path.resolve(__dirname, 'wwwroot/js/rizzyui-csp.js'),
         output: {
-            filename: 'rizzy-test.js',
+            filename: 'rizzyui-csp.js',
             path: path.resolve(__dirname, 'wwwroot/dist/rizzyui'),
         },
         mode: 'development', // Enables unminified output

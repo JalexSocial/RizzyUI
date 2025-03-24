@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@alpinejs/collapse": "^3.14.9",
+        "@alpinejs/csp": "^3.14.9",
         "@alpinejs/focus": "^3.14.9",
         "@alpinejs/intersect": "^3.14.9",
         "@babel/preset-env": "^7.26.9",
