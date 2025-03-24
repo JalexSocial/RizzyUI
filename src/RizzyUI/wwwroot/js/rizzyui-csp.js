@@ -2,13 +2,7 @@
 import collapse from '@alpinejs/collapse';
 import intersect from '@alpinejs/intersect';
 import focus from '@alpinejs/focus';
-import { ValidationService } from "./vendor/aspnet-validation/aspnet-validation";
 import registerComponents from './alpine/components.js';
-
-// Set up ASP.NET validation
-let validationService = new ValidationService();
-validationService.bootstrap({ watch: true });
-window.validation = validationService;
 
 // Register Alpine.js extensions
 Alpine.plugin(collapse);
