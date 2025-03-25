@@ -29,7 +29,7 @@
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>0.6.1-alpha</Version>
+        <Version>0.6.2-alpha</Version>
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
@@ -53,7 +53,7 @@
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Blazicons.Ionicons" Version="2.2.18" />
         <PackageReference Include="Markdig" Version="0.40.0" />
-        <PackageReference Include="Rizzy" Version="5.0.6" />
+        <PackageReference Include="Rizzy" Version="5.0.7" />
         <PackageReference Include="Blazicons" Version="2.1.30" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23" />
         <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
