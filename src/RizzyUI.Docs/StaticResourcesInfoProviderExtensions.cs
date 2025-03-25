@@ -95,6 +95,14 @@ public static class StaticResourcesInfoProviderExtensions
             Debug.WriteLine($"Processing {file}");
         }
 
+        var assembly = Assembly.GetAssembly(typeof(Rizzy.FragmentComponent)).Location;
+        string rizzyDirectory = Path.GetDirectoryName(assembly);
+        string folderPath = Path.Combine(rizzyDirectory, "wwwroot");
+        var allRizzyFiles = Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories)
+            .Select(f => f
+            .Replace(rizzyDirectory, string.Empty)
+            .Replace(Path.DirectorySeparatorChar, '/')); 
+
         string[] cssExts = [".css", ".scss"];
         string[] jsExts = [".js", ".json"];
 

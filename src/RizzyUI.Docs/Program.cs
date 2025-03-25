@@ -48,7 +48,7 @@ app.UseRizzy();
 
 app.MapRazorComponents<App>();
 
-#if !DEBUG
+//#if !DEBUG
 
 var ssgOutputPath = "../../docs";
 if (!Directory.Exists(ssgOutputPath))
@@ -56,6 +56,6 @@ if (!Directory.Exists(ssgOutputPath))
 
 app.GenerateStaticContent(ssgOutputPath, exitWhenDone: true);
 
-#endif
+//#endif
 
 app.Run();
