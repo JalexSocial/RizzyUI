@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics;
 using System.Reflection;
+using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using ThrowGuard;
 
 namespace RizzyUI.Docs;
@@ -74,10 +75,34 @@ public static class StaticResourcesInfoProviderExtensions
 
         var rizzyUIwebRootPath = Path.GetFullPath(Path.Combine(env.WebRootPath, @"..\..\RizzyUI\wwwroot".Replace('\\', Path.DirectorySeparatorChar)));
 
+        var webRootProvider = env.WebRootFileProvider;
+        var contents = webRootProvider.GetDirectoryContents("_content/Rizzy/dist");
+        
         AddWebResources(provider, env.WebRootPath, string.Empty);
         AddWebResources(provider, rizzyUIwebRootPath, "/_content/RizzyUI");
-
+        AddVirtualResources(provider, env, "/_content/RizzyUI/dist");
+        
         return provider;
+    }
+
+    private static void AddVirtualResources(StaticResourcesInfoProvider provider, IWebHostEnvironment env, string virtualPathPrefix)
+    {
+        var contents = env.WebRootFileProvider.GetDirectoryContents(virtualPathPrefix);
+        var allWebRootFiles = contents
+            .Where(f => f.IsDirectory == false)
+            .Select(f =>
+            {
+                var path = f.PhysicalPath;
+                return f.PhysicalPath;
+                    /*
+                    .Replace(webRootPath, string.Empty)
+                    .Replace(Path.DirectorySeparatorChar, '/');*/
+            });
+
+        foreach (var file in allWebRootFiles)
+        {
+            Debug.WriteLine($"Processing {file}");
+        }
     }
 
     private static void AddWebResources(StaticResourcesInfoProvider provider, string path, string virtualPathPrefix)
@@ -96,13 +121,16 @@ public static class StaticResourcesInfoProviderExtensions
         }
 
         var assembly = Assembly.GetAssembly(typeof(Rizzy.FragmentComponent)).Location;
+        /*
         string rizzyDirectory = Path.GetDirectoryName(assembly);
         string folderPath = Path.Combine(rizzyDirectory, "wwwroot");
         var allRizzyFiles = Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories)
             .Select(f => f
             .Replace(rizzyDirectory, string.Empty)
             .Replace(Path.DirectorySeparatorChar, '/')); 
-
+*/
+        
+        
         string[] cssExts = [".css", ".scss"];
         string[] jsExts = [".js", ".json"];
 
