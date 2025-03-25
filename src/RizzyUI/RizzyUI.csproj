@@ -89,8 +89,4 @@
         <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="wwwroot\dist\rizzyui\" />
-    </ItemGroup>
-
 </Project>
