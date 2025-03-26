@@ -44,6 +44,15 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+#if !DEBUG
+app.Use(async (context, next) =>
+{
+    context.Items["RizzyNonce"] = "abcdefghijklmnopqrstuvwxyz0123456789";
+    await next.Invoke();
+});
+#endif
+
 app.UseRizzy();
 
 app.MapRazorComponents<App>();
