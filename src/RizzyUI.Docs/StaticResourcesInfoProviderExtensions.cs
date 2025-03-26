@@ -72,15 +72,10 @@ public static class StaticResourcesInfoProviderExtensions
     {
         Throw.IfNull(provider);
         Throw.IfNull(env);
-
-        var rizzyUIwebRootPath = Path.GetFullPath(Path.Combine(env.WebRootPath, @"..\..\RizzyUI\wwwroot".Replace('\\', Path.DirectorySeparatorChar)));
-
-        var webRootProvider = env.WebRootFileProvider;
-        var contents = webRootProvider.GetDirectoryContents("_content/Rizzy/dist");
         
         AddWebResources(provider, env.WebRootPath, string.Empty);
-        AddWebResources(provider, rizzyUIwebRootPath, "/_content/RizzyUI");
-        AddVirtualResources(provider, env, "/_content/Rizzy/dist"); //"/_content/Rizzy/dist"
+        AddVirtualResources(provider, env, "/_content/RizzyUI");
+        AddVirtualResources(provider, env, "/_content/Rizzy/dist"); 
         
         return provider;
     }
@@ -115,7 +110,7 @@ public static class StaticResourcesInfoProviderExtensions
             ;
         
         provider.Add(allWebRootFiles
-                .Where(r => !string.IsNullOrEmpty(r) && cssExts.Contains(Path.GetExtension(r), comparer))
+                .Where(r => !string.IsNullOrEmpty(r) && jsExts.Contains(Path.GetExtension(r), comparer))
                 .Select(r => new JsResource($"{virtualPathPrefix}/{r}") { Route = $"{virtualPathPrefix}/{r}"}))
             ;
         
