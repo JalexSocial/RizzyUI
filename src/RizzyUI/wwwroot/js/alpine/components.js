@@ -259,9 +259,8 @@ export default function registerComponents(Alpine) {
                     },
                     error: function () {
                         console.error('Failed to load Highlight.js');
-                    },
-                    nonce
-                });
+                    }
+                }, nonce);
             },
             notCopied() {
                 return !this.copied;
@@ -331,9 +330,8 @@ export default function registerComponents(Alpine) {
                 },
                 error: function () {
                     console.error('Failed to load Flatpickr assets.');
-                },
-                nonce
-            });
+                }
+            }, nonce);
         }
     }));
 
@@ -544,9 +542,8 @@ export default function registerComponents(Alpine) {
                     },
                     error: function () {
                         console.error('Failed to load Highlight.js');
-                    },
-                    nonce
-                });
+                    }
+                }, nonce);
 
             }
         };

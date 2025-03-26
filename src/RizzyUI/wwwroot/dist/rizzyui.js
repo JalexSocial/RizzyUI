@@ -4934,9 +4934,8 @@ function registerComponents(Alpine) {
           },
           error: function error() {
             console.error('Failed to load Highlight.js');
-          },
-          nonce: nonce
-        });
+          }
+        }, nonce);
       },
       notCopied: function notCopied() {
         return !this.copied;
@@ -5006,9 +5005,8 @@ function registerComponents(Alpine) {
           },
           error: function error() {
             console.error('Failed to load Flatpickr assets.');
-          },
-          nonce: nonce
-        });
+          }
+        }, nonce);
       }
     };
   });
@@ -5235,9 +5233,8 @@ function registerComponents(Alpine) {
           },
           error: function error() {
             console.error('Failed to load Highlight.js');
-          },
-          nonce: nonce
-        });
+          }
+        }, nonce);
       }
     };
   });
