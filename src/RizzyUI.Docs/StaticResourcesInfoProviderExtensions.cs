@@ -80,7 +80,7 @@ public static class StaticResourcesInfoProviderExtensions
         
         AddWebResources(provider, env.WebRootPath, string.Empty);
         AddWebResources(provider, rizzyUIwebRootPath, "/_content/RizzyUI");
-        AddVirtualResources(provider, env, "/_content/RizzyUI/dist");
+        AddVirtualResources(provider, env, "/_content/Rizzy/dist"); //"/_content/Rizzy/dist"
         
         return provider;
     }
@@ -89,19 +89,47 @@ public static class StaticResourcesInfoProviderExtensions
     {
         var contents = env.WebRootFileProvider.GetDirectoryContents(virtualPathPrefix);
         var allWebRootFiles = contents
-            .Where(f => f.IsDirectory == false)
+            .Where(f => f is { IsDirectory: false, Exists: true })
             .Select(f =>
             {
                 var path = f.PhysicalPath;
-                return f.PhysicalPath;
-                    /*
-                    .Replace(webRootPath, string.Empty)
-                    .Replace(Path.DirectorySeparatorChar, '/');*/
-            });
+                return Path.GetFileName(f.PhysicalPath) ?? string.Empty;
+            }).ToList();
 
+        var directories = contents.Where(f => f.IsDirectory)
+            .Select(f => $"{virtualPathPrefix}/{f.Name}");
+
+        foreach (var directory in directories)
+        {
+            AddVirtualResources(provider, env, directory);    
+        }
+        
+        string[] cssExts = [".css", ".scss"];
+        string[] jsExts = [".js", ".js.map", ".json"];
+
+        var comparer = StringComparer.OrdinalIgnoreCase;
+
+        provider.Add(allWebRootFiles
+                .Where(r => !string.IsNullOrEmpty(r) && cssExts.Contains(Path.GetExtension(r), comparer))
+                .Select(r => new CssResource($"{virtualPathPrefix}/{r}") { Route = $"{virtualPathPrefix}/{r}" }))
+            ;
+        
+        provider.Add(allWebRootFiles
+                .Where(r => !string.IsNullOrEmpty(r) && cssExts.Contains(Path.GetExtension(r), comparer))
+                .Select(r => new JsResource($"{virtualPathPrefix}/{r}") { Route = $"{virtualPathPrefix}/{r}"}))
+            ;
+        
+        provider.Add(allWebRootFiles
+                .Where(r =>
+                    !cssExts.Contains(Path.GetExtension(r), comparer) &&
+                    !jsExts.Contains(Path.GetExtension(r), comparer)
+                )
+                .Select(r => new BinResource($"{virtualPathPrefix}/{r}") { Route = $"{virtualPathPrefix}/{r}" }))
+            ;
+        
         foreach (var file in allWebRootFiles)
         {
-            Debug.WriteLine($"Processing {file}");
+            Debug.WriteLine($"Processing {virtualPathPrefix}/{file}");
         }
     }
 
@@ -112,27 +140,16 @@ public static class StaticResourcesInfoProviderExtensions
                 .GetFiles(webRootPath, "*.*", SearchOption.AllDirectories)
                 .Select(f => f
                     .Replace(webRootPath, string.Empty)
-                    .Replace(Path.DirectorySeparatorChar, '/'))
+                    .Replace(Path.DirectorySeparatorChar, '/')).ToList();
             ;
 
         foreach (var file in allWebRootFiles)
         {
             Debug.WriteLine($"Processing {file}");
         }
-
-        var assembly = Assembly.GetAssembly(typeof(Rizzy.FragmentComponent)).Location;
-        /*
-        string rizzyDirectory = Path.GetDirectoryName(assembly);
-        string folderPath = Path.Combine(rizzyDirectory, "wwwroot");
-        var allRizzyFiles = Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories)
-            .Select(f => f
-            .Replace(rizzyDirectory, string.Empty)
-            .Replace(Path.DirectorySeparatorChar, '/')); 
-*/
-        
         
         string[] cssExts = [".css", ".scss"];
-        string[] jsExts = [".js", ".json"];
+        string[] jsExts = [".js", ".js.map", ".json"];
 
         var comparer = StringComparer.OrdinalIgnoreCase;
 
