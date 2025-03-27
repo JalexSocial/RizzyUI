@@ -2244,12 +2244,6 @@
     --tw-gradient-to: var(--color-pink-500);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position,) var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
-  .fill-\[\#0095FF\] {
-    fill: #0095FF;
-  }
-  .fill-\[\#00FF3C\] {
-    fill: #00FF3C;
-  }
   .fill-black {
     fill: var(--color-black);
   }
@@ -2798,10 +2792,6 @@
     --tw-duration: 300ms;
     transition-duration: 300ms;
   }
-  .duration-500 {
-    --tw-duration: 500ms;
-    transition-duration: 500ms;
-  }
   .duration-700 {
     --tw-duration: 700ms;
     transition-duration: 700ms;
@@ -2823,12 +2813,6 @@
   }
   .\!\[a-zA-Z\:_\] {
     a-zA-Z:   !important;
-  }
-  .\[clip-rule\:evenodd\] {
-    clip-rule: evenodd;
-  }
-  .\[fill-rule\:evenodd\] {
-    fill-rule: evenodd;
   }
   .select-none {
     -webkit-user-select: none;
