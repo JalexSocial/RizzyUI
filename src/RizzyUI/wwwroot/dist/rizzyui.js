@@ -5960,7 +5960,6 @@ alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].plugin(_alpinejs_focus__WEBPACK
 (0,_alpine_components_js__WEBPACK_IMPORTED_MODULE_4__["default"])(alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"]);
 window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"];
 alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].start();
-console.log("Rizzy UI Loaded");
 })();
 
 
