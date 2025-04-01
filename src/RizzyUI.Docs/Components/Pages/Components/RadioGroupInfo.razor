@@ -1,0 +1,392 @@
+@page "/components/radiogroup"
+@namespace RizzyUI.Pages
+
+@using System.Linq.Expressions
+@using Rizzy.Components
+@using RizzyUI
+@using RizzyUI.Extensions
+@using Blazicons
+@using RizzyUI.Docs.Models
+@inherits RizzyComponent
+
+<PageTitle>RadioGroup and RadioGroupField</PageTitle>
+
+<QuickReferenceContainer>
+    <Article ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <QuickReference />
+        </SideContent>
+        <MainContent>
+            <!-- Page Title and Overview -->
+            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
+                RadioGroup and RadioGroupField
+            </Heading>
+            <Paragraph>
+                The <code>RadioGroup</code> component enables users to select **one** option from a group of radio buttons, with support for model binding and validation. The <code>RadioGroupField</code> component extends this functionality by wrapping <code>RadioGroup</code> within a complete form field experience, including a label, help text, and validation messages. These are typically used within an <code>EditForm</code>.
+            </Paragraph>
+
+            <Alert Variant="AlertVariant.Information" Pulse>
+                <AlertTitle>Special Note</AlertTitle>
+                <AlertDescription>RizzyUI form controls depend on the Rizzy library for form control support. RizzyUI form controls provide client-side data annotations validation. <Link Href="https://jalexsocial.github.io/rizzy.docs/docs/forms/overview/" target="_blank">Click here for specific Rizzy form control documentation.</Link></AlertDescription>
+            </Alert>
+
+            <!-- Example 1: RadioGroup Usage -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="RadioGroup Example" class="scroll-mt-20">
+                    RadioGroup Example
+                </Heading>
+                <Paragraph>
+                    In the example below, an <code>EditForm</code> is used with a <code>RadioGroup</code> to capture the user's preferred contact method. The <code>PreferredContactMethod</code> property of the <code>Customer</code> model is utilized for binding. Note how only one option can be selected.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-5">
+                        <EditForm Model="Model" class="form-children-spacing">
+                            <DataAnnotationsValidator/>
+                            <InitialValidator/>
+                            <RzValidationSummary/>
+
+                            <RadioGroup TValue="string" For="@(() => Model.PreferredContactMethod)" Orientation="Orientation.Vertical">
+                                <RadioGroupItem TValue="string" Value="@("email")" Label="Email" />
+                                <RadioGroupItem TValue="string" Value="@("phone")" Label="Phone" />
+                                <RadioGroupItem TValue="string" Value="@("text")" Label="Text Message" />
+                            </RadioGroup>
+                        </EditForm>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                    &lt;EditForm Model=&quot;Model&quot; class=&quot;form-children-spacing&quot;&gt;
+                    &lt;DataAnnotationsValidator/&gt;
+                    &lt;InitialValidator/&gt;
+                    &lt;RzValidationSummary/&gt;
+
+                    &lt;RadioGroup TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.PreferredContactMethod)&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;
+                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;email&quot;)&quot; Label=&quot;Email&quot; /&gt;
+                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;phone&quot;)&quot; Label=&quot;Phone&quot; /&gt;
+                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;text&quot;)&quot; Label=&quot;Text Message&quot; /&gt;
+                    &lt;/RadioGroup&gt;
+                    &lt;/EditForm&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Example 2: RadioGroupField Usage -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="RadioGroupField Example" class="scroll-mt-20">
+                    RadioGroupField Example
+                </Heading>
+                <Paragraph>
+                    The <code>RadioGroupField</code> component encapsulates a complete form field experience by combining a label, the radio button group, help text, and validation messages. The example below demonstrates its usage with the <code>Gender</code> property of the <code>Customer</code> model, using a horizontal layout.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-5">
+                        <EditForm Model="Model" class="form-children-spacing">
+                            <RzValidationSummary/>
+                            <RadioGroupField TValue="string" For="@(() => Model.Gender)" DisplayName="Select Gender" Orientation="Orientation.Horizontal">
+                                <RadioGroupContent>
+                                    <RadioGroupItem TValue="string" Value="@("female")" Label="Female" />
+                                    <RadioGroupItem TValue="string" Value="@("male")" Label="Male" />
+                                    <RadioGroupItem TValue="string" Value="@("other")" Label="Other" />
+                                    <RadioGroupItem TValue="string" Value="@("prefer_not_to_say")" Label="Prefer not to say" />
+                                </RadioGroupContent>
+                                <FieldHelp>Select the option that best describes you.</FieldHelp>
+                            </RadioGroupField>
+                        </EditForm>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                    &lt;EditForm Model=&quot;Model&quot; class=&quot;form-children-spacing&quot;&gt;
+                    &lt;RzValidationSummary/&gt;
+                    &lt;RadioGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.Gender)&quot; DisplayName=&quot;Select Gender&quot; Orientation=&quot;Orientation.Horizontal&quot;&gt;
+                    &lt;RadioGroupContent&gt;
+                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;female&quot;)&quot; Label=&quot;Female&quot; /&gt;
+                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;male&quot;)&quot; Label=&quot;Male&quot; /&gt;
+                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;other&quot;)&quot; Label=&quot;Other&quot; /&gt;
+                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;prefer_not_to_say&quot;)&quot; Label=&quot;Prefer not to say&quot; /&gt;
+                    &lt;/RadioGroupContent&gt;
+                    &lt;FieldHelp&gt;Select the option that best describes you.&lt;/FieldHelp&gt;
+                    &lt;/RadioGroupField&gt;
+                    &lt;/EditForm&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Example 3: RadioGroupItem with Description and Icon -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="RadioGroupItem Customization" class="scroll-mt-20">
+                    RadioGroupItem Customization (Description & Icon)
+                </Heading>
+                <Paragraph>
+                    The <code>RadioGroupItem</code> can include a <code>Description</code> and an <code>Icon</code> for richer presentation, as shown below within a <code>RadioGroupField</code>.
+                </Paragraph>
+
+                <Browser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-5">
+                        <EditForm Model="Model" class="form-children-spacing">
+                            <RzValidationSummary/>
+                            <RadioGroupField TValue="string" For="@(() => Model.PreferredContactMethod)" DisplayName="Contact Preference" Orientation="Orientation.Vertical">
+                                <RadioGroupContent>
+                                    <RadioGroupItem TValue="string" Value="@("email")" Label="Email" Icon="MdiIcon.EmailOutline">
+                                        <Description>Receive updates via email.</Description>
+                                    </RadioGroupItem>
+                                    <RadioGroupItem TValue="string" Value="@("phone")" Label="Phone" Icon="MdiIcon.PhoneOutline">
+                                        <Description>Receive calls on your phone.</Description>
+                                    </RadioGroupItem>
+                                    <RadioGroupItem TValue="string" Value="@("text")" Label="Text Message" Icon="MdiIcon.MessageTextOutline">
+                                        <Description>Receive SMS notifications.</Description>
+                                    </RadioGroupItem>
+                                </RadioGroupContent>
+                                <FieldHelp>How would you like us to contact you?</FieldHelp>
+                            </RadioGroupField>
+                        </EditForm>
+                    </div>
+                </Browser>
+
+                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                    &lt;EditForm Model=&quot;Model&quot; class=&quot;form-children-spacing&quot;&gt;
+                    &lt;RzValidationSummary/&gt;
+                    &lt;RadioGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.PreferredContactMethod)&quot; DisplayName=&quot;Contact Preference&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;
+                    &lt;RadioGroupContent&gt;
+                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;email&quot;)&quot; Label=&quot;Email&quot; Icon=&quot;MdiIcon.EmailOutline&quot;&gt;
+                    &lt;Description&gt;Receive updates via email.&lt;/Description&gt;
+                    &lt;/RadioGroupItem&gt;
+                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;phone&quot;)&quot; Label=&quot;Phone&quot; Icon=&quot;MdiIcon.PhoneOutline&quot;&gt;
+                    &lt;Description&gt;Receive calls on your phone.&lt;/Description&gt;
+                    &lt;/RadioGroupItem&gt;
+                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;text&quot;)&quot; Label=&quot;Text Message&quot; Icon=&quot;MdiIcon.MessageTextOutline&quot;&gt;
+                    &lt;Description&gt;Receive SMS notifications.&lt;/Description&gt;
+                    &lt;/RadioGroupItem&gt;
+                    &lt;/RadioGroupContent&gt;
+                    &lt;FieldHelp&gt;How would you like us to contact you?&lt;/FieldHelp&gt;
+                    &lt;/RadioGroupField&gt;
+                    &lt;/EditForm&gt;
+                </CodeViewer>
+            </section>
+
+            <!-- Customer Model Reference -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Customer Model" class="scroll-mt-20">
+                    Customer Model Reference
+                </Heading>
+                <Paragraph>
+                    The following code defines the sample <code>Customer</code> model used in these examples:
+                </Paragraph>
+                <CodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
+                    @* Replaced with the actual C# code for Customer model *@
+                    using System.ComponentModel.DataAnnotations;
+
+                    namespace RizzyUI.Docs.Models;
+
+                    /// &lt;summary&gt;
+                    /// Represents a customer with personal and contact information.
+                    /// &lt;/summary&gt;
+                    public class Customer
+                    {
+                    /// &lt;summary&gt;
+                    /// Gets or sets the unique identifier for the customer.
+                    /// &lt;/summary&gt;
+                    public int CustomerId { get; set; } = 1234;
+
+                    /// &lt;summary&gt;
+                    /// Gets or sets the full name of the customer.
+                    /// &lt;/summary&gt;
+                    [MaxLength(10)]
+                    public string Name { get; set; } = &quot;Jane Johnson&quot;;
+
+                    /// &lt;summary&gt;
+                    /// Gets or sets the email address of the customer.
+                    /// &lt;/summary&gt;
+                    public string Email { get; set; } = &quot;johnsonj@gmail.com&quot;;
+
+                    /// &lt;summary&gt;
+                    /// Gets or sets the phone number of the customer.
+                    /// &lt;/summary&gt;
+                    public string PhoneNumber { get; set; } = &quot;555-555-5555&quot;;
+
+                    /// &lt;summary&gt;
+                    /// Gets or sets the age of the customer.
+                    /// &lt;/summary&gt;
+                    public int Age { get; set; } = 29;
+
+                    /// &lt;summary&gt;
+                    /// Gets or sets a value indicating whether the customer is active.
+                    /// &lt;/summary&gt;
+                    public bool IsActive { get; set; } = true;
+
+                    /// &lt;summary&gt;
+                    /// Gets or sets the gender of the customer.
+                    /// &lt;/summary&gt;
+                    public string Gender { get; set; } = &quot;female&quot;;
+
+                    /// &lt;summary&gt;
+                    /// Gets or sets the preferred method of contact for the customer.
+                    /// &lt;/summary&gt;
+                    public string PreferredContactMethod { get; set; } = &quot;email&quot;;
+
+                    /// &lt;summary&gt;
+                    /// Gets or sets the birth date of the customer.
+                    /// &lt;/summary&gt;
+                    public DateTime BirthDate { get; set; } = DateTime.Now.AddYears(-29).AddMonths(3).AddDays(9);
+
+                    /// &lt;summary&gt;
+                    /// Gets or sets the interests of the customer.
+                    /// This property is used to demonstrate the checkbox group components.
+                    /// &lt;/summary&gt;
+                    public List&lt;string&gt; Interests { get; set; } = new List&lt;string&gt; { &quot;Sports&quot; };
+                    }
+                </CodeViewer>
+            </section>
+
+            <!-- Parameters Table: RadioGroup -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="RadioGroup Parameters" class="scroll-mt-20">
+                    RadioGroup Component Parameters
+                </Heading>
+                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
+                    <thead>
+                    <tr class="bg-surface-alt ">
+                        <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong ">Property</th>
+                        <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong ">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>For</strong></td>
+                        <td class="text-base p-4"><em>Expression&lt;Func&lt;TValue&gt;&gt;</em> – Specifies the field the radio group is bound to. (Required)</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>Value</strong></td>
+                        <td class="text-base p-4"><em>TValue?</em> – The currently selected value of the radio group.</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>ValueChanged</strong></td>
+                        <td class="text-base p-4"><em>EventCallback&lt;TValue&gt;</em> – Callback invoked when the selected value changes.</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>Name</strong></td>
+                        <td class="text-base p-4"><em>string</em> – The name attribute shared by all radio buttons in the group.</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>Orientation</strong></td>
+                        <td class="text-base p-4"><em>Orientation</em> – Controls the layout direction (Vertical or Horizontal). (Default: Vertical)</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>CheckboxIcon</strong></td>
+                        <td class="text-base p-4"><em>SvgIcon</em> – The icon displayed inside the selected radio button. (Default: MdiIcon.CheckboxMarkedCircle)</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
+                        <td class="text-base p-4"><em>RenderFragment</em> – Contains the <code>RadioGroupItem</code> components.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Parameters Table: RadioGroupField -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="RadioGroupField Parameters" class="scroll-mt-20">
+                    RadioGroupField Component Parameters
+                </Heading>
+                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
+                    <thead>
+                    <tr class="bg-surface-alt ">
+                        <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong ">Property</th>
+                        <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong ">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>For</strong></td>
+                        <td class="text-base p-4"><em>Expression&lt;Func&lt;TValue&gt;&gt;</em> – Specifies the field the radio group is bound to. (Required)</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>Value</strong></td>
+                        <td class="text-base p-4"><em>TValue?</em> – The currently selected value of the radio group.</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>ValueChanged</strong></td>
+                        <td class="text-base p-4"><em>EventCallback&lt;TValue&lt;</em> – Callback invoked when the selected value changes.</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>DisplayName</strong></td>
+                        <td class="text-base p-4"><em>string?</em> – The text displayed in the field's label. If not set, it's inferred from the `For` expression.</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>Name</strong></td>
+                        <td class="text-base p-4"><em>string</em> – The name attribute shared by all radio buttons in the group.</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>Orientation</strong></td>
+                        <td class="text-base p-4"><em>Orientation</em> – Controls the layout direction (Vertical or Horizontal). (Default: Vertical)</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>CheckboxIcon</strong></td>
+                        <td class="text-base p-4"><em>SvgIcon</em> – The icon displayed inside the selected radio button. (Default: MdiIcon.CheckboxMarkedCircle)</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>RadioGroupContent</strong></td>
+                        <td class="text-base p-4"><em>RenderFragment</em> – Contains the <code>RadioGroupItem</code> components. (Use this instead of ChildContent)</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>FieldHelp</strong></td>
+                        <td class="text-base p-4"><em>RenderFragment?</em> – Optional content displayed below the radio group to provide help or context.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Parameters Table: RadioGroupItem -->
+            <section class="my-8 py-2">
+                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="RadioGroupItem Parameters" class="scroll-mt-20">
+                    RadioGroupItem Component Parameters
+                </Heading>
+                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
+                    <thead>
+                    <tr class="bg-surface-alt ">
+                        <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong ">Property</th>
+                        <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong ">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>Value</strong></td>
+                        <td class="text-base p-4"><em>TValue?</em> – The specific value this radio button represents.</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>Label</strong></td>
+                        <td class="text-base p-4"><em>string</em> – The text label displayed next to the radio button. (Required)</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>Icon</strong></td>
+                        <td class="text-base p-4"><em>SvgIcon?</em> – An optional icon displayed next to the label.</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>Description</strong></td>
+                        <td class="text-base p-4"><em>RenderFragment?</em> – Optional additional content displayed below the label for more context.</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
+                        <td class="text-base p-4"><em>RenderFragment?</em> – Optional content rendered within the item's structure, often alongside the Description.</td>
+                    </tr>
+                    <tr>
+                        <td class="text-base p-4 text-center"><strong>Id</strong></td>
+                        <td class="text-base p-4"><em>string</em> – The unique ID for the radio input element. Auto-generated if not provided.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </MainContent>
+    </Article>
+</QuickReferenceContainer>
+
+@code {
+    private Customer Model = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model = new(); // Ensure model is initialized
+    }
+}
