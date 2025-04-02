@@ -1,5 +1,4 @@
-﻿import Alpine from 'alpinejs';
-import loadjs from "../vendor/loadjs/loadjs";
+﻿import loadjs from "../vendor/loadjs/loadjs";
 
 // --------------------------------------------------------------------------------
 // Utility: Generate a unique bundle ID based on an array of script paths.
@@ -38,15 +37,7 @@ function require(paths, callbackFn, nonce) {
     });
 }
 
-export default function registerComponents(Alpine) {
-
-// --------------------------------------------------------------------------------
-// Alpine.js component: rzEmpty
-// Empty component to prevent CSP errors if defining x-data on it's own without a
-    // parameter
-// --------------------------------------------------------------------------------
-    Alpine.data('rzEmpty', () => {
-    });
+function registerComponents(Alpine) {
 
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzAccordion
@@ -98,71 +89,7 @@ export default function registerComponents(Alpine) {
             return open ? "rotate-180" : "";
         }
     }));
-
-// --------------------------------------------------------------------------------
-// Alpine.js component: rzDarkModeToggle
-// This component toggles between light and dark themes.
-// It reads the stored mode, applies the theme, and listens for OS-level changes.
-// --------------------------------------------------------------------------------
-    Alpine.data('rzDarkModeToggle', () => ({
-        mode: 'light',
-        init() {
-            const allowedModes = ['light', 'dark', 'auto'];
-            let storedMode = localStorage.getItem('darkMode') ?? 'auto';
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            // Validate stored mode against allowed values
-            if (!allowedModes.includes(storedMode)) {
-                storedMode = 'light';
-            }
-            localStorage.setItem('darkMode', storedMode);
-
-            // Function to apply the theme based on stored mode and OS preference
-            const applyTheme = () => {
-                document.documentElement.classList.toggle('dark',
-                    storedMode === 'dark' || (storedMode === 'auto' && prefersDark));
-            };
-            applyTheme();
-
-            // Listen for OS-level color scheme changes to reapply the theme
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
-        },
-        // Returns true if dark mode should be active
-        isDark() {
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            var storedMode = localStorage.getItem('darkMode');
-            return this.mode === 'dark' || (this.mode === 'auto' && prefersDark);
-        },
-        // Returns true if light mode should be active
-        isLight() {
-            return !this.isDark();
-        },
-        // Toggle the dark mode setting and dispatch a custom event
-        toggle() {
-            let storedMode = localStorage.getItem('darkMode');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            if (storedMode === 'light')
-                storedMode = 'dark';
-            else if (storedMode === 'dark')
-                storedMode = 'light';
-            else if (storedMode === 'auto') {
-                storedMode = prefersDark ? 'light' : 'dark';
-            }
-
-            localStorage.setItem('darkMode', storedMode);
-            this.mode = storedMode;
-
-            const isDark = storedMode === 'dark' || (storedMode === 'auto' && prefersDark);
-            document.documentElement.classList.toggle('dark', isDark);
-
-            const darkModeEvent = new CustomEvent('darkModeToggle', {
-                detail: {darkMode: isDark}
-            });
-            window.dispatchEvent(darkModeEvent);
-        }
-    }));
-
+    
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzAlert
 // This component manages an alert's visibility and provides a dismiss method.
@@ -454,6 +381,70 @@ export default function registerComponents(Alpine) {
     }));
 
 // --------------------------------------------------------------------------------
+// Alpine.js component: rzDarkModeToggle
+// This component toggles between light and dark themes.
+// It reads the stored mode, applies the theme, and listens for OS-level changes.
+// --------------------------------------------------------------------------------
+    Alpine.data('rzDarkModeToggle', () => ({
+        mode: 'light',
+        init() {
+            const allowedModes = ['light', 'dark', 'auto'];
+            let storedMode = localStorage.getItem('darkMode') ?? 'auto';
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            // Validate stored mode against allowed values
+            if (!allowedModes.includes(storedMode)) {
+                storedMode = 'light';
+            }
+            localStorage.setItem('darkMode', storedMode);
+
+            // Function to apply the theme based on stored mode and OS preference
+            const applyTheme = () => {
+                document.documentElement.classList.toggle('dark',
+                    storedMode === 'dark' || (storedMode === 'auto' && prefersDark));
+            };
+            applyTheme();
+
+            // Listen for OS-level color scheme changes to reapply the theme
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+        },
+        // Returns true if dark mode should be active
+        isDark() {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var storedMode = localStorage.getItem('darkMode');
+            return this.mode === 'dark' || (this.mode === 'auto' && prefersDark);
+        },
+        // Returns true if light mode should be active
+        isLight() {
+            return !this.isDark();
+        },
+        // Toggle the dark mode setting and dispatch a custom event
+        toggle() {
+            let storedMode = localStorage.getItem('darkMode');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (storedMode === 'light')
+                storedMode = 'dark';
+            else if (storedMode === 'dark')
+                storedMode = 'light';
+            else if (storedMode === 'auto') {
+                storedMode = prefersDark ? 'light' : 'dark';
+            }
+
+            localStorage.setItem('darkMode', storedMode);
+            this.mode = storedMode;
+
+            const isDark = storedMode === 'dark' || (storedMode === 'auto' && prefersDark);
+            document.documentElement.classList.toggle('dark', isDark);
+
+            const darkModeEvent = new CustomEvent('darkModeToggle', {
+                detail: {darkMode: isDark}
+            });
+            window.dispatchEvent(darkModeEvent);
+        }
+    }));
+    
+// --------------------------------------------------------------------------------
 // Alpine.js component: rzEmbeddedPreview
 // Manages an iframe preview and adjusts its height dynamically.
 // It also passes dark mode settings to the iframe via postMessage.
@@ -525,6 +516,43 @@ export default function registerComponents(Alpine) {
         };
     });
 
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzEmpty
+// Empty component to prevent CSP errors if defining x-data on it's own without a
+// parameter
+// --------------------------------------------------------------------------------
+    Alpine.data('rzEmpty', () => {
+    });
+    
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzHeading
+// Observes heading elements to automatically update the current heading in the quick-reference.
+// --------------------------------------------------------------------------------
+    Alpine.data('rzHeading', () => {
+        return {
+            observer: null,
+            init() {
+                if (typeof this.setCurrentHeading === 'function') {
+                    const callback = (entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                this.setCurrentHeading(this.$el.id);
+                            }
+                        });
+                    };
+                    const options = {threshold: 0.5};
+                    this.observer = new IntersectionObserver(callback, options);
+                    // Begin observing the heading element
+                    this.observer.observe(this.$el);
+                }
+            },
+            destroy() {
+                if (this.observer != null)
+                    this.observer.disconnect();
+            }
+        };
+    });
+    
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzMarkdown
 // Initializes Markdown rendering with syntax highlighting.
@@ -835,33 +863,6 @@ export default function registerComponents(Alpine) {
         };
     });
 
-// --------------------------------------------------------------------------------
-// Alpine.js component: rzHeading
-// Observes heading elements to automatically update the current heading in the quick-reference.
-// --------------------------------------------------------------------------------
-    Alpine.data('rzHeading', () => {
-        return {
-            observer: null,
-            init() {
-                if (typeof this.setCurrentHeading === 'function') {
-                    const callback = (entries, observer) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                this.setCurrentHeading(this.$el.id);
-                            }
-                        });
-                    };
-                    const options = {threshold: 0.5};
-                    this.observer = new IntersectionObserver(callback, options);
-                    // Begin observing the heading element
-                    this.observer.observe(this.$el);
-                }
-            },
-            destroy() {
-                if (this.observer != null)
-                    this.observer.disconnect();
-            }
-        };
-    });
-
 }
+
+export { registerComponents, require };

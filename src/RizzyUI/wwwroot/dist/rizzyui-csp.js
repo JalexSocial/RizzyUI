@@ -8109,7 +8109,8 @@ var module_default = src_default;
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ registerComponents)
+/* harmony export */   registerComponents: () => (/* binding */ registerComponents),
+/* harmony export */   require: () => (/* binding */ require)
 /* harmony export */ });
 /* harmony import */ var alpinejs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/module.esm.js");
 /* harmony import */ var _vendor_loadjs_loadjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../vendor/loadjs/loadjs */ "./wwwroot/js/vendor/loadjs/loadjs.js");
@@ -8180,13 +8181,6 @@ function require(paths, callbackFn, nonce) {
 }
 function registerComponents(Alpine) {
   // --------------------------------------------------------------------------------
-  // Alpine.js component: rzEmpty
-  // Empty component to prevent CSP errors if defining x-data on it's own without a
-  // parameter
-  // --------------------------------------------------------------------------------
-  Alpine.data('rzEmpty', function () {});
-
-  // --------------------------------------------------------------------------------
   // Alpine.js component: rzAccordion
   // This component manages the overall accordion container.
   // --------------------------------------------------------------------------------
@@ -8237,66 +8231,6 @@ function registerComponents(Alpine) {
       // Computed getter for the icon rotation class (rotates icon 180° when open)
       iconRotation: function iconRotation() {
         return open ? "rotate-180" : "";
-      }
-    };
-  });
-
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzDarkModeToggle
-  // This component toggles between light and dark themes.
-  // It reads the stored mode, applies the theme, and listens for OS-level changes.
-  // --------------------------------------------------------------------------------
-  Alpine.data('rzDarkModeToggle', function () {
-    return {
-      mode: 'light',
-      init: function init() {
-        var _localStorage$getItem;
-        var allowedModes = ['light', 'dark', 'auto'];
-        var storedMode = (_localStorage$getItem = localStorage.getItem('darkMode')) !== null && _localStorage$getItem !== void 0 ? _localStorage$getItem : 'auto';
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        // Validate stored mode against allowed values
-        if (!allowedModes.includes(storedMode)) {
-          storedMode = 'light';
-        }
-        localStorage.setItem('darkMode', storedMode);
-
-        // Function to apply the theme based on stored mode and OS preference
-        var applyTheme = function applyTheme() {
-          document.documentElement.classList.toggle('dark', storedMode === 'dark' || storedMode === 'auto' && prefersDark);
-        };
-        applyTheme();
-
-        // Listen for OS-level color scheme changes to reapply the theme
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
-      },
-      // Returns true if dark mode should be active
-      isDark: function isDark() {
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var storedMode = localStorage.getItem('darkMode');
-        return this.mode === 'dark' || this.mode === 'auto' && prefersDark;
-      },
-      // Returns true if light mode should be active
-      isLight: function isLight() {
-        return !this.isDark();
-      },
-      // Toggle the dark mode setting and dispatch a custom event
-      toggle: function toggle() {
-        var storedMode = localStorage.getItem('darkMode');
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (storedMode === 'light') storedMode = 'dark';else if (storedMode === 'dark') storedMode = 'light';else if (storedMode === 'auto') {
-          storedMode = prefersDark ? 'light' : 'dark';
-        }
-        localStorage.setItem('darkMode', storedMode);
-        this.mode = storedMode;
-        var isDark = storedMode === 'dark' || storedMode === 'auto' && prefersDark;
-        document.documentElement.classList.toggle('dark', isDark);
-        var darkModeEvent = new CustomEvent('darkModeToggle', {
-          detail: {
-            darkMode: isDark
-          }
-        });
-        window.dispatchEvent(darkModeEvent);
       }
     };
   });
@@ -8593,6 +8527,66 @@ function registerComponents(Alpine) {
   });
 
   // --------------------------------------------------------------------------------
+  // Alpine.js component: rzDarkModeToggle
+  // This component toggles between light and dark themes.
+  // It reads the stored mode, applies the theme, and listens for OS-level changes.
+  // --------------------------------------------------------------------------------
+  Alpine.data('rzDarkModeToggle', function () {
+    return {
+      mode: 'light',
+      init: function init() {
+        var _localStorage$getItem;
+        var allowedModes = ['light', 'dark', 'auto'];
+        var storedMode = (_localStorage$getItem = localStorage.getItem('darkMode')) !== null && _localStorage$getItem !== void 0 ? _localStorage$getItem : 'auto';
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // Validate stored mode against allowed values
+        if (!allowedModes.includes(storedMode)) {
+          storedMode = 'light';
+        }
+        localStorage.setItem('darkMode', storedMode);
+
+        // Function to apply the theme based on stored mode and OS preference
+        var applyTheme = function applyTheme() {
+          document.documentElement.classList.toggle('dark', storedMode === 'dark' || storedMode === 'auto' && prefersDark);
+        };
+        applyTheme();
+
+        // Listen for OS-level color scheme changes to reapply the theme
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+      },
+      // Returns true if dark mode should be active
+      isDark: function isDark() {
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var storedMode = localStorage.getItem('darkMode');
+        return this.mode === 'dark' || this.mode === 'auto' && prefersDark;
+      },
+      // Returns true if light mode should be active
+      isLight: function isLight() {
+        return !this.isDark();
+      },
+      // Toggle the dark mode setting and dispatch a custom event
+      toggle: function toggle() {
+        var storedMode = localStorage.getItem('darkMode');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (storedMode === 'light') storedMode = 'dark';else if (storedMode === 'dark') storedMode = 'light';else if (storedMode === 'auto') {
+          storedMode = prefersDark ? 'light' : 'dark';
+        }
+        localStorage.setItem('darkMode', storedMode);
+        this.mode = storedMode;
+        var isDark = storedMode === 'dark' || storedMode === 'auto' && prefersDark;
+        document.documentElement.classList.toggle('dark', isDark);
+        var darkModeEvent = new CustomEvent('darkModeToggle', {
+          detail: {
+            darkMode: isDark
+          }
+        });
+        window.dispatchEvent(darkModeEvent);
+      }
+    };
+  });
+
+  // --------------------------------------------------------------------------------
   // Alpine.js component: rzEmbeddedPreview
   // Manages an iframe preview and adjusts its height dynamically.
   // It also passes dark mode settings to the iframe via postMessage.
@@ -8680,6 +8674,44 @@ function registerComponents(Alpine) {
   });
 
   // --------------------------------------------------------------------------------
+  // Alpine.js component: rzEmpty
+  // Empty component to prevent CSP errors if defining x-data on it's own without a
+  // parameter
+  // --------------------------------------------------------------------------------
+  Alpine.data('rzEmpty', function () {});
+
+  // --------------------------------------------------------------------------------
+  // Alpine.js component: rzHeading
+  // Observes heading elements to automatically update the current heading in the quick-reference.
+  // --------------------------------------------------------------------------------
+  Alpine.data('rzHeading', function () {
+    return {
+      observer: null,
+      init: function init() {
+        var _this4 = this;
+        if (typeof this.setCurrentHeading === 'function') {
+          var callback = function callback(entries, observer) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                _this4.setCurrentHeading(_this4.$el.id);
+              }
+            });
+          };
+          var options = {
+            threshold: 0.5
+          };
+          this.observer = new IntersectionObserver(callback, options);
+          // Begin observing the heading element
+          this.observer.observe(this.$el);
+        }
+      },
+      destroy: function destroy() {
+        if (this.observer != null) this.observer.disconnect();
+      }
+    };
+  });
+
+  // --------------------------------------------------------------------------------
   // Alpine.js component: rzMarkdown
   // Initializes Markdown rendering with syntax highlighting.
   // --------------------------------------------------------------------------------
@@ -8754,7 +8786,7 @@ function registerComponents(Alpine) {
       percentage: 0,
       label: '',
       init: function init() {
-        var _this4 = this;
+        var _this5 = this;
         var element = this.$el;
         // Retrieve progress values from data attributes
         this.currentVal = parseInt(element.getAttribute('data-current-val')) || 0;
@@ -8769,16 +8801,16 @@ function registerComponents(Alpine) {
         element.setAttribute('aria-valuetext', "".concat(this.percentage, "%"));
         this.updateProgressBar();
         var resizeObserver = new ResizeObserver(function (entries) {
-          _this4.updateProgressBar();
+          _this5.updateProgressBar();
         });
         resizeObserver.observe(element);
 
         // Watch for changes in currentVal to update progress dynamically
         this.$watch('currentVal', function () {
-          _this4.calculatePercentage();
-          _this4.updateProgressBar();
-          element.setAttribute('aria-valuenow', _this4.currentVal);
-          element.setAttribute('aria-valuetext', "".concat(_this4.percentage, "%"));
+          _this5.calculatePercentage();
+          _this5.updateProgressBar();
+          element.setAttribute('aria-valuenow', _this5.currentVal);
+          element.setAttribute('aria-valuetext', "".concat(_this5.percentage, "%"));
         });
       },
       calculatePercentage: function calculatePercentage() {
@@ -8845,10 +8877,10 @@ function registerComponents(Alpine) {
       headings: [],
       currentHeadingId: '',
       handleHeadingClick: function handleHeadingClick() {
-        var _this5 = this;
+        var _this6 = this;
         var id = this.$el.dataset.headingid;
         setTimeout(function () {
-          _this5.currentHeadingId = id;
+          _this6.currentHeadingId = id;
         }, 10);
       },
       setCurrentHeading: function setCurrentHeading(id) {
@@ -8891,13 +8923,13 @@ function registerComponents(Alpine) {
         tabButton.focus();
       },
       tabRepositionMarker: function tabRepositionMarker(tabButton) {
-        var _this6 = this;
+        var _this7 = this;
         this.tabButton = tabButton;
         this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
         this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
         this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
         setTimeout(function () {
-          _this6.$refs.tabMarker.style.opacity = 1;
+          _this7.$refs.tabMarker.style.opacity = 1;
         }, 150);
       },
       tabContentActive: function tabContentActive(tabContent) {
@@ -8920,11 +8952,11 @@ function registerComponents(Alpine) {
         this.tabRepositionMarker(this.tabButton);
       },
       handleKeyDown: function handleKeyDown(event) {
-        var _this7 = this;
+        var _this8 = this;
         var key = event.key;
         var tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
         var currentIndex = tabButtons.findIndex(function (button) {
-          return _this7.tabButtonActive(button);
+          return _this8.tabButtonActive(button);
         });
         var newIndex = currentIndex;
         if (key === 'ArrowRight') {
@@ -8995,38 +9027,8 @@ function registerComponents(Alpine) {
       }
     };
   });
-
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzHeading
-  // Observes heading elements to automatically update the current heading in the quick-reference.
-  // --------------------------------------------------------------------------------
-  Alpine.data('rzHeading', function () {
-    return {
-      observer: null,
-      init: function init() {
-        var _this8 = this;
-        if (typeof this.setCurrentHeading === 'function') {
-          var callback = function callback(entries, observer) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                _this8.setCurrentHeading(_this8.$el.id);
-              }
-            });
-          };
-          var options = {
-            threshold: 0.5
-          };
-          this.observer = new IntersectionObserver(callback, options);
-          // Begin observing the heading element
-          this.observer.observe(this.$el);
-        }
-      },
-      destroy: function destroy() {
-        if (this.observer != null) this.observer.disconnect();
-      }
-    };
-  });
 }
+
 
 /***/ }),
 
@@ -9404,6 +9406,10 @@ var __webpack_exports__ = {};
   !*** ./wwwroot/js/rizzyui-csp.js ***!
   \***********************************/
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Alpine: () => (/* reexport safe */ _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"]),
+/* harmony export */   require: () => (/* reexport safe */ _alpine_components_js__WEBPACK_IMPORTED_MODULE_4__.require)
+/* harmony export */ });
 /* harmony import */ var _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alpinejs/csp */ "./node_modules/@alpinejs/csp/dist/module.esm.js");
 /* harmony import */ var _alpinejs_collapse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @alpinejs/collapse */ "./node_modules/@alpinejs/collapse/dist/module.esm.js");
 /* harmony import */ var _alpinejs_intersect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @alpinejs/intersect */ "./node_modules/@alpinejs/intersect/dist/module.esm.js");
@@ -9419,9 +9425,10 @@ __webpack_require__.r(__webpack_exports__);
 _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"].plugin(_alpinejs_collapse__WEBPACK_IMPORTED_MODULE_1__["default"]);
 _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"].plugin(_alpinejs_intersect__WEBPACK_IMPORTED_MODULE_2__["default"]);
 _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"].plugin(_alpinejs_focus__WEBPACK_IMPORTED_MODULE_3__["default"]);
-(0,_alpine_components_js__WEBPACK_IMPORTED_MODULE_4__["default"])(_alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"]);
+(0,_alpine_components_js__WEBPACK_IMPORTED_MODULE_4__.registerComponents)(_alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"]);
 window.Alpine = _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"];
 _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"].start();
+
 })();
 
 
