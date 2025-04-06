@@ -1,5 +1,5 @@
 ﻿@namespace RizzyUI
-@inherits RizzyUI.RizzyComponent
+@inherits RizzyUI.RzComponent
 
 <HtmlElement Element="@Element" @attributes="AdditionalAttributes" class="@RootClass()">
     @ChildContent
@@ -42,7 +42,7 @@
 		    Element = "hr";
     }
 
-    /// <inheritdoc cref="RizzyComponent"/>
+    /// <inheritdoc cref="RzComponent"/>
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, BaseStyle, 

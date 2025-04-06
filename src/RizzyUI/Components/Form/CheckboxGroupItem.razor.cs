@@ -7,7 +7,7 @@ namespace RizzyUI;
 /// <summary>
 /// Represents a single checkbox item within a checkbox group.
 /// </summary>
-public partial class CheckboxGroupItem<TValue> : RizzyComponent
+public partial class CheckboxGroupItem<TValue> : RzComponent
 {
     private static readonly string BaseStyle = "inline-flex items-center";
     private static readonly string CheckboxBaseClass = "size-4 rounded-sm border border-outline text-primary-500 focus:border-primary-500 focus:ring-3 focus:ring-primary-500/50  dark:bg-gray-800 dark:ring-offset-gray-900 dark:checked:border-transparent dark:checked:bg-primary-500 dark:focus:border-primary-500";

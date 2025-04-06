@@ -47,7 +47,7 @@ x-data="rzHeading">
     /// </summary>
     public string Id { get; set; } = IdGenerator.UniqueId("heading");
 
-    /// <inheritdoc cref="RizzyComponent"/>
+    /// <inheritdoc cref="RzComponent"/>
     protected override void OnParametersSet()
     {
         Element = Level switch

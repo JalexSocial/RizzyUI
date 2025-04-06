@@ -1,0 +1,69 @@
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent
+
+<HtmlElement Element="ol" @attributes="AdditionalAttributes" class="@RootClass()" aria-label="@AriaLabel">
+	@* Cascading self allows child RzStep components to register *@
+	<CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+	</CascadingValue>
+
+	@* Render registered steps *@
+	@for (int i = 0; i < Items.Count; i++)
+	{
+		var step = Items[i];
+		var isFirst = i == 0;
+		var prevStep = isFirst ? null : Items[i - 1];
+
+		<li class="@GetStepItemCss(isFirst)" aria-label="@(string.IsNullOrEmpty(step.AriaLabel) ? step.Label : step.AriaLabel)">
+
+			@* Render connector before every step except the first *@
+			@if (!isFirst && prevStep != null)
+			{
+				<span class="@GetConnectorCss(prevStep)" aria-hidden="true"></span>
+			}
+
+			<div class="@StepContentContainerClass">
+				@if (step.Status == StepStatus.Completed)
+				{
+					<span class="@CircleCompletedBaseClass @GetCircleCompletedVariantCss()">
+						@if (step.Icon is not null)
+						{
+							<Blazicon Svg="step.Icon" class="@CircleCompletedIconClass"/>
+						}
+						else
+						{
+							<svg class="@CircleCompletedIconClass" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" aria-hidden="true">
+								<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+							</svg>
+							<span class="@CircleCompletedSrTextClass">completed</span>
+						}
+					</span>
+				}
+				else @* Current or Upcoming *@
+				{
+					<span class="@CircleDefaultBaseClass @GetCircleDefaultVariantCss(step.Status)">
+						@if (step.Icon is not null)
+						{
+							<Blazicon Svg="step.Icon" class="size-4"/> @* Assuming size-4 for icons in default circles *@
+						}
+						else
+						{
+							@(i + 1) @* Display step number *@
+						}
+					</span>
+				}
+				@if (ShowLabels && !string.IsNullOrEmpty(step.Label))
+				{
+					<span class="@LabelBaseClass @GetLabelVariantCss(step.Status)">@step.Label</span>
+				}
+			</div>
+			@* Optional: Re-introduce caption if needed, using Theme styles *@
+            @* @if (!string.IsNullOrEmpty(step.Caption))
+               {
+                   <span class="@CaptionClass">@step.Caption</span>
+               } *@
+		</li>
+	}
+</HtmlElement>
+

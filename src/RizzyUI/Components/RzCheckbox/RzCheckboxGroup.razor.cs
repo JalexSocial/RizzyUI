@@ -1,0 +1,93 @@
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
+using RizzyUI.Extensions;
+using RizzyUI.Styling;
+using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Linq;
+using Blazicons;
+
+namespace RizzyUI;
+
+/// <xmldoc>
+/// Represents a group of checkbox items (<see cref="RzCheckboxGroupItem"/>) that support multiple selection.
+/// Styling is determined by the active <see cref="RzTheme"/>.
+/// </xmldoc>
+public partial class RzCheckboxGroup<TValue> : RzComponent
+{
+    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
+    [CascadingParameter] protected RzTheme? CascadedTheme { get; set; }
+    /// <summary> Injected configuration to get the default theme as fallback. </summary>
+    [Inject] private IOptions<RizzyUIConfig>? Config { get; set; }
+    /// <summary> The effective theme being used (Cascaded or Default). </summary>
+    protected RzTheme Theme { get; set; } = default!;
+
+    /// <summary> Gets or sets the selected values in the checkbox group. </summary>
+    [Parameter] public IList<TValue> Values { get; set; } = new List<TValue>();
+    /// <summary> Gets or sets the event callback when the selected values change. </summary>
+    [Parameter] public EventCallback<IList<TValue>> ValuesChanged { get; set; }
+    /// <summary> Gets or sets the expression for the bound value, used for validation. </summary>
+    [Parameter] public Expression<Func<IList<TValue>>>? For { get; set; }
+    /// <summary> Gets or sets the orientation of the checkbox group (Vertical or Horizontal). Defaults to Vertical. </summary>
+    [Parameter] public Orientation Orientation { get; set; } = Orientation.Vertical;
+    /// <summary> Gets or sets the child content, expected to be <see cref="RzCheckboxGroupItem{TValue}"/> components. </summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary> Gets or sets the custom Blazicon SVG icon to display when a checkbox is checked. Defaults to MdiIcon.CheckBold. </summary>
+    [Parameter] public SvgIcon CheckedIcon { get; set; } = MdiIcon.CheckBold;
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
+        if (Theme == null)
+            throw new InvalidOperationException($"{GetType()} requires a cascading RzTheme or a default theme configured.");
+    }
+
+    /// <summary> Determines whether the specified value is currently selected in the group. </summary>
+    /// <param name="value">The value to check.</param>
+    /// <returns>True if the value is selected; otherwise, false.</returns>
+    public bool IsSelected(TValue value) =>
+        Values.Any(x => EqualityComparer<TValue>.Default.Equals(x, value));
+
+    /// <summary> Toggles the selection state of the specified value within the group. </summary>
+    /// <param name="value">The value to toggle.</param>
+    /// <param name="isChecked">The desired state (true to select, false to deselect).</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public async Task ToggleValueAsync(TValue value, bool isChecked)
+    {
+        bool changed = false;
+        if (isChecked)
+        {
+            if (!Values.Any(x => EqualityComparer<TValue>.Default.Equals(x, value)))
+            {
+                Values.Add(value);
+                changed = true;
+            }
+        }
+        else
+        {
+            var existing = Values.FirstOrDefault(x => EqualityComparer<TValue>.Default.Equals(x, value));
+            // Ensure existing is not null before checking Contains and removing
+            if (existing != null && Values.Contains(existing))
+            {
+               var removed = Values.Remove(existing);
+               if(removed) changed = true;
+            }
+        }
+
+        if (changed && ValuesChanged.HasDelegate)
+        {
+            await ValuesChanged.InvokeAsync(Values);
+        }
+        // No need for StateHasChanged() here, Blazor handles rerendering based on parameter changes
+    }
+
+    /// <inheritdoc/>
+    protected override string? RootClass()
+    {
+        var styles = Theme.RzCheckboxGroup;
+        return TwMerge.Merge(AdditionalAttributes, styles.Container, styles.GetOrientationCss(Orientation));
+    }
+}
+

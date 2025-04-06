@@ -8,7 +8,7 @@
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using Rizzy
 @using Rizzy.Htmx
-@inherits RizzyComponent
+@inherits RzComponent
 @typeparam TValue
 
 @if (DisplayName != null)
@@ -97,7 +97,7 @@
 
     }
 
-    /// <inheritdoc cref="RizzyComponent.RootClass"/>
+    /// <inheritdoc cref="RzComponent.RootClass"/>
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, BaseStyle);

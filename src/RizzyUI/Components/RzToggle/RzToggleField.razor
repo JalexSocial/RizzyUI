@@ -1,0 +1,25 @@
+@namespace RizzyUI
+@using System.Linq.Expressions
+@using System.ComponentModel
+@using Rizzy.Utility
+@inherits RzComponent
+
+<RzField class="@RootClass()">
+	<div class="@ContentWrapperClass">
+		<div class="@InnerWrapperClass">
+			<RzFieldLabel DisplayName="@DisplayName" For="@For" class="@LabelInFieldClass">
+				@if (Description != null)
+				{
+					<span class="@DescriptionInLabelClass">
+						@Description
+					</span>
+				}
+			</RzFieldLabel>
+
+			@* Pass Value, For, ValueChanged, and AdditionalAttributes down *@
+			<RzToggle For="@For" @bind-Value="CurrentValue" class="@ToggleInFieldClass" @attributes="AdditionalAttributes"/>
+		</div>
+	</div>
+	@* Validation message outside the inner flex container *@
+	<RzValidationMessage For="@For" />
+</RzField>

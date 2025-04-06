@@ -17,7 +17,7 @@ builder.Services.AddHtmx(config =>
 });
 builder.Services.AddRizzyUI(config =>
 {
-    config.DefaultTheme = RizzyTheme.ArcticTheme;
+    config.DefaultTheme = RzTheme.ArcticTheme;
 });
 
 //builder.Services.AddMvcCore().AddDataAnnotations();

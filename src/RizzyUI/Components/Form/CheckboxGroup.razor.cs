@@ -10,7 +10,7 @@ namespace RizzyUI;
 /// <summary>
 /// Represents a group of checkbox items that support multiple selection.
 /// </summary>
-public partial class CheckboxGroup<TValue> : RizzyComponent
+public partial class CheckboxGroup<TValue> : RzComponent
 {
     private static readonly string BaseStyle = "flex flex-wrap gap-4";
 

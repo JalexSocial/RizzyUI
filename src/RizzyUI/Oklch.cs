@@ -228,6 +228,13 @@ public record Color
     }
 
 	/// <summary>
+	/// Returns a Tailwind CSS utility class fragment corresponding to this color.
+	/// - For Variable: The provided tailwind class name (e.g., "primary", "red-500").
+	/// - For OKLCH/RgbHex: An arbitrary value class (e.g., "[oklch(0.5_0.1_20)]", "[#ff0000]").
+	/// </summary>
+	public string TailwindClassName => _tailwindClass;
+	
+	/// <summary>
 	/// Outputs a Tailwind class that can be directly used in a class attribute
 	/// </summary>
 	/// <param name="utility">bg, text, accent, etc. (as part of bg-rose-500, text-rose-500)</param>

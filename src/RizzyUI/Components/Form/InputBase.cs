@@ -7,7 +7,7 @@ namespace RizzyUI;
 /// Base class for input components, handling value binding and additional attributes.
 /// </summary>
 /// <typeparam name="TValue">Type of the bound value.</typeparam>
-public class InputBase<TValue> : RizzyComponent
+public class InputBase<TValue> : RzComponent
 {
     /// <summary>
     /// Expression identifying the model property to bind.

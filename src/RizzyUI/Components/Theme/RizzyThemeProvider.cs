@@ -10,7 +10,7 @@ namespace RizzyUI;
 
 /// <summary>
 /// A Blazor component that provides the current theme's CSS variables in the document head.
-/// If no theme is provided, uses <see cref="RizzyTheme.Default"/>.
+/// If no theme is provided, uses <see cref="RzTheme.Default"/>.
 /// </summary>
 public class RizzyThemeProvider : ComponentBase
 {
@@ -24,10 +24,10 @@ public class RizzyThemeProvider : ComponentBase
     [Inject] protected IRizzyNonceProvider RizzyNonceProvider { get; set; } = default!;
 
     /// <summary>
-    /// Gets or sets the theme to apply. If null, defaults to <see cref="RizzyTheme.Default"/>.
+    /// Gets or sets the theme to apply. If null, defaults to <see cref="RzTheme.Default"/>.
     /// </summary>
     [Parameter]
-    public RizzyTheme? Theme { get; set; }
+    public RzTheme? Theme { get; set; }
 
     /// <summary>
     /// Builds the render tree for the component, injecting a &lt;style&gt; tag with CSS variables into the head via <see cref="HeadOutlet"/>.
@@ -35,7 +35,7 @@ public class RizzyThemeProvider : ComponentBase
     /// <param name="builder">The <see cref="RenderTreeBuilder"/> used to build the component's output.</param>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        var actualTheme = Theme ?? RizzyConfig?.Value.DefaultTheme ?? RizzyTheme.Default;
+        var actualTheme = Theme ?? RizzyConfig?.Value.DefaultTheme ?? RzTheme.Default;
         var css = GenerateRootVariables(actualTheme);
 
         builder.AddMarkupContent(1, $"<style nonce=\"{RizzyNonceProvider.GetNonce()}\">{css}</style>");
@@ -51,7 +51,7 @@ public class RizzyThemeProvider : ComponentBase
     /// </summary>
     /// <param name="theme">The theme to generate variables from.</param>
     /// <returns>A string containing a :root CSS block with the theme variables.</returns>
-    private string GenerateRootVariables(RizzyTheme theme)
+    private string GenerateRootVariables(RzTheme theme)
     {
         var sb = new StringBuilder();
         sb.AppendLine(":root {");

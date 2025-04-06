@@ -1,6 +1,6 @@
 ﻿@namespace RizzyUI
 
-@inherits RizzyComponent
+@inherits RzComponent
 
 <HtmlElement Element="@Element" @attributes="AdditionalAttributes" class="@RootClass()">
     @ChildContent
@@ -16,7 +16,7 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <inheritdoc cref="RizzyComponent"/>
+    /// <inheritdoc cref="RzComponent"/>
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, BaseStyle);

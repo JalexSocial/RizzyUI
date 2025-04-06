@@ -14,7 +14,7 @@ using Rizzy.Utility;
 /// <summary>
 /// A date-editing component using Flatpickr for calendar picking.
 /// </summary>
-public sealed partial class DateEdit : RizzyComponent
+public sealed partial class DateEdit : RzComponent
 {
     private static readonly string BaseStyle = "w-full"; // Root container styling
     private string PrependStyle { get; set; } = string.Empty;

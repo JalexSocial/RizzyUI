@@ -1,0 +1,17 @@
+@namespace RizzyUI
+@using RizzyUI.Utility
+@using Rizzy.Utility
+@inherits RzTypographyBase
+
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()"
+             x-data="rzHeading"> @* Alpine data remains if needed for interaction *@
+    @if (ChildContent == null && !string.IsNullOrEmpty(QuickReferenceTitle))
+    {
+        @QuickReferenceTitle @* Render QR title if no children provided *@
+    }
+    else
+    {
+        @ChildContent
+    }
+</HtmlElement>
+

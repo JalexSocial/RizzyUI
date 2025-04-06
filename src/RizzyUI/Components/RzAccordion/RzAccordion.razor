@@ -1,0 +1,11 @@
+@namespace RizzyUI
+@using RizzyUI.Extensions
+@inherits RzComponent
+
+<HtmlElement Element="div"
+             x-data="rzAccordion" @* Alpine component for interactivity *@
+             @attributes="AdditionalAttributes"
+             class="@RootClass()"
+             data-multiple="@AllowMultipleOpen.ToString().ToLowerInvariant()"> @* Pass setting to Alpine *@
+	@ChildContent
+</HtmlElement>

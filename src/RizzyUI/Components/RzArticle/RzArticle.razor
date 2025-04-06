@@ -1,0 +1,15 @@
+@namespace RizzyUI
+@inherits RzComponent
+
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
+    <div class="@InnerContainerClass">
+        <article class="@ArticleClass @ArticleProseClass">
+            @MainContent
+        </article>
+
+        <aside class="@AsideClass">
+            @SideContent
+        </aside>
+    </div>
+</HtmlElement>
+

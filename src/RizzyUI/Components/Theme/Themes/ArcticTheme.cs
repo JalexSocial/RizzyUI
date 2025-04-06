@@ -1,18 +1,18 @@
 ﻿namespace RizzyUI;
 
 /// <summary>
-/// The default theme used for the application, inheriting from <see cref="RizzyTheme"/>.
+/// The default theme used for the application, inheriting from <see cref="RzTheme"/>.
 /// Initializes the theme using the Tailwind color palette via the <see cref="Colors"/> class.
 /// </summary>
-public class ArcticTheme : RizzyTheme
+public class ArcticTheme : RzTheme
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="RizzyTheme"/> class with predefined values.
+    /// Initializes a new instance of the <see cref="RzTheme"/> class with predefined values.
     /// </summary>
     public ArcticTheme() : base("Arctic", "arctic")
     {
         // Light mode colors
-        Light = new RizzyThemeVariant
+        Light = new RzThemeVariant
         {
             Surface = Colors.White, // White
             OnSurface = Colors.Slate.L700, // #334155 (51,65,85)
@@ -31,7 +31,7 @@ public class ArcticTheme : RizzyTheme
         };
 
         // Dark mode colors
-        Dark = new RizzyThemeVariant()
+        Dark = new RzThemeVariant()
         {
             Surface = Colors.Slate.L900, // #0F172A (15,23,42)
             OnSurface = Colors.Slate.L300, // #CBD5E1 (203,213,225)

@@ -1,0 +1,10 @@
+@namespace RizzyUI
+@typeparam TValue
+@inherits RzComponent
+
+<CascadingValue Value="this" IsFixed="true"> @* Cascade self to items *@
+	<HtmlElement Element="div" @attributes="@AdditionalAttributes" class="@RootClass()">
+		@ChildContent
+	</HtmlElement>
+</CascadingValue>
+

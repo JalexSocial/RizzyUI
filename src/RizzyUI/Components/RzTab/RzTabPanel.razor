@@ -1,0 +1,18 @@
+@inherits RzComponent
+@namespace RizzyUI
+
+<div
+    id="@PanelId"
+    data-name="@NameLower"
+    x-show="tabContentActive"
+    role="tabpanel"
+    aria-labelledby="@TabId"
+    tabindex="0" @* Managed by Alpine? Check accessibility needs *@
+    class="@OuterContainerClass"
+    x-cloak
+>
+    <div @attributes="AdditionalAttributes" class="@InnerContainerClass @TextColorClass">
+        @ChildContent
+    </div>
+</div>
+

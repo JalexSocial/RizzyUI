@@ -1,0 +1,15 @@
+@using System.Collections.Generic
+@using System.Text.Json
+@using RizzyUI.Utility.Serialization.Converters
+@namespace RizzyUI
+@inherits RzComponent
+
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()"
+             data-headings="@_headingItemsSerialized"
+             data-currentheadingid="@(_currentHeadingId)"
+             x-data="rzQuickReferenceContainer">
+    <CascadingValue Value="this" IsFixed="true"> @* Cascade self to children *@
+        @ChildContent
+    </CascadingValue>
+</HtmlElement>
+

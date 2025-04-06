@@ -1,0 +1,25 @@
+@using System.Linq.Expressions
+@using TailwindMerge
+@using Blazicons
+@using Rizzy.Components
+@typeparam TValue
+@namespace RizzyUI
+@inherits InputBase<TValue>
+
+<div class="@InputWrapperClass" x-data="rzPrependInput">
+	@if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
+    {
+        <div x-ref="prependContainer" class="@PrependElementClass">
+	        @if (!string.IsNullOrEmpty(PrependText))
+	        {
+		        @PrependText
+	        }
+	        else if (PrependIcon != null)
+	        {
+		        <div class="@PrependIconContainerClass"><Blazicon Svg="PrependIcon" /></div>
+	        }
+        </div>
+    }
+    <RzInputNumber x-ref="textInput" TValue="TValue" @ref="_elem" Value="@_value" ValueExpression="For" placeholder="@_placeholder" @attributes="AdditionalAttributes" class="@InputClass" />
+</div>
+

@@ -1,10 +1,10 @@
 ﻿namespace RizzyUI;
 
 /// <summary>
-/// Represents the Modern theme for the application. Inherits from <see cref="RizzyTheme"/>.
+/// Represents the Modern theme for the application. Inherits from <see cref="RzTheme"/>.
 /// Initializes the theme using the specified Tailwind color palette.
 /// </summary>
-public class ModernTheme : RizzyTheme
+public class ModernTheme : RzTheme
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ModernTheme"/> class with predefined modern values.
@@ -12,7 +12,7 @@ public class ModernTheme : RizzyTheme
     public ModernTheme() : base("Modern", "modern")
     {
         // Light mode colors
-        Light = new RizzyThemeVariant()
+        Light = new RzThemeVariant()
         {
             Surface = Colors.White, // white: (255, 255, 255)
             OnSurface = Colors.Neutral.L600, // neutral-600: (75, 85, 99)
@@ -31,7 +31,7 @@ public class ModernTheme : RizzyTheme
         };
 
         // Dark mode colors
-        Dark = new RizzyThemeVariant()
+        Dark = new RzThemeVariant()
         {
             Surface = Colors.Neutral.L950, // neutral-950: (7, 7, 7)
             OnSurface = Colors.Neutral.L300, // neutral-300: (209, 213, 219)

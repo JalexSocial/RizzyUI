@@ -1,0 +1,12 @@
+@namespace RizzyUI
+@using System.Linq.Expressions
+@inherits RzComponent
+
+<RzInputCheckbox ValueExpression="@For"
+                 @bind-Value="CurrentValue" @* Use internal property for binding *@
+                 @attributes="AdditionalAttributes"
+                 class="@RootClass()"
+                 role="switch"
+                 tabindex="0"
+                 aria-checked="@AriaCheckedValue"/>
+				 

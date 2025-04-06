@@ -1,10 +1,10 @@
 ﻿namespace RizzyUI;
 
 /// <summary>
-/// Represents the High Contrast theme for the application. Inherits from <see cref="RizzyTheme"/>.
+/// Represents the High Contrast theme for the application. Inherits from <see cref="RzTheme"/>.
 /// Initializes the theme using the specified Tailwind color palette.
 /// </summary>
-public class HighContrastTheme : RizzyTheme
+public class HighContrastTheme : RzTheme
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="HighContrastTheme"/> class with predefined high-contrast values.
@@ -12,7 +12,7 @@ public class HighContrastTheme : RizzyTheme
     public HighContrastTheme() : base("High Contrast", "highcontrast")
     {
         // Light mode colors
-        Light = new RizzyThemeVariant()
+        Light = new RzThemeVariant()
         {
             Surface = Colors.Gray.L50, // gray-50: (249, 250, 251)
             OnSurface = Colors.Gray.L800, // gray-800: (31, 41, 55)
@@ -31,7 +31,7 @@ public class HighContrastTheme : RizzyTheme
         };
 
         // Dark mode colors
-        Dark = new RizzyThemeVariant()
+        Dark = new RzThemeVariant()
         {
             Surface = Colors.Gray.L900, // gray-900: (17, 24, 39)
             OnSurface = Colors.Gray.L300, // gray-300: (209, 213, 219)

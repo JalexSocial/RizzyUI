@@ -8,5 +8,5 @@ public sealed class RizzyUIConfig
     /// <summary>
     /// Default theme for RizzyUI (defaults to ArcticTheme)
     /// </summary>
-    public RizzyTheme DefaultTheme { get; set; } = RizzyTheme.Default;
+    public RzTheme DefaultTheme { get; set; } = RzTheme.Default;
 }

@@ -1,10 +1,10 @@
 ﻿namespace RizzyUI;
 
 /// <summary>
-/// Represents the News theme for the application. Inherits from <see cref="RizzyTheme"/>.
+/// Represents the News theme for the application. Inherits from <see cref="RzTheme"/>.
 /// Initializes the theme using the specified Tailwind color palette.
 /// </summary>
-public class NewsTheme : RizzyTheme
+public class NewsTheme : RzTheme
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="NewsTheme"/> class with predefined news-oriented values.
@@ -12,7 +12,7 @@ public class NewsTheme : RizzyTheme
     public NewsTheme() : base("News", "news")
     {
         // Light mode colors
-        Light = new RizzyThemeVariant()
+        Light = new RzThemeVariant()
         {
             Surface = Colors.Zinc.L50, // zinc-50: (250, 250, 249)
             OnSurface = Colors.Neutral.L600, // neutral-600: (75, 85, 99)
@@ -31,7 +31,7 @@ public class NewsTheme : RizzyTheme
         };
 
         // Dark mode colors
-        Dark = new RizzyThemeVariant()
+        Dark = new RzThemeVariant()
         {
             Surface = Colors.Zinc.L900, // zinc-900: (15, 23, 42)
             OnSurface = Colors.Zinc.L200, // zinc-200: (229, 231, 235)

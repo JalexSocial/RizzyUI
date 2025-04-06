@@ -1,0 +1,16 @@
+@using System.Linq.Expressions
+@using Blazicons
+@using Rizzy
+@typeparam TValue
+@namespace RizzyUI
+@inherits RzComponent
+
+<CascadingValue Value="this" IsFixed="true">
+    @* RzInputRadioGroup handles the value binding and EditContext integration *@
+    <RzInputRadioGroup TValue="TValue" ValueExpression="@For" @bind-Value="CurrentValue" Name="@Name">
+        <div @attributes="AdditionalAttributes" class="@RootClass()">
+            @ChildContent
+        </div>
+    </RzInputRadioGroup>
+</CascadingValue>
+

@@ -1,0 +1,16 @@
+@using Blazicons
+@namespace RizzyUI
+@typeparam TValue
+@inherits RzComponent
+
+<HtmlElement Element="@Element" x-data="rzCheckboxGroupItem" @attributes="@AdditionalAttributes" class="@LabelClass">
+	<div class="@CheckboxWrapperClass">
+		<RzInputCheckbox @bind-Value="IsChecked" class="@CheckboxInputClass" x-on:change="toggleCheckbox" x-ref="chk"/>
+		<div class="@IconContainerClass" :class="'@(GetIconVisibilityCss(IsChecked))'">
+			<Blazicon Svg="EffectiveCheckedIcon"/>
+        </div>
+	</div>
+	<span class="@TitleSpanClass">@Title</span>
+	@ChildContent
+</HtmlElement>
+

@@ -7,7 +7,7 @@
 @using RizzyUI.Extensions
 @using Blazicons
 @using RizzyUI.Docs.Models
-@inherits RizzyComponent
+@inherits RzComponent
 
 <PageTitle>RadioGroup and RadioGroupField</PageTitle>
 
@@ -62,9 +62,9 @@
                     &lt;RzValidationSummary/&gt;
 
                     &lt;RadioGroup TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.PreferredContactMethod)&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;
-                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;email&quot;)&quot; Label=&quot;Email&quot; /&gt;
-                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;phone&quot;)&quot; Label=&quot;Phone&quot; /&gt;
-                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;text&quot;)&quot; Label=&quot;Text Message&quot; /&gt;
+                        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;email&quot;)&quot; Label=&quot;Email&quot; /&gt;
+                        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;phone&quot;)&quot; Label=&quot;Phone&quot; /&gt;
+                        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;text&quot;)&quot; Label=&quot;Text Message&quot; /&gt;
                     &lt;/RadioGroup&gt;
                     &lt;/EditForm&gt;
                 </CodeViewer>
@@ -84,12 +84,10 @@
                         <EditForm Model="Model" class="form-children-spacing">
                             <RzValidationSummary/>
                             <RadioGroupField TValue="string" For="@(() => Model.Gender)" DisplayName="Select Gender" Orientation="Orientation.Horizontal">
-                                <RadioGroupContent>
                                     <RadioGroupItem TValue="string" Value="@("female")" Label="Female" />
                                     <RadioGroupItem TValue="string" Value="@("male")" Label="Male" />
                                     <RadioGroupItem TValue="string" Value="@("other")" Label="Other" />
                                     <RadioGroupItem TValue="string" Value="@("prefer_not_to_say")" Label="Prefer not to say" />
-                                </RadioGroupContent>
                                 <FieldHelp>Select the option that best describes you.</FieldHelp>
                             </RadioGroupField>
                         </EditForm>
@@ -98,16 +96,14 @@
 
                 <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
                     &lt;EditForm Model=&quot;Model&quot; class=&quot;form-children-spacing&quot;&gt;
-                    &lt;RzValidationSummary/&gt;
-                    &lt;RadioGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.Gender)&quot; DisplayName=&quot;Select Gender&quot; Orientation=&quot;Orientation.Horizontal&quot;&gt;
-                    &lt;RadioGroupContent&gt;
-                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;female&quot;)&quot; Label=&quot;Female&quot; /&gt;
-                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;male&quot;)&quot; Label=&quot;Male&quot; /&gt;
-                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;other&quot;)&quot; Label=&quot;Other&quot; /&gt;
-                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;prefer_not_to_say&quot;)&quot; Label=&quot;Prefer not to say&quot; /&gt;
-                    &lt;/RadioGroupContent&gt;
-                    &lt;FieldHelp&gt;Select the option that best describes you.&lt;/FieldHelp&gt;
-                    &lt;/RadioGroupField&gt;
+                        &lt;RzValidationSummary/&gt;
+                        &lt;RadioGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.Gender)&quot; DisplayName=&quot;Select Gender&quot; Orientation=&quot;Orientation.Horizontal&quot;&gt;
+                                &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;female&quot;)&quot; Label=&quot;Female&quot; /&gt;
+                                &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;male&quot;)&quot; Label=&quot;Male&quot; /&gt;
+                                &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;other&quot;)&quot; Label=&quot;Other&quot; /&gt;
+                                &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;prefer_not_to_say&quot;)&quot; Label=&quot;Prefer not to say&quot; /&gt;
+                            &lt;FieldHelp&gt;Select the option that best describes you.&lt;/FieldHelp&gt;
+                        &lt;/RadioGroupField&gt;
                     &lt;/EditForm&gt;
                 </CodeViewer>
             </section>
@@ -126,17 +122,15 @@
                         <EditForm Model="Model" class="form-children-spacing">
                             <RzValidationSummary/>
                             <RadioGroupField TValue="string" For="@(() => Model.PreferredContactMethod)" DisplayName="Contact Preference" Orientation="Orientation.Vertical">
-                                <RadioGroupContent>
-                                    <RadioGroupItem TValue="string" Value="@("email")" Label="Email" Icon="MdiIcon.EmailOutline">
-                                        <Description>Receive updates via email.</Description>
-                                    </RadioGroupItem>
-                                    <RadioGroupItem TValue="string" Value="@("phone")" Label="Phone" Icon="MdiIcon.PhoneOutline">
-                                        <Description>Receive calls on your phone.</Description>
-                                    </RadioGroupItem>
-                                    <RadioGroupItem TValue="string" Value="@("text")" Label="Text Message" Icon="MdiIcon.MessageTextOutline">
-                                        <Description>Receive SMS notifications.</Description>
-                                    </RadioGroupItem>
-                                </RadioGroupContent>
+                                <RadioGroupItem TValue="string" Value="@("email")" Label="Email" Icon="MdiIcon.EmailOutline">
+                                    <Description>Receive updates via email.</Description>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("phone")" Label="Phone" Icon="MdiIcon.PhoneOutline">
+                                    <Description>Receive calls on your phone.</Description>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("text")" Label="Text Message" Icon="MdiIcon.MessageTextOutline">
+                                    <Description>Receive SMS notifications.</Description>
+                                </RadioGroupItem>
                                 <FieldHelp>How would you like us to contact you?</FieldHelp>
                             </RadioGroupField>
                         </EditForm>
@@ -145,21 +139,19 @@
 
                 <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
                     &lt;EditForm Model=&quot;Model&quot; class=&quot;form-children-spacing&quot;&gt;
-                    &lt;RzValidationSummary/&gt;
-                    &lt;RadioGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.PreferredContactMethod)&quot; DisplayName=&quot;Contact Preference&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;
-                    &lt;RadioGroupContent&gt;
-                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;email&quot;)&quot; Label=&quot;Email&quot; Icon=&quot;MdiIcon.EmailOutline&quot;&gt;
-                    &lt;Description&gt;Receive updates via email.&lt;/Description&gt;
-                    &lt;/RadioGroupItem&gt;
-                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;phone&quot;)&quot; Label=&quot;Phone&quot; Icon=&quot;MdiIcon.PhoneOutline&quot;&gt;
-                    &lt;Description&gt;Receive calls on your phone.&lt;/Description&gt;
-                    &lt;/RadioGroupItem&gt;
-                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;text&quot;)&quot; Label=&quot;Text Message&quot; Icon=&quot;MdiIcon.MessageTextOutline&quot;&gt;
-                    &lt;Description&gt;Receive SMS notifications.&lt;/Description&gt;
-                    &lt;/RadioGroupItem&gt;
-                    &lt;/RadioGroupContent&gt;
-                    &lt;FieldHelp&gt;How would you like us to contact you?&lt;/FieldHelp&gt;
-                    &lt;/RadioGroupField&gt;
+                        &lt;RzValidationSummary/&gt;
+                        &lt;RadioGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.PreferredContactMethod)&quot; DisplayName=&quot;Contact Preference&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;
+                            &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;email&quot;)&quot; Label=&quot;Email&quot; Icon=&quot;MdiIcon.EmailOutline&quot;&gt;
+                                &lt;Description&gt;Receive updates via email.&lt;/Description&gt;
+                            &lt;/RadioGroupItem&gt;
+                            &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;phone&quot;)&quot; Label=&quot;Phone&quot; Icon=&quot;MdiIcon.PhoneOutline&quot;&gt;
+                                &lt;Description&gt;Receive calls on your phone.&lt;/Description&gt;
+                            &lt;/RadioGroupItem&gt;
+                            &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;text&quot;)&quot; Label=&quot;Text Message&quot; Icon=&quot;MdiIcon.MessageTextOutline&quot;&gt;
+                                &lt;Description&gt;Receive SMS notifications.&lt;/Description&gt;
+                            &lt;/RadioGroupItem&gt;
+                            &lt;FieldHelp&gt;How would you like us to contact you?&lt;/FieldHelp&gt;
+                        &lt;/RadioGroupField&gt;
                     &lt;/EditForm&gt;
                 </CodeViewer>
             </section>
@@ -183,57 +175,57 @@
                     /// &lt;/summary&gt;
                     public class Customer
                     {
-                    /// &lt;summary&gt;
-                    /// Gets or sets the unique identifier for the customer.
-                    /// &lt;/summary&gt;
-                    public int CustomerId { get; set; } = 1234;
+                        /// &lt;summary&gt;
+                        /// Gets or sets the unique identifier for the customer.
+                        /// &lt;/summary&gt;
+                        public int CustomerId { get; set; } = 1234;
 
-                    /// &lt;summary&gt;
-                    /// Gets or sets the full name of the customer.
-                    /// &lt;/summary&gt;
-                    [MaxLength(10)]
-                    public string Name { get; set; } = &quot;Jane Johnson&quot;;
+                        /// &lt;summary&gt;
+                        /// Gets or sets the full name of the customer.
+                        /// &lt;/summary&gt;
+                        [MaxLength(10)]
+                        public string Name { get; set; } = &quot;Jane Johnson&quot;;
 
-                    /// &lt;summary&gt;
-                    /// Gets or sets the email address of the customer.
-                    /// &lt;/summary&gt;
-                    public string Email { get; set; } = &quot;johnsonj@gmail.com&quot;;
+                        /// &lt;summary&gt;
+                        /// Gets or sets the email address of the customer.
+                        /// &lt;/summary&gt;
+                        public string Email { get; set; } = &quot;johnsonj@gmail.com&quot;;
 
-                    /// &lt;summary&gt;
-                    /// Gets or sets the phone number of the customer.
-                    /// &lt;/summary&gt;
-                    public string PhoneNumber { get; set; } = &quot;555-555-5555&quot;;
+                        /// &lt;summary&gt;
+                        /// Gets or sets the phone number of the customer.
+                        /// &lt;/summary&gt;
+                        public string PhoneNumber { get; set; } = &quot;555-555-5555&quot;;
 
-                    /// &lt;summary&gt;
-                    /// Gets or sets the age of the customer.
-                    /// &lt;/summary&gt;
-                    public int Age { get; set; } = 29;
+                        /// &lt;summary&gt;
+                        /// Gets or sets the age of the customer.
+                        /// &lt;/summary&gt;
+                        public int Age { get; set; } = 29;
 
-                    /// &lt;summary&gt;
-                    /// Gets or sets a value indicating whether the customer is active.
-                    /// &lt;/summary&gt;
-                    public bool IsActive { get; set; } = true;
+                        /// &lt;summary&gt;
+                        /// Gets or sets a value indicating whether the customer is active.
+                        /// &lt;/summary&gt;
+                        public bool IsActive { get; set; } = true;
 
-                    /// &lt;summary&gt;
-                    /// Gets or sets the gender of the customer.
-                    /// &lt;/summary&gt;
-                    public string Gender { get; set; } = &quot;female&quot;;
+                        /// &lt;summary&gt;
+                        /// Gets or sets the gender of the customer.
+                        /// &lt;/summary&gt;
+                        public string Gender { get; set; } = &quot;female&quot;;
 
-                    /// &lt;summary&gt;
-                    /// Gets or sets the preferred method of contact for the customer.
-                    /// &lt;/summary&gt;
-                    public string PreferredContactMethod { get; set; } = &quot;email&quot;;
+                        /// &lt;summary&gt;
+                        /// Gets or sets the preferred method of contact for the customer.
+                        /// &lt;/summary&gt;
+                        public string PreferredContactMethod { get; set; } = &quot;email&quot;;
 
-                    /// &lt;summary&gt;
-                    /// Gets or sets the birth date of the customer.
-                    /// &lt;/summary&gt;
-                    public DateTime BirthDate { get; set; } = DateTime.Now.AddYears(-29).AddMonths(3).AddDays(9);
+                        /// &lt;summary&gt;
+                        /// Gets or sets the birth date of the customer.
+                        /// &lt;/summary&gt;
+                        public DateTime BirthDate { get; set; } = DateTime.Now.AddYears(-29).AddMonths(3).AddDays(9);
 
-                    /// &lt;summary&gt;
-                    /// Gets or sets the interests of the customer.
-                    /// This property is used to demonstrate the checkbox group components.
-                    /// &lt;/summary&gt;
-                    public List&lt;string&gt; Interests { get; set; } = new List&lt;string&gt; { &quot;Sports&quot; };
+                        /// &lt;summary&gt;
+                        /// Gets or sets the interests of the customer.
+                        /// This property is used to demonstrate the checkbox group components.
+                        /// &lt;/summary&gt;
+                        public List&lt;string&gt; Interests { get; set; } = new List&lt;string&gt; { &quot;Sports&quot; };
                     }
                 </CodeViewer>
             </section>

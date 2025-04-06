@@ -7,7 +7,7 @@ namespace RizzyUI;
 /// <summary>
 /// Represents a form field component that wraps a group of checkbox items with a label and validation message.
 /// </summary>
-public partial class CheckboxGroupField<TValue> : RizzyComponent
+public partial class CheckboxGroupField<TValue> : RzComponent
 {
     private static readonly string BaseStyle = "";
 

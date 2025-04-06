@@ -1,0 +1,17 @@
+@using System.Text.RegularExpressions
+@inherits RzComponent
+@namespace RizzyUI
+
+<CascadingValue Value="this" IsFixed="true">
+    <div id="@Parent?.ButtonRefId"
+         role="tablist"
+         @attributes="AdditionalAttributes"
+         class="@RootClass()">
+        @ChildContent
+        @* The selection marker, positioned by Alpine *@
+        <div x-ref="tabMarker" class="@MarkerClass @MarkerAfterBackgroundClass" x-cloak>
+            <div class="@MarkerInnerClass"></div>
+        </div>
+    </div>
+</CascadingValue>
+
