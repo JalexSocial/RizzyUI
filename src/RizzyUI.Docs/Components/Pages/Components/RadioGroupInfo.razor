@@ -43,7 +43,7 @@
                     <div class="mx-auto p-5">
                         <EditForm Model="Model" class="form-children-spacing">
                             <DataAnnotationsValidator/>
-                            <InitialValidator/>
+                            <RzInitialValidator/>
                             <RzValidationSummary/>
 
                             <RadioGroup TValue="string" For="@(() => Model.PreferredContactMethod)" Orientation="Orientation.Vertical">
@@ -58,7 +58,7 @@
                 <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
                     &lt;EditForm Model=&quot;Model&quot; class=&quot;form-children-spacing&quot;&gt;
                     &lt;DataAnnotationsValidator/&gt;
-                    &lt;InitialValidator/&gt;
+                    &lt;RzInitialValidator/&gt;
                     &lt;RzValidationSummary/&gt;
 
                     &lt;RadioGroup TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.PreferredContactMethod)&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;

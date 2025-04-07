@@ -1,4 +1,6 @@
-﻿namespace RizzyUI;
+﻿using RizzyUI.Components.RzTypography;
+
+namespace RizzyUI;
 
 /// <summary>
 ///     Represents a heading item with level, title, and ID.

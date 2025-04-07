@@ -79,7 +79,61 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Styling\"/>
+      <AdditionalFiles Include="Components\Display\RzAvatar\RzAvatar.razor" />
+      <AdditionalFiles Include="Components\Display\RzBadge\RzBadge.razor" />
+      <AdditionalFiles Include="Components\Display\RzDivider\RzDivider.razor" />
+      <AdditionalFiles Include="Components\Display\RzProgress\RzProgress.razor" />
+      <AdditionalFiles Include="Components\Document\RzArticle\RzArticle.razor" />
+      <AdditionalFiles Include="Components\Document\RzCodeViewer\RzCodeViewer.razor" />
+      <AdditionalFiles Include="Components\Document\RzEmbeddedPreview\RzEmbeddedPreview.razor" />
+      <AdditionalFiles Include="Components\Document\RzMarkdown\RzMarkdown.razor" />
+      <AdditionalFiles Include="Components\Document\RzQuickReference\RzQuickReference.razor" />
+      <AdditionalFiles Include="Components\Document\RzQuickReference\RzQuickReferenceContainer.razor" />
+      <AdditionalFiles Include="Components\Feedback\RzAlert\RzAlert.razor" />
+      <AdditionalFiles Include="Components\Form\RzButton\RzButton.razor" />
+      <AdditionalFiles Include="Components\Form\RzButton\RzButtonGroup.razor" />
+      <AdditionalFiles Include="Components\Form\RzCheckbox\RzCheckboxGroup.razor" />
+      <AdditionalFiles Include="Components\Form\RzCheckbox\RzCheckboxGroupField.razor" />
+      <AdditionalFiles Include="Components\Form\RzCheckbox\RzCheckboxGroupItem.razor" />
+      <AdditionalFiles Include="Components\Form\RzDateEdit\RzDateEdit.razor" />
+      <AdditionalFiles Include="Components\Form\RzField\RzField.razor" />
+      <AdditionalFiles Include="Components\Form\RzField\RzFieldHelp.razor" />
+      <AdditionalFiles Include="Components\Form\RzField\RzFieldLabel.razor" />
+      <AdditionalFiles Include="Components\Form\RzFormSection\RzFormSection.razor" />
+      <AdditionalFiles Include="Components\Form\RzNumber\RzNumberEdit.razor" />
+      <AdditionalFiles Include="Components\Form\RzNumber\RzNumberField.razor" />
+      <AdditionalFiles Include="Components\Form\RzRadio\RzRadioGroup.razor" />
+      <AdditionalFiles Include="Components\Form\RzRadio\RzRadioGroupField.razor" />
+      <AdditionalFiles Include="Components\Form\RzRadio\RzRadioGroupItem.razor" />
+      <AdditionalFiles Include="Components\Form\RzText\RzTextEdit.razor" />
+      <AdditionalFiles Include="Components\Form\RzText\RzTextField.razor" />
+      <AdditionalFiles Include="Components\Form\RzToggle\RzToggle.razor" />
+      <AdditionalFiles Include="Components\Form\RzToggle\RzToggleField.razor" />
+      <AdditionalFiles Include="Components\Layout\RzAccordion\RzAccordion.razor" />
+      <AdditionalFiles Include="Components\Layout\RzAccordion\RzAccordionSection.razor" />
+      <AdditionalFiles Include="Components\Layout\RzCard\RzCard.razor" />
+      <AdditionalFiles Include="Components\Layout\RzCard\RzCardBody.razor" />
+      <AdditionalFiles Include="Components\Layout\RzCard\RzCardButtons.razor" />
+      <AdditionalFiles Include="Components\Layout\RzCard\RzCardFooter.razor" />
+      <AdditionalFiles Include="Components\Layout\RzCard\RzCardHeader.razor" />
+      <AdditionalFiles Include="Components\Layout\RzCard\RzCardSubtitle.razor" />
+      <AdditionalFiles Include="Components\Layout\RzCard\RzCardTitle.razor" />
+      <AdditionalFiles Include="Components\Layout\RzSearchButton\RzSearchButton.razor" />
+      <AdditionalFiles Include="Components\Layout\RzStep\RzSteps.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzBreadcrumb\RzBreadcrumb.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzDropdown\RzDropdown.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzDropdown\RzDropdownMenuItem.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzDropdown\RzDropdownSection.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzLink\RzLink.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzNavbar\RzNavbar.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzSidebar\RzSidebar.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzSidebar\RzSidebarLinkItem.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzSidebar\RzSidebarLinks.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzTab\RzTab.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzTab\RzTabPanel.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzTab\RzTabs.razor" />
+      <AdditionalFiles Include="Components\Navigation\RzTab\RzTabStrip.razor" />
+      <AdditionalFiles Include="Components\Theme\RzDarkMode\RzDarkModeToggle.razor" />
     </ItemGroup>
 
 </Project>
