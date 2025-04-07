@@ -6,106 +6,106 @@
 
 <PageTitle>Navbar</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
             <!-- Page Title and Overview -->
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">
                 Navbar
-            </Heading>
-            <Paragraph>
+            </RzHeading>
+            <RzParagraph>
 	            The Navbar component provides a fixed top navigation bar that remains visible as users scroll.
 	            It supports responsive behavior with a mobile toggle button to show or hide side navigation.
 	            The component leverages our design tokens and Tailwind CSS for consistent styling and integrates Alpine.js for interactivity.
 				
-	            <Alert Variant="AlertVariant.Information">
+	            <RzAlert Variant="AlertVariant.Information">
 		            <AlertTitle>Special Note</AlertTitle>
                     <AlertDescription>The Navbar component works in conjunction with the Sidebar component. When the hamburger menu is present, a click makes a call to <i>toggleSidebar()</i> which is made available via x-data from Sidebar.</AlertDescription>
-	            </Alert>
-            </Paragraph>
+	            </RzAlert>
+            </RzParagraph>
 
             <!-- Example 1: Simple Navbar with Child Content -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Navbar" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Navbar" class="scroll-mt-20">
                     Default Navbar
-                </Heading>
-                <Paragraph>
+                </RzHeading>
+                <RzParagraph>
                     The example below demonstrates a basic Navbar with some sample navigation content.
-                </Paragraph>
-                <Browser Layout="typeof(PreviewLayout)">
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="">
 	                    <Navbar ScreenReaderText="Toggle side navigation">
 		                    <div class="p-2 text-on-surface ">
                                 RizzyUI
 		                    </div>
 		                    <div class="flex items-center gap-4">
-			                    <Link Href="/">Home</Link>
-			                    <Link Href="/about">About</Link>
-			                    <Link Href="/contact">Contact</Link>
+			                    <RzLink Href="/">Home</RzLink>
+			                    <RzLink Href="/about">About</RzLink>
+			                    <RzLink Href="/contact">Contact</RzLink>
 		                    </div>
 	                    </Navbar>
                     </div>
-                </Browser>
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 					&lt;Navbar ScreenReaderText=&quot;Toggle side navigation&quot;&gt;
 					    &lt;div class="p-2 text-on-surface "&gt;
 					        RizzyUI
 					    &lt;/div&gt;
 					    &lt;div class=&quot;flex items-center gap-4&quot;&gt;
-					        &lt;Link Href=&quot;/&quot;&gt;Home&lt;/Link&gt;
-					        &lt;Link Href=&quot;/about&quot;&gt;About&lt;/Link&gt;
-					        &lt;Link Href=&quot;/contact&quot;&gt;Contact&lt;/Link&gt;
+					        &lt;RzLink Href=&quot;/&quot;&gt;Home&lt;/RzLink&gt;
+					        &lt;RzLink Href=&quot;/about&quot;&gt;About&lt;/RzLink&gt;
+					        &lt;RzLink Href=&quot;/contact&quot;&gt;Contact&lt;/RzLink&gt;
 					    &lt;/div&gt;
 					&lt;/Navbar&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Example 2: Navbar with Mobile Toggle Button -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Responsive Navbar" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Responsive Navbar" class="scroll-mt-20">
                     Responsive Navbar Example
-                </Heading>
-                <Paragraph>
+                </RzHeading>
+                <RzParagraph>
                     In this example, the Navbar includes a mobile toggle button. On small screens (md:hidden), the button (with a menu icon)
                     appears and is accessible via screen readers.
-                </Paragraph>
-                <Browser Layout="typeof(PreviewLayout)">
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="">
 	                    <Navbar ScreenReaderText="Open side navigation">
                             <div class="p-2 text-on-surface ">
 			                    RizzyUI
 		                    </div>
 		                    <div class="flex items-center gap-4">
-			                    <Link Href="/">Dashboard</Link>
-			                    <Link Href="/profile">Profile</Link>
-			                    <Link Href="/settings">Settings</Link>
-			                    <Avatar ImageSource="/images/profile/51.jpg" Initials="JD" Shape="AvatarShape.Circle" Size="Size.Small" />
+			                    <RzLink Href="/">Dashboard</RzLink>
+			                    <RzLink Href="/profile">Profile</RzLink>
+			                    <RzLink Href="/settings">Settings</RzLink>
+			                    <RzAvatar ImageSource="/images/profile/51.jpg" Initials="JD" Shape="AvatarShape.Circle" Size="Size.Small" />
 		                    </div>
 	                    </Navbar>
                     </div>
-                </Browser>
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;Navbar ScreenReaderText=&quot;Open side navigation&quot;&gt;
     &lt;div class="p-2 text-on-surface "&gt;
         RizzyUI
     &lt;/div&gt;
     &lt;div class=&quot;flex items-center gap-4&quot;&gt;
-        &lt;Link Href=&quot;/&quot;&gt;Dashboard&lt;/Link&gt;
-        &lt;Link Href=&quot;/profile&quot;&gt;Profile&lt;/Link&gt;
-        &lt;Link Href=&quot;/settings&quot;&gt;Settings&lt;/Link&gt;
+        &lt;RzLink Href=&quot;/&quot;&gt;Dashboard&lt;/RzLink&gt;
+        &lt;RzLink Href=&quot;/profile&quot;&gt;Profile&lt;/RzLink&gt;
+        &lt;RzLink Href=&quot;/settings&quot;&gt;Settings&lt;/RzLink&gt;
     &lt;/div&gt;
 &lt;/Navbar&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Parameters Table: Navbar -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Navbar Component Parameters" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Navbar Component Parameters" class="scroll-mt-20">
                     Navbar Component Parameters
-                </Heading>
+                </RzHeading>
                 <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
                     <thead>
                         <tr class="bg-surface-alt ">
@@ -140,33 +140,33 @@
 
             <!-- Additional Usage: Extra Attributes -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Using Extra Attributes" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Using Extra Attributes" class="scroll-mt-20">
                     Using Extra Attributes for Customization
-                </Heading>
-                <Paragraph>
+                </RzHeading>
+                <RzParagraph>
                     You can pass additional attributes to the Navbar component to modify its styling.
                     For example, you may add extra Tailwind CSS classes to adjust margins, padding, or background colors.
-                </Paragraph>
-                <Browser Layout="typeof(PreviewLayout)">
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-20">
                         <Navbar class="bg-primary/10 border-primary">
                             <div class="flex items-center gap-4">
-                                <Link Href="/">Custom Home</Link>
-                                <Link Href="/about">Custom About</Link>
+                                <RzLink Href="/">Custom Home</RzLink>
+                                <RzLink Href="/about">Custom About</RzLink>
                             </div>
                         </Navbar>
                     </div>
-                </Browser>
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;Navbar class=&quot;bg-primary/10 border-primary&quot;&gt;
     &lt;div class=&quot;flex items-center gap-4&quot;&gt;
-        &lt;Link Href=&quot;/&quot;&gt;Custom Home&lt;/Link&gt;
-        &lt;Link Href=&quot;/about&quot;&gt;Custom About&lt;/Link&gt;
+        &lt;RzLink Href=&quot;/&quot;&gt;Custom Home&lt;/RzLink&gt;
+        &lt;RzLink Href=&quot;/about&quot;&gt;Custom About&lt;/RzLink&gt;
     &lt;/div&gt;
 &lt;/Navbar&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>

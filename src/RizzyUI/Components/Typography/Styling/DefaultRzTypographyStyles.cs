@@ -1,5 +1,3 @@
-using RizzyUI.Components.RzTypography;
-
 namespace RizzyUI;
 
 /// <summary> Provides default styles for base typography settings. </summary>

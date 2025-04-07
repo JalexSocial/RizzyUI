@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.Navigation.RzSidebar.Styling;
+namespace RizzyUI;
 
 /// <summary>
 /// Provides the default styles for the RzSidebar component.

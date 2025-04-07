@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.Document.RzArticle.Styling;
+namespace RizzyUI;
 
 /// <summary>
 ///     Provides the default styles for the RzArticle component.

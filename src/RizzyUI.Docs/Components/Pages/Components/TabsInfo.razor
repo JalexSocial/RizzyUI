@@ -3,23 +3,23 @@
 
 <PageTitle>Tabs</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Tabs</Heading>
-            <Paragraph>
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">Tabs</RzHeading>
+            <RzParagraph>
                 Tabs are a great way to display different sections of your website. They can be used to indicate the current section, navigate to the next or previous section, and more.
-            </Paragraph>
+            </RzParagraph>
 
-            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Tabs" class="scroll-mt-20">Default Tabs</Heading>
-            <Paragraph TextColor="SemanticColor.OnSurface">
+            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Tabs" class="scroll-mt-20">Default Tabs</RzHeading>
+            <RzParagraph TextColor="SemanticColor.OnSurface">
                 A list of tabs with a tab panel.
-            </Paragraph>
+            </RzParagraph>
 
-            <Browser Layout="typeof(PreviewLayout)">
+            <RzBrowser Layout="typeof(PreviewLayout)">
                 <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
                     <Tabs>
                         <Menu>
@@ -38,9 +38,9 @@
                         </TabPanels>
                     </Tabs>
                 </div>
-            </Browser>
+            </RzBrowser>
 
-            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
     &lt;Tabs&gt;
         &lt;Menu&gt;
             &lt;TabStrip&gt;
@@ -57,14 +57,14 @@
             &lt;TabPanel Name=&quot;saved&quot;&gt;&lt;strong&gt;&lt;u&gt;Saved&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
         &lt;/TabPanels&gt;
     &lt;/Tabs&gt;
-            </CodeViewer>
+            </RzCodeViewer>
             
-            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Tabs with icon" class="scroll-mt-20">Tabs with icon</Heading>
-            <Paragraph TextColor="SemanticColor.OnSurface">
+            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Tabs with icon" class="scroll-mt-20">Tabs with icon</RzHeading>
+            <RzParagraph TextColor="SemanticColor.OnSurface">
                 A list of tabs with icons and a tab panel.
-            </Paragraph>
+            </RzParagraph>
 
-            <Browser Layout="typeof(PreviewLayout)">
+            <RzBrowser Layout="typeof(PreviewLayout)">
                 <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
                     <Tabs>
                         <Menu>
@@ -86,9 +86,9 @@
                         </TabPanels>
                     </Tabs>
                 </div>
-            </Browser>
+            </RzBrowser>
 
-            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
     &lt;Tabs&gt;
         &lt;Menu&gt;
             &lt;TabStrip&gt;
@@ -105,14 +105,14 @@
             &lt;TabPanel Name=&quot;saved&quot;&gt;&lt;strong&gt;&lt;u&gt;Saved&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
         &lt;/TabPanels&gt;
     &lt;/Tabs&gt;
-            </CodeViewer>            
+            </RzCodeViewer>            
 
-            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Colored Tabs" class="scroll-mt-20">Colored Tabs</Heading>
-            <Paragraph TextColor="SemanticColor.OnSurface">
+            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Colored Tabs" class="scroll-mt-20">Colored Tabs</RzHeading>
+            <RzParagraph TextColor="SemanticColor.OnSurface">
                 A list of colored tabs with a tab panel.
-            </Paragraph>
+            </RzParagraph>
 
-            <Browser Layout="typeof(PreviewLayout)">
+            <RzBrowser Layout="typeof(PreviewLayout)">
                 <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
                     <Tabs SelectedTabName="events" 
                           TabBackgroundColor="SemanticColor.SurfaceAlt"
@@ -135,9 +135,9 @@
                         </TabPanels>
                     </Tabs>
                 </div>
-            </Browser>
+            </RzBrowser>
 
-            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
     &lt;Tabs SelectedTabName=&quot;activity&quot; 
           TabBackgroundSemanticColor=&quot;SemanticColor.SurfaceAlt&quot;
           SelectedTabUnderlineSemanticColor=&quot;SemanticColor.Warning&quot;
@@ -158,7 +158,7 @@
             &lt;TabPanel Name=&quot;members&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Members Content&lt;/TabPanel&gt;
         &lt;/TabPanels&gt;
     &lt;/Tabs&gt;
-            </CodeViewer>
+            </RzCodeViewer>
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>

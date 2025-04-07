@@ -6,41 +6,41 @@
 
 <PageTitle>Markdown</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">
                 Markdown
-            </Heading>
-            <Paragraph>
-                The Markdown component converts GitHub‑style Markdown into HTML. It supports headings, paragraphs, lists, inline code,
+            </RzHeading>
+            <RzParagraph>
+                The Markdown component converts GitHub‑style Markdown into HTML. It supports RzHeadings, RzParagraphs, lists, inline code,
                 code blocks, links, images, and more. The conversion is powered by Markdig and syntax highlighting is applied via Highlight.js
                 using the <code>rzMarkdown</code> Alpine.js data object.
-            </Paragraph>
-            <Paragraph>
-                For a full-featured markdown demo, <Link href="/markdown-demo">click here</Link>.
-            </Paragraph>
+            </RzParagraph>
+            <RzParagraph>
+                For a full-featured markdown demo, <RzLink href="/markdown-demo">click here</RzLink>.
+            </RzParagraph>
 
-            <Alert Variant="AlertVariant.Warning">
+            <RzAlert Variant="AlertVariant.Warning">
                 <AlertTitle>Special Note</AlertTitle>
                 <AlertDescription>
                     The Markdown component requires the Tailwind Typography component in order to render correctly.
                 </AlertDescription>
-            </Alert>
+            </RzAlert>
 
             <!-- Example 1: Basic Markdown Rendering -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Markdown" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Markdown" class="scroll-mt-20">
                     Basic Markdown Rendering
-                </Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
-                    This example demonstrates rendering simple Markdown with headings, paragraphs, lists, and inline styling.
-                </Paragraph>
+                </RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
+                    This example demonstrates rendering simple Markdown with RzHeadings, RzParagraphs, lists, and inline styling.
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 min-h-60">
                         <Markdown>
                             # Welcome to RizzyUI Markdown
@@ -54,9 +54,9 @@
                             [Visit our website](https://rizzyui.com)
                         </Markdown>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Markdown" class="mb-10">
+                <RzCodeViewer Language="@CodeLanguage.Markdown" class="mb-10">
                     &lt;Markdown&gt;
                     # Welcome to RizzyUI Markdown
 
@@ -68,19 +68,19 @@
 
                     [Visit our website](https://rizzyui.com)
                     &lt;/Markdown&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Example 2: Markdown with Code Block -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Markdown with Code Block" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Markdown with Code Block" class="scroll-mt-20">
                     Markdown with Code Block
-                </Heading>
-                <Paragraph>
+                </RzHeading>
+                <RzParagraph>
                     In this example, the Markdown component renders a code block with syntax highlighting for C#.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 min-h-60">
                         <Markdown>
                             ## C# Code Example
@@ -94,9 +94,9 @@
                             ```
                         </Markdown>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Markdown" class="mb-10">
+                <RzCodeViewer Language="@CodeLanguage.Markdown" class="mb-10">
                     &lt;Markdown&gt;
                     ## C# Code Example
 
@@ -108,14 +108,14 @@
                     }
                     ```
                     &lt;/Markdown&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Markdown Component Parameters -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Markdown Parameters" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Markdown Parameters" class="scroll-mt-20">
                     Markdown Component Parameters
-                </Heading>
+                </RzHeading>
                 <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
                     <thead>
                         <tr class="bg-surface-alt ">
@@ -149,5 +149,5 @@
                 </table>
             </section>
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>

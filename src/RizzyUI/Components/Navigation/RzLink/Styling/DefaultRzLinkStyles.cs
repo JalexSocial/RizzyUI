@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.Navigation.RzLink.Styling;
+namespace RizzyUI;
 
 /// <summary>
 ///     Provides the default styles for the RzLink component.

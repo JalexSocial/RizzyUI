@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.Form.RzButton.Styling;
+namespace RizzyUI;
 
 /// <summary>
 ///     Provides the default styles for the RzButtonGroup component.

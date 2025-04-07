@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.Form.RzCheckbox.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzCheckboxGroup. </summary>
 public class DefaultRzCheckboxGroupStyles : RzStylesBase.RzCheckboxGroupStylesBase

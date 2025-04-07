@@ -1,7 +1,5 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
-using RizzyUI.Components.RzTypography;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;

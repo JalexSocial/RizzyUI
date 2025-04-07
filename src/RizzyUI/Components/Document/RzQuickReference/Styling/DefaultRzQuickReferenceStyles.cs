@@ -1,6 +1,4 @@
-using RizzyUI.Components.RzTypography;
-
-namespace RizzyUI.Components.Document.RzQuickReference.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzQuickReference. </summary>
 public class DefaultRzQuickReferenceStyles : RzStylesBase.RzQuickReferenceStylesBase // Not sealed

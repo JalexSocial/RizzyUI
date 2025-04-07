@@ -3,25 +3,25 @@
 
 <PageTitle>Divider</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Divider</Heading>
-            <Paragraph>
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">Divider</RzHeading>
+            <RzParagraph>
                 The Divider component is a versatile UI element used to separate content, providing a clear visual distinction between different sections or elements within your application. It enhances readability and organizes the layout by creating logical divisions.
-            </Paragraph>
+            </RzParagraph>
 			
             <section class="my-8 py-2">
 
-	            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Divider" class="scroll-mt-20">Default Divider</Heading>
-	            <Paragraph TextColor="SemanticColor.OnSurface">
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Divider" class="scroll-mt-20">Default Divider</RzHeading>
+	            <RzParagraph TextColor="SemanticColor.OnSurface">
 		            A basic divider shown in solid, dashed, and dotted styles
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Browser Layout="typeof(PreviewLayout)">
+	            <RzBrowser Layout="typeof(PreviewLayout)">
 
 		            <div class="mx-auto p-8 mb-5">
 						
@@ -33,26 +33,26 @@
 
 		            </div>
 
-	            </Browser>
+	            </RzBrowser>
 
-	            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
     &lt;Divider/&gt;
 		
     &lt;Divider Style=&quot;@@DividerStyle.Dashed&quot;/&gt;
 		
     &lt;Divider Style=&quot;@@DividerStyle.Dotted&quot;/&gt;
-	            </CodeViewer>
+	            </RzCodeViewer>
 
 	        </section>
 
             <section class="my-8 py-2">
 
-	            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Divider with Label" class="scroll-mt-20">Divider with Label</Heading>
-	            <Paragraph TextColor="SemanticColor.OnSurface">
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Divider with Label" class="scroll-mt-20">Divider with Label</RzHeading>
+	            <RzParagraph TextColor="SemanticColor.OnSurface">
 		            A divider with text label shown in solid, dashed, and dotted styles
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Browser Layout="typeof(PreviewLayout)">
+	            <RzBrowser Layout="typeof(PreviewLayout)">
 
 		            <div class="mx-auto p-8 mb-5">
 						
@@ -64,26 +64,26 @@
 
 		            </div>
 
-	            </Browser>
+	            </RzBrowser>
 
-	            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
     &lt;Divider Style=@@DividerStyle.Solid&gt;Solid&lt;/Divider&gt;
 
     &lt;Divider Style=@@DividerStyle.Dashed&gt;Dashed&lt;/Divider&gt;
 
     &lt;Divider Style=@@DividerStyle.Dotted&gt;Dotted&lt;/Divider&gt;
-	            </CodeViewer>
+	            </RzCodeViewer>
 
             </section>
 			
             <section class="my-8 py-2">
 
-	            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Divider with Aligned Label" class="scroll-mt-20">Divider with Aligned Label</Heading>
-	            <Paragraph TextColor="SemanticColor.OnSurface">
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Divider with Aligned Label" class="scroll-mt-20">Divider with Aligned Label</RzHeading>
+	            <RzParagraph TextColor="SemanticColor.OnSurface">
 		            A divider with text label aligned to start, center, and end
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Browser Layout="typeof(PreviewLayout)">
+	            <RzBrowser Layout="typeof(PreviewLayout)">
 
 		            <div class="mx-auto p-8 mb-5">
 
@@ -95,27 +95,27 @@
 
 		            </div>
 
-	            </Browser>
+	            </RzBrowser>
 
-	            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
     &lt;Divider LabelAlignment=&quot;Align.Start&quot; class=&quot;text-onSurface dark:text-onSurfaceDark&quot;&gt;Start&lt;/Divider&gt;
 
     &lt;Divider LabelAlignment=&quot;Align.Center&quot; class=&quot;text-onSurface dark:text-onSurfaceDark&quot;&gt;Center&lt;/Divider&gt;
 
     &lt;Divider LabelAlignment=&quot;Align.End&quot; class=&quot;text-onSurface dark:text-onSurfaceDark&quot;&gt;Middle&lt;/Divider&gt;
 
-	            </CodeViewer>
+	            </RzCodeViewer>
 
             </section>			
 
             <section class="my-8 py-2">
 
-	            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Divider with Icon" class="scroll-mt-20">Divider with Icon</Heading>
-	            <Paragraph TextColor="SemanticColor.OnSurface">
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Divider with Icon" class="scroll-mt-20">Divider with Icon</RzHeading>
+	            <RzParagraph TextColor="SemanticColor.OnSurface">
 		            A divider with icon label styled by Tailwind classes
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Browser Layout="typeof(PreviewLayout)">
+	            <RzBrowser Layout="typeof(PreviewLayout)">
 
 		            <div class="mx-auto p-8 mb-5">
 						
@@ -123,14 +123,14 @@
 
 		            </div>
 
-	            </Browser>
+	            </RzBrowser>
 
-	            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
     &lt;Divider Style=@@DividerStyle.Solid class=&quot;text-lg text-onSurface dark:text-onSurfaceDark&quot;&gt;&lt;Blazicon Svg=&quot;MdiIcon.PlusCircle&quot;/&gt;&lt;/Divider&gt;
-	            </CodeViewer>
+	            </RzCodeViewer>
 
             </section>
 
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>

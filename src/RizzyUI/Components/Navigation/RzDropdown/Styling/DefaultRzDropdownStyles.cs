@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.Navigation.RzDropdown.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzDropdown. </summary>
 public class DefaultRzDropdownStyles : RzStylesBase.RzDropdownStylesBase

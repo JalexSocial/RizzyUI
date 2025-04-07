@@ -1,4 +1,4 @@
-﻿namespace RizzyUI.Components.Document.RzCodeViewer;
+﻿namespace RizzyUI;
 
 /// <summary>
 ///     Provides constants for language aliases supported by Highlight.js.

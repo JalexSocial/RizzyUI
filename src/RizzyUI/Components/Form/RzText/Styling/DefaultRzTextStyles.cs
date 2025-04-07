@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.Form.RzText.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzTextEdit. </summary>
 public class DefaultRzTextEditStyles : RzStylesBase.RzTextEditStylesBase

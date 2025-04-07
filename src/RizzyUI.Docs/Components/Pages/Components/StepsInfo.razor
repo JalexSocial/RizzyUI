@@ -6,39 +6,39 @@
 
 <PageTitle>Steps</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
             <!-- Page Title and Overview -->
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">
                 Steps
-            </Heading>
-            <Paragraph>
+            </RzHeading>
+            <RzParagraph>
                 The Steps component provides a visual progress indicator to guide users through multi‑step processes.
                 Each step is displayed as a circle (with either a number or an icon) along with an associated label and optional caption.
                 Use the <code>StepStatus</code> enum to define whether a step is completed, current, or upcoming.
                 The component supports both horizontal and vertical orientations and adapts its styling based on the active status.
-            </Paragraph>
+            </RzParagraph>
 
             <!-- Example 1: Horizontal Steps -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Horizontal Steps" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Horizontal Steps" class="scroll-mt-20">
                     Horizontal Steps Example
-                </Heading>
-                <Paragraph>
+                </RzHeading>
+                <RzParagraph>
                     In the example below, a horizontal Steps component is used to display a registration process.
                     The first step is marked as completed, the second is current, and the remaining steps are upcoming.
                     The active steps use the color defined by <code>StatusColor.Primary</code>.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-60">
                         <Steps Orientation="Orientation.Horizontal" 
                                ShowLabels="true" 
-                               AriaLabel="Registration Progress" 
+                               AriaLabel="Registration RzProgress" 
                                ActiveColor="StatusColor.Primary">
                             <Step Label="Create an account" Status="StepStatus.Completed" Caption="Account created" />
                             <Step Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection" />
@@ -46,37 +46,37 @@
                             <Step Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey" />
                         </Steps>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;Steps Orientation=&quot;Orientation.Horizontal&quot; 
        ShowLabels=&quot;true&quot; 
-       AriaLabel=&quot;Registration Progress&quot; 
+       AriaLabel=&quot;Registration RzProgress&quot; 
        ActiveColor=&quot;StatusColor.Primary&quot;&gt;
     &lt;Step Label=&quot;Create an account&quot; Status=&quot;StepStatus.Completed&quot; Caption=&quot;Account created&quot; /&gt;
     &lt;Step Label=&quot;Select a plan&quot; Status=&quot;StepStatus.Current&quot; Caption=&quot;Plan selection&quot; /&gt;
     &lt;Step Label=&quot;Checkout&quot; Status=&quot;StepStatus.Upcoming&quot; Caption=&quot;Review your cart&quot; /&gt;
     &lt;Step Label=&quot;Get started&quot; Status=&quot;StepStatus.Upcoming&quot; Caption=&quot;Begin your journey&quot; /&gt;
 &lt;/Steps&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Example 2: Vertical Steps -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Vertical Steps" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Vertical Steps" class="scroll-mt-20">
                     Vertical Steps Example
-                </Heading>
-                <Paragraph>
+                </RzHeading>
+                <RzParagraph>
                     In this example the Steps component is rendered vertically. Vertical orientation is ideal for processes
                     where space permits a stacked layout. In this case, the steps represent an onboarding process with two completed steps,
                     one current step, and one upcoming step. The active steps use the color defined by <code>StatusColor.Success</code>.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-80">
                         <Steps Orientation="Orientation.Vertical" 
                                ShowLabels="true" 
-                               AriaLabel="Onboarding Progress" 
+                               AriaLabel="Onboarding RzProgress" 
                                ActiveColor="StatusColor.Success">
                             <Step Label="Sign Up" Status="StepStatus.Completed" Caption="Account created" />
                             <Step Label="Verify Email" Status="StepStatus.Completed" Caption="Email verified" />
@@ -84,26 +84,26 @@
                             <Step Label="Get Started" Status="StepStatus.Upcoming" Caption="Start exploring" />
                         </Steps>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;Steps Orientation=&quot;Orientation.Vertical&quot; 
        ShowLabels=&quot;true&quot; 
-       AriaLabel=&quot;Onboarding Progress&quot; 
+       AriaLabel=&quot;Onboarding RzProgress&quot; 
        ActiveColor=&quot;StatusColor.Success&quot;&gt;
     &lt;Step Label=&quot;Sign Up&quot; Status=&quot;StepStatus.Completed&quot; Caption=&quot;Account created&quot; /&gt;
     &lt;Step Label=&quot;Verify Email&quot; Status=&quot;StepStatus.Completed&quot; Caption=&quot;Email verified&quot; /&gt;
     &lt;Step Label=&quot;Complete Profile&quot; Status=&quot;StepStatus.Current&quot; Caption=&quot;Profile incomplete&quot; /&gt;
     &lt;Step Label=&quot;Get Started&quot; Status=&quot;StepStatus.Upcoming&quot; Caption=&quot;Start exploring&quot; /&gt;
 &lt;/Steps&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Parameters Table: Steps -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Steps Component Parameters" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Steps Component Parameters" class="scroll-mt-20">
                     Steps Component Parameters
-                </Heading>
+                </RzHeading>
                 <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
                     <thead>
                         <tr class="bg-surface-alt ">
@@ -155,9 +155,9 @@
 
             <!-- Parameters Table: Step -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Step Component Parameters" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Step Component Parameters" class="scroll-mt-20">
                     Step Component Parameters
-                </Heading>
+                </RzHeading>
                 <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
                     <thead>
                         <tr class="bg-surface-alt ">
@@ -199,5 +199,5 @@
             </section>
 
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>

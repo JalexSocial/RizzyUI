@@ -2,21 +2,21 @@
 
 <PageTitle>Markdown Demo</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
-            <Breadcrumb>
-                <BreadcrumbItem Href="/" Label="Home"/>
-                <BreadcrumbItem Href="/components/markdown" Label="Markdown"/>
-                <BreadcrumbItem Label="Markdown Demo"/>
-            </Breadcrumb>
+            <RzBreadcrumb>
+                <RzBreadcrumbItem Href="/" Label="Home"/>
+                <RzBreadcrumbItem Href="/components/markdown" Label="Markdown"/>
+                <RzBreadcrumbItem Label="Markdown Demo"/>
+            </RzBreadcrumb>
             <Markdown ProseWidth="ProseWidth.Wide">
 # Markdown Demo
 
-Welcome to the **Markdown Demo**. This document demonstrates a wide range of Markdown features as well as how the RizzyUI library can be used in your Blazor projects. It includes examples of headings, paragraphs, lists, code blocks, tables, block quotes, links, images, and more.
+Welcome to the **Markdown Demo**. This document demonstrates a wide range of Markdown features as well as how the RizzyUI library can be used in your Blazor projects. It includes examples of RzHeadings, RzParagraphs, lists, code blocks, tables, block quotes, links, images, and more.
 
 ---
 
@@ -55,19 +55,19 @@ RizzyUI offers a comprehensive set of features:
 
 ## Components
 
-### Alerts
+### RzAlerts
 
-RizzyUI includes a fully accessible alert component. Alerts automatically handle focus, use ARIA attributes, and can be dismissed via Alpine.js interactivity.
+RizzyUI includes a fully accessible alert component. RzAlerts automatically handle focus, use ARIA attributes, and can be dismissed via Alpine.js interactivity.
 
 #### Example Usage
 
 ```razor
-&lt;Alert Variant=&quot;AlertVariant.Information&quot;&gt;
-    &lt;AlertTitle&gt;Information Alert&lt;/AlertTitle&gt;
+&lt;RzAlert Variant=&quot;AlertVariant.Information&quot;&gt;
+    &lt;AlertTitle&gt;Information RzAlert&lt;/AlertTitle&gt;
     &lt;AlertDescription&gt;
         This is an informational message about the RizzyUI library.
     &lt;/AlertDescription&gt;
-&lt;/Alert&gt;
+&lt;/RzAlert&gt;
 ```
 
 ### Buttons
@@ -84,7 +84,7 @@ Buttons in RizzyUI are designed to be both accessible and responsive. They suppo
 
 RizzyUI provides a set of form components, including text fields, checkboxes, radio groups, and toggles. These components ensure proper validation and accessibility compliance.
 
-- **TextField:** Combines labels, placeholders, and inline validation.
+- **RzTextField:** Combines labels, placeholders, and inline validation.
 - **CheckboxGroup:** Supports grouping of multiple options with flexible layouts.
 - **RadioGroup:** Provides customizable radio button groups.
 
@@ -177,7 +177,7 @@ Use inline code formatting for references to methods or tokens, e.g., `TwMerge.M
 
 ## Document Hierarchy
 
-The document hierarchy is built using multiple heading levels. Here’s an example breakdown:
+The document hierarchy is built using multiple RzHeading levels. Here’s an example breakdown:
 
 ### Level 1: RizzyUI Documentation
 
@@ -189,7 +189,7 @@ These sections provide a broad overview of the library.
 
 #### Level 3: Under Components
 
-- **Alerts**
+- **RzAlerts**
 - **Buttons**
 - **Form Fields**
 
@@ -213,8 +213,8 @@ For further details, refer to the component source code and the RizzyUI Componen
 
             </Markdown>
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>
 
 
 @code {

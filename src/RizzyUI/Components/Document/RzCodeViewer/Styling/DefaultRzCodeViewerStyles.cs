@@ -1,4 +1,4 @@
-﻿namespace RizzyUI.Components.Document.RzCodeViewer.Styling;
+﻿namespace RizzyUI;
 
 /// <summary> Provides default styles for RzCodeViewer. </summary>
 public class DefaultRzCodeViewerStyles : RzStylesBase.RzCodeViewerStylesBase

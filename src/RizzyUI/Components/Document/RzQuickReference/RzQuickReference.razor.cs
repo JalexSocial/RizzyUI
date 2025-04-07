@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
-using RizzyUI.Components.RzTypography;
 using RizzyUI.Extensions;
-// For List
-// For Linq extensions
 
 namespace RizzyUI;
 

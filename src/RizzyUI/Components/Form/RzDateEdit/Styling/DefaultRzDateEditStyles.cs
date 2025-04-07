@@ -1,4 +1,4 @@
-﻿namespace RizzyUI.Components.Form.RzDateEdit.Styling;
+﻿namespace RizzyUI;
 
 /// <summary> Provides default styles for RzDateEdit. </summary>
 public class DefaultRzDateEditStyles : RzStylesBase.RzDateEditStylesBase // Not sealed

@@ -3,28 +3,28 @@
 
 <PageTitle>Buttons</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Buttons</Heading>
-            <Paragraph>
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">Buttons</RzHeading>
+            <RzParagraph>
                 Buttons are a fundamental element of any user interface. Users can use them to trigger actions,
                 such as submitting a form, opening a modal, or navigating to another page.
-            </Paragraph>
+            </RzParagraph>
 
             <!-- Default Buttons -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Button" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Button" class="scroll-mt-20">
                     Default Button
-                </Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                </RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     Buttons with a solid background – use them to draw attention to the most important actions.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-2 text-base mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-3">
                         <Button Variant=ButtonVariant.Primary>Primary</Button>
                         <Button Variant=ButtonVariant.Secondary>Secondary</Button>
@@ -36,9 +36,9 @@
                         <Button Variant=ButtonVariant.Success>Success</Button>
                         <Button Variant=ButtonVariant.Ghost>Ghost</Button>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
 &lt;Button Variant=ButtonVariant.Primary&gt;Primary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Secondary&gt;Secondary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Alternate&gt;Alternate&lt;/Button&gt;
@@ -48,20 +48,20 @@
 &lt;Button Variant=ButtonVariant.Warning&gt;Warning&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Success&gt;Success&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Ghost&gt;Ghost&lt;/Button&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Outline Buttons -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Outline Button" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Outline Button" class="scroll-mt-20">
                     Outline Button
-                </Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                </RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     Buttons defined by a border rather than a solid background. Use them to emphasize alternative or
                     less critical actions without overwhelming the interface.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-2 text-base mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-3">
                         <Button Variant=ButtonVariant.Primary Outline>Primary</Button>
                         <Button Variant=ButtonVariant.Secondary Outline>Secondary</Button>
@@ -73,9 +73,9 @@
                         <Button Variant=ButtonVariant.Success Outline>Success</Button>
                         <Button Variant=ButtonVariant.Ghost Outline>Ghost</Button>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
 &lt;Button Variant=ButtonVariant.Primary Outline&gt;Primary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Secondary Outline&gt;Secondary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Alternate Outline&gt;Alternate&lt;/Button&gt;
@@ -85,19 +85,19 @@
 &lt;Button Variant=ButtonVariant.Warning Outline&gt;Warning&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Success Outline&gt;Success&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Ghost Outline&gt;Ghost&lt;/Button&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Button Sizing -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Button Sizing" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Button Sizing" class="scroll-mt-20">
                     Button Sizing
-                </Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                </RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     Buttons are available in several sizes.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-2 text-base mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-3">
                         <Button Variant=ButtonVariant.Primary Size=Size.ExtraSmall>Primary</Button>
                         <Button Variant=ButtonVariant.Primary Size=Size.Small>Primary</Button>
@@ -105,69 +105,69 @@
                         <Button Variant=ButtonVariant.Primary Size=Size.Large>Primary</Button>
                         <Button Variant=ButtonVariant.Primary Size=Size.ExtraLarge>Primary</Button>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
 &lt;Button Variant=ButtonVariant.Primary Size=Size.ExtraSmall&gt;Primary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Primary Size=Size.Small&gt;Primary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Primary Size=Size.Medium&gt;Primary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Primary Size=Size.Large&gt;Primary&lt;/Button&gt;
 &lt;Button Variant=ButtonVariant.Primary Size=Size.ExtraLarge&gt;Primary&lt;/Button&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Disabled Animation Demo -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="No Animation Button" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="No Animation Button" class="scroll-mt-20">
                     No Animation Button
-                </Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                </RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     This example demonstrates a Button with disabled animation by setting <code>Animate</code> to <code>false</code>.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-1 text-base mx-auto grid min-h-[10rem] place-content-evenly place-items-center gap-4 rounded-xl p-8">
                         <Button Variant=ButtonVariant.Primary Animate="false">
                             Primary (No Animation)
                         </Button>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
 &lt;Button Variant=ButtonVariant.Primary Animate="false"&gt;Primary (No Animation)&lt;/Button&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Custom Styled Button Demo -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Styled Button" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Styled Button" class="scroll-mt-20">
                     Custom Styled Button
-                </Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                </RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     This example demonstrates a Button with completely custom styling. Instead of using the <code>ButtonVariant</code> parameter,
                     a custom CSS class is applied to achieve a unique color scheme.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-1 text-base mx-auto grid min-h-[10rem] place-content-evenly place-items-center gap-4 rounded-xl p-8">
                         <Button class="bg-linear-45 from-indigo-500 via-purple-500 to-pink-500 hover:text-white hover:-rotate-5 hover:scale-105 hover:from-pink-500 hover:via-indigo-600 hover:to-purple-500 px-6 py-3 transition-all rounded-lg shadow-lg">
                             Custom Styled Button
                         </Button>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
 &lt;Button class="bg-linear-45 from-indigo-500 via-purple-500 to-pink-500 hover:text-white hover:-rotate-5 hover:scale-105 hover:from-pink-500 hover:via-indigo-600 hover:to-purple-500 px-6 py-3 transition-all rounded-lg shadow-lg"&gt;
     Custom Styled Button
 &lt;/Button&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Button Component Parameters -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Button Component Parameters" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Button Component Parameters" class="scroll-mt-20">
                     Button Component Parameters
-                </Heading>
+                </RzHeading>
                 <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
                     <thead>
                         <tr class="bg-surface-alt ">
@@ -247,5 +247,5 @@
             </section>
 
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>

@@ -8,7 +8,6 @@ using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using Rizzy.Utility;
-using RizzyUI.Components.RzTypography;
 using RizzyUI.Extensions;
 
 // Add this

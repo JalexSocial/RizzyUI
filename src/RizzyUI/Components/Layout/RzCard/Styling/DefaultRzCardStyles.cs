@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.Layout.RzCard.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzCard. </summary>
 public class DefaultRzCardStyles : RzStylesBase.RzCardStylesBase

@@ -1,4 +1,4 @@
-﻿namespace RizzyUI.Components.Theme.RzDarkMode.Styling;
+﻿namespace RizzyUI;
 
 /// <summary> Provides default styles for RzDarkmodeToggle. </summary>
 public class DefaultRzDarkmodeToggleStyles : RzStylesBase.RzDarkmodeToggleStylesBase

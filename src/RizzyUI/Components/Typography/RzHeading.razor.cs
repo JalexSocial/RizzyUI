@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
-using RizzyUI.Components.RzTypography;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;

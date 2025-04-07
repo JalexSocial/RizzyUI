@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.Document.RzMarkdown.Styling;
+namespace RizzyUI;
 
 /// <summary>
 ///     Provides the default styles for the RzMarkdown component.

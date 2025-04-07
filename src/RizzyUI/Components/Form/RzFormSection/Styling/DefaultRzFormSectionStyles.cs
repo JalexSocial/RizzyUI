@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.Form.RzFormSection.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzFormSection. </summary>
 public class DefaultRzFormSectionStyles : RzStylesBase.RzFormSectionStylesBase

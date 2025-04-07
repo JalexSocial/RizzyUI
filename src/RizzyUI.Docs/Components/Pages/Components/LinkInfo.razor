@@ -2,125 +2,125 @@
 @using RizzyUI
 @using RizzyUI.Extensions
 
-<PageTitle>Link</PageTitle>
+<PageTitle>RzLink</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
             <!-- Page Title and Overview -->
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
-                Link
-            </Heading>
-            <Paragraph>
-                Links are a great way to direct users to a specific page or section of your website.
-                The <code>Link</code> component provides consistent styling for links throughout your application.
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">
+                RzLink
+            </RzHeading>
+            <RzParagraph>
+                RzLinks are a great way to direct users to a specific page or section of your website.
+                The <code>RzLink</code> component provides consistent styling for links throughout your application.
                 It wraps an anchor element (<code>&lt;a&gt;</code>) with predefined RizzyUI styling using our design tokens and Tailwind CSS.
-            </Paragraph>
+            </RzParagraph>
 
-            <!-- Example 1: Default Link -->
+            <!-- Example 1: Default RzLink -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Link" class="scroll-mt-20">
-                    Default Link
-                </Heading>
-                <Paragraph>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default RzLink" class="scroll-mt-20">
+                    Default RzLink
+                </RzHeading>
+                <RzParagraph>
                     The default link below uses the standard styling.
-                </Paragraph>
-                <Browser Layout="typeof(PreviewLayout)">
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-20">
-                        <Link Href="javascript:void(0);">Read if bored</Link>
+                        <RzLink Href="javascript:void(0);">Read if bored</RzLink>
                     </div>
-                </Browser>
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Link Href=&quot;#&quot;&gt;Read if bored&lt;/Link&gt;
-                </CodeViewer>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzLink Href=&quot;#&quot;&gt;Read if bored&lt;/RzLink&gt;
+                </RzCodeViewer>
             </section>
 
-            <!-- Example 2: Link Within Text -->
+            <!-- Example 2: RzLink Within Text -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Link within Text" class="scroll-mt-20">
-                    Link within Text
-                </Heading>
-                <Paragraph>
-                    You can seamlessly embed the Link component within text content.
-                </Paragraph>
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzLink within Text" class="scroll-mt-20">
+                    RzLink within Text
+                </RzHeading>
+                <RzParagraph>
+                    You can seamlessly embed the RzLink component within text content.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-20">
                         <p class="text-on-surface ">
-                            Follow us on <Link Href="javascript:void(0);">social media</Link> and become our virtual BFF. We promise not to send cat videos (just kidding, we totally will).
+                            Follow us on <RzLink Href="javascript:void(0);">social media</RzLink> and become our virtual BFF. We promise not to send cat videos (just kidding, we totally will).
                         </p>
                     </div>
-                </Browser>
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;p class=&quot;text-on-surface &quot;&gt;
-    Follow us on &lt;Link Href=&quot;#&quot;&gt;social media&lt;/Link&gt; and become our virtual BFF. We promise not to send cat videos (just kidding, we totally will).
+    Follow us on &lt;RzLink Href=&quot;#&quot;&gt;social media&lt;/RzLink&gt; and become our virtual BFF. We promise not to send cat videos (just kidding, we totally will).
 &lt;/p&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
-            <!-- Example 3: Link with Icon -->
+            <!-- Example 3: RzLink with Icon -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Link with Icon" class="scroll-mt-20">
-                    Link with Icon
-                </Heading>
-                <Paragraph>
-                    The Link component can include icons. In this example, a Blazicon (<code>MdiIcon.ArrowRight</code>) is appended after the link text.
-                </Paragraph>
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzLink with Icon" class="scroll-mt-20">
+                    RzLink with Icon
+                </RzHeading>
+                <RzParagraph>
+                    The RzLink component can include icons. In this example, a Blazicon (<code>MdiIcon.ArrowRight</code>) is appended after the link text.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-20">
                         <p class="text-on-surface ">
                             Find out more 
-                            <Link Href="#">
+                            <RzLink Href="#">
                                 about our company
                                 <Blazicon Svg="MdiIcon.ArrowRight" class="size-4 inline" />
-                            </Link>
+                            </RzLink>
                         </p>
                     </div>
-                </Browser>
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;p class=&quot;text-on-surface &quot;&gt;
-    Find out more &lt;Link Href=&quot;#&quot;&gt;
+    Find out more &lt;RzLink Href=&quot;#&quot;&gt;
         about our company
         &lt;Blazicon Svg=&quot;MdiIcon.ArrowRight&quot; class=&quot;size-4 inline&quot; /&gt;
-    &lt;/Link&gt;
+    &lt;/RzLink&gt;
 &lt;/p&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Example 4: Extra Attributes for Button-like Styling -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Extra Attributes for Styling" class="scroll-mt-20">
-                    Link Styled as Button
-                </Heading>
-                <Paragraph>
-                    The Link component accepts extra attributes via <code>AdditionalAttributes</code>.
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Extra Attributes for Styling" class="scroll-mt-20">
+                    RzLink Styled as Button
+                </RzHeading>
+                <RzParagraph>
+                    The RzLink component accepts extra attributes via <code>AdditionalAttributes</code>.
                     This lets you add extra styling classes to style the link like a button.
-                </Paragraph>
-                <Browser Layout="typeof(PreviewLayout)">
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-20">
-                        <Link Href="javascript:void(0);"
+                        <RzLink Href="javascript:void(0);"
                               class="whitespace-nowrap rounded bg-primary border border-primary px-4 py-2 text-center text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75    dark:focus-visible:outline-primary-dark"
                               role="button">
                             I'm a link
-                        </Link>
+                        </RzLink>
                     </div>
-                </Browser>
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Link Href=&quot;#&quot; 
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzLink Href=&quot;#&quot; 
       class=&quot;whitespace-nowrap rounded bg-primary border border-primary px-4 py-2 text-center text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75    dark:focus-visible:outline-primary-dark&quot; 
       role=&quot;button&quot;&gt;
     I&apos;m a link
-&lt;/Link&gt;
-                </CodeViewer>
+&lt;/RzLink&gt;
+                </RzCodeViewer>
             </section>
 
-            <!-- Parameters Table: Link -->
+            <!-- Parameters Table: RzLink -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Link Component Parameters" class="scroll-mt-20">
-                    Link Component Parameters
-                </Heading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzLink Component Parameters" class="scroll-mt-20">
+                    RzLink Component Parameters
+                </RzHeading>
                 <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
                     <thead>
                         <tr class="bg-surface-alt ">
@@ -153,5 +153,5 @@
                 </table>
             </section>
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>

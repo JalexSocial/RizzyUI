@@ -1,4 +1,4 @@
-﻿namespace RizzyUI.Components.RzTypography;
+﻿namespace RizzyUI;
 
 /// <summary>
 ///     Represents the heading level, corresponding to HTML heading tags.

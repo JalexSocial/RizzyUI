@@ -9,15 +9,15 @@
 
 <HtmlElement Element="div" @attributes="AdditionalAttributes">
     <!-- Main Layout: Sidebar and Main Content -->
-    <Sidebar MainContentId="main-content">
+    <RzSidebar MainContentId="main-content">
         <NavbarContent>
 	        <Navbar>
 		        <div class="flex items-center pl-4 space-x-4">
-			        <Link Href="#" Underline="true">Admin Dashboard</Link>
+			        <RzLink Href="#" Underline="true">Admin Dashboard</RzLink>
 		        </div>
 		        <div class="flex items-center space-x-4">
 			        <!-- Dark mode toggle using our RizzyUI component -->
-			        <DarkmodeToggle />
+			        <RzDarkModeToggle />
 		        </div>
 	        </Navbar>
         </NavbarContent>
@@ -25,75 +25,75 @@
 	        <div class="p-1 mb-2">
                 <SearchButton class="bg-surface" />
 	        </div>
-	        <SidebarLinks>
-		        <SidebarLinkItem Href="#" Title="Dashboard" Icon="@MdiIcon.ViewDashboardOutline"/>
-		        <SidebarLinkItem Href="#" Title="Users" Icon="@MdiIcon.AccountGroupOutline"/>
-		        <SidebarLinkItem Href="#" Title="Reports" Icon="@MdiIcon.FileChartOutline"/>
-		        <SidebarLinkItem Href="#" Title="Settings" Icon="@MdiIcon.CogOutline"/>
-	        </SidebarLinks>
+	        <RzSidebarLinks>
+		        <RzSidebarLinkItem Href="#" Title="Dashboard" Icon="@MdiIcon.ViewDashboardOutline"/>
+		        <RzSidebarLinkItem Href="#" Title="Users" Icon="@MdiIcon.AccountGroupOutline"/>
+		        <RzSidebarLinkItem Href="#" Title="Reports" Icon="@MdiIcon.FileChartOutline"/>
+		        <RzSidebarLinkItem Href="#" Title="Settings" Icon="@MdiIcon.CogOutline"/>
+	        </RzSidebarLinks>
         </MenuContent>
         <MainContent>
-            <!-- A Skip Link for accessibility -->
+            <!-- A Skip RzLink for accessibility -->
             <a class="sr-only" href="#main-content">Skip to main content</a>
 
-            <!-- Breadcrumb Navigation -->
-            <Breadcrumb Separator="@MdiIcon.ChevronRight">
-                <BreadcrumbItem Href="#" Label="Home" IsActive="false" />
-                <BreadcrumbItem Href="#" Label="Admin" IsActive="true" />
-            </Breadcrumb>
+            <!-- RzBreadcrumb Navigation -->
+            <RzBreadcrumb Separator="@MdiIcon.ChevronRight">
+                <RzBreadcrumbItem Href="#" Label="Home" IsActive="false" />
+                <RzBreadcrumbItem Href="#" Label="Admin" IsActive="true" />
+            </RzBreadcrumb>
 
             <!-- Dashboard Metrics -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Total Users</CardTitle>
-                    </CardHeader>
-                    <CardBody>
+                <RzCard>
+                    <RzCardHeader>
+                        <RzCardTitle>Total Users</RzCardTitle>
+                    </RzCardHeader>
+                    <RzCardBody>
                         <p class="text-2xl font-bold">1,024</p>
                         <p class="text-sm text-on-surface-muted">Registered Users</p>
-                    </CardBody>
-                    <CardFooter>
+                    </RzCardBody>
+                    <RzCardFooter>
                         <p class="text-xs">Updated 5 mins ago</p>
-                    </CardFooter>
-                </Card>
+                    </RzCardFooter>
+                </RzCard>
 
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Active Sessions</CardTitle>
-                    </CardHeader>
-                    <CardBody>
+                <RzCard>
+                    <RzCardHeader>
+                        <RzCardTitle>Active Sessions</RzCardTitle>
+                    </RzCardHeader>
+                    <RzCardBody>
                         <p class="text-2xl font-bold">256</p>
                         <p class="text-sm text-on-surface-muted">Users Online</p>
-                    </CardBody>
-                    <CardFooter>
+                    </RzCardBody>
+                    <RzCardFooter>
                         <p class="text-xs">Real-time data</p>
-                    </CardFooter>
-                </Card>
+                    </RzCardFooter>
+                </RzCard>
 
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Revenue</CardTitle>
-                    </CardHeader>
-                    <CardBody>
+                <RzCard>
+                    <RzCardHeader>
+                        <RzCardTitle>Revenue</RzCardTitle>
+                    </RzCardHeader>
+                    <RzCardBody>
                         <p class="text-2xl font-bold">$12,345</p>
                         <p class="text-sm text-on-surface-muted">Today</p>
-                    </CardBody>
-                    <CardFooter>
+                    </RzCardBody>
+                    <RzCardFooter>
                         <p class="text-xs">Includes all transactions</p>
-                    </CardFooter>
-                </Card>
+                    </RzCardFooter>
+                </RzCard>
             </div>
 
-            <!-- System Notification Alert -->
-            <Alert Variant="AlertVariant.Information">
+            <!-- System Notification RzAlert -->
+            <RzAlert Variant="AlertVariant.Information">
                 <AlertTitle>System Notice</AlertTitle>
                 <AlertDescription>Your system is running smoothly.</AlertDescription>
-            </Alert>
+            </RzAlert>
 
-            <!-- Progress Bar Example -->
+            <!-- RzProgress Bar Example -->
             <div class="mt-6">
-                <Progress CurrentValue="75" MinValue="0" MaxValue="100" Label="System Health: {percent}%" Variant="StatusColor.Success" />
+                <RzProgress CurrentValue="75" MinValue="0" MaxValue="100" Label="System Health: {percent}%" Variant="StatusColor.Success" />
             </div>
         </MainContent>
-    </Sidebar>
+    </RzSidebar>
 </HtmlElement>

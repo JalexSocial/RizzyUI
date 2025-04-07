@@ -1,10 +1,8 @@
-﻿// src/RizzyUI/Components/RzCodeViewer/RzCodeViewer.razor.cs
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 using System.Web; // For HttpUtility
 using Rizzy.Utility;
-using RizzyUI.Components.Document.RzCodeViewer;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;

@@ -1,10 +1,3 @@
-// src/RizzyUI/Styling/RzStylesBase.cs
-
-// Required for RenderFragment type hint if needed later
-
-using RizzyUI.Components.Layout.RzStep;
-using RizzyUI.Components.RzTypography;
-
 namespace RizzyUI;
 
 /// <summary>

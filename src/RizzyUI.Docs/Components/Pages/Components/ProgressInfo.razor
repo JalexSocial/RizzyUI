@@ -1,153 +1,153 @@
 ﻿@page "/components/progress"
 @using RizzyUI
 
-<PageTitle>Progress</PageTitle>
+<PageTitle>RzProgress</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Progress</Heading>
-            <Paragraph>
-                The Progress component is a dynamic UI element that visually represents the completion status of a task or operation. It enhances user experience by providing immediate feedback on ongoing processes, such as file uploads, data processing, or loading sequences.
-            </Paragraph>
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">RzProgress</RzHeading>
+            <RzParagraph>
+                The RzProgress component is a dynamic UI element that visually represents the completion status of a task or operation. It enhances user experience by providing immediate feedback on ongoing processes, such as file uploads, data processing, or loading sequences.
+            </RzParagraph>
 			
             <section class="my-8 py-2">
 
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Progress Bar" class="scroll-mt-20">Default Progress Bar</Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default RzProgress Bar" class="scroll-mt-20">Default RzProgress Bar</RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     A basic progress bar displaying the completion percentage without any labels.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
 
                     <div class="mx-auto p-8 mb-5">
 						
-                        <Progress CurrentValue="20" MinValue="0" MaxValue="100" Variant="StatusColor.Primary" AriaLabel="Default progress bar" />
+                        <RzProgress CurrentValue="20" MinValue="0" MaxValue="100" Variant="StatusColor.Primary" AriaLabel="Default progress bar" />
 
                     </div>
 
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
-&lt;Progress CurrentValue="20" MinValue="0" MaxValue="100" Variant="StatusColor.Primary" AriaLabel="Default progress bar" /&gt;
-                </CodeViewer>
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;RzProgress CurrentValue="20" MinValue="0" MaxValue="100" Variant="StatusColor.Primary" AriaLabel="Default progress bar" /&gt;
+                </RzCodeViewer>
 
             </section>
 
             <section class="my-8 py-2">
 
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Progress Bar with Label Inside" class="scroll-mt-20">Progress Bar with Label Inside</Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzProgress Bar with Label Inside" class="scroll-mt-20">RzProgress Bar with Label Inside</RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     A progress bar that includes a label centered within the bar to display the current progress percentage.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
 
                     <div class="mx-auto p-8 mb-5 space-y-4">
 						
-                        <Progress 
+                        <RzProgress 
                             CurrentValue="1" 
                             MinValue="0" 
                             MaxValue="100"
                             Label="Completed {percent}%"
                             LabelPosition="ProgressLabelPosition.Inside" 
                             Variant="StatusColor.Success" 
-                            AriaLabel="Progress bar with label inside" 
+                            AriaLabel="RzProgress bar with label inside" 
                         />
 						
-                        <Progress 
+                        <RzProgress 
 	                        CurrentValue="45" 
 	                        MinValue="0" 
 	                        MaxValue="100"
 	                        Label="Completed {percent}%"
 	                        LabelPosition="ProgressLabelPosition.Inside" 
 	                        Variant="StatusColor.Success" 
-	                        AriaLabel="Progress bar with label inside" 
+	                        AriaLabel="RzProgress bar with label inside" 
                         />
 
                     </div>
 
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
-&lt;Progress 
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;RzProgress 
     CurrentValue=&quot;1&quot; 
     MinValue=&quot;0&quot; 
     MaxValue=&quot;100&quot;
     Label=&quot;Completed {percent}%&quot;
     LabelPosition=&quot;ProgressLabelPosition.Inside&quot; 
     Variant=&quot;StatusColor.Success&quot; 
-    AriaLabel=&quot;Progress bar with label inside&quot; 
+    AriaLabel=&quot;RzProgress bar with label inside&quot; 
 /&gt;
 
-&lt;Progress 
+&lt;RzProgress 
     CurrentValue=&quot;45&quot; 
     MinValue=&quot;0&quot; 
     MaxValue=&quot;100&quot;
     Label=&quot;Completed {percent}%&quot;
     LabelPosition=&quot;ProgressLabelPosition.Inside&quot; 
     Variant=&quot;StatusColor.Success&quot; 
-    AriaLabel=&quot;Progress bar with label inside&quot; 
+    AriaLabel=&quot;RzProgress bar with label inside&quot; 
 /&gt;
-                </CodeViewer>
+                </RzCodeViewer>
 
             </section>
 			
             <section class="my-8 py-2">
 
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Progress Bar with Label Outside" class="scroll-mt-20">Progress Bar with Label Outside</Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzProgress Bar with Label Outside" class="scroll-mt-20">RzProgress Bar with Label Outside</RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     A progress bar that displays a label outside the bar, providing a clear indication of the current progress percentage alongside the bar.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
 
                     <div class="mx-auto p-8 mb-5">
 						
-                        <Progress 
+                        <RzProgress 
                             CurrentValue="70" 
                             MinValue="0" 
                             MaxValue="100" 
                             Label="{percent}% Compressed" 
                             LabelPosition="ProgressLabelPosition.Outside" 
                             Variant="StatusColor.Warning" 
-                            AriaLabel="Progress bar with label outside" 
+                            AriaLabel="RzProgress bar with label outside" 
                         />
 
                     </div>
 
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
-&lt;Progress 
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;RzProgress 
     CurrentValue="70" 
     MinValue="0" 
     MaxValue="100" 
     Label="{percent}% Compressed" 
     LabelPosition="ProgressLabelPosition.Outside" 
     Variant="StatusColor.Warning" 
-    AriaLabel="Progress bar with label outside" 
+    AriaLabel="RzProgress bar with label outside" 
 /&gt;
-                </CodeViewer>
+                </RzCodeViewer>
 
             </section>
 			
             <section class="my-8 py-2">
 
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Progress Bar Color Variants" class="scroll-mt-20">Progress Bar Color Variants</Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
-                    Progress bars can be styled with different color variants to represent various statuses or contexts, such as primary, secondary, success, info, warning, and danger.
-                </Paragraph>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzProgress Bar Color Variants" class="scroll-mt-20">RzProgress Bar Color Variants</RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
+                    RzProgress bars can be styled with different color variants to represent various statuses or contexts, such as primary, secondary, success, info, warning, and danger.
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
 
                     <div class="mx-auto p-8 mb-5 space-y-4">
 						
-                        <!-- Primary Progress Bar -->
-                        <Progress 
+                        <!-- Primary RzProgress Bar -->
+                        <RzProgress 
                             CurrentValue="40" 
                             MinValue="0" 
                             MaxValue="100" 
@@ -155,8 +155,8 @@
                             AriaLabel="Primary progress bar" 
                         />
 
-                        <!-- Secondary Progress Bar -->
-                        <Progress 
+                        <!-- Secondary RzProgress Bar -->
+                        <RzProgress 
                             CurrentValue="60" 
                             MinValue="0" 
                             MaxValue="100" 
@@ -164,8 +164,8 @@
                             AriaLabel="Secondary progress bar" 
                         />
 
-                        <!-- Success Progress Bar -->
-                        <Progress 
+                        <!-- Success RzProgress Bar -->
+                        <RzProgress 
                             CurrentValue="80" 
                             MinValue="0" 
                             MaxValue="100" 
@@ -173,8 +173,8 @@
                             AriaLabel="Success progress bar" 
                         />
 
-                        <!-- Info Progress Bar -->
-                        <Progress 
+                        <!-- Info RzProgress Bar -->
+                        <RzProgress 
                             CurrentValue="50" 
                             MinValue="0" 
                             MaxValue="100" 
@@ -182,8 +182,8 @@
                             AriaLabel="Info progress bar" 
                         />
 
-                        <!-- Warning Progress Bar -->
-                        <Progress 
+                        <!-- Warning RzProgress Bar -->
+                        <RzProgress 
                             CurrentValue="30" 
                             MinValue="0" 
                             MaxValue="100" 
@@ -191,8 +191,8 @@
                             AriaLabel="Warning progress bar" 
                         />
 
-                        <!-- Danger Progress Bar -->
-                        <Progress 
+                        <!-- Danger RzProgress Bar -->
+                        <RzProgress 
                             CurrentValue="90" 
                             MinValue="0" 
                             MaxValue="100" 
@@ -202,11 +202,11 @@
 
                     </div>
 
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
-&lt;!-- Primary Progress Bar --&gt;
-&lt;Progress 
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;!-- Primary RzProgress Bar --&gt;
+&lt;RzProgress 
     CurrentValue="40" 
     MinValue="0" 
     MaxValue="100" 
@@ -214,8 +214,8 @@
     AriaLabel="Primary progress bar" 
 /&gt;
 
-&lt;!-- Secondary Progress Bar --&gt;
-&lt;Progress 
+&lt;!-- Secondary RzProgress Bar --&gt;
+&lt;RzProgress 
     CurrentValue="60" 
     MinValue="0" 
     MaxValue="100" 
@@ -223,8 +223,8 @@
     AriaLabel="Secondary progress bar" 
 /&gt;
 
-&lt;!-- Success Progress Bar --&gt;
-&lt;Progress 
+&lt;!-- Success RzProgress Bar --&gt;
+&lt;RzProgress 
     CurrentValue="80" 
     MinValue="0" 
     MaxValue="100" 
@@ -232,8 +232,8 @@
     AriaLabel="Success progress bar" 
 /&gt;
 
-&lt;!-- Info Progress Bar --&gt;
-&lt;Progress 
+&lt;!-- Info RzProgress Bar --&gt;
+&lt;RzProgress 
     CurrentValue="50" 
     MinValue="0" 
     MaxValue="100" 
@@ -241,8 +241,8 @@
     AriaLabel="Info progress bar" 
 /&gt;
 
-&lt;!-- Warning Progress Bar --&gt;
-&lt;Progress 
+&lt;!-- Warning RzProgress Bar --&gt;
+&lt;RzProgress 
     CurrentValue="30" 
     MinValue="0" 
     MaxValue="100" 
@@ -250,18 +250,18 @@
     AriaLabel="Warning progress bar" 
 /&gt;
 
-&lt;!-- Danger Progress Bar --&gt;
-&lt;Progress 
+&lt;!-- Danger RzProgress Bar --&gt;
+&lt;RzProgress 
     CurrentValue="90" 
     MinValue="0" 
     MaxValue="100" 
     Variant="StatusColor.Danger" 
     AriaLabel="Danger progress bar" 
 /&gt;
-                </CodeViewer>
+                </RzCodeViewer>
 
             </section>			
 
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>

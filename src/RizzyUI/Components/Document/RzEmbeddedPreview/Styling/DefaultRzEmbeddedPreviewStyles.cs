@@ -1,4 +1,4 @@
-﻿namespace RizzyUI.Components.Document.RzEmbeddedPreview.Styling;
+﻿namespace RizzyUI;
 
 /// <summary> Provides default styles for RzEmbeddedPreview. </summary>
 public class DefaultRzEmbeddedPreviewStyles : RzStylesBase.RzEmbeddedPreviewStylesBase // Not sealed

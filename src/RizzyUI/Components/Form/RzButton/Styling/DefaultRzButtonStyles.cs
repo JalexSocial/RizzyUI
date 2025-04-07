@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.Form.RzButton.Styling;
+namespace RizzyUI;
 
 public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
 {

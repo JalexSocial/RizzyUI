@@ -4,143 +4,143 @@
 @inherits RzComponent
 @namespace RizzyUI.Pages
 
-<PageTitle>Accordion</PageTitle>
+<PageTitle>RzAccordion</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Accordion</Heading>
-            <Paragraph>
-	            Accordions allow you to organize a stack of items that can be expanded or collapsed, revealing or hiding additional content. Accordion examples use the Alpine JS's collapse plugin, which provides a smooth collapse/expand animation. If you prefer not to use this plugin, you can remove the "x-collapse" directive from each item, but you will lose this animation.
-            </Paragraph>
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">RzAccordion</RzHeading>
+            <RzParagraph>
+	            RzAccordions allow you to organize a stack of items that can be expanded or collapsed, revealing or hiding additional content. RzAccordion examples use the Alpine JS's collapse plugin, which provides a smooth collapse/expand animation. If you prefer not to use this plugin, you can remove the "x-collapse" directive from each item, but you will lose this animation.
+            </RzParagraph>
 
-            <!-- Default Accordion (Multiple sections open) -->
+            <!-- Default RzAccordion (Multiple sections open) -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Accordion" class="scroll-mt-20">
-                    Default Accordion (Multiple Open)
-                </Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default RzAccordion" class="scroll-mt-20">
+                    Default RzAccordion (Multiple Open)
+                </RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     In this example, <code>AllowMultipleOpen</code> is set to <code>true</code>, so more than one section can be expanded at once.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5">
-		                <Accordion AllowMultipleOpen="true">
-			                <AccordionSection Title="What browsers are supported?">
+		                <RzAccordion AllowMultipleOpen="true">
+			                <RzAccordionSection Title="What browsers are supported?">
 				                <p>
 					                Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
 					                Check our <a href="#" class="underline underline-offset-2 text-primary ">documentation</a> for more info.
 				                </p>
-			                </AccordionSection>
-			                <AccordionSection Title="How can I contact customer support?">
+			                </RzAccordionSection>
+			                <RzAccordionSection Title="How can I contact customer support?">
 				                <p>
 					                Reach out to our support team via email at
 					                <a href="#" class="underline underline-offset-2 text-primary ">support@example.com</a>
 					                or call 1-800-123-4567.
 				                </p>
-			                </AccordionSection>
-			                <AccordionSection Title="What is the refund policy?">
+			                </RzAccordionSection>
+			                <RzAccordionSection Title="What is the refund policy?">
 				                <p>
 					                Please refer to our <a href="#" class="underline underline-offset-2 text-primary ">refund policy page</a> for details.
 				                </p>
-			                </AccordionSection>
-		                </Accordion>
+			                </RzAccordionSection>
+		                </RzAccordion>
 	                </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Accordion AllowMultipleOpen=&quot;true&quot;&gt;
-    &lt;AccordionSection Title=&quot;What browsers are supported?&quot;&gt;
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzAccordion AllowMultipleOpen=&quot;true&quot;&gt;
+    &lt;RzAccordionSection Title=&quot;What browsers are supported?&quot;&gt;
         &lt;p&gt;
             Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
             Check our &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;documentation&lt;/a&gt; for more info.
         &lt;/p&gt;
-    &lt;/AccordionSection&gt;
-    &lt;AccordionSection Title=&quot;How can I contact customer support?&quot;&gt;
+    &lt;/RzAccordionSection&gt;
+    &lt;RzAccordionSection Title=&quot;How can I contact customer support?&quot;&gt;
         &lt;p&gt;
             Reach out to our support team via email at 
             &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;support@example.com&lt;/a&gt;
             or call 1-800-123-4567.
         &lt;/p&gt;
-    &lt;/AccordionSection&gt;
-    &lt;AccordionSection Title=&quot;What is the refund policy?&quot;&gt;
+    &lt;/RzAccordionSection&gt;
+    &lt;RzAccordionSection Title=&quot;What is the refund policy?&quot;&gt;
         &lt;p&gt;
             Please refer to our &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;refund policy page&lt;/a&gt; for details.
         &lt;/p&gt;
-    &lt;/AccordionSection&gt;
-&lt;/Accordion&gt;
-                </CodeViewer>
+    &lt;/RzAccordionSection&gt;
+&lt;/RzAccordion&gt;
+                </RzCodeViewer>
             </section>
 
-            <!-- Single Open Accordion (Only one section open) -->
+            <!-- Single Open RzAccordion (Only one section open) -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Single Open Accordion" class="scroll-mt-20">
-                    Single Open Accordion
-                </Heading>
-                <Paragraph>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Single Open RzAccordion" class="scroll-mt-20">
+                    Single Open RzAccordion
+                </RzHeading>
+                <RzParagraph>
                     In this example, <code>AllowMultipleOpen</code> is set to <code>false</code>, ensuring that only one section is open at a time.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
 	                <div class="mx-auto p-8 mb-5">
-		                <Accordion AllowMultipleOpen="false">
-			                <AccordionSection Title="What browsers are supported?">
+		                <RzAccordion AllowMultipleOpen="false">
+			                <RzAccordionSection Title="What browsers are supported?">
 				                <p>
 					                Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
 					                Check our <a href="#" class="underline underline-offset-2 text-primary ">documentation</a> for more info.
 				                </p>
-			                </AccordionSection>
-			                <AccordionSection Title="How can I contact customer support?">
+			                </RzAccordionSection>
+			                <RzAccordionSection Title="How can I contact customer support?">
 				                <p>
 					                Reach out to our support team via email at
 					                <a href="#" class="underline underline-offset-2 text-primary ">support@example.com</a>
 					                or call 1-800-123-4567.
 				                </p>
-			                </AccordionSection>
-			                <AccordionSection Title="What is the refund policy?">
+			                </RzAccordionSection>
+			                <RzAccordionSection Title="What is the refund policy?">
 				                <p>
 					                Please refer to our <a href="#" class="underline underline-offset-2 text-primary ">refund policy page</a> for details.
 				                </p>
-			                </AccordionSection>
-		                </Accordion>
+			                </RzAccordionSection>
+		                </RzAccordion>
 	                </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Accordion AllowMultipleOpen=&quot;false&quot;&gt;
-    &lt;AccordionSection Title=&quot;What browsers are supported?&quot;&gt;
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzAccordion AllowMultipleOpen=&quot;false&quot;&gt;
+    &lt;RzAccordionSection Title=&quot;What browsers are supported?&quot;&gt;
         &lt;p&gt;
             Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
             Check our &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;documentation&lt;/a&gt; for more info.
         &lt;/p&gt;
-    &lt;/AccordionSection&gt;
-    &lt;AccordionSection Title=&quot;How can I contact customer support?&quot;&gt;
+    &lt;/RzAccordionSection&gt;
+    &lt;RzAccordionSection Title=&quot;How can I contact customer support?&quot;&gt;
         &lt;p&gt;
             Reach out to our support team via email at 
             &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;support@example.com&lt;/a&gt;
             or call 1-800-123-4567.
         &lt;/p&gt;
-    &lt;/AccordionSection&gt;
-    &lt;AccordionSection Title=&quot;What is the refund policy?&quot;&gt;
+    &lt;/RzAccordionSection&gt;
+    &lt;RzAccordionSection Title=&quot;What is the refund policy?&quot;&gt;
         &lt;p&gt;
             Please refer to our &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;refund policy page&lt;/a&gt; for details.
         &lt;/p&gt;
-    &lt;/AccordionSection&gt;
-&lt;/Accordion&gt;
-                </CodeViewer>
+    &lt;/RzAccordionSection&gt;
+&lt;/RzAccordion&gt;
+                </RzCodeViewer>
             </section>
 
             <!-- Parameters Table -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
-                    Accordion Component Parameters
-                </Heading>
-                <Paragraph>
-                    The following table summarizes the key parameters for the Accordion component.
-                </Paragraph>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    RzAccordion Component Parameters
+                </RzHeading>
+                <RzParagraph>
+                    The following table summarizes the key parameters for the RzAccordion component.
+                </RzParagraph>
 
                 <table class="min-w-full divide-y divide-outline dark:divide-outlineDark">
                     <thead>
@@ -168,7 +168,7 @@
                                 <span class="font-bold">ChildContent</span>
                             </td>
                             <td align="left" class="text-base p-4">
-                                RenderFragment – The content of the Accordion, typically consisting of one or more <code>AccordionSection</code> components.
+                                RenderFragment – The content of the RzAccordion, typically consisting of one or more <code>RzAccordionSection</code> components.
                             </td>
                         </tr>
                     </tbody>
@@ -176,5 +176,5 @@
             </section>
 
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>

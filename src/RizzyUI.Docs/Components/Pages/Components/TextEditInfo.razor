@@ -7,132 +7,132 @@
 @using RizzyUI.Docs.Models
 @inherits RzComponent
 
-<PageTitle>TextEdit</PageTitle>
+<PageTitle>RzTextEdit</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
             <!-- Page Title and Overview -->
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
-                TextEdit and TextField
-            </Heading>
-            <Paragraph>
-                The <code>TextEdit</code> component provides basic text input functionality with support for prepend text or icons.
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">
+                RzTextEdit and RzTextField
+            </RzHeading>
+            <RzParagraph>
+                The <code>RzTextEdit</code> component provides basic text input functionality with support for prepend text or icons.
                 It is intended as a low‑level input element for use within our form field components.
-                The <code>TextField</code> component wraps <code>TextEdit</code> along with a label, help text, and validation messages,
+                The <code>RzTextField</code> component wraps <code>RzTextEdit</code> along with a label, help text, and validation messages,
                 creating a complete form field experience. Both components are used within an <code>EditForm</code> to enable model binding and validation.
-            </Paragraph>
+            </RzParagraph>
             
-            <Alert Variant="AlertVariant.Information" Pulse>
+            <RzAlert Variant="AlertVariant.Information" Pulse>
                 <AlertTitle>Special Note</AlertTitle>
-                <AlertDescription>RizzyUI form controls depend on the Rizzy library for form control support. RizzyUI form controls provide client-side data annotations validation. <Link Href="https://jalexsocial.github.io/rizzy.docs/docs/forms/overview/" target="_blank">Click here for specific Rizzy form control documentation.</Link></AlertDescription>
-            </Alert>
+                <AlertDescription>RizzyUI form controls depend on the Rizzy library for form control support. RizzyUI form controls provide client-side data annotations validation. <RzLink Href="https://jalexsocial.github.io/rizzy.docs/docs/forms/overview/" target="_blank">Click here for specific Rizzy form control documentation.</RzLink></AlertDescription>
+            </RzAlert>
 
-            <!-- Example 1: TextEdit Usage -->
+            <!-- Example 1: RzTextEdit Usage -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="TextEdit Example" class="scroll-mt-20">
-                    TextEdit Example
-                </Heading>
-                <Paragraph>
-                    In the example below an <code>EditForm</code> is used with a single field that demonstrates the <code>TextEdit</code> component.
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzTextEdit Example" class="scroll-mt-20">
+                    RzTextEdit Example
+                </RzHeading>
+                <RzParagraph>
+                    In the example below an <code>EditForm</code> is used with a single field that demonstrates the <code>RzTextEdit</code> component.
                     A prepend text of <code>@@</code> is applied to indicate that the field expects an email address.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
 	                <div class="mx-auto p-5">
 		                <EditForm Model="Model" class="form-children-spacing">
                             <DataAnnotationsValidator/>
                             <RzInitialValidator/>
                             <RzValidationSummary/>
 
-			                <Field>
-				                <FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
-				                <TextEdit For="@(() => Model.Name)"/>
+			                <RzField>
+				                <RzFieldLabel DisplayName="Name" For="@(() => Model.Name)"></RzFieldLabel>
+				                <RzTextEdit For="@(() => Model.Name)"/>
 				                <RzValidationMessage For="@(() => Model.Name)"/>
-			                </Field>
+			                </RzField>
 
-			                <Field>
-				                <FieldLabel DisplayName="Email" For="@(() => Model.Email)"></FieldLabel>
-				                <TextEdit For="@(() => Model.Email)" PrependText="@("@")"/>
+			                <RzField>
+				                <RzFieldLabel DisplayName="Email" For="@(() => Model.Email)"></RzFieldLabel>
+				                <RzTextEdit For="@(() => Model.Email)" PrependText="@("@")"/>
 				                <RzValidationMessage For="@(() => Model.Email)"/>
-			                </Field>
+			                </RzField>
 
 		                </EditForm>
 	                </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;EditForm Model="Model" class="form-children-spacing"&gt;
     &lt;RzValidationSummary /&gt;
 
     &lt;Field&gt;
-        &lt;FieldLabel DisplayName="Name" For="@@(() =&gt; Model.Name)"&gt;&lt;/FieldLabel&gt;
-        &lt;TextEdit For="@@(() =&gt; Model.Name)"/&gt;
+        &lt;RzFieldLabel DisplayName="Name" For="@@(() =&gt; Model.Name)"&gt;&lt;/RzFieldLabel&gt;
+        &lt;RzTextEdit For="@@(() =&gt; Model.Name)"/&gt;
         &lt;RzValidationMessage For="@@(() =&gt; Model.Name)" /&gt;
     &lt;/Field&gt;
 	
     &lt;Field&gt;
-        &lt;FieldLabel DisplayName="Email" For="@@(() =&gt; Model.Email)"&gt;&lt;/FieldLabel&gt;
-        &lt;TextEdit For="@@(() =&gt; Model.Email)" PrependText="@@("@@")" /&gt;
+        &lt;RzFieldLabel DisplayName="Email" For="@@(() =&gt; Model.Email)"&gt;&lt;/RzFieldLabel&gt;
+        &lt;RzTextEdit For="@@(() =&gt; Model.Email)" PrependText="@@("@@")" /&gt;
         &lt;RzValidationMessage For="@@(() =&gt; Model.Email)" /&gt;
     &lt;/Field&gt;
 
 &lt;/EditForm&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
-            <!-- Example 2: TextField Usage -->
+            <!-- Example 2: RzTextField Usage -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="TextField Example" class="scroll-mt-20">
-                    TextField Example
-                </Heading>
-                <Paragraph>
-                    The <code>TextField</code> component encapsulates a complete form field experience by combining a label, an input (via <code>TextEdit</code>),
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzTextField Example" class="scroll-mt-20">
+                    RzTextField Example
+                </RzHeading>
+                <RzParagraph>
+                    The <code>RzTextField</code> component encapsulates a complete form field experience by combining a label, an input (via <code>RzTextEdit</code>),
                     optional help content, and validation messages. The example below shows how to use it inside an <code>EditForm</code>.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
 	                <div class="mx-auto p-5">
 		                <EditForm Model="Model" class="form-children-spacing">
 			                <RzValidationSummary/>
 
-			                <TextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
+			                <RzTextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
 			                           Placeholder="Enter your phone number.." PrependIcon="@MdiIcon.Phone">
-				                <FieldHelp>This is a helpful description</FieldHelp>
-			                </TextField>
+				                <RzFieldHelp>This is a helpful description</RzFieldHelp>
+			                </RzTextField>
 
 		                </EditForm>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;EditForm Model="Model" class="form-children-spacing"&gt;
     &lt;RzValidationSummary /&gt;
 
-    &lt;TextField For="@@(() =&gt; Model.PhoneNumber)" DisplayName="Phone Number" Role="@@TextRole.Tel"
+    &lt;RzTextField For="@@(() =&gt; Model.PhoneNumber)" DisplayName="Phone Number" Role="@@TextRole.Tel"
                Placeholder="Enter your phone number.." PrependIcon="@MdiIcon.Phone"&gt;
         &lt;FieldHelp&gt;This is a helpful description&lt;/FieldHelp&gt;
-    &lt;/TextField&gt;
+    &lt;/RzTextField&gt;
 
     &lt;Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium"&gt;
         &lt;span&gt;Save&lt;/span&gt;
     &lt;/Button&gt;
 &lt;/EditForm&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
             <!-- Customer Model Reference -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Customer Model" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Customer Model" class="scroll-mt-20">
                     Customer Model Reference
-                </Heading>
-                <Paragraph>
+                </RzHeading>
+                <RzParagraph>
                     The following code defines a sample <code>Customer</code> model that is used in these examples:
-                </Paragraph>
-                <CodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
 &lt;!-- Customer.cs --&gt;
 &lt;summary&gt;
 Represents a customer with personal and contact information.
@@ -191,12 +191,12 @@ public class Customer
     &lt;/summary&gt;
     public List&lt;string&gt; Interests { get; set; } = new List&lt;string&gt; { "Sports" };
 }
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>
 
 @code
 {

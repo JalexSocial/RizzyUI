@@ -1,9 +1,9 @@
 ﻿@inherits LayoutComponentBase
 @using RizzyUI
 
-<Sidebar>
+<RzSidebar>
     <NavbarContent>
-        <Navbar>
+        <RzNavbar>
             <div>
                 <!-- logo  -->
                 <a href="/" class="text-2xl font-bold text-black dark:text-white">
@@ -14,9 +14,9 @@
                 </a>            
             </div>
             <div class="flex items-center gap-4">
-                <DarkmodeToggle/>
+                <RzDarkModeToggle/>
             </div>
-        </Navbar>
+        </RzNavbar>
     </NavbarContent>
     <MenuContent>
 
@@ -29,83 +29,83 @@
             <input type="search" class="w-full rounded-xl border border-slate-300 bg-white px-2 py-1.5 pl-9 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:cursor-not-allowed disabled:opacity-75 dark:border-slate-700 dark:bg-slate-900/50 dark:focus-visible:outline-blue-600" name="search" aria-label="Search" placeholder="Search"/>
         </div>
 
-        <SidebarLinks>
-            <SidebarLinkItem Icon="MdiIcon.ViewDashboard" Title="Home" Href="/"/>
-            <SidebarLinkItem Icon="MdiIcon.PaletteSwatchVariant" Title="Themes" Href="/themes" hx-boost="true" />
+        <RzSidebarLinks>
+            <RzSidebarLinkItem Icon="MdiIcon.ViewDashboard" Title="Home" Href="/"/>
+            <RzSidebarLinkItem Icon="MdiIcon.PaletteSwatchVariant" Title="Themes" Href="/themes" hx-boost="true" />
 
-            <SidebarLinkItem Icon="MdiIcon.FormSelect" Title="Forms" Collapsible="false">
-                <SidebarLinkItem Title="Buttons" Href="/components/buttons" />
-                <SidebarLinkItem Title="Checkbox" Href="/components/checkboxgroup" />
-                <SidebarLinkItem Title="Text" Href="/components/textedit" />
+            <RzSidebarLinkItem Icon="MdiIcon.FormSelect" Title="Forms" Collapsible="false">
+                <RzSidebarLinkItem Title="Buttons" Href="/components/buttons" />
+                <RzSidebarLinkItem Title="Checkbox" Href="/components/checkboxgroup" />
+                <RzSidebarLinkItem Title="Text" Href="/components/textedit" />
                 <!--
-                <SidebarLinkItem Title="Combobox" Href="/components/combobox" />
-                <SidebarLinkItem Title="Counter" Href="/components/counter" />
-                <SidebarLinkItem Title="File Input" Href="/components/fileinput" />
-                <SidebarLinkItem Title="Radio" Href="/components/radio" />
-                <SidebarLinkItem Title="Range" Href="/components/range" />
-                <SidebarLinkItem Title="Rating" Href="/components/rating" />
-                <SidebarLinkItem Title="Select" Href="/components/select" />
-                <SidebarLinkItem Title="Text Input" Href="/components/textinput" />
-                <SidebarLinkItem Title="Textarea" Href="/components/textarea" />
-                <SidebarLinkItem Title="Toggle" Href="/components/toggle" />
+                <RzSidebarLinkItem Title="Combobox" Href="/components/combobox" />
+                <RzSidebarLinkItem Title="Counter" Href="/components/counter" />
+                <RzSidebarLinkItem Title="File Input" Href="/components/fileinput" />
+                <RzSidebarLinkItem Title="Radio" Href="/components/radio" />
+                <RzSidebarLinkItem Title="Range" Href="/components/range" />
+                <RzSidebarLinkItem Title="Rating" Href="/components/rating" />
+                <RzSidebarLinkItem Title="Select" Href="/components/select" />
+                <RzSidebarLinkItem Title="Text Input" Href="/components/textinput" />
+                <RzSidebarLinkItem Title="Textarea" Href="/components/textarea" />
+                <RzSidebarLinkItem Title="Toggle" Href="/components/toggle" />
                 -->
-            </SidebarLinkItem>
+            </RzSidebarLinkItem>
 
-            <SidebarLinkItem Icon="MdiIcon.Navigation" Title="Navigation" Collapsible="false">
-                <SidebarLinkItem Title="Breadcrumb" Href="/components/breadcrumb" />
-                <SidebarLinkItem Title="Dropdown" Href="/components/dropdown" />
-                <SidebarLinkItem Title="Link" Href="/components/link" />
-                <SidebarLinkItem Title="Navbar" Href="/components/navbar" />
+            <RzSidebarLinkItem Icon="MdiIcon.Navigation" Title="Navigation" Collapsible="false">
+                <RzSidebarLinkItem Title="RzBreadcrumb" Href="/components/breadcrumb" />
+                <RzSidebarLinkItem Title="Dropdown" Href="/components/dropdown" />
+                <RzSidebarLinkItem Title="RzLink" Href="/components/link" />
+                <RzSidebarLinkItem Title="Navbar" Href="/components/navbar" />
                 <!--
-                <SidebarLinkItem Title="Paginations" Href="/components/paginations" />
+                <RzSidebarLinkItem Title="Paginations" Href="/components/paginations" />
                 -->
-                <SidebarLinkItem Title="Sidebar" Href="/components/sidebar" />
-                <SidebarLinkItem Title="Tabs" Href="/components/tabs" />
-            </SidebarLinkItem>
+                <RzSidebarLinkItem Title="Sidebar" Href="/components/sidebar" />
+                <RzSidebarLinkItem Title="Tabs" Href="/components/tabs" />
+            </RzSidebarLinkItem>
 
-            <SidebarLinkItem Icon="MdiIcon.ViewList" Title="Display" Collapsible="false">
-                <SidebarLinkItem Title="Avatar" Href="/components/avatar" hx-boost="true"/>
-                <SidebarLinkItem Title="Badge" Href="/components/badge" />
-                <SidebarLinkItem Title="Divider" Href="/components/divider" />
-                <SidebarLinkItem Title="Table" Href="/components/table" />
-                <SidebarLinkItem Title="Progress" Href="/components/progress" />
+            <RzSidebarLinkItem Icon="MdiIcon.ViewList" Title="Display" Collapsible="false">
+                <RzSidebarLinkItem Title="RzAvatar" Href="/components/avatar" hx-boost="true"/>
+                <RzSidebarLinkItem Title="Badge" Href="/components/badge" />
+                <RzSidebarLinkItem Title="Divider" Href="/components/divider" />
+                <RzSidebarLinkItem Title="Table" Href="/components/table" />
+                <RzSidebarLinkItem Title="RzProgress" Href="/components/progress" />
                 <!--
-                <SidebarLinkItem Title="Counter" Href="/components/counter" />
-                <SidebarLinkItem Title="Rating" Href="/components/rating" />
+                <RzSidebarLinkItem Title="Counter" Href="/components/counter" />
+                <RzSidebarLinkItem Title="Rating" Href="/components/rating" />
                 -->
-            </SidebarLinkItem>
+            </RzSidebarLinkItem>
 
-            <SidebarLinkItem Icon="MdiIcon.Alert" Title="Feedback" Collapsible="false">
-                <SidebarLinkItem Title="Alert" Href="/components/alert" />
-                <SidebarLinkItem Title="Toast Notification" Href="/components/toastnotification" />
-                <SidebarLinkItem Title="Modal" Href="/components/modal" />
-                <SidebarLinkItem Title="Tooltip" Href="/components/tooltip" />
-                <SidebarLinkItem Title="Spinner" Href="/components/spinner" />
-                <SidebarLinkItem Title="Skeleton" Href="/components/skeleton" />
-                <SidebarLinkItem Title="Steps" Href="/components/steps" />
-            </SidebarLinkItem>
+            <RzSidebarLinkItem Icon="MdiIcon.Alert" Title="Feedback" Collapsible="false">
+                <RzSidebarLinkItem Title="RzAlert" Href="/components/alert" />
+                <RzSidebarLinkItem Title="Toast Notification" Href="/components/toastnotification" />
+                <RzSidebarLinkItem Title="Modal" Href="/components/modal" />
+                <RzSidebarLinkItem Title="Tooltip" Href="/components/tooltip" />
+                <RzSidebarLinkItem Title="Spinner" Href="/components/spinner" />
+                <RzSidebarLinkItem Title="Skeleton" Href="/components/skeleton" />
+                <RzSidebarLinkItem Title="Steps" Href="/components/steps" />
+            </RzSidebarLinkItem>
 
-            <SidebarLinkItem Icon="MdiIcon.ViewGrid" Title="Layout" Collapsible="false">
-                <SidebarLinkItem Title="Card" Href="/components/card" />
-                <SidebarLinkItem Title="Markdown" Href="/components/markdown" />
-                <SidebarLinkItem Title="Accordion" Href="/components/accordion" />
+            <RzSidebarLinkItem Icon="MdiIcon.ViewGrid" Title="Layout" Collapsible="false">
+                <RzSidebarLinkItem Title="Card" Href="/components/card" />
+                <RzSidebarLinkItem Title="Markdown" Href="/components/markdown" />
+                <RzSidebarLinkItem Title="RzAccordion" Href="/components/accordion" />
                 <!--
-                <SidebarLinkItem Title="Banner" Href="/components/banner" />
-                <SidebarLinkItem Title="Carousel" Href="/components/carousel" />
-                <SidebarLinkItem Title="Chat Bubble" Href="/components/chatbubble" />
+                <RzSidebarLinkItem Title="Banner" Href="/components/banner" />
+                <RzSidebarLinkItem Title="Carousel" Href="/components/carousel" />
+                <RzSidebarLinkItem Title="Chat Bubble" Href="/components/chatbubble" />
                 -->
-            </SidebarLinkItem>
+            </RzSidebarLinkItem>
             <!--
-            <SidebarLinkItem Icon="MdiIcon.Apps" Title="Miscellaneous" Collapsible="false">
-                <SidebarLinkItem Title="KBD" Href="/components/kbd" />
-                <SidebarLinkItem Title="Chat Bubble" Href="/components/chatbubble" />
-            </SidebarLinkItem>
+            <RzSidebarLinkItem Icon="MdiIcon.Apps" Title="Miscellaneous" Collapsible="false">
+                <RzSidebarLinkItem Title="KBD" Href="/components/kbd" />
+                <RzSidebarLinkItem Title="Chat Bubble" Href="/components/chatbubble" />
+            </RzSidebarLinkItem>
             -->
-        </SidebarLinks>
+        </RzSidebarLinks>
 
     </MenuContent>
     <MainContent>
         @Body
     </MainContent>
-</Sidebar>
+</RzSidebar>
 

@@ -1,168 +1,168 @@
 ﻿@page "/components/avatar"
 @using RizzyUI
 
-<PageTitle>Avatar</PageTitle>
+<PageTitle>RzAvatar</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Avatar</Heading>
-            <Paragraph>
-                Avatars are a great way to personalize your website and make it more engaging. They can be used to represent a person, a group of people, or even a brand.
-            </Paragraph>
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">RzAvatar</RzHeading>
+            <RzParagraph>
+                RzAvatars are a great way to personalize your website and make it more engaging. They can be used to represent a person, a group of people, or even a brand.
+            </RzParagraph>
 			
             <section class="my-8 py-2">
 
-	            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Avatar" class="scroll-mt-20">Default Avatar</Heading>
-	            <Paragraph TextColor="SemanticColor.OnSurface">
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default RzAvatar" class="scroll-mt-20">Default RzAvatar</RzHeading>
+	            <RzParagraph TextColor="SemanticColor.OnSurface">
 	                A circle avatar in various sizes.
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Browser Layout="typeof(PreviewLayout)">
+	            <RzBrowser Layout="typeof(PreviewLayout)">
 	                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
-	                    <Avatar Size="Size.ExtraSmall" ImageSource="/images/profile/51.jpg" />
-	                    <Avatar Size="Size.Small" ImageSource="/images/profile/51.jpg" />
-	                    <Avatar Size="Size.Medium" ImageSource="/images/profile/51.jpg" />
-	                    <Avatar Size="Size.Large" ImageSource="/images/profile/51.jpg" />
-	                    <Avatar Size="Size.ExtraLarge" ImageSource="/images/profile/51.jpg" />
+	                    <RzAvatar Size="Size.ExtraSmall" ImageSource="/images/profile/51.jpg" />
+	                    <RzAvatar Size="Size.Small" ImageSource="/images/profile/51.jpg" />
+	                    <RzAvatar Size="Size.Medium" ImageSource="/images/profile/51.jpg" />
+	                    <RzAvatar Size="Size.Large" ImageSource="/images/profile/51.jpg" />
+	                    <RzAvatar Size="Size.ExtraLarge" ImageSource="/images/profile/51.jpg" />
 	                </div>
-	            </Browser>
+	            </RzBrowser>
 
-	            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;Avatar Size=&quot;Size.ExtraSmall&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Small&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Medium&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.ExtraLarge&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-	            </CodeViewer>
+	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;RzAvatar Size=&quot;Size.ExtraSmall&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Small&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Medium&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Large&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.ExtraLarge&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+	            </RzCodeViewer>
 			</section>
 
             <section class="my-8 py-2">
 
-	            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Square Avatar" class="scroll-mt-20">Square Avatar</Heading>
-	            <Paragraph>
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Square RzAvatar" class="scroll-mt-20">Square RzAvatar</RzHeading>
+	            <RzParagraph>
 	                A square avatar in various sizes.
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Browser class="my-4">
+	            <RzBrowser class="my-4">
 	                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
-	                    <Avatar Size="Size.ExtraSmall" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
-	                    <Avatar Size="Size.Small" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
-	                    <Avatar Size="Size.Medium" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
-	                    <Avatar Size="Size.Large" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
-	                    <Avatar Size="Size.ExtraLarge" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
+	                    <RzAvatar Size="Size.ExtraSmall" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
+	                    <RzAvatar Size="Size.Small" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
+	                    <RzAvatar Size="Size.Medium" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
+	                    <RzAvatar Size="Size.Large" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
+	                    <RzAvatar Size="Size.ExtraLarge" Shape="AvatarShape.Square" ImageSource="/images/profile/51.jpg" />
 	                </div>
-	            </Browser>
+	            </RzBrowser>
 
-	            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;Avatar Size=&quot;Size.ExtraSmall&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Small&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Medium&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot;/&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot;/&gt;
-    &lt;Avatar Size=&quot;Size.ExtraLarge&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot;/&gt;
-	            </CodeViewer>
+	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;RzAvatar Size=&quot;Size.ExtraSmall&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Small&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Medium&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot;/&gt;
+    &lt;RzAvatar Size=&quot;Size.Large&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot;/&gt;
+    &lt;RzAvatar Size=&quot;Size.ExtraLarge&quot; Shape=&quot;AvatarShape.Square&quot; ImageSource=&quot;/images/profile/51.jpg&quot;/&gt;
+	            </RzCodeViewer>
 
             </section>
 
 
             <section class="my-8 py-2">
 
-	            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Avatar with Icon Placeholder" class="scroll-mt-20">
-	                Avatar with Icon Placeholder
-	            </Heading>
-	            <Paragraph TextColor="SemanticColor.OnSurface">
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzAvatar with Icon Placeholder" class="scroll-mt-20">
+	                RzAvatar with Icon Placeholder
+	            </RzHeading>
+	            <RzParagraph TextColor="SemanticColor.OnSurface">
 	                An avatar in various sizes with an icon placeholder.
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Browser class="my-4">
+	            <RzBrowser class="my-4">
 	                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
-	                    <Avatar Size="Size.ExtraSmall" />
-	                    <Avatar Size="Size.Small" />
-	                    <Avatar Size="Size.Medium" />
-	                    <Avatar Size="Size.Large" />
-	                    <Avatar Size="Size.ExtraLarge" />
+	                    <RzAvatar Size="Size.ExtraSmall" />
+	                    <RzAvatar Size="Size.Small" />
+	                    <RzAvatar Size="Size.Medium" />
+	                    <RzAvatar Size="Size.Large" />
+	                    <RzAvatar Size="Size.ExtraLarge" />
 	                </div>
-	            </Browser>
+	            </RzBrowser>
 
-	            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;Avatar Size=&quot;Size.ExtraSmall&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Small&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Medium&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.ExtraLarge&quot; /&gt;
-	            </CodeViewer>
+	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;RzAvatar Size=&quot;Size.ExtraSmall&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Small&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Medium&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Large&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.ExtraLarge&quot; /&gt;
+	            </RzCodeViewer>
 
             </section>
 
             <section class="my-8 py-2">
 
-	            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Avatar with Initials Placeholder" class="scroll-mt-20">
-	                Avatar with Initials Placeholder
-	            </Heading>
-	            <Paragraph TextColor="SemanticColor.OnSurface">
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzAvatar with Initials Placeholder" class="scroll-mt-20">
+	                RzAvatar with Initials Placeholder
+	            </RzHeading>
+	            <RzParagraph TextColor="SemanticColor.OnSurface">
 	                An avatar with an initials placeholder.
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Browser class="my-4">
+	            <RzBrowser class="my-4">
 	                <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
-	                    <Avatar Size="Size.ExtraSmall" Initials="JS" />
-	                    <Avatar Size="Size.Small" Initials="JS" />
-	                    <Avatar Size="Size.Medium" Initials="JS" />
-	                    <Avatar Size="Size.Large" Initials="JS" />
-	                    <Avatar Size="Size.ExtraLarge" Initials="JS" />
+	                    <RzAvatar Size="Size.ExtraSmall" Initials="JS" />
+	                    <RzAvatar Size="Size.Small" Initials="JS" />
+	                    <RzAvatar Size="Size.Medium" Initials="JS" />
+	                    <RzAvatar Size="Size.Large" Initials="JS" />
+	                    <RzAvatar Size="Size.ExtraLarge" Initials="JS" />
 	                </div>
-	            </Browser>
+	            </RzBrowser>
 
-	            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;Avatar Size=&quot;Size.ExtraSmall&quot; Initials=&quot;JS&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Small&quot; Initials=&quot;JS&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Medium&quot; Initials=&quot;JS&quot;/&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; Initials=&quot;JS&quot;/&gt;
-    &lt;Avatar Size=&quot;Size.ExtraLarge&quot; Initials=&quot;JS&quot;/&gt;
-	            </CodeViewer>
+	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;RzAvatar Size=&quot;Size.ExtraSmall&quot; Initials=&quot;JS&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Small&quot; Initials=&quot;JS&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Medium&quot; Initials=&quot;JS&quot;/&gt;
+    &lt;RzAvatar Size=&quot;Size.Large&quot; Initials=&quot;JS&quot;/&gt;
+    &lt;RzAvatar Size=&quot;Size.ExtraLarge&quot; Initials=&quot;JS&quot;/&gt;
+	            </RzCodeViewer>
             </section>
 
             <section class="my-8 py-2">
 
-            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Avatar with Status Indicator" class="scroll-mt-20">
-                Avatar with Status Indicator
-            </Heading>
-            <Paragraph TextColor="SemanticColor.OnSurface">
+            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzAvatar with Status Indicator" class="scroll-mt-20">
+                RzAvatar with Status Indicator
+            </RzHeading>
+            <RzParagraph TextColor="SemanticColor.OnSurface">
                 An avatar with a status indicator in various colors.
-            </Paragraph>
+            </RzParagraph>
 
-            <Browser class="my-4">
+            <RzBrowser class="my-4">
                 <div class="grid-cols-2 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-2 2xl:grid-cols-4">
-                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Gray" ImageSource="/images/profile/51.jpg" />
-                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Teal" ImageSource="/images/profile/51.jpg" />
-                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Blue" ImageSource="/images/profile/51.jpg" />
-                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Indigo" ImageSource="/images/profile/51.jpg" />
-                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Purple" ImageSource="/images/profile/51.jpg" />
-                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Pink" ImageSource="/images/profile/51.jpg" />
-                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Red" ImageSource="/images/profile/51.jpg" />
-                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Orange" ImageSource="/images/profile/51.jpg" />
-                    <Avatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Yellow" ImageSource="/images/profile/51.jpg" />
+                    <RzAvatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Gray" ImageSource="/images/profile/51.jpg" />
+                    <RzAvatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Teal" ImageSource="/images/profile/51.jpg" />
+                    <RzAvatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Blue" ImageSource="/images/profile/51.jpg" />
+                    <RzAvatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Indigo" ImageSource="/images/profile/51.jpg" />
+                    <RzAvatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Purple" ImageSource="/images/profile/51.jpg" />
+                    <RzAvatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Pink" ImageSource="/images/profile/51.jpg" />
+                    <RzAvatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Red" ImageSource="/images/profile/51.jpg" />
+                    <RzAvatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Orange" ImageSource="/images/profile/51.jpg" />
+                    <RzAvatar Size="Size.Large" IndicatorVisible="true" IndicatorColor="AccentColor.Yellow" ImageSource="/images/profile/51.jpg" />
                 </div>
-            </Browser>
+            </RzBrowser>
 
-            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
+            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
     // Code
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Gray&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Teal&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Blue&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Indigo&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Purple&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Pink&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Red&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Orange&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-    &lt;Avatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Yellow&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
-            </CodeViewer>
+    &lt;RzAvatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Gray&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Teal&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Blue&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Indigo&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Purple&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Pink&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Red&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Orange&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+    &lt;RzAvatar Size=&quot;Size.Large&quot; IndicatorVisible=&quot;true&quot; IndicatorSemanticColor=&quot;AccentSemanticColor.Yellow&quot; ImageSource=&quot;/images/profile/51.jpg&quot; /&gt;
+            </RzCodeViewer>
 
 		</section>
 
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>
