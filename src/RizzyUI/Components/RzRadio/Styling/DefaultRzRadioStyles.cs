@@ -32,11 +32,11 @@ public class DefaultRzRadioGroupItemStyles : RzStylesBase.RzRadioGroupItemStyles
 
     /// <inheritdoc/>
     // Styling for the checkmark circle indicator
-    public override string IconContainer => $"z-1 text-{Theme.Light.Primary.TailwindClassName} text-xl opacity-0 absolute bottom-0 right-0 top-0 flex scale-50 cursor-pointer items-center px-4 transition peer-checked:scale-100 peer-checked:opacity-100";
+    public override string IconContainer => $"z-1 text-primary text-xl opacity-0 absolute bottom-0 right-0 top-0 flex scale-50 cursor-pointer items-center px-4 transition peer-checked:scale-100 peer-checked:opacity-100";
 
     /// <inheritdoc/>
     // Styling for the main visible container that gets border/bg on check/focus
-    public override string ClickableContainer => $"group-hover:border-{Theme.Light.Primary.TailwindClassName} relative flex grow cursor-pointer rounded-{Theme.BorderRadiusTokenName} border border-{Theme.Outline.TailwindClassName} p-4 peer-checked:bg-{Theme.Light.SurfaceAlt.TailwindClassName} peer-checked:border-{Theme.Light.Primary.TailwindClassName} dark:peer-checked:border-{Theme.Dark.Primary.TailwindClassName} dark:peer-checked:bg-{Theme.Dark.SurfaceAlt.TailwindClassName} dark:peer-checked:bg-opacity-10 peer-focus:ring peer-focus:ring-{Theme.Light.Primary.TailwindClassName}";
+    public override string ClickableContainer => $"group-hover:border-primary relative flex grow cursor-pointer rounded-borderRadius border border-outline p-4 peer-checked:bg-surface-alt peer-checked:border-primary dark:peer-checked:border-primary dark:peer-checked:bg-surface-alt dark:peer-checked:bg-opacity-10 peer-focus:ring peer-focus:ring-primary";
 
     /// <inheritdoc/>
     public override string ContentWrapper => "flex";
@@ -51,7 +51,7 @@ public class DefaultRzRadioGroupItemStyles : RzStylesBase.RzRadioGroupItemStyles
     public override string LabelText => "mb-1 block font-bold";
 
     /// <inheritdoc/>
-    public override string DescriptionText => $"block text-{Theme.Light.OnSurface.TailwindClassName}";
+    public override string DescriptionText => $"block text-on-surface";
 }
 
 /// <summary> Provides default styles for RzRadioGroupField. </summary>

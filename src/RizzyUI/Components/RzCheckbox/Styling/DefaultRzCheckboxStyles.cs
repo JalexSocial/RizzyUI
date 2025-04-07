@@ -32,10 +32,10 @@ public  class DefaultRzCheckboxGroupItemStyles : RzStylesBase.RzCheckboxGroupIte
 
      /// <inheritdoc/>
      // Note: text-primary-500 is hardcoded here, ideally map to theme.Primary or similar if needed for specific check color
-     public override string CheckboxInput => $"size-4 rounded-{Theme.BorderRadiusTokenName}-sm border border-{Theme.Outline.TailwindClassName} text-primary-500 focus:border-primary-500 focus:ring-3 focus:ring-{Theme.Light.Primary.TailwindClassName}/50 dark:bg-{Theme.Dark.SurfaceAlt.TailwindClassName} dark:ring-offset-{Theme.Dark.Surface.TailwindClassName} dark:checked:border-transparent dark:checked:bg-{Theme.Dark.Primary.TailwindClassName} dark:focus:border-{Theme.Dark.Primary.TailwindClassName}";
+     public override string CheckboxInput => $"size-4 rounded-borderRadius-sm border border-outline text-primary-500 focus:border-primary-500 focus:ring-3 focus:ring-primary/50 dark:bg-surface-alt dark:ring-offset-{Theme.Dark.Surface.TailwindClassName} dark:checked:border-transparent dark:checked:bg-primary dark:focus:border-primary";
 
     /// <inheritdoc/>
-    public override string IconContainer => $"absolute inset-0 flex items-center justify-center text-{Theme.Light.OnPrimary.TailwindClassName}"; // Text color for icon on checked bg
+    public override string IconContainer => $"absolute inset-0 flex items-center justify-center text-on-primary"; // Text color for icon on checked bg
 
     /// <inheritdoc/>
     public override string TitleSpan => "ml-2";

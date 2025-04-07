@@ -14,7 +14,7 @@ public  class DefaultRzAccordionSectionStyles : RzStylesBase.RzAccordionSectionS
     public DefaultRzAccordionSectionStyles(RzTheme theme) : base(theme) { }
 
     /// <inheritdoc/>
-    public override string Button => $"flex w-full items-center justify-between gap-4 bg-{Theme.Light.SurfaceAlt.TailwindClassName} p-4 text-left underline-offset-2 hover:bg-{Theme.Light.SurfaceAlt.TailwindClassName}/75 focus-visible:bg-{Theme.Light.SurfaceAlt.TailwindClassName}/75 focus-visible:underline focus-visible:outline-hidden dark:hover:bg-{Theme.Dark.SurfaceAlt.TailwindClassName}/75 dark:focus-visible:bg-{Theme.Dark.SurfaceAlt.TailwindClassName}/75 text-{Theme.Light.OnSurface.TailwindClassName} font-medium";
+    public override string Button => $"flex w-full items-center justify-between gap-4 bg-surface-alt p-4 text-left underline-offset-2 hover:bg-surface-alt/75 focus-visible:bg-surface-alt/75 focus-visible:underline focus-visible:outline-hidden dark:hover:bg-surface-alt/75 dark:focus-visible:bg-surface-alt/75 text-on-surface font-medium";
 
     /// <inheritdoc/>
     public override string ContentContainer => "p-4 text-sm sm:text-base text-pretty";

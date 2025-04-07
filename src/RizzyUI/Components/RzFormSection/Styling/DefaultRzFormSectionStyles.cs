@@ -14,7 +14,7 @@ public  class DefaultRzFormSectionStyles : RzStylesBase.RzFormSectionStylesBase
     /// <inheritdoc/>
     public override string Title => $"text-base/7 font-semibold text-{Theme.Light.OnSurfaceStrong.TailwindClassName}"; // Adjusted line height
     /// <inheritdoc/>
-    public override string Description => $"text-sm text-{Theme.Light.OnSurface.TailwindClassName}";
+    public override string Description => $"text-sm text-on-surface";
     /// <inheritdoc/>
     public override string ContentContainer => ""; // Determined by layout method
 
@@ -30,7 +30,7 @@ public  class DefaultRzFormSectionStyles : RzStylesBase.RzFormSectionStylesBase
     public override string GetDescriptionLayoutCss(SectionLayout layout) => layout switch
     {
         SectionLayout.TwoColumn => "md:w-1/3 md:flex-none",
-        SectionLayout.Stacked => $"pb-5 mb-10 border-b border-{Theme.Outline.TailwindClassName}", // Use theme border
+        SectionLayout.Stacked => $"pb-5 mb-10 border-b border-outline", // Use theme border
         _ => GetDescriptionLayoutCss(SectionLayout.TwoColumn)
     };
 

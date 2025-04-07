@@ -50,7 +50,7 @@ public class DefaultRzTabStyles : RzStylesBase.RzTabStylesBase // Not sealed
     public DefaultRzTabStyles(RzTheme theme) : base(theme) { }
 
     /// <inheritdoc/>
-    public override string Button => $"z-10 relative inline-flex h-8 px-2 w-full cursor-pointer items-center whitespace-nowrap rounded-{Theme.BorderRadiusTokenName} rounded-b-none font-medium transition-all mr-1";
+    public override string Button => $"z-10 relative inline-flex h-8 px-2 w-full cursor-pointer items-center whitespace-nowrap rounded-borderRadius rounded-b-none font-medium transition-all mr-1";
 
     /// <inheritdoc/>
     public override string GetJustifyCss(Justify justify) => justify switch {

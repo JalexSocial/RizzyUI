@@ -17,10 +17,10 @@ public  class DefaultRzButtonGroupStyles : RzStylesBase.RzButtonGroupStylesBase
     public override string Container => "inline-flex";
 
     /// <inheritdoc/>
-    public override string GroupFirst => $"rounded-none rounded-l-{Theme.BorderRadiusTokenName}"; // Use theme token
+    public override string GroupFirst => $"rounded-none rounded-l-borderRadius"; // Use theme token
 
     /// <inheritdoc/>
-    public override string GroupLast => $"rounded-none rounded-r-{Theme.BorderRadiusTokenName} border-l-0"; // Use theme token
+    public override string GroupLast => $"rounded-none rounded-r-borderRadius border-l-0"; // Use theme token
 
     /// <inheritdoc/>
     public override string GroupMiddle => "rounded-none border-l-0";

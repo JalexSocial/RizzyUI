@@ -25,6 +25,6 @@ public  class DefaultRzFieldHelpStyles : RzStylesBase.RzFieldHelpStylesBase
 {
      public DefaultRzFieldHelpStyles(RzTheme theme) : base(theme) { }
     /// <inheritdoc/>
-    public override string HelpText => $"text-sm text-{Theme.Light.OnSurface.TailwindClassName}";
+    public override string HelpText => $"text-sm text-on-surface";
 }
 

@@ -10,7 +10,7 @@ public  class DefaultRzBreadcrumbStyles : RzStylesBase.RzBreadcrumbStylesBase
     public DefaultRzBreadcrumbStyles(RzTheme theme) : base(theme) { }
 
     /// <inheritdoc/>
-    public override string Container => $"text-sm font-medium text-{Theme.Light.OnPrimary.TailwindClassName} mb-4"; // Adjusted color
+    public override string Container => $"text-sm font-medium text-on-primary mb-4"; // Adjusted color
 
     /// <inheritdoc/>
     public override string List => "flex flex-wrap items-center gap-1";
@@ -24,13 +24,13 @@ public  class DefaultRzBreadcrumbItemStyles : RzStylesBase.RzBreadcrumbItemStyle
      public DefaultRzBreadcrumbItemStyles(RzTheme theme) : base(theme) { }
 
      /// <inheritdoc/>
-     public override string ListItem => $"flex items-center gap-1 text-{Theme.Light.OnSurface.TailwindClassName}";
+     public override string ListItem => $"flex items-center gap-1 text-on-surface";
 
      /// <inheritdoc/>
-     public override string Link => $"text-{Theme.Light.OnSurface.TailwindClassName} hover:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:hover:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName}";
+     public override string Link => $"text-on-surface hover:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:hover:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName}";
 
      /// <inheritdoc/>
-     public override string ActiveSpan => $"font-bold text-{Theme.Light.OnSurface.TailwindClassName}";
+     public override string ActiveSpan => $"font-bold text-on-surface";
 
      /// <inheritdoc/>
      public override string IconSpan => "text-xl";

@@ -10,10 +10,10 @@ public  class DefaultRzNavbarStyles : RzStylesBase.RzNavbarStylesBase
     public DefaultRzNavbarStyles(RzTheme theme) : base(theme) { }
 
     /// <inheritdoc/>
-    public override string Navbar => $"fixed top-0 z-50 h-16 w-screen items-center justify-between border-{Theme.Outline.TailwindClassName} bg-{Theme.Light.SurfaceAlt.TailwindClassName}/75 px-4 py-2 backdrop-blur-xl flex border-b";
+    public override string Navbar => $"fixed top-0 z-50 h-16 w-screen items-center justify-between border-outline bg-surface-alt/75 px-4 py-2 backdrop-blur-xl flex border-b";
 
     /// <inheritdoc/>
-    public override string ToggleButton => $"md:hidden inline-block text-{Theme.Light.OnSurface.TailwindClassName}";
+    public override string ToggleButton => $"md:hidden inline-block text-on-surface";
 
     /// <inheritdoc/>
     public override string ToggleButtonIconContainer => "text-xl";

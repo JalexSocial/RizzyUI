@@ -7,7 +7,7 @@ public  class DefaultRzCardStyles : RzStylesBase.RzCardStylesBase
 {
     public DefaultRzCardStyles(RzTheme theme) : base(theme) { }
     /// <inheritdoc/>
-    public override string Container => $"flex flex-col rounded-{Theme.BorderRadiusTokenName} overflow-hidden shadow-sm border border-{Theme.Outline.TailwindClassName}";
+    public override string Container => $"flex flex-col rounded-borderRadius overflow-hidden shadow-sm border border-outline";
 }
 
 /// <summary> Provides default styles for RzCardHeader. </summary>
@@ -31,7 +31,7 @@ public  class DefaultRzCardFooterStyles : RzStylesBase.RzCardFooterStylesBase
 {
     public DefaultRzCardFooterStyles(RzTheme theme) : base(theme) { }
     /// <inheritdoc/>
-    public override string Footer => $"px-5 py-4 text-sm last:rounded-b-{Theme.BorderRadiusTokenName}";
+    public override string Footer => $"px-5 py-4 text-sm last:rounded-b-borderRadius";
 }
 
 /// <summary> Provides default styles for RzCardTitle. </summary>
@@ -47,7 +47,7 @@ public  class DefaultRzCardSubtitleStyles : RzStylesBase.RzCardSubtitleStylesBas
 {
     public DefaultRzCardSubtitleStyles(RzTheme theme) : base(theme) { }
     /// <inheritdoc/>
-    public override string Subtitle => $"text-sm font-medium text-{Theme.Light.OnSurface.TailwindClassName}";
+    public override string Subtitle => $"text-sm font-medium text-on-surface";
 }
 
 /// <summary> Provides default styles for RzCardButtons. </summary>

@@ -11,7 +11,7 @@ public  class DefaultRzMarkdownStyles : RzStylesBase.RzMarkdownStylesBase
 
     /// <inheritdoc/>
     // Includes base prose, dark mode inversion, and theme text color
-    public override string Container => $"prose dark:prose-invert text-{Theme.Light.OnSurface.TailwindClassName} max-w-none";
+    public override string Container => $"prose dark:prose-invert text-on-surface max-w-none";
 
     /// <inheritdoc/>
     public override string GetProseWidthCss(ProseWidth width) => width switch

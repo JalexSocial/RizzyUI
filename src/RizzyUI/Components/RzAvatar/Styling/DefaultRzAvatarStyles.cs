@@ -24,10 +24,10 @@ public  class DefaultRzAvatarStyles : RzStylesBase.RzAvatarStylesBase
     public override string Image => "inline-block aspect-square"; // Base image styles, size and shape added separately
 
     /// <inheritdoc/>
-    public override string InitialsContainer => $"inline-flex items-center justify-center bg-{Theme.Light.SurfaceAlt.TailwindClassName} text-{Theme.Light.OnSurfaceMuted.TailwindClassName} dark:bg-{Theme.Dark.SurfaceAlt.TailwindClassName} dark:text-{Theme.Dark.OnSurfaceMuted.TailwindClassName}"; // Base initials container styles, size and shape added separately
+    public override string InitialsContainer => $"inline-flex items-center justify-center bg-surface-alt text-{Theme.Light.OnSurfaceMuted.TailwindClassName} dark:bg-surface-alt dark:text-on-surface-muted"; // Base initials container styles, size and shape added separately
 
     /// <inheritdoc/>
-    public override string PlaceholderContainer => $"inline-flex items-center justify-center bg-{Theme.Light.SurfaceAlt.TailwindClassName} text-{Theme.Light.Outline.TailwindClassName} dark:bg-{Theme.Dark.SurfaceAlt.TailwindClassName} dark:text-{Theme.Dark.Outline.TailwindClassName}"; // Base placeholder styles, size and shape added separately
+    public override string PlaceholderContainer => $"inline-flex items-center justify-center bg-surface-alt text-{Theme.Light.Outline.TailwindClassName} dark:bg-surface-alt dark:text-outline"; // Base placeholder styles, size and shape added separately
 
     /// <inheritdoc/>
     public override string PlaceholderIcon => "inline-block"; // Base placeholder icon styles, size added separately
@@ -35,9 +35,9 @@ public  class DefaultRzAvatarStyles : RzStylesBase.RzAvatarStylesBase
     /// <inheritdoc/>
     public override string GetShapeCss(AvatarShape shape) => shape switch
     {
-        AvatarShape.Circle => $"rounded-{Theme.BorderRadiusTokenName}-full", // Use theme token for full roundness
-        AvatarShape.Square => $"rounded-{Theme.BorderRadiusTokenName}",
-        _ => $"rounded-{Theme.BorderRadiusTokenName}-full"
+        AvatarShape.Circle => $"rounded-borderRadius-full", // Use theme token for full roundness
+        AvatarShape.Square => $"rounded-borderRadius",
+        _ => $"rounded-borderRadius-full"
     };
 
     /// <inheritdoc/>

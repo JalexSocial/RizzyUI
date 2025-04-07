@@ -6,7 +6,7 @@ public  class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
 {
     public DefaultRzAlertStyles(RzTheme theme) : base(theme) { }
 
-    public override string Container => $"relative w-full overflow-hidden rounded-{Theme.BorderRadiusTokenName} border";
+    public override string Container => $"relative w-full overflow-hidden rounded-borderRadius border";
     public override string InnerContainer => "flex w-full items-center gap-2 p-4";
     public override string IconContainer => "relative flex rounded-full p-1 text-2xl justify-center";
     public override string IconPulse => "absolute animate-ping motion-reduce:animate-none size-6 aspect-square rounded-full";
@@ -16,16 +16,16 @@ public  class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
 
     public override string GetVariantCss(AlertVariant variant) => variant switch
     {
-        AlertVariant.Alternate => $"border-{Theme.Outline.TailwindClassName} bg-{Theme.Light.Surface.TailwindClassName} text-{Theme.Light.OnSurface.TailwindClassName}",
-        AlertVariant.Information => $"border-{Theme.Info.TailwindClassName} bg-{Theme.Light.Surface.TailwindClassName} text-{Theme.Light.OnSurface.TailwindClassName}",
-        AlertVariant.Success => $"border-{Theme.Success.TailwindClassName} bg-{Theme.Light.Surface.TailwindClassName} text-{Theme.Light.OnSurface.TailwindClassName}",
-        AlertVariant.Warning => $"border-{Theme.Warning.TailwindClassName} bg-{Theme.Light.Surface.TailwindClassName} text-{Theme.Light.OnSurface.TailwindClassName}",
-        AlertVariant.Danger => $"border-{Theme.Danger.TailwindClassName} bg-{Theme.Light.Surface.TailwindClassName} text-{Theme.Light.OnSurface.TailwindClassName}",
+        AlertVariant.Alternate => $"border-outline bg-{Theme.Light.Surface.TailwindClassName} text-on-surface",
+        AlertVariant.Information => $"border-{Theme.Info.TailwindClassName} bg-{Theme.Light.Surface.TailwindClassName} text-on-surface",
+        AlertVariant.Success => $"border-{Theme.Success.TailwindClassName} bg-{Theme.Light.Surface.TailwindClassName} text-on-surface",
+        AlertVariant.Warning => $"border-{Theme.Warning.TailwindClassName} bg-{Theme.Light.Surface.TailwindClassName} text-on-surface",
+        AlertVariant.Danger => $"border-{Theme.Danger.TailwindClassName} bg-{Theme.Light.Surface.TailwindClassName} text-on-surface",
         _ => GetVariantCss(AlertVariant.Information) // Default
     };
 
     public override string GetVariantBackgroundLightCss(AlertVariant variant) => variant switch {
-        AlertVariant.Alternate => $"bg-{Theme.Light.SurfaceAlt.TailwindClassName}/10",
+        AlertVariant.Alternate => $"bg-surface-alt/10",
         AlertVariant.Information => $"bg-{Theme.Info.TailwindClassName}/10",
         AlertVariant.Success => $"bg-{Theme.Success.TailwindClassName}/10",
         AlertVariant.Warning => $"bg-{Theme.Warning.TailwindClassName}/10",
@@ -34,7 +34,7 @@ public  class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
     };
 
      public override string GetVariantBackgroundLighterCss(AlertVariant variant) => variant switch {
-        AlertVariant.Alternate => $"bg-{Theme.Light.SurfaceAlt.TailwindClassName}/15",
+        AlertVariant.Alternate => $"bg-surface-alt/15",
         AlertVariant.Information => $"bg-{Theme.Info.TailwindClassName}/15",
         AlertVariant.Success => $"bg-{Theme.Success.TailwindClassName}/15",
         AlertVariant.Warning => $"bg-{Theme.Warning.TailwindClassName}/15",
@@ -43,7 +43,7 @@ public  class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
     };
 
     public override string GetVariantIconColorCss(AlertVariant variant) => variant switch {
-        AlertVariant.Alternate => $"text-{Theme.Light.OnSurface.TailwindClassName}",
+        AlertVariant.Alternate => $"text-on-surface",
         AlertVariant.Information => $"text-{Theme.Info.TailwindClassName}",
         AlertVariant.Success => $"text-{Theme.Success.TailwindClassName}",
         AlertVariant.Warning => $"text-{Theme.Warning.TailwindClassName}",

@@ -15,7 +15,7 @@ public  class DefaultRzBadgeStyles : RzStylesBase.RzBadgeStylesBase
     public DefaultRzBadgeStyles(RzTheme theme) : base(theme) { }
 
     /// <inheritdoc/>
-    public override string Badge => $"w-fit inline-flex overflow-hidden rounded-{Theme.BorderRadiusTokenName}-2xl border text-xs font-medium"; // Use theme token
+    public override string Badge => $"w-fit inline-flex overflow-hidden rounded-borderRadius-2xl border text-xs font-medium"; // Use theme token
 
     /// <inheritdoc/>
     public override string InnerSpan => "flex items-center gap-1 px-2 py-1";
@@ -23,15 +23,15 @@ public  class DefaultRzBadgeStyles : RzStylesBase.RzBadgeStylesBase
     /// <inheritdoc/>
     public override string GetVariantCss(SemanticColor color) => color switch
     {
-        SemanticColor.Surface => $"border-{Theme.Outline.TailwindClassName} bg-{Theme.Light.Surface.TailwindClassName} text-{Theme.Light.OnSurface.TailwindClassName}",
-        SemanticColor.SurfaceAlt => $"border-{Theme.Light.OnSurface.TailwindClassName} bg-{Theme.Light.SurfaceAlt.TailwindClassName} text-{Theme.Light.OnSurface.TailwindClassName}", // Corrected border
-        SemanticColor.Primary => $"border-{Theme.Light.Primary.TailwindClassName} bg-{Theme.Light.Primary.TailwindClassName} text-{Theme.Light.OnPrimary.TailwindClassName}",
-        SemanticColor.Secondary => $"border-{Theme.Light.Secondary.TailwindClassName} bg-{Theme.Light.Secondary.TailwindClassName} text-{Theme.Light.OnSecondary.TailwindClassName}",
+        SemanticColor.Surface => $"border-outline bg-{Theme.Light.Surface.TailwindClassName} text-on-surface",
+        SemanticColor.SurfaceAlt => $"border-on-surface bg-surface-alt text-on-surface", // Corrected border
+        SemanticColor.Primary => $"border-primary bg-primary text-on-primary",
+        SemanticColor.Secondary => $"border-secondary bg-secondary text-on-secondary",
         SemanticColor.Info => $"border-{Theme.Info.TailwindClassName} bg-{Theme.Info.TailwindClassName} text-{Theme.OnInfo.TailwindClassName} dark:border-{Theme.Info.TailwindClassName} dark:bg-{Theme.Info.TailwindClassName} dark:text-{Theme.OnInfo.TailwindClassName}",
         SemanticColor.Success => $"border-{Theme.Success.TailwindClassName} bg-{Theme.Success.TailwindClassName} text-{Theme.OnSuccess.TailwindClassName} dark:border-{Theme.Success.TailwindClassName} dark:bg-{Theme.Success.TailwindClassName} dark:text-{Theme.OnSuccess.TailwindClassName}",
         SemanticColor.Warning => $"border-{Theme.Warning.TailwindClassName} bg-{Theme.Warning.TailwindClassName} text-{Theme.OnWarning.TailwindClassName} dark:border-{Theme.Warning.TailwindClassName} dark:bg-{Theme.Warning.TailwindClassName} dark:text-{Theme.OnWarning.TailwindClassName}",
         SemanticColor.Danger => $"border-{Theme.Danger.TailwindClassName} bg-{Theme.Danger.TailwindClassName} text-{Theme.OnDanger.TailwindClassName} dark:border-{Theme.Danger.TailwindClassName} dark:bg-{Theme.Danger.TailwindClassName} dark:text-{Theme.OnDanger.TailwindClassName}",
-        SemanticColor.Outline => $"border-{Theme.Outline.TailwindClassName} bg-transparent text-{Theme.Outline.TailwindClassName}",
+        SemanticColor.Outline => $"border-outline bg-transparent text-outline",
         SemanticColor.OnSurface => GetVariantCss(SemanticColor.Surface), // Map On variants to base
         SemanticColor.OnSurfaceStrong => GetVariantCss(SemanticColor.Surface),
         SemanticColor.OnPrimary => GetVariantCss(SemanticColor.Primary),
@@ -48,15 +48,15 @@ public  class DefaultRzBadgeStyles : RzStylesBase.RzBadgeStylesBase
     /// <inheritdoc/>
     public override string GetVariantSoftCss(SemanticColor color) => color switch
     {
-        SemanticColor.Surface => $"border-{Theme.Outline.TailwindClassName} bg-{Theme.Light.Surface.TailwindClassName} text-{Theme.Light.OnSurface.TailwindClassName}",
-        SemanticColor.SurfaceAlt => $"border-{Theme.Light.OnSurface.TailwindClassName} bg-{Theme.Light.SurfaceAlt.TailwindClassName} text-{Theme.Light.OnSurface.TailwindClassName}",
-        SemanticColor.Primary => $"border-{Theme.Light.Primary.TailwindClassName} bg-{Theme.Light.Primary.TailwindClassName}/10 text-{Theme.Light.Primary.TailwindClassName}",
-        SemanticColor.Secondary => $"border-{Theme.Light.Secondary.TailwindClassName} bg-{Theme.Light.Secondary.TailwindClassName}/10 text-{Theme.Light.Secondary.TailwindClassName}",
+        SemanticColor.Surface => $"border-outline bg-{Theme.Light.Surface.TailwindClassName} text-on-surface",
+        SemanticColor.SurfaceAlt => $"border-on-surface bg-surface-alt text-on-surface",
+        SemanticColor.Primary => $"border-primary bg-primary/10 text-primary",
+        SemanticColor.Secondary => $"border-secondary bg-secondary/10 text-secondary",
         SemanticColor.Info => $"border-{Theme.Info.TailwindClassName} bg-{Theme.Info.TailwindClassName}/10 dark:bg-{Theme.Info.TailwindClassName}/10 text-{Theme.Info.TailwindClassName} dark:border-{Theme.Info.TailwindClassName} dark:text-{Theme.OnInfo.TailwindClassName}",
         SemanticColor.Success => $"border-{Theme.Success.TailwindClassName} bg-{Theme.Success.TailwindClassName}/10 dark:bg-{Theme.Success.TailwindClassName}/10 text-{Theme.Success.TailwindClassName} dark:border-{Theme.Success.TailwindClassName} dark:text-{Theme.OnSuccess.TailwindClassName}",
         SemanticColor.Warning => $"border-{Theme.Warning.TailwindClassName} bg-{Theme.Warning.TailwindClassName}/10 dark:bg-{Theme.Warning.TailwindClassName}/10 text-{Theme.Warning.TailwindClassName} dark:border-{Theme.Warning.TailwindClassName} dark:text-{Theme.OnWarning.TailwindClassName}",
         SemanticColor.Danger => $"border-{Theme.Danger.TailwindClassName} bg-{Theme.Danger.TailwindClassName}/10 dark:bg-{Theme.Danger.TailwindClassName}/10 text-{Theme.Danger.TailwindClassName} dark:border-{Theme.Danger.TailwindClassName} dark:text-{Theme.OnDanger.TailwindClassName}",
-        SemanticColor.Outline => $"border-{Theme.Outline.TailwindClassName} bg-{Theme.Outline.TailwindClassName}/10 text-{Theme.Light.OnSurface.TailwindClassName}",
+        SemanticColor.Outline => $"border-outline bg-outline/10 text-on-surface",
         SemanticColor.OnSurface => GetVariantSoftCss(SemanticColor.Surface),
         SemanticColor.OnSurfaceStrong => GetVariantSoftCss(SemanticColor.Surface),
         SemanticColor.OnPrimary => GetVariantSoftCss(SemanticColor.Primary),
