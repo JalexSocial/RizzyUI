@@ -2,7 +2,6 @@ using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Options;
-using Rizzy;
 using RizzyUI.Extensions;
 // For RzInputText
 

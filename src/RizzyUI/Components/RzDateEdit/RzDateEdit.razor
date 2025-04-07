@@ -1,0 +1,40 @@
+﻿@using Blazicons
+@namespace RizzyUI
+@inherits RzComponent
+
+<HtmlElement Element="div"
+             @attributes="AdditionalAttributes"
+             class="@ContainerClass"
+             x-data="rzDateEdit"
+             data-config="@_serializedConfig"
+             data-uid="@_uid"
+             data-assets="@_assets"
+             data-nonce="@Nonce"
+             role="group" aria-label="Date picker">
+
+	<div class="@InputWrapperClass" x-data="rzPrependInput" x-ref="pickerWrapper">
+		@if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
+		{
+			<div x-ref="prependContainer" class="@PrependElementClass">
+				@if (!string.IsNullOrEmpty(PrependText))
+				{
+					@PrependText
+				}
+				else if (PrependIcon != null)
+				{
+					<div class="@PrependIconContainerClass"><Blazicon Svg="PrependIcon" /></div>
+				}
+			</div>
+		}
+
+		@* Use a standard input, Flatpickr will enhance it *@
+		<input x-ref="textInput"
+		       id="@_uidInputId"
+		       type="text"
+		       @bind="CurrentValue" @* Bind to internal property *@
+		       placeholder="@Placeholder"
+		       class="@InputClass"
+		       data-input @* Flatpickr hook attribute *@
+		       aria-label="Select date" />
+	</div>
+</HtmlElement>

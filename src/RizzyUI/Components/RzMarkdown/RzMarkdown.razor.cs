@@ -28,20 +28,9 @@ public partial class RzMarkdown : RzComponent
 
     private string _assets = string.Empty;
 
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
     /// <summary> Reference to the QuickReferenceContainer for heading registration. </summary>
     [CascadingParameter]
     private RzQuickReferenceContainer? QuickReferenceContainer { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
 
     /// <summary>
     ///     The Markdig pipeline used for conversion. Defaults to a pipeline with advanced extensions and custom code
@@ -76,11 +65,7 @@ public partial class RzMarkdown : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
-
+        
         // Setup default pipeline if none provided
         Pipeline ??= new MarkdownPipelineBuilder()
             .UseAdvancedExtensions()
@@ -101,8 +86,6 @@ public partial class RzMarkdown : RzComponent
 
     private void RenderMarkdownContent()
     {
-        if (Theme == null) return; // Ensure theme is available
-
         string markdownText;
 
         if (!string.IsNullOrEmpty(Content))
@@ -127,8 +110,7 @@ public partial class RzMarkdown : RzComponent
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        var styles = Theme.RzMarkdown;
-        return TwMerge.Merge(AdditionalAttributes, styles.Container, styles.GetProseWidthCss(ProseWidth));
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzMarkdown.Container, Theme.RzMarkdown.GetProseWidthCss(ProseWidth));
     }
 
     // RenderOutput and ExtractPlainText methods remain the same, but ensure they use the correct

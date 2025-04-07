@@ -714,50 +714,6 @@ public abstract class RzStylesBase
 
     #endregion
 
-    #region RzHtmlElement Styles
-
-    /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzHtmlElement" /> component.
-    /// </summary>
-    public abstract class RzHtmlElementStylesBase
-    {
-        /// <summary> The theme instance providing color and sizing tokens. </summary>
-        protected readonly RzTheme Theme;
-
-        /// <summary> Initializes a new instance of the <see cref="RzHtmlElementStylesBase" /> class. </summary>
-        protected RzHtmlElementStylesBase(RzTheme theme)
-        {
-            Theme = theme;
-        }
-
-        /// <summary> Gets the base CSS classes for the RzHtmlElement (usually none, styling comes from attributes). </summary>
-        public abstract string Element { get; }
-    }
-
-    #endregion
-
-    #region RzFragmentComponent Styles
-
-    /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzFragmentComponent" />.
-    /// </summary>
-    public abstract class RzFragmentComponentStylesBase
-    {
-        /// <summary> The theme instance providing color and sizing tokens. </summary>
-        protected readonly RzTheme Theme;
-
-        /// <summary> Initializes a new instance of the <see cref="RzFragmentComponentStylesBase" /> class. </summary>
-        protected RzFragmentComponentStylesBase(RzTheme theme)
-        {
-            Theme = theme;
-        }
-
-        /// <summary> Gets the base CSS classes for the RzFragmentComponent (usually none). </summary>
-        public abstract string Container { get; }
-    }
-
-    #endregion
-
     #region RzArticle Styles
 
     /// <summary>

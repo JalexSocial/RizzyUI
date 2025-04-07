@@ -35,16 +35,6 @@
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <DefaultDocumentationLogLevel>Error</DefaultDocumentationLogLevel>
-        <DefaultDocumentationSections>Default</DefaultDocumentationSections>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <Content Remove="DefaultDocumentation.json"/>
-    </ItemGroup>
-
     <ItemGroup>
         <None Include="safelist.js"/>
     </ItemGroup>
@@ -57,7 +47,6 @@
         <PackageReference Include="Blazicons" Version="2.1.30"/>
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23"/>
         <PackageReference Include="TailwindMerge.NET" Version="1.0.0"/>
-        <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11"/>
     </ItemGroup>
 

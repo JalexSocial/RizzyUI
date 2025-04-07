@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.RzAlert.Styling;
+namespace RizzyUI;
 
 /// <inheritdoc />
 public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase

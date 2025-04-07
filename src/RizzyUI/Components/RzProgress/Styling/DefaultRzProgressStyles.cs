@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.RzProgress.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzProgress. </summary>
 public class DefaultRzProgressStyles : RzStylesBase.RzProgressStylesBase // Not sealed

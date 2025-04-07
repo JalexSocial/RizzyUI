@@ -12,17 +12,6 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzCheckboxGroup<TValue> : RzComponent
 {
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
-
     /// <summary> Gets or sets the selected values in the checkbox group. </summary>
     [Parameter]
     public IList<TValue> Values { get; set; } = new List<TValue>();
@@ -49,16 +38,6 @@ public partial class RzCheckboxGroup<TValue> : RzComponent
     /// </summary>
     [Parameter]
     public SvgIcon CheckedIcon { get; set; } = MdiIcon.CheckBold;
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
-    }
 
     /// <summary> Determines whether the specified value is currently selected in the group. </summary>
     /// <param name="value">The value to check.</param>

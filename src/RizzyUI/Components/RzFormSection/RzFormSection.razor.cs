@@ -10,17 +10,6 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzFormSection : RzComponent
 {
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
-
     /// <summary> The title of the form section. Required. </summary>
     [Parameter]
     [EditorRequired]
@@ -50,16 +39,6 @@ public partial class RzFormSection : RzComponent
 
     /// <summary> Gets the computed CSS classes for the content container div. </summary>
     protected string ContentContainerClass => Theme.RzFormSection.GetContentLayoutCss(Layout);
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
-    }
 
     /// <inheritdoc />
     protected override string? RootClass()

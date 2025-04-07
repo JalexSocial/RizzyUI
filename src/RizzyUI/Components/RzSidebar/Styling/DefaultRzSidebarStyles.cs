@@ -1,6 +1,54 @@
-namespace RizzyUI.Components.RzSidebar.Styling;
+namespace RizzyUI;
 
-// ... (DefaultRzSidebarStyles definition from previous step) ...
+/// <summary>
+/// Provides the default styles for the RzSidebar component.
+/// </summary>
+public class DefaultRzSidebarStyles : RzStylesBase.RzSidebarStylesBase // Not sealed
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzSidebarStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance to use for styling.</param>
+    public DefaultRzSidebarStyles(RzTheme theme) : base(theme) { }
+
+    /// <inheritdoc/>
+    public override string Container => ""; // x-data container usually has no specific style
+
+    /// <inheritdoc/>
+    public override string LayoutContainer => "relative flex w-full flex-col md:flex-row";
+
+    /// <inheritdoc/>
+    public override string SkipLink => "sr-only";
+
+    /// <inheritdoc/>
+    // Use semantic surface color with alpha for overlay
+    public override string Overlay => $"z-30 bg-surface/10 fixed inset-0 backdrop-blur-sm md:hidden dark:bg-surface/10";
+
+    /// <inheritdoc/>
+    // Use semantic names for background and border
+    public override string Sidebar => $"fixed left-0 bottom-0 w-60 overflow-y-auto scrollbar-hover bg-surface-alt border-r border-outline z-40 p-4 transition-transform duration-300 md:w-60 md:translate-x-0";
+
+    /// <inheritdoc/>
+    // Use semantic name for background
+    public override string MainContentContainer => $"md:pl-60 w-full bg-surface"; // pl matches sidebar width
+
+    /// <inheritdoc/>
+    public override string MainContentPadding => "p-4 md:p-6 lg:p-8";
+
+    /// <inheritdoc/>
+    // Use semantic names for background and text
+    public override string FloatingToggleButton => $"z-50 fixed right-4 top-4 rounded-full bg-primary p-4 text-on-primary md:hidden";
+
+    /// <inheritdoc/>
+    public override string GetSidebarTopCss(bool hasNavbar) => hasNavbar ? "top-16" : "top-0"; // Adjust based on standard navbar height (h-16)
+
+     /// <inheritdoc/>
+    public override string GetLayoutContainerTopCss(bool hasNavbar) => hasNavbar ? "mt-16" : ""; // Adjust based on standard navbar height (h-16)
+
+    /// <inheritdoc/>
+    // Use fixed width value corresponding to 'w-60'
+    public override string GetSidebarTranslationCss(bool isVisible) => isVisible ? "translate-x-0" : "-translate-x-60";
+}
 
 /// <summary> Provides default styles for RzSidebarLinkItem. </summary>
 public class DefaultRzSidebarLinkItemStyles : RzStylesBase.RzSidebarLinkItemStylesBase

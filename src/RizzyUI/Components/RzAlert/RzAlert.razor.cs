@@ -10,22 +10,11 @@ namespace RizzyUI;
 ///     Represents an alert component that displays a message with optional icon, variant, and dismiss functionality.
 ///     Styling is handled by the active theme.
 /// </xmldoc>
-public class RzAlert : RzComponent
+public partial class RzAlert : RzComponent
 {
     private string _bgLight = string.Empty;
     private string _bgLighter = string.Empty;
     private string _iconColor = string.Empty;
-
-    /// <summary> Get the currently active theme via Cascading Parameter </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
 
     /// <summary> Gets or sets the variant of the alert. </summary>
     [Parameter]
@@ -62,10 +51,6 @@ public class RzAlert : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
 
         SetVariantStyles(); // Set styles after Theme is confirmed
         SetDefaultIcon(); // Set default icon after variant styles are known

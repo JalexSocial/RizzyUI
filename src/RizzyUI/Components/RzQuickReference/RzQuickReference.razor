@@ -8,7 +8,7 @@
     <ul class="@ListClass">
         @foreach (var heading in _headings)
         {
-            <li class="@GetIndentationClass(heading.Level)">
+            <li class="@ListItemClass @GetIndentationClass(heading.Level)">
                 @* Alpine handles selected class via :class binding in JS *@
                 <a href="#@heading.Id"
                    class="@LinkClass"

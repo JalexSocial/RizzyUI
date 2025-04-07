@@ -13,17 +13,6 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzAccordionSection : RzComponent
 {
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
-
     // Generate a unique ID for this section.
     private string SectionId { get; } = IdGenerator.UniqueId("rzaccsec");
 
@@ -57,14 +46,4 @@ public partial class RzAccordionSection : RzComponent
 
     /// <summary> Gets the CSS class applied to the chevron icon when the section is expanded. </summary>
     protected string ChevronIconExpandedClass => Theme.RzAccordionSection.ChevronIconExpanded;
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
-    }
 }

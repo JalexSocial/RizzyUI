@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.RzToggle.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzToggle. </summary>
 public class DefaultRzToggleStyles : RzStylesBase.RzToggleStylesBase

@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.RzBreadcrumb.Styling;
+namespace RizzyUI;
 
 /// <summary>
 ///     Provides the default styles for the RzBreadcrumb component.

@@ -12,17 +12,6 @@ public partial class RzAvatar : RzComponent
 {
     private string _initials = string.Empty;
 
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
-
     /// <summary> Gets or sets the source URL of the avatar image. </summary>
     [Parameter]
     public string ImageSource { get; set; } = string.Empty;
@@ -118,20 +107,9 @@ public partial class RzAvatar : RzComponent
     /// <summary> Gets the computed CSS classes for the placeholder icon size. </summary>
     protected string PlaceholderIconSizeClass => Theme.RzAvatar.GetPlaceholderSizeCss(Size);
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
-    }
-
-    /// <inheritdoc />
+ /// <inheritdoc />
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, ContainerClass, Theme.RzAvatar.GetSizeCss(Size));
-        // Apply size to root
     }
 }

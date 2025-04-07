@@ -4,8 +4,6 @@ using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
-// StepStatus enum and StepData record remain the same as in previous response
-
 /// <xmldoc>
 ///     A component that displays a sequence of steps, visually indicating progress through a process.
 ///     Child <see cref="RzStep" /> components automatically register their data.

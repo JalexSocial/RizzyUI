@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.RzAccordion.Styling;
+namespace RizzyUI;
 
 public class DefaultRzAccordionStyles : RzStylesBase.RzAccordionStylesBase
 {

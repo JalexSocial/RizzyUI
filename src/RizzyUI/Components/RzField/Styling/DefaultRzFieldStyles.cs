@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.RzField.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzField. </summary>
 public class DefaultRzFieldStyles : RzStylesBase.RzFieldStylesBase

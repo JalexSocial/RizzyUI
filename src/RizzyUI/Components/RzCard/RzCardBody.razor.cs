@@ -8,12 +8,8 @@ namespace RizzyUI;
 ///     Represents the main content area of an <see cref="RzCard" />.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public class RzCardBody : RzComponent
+public partial class RzCardBody : RzComponent
 {
-    [CascadingParameter] protected RzTheme? CascadedTheme { get; set; }
-    [Inject] private IOptions<RizzyUIConfig>? Config { get; set; }
-    protected RzTheme Theme { get; set; } = default!;
-
     /// <summary> The content to be rendered inside the card body. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -25,16 +21,6 @@ public class RzCardBody : RzComponent
     /// <summary> The text color for the card body content. Defaults to None (inherits from card). </summary>
     [Parameter]
     public SemanticColor TextColor { get; set; } = SemanticColor.None;
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
-    }
 
     /// <inheritdoc />
     protected override string? RootClass()

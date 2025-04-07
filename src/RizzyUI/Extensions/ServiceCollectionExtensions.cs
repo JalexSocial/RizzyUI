@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Rizzy;
 using Rizzy.Htmx;
 using TailwindMerge.Extensions;
 

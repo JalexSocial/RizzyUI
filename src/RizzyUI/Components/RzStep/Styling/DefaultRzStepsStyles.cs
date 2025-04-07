@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.RzStep.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzSteps. </summary>
 public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase // Not sealed

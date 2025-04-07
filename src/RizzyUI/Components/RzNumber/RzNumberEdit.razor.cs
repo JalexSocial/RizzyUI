@@ -2,7 +2,6 @@ using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Options;
-using Rizzy;
 using RizzyUI.Extensions;
 // For RzInputNumber
 
@@ -21,20 +20,9 @@ public partial class RzNumberEdit<TValue> : InputBase<TValue> // Inherits InputB
     private string _placeholder = string.Empty;
     private TValue _value = default!;
 
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
     /// <summary> Gets the current edit context. </summary>
     [CascadingParameter]
     public EditContext? EditContext { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
 
     /// <summary> Gets or sets the placeholder text for the input field. </summary>
     [Parameter]
@@ -71,10 +59,7 @@ public partial class RzNumberEdit<TValue> : InputBase<TValue> // Inherits InputB
     protected override void OnInitialized()
     {
         base.OnInitialized(); // Call base for InputBase logic
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
+
         if (For == null) // For is required by InputBase
             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
         if (EditContext == null) // RzInputNumber requires EditContext
@@ -86,8 +71,11 @@ public partial class RzNumberEdit<TValue> : InputBase<TValue> // Inherits InputB
     {
         base.OnParametersSet(); // Call base for InputBase logic
 
-        // Determine placeholder: prefer AdditionalAttributes value if provided.
-        _placeholder = GetParameterValue("placeholder", Placeholder);
+        _placeholder = Placeholder;
+        if (AdditionalAttributes is not null && AdditionalAttributes.TryGetValue("placeholder", out var ph) && ph is string phStr)
+        {
+            _placeholder = phStr;
+        }
 
         // Compile the field expression to get the initial value.
         _value = For!.Compile().Invoke(); // For is guaranteed non-null by base/OnInitialized

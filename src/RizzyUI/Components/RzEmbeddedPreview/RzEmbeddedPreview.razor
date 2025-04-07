@@ -1,0 +1,12 @@
+﻿@using Rizzy.Utility
+@namespace RizzyUI
+@inherits RzComponent
+
+<HtmlElement class="@ContainerClass">
+	<iframe x-data="rzEmbeddedPreview"
+	        id="@Id"
+	        class="@IFrameClass"
+	        srcdoc="@_content"
+	        x-ref="iframe">
+	</iframe>
+</HtmlElement>

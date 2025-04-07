@@ -14,19 +14,8 @@ public partial class RzButtonGroup : RzComponent
     /// <summary> Internal list that holds the buttons added to the group. </summary>
     private readonly List<RzButton> _buttons = new();
 
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
-
     /// <summary> Gets the read-only list of buttons contained in this button group. </summary>
-    public IReadOnlyList<RzButton> Buttons => _buttons.AsReadOnly();
+    public List<RzButton> Buttons => _buttons;
 
     /// <summary>
     ///     The child content to be rendered inside the button group. Typically includes <see cref="RzButton" />
@@ -34,16 +23,6 @@ public partial class RzButtonGroup : RzComponent
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
-    }
 
     /// <inheritdoc />
     protected override string? RootClass()

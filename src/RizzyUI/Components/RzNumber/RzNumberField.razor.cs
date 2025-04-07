@@ -2,8 +2,7 @@ using System.Linq.Expressions;
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.Extensions.Options;
-// For EditContext
+using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
@@ -15,20 +14,9 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzNumberField<TValue> : RzComponent
 {
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
     /// <summary> Gets the current edit context. </summary>
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
 
     /// <summary> Specifies the field the number input is bound to. Required. </summary>
     [Parameter]
@@ -68,10 +56,7 @@ public partial class RzNumberField<TValue> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
+        
         if (For == null)
             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
         if (EditContext == null)
@@ -82,6 +67,6 @@ public partial class RzNumberField<TValue> : RzComponent
     protected override string? RootClass()
     {
         // Merge class attribute specifically for the RzField container
-        return TwMerge.Merge(AdditionalAttributes?.GetValueOrDefault("class")?.ToString(), Theme.RzNumberField.Field);
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzNumberField.Field);
     }
 }

@@ -1,6 +1,4 @@
-// For ColorUtil
-
-namespace RizzyUI.Components.RzTypography.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for base typography settings. </summary>
 public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase // Not sealed

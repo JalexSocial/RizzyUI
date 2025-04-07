@@ -1,6 +1,4 @@
-// Required for ColorUtil extensions
-
-namespace RizzyUI.Components.RzAvatar.Styling;
+namespace RizzyUI;
 
 /// <summary>
 ///     Provides the default styles for the RzAvatar component.

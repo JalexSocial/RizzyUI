@@ -1,6 +1,4 @@
-// For ColorUtil
-
-namespace RizzyUI.Components.RzTab.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzTabs. </summary>
 public class DefaultRzTabsStyles : RzStylesBase.RzTabsStylesBase // Not sealed

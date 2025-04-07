@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.RzBadge.Styling;
+namespace RizzyUI;
 
 /// <summary>
 ///     Provides the default styles for the RzBadge component.

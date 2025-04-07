@@ -10,20 +10,9 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzButton : RzComponent
 {
-    /// <summary> Get the currently active theme via Cascading Parameter </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
     /// <summary> Cascaded RzButtonGroup this component belongs to (optional) </summary>
     [CascadingParameter]
     public RzButtonGroup? Group { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
 
     /// <summary> Gets or sets the accessible label for the button. </summary>
     [Parameter]
@@ -57,11 +46,7 @@ public partial class RzButton : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
-
+        
         Element = "button";
     }
 
@@ -76,9 +61,12 @@ public partial class RzButton : RzComponent
         if (Group != null)
         {
             var idx = Group.Buttons.IndexOf(this);
-            if (idx == 0) groupSpecificClass = groupStyles.GroupFirst;
-            else if (idx == Group.Buttons.Count - 1) groupSpecificClass = groupStyles.GroupLast;
-            else groupSpecificClass = groupStyles.GroupMiddle;
+            if (idx == 0) 
+                groupSpecificClass = groupStyles.GroupFirst;
+            else if (idx == Group.Buttons.Count - 1) 
+                groupSpecificClass = groupStyles.GroupLast;
+            else 
+                groupSpecificClass = groupStyles.GroupMiddle;
         }
 
         return TwMerge.Merge(AdditionalAttributes,

@@ -20,20 +20,9 @@ public partial class RzRadioGroupField<TValue> : RzComponent
 
     private FieldIdentifier _fieldIdentifier;
 
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
     /// <summary> Gets the current edit context. </summary>
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
 
     /// <summary> Gets or sets the display name for the field label. If not set, it's inferred from the 'For' expression. </summary>
     [Parameter]
@@ -53,7 +42,7 @@ public partial class RzRadioGroupField<TValue> : RzComponent
     /// <summary> Specifies the field the radio group is bound to. Required. </summary>
     [Parameter]
     [EditorRequired]
-    public Expression<Func<TValue>>? For { get; set; }
+    public required Expression<Func<TValue>>? For { get; set; }
 
     /// <summary> Gets or sets the current selected value of the radio group. </summary>
     [Parameter]
@@ -111,12 +100,10 @@ public partial class RzRadioGroupField<TValue> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
+
         if (For == null)
             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
+        
         if (EditContext == null)
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 
@@ -130,7 +117,8 @@ public partial class RzRadioGroupField<TValue> : RzComponent
     {
         base.OnParametersSet();
         // Update internal value if the parameter changes externally
-        var newValue = Value ?? For?.Compile().Invoke();
+        var newValue = Value ?? For!.Compile().Invoke();
+        
         if (!EqualityComparer<TValue?>.Default.Equals(_currentValue, newValue)) _currentValue = newValue;
         // Update resolved name if 'For' or 'Name' parameter changes
         if (For != null)

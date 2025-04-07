@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.RzNumber.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzNumberEdit. </summary>
 public class DefaultRzNumberEditStyles : RzStylesBase.RzNumberEditStylesBase // Not sealed

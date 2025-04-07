@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
 using TailwindMerge;
 
@@ -12,6 +13,17 @@ public class RzComponent : ComponentBase
 {
     private string? _nonce;
 
+    /// <summary> Get the currently active theme via Cascading Parameter </summary>
+    [CascadingParameter]
+    protected RzTheme? CascadedTheme { get; set; }
+
+    /// <summary> Injected configuration to get the default theme as fallback. </summary>
+    [Inject]
+    private IOptions<RizzyUIConfig>? Config { get; set; }
+    
+    /// <summary> The effective theme being used (Cascaded or Default). </summary>
+    protected RzTheme Theme { get; private set; } = RzTheme.Default;
+    
     /// <summary>
     ///     Reference to Tailwind Merge service
     /// </summary>
@@ -54,5 +66,15 @@ public class RzComponent : ComponentBase
     protected virtual string? RootClass()
     {
         return AdditionalAttributes?.GetValueOrDefault("class", string.Empty).ToString();
+    }
+
+    /// <summary>
+    ///  Configure the theme based on the CascadedTheme or the default theme from the configuration.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
     }
 }

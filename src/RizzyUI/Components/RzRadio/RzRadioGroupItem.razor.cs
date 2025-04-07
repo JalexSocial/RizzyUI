@@ -14,20 +14,9 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzRadioGroupItem<TValue> : RzComponent
 {
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
     /// <summary> Gets the parent radio group. </summary>
     [CascadingParameter]
     public RzRadioGroup<TValue>? ParentRadioGroup { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
 
     /// <summary> Gets or sets the Blazicon SVG icon displayed next to the label (optional). </summary>
     [Parameter]
@@ -72,10 +61,7 @@ public partial class RzRadioGroupItem<TValue> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
+
         if (ParentRadioGroup == null)
             throw new InvalidOperationException($"{GetType()} must be used within an RzRadioGroup.");
 

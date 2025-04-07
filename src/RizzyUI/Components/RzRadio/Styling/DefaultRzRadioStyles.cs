@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.RzRadio.Styling;
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzRadioGroup. </summary>
 public class DefaultRzRadioGroupStyles : RzStylesBase.RzRadioGroupStylesBase // Not sealed

@@ -11,7 +11,7 @@ namespace RizzyUI;
 ///     A Blazor component that provides the current theme's CSS variables in the document head.
 ///     If no theme is provided, uses <see cref="RzTheme.Default" />.
 /// </summary>
-public class RizzyThemeProvider : ComponentBase
+public class RzThemeProvider : ComponentBase
 {
     [Inject] private IOptions<RizzyUIConfig>? RizzyConfig { get; set; }
 

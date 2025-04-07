@@ -1,4 +1,4 @@
-namespace RizzyUI.Components.RzAccordion.Styling;
+namespace RizzyUI;
 
 /// <summary>
 ///     Provides the default styles for the RzAccordionSection component.

@@ -1,32 +1,4 @@
-﻿
-using RizzyUI.Components.RzAccordion.Styling;
-using RizzyUI.Components.RzAlert.Styling;
-using RizzyUI.Components.RzArticle.Styling;
-using RizzyUI.Components.RzAvatar.Styling;
-using RizzyUI.Components.RzBadge.Styling;
-using RizzyUI.Components.RzBreadcrumb.Styling;
-using RizzyUI.Components.RzButton.Styling;
-using RizzyUI.Components.RzCard.Styling;
-using RizzyUI.Components.RzCheckbox.Styling;
-using RizzyUI.Components.RzDropdown.Styling;
-using RizzyUI.Components.RzField.Styling;
-using RizzyUI.Components.RzFormSection.Styling;
-using RizzyUI.Components.RzLink.Styling;
-using RizzyUI.Components.RzMarkdown.Styling;
-using RizzyUI.Components.RzNavbar.Styling;
-using RizzyUI.Components.RzNumber.Styling;
-using RizzyUI.Components.RzProgress.Styling;
-using RizzyUI.Components.RzQuickReference.Styling;
-using RizzyUI.Components.RzRadio.Styling;
-using RizzyUI.Components.RzSidebar.Styling;
-using RizzyUI.Components.RzStep.Styling;
-using RizzyUI.Components.RzTab.Styling;
-using RizzyUI.Components.RzText.Styling;
-using RizzyUI.Components.RzToggle.Styling;
-using RizzyUI.Components.RzTypography.Styling;
-
-
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 namespace RizzyUI;
 
@@ -84,7 +56,6 @@ public class RzTheme
         RzFieldHelp = new DefaultRzFieldHelpStyles(this);
         RzFieldLabel = new DefaultRzFieldLabelStyles(this);
         RzFormSection = new DefaultRzFormSectionStyles(this);
-        RzFragmentComponent = new DefaultRzFragmentComponentStyles(this);
         RzHeading = new DefaultRzHeadingStyles(this);
         RzLink = new DefaultRzLinkStyles(this);
         RzMarkdown = new DefaultRzMarkdownStyles(this);
@@ -288,9 +259,6 @@ public class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzFormSection" /> component. </summary>
     public virtual RzStylesBase.RzFormSectionStylesBase RzFormSection { get; }
-
-    /// <summary> Gets or sets the style definitions for the <see cref="RzFragmentComponent" />. </summary>
-    public virtual RzStylesBase.RzFragmentComponentStylesBase RzFragmentComponent { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzHeading" /> component. </summary>
     public virtual RzStylesBase.RzHeadingStylesBase RzHeading { get; }

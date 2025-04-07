@@ -2,12 +2,7 @@ using System.Linq.Expressions;
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
-// For RzInputRadioGroup
-// For Count()
-
-// For EditContext
 
 namespace RizzyUI;
 
@@ -24,20 +19,9 @@ public partial class RzRadioGroup<TValue> : RzComponent
 
     private List<RzRadioGroupItem<TValue>> _items = new();
 
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
     /// <summary> Gets the current edit context. Required as RzInputRadioGroup needs it. </summary>
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
 
     /// <summary> Gets or sets the display name (often used by label components, though not directly here). </summary>
     [Parameter]
@@ -47,9 +31,10 @@ public partial class RzRadioGroup<TValue> : RzComponent
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
-    /// <summary> Specifies the field the radio group is bound to. Required. </summary>
-    [Parameter]
-    [EditorRequired]
+    /// <summary>
+    ///     Specifies the field for which validation messages should be displayed.
+    /// </summary>
+    [Parameter][EditorRequired]
     public Expression<Func<TValue>>? For { get; set; }
 
     /// <summary> Gets or sets the 'name' attribute shared by all radio buttons in the group. If empty, one is generated. </summary>
@@ -99,12 +84,10 @@ public partial class RzRadioGroup<TValue> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
+        
         if (For == null)
             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
+        
         if (EditContext == null)
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 
@@ -119,16 +102,24 @@ public partial class RzRadioGroup<TValue> : RzComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        
         // Update internal value if the parameter changes externally
-        var newValue = Value ?? For?.Compile().Invoke();
-        if (!EqualityComparer<TValue?>.Default.Equals(_currentValue, newValue)) _currentValue = newValue;
-        // Regenerate name if 'For' changes and Name was auto-generated
-        if (For != null)
+        if (For != null && Value == null)
         {
-            var newFieldIdentifier = FieldIdentifier.Create(For);
-            if (string.IsNullOrEmpty(Name) || Name == _fieldIdentifier.FieldName) Name = newFieldIdentifier.FieldName;
-            _fieldIdentifier = newFieldIdentifier;
-        }
+            var newValue = Value ?? For.Compile().Invoke();
+        
+            if (!EqualityComparer<TValue?>.Default.Equals(_currentValue, newValue)) _currentValue = newValue;
+        }        
+        
+        // Regenerate name if 'For' changes and Name was auto-generated
+        if (For == null) return;
+        
+        var newFieldIdentifier = FieldIdentifier.Create(For);
+            
+        if (string.IsNullOrEmpty(Name) || Name == _fieldIdentifier.FieldName) 
+            Name = newFieldIdentifier.FieldName;
+            
+        _fieldIdentifier = newFieldIdentifier;
     }
 
     /// <summary> Adds an <see cref="RzRadioGroupItem{TValue}" /> to this group. Called by child items. </summary>
