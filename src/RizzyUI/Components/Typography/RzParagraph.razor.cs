@@ -8,7 +8,7 @@ namespace RizzyUI;
 ///     Inherits text styling options from <see cref="RzTypographyBase" />.
 ///     Styling, including prose width, is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public class RzParagraph : RzTypographyBase // Inherits RzTypographyBase for common text props
+public partial class RzParagraph : RzTypographyBase
 {
     // Theme is inherited from RzTypographyBase
 
