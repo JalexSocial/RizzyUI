@@ -44,13 +44,13 @@ public class DefaultRzProgressStyles : RzStylesBase.RzProgressStylesBase // Not 
             StatusColor.Primary => "h-full rounded-borderRadius bg-primary text-on-primary",
             StatusColor.Secondary => "h-full rounded-borderRadius bg-secondary text-on-secondary",
             StatusColor.Success =>
-                $"h-full rounded-borderRadius bg-{Theme.Success.TailwindClassName} dark:bg-{Theme.Success.TailwindClassName} text-{Theme.OnSuccess.TailwindClassName} dark:text-{Theme.OnSuccess.TailwindClassName}", // Note: Specific OnSuccess dark might be needed
+                $"h-full rounded-borderRadius bg-success dark:bg-success text-on-success dark:text-on-success", // Note: Specific OnSuccess dark might be needed
             StatusColor.Info =>
-                $"h-full rounded-borderRadius bg-{Theme.Info.TailwindClassName} dark:bg-{Theme.Info.TailwindClassName} text-{Theme.OnInfo.TailwindClassName} dark:text-{Theme.OnInfo.TailwindClassName}",
+                $"h-full rounded-borderRadius bg-info dark:bg-info text-on-info dark:text-on-info",
             StatusColor.Warning =>
-                $"h-full rounded-borderRadius bg-{Theme.Warning.TailwindClassName} dark:bg-{Theme.Warning.TailwindClassName} text-{Theme.OnWarning.TailwindClassName} dark:text-{Theme.OnWarning.TailwindClassName}",
+                $"h-full rounded-borderRadius bg-warning dark:bg-warning text-on-warning dark:text-on-warning",
             StatusColor.Danger =>
-                $"h-full rounded-borderRadius bg-{Theme.Danger.TailwindClassName} dark:bg-{Theme.Danger.TailwindClassName} text-{Theme.OnDanger.TailwindClassName} dark:text-{Theme.OnDanger.TailwindClassName}",
+                $"h-full rounded-borderRadius bg-danger dark:bg-danger text-on-danger dark:text-on-danger",
             _ => GetInnerBarVariantCss(StatusColor.Primary)
         };
     }
@@ -58,7 +58,7 @@ public class DefaultRzProgressStyles : RzStylesBase.RzProgressStylesBase // Not 
     /// <inheritdoc />
     public override string GetInsideLabelColorCss(bool overflows)
     {
-        return overflows ? $"text-on-surface dark:text-{Theme.Dark.OnSurface.TailwindClassName}" : "";
+        return overflows ? $"text-on-surface dark:text-on-surface" : "";
         // Apply contrasting color if label overflows bar
     }
 }

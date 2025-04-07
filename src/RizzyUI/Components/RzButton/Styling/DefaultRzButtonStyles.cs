@@ -22,15 +22,15 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
             ButtonVariant.Alternate =>
                 "bg-surface-alt text-on-surface focus-visible:outline-surface-alt dark:focus-visible:outline-surface-alt",
             ButtonVariant.Inverse =>
-                $"bg-{Theme.Dark.Surface.TailwindClassName} text-{Theme.Dark.OnSurface.TailwindClassName} focus-visible:outline-{Theme.Light.Surface.TailwindClassName} dark:bg-{Theme.Light.Surface.TailwindClassName} dark:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:focus-visible:outline-{Theme.Light.Surface.TailwindClassName}", // Corrected Inverse
+                $"bg-{Theme.Dark.Surface.TailwindClassName} text-on-surface focus-visible:outline-surface dark:bg-surface dark:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:focus-visible:outline-surface", // Corrected Inverse
             ButtonVariant.Information =>
-                $"bg-{Theme.Info.TailwindClassName} text-{Theme.OnInfo.TailwindClassName} focus-visible:outline-{Theme.Info.TailwindClassName} dark:bg-{Theme.Info.TailwindClassName} dark:text-{Theme.OnInfo.TailwindClassName} dark:focus-visible:outline-{Theme.Info.TailwindClassName}",
+                $"bg-info text-on-info focus-visible:outline-info dark:bg-info dark:text-on-info dark:focus-visible:outline-info",
             ButtonVariant.Danger =>
-                $"bg-{Theme.Danger.TailwindClassName} text-{Theme.OnDanger.TailwindClassName} focus-visible:outline-{Theme.Danger.TailwindClassName} dark:bg-{Theme.Danger.TailwindClassName} dark:text-{Theme.OnDanger.TailwindClassName} dark:focus-visible:outline-{Theme.Danger.TailwindClassName}",
+                $"bg-danger text-on-danger focus-visible:outline-danger dark:bg-danger dark:text-on-danger dark:focus-visible:outline-danger",
             ButtonVariant.Warning =>
-                $"bg-{Theme.Warning.TailwindClassName} text-{Theme.OnWarning.TailwindClassName} focus-visible:outline-{Theme.Warning.TailwindClassName} dark:bg-{Theme.Warning.TailwindClassName} dark:text-{Theme.OnWarning.TailwindClassName} dark:focus-visible:outline-{Theme.Warning.TailwindClassName}",
+                $"bg-warning text-on-warning focus-visible:outline-warning dark:bg-warning dark:text-on-warning dark:focus-visible:outline-warning",
             ButtonVariant.Success =>
-                $"bg-{Theme.Success.TailwindClassName} text-{Theme.OnSuccess.TailwindClassName} focus-visible:outline-{Theme.Success.TailwindClassName} dark:bg-{Theme.Success.TailwindClassName} dark:text-{Theme.OnSuccess.TailwindClassName} dark:focus-visible:outline-{Theme.Success.TailwindClassName}",
+                $"bg-success text-on-success focus-visible:outline-success dark:bg-success dark:text-on-success dark:focus-visible:outline-success",
             ButtonVariant.Ghost => "bg-transparent text-on-surface focus-visible:outline-none",
             _ => GetVariantCss(ButtonVariant.Primary) // Default
         };
@@ -49,13 +49,13 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
             ButtonVariant.Inverse =>
                 $"bg-transparent border border-{Theme.Light.OnSurfaceStrong.TailwindClassName} text-{Theme.Light.OnSurfaceStrong.TailwindClassName} focus-visible:outline-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:focus-visible:outline-{Theme.Dark.OnSurfaceStrong.TailwindClassName}",
             ButtonVariant.Information =>
-                $"bg-transparent border border-{Theme.Info.TailwindClassName} text-{Theme.Info.TailwindClassName} focus-visible:outline-{Theme.Info.TailwindClassName} dark:border-{Theme.Info.TailwindClassName} dark:text-{Theme.Info.TailwindClassName} dark:focus-visible:outline-{Theme.Info.TailwindClassName}",
+                $"bg-transparent border border-info text-info focus-visible:outline-info dark:border-info dark:text-info dark:focus-visible:outline-info",
             ButtonVariant.Danger =>
-                $"bg-transparent border border-{Theme.Danger.TailwindClassName} text-{Theme.Danger.TailwindClassName} focus-visible:outline-{Theme.Danger.TailwindClassName} dark:border-{Theme.Danger.TailwindClassName} dark:text-{Theme.Danger.TailwindClassName} dark:focus-visible:outline-{Theme.Danger.TailwindClassName}",
+                $"bg-transparent border border-danger text-danger focus-visible:outline-danger dark:border-danger dark:text-danger dark:focus-visible:outline-danger",
             ButtonVariant.Warning =>
-                $"bg-transparent border border-{Theme.Warning.TailwindClassName} text-{Theme.Warning.TailwindClassName} focus-visible:outline-{Theme.Warning.TailwindClassName} dark:border-{Theme.Warning.TailwindClassName} dark:text-{Theme.Warning.TailwindClassName} dark:focus-visible:outline-{Theme.Warning.TailwindClassName}",
+                $"bg-transparent border border-warning text-warning focus-visible:outline-warning dark:border-warning dark:text-warning dark:focus-visible:outline-warning",
             ButtonVariant.Success =>
-                $"bg-transparent border border-{Theme.Success.TailwindClassName} text-{Theme.Success.TailwindClassName} focus-visible:outline-{Theme.Success.TailwindClassName} dark:border-{Theme.Success.TailwindClassName} dark:text-{Theme.Success.TailwindClassName} dark:focus-visible:outline-{Theme.Success.TailwindClassName}",
+                $"bg-transparent border border-success text-success focus-visible:outline-success dark:border-success dark:text-success dark:focus-visible:outline-success",
             ButtonVariant.Ghost => "bg-transparent border text-on-surface hover:opacity-75 focus-visible:outline-none",
             _ => GetVariantOutlineCss(ButtonVariant.Primary) // Default
         };

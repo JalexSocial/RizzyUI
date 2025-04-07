@@ -23,7 +23,7 @@ public class DefaultRzFieldLabelStyles : RzStylesBase.RzFieldLabelStylesBase
 
     /// <inheritdoc />
     public override string RequiredIndicator =>
-        $"text-sm text-{Theme.Danger.TailwindClassName} dark:text-{Theme.Danger.TailwindClassName}"; // Assuming Danger has dark variant or is same
+        $"text-sm text-danger dark:text-danger"; // Assuming Danger has dark variant or is same
 }
 
 /// <summary> Provides default styles for RzFieldHelp. </summary>

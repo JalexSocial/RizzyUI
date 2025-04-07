@@ -1,7 +1,4 @@
-﻿// src/RizzyUI/RzTheme.cs
-
-// Import ALL default style implementations using their new namespaces
-
+﻿
 using RizzyUI.Components.RzAccordion.Styling;
 using RizzyUI.Components.RzAlert.Styling;
 using RizzyUI.Components.RzArticle.Styling;
@@ -27,8 +24,7 @@ using RizzyUI.Components.RzTab.Styling;
 using RizzyUI.Components.RzText.Styling;
 using RizzyUI.Components.RzToggle.Styling;
 using RizzyUI.Components.RzTypography.Styling;
-// Added
-// Added
+
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
@@ -188,12 +184,6 @@ public class RzTheme
     ///     Gets the default border radius value used across components (e.g., "6px", "0.5rem").
     /// </summary>
     public string BorderRadius { get; init; }
-
-    /// <summary>
-    ///     Gets the theme-specific token name for border radius (e.g., "radius-arctic").
-    ///     Can be used in CSS variable definitions or Tailwind configuration.
-    /// </summary>
-    public string BorderRadiusTokenName => $"radius-{ThemeCode}";
 
     // --- Component Style Properties ---
 

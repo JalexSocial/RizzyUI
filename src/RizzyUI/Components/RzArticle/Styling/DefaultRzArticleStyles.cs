@@ -5,13 +5,14 @@ namespace RizzyUI.Components.RzArticle.Styling;
 /// </summary>
 public class DefaultRzArticleStyles : RzStylesBase.RzArticleStylesBase
 {
+    /// <inheritdoc />
     public DefaultRzArticleStyles(RzTheme theme) : base(theme)
     {
     }
 
     /// <inheritdoc />
     public override string Container =>
-        $"flex w-full justify-between pr-0 text-on-surface dark:text-{Theme.Dark.OnSurface.TailwindClassName}"; // Base container styles
+        $"flex w-full justify-between pr-0 text-on-surface dark:text-on-surface"; // Base container styles
 
     /// <inheritdoc />
     public override string InnerContainer => "mx-auto flex max-w-7xl grow flex-col overflow-x-auto overflow-y-hidden";

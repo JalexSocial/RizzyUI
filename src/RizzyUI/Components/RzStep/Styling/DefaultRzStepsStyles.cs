@@ -38,7 +38,7 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase // Not sealed
 
     /// <inheritdoc />
     public override string Caption =>
-        $"text-xs text-{Theme.Light.OnSurfaceMuted.TailwindClassName}"; // Style for caption
+        $"text-xs text-on-surface-muted"; // Style for caption
 
     /// <inheritdoc />
     public override string GetOrientationCss(Orientation orientation)
@@ -112,10 +112,10 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase // Not sealed
         {
             StatusColor.Primary => "bg-primary",
             StatusColor.Secondary => "bg-secondary",
-            StatusColor.Success => $"bg-{Theme.Success.TailwindClassName} dark:bg-{Theme.Success.TailwindClassName}",
-            StatusColor.Info => $"bg-{Theme.Info.TailwindClassName} dark:bg-{Theme.Info.TailwindClassName}",
-            StatusColor.Warning => $"bg-{Theme.Warning.TailwindClassName} dark:bg-{Theme.Warning.TailwindClassName}",
-            StatusColor.Danger => $"bg-{Theme.Danger.TailwindClassName} dark:bg-{Theme.Danger.TailwindClassName}",
+            StatusColor.Success => $"bg-success dark:bg-success",
+            StatusColor.Info => $"bg-info dark:bg-info",
+            StatusColor.Warning => $"bg-warning dark:bg-warning",
+            StatusColor.Danger => $"bg-danger dark:bg-danger",
             _ => GetActiveBackgroundClass(StatusColor.Primary)
         };
     }
@@ -127,12 +127,12 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase // Not sealed
             StatusColor.Primary => "border-primary",
             StatusColor.Secondary => "border-secondary",
             StatusColor.Success =>
-                $"border-{Theme.Success.TailwindClassName} dark:border-{Theme.Success.TailwindClassName}",
-            StatusColor.Info => $"border-{Theme.Info.TailwindClassName} dark:border-{Theme.Info.TailwindClassName}",
+                $"border-success dark:border-success",
+            StatusColor.Info => $"border-info dark:border-info",
             StatusColor.Warning =>
-                $"border-{Theme.Warning.TailwindClassName} dark:border-{Theme.Warning.TailwindClassName}",
+                $"border-warning dark:border-warning",
             StatusColor.Danger =>
-                $"border-{Theme.Danger.TailwindClassName} dark:border-{Theme.Danger.TailwindClassName}",
+                $"border-danger dark:border-danger",
             _ => GetActiveBorderClass(StatusColor.Primary)
         };
     }
@@ -144,12 +144,12 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase // Not sealed
             StatusColor.Primary => "text-on-primary",
             StatusColor.Secondary => "text-on-secondary",
             StatusColor.Success =>
-                $"text-{Theme.OnSuccess.TailwindClassName} dark:text-{Theme.OnSuccess.TailwindClassName}", // Assume dark OnSuccess exists or is same
-            StatusColor.Info => $"text-{Theme.OnInfo.TailwindClassName} dark:text-{Theme.OnInfo.TailwindClassName}",
+                $"text-on-success dark:text-on-success", // Assume dark OnSuccess exists or is same
+            StatusColor.Info => $"text-on-info dark:text-on-info",
             StatusColor.Warning =>
-                $"text-{Theme.OnWarning.TailwindClassName} dark:text-{Theme.OnWarning.TailwindClassName}",
+                $"text-on-warning dark:text-on-warning",
             StatusColor.Danger =>
-                $"text-{Theme.OnDanger.TailwindClassName} dark:text-{Theme.OnDanger.TailwindClassName}",
+                $"text-on-danger dark:text-on-danger",
             _ => GetActiveTextClass(StatusColor.Primary)
         };
     }

@@ -21,7 +21,7 @@ public class DefaultRzDropdownStyles : RzStylesBase.RzDropdownStylesBase
 
     /// <inheritdoc />
     public override string MenuInnerContainer =>
-        $"border border-outline divide-y divide-{Theme.Light.Outline.TailwindClassName} rounded-borderRadius bg-{Theme.Light.Surface.TailwindClassName} ring-black dark:divide-outline"; // Simplified ring
+        $"border border-outline divide-y divide-outline rounded-borderRadius bg-surface ring-black dark:divide-outline"; // Simplified ring
 }
 
 /// <summary> Provides default styles for RzDropdownSection. </summary>

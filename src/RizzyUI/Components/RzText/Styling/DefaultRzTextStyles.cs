@@ -12,7 +12,7 @@ public class DefaultRzTextEditStyles : RzStylesBase.RzTextEditStylesBase
 
     /// <inheritdoc />
     public override string PrependElement =>
-        $"pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-borderRadius border-r border-{Theme.Light.Outline.TailwindClassName} bg-surface-alt px-3 text-on-surface dark:border-outline dark:bg-surface-alt dark:text-{Theme.Dark.OnSurface.TailwindClassName}"; // Adjusted padding slightly, used theme tokens
+        $"pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-borderRadius border-r border-outline bg-surface-alt px-3 text-on-surface dark:border-outline dark:bg-surface-alt dark:text-on-surface"; // Adjusted padding slightly, used theme tokens
 
     /// <inheritdoc />
     public override string PrependIconContainer => "text-xl";

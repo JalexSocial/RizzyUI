@@ -21,18 +21,18 @@ public class DefaultRzAvatarStyles : RzStylesBase.RzAvatarStylesBase
 
     /// <inheritdoc />
     public override string Indicator =>
-        $"border-2 absolute right-0 top-0 rounded-full border-{Theme.Light.Surface.TailwindClassName}"; // Base indicator styles, size and color added separately
+        $"border-2 absolute right-0 top-0 rounded-full border-surface"; // Base indicator styles, size and color added separately
 
     /// <inheritdoc />
     public override string Image => "inline-block aspect-square"; // Base image styles, size and shape added separately
 
     /// <inheritdoc />
     public override string InitialsContainer =>
-        $"inline-flex items-center justify-center bg-surface-alt text-{Theme.Light.OnSurfaceMuted.TailwindClassName} dark:bg-surface-alt dark:text-on-surface-muted"; // Base initials container styles, size and shape added separately
+        $"inline-flex items-center justify-center bg-surface-alt text-on-surface-muted dark:bg-surface-alt dark:text-on-surface-muted"; // Base initials container styles, size and shape added separately
 
     /// <inheritdoc />
     public override string PlaceholderContainer =>
-        $"inline-flex items-center justify-center bg-surface-alt text-{Theme.Light.Outline.TailwindClassName} dark:bg-surface-alt dark:text-outline"; // Base placeholder styles, size and shape added separately
+        $"inline-flex items-center justify-center bg-surface-alt text-outline dark:bg-surface-alt dark:text-outline"; // Base placeholder styles, size and shape added separately
 
     /// <inheritdoc />
     public override string PlaceholderIcon => "inline-block"; // Base placeholder icon styles, size added separately
@@ -107,8 +107,6 @@ public class DefaultRzAvatarStyles : RzStylesBase.RzAvatarStylesBase
     /// <inheritdoc />
     public override string GetIndicatorColorCss(AccentColor color)
     {
-        // Use the ColorUtil extensions to get background classes
-        // Assuming ColorUtil is updated or accessible here
         return color.ToLightBackgroundClass() + " " + color.ToDarkBackgroundClass();
     }
 }
