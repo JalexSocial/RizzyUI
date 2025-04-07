@@ -1,7 +1,8 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()" role="img" aria-label="@AlternateText">
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()" role="img"
+             aria-label="@AlternateText">
     @if (IndicatorVisible)
     {
         <div class="@IndicatorClass @IndicatorSizeClass @IndicatorColorClass"></div>
@@ -12,7 +13,8 @@
     }
     else if (!string.IsNullOrEmpty(Initials))
     {
-        <div class="@InitialsContainerClass @InitialsContainerSizeClass @InitialsContainerShapeClass @InitialsTextSizeClass">
+        <div
+            class="@InitialsContainerClass @InitialsContainerSizeClass @InitialsContainerShapeClass @InitialsTextSizeClass">
             @Initials
         </div>
     }

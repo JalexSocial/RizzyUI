@@ -1,38 +1,57 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options; // Add this
+using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
-using RizzyUI.Styling;
+// Add this
 
 namespace RizzyUI;
 
 /// <xmldoc>
-/// Represents a clickable button with customizable styling, variant, and size. Styling is handled by the active theme.
+///     Represents a clickable button with customizable styling, variant, and size. Styling is handled by the active theme.
 /// </xmldoc>
 public partial class RzButton : RzComponent
 {
     /// <summary> Get the currently active theme via Cascading Parameter </summary>
-    [CascadingParameter] protected RzTheme? CascadedTheme { get; set; }
+    [CascadingParameter]
+    protected RzTheme? CascadedTheme { get; set; }
+
     /// <summary> Cascaded RzButtonGroup this component belongs to (optional) </summary>
-    [CascadingParameter] public RzButtonGroup? Group { get; set; }
+    [CascadingParameter]
+    public RzButtonGroup? Group { get; set; }
+
     /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject] private IOptions<RizzyUIConfig>? Config { get; set; }
+    [Inject]
+    private IOptions<RizzyUIConfig>? Config { get; set; }
+
     /// <summary> The effective theme being used (Cascaded or Default). </summary>
     protected RzTheme Theme { get; set; } = default!;
 
     /// <summary> Gets or sets the accessible label for the button. </summary>
-    [Parameter] public string AssistiveLabel { get; set; } = "Action Button";
+    [Parameter]
+    public string AssistiveLabel { get; set; } = "Action Button";
+
     /// <summary> Button variation (primary, secondary, etc). </summary>
-    [Parameter] public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
+    [Parameter]
+    public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
+
     /// <summary> Button size. </summary>
-    [Parameter] public Size Size { get; set; } = Size.Medium;
+    [Parameter]
+    public Size Size { get; set; } = Size.Medium;
+
     /// <summary> Makes the button to have the outlines. </summary>
-    [Parameter] public bool Outline { get; set; }
+    [Parameter]
+    public bool Outline { get; set; }
+
     /// <summary> Label for button (if ChildContent not provided). </summary>
-    [Parameter] public string Label { get; set; } = string.Empty;
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+
     /// <summary> Enable click animation (default: true). </summary>
-    [Parameter] public bool Animate { get; set; } = true;
+    [Parameter]
+    public bool Animate { get; set; } = true;
+
     /// <summary> Child content for the button. </summary>
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -40,17 +59,19 @@ public partial class RzButton : RzComponent
         base.OnInitialized();
         Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
         if (Theme == null)
-             throw new InvalidOperationException($"{GetType()} requires a cascading RzTheme or a default theme configured.");
+            throw new InvalidOperationException(
+                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
 
-        this.Element = "button";
+        Element = "button";
     }
 
-    /// <inheritdoc />>
+    /// <inheritdoc />
+    /// >
     protected override string? RootClass()
     {
         var styles = Theme.RzButton;
         var groupStyles = Theme.RzButtonGroup; // Get group styles
-        string groupSpecificClass = string.Empty;
+        var groupSpecificClass = string.Empty;
 
         if (Group != null)
         {
@@ -68,7 +89,8 @@ public partial class RzButton : RzComponent
             groupSpecificClass);
     }
 
-    /// <inheritdoc />>
+    /// <inheritdoc />
+    /// >
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -76,4 +98,3 @@ public partial class RzButton : RzComponent
         Group?.AddButton(this);
     }
 }
-

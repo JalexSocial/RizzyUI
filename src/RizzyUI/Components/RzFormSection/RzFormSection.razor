@@ -1,22 +1,21 @@
 @namespace RizzyUI
-@using Blazicons
 @inherits RzComponent
 
 <div class="@RootClass()">
-    <div class="@DescriptionContainerClass">
-			@if (!string.IsNullOrEmpty(Title))
-			{
-				<h2 class="@TitleClass">@Title</h2>
-			}
-			@if (Description != null)
-			{
-				<p class="@DescriptionClass">
-					@Description
-				</p>
-			}
+	<div class="@DescriptionContainerClass">
+		@if (!string.IsNullOrEmpty(Title))
+		{
+			<h2 class="@TitleClass">@Title</h2>
+		}
+		@if (Description != null)
+		{
+			<p class="@DescriptionClass">
+				@Description
+			</p>
+		}
 	</div>
-    <div class="@ContentContainerClass">
-        @Content
-    </div>
+	<div class="@ContentContainerClass">
+		@Content
+	</div>
 </div>
 

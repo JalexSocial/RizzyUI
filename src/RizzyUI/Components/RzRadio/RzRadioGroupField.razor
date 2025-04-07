@@ -1,5 +1,3 @@
-@using System.Linq.Expressions
-@using Blazicons
 @typeparam TValue
 @namespace RizzyUI
 @inherits RzComponent
@@ -11,15 +9,15 @@
         <RzFieldHelp>@FieldHelp</RzFieldHelp>
     }
     <RzRadioGroup TValue="TValue"
-                    @bind-Value="CurrentValue"
-                    DisplayName="@DisplayName"
-                    Name="@ResolvedName"
-                    For="@For"
-                    Orientation="@Orientation"
-                    CheckboxIcon="@CheckboxIcon"
-                    class="@GroupWithinFieldClass">
+                  @bind-Value="CurrentValue"
+                  DisplayName="@DisplayName"
+                  Name="@ResolvedName"
+                  For="@For"
+                  Orientation="@Orientation"
+                  CheckboxIcon="@CheckboxIcon"
+                  class="@GroupWithinFieldClass">
         @RadioGroupContent @* Pass content down *@
     </RzRadioGroup>
-    <RzValidationMessage For="@For" />
+    <RzValidationMessage For="@For"/>
 </RzField>
 

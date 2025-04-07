@@ -1,10 +1,10 @@
 @namespace RizzyUI
-@using RizzyUI.Extensions
 @inherits RzComponent
 
 @* Injecting the specific style class type isn't necessary here as we access styles via Theme *@
 
-<div x-data="rzAccordionSection" x-ref="@SectionId" data-is-open="@((!Collapsed).ToString().ToLowerInvariant())" data-section-id="@SectionId">
+<div x-data="rzAccordionSection" x-ref="@SectionId" data-is-open="@((!Collapsed).ToString().ToLowerInvariant())"
+     data-section-id="@SectionId">
 	<button id="@ButtonId" type="button" class="@ButtonClass" aria-controls="@ContentId"
 	        x-on:click="toggle" x-bind:aria-expanded="open">
 		@Title

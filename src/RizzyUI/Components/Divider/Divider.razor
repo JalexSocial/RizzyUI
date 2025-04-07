@@ -1,5 +1,5 @@
 ﻿@namespace RizzyUI
-@inherits RizzyUI.RzComponent
+@inherits RzComponent
 
 <HtmlElement Element="@Element" @attributes="AdditionalAttributes" class="@RootClass()">
     @ChildContent
@@ -14,39 +14,39 @@
 #pragma warning restore CS0414 // Field is assigned but its value is never used
 
     /// <summary>
-    /// Style for dividing line
+    ///     Style for dividing line
     /// </summary>
     [Parameter]
     public DividerStyle Style { get; set; } = DividerStyle.Solid;
 
     /// <summary>
-    /// Text alignment for label
+    ///     Text alignment for label
     /// </summary>
     [Parameter]
     public Align LabelAlignment { get; set; } = Align.Center;
 
     /// <summary>
-    /// Child content to display in the divider
+    ///     Child content to display in the divider
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Initialize Element parameter
+    ///     Initialize Element parameter
     /// </summary>
     protected override void OnParametersSet()
     {
-	    base.OnParametersSet();
+        base.OnParametersSet();
 
-	    if (ChildContent == null)
-		    Element = "hr";
+        if (ChildContent == null)
+            Element = "hr";
     }
 
-    /// <inheritdoc cref="RzComponent"/>
+    /// <inheritdoc cref="RzComponent" />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, BaseStyle, 
-	        ChildContent is null ? GetDividerStyleCss(Style) : GetAlignmentCss(LabelAlignment, Style));
+        return TwMerge.Merge(AdditionalAttributes, BaseStyle,
+            ChildContent is null ? GetDividerStyleCss(Style) : GetAlignmentCss(LabelAlignment, Style));
     }
 
     private static string GetDividerStyleCss(DividerStyle style)
@@ -65,11 +65,12 @@
         var styleCss = GetDividerStyleCss(style);
 
         return alignment switch
-	    {
-		    Align.Start => $"after:flex-1 after:border-t after:{styleCss} after:border-outline after:ms-6 dark:after:border-outline",
+        {
+            Align.Start => $"after:flex-1 after:border-t after:{styleCss} after:border-outline after:ms-6 dark:after:border-outline",
             Align.Center => $"before:flex-1 before:border-t before:{styleCss} before:border-outline before:me-6 after:flex-1 after:border-t after:border-outline after:ms-6 dark:before:border-outline dark:after:border-outline after:{styleCss}",
             Align.End => $"before:flex-1 before:border-t before:{styleCss} before:border-outline before:me-6 dark:before:border-outline",
-		    _ => ""
-	    };
+            _ => ""
+        };
     }
+
 }

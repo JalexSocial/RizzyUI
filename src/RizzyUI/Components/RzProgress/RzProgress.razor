@@ -23,13 +23,13 @@
 			<div class="@OutsideLabelTextClass"><span x-text="buildLabel()"></span></div>
 		</div>
 	}
-    <div class="@OuterBarClass @OuterBarHeightClass">
-        <div class="@InnerBarClass" x-ref="progressBar" nonce="@Nonce">
+	<div class="@OuterBarClass @OuterBarHeightClass">
+		<div class="@InnerBarClass" x-ref="progressBar" nonce="@Nonce">
 			@if (LabelPosition == ProgressLabelPosition.Inside && !string.IsNullOrEmpty(Label))
 			{
-                <div class="@InsideLabelContainerClass" x-ref="progressBarLabel" :class="getLabelCss()">
-                    <span class="@InsideLabelTextClass" x-ref="innerLabel"></span> @* Content set by Alpine *@
-                </div>
+				<div class="@InsideLabelContainerClass" x-ref="progressBarLabel" :class="getLabelCss()">
+					<span class="@InsideLabelTextClass" x-ref="innerLabel"></span> @* Content set by Alpine *@
+				</div>
 			}
 		</div>
 	</div>

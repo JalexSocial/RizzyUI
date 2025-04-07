@@ -1,54 +1,70 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
-using RizzyUI.Styling;
-using System.Linq; // For Count()
+
+// For Count()
 
 namespace RizzyUI;
 
 /// <xmldoc>
-/// Represents the container for the clickable tab buttons within an <see cref="RzTabs"/> component.
-/// It manages the layout (grid columns, gap) and the visual selection marker.
-/// Styling is determined by the active <see cref="RzTheme"/>.
+///     Represents the container for the clickable tab buttons within an <see cref="RzTabs" /> component.
+///     It manages the layout (grid columns, gap) and the visual selection marker.
+///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
 public partial class RzTabStrip : RzComponent
 {
     /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter] protected RzTheme? CascadedTheme { get; set; }
+    [CascadingParameter]
+    protected RzTheme? CascadedTheme { get; set; }
+
     /// <summary> Gets the parent Tabs component context. </summary>
-    [CascadingParameter] private RzTabs? Parent { get; set; }
+    [CascadingParameter]
+    private RzTabs? Parent { get; set; }
+
     /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject] private IOptions<RizzyUIConfig>? Config { get; set; }
+    [Inject]
+    private IOptions<RizzyUIConfig>? Config { get; set; }
+
     /// <summary> The effective theme being used (Cascaded or Default). </summary>
     protected RzTheme Theme { get; set; } = default!;
 
     /// <summary> Horizontal alignment of tab content within the strip. Defaults to Center. </summary>
-    [Parameter] public Justify Justify { get; set; } = Justify.Center;
+    [Parameter]
+    public Justify Justify { get; set; } = Justify.Center;
+
     /// <summary> Gap spacing between tabs. Defaults to Medium. </summary>
-    [Parameter] public Size SpaceBetween { get; set; } = Size.Medium;
-    /// <summary> The child content, expected to be <see cref="RzTab"/> components. </summary>
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter]
+    public Size SpaceBetween { get; set; } = Size.Medium;
+
+    /// <summary> The child content, expected to be <see cref="RzTab" /> components. </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
 
     // --- Style Properties derived from Theme ---
     /// <summary> Gets the computed CSS classes for the selection marker div. </summary>
     protected string MarkerClass => Theme.RzTabStrip.Marker;
-     /// <summary> Gets the computed CSS classes for the marker's ::after background color. </summary>
-    protected string MarkerAfterBackgroundClass => Parent != null ? Theme.RzTabStrip.GetMarkerAfterBackgroundCss(Parent.SelectedTabUnderlineColor) : "";
+
+    /// <summary> Gets the computed CSS classes for the marker's ::after background color. </summary>
+    protected string MarkerAfterBackgroundClass => Parent != null
+        ? Theme.RzTabStrip.GetMarkerAfterBackgroundCss(Parent.SelectedTabUnderlineColor)
+        : "";
+
     /// <summary> Gets the computed CSS classes for the inner div within the marker. </summary>
     protected string MarkerInnerClass => Theme.RzTabStrip.MarkerInner;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
         Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
         if (Theme == null)
-            throw new InvalidOperationException($"{GetType()} requires a cascading RzTheme or a default theme configured.");
+            throw new InvalidOperationException(
+                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
         if (Parent == null)
             throw new InvalidOperationException($"{GetType()} must exist within an RzTabs component.");
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override string? RootClass()
     {
         var styles = Theme.RzTabStrip;
@@ -60,4 +76,3 @@ public partial class RzTabStrip : RzComponent
         );
     }
 }
-

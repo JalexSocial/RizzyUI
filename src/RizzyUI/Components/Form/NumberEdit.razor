@@ -1,31 +1,33 @@
-﻿@using System.Linq.Expressions
-@using TailwindMerge
-@using Blazicons
-@using Rizzy
-@typeparam TValue
+﻿@typeparam TValue
 
 @namespace RizzyUI
+@using Blazicons
+@using Rizzy
 @inherits InputBase<TValue>
 
 <div class="relative" x-data="rzPrependInput">
-	@if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
+    @if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
     {
-        <div x-ref="prependContainer" class="pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-lg border-r border-outline bg-surface-alt pl-3 pr-1 text-on-surface   ">
-	        @if (!string.IsNullOrEmpty(PrependText))
-	        {
-		        @PrependText
-	        }
-	        else
-	        {
-		        <div class="text-xl"><Blazicon Svg="PrependIcon" /></div>
-
-	        }
+        <div x-ref="prependContainer"
+             class="pointer-events-none absolute inset-y-0 left-0 my-px ml-px flex items-center rounded-l-lg border-r border-outline bg-surface-alt pl-3 pr-1 text-on-surface   ">
+            @if (!string.IsNullOrEmpty(PrependText))
+            {
+                @PrependText
+            }
+            else
+            {
+                <div class="text-xl">
+                    <Blazicon Svg="PrependIcon"/>
+                </div>
+            }
         </div>
     }
-    <RzInputNumber x-ref="textInput" TValue="TValue" @ref="_elem" Value="@_value" ValueExpression="For" placeholder="@_placeholder" @attributes="AdditionalAttributes" class="@RootClass()" />
+    <RzInputNumber x-ref="textInput" TValue="TValue" @ref="_elem" Value="@_value" ValueExpression="For"
+                   placeholder="@_placeholder" @attributes="AdditionalAttributes" class="@RootClass()"/>
 </div>
 
 @code {
+
     // Base CSS classes for the input element.
     private static readonly string BaseStyle = "block w-full rounded-lg border border-outline px-3 py-2 leading-6 placeholder-on-surface   dark:placeholder-on-surface-dark focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 transition-opacity text-transparent";
 
@@ -34,26 +36,26 @@
     private string _placeholder = string.Empty;
 
     /// <summary>
-    /// Gets or sets the placeholder text.
+    ///     Gets or sets the placeholder text.
     /// </summary>
     [Parameter]
     public string Placeholder { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the text to prepend inside the input field.
+    ///     Gets or sets the text to prepend inside the input field.
     /// </summary>
     [Parameter]
     public string? PrependText { get; set; }
 
     /// <summary>
-    /// Gets or sets the text to prepend icon inside the input field.
+    ///     Gets or sets the text to prepend icon inside the input field.
     /// </summary>
     /// <remarks>Only one of PrependText or PrependIcon can be defined</remarks>
     [Parameter]
     public SvgIcon? PrependIcon { get; set; }
 
     /// <summary>
-    /// Gets the ID attribute from the underlying input, if provided.
+    ///     Gets the ID attribute from the underlying input, if provided.
     /// </summary>
     public string Id
     {
@@ -63,6 +65,7 @@
             {
                 return attr as string ?? string.Empty;
             }
+
             return string.Empty;
         }
     }
@@ -82,9 +85,10 @@
         _value = For.Compile().Invoke();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, BaseStyle);
     }
+
 }

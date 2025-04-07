@@ -1,24 +1,20 @@
 @namespace RizzyUI
-@using System.Linq.Expressions
-@using Rizzy.Components
-@using System.ComponentModel
-@using Blazicons
 @inherits RzComponent
 
 @* Use the RzField component for the overall structure *@
 <RzField class="@RootClass()">
-    <RzFieldLabel DisplayName="@DisplayName" For="@For" Required="Required" />
+    <RzFieldLabel DisplayName="@DisplayName" For="@For" Required="Required"/>
     @* Pass Role, Placeholder, PrependIcon, PrependText, and AdditionalAttributes down to RzTextEdit *@
     <RzTextEdit For="@For"
                 Role="@Role"
                 Placeholder="@Placeholder"
                 PrependIcon="@PrependIcon"
                 PrependText="@PrependText"
-                @attributes="AdditionalAttributes" />
+                @attributes="AdditionalAttributes"/>
     @if (FieldHelp != null)
     {
         <RzFieldHelp>@FieldHelp</RzFieldHelp>
     }
-    <RzValidationMessage For="@For" />
+    <RzValidationMessage For="@For"/>
 </RzField>
 

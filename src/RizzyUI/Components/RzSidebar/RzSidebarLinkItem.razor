@@ -1,22 +1,35 @@
 @namespace RizzyUI
 @using Blazicons
-@using Rizzy.Utility
 @inherits RzComponent
 
 @* Determine root element and classes based on state *@
 @if (Collapsible)
 {
     <li class="@CollapsibleListItemClass">
-        <div data-expanded="@((!Collapsed).ToString().ToLowerInvariant())" x-data="rzSidebarLinkItem" class="@CollapsibleInnerDivClass">
-            <button type="button" x-on:click="toggleExpanded" id="@ButtonId" aria-controls="@CollapseId" x-bind:aria-expanded="isExpanded" class="@CollapsibleButtonClass">
-                @if (Icon != null) { <div class="@CollapsibleButtonIconContainerClass" aria-hidden="true"><Blazicon Svg="@Icon"/></div> }
+        <div data-expanded="@((!Collapsed).ToString().ToLowerInvariant())" x-data="rzSidebarLinkItem"
+             class="@CollapsibleInnerDivClass">
+            <button type="button" x-on:click="toggleExpanded" id="@ButtonId" aria-controls="@CollapseId"
+                    x-bind:aria-expanded="isExpanded" class="@CollapsibleButtonClass">
+                @if (Icon != null)
+                {
+                    <div class="@CollapsibleButtonIconContainerClass" aria-hidden="true">
+                        <Blazicon Svg="@Icon"/>
+                    </div>
+                }
                 <span class="@CollapsibleButtonTitleClass">@Title</span>
-                @if (TrailerContent != null) { <div class="@CollapsibleButtonTrailerClass">@TrailerContent</div> }
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="@CollapsibleButtonChevronClass" x-bind:class="isExpanded ? '@ChevronExpandedClass' : '@ChevronCollapsedClass'" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                @if (TrailerContent != null)
+                {
+                    <div class="@CollapsibleButtonTrailerClass">@TrailerContent</div>
+                }
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="@CollapsibleButtonChevronClass"
+                     x-bind:class="isExpanded ? '@ChevronExpandedClass' : '@ChevronCollapsedClass'" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                          d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                          clip-rule="evenodd"/>
                 </svg>
             </button>
-            <ul x-cloak x-collapse x-show="isExpanded" aria-labelledby="@ButtonId" id="@CollapseId" class="@CollapsibleNestedListClass">
+            <ul x-cloak x-collapse x-show="isExpanded" aria-labelledby="@ButtonId" id="@CollapseId"
+                class="@CollapsibleNestedListClass">
                 <CascadingValue Value="this" IsFixed="true">
                     @ChildContent
                 </CascadingValue>
@@ -29,19 +42,35 @@ else if (Parent is { HasChildren: true, Collapsible: false }) // Sub-item under 
     <li class="@SubListItemClass">
         @if (HasChildren) // Sub-item that itself has children (render as div)
         {
-             <div @attributes="AdditionalAttributes" class="@SubLinkOrDivClass">
-                 @if (Icon != null) { <div class="@ItemIconContainerClass" aria-hidden="true"><Blazicon Svg="@Icon"/></div> }
-                 <span class="@ItemTitleClass">@Title</span>
-                 @if (TrailerContent != null) { <div class="@ItemTrailerClass">@TrailerContent</div> }
-             </div>
+            <div @attributes="AdditionalAttributes" class="@SubLinkOrDivClass">
+                @if (Icon != null)
+                {
+                    <div class="@ItemIconContainerClass" aria-hidden="true">
+                        <Blazicon Svg="@Icon"/>
+                    </div>
+                }
+                <span class="@ItemTitleClass">@Title</span>
+                @if (TrailerContent != null)
+                {
+                    <div class="@ItemTrailerClass">@TrailerContent</div>
+                }
+            </div>
         }
         else // Leaf sub-item (render as link)
         {
-             <a @attributes="AdditionalAttributes" href="@Href" target="@Target" class="@SubLinkOrDivClass">
-                 @if (Icon != null) { <div class="@ItemIconContainerClass" aria-hidden="true"><Blazicon Svg="@Icon"/></div> }
-                 <span class="@ItemTitleClass">@Title</span>
-                 @if (TrailerContent != null) { <div class="@ItemTrailerClass">@TrailerContent</div> }
-             </a>
+            <a @attributes="AdditionalAttributes" href="@Href" target="@Target" class="@SubLinkOrDivClass">
+                @if (Icon != null)
+                {
+                    <div class="@ItemIconContainerClass" aria-hidden="true">
+                        <Blazicon Svg="@Icon"/>
+                    </div>
+                }
+                <span class="@ItemTitleClass">@Title</span>
+                @if (TrailerContent != null)
+                {
+                    <div class="@ItemTrailerClass">@TrailerContent</div>
+                }
+            </a>
         }
         @if (ChildContent != null)
         {
@@ -59,25 +88,41 @@ else // Top-level non-collapsible item
         @if (HasChildren) // Top-level item with children (render as div)
         {
             <div @attributes="AdditionalAttributes" class="@TopLevelNonCollapsibleDivClass">
-                @if (Icon != null) { <div class="@ItemIconContainerClass" aria-hidden="true"><Blazicon Svg="@Icon"/></div> }
+                @if (Icon != null)
+                {
+                    <div class="@ItemIconContainerClass" aria-hidden="true">
+                        <Blazicon Svg="@Icon"/>
+                    </div>
+                }
                 <span class="@ItemTitleClass">@Title</span>
-                @if (TrailerContent != null) { <div class="@ItemTrailerClass">@TrailerContent</div> }
+                @if (TrailerContent != null)
+                {
+                    <div class="@ItemTrailerClass">@TrailerContent</div>
+                }
             </div>
         }
         else // Top-level leaf item (render as link)
         {
-             <a @attributes="AdditionalAttributes" href="@Href" target="@Target" class="@TopLevelLinkClass">
-                 @if (Icon != null) { <div class="@ItemIconContainerClass" aria-hidden="true"><Blazicon Svg="@Icon"/></div> }
-                 <span class="@ItemTitleClass">@Title</span>
-                 @if (TrailerContent != null) { <div class="@ItemTrailerClass">@TrailerContent</div> }
-             </a>
+            <a @attributes="AdditionalAttributes" href="@Href" target="@Target" class="@TopLevelLinkClass">
+                @if (Icon != null)
+                {
+                    <div class="@ItemIconContainerClass" aria-hidden="true">
+                        <Blazicon Svg="@Icon"/>
+                    </div>
+                }
+                <span class="@ItemTitleClass">@Title</span>
+                @if (TrailerContent != null)
+                {
+                    <div class="@ItemTrailerClass">@TrailerContent</div>
+                }
+            </a>
         }
         @if (ChildContent != null)
         {
             <ul class="@NonCollapsibleNestedListClass">
-                 <CascadingValue Value="this" IsFixed="true">
+                <CascadingValue Value="this" IsFixed="true">
                     @ChildContent
-                 </CascadingValue>
+                </CascadingValue>
             </ul>
         }
     </li>

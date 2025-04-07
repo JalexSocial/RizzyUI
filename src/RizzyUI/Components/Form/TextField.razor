@@ -1,7 +1,6 @@
 ﻿@namespace RizzyUI
-@using System.Linq.Expressions
-@using Rizzy.Components
 @using System.ComponentModel
+@using System.Linq.Expressions
 @using Blazicons
 @inherits RzComponent
 
@@ -12,72 +11,74 @@
             <span class="text-sm text-red-600 dark:text-red-400">*</span>
         }
     </FieldLabel>
-    <TextEdit For="@For" Role="@Role" Placeholder="@Placeholder" PrependIcon="@PrependIcon" PrependText="@PrependText" @attributes="AdditionalAttributes" />
+    <TextEdit For="@For" Role="@Role" Placeholder="@Placeholder" PrependIcon="@PrependIcon" PrependText="@PrependText"
+              @attributes="AdditionalAttributes"/>
     @if (FieldHelp != null)
     {
         <FieldHelp>@FieldHelp</FieldHelp>
     }
-    <RzValidationMessage For="@For" />
+    <RzValidationMessage For="@For"/>
 </Field>
 
 @code {
+
     /// <summary>
-    /// Gets or sets the current edit context.
+    ///     Gets or sets the current edit context.
     /// </summary>
     [CascadingParameter]
     public EditContext? EditContext { get; set; }
 
     /// <summary>
-    /// Gets or sets the role of the text input.
+    ///     Gets or sets the role of the text input.
     /// </summary>
     [Parameter]
     public TextRole Role { get; set; } = TextRole.Text;
 
     /// <summary>
-    /// Gets or sets the placeholder text for the input.
+    ///     Gets or sets the placeholder text for the input.
     /// </summary>
     [Parameter]
     public string Placeholder { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the display name for the field label.
+    ///     Gets or sets the display name for the field label.
     /// </summary>
     [Parameter]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the field is required.
+    ///     Gets or sets a value indicating whether the field is required.
     /// </summary>
     [Parameter]
     public bool Required { get; set; } = false;
 
     /// <summary>
-    /// Gets or sets the render fragment for additional field help content.
+    ///     Gets or sets the render fragment for additional field help content.
     /// </summary>
     [Parameter]
     public RenderFragment? FieldHelp { get; set; }
 
     /// <summary>
-    /// Specifies the field for which validation messages should be displayed.
+    ///     Specifies the field for which validation messages should be displayed.
     /// </summary>
-    [Parameter, EditorRequired]
+    [Parameter][EditorRequired]
     public Expression<Func<string>>? For { get; set; }
 
     /// <summary>
-    /// Gets or sets the text to prepend inside the input field.
+    ///     Gets or sets the text to prepend inside the input field.
     /// </summary>
     [Parameter]
     public string? PrependText { get; set; }
 
     /// <summary>
-    /// Gets or sets the text to prepend icon inside the input field.
+    ///     Gets or sets the text to prepend icon inside the input field.
     /// </summary>
     /// <remarks>Only one of PrependText or PrependIcon can be defined</remarks>
     [Parameter]
     public SvgIcon? PrependIcon { get; set; }
 
     /// <summary>
-    /// Called when component parameters have been set.
+    ///     Called when component parameters have been set.
     /// </summary>
     protected override void OnParametersSet()
     {
@@ -86,4 +87,5 @@
 
         base.OnParametersSet();
     }
+
 }

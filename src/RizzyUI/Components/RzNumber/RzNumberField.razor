@@ -1,23 +1,21 @@
-@using System.Linq.Expressions
-@using Blazicons
 @typeparam TValue
 @namespace RizzyUI
 @inherits RzComponent
 
 @* Use the RzField component for the overall structure *@
 <RzField @attributes="AdditionalAttributes" class="@RootClass()">
-	<RzFieldLabel DisplayName="@DisplayName" For="@For" Required="Required" />
+	<RzFieldLabel DisplayName="@DisplayName" For="@For" Required="Required"/>
 	@* Pass down relevant parameters to RzNumberEdit *@
 	<RzNumberEdit TValue="TValue"
-                  For="@For"
-                  Placeholder="@Placeholder"
-                  PrependIcon="@PrependIcon"
-                  PrependText="@PrependText"
-                  @attributes="InputAttributes" /> @* Pass down *other* attributes *@
+	              For="@For"
+	              Placeholder="@Placeholder"
+	              PrependIcon="@PrependIcon"
+	              PrependText="@PrependText"
+	              @attributes="InputAttributes"/> @* Pass down *other* attributes *@
 	@if (FieldHelp != null)
 	{
 		<RzFieldHelp>@FieldHelp</RzFieldHelp>
 	}
-	<RzValidationMessage For="@For" />
+	<RzValidationMessage For="@For"/>
 </RzField>
 

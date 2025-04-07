@@ -1,19 +1,18 @@
-using RizzyUI.Styling;
-
 namespace RizzyUI.Components.RzLink.Styling;
 
 /// <summary>
-/// Provides the default styles for the RzLink component.
+///     Provides the default styles for the RzLink component.
 /// </summary>
-public  class DefaultRzLinkStyles : RzStylesBase.RzLinkStylesBase
+public class DefaultRzLinkStyles : RzStylesBase.RzLinkStylesBase
 {
-    public DefaultRzLinkStyles(RzTheme theme) : base(theme) { }
+    public DefaultRzLinkStyles(RzTheme theme) : base(theme)
+    {
+    }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     // Use theme primary color for link, adjust dark mode as needed by theme
-    public override string Link => $"font-medium text-primary underline-offset-2 focus:outline-hidden dark:text-primary";
+    public override string Link => "font-medium text-primary underline-offset-2 focus:outline-hidden dark:text-primary";
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string UnderlineEnabled => "hover:underline focus:underline";
 }
-

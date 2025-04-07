@@ -4,15 +4,17 @@ namespace RizzyUI.Extensions;
 
 internal static class StringExtensions
 {
-    private static Random _random = new(System.Environment.TickCount);
+    private static readonly Random _random = new(Environment.TickCount);
 
     /// <summary>
-    /// Removes the minimum shared run of leading whitespace characters
-    /// (spaces, tabs, etc.) from each non-empty line in the given text.
+    ///     Removes the minimum shared run of leading whitespace characters
+    ///     (spaces, tabs, etc.) from each non-empty line in the given text.
     /// </summary>
     /// <param name="text">Multi-line string input.</param>
-    /// <returns>A new string with each non-empty line outdented by the
-    /// minimal number of leading whitespace characters found.</returns>
+    /// <returns>
+    ///     A new string with each non-empty line outdented by the
+    ///     minimal number of leading whitespace characters found.
+    /// </returns>
     public static string Outdent(this string text)
     {
         // Early exit for null or empty input
@@ -22,29 +24,24 @@ internal static class StringExtensions
         // Split the input text into lines, preserving empty lines
         var lines = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
 
-        int minLeadingWhitespace = int.MaxValue;
+        var minLeadingWhitespace = int.MaxValue;
 
         // 1st pass: Determine the minimum number of consecutive leading whitespace chars on non-whitespace lines
-        foreach (string line in lines)
+        foreach (var line in lines)
         {
             // Skip lines that are blank or entirely whitespace
             if (string.IsNullOrWhiteSpace(line))
                 continue;
 
-            int count = 0;
-            while (count < line.Length && char.IsWhiteSpace(line[count]))
-            {
-                count++;
-            }
+            var count = 0;
+            while (count < line.Length && char.IsWhiteSpace(line[count])) count++;
 
             if (count < minLeadingWhitespace)
             {
                 minLeadingWhitespace = count;
                 if (minLeadingWhitespace == 0)
-                {
                     // Can't do better than zero; break early
                     break;
-                }
             }
         }
 
@@ -55,7 +52,7 @@ internal static class StringExtensions
         // 2nd pass: Build a new string with the computed leading whitespace removed
         var sb = new StringBuilder(text.Length);
 
-        for (int i = 0; i < lines.Length; i++)
+        for (var i = 0; i < lines.Length; i++)
         {
             var line = lines[i];
 
@@ -89,7 +86,7 @@ internal static class StringExtensions
     }
 
     /// <summary>
-    /// Shuffle the characters in a string
+    ///     Shuffle the characters in a string
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
@@ -102,27 +99,18 @@ internal static class StringExtensions
 
     public static string TrimEmptyLines(this string input)
     {
-        if (string.IsNullOrWhiteSpace(input))
-        {
-            return string.Empty;
-        }
+        if (string.IsNullOrWhiteSpace(input)) return string.Empty;
 
         // Split the string into lines
         var lines = input.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
         // Find the first non-empty line
-        int start = 0;
-        while (start < lines.Length && string.IsNullOrWhiteSpace(lines[start]))
-        {
-            start++;
-        }
+        var start = 0;
+        while (start < lines.Length && string.IsNullOrWhiteSpace(lines[start])) start++;
 
         // Find the last non-empty line
-        int end = lines.Length - 1;
-        while (end >= start && string.IsNullOrWhiteSpace(lines[end]))
-        {
-            end--;
-        }
+        var end = lines.Length - 1;
+        while (end >= start && string.IsNullOrWhiteSpace(lines[end])) end--;
 
         // Join the lines back together, trimming the empty ones
         return string.Join(Environment.NewLine, lines[start..(end + 1)]);

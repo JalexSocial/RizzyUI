@@ -1,43 +1,60 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 using System.Linq.Expressions;
-using System.ComponentModel;
-using Rizzy.Utility; // For IdGenerator if needed, though base RzComponent might handle ID now
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
-using RizzyUI.Styling;
-using Microsoft.AspNetCore.Components.Forms; // For EditContext
+// For IdGenerator if needed, though base RzComponent might handle ID now
+
+// For EditContext
 
 namespace RizzyUI;
 
 /// <xmldoc>
-/// Represents a form field containing a toggle switch (<see cref="RzToggle"/>), along with a label,
-/// optional description, and validation message integration. Leverages <see cref="RzField"/> for structure.
-/// Styling is determined by the active <see cref="RzTheme"/>.
+///     Represents a form field containing a toggle switch (<see cref="RzToggle" />), along with a label,
+///     optional description, and validation message integration. Leverages <see cref="RzField" /> for structure.
+///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
 public partial class RzToggleField : RzComponent
 {
+    private bool _currentValue;
+
+    private FieldIdentifier _fieldIdentifier;
+
     /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter] protected RzTheme? CascadedTheme { get; set; }
+    [CascadingParameter]
+    protected RzTheme? CascadedTheme { get; set; }
+
     /// <summary> Gets the current edit context. </summary>
-    [CascadingParameter] private EditContext? EditContext { get; set; }
+    [CascadingParameter]
+    private EditContext? EditContext { get; set; }
+
     /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject] private IOptions<RizzyUIConfig>? Config { get; set; }
+    [Inject]
+    private IOptions<RizzyUIConfig>? Config { get; set; }
+
     /// <summary> The effective theme being used (Cascaded or Default). </summary>
     protected RzTheme Theme { get; set; } = default!;
 
-    private FieldIdentifier _fieldIdentifier;
-    private bool _currentValue;
-
     /// <summary> Gets or sets the display name for the field label. If not set, it's inferred from the 'For' expression. </summary>
-    [Parameter] public string? DisplayName { get; set; }
+    [Parameter]
+    public string? DisplayName { get; set; }
+
     /// <summary> Gets or sets optional descriptive text displayed below the label. </summary>
-    [Parameter] public RenderFragment? Description { get; set; }
+    [Parameter]
+    public RenderFragment? Description { get; set; }
+
     /// <summary> Specifies the field the toggle switch is bound to. Required. </summary>
-    [Parameter, EditorRequired] public Expression<Func<bool>>? For { get; set; }
+    [Parameter]
+    [EditorRequired]
+    public Expression<Func<bool>>? For { get; set; }
+
     /// <summary> Gets or sets the current boolean value of the toggle switch. </summary>
-    [Parameter] public bool? Value { get; set; }
-     /// <summary> Event callback invoked when the toggle's value changes. </summary>
-    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+    [Parameter]
+    public bool? Value { get; set; }
+
+    /// <summary> Event callback invoked when the toggle's value changes. </summary>
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
 
     /// <summary> Internal property for two-way binding with RzToggle. </summary>
     protected bool CurrentValue
@@ -62,24 +79,29 @@ public partial class RzToggleField : RzComponent
     // --- Style Properties derived from Theme ---
     /// <summary> Gets the computed CSS classes for the content wrapper div. </summary>
     protected string ContentWrapperClass => Theme.RzToggleField.ContentWrapper;
+
     /// <summary> Gets the computed CSS classes for the inner flex container div. </summary>
     protected string InnerWrapperClass => Theme.RzToggleField.InnerWrapper;
-     /// <summary> Gets the computed CSS classes for the RzFieldLabel within this field. </summary>
+
+    /// <summary> Gets the computed CSS classes for the RzFieldLabel within this field. </summary>
     protected string LabelInFieldClass => Theme.RzToggleField.LabelInField;
+
     /// <summary> Gets the computed CSS classes for the RzToggle within this field. </summary>
     protected string ToggleInFieldClass => Theme.RzToggleField.ToggleInField;
+
     /// <summary> Gets the computed CSS classes for the description span within the label. </summary>
     protected string DescriptionInLabelClass => Theme.RzToggleField.DescriptionInLabel;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
         Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-         if (Theme == null)
-            throw new InvalidOperationException($"{GetType()} requires a cascading RzTheme or a default theme configured.");
+        if (Theme == null)
+            throw new InvalidOperationException(
+                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
         if (For == null)
-             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
+            throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
         if (EditContext == null)
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 
@@ -88,20 +110,19 @@ public partial class RzToggleField : RzComponent
         _currentValue = Value ?? For.Compile().Invoke();
     }
 
-    /// <inheritdoc/>
-     protected override void OnParametersSet()
-     {
-         base.OnParametersSet();
-         // If the Value parameter changes externally, update internal state
-         var newValue = Value ?? For?.Compile().Invoke() ?? false;
-         if (_currentValue != newValue)
-         {
-             _currentValue = newValue;
-         }
-     }
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        // If the Value parameter changes externally, update internal state
+        var newValue = Value ?? For?.Compile().Invoke() ?? false;
+        if (_currentValue != newValue) _currentValue = newValue;
+    }
 
-    /// <inheritdoc/>
-    protected override string? RootClass() =>
-        TwMerge.Merge(AdditionalAttributes); // Styling handled by RzField
+    /// <inheritdoc />
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes);
+        // Styling handled by RzField
+    }
 }
-

@@ -1,5 +1,4 @@
 ﻿@namespace RizzyUI
-@using System.Net.Mime
 @inherits TypographyBase
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">@ChildContent</HtmlElement>
@@ -9,14 +8,14 @@
     private static readonly string BaseStyle = "my-4 leading-relaxed";
 
     /// <summary>
-    /// Child content for the heading
+    ///     Child content for the heading
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the maximum character width of the paragraph.
-    /// Default is <see cref="ProseWidth.Full"/>, unrestricted width.
+    ///     Gets or sets the maximum character width of the paragraph.
+    ///     Default is <see cref="ProseWidth.Full" />, unrestricted width.
     /// </summary>
     [Parameter]
     public ProseWidth ProseWidth { get; set; } = ProseWidth.Full;
@@ -30,7 +29,7 @@
     }
 
     /// <summary>
-    /// Root css for paragraph
+    ///     Root css for paragraph
     /// </summary>
     /// <returns></returns>
     protected override string? RootClass()
@@ -39,7 +38,7 @@
     }
 
     /// <summary>
-    /// Gets the CSS classes for the paragraph
+    ///     Gets the CSS classes for the paragraph
     /// </summary>
     /// <param name="size"></param>
     /// <returns></returns>

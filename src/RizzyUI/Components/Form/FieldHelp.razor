@@ -1,17 +1,16 @@
 ﻿@namespace RizzyUI
-@using System.Linq.Expressions
 @inherits RzComponent
 
 <p @attributes="AdditionalAttributes" class="@RootClass()">
-    @ChildContent
+	@ChildContent
 </p>
 
 @code
 {
-    private static readonly string BaseStyle = "text-sm text-on-surface ";
+	private static readonly string BaseStyle = "text-sm text-on-surface ";
 
 	/// <summary>
-	/// Child content for the field help
+	///     Child content for the field help
 	/// </summary>
 	[Parameter]
 	public RenderFragment? ChildContent { get; set; }

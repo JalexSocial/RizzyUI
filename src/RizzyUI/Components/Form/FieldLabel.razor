@@ -1,14 +1,10 @@
 ﻿@namespace RizzyUI
-@using System.Linq.Expressions
-@using System.ComponentModel.DataAnnotations
-@using Rizzy.Components
-@using System.ComponentModel
-@using System.Collections.ObjectModel
-@using Microsoft.AspNetCore.Http
-@using Microsoft.AspNetCore.Mvc.Rendering
-@using Rizzy
-@using Rizzy.Htmx
 @inherits RzComponent
+@using System.ComponentModel
+@using System.ComponentModel.DataAnnotations
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Http
+@using Rizzy.Htmx
 @typeparam TValue
 
 @if (DisplayName != null)
@@ -23,32 +19,30 @@
     private static readonly string BaseStyle = "font-medium";
     private string _for = string.Empty;
 
-    [CascadingParameter] 
-    private HttpContext? HttpContext { get; set; } 
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
 
-    [CascadingParameter] 
-    private EditContext? EditContext { get; set; } = default!;
+    [CascadingParameter] private EditContext? EditContext { get; set; } = default!;
 
     /// <summary>
-    /// Child content for the field label
+    ///     Child content for the field label
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Specifies the field for which validation messages should be displayed.
+    ///     Specifies the field for which validation messages should be displayed.
     /// </summary>
-    [Parameter] 
+    [Parameter]
     public Expression<Func<TValue>>? For { get; set; }
 
     /// <summary>
-    /// Name to display in the field label
+    ///     Name to display in the field label
     /// </summary>
     [Parameter]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Initialize the field label, ideally using For to detect field information
+    ///     Initialize the field label, ideally using For to detect field information
     /// </summary>
     /// <exception cref="InvalidEnumArgumentException"></exception>
     protected override void OnParametersSet()
@@ -60,11 +54,11 @@
 
         if (For != null)
         {
-            FieldIdentifier field = FieldIdentifier.Create(For);
+            var field = FieldIdentifier.Create(For);
 
             var fieldMap = HttpContext?.GetOrAddFieldMapping(EditContext);
-    
-            if (fieldMap != null && fieldMap.TryGetValue(field, out RzFormFieldMap? map))
+
+            if (fieldMap != null && fieldMap.TryGetValue(field, out var map))
             {
                 _for = map.Id;
             }
@@ -94,12 +88,12 @@
             // If DisplayAttribute is not present, use the field name
             DisplayName = displayAttribute?.Name ?? memberExpression.Member.Name;
         }
-
     }
 
-    /// <inheritdoc cref="RzComponent.RootClass"/>
+    /// <inheritdoc cref="RzComponent.RootClass" />
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, BaseStyle);
     }
+
 }

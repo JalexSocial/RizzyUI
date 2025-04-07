@@ -5,7 +5,9 @@
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
     <!-- Navbar Toggle Button (conditionally rendered based on screen size by CSS) -->
     <button type="button" class="@ToggleButtonClass" x-on:click="toggleSidebar">
-        <div class="@ToggleButtonIconContainerClass"><Blazicon Svg="MdiIcon.Menu" /></div>
+        <div class="@ToggleButtonIconContainerClass">
+            <Blazicon Svg="MdiIcon.Menu"/>
+        </div>
         <span class="@ToggleButtonSrTextClass">@ScreenReaderText</span>
     </button>
 

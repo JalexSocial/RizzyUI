@@ -5,12 +5,12 @@ using RizzyUI;
 namespace Jalex.UI.Components.Form.Converters;
 
 /// <summary>
-/// Converts a Flatpickr CalendarPosition to/from json
+///     Converts a Flatpickr CalendarPosition to/from json
 /// </summary>
 public class CalendarPositionConverter : JsonConverter<CalendarPosition>
 {
     /// <summary>
-    /// Converts string enum representation of CalendarPosition into it's enum counterpart
+    ///     Converts string enum representation of CalendarPosition into it's enum counterpart
     /// </summary>
     /// <param name="reader"></param>
     /// <param name="typeToConvert"></param>
@@ -19,7 +19,7 @@ public class CalendarPositionConverter : JsonConverter<CalendarPosition>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public override CalendarPosition Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string value = reader.GetString() ?? string.Empty;
+        var value = reader.GetString() ?? string.Empty;
 
         // Convert string values back to enum values during deserialization
         return value switch
@@ -41,7 +41,7 @@ public class CalendarPositionConverter : JsonConverter<CalendarPosition>
     }
 
     /// <summary>
-    /// Converts CalendarPosition enum to text
+    ///     Converts CalendarPosition enum to text
     /// </summary>
     /// <param name="writer"></param>
     /// <param name="value"></param>
@@ -50,7 +50,7 @@ public class CalendarPositionConverter : JsonConverter<CalendarPosition>
     public override void Write(Utf8JsonWriter writer, CalendarPosition value, JsonSerializerOptions options)
     {
         // Convert enum values to specific string representations for serialization
-        string stringValue = value switch
+        var stringValue = value switch
         {
             CalendarPosition.Auto => "auto",
             CalendarPosition.Above => "above",
@@ -69,4 +69,3 @@ public class CalendarPositionConverter : JsonConverter<CalendarPosition>
         writer.WriteStringValue(stringValue);
     }
 }
-

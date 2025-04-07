@@ -34,59 +34,63 @@
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
-  
+
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DefaultDocumentationLogLevel>Error</DefaultDocumentationLogLevel>
         <DefaultDocumentationSections>Default</DefaultDocumentationSections>
     </PropertyGroup>
-  
+
     <ItemGroup>
-        <Content Remove="DefaultDocumentation.json" />
-    </ItemGroup>
-  
-    <ItemGroup>
-      <None Include="safelist.js" />
-    </ItemGroup>
-  
-    <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Blazicons.Ionicons" Version="2.2.18" />
-        <PackageReference Include="Markdig" Version="0.40.0" />
-        <PackageReference Include="Rizzy" Version="5.0.11" />
-        <PackageReference Include="Blazicons" Version="2.1.30" />
-        <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23" />
-        <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
-        <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
+        <Content Remove="DefaultDocumentation.json"/>
     </ItemGroup>
 
     <ItemGroup>
-        <SupportedPlatform Include="browser" />
+        <None Include="safelist.js"/>
     </ItemGroup>
 
     <ItemGroup>
-        <UpToDateCheckBuilt Include="wwwroot/css/rizzyui.css" Set="Css" />
-        <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+        <PackageReference Include="Blazicons.Ionicons" Version="2.2.18"/>
+        <PackageReference Include="Markdig" Version="0.40.0"/>
+        <PackageReference Include="Rizzy" Version="5.0.11"/>
+        <PackageReference Include="Blazicons" Version="2.1.30"/>
+        <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23"/>
+        <PackageReference Include="TailwindMerge.NET" Version="1.0.0"/>
+        <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <SupportedPlatform Include="browser"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <UpToDateCheckBuilt Include="wwwroot/css/rizzyui.css" Set="Css"/>
+        <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css"/>
     </ItemGroup>
 
     <Target Name="Tailwind" BeforeTargets="Build">
-        <Exec Command="npm run css:build" />
-        <Exec Command="npm run safelist:build" />
+        <Exec Command="npm run css:build"/>
+        <Exec Command="npm run safelist:build"/>
     </Target>
 
     <Target Name="Webpack" BeforeTargets="Build">
-        <Exec Command="npm run build" />
+        <Exec Command="npm run build"/>
     </Target>
 
     <Target Name="LLM" AfterTargets="Build">
-        <Exec Command="npm run llm" />
+        <Exec Command="npm run llm"/>
     </Target>
 
     <ItemGroup>
-        <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
-        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
-        <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
+        <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\"/>
+        <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+        <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Styling\"/>
     </ItemGroup>
 
 </Project>

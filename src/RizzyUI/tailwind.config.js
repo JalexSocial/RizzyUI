@@ -1,7 +1,3 @@
-import defaultTheme from "tailwindcss/defaultTheme";
-import colors from "tailwindcss/colors";
-import plugin from "tailwindcss/plugin";
-
 import forms from "@tailwindcss/forms";
 import typography from "@tailwindcss/typography";
 

@@ -1,8 +1,7 @@
-﻿@using Blazicons
-
-@namespace RizzyUI
+﻿@namespace RizzyUI
 
 @typeparam TValue
+@using Blazicons
 @inherits RzComponent
 
 <HtmlElement Element="@Element" x-data="rzCheckboxGroupItem" @attributes="AdditionalAttributes" class="@RootClass()">
@@ -10,7 +9,7 @@
 		<RzInputCheckbox @bind-Value="IsChecked" class="@CheckboxClass" x-on:change="toggleCheckbox" x-ref="chk"/>
 		<div class="absolute inset-0 flex items-center justify-center text-on-primary " :class="getIconCss">
 			<Blazicon Svg="CheckedIcon"/>
-        </div>
+		</div>
 	</div>
 	<span class="ml-2">@Title</span>
 	@ChildContent

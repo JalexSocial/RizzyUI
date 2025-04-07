@@ -1,42 +1,50 @@
-using RizzyUI.Styling;
-
 namespace RizzyUI.Components.RzArticle.Styling;
 
 /// <summary>
-/// Provides the default styles for the RzArticle component.
+///     Provides the default styles for the RzArticle component.
 /// </summary>
-public  class DefaultRzArticleStyles : RzStylesBase.RzArticleStylesBase
+public class DefaultRzArticleStyles : RzStylesBase.RzArticleStylesBase
 {
-    public DefaultRzArticleStyles(RzTheme theme) : base(theme) { }
+    public DefaultRzArticleStyles(RzTheme theme) : base(theme)
+    {
+    }
 
-    /// <inheritdoc/>
-    public override string Container => $"flex w-full justify-between pr-0 text-on-surface dark:text-{Theme.Dark.OnSurface.TailwindClassName}"; // Base container styles
+    /// <inheritdoc />
+    public override string Container =>
+        $"flex w-full justify-between pr-0 text-on-surface dark:text-{Theme.Dark.OnSurface.TailwindClassName}"; // Base container styles
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string InnerContainer => "mx-auto flex max-w-7xl grow flex-col overflow-x-auto overflow-y-hidden";
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string Article => ""; // Base article element, prose width added by method
 
-    /// <inheritdoc/>
-    public override string Aside => "hidden shrink-0 flex-col gap-2 overflow-y-auto p-8 pl-0 text-sm xl:flex"; // Base aside, fixed/width added by method
+    /// <inheritdoc />
+    public override string Aside =>
+        "hidden shrink-0 flex-col gap-2 overflow-y-auto p-8 pl-0 text-sm xl:flex"; // Base aside, fixed/width added by method
 
-    /// <inheritdoc/>
-    public override string GetArticleProseCss(ProseWidth width) => width switch
+    /// <inheritdoc />
+    public override string GetArticleProseCss(ProseWidth width)
     {
-        ProseWidth.Compact => "prose-compact",
-        ProseWidth.Comfortable => "prose-comfortable",
-        ProseWidth.Relaxed => "prose-relaxed",
-        ProseWidth.Wide => "prose-wide",
-        ProseWidth.UltraWide => "prose-ultrawide",
-        ProseWidth.Full => "prose-full", // or "" if max-w-none is sufficient
-        _ => GetArticleProseCss(ProseWidth.Comfortable)
-    };
+        return width switch
+        {
+            ProseWidth.Compact => "prose-compact",
+            ProseWidth.Comfortable => "prose-comfortable",
+            ProseWidth.Relaxed => "prose-relaxed",
+            ProseWidth.Wide => "prose-wide",
+            ProseWidth.UltraWide => "prose-ultrawide",
+            ProseWidth.Full => "prose-full", // or "" if max-w-none is sufficient
+            _ => GetArticleProseCss(ProseWidth.Comfortable)
+        };
+    }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string GetAsideCss(Size columnWidth, bool isFixed)
     {
-        var fixedCss = isFixed ? "h-fill fixed right-0 top-16 z-0" : ""; // Fixed positioning + top offset (adjust if navbar height changes)
+        var fixedCss =
+            isFixed
+                ? "h-fill fixed right-0 top-16 z-0"
+                : ""; // Fixed positioning + top offset (adjust if navbar height changes)
         var widthCss = columnWidth switch
         {
             Size.ExtraSmall => "w-48",
@@ -50,15 +58,17 @@ public  class DefaultRzArticleStyles : RzStylesBase.RzArticleStylesBase
         return $"{Aside} {fixedCss} {widthCss}";
     }
 
-    /// <inheritdoc/>
-    public override string GetContainerPaddingCss(Size columnWidth) => columnWidth switch // Adds right padding to main container to avoid overlap with fixed aside
+    /// <inheritdoc />
+    public override string GetContainerPaddingCss(Size columnWidth)
     {
-        Size.ExtraSmall => "xl:pr-48",
-        Size.Small => "xl:pr-56",
-        Size.Medium => "xl:pr-64",
-        Size.Large => "xl:pr-72",
-        Size.ExtraLarge => "xl:pr-80",
-        _ => GetContainerPaddingCss(Size.Large)
-    };
+        return columnWidth switch // Adds right padding to main container to avoid overlap with fixed aside
+        {
+            Size.ExtraSmall => "xl:pr-48",
+            Size.Small => "xl:pr-56",
+            Size.Medium => "xl:pr-64",
+            Size.Large => "xl:pr-72",
+            Size.ExtraLarge => "xl:pr-80",
+            _ => GetContainerPaddingCss(Size.Large)
+        };
+    }
 }
-

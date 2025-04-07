@@ -1,10 +1,9 @@
 ﻿@namespace RizzyUI
-@using RizzyUI.Utility
 @using Rizzy.Utility
 @inherits TypographyBase
 
-<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" 
-x-data="rzHeading">
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()"
+             x-data="rzHeading">
     @if (ChildContent == null)
     {
         @QuickReferenceTitle
@@ -19,35 +18,35 @@ x-data="rzHeading">
     private bool _registered = false;
 
     /// <summary>
-    /// Represents the heading level, corresponding to HTML heading tags.
+    ///     Represents the heading level, corresponding to HTML heading tags.
     /// </summary>
-    [Parameter, EditorRequired] 
-    public required HeadingLevel Level { get; set; } 
+    [Parameter][EditorRequired]
+    public required HeadingLevel Level { get; set; }
 
     /// <summary>
-    /// Child content for the heading
+    ///     Child content for the heading
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Title to be used in the Quick Reference outline.
+    ///     Title to be used in the Quick Reference outline.
     /// </summary>
     [Parameter]
     public string? QuickReferenceTitle { get; set; }
 
     /// <summary>
-    /// Reference to the QuickReferenceContainer.
+    ///     Reference to the QuickReferenceContainer.
     /// </summary>
     [CascadingParameter]
     private QuickReferenceContainer? QuickReferenceContainer { get; set; }
 
     /// <summary>
-    /// The unique ID for the heading element.
+    ///     The unique ID for the heading element.
     /// </summary>
     public string Id { get; set; } = IdGenerator.UniqueId("heading");
 
-    /// <inheritdoc cref="RzComponent"/>
+    /// <inheritdoc cref="RzComponent" />
     protected override void OnParametersSet()
     {
         Element = Level switch
@@ -59,7 +58,7 @@ x-data="rzHeading">
             _ => "h1"
         };
 
-        if (this.TextColor is null)
+        if (TextColor is null)
         {
             if (Level is HeadingLevel.H1 or HeadingLevel.H2)
                 TextColor = SemanticColor.OnSurfaceStrong;
@@ -82,9 +81,9 @@ x-data="rzHeading">
     }
 
     /// <summary>
-    /// Gets the CSS classes associated with the specified heading level.
+    ///     Gets the CSS classes associated with the specified heading level.
     /// </summary>
-    /// <param name="level">The <see cref="HeadingLevel"/> enum value representing the level of the heading.</param>
+    /// <param name="level">The <see cref="HeadingLevel" /> enum value representing the level of the heading.</param>
     /// <returns>A string containing the CSS classes for the specified heading level.</returns>
     protected static string GetHeadingStyles(HeadingLevel? level)
     {
@@ -97,4 +96,5 @@ x-data="rzHeading">
             _ => string.Empty
         };
     }
+
 }

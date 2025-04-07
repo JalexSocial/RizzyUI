@@ -1,30 +1,35 @@
-using RizzyUI.Styling;
-
 namespace RizzyUI.Components.RzQuickReference.Styling;
 
 /// <summary> Provides default styles for RzQuickReference. </summary>
 public class DefaultRzQuickReferenceStyles : RzStylesBase.RzQuickReferenceStylesBase // Not sealed
 {
-    public DefaultRzQuickReferenceStyles(RzTheme theme) : base(theme) { }
+    public DefaultRzQuickReferenceStyles(RzTheme theme) : base(theme)
+    {
+    }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string Container => $"text-{Theme.Light.OnSurfaceStrong.TailwindClassName}"; // Base text color
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     public override string Title => "mb-4 font-bold";
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     public override string List => "flex flex-col gap-2";
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     public override string ListItem => ""; // Base LI, indentation added dynamically
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     public override string Link => ""; // Base link, selected state handled by Alpine :class
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     public override string LinkSelected => "font-bold"; // Class added by Alpine when selected
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string GetIndentationCss(HeadingLevel level, HeadingLevel minLevel)
     {
         // Calculate relative level (0 = minLevel, 1 = minLevel+1, etc.)
-        int relativeLevel = (int)level - (int)minLevel;
+        var relativeLevel = (int)level - (int)minLevel;
         return relativeLevel switch
         {
             0 => "ml-0",
@@ -39,8 +44,10 @@ public class DefaultRzQuickReferenceStyles : RzStylesBase.RzQuickReferenceStyles
 /// <summary> Provides default styles for RzQuickReferenceContainer. </summary>
 public class DefaultRzQuickReferenceContainerStyles : RzStylesBase.RzQuickReferenceContainerStylesBase // Not sealed
 {
-    public DefaultRzQuickReferenceContainerStyles(RzTheme theme) : base(theme) { }
-    /// <inheritdoc/>
+    public DefaultRzQuickReferenceContainerStyles(RzTheme theme) : base(theme)
+    {
+    }
+
+    /// <inheritdoc />
     public override string Container => ""; // No base styles for the container usually
 }
-

@@ -1,12 +1,13 @@
-﻿@using System.Linq.Expressions
-@using Blazicons
-@typeparam TValue
+﻿@typeparam TValue
 @namespace RizzyUI
+@using System.Linq.Expressions
+@using Blazicons
 @inherits RzComponent
 
 <CascadingValue Value="this">
     <RzInputRadioGroup TValue="TValue" ValueExpression="@For" Value="@Value">
-        <div @attributes="AdditionalAttributes" class="@RootClass() @(Orientation == Orientation.Vertical ? "grid-cols-1" : $"grid-cols-{_items.Count}") grid gap-2 pt-3">
+        <div @attributes="AdditionalAttributes"
+             class="@RootClass() @(Orientation == Orientation.Vertical ? "grid-cols-1" : $"grid-cols-{_items.Count}") grid gap-2 pt-3">
             @ChildContent
         </div>
     </RzInputRadioGroup>
@@ -18,49 +19,49 @@
     private static readonly string BaseStyle = ""; // Optionally add grid container base styles.
 
     /// <summary>
-    /// Gets or sets the display name for the radio group.
+    ///     Gets or sets the display name for the radio group.
     /// </summary>
     [Parameter]
     public string? DisplayName { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the orientation of the radio items.
+    ///     Gets or sets the orientation of the radio items.
     /// </summary>
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
     /// <summary>
-    /// Specifies the field for which validation messages should be displayed.
+    ///     Specifies the field for which validation messages should be displayed.
     /// </summary>
-    [Parameter, EditorRequired]
+    [Parameter][EditorRequired]
     public Expression<Func<TValue>>? For { get; set; }
 
     /// <summary>
-    /// Gets or sets the name attribute for the radio group.
+    ///     Gets or sets the name attribute for the radio group.
     /// </summary>
     [Parameter]
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the name of the icon (if any) displayed alongside the label.
+    ///     Gets or sets the name of the icon (if any) displayed alongside the label.
     /// </summary>
     [Parameter]
     public SvgIcon CheckboxIcon { get; set; } = MdiIcon.CheckboxMarkedCircle;
 
     /// <summary>
-    /// Gets or sets the current selected value.
+    ///     Gets or sets the current selected value.
     /// </summary>
     [Parameter]
     public TValue? Value { get; set; } = default!;
 
     /// <summary>
-    /// Gets or sets the child content to render inside the radio group.
+    ///     Gets or sets the child content to render inside the radio group.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Adds a radio group item to this group.
+    ///     Adds a radio group item to this group.
     /// </summary>
     /// <param name="item">The radio group item.</param>
     public void AddRadioItem(RadioGroupItem<TValue> item)
@@ -82,9 +83,10 @@
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, BaseStyle);
     }
+
 }

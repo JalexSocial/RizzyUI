@@ -5,17 +5,18 @@
 <HtmlElement Element="ol" @attributes="AdditionalAttributes" class="@RootClass()" aria-label="@AriaLabel">
 	@* Cascading self allows child RzStep components to register *@
 	<CascadingValue Value="this" IsFixed="true">
-        @ChildContent
+		@ChildContent
 	</CascadingValue>
 
 	@* Render registered steps *@
-	@for (int i = 0; i < Items.Count; i++)
+	@for (var i = 0; i < Items.Count; i++)
 	{
 		var step = Items[i];
 		var isFirst = i == 0;
 		var prevStep = isFirst ? null : Items[i - 1];
 
-		<li class="@GetStepItemCss(isFirst)" aria-label="@(string.IsNullOrEmpty(step.AriaLabel) ? step.Label : step.AriaLabel)">
+		<li class="@GetStepItemCss(isFirst)"
+		    aria-label="@(string.IsNullOrEmpty(step.AriaLabel) ? step.Label : step.AriaLabel)">
 
 			@* Render connector before every step except the first *@
 			@if (!isFirst && prevStep != null)
@@ -33,7 +34,8 @@
 						}
 						else
 						{
-							<svg class="@CircleCompletedIconClass" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" aria-hidden="true">
+							<svg class="@CircleCompletedIconClass" xmlns="http://www.w3.org/2000/svg" fill="none"
+							     viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" aria-hidden="true">
 								<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
 							</svg>
 							<span class="@CircleCompletedSrTextClass">completed</span>
@@ -45,7 +47,8 @@
 					<span class="@CircleDefaultBaseClass @GetCircleDefaultVariantCss(step.Status)">
 						@if (step.Icon is not null)
 						{
-							<Blazicon Svg="step.Icon" class="size-4"/> @* Assuming size-4 for icons in default circles *@
+							<Blazicon Svg="step.Icon"
+							          class="size-4"/> @* Assuming size-4 for icons in default circles *@
 						}
 						else
 						{
@@ -59,7 +62,7 @@
 				}
 			</div>
 			@* Optional: Re-introduce caption if needed, using Theme styles *@
-            @* @if (!string.IsNullOrEmpty(step.Caption))
+			@* @if (!string.IsNullOrEmpty(step.Caption))
                {
                    <span class="@CaptionClass">@step.Caption</span>
                } *@

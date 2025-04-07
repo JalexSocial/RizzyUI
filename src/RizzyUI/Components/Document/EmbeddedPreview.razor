@@ -1,40 +1,43 @@
-﻿@using Rizzy.Utility
-@namespace RizzyUI
+﻿@namespace RizzyUI
 
+@using Rizzy.Utility
 @inherits RzComponent
 
 <HtmlElement class="w-full">
 	<iframe x-data="rzEmbeddedPreview"
-        id="@Id"
-        class="w-full transition-all min-h-28"
-	    srcdoc="@_content"
-	    x-ref="iframe">
-    </iframe>
+	        id="@Id"
+	        class="w-full transition-all min-h-28"
+	        srcdoc="@_content"
+	        x-ref="iframe">
+	</iframe>
 </HtmlElement>
 
 
 @code {
-    private string? _content;
-    private string Id { get; set; } = IdGenerator.UniqueId("preview");
+	private string? _content;
+	private string Id { get; set; } = IdGenerator.UniqueId("preview");
 
-    /// <summary>
-    /// ServiceProvider reference needed to render any components to string correctly
-    /// </summary>
-    [Inject] private IServiceProvider ServiceProvider { get; set; } = default!;
+	/// <summary>
+	///     ServiceProvider reference needed to render any components to string correctly
+	/// </summary>
+	[Inject]
+	private IServiceProvider ServiceProvider { get; set; } = default!;
 
-    /// <summary>
-    /// Markup to render into an iframe
-    /// </summary>
-    [Parameter] public required RenderFragment ChildContent { get; set; } 
+	/// <summary>
+	///     Markup to render into an iframe
+	/// </summary>
+	[Parameter]
+	public required RenderFragment ChildContent { get; set; }
 
-    /// <summary>
-    /// Optional layout for content
-    /// </summary>
-    [Parameter] public Type? Layout { get; set; }
+	/// <summary>
+	///     Optional layout for content
+	/// </summary>
+	[Parameter]
+	public Type? Layout { get; set; }
 
-    /// <inheritdoc cref="ComponentBase"/>
-    protected override void OnParametersSet()
-    {
+	/// <inheritdoc cref="ComponentBase" />
+	protected override void OnParametersSet()
+	{
 		// Wrap the ChildContent inside the Layout
 		RenderFragment fragment = builder =>
 		{
@@ -53,4 +56,5 @@
 		// Use the async RenderHtml extension method to render the fragment
 		_content = fragment.RenderHtmlAsync(ServiceProvider).Result;
 	}
+
 }

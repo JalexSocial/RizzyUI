@@ -7,12 +7,12 @@ using TailwindMerge.Extensions;
 namespace RizzyUI;
 
 /// <summary>
-/// Set of extensions to add RizzyUI services
+///     Set of extensions to add RizzyUI services
 /// </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Adds RizzyUI services to the specified <see cref="IServiceCollection"/>.
+    ///     Adds RizzyUI services to the specified <see cref="IServiceCollection" />.
     /// </summary>
     /// <param name="services">The service collection to add RizzyUI services to.</param>
     /// <param name="configure">An action to configure RizzyUI options.</param>
@@ -20,10 +20,7 @@ public static class ServiceCollectionExtensions
     // ReSharper disable once InconsistentNaming
     public static IServiceCollection AddRizzyUI(this IServiceCollection services, Action<RizzyUIConfig> configure)
     {
-        if (configure == null)
-        {
-            throw new ArgumentNullException(nameof(configure));
-        }
+        if (configure == null) throw new ArgumentNullException(nameof(configure));
 
         // Register the options and apply the configuration
         services.Configure(configure);
@@ -32,7 +29,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds RizzyUI services to the specified <see cref="IServiceCollection"/>.
+    ///     Adds RizzyUI services to the specified <see cref="IServiceCollection" />.
     /// </summary>
     /// <param name="services">The service collection to add RizzyUI services to.</param>
     /// <returns>The updated service collection.</returns>
@@ -46,10 +43,7 @@ public static class ServiceCollectionExtensions
 
         // Register the default RizzyNonceProvider only if IRizzyNonceProvider hasn't been registered
         services.TryAddScoped<IRizzyNonceProvider, RizzyNonceProvider>();
-        services.Configure<RizzyUIConfig>(config =>
-        {
-
-        });
+        services.Configure<RizzyUIConfig>(config => { });
 
         return services;
     }

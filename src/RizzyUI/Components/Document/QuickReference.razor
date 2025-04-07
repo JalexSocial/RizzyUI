@@ -9,7 +9,8 @@
         @foreach (var heading in QuickReferenceContainer.GetHeadingItems())
         {
             <li class="@GetIndentation(heading.Level)">
-                <a href="#@heading.Id" data-headingid="@heading.Id" :class="getSelectedCss" x-on:click="handleHeadingClick">
+                <a href="#@heading.Id" data-headingid="@heading.Id" :class="getSelectedCss"
+                   x-on:click="handleHeadingClick">
                     @heading.Title
                 </a>
             </li>
@@ -19,20 +20,21 @@
 
 
 @code {
+
     /// <summary>
-    /// Reference to the QuickReferenceContainer.
+    ///     Reference to the QuickReferenceContainer.
     /// </summary>
     [CascadingParameter]
     private QuickReferenceContainer QuickReferenceContainer { get; set; } = default!;
 
     /// <summary>
-    /// Title that appears above quick reference outline
+    ///     Title that appears above quick reference outline
     /// </summary>
-    [Parameter] 
+    [Parameter]
     public string Title { get; set; } = "On this page";
 
     /// <summary>
-    /// Throws an exception if not placed within a QuickReferenceContainer.
+    ///     Throws an exception if not placed within a QuickReferenceContainer.
     /// </summary>
     protected override void OnInitialized()
     {
@@ -43,7 +45,7 @@
     }
 
     /// <summary>
-    /// Builds the root CSS class string for the QuickReference.
+    ///     Builds the root CSS class string for the QuickReference.
     /// </summary>
     /// <returns>A string containing the combined CSS classes.</returns>
     protected override string? RootClass()
@@ -54,13 +56,13 @@
     private static readonly string BaseStyle = "text-on-surface-strong ";
 
     /// <summary>
-    /// Gets the Tailwind CSS class for indentation based on the heading level.
+    ///     Gets the Tailwind CSS class for indentation based on the heading level.
     /// </summary>
     /// <param name="level">The heading level.</param>
     /// <returns>A string containing the Tailwind CSS class for margin-left.</returns>
     private string GetIndentation(HeadingLevel level)
     {
-        level -= QuickReferenceContainer.MinimumHeadingLevel; 
+        level -= QuickReferenceContainer.MinimumHeadingLevel;
 
         return level switch
         {
@@ -71,4 +73,5 @@
             _ => "ml-0"
         };
     }
+
 }

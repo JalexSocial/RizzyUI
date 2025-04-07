@@ -1,18 +1,18 @@
 ﻿namespace RizzyUI;
 
 /// <summary>
-/// Represents the News theme for the application. Inherits from <see cref="RzTheme"/>.
-/// Initializes the theme using the specified Tailwind color palette.
+///     Represents the News theme for the application. Inherits from <see cref="RzTheme" />.
+///     Initializes the theme using the specified Tailwind color palette.
 /// </summary>
 public class NewsTheme : RzTheme
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="NewsTheme"/> class with predefined news-oriented values.
+    ///     Initializes a new instance of the <see cref="NewsTheme" /> class with predefined news-oriented values.
     /// </summary>
     public NewsTheme() : base("News", "news")
     {
         // Light mode colors
-        Light = new RzThemeVariant()
+        Light = new RzThemeVariant
         {
             Surface = Colors.Zinc.L50, // zinc-50: (250, 250, 249)
             OnSurface = Colors.Neutral.L600, // neutral-600: (75, 85, 99)
@@ -31,7 +31,7 @@ public class NewsTheme : RzTheme
         };
 
         // Dark mode colors
-        Dark = new RzThemeVariant()
+        Dark = new RzThemeVariant
         {
             Surface = Colors.Zinc.L900, // zinc-900: (15, 23, 42)
             OnSurface = Colors.Zinc.L200, // zinc-200: (229, 231, 235)
@@ -50,14 +50,14 @@ public class NewsTheme : RzTheme
         };
 
         // Shared Colors
-        Danger = Colors.Red.L700;                          // red-700: (185, 28, 28)
-        OnDanger = Colors.Slate.L100;                      // slate-100: (245, 245, 245)
-        Info = Colors.Sky.L700;                            // sky-700: (14, 165, 233)
-        OnInfo = Colors.Slate.L100;                        // slate-100: (245, 245, 245)
-        Warning = Colors.Amber.L600;                       // amber-600: (217, 119, 6)
-        OnWarning = Colors.Amber.L50;                      // amber-50: (255, 251, 235)
-        Success = Colors.Green.L700;                        // green-700: (34, 197, 94)
-        OnSuccess = Colors.White;                           // white: (255, 255, 255)
+        Danger = Colors.Red.L700; // red-700: (185, 28, 28)
+        OnDanger = Colors.Slate.L100; // slate-100: (245, 245, 245)
+        Info = Colors.Sky.L700; // sky-700: (14, 165, 233)
+        OnInfo = Colors.Slate.L100; // slate-100: (245, 245, 245)
+        Warning = Colors.Amber.L600; // amber-600: (217, 119, 6)
+        OnWarning = Colors.Amber.L50; // amber-50: (255, 251, 235)
+        Success = Colors.Green.L700; // green-700: (34, 197, 94)
+        OnSuccess = Colors.White; // white: (255, 255, 255)
 
         // Borders and Radius
         BorderWidth = "1px";

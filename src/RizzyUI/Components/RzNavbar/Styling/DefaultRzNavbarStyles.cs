@@ -1,27 +1,27 @@
-using RizzyUI.Styling;
-
 namespace RizzyUI.Components.RzNavbar.Styling;
 
 /// <summary>
-/// Provides the default styles for the RzNavbar component.
+///     Provides the default styles for the RzNavbar component.
 /// </summary>
-public  class DefaultRzNavbarStyles : RzStylesBase.RzNavbarStylesBase
+public class DefaultRzNavbarStyles : RzStylesBase.RzNavbarStylesBase
 {
-    public DefaultRzNavbarStyles(RzTheme theme) : base(theme) { }
+    public DefaultRzNavbarStyles(RzTheme theme) : base(theme)
+    {
+    }
 
-    /// <inheritdoc/>
-    public override string Navbar => $"fixed top-0 z-50 h-16 w-screen items-center justify-between border-outline bg-surface-alt/75 px-4 py-2 backdrop-blur-xl flex border-b";
+    /// <inheritdoc />
+    public override string Navbar =>
+        "fixed top-0 z-50 h-16 w-screen items-center justify-between border-outline bg-surface-alt/75 px-4 py-2 backdrop-blur-xl flex border-b";
 
-    /// <inheritdoc/>
-    public override string ToggleButton => $"md:hidden inline-block text-on-surface";
+    /// <inheritdoc />
+    public override string ToggleButton => "md:hidden inline-block text-on-surface";
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string ToggleButtonIconContainer => "text-xl";
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string ToggleButtonSrText => "sr-only";
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string ContentContainer => "h-full w-full flex items-center justify-between";
 }
-

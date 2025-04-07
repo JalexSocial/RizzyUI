@@ -1,38 +1,38 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Text;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
-using System.Text;
 using Microsoft.Extensions.Options;
-using Rizzy;
 using Rizzy.Htmx;
 
 namespace RizzyUI;
 
 /// <summary>
-/// A Blazor component that provides the current theme's CSS variables in the document head.
-/// If no theme is provided, uses <see cref="RzTheme.Default"/>.
+///     A Blazor component that provides the current theme's CSS variables in the document head.
+///     If no theme is provided, uses <see cref="RzTheme.Default" />.
 /// </summary>
 public class RizzyThemeProvider : ComponentBase
 {
-    [Inject]
-    private IOptions<RizzyUIConfig>? RizzyConfig { get; set; }
+    [Inject] private IOptions<RizzyUIConfig>? RizzyConfig { get; set; }
 
     /// <summary>
-    /// NonceProvider service that provides scoped per-request nonce values to RizzyUI
-    /// components
+    ///     NonceProvider service that provides scoped per-request nonce values to RizzyUI
+    ///     components
     /// </summary>
-    [Inject] protected IRizzyNonceProvider RizzyNonceProvider { get; set; } = default!;
+    [Inject]
+    protected IRizzyNonceProvider RizzyNonceProvider { get; set; } = default!;
 
     /// <summary>
-    /// Gets or sets the theme to apply. If null, defaults to <see cref="RzTheme.Default"/>.
+    ///     Gets or sets the theme to apply. If null, defaults to <see cref="RzTheme.Default" />.
     /// </summary>
     [Parameter]
     public RzTheme? Theme { get; set; }
 
     /// <summary>
-    /// Builds the render tree for the component, injecting a &lt;style&gt; tag with CSS variables into the head via <see cref="HeadOutlet"/>.
+    ///     Builds the render tree for the component, injecting a &lt;style&gt; tag with CSS variables into the head via
+    ///     <see cref="HeadOutlet" />.
     /// </summary>
-    /// <param name="builder">The <see cref="RenderTreeBuilder"/> used to build the component's output.</param>
+    /// <param name="builder">The <see cref="RenderTreeBuilder" /> used to build the component's output.</param>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         var actualTheme = Theme ?? RizzyConfig?.Value.DefaultTheme ?? RzTheme.Default;
@@ -47,7 +47,7 @@ public class RizzyThemeProvider : ComponentBase
     }
 
     /// <summary>
-    /// Generates the CSS variable definitions for the given theme.
+    ///     Generates the CSS variable definitions for the given theme.
     /// </summary>
     /// <param name="theme">The theme to generate variables from.</param>
     /// <returns>A string containing a :root CSS block with the theme variables.</returns>
@@ -92,12 +92,12 @@ public class RizzyThemeProvider : ComponentBase
         sb.AppendLine($"--highlight-punctuation: {theme.Light.Code.Punctuation.ToCssColorString()};");
         sb.AppendLine($"--highlight-deletion: {theme.Light.Code.Deletion.ToCssColorString()};");
         sb.AppendLine($"--highlight-addition: {theme.Light.Code.Addition.ToCssColorString()};");
-        
+
         // Typography code styles 
         sb.AppendLine(".prose {");
-        sb.AppendLine($"--tw-prose-code: var(--highlight-color);");
-        sb.AppendLine($"--tw-prose-pre-code: var(--highlight-color);");
-        sb.AppendLine($"--tw-prose-pre-bg: var(--highlight-bg)");
+        sb.AppendLine("--tw-prose-code: var(--highlight-color);");
+        sb.AppendLine("--tw-prose-pre-code: var(--highlight-color);");
+        sb.AppendLine("--tw-prose-pre-bg: var(--highlight-bg)");
         sb.AppendLine("}");
 
         // Dark mode variant theme colors
@@ -134,4 +134,3 @@ public class RizzyThemeProvider : ComponentBase
         return sb.ToString();
     }
 }
-

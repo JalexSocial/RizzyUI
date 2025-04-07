@@ -1,31 +1,43 @@
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
-using RizzyUI.Styling;
 
 namespace RizzyUI;
 
 /// <xmldoc>
-/// Renders an HTML heading element (h1-h4) with appropriate typography styling based on the level and active <see cref="RzTheme"/>.
-/// Inherits common text styling options from <see cref="RzTypographyBase"/>. Can register itself with an <see cref="RzQuickReferenceContainer"/>.
+///     Renders an HTML heading element (h1-h4) with appropriate typography styling based on the level and active
+///     <see cref="RzTheme" />.
+///     Inherits common text styling options from <see cref="RzTypographyBase" />. Can register itself with an
+///     <see cref="RzQuickReferenceContainer" />.
 /// </xmldoc>
 public partial class RzHeading : RzTypographyBase // Inherits RzTypographyBase
 {
-    private bool _registered = false;
+    private bool _registered;
 
     /// <summary> Represents the heading level (H1-H4), determining the HTML tag and base styles. Required. </summary>
-    [Parameter, EditorRequired] public required HeadingLevel Level { get; set; }
+    [Parameter]
+    [EditorRequired]
+    public required HeadingLevel Level { get; set; }
+
     /// <summary> The content to be rendered inside the heading tag. </summary>
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-    /// <summary> The title text to use when registering this heading with an <see cref="RzQuickReferenceContainer"/>. If null or empty, the heading will not be registered. </summary>
-    [Parameter] public string? QuickReferenceTitle { get; set; }
-    /// <summary> Gets the parent <see cref="RzQuickReferenceContainer"/> if this heading is nested within one. </summary>
-    [CascadingParameter] private RzQuickReferenceContainer? QuickReferenceContainer { get; set; }
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    ///     The title text to use when registering this heading with an <see cref="RzQuickReferenceContainer" />. If null
+    ///     or empty, the heading will not be registered.
+    /// </summary>
+    [Parameter]
+    public string? QuickReferenceTitle { get; set; }
+
+    /// <summary> Gets the parent <see cref="RzQuickReferenceContainer" /> if this heading is nested within one. </summary>
+    [CascadingParameter]
+    private RzQuickReferenceContainer? QuickReferenceContainer { get; set; }
 
     /// <summary> The unique ID automatically generated for this heading element, used for linking. </summary>
     public string Id { get; } = IdGenerator.UniqueId("rzheading"); // Use new prefix
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         // Initialize base (gets theme) before using it
@@ -39,12 +51,10 @@ public partial class RzHeading : RzTypographyBase // Inherits RzTypographyBase
         };
 
         // Apply default text colors based on level if not explicitly set
-        if (this.TextColor is null)
-        {
-            TextColor = (Level is HeadingLevel.H1 or HeadingLevel.H2)
+        if (TextColor is null)
+            TextColor = Level is HeadingLevel.H1 or HeadingLevel.H2
                 ? SemanticColor.OnSurfaceStrong
                 : SemanticColor.OnSurface;
-        }
 
         // Register with Quick Reference if applicable
         if (!_registered && QuickReferenceContainer != null && !string.IsNullOrEmpty(QuickReferenceTitle))
@@ -54,15 +64,14 @@ public partial class RzHeading : RzTypographyBase // Inherits RzTypographyBase
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override string? RootClass()
     {
         var headingStyles = Theme.RzHeading;
         // Merge base typography styles with level-specific styles
         return TwMerge.Merge(AdditionalAttributes,
-            GetTypographyBaseCss(),        // From RzTypographyBase
+            GetTypographyBaseCss(), // From RzTypographyBase
             headingStyles.GetLevelCss(Level) // From RzHeadingStyles
         );
     }
 }
-

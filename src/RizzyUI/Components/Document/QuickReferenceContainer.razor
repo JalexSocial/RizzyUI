@@ -1,8 +1,5 @@
-﻿@using System.Collections.Generic
+﻿@namespace RizzyUI
 @using System.Text.Json
-@using System.Text.Json.Serialization
-@using RizzyUI.Utility.Serialization.Converters
-@namespace RizzyUI
 @inherits RzComponent
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()"
@@ -19,25 +16,25 @@
     private string _headingItemsSerialized = "[]";
 
     /// <summary>
-    /// Lowest heading level (H1 is lowest) to include in the quick reference
+    ///     Lowest heading level (H1 is lowest) to include in the quick reference
     /// </summary>
-    [Parameter] 
+    [Parameter]
     public HeadingLevel MinimumHeadingLevel { get; set; } = HeadingLevel.H2;
 
     /// <summary>
-    /// Greatest heading level (h4 is greatest) to include in the quick reference
+    ///     Greatest heading level (h4 is greatest) to include in the quick reference
     /// </summary>
-    [Parameter] 
+    [Parameter]
     public HeadingLevel MaximumHeadingLevel { get; set; } = HeadingLevel.H4;
 
     /// <summary>
-    /// Child content of the QuickReferenceContainer.
+    ///     Child content of the QuickReferenceContainer.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Registers a heading with the QuickReferenceContainer.
+    ///     Registers a heading with the QuickReferenceContainer.
     /// </summary>
     /// <param name="level">The heading level.</param>
     /// <param name="title">The title of the heading.</param>
@@ -47,17 +44,18 @@
         if (level >= MinimumHeadingLevel && level <= MaximumHeadingLevel)
             _headingItems.Add(new HeadingItem(level, title, id));
 
-         _headingItemsSerialized = JsonSerializer.Serialize(_headingItems?.Select(x => x.Id));
+        _headingItemsSerialized = JsonSerializer.Serialize(_headingItems?.Select(x => x.Id));
 
         StateHasChanged();
     }
 
     /// <summary>
-    /// Gets the list of registered heading items.
+    ///     Gets the list of registered heading items.
     /// </summary>
     /// <returns>A read-only list of heading items.</returns>
     public IReadOnlyList<HeadingItem> GetHeadingItems()
     {
         return _headingItems.AsReadOnly();
     }
+
 }

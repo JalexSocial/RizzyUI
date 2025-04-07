@@ -11,12 +11,12 @@
     private static readonly string BaseStyle = "space-y-1";
 
     /// <summary>
-    /// Child content for the field
+    ///     Child content for the field
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <inheritdoc cref="RzComponent"/>
+    /// <inheritdoc cref="RzComponent" />
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, BaseStyle);
