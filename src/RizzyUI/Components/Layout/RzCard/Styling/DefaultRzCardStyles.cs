@@ -55,7 +55,7 @@ public class DefaultRzCardTitleStyles : RzStylesBase.RzCardTitleStylesBase
 
     /// <inheritdoc />
     public override string Title =>
-        $"flex items-center mb-1 text-lg font-semibold text-{Theme.Light.OnSurfaceStrong.TailwindClassName}";
+        $"flex items-center mb-1 text-lg font-semibold text-on-surface-strong";
 }
 
 /// <summary> Provides default styles for RzCardSubtitle. </summary>

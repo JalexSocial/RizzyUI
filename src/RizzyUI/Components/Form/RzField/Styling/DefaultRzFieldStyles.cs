@@ -3,6 +3,8 @@ namespace RizzyUI;
 /// <summary> Provides default styles for RzField. </summary>
 public class DefaultRzFieldStyles : RzStylesBase.RzFieldStylesBase
 {
+ 
+    /// <inheritdoc />
     public DefaultRzFieldStyles(RzTheme theme) : base(theme)
     {
     }
@@ -29,6 +31,7 @@ public class DefaultRzFieldLabelStyles : RzStylesBase.RzFieldLabelStylesBase
 /// <summary> Provides default styles for RzFieldHelp. </summary>
 public class DefaultRzFieldHelpStyles : RzStylesBase.RzFieldHelpStylesBase
 {
+    /// <inheritdoc />
     public DefaultRzFieldHelpStyles(RzTheme theme) : base(theme)
     {
     }

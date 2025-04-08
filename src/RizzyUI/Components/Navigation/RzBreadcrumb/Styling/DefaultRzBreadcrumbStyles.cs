@@ -30,7 +30,7 @@ public class DefaultRzBreadcrumbItemStyles : RzStylesBase.RzBreadcrumbItemStyles
 
     /// <inheritdoc />
     public override string Link =>
-        $"text-on-surface hover:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:hover:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName}";
+        $"text-on-surface hover:text-on-surface-strong dark:hover:text-on-surface-strong";
 
     /// <inheritdoc />
     public override string ActiveSpan => "font-bold text-on-surface";

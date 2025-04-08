@@ -105,7 +105,7 @@ public class DefaultRzAlertTitleStyles : RzStylesBase.RzAlertTitleStylesBase
         return variant switch
         {
             AlertVariant.Alternate =>
-                $"text-{Theme.Light.OnSurfaceStrong.TailwindClassName}", // Example: maybe stronger for alternate
+                $"text-on-surface-strong", // Example: maybe stronger for alternate
             AlertVariant.Information => $"text-info",
             AlertVariant.Success => $"text-success",
             AlertVariant.Warning => $"text-warning",

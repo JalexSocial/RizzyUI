@@ -3,6 +3,7 @@
 /// <summary> Provides default styles for RzCodeViewer. </summary>
 public class DefaultRzCodeViewerStyles : RzStylesBase.RzCodeViewerStylesBase
 {
+    /// <inheritdoc />
     public DefaultRzCodeViewerStyles(RzTheme theme) : base(theme) { }
 
     /// <inheritdoc/>

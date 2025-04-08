@@ -1,7 +1,7 @@
 namespace RizzyUI;
 
 /// <summary> Provides default styles for base typography settings. </summary>
-public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase // Not sealed
+public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase 
 {
     public DefaultRzTypographyStyles(RzTheme theme) : base(theme)
     {
@@ -75,7 +75,7 @@ public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase // 
 }
 
 /// <summary> Provides default styles for RzHeading. </summary>
-public class DefaultRzHeadingStyles : RzStylesBase.RzHeadingStylesBase // Not sealed
+public class DefaultRzHeadingStyles : RzStylesBase.RzHeadingStylesBase 
 {
     public DefaultRzHeadingStyles(RzTheme theme) : base(theme)
     {
@@ -97,7 +97,7 @@ public class DefaultRzHeadingStyles : RzStylesBase.RzHeadingStylesBase // Not se
 }
 
 /// <summary> Provides default styles for RzParagraph. </summary>
-public class DefaultRzParagraphStyles : RzStylesBase.RzParagraphStylesBase // Not sealed
+public class DefaultRzParagraphStyles : RzStylesBase.RzParagraphStylesBase 
 {
     public DefaultRzParagraphStyles(RzTheme theme) : base(theme)
     {

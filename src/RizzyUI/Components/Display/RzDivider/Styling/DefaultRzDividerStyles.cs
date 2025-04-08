@@ -1,7 +1,7 @@
 ﻿namespace RizzyUI;
 
 /// <summary> Provides default styles for RzDivider. </summary>
-public class DefaultRzDividerStyles : RzStylesBase.RzDividerStylesBase // Not sealed
+public class DefaultRzDividerStyles : RzStylesBase.RzDividerStylesBase 
 {
     public DefaultRzDividerStyles(RzTheme theme) : base(theme) { }
 

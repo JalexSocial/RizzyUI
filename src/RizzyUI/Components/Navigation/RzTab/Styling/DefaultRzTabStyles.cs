@@ -1,7 +1,7 @@
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzTabs. </summary>
-public class DefaultRzTabsStyles : RzStylesBase.RzTabsStylesBase // Not sealed
+public class DefaultRzTabsStyles : RzStylesBase.RzTabsStylesBase 
 {
     public DefaultRzTabsStyles(RzTheme theme) : base(theme)
     {
@@ -15,7 +15,7 @@ public class DefaultRzTabsStyles : RzStylesBase.RzTabsStylesBase // Not sealed
 }
 
 /// <summary> Provides default styles for RzTabStrip. </summary>
-public class DefaultRzTabStripStyles : RzStylesBase.RzTabStripStylesBase // Not sealed
+public class DefaultRzTabStripStyles : RzStylesBase.RzTabStripStylesBase 
 {
     public DefaultRzTabStripStyles(RzTheme theme) : base(theme)
     {
@@ -63,7 +63,7 @@ public class DefaultRzTabStripStyles : RzStylesBase.RzTabStripStylesBase // Not 
 }
 
 /// <summary> Provides default styles for RzTab. </summary>
-public class DefaultRzTabStyles : RzStylesBase.RzTabStylesBase // Not sealed
+public class DefaultRzTabStyles : RzStylesBase.RzTabStylesBase 
 {
     public DefaultRzTabStyles(RzTheme theme) : base(theme)
     {
@@ -97,7 +97,7 @@ public class DefaultRzTabStyles : RzStylesBase.RzTabStylesBase // Not sealed
 }
 
 /// <summary> Provides default styles for RzTabPanel. </summary>
-public class DefaultRzTabPanelStyles : RzStylesBase.RzTabPanelStylesBase // Not sealed
+public class DefaultRzTabPanelStyles : RzStylesBase.RzTabPanelStylesBase 
 {
     public DefaultRzTabPanelStyles(RzTheme theme) : base(theme)
     {

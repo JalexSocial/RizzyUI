@@ -1,7 +1,7 @@
 ﻿namespace RizzyUI;
 
 /// <summary> Provides default styles for RzSearchButton. </summary>
-public class DefaultRzSearchButtonStyles : RzStylesBase.RzSearchButtonStylesBase // Not sealed
+public class DefaultRzSearchButtonStyles : RzStylesBase.RzSearchButtonStylesBase 
 {
 	public DefaultRzSearchButtonStyles(RzTheme theme) : base(theme) { }
 

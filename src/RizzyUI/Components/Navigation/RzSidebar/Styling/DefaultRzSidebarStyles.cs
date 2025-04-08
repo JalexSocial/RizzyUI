@@ -3,7 +3,7 @@ namespace RizzyUI;
 /// <summary>
 /// Provides the default styles for the RzSidebar component.
 /// </summary>
-public class DefaultRzSidebarStyles : RzStylesBase.RzSidebarStylesBase // Not sealed
+public class DefaultRzSidebarStyles : RzStylesBase.RzSidebarStylesBase 
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultRzSidebarStyles"/> class.
@@ -65,7 +65,7 @@ public class DefaultRzSidebarLinkItemStyles : RzStylesBase.RzSidebarLinkItemStyl
 
     /// <inheritdoc />
     public override string CollapsibleButton =>
-        $"flex items-center justify-between rounded-borderRadius gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-on-surface hover:bg-primary/5 hover:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:hover:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName} dark:hover:bg-primary/5";
+        $"flex items-center justify-between rounded-borderRadius gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-on-surface hover:bg-primary/5 hover:text-on-surface-strong dark:hover:text-on-surface-strong dark:hover:bg-primary/5";
 
     /// <inheritdoc />
     public override string CollapsibleButtonIconContainer => "text-xl";
@@ -84,11 +84,11 @@ public class DefaultRzSidebarLinkItemStyles : RzStylesBase.RzSidebarLinkItemStyl
 
     /// <inheritdoc />
     public override string SubListItem =>
-        $"border-l px-2 py-0.5 border-outline dark:border-outline transition duration-200 hover:border-l-2 hover:border-{Theme.Light.OutlineStrong.TailwindClassName} hover:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:hover:border-{Theme.Dark.OutlineStrong.TailwindClassName} dark:hover:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName}";
+        $"border-l px-2 py-0.5 border-outline dark:border-outline transition duration-200 hover:border-l-2 hover:border-outline-strong hover:text-on-surface-strong dark:hover:border-outline-strong dark:hover:text-on-surface-strong";
 
     /// <inheritdoc />
     public override string SubLinkOrDiv =>
-        $"flex items-center gap-2 px-2 py-1.5 text-sm rounded-borderRadius text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName}";
+        $"flex items-center gap-2 px-2 py-1.5 text-sm rounded-borderRadius text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-on-surface-strong focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-on-surface-strong";
 
     /// <inheritdoc />
     public override string TopLevelListItem => "px-1 py-0.5 first:mt-2";
@@ -99,7 +99,7 @@ public class DefaultRzSidebarLinkItemStyles : RzStylesBase.RzSidebarLinkItemStyl
 
     /// <inheritdoc />
     public override string TopLevelLink =>
-        $"flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName} rounded-borderRadius";
+        $"flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-on-surface-strong focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-on-surface-strong rounded-borderRadius";
 
     /// <inheritdoc />
     public override string ItemIconContainer => "text-lg";

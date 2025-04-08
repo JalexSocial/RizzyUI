@@ -1,7 +1,7 @@
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzProgress. </summary>
-public class DefaultRzProgressStyles : RzStylesBase.RzProgressStylesBase // Not sealed
+public class DefaultRzProgressStyles : RzStylesBase.RzProgressStylesBase 
 {
     public DefaultRzProgressStyles(RzTheme theme) : base(theme)
     {

@@ -1,7 +1,7 @@
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzNumberEdit. </summary>
-public class DefaultRzNumberEditStyles : RzStylesBase.RzNumberEditStylesBase // Not sealed
+public class DefaultRzNumberEditStyles : RzStylesBase.RzNumberEditStylesBase 
 {
     public DefaultRzNumberEditStyles(RzTheme theme) : base(theme)
     {
@@ -23,7 +23,7 @@ public class DefaultRzNumberEditStyles : RzStylesBase.RzNumberEditStylesBase // 
 }
 
 /// <summary> Provides default styles for RzNumberField. </summary>
-public class DefaultRzNumberFieldStyles : RzStylesBase.RzNumberFieldStylesBase // Not sealed
+public class DefaultRzNumberFieldStyles : RzStylesBase.RzNumberFieldStylesBase 
 {
     public DefaultRzNumberFieldStyles(RzTheme theme) : base(theme)
     {

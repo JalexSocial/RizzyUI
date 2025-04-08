@@ -44,7 +44,7 @@ public class DefaultRzDropdownMenuItemStyles : RzStylesBase.RzDropdownMenuItemSt
 
     /// <inheritdoc />
     public override string MenuItem =>
-        $"group flex items-center justify-between space-x-2 rounded-borderRadius cursor-pointer border border-transparent px-2.5 py-2 text-sm font-medium text-on-surface hover:bg-primary/10 hover:text-primary focus-visible:bg-primary/10 focus-visible:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} focus-visible:outline-hidden dark:hover:bg-surface-alt dark:focus-visible:bg-primary/10 dark:focus-visible:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName}";
+        $"group flex items-center justify-between space-x-2 rounded-borderRadius cursor-pointer border border-transparent px-2.5 py-2 text-sm font-medium text-on-surface hover:bg-primary/10 hover:text-primary focus-visible:bg-primary/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:hover:bg-surface-alt dark:focus-visible:bg-primary/10 dark:focus-visible:text-on-surface-strong";
 
     /// <inheritdoc />
     public override string IconSpan => "text-xl";

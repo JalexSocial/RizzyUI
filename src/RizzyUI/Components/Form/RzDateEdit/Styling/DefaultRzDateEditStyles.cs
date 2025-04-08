@@ -1,8 +1,9 @@
 ﻿namespace RizzyUI;
 
 /// <summary> Provides default styles for RzDateEdit. </summary>
-public class DefaultRzDateEditStyles : RzStylesBase.RzDateEditStylesBase // Not sealed
+public class DefaultRzDateEditStyles : RzStylesBase.RzDateEditStylesBase 
 {
+	/// <inheritdoc />	
 	public DefaultRzDateEditStyles(RzTheme theme) : base(theme) { }
 
 	/// <inheritdoc/>

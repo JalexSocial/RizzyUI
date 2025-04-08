@@ -2,15 +2,19 @@ namespace RizzyUI;
 
 public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
 {
+    /// <inheritdoc />
     public DefaultRzButtonStyles(RzTheme theme) : base(theme)
     {
     }
 
+    /// <inheritdoc />
     public override string Button =>
         "inline-flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap rounded-borderRadius font-medium tracking-wide text-center transition hover:opacity-75 active:opacity-100 hover:shadow-sm disabled:opacity-75 disabled:cursor-not-allowed";
 
+    /// <inheritdoc />
     public override string Animated => "transform active:scale-90 motion-reduce:transition-none transition-transform";
 
+    /// <inheritdoc />
     public override string GetVariantCss(ButtonVariant variant)
     {
         return variant switch
@@ -18,11 +22,11 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
             ButtonVariant.Primary =>
                 "bg-primary text-on-primary focus-visible:outline-primary dark:focus-visible:outline-primary",
             ButtonVariant.Secondary =>
-                $"bg-secondary text-on-secondary focus-visible:outline-secondary dark:focus-visible:outline-{Theme.Dark.Secondary.TailwindClassName}",
+                $"bg-secondary text-on-secondary focus-visible:outline-secondary dark:focus-visible:outline-secondary",
             ButtonVariant.Alternate =>
                 "bg-surface-alt text-on-surface focus-visible:outline-surface-alt dark:focus-visible:outline-surface-alt",
             ButtonVariant.Inverse =>
-                $"bg-{Theme.Dark.Surface.TailwindClassName} text-on-surface focus-visible:outline-surface dark:bg-surface dark:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:focus-visible:outline-surface", // Corrected Inverse
+                $"bg-surface text-on-surface focus-visible:outline-surface dark:bg-surface dark:text-on-surface-strong dark:focus-visible:outline-surface", // Corrected Inverse
             ButtonVariant.Information =>
                 $"bg-info text-on-info focus-visible:outline-info dark:bg-info dark:text-on-info dark:focus-visible:outline-info",
             ButtonVariant.Danger =>
@@ -36,6 +40,7 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
         };
     }
 
+    /// <inheritdoc />
     public override string GetVariantOutlineCss(ButtonVariant variant)
     {
         return variant switch
@@ -43,11 +48,11 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
             ButtonVariant.Primary =>
                 "bg-transparent border border-primary text-primary focus-visible:outline-primary dark:focus-visible:outline-primary",
             ButtonVariant.Secondary =>
-                $"bg-transparent border border-secondary text-secondary focus-visible:outline-secondary dark:focus-visible:outline-{Theme.Dark.Secondary.TailwindClassName}",
+                $"bg-transparent border border-secondary text-secondary focus-visible:outline-secondary dark:focus-visible:outline-secondary",
             ButtonVariant.Alternate =>
                 "bg-transparent border border-outline text-outline focus-visible:outline-outline dark:focus-visible:outline-outline",
             ButtonVariant.Inverse =>
-                $"bg-transparent border border-{Theme.Light.OnSurfaceStrong.TailwindClassName} text-{Theme.Light.OnSurfaceStrong.TailwindClassName} focus-visible:outline-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:focus-visible:outline-{Theme.Dark.OnSurfaceStrong.TailwindClassName}",
+                $"bg-transparent border border-on-surface-strong text-on-surface-strong focus-visible:outline-on-surface-strong dark:focus-visible:outline-on-surface-strong",
             ButtonVariant.Information =>
                 $"bg-transparent border border-info text-info focus-visible:outline-info dark:border-info dark:text-info dark:focus-visible:outline-info",
             ButtonVariant.Danger =>
@@ -61,6 +66,7 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
         };
     }
 
+    /// <inheritdoc />
     public override string GetSizeCss(Size size)
     {
         return size switch

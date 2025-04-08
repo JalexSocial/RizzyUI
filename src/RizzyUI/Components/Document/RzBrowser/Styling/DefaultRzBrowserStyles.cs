@@ -1,8 +1,9 @@
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzBrowser. </summary>
-public class DefaultRzBrowserStyles : RzStylesBase.RzBrowserStylesBase // Not sealed
+public class DefaultRzBrowserStyles : RzStylesBase.RzBrowserStylesBase 
 {
+    /// <inheritdoc />
     public DefaultRzBrowserStyles(RzTheme theme) : base(theme) { }
 
     /// <inheritdoc/>

@@ -1,7 +1,7 @@
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzRadioGroup. </summary>
-public class DefaultRzRadioGroupStyles : RzStylesBase.RzRadioGroupStylesBase // Not sealed
+public class DefaultRzRadioGroupStyles : RzStylesBase.RzRadioGroupStylesBase 
 {
     public DefaultRzRadioGroupStyles(RzTheme theme) : base(theme)
     {
@@ -23,7 +23,7 @@ public class DefaultRzRadioGroupStyles : RzStylesBase.RzRadioGroupStylesBase // 
 }
 
 /// <summary> Provides default styles for RzRadioGroupItem. </summary>
-public class DefaultRzRadioGroupItemStyles : RzStylesBase.RzRadioGroupItemStylesBase // Not sealed
+public class DefaultRzRadioGroupItemStyles : RzStylesBase.RzRadioGroupItemStylesBase 
 {
     public DefaultRzRadioGroupItemStyles(RzTheme theme) : base(theme)
     {
@@ -62,7 +62,7 @@ public class DefaultRzRadioGroupItemStyles : RzStylesBase.RzRadioGroupItemStyles
 }
 
 /// <summary> Provides default styles for RzRadioGroupField. </summary>
-public class DefaultRzRadioGroupFieldStyles : RzStylesBase.RzRadioGroupFieldStylesBase // Not sealed
+public class DefaultRzRadioGroupFieldStyles : RzStylesBase.RzRadioGroupFieldStylesBase 
 {
     public DefaultRzRadioGroupFieldStyles(RzTheme theme) : base(theme)
     {

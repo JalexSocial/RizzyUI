@@ -2015,7 +2015,7 @@ public class DefaultRzQuickReferenceStyles : RzStylesBase.RzQuickReferenceStyles
     public DefaultRzQuickReferenceStyles(RzTheme theme) : base(theme)
     {
     }
-    public override string Container => $"text-{Theme.Light.OnSurfaceStrong.TailwindClassName}";
+    public override string Container => $"text-on-surface-strong";
     public override string Title => "mb-4 font-bold";
     public override string List => "flex flex-col gap-2";
     public override string ListItem => ""; // Base LI, indentation added dynamically
@@ -2250,7 +2250,7 @@ public class DefaultRzAlertTitleStyles : RzStylesBase.RzAlertTitleStylesBase
         return variant switch
         {
             AlertVariant.Alternate =>
-                $"text-{Theme.Light.OnSurfaceStrong.TailwindClassName}",
+                $"text-on-surface-strong",
             AlertVariant.Information => $"text-info",
             AlertVariant.Success => $"text-success",
             AlertVariant.Warning => $"text-warning",
@@ -2598,11 +2598,11 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
             ButtonVariant.Primary =>
                 "bg-primary text-on-primary focus-visible:outline-primary dark:focus-visible:outline-primary",
             ButtonVariant.Secondary =>
-                $"bg-secondary text-on-secondary focus-visible:outline-secondary dark:focus-visible:outline-{Theme.Dark.Secondary.TailwindClassName}",
+                $"bg-secondary text-on-secondary focus-visible:outline-secondary dark:focus-visible:outline-secondary",
             ButtonVariant.Alternate =>
                 "bg-surface-alt text-on-surface focus-visible:outline-surface-alt dark:focus-visible:outline-surface-alt",
             ButtonVariant.Inverse =>
-                $"bg-{Theme.Dark.Surface.TailwindClassName} text-on-surface focus-visible:outline-surface dark:bg-surface dark:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:focus-visible:outline-surface",
+                $"bg-surface text-on-surface focus-visible:outline-surface dark:bg-surface dark:text-on-surface-strong dark:focus-visible:outline-surface",
             ButtonVariant.Information =>
                 $"bg-info text-on-info focus-visible:outline-info dark:bg-info dark:text-on-info dark:focus-visible:outline-info",
             ButtonVariant.Danger =>
@@ -2622,11 +2622,11 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
             ButtonVariant.Primary =>
                 "bg-transparent border border-primary text-primary focus-visible:outline-primary dark:focus-visible:outline-primary",
             ButtonVariant.Secondary =>
-                $"bg-transparent border border-secondary text-secondary focus-visible:outline-secondary dark:focus-visible:outline-{Theme.Dark.Secondary.TailwindClassName}",
+                $"bg-transparent border border-secondary text-secondary focus-visible:outline-secondary dark:focus-visible:outline-secondary",
             ButtonVariant.Alternate =>
                 "bg-transparent border border-outline text-outline focus-visible:outline-outline dark:focus-visible:outline-outline",
             ButtonVariant.Inverse =>
-                $"bg-transparent border border-{Theme.Light.OnSurfaceStrong.TailwindClassName} text-{Theme.Light.OnSurfaceStrong.TailwindClassName} focus-visible:outline-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:focus-visible:outline-{Theme.Dark.OnSurfaceStrong.TailwindClassName}",
+                $"bg-transparent border border-on-surface-strong text-on-surface-strong focus-visible:outline-on-surface-strong dark:focus-visible:outline-on-surface-strong",
             ButtonVariant.Information =>
                 $"bg-transparent border border-info text-info focus-visible:outline-info dark:border-info dark:text-info dark:focus-visible:outline-info",
             ButtonVariant.Danger =>
@@ -2918,7 +2918,7 @@ public class DefaultRzCheckboxGroupItemStyles : RzStylesBase.RzCheckboxGroupItem
     public override string Label => "inline-flex items-center cursor-pointer";
     public override string CheckboxWrapper => "relative";
     public override string CheckboxInput =>
-        $"size-4 rounded-borderRadius-sm border border-outline text-primary-500 focus:border-primary-500 focus:ring-3 focus:ring-primary/50 dark:bg-surface-alt dark:ring-offset-{Theme.Dark.Surface.TailwindClassName} dark:checked:border-transparent dark:checked:bg-primary dark:focus:border-primary";
+        $"size-4 rounded-borderRadius-sm border border-outline text-primary-500 focus:border-primary-500 focus:ring-3 focus:ring-primary/50 dark:bg-surface-alt dark:ring-offset-surface dark:checked:border-transparent dark:checked:bg-primary dark:focus:border-primary";
     public override string IconContainer =>
         "absolute inset-0 flex items-center justify-center text-on-primary";
     public override string TitleSpan => "ml-2";
@@ -3352,7 +3352,7 @@ public class DefaultRzFormSectionStyles : RzStylesBase.RzFormSectionStylesBase
     public override string DescriptionContainer => ""; // Determined by layout method
     /// <inheritdoc />
     public override string Title =>
-        $"text-base/7 font-semibold text-{Theme.Light.OnSurfaceStrong.TailwindClassName}"; // Adjusted line height
+        $"text-base/7 font-semibold text-on-surface-strong"; // Adjusted line height
     /// <inheritdoc />
     public override string Description => "text-sm text-on-surface";
     public override string ContentContainer => ""; // Determined by layout method
@@ -4280,7 +4280,7 @@ public class DefaultRzToggleStyles : RzStylesBase.RzToggleStylesBase
     {
     }
     public override string Toggle =>
-        $"relative w-[3.25rem] h-7 p-px bg-outline border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-primary disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:bg-primary checked:text-primary checked:border-primary focus:checked:border-primary dark:checked:bg-primary dark:checked:border-primary dark:focus:ring-offset-{Theme.Dark.Surface.TailwindClassName} before:inline-block before:size-6 before:bg-on-primary checked:before:bg-on-primary before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-{Theme.Dark.OnPrimary.TailwindClassName} dark:checked:before:bg-{Theme.Dark.OnPrimary.TailwindClassName}";
+        $"relative w-[3.25rem] h-7 p-px bg-outline border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-primary disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:bg-primary checked:text-primary checked:border-primary focus:checked:border-primary dark:checked:bg-primary dark:checked:border-primary dark:focus:ring-offset-surface before:inline-block before:size-6 before:bg-on-primary checked:before:bg-on-primary before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-on-primary dark:checked:before:bg-on-primary";
 }
 public class DefaultRzToggleFieldStyles : RzStylesBase.RzToggleFieldStylesBase
 {
@@ -4718,7 +4718,7 @@ public class DefaultRzCardTitleStyles : RzStylesBase.RzCardTitleStylesBase
     {
     }
     public override string Title =>
-        $"flex items-center mb-1 text-lg font-semibold text-{Theme.Light.OnSurfaceStrong.TailwindClassName}";
+        $"flex items-center mb-1 text-lg font-semibold text-on-surface-strong";
 }
 public class DefaultRzCardSubtitleStyles : RzStylesBase.RzCardSubtitleStylesBase
 {
@@ -5239,7 +5239,7 @@ public class DefaultRzBreadcrumbItemStyles : RzStylesBase.RzBreadcrumbItemStyles
     }
     public override string ListItem => "flex items-center gap-1 text-on-surface";
     public override string Link =>
-        $"text-on-surface hover:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:hover:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName}";
+        $"text-on-surface hover:text-on-surface-strong dark:hover:text-on-surface-strong";
     public override string ActiveSpan => "font-bold text-on-surface";
     public override string IconSpan => "text-xl";
 }
@@ -5411,7 +5411,7 @@ public class DefaultRzDropdownMenuItemStyles : RzStylesBase.RzDropdownMenuItemSt
     {
     }
     public override string MenuItem =>
-        $"group flex items-center justify-between space-x-2 rounded-borderRadius cursor-pointer border border-transparent px-2.5 py-2 text-sm font-medium text-on-surface hover:bg-primary/10 hover:text-primary focus-visible:bg-primary/10 focus-visible:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} focus-visible:outline-hidden dark:hover:bg-surface-alt dark:focus-visible:bg-primary/10 dark:focus-visible:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName}";
+        $"group flex items-center justify-between space-x-2 rounded-borderRadius cursor-pointer border border-transparent px-2.5 py-2 text-sm font-medium text-on-surface hover:bg-primary/10 hover:text-primary focus-visible:bg-primary/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:hover:bg-surface-alt dark:focus-visible:bg-primary/10 dark:focus-visible:text-on-surface-strong";
     public override string IconSpan => "text-xl";
     public override string Icon => "size-5 flex-none opacity-25 group-hover:opacity-50";
     public override string TitleSpan => "grow";
@@ -5888,7 +5888,7 @@ public class DefaultRzSidebarLinkItemStyles : RzStylesBase.RzSidebarLinkItemStyl
     /// <inheritdoc />
     public override string CollapsibleInnerDiv => "flex flex-col";
     public override string CollapsibleButton =>
-        $"flex items-center justify-between rounded-borderRadius gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-on-surface hover:bg-primary/5 hover:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:hover:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName} dark:hover:bg-primary/5";
+        $"flex items-center justify-between rounded-borderRadius gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-on-surface hover:bg-primary/5 hover:text-on-surface-strong dark:hover:text-on-surface-strong dark:hover:bg-primary/5";
     public override string CollapsibleButtonIconContainer => "text-xl";
     public override string CollapsibleButtonTitle => "mr-auto text-left";
     public override string CollapsibleButtonTrailer => "ml-auto";
@@ -5896,16 +5896,16 @@ public class DefaultRzSidebarLinkItemStyles : RzStylesBase.RzSidebarLinkItemStyl
     public override string CollapsibleNestedList => ""; // No base style needed, relies on children LI styles
     /// <inheritdoc />
     public override string SubListItem =>
-        $"border-l px-2 py-0.5 border-outline dark:border-outline transition duration-200 hover:border-l-2 hover:border-{Theme.Light.OutlineStrong.TailwindClassName} hover:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} dark:hover:border-{Theme.Dark.OutlineStrong.TailwindClassName} dark:hover:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName}";
+        $"border-l px-2 py-0.5 border-outline dark:border-outline transition duration-200 hover:border-l-2 hover:border-outline-strong hover:text-on-surface-strong dark:hover:border-outline-strong dark:hover:text-on-surface-strong";
     /// <inheritdoc />
     public override string SubLinkOrDiv =>
-        $"flex items-center gap-2 px-2 py-1.5 text-sm rounded-borderRadius text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName}";
+        $"flex items-center gap-2 px-2 py-1.5 text-sm rounded-borderRadius text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-on-surface-strong focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-on-surface-strong";
     /// <inheritdoc />
     public override string TopLevelListItem => "px-1 py-0.5 first:mt-2";
     public override string TopLevelNonCollapsibleDiv =>
         "flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-on-surface underline-offset-2 rounded-borderRadius";
     public override string TopLevelLink =>
-        $"flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-{Theme.Light.OnSurfaceStrong.TailwindClassName} focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-{Theme.Dark.OnSurfaceStrong.TailwindClassName} rounded-borderRadius";
+        $"flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-on-surface-strong focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-on-surface-strong rounded-borderRadius";
     public override string ItemIconContainer => "text-lg";
     public override string ItemTitle => ""; // Just a span
     /// <inheritdoc />
@@ -6226,7 +6226,7 @@ public class DefaultRzTabsStyles : RzStylesBase.RzTabsStylesBase
     public override string PanelsContainer => ""; // Container for panels usually has no specific style
 }
 /// <summary> Provides default styles for RzTabStrip. </summary>
-public class DefaultRzTabStripStyles : RzStylesBase.RzTabStripStylesBase // Not sealed
+public class DefaultRzTabStripStyles : RzStylesBase.RzTabStripStylesBase 
 {
     public DefaultRzTabStripStyles(RzTheme theme) : base(theme)
     {

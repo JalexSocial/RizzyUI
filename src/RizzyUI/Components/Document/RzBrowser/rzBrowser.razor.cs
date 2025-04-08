@@ -10,8 +10,6 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzBrowser : RzComponent // Inherits new RzComponent base
 {
-    // Theme is inherited from RzComponent base class
-
     /// <summary> The content to be displayed within the browser preview area. </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
     /// <summary> Optional Layout type. If provided, ChildContent will be rendered inside an <see cref="RzEmbeddedPreview"/> (iframe) using this layout. </summary>
@@ -28,14 +26,6 @@ public partial class RzBrowser : RzComponent // Inherits new RzComponent base
     protected string ScreenSizeButtonClass => Theme.RzBrowser.ScreenSizeButton;
     protected string ContentAreaClass => Theme.RzBrowser.ContentArea;
     protected string PreviewContainerClass => Theme.RzBrowser.PreviewContainer;
-
-    // --- Methods for dynamic classes are REMOVED from C# ---
-    // The Alpine.js component 'rzBrowser' defined in components.js
-    // will handle the logic for:
-    // - getDesktopScreenCss()
-    // - getTabletScreenCss()
-    // - getPhoneScreenCss()
-    // - getBrowserBorderCss()
 
     /// <inheritdoc/>
     protected override string? RootClass() =>

@@ -1,14 +1,15 @@
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzQuickReference. </summary>
-public class DefaultRzQuickReferenceStyles : RzStylesBase.RzQuickReferenceStylesBase // Not sealed
+public class DefaultRzQuickReferenceStyles : RzStylesBase.RzQuickReferenceStylesBase 
 {
+    /// <inheritdoc />
     public DefaultRzQuickReferenceStyles(RzTheme theme) : base(theme)
     {
     }
 
     /// <inheritdoc />
-    public override string Container => $"text-{Theme.Light.OnSurfaceStrong.TailwindClassName}"; // Base text color
+    public override string Container => $"text-on-surface-strong"; // Base text color
 
     /// <inheritdoc />
     public override string Title => "mb-4 font-bold";
@@ -42,7 +43,7 @@ public class DefaultRzQuickReferenceStyles : RzStylesBase.RzQuickReferenceStyles
 }
 
 /// <summary> Provides default styles for RzQuickReferenceContainer. </summary>
-public class DefaultRzQuickReferenceContainerStyles : RzStylesBase.RzQuickReferenceContainerStylesBase // Not sealed
+public class DefaultRzQuickReferenceContainerStyles : RzStylesBase.RzQuickReferenceContainerStylesBase 
 {
     public DefaultRzQuickReferenceContainerStyles(RzTheme theme) : base(theme)
     {

@@ -5,6 +5,7 @@ namespace RizzyUI;
 /// </summary>
 public class DefaultRzMarkdownStyles : RzStylesBase.RzMarkdownStylesBase
 {
+    /// <inheritdoc />
     public DefaultRzMarkdownStyles(RzTheme theme) : base(theme)
     {
     }
