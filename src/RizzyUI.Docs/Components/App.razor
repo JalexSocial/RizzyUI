@@ -18,8 +18,8 @@
     <!--<link rel="stylesheet" href="_content/RizzyUI/dist/rizzyui.css" />-->
 
     <link nonce="@Nonce" rel="stylesheet" href="/css/app.css" />
-    <HeadOutlet />
-    <RzThemeProvider/>
+    <RzHeadOutlet />
+    <title>RizzyUI</title>
     
     <!--
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -39,7 +39,10 @@
 </head>
 
 <body class="scroll-on-lg bg-surface " hx-ext="rizzy-nonce" x-data="rzEmpty" x-cloak>
-<Routes />
+
+<RzThemeProvider>
+    <Routes/>
+</RzThemeProvider>
 
 </body>
 

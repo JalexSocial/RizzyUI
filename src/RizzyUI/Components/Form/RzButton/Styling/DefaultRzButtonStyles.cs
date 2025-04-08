@@ -9,7 +9,7 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
 
     /// <inheritdoc />
     public override string Button =>
-        "inline-flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap rounded-borderRadius font-medium tracking-wide text-center transition hover:opacity-75 active:opacity-100 hover:shadow-sm disabled:opacity-75 disabled:cursor-not-allowed";
+        "inline-flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap rounded-theme font-medium tracking-wide text-center transition hover:opacity-75 active:opacity-100 hover:shadow-sm disabled:opacity-75 disabled:cursor-not-allowed";
 
     /// <inheritdoc />
     public override string Animated => "transform active:scale-90 motion-reduce:transition-none transition-transform";

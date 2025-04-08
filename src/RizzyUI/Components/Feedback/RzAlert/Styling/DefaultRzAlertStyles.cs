@@ -9,7 +9,7 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
     }
 
     /// <inheritdoc />
-    public override string Container => "relative w-full overflow-hidden rounded-borderRadius border";
+    public override string Container => "relative w-full overflow-hidden rounded-theme border";
     
     /// <inheritdoc />
     public override string InnerContainer => "flex w-full items-center gap-2 p-4";

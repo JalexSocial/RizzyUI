@@ -40,9 +40,9 @@ public class DefaultRzAvatarStyles : RzStylesBase.RzAvatarStylesBase
     {
         return shape switch
         {
-            AvatarShape.Circle => "rounded-borderRadius-full", // Use theme token for full roundness
-            AvatarShape.Square => "rounded-borderRadius",
-            _ => "rounded-borderRadius-full"
+            AvatarShape.Circle => "rounded-full", // Use theme token for full roundness
+            AvatarShape.Square => "rounded-theme",
+            _ => "rounded-full"
         };
     }
 

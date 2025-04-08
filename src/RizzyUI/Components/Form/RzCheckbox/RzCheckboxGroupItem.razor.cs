@@ -72,7 +72,7 @@ public partial class RzCheckboxGroupItem<TValue> : RzComponent
         if (Parent == null)
             throw new InvalidOperationException($"{GetType()} must be placed within an RzCheckboxGroup.");
 
-        Element = "label"; // The root element is a label for accessibility
+        Element = "label"; 
         SetEffectiveIcon();
     }
 
@@ -80,6 +80,7 @@ public partial class RzCheckboxGroupItem<TValue> : RzComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        
         // Update icon if parameter changes
         if (Theme != null) // Ensure theme is set before accessing Parent
             SetEffectiveIcon();

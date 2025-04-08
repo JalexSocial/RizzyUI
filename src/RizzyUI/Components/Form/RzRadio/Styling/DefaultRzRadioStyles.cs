@@ -43,7 +43,7 @@ public class DefaultRzRadioGroupItemStyles : RzStylesBase.RzRadioGroupItemStyles
     /// <inheritdoc />
     // Styling for the main visible container that gets border/bg on check/focus
     public override string ClickableContainer =>
-        "group-hover:border-primary relative flex grow cursor-pointer rounded-borderRadius border border-outline p-4 peer-checked:bg-surface-alt peer-checked:border-primary dark:peer-checked:border-primary dark:peer-checked:bg-surface-alt dark:peer-checked:bg-opacity-10 peer-focus:ring peer-focus:ring-primary";
+        "group-hover:border-primary relative flex grow cursor-pointer rounded-theme border border-outline p-4 peer-checked:bg-surface-alt peer-checked:border-primary dark:peer-checked:border-primary dark:peer-checked:bg-surface-alt dark:peer-checked:bg-opacity-10 peer-focus:ring peer-focus:ring-primary";
 
     /// <inheritdoc />
     public override string ContentWrapper => "flex";

@@ -22,7 +22,7 @@ the guidelines below and the code provided is extremely important.
 
 - **Styling File Structure**
   - **Each component requiring specific styles must have a corresponding `Styling` subfolder.**
-  - Inside `Styling`, create a default implementation class (e.g., `DefaultRzButtonStyles.cs`) inheriting from the appropriate abstract base in `RzStylesBase.cs`. This class defines the **literal Tailwind class strings** (e.g., `"bg-primary text-on-primary"`, `"rounded-borderRadius"`).
+  - Inside `Styling`, create a default implementation class (e.g., `DefaultRzButtonStyles.cs`) inheriting from the appropriate abstract base in `RzStylesBase.cs`. This class defines the **literal Tailwind class strings** (e.g., `"bg-primary text-on-primary"`, `"rounded-theme"`).
   - **The `RzTheme` class aggregates instances of these default style implementations.**
 
 - **File-Scoped Namespaces**
@@ -93,8 +93,8 @@ the guidelines below and the code provided is extremely important.
 - **Strict Access via `Theme` Object:** Components *must* access styles exclusively through the `Theme` object during SSR.
 - **`RzStylesBase.cs`:** Defines abstract contracts for component styles.
 - **Theme Defines Token *Values*:** `RzTheme` and theme files (e.g., `ArcticTheme.cs`) define *values* for CSS custom properties (e.g., `--color-primary`, `--borderRadius`).
-- **Style Implementations Use Token *Classes*:** `Default*.cs` files use the **literal Tailwind classes** referencing those tokens (e.g., `bg-primary`, `rounded-borderRadius`). **Do not** use `Color.TailwindClassName` or similar dynamic name generation.
-- **Border Radius:** Always use the literal class `rounded-borderRadius` for standard themed rounding.
+- **Style Implementations Use Token *Classes*:** `Default*.cs` files use the **literal Tailwind classes** referencing those tokens (e.g., `bg-primary`, `rounded-theme`). **Do not** use `Color.TailwindClassName` or similar dynamic name generation.
+- **Border Radius:** Always use the literal class `rounded-theme` for standard themed rounding.
 
   ### **Tailwind Semantic Color Tokens (Context for Theme Definition)**
   *(The `Default*.cs` style files use the Tailwind classes associated with these tokens, e.g., `bg-surface`, `text-on-primary`)*
@@ -244,7 +244,7 @@ the guidelines below and the code provided is extremely important.
 - **Root Element:** Use `<HtmlElement>` with standard `@attributes`/`class`.
 - **RootClass():** Always use `Theme.ComponentName...` properties/methods + `TwMerge.Merge(AdditionalAttributes, ...)`.
 - **Styling Access:** **Strictly use the `Theme` object** in components during SSR.
-- **Theme vs Styles:** `RzTheme` defines token *values*; `Default*.cs` uses corresponding Tailwind *classes*. Use `rounded-borderRadius`.
+- **Theme vs Styles:** `RzTheme` defines token *values*; `Default*.cs` uses corresponding Tailwind *classes*. Use `rounded-theme`.
 - **Alpine.js:** **Sole source of interactivity**. External definitions (`Alpine.data`), CSP compliant, `:class` for dynamic styles (functions defined in Alpine data), data via `data-` attributes.
 - **Parameters:** Use `[EditorRequired]`, provide defaults, choose `RenderFragment` vs simple types judiciously.
 - **API Consistency:** Follow patterns of existing components.

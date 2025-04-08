@@ -40,7 +40,7 @@ public class DefaultRzCheckboxGroupItemStyles : RzStylesBase.RzCheckboxGroupItem
     /// <inheritdoc />
     // Note: text-primary-500 is hardcoded here, ideally map to theme.Primary or similar if needed for specific check color
     public override string CheckboxInput =>
-        $"size-4 rounded-borderRadius-sm border border-outline text-primary-500 focus:border-primary-500 focus:ring-3 focus:ring-primary/50 dark:bg-surface-alt dark:ring-offset-surface dark:checked:border-transparent dark:checked:bg-primary dark:focus:border-primary";
+        $"size-4 rounded-theme-sm border border-outline text-primary-500 focus:border-primary-500 focus:ring-3 focus:ring-primary/50 dark:bg-surface-alt dark:ring-offset-surface dark:checked:border-transparent dark:checked:bg-primary dark:focus:border-primary";
 
     /// <inheritdoc />
     public override string IconContainer =>

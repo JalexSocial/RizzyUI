@@ -1,0 +1,13 @@
+@namespace RizzyUI
+@inherits RzComponent
+
+@if (ChildContent != null)
+{
+	<HtmlElement Element="@Element" @attributes="AdditionalAttributes" class="@RootClass()">
+		@ChildContent
+	</HtmlElement>
+}
+else
+{
+	<hr @attributes="AdditionalAttributes" class="@RootClass()" />
+}

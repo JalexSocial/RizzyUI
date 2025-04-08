@@ -68,17 +68,17 @@
 &lt;EditForm Model="Model" class="form-children-spacing"&gt;
     &lt;RzValidationSummary /&gt;
 
-    &lt;Field&gt;
+    &lt;RzField&gt;
         &lt;RzFieldLabel DisplayName="Name" For="@@(() =&gt; Model.Name)"&gt;&lt;/RzFieldLabel&gt;
         &lt;RzTextEdit For="@@(() =&gt; Model.Name)"/&gt;
         &lt;RzValidationMessage For="@@(() =&gt; Model.Name)" /&gt;
-    &lt;/Field&gt;
+    &lt;/RzField&gt;
 	
-    &lt;Field&gt;
+    &lt;RzField&gt;
         &lt;RzFieldLabel DisplayName="Email" For="@@(() =&gt; Model.Email)"&gt;&lt;/RzFieldLabel&gt;
         &lt;RzTextEdit For="@@(() =&gt; Model.Email)" PrependText="@@("@@")" /&gt;
         &lt;RzValidationMessage For="@@(() =&gt; Model.Email)" /&gt;
-    &lt;/Field&gt;
+    &lt;/RzField&gt;
 
 &lt;/EditForm&gt;
                 </RzCodeViewer>

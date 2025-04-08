@@ -9,7 +9,7 @@ public class DefaultRzCardStyles : RzStylesBase.RzCardStylesBase
 
     /// <inheritdoc />
     public override string Container =>
-        "flex flex-col rounded-borderRadius overflow-hidden shadow-sm border border-outline";
+        "flex flex-col rounded-theme overflow-hidden shadow-sm border border-outline";
 }
 
 /// <summary> Provides default styles for RzCardHeader. </summary>

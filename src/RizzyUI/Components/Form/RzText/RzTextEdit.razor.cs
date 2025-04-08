@@ -20,20 +20,9 @@ public partial class RzTextEdit : InputBase<string> // Inherits from InputBase<s
     private string _role = "text";
     private string _value = string.Empty;
 
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
     /// <summary> Gets the current edit context. </summary>
     [CascadingParameter]
     public EditContext? EditContext { get; set; } // Cascaded EditContext
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
 
     /// <summary> Gets or sets the semantic role of the text input (e.g., Text, Password, Email). Defaults to Text. </summary>
     [Parameter]
@@ -74,12 +63,10 @@ public partial class RzTextEdit : InputBase<string> // Inherits from InputBase<s
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
+
         if (For == null)
             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
+        
         if (EditContext == null) // RzInputText requires EditContext
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
     }

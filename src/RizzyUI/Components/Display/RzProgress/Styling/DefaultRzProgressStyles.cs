@@ -18,7 +18,7 @@ public class DefaultRzProgressStyles : RzStylesBase.RzProgressStylesBase
 
     /// <inheritdoc />
     public override string OuterBar =>
-        "relative flex w-full overflow-hidden rounded-borderRadius bg-outline"; // Use theme tokens
+        "relative flex w-full overflow-hidden rounded-theme bg-outline"; // Use theme tokens
 
     /// <inheritdoc />
     public override string InnerBarBase =>
@@ -41,16 +41,16 @@ public class DefaultRzProgressStyles : RzStylesBase.RzProgressStylesBase
     {
         return variant switch
         {
-            StatusColor.Primary => "h-full rounded-borderRadius bg-primary text-on-primary",
-            StatusColor.Secondary => "h-full rounded-borderRadius bg-secondary text-on-secondary",
+            StatusColor.Primary => "h-full rounded-theme bg-primary text-on-primary",
+            StatusColor.Secondary => "h-full rounded-theme bg-secondary text-on-secondary",
             StatusColor.Success =>
-                $"h-full rounded-borderRadius bg-success dark:bg-success text-on-success dark:text-on-success", // Note: Specific OnSuccess dark might be needed
+                $"h-full rounded-theme bg-success dark:bg-success text-on-success dark:text-on-success", // Note: Specific OnSuccess dark might be needed
             StatusColor.Info =>
-                $"h-full rounded-borderRadius bg-info dark:bg-info text-on-info dark:text-on-info",
+                $"h-full rounded-theme bg-info dark:bg-info text-on-info dark:text-on-info",
             StatusColor.Warning =>
-                $"h-full rounded-borderRadius bg-warning dark:bg-warning text-on-warning dark:text-on-warning",
+                $"h-full rounded-theme bg-warning dark:bg-warning text-on-warning dark:text-on-warning",
             StatusColor.Danger =>
-                $"h-full rounded-borderRadius bg-danger dark:bg-danger text-on-danger dark:text-on-danger",
+                $"h-full rounded-theme bg-danger dark:bg-danger text-on-danger dark:text-on-danger",
             _ => GetInnerBarVariantCss(StatusColor.Primary)
         };
     }

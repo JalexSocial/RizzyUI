@@ -7,7 +7,7 @@ public class DefaultRzBrowserStyles : RzStylesBase.RzBrowserStylesBase
     public DefaultRzBrowserStyles(RzTheme theme) : base(theme) { }
 
     /// <inheritdoc/>
-    public override string Container => $"overflow-hidden border border-outline rounded-borderRadius";
+    public override string Container => $"overflow-hidden border border-outline rounded-theme";
     /// <inheritdoc/>
     public override string TopBar => $"bg-surface-alt w-full px-4 py-3 lg:py-1.5 pr-0 flex items-center justify-between border-outline border-b";
     /// <inheritdoc/>

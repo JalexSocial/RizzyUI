@@ -19,7 +19,7 @@ public class DefaultRzNumberEditStyles : RzStylesBase.RzNumberEditStylesBase
 
     /// <inheritdoc />
     public override string Input =>
-        $"block w-full rounded-borderRadius border border-outline px-3 py-2 leading-6 placeholder-on-surface-muted focus:border-primary focus:ring focus:ring-primary/50 transition-opacity text-transparent dark:border-outline dark:bg-surface-alt dark:placeholder-on-surface-muted dark:focus:border-primary";
+        $"block w-full rounded-theme border border-outline px-3 py-2 leading-6 placeholder-on-surface-muted focus:border-primary focus:ring focus:ring-primary/50 transition-opacity text-transparent dark:border-outline dark:bg-surface-alt dark:placeholder-on-surface-muted dark:focus:border-primary";
 }
 
 /// <summary> Provides default styles for RzNumberField. </summary>

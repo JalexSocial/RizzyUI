@@ -15,17 +15,6 @@ public partial class RzBreadcrumb : RzComponent
     /// <summary> Gets the list of breadcrumb items registered with this breadcrumb component. </summary>
     protected readonly List<RzBreadcrumbItem> Items = new();
 
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
-
     /// <summary> Specifies the Blazicon SVG icon to use as a separator between items. Defaults to ChevronRight. </summary>
     [Parameter]
     public SvgIcon Separator { get; set; } = MdiIcon.ChevronRight;
@@ -40,16 +29,6 @@ public partial class RzBreadcrumb : RzComponent
 
     /// <summary> Gets the computed CSS classes for the individual list item (li) element. </summary>
     protected string ItemClass => Theme.RzBreadcrumbItem.ListItem; // Get from Item styles
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
-    }
 
     /// <inheritdoc />
     protected override string? RootClass()

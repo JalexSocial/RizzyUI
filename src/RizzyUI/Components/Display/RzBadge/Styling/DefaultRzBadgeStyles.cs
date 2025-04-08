@@ -15,7 +15,7 @@ public class DefaultRzBadgeStyles : RzStylesBase.RzBadgeStylesBase
 
     /// <inheritdoc />
     public override string Badge =>
-        "w-fit inline-flex overflow-hidden rounded-borderRadius-2xl border text-xs font-medium"; // Use theme token
+        "w-fit inline-flex overflow-hidden rounded-theme-2xl border text-xs font-medium"; // Use theme token
 
     /// <inheritdoc />
     public override string InnerSpan => "flex items-center gap-1 px-2 py-1";
