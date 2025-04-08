@@ -202,7 +202,7 @@
     <div class="p-8">
         <Dropdown Anchor="AnchorPoint.TopStart">
             <Trigger>
-                <Button Variant="ButtonVariant.Primary" Label="Open Menu"></Button>
+                <RzButton Variant="ButtonVariant.Primary" Label="Open Menu"></RzButton>
             </Trigger>
             <Content>
                 <DropdownSection>
@@ -235,7 +235,7 @@
                 </TabPanels>
             </Tabs>
 
-            <Button Size="Size.Large" x-on:click="handleButtonClick">Do Something</Button>
+            <RzButton Size="Size.Large" x-on:click="handleButtonClick">Do Something</RzButton>
         </RzCardBody>
     </RzCard>
 
@@ -401,9 +401,9 @@
 						
 						<DateField For="@(() => Model.Birthday)" DisplayName="Date of Birth"></DateField>
 		                    -->
-                        <Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
+                        <RzButton type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
                             <span>Save</span>
-                        </Button>
+                        </RzButton>
                     </EditForm>
                 </Content>
             </FormSection>
