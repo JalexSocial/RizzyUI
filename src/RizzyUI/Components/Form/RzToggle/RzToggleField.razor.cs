@@ -19,21 +19,10 @@ public partial class RzToggleField : RzComponent
     private bool _currentValue;
 
     private FieldIdentifier _fieldIdentifier;
-
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
+    
     /// <summary> Gets the current edit context. </summary>
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
 
     /// <summary> Gets or sets the display name for the field label. If not set, it's inferred from the 'For' expression. </summary>
     [Parameter]
@@ -96,12 +85,10 @@ public partial class RzToggleField : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
+
         if (For == null)
             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
+        
         if (EditContext == null)
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 

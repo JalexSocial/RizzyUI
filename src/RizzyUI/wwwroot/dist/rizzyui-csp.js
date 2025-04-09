@@ -4786,10 +4786,12 @@ function registerComponents(Alpine) {
     return {
       open: false,
       sectionId: "",
+      expandedClass: "",
       init: function init() {
         // Initialize open state and section identifier from element data attributes
         this.open = this.$el.dataset.isOpen === "true";
         this.sectionId = this.$el.dataset.sectionId;
+        this.expandedClass = this.$el.dataset.expandedClass;
 
         // Watch for changes in the parent "selected" value to close this section if it isn't selected
         var self = this;
@@ -4810,6 +4812,9 @@ function registerComponents(Alpine) {
       // Computed getter for the icon rotation class (rotates icon 180° when open)
       iconRotation: function iconRotation() {
         return open ? "rotate-180" : "";
+      },
+      getExpandedCss: function getExpandedCss() {
+        return this.open ? this.expandedClass : "";
       }
     };
   });
@@ -5588,8 +5593,12 @@ function registerComponents(Alpine) {
   Alpine.data('rzSidebarLinkItem', function () {
     return {
       isExpanded: false,
+      chevronExpandedClass: "",
+      chevronCollapsedClass: "",
       init: function init() {
         this.isExpanded = this.$el.dataset.expanded;
+        this.chevronExpandedClass = this.$el.dataset.chevronExpandedClass;
+        this.chevronCollapsedClass = this.$el.dataset.chevronCollapsedClass;
       },
       isCollapsed: function isCollapsed() {
         return !this.isExpanded;
@@ -5600,9 +5609,8 @@ function registerComponents(Alpine) {
       hideSidebar: function hideSidebar() {
         this.showSidebar = false;
       },
-      // Return CSS class for icon rotation based on expansion state
       getExpandedClass: function getExpandedClass() {
-        return this.isExpanded ? 'rotate-180' : 'rotate-0';
+        return this.isExpanded ? this.chevronExpandedClass : this.chevronCollapsedClass;
       }
     };
   });

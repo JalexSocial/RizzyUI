@@ -14,20 +14,20 @@
              aria-valuenow="@CurrentValue"
              aria-valuemin="@MinValue"
              aria-valuemax="@MaxValue"
-             data-rz-progress="true">
+             data-progress="true">
 
 	@if (LabelPosition == ProgressLabelPosition.Outside && !string.IsNullOrEmpty(Label))
 	{
 		<div class="@OutsideLabelContainerClass">
 			<div class="grow"></div> @* Spacer for alignment if needed *@
-			<div class="@OutsideLabelTextClass"><span x-text="buildLabel()"></span></div>
+			<div class="@OutsideLabelTextClass"><span x-text="buildLabel"></span></div>
 		</div>
 	}
 	<div class="@OuterBarClass @OuterBarHeightClass">
 		<div class="@InnerBarClass" x-ref="progressBar" nonce="@Nonce">
 			@if (LabelPosition == ProgressLabelPosition.Inside && !string.IsNullOrEmpty(Label))
 			{
-				<div class="@InsideLabelContainerClass" x-ref="progressBarLabel" :class="getLabelCss()">
+				<div class="@InsideLabelContainerClass" x-ref="progressBarLabel" :class="getLabelCss">
 					<span class="@InsideLabelTextClass" x-ref="innerLabel"></span> @* Content set by Alpine *@
 				</div>
 			}
