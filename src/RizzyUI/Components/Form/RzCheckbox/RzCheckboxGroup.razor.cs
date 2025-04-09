@@ -74,7 +74,6 @@ public partial class RzCheckboxGroup<TValue> : RzComponent
         }
 
         if (changed && ValuesChanged.HasDelegate) await ValuesChanged.InvokeAsync(Values);
-        // No need for StateHasChanged() here, Blazor handles rerendering based on parameter changes
     }
 
     /// <inheritdoc />
