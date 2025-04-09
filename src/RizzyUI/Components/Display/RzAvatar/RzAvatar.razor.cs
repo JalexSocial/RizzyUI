@@ -110,6 +110,6 @@ public partial class RzAvatar : RzComponent
  /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, ContainerClass, Theme.RzAvatar.GetSizeCss(Size));
+        return TwMerge.Merge(AdditionalAttributes, ContainerClass ?? string.Empty, Theme.RzAvatar.GetSizeCss(Size));
     }
 }

@@ -38,7 +38,7 @@ public class RzThemeProvider : ComponentBase
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Builds the render tree for the component, injecting a <style> tag with CSS variables
+    /// Builds the render tree for the component, injecting a &lt;style> tag with CSS variables
     /// and an initial dark mode script into the head via <see cref="HeadContent"/>. It also
     /// renders the <see cref="ChildContent"/> wrapped in a <see cref="CascadingValue{TValue}"/>
     /// providing the resolved <see cref="RzTheme"/>.

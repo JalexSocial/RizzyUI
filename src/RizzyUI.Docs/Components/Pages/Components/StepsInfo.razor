@@ -36,15 +36,15 @@
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-60">
-                        <Steps Orientation="Orientation.Horizontal" 
+                        <RzSteps Orientation="Orientation.Horizontal" 
                                ShowLabels="true" 
                                AriaLabel="Registration RzProgress" 
                                ActiveColor="StatusColor.Primary">
-                            <Step Label="Create an account" Status="StepStatus.Completed" Caption="Account created" />
-                            <Step Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection" />
-                            <Step Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart" />
-                            <Step Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey" />
-                        </Steps>
+                            <RzStep Label="Create an account" Status="StepStatus.Completed" Caption="Account created" />
+                            <RzStep Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection" />
+                            <RzStep Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart" />
+                            <RzStep Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey" />
+                        </RzSteps>
                     </div>
                 </RzBrowser>
 
@@ -74,15 +74,15 @@
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-80">
-                        <Steps Orientation="Orientation.Vertical" 
+                        <RzSteps Orientation="Orientation.Vertical" 
                                ShowLabels="true" 
                                AriaLabel="Onboarding RzProgress" 
                                ActiveColor="StatusColor.Success">
-                            <Step Label="Sign Up" Status="StepStatus.Completed" Caption="Account created" />
-                            <Step Label="Verify Email" Status="StepStatus.Completed" Caption="Email verified" />
-                            <Step Label="Complete Profile" Status="StepStatus.Current" Caption="Profile incomplete" />
-                            <Step Label="Get Started" Status="StepStatus.Upcoming" Caption="Start exploring" />
-                        </Steps>
+                            <RzStep Label="Sign Up" Status="StepStatus.Completed" Caption="Account created" />
+                            <RzStep Label="Verify Email" Status="StepStatus.Completed" Caption="Email verified" />
+                            <RzStep Label="Complete Profile" Status="StepStatus.Current" Caption="Profile incomplete" />
+                            <RzStep Label="Get Started" Status="StepStatus.Upcoming" Caption="Start exploring" />
+                        </RzSteps>
                     </div>
                 </RzBrowser>
 

@@ -7,7 +7,7 @@ namespace RizzyUI;
 
 /// <xmldoc>
 /// A component that renders a horizontal divider line, optionally with centered or aligned text/content.
-/// Renders as an <c><hr></c> if no <see cref="ChildContent"/> is provided, otherwise renders as a <c><div></c>
+/// Renders as an <c>&lt;hr></c> if no <see cref="ChildContent"/> is provided, otherwise renders as a <c>&lt;div></c>
 /// using pseudo-elements for the lines. Styling is determined by the active <see cref="RzTheme"/>.
 /// </xmldoc>
 public partial class RzDivider : RzComponent
@@ -18,7 +18,7 @@ public partial class RzDivider : RzComponent
     /// <summary> The alignment of the child content within the divider (Start, Center, End). Only used if <see cref="ChildContent"/> is provided. Defaults to Center. </summary>
     [Parameter] public Align LabelAlignment { get; set; } = Align.Center;
    
-    /// <summary> Optional content to display within the divider (e.g., text or an icon). If null, a simple <c><hr></c> is rendered. </summary>
+    /// <summary> Optional content to display within the divider (e.g., text or an icon). If null, a simple <c>&lt;hr></c> is rendered. </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>

@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
 
-// Needed for EditContext
-
 namespace RizzyUI;
 
 /// <xmldoc>

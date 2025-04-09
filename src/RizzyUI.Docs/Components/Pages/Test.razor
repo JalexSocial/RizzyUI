@@ -1,5 +1,6 @@
 ﻿@page "/test"
 @using Rizzy.Components
+@using Rizzy
 @using RizzyUI.Docs.Models
 
 <RzSidebar>
@@ -69,7 +70,7 @@
 	</MenuContent>
 <MainContent>
     
-    <Markdown>
+    <RzMarkdown>
             ## What is CSP?
 
             A Content Security Policy (CSP) is a security mechanism that helps prevent cross-site scripting (XSS) and other code injection attacks by restricting the sources from which content (e.g., scripts, styles, images) can be loaded. A typical CSP might look like this:
@@ -197,57 +198,57 @@
             - **HMAC Key:** Must be configured (or generated) and shared in distributed environments.
 
             This implementation secures web applications by ensuring that only inline elements with validated, type-specific nonces are executed, thereby reducing the risk of XSS attacks.
-        </Markdown>
+        </RzMarkdown>
 
     <div class="p-8">
-        <Dropdown Anchor="AnchorPoint.TopStart">
+        <RzDropdown Anchor="AnchorPoint.TopStart">
             <Trigger>
                 <RzButton Variant="ButtonVariant.Primary" Label="Open Menu"></RzButton>
             </Trigger>
             <Content>
-                <DropdownSection>
-                    <DropdownMenuItem Icon="MdiIcon.Cog" Title="Settings"/>
-                    <DropdownMenuItem Icon="MdiIcon.FaceManProfile" Title="Profile" Count="5"/>
-                </DropdownSection>
-                <DropdownSection>
-                    <DropdownMenuItem Icon="MdiIcon.Logout" Title="Logout"/>
-                </DropdownSection>
+                <RzDropdownSection>
+                    <RzDropdownMenuItem Icon="MdiIcon.Cog" Title="Settings"/>
+                    <RzDropdownMenuItem Icon="MdiIcon.FaceManProfile" Title="Profile" Count="5"/>
+                </RzDropdownSection>
+                <RzDropdownSection>
+                    <RzDropdownMenuItem Icon="MdiIcon.Logout" Title="Logout"/>
+                </RzDropdownSection>
             </Content>
-        </Dropdown>
+        </RzDropdown>
     </div>
 
     <RzCard x-data="demoTest">
         <RzCardBody>
-            <Tabs id="tabDemo">
+            <RzTabs id="tabDemo">
                 <Menu>
-                    <TabStrip>
-                        <Tab Name="groups">Groups</Tab>
-                        <Tab Name="likes">Likes</Tab>
-                        <Tab Name="comments">Comments</Tab>
-                        <Tab Name="saved">Saved</Tab>
-                    </TabStrip>
+                    <RzTabStrip>
+                        <RzTab Name="groups">Groups</RzTab>
+                        <RzTab Name="likes">Likes</RzTab>
+                        <RzTab Name="comments">Comments</RzTab>
+                        <RzTab Name="saved">Saved</RzTab>
+                    </RzTabStrip>
                 </Menu>
                 <TabPanels>
-                    <TabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</TabPanel>
-                    <TabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</TabPanel>
-                    <TabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</TabPanel>
-                    <TabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</TabPanel>
+                    <RzTabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</RzTabPanel>
+                    <RzTabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</RzTabPanel>
+                    <RzTabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</RzTabPanel>
+                    <RzTabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</RzTabPanel>
                 </TabPanels>
-            </Tabs>
+            </RzTabs>
 
             <RzButton Size="Size.Large" x-on:click="handleButtonClick">Do Something</RzButton>
         </RzCardBody>
     </RzCard>
 
-    <Steps Orientation="Orientation.Horizontal"
+    <RzSteps Orientation="Orientation.Horizontal"
            ShowLabels="true"
            AriaLabel="Registration RzProgress"
            ActiveColor="StatusColor.Primary">
-        <Step Label="Create an account" Status="StepStatus.Completed" Caption="Account created"/>
-        <Step Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection"/>
-        <Step Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart"/>
-        <Step Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey"/>
-    </Steps>
+        <RzStep Label="Create an account" Status="StepStatus.Completed" Caption="Account created"/>
+        <RzStep Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection"/>
+        <RzStep Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart"/>
+        <RzStep Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey"/>
+    </RzSteps>
 
     <RzAccordion AllowMultipleOpen="false">
         <RzAccordionSection Title="What browsers are supported?">
@@ -281,9 +282,9 @@
         <RzCardHeader>
             <div>
                 <RzCardTitle>Information</RzCardTitle>
-                <CardSubtitle>This is a subtitle</CardSubtitle>
+                <RzCardSubtitle>This is a subtitle</RzCardSubtitle>
             </div>
-            <CardButtons>
+            <RzCardButtons>
                 <a href="javascript:void(0)"
                    class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold leading-5 text-gray-800 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:ring focus:ring-gray-300/25 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600/40 dark:active:border-gray-700">
                     <svg class="hi-mini hi-plus inline-block size-4 opacity-50"javascript:void(0)
@@ -306,10 +307,10 @@
                     </svg>
                     <span>Clients</span>
                 </a>
-            </CardButtons>
+            </RzCardButtons>
         </RzCardHeader>
         <RzCardBody>
-            <FormSection Layout="SectionLayout.TwoColumn" Title="User Details" class="mb-5">
+            <RzFormSection Layout="SectionLayout.TwoColumn" Title="User Details" class="mb-5">
                 <Description>This is a user details form where you enter information about yourself.</Description>
                 <Content>
                     <EditForm Model="Model" class="form-children-spacing">
@@ -359,7 +360,7 @@
                             </CheckboxGroupContent>
                         </RzCheckboxGroupField>
 
-                        <DateEdit For="@Model.BirthDate" PrependIcon="MdiIcon.Calendar"/>
+                        <RzDateEdit For="@(() => Model.BirthDate)" PrependIcon="MdiIcon.Calendar"/>
 
                         <!--
 
@@ -406,7 +407,7 @@
                         </RzButton>
                     </EditForm>
                 </Content>
-            </FormSection>
+            </RzFormSection>
 
         </RzCardBody>
         <RzCardFooter>Footer content here</RzCardFooter>

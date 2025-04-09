@@ -33,35 +33,35 @@
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-60">
-                        <Dropdown Anchor="AnchorPoint.BottomCenter">
+                        <RzDropdown Anchor="AnchorPoint.BottomCenter">
                             <Trigger>
                                 <!-- Use the RzAvatar component as the trigger -->
                                 <RzAvatar ImageSource="/images/profile/51.jpg" Initials="JD" Shape="AvatarShape.Circle" Size="Size.Medium" />
                             </Trigger>
                             <Content>
-                                <DropdownSection>
-                                    <DropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
-                                    <DropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
-                                    <DropdownMenuItem Icon="MdiIcon.Logout" Title="Sign Out" />
-                                </DropdownSection>
+                                <RzDropdownSection>
+                                    <RzDropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
+                                    <RzDropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
+                                    <RzDropdownMenuItem Icon="MdiIcon.Logout" Title="Sign Out" />
+                                </RzDropdownSection>
                             </Content>
-                        </Dropdown>
+                        </RzDropdown>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Dropdown Anchor=&quot;AnchorPoint.BottomCenter&quot;&gt;
+&lt;RzDropdown Anchor=&quot;AnchorPoint.BottomCenter&quot;&gt;
     &lt;Trigger&gt;
         &lt;RzAvatar ImageSource=&quot;/images/profile/51.jpg&quot; Initials=&quot;JD&quot; Shape=&quot;AvatarShape.Circle&quot; Size=&quot;Size.Medium&quot; /&gt;
     &lt;/Trigger&gt;
     &lt;Content&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
-        &lt;/DropdownSection&gt;
+        &lt;RzDropdownSection&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
+        &lt;/RzDropdownSection&gt;
     &lt;/Content&gt;
-&lt;/Dropdown&gt;
+&lt;/RzDropdown&gt;
                 </RzCodeViewer>
             </section>
 
@@ -79,48 +79,48 @@
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-100">
-                        <Dropdown Anchor="AnchorPoint.BottomCenter">
+                        <RzDropdown Anchor="AnchorPoint.BottomCenter">
                             <Trigger>
                                 <RzButton Variant="ButtonVariant.Primary" Label="Menu" />
                             </Trigger>
                             <Content>
-                                <DropdownSection>
-                                    <DropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
-                                    <DropdownMenuItem Icon="MdiIcon.Chat" Title="Messages" Count="6" />
-                                    <DropdownMenuItem Icon="MdiIcon.Heart" Title="Favorites" />
-                                </DropdownSection>
-                                <DropdownSection>
-	                                <DropdownMenuItem Icon="MdiIcon.Circle" Title="Profile" />
-	                                <DropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
-                                </DropdownSection>
-                                <DropdownSection>
-	                                <DropdownMenuItem Icon="MdiIcon.Logout" Title="Sign Out" />
-                                </DropdownSection>
+                                <RzDropdownSection>
+                                    <RzDropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
+                                    <RzDropdownMenuItem Icon="MdiIcon.Chat" Title="Messages" Count="6" />
+                                    <RzDropdownMenuItem Icon="MdiIcon.Heart" Title="Favorites" />
+                                </RzDropdownSection>
+                                <RzDropdownSection>
+	                                <RzDropdownMenuItem Icon="MdiIcon.Circle" Title="Profile" />
+	                                <RzDropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
+                                </RzDropdownSection>
+                                <RzDropdownSection>
+	                                <RzDropdownMenuItem Icon="MdiIcon.Logout" Title="Sign Out" />
+                                </RzDropdownSection>
                             </Content>
-                        </Dropdown>
+                        </RzDropdown>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Dropdown Anchor=&quot;AnchorPoint.BottomCenter&quot;&gt;
+&lt;RzDropdown Anchor=&quot;AnchorPoint.BottomCenter&quot;&gt;
     &lt;Trigger&gt;
         &lt;RzButton Variant=&quot;ButtonVariant.Primary&quot; Label=&quot;Menu&quot; /&gt;
     &lt;/Trigger&gt;
     &lt;Content&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Chat&quot; Title=&quot;Messages&quot; Count=&quot;6&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Heart&quot; Title=&quot;Favorites&quot; /&gt;
-        &lt;/DropdownSection&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Circle&quot; Title=&quot;Profile&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
-        &lt;/DropdownSection&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
-        &lt;/DropdownSection&gt;
+        &lt;RzDropdownSection&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Chat&quot; Title=&quot;Messages&quot; Count=&quot;6&quot; /&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Heart&quot; Title=&quot;Favorites&quot; /&gt;
+        &lt;/RzDropdownSection&gt;
+        &lt;RzDropdownSection&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Circle&quot; Title=&quot;Profile&quot; /&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
+        &lt;/RzDropdownSection&gt;
+        &lt;RzDropdownSection&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
+        &lt;/RzDropdownSection&gt;
     &lt;/Content&gt;
-&lt;/Dropdown&gt;
+&lt;/RzDropdown&gt;
                 </RzCodeViewer>
             </section>
 
@@ -136,39 +136,39 @@
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 min-h-60 flex flex-col flex-wrap justify-end content-center">
-                        <Dropdown Anchor="AnchorPoint.TopEnd">
+                        <RzDropdown Anchor="AnchorPoint.TopEnd">
                             <Trigger>
                                 <RzButton Variant="ButtonVariant.Secondary" Label="Options" />
                             </Trigger>
                             <Content>
-                                <DropdownSection>
-                                    <DropdownMenuItem Icon="MdiIcon.Cog" Title="Preferences" />
-                                    <DropdownMenuItem Icon="MdiIcon.Information" Title="About" />
-                                </DropdownSection>
+                                <RzDropdownSection>
+                                    <RzDropdownMenuItem Icon="MdiIcon.Cog" Title="Preferences" />
+                                    <RzDropdownMenuItem Icon="MdiIcon.Information" Title="About" />
+                                </RzDropdownSection>
                             </Content>
-                        </Dropdown>
+                        </RzDropdown>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Dropdown Anchor=&quot;AnchorPoint.TopEnd&quot;&gt;
+&lt;RzDropdown Anchor=&quot;AnchorPoint.TopEnd&quot;&gt;
     &lt;Trigger&gt;
         &lt;RzButton Variant=&quot;ButtonVariant.Secondary&quot; Label=&quot;Options&quot; /&gt;
     &lt;/Trigger&gt;
     &lt;Content&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Settings&quot; Title=&quot;Preferences&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Info&quot; Title=&quot;About&quot; /&gt;
-        &lt;/DropdownSection&gt;
+        &lt;RzDropdownSection&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Settings&quot; Title=&quot;Preferences&quot; /&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Info&quot; Title=&quot;About&quot; /&gt;
+        &lt;/RzDropdownSection&gt;
     &lt;/Content&gt;
-&lt;/Dropdown&gt;
+&lt;/RzDropdown&gt;
                 </RzCodeViewer>
             </section>
 
             <!-- Dropdown Component Parameters -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Dropdown Parameters" class="scroll-mt-20">
-                    Dropdown Component Parameters
+                    RzDropdown Component Parameters
                 </RzHeading>
                 <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
                     <thead>
@@ -216,7 +216,7 @@
             <!-- DropdownMenuItem Component Parameters -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuItem Parameters" class="scroll-mt-20">
-                    DropdownMenuItem Component Parameters
+                    RzDropdownMenuItem Component Parameters
                 </RzHeading>
                 <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
                     <thead>
@@ -261,7 +261,7 @@
             <!-- DropdownSection Component Parameters -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownSection Parameters" class="scroll-mt-20">
-                    DropdownSection Component Parameters
+                    RzDropdownSection Component Parameters
                 </RzHeading>
                 <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
                     <thead>

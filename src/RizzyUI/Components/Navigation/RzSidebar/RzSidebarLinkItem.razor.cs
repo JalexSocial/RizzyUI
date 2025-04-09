@@ -2,6 +2,7 @@ using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using Rizzy.Utility;
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace RizzyUI;
 
@@ -73,30 +74,70 @@ public partial class RzSidebarLinkItem : RzComponent
 
     /// <summary> Gets the unique ID for the collapsible content element. </summary>
     protected string CollapseId { get; private set; } = string.Empty;
+    
 
     // --- Style Properties derived from Theme ---
+
+    /// <summary>Base CSS for a collapsible list item.</summary>
     protected string CollapsibleListItemClass => Theme.RzSidebarLinkItem.CollapsibleListItem;
+
+    /// <summary>CSS for the inner div within a collapsible item.</summary>
     protected string CollapsibleInnerDivClass => Theme.RzSidebarLinkItem.CollapsibleInnerDiv;
+
+    /// <summary>CSS for the collapsible button element.</summary>
     protected string CollapsibleButtonClass => Theme.RzSidebarLinkItem.CollapsibleButton;
+
+    /// <summary>Styles for the icon container within the button.</summary>
     protected string CollapsibleButtonIconContainerClass => Theme.RzSidebarLinkItem.CollapsibleButtonIconContainer;
+
+    /// <summary>CSS for the title span in the button.</summary>
     protected string CollapsibleButtonTitleClass => Theme.RzSidebarLinkItem.CollapsibleButtonTitle;
+
+    /// <summary>Styles for additional trailer content in the button.</summary>
     protected string CollapsibleButtonTrailerClass => Theme.RzSidebarLinkItem.CollapsibleButtonTrailer;
+
+    /// <summary>CSS for the chevron icon in a collapsible button.</summary>
     protected string CollapsibleButtonChevronClass => Theme.RzSidebarLinkItem.CollapsibleButtonChevron;
+
+    /// <summary>CSS for the nested child list within a collapsible section.</summary>
     protected string CollapsibleNestedListClass => Theme.RzSidebarLinkItem.CollapsibleNestedList;
+
+    /// <summary>Styling for non-collapsible sub list items.</summary>
     protected string SubListItemClass => Theme.RzSidebarLinkItem.SubListItem;
+
+    /// <summary>CSS for the link or div in sub-items.</summary>
     protected string SubLinkOrDivClass => Theme.RzSidebarLinkItem.SubLinkOrDiv;
+
+    /// <summary>CSS for top-level list items.</summary>
     protected string TopLevelListItemClass => Theme.RzSidebarLinkItem.TopLevelListItem;
+
+    /// <summary>Styles for non-collapsible top-level elements with children.</summary>
     protected string TopLevelNonCollapsibleDivClass => Theme.RzSidebarLinkItem.TopLevelNonCollapsibleDiv;
+
+    /// <summary>CSS for top-level anchor elements.</summary>
     protected string TopLevelLinkClass => Theme.RzSidebarLinkItem.TopLevelLink;
+
+    /// <summary>Container classes for the item icon.</summary>
     protected string ItemIconContainerClass => Theme.RzSidebarLinkItem.ItemIconContainer;
+
+    /// <summary>CSS for the item's title.</summary>
     protected string ItemTitleClass => Theme.RzSidebarLinkItem.ItemTitle;
+
+    /// <summary>Styling for additional trailer content of an item.</summary>
     protected string ItemTrailerClass => Theme.RzSidebarLinkItem.ItemTrailer;
+
+    /// <summary>CSS for nested lists in non-collapsible items.</summary>
     protected string NonCollapsibleNestedListClass => Theme.RzSidebarLinkItem.NonCollapsibleNestedList;
-    protected string ChevronExpandedClass => Theme.RzSidebarLinkItem.GetChevronRotationCss(true); // Get expanded class
 
-    protected string ChevronCollapsedClass =>
-        Theme.RzSidebarLinkItem.GetChevronRotationCss(false); // Get collapsed class
+    /// <summary>
+    /// Gets the CSS class for the chevron icon when the collapsible section is expanded.
+    /// </summary>
+    protected string ChevronExpandedClass => Theme.RzSidebarLinkItem.GetChevronRotationCss(true);
 
+    /// <summary>
+    /// Gets the CSS class for the chevron icon when the collapsible section is collapsed.
+    /// </summary>
+    protected string ChevronCollapsedClass => Theme.RzSidebarLinkItem.GetChevronRotationCss(false);
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -114,8 +155,9 @@ public partial class RzSidebarLinkItem : RzComponent
     }
 
     /// <summary>
-    ///     Called by child components to indicate they exist.
+    /// Called by child components to notify the parent that a child has been added.
     /// </summary>
+    /// <param name="child">The child <see cref="RzSidebarLinkItem"/> being added.</param>
     internal void NotifyChildAdded(RzSidebarLinkItem child)
     {
         if (!HasChildren) HasChildren = true;

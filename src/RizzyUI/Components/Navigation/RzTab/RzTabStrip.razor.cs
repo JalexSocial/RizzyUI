@@ -13,20 +13,9 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzTabStrip : RzComponent
 {
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
     /// <summary> Gets the parent Tabs component context. </summary>
     [CascadingParameter]
     private RzTabs? Parent { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
 
     /// <summary> Horizontal alignment of tab content within the strip. Defaults to Center. </summary>
     [Parameter]
@@ -56,10 +45,7 @@ public partial class RzTabStrip : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
+
         if (Parent == null)
             throw new InvalidOperationException($"{GetType()} must exist within an RzTabs component.");
     }

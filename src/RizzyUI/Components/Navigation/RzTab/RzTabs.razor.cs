@@ -16,17 +16,6 @@ public partial class RzTabs : RzComponent
     /// <summary> Internal list holding registered Tab components. </summary>
     internal List<RzTab> _tabs = new();
 
-    /// <summary> Get the currently active theme via Cascading Parameter. </summary>
-    [CascadingParameter]
-    protected RzTheme? CascadedTheme { get; set; }
-
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
-    [Inject]
-    private IOptions<RizzyUIConfig>? Config { get; set; }
-
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; set; } = default!;
-
     /// <summary> The unique ID reference for the tab button container element (<see cref="RzTabStrip" />). </summary>
     internal string ButtonRefId { get; } = IdGenerator.UniqueId("rztabBtns");
 
@@ -69,16 +58,6 @@ public partial class RzTabs : RzComponent
     // --- Style Properties derived from Theme ---
     /// <summary> Gets the computed CSS classes for the panels container div. </summary>
     protected string PanelsContainerClass => Theme.RzTabs.PanelsContainer;
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
-        if (Theme == null)
-            throw new InvalidOperationException(
-                $"{GetType()} requires a cascading RzTheme or a default theme configured.");
-    }
 
     /// <inheritdoc />
     protected override string? RootClass()

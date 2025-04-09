@@ -11,7 +11,7 @@
     <!-- Main Layout: Sidebar and Main Content -->
     <RzSidebar MainContentId="main-content">
         <NavbarContent>
-	        <Navbar>
+	        <RzNavbar>
 		        <div class="flex items-center pl-4 space-x-4">
 			        <RzLink Href="#" Underline="true">Admin Dashboard</RzLink>
 		        </div>
@@ -19,11 +19,11 @@
 			        <!-- Dark mode toggle using our RizzyUI component -->
 			        <RzDarkModeToggle />
 		        </div>
-	        </Navbar>
+	        </RzNavbar>
         </NavbarContent>
         <MenuContent>
 	        <div class="p-1 mb-2">
-                <SearchButton class="bg-surface" />
+                <RzSearchButton class="bg-surface" />
 	        </div>
 	        <RzSidebarLinks>
 		        <RzSidebarLinkItem Href="#" Title="Dashboard" Icon="@MdiIcon.ViewDashboardOutline"/>
@@ -86,8 +86,8 @@
 
             <!-- System Notification RzAlert -->
             <RzAlert Variant="AlertVariant.Information">
-                <AlertTitle>System Notice</AlertTitle>
-                <AlertDescription>Your system is running smoothly.</AlertDescription>
+                <RzAlertTitle>System Notice</RzAlertTitle>
+                <RzAlertDescription>Your system is running smoothly.</RzAlertDescription>
             </RzAlert>
 
             <!-- RzProgress Bar Example -->
