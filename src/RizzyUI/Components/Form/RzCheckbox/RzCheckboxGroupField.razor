@@ -3,14 +3,12 @@
 @using Rizzy
 @inherits RzComponent
 
-@* Use the RzField component for the overall structure *@
 <RzField @attributes="AdditionalAttributes" class="@RootClass()">
 	<RzFieldLabel DisplayName="@DisplayName" For="@For"/>
 	@if (FieldHelp != null)
 	{
 		<RzFieldHelp>@FieldHelp</RzFieldHelp>
 	}
-	@* Render the CheckboxGroup inside the Field *@
 	<RzCheckboxGroup TValue="TValue" For="@For" @Values="CurrentValues" Orientation="@Orientation"
 	                 class="@GroupWithinFieldClass">
 		@CheckboxGroupContent
