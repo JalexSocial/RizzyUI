@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "../js/vendor/simple-notify/style.css";
+@import "../js/vendor/aspnet-validation/style.css";
+
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
 
@@ -129,41 +132,3 @@ pre:has(> code) {
     }
 }
 
-/* Form Children Spacing */
-.form-children-spacing > *:not(input[type="hidden"]) + *:not(input[type="hidden"]) {
-    margin-top: 1.5rem; /* Equivalent to theme('spacing.6') */
-}
-
-.validation-errors {
-    color: var(--color-danger);
-    font-style: italic;
-}
-
-/* Field Validation Error */
-.field-validation-error {
-    color: var(--color-danger);
-    font-style: italic;
-}
-
-/* Input Validation Error */
-.input-validation-error {
-    border-color: var(--color-danger);
-    outline-color: var(--color-danger);
-}
-
-/* Input Validation Valid */
-.input-validation-valid {
-    border-color: var(--color-success);
-    outline-color: var(--color-success);
-}
-
-/* Validation Summary Errors */
-.validation-summary-errors {
-    color: var(--color-danger);
-    font-style: italic;
-}
-
-/* Validation Summary Valid */
-.validation-summary-valid span {
-    display: none;
-}

@@ -36,6 +36,7 @@
     "htmx.org": "^2.0.4",
     "postcss": "^8.5.1",
     "postcss-selector-parser": "^7.0.0",
-    "repomix": "^0.2.24"
+    "repomix": "^0.2.24",
+    "simple-notify": "^1.0.6"
   }
 }
