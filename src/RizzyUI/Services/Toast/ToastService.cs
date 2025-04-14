@@ -1,14 +1,14 @@
 ﻿using RizzyUI;
-using System; // Required for ArgumentNullException
-using System.Collections.Generic; // Required for List
+using System; 
+using System.Collections.Generic; 
 
-namespace RizzyUI; // Ensure correct namespace
+namespace RizzyUI; 
 
 /// <summary>
 /// An implementation that stores toast notifications in an in-memory list
 /// and provides methods to create standard toast types.
 /// </summary>
-public class ToastService
+public class ToastService : IToastService
 {
     /// <summary>
     /// Internal list holding the pending toast notifications.
@@ -66,7 +66,6 @@ public class ToastService
                 Gap = options.Gap ?? message.Gap,
                 Distance = options.Distance ?? message.Distance,
                 Type = options.Type ?? message.Type
-                // Note: Status, Title, Text are set initially and not typically overridden by options here.
             };
         }
 

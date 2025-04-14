@@ -7,6 +7,8 @@ internal class Constants
     /// </summary>
     public const string PackageName = "RizzyUI";
 
+    public const string ToastBroadcastEventName = "rz:toast-broadcast";
+
     /// <summary>
     ///     Resolves path to internal package assets
     /// </summary>

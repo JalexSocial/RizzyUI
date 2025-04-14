@@ -86,7 +86,7 @@ public record class ToastMessageOptions
     /// If null, the library default is used (typically 20px).
     /// </summary>
     [JsonPropertyName("gap")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)] // Keep WhenWritingDefault for value types
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int? Gap { get; init; }
 
     /// <summary>
@@ -94,7 +94,7 @@ public record class ToastMessageOptions
     /// If null, the library default is used (typically 20px).
     /// </summary>
     [JsonPropertyName("distance")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)] // Keep WhenWritingDefault for value types
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int? Distance { get; init; }
 
     /// <summary>
@@ -102,6 +102,6 @@ public record class ToastMessageOptions
     /// If null, the library default is used (typically Outline).
     /// </summary>
     [JsonPropertyName("type")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)] // Keep WhenWritingDefault for value types
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ToastType? Type { get; init; }
 }
