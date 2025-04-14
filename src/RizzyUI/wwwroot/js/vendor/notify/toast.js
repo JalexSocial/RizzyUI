@@ -3,9 +3,38 @@
 // Valid statuses and positions
 const allowedStatuses = ['success', 'error', 'warning', 'info'];
 const allowedPositions = [
-    'right top', 'right bottom',
-    'left top', 'left bottom',
-    'center top', 'center bottom'
+    // Standard Corners
+    'right top',
+    'top right', 
+    'right bottom',
+    'bottom right', 
+    'left top',
+    'top left', 
+    'left bottom',
+    'bottom left', 
+
+    // Centered Horizontally
+    'center top',
+    'x-center top', 
+    'center bottom',
+    'x-center bottom', 
+
+    // Centered Vertically
+    'left center',
+    'left y-center', 
+    'y-center left', 
+    'right center',
+    'right y-center', 
+    'y-center right', 
+
+    // Aliases for Centered Horizontally (already covered but good for robustness)
+    'top center',
+    'top x-center',
+    'bottom center',
+    'bottom x-center',
+
+    // Absolute Center
+    'center'
 ];
 
 // Default configuration
