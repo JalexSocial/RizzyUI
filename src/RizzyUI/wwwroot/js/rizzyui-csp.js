@@ -2,7 +2,8 @@
 import collapse from '@alpinejs/collapse';
 import intersect from '@alpinejs/intersect';
 import focus from '@alpinejs/focus';
-import { registerComponents, require } from './alpine/components.js';
+import toast from "./rizzyui/notify/toast";
+import { registerComponents, require } from './rizzyui/components.js';
 
 // Register Alpine.js extensions
 Alpine.plugin(collapse);
@@ -10,9 +11,16 @@ Alpine.plugin(intersect);
 Alpine.plugin(focus)
 registerComponents(Alpine);
 
+const RizzyUI = {
+    Alpine,
+    require,
+    toast,
+}
+
 window.Alpine = Alpine
+window.Rizzy = { ...(window.Rizzy || {}), ...RizzyUI };
 
 Alpine.start()
 
-export { Alpine, require };
+export default RizzyUI;
 

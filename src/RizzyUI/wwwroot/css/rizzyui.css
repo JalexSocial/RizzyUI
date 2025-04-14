@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "../js/vendor/simple-notify/style.css";
+@import "../js/rizzyui/notify/style.css";
 @import "../js/vendor/aspnet-validation/style.css";
 
 @plugin "@tailwindcss/forms";
