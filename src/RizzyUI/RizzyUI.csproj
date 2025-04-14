@@ -55,7 +55,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <UpToDateCheckBuilt Include="wwwroot/css/rizzyui.css" Set="Css"/>
+        <UpToDateCheckBuilt Include="Assets\css\rizzyui.css" />
         <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css"/>
     </ItemGroup>
 
@@ -134,6 +134,29 @@
       <AdditionalFiles Include="Components\Navigation\RzTab\RzTabs.razor" />
       <AdditionalFiles Include="Components\Navigation\RzTab\RzTabStrip.razor" />
       <AdditionalFiles Include="Components\Theme\RzDarkMode\RzDarkModeToggle.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="Scripts\antiforgerySnippet.js">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Scripts\antiforgerySnippet.min.js">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Scripts\rizzyui.js">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Scripts\rizzyui-csp.js">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Assets\" />
     </ItemGroup>
 
 </Project>

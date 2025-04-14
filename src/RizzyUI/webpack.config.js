@@ -5,7 +5,7 @@ const path = require('path');
 module.exports = [
     {
         name: 'rizzyui',
-        entry: path.resolve(__dirname, 'wwwroot/js/rizzyui.js'),
+        entry: path.resolve(__dirname, 'Assets/js/rizzyui.js'),
         output: {
             filename: 'rizzyui.js',
             path: path.resolve(__dirname, 'wwwroot/dist/'),
@@ -36,7 +36,7 @@ module.exports = [
     },
     {
         name: 'rizzyui-min',
-        entry: path.resolve(__dirname, 'wwwroot/js/rizzyui.js'),
+        entry: path.resolve(__dirname, 'Assets/js/rizzyui.js'),
         output: {
             filename: 'rizzyui.min.js',
             path: path.resolve(__dirname, 'wwwroot/dist/'),
@@ -67,7 +67,7 @@ module.exports = [
     },
     {
         name: 'rizzyui-csp',
-        entry: path.resolve(__dirname, 'wwwroot/js/rizzyui-csp.js'),
+        entry: path.resolve(__dirname, 'Assets/js/rizzyui-csp.js'),
         output: {
             filename: 'rizzyui-csp.js',
             path: path.resolve(__dirname, 'wwwroot/dist/'),
@@ -98,7 +98,7 @@ module.exports = [
     },
     {
         name: 'rizzyui-csp-min',
-        entry: path.resolve(__dirname, 'wwwroot/js/rizzyui-csp.js'),
+        entry: path.resolve(__dirname, 'Assets/js/rizzyui-csp.js'),
         output: {
             filename: 'rizzyui-csp.min.js',
             path: path.resolve(__dirname, 'wwwroot/dist/'),
