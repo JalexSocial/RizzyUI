@@ -137,7 +137,7 @@ public class ToastService : IToastService
     /// <returns>A new list containing <see cref="ToastMessage"/> objects.</returns>
     public List<ToastMessage> ReadAllNotifications()
     {
-        return new List<ToastMessage>(_notifications); // Return a copy
+        return [.._notifications]; // Return a copy
     }
 
     /// <summary>

@@ -48,6 +48,13 @@ public class ToastMiddleware
     /// <returns>A <see cref="Task"/> that represents the execution of this middleware.</returns>
     public async Task InvokeAsync(HttpContext context)
     {
+        // Pass to next if not an htmx request
+        if (!context.Request.IsHtmx())
+        {
+            await _next(context);
+            return;            
+        }
+        
         // Resolve the scoped IToastService within the request scope.
         // Do NOT store this in a field of the middleware (singleton) instance.
         var toastService = context.RequestServices.GetRequiredService<IToastService>();
@@ -85,29 +92,23 @@ public class ToastMiddleware
                 return Task.CompletedTask;
             }
 
-            var request = new HtmxRequest(httpContext);
+            _logger.LogTrace("Processing HTMX request for potential toasts.");
 
-            // Only operate on HTMX requests
-            if (request.IsHtmx)
+            var messages = toastService.ReadAllNotifications();
+
+            if (messages.Any())
             {
-                _logger.LogTrace("Processing HTMX request for potential toasts.");
+                _logger.LogInformation("Found {Count} toast notifications to trigger.", messages.Count);
 
-                var messages = toastService.ReadAllNotifications();
+                var response = new HtmxResponse(httpContext);
 
-                if (messages.Any())
-                {
-                    _logger.LogInformation("Found {Count} toast notifications to trigger.", messages.Count);
+                // Trigger a client-side event with the toast messages as detail
+                // The client-side JS (e.g., in rizzyui.js) should listen for "rz:toast-broadcast"
+                response.Trigger(Constants.ToastBroadcastEventName, messages);
 
-                    var response = new HtmxResponse(httpContext);
-
-                    // Trigger a client-side event with the toast messages as detail
-                    // The client-side JS (e.g., in rizzyui.js) should listen for "rz:toast-broadcast"
-                    response.Trigger(Constants.ToastBroadcastEventName, messages);
-
-                    // Clear the notifications from the service for this request scope
-                    toastService.RemoveAll();
-                    _logger.LogTrace("Cleared toast notifications from service.");
-                }
+                // Clear the notifications from the service for this request scope
+                toastService.RemoveAll();
+                _logger.LogTrace("Cleared toast notifications from service.");
             }
         }
         catch (Exception ex)
