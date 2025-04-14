@@ -1072,7 +1072,7 @@ public abstract class RzStylesBase
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzDarkmodeToggle" /> button.
+    ///     Defines the abstract structure for styling the <see cref="RzDarkModeToggle" /> button.
     /// </summary>
     public abstract class RzDarkmodeToggleStylesBase
     {

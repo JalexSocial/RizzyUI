@@ -4639,10 +4639,10 @@ var module_default = src_default;
 
 /***/ }),
 
-/***/ "./wwwroot/js/alpine/components.js":
-/*!*****************************************!*\
-  !*** ./wwwroot/js/alpine/components.js ***!
-  \*****************************************/
+/***/ "./wwwroot/js/rizzyui/components.js":
+/*!******************************************!*\
+  !*** ./wwwroot/js/rizzyui/components.js ***!
+  \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -5576,6 +5576,120 @@ function registerComponents(Alpine) {
 
 /***/ }),
 
+/***/ "./wwwroot/js/rizzyui/notify/toast.js":
+/*!********************************************!*\
+  !*** ./wwwroot/js/rizzyui/notify/toast.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var simple_notify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! simple-notify */ "./node_modules/simple-notify/dist/simple-notify.mjs");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+// Valid statuses and positions
+var allowedStatuses = ['success', 'error', 'warning', 'info'];
+var allowedPositions = [
+// Standard Corners
+'right top', 'top right', 'right bottom', 'bottom right', 'left top', 'top left', 'left bottom', 'bottom left',
+// Centered Horizontally
+'center top', 'x-center top', 'center bottom', 'x-center bottom',
+// Centered Vertically
+'left center', 'left y-center', 'y-center left', 'right center', 'right y-center', 'y-center right',
+// Aliases for Centered Horizontally (already covered but good for robustness)
+'top center', 'top x-center', 'bottom center', 'bottom x-center',
+// Absolute Center
+'center'];
+
+// Default configuration
+var defaultConfig = {
+  status: 'info',
+  title: 'Notification',
+  text: '',
+  effect: 'fade',
+  speed: 300,
+  autoclose: true,
+  autotimeout: 4000,
+  position: 'right top'
+};
+
+// Internal handler for all toasts
+function renderToast() {
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var config = _objectSpread(_objectSpread({}, defaultConfig), options);
+  if (!allowedStatuses.includes(config.status)) {
+    console.warn("Invalid status '".concat(config.status, "' passed to Toast. Defaulting to 'info'."));
+    config.status = 'info';
+  }
+  if (!allowedPositions.includes(config.position)) {
+    console.warn("Invalid position '".concat(config.position, "' passed to Toast. Defaulting to 'right top'."));
+    config.position = 'right top';
+  }
+  new simple_notify__WEBPACK_IMPORTED_MODULE_0__["default"](config);
+}
+
+// Toast API
+var Toast = {
+  custom: renderToast,
+  success: function success(text) {
+    var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Success';
+    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    renderToast(_objectSpread({
+      status: 'success',
+      title: title,
+      text: text
+    }, options));
+  },
+  error: function error(text) {
+    var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Error';
+    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    renderToast(_objectSpread({
+      status: 'error',
+      title: title,
+      text: text
+    }, options));
+  },
+  warning: function warning(text) {
+    var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Warning';
+    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    renderToast(_objectSpread({
+      status: 'warning',
+      title: title,
+      text: text
+    }, options));
+  },
+  info: function info(text) {
+    var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Info';
+    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    renderToast(_objectSpread({
+      status: 'info',
+      title: title,
+      text: text
+    }, options));
+  },
+  setDefaults: function setDefaults() {
+    var newDefaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    Object.assign(defaultConfig, newDefaults);
+  },
+  get allowedStatuses() {
+    return [].concat(allowedStatuses);
+  },
+  get allowedPositions() {
+    return [].concat(allowedPositions);
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Toast);
+
+/***/ }),
+
 /***/ "./wwwroot/js/vendor/loadjs/loadjs.js":
 /*!********************************************!*\
   !*** ./wwwroot/js/vendor/loadjs/loadjs.js ***!
@@ -5887,110 +6001,6 @@ loadjs.isDefined = function isDefined(bundleId) {
 
 /***/ }),
 
-/***/ "./wwwroot/js/vendor/notify/toast.js":
-/*!*******************************************!*\
-  !*** ./wwwroot/js/vendor/notify/toast.js ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var simple_notify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! simple-notify */ "./node_modules/simple-notify/dist/simple-notify.mjs");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-
-
-// Valid statuses and positions
-var allowedStatuses = ['success', 'error', 'warning', 'info'];
-var allowedPositions = ['right top', 'right bottom', 'left top', 'left bottom', 'center top', 'center bottom'];
-
-// Default configuration
-var defaultConfig = {
-  status: 'info',
-  title: 'Notification',
-  text: '',
-  effect: 'fade',
-  speed: 300,
-  autoclose: true,
-  autotimeout: 4000,
-  position: 'right top'
-};
-
-// Internal handler for all toasts
-function renderToast() {
-  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var config = _objectSpread(_objectSpread({}, defaultConfig), options);
-  if (!allowedStatuses.includes(config.status)) {
-    console.warn("Invalid status '".concat(config.status, "' passed to Toast. Defaulting to 'info'."));
-    config.status = 'info';
-  }
-  if (!allowedPositions.includes(config.position)) {
-    console.warn("Invalid position '".concat(config.position, "' passed to Toast. Defaulting to 'right top'."));
-    config.position = 'right top';
-  }
-  new simple_notify__WEBPACK_IMPORTED_MODULE_0__["default"](config);
-}
-
-// Toast API
-var Toast = {
-  custom: renderToast,
-  success: function success(text) {
-    var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Success';
-    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    renderToast(_objectSpread({
-      status: 'success',
-      title: title,
-      text: text
-    }, options));
-  },
-  error: function error(text) {
-    var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Error';
-    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    renderToast(_objectSpread({
-      status: 'error',
-      title: title,
-      text: text
-    }, options));
-  },
-  warning: function warning(text) {
-    var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Warning';
-    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    renderToast(_objectSpread({
-      status: 'warning',
-      title: title,
-      text: text
-    }, options));
-  },
-  info: function info(text) {
-    var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Info';
-    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    renderToast(_objectSpread({
-      status: 'info',
-      title: title,
-      text: text
-    }, options));
-  },
-  setDefaults: function setDefaults() {
-    var newDefaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    Object.assign(defaultConfig, newDefaults);
-  },
-  get allowedStatuses() {
-    return [].concat(allowedStatuses);
-  },
-  get allowedPositions() {
-    return [].concat(allowedPositions);
-  }
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Toast);
-
-/***/ }),
-
 /***/ "./node_modules/simple-notify/dist/simple-notify.mjs":
 /*!***********************************************************!*\
   !*** ./node_modules/simple-notify/dist/simple-notify.mjs ***!
@@ -6075,8 +6085,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _alpinejs_collapse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @alpinejs/collapse */ "./node_modules/@alpinejs/collapse/dist/module.esm.js");
 /* harmony import */ var _alpinejs_intersect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @alpinejs/intersect */ "./node_modules/@alpinejs/intersect/dist/module.esm.js");
 /* harmony import */ var _alpinejs_focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @alpinejs/focus */ "./node_modules/@alpinejs/focus/dist/module.esm.js");
-/* harmony import */ var _vendor_notify_toast__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./vendor/notify/toast */ "./wwwroot/js/vendor/notify/toast.js");
-/* harmony import */ var _alpine_components_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./alpine/components.js */ "./wwwroot/js/alpine/components.js");
+/* harmony import */ var _rizzyui_notify_toast__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./rizzyui/notify/toast */ "./wwwroot/js/rizzyui/notify/toast.js");
+/* harmony import */ var _rizzyui_components_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./rizzyui/components.js */ "./wwwroot/js/rizzyui/components.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -6094,16 +6104,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].plugin(_alpinejs_collapse__WEBPACK_IMPORTED_MODULE_1__["default"]);
 alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].plugin(_alpinejs_intersect__WEBPACK_IMPORTED_MODULE_2__["default"]);
 alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].plugin(_alpinejs_focus__WEBPACK_IMPORTED_MODULE_3__["default"]);
-(0,_alpine_components_js__WEBPACK_IMPORTED_MODULE_5__.registerComponents)(alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"]);
+(0,_rizzyui_components_js__WEBPACK_IMPORTED_MODULE_5__.registerComponents)(alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var RizzyUI = {
   Alpine: alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"],
-  require: _alpine_components_js__WEBPACK_IMPORTED_MODULE_5__.require,
-  toast: _vendor_notify_toast__WEBPACK_IMPORTED_MODULE_4__["default"]
+  require: _rizzyui_components_js__WEBPACK_IMPORTED_MODULE_5__.require,
+  toast: _rizzyui_notify_toast__WEBPACK_IMPORTED_MODULE_4__["default"]
 };
 window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"];
-window.Rizzy = _objectSpread(_objectSpread({}, window.Rizzy || {}), {}, {
-  RizzyUI: RizzyUI
-});
+window.Rizzy = _objectSpread(_objectSpread({}, window.Rizzy || {}), RizzyUI);
 alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].start();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RizzyUI);
 })();
