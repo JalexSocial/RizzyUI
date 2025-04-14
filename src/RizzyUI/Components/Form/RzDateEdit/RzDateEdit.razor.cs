@@ -35,7 +35,7 @@ public sealed partial class RzDateEdit : RzComponent
     private string _inputValue = string.Empty; // Value for the input element itself
 
     /// <summary> Gets the unique ID for the input element. </summary>
-    protected string _uidInputId => $"{_uid}-input";
+    private string _uidInputId => $"{_uid}-input";
 
     /// <summary> Gets or sets the expression identifying the DateTime? field to bind to. Required. </summary>
     [Parameter, EditorRequired] public Expression<Func<DateTime?>>? For { get; set; }
@@ -58,21 +58,20 @@ public sealed partial class RzDateEdit : RzComponent
         {
             // This setter might be called by Flatpickr changing the input value.
             // We need to parse it back to DateTime? and update the model.
-            if (_inputValue != value)
+            if (_inputValue == value) return;
+            
+            _inputValue = value;
+            if (DateTime.TryParseExact(value, GetFlatpickrFormat(), CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDate))
             {
-                _inputValue = value;
-                if (DateTime.TryParseExact(value, GetFlatpickrFormat(), CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDate))
-                {
-                     UpdateValue(parsedDate);
-                }
-                else if (string.IsNullOrEmpty(value))
-                {
-                    UpdateValue(null); // Handle clearing the input
-                }
-                // If parsing fails, we might want to keep _currentValue as is, or set to null,
-                // depending on desired behavior for invalid manual input.
-                // For now, we only update if parsing succeeds or input is cleared.
+                UpdateValue(parsedDate);
             }
+            else if (string.IsNullOrEmpty(value))
+            {
+                UpdateValue(null); // Handle clearing the input
+            }
+            // If parsing fails, we might want to keep _currentValue as is, or set to null,
+            // depending on desired behavior for invalid manual input.
+            // For now, we only update if parsing succeeds or input is cleared.
         }
     }
 
