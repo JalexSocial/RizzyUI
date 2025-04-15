@@ -4,6 +4,7 @@
   "description": "Client library for Asp.net RizzyUI",
   "main": "rizzyui.js",
   "scripts": {
+    "css:build": "npx @tailwindcss/cli -i ./src/css/rizzyui.css -o ./dist/css/rizzyui.css",
     "build": "webpack",
     "build:dev": "webpack --mode development --watch",
     "prepublishOnly": "npm run build"

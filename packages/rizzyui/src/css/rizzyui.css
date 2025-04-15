@@ -1,9 +1,11 @@
 @import "tailwindcss";
 @import "../js/lib/notify/style.css";
-@import "../js/vendor/aspnet-validation/style.css";
+@import "../js/vendor/aspnet-client-validation/style.css";
 
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
+
+@source "../../../../src/RizzyUI/";
 
 @variant dark (&:where(.dark, .dark *));
 
