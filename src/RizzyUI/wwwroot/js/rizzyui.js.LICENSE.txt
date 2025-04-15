@@ -1,0 +1,68 @@
+/*! ../vendor/loadjs/loadjs */
+
+/*! ./lib/components.js */
+
+/*! ./lib/notify/toast */
+
+/*! @alpinejs/collapse */
+
+/*! @alpinejs/focus */
+
+/*! @alpinejs/intersect */
+
+/*! Bundled license information:
+
+tabbable/dist/index.esm.js:
+  (*!
+  * tabbable 5.3.3
+  * @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
+  *)
+
+focus-trap/dist/focus-trap.esm.js:
+  (*!
+  * focus-trap 6.9.4
+  * @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
+  *)
+*/
+
+/*! alpinejs */
+
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
+
+/*! simple-notify */
+
+/*!***************************!*\
+  !*** ./src/js/rizzyui.js ***!
+  \***************************/
+
+/*!**********************************!*\
+  !*** ./src/js/lib/components.js ***!
+  \**********************************/
+
+/*!************************************!*\
+  !*** ./src/js/lib/notify/toast.js ***!
+  \************************************/
+
+/*!****************************************!*\
+  !*** ./src/js/vendor/loadjs/loadjs.js ***!
+  \****************************************/
+
+/*!**************************************************!*\
+  !*** ./node_modules/alpinejs/dist/module.esm.js ***!
+  \**************************************************/
+
+/*!*********************************************************!*\
+  !*** ./node_modules/@alpinejs/focus/dist/module.esm.js ***!
+  \*********************************************************/
+
+/*!***********************************************************!*\
+  !*** ./node_modules/simple-notify/dist/simple-notify.mjs ***!
+  \***********************************************************/
+
+/*!************************************************************!*\
+  !*** ./node_modules/@alpinejs/collapse/dist/module.esm.js ***!
+  \************************************************************/
+
+/*!*************************************************************!*\
+  !*** ./node_modules/@alpinejs/intersect/dist/module.esm.js ***!
+  \*************************************************************/

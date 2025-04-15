@@ -2,8 +2,8 @@
 import collapse from '@alpinejs/collapse';
 import intersect from '@alpinejs/intersect';
 import focus from '@alpinejs/focus';
-import toast from "./rizzyui/notify/toast";
-import { registerComponents, require } from './rizzyui/components.js';
+import toast from "./lib/notify/toast";
+import { registerComponents, require } from './lib/components.js';
 
 // Register Alpine.js extensions
 Alpine.plugin(collapse);

@@ -55,27 +55,26 @@
     </ItemGroup>
 
     <ItemGroup>
-        <UpToDateCheckBuilt Include="Assets\css\rizzyui.css" />
-        <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css"/>
+        <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
     </ItemGroup>
 
     <Target Name="Tailwind" BeforeTargets="Build">
-        <Exec Command="npm run css:build"/>
-        <Exec Command="npm run safelist:build"/>
+        <Exec Command="npm run css:build" />
+        <Exec Command="npm run safelist:build" />
     </Target>
 
     <Target Name="Webpack" BeforeTargets="Build">
-        <Exec Command="npm run build"/>
+        <Exec Command="npm run build" />
     </Target>
 
     <Target Name="LLM" AfterTargets="Build">
-        <Exec Command="npm run llm"/>
+        <Exec Command="npm run llm" />
     </Target>
 
     <ItemGroup>
-        <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\"/>
-        <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
-        <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\"/>
+        <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -153,10 +152,6 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Assets\" />
     </ItemGroup>
 
 </Project>

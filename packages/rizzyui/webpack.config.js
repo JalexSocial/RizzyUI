@@ -1,14 +1,14 @@
-﻿// webpack.config.js
-
-const path = require('path');
+﻿const path = require('path');
+const CopyPlugin = require("copy-webpack-plugin");
+const targetWwwRoot = path.resolve(__dirname, '../../src/RizzyUI/wwwroot/');
 
 module.exports = [
     {
         name: 'rizzyui',
-        entry: path.resolve(__dirname, 'Assets/js/rizzyui.js'),
+        entry: path.resolve(__dirname, 'src/js/rizzyui.js'),
         output: {
             filename: 'rizzyui.js',
-            path: path.resolve(__dirname, 'wwwroot/dist/'),
+            path: path.resolve(__dirname, 'dist/js/'),
         },
         mode: 'development', // Enables unminified output
         devtool: 'source-map', // Optional: Generates source maps for easier debugging
@@ -36,10 +36,10 @@ module.exports = [
     },
     {
         name: 'rizzyui-min',
-        entry: path.resolve(__dirname, 'Assets/js/rizzyui.js'),
+        entry: path.resolve(__dirname, 'src/js/rizzyui.js'),
         output: {
             filename: 'rizzyui.min.js',
-            path: path.resolve(__dirname, 'wwwroot/dist/'),
+            path: path.resolve(__dirname, 'dist/js/'),
         },
         mode: 'production', // Enables unminified output
         //devtool: 'source-map', // Optional: Generates source maps for easier debugging
@@ -63,14 +63,30 @@ module.exports = [
         },
         experiments: {
             outputModule: true,
-        }
+        },
+        plugins: [
+            new CopyPlugin({
+                patterns: [
+                    {
+                        from: path.resolve(__dirname, 'dist'), // Copy FROM the Webpack output dir
+                        to: targetWwwRoot,                   // Copy TO the target wwwroot/dist dir
+                        globOptions: {
+                            // Optional: ignore files like source maps
+                            // ignore: ["**/*.map"],
+                        },
+                        noErrorOnMissing: true, // Don't error if 'dist' doesn't exist before first build
+                        force: true, // Overwrite files in the destination
+                    },
+                ],
+            }),
+        ]
     },
     {
         name: 'rizzyui-csp',
-        entry: path.resolve(__dirname, 'Assets/js/rizzyui-csp.js'),
+        entry: path.resolve(__dirname, 'src/js/rizzyui-csp.js'),
         output: {
             filename: 'rizzyui-csp.js',
-            path: path.resolve(__dirname, 'wwwroot/dist/'),
+            path: path.resolve(__dirname, 'dist/js/'),
         },
         mode: 'development', // Enables unminified output
         devtool: 'source-map', // Optional: Generates source maps for easier debugging
@@ -94,14 +110,30 @@ module.exports = [
         },
         experiments: {
             outputModule: true,
-        }
+        },
+        plugins: [
+            new CopyPlugin({
+                patterns: [
+                    {
+                        from: path.resolve(__dirname, 'dist'), // Copy FROM the Webpack output dir
+                        to: targetWwwRoot,                   // Copy TO the target wwwroot/dist dir
+                        globOptions: {
+                            // Optional: ignore files like source maps
+                            // ignore: ["**/*.map"],
+                        },
+                        noErrorOnMissing: true, // Don't error if 'dist' doesn't exist before first build
+                        force: true, // Overwrite files in the destination
+                    },
+                ],
+            }),
+        ]
     },
     {
         name: 'rizzyui-csp-min',
-        entry: path.resolve(__dirname, 'Assets/js/rizzyui-csp.js'),
+        entry: path.resolve(__dirname, 'src/js/rizzyui-csp.js'),
         output: {
             filename: 'rizzyui-csp.min.js',
-            path: path.resolve(__dirname, 'wwwroot/dist/'),
+            path: path.resolve(__dirname, 'dist/js/'),
         },
         mode: 'production', // Enables unminified output
         //devtool: 'source-map', // Optional: Generates source maps for easier debugging
@@ -125,6 +157,22 @@ module.exports = [
         },
         experiments: {
             outputModule: true,
-        }
+        },
+        plugins: [
+            new CopyPlugin({
+                patterns: [
+                    {
+                        from: path.resolve(__dirname, 'dist'), // Copy FROM the Webpack output dir
+                        to: targetWwwRoot,                   // Copy TO the target wwwroot/dist dir
+                        globOptions: {
+                            // Optional: ignore files like source maps
+                            // ignore: ["**/*.map"],
+                        },
+                        noErrorOnMissing: true, // Don't error if 'dist' doesn't exist before first build
+                        force: true, // Overwrite files in the destination
+                    },
+                ],
+            }),
+        ]
     }
 ];
