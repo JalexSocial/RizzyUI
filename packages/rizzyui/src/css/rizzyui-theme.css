@@ -1,11 +1,5 @@
-@import "tailwindcss";
-@import "../js/lib/notify/style.css";
+﻿@import "../js/lib/notify/style.css";
 @import "../js/vendor/aspnet-client-validation/style.css";
-
-@plugin "@tailwindcss/forms";
-@plugin "@tailwindcss/typography";
-
-@source "../../../../src/RizzyUI/";
 
 @variant dark (&:where(.dark, .dark *));
 
@@ -117,9 +111,9 @@ pre:has(> code) {
     scrollbar-color: transparent transparent;
 }
 
-    .scrollbar-hover:hover {
-        scrollbar-color: #6b7280 transparent;
-    }
+.scrollbar-hover:hover {
+    scrollbar-color: #6b7280 transparent;
+}
 
 /* Grid Pattern */
 .grid-pattern {
@@ -133,4 +127,3 @@ pre:has(> code) {
         background-color: var(--color-surface);
     }
 }
-
