@@ -1,5 +1,5 @@
 {
-  "name": "rizzyui",
+  "name": "@jalexsocial/rizzyui",
   "version": "1.0.0",
   "description": "Client library for Asp.net RizzyUI",
   "main": "rizzyui.js",

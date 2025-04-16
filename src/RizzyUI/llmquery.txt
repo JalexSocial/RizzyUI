@@ -14219,6 +14219,7 @@ the guidelines below and the code provided is extremely important.
 - **Mandatory:** Required for all `public`/`protected` members in component `.razor.cs` files and all `public abstract`/`public override` members in `RzStylesBase.cs` and `Default*.cs` files.
 - **Content:** Explain purpose, parameters (SSR context), return values, usage, defaults, and exceptions. Use `<inheritdoc />` on overrides.
 
+
 ---
 
 ## 9. Blazor Lifecycle Methods (SSR Context)
@@ -14260,7 +14261,13 @@ the guidelines below and the code provided is extremely important.
 
 ---
 
-## 13. Summary of Key Points
+## 13. Comments
+
+- **Purpose**: Provide context for complex logic or decisions - not for simple code explanations. Avoid redundant comments and
+    ensure they add value. Do not add comments which pose a question to the developer. Do not use comments to reference previous
+    generated code or statements. All comments made should be completely ready to publish into production code.
+
+## 14. Summary of Key Points
 
 - **Static SSR Context:** Blazor interactivity is DISABLED. All interaction via **Alpine.js**.
 - **Component Files:** Two-file separation (`.razor`/`.razor.cs`), `namespace RizzyUI;`.
