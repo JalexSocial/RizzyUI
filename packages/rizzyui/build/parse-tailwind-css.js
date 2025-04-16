@@ -38,13 +38,13 @@ function getAllTailwindClassesFromFile(filePath) {
     return [...classNames];
 }
 
-const cssFilePath = path.join(__dirname, 'wwwroot', 'dist', 'rizzyui.css');
+const cssFilePath = path.join(__dirname, '../../dist/css/rizzyui.css');
 
 const allClasses = getAllTailwindClassesFromFile(cssFilePath);
 
 const safelistJsContent = `module.exports = ${JSON.stringify(allClasses, null, null)};`;
 
-const outputPath = path.join(__dirname, 'safelist.js');
+const outputPath = path.join(__dirname, '../../dist/js/safelist.js');
 fs.writeFileSync(outputPath, safelistJsContent, 'utf-8');
 
 console.log(`Safelist written to ${outputPath}`);

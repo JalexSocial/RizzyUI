@@ -7,7 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "css:build": "npx @tailwindcss/cli -i ./Assets/css/rizzyui.css -o ./Assets/dist/rizzyui.css",
-    "safelist:build": "node parse-tailwind-css.js",
     "llm": "repomix --instruction-file-path \"llm-instructions.txt\" --include \"**/*.razor,**/*.razor.cs,**/*.cs,**/js/*.js\" --ignore \"obj/,bin/,**/js/vendor/*.*\" --remove-empty-lines --style \"xml\" --output \"llmquery.txt\""
   },
   "keywords": [],
