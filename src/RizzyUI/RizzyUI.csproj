@@ -54,12 +54,6 @@
         <SupportedPlatform Include="browser"/>
     </ItemGroup>
     
-
-    <Target Name="Tailwind" BeforeTargets="Build">
-        <Exec Command="npm run css:build" />
-        <Exec Command="npm run safelist:build" />
-    </Target>
-
     <PropertyGroup>
         <!-- Define the directory path once -->
         <ClientPackageDir>$(MSBuildProjectDirectory)/../../packages</ClientPackageDir>
@@ -84,8 +78,8 @@
         <!-- This target now implicitly depends on InstallClientPackages running first if needed -->
         <Message Text="Building client assets in $(ClientPackageDir)/rizzyui..." Importance="high" />
         
-        <Exec Command="npm run build:css" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
         <Exec Command="npm run build" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
+        <Exec Command="npm run copy:assets" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
     </Target>
 
     <Target Name="LLM" AfterTargets="Build">

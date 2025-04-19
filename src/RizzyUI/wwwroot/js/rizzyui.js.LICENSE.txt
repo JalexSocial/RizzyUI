@@ -1,8 +1,8 @@
-/*! ../vendor/loadjs/loadjs */
-
 /*! ./lib/components.js */
 
 /*! ./lib/notify/toast */
+
+/*! ./loadjs/loadjs */
 
 /*! @alpinejs/collapse */
 
@@ -43,9 +43,9 @@ focus-trap/dist/focus-trap.esm.js:
   !*** ./src/js/lib/notify/toast.js ***!
   \************************************/
 
-/*!****************************************!*\
-  !*** ./src/js/vendor/loadjs/loadjs.js ***!
-  \****************************************/
+/*!*************************************!*\
+  !*** ./src/js/lib/loadjs/loadjs.js ***!
+  \*************************************/
 
 /*!**************************************************!*\
   !*** ./node_modules/alpinejs/dist/module.esm.js ***!
