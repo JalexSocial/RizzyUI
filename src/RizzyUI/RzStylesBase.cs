@@ -233,44 +233,70 @@ public abstract class RzStylesBase
 
     #endregion
 
-    #region RzDivider Styles
+#region RzDivider Styles
+
+/// <summary>
+/// Defines the abstract structure for styling the <see cref="RzDivider"/> component,
+/// including variants for thickness and inset positioning.
+/// </summary>
+public abstract class RzDividerStylesBase
+{
+    /// <summary>The theme instance providing color and sizing tokens.</summary>
+    protected readonly RzTheme Theme;
+
+    /// <summary>Initializes a new instance of the <see cref="RzDividerStylesBase"/> class.</summary>
+    protected RzDividerStylesBase(RzTheme theme) => Theme = theme;
+
+    // ──────────────────────────────────────────────────────────────
+    // Base / variant properties
+    // ──────────────────────────────────────────────────────────────
+
+    /// <summary>Standard horizontal rule (margin + solid border).</summary>
+    public abstract string Container      { get; }
+
+    /// <summary>Thick variant rendered with <c>h‑px</c> + background.</summary>
+    public abstract string Thick          { get; }
+
+    /// <summary>Dotted border style.</summary>
+    public abstract string Dotted         { get; }
+
+    /// <summary>Dashed border style.</summary>
+    public abstract string Dashed         { get; }
+
+    /// <summary>Inset (indented) solid rule.</summary>
+    public abstract string Inset          { get; }
+
+    /// <summary>Inset thick rule.</summary>
+    public abstract string InsetThick     { get; }
+
+    /// <summary>Inset dotted rule.</summary>
+    public abstract string InsetDotted    { get; }
+
+    /// <summary>Inset dashed rule.</summary>
+    public abstract string InsetDashed    { get; }
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzDivider" /> component.
+    /// Base classes applied to the <c>&lt;div></c> wrapper when the divider
+    /// contains <see cref="Microsoft.AspNetCore.Components.RenderFragment"/> content
+    /// (label, child markup, etc.).
     /// </summary>
-    public abstract class RzDividerStylesBase
-    {
-        /// <summary> The theme instance providing color and sizing tokens. </summary>
-        protected readonly RzTheme Theme;
+    public abstract string Divider        { get; }
 
-        /// <summary> Initializes a new instance of the <see cref="RzDividerStylesBase" /> class. </summary>
-        protected RzDividerStylesBase(RzTheme theme)
-        {
-            Theme = theme;
-        }
+    // ──────────────────────────────────────────────────────────────
+    // Helper methods used by <see cref="RzDivider"/> runtime logic
+    // ──────────────────────────────────────────────────────────────
 
-        /// <summary> Gets the base CSS classes for the RzDivider hr or div element (margin, layout, typography). </summary>
-        public abstract string Divider { get; }
+    /// <summary>Returns the CSS for a plain <c>&lt;hr></c> in the requested style.</summary>
+    public abstract string GetStyleCss(DividerStyle style);
 
-        /// <summary>
-        ///     Gets the CSS classes for the divider style (solid, dashed, dotted) when rendered as an <c>hr</c> (no
-        ///     ChildContent).
-        /// </summary>
-        /// <param name="style">The desired divider style.</param>
-        /// <returns>A string of CSS classes (e.g., "border-solid border-t border-outline").</returns>
-        public abstract string GetStyleCss(DividerStyle style);
+    /// <summary>
+    /// Returns the CSS (incl. <c>::before</c>/<c>::after</c> pseudo‑elements) for
+    /// a labelled divider, taking alignment and desired line style into account.
+    /// </summary>
+    public abstract string GetAlignmentCss(Align alignment, DividerStyle style);
+}
 
-        /// <summary>
-        ///     Gets the CSS classes for the divider when rendered as a <c>div</c> with ChildContent, including alignment and
-        ///     style for pseudo-elements.
-        /// </summary>
-        /// <param name="alignment">The alignment of the content (Start, Center, End).</param>
-        /// <param name="style">The desired divider line style.</param>
-        /// <returns>A string of CSS classes utilizing ::before and ::after pseudo-elements.</returns>
-        public abstract string GetAlignmentCss(Align alignment, DividerStyle style);
-    }
-
-    #endregion
+#endregion
 
     #region RzEmbeddedPreview Styles
 
