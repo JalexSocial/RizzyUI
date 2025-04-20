@@ -19,7 +19,7 @@
 	@if (LabelPosition == ProgressLabelPosition.Outside && !string.IsNullOrEmpty(Label))
 	{
 		<div class="@OutsideLabelContainerClass">
-			<div class="grow"></div> @* Spacer for alignment if needed *@
+			<div class="grow"></div> 
 			<div class="@OutsideLabelTextClass"><span x-text="buildLabel"></span></div>
 		</div>
 	}
@@ -28,7 +28,7 @@
 			@if (LabelPosition == ProgressLabelPosition.Inside && !string.IsNullOrEmpty(Label))
 			{
 				<div class="@InsideLabelContainerClass" x-ref="progressBarLabel" :class="getLabelCss">
-					<span class="@InsideLabelTextClass" x-ref="innerLabel"></span> @* Content set by Alpine *@
+					<span class="@InsideLabelTextClass" x-ref="innerLabel"></span> 
 				</div>
 			}
 		</div>

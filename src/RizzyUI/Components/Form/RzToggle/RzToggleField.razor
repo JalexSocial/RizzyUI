@@ -13,11 +13,11 @@
 				}
 			</RzFieldLabel>
 
-			@* Pass Value, For, ValueChanged, and AdditionalAttributes down *@
+			
 			<RzToggle For="@For" @bind-Value="CurrentValue" class="@ToggleInFieldClass"
 			          @attributes="AdditionalAttributes"/>
 		</div>
 	</div>
-	@* Validation message outside the inner flex container *@
+	
 	<RzValidationMessage For="@For"/>
 </RzField>

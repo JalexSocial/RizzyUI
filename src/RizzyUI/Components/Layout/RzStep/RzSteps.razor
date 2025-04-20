@@ -3,12 +3,12 @@
 @inherits RzComponent
 
 <HtmlElement Element="ol" @attributes="AdditionalAttributes" class="@RootClass()" aria-label="@AriaLabel">
-	@* Cascading self allows child RzStep components to register *@
+	
 	<CascadingValue Value="this" IsFixed="true">
 		@ChildContent
 	</CascadingValue>
 
-	@* Render registered steps *@
+	
 	@for (var i = 0; i < Items.Count; i++)
 	{
 		var step = Items[i];
@@ -18,7 +18,7 @@
 		<li class="@GetStepItemCss(isFirst)"
 		    aria-label="@(string.IsNullOrEmpty(step.AriaLabel) ? step.Label : step.AriaLabel)">
 
-			@* Render connector before every step except the first *@
+			
 			@if (!isFirst && prevStep != null)
 			{
 				<span class="@GetConnectorCss(prevStep)" aria-hidden="true"></span>
@@ -42,17 +42,17 @@
 						}
 					</span>
 				}
-				else @* Current or Upcoming *@
+				else 
 				{
 					<span class="@CircleDefaultBaseClass @GetCircleDefaultVariantCss(step.Status)">
 						@if (step.Icon is not null)
 						{
 							<Blazicon Svg="step.Icon"
-							          class="size-4"/> @* Assuming size-4 for icons in default circles *@
+							          class="size-4"/> 
 						}
 						else
 						{
-							@(i + 1) @* Display step number *@
+							@(i + 1) 
 						}
 					</span>
 				}
@@ -61,7 +61,7 @@
 					<span class="@LabelBaseClass @GetLabelVariantCss(step.Status)">@step.Label</span>
 				}
 			</div>
-			@* Optional: Re-introduce caption if needed, using Theme styles *@
+			
 			@* @if (!string.IsNullOrEmpty(step.Caption))
                {
                    <span class="@CaptionClass">@step.Caption</span>

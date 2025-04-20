@@ -22,8 +22,8 @@ public partial class RzCodeViewer : RzComponent
     /// <summary> Default assets loaded for RzCodeViewer (Highlight.js core and Razor plugin). </summary>
     public static string[] DefaultAssets =
     [
-        Constants.ContentUrl("js/vendor/highlightjs/highlight.js"),
-        Constants.ContentUrl("js/vendor/highlightjs-plugin/cshtml-razor.min.js"),
+        Constants.ContentUrl("vendor/highlightjs/highlight.js"),
+        Constants.ContentUrl("js/lib/highlightjs-plugin/cshtml-razor.min.js"),
     ];
 
     /// <summary> Optional array of asset URLs (JS/CSS) to load, primarily for Highlight.js and themes. Defaults to <see cref="DefaultAssets"/>. </summary>

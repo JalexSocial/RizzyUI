@@ -1,7 +1,7 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<div x-data="rzSidebar" class="@ContainerClass"> @* Use ContainerClass if needed, else remove class *@
+<div x-data="rzSidebar" class="@ContainerClass"> 
     @if (NavbarContent != null)
     {
         @NavbarContent
@@ -35,7 +35,7 @@
     {
         <!-- Floating Toggle Button (only if no navbar) -->
         <button class="@FloatingToggleButtonClass" x-on:click="toggleSidebar">
-            @* Alpine handles showing/hiding based on showSidebar *@
+            
             <svg x-show="showSidebar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                  class="size-5" aria-hidden="true">
                 <path

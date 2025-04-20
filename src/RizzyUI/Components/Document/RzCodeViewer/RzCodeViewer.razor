@@ -5,7 +5,7 @@
 @using Rizzy.Utility
 @inherits RzComponent
 
-<div @attributes="AdditionalAttributes" class="@RootClass()"
+<HtmlElement Element="@Element" @attributes="AdditionalAttributes" class="@RootClass()"
      data-assets="@_assets"
      data-codeid="@CodeId"
      data-nonce="@Nonce"
@@ -39,4 +39,4 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
         </svg>
     </button>
-</div>
+</HtmlElement>

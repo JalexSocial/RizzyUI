@@ -393,15 +393,24 @@ function registerComponents(Alpine) {
     Alpine.data('rzDarkModeToggle', () => ({
         mode: 'light',
         init() {
+            const hasLocalStorage = typeof window !== 'undefined' && 'localStorage' in window;
             const allowedModes = ['light', 'dark', 'auto'];
-            let storedMode = localStorage.getItem('darkMode') ?? 'auto';
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-            // Validate stored mode against allowed values
-            if (!allowedModes.includes(storedMode)) {
-                storedMode = 'light';
+            let storedMode = "auto"; 
+            
+            if (hasLocalStorage) {
+                storedMode = localStorage.getItem('darkMode') ?? 'auto';
+
+                // Validate stored mode against allowed values
+                if (!allowedModes.includes(storedMode)) {
+                    storedMode = 'light';
+                }                
             }
-            localStorage.setItem('darkMode', storedMode);
+            
+            if (hasLocalStorage) {
+                localStorage.setItem('darkMode', storedMode);
+            }
 
             // Function to apply the theme based on stored mode and OS preference
             const applyTheme = () => {

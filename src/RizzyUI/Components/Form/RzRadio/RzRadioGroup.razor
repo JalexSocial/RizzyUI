@@ -4,7 +4,7 @@
 @inherits RzComponent
 
 <CascadingValue Value="this" IsFixed="true">
-    @* RzInputRadioGroup handles the value binding and EditContext integration *@
+    
     <RzInputRadioGroup TValue="TValue" ValueExpression="@For" Value="CurrentValue" Name="@Name">
         <div @attributes="AdditionalAttributes" class="@RootClass()">
             @ChildContent

@@ -29,9 +29,6 @@ module.exports = [
         resolve: {
             extensions: ['.js'], // Automatically resolve these extensions
             modules: ['node_modules'], // Allow imports from node_modules
-        },
-        experiments: {
-            outputModule: true,
         }
     },
     {
@@ -60,9 +57,6 @@ module.exports = [
         resolve: {
             extensions: ['.js'], // Automatically resolve these extensions
             modules: ['node_modules'], // Allow imports from node_modules
-        },
-        experiments: {
-            outputModule: true,
         },
         plugins: [
             new CopyPlugin({
@@ -108,9 +102,6 @@ module.exports = [
             extensions: ['.js'], // Automatically resolve these extensions
             modules: ['node_modules'], // Allow imports from node_modules
         },
-        experiments: {
-            outputModule: true,
-        },
         plugins: [
             new CopyPlugin({
                 patterns: [
@@ -154,9 +145,6 @@ module.exports = [
         resolve: {
             extensions: ['.js'], // Automatically resolve these extensions
             modules: ['node_modules'], // Allow imports from node_modules
-        },
-        experiments: {
-            outputModule: true,
         },
         plugins: [
             new CopyPlugin({

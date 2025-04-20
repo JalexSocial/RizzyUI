@@ -4,17 +4,17 @@
 <button
     id="@TabId"
     data-name="@NameLower"
-    data-selectedtextcolor="@SelectedTextColorClass" @* Pass selected color to Alpine *@
+    data-selectedtextcolor="@SelectedTextColorClass" 
+    @attributes="AdditionalAttributes"
     x-on:click="tabButtonClicked"
     x-on:keydown="handleKeyDown"
     type="button"
     role="tab"
     :aria-selected="tabButtonActive"
-    tabindex="0" @* Managed by Alpine for focus *@
+    tabindex="0" 
     aria-controls="@PanelId"
-    @attributes="AdditionalAttributes"
     class="@RootClass()"
-    :class="selectedTabTextColor"> @* Alpine applies selected text color *@
+    :class="selectedTabTextColor"> 
     @ChildContent
 </button>
 

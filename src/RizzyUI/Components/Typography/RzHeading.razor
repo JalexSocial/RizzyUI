@@ -2,10 +2,10 @@
 @inherits RzTypographyBase
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()"
-             x-data="rzHeading"> @* Alpine data remains if needed for interaction *@
+             x-data="rzHeading"> 
     @if (ChildContent == null && !string.IsNullOrEmpty(QuickReferenceTitle))
     {
-        @QuickReferenceTitle @* Render QR title if no children provided *@
+        @QuickReferenceTitle 
     }
     else
     {

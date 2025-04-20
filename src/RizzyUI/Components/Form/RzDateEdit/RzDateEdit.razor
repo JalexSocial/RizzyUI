@@ -27,14 +27,14 @@
 			</div>
 		}
 
-		@* Use a standard input, Flatpickr will enhance it *@
+		
 		<input x-ref="textInput"
 		       id="@_uidInputId"
 		       type="text"
-		       @bind="CurrentValue" @* Bind to internal property *@
+		       @bind="CurrentValue" 
 		       placeholder="@Placeholder"
 		       class="@InputClass"
-		       data-input @* Flatpickr hook attribute *@
+		       data-input 
 		       aria-label="Select date" />
 	</div>
 </HtmlElement>

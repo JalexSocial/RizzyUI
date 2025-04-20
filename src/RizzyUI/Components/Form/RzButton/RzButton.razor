@@ -2,7 +2,7 @@
 @inherits RzComponent
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()" aria-label="@AssistiveLabel">
-	@* Render ChildContent first if it exists, otherwise fall back to Label *@
+	
 	@if (ChildContent != null)
 	{
 		@ChildContent

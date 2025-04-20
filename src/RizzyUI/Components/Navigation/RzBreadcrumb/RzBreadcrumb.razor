@@ -4,17 +4,17 @@
 
 <CascadingValue Value="this">
 	<HtmlElement Element="nav" @attributes="@AdditionalAttributes" class="@RootClass()" aria-label="breadcrumb">
-		@* Allow child RzBreadcrumbItems to register themselves *@
+		
 		@ChildContent
 		<ol class="@ListClass">
 			@foreach (var item in Items)
 			{
 				<li class="@ItemClass">
-					@* Render the item's content which handles link vs span *@
+					
 					@item.Content
 					@if (item != Items.Last())
 					{
-						@* Use the Separator property for the Blazicon *@
+						
 						<Blazicon Svg="Separator"/>
 					}
 				</li>

@@ -2,17 +2,17 @@
 @inherits RzComponent
 @typeparam TValue
 
-@* Only render the label if DisplayName is actually set (either via parameter or inference) *@
+
 @if (!string.IsNullOrEmpty(_effectiveDisplayName))
 {
     <label for="@_for" @attributes="AdditionalAttributes" class="@RootClass()">
         @_effectiveDisplayName
-        @ChildContent @* Allows adding things like the required indicator span *@
+        @ChildContent 
     </label>
 }
 else
 {
-    @* Render ChildContent anyway if DisplayName is null/empty, maybe it contains the label text *@
+    
     @ChildContent
 }
 
