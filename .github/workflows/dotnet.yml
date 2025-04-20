@@ -35,7 +35,11 @@ jobs:
       - name: Link tailwindcss for RizzyUI.Docs
         working-directory: ./src/RizzyUI.Docs  # Specify the directory where you want to run the command
         run: npm link tailwindcss
-               
+
+      - name: Install npm packages for RizzyUI Packages
+        working-directory: ./packages/rizzyui  # Specify the directory containing package.json
+        run: npm install
+        
       # Cache NuGet packages to speed up builds
       - name: Cache NuGet packages
         uses: actions/cache@v3
