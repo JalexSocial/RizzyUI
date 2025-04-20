@@ -1,4 +1,5 @@
 ﻿@page "/components/checkboxgroup"
+@using Rizzy
 @namespace RizzyUI
 
 @using Rizzy.Components
@@ -7,106 +8,106 @@
 @using Blazicons
 @using RizzyUI.Docs.Models
 
-<PageTitle>CheckboxGroup and CheckboxGroupField</PageTitle>
+<PageTitle>CheckboxGroup and RzCheckboxGroupField</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
             <!-- Page Title and Overview -->
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
-                CheckboxGroup and CheckboxGroupField
-            </Heading>
-            <Paragraph>
-                The <code>CheckboxGroup</code> component enables users to select one or more options from a group of checkboxes, with support for model binding and validation. The <code>CheckboxGroupField</code> component extends this functionality by wrapping <code>CheckboxGroup</code> within a complete form field experience, including a label, help text, and validation messages.
-            </Paragraph>
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">
+                CheckboxGroup and RzCheckboxGroupField
+            </RzHeading>
+            <RzParagraph>
+                The <code>CheckboxGroup</code> component enables users to select one or more options from a group of checkboxes, with support for model binding and validation. The <code>RzCheckboxGroupField</code> component extends this functionality by wrapping <code>CheckboxGroup</code> within a complete form field experience, including a label, help text, and validation messages.
+            </RzParagraph>
 
             <!-- Example 1: CheckboxGroup Usage -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="CheckboxGroup Example" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CheckboxGroup Example" class="scroll-mt-20">
                     CheckboxGroup Example
-                </Heading>
-                <Paragraph>
+                </RzHeading>
+                <RzParagraph>
                     In the example below, an <code>EditForm</code> is used with a <code>CheckboxGroup</code> to capture multiple interests from a user. The <code>Interests</code> property of the <code>Customer</code> model is utilized for binding.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-5">
                         <EditForm Model="Model" class="form-children-spacing">
                             <RzValidationSummary/>
-                            <CheckboxGroup TValue="string" For="@(() => Model.Interests)" Orientation="Orientation.Vertical">
-                                <CheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports" />
-                                <CheckboxGroupItem TValue="string" Value="@("Music")" Title="Music" />
-                                <CheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel" />
-                                <CheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology" />
-                            </CheckboxGroup>
+                            <RzCheckboxGroup TValue="string" For="@(() => Model.Interests)" Orientation="Orientation.Vertical">
+                                <RzCheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports" />
+                                <RzCheckboxGroupItem TValue="string" Value="@("Music")" Title="Music" />
+                                <RzCheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel" />
+                                <RzCheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology" />
+                            </RzCheckboxGroup>
                         </EditForm>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;EditForm Model="Model" class="form-children-spacing"&gt;
     &lt;RzValidationSummary /&gt;
-    &lt;CheckboxGroup TValue="string" For="@@(() =&gt; Model.Interests)" Orientation="@@Orientation.Vertical"&gt;
-        &lt;CheckboxGroupItem TValue="string" Value="@@("Sports")" Title="Sports" /&gt;
-        &lt;CheckboxGroupItem TValue="string" Value="@@("Music")" Title="Music" /&gt;
-        &lt;CheckboxGroupItem TValue="string" Value="@@("Travel")" Title="Travel" /&gt;
-        &lt;CheckboxGroupItem TValue="string" Value="@@("Technology")" Title="Technology" /&gt;
-    &lt;/CheckboxGroup&gt;
+    &lt;RzCheckboxGroup TValue="string" For="@@(() =&gt; Model.Interests)" Orientation="@@Orientation.Vertical"&gt;
+        &lt;RzCheckboxGroupItem TValue="string" Value="@@("Sports")" Title="Sports" /&gt;
+        &lt;RzCheckboxGroupItem TValue="string" Value="@@("Music")" Title="Music" /&gt;
+        &lt;RzCheckboxGroupItem TValue="string" Value="@@("Travel")" Title="Travel" /&gt;
+        &lt;RzCheckboxGroupItem TValue="string" Value="@@("Technology")" Title="Technology" /&gt;
+    &lt;/RzCheckboxGroup&gt;
 &lt;/EditForm&gt;
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
 
-            <!-- Example 2: CheckboxGroupField Usage -->
+            <!-- Example 2: RzCheckboxGroupField Usage -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="CheckboxGroupField Example" class="scroll-mt-20">
-                    CheckboxGroupField Example
-                </Heading>
-                <Paragraph>
-                    The <code>CheckboxGroupField</code> component encapsulates a complete form field experience by combining a label, the checkbox group, help text, and validation messages. The example below demonstrates its usage with the <code>Interests</code> property of the <code>Customer</code> model.
-                </Paragraph>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzCheckboxGroupField Example" class="scroll-mt-20">
+                    RzCheckboxGroupField Example
+                </RzHeading>
+                <RzParagraph>
+                    The <code>RzCheckboxGroupField</code> component encapsulates a complete form field experience by combining a label, the checkbox group, help text, and validation messages. The example below demonstrates its usage with the <code>Interests</code> property of the <code>Customer</code> model.
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-5">
                         <EditForm Model="Model" class="form-children-spacing">
                             <RzValidationSummary/>
-                            <CheckboxGroupField TValue="string" For="@(() => Model.Interests)" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
+                            <RzCheckboxGroupField TValue="string" For="@(() => Model.Interests)" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
 	                            <CheckboxGroupContent>
-		                            <CheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports"/>
-		                            <CheckboxGroupItem TValue="string" Value="@("Music")" Title="Music"/>
-		                            <CheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel"/>
-		                            <CheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology"/>
+		                            <RzCheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports"/>
+		                            <RzCheckboxGroupItem TValue="string" Value="@("Music")" Title="Music"/>
+		                            <RzCheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel"/>
+		                            <RzCheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology"/>
 	                            </CheckboxGroupContent>
 	                            <FieldHelp>Select all interests that apply.</FieldHelp>
-                            </CheckboxGroupField>
+                            </RzCheckboxGroupField>
                         </EditForm>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-                            &lt;CheckboxGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.Interests)&quot; DisplayName=&quot;Select Your Interests&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                            &lt;RzCheckboxGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.Interests)&quot; DisplayName=&quot;Select Your Interests&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;
 	                            &lt;CheckboxGroupContent&gt;
-		                            &lt;CheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Sports&quot;)&quot; Title=&quot;Sports&quot;/&gt;
-		                            &lt;CheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Music&quot;)&quot; Title=&quot;Music&quot;/&gt;
-		                            &lt;CheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Travel&quot;)&quot; Title=&quot;Travel&quot;/&gt;
-		                            &lt;CheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Technology&quot;)&quot; Title=&quot;Technology&quot;/&gt;
+		                            &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Sports&quot;)&quot; Title=&quot;Sports&quot;/&gt;
+		                            &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Music&quot;)&quot; Title=&quot;Music&quot;/&gt;
+		                            &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Travel&quot;)&quot; Title=&quot;Travel&quot;/&gt;
+		                            &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Technology&quot;)&quot; Title=&quot;Technology&quot;/&gt;
 	                            &lt;/CheckboxGroupContent&gt;
 	                            &lt;FieldHelp&gt;Select all interests that apply.&lt;/FieldHelp&gt;
-                            &lt;/CheckboxGroupField&gt;
-                </CodeViewer>
+                            &lt;/RzCheckboxGroupField&gt;
+                </RzCodeViewer>
             </section>
 
             <!-- Customer Model Reference -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Customer Model" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Customer Model" class="scroll-mt-20">
                     Customer Model Reference
-                </Heading>
-                <Paragraph>
+                </RzHeading>
+                <RzParagraph>
                     The following code defines a sample <code>Customer</code> model that is used in these examples:
-                </Paragraph>
-                <CodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
 &lt;!-- Customer.cs --&gt;
 &lt;summary&gt;
 Represents a customer with personal and contact information.
@@ -165,11 +166,11 @@ public class Customer
     &lt;/summary&gt;
     public List&lt;string&gt; Interests { get; set; } = new List&lt;string&gt; { "Sports" };
 }
-                </CodeViewer>
+                </RzCodeViewer>
             </section>
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>
 
 @code {
     private Customer Model;

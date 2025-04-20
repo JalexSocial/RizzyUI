@@ -1,0 +1,37 @@
+@namespace RizzyUI
+@inherits RzComponent
+
+<HtmlElement Element="div"
+             @attributes="AdditionalAttributes"
+             class="@RootClass()"
+             x-data="rzProgress"
+             data-label="@Label"
+             data-current-val="@CurrentValue"
+             data-min-val="@MinValue"
+             data-max-val="@MaxValue"
+             role="progressbar"
+             aria-label="@AriaLabel"
+             aria-valuenow="@CurrentValue"
+             aria-valuemin="@MinValue"
+             aria-valuemax="@MaxValue"
+             data-progress="true">
+
+	@if (LabelPosition == ProgressLabelPosition.Outside && !string.IsNullOrEmpty(Label))
+	{
+		<div class="@OutsideLabelContainerClass">
+			<div class="grow"></div> 
+			<div class="@OutsideLabelTextClass"><span x-text="buildLabel"></span></div>
+		</div>
+	}
+	<div class="@OuterBarClass @OuterBarHeightClass">
+		<div class="@InnerBarClass" x-ref="progressBar" nonce="@Nonce">
+			@if (LabelPosition == ProgressLabelPosition.Inside && !string.IsNullOrEmpty(Label))
+			{
+				<div class="@InsideLabelContainerClass" x-ref="progressBarLabel" :class="getLabelCss">
+					<span class="@InsideLabelTextClass" x-ref="innerLabel"></span> 
+				</div>
+			}
+		</div>
+	</div>
+</HtmlElement>
+

@@ -1,0 +1,24 @@
+@typeparam TValue
+@namespace RizzyUI
+@using Rizzy
+@inherits RzComponent
+
+<RzField @attributes="AdditionalAttributes" class="@RootClass()">
+    <RzFieldLabel DisplayName="@DisplayName" For="@For" Required="Required"/>
+    @if (FieldHelp != null)
+    {
+        <RzFieldHelp>@FieldHelp</RzFieldHelp>
+    }
+    <RzRadioGroup TValue="TValue"
+                  @bind-Value="CurrentValue"
+                  DisplayName="@DisplayName"
+                  Name="@ResolvedName"
+                  For="@For"
+                  Orientation="@Orientation"
+                  CheckboxIcon="@CheckboxIcon"
+                  class="@GroupWithinFieldClass">
+        @RadioGroupContent 
+    </RzRadioGroup>
+    <RzValidationMessage For="@For"/>
+</RzField>
+

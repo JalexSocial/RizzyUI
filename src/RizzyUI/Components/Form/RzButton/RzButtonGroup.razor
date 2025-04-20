@@ -1,0 +1,10 @@
+@namespace RizzyUI
+@inherits RzComponent
+
+
+<CascadingValue Value="this" IsFixed="true">
+	<div @attributes="AdditionalAttributes" class="@RootClass()">
+		@ChildContent
+	</div>
+</CascadingValue>
+

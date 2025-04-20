@@ -1,0 +1,53 @@
+@namespace RizzyUI
+@inherits RzComponent
+
+<div x-data="rzSidebar" class="@ContainerClass"> 
+    @if (NavbarContent != null)
+    {
+        @NavbarContent
+    }
+
+    <div class="@LayoutContainerClass @LayoutContainerTopClass">
+        <div class="@LayoutInnerContainerClass">
+            <!-- Skip Link -->
+            <a class="@SkipLinkClass" href="#@MainContentId">skip to the main content</a>
+
+            <!-- Mobile Overlay -->
+            <div x-cloak x-show="showSidebar" class="@OverlayClass" aria-hidden="true" x-on:click="hideSidebar"
+                 x-transition.opacity></div>
+
+            <!-- Sidebar -->
+            <aside x-cloak class="@SidebarClass @SidebarTopClass" :class="getSidebarTranslation"
+                   aria-label="sidebar navigation">
+                @MenuContent
+            </aside>
+
+            <!-- Main Content -->
+            <section id="@MainContentId" class="@MainContentContainerClass">
+                <div class="@MainContentPaddingClass">
+                    @MainContent
+                </div>
+            </section>
+        </div>
+    </div>
+
+    @if (NavbarContent == null)
+    {
+        <!-- Floating Toggle Button (only if no navbar) -->
+        <button class="@FloatingToggleButtonClass" x-on:click="toggleSidebar">
+            
+            <svg x-show="showSidebar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                 class="size-5" aria-hidden="true">
+                <path
+                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+            </svg>
+            <svg x-show="isSidebarHidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                 class="size-5" aria-hidden="true">
+                <path
+                    d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm5-1v12h9a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zM4 2H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h2z"/>
+            </svg>
+            <span class="sr-only">sidebar toggle</span>
+        </button>
+    }
+</div>
+

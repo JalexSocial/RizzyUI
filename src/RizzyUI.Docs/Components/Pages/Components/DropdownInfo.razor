@@ -2,174 +2,174 @@
 @namespace RizzyUI.Pages
 @using RizzyUI
 @using RizzyUI.Extensions
-@inherits RizzyComponent
+@inherits RzComponent
 
 <PageTitle>Dropdown</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">
                 Dropdown
-            </Heading>
-            <Paragraph>
+            </RzHeading>
+            <RzParagraph>
                 Dropdowns provide a user‑friendly and space‑efficient way to display a list of options or actions.
                 When the trigger element is activated (via click or keyboard events), the dropdown menu appears with a smooth transition.
-                The component supports any renderable trigger (such as a Button, Avatar, etc.), multiple menu sections, dynamic alignment via the <code>Anchor</code> property, and full keyboard accessibility.
+                The component supports any renderable trigger (such as a Button, RzAvatar, etc.), multiple menu sections, dynamic alignment via the <code>Anchor</code> property, and full keyboard accessibility.
                 All interactivity is handled via Alpine.js (using the <code>rzDropdown</code> data object), ensuring a CSP‑compliant, accessible experience.
-            </Paragraph>
+            </RzParagraph>
 
-            <!-- Example 1: Dropdown with Avatar Trigger -->
+            <!-- Example 1: Dropdown with RzAvatar Trigger -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Avatar Dropdown" class="scroll-mt-20">
-                    Dropdown with Avatar Trigger
-                </Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
-                    In this example the dropdown is activated by clicking an Avatar. The menu options include Dashboard, Settings, and Sign Out.
-                </Paragraph>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzAvatar Dropdown" class="scroll-mt-20">
+                    Dropdown with RzAvatar Trigger
+                </RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
+                    In this example the dropdown is activated by clicking an RzAvatar. The menu options include Dashboard, Settings, and Sign Out.
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-60">
-                        <Dropdown Anchor="AnchorPoint.BottomCenter">
+                        <RzDropdown Anchor="AnchorPoint.BottomCenter">
                             <Trigger>
-                                <!-- Use the Avatar component as the trigger -->
-                                <Avatar ImageSource="/images/profile/51.jpg" Initials="JD" Shape="AvatarShape.Circle" Size="Size.Medium" />
+                                <!-- Use the RzAvatar component as the trigger -->
+                                <RzAvatar ImageSource="/images/profile/51.jpg" Initials="JD" Shape="AvatarShape.Circle" Size="Size.Medium" />
                             </Trigger>
                             <Content>
-                                <DropdownSection>
-                                    <DropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
-                                    <DropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
-                                    <DropdownMenuItem Icon="MdiIcon.Logout" Title="Sign Out" />
-                                </DropdownSection>
+                                <RzDropdownSection>
+                                    <RzDropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
+                                    <RzDropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
+                                    <RzDropdownMenuItem Icon="MdiIcon.Logout" Title="Sign Out" />
+                                </RzDropdownSection>
                             </Content>
-                        </Dropdown>
+                        </RzDropdown>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Dropdown Anchor=&quot;AnchorPoint.BottomCenter&quot;&gt;
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzDropdown Anchor=&quot;AnchorPoint.BottomCenter&quot;&gt;
     &lt;Trigger&gt;
-        &lt;Avatar ImageSource=&quot;/images/profile/51.jpg&quot; Initials=&quot;JD&quot; Shape=&quot;AvatarShape.Circle&quot; Size=&quot;Size.Medium&quot; /&gt;
+        &lt;RzAvatar ImageSource=&quot;/images/profile/51.jpg&quot; Initials=&quot;JD&quot; Shape=&quot;AvatarShape.Circle&quot; Size=&quot;Size.Medium&quot; /&gt;
     &lt;/Trigger&gt;
     &lt;Content&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
-        &lt;/DropdownSection&gt;
+        &lt;RzDropdownSection&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
+        &lt;/RzDropdownSection&gt;
     &lt;/Content&gt;
-&lt;/Dropdown&gt;
-                </CodeViewer>
+&lt;/RzDropdown&gt;
+                </RzCodeViewer>
             </section>
 
             <!-- Example 2: Dropdown with Button Trigger and Multiple Sections -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Button Dropdown" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Button Dropdown" class="scroll-mt-20">
                     Dropdown with Button Trigger
-                </Heading>
-                <Paragraph>
+                </RzHeading>
+                <RzParagraph>
                     In this example the dropdown is activated with a Button trigger. The menu is organized into multiple sections:
                     the first section contains Dashboard, Messages (with a numeric badge), and Favorites;
                     the second section contains Profile and Settings; and a final standalone Sign Out option is provided.
                     The dropdown will automatically adjust its alignment to remain fully visible.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-100">
-                        <Dropdown Anchor="AnchorPoint.BottomCenter">
+                        <RzDropdown Anchor="AnchorPoint.BottomCenter">
                             <Trigger>
-                                <Button Variant="ButtonVariant.Primary" Label="Menu" />
+                                <RzButton Variant="ButtonVariant.Primary" Label="Menu" />
                             </Trigger>
                             <Content>
-                                <DropdownSection>
-                                    <DropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
-                                    <DropdownMenuItem Icon="MdiIcon.Chat" Title="Messages" Count="6" />
-                                    <DropdownMenuItem Icon="MdiIcon.Heart" Title="Favorites" />
-                                </DropdownSection>
-                                <DropdownSection>
-	                                <DropdownMenuItem Icon="MdiIcon.Circle" Title="Profile" />
-	                                <DropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
-                                </DropdownSection>
-                                <DropdownSection>
-	                                <DropdownMenuItem Icon="MdiIcon.Logout" Title="Sign Out" />
-                                </DropdownSection>
+                                <RzDropdownSection>
+                                    <RzDropdownMenuItem Icon="MdiIcon.Home" Title="Dashboard" />
+                                    <RzDropdownMenuItem Icon="MdiIcon.Chat" Title="Messages" Count="6" />
+                                    <RzDropdownMenuItem Icon="MdiIcon.Heart" Title="Favorites" />
+                                </RzDropdownSection>
+                                <RzDropdownSection>
+	                                <RzDropdownMenuItem Icon="MdiIcon.Circle" Title="Profile" />
+	                                <RzDropdownMenuItem Icon="MdiIcon.Cog" Title="Settings" />
+                                </RzDropdownSection>
+                                <RzDropdownSection>
+	                                <RzDropdownMenuItem Icon="MdiIcon.Logout" Title="Sign Out" />
+                                </RzDropdownSection>
                             </Content>
-                        </Dropdown>
+                        </RzDropdown>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Dropdown Anchor=&quot;AnchorPoint.BottomCenter&quot;&gt;
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzDropdown Anchor=&quot;AnchorPoint.BottomCenter&quot;&gt;
     &lt;Trigger&gt;
-        &lt;Button Variant=&quot;ButtonVariant.Primary&quot; Label=&quot;Menu&quot; /&gt;
+        &lt;RzButton Variant=&quot;ButtonVariant.Primary&quot; Label=&quot;Menu&quot; /&gt;
     &lt;/Trigger&gt;
     &lt;Content&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Chat&quot; Title=&quot;Messages&quot; Count=&quot;6&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Heart&quot; Title=&quot;Favorites&quot; /&gt;
-        &lt;/DropdownSection&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Circle&quot; Title=&quot;Profile&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
-        &lt;/DropdownSection&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
-        &lt;/DropdownSection&gt;
+        &lt;RzDropdownSection&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Home&quot; Title=&quot;Dashboard&quot; /&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Chat&quot; Title=&quot;Messages&quot; Count=&quot;6&quot; /&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Heart&quot; Title=&quot;Favorites&quot; /&gt;
+        &lt;/RzDropdownSection&gt;
+        &lt;RzDropdownSection&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Circle&quot; Title=&quot;Profile&quot; /&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Cog&quot; Title=&quot;Settings&quot; /&gt;
+        &lt;/RzDropdownSection&gt;
+        &lt;RzDropdownSection&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Logout&quot; Title=&quot;Sign Out&quot; /&gt;
+        &lt;/RzDropdownSection&gt;
     &lt;/Content&gt;
-&lt;/Dropdown&gt;
-                </CodeViewer>
+&lt;/RzDropdown&gt;
+                </RzCodeViewer>
             </section>
 
             <!-- Example 3: Dropdown with Custom Anchor Point -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Anchor Dropdown" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Anchor Dropdown" class="scroll-mt-20">
                     Dropdown with Custom Anchor Point
-                </Heading>
-                <Paragraph>
+                </RzHeading>
+                <RzParagraph>
                     You can control the dropdown’s alignment using the <code>Anchor</code> property. For instance,
                     setting <code>Anchor="AnchorPoint.TopEnd"</code> positions the dropdown menu above the trigger and aligned to its end.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 min-h-60 flex flex-col flex-wrap justify-end content-center">
-                        <Dropdown Anchor="AnchorPoint.TopEnd">
+                        <RzDropdown Anchor="AnchorPoint.TopEnd">
                             <Trigger>
-                                <Button Variant="ButtonVariant.Secondary" Label="Options" />
+                                <RzButton Variant="ButtonVariant.Secondary" Label="Options" />
                             </Trigger>
                             <Content>
-                                <DropdownSection>
-                                    <DropdownMenuItem Icon="MdiIcon.Cog" Title="Preferences" />
-                                    <DropdownMenuItem Icon="MdiIcon.Information" Title="About" />
-                                </DropdownSection>
+                                <RzDropdownSection>
+                                    <RzDropdownMenuItem Icon="MdiIcon.Cog" Title="Preferences" />
+                                    <RzDropdownMenuItem Icon="MdiIcon.Information" Title="About" />
+                                </RzDropdownSection>
                             </Content>
-                        </Dropdown>
+                        </RzDropdown>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Dropdown Anchor=&quot;AnchorPoint.TopEnd&quot;&gt;
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzDropdown Anchor=&quot;AnchorPoint.TopEnd&quot;&gt;
     &lt;Trigger&gt;
-        &lt;Button Variant=&quot;ButtonVariant.Secondary&quot; Label=&quot;Options&quot; /&gt;
+        &lt;RzButton Variant=&quot;ButtonVariant.Secondary&quot; Label=&quot;Options&quot; /&gt;
     &lt;/Trigger&gt;
     &lt;Content&gt;
-        &lt;DropdownSection&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Settings&quot; Title=&quot;Preferences&quot; /&gt;
-            &lt;DropdownMenuItem Icon=&quot;MdiIcon.Info&quot; Title=&quot;About&quot; /&gt;
-        &lt;/DropdownSection&gt;
+        &lt;RzDropdownSection&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Settings&quot; Title=&quot;Preferences&quot; /&gt;
+            &lt;RzDropdownMenuItem Icon=&quot;MdiIcon.Info&quot; Title=&quot;About&quot; /&gt;
+        &lt;/RzDropdownSection&gt;
     &lt;/Content&gt;
-&lt;/Dropdown&gt;
-                </CodeViewer>
+&lt;/RzDropdown&gt;
+                </RzCodeViewer>
             </section>
 
             <!-- Dropdown Component Parameters -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Dropdown Parameters" class="scroll-mt-20">
-                    Dropdown Component Parameters
-                </Heading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Dropdown Parameters" class="scroll-mt-20">
+                    RzDropdown Component Parameters
+                </RzHeading>
                 <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
                     <thead>
                         <tr class="bg-surface-alt ">
@@ -187,7 +187,7 @@
                                 <strong>Trigger</strong>
                             </td>
                             <td class="text-base p-4">
-                                <em>RenderFragment</em> – The content that serves as the interactive trigger for the dropdown (for example, an Avatar, Button, etc.). (Required)
+                                <em>RenderFragment</em> – The content that serves as the interactive trigger for the dropdown (for example, an RzAvatar, Button, etc.). (Required)
                             </td>
                         </tr>
                         <tr>
@@ -215,9 +215,9 @@
 
             <!-- DropdownMenuItem Component Parameters -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuItem Parameters" class="scroll-mt-20">
-                    DropdownMenuItem Component Parameters
-                </Heading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuItem Parameters" class="scroll-mt-20">
+                    RzDropdownMenuItem Component Parameters
+                </RzHeading>
                 <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
                     <thead>
                         <tr class="bg-surface-alt ">
@@ -260,9 +260,9 @@
 
             <!-- DropdownSection Component Parameters -->
             <section class="my-8 py-2">
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownSection Parameters" class="scroll-mt-20">
-                    DropdownSection Component Parameters
-                </Heading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownSection Parameters" class="scroll-mt-20">
+                    RzDropdownSection Component Parameters
+                </RzHeading>
                 <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
                     <thead>
                         <tr class="bg-surface-alt ">
@@ -288,5 +288,5 @@
             </section>
 
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>

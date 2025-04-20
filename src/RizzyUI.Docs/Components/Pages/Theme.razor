@@ -2,25 +2,25 @@
 
 <PageTitle>Themes</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
-        <SideContent><QuickReference/></SideContent>
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent><RzQuickReference/></SideContent>
         <MainContent>
-	        <Markdown ProseWidth="ProseWidth.UltraWide">
+	        <RzMarkdown ProseWidth="ProseWidth.UltraWide">
 # Using Themes with RizzyUI
 
 RizzyUI leverages themes to ensure consistent styling across all components. Themes define design tokens (such as colors, border widths, and radii) for both light and dark modes, allowing your application to easily switch between or customize visual appearances.
 
 ## Adding the Theme Provider
 
-To apply a theme across your application, you **must place the `&lt;RizzyThemeProvider&gt;` component in the `&lt;head&gt;` section** of your HTML template. This ensures that theme variables (declared as CSS custom properties) are available before any RizzyUI components render.
+To apply a theme across your application, you **must place the `&lt;RzThemeProvider&gt;` component in the `&lt;head&gt;` section** of your HTML template. This ensures that theme variables (declared as CSS custom properties) are available before any RizzyUI components render.
 
 **Example:**
 
 ```html
 &lt;head&gt;
   &lt;!-- Other head elements --&gt;
-  &lt;RizzyThemeProvider /&gt;
+  &lt;RzThemeProvider /&gt;
   &lt;!-- Other head elements --&gt;
 &lt;/head&gt;
 ```
@@ -31,19 +31,19 @@ There are two ways to supply a theme to your application:
 
 ### Directly via the Theme Parameter
 
-You can pass a specific theme to the `Theme` parameter of the `&lt;RizzyThemeProvider&gt;` component.
+You can pass a specific theme to the `Theme` parameter of the `&lt;RzThemeProvider&gt;` component.
 
 **Example:**
 
 ```razor
-&lt;RizzyThemeProvider Theme=&quot;RizzyTheme.HighContrastTheme&quot; /&gt;
+&lt;RzThemeProvider Theme=&quot;RizzyTheme.HighContrastTheme&quot; /&gt;
 ```
 
 This directly applies the **HighContrastTheme** (or any other theme you choose) to your application.
 
 ### Setting a Default Theme via Configuration
 
-Alternatively, you can set a default theme when configuring RizzyUI in your startup code. If no explicit theme is provided to `&lt;RizzyThemeProvider&gt;`, the provider will use the default theme specified in the configuration.
+Alternatively, you can set a default theme when configuring RizzyUI in your startup code. If no explicit theme is provided to `&lt;RzThemeProvider&gt;`, the provider will use the default theme specified in the configuration.
 
 **Example (in Program.cs or Startup.cs):**
 
@@ -98,7 +98,7 @@ public class CustomTheme : RizzyTheme
 }
 ```
 
-Once you have created your custom theme, you can apply it by either passing it directly to `&lt;RizzyThemeProvider&gt;` or by configuring it as the default theme.
+Once you have created your custom theme, you can apply it by either passing it directly to `&lt;RzThemeProvider&gt;` or by configuring it as the default theme.
 
 ## How Themes Are Applied
 
@@ -177,7 +177,7 @@ Under the hood, **Colors.Rose.L500** in the theme provider will supply the same 
 
 ## Semantic Colors in RizzyUI Themes
 
-Semantic colors in RizzyUI provide a meaningful and consistent way to style components. Instead of hardcoding specific color values, the library uses semantic tokens that map to design choices. For example, a theme defines its background, text, accent, and status colors using these tokens. When you apply a theme (via the `&lt;RizzyThemeProvider&gt;` or through configuration), components reference these semantic tokens (such as `Surface`, `Primary`, or `Danger`) to determine their visual appearance. This abstraction allows you to change the look of your entire application simply by switching themes or adjusting the theme’s values.
+Semantic colors in RizzyUI provide a meaningful and consistent way to style components. Instead of hardcoding specific color values, the library uses semantic tokens that map to design choices. For example, a theme defines its background, text, accent, and status colors using these tokens. When you apply a theme (via the `&lt;RzThemeProvider&gt;` or through configuration), components reference these semantic tokens (such as `Surface`, `Primary`, or `Danger`) to determine their visual appearance. This abstraction allows you to change the look of your entire application simply by switching themes or adjusting the theme’s values.
 
 The semantic colors are defined in the `SemanticColor` enum and include the following values:
 
@@ -186,7 +186,7 @@ The semantic colors are defined in the `SemanticColor` enum and include the foll
 | **None**             | Indicates that no semantic color is applied. Useful as a placeholder when no styling is desired.                                                                                                                                                                                                               |
 | **Surface**          | The primary background color for components (e.g., the default container or card background). Often referenced using the `bg-surface` class.                                                                                                                                                                   |
 | **OnSurface**        | Used for text and icons displayed on a Surface background. This ensures adequate contrast (e.g., using `text-on-surface`).                                                                                                                                                                                      |
-| **OnSurfaceStrong**  | A stronger variant for text on a Surface background, typically used for headings or prominent labels (e.g., `text-on-surface-strong`).                                                                                                                                                                            |
+| **OnSurfaceStrong**  | A stronger variant for text on a Surface background, typically used for RzHeadings or prominent labels (e.g., `text-on-surface-strong`).                                                                                                                                                                            |
 | **SurfaceAlt**       | An alternate background color used to differentiate sections or secondary surfaces (e.g., `bg-surface-alt`).                                                                                                                                                                                                     |
 | **Primary**          | The main accent or brand color used in interactive elements like buttons or links (e.g., `bg-primary`).                                                                                                                                                                                                          |
 | **OnPrimary**        | Used for text and icons placed on a Primary-colored background, ensuring readability (e.g., `text-on-primary`).                                                                                                                                                                                                 |
@@ -205,8 +205,8 @@ The semantic colors are defined in the `SemanticColor` enum and include the foll
 
 By using these semantic color tokens within your themes, you can easily adjust the visual appearance of your entire application. Whether you choose one of the built-in themes (like **HighContrastTheme**, **ModernTheme**, or **NewsTheme**) or create a custom theme, these tokens ensure a consistent, accessible, and easily maintainable design throughout your RizzyUI-powered application.
 
-			</Markdown>
+			</RzMarkdown>
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>
 

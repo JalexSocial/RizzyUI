@@ -1,8 +1,9 @@
 ﻿@page "/test"
 @using Rizzy.Components
+@using Rizzy
 @using RizzyUI.Docs.Models
 
-<Sidebar>
+<RzSidebar>
 	<MenuContent>
         <!-- logo  -->
         <a href="#" class="ml-2 w-fit text-2xl font-bold text-black dark:text-white">
@@ -25,51 +26,51 @@
 	        <input type="search" class="w-full rounded-xl border border-slate-300 bg-white px-2 py-1.5 pl-9 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:cursor-not-allowed disabled:opacity-75 dark:border-slate-700 dark:bg-slate-900/50 dark:focus-visible:outline-blue-600" name="search" aria-label="Search" placeholder="Search" />
         </div>
 
-		<SidebarLinks>
-            <SidebarLinkItem Icon="MdiIcon.ViewDashboard" Title="Dashboard" Href="#" />
+		<RzSidebarLinks>
+            <RzSidebarLinkItem Icon="MdiIcon.ViewDashboard" Title="Dashboard" Href="#" />
 
-            <SidebarLinkItem Icon="MdiIcon.Account" Title="User Management" Collapsible="false">
-				<SidebarLinkItem Title="Users" Href="#"/>
-				<SidebarLinkItem Title="Permissions" Href="#"/>
-				<SidebarLinkItem Title="Activity Log" Href="#"/>
-			</SidebarLinkItem>
+            <RzSidebarLinkItem Icon="MdiIcon.Account" Title="User Management" Collapsible="false">
+				<RzSidebarLinkItem Title="Users" Href="#"/>
+				<RzSidebarLinkItem Title="Permissions" Href="#"/>
+				<RzSidebarLinkItem Title="Activity Log" Href="#"/>
+			</RzSidebarLinkItem>
 
-            <SidebarLinkItem Icon="MdiIcon.FileCabinet" Title="Products" Collapsible="true">
-				<SidebarLinkItem Title="All Products" Href="#"/>
-				<SidebarLinkItem Title="Inventory" Href="#"/>
-				<SidebarLinkItem Title="Reviews" Href="#"/>
-			</SidebarLinkItem>
+            <RzSidebarLinkItem Icon="MdiIcon.FileCabinet" Title="Products" Collapsible="true">
+				<RzSidebarLinkItem Title="All Products" Href="#"/>
+				<RzSidebarLinkItem Title="Inventory" Href="#"/>
+				<RzSidebarLinkItem Title="Reviews" Href="#"/>
+			</RzSidebarLinkItem>
 
-            <SidebarLinkItem Icon="MdiIcon.CashRegister" Title="Orders" Collapsible="true" Collapsed="false">
-				<SidebarLinkItem Title="Pending" Href="#">
+            <RzSidebarLinkItem Icon="MdiIcon.CashRegister" Title="Orders" Collapsible="true" Collapsed="false">
+				<RzSidebarLinkItem Title="Pending" Href="#">
 					<TrailerContent>
 						<span class="ml-auto font-bold">3</span>
 					</TrailerContent>
-				</SidebarLinkItem>
-				<SidebarLinkItem Title="Shipped" Href="#">
+				</RzSidebarLinkItem>
+				<RzSidebarLinkItem Title="Shipped" Href="#">
 					<TrailerContent>
 						<span class="ml-auto font-bold">12</span>
 					</TrailerContent>
-				</SidebarLinkItem>
-				<SidebarLinkItem Title="Completed" Href="#">
+				</RzSidebarLinkItem>
+				<RzSidebarLinkItem Title="Completed" Href="#">
 					<TrailerContent>
 						<span class="ml-auto font-bold">38</span>
 					</TrailerContent>
-				</SidebarLinkItem>
-				<SidebarLinkItem Title="Returns" Href="#">
+				</RzSidebarLinkItem>
+				<RzSidebarLinkItem Title="Returns" Href="#">
 					<TrailerContent>
 						<span class="ml-auto font-bold">2</span>
 					</TrailerContent>
-				</SidebarLinkItem>
-			</SidebarLinkItem>
+				</RzSidebarLinkItem>
+			</RzSidebarLinkItem>
 
-            <SidebarLinkItem Icon="MdiIcon.Cog" Title="Settings" Href="#" />
-		</SidebarLinks>
+            <RzSidebarLinkItem Icon="MdiIcon.Cog" Title="Settings" Href="#" />
+		</RzSidebarLinks>
 
 	</MenuContent>
 <MainContent>
     
-    <Markdown>
+    <RzMarkdown>
             ## What is CSP?
 
             A Content Security Policy (CSP) is a security mechanism that helps prevent cross-site scripting (XSS) and other code injection attacks by restricting the sources from which content (e.g., scripts, styles, images) can be loaded. A typical CSP might look like this:
@@ -158,12 +159,12 @@
             connect-src &#39;self&#39; localhost:* http://localhost:* ws://localhost:* wss://localhost:*;
             script-src &#39;self&#39; &#39;nonce-@@NonceProvider.GetNonceFor(NonceType.Script)&#39;;
             style-src &#39;self&#39; &#39;nonce-@@NonceProvider.GetNonceFor(NonceType.Style)&#39;;&quot;&gt;
-            &lt;!-- Link to stylesheets with nonce attributes --&gt;
+            &lt;!-- RzLink to stylesheets with nonce attributes --&gt;
             &lt;link nonce=&quot;@@NonceProvider.GetNonceFor(NonceType.Style)&quot; rel=&quot;stylesheet&quot; href=&quot;/css/app.css&quot; /&gt;
 
             &lt;HeadOutlet /&gt;
 
-            &lt;!-- Link to scripts with nonce attributes --&gt;
+            &lt;!-- RzLink to scripts with nonce attributes --&gt;
             &lt;script defer nonce=&quot;@@NonceProvider.GetNonceFor(NonceType.Script)&quot; src=&quot;https://cdn.jsdelivr.net/npm/@@alpinejs/csp@3.x.x/dist/cdn.min.js&quot;&gt;&lt;/script&gt;
             &lt;/head&gt;
             &lt;body&gt;
@@ -197,93 +198,93 @@
             - **HMAC Key:** Must be configured (or generated) and shared in distributed environments.
 
             This implementation secures web applications by ensuring that only inline elements with validated, type-specific nonces are executed, thereby reducing the risk of XSS attacks.
-        </Markdown>
+        </RzMarkdown>
 
     <div class="p-8">
-        <Dropdown Anchor="AnchorPoint.TopStart">
+        <RzDropdown Anchor="AnchorPoint.TopStart">
             <Trigger>
-                <Button Variant="ButtonVariant.Primary" Label="Open Menu"></Button>
+                <RzButton Variant="ButtonVariant.Primary" Label="Open Menu"></RzButton>
             </Trigger>
             <Content>
-                <DropdownSection>
-                    <DropdownMenuItem Icon="MdiIcon.Cog" Title="Settings"/>
-                    <DropdownMenuItem Icon="MdiIcon.FaceManProfile" Title="Profile" Count="5"/>
-                </DropdownSection>
-                <DropdownSection>
-                    <DropdownMenuItem Icon="MdiIcon.Logout" Title="Logout"/>
-                </DropdownSection>
+                <RzDropdownSection>
+                    <RzDropdownMenuItem Icon="MdiIcon.Cog" Title="Settings"/>
+                    <RzDropdownMenuItem Icon="MdiIcon.FaceManProfile" Title="Profile" Count="5"/>
+                </RzDropdownSection>
+                <RzDropdownSection>
+                    <RzDropdownMenuItem Icon="MdiIcon.Logout" Title="Logout"/>
+                </RzDropdownSection>
             </Content>
-        </Dropdown>
+        </RzDropdown>
     </div>
 
-    <Card x-data="demoTest">
-        <CardBody>
-            <Tabs id="tabDemo">
+    <RzCard x-data="demoTest">
+        <RzCardBody>
+            <RzTabs id="tabDemo">
                 <Menu>
-                    <TabStrip>
-                        <Tab Name="groups">Groups</Tab>
-                        <Tab Name="likes">Likes</Tab>
-                        <Tab Name="comments">Comments</Tab>
-                        <Tab Name="saved">Saved</Tab>
-                    </TabStrip>
+                    <RzTabStrip>
+                        <RzTab Name="groups">Groups</RzTab>
+                        <RzTab Name="likes">Likes</RzTab>
+                        <RzTab Name="comments">Comments</RzTab>
+                        <RzTab Name="saved">Saved</RzTab>
+                    </RzTabStrip>
                 </Menu>
                 <TabPanels>
-                    <TabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</TabPanel>
-                    <TabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</TabPanel>
-                    <TabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</TabPanel>
-                    <TabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</TabPanel>
+                    <RzTabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</RzTabPanel>
+                    <RzTabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</RzTabPanel>
+                    <RzTabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</RzTabPanel>
+                    <RzTabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</RzTabPanel>
                 </TabPanels>
-            </Tabs>
+            </RzTabs>
 
-            <Button Size="Size.Large" x-on:click="handleButtonClick">Do Something</Button>
-        </CardBody>
-    </Card>
+            <RzButton Size="Size.Large" x-on:click="handleButtonClick">Do Something</RzButton>
+        </RzCardBody>
+    </RzCard>
 
-    <Steps Orientation="Orientation.Horizontal"
+    <RzSteps Orientation="Orientation.Horizontal"
            ShowLabels="true"
-           AriaLabel="Registration Progress"
+           AriaLabel="Registration RzProgress"
            ActiveColor="StatusColor.Primary">
-        <Step Label="Create an account" Status="StepStatus.Completed" Caption="Account created"/>
-        <Step Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection"/>
-        <Step Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart"/>
-        <Step Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey"/>
-    </Steps>
+        <RzStep Label="Create an account" Status="StepStatus.Completed" Caption="Account created"/>
+        <RzStep Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection"/>
+        <RzStep Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart"/>
+        <RzStep Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey"/>
+    </RzSteps>
 
-    <Accordion AllowMultipleOpen="false">
-        <AccordionSection Title="What browsers are supported?">
+    <RzAccordion AllowMultipleOpen="false">
+        <RzAccordionSection Title="What browsers are supported?">
             <p>
                 Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
                 Check our <a href="#" class="underline underline-offset-2 text-primary ">documentation</a> for more info.
             </p>
-        </AccordionSection>
-        <AccordionSection Title="How can I contact customer support?">
+        </RzAccordionSection>
+        <RzAccordionSection Title="How can I contact customer support?">
             <p>
                 Reach out to our support team via email at
                 <a href="#" class="underline underline-offset-2 text-primary ">support@example.com</a>
                 or call 1-800-123-4567.
             </p>
-        </AccordionSection>
-        <AccordionSection Title="What is the refund policy?">
+        </RzAccordionSection>
+        <RzAccordionSection Title="What is the refund policy?">
             <p>
                 Please refer to our <a href="#" class="underline underline-offset-2 text-primary ">refund policy page</a> for details.
             </p>
-        </AccordionSection>
-    </Accordion>
+        </RzAccordionSection>
+    </RzAccordion>
 
     <!-- Add main content here -->
-    <Breadcrumb Separator="MdiIcon.ChevronRight">
-        <BreadcrumbItem Href="/" Label="Home" Icon="MdiIcon.Home"/>
-        <BreadcrumbItem Href="/components" Label="Components"/>
-        <BreadcrumbItem Label="Breadcrumb" IsActive="true"/>
-    </Breadcrumb>
+    <RzBreadcrumb Separator="MdiIcon.ChevronRight">
+        <RzBreadcrumbItem Href="/" Label="Home" Icon="MdiIcon.Home"/>
+        <RzBreadcrumbItem Href="/components" Label="Components"/>
+        <RzBreadcrumbItem Label="RzBreadcrumb" IsActive="true"/>
+    </RzBreadcrumb>
 
-    <Card>
-        <CardHeader>
+    <RzCard>
+        <RzCardHeader>
             <div>
-                <CardTitle>Information</CardTitle>
-                <CardSubtitle>This is a subtitle</CardSubtitle>
+                <RzCardTitle>Information</RzCardTitle>
+                <RzCardSubtitle>This is a subtitle</RzCardSubtitle>
             </div>
-            <CardButtons>
+            <RzCardButtons>
                 <a href="javascript:void(0)"
                    class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold leading-5 text-gray-800 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:ring focus:ring-gray-300/25 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600/40 dark:active:border-gray-700">
                     <svg class="hi-mini hi-plus inline-block size-4 opacity-50"javascript:void(0)
@@ -306,65 +307,65 @@
                     </svg>
                     <span>Clients</span>
                 </a>
-            </CardButtons>
-        </CardHeader>
-        <CardBody>
-            <FormSection Layout="SectionLayout.TwoColumn" Title="User Details" class="mb-5">
+            </RzCardButtons>
+        </RzCardHeader>
+        <RzCardBody>
+            <RzFormSection Layout="SectionLayout.TwoColumn" Title="User Details" class="mb-5">
                 <Description>This is a user details form where you enter information about yourself.</Description>
                 <Content>
                     <EditForm Model="Model" class="form-children-spacing">
                         <RzValidationSummary/>
 
-                        <Field>
-                            <FieldLabel DisplayName="Name" For="@(() => Model.Name)"></FieldLabel>
-                            <TextEdit For="@(() => Model.Name)" PrependText="http://"/>
+                        <RzField>
+                            <RzFieldLabel DisplayName="Name" For="@(() => Model.Name)"></RzFieldLabel>
+                            <RzTextEdit For="@(() => Model.Name)" PrependText="http://"/>
                             <RzValidationMessage For="@(() => Model.Name)"/>
-                        </Field>
+                        </RzField>
 
-                        <TextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
+                        <RzTextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
                                    Placeholder="Enter your phone number.."
                                    PrependIcon="@MdiIcon.Phone">
-                            <FieldHelp>This is a helpful description</FieldHelp>
-                        </TextField>
+                            <RzFieldHelp>This is a helpful description</RzFieldHelp>
+                        </RzTextField>
 
-                        <ToggleField For="@(() => Model.IsActive)" DisplayName="Active?">
-                            <FieldHelp>Is this person active?</FieldHelp>
-                        </ToggleField>
+                        <RzToggleField For="@(() => Model.IsActive)" DisplayName="Active?">
+                            <RzFieldHelp>Is this person active?</RzFieldHelp>
+                        </RzToggleField>
 
-                        <RadioGroupField For="@(() => Model.PreferredContactMethod)" DisplayName="Product"
+                        <RzRadioGroupField For="@(() => Model.PreferredContactMethod)" DisplayName="Product"
                                          Orientation="Orientation.Vertical" CheckboxIcon="MdiIcon.CheckboxMarked">
-                            <RadioGroupItem TValue="string" Label="Modern" Value="@("email")">
+                            <RzRadioGroupItem TValue="string" Label="Modern" Value="@("email")">
                                 <Description>
                                     We'll blast you with emails galore
                                 </Description>
-                            </RadioGroupItem>
-                            <RadioGroupItem TValue="string" Label="Minimal" Value="@("text")">
+                            </RzRadioGroupItem>
+                            <RzRadioGroupItem TValue="string" Label="Minimal" Value="@("text")">
                                 <Description>
                                     If you love simplicity every 5 minutes
                                 </Description>
-                            </RadioGroupItem>
-                            <RadioGroupItem TValue="string" Label="Classic" Value="@("phone")">
+                            </RzRadioGroupItem>
+                            <RzRadioGroupItem TValue="string" Label="Classic" Value="@("phone")">
                                 <Description>
                                     Our legacy method
                                 </Description>
-                            </RadioGroupItem>
-                        </RadioGroupField>
+                            </RzRadioGroupItem>
+                        </RzRadioGroupField>
 
-                        <CheckboxGroupField TValue="string" For="() => Model.Interests" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
+                        <RzCheckboxGroupField TValue="string" For="() => Model.Interests" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
                             <CheckboxGroupContent>
-                                <CheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports"/>
-                                <CheckboxGroupItem TValue="string" Value="@("Music")" Title="Music"/>
-                                <CheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel"/>
-                                <CheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology"/>
+                                <RzCheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports"/>
+                                <RzCheckboxGroupItem TValue="string" Value="@("Music")" Title="Music"/>
+                                <RzCheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel"/>
+                                <RzCheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology"/>
                             </CheckboxGroupContent>
-                        </CheckboxGroupField>
+                        </RzCheckboxGroupField>
 
-                        <DateEdit For="@Model.BirthDate" PrependIcon="MdiIcon.Calendar"/>
+                        
 
                         <!--
-
+<RzDateEdit For="() => Model.BirthDate" PrependIcon="MdiIcon.Calendar"/>
 		                <NumberField For="@(() => Model.Age)" Placeholder="Enter your age..">
-							<FieldHelp>How old are you?</FieldHelp>
+							<RzFieldHelp>How old are you?</RzFieldHelp>
 						</NumberField>
 
 						<div x-data>
@@ -375,53 +376,53 @@
 								<option value="3">Option 3</option>
 							</select>
 						</div>
-		                <RadioGroupField For="@(() => Model.Product)" DisplayName="Product" Orientation="Orientation.Vertical">
-							<RadioGroupItem TValue="string" Label="Modern" Value="@("modern")">
+		                <RzRadioGroupField For="@(() => Model.Product)" DisplayName="Product" Orientation="Orientation.Vertical">
+							<RzRadioGroupItem TValue="string" Label="Modern" Value="@("modern")">
 								<Description>
 									This is the default one
 								</Description>
-							</RadioGroupItem>
-							<RadioGroupItem TValue="string" Label="Minimal" Value="@("minimal")">
+							</RzRadioGroupItem>
+							<RzRadioGroupItem TValue="string" Label="Minimal" Value="@("minimal")">
 								<Description>
 									If you love simplicity
 								</Description>
-							</RadioGroupItem>
-							<RadioGroupItem TValue="string" Label="Classic" Value="@("classic")">
+							</RzRadioGroupItem>
+							<RzRadioGroupItem TValue="string" Label="Classic" Value="@("classic")">
 								<Description>
 									Our legacy design
 								</Description>
-							</RadioGroupItem>
-						</RadioGroupField>
+							</RzRadioGroupItem>
+						</RzRadioGroupField>
 
-						<ToggleField For="@(() => Model.Eligible)" DisplayName="Eligible">
+						<RzToggleField For="@(() => Model.Eligible)" DisplayName="Eligible">
 							<Description>
 								Are you eligible to receive benefits?
 							</Description>
-						</ToggleField>
+						</RzToggleField>
 						
 						<DateField For="@(() => Model.Birthday)" DisplayName="Date of Birth"></DateField>
 		                    -->
-                        <Button type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
+                        <RzButton type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
                             <span>Save</span>
-                        </Button>
+                        </RzButton>
                     </EditForm>
                 </Content>
-            </FormSection>
+            </RzFormSection>
 
-        </CardBody>
-        <CardFooter>Footer content here</CardFooter>
-    </Card>
+        </RzCardBody>
+        <RzCardFooter>Footer content here</RzCardFooter>
+    </RzCard>
 
 
-    <Card class="max-w-sm overflow-hidden">
+    <RzCard class="max-w-sm overflow-hidden">
         <img src="/images/card1.jpg" class="w-full h-auto object-cover brightness-75"
              alt="Card background"/>
-        <CardBody>
+        <RzCardBody>
             <p>Body content here</p>
-        </CardBody>
-    </Card>
+        </RzCardBody>
+    </RzCard>
 </MainContent>
-</Sidebar>
+</RzSidebar>
 
 @code
 {

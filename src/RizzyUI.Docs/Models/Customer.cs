@@ -15,7 +15,7 @@ public class Customer
     /// <summary>
     /// Gets or sets the full name of the customer.
     /// </summary>
-    [MaxLength(10)]
+    [MaxLength(15)]
     public string Name { get; set; } = "Jane Johnson";
 
     /// <summary>

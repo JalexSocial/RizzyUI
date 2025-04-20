@@ -1,0 +1,20 @@
+@inherits RzComponent
+@namespace RizzyUI
+
+<CascadingValue Value="this" IsFixed="true">
+    <div
+        data-tabselected="@ActiveTabNameLower"
+        data-buttonref="@ButtonRefId"
+        x-data="rzTabs"
+        x-on:resize.window="handleResize"
+        @attributes="AdditionalAttributes"
+        class="@RootClass()"
+    >
+        @Menu
+
+        <div class="@PanelsContainerClass">
+            @TabPanels
+        </div>
+    </div>
+</CascadingValue>
+

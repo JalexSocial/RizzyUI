@@ -1,0 +1,15 @@
+﻿@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent
+
+<HtmlElement Element="button"
+             @attributes="AdditionalAttributes"
+             class="@RootClass()"
+             aria-label="@Label">
+	<div class="@InnerContainerClass">
+		<span class="@IconSpanClass">
+			<Blazicon Svg="MdiIcon.Magnify" />
+		</span>
+		@Label
+	</div>
+</HtmlElement>

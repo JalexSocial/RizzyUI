@@ -1,0 +1,22 @@
+@using Rizzy
+
+@namespace RizzyUI
+@inherits RzComponent
+
+
+<RzField class="@RootClass()">
+    <RzFieldLabel DisplayName="@DisplayName" For="@For" Required="Required"/>
+    
+    <RzTextEdit For="@For"
+                Role="@Role"
+                Placeholder="@Placeholder"
+                PrependIcon="@PrependIcon"
+                PrependText="@PrependText"
+                @attributes="AdditionalAttributes"/>
+    @if (FieldHelp != null)
+    {
+        <RzFieldHelp>@FieldHelp</RzFieldHelp>
+    }
+    <RzValidationMessage For="@For"/>
+</RzField>
+

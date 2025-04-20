@@ -3,162 +3,162 @@
 
 <PageTitle>Tabs</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Tabs</Heading>
-            <Paragraph>
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">Tabs</RzHeading>
+            <RzParagraph>
                 Tabs are a great way to display different sections of your website. They can be used to indicate the current section, navigate to the next or previous section, and more.
-            </Paragraph>
+            </RzParagraph>
 
-            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Tabs" class="scroll-mt-20">Default Tabs</Heading>
-            <Paragraph TextColor="SemanticColor.OnSurface">
+            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Tabs" class="scroll-mt-20">Default Tabs</RzHeading>
+            <RzParagraph TextColor="SemanticColor.OnSurface">
                 A list of tabs with a tab panel.
-            </Paragraph>
+            </RzParagraph>
 
-            <Browser Layout="typeof(PreviewLayout)">
+            <RzBrowser Layout="typeof(PreviewLayout)">
                 <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
-                    <Tabs>
+                    <RzTabs>
                         <Menu>
-                            <TabStrip>
-                                <Tab Name="groups">Groups</Tab>
-                                <Tab Name="likes">Likes</Tab>
-                                <Tab Name="comments">Comments</Tab>
-                                <Tab Name="saved">Saved</Tab>
-                            </TabStrip>
+                            <RzTabStrip>
+                                <RzTab Name="groups">Groups</RzTab>
+                                <RzTab Name="likes">Likes</RzTab>
+                                <RzTab Name="comments">Comments</RzTab>
+                                <RzTab Name="saved">Saved</RzTab>
+                            </RzTabStrip>
                         </Menu>
                         <TabPanels>
-                            <TabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</TabPanel>
-                            <TabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</TabPanel>
-                            <TabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</TabPanel>
-                            <TabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</TabPanel>
+                            <RzTabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</RzTabPanel>
+                            <RzTabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</RzTabPanel>
+                            <RzTabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</RzTabPanel>
+                            <RzTabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</RzTabPanel>
                         </TabPanels>
-                    </Tabs>
+                    </RzTabs>
                 </div>
-            </Browser>
+            </RzBrowser>
 
-            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;Tabs&gt;
+            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;RzTabs&gt;
         &lt;Menu&gt;
-            &lt;TabStrip&gt;
-                &lt;Tab Name=&quot;groups&quot;&gt;Groups&lt;/Tab&gt;
-                &lt;Tab Name=&quot;likes&quot;&gt;Likes&lt;/Tab&gt;
-                &lt;Tab Name=&quot;comments&quot;&gt;Comments&lt;/Tab&gt;
-                &lt;Tab Name=&quot;saved&quot;&gt;Saved&lt;/Tab&gt;
+            &lt;RzTabStrip&gt;
+                &lt;RzTab Name=&quot;groups&quot;&gt;Groups&lt;/Tab&gt;
+                &lt;RzTab Name=&quot;likes&quot;&gt;Likes&lt;/Tab&gt;
+                &lt;RzTab Name=&quot;comments&quot;&gt;Comments&lt;/Tab&gt;
+                &lt;RzTab Name=&quot;saved&quot;&gt;Saved&lt;/Tab&gt;
             &lt;/TabStrip&gt;
         &lt;/Menu&gt;
         &lt;TabPanels&gt;
-            &lt;TabPanel Name=&quot;groups&quot;&gt;&lt;strong&gt;&lt;u&gt;Groups&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
-            &lt;TabPanel Name=&quot;likes&quot;&gt;&lt;strong&gt;&lt;u&gt;Likes&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
-            &lt;TabPanel Name=&quot;comments&quot;&gt;&lt;strong&gt;&lt;u&gt;Comments&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
-            &lt;TabPanel Name=&quot;saved&quot;&gt;&lt;strong&gt;&lt;u&gt;Saved&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+            &lt;RzTabPanel Name=&quot;groups&quot;&gt;&lt;strong&gt;&lt;u&gt;Groups&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+            &lt;RzTabPanel Name=&quot;likes&quot;&gt;&lt;strong&gt;&lt;u&gt;Likes&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+            &lt;RzTabPanel Name=&quot;comments&quot;&gt;&lt;strong&gt;&lt;u&gt;Comments&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+            &lt;RzTabPanel Name=&quot;saved&quot;&gt;&lt;strong&gt;&lt;u&gt;Saved&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
         &lt;/TabPanels&gt;
-    &lt;/Tabs&gt;
-            </CodeViewer>
+    &lt;/RzTabs&gt;
+            </RzCodeViewer>
             
-            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Tabs with icon" class="scroll-mt-20">Tabs with icon</Heading>
-            <Paragraph TextColor="SemanticColor.OnSurface">
+            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Tabs with icon" class="scroll-mt-20">Tabs with icon</RzHeading>
+            <RzParagraph TextColor="SemanticColor.OnSurface">
                 A list of tabs with icons and a tab panel.
-            </Paragraph>
+            </RzParagraph>
 
-            <Browser Layout="typeof(PreviewLayout)">
+            <RzBrowser Layout="typeof(PreviewLayout)">
                 <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
-                    <Tabs>
+                    <RzTabs>
                         <Menu>
-                            <TabStrip>
-                                <Tab Name="groups">
+                            <RzTabStrip>
+                                <RzTab Name="groups">
                                     <div class="pr-2"><Blazicon Svg="MdiIcon.AccountGroup" /></div>
                                     Groups
-                                </Tab>
-                                <Tab Name="likes">Likes</Tab>
-                                <Tab Name="comments">Comments</Tab>
-                                <Tab Name="saved">Saved</Tab>
-                            </TabStrip>
+                                </RzTab>
+                                <RzTab Name="likes">Likes</RzTab>
+                                <RzTab Name="comments">Comments</RzTab>
+                                <RzTab Name="saved">Saved</RzTab>
+                            </RzTabStrip>
                         </Menu>
                         <TabPanels>
-                            <TabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</TabPanel>
-                            <TabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</TabPanel>
-                            <TabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</TabPanel>
-                            <TabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</TabPanel>
+                            <RzTabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</RzTabPanel>
+                            <RzTabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</RzTabPanel>
+                            <RzTabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</RzTabPanel>
+                            <RzTabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</RzTabPanel>
                         </TabPanels>
-                    </Tabs>
+                    </RzTabs>
                 </div>
-            </Browser>
+            </RzBrowser>
 
-            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;Tabs&gt;
+            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;RzTabs&gt;
         &lt;Menu&gt;
-            &lt;TabStrip&gt;
-                &lt;Tab Name=&quot;groups&quot;&gt;Groups&lt;/Tab&gt;
-                &lt;Tab Name=&quot;likes&quot;&gt;Likes&lt;/Tab&gt;
-                &lt;Tab Name=&quot;comments&quot;&gt;Comments&lt;/Tab&gt;
-                &lt;Tab Name=&quot;saved&quot;&gt;Saved&lt;/Tab&gt;
+            &lt;RzTabStrip&gt;
+                &lt;RzTab Name=&quot;groups&quot;&gt;Groups&lt;/RzTab&gt;
+                &lt;RzTab Name=&quot;likes&quot;&gt;Likes&lt;/RzTab&gt;
+                &lt;RzTab Name=&quot;comments&quot;&gt;Comments&lt;/RzTab&gt;
+                &lt;RzTab Name=&quot;saved&quot;&gt;Saved&lt;/RzTab&gt;
             &lt;/TabStrip&gt;
         &lt;/Menu&gt;
         &lt;TabPanels&gt;
-            &lt;TabPanel Name=&quot;groups&quot;&gt;&lt;strong&gt;&lt;u&gt;Groups&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
-            &lt;TabPanel Name=&quot;likes&quot;&gt;&lt;strong&gt;&lt;u&gt;Likes&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
-            &lt;TabPanel Name=&quot;comments&quot;&gt;&lt;strong&gt;&lt;u&gt;Comments&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
-            &lt;TabPanel Name=&quot;saved&quot;&gt;&lt;strong&gt;&lt;u&gt;Saved&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
+            &lt;RzTabPanel Name=&quot;groups&quot;&gt;&lt;strong&gt;&lt;u&gt;Groups&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/RzTabPanel&gt;
+            &lt;RzTabPanel Name=&quot;likes&quot;&gt;&lt;strong&gt;&lt;u&gt;Likes&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/RzTabPanel&gt;
+            &lt;RzTabPanel Name=&quot;comments&quot;&gt;&lt;strong&gt;&lt;u&gt;Comments&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/RzTabPanel&gt;
+            &lt;RzTabPanel Name=&quot;saved&quot;&gt;&lt;strong&gt;&lt;u&gt;Saved&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/RzTabPanel&gt;
         &lt;/TabPanels&gt;
-    &lt;/Tabs&gt;
-            </CodeViewer>            
+    &lt;/RzTabs&gt;
+            </RzCodeViewer>            
 
-            <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Colored Tabs" class="scroll-mt-20">Colored Tabs</Heading>
-            <Paragraph TextColor="SemanticColor.OnSurface">
+            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Colored Tabs" class="scroll-mt-20">Colored Tabs</RzHeading>
+            <RzParagraph TextColor="SemanticColor.OnSurface">
                 A list of colored tabs with a tab panel.
-            </Paragraph>
+            </RzParagraph>
 
-            <Browser Layout="typeof(PreviewLayout)">
+            <RzBrowser Layout="typeof(PreviewLayout)">
                 <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
-                    <Tabs SelectedTabName="events" 
+                    <RzTabs SelectedTabName="events" 
                           TabBackgroundColor="SemanticColor.SurfaceAlt"
                           SelectedTabUnderlineColor="SemanticColor.Warning"
                           TabTextColor="SemanticColor.OnSurface"
                           SelectedTabTextColor="SemanticColor.OnSurfaceStrong">
                         <Menu>
-                            <TabStrip Justify="Justify.Center" SpaceBetween="Size.Small">
-                                <Tab Name="activity">Activity</Tab>
-                                <Tab Name="events">Events</Tab>
-                                <Tab Name="pages">Pages</Tab>
-                                <Tab Name="members">Members</Tab>
-                            </TabStrip>
+                            <RzTabStrip Justify="Justify.Center" SpaceBetween="Size.Small">
+                                <RzTab Name="activity">Activity</RzTab>
+                                <RzTab Name="events">Events</RzTab>
+                                <RzTab Name="pages">Pages</RzTab>
+                                <RzTab Name="members">Members</RzTab>
+                            </RzTabStrip>
                         </Menu>
                         <TabPanels>
-                            <TabPanel Name="activity" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Activity Content</TabPanel>
-                            <TabPanel Name="events" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Events Content</TabPanel>
-                            <TabPanel Name="pages" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Pages Content</TabPanel>
-                            <TabPanel Name="members" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Members Content</TabPanel>
+                            <RzTabPanel Name="activity" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Activity Content</RzTabPanel>
+                            <RzTabPanel Name="events" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Events Content</RzTabPanel>
+                            <RzTabPanel Name="pages" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Pages Content</RzTabPanel>
+                            <RzTabPanel Name="members" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Members Content</RzTabPanel>
                         </TabPanels>
-                    </Tabs>
+                    </RzTabs>
                 </div>
-            </Browser>
+            </RzBrowser>
 
-            <CodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;Tabs SelectedTabName=&quot;activity&quot; 
+            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+    &lt;RzTabs SelectedTabName=&quot;activity&quot; 
           TabBackgroundSemanticColor=&quot;SemanticColor.SurfaceAlt&quot;
           SelectedTabUnderlineSemanticColor=&quot;SemanticColor.Warning&quot;
           TabTextSemanticColor=&quot;SemanticColor.OnSurface&quot;
           SelectedTabTextSemanticColor=&quot;SemanticColor.OnSurfaceStrong&quot;&gt;
         &lt;Menu&gt;
-            &lt;TabStrip Justify=&quot;Justify.Center&quot; SpaceBetween=&quot;Size.Medium&quot;&gt;
-                &lt;Tab Name=&quot;activity&quot;&gt;Activity&lt;/Tab&gt;
-                &lt;Tab Name=&quot;events&quot;&gt;Events&lt;/Tab&gt;
-                &lt;Tab Name=&quot;pages&quot;&gt;Pages&lt;/Tab&gt;
-                &lt;Tab Name=&quot;members&quot;&gt;Members&lt;/Tab&gt;
+            &lt;RzTabStrip Justify=&quot;Justify.Center&quot; SpaceBetween=&quot;Size.Medium&quot;&gt;
+                &lt;RzTab Name=&quot;activity&quot;&gt;Activity&lt;/RzTab&gt;
+                &lt;RzTab Name=&quot;events&quot;&gt;Events&lt;/RzTab&gt;
+                &lt;RzTab Name=&quot;pages&quot;&gt;Pages&lt;/RzTab&gt;
+                &lt;Rzab Name=&quot;members&quot;&gt;Members&lt;/RzTab&gt;
             &lt;/TabStrip&gt;
         &lt;/Menu&gt;
         &lt;TabPanels&gt;
-            &lt;TabPanel Name=&quot;activity&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Activity Content&lt;/TabPanel&gt;
-            &lt;TabPanel Name=&quot;events&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Events Content&lt;/TabPanel&gt;
-            &lt;TabPanel Name=&quot;pages&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Pages Content&lt;/TabPanel&gt;
-            &lt;TabPanel Name=&quot;members&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Members Content&lt;/TabPanel&gt;
+            &lt;RzTabPanel Name=&quot;activity&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Activity Content&lt;/RzTabPanel&gt;
+            &lt;RzTabPanel Name=&quot;events&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Events Content&lt;/RzTabPanel&gt;
+            &lt;RzTabPanel Name=&quot;pages&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Pages Content&lt;/RzTabPanel&gt;
+            &lt;RzTabPanel Name=&quot;members&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Members Content&lt;/RzTabPanel&gt;
         &lt;/TabPanels&gt;
     &lt;/Tabs&gt;
-            </CodeViewer>
+            </RzCodeViewer>
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>

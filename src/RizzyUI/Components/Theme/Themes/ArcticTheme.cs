@@ -1,18 +1,18 @@
 ﻿namespace RizzyUI;
 
 /// <summary>
-/// The default theme used for the application, inheriting from <see cref="RizzyTheme"/>.
-/// Initializes the theme using the Tailwind color palette via the <see cref="Colors"/> class.
+///     The default theme used for the application, inheriting from <see cref="RzTheme" />.
+///     Initializes the theme using the Tailwind color palette via the <see cref="Colors" /> class.
 /// </summary>
-public class ArcticTheme : RizzyTheme
+public class ArcticTheme : RzTheme
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="RizzyTheme"/> class with predefined values.
+    ///     Initializes a new instance of the <see cref="RzTheme" /> class with predefined values.
     /// </summary>
     public ArcticTheme() : base("Arctic", "arctic")
     {
         // Light mode colors
-        Light = new RizzyThemeVariant
+        Light = new RzThemeVariant
         {
             Surface = Colors.White, // White
             OnSurface = Colors.Slate.L700, // #334155 (51,65,85)
@@ -31,7 +31,7 @@ public class ArcticTheme : RizzyTheme
         };
 
         // Dark mode colors
-        Dark = new RizzyThemeVariant()
+        Dark = new RzThemeVariant
         {
             Surface = Colors.Slate.L900, // #0F172A (15,23,42)
             OnSurface = Colors.Slate.L300, // #CBD5E1 (203,213,225)
@@ -50,14 +50,14 @@ public class ArcticTheme : RizzyTheme
         };
 
         // Status colors
-        Danger = Colors.Red.L600;               // #DC2626 (220,38,38)
-        OnDanger = Colors.White;                // white
-        Info = Colors.Sky.L600;                 // #0284C7 (2,132,199)
-        OnInfo = Colors.White;                  // white
-        Warning = Colors.Amber.L500;            // #F59E0B (245,158,11)
-        OnWarning = Colors.White;               // #FFFFFF
-        Success = Colors.Green.L600;            // #16A34A (22,163,74)
-        OnSuccess = Colors.White;               // #FFFFFF
+        Danger = Colors.Red.L600; // #DC2626 (220,38,38)
+        OnDanger = Colors.White; // white
+        Info = Colors.Sky.L600; // #0284C7 (2,132,199)
+        OnInfo = Colors.White; // white
+        Warning = Colors.Amber.L500; // #F59E0B (245,158,11)
+        OnWarning = Colors.White; // #FFFFFF
+        Success = Colors.Green.L600; // #16A34A (22,163,74)
+        OnSuccess = Colors.White; // #FFFFFF
 
         // Borders and radius
         BorderWidth = "1px";

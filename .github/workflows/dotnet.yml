@@ -85,6 +85,35 @@ jobs:
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        
+      - name: Extract version from RizzyUI.csproj
+        id: get_version
+        shell: bash
+        run: |
+          ver=$(grep -oPm1 '(?<=<Version>)[^<]+' src/RizzyUI/RizzyUI.csproj)
+          echo "version=$ver" >> "$GITHUB_OUTPUT"
+
+      - name: Set npm package.json version
+        working-directory: packages/rizzyui
+        run: |
+          npm pkg set version=${{ steps.get_version.outputs.version }}
+
+      - name: Install dependencies
+        working-directory: packages/rizzyui
+        run: npm install
+
+      - name: Build package
+        working-directory: packages/rizzyui
+        run: |
+          npm run build
+          npm run copy:assets
+        
+      - name: Publish Rizzy JS package to npm
+        working-directory: packages/rizzyui
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # create this secret in the repo / org
+        run: |
+          npm publish --access public        
 
   deploy:
     permissions:

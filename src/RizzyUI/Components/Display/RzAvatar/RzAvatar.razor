@@ -1,0 +1,36 @@
+@namespace RizzyUI
+@inherits RzComponent
+
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()" role="img"
+             aria-label="@AlternateText">
+    @if (IndicatorVisible)
+    {
+        <div class="@IndicatorClass @IndicatorSizeClass @IndicatorColorClass"></div>
+    }
+    @if (!string.IsNullOrEmpty(ImageSource))
+    {
+        <img src="@ImageSource" alt="@AlternateText" class="@ImageClass @ImageSizeClass @ImageShapeClass"/>
+    }
+    else if (!string.IsNullOrEmpty(Initials))
+    {
+        <div
+            class="@InitialsContainerClass @InitialsContainerSizeClass @InitialsContainerShapeClass @InitialsTextSizeClass">
+            @Initials
+        </div>
+    }
+    else
+    {
+        <div class="@PlaceholderContainerClass @PlaceholderContainerSizeClass @PlaceholderContainerShapeClass">
+            <svg class="@PlaceholderIconClass @PlaceholderIconSizeClass"
+                 fill="currentColor"
+                 viewBox="0 0 20 20"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path
+                    fill-rule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clip-rule="evenodd"/>
+            </svg>
+        </div>
+    }
+</HtmlElement>
+

@@ -1,0 +1,20 @@
+@inherits RzComponent
+@namespace RizzyUI
+
+<button
+    id="@TabId"
+    data-name="@NameLower"
+    data-selectedtextcolor="@SelectedTextColorClass" 
+    @attributes="AdditionalAttributes"
+    x-on:click="tabButtonClicked"
+    x-on:keydown="handleKeyDown"
+    type="button"
+    role="tab"
+    :aria-selected="tabButtonActive"
+    tabindex="0" 
+    aria-controls="@PanelId"
+    class="@RootClass()"
+    :class="selectedTabTextColor"> 
+    @ChildContent
+</button>
+

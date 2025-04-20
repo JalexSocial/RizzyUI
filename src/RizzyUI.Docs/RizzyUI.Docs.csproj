@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetStatic" Version="0.26.4" />
-    <PackageReference Include="Rizzy" Version="5.0.11" />
+    <PackageReference Include="Rizzy" Version="5.1.1" />
     <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />

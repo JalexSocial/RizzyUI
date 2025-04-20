@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@import "./rizzyui-theme.css";
+
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
+@source "../../../../src/RizzyUI/";
+
+
+

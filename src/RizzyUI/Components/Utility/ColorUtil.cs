@@ -1,12 +1,23 @@
-﻿namespace RizzyUI;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace RizzyUI;
 
 /// <summary>
-/// Provides utility methods for converting accent and semantic color values to complete Tailwind CSS class strings for background and text styling.
+///     Provides utility methods for converting accent and semantic color values to complete Tailwind CSS class strings for
+///     background and text styling.
 /// </summary>
 public static class ColorUtil
 {
+    // ReSharper disable once UnusedMember.Local
+    [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members",
+        Justification = "This is to allow Tailwind utilities to discover used classes")]
+#pragma warning disable CS0414 // Field is assigned but its value is never used
+    private static readonly string TwBackgroundClassAfterDiscovery =
+#pragma warning restore CS0414 // Field is assigned but its value is never used
+        "after:bg-surface after:bg-on-surface after:bg-on-surface-strong after:bg-surface-alt after:bg-primary after:bg-on-primary after:bg-secondary after:bg-on-secondary after:bg-outline after:bg-outline-strong after:bg-danger after:bg-on-danger after:bg-info after:bg-on-info after:bg-warning after:bg-on-warning after:bg-success after:bg-on-success after:bg-surface";
+
     /// <summary>
-    /// Converts an AccentColor to a background class string
+    ///     Converts an AccentColor to a background class string
     /// </summary>
     /// <param name="accentColor"></param>
     /// <returns></returns>
@@ -30,7 +41,7 @@ public static class ColorUtil
     }
 
     /// <summary>
-    /// Converts an AccentColor to a background class string
+    ///     Converts an AccentColor to a background class string
     /// </summary>
     /// <param name="accentColor"></param>
     /// <returns></returns>
@@ -55,11 +66,11 @@ public static class ColorUtil
 
 
     /// <summary>
-    /// Converts an AccentColor to a text class string
+    ///     Converts an AccentColor to a text class string
     /// </summary>
     /// <param name="accentColor"></param>
     /// <returns></returns>
-	public static string ToTextClass(AccentColor accentColor)
+    public static string ToTextClass(AccentColor accentColor)
     {
         return accentColor switch
         {
@@ -79,7 +90,7 @@ public static class ColorUtil
     }
 
     /// <summary>
-    /// Converts a SemanticColor to a text class string, including dark mode variants for Surface colors.
+    ///     Converts a SemanticColor to a text class string, including dark mode variants for Surface colors.
     /// </summary>
     /// <param name="color">The color enum value.</param>
     /// <returns>A string representing the corresponding CSS class.</returns>
@@ -116,7 +127,7 @@ public static class ColorUtil
     }
 
     /// <summary>
-    /// Converts a StatusColor to a text class string, including dark mode variants for Status colors.
+    ///     Converts a StatusColor to a text class string, including dark mode variants for Status colors.
     /// </summary>
     /// <param name="color">The color enum value.</param>
     /// <returns>A string representing the corresponding CSS class.</returns>
@@ -135,7 +146,7 @@ public static class ColorUtil
     }
 
     /// <summary>
-    /// Converts a SemanticColor to a background class string, including dark mode variants for Surface colors.
+    ///     Converts a SemanticColor to a background class string, including dark mode variants for Surface colors.
     /// </summary>
     /// <param name="color">The color enum value.</param>
     /// <returns>A string representing the corresponding CSS background class.</returns>
@@ -172,7 +183,7 @@ public static class ColorUtil
     }
 
     /// <summary>
-    /// Converts a SemanticColor to a background class string, including dark mode variants for Surface colors.
+    ///     Converts a SemanticColor to a background class string, including dark mode variants for Surface colors.
     /// </summary>
     /// <param name="color">The color enum value.</param>
     /// <param name="pseudoSelector">Tailwind pseudo element modifier ("before" or "after")</param>
@@ -210,12 +221,4 @@ public static class ColorUtil
             _ => "bg-surface "
         };
     }
-
-    // ReSharper disable once UnusedMember.Local
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "This is to allow Tailwind utilities to discover used classes")]
-#pragma warning disable CS0414 // Field is assigned but its value is never used
-    private static readonly string TwBackgroundClassAfterDiscovery =
-#pragma warning restore CS0414 // Field is assigned but its value is never used
-	    "after:bg-surface after:bg-on-surface after:bg-on-surface-strong after:bg-surface-alt after:bg-primary after:bg-on-primary after:bg-secondary after:bg-on-secondary after:bg-outline after:bg-outline-strong after:bg-danger after:bg-on-danger after:bg-info after:bg-on-info after:bg-warning after:bg-on-warning after:bg-success after:bg-on-success after:bg-surface";
-
 }

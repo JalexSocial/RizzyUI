@@ -29,54 +29,56 @@
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>0.6.2-alpha</Version>
+        <Version>0.7.0-alpha</Version>
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
-  
-    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <DefaultDocumentationLogLevel>Error</DefaultDocumentationLogLevel>
-        <DefaultDocumentationSections>Default</DefaultDocumentationSections>
+
+    <ItemGroup>
+        <None Include="safelist.js"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+        <PackageReference Include="Blazicons.Ionicons" Version="2.2.18"/>
+        <PackageReference Include="Markdig" Version="0.40.0"/>
+        <PackageReference Include="Rizzy" Version="5.1.1" />
+        <PackageReference Include="Blazicons" Version="2.1.30"/>
+        <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23"/>
+        <PackageReference Include="TailwindMerge.NET" Version="1.0.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <SupportedPlatform Include="browser"/>
+    </ItemGroup>
+    
+    <PropertyGroup>
+        <!-- Define the directory path once -->
+        <ClientPackageDir>$(MSBuildProjectDirectory)/../../packages</ClientPackageDir>
+        <!-- Define a stamp file to track installation -->
+        <NodeModulesStampFile>/node_modules/.install-stamp</NodeModulesStampFile>
     </PropertyGroup>
-  
-    <ItemGroup>
-        <Content Remove="DefaultDocumentation.json" />
-    </ItemGroup>
-  
-    <ItemGroup>
-      <None Include="safelist.js" />
-    </ItemGroup>
-  
-    <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Blazicons.Ionicons" Version="2.2.18" />
-        <PackageReference Include="Markdig" Version="0.40.0" />
-        <PackageReference Include="Rizzy" Version="5.0.11" />
-        <PackageReference Include="Blazicons" Version="2.1.30" />
-        <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23" />
-        <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
-        <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
-    </ItemGroup>
 
-    <ItemGroup>
-        <SupportedPlatform Include="browser" />
-    </ItemGroup>
+    <Target Name="InstallClientPackages"
+            BeforeTargets="BuildClientAssets"
+            Inputs="$(ClientPackageDir)/rizzyui/package.json;$(ClientPackageDir)/rizzyui/package-lock.json"
+            Outputs="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)">
 
-    <ItemGroup>
-        <UpToDateCheckBuilt Include="wwwroot/css/rizzyui.css" Set="Css" />
-        <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
-    </ItemGroup>
+        <Message Text="Ensuring npm packages are installed in $(ClientPackageDir)..." Importance="high" />
+        <!-- WorkingDirectory uses the property defined above -->
+        <Exec Command="npm install" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
+        <!-- Create or update the stamp file after install succeeds -->
+        <Touch Files="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)" AlwaysCreate="true" />
 
-    <Target Name="Tailwind" BeforeTargets="Build">
-        <Exec Command="npm run css:build" />
-        <Exec Command="npm run safelist:build" />
     </Target>
 
-    <Target Name="Webpack" BeforeTargets="Build">
-        <Exec Command="npm run build" />
+    <Target Name="BuildClientAssets" BeforeTargets="Build">
+        <!-- This target now implicitly depends on InstallClientPackages running first if needed -->
+        <Message Text="Building client assets in $(ClientPackageDir)/rizzyui..." Importance="high" />
+        
+        <Exec Command="npm run build" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
     </Target>
 
     <Target Name="LLM" AfterTargets="Build">
@@ -87,6 +89,25 @@
         <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
         <None Include="..\..\README.md" Pack="true" PackagePath="\" />
         <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="Scripts\antiforgerySnippet.js">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Scripts\antiforgerySnippet.min.js">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Scripts\rizzyui.js">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Scripts\rizzyui-csp.js">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,10 @@
+@namespace RizzyUI
+@inherits RzComponent
+
+<HtmlElement Element="div"
+             x-data="rzAccordion" 
+             @attributes="AdditionalAttributes"
+             class="@RootClass()"
+             data-multiple="@AllowMultipleOpen.ToString().ToLowerInvariant()"> 
+	@ChildContent
+</HtmlElement>

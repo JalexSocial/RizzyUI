@@ -1,0 +1,14 @@
+@namespace RizzyUI
+@inherits RzComponent
+
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()" aria-label="@AssistiveLabel">
+	
+	@if (ChildContent != null)
+	{
+		@ChildContent
+	}
+	else
+	{
+		@Label
+	}
+</HtmlElement>

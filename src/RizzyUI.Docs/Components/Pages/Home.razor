@@ -2,71 +2,71 @@
 
 <PageTitle>Home</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
-        <SideContent><QuickReference/></SideContent>
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent><RzQuickReference/></SideContent>
         <MainContent>
 	        <img src="/images/rizzy-logo-wb.svg" alt="RizzyUI" class="w-1/2 mb-5"/>
 	        
-            <Heading Level="HeadingLevel.H1"
+            <RzHeading Level="HeadingLevel.H1"
                      TextColor="SemanticColor.OnSurfaceStrong"
                      QuickReferenceTitle="RizzyUI Overview"
                      class="scroll-mt-20">
                 RizzyUI Overview
-            </Heading>
+            </RzHeading>
 			
-            <Paragraph>
+            <RzParagraph>
                 RizzyUI is a specialized HTMX-compatible component library crafted for ASP.NET developers who want to use a component model in their server-side rendered (SSR) applications. By seamlessly integrating Razor components from Blazor, leveraging Tailwind CSS for styling, and utilizing Alpine.js for interactivity, RizzyUI provides a UI kit for building robust and maintainable web applications within the ASP.NET ecosystem.
                 
-                <Alert Variant="AlertVariant.Information" class="mb-5">
-	                <AlertDescription>The component styling in RizzyUI is based on <a href="https://www.penguinui.com/" class="text-blue-600 dark:text-blue-500 hover:underline" target="_top">PenguinUI</a>, by Salar Houshvand. This <strong>entire</strong> site is built using RizzyUI components.</AlertDescription>
-                </Alert>
+                <RzAlert Variant="AlertVariant.Information" class="mb-5">
+	                <RzAlertDescription>The component styling in RizzyUI is based on <a href="https://www.penguinui.com/" class="text-blue-600 dark:text-blue-500 hover:underline" target="_top">PenguinUI</a>, by Salar Houshvand. This <strong>entire</strong> site is built using RizzyUI components.</RzAlertDescription>
+                </RzAlert>
 
-            </Paragraph>
+            </RzParagraph>
 
             <section class="my-8 py-2">
 
-	            <Heading Level="HeadingLevel.H2"
+	            <RzHeading Level="HeadingLevel.H2"
 	                     QuickReferenceTitle="Technological Foundations"
 	                     class="scroll-mt-20">
 		            Technological Foundations
-	            </Heading>
+	            </RzHeading>
 
-	            <Heading Level="HeadingLevel.H3"
+	            <RzHeading Level="HeadingLevel.H3"
 	                     QuickReferenceTitle="Razor Components (Blazor)"
 	                     class="scroll-mt-20">
 		            Razor Components (Blazor)
-	            </Heading>
-	            <Paragraph>
+	            </RzHeading>
+	            <RzParagraph>
 		            RizzyUI is built upon Razor components from Blazor, offering a component-based architecture that promotes reusability and maintainability. This allows developers to construct complex user interfaces with ease, benefiting from the strong typing and tooling support inherent to the .NET environment.
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Heading Level="HeadingLevel.H3"
+	            <RzHeading Level="HeadingLevel.H3"
 	                     QuickReferenceTitle="Tailwind CSS"
 	                     class="scroll-mt-20">
 		            Tailwind CSS
-	            </Heading>
-	            <Paragraph>
+	            </RzHeading>
+	            <RzParagraph>
 		            Incorporating Tailwind CSS, RizzyUI empowers developers to apply utility-first styling to components. Tailwind's extensive utility classes enable rapid development of responsive and consistent designs without the need for writing extensive custom CSS.
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Heading Level="HeadingLevel.H3"
+	            <RzHeading Level="HeadingLevel.H3"
 	                     QuickReferenceTitle="Server-Side Rendering (SSR)"
 	                     class="scroll-mt-20">
 		            Server-Side Rendering (SSR)
-	            </Heading>
-	            <Paragraph>
+	            </RzHeading>
+	            <RzParagraph>
 		            RizzyUI is designed with a focus on 100% server-side rendering. By generating all content on the server before delivering it to the client, RizzyUI enhances initial load times and improves SEO performance. This approach is particularly beneficial for applications where these factors are critical, such as corporate websites, blogs, and e-commerce platforms.
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Heading Level="HeadingLevel.H3"
+	            <RzHeading Level="HeadingLevel.H3"
 	                     QuickReferenceTitle="Alpine.js for Interactivity"
 	                     class="scroll-mt-20">
 		            Alpine.js for Interactivity
-	            </Heading>
-	            <Paragraph>
+	            </RzHeading>
+	            <RzParagraph>
 		            To introduce interactivity within server-rendered components, RizzyUI leverages Alpine.js, a lightweight JavaScript framework. RizzyUI enhances Alpine.js integration in several key ways:
-	            </Paragraph>
+	            </RzParagraph>
 
                 <ul class="list-disc list-outside ml-4 mb-4 space-y-4 ps-10 text-on-surface ">
 		            <li><strong>Separate JavaScript Logic (No inline javascript code)</strong>: All code and logic powering RizzyUI components reside in separate JavaScript files. This separation enables the use of Content Security Policies (CSP) by avoiding inline scripts, thereby enhancing the security posture of applications.</li>
@@ -74,85 +74,85 @@
 		            <li><strong>CSP Compatibility with Nonce Values</strong>: RizzyUI supports the use of nonce values for inline scripts and styles. This feature allows developers to implement strong CSPs while still utilizing RizzyUI, as nonces can be applied to permit the execution of necessary scripts and styles without compromising security.</li>
 	            </ul>
             
-	            <Paragraph>
+	            <RzParagraph>
 		            These enhancements ensure that RizzyUI not only provides rich interactivity but also aligns with modern security practices and performance optimization strategies.
-	            </Paragraph>
+	            </RzParagraph>
 			
             </section>
 			
             <section class="my-8 py-2">
 
-	            <Heading Level="HeadingLevel.H2"
+	            <RzHeading Level="HeadingLevel.H2"
 	                     QuickReferenceTitle="Unique Advantages"
 	                     class="scroll-mt-20">
 		            Why Use Rizzy UI?
-	            </Heading>
+	            </RzHeading>
 
-	            <Heading Level="HeadingLevel.H3"
+	            <RzHeading Level="HeadingLevel.H3"
 	                     QuickReferenceTitle="Seamless Integration with ASP.NET"
 	                     class="scroll-mt-20">
 		            Seamless Integration with ASP.NET MVC, Minimal APIs, or Blazor
-	            </Heading>
-	            <Paragraph>
+	            </RzHeading>
+	            <RzParagraph>
 		            RizzyUI is designed to integrate with existing ASP.NET projects. Developers can incorporate RizzyUI components into their applications, benefiting from the razor component model.
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Heading Level="HeadingLevel.H3"
+	            <RzHeading Level="HeadingLevel.H3"
 	                     QuickReferenceTitle="Prebuilt UI Components"
 	                     class="scroll-mt-20">
 		            Prebuilt UI Components
-	            </Heading>
-	            <Paragraph>
+	            </RzHeading>
+	            <RzParagraph>
 		            Using a prebuilt UI component library like RizzyUI offers significant advantages. It provides a comprehensive set of ready-to-use, customizable components ranging from basic elements like buttons and forms to more complex widgets such as modals and cards. This allows developers to save time and maintain consistency across their applications without the need to build each component from scratch. Additionally, having a standardized set of components ensures a uniform look and feel, which enhances the overall user experience.
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Heading Level="HeadingLevel.H3"
+	            <RzHeading Level="HeadingLevel.H3"
 	                     QuickReferenceTitle="Flexibility and Customization"
 	                     class="scroll-mt-20">
 		            Flexibility and Customization
-	            </Heading>
-	            <Paragraph>
+	            </RzHeading>
+	            <RzParagraph>
 		            RizzyUI offers a comprehensive set of customizable components that can be tailored to meet the specific needs of any ASP.NET project. Whether building simple interfaces or more complex layouts, RizzyUI provides the necessary building blocks to create polished and functional user interfaces, allowing for a high degree of flexibility and customization.
-	            </Paragraph>
+	            </RzParagraph>
 
-	            <Heading Level="HeadingLevel.H3"
+	            <RzHeading Level="HeadingLevel.H3"
 	                     QuickReferenceTitle="Compatibility with Rizzy Library"
 	                     class="scroll-mt-20">
 		            Compatibility with Rizzy Library
-	            </Heading>
-	            <Paragraph>
+	            </RzHeading>
+	            <RzParagraph>
 		            RizzyUI pairs well with the Rizzy HTMX library, which facilitates interactivity with HTMX. This combination allows developers to create dynamic and responsive applications by leveraging both server-side rendering and client-side interactivity in a harmonious manner. Together, they provide a powerful toolkit for building modern web applications within the ASP.NET framework.
-	            </Paragraph>
+	            </RzParagraph>
 			
             </section>
 
             <hr />
 
-            <Heading Level="HeadingLevel.H2"
+            <RzHeading Level="HeadingLevel.H2"
                      QuickReferenceTitle="License"
                      class="scroll-mt-20">
                 License
-            </Heading>
-            <Paragraph>
+            </RzHeading>
+            <RzParagraph>
                 This project is licensed under the <a href="LICENSE">MIT License</a>.
-            </Paragraph>
+            </RzParagraph>
 
-            <Heading Level="HeadingLevel.H2"
+            <RzHeading Level="HeadingLevel.H2"
                      QuickReferenceTitle="Support"
                      class="scroll-mt-20">
                 Support
-            </Heading>
-            <Paragraph>
+            </RzHeading>
+            <RzParagraph>
                 For support, please open an issue on the <a href="https://github.com/jalexsocial/RizzyUI/issues">GitHub repository</a>.
-            </Paragraph>
+            </RzParagraph>
 
             <hr />
 
-            <Paragraph>
+            <RzParagraph>
                 <strong>Happy Coding! 🚀</strong>
-            </Paragraph>
+            </RzParagraph>
 
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>
 

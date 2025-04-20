@@ -3,214 +3,214 @@
 
 <PageTitle>Badges</PageTitle>
 
-<QuickReferenceContainer>
-    <Article ProseWidth="ProseWidth.UltraWide">
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent>
-            <QuickReference />
+            <RzQuickReference />
         </SideContent>
         <MainContent>
-            <Heading Level="HeadingLevel.H1" class="scroll-mt-20">Badges</Heading>
-            <Paragraph>
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">Badges</RzHeading>
+            <RzParagraph>
                 Badges are versatile components used to display labels, counts, or statuses. They can be styled with various colors, sizes, and icons to convey different meanings and actions within the user interface.
-            </Paragraph>
+            </RzParagraph>
 
             <!-- Default Badge Section -->
             <section class="my-8 py-2">
 
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Default Badge" class="scroll-mt-20">Default Badge</Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Badge" class="scroll-mt-20">Default Badge</RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     Default badges are simple labels that convey information without additional styling or icons. They are ideal for displaying static text or statuses.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-4 text-base mx-auto grid min-h-[10rem] place-content-center place-items-center gap-4 rounded-xl p-4 xl:grid-cols-5 2xl:grid-cols-6">
-	                    <Badge Color="SemanticColor.Surface">Badge</Badge>
-	                    <Badge Color="SemanticColor.SurfaceAlt">Badge</Badge>
-                        <Badge Color="SemanticColor.Primary">Badge</Badge>
-                        <Badge Color="SemanticColor.Secondary">Badge</Badge>
-                        <Badge Color="SemanticColor.Info">Badge</Badge>
-                        <Badge Color="SemanticColor.Danger">Badge</Badge>
-                        <Badge Color="SemanticColor.Warning">Badge</Badge>
-                        <Badge Color="SemanticColor.Success">Badge</Badge>
+	                    <RzBadge Color="SemanticColor.Surface">Badge</RzBadge>
+	                    <RzBadge Color="SemanticColor.SurfaceAlt">Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Primary">Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Secondary">Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Info">Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Danger">Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Warning">Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Success">Badge</RzBadge>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Badge Color=&quot;SemanticColor.Surface&quot;&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.SurfaceAlt&quot;&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Primary&quot;&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Secondary&quot;&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Info&quot;&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Danger&quot;&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Warning&quot;&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Success&quot;&gt;Badge&lt;/Badge&gt;
-                </CodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzBadge Color=&quot;SemanticColor.Surface&quot;&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.SurfaceAlt&quot;&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Primary&quot;&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Secondary&quot;&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Info&quot;&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Danger&quot;&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Warning&quot;&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Success&quot;&gt;Badge&lt;/RzBadge&gt;
+                </RzCodeViewer>
 
             </section>
 
             <!-- Soft Badge Section -->
             <section class="my-8 py-2">
 
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Soft Badge" class="scroll-mt-20">Soft Badge</Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Soft Badge" class="scroll-mt-20">Soft Badge</RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     Soft badges have a lighter appearance, utilizing semi-transparent backgrounds to subtly highlight information without overwhelming the interface. They are perfect for secondary actions or less critical statuses.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-2 text-base mx-auto grid min-h-[10rem] place-content-center place-items-center gap-4 rounded-xl p-4 xl:grid-cols-3 2xl:grid-cols-4">
-	                    <Badge Color="SemanticColor.Surface" Soft>Badge</Badge>
-                        <Badge Color="SemanticColor.SurfaceAlt" Soft>Badge</Badge>
-                        <Badge Color="SemanticColor.Primary" Soft>Badge</Badge>
-                        <Badge Color="SemanticColor.Secondary" Soft>Badge</Badge>
-                        <Badge Color="SemanticColor.Info" Soft>Badge</Badge>
-                        <Badge Color="SemanticColor.Danger" Soft>Badge</Badge>
-                        <Badge Color="SemanticColor.Warning" Soft>Badge</Badge>
-                        <Badge Color="SemanticColor.Success" Soft>Badge</Badge>
+	                    <RzBadge Color="SemanticColor.Surface" Soft>Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.SurfaceAlt" Soft>Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Primary" Soft>Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Secondary" Soft>Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Info" Soft>Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Danger" Soft>Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Warning" Soft>Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Success" Soft>Badge</RzBadge>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Badge Color=&quot;SemanticColor.Surface&quot; Soft&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.SurfaceAlt&quot; Soft&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Primary&quot; Soft&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Secondary&quot; Soft&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Info&quot; Soft&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Danger&quot; Soft&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Warning&quot; Soft&gt;Badge&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Success&quot; Soft&gt;Badge&lt;/Badge&gt;
-                </CodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzBadge Color=&quot;SemanticColor.Surface&quot; Soft&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.SurfaceAlt&quot; Soft&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Primary&quot; Soft&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Secondary&quot; Soft&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Info&quot; Soft&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Danger&quot; Soft&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Warning&quot; Soft&gt;Badge&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Success&quot; Soft&gt;Badge&lt;/RzBadge&gt;
+                </RzCodeViewer>
 
             </section>
 
             <!-- Badge with Indicator Section -->
             <section class="my-8 py-2">
 
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Badge with Indicator" class="scroll-mt-20">Badge with Indicator</Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Badge with Indicator" class="scroll-mt-20">Badge with Indicator</RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     Badges with indicators include a small icon or dot to signify status changes, notifications, or alerts. This enhances the visual feedback and draws attention to important information.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-2 text-base mx-auto grid min-h-[10rem] place-content-center place-items-center gap-4 rounded-xl p-4 xl:grid-cols-3 2xl:grid-cols-4">
-	                    <Badge Color="SemanticColor.Surface" Soft>
+	                    <RzBadge Color="SemanticColor.Surface" Soft>
 		                    <Blazicon Svg="MdiIcon.CircleMedium" />
 		                    Badge
-	                    </Badge>
-	                    <Badge Color="SemanticColor.SurfaceAlt" Soft>
+	                    </RzBadge>
+	                    <RzBadge Color="SemanticColor.SurfaceAlt" Soft>
 		                    <Blazicon Svg="MdiIcon.CircleMedium" />
 		                    Badge
-	                    </Badge>
-	                    <Badge Color="SemanticColor.Primary" Soft>
+	                    </RzBadge>
+	                    <RzBadge Color="SemanticColor.Primary" Soft>
                             <Blazicon Svg="MdiIcon.CircleMedium" />
                             Badge
-                        </Badge>
-                        <Badge Color="SemanticColor.Secondary" Soft>
+                        </RzBadge>
+                        <RzBadge Color="SemanticColor.Secondary" Soft>
                             <Blazicon Svg="MdiIcon.CircleMedium" />
                             Badge
-                        </Badge>
-                        <Badge Color="SemanticColor.Info" Soft>
+                        </RzBadge>
+                        <RzBadge Color="SemanticColor.Info" Soft>
                             <Blazicon Svg="MdiIcon.CircleMedium"/>
                             Badge
-                        </Badge>
-                        <Badge Color="SemanticColor.Danger" Soft>
+                        </RzBadge>
+                        <RzBadge Color="SemanticColor.Danger" Soft>
                             <Blazicon Svg="MdiIcon.CircleMedium" />
                             Badge
-                        </Badge>
-                        <Badge Color="SemanticColor.Warning" Soft>
+                        </RzBadge>
+                        <RzBadge Color="SemanticColor.Warning" Soft>
                             <Blazicon Svg="MdiIcon.CircleMedium" />
                             Badge
-                        </Badge>
-                        <Badge Color="SemanticColor.Success" Soft>
+                        </RzBadge>
+                        <RzBadge Color="SemanticColor.Success" Soft>
                             <Blazicon Svg="MdiIcon.CircleMedium" />
                             Badge
-                        </Badge>
+                        </RzBadge>
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Badge Color=&quot;SemanticColor.Surface&quot; Soft&gt;
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzBadge Color=&quot;SemanticColor.Surface&quot; Soft&gt;
     &lt;Blazicon Svg=&quot;MdiIcon.CircleMedium&quot; /&gt;
     Badge
-&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.SurfaceAlt&quot; Soft&gt;
+&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.SurfaceAlt&quot; Soft&gt;
     &lt;Blazicon Svg=&quot;MdiIcon.CircleMedium&quot; /&gt;
     Badge
-&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Primary&quot; Soft&gt;
+&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Primary&quot; Soft&gt;
     &lt;Blazicon Svg=&quot;MdiIcon.CircleMedium&quot; /&gt;
     Badge
-&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Secondary&quot; Soft&gt;
+&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Secondary&quot; Soft&gt;
     &lt;Blazicon Svg=&quot;MdiIcon.CircleMedium&quot; /&gt;
     Badge
-&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Info&quot; Soft&gt;
+&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Info&quot; Soft&gt;
     &lt;Blazicon Svg=&quot;MdiIcon.CircleMedium&quot;/&gt;
     Badge
-&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Danger&quot; Soft&gt;
+&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Danger&quot; Soft&gt;
     &lt;Blazicon Svg=&quot;MdiIcon.CircleMedium&quot; /&gt;
     Badge
-&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Warning&quot; Soft&gt;
+&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Warning&quot; Soft&gt;
     &lt;Blazicon Svg=&quot;MdiIcon.CircleMedium&quot; /&gt;
     Badge
-&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.Success&quot; Soft&gt;
+&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Success&quot; Soft&gt;
     &lt;Blazicon Svg=&quot;MdiIcon.CircleMedium&quot; /&gt;
     Badge
-&lt;/Badge&gt;
-                </CodeViewer>
+&lt;/RzBadge&gt;
+                </RzCodeViewer>
 
             </section>
 
             <!-- Badge with Icon Section -->
             <section class="my-8 py-2">
 
-                <Heading Level="HeadingLevel.H2" QuickReferenceTitle="Badge with Icon" class="scroll-mt-20">Badge with Icon</Heading>
-                <Paragraph TextColor="SemanticColor.OnSurface">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Badge with Icon" class="scroll-mt-20">Badge with Icon</RzHeading>
+                <RzParagraph TextColor="SemanticColor.OnSurface">
                     Badges can include various icons to represent actions, statuses, or categories. Icons enhance the badge's meaning and provide visual cues for better user experience.
-                </Paragraph>
+                </RzParagraph>
 
-                <Browser Layout="typeof(PreviewLayout)">
+                <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-2 text-base mx-auto grid min-h-[10rem] place-content-center place-items-center gap-4 rounded-xl p-4 xl:grid-cols-3 2xl:grid-cols-4">
-	                    <Badge Color="SemanticColor.Surface" Soft>
+	                    <RzBadge Color="SemanticColor.Surface" Soft>
 		                    <Blazicon Svg="MdiIcon.Tag" />
 		                    Tag
-	                    </Badge>
-	                    <Badge Color="SemanticColor.SurfaceAlt" Soft Icon="MdiIcon.Tag" Label="Tag"/>
+	                    </RzBadge>
+	                    <RzBadge Color="SemanticColor.SurfaceAlt" Soft Icon="MdiIcon.Tag" Label="Tag"/>
                     
-	                    <Badge Color="SemanticColor.Primary" Soft Icon="MdiIcon.Check" Label="Approved"/>
+	                    <RzBadge Color="SemanticColor.Primary" Soft Icon="MdiIcon.Check" Label="Approved"/>
                         
-	                    <Badge Color="SemanticColor.Secondary" Soft Icon="MdiIcon.Close" Label="Rejected"/>
+	                    <RzBadge Color="SemanticColor.Secondary" Soft Icon="MdiIcon.Close" Label="Rejected"/>
                         
-	                    <Badge Color="SemanticColor.Info" Soft Icon="MdiIcon.Information" Label="Info"/>
+	                    <RzBadge Color="SemanticColor.Info" Soft Icon="MdiIcon.Information" Label="Info"/>
                         
-	                    <Badge Color="SemanticColor.Danger" Soft Icon="MdiIcon.Alert" Label="Alert"/>
+	                    <RzBadge Color="SemanticColor.Danger" Soft Icon="MdiIcon.Alert" Label="RzAlert"/>
                         
-	                    <Badge Color="SemanticColor.Warning" Soft Icon="MdiIcon.AlertCircle" Label="Caution"/>
+	                    <RzBadge Color="SemanticColor.Warning" Soft Icon="MdiIcon.AlertCircle" Label="Caution"/>
                         
-	                    <Badge Color="SemanticColor.Success" Soft Icon="MdiIcon.CheckCircle" Label="Success"/>
+	                    <RzBadge Color="SemanticColor.Success" Soft Icon="MdiIcon.CheckCircle" Label="Success"/>
                         
                     </div>
-                </Browser>
+                </RzBrowser>
 
-                <CodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Badge Color=&quot;SemanticColor.Surface&quot; Soft&gt;
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzBadge Color=&quot;SemanticColor.Surface&quot; Soft&gt;
     &lt;Blazicon Svg=&quot;MdiIcon.Tag&quot; /&gt;
     Tag
-&lt;/Badge&gt;
-&lt;Badge Color=&quot;SemanticColor.SurfaceAlt&quot; Soft Icon=&quot;MdiIcon.Tag&quot; Text=&quot;Tag&quot;/&gt;
-&lt;Badge Color=&quot;SemanticColor.Primary&quot; Soft Icon=&quot;MdiIcon.Check&quot; Text=&quot;Approved&quot;/&gt;
-&lt;Badge Color=&quot;SemanticColor.Secondary&quot; Soft Icon=&quot;MdiIcon.Close&quot; Text=&quot;Rejected&quot;/&gt;
-&lt;Badge Color=&quot;SemanticColor.Info&quot; Soft Icon=&quot;MdiIcon.Information&quot; Text=&quot;Info&quot;/&gt;
-&lt;Badge Color=&quot;SemanticColor.Danger&quot; Soft Icon=&quot;MdiIcon.Alert&quot; Text=&quot;Alert&quot;/&gt;
-&lt;Badge Color=&quot;SemanticColor.Warning&quot; Soft Icon=&quot;MdiIcon.AlertCircle&quot; Text=&quot;Caution&quot;/&gt;
-&lt;Badge Color=&quot;SemanticColor.Success&quot; Soft Icon=&quot;MdiIcon.CheckCircle&quot; Text=&quot;Success&quot;/&gt;
-                </CodeViewer>
+&lt;/RzBadge&gt;
+&lt;RzBadge Color=&quot;SemanticColor.SurfaceAlt&quot; Soft Icon=&quot;MdiIcon.Tag&quot; Text=&quot;Tag&quot;/&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Primary&quot; Soft Icon=&quot;MdiIcon.Check&quot; Text=&quot;Approved&quot;/&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Secondary&quot; Soft Icon=&quot;MdiIcon.Close&quot; Text=&quot;Rejected&quot;/&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Info&quot; Soft Icon=&quot;MdiIcon.Information&quot; Text=&quot;Info&quot;/&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Danger&quot; Soft Icon=&quot;MdiIcon.RzAlert&quot; Text=&quot;RzAlert&quot;/&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Warning&quot; Soft Icon=&quot;MdiIcon.RzAlertCircle&quot; Text=&quot;Caution&quot;/&gt;
+&lt;RzBadge Color=&quot;SemanticColor.Success&quot; Soft Icon=&quot;MdiIcon.CheckCircle&quot; Text=&quot;Success&quot;/&gt;
+                </RzCodeViewer>
 
             </section>
 
         </MainContent>
-    </Article>
-</QuickReferenceContainer>
+    </RzArticle>
+</RzQuickReferenceContainer>

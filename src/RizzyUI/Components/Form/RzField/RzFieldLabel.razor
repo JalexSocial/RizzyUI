@@ -1,0 +1,18 @@
+@namespace RizzyUI
+@inherits RzComponent
+@typeparam TValue
+
+
+@if (!string.IsNullOrEmpty(_effectiveDisplayName))
+{
+    <label for="@_for" @attributes="AdditionalAttributes" class="@RootClass()">
+        @_effectiveDisplayName
+        @ChildContent 
+    </label>
+}
+else
+{
+    
+    @ChildContent
+}
+
