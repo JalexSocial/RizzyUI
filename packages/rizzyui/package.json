@@ -4,10 +4,18 @@
   "description": "Client library for Asp.net RizzyUI",
   "main": "dist/js/rizzyui.js",
   "scripts": {
-    "css:build": "npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.css && node ./build/parse-tailwind-css.js && npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.min.css --minify",
-    "build": "npm run css:build && webpack",
+    "build:css": "run-s build:css:dev build:css:prod",
+    "build:css:dev": "npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.css",
+    "build:css:prod": "npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.min.css --minify",
+    "build:safelist": "node ./build/parse-tailwind-css.js",
+    "webpack:stats": "webpack --config webpack.config.js --json > stats.json",
+    "build": "run-s build:css build:safelist copy:assets",
     "build:dev": "webpack --mode development --watch",
-    "copy:assets": "copyfiles -u 2 \"src/css/rizzyui-theme.css\" \"dist/css\" && copyfiles -u 2 \"src/js/lib/**/*\" \"dist/js\" && copyfiles -u 1 \"dist/**/*\" \"../../src/RizzyUI/wwwroot/\""
+    "analyze": "npm run webpack:stats && webpack-bundle-analyzer stats.json",
+    "copy:theme": "copyfiles -u 2 src/css/rizzyui-theme.css dist/css",
+    "copy:lib": "copyfiles -u 2 src/js/lib/**/* dist/js",
+    "copy:dist": "copyfiles -u 1 dist/**/* ../../src/RizzyUI/wwwroot/",
+    "copy:assets": "run-s copy:theme copy:lib copy:dist"
   },
   "repository": {
     "type": "git",
@@ -35,6 +43,7 @@
     "copyfiles": "^2.4.1",
     "css-loader": "^6.8.1",
     "eslint": "^8.52.0",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.5.3",
     "postcss-selector-parser": "^7.0.0",
     "repomix": "^0.2.24",

@@ -1,166 +1,75 @@
-﻿const path = require('path');
-const CopyPlugin = require("copy-webpack-plugin");
-const targetWwwRoot = path.resolve(__dirname, '../../src/RizzyUI/wwwroot/');
+﻿/* webpack.config.js ------------------------------------------------------- */
+const path       = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
+const ROOT           = __dirname;
+const SRC_DIR        = path.resolve(ROOT, 'src/js');
+const DIST_DIR       = path.resolve(ROOT, 'dist/js');
+const TARGET_WWWROOT = path.resolve(ROOT, '../../src/RizzyUI/wwwroot/');
+
+/* One shared Babel rule --------------------------------------------------- */
+const babelRule = {
+    test   : /\.js$/,
+    exclude: /node_modules/,
+    use    : { loader: 'babel-loader', options: { presets: ['@babel/preset-env'] } },
+};
+
+/* Copy built files to wwwroot -------------------------------------------- */
+const copyToWwwroot = new CopyPlugin({
+    patterns: [
+        {
+            from : path.resolve(ROOT, 'dist'),
+            to   : TARGET_WWWROOT,
+            noErrorOnMissing: true,
+            force           : true,
+        },
+    ],
+});
+
+/* Factory ---------------------------------------------------------------- */
+function makeConfig({ name, entryFile, filename, isProd, doClean = false }) {
+    return {
+        name,
+        mode  : isProd ? 'production' : 'development',
+        entry : path.resolve(SRC_DIR, entryFile),
+        output: {
+            filename,
+            path: DIST_DIR,
+            ...(doClean ? { clean: true } : {}),          // ⚠️ clean only when asked
+        },
+        ...(isProd ? {} : { devtool: 'source-map' }),
+        module : { rules: [babelRule] },
+        resolve: { extensions: ['.js'], modules: ['node_modules'] },
+        plugins: [copyToWwwroot],
+    };
+}
+
+/* Export ------------------------------------------------------------------ */
 module.exports = [
-    {
-        name: 'rizzyui',
-        entry: path.resolve(__dirname, 'src/js/rizzyui.js'),
-        output: {
-            filename: 'rizzyui.js',
-            path: path.resolve(__dirname, 'dist/js/'),
-        },
-        mode: 'development', // Enables unminified output
-        devtool: 'source-map', // Optional: Generates source maps for easier debugging
-        module: {
-            rules: [
-                {
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    use: {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['@babel/preset-env']
-                        }
-                    }
-                }
-            ]
-        },
-        resolve: {
-            extensions: ['.js'], // Automatically resolve these extensions
-            modules: ['node_modules'], // Allow imports from node_modules
-        }
-    },
-    {
-        name: 'rizzyui-min',
-        entry: path.resolve(__dirname, 'src/js/rizzyui.js'),
-        output: {
-            filename: 'rizzyui.min.js',
-            path: path.resolve(__dirname, 'dist/js/'),
-        },
-        mode: 'production', // Enables unminified output
-        //devtool: 'source-map', // Optional: Generates source maps for easier debugging
-        module: {
-            rules: [
-                {
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    use: {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['@babel/preset-env']
-                        }
-                    }
-                }
-            ]
-        },
-        resolve: {
-            extensions: ['.js'], // Automatically resolve these extensions
-            modules: ['node_modules'], // Allow imports from node_modules
-        },
-        plugins: [
-            new CopyPlugin({
-                patterns: [
-                    {
-                        from: path.resolve(__dirname, 'dist'), // Copy FROM the Webpack output dir
-                        to: targetWwwRoot,                   // Copy TO the target wwwroot/dist dir
-                        globOptions: {
-                            // Optional: ignore files like source maps
-                            // ignore: ["**/*.map"],
-                        },
-                        noErrorOnMissing: true, // Don't error if 'dist' doesn't exist before first build
-                        force: true, // Overwrite files in the destination
-                    },
-                ],
-            }),
-        ]
-    },
-    {
-        name: 'rizzyui-csp',
-        entry: path.resolve(__dirname, 'src/js/rizzyui-csp.js'),
-        output: {
-            filename: 'rizzyui-csp.js',
-            path: path.resolve(__dirname, 'dist/js/'),
-        },
-        mode: 'development', // Enables unminified output
-        devtool: 'source-map', // Optional: Generates source maps for easier debugging
-        module: {
-            rules: [
-                {
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    use: {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['@babel/preset-env']
-                        }
-                    }
-                }
-            ]
-        },
-        resolve: {
-            extensions: ['.js'], // Automatically resolve these extensions
-            modules: ['node_modules'], // Allow imports from node_modules
-        },
-        plugins: [
-            new CopyPlugin({
-                patterns: [
-                    {
-                        from: path.resolve(__dirname, 'dist'), // Copy FROM the Webpack output dir
-                        to: targetWwwRoot,                   // Copy TO the target wwwroot/dist dir
-                        globOptions: {
-                            // Optional: ignore files like source maps
-                            // ignore: ["**/*.map"],
-                        },
-                        noErrorOnMissing: true, // Don't error if 'dist' doesn't exist before first build
-                        force: true, // Overwrite files in the destination
-                    },
-                ],
-            }),
-        ]
-    },
-    {
-        name: 'rizzyui-csp-min',
-        entry: path.resolve(__dirname, 'src/js/rizzyui-csp.js'),
-        output: {
-            filename: 'rizzyui-csp.min.js',
-            path: path.resolve(__dirname, 'dist/js/'),
-        },
-        mode: 'production', // Enables unminified output
-        //devtool: 'source-map', // Optional: Generates source maps for easier debugging
-        module: {
-            rules: [
-                {
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    use: {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['@babel/preset-env']
-                        }
-                    }
-                }
-            ]
-        },
-        resolve: {
-            extensions: ['.js'], // Automatically resolve these extensions
-            modules: ['node_modules'], // Allow imports from node_modules
-        },
-        plugins: [
-            new CopyPlugin({
-                patterns: [
-                    {
-                        from: path.resolve(__dirname, 'dist'), // Copy FROM the Webpack output dir
-                        to: targetWwwRoot,                   // Copy TO the target wwwroot/dist dir
-                        globOptions: {
-                            // Optional: ignore files like source maps
-                            // ignore: ["**/*.map"],
-                        },
-                        noErrorOnMissing: true, // Don't error if 'dist' doesn't exist before first build
-                        force: true, // Overwrite files in the destination
-                    },
-                ],
-            }),
-        ]
-    }
+    /* Clean happens just once on the first build target -------------------- */
+    makeConfig({
+        name      : 'rizzyui',
+        entryFile : 'rizzyui.js',
+        filename  : 'rizzyui.js',
+        isProd    : false,
+        doClean   : true,               // ← only this compiler cleans DIST_DIR
+    }),
+    makeConfig({
+        name      : 'rizzyui-min',
+        entryFile : 'rizzyui.js',
+        filename  : 'rizzyui.min.js',
+        isProd    : true,
+    }),
+    makeConfig({
+        name      : 'rizzyui-csp',
+        entryFile : 'rizzyui-csp.js',
+        filename  : 'rizzyui-csp.js',
+        isProd    : false,
+    }),
+    makeConfig({
+        name      : 'rizzyui-csp-min',
+        entryFile : 'rizzyui-csp.js',
+        filename  : 'rizzyui-csp.min.js',
+        isProd    : true,
+    }),
 ];

@@ -29,7 +29,7 @@
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>0.6.2-alpha</Version>
+        <Version>0.7.0-alpha</Version>
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
@@ -79,7 +79,6 @@
         <Message Text="Building client assets in $(ClientPackageDir)/rizzyui..." Importance="high" />
         
         <Exec Command="npm run build" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
-        <Exec Command="npm run copy:assets" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
     </Target>
 
     <Target Name="LLM" AfterTargets="Build">
