@@ -3,6 +3,10 @@ namespace RizzyUI;
 /// <summary> Provides default styles for RzDropdown. </summary>
 public class DefaultRzDropdownStyles : RzStylesBase.RzDropdownStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzDropdownStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzDropdownStyles(RzTheme theme) : base(theme)
     {
     }
@@ -27,6 +31,10 @@ public class DefaultRzDropdownStyles : RzStylesBase.RzDropdownStylesBase
 /// <summary> Provides default styles for RzDropdownSection. </summary>
 public class DefaultRzDropdownSectionStyles : RzStylesBase.RzDropdownSectionStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzDropdownSectionStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzDropdownSectionStyles(RzTheme theme) : base(theme)
     {
     }
@@ -38,6 +46,10 @@ public class DefaultRzDropdownSectionStyles : RzStylesBase.RzDropdownSectionStyl
 /// <summary> Provides default styles for RzDropdownMenuItem. </summary>
 public class DefaultRzDropdownMenuItemStyles : RzStylesBase.RzDropdownMenuItemStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzDropdownMenuItemStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzDropdownMenuItemStyles(RzTheme theme) : base(theme)
     {
     }

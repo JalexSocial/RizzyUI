@@ -38,14 +38,21 @@ public partial class RzSteps : RzComponent
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    // --- Style Properties derived from Theme ---
+    /// <summary> Gets the base CSS classes for the step list item element. </summary>
     protected string StepItemBaseClass => Theme.RzSteps.StepItem;
+    /// <summary> Gets the CSS classes for the div wrapping the step circle and label. </summary>
     protected string StepContentContainerClass => Theme.RzSteps.StepContentContainer;
+    /// <summary> Gets the base CSS classes for the completed step circle. </summary>
     protected string CircleCompletedBaseClass => Theme.RzSteps.CircleCompletedBase;
+    /// <summary> Gets the CSS classes for the icon within the completed circle. </summary>
     protected string CircleCompletedIconClass => Theme.RzSteps.CircleCompletedIcon;
+    /// <summary> Gets the CSS classes for the screen reader text within the completed circle. </summary>
     protected string CircleCompletedSrTextClass => Theme.RzSteps.CircleCompletedSrText;
+    /// <summary> Gets the base CSS classes for the default (current/upcoming) step circle. </summary>
     protected string CircleDefaultBaseClass => Theme.RzSteps.CircleDefaultBase;
+    /// <summary> Gets the base CSS classes for the step label span. </summary>
     protected string LabelBaseClass => Theme.RzSteps.LabelBase;
+    /// <summary> Gets the CSS classes for the optional caption span. </summary>
     protected string CaptionClass => Theme.RzSteps.Caption;
 
     /// <inheritdoc />
@@ -66,27 +73,40 @@ public partial class RzSteps : RzComponent
         }
     }
 
-    // --- Methods to get dynamic CSS classes based on theme and state ---
+    /// <summary> Gets the combined CSS classes for a step list item, considering if it's the first item. </summary>
+    /// <param name="isFirst">Indicates if the item is the first in the list.</param>
+    /// <returns>A string of CSS classes.</returns>
     protected string GetStepItemCss(bool isFirst)
     {
         return $"{StepItemBaseClass} {Theme.RzSteps.GetStepItemWidthCss(isFirst)}";
     }
 
+    /// <summary> Gets the CSS classes for the connector line between steps. </summary>
+    /// <param name="previousStep">The data of the previous step.</param>
+    /// <returns>A string of CSS classes.</returns>
     protected string GetConnectorCss(StepData previousStep)
     {
         return Theme.RzSteps.GetConnectorCss(Orientation, previousStep.Status, ActiveColor);
     }
 
+    /// <summary> Gets the variant-specific CSS classes for a completed step circle. </summary>
+    /// <returns>A string of CSS classes.</returns>
     protected string GetCircleCompletedVariantCss()
     {
         return Theme.RzSteps.GetCircleCompletedCss(ActiveColor);
     }
 
+    /// <summary> Gets the variant-specific CSS classes for a default (current or upcoming) step circle. </summary>
+    /// <param name="status">The status of the step.</param>
+    /// <returns>A string of CSS classes.</returns>
     protected string GetCircleDefaultVariantCss(StepStatus status)
     {
         return Theme.RzSteps.GetCircleDefaultCss(status, ActiveColor);
     }
 
+    /// <summary> Gets the variant-specific CSS classes for the step label based on its status. </summary>
+    /// <param name="status">The status of the step.</param>
+    /// <returns>A string of CSS classes.</returns>
     protected string GetLabelVariantCss(StepStatus status)
     {
         return Theme.RzSteps.GetLabelStatusCss(status, ActiveColor);

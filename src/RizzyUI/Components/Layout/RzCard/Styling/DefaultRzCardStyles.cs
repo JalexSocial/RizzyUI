@@ -3,6 +3,10 @@ namespace RizzyUI;
 /// <summary> Provides default styles for RzCard. </summary>
 public class DefaultRzCardStyles : RzStylesBase.RzCardStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzCardStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCardStyles(RzTheme theme) : base(theme)
     {
     }
@@ -15,6 +19,10 @@ public class DefaultRzCardStyles : RzStylesBase.RzCardStylesBase
 /// <summary> Provides default styles for RzCardHeader. </summary>
 public class DefaultRzCardHeaderStyles : RzStylesBase.RzCardHeaderStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzCardHeaderStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCardHeaderStyles(RzTheme theme) : base(theme)
     {
     }
@@ -27,6 +35,10 @@ public class DefaultRzCardHeaderStyles : RzStylesBase.RzCardHeaderStylesBase
 /// <summary> Provides default styles for RzCardBody. </summary>
 public class DefaultRzCardBodyStyles : RzStylesBase.RzCardBodyStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzCardBodyStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCardBodyStyles(RzTheme theme) : base(theme)
     {
     }
@@ -38,6 +50,10 @@ public class DefaultRzCardBodyStyles : RzStylesBase.RzCardBodyStylesBase
 /// <summary> Provides default styles for RzCardFooter. </summary>
 public class DefaultRzCardFooterStyles : RzStylesBase.RzCardFooterStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzCardFooterStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCardFooterStyles(RzTheme theme) : base(theme)
     {
     }
@@ -49,6 +65,10 @@ public class DefaultRzCardFooterStyles : RzStylesBase.RzCardFooterStylesBase
 /// <summary> Provides default styles for RzCardTitle. </summary>
 public class DefaultRzCardTitleStyles : RzStylesBase.RzCardTitleStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzCardTitleStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCardTitleStyles(RzTheme theme) : base(theme)
     {
     }
@@ -61,6 +81,10 @@ public class DefaultRzCardTitleStyles : RzStylesBase.RzCardTitleStylesBase
 /// <summary> Provides default styles for RzCardSubtitle. </summary>
 public class DefaultRzCardSubtitleStyles : RzStylesBase.RzCardSubtitleStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzCardSubtitleStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCardSubtitleStyles(RzTheme theme) : base(theme)
     {
     }
@@ -72,6 +96,10 @@ public class DefaultRzCardSubtitleStyles : RzStylesBase.RzCardSubtitleStylesBase
 /// <summary> Provides default styles for RzCardButtons. </summary>
 public class DefaultRzCardButtonsStyles : RzStylesBase.RzCardButtonsStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzCardButtonsStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCardButtonsStyles(RzTheme theme) : base(theme)
     {
     }

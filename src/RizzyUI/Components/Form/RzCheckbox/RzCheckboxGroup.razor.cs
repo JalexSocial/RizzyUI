@@ -7,7 +7,7 @@ using RizzyUI.Extensions;
 namespace RizzyUI;
 
 /// <xmldoc>
-///     Represents a group of checkbox items (<see cref="RzCheckboxGroupItem" />) that support multiple selection.
+///     Represents a group of checkbox items (<see cref="RzCheckboxGroupItem{TValue}" />) that support multiple selection.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
 public partial class RzCheckboxGroup<TValue> : RzComponent

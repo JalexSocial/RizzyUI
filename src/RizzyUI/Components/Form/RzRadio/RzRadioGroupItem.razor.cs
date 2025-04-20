@@ -46,15 +46,23 @@ public partial class RzRadioGroupItem<TValue> : RzComponent
     /// <summary> The effective icon used for the checkmark, determined by the parent group. </summary>
     protected SvgIcon EffectiveCheckboxIcon { get; set; } = default!;
 
-    // --- Style Properties derived from Theme ---
+    /// <summary> Gets the CSS classes for the label wrapper element. </summary>
     protected string LabelWrapperClass => Theme.RzRadioGroupItem.LabelWrapper;
+    /// <summary> Gets the CSS classes for the radio input element. </summary>
     protected string RadioInputClass => Theme.RzRadioGroupItem.RadioInput;
+    /// <summary> Gets the CSS classes for the checkmark icon container span. </summary>
     protected string IconContainerClass => Theme.RzRadioGroupItem.IconContainer;
+    /// <summary> Gets the CSS classes for the main clickable container span. </summary>
     protected string ClickableContainerClass => Theme.RzRadioGroupItem.ClickableContainer;
+    /// <summary> Gets the CSS classes for the content wrapper div (holding icon and text). </summary>
     protected string ContentWrapperClass => Theme.RzRadioGroupItem.ContentWrapper;
+    /// <summary> Gets the CSS classes for the optional leading icon container div. </summary>
     protected string LeadingIconContainerClass => Theme.RzRadioGroupItem.LeadingIconContainer;
+    /// <summary> Gets the CSS classes for the text container span (holding label and description). </summary>
     protected string TextContainerClass => Theme.RzRadioGroupItem.TextContainer;
+    /// <summary> Gets the CSS classes for the label text span. </summary>
     protected string LabelTextClass => Theme.RzRadioGroupItem.LabelText;
+    /// <summary> Gets the CSS classes for the description text span. </summary>
     protected string DescriptionTextClass => Theme.RzRadioGroupItem.DescriptionText;
 
     /// <inheritdoc />

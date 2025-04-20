@@ -1,8 +1,12 @@
 namespace RizzyUI;
 
 /// <summary> Provides default styles for base typography settings. </summary>
-public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase 
+public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzTypographyStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzTypographyStyles(RzTheme theme) : base(theme)
     {
     }
@@ -75,8 +79,12 @@ public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase
 }
 
 /// <summary> Provides default styles for RzHeading. </summary>
-public class DefaultRzHeadingStyles : RzStylesBase.RzHeadingStylesBase 
+public class DefaultRzHeadingStyles : RzStylesBase.RzHeadingStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzHeadingStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzHeadingStyles(RzTheme theme) : base(theme)
     {
     }
@@ -97,8 +105,12 @@ public class DefaultRzHeadingStyles : RzStylesBase.RzHeadingStylesBase
 }
 
 /// <summary> Provides default styles for RzParagraph. </summary>
-public class DefaultRzParagraphStyles : RzStylesBase.RzParagraphStylesBase 
+public class DefaultRzParagraphStyles : RzStylesBase.RzParagraphStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzParagraphStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzParagraphStyles(RzTheme theme) : base(theme)
     {
     }

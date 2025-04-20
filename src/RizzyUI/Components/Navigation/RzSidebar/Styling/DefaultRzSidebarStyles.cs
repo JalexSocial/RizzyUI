@@ -3,7 +3,7 @@ namespace RizzyUI;
 /// <summary>
 /// Provides the default styles for the RzSidebar component.
 /// </summary>
-public class DefaultRzSidebarStyles : RzStylesBase.RzSidebarStylesBase 
+public class DefaultRzSidebarStyles : RzStylesBase.RzSidebarStylesBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultRzSidebarStyles"/> class.
@@ -53,6 +53,10 @@ public class DefaultRzSidebarStyles : RzStylesBase.RzSidebarStylesBase
 /// <summary> Provides default styles for RzSidebarLinkItem. </summary>
 public class DefaultRzSidebarLinkItemStyles : RzStylesBase.RzSidebarLinkItemStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzSidebarLinkItemStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzSidebarLinkItemStyles(RzTheme theme) : base(theme)
     {
     }
@@ -123,6 +127,10 @@ public class DefaultRzSidebarLinkItemStyles : RzStylesBase.RzSidebarLinkItemStyl
 /// <summary> Provides default styles for RzSidebarLinks. </summary>
 public class DefaultRzSidebarLinksStyles : RzStylesBase.RzSidebarLinksStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzSidebarLinksStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzSidebarLinksStyles(RzTheme theme) : base(theme)
     {
     }

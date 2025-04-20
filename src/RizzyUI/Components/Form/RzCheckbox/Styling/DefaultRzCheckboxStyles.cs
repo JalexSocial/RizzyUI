@@ -4,7 +4,10 @@ namespace RizzyUI;
 public class DefaultRzCheckboxGroupStyles : RzStylesBase.RzCheckboxGroupStylesBase
 {
 
-    /// <inheritdoc />    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzCheckboxGroupStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCheckboxGroupStyles(RzTheme theme) : base(theme)
     {
     }
@@ -27,6 +30,10 @@ public class DefaultRzCheckboxGroupStyles : RzStylesBase.RzCheckboxGroupStylesBa
 /// <summary> Provides default styles for RzCheckboxGroupItem. </summary>
 public class DefaultRzCheckboxGroupItemStyles : RzStylesBase.RzCheckboxGroupItemStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzCheckboxGroupItemStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCheckboxGroupItemStyles(RzTheme theme) : base(theme)
     {
     }
@@ -59,6 +66,10 @@ public class DefaultRzCheckboxGroupItemStyles : RzStylesBase.RzCheckboxGroupItem
 /// <summary> Provides default styles for RzCheckboxGroupField. </summary>
 public class DefaultRzCheckboxGroupFieldStyles : RzStylesBase.RzCheckboxGroupFieldStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzCheckboxGroupFieldStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCheckboxGroupFieldStyles(RzTheme theme) : base(theme)
     {
     }

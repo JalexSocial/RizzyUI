@@ -1,7 +1,7 @@
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzQuickReference. </summary>
-public class DefaultRzQuickReferenceStyles : RzStylesBase.RzQuickReferenceStylesBase 
+public class DefaultRzQuickReferenceStyles : RzStylesBase.RzQuickReferenceStylesBase
 {
 	/// <inheritdoc />
 	public DefaultRzQuickReferenceStyles(RzTheme theme) : base(theme)
@@ -43,8 +43,12 @@ public class DefaultRzQuickReferenceStyles : RzStylesBase.RzQuickReferenceStyles
 }
 
 /// <summary> Provides default styles for RzQuickReferenceContainer. </summary>
-public class DefaultRzQuickReferenceContainerStyles : RzStylesBase.RzQuickReferenceContainerStylesBase 
+public class DefaultRzQuickReferenceContainerStyles : RzStylesBase.RzQuickReferenceContainerStylesBase
 {
+	/// <summary>
+	/// Initializes a new instance of the <see cref="DefaultRzQuickReferenceContainerStyles"/> class.
+	/// </summary>
+	/// <param name="theme">The theme instance providing styling context.</param>
 	public DefaultRzQuickReferenceContainerStyles(RzTheme theme) : base(theme)
 	{
 	}

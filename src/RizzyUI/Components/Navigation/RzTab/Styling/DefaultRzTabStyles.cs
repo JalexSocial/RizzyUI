@@ -1,8 +1,12 @@
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzTabs. </summary>
-public class DefaultRzTabsStyles : RzStylesBase.RzTabsStylesBase 
+public class DefaultRzTabsStyles : RzStylesBase.RzTabsStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzTabsStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzTabsStyles(RzTheme theme) : base(theme)
     {
     }
@@ -15,8 +19,12 @@ public class DefaultRzTabsStyles : RzStylesBase.RzTabsStylesBase
 }
 
 /// <summary> Provides default styles for RzTabStrip. </summary>
-public class DefaultRzTabStripStyles : RzStylesBase.RzTabStripStylesBase 
+public class DefaultRzTabStripStyles : RzStylesBase.RzTabStripStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzTabStripStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzTabStripStyles(RzTheme theme) : base(theme)
     {
     }
@@ -63,8 +71,12 @@ public class DefaultRzTabStripStyles : RzStylesBase.RzTabStripStylesBase
 }
 
 /// <summary> Provides default styles for RzTab. </summary>
-public class DefaultRzTabStyles : RzStylesBase.RzTabStylesBase 
+public class DefaultRzTabStyles : RzStylesBase.RzTabStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzTabStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzTabStyles(RzTheme theme) : base(theme)
     {
     }
@@ -97,8 +109,12 @@ public class DefaultRzTabStyles : RzStylesBase.RzTabStylesBase
 }
 
 /// <summary> Provides default styles for RzTabPanel. </summary>
-public class DefaultRzTabPanelStyles : RzStylesBase.RzTabPanelStylesBase 
+public class DefaultRzTabPanelStyles : RzStylesBase.RzTabPanelStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzTabPanelStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzTabPanelStyles(RzTheme theme) : base(theme)
     {
     }

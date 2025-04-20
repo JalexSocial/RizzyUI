@@ -1,8 +1,12 @@
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzSteps. </summary>
-public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase 
+public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultRzStepsStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzStepsStyles(RzTheme theme) : base(theme)
     {
     }
