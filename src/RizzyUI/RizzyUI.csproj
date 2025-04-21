@@ -91,23 +91,4 @@
         <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Content Update="Scripts\antiforgerySnippet.js">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="Scripts\antiforgerySnippet.min.js">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="Scripts\rizzyui.js">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-      <Content Update="Scripts\rizzyui-csp.js">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-    </ItemGroup>
-
 </Project>

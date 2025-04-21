@@ -19,7 +19,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 23
-
+          registry-url: https://registry.npmjs.org/
+          
       - name: Install npm packages for RizzyUI
         working-directory: ./src/RizzyUI  # Specify the directory containing package.json
         run: npm install
@@ -110,7 +111,6 @@ jobs:
         working-directory: packages/rizzyui
         run: |
           npm run build
-          npm run copy:assets
         
       - name: Publish Rizzy JS package to npm
         working-directory: packages/rizzyui
