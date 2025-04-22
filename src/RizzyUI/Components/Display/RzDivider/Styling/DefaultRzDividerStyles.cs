@@ -7,7 +7,7 @@
 /// The class supplies:
 /// <list type="bullet">
 ///   <item><description>Standard, thick, dotted, and dashed rules.</description></item>
-///   <item><description>Inset variants (indented 2 rem) of the above rules.</description></item>
+///   <item><description>Inset variants (indented 2rem) of the above rules.</description></item>
 ///   <item><description>Base flex layout styles used when the divider carries a label or icon.</description></item>
 /// </list>
 /// </summary>

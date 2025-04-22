@@ -1478,7 +1478,7 @@ using RizzyUI;
 /// The class supplies:
 /// <list type="bullet">
 ///   <item><description>Standard, thick, dotted, and dashed rules.</description></item>
-///   <item><description>Inset variants (indented 2 rem) of the above rules.</description></item>
+///   <item><description>Inset variants (indented 2rem) of the above rules.</description></item>
 ///   <item><description>Base flex layout styles used when the divider carries a label or icon.</description></item>
 /// </list>
 /// </summary>
@@ -12261,7 +12261,7 @@ public abstract class RzStylesBase
         // Note: Flatpickr calendar styles are handled separately by its CSS file.
     }
     #endregion
-#region RzDivider Styles
+#region RzDividerStyles
 /// <summary>
 /// Defines the abstract structure for styling the <see cref="RzDivider"/> component,
 /// including variants for thickness and inset positioning.
