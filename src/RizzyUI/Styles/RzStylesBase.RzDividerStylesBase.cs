@@ -13,9 +13,6 @@ public abstract partial class RzStylesBase
     /// Defines the abstract structure for styling the <see cref="RzDivider"/> component,
     /// including variants for thickness and inset positioning.
     /// </summary>
-        /// <summary>
-        ///     Defines the abstract structure for styling the <see cref="RzDivider" /> component.
-        /// </summary>
         public abstract class RzDividerStylesBase
     {
         /// <summary>The theme instance providing color and sizing tokens.</summary>

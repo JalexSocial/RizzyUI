@@ -12,9 +12,6 @@ public abstract partial class RzStylesBase
         /// <summary>
         ///     Defines the abstract structure for styling the <see cref="RzNumberEdit{TValue}" /> component.
         /// </summary>
-            /// <summary>
-        ///     Defines the abstract structure for styling the <see cref="RzNumberEdit" /> component.
-        /// </summary>
         public abstract class RzNumberEditStylesBase
         {
             /// <summary> The theme instance providing color and sizing tokens. </summary>

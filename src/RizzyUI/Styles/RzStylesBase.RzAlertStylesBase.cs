@@ -12,9 +12,6 @@ public abstract partial class RzStylesBase
         /// <summary>
         ///     Defines the abstract structure for styling the <see cref="RzAlert" /> component.
         /// </summary>
-            /// <summary>
-        ///     Defines the abstract structure for styling the <see cref="RzAlert" /> component.
-        /// </summary>
         public abstract class RzAlertStylesBase
         {
             /// <summary> The theme instance providing color and sizing tokens. </summary>

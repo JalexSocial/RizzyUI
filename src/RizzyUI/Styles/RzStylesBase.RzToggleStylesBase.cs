@@ -12,9 +12,6 @@ public abstract partial class RzStylesBase
         /// <summary>
         ///     Defines the abstract structure for styling the <see cref="RzToggle" /> switch component.
         /// </summary>
-            /// <summary>
-        ///     Defines the abstract structure for styling the <see cref="RzToggle" /> component.
-        /// </summary>
         public abstract class RzToggleStylesBase
         {
             /// <summary> The theme instance providing color and sizing tokens. </summary>

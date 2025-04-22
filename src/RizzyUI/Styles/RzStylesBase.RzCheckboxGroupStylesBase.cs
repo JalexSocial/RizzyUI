@@ -12,9 +12,6 @@ public abstract partial class RzStylesBase
         /// <summary>
         ///     Defines the abstract structure for styling the <see cref="RzCheckboxGroup{TValue}" /> container.
         /// </summary>
-            /// <summary>
-        ///     Defines the abstract structure for styling the <see cref="RzCheckboxGroup" /> component.
-        /// </summary>
         public abstract class RzCheckboxGroupStylesBase
         {
             /// <summary> The theme instance providing color and sizing tokens. </summary>

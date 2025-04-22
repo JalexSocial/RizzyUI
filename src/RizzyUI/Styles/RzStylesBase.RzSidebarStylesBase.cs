@@ -12,9 +12,6 @@ public abstract partial class RzStylesBase
         /// <summary>
         ///     Defines the abstract structure for styling the <see cref="RzSidebar" /> component and layout.
         /// </summary>
-            /// <summary>
-        ///     Defines the abstract structure for styling the <see cref="RzSidebar" /> component.
-        /// </summary>
         public abstract class RzSidebarStylesBase
         {
             /// <summary> The theme instance providing color and sizing tokens. </summary>

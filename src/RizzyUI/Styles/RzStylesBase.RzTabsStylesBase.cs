@@ -12,9 +12,6 @@ public abstract partial class RzStylesBase
         /// <summary>
         ///     Defines the abstract structure for styling the <see cref="RzTabs" /> container.
         /// </summary>
-            /// <summary>
-        ///     Defines the abstract structure for styling the <see cref="RzTabs" /> component.
-        /// </summary>
         public abstract class RzTabsStylesBase
         {
             /// <summary> The theme instance providing color and sizing tokens. </summary>

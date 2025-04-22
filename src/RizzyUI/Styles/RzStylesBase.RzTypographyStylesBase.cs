@@ -13,9 +13,6 @@ public abstract partial class RzStylesBase
         ///     Defines the abstract structure for base typography styling utilities used by components like
         ///     <see cref="RzHeading" /> and <see cref="RzParagraph" />.
         /// </summary>
-            /// <summary>
-        ///     Defines the abstract structure for styling the <see cref="RzTypography" /> component.
-        /// </summary>
         public abstract class RzTypographyStylesBase
         {
             /// <summary> The theme instance providing color and sizing tokens. </summary>

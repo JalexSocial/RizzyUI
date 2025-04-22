@@ -12,9 +12,6 @@ public abstract partial class RzStylesBase
         /// <summary>
         ///     Defines the abstract structure for styling the <see cref="RzDropdown" /> component.
         /// </summary>
-            /// <summary>
-        ///     Defines the abstract structure for styling the <see cref="RzDropdown" /> component.
-        /// </summary>
         public abstract class RzDropdownStylesBase
         {
             /// <summary> The theme instance providing color and sizing tokens. </summary>

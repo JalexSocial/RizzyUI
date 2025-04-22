@@ -12,9 +12,6 @@ public abstract partial class RzStylesBase
         /// <summary>
         ///     Defines the abstract structure for styling the <see cref="RzCard" /> component container.
         /// </summary>
-            /// <summary>
-        ///     Defines the abstract structure for styling the <see cref="RzCard" /> component.
-        /// </summary>
         public abstract class RzCardStylesBase
         {
             /// <summary> The theme instance providing color and sizing tokens. </summary>
