@@ -1,7 +1,6 @@
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
@@ -76,15 +75,15 @@ public partial class RzCheckboxGroupField<TValue> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (For == null)
             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
-        
+
         if (EditContext == null)
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 
         _fieldIdentifier = FieldIdentifier.Create(For);
-        
+
         // Initialize CurrentValues from the parameter or the model
         _currentValues = Values ??
                          _fieldIdentifier.Model.GetType()?.GetProperty(_fieldIdentifier.FieldName)

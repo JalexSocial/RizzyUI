@@ -7,28 +7,28 @@ namespace RizzyUI;
 /// </summary>
 public abstract partial class RzStylesBase
 {
-        #region RzLink Styles
-    
-        /// <summary>
-        ///     Defines the abstract structure for styling the <see cref="RzLink" /> component.
-        /// </summary>
-        public abstract class RzLinkStylesBase
+    #region RzLink Styles
+
+    /// <summary>
+    ///     Defines the abstract structure for styling the <see cref="RzLink" /> component.
+    /// </summary>
+    public abstract class RzLinkStylesBase
+    {
+        /// <summary> The theme instance providing color and sizing tokens. </summary>
+        protected readonly RzTheme Theme;
+
+        /// <summary> Initializes a new instance of the <see cref="RzLinkStylesBase" /> class. </summary>
+        protected RzLinkStylesBase(RzTheme theme)
         {
-            /// <summary> The theme instance providing color and sizing tokens. </summary>
-            protected readonly RzTheme Theme;
-    
-            /// <summary> Initializes a new instance of the <see cref="RzLinkStylesBase" /> class. </summary>
-            protected RzLinkStylesBase(RzTheme theme)
-            {
-                Theme = theme;
-            }
-    
-            /// <summary> Gets the base CSS classes for the RzLink anchor (a) element (typography, color, focus styles). </summary>
-            public abstract string Link { get; }
-    
-            /// <summary> Gets the CSS classes applied when underlining is enabled (hover/focus states). </summary>
-            public abstract string UnderlineEnabled { get; }
+            Theme = theme;
         }
-    
-        #endregion
+
+        /// <summary> Gets the base CSS classes for the RzLink anchor (a) element (typography, color, focus styles). </summary>
+        public abstract string Link { get; }
+
+        /// <summary> Gets the CSS classes applied when underlining is enabled (hover/focus states). </summary>
+        public abstract string UnderlineEnabled { get; }
+    }
+
+    #endregion
 }

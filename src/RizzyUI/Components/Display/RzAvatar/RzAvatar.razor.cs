@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
@@ -107,7 +106,7 @@ public partial class RzAvatar : RzComponent
     /// <summary> Gets the computed CSS classes for the placeholder icon size. </summary>
     protected string PlaceholderIconSizeClass => Theme.RzAvatar.GetPlaceholderSizeCss(Size);
 
- /// <inheritdoc />
+    /// <inheritdoc />
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, ContainerClass ?? string.Empty, Theme.RzAvatar.GetSizeCss(Size));

@@ -4,7 +4,6 @@ using System.Reflection;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
 using RizzyUI.Extensions;
 
@@ -100,10 +99,10 @@ public partial class RzFieldLabel<TValue> : RzComponent
         if (For != null && HttpContext != null && EditContext != null)
             try
             {
-                FieldIdentifier field = FieldIdentifier.Create(For);
+                var field = FieldIdentifier.Create(For);
                 var fieldMap = HttpContext.GetOrAddFieldMapping(EditContext); // Use extension method
 
-                if (fieldMap != null && fieldMap.TryGetValue(field, out RzFormFieldMap? map) && map != null)
+                if (fieldMap != null && fieldMap.TryGetValue(field, out var map) && map != null)
                     _for = map.Id;
             }
             catch (ArgumentException)

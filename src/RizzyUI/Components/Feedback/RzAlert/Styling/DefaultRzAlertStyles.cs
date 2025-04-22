@@ -35,15 +35,15 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
     {
         return variant switch
         {
-            AlertVariant.Alternate => $"border-outline bg-surface text-on-surface",
+            AlertVariant.Alternate => "border-outline bg-surface text-on-surface",
             AlertVariant.Information =>
-                $"border-info bg-surface text-on-surface",
+                "border-info bg-surface text-on-surface",
             AlertVariant.Success =>
-                $"border-success bg-surface text-on-surface",
+                "border-success bg-surface text-on-surface",
             AlertVariant.Warning =>
-                $"border-warning bg-surface text-on-surface",
+                "border-warning bg-surface text-on-surface",
             AlertVariant.Danger =>
-                $"border-danger bg-surface text-on-surface",
+                "border-danger bg-surface text-on-surface",
             _ => GetVariantCss(AlertVariant.Information) // Default
         };
     }
@@ -54,10 +54,10 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
         return variant switch
         {
             AlertVariant.Alternate => "bg-surface-alt/10",
-            AlertVariant.Information => $"bg-info/10",
-            AlertVariant.Success => $"bg-success/10",
-            AlertVariant.Warning => $"bg-warning/10",
-            AlertVariant.Danger => $"bg-danger/10",
+            AlertVariant.Information => "bg-info/10",
+            AlertVariant.Success => "bg-success/10",
+            AlertVariant.Warning => "bg-warning/10",
+            AlertVariant.Danger => "bg-danger/10",
             _ => GetVariantBackgroundLightCss(AlertVariant.Information)
         };
     }
@@ -68,10 +68,10 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
         return variant switch
         {
             AlertVariant.Alternate => "bg-surface-alt/15",
-            AlertVariant.Information => $"bg-info/15",
-            AlertVariant.Success => $"bg-success/15",
-            AlertVariant.Warning => $"bg-warning/15",
-            AlertVariant.Danger => $"bg-danger/15",
+            AlertVariant.Information => "bg-info/15",
+            AlertVariant.Success => "bg-success/15",
+            AlertVariant.Warning => "bg-warning/15",
+            AlertVariant.Danger => "bg-danger/15",
             _ => GetVariantBackgroundLighterCss(AlertVariant.Information)
         };
     }
@@ -82,10 +82,10 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
         return variant switch
         {
             AlertVariant.Alternate => "text-on-surface",
-            AlertVariant.Information => $"text-info",
-            AlertVariant.Success => $"text-success",
-            AlertVariant.Warning => $"text-warning",
-            AlertVariant.Danger => $"text-danger",
+            AlertVariant.Information => "text-info",
+            AlertVariant.Success => "text-success",
+            AlertVariant.Warning => "text-warning",
+            AlertVariant.Danger => "text-danger",
             _ => GetVariantIconColorCss(AlertVariant.Information)
         };
     }
@@ -95,7 +95,7 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
 public class DefaultRzAlertTitleStyles : RzStylesBase.RzAlertTitleStylesBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzAlertTitleStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzAlertTitleStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzAlertTitleStyles(RzTheme theme) : base(theme)
@@ -103,12 +103,12 @@ public class DefaultRzAlertTitleStyles : RzStylesBase.RzAlertTitleStylesBase
     }
 
     /// <summary>
-    /// Gets the base CSS classes for the alert title element.
+    ///     Gets the base CSS classes for the alert title element.
     /// </summary>
     public override string Title => "text-sm font-semibold pb-1";
 
     /// <summary>
-    /// Gets the CSS classes for the text color based on the alert variant.
+    ///     Gets the CSS classes for the text color based on the alert variant.
     /// </summary>
     /// <param name="variant">The alert variant.</param>
     /// <returns>A string of CSS classes.</returns>
@@ -117,12 +117,12 @@ public class DefaultRzAlertTitleStyles : RzStylesBase.RzAlertTitleStylesBase
         return variant switch
         {
             AlertVariant.Alternate =>
-                $"text-on-surface-strong", // Example: maybe stronger for alternate
-            AlertVariant.Information => $"text-info",
-            AlertVariant.Success => $"text-success",
-            AlertVariant.Warning => $"text-warning",
-            AlertVariant.Danger => $"text-danger",
-            _ => $"text-info" // Default
+                "text-on-surface-strong", // Example: maybe stronger for alternate
+            AlertVariant.Information => "text-info",
+            AlertVariant.Success => "text-success",
+            AlertVariant.Warning => "text-warning",
+            AlertVariant.Danger => "text-danger",
+            _ => "text-info" // Default
         };
     }
 }
@@ -131,7 +131,7 @@ public class DefaultRzAlertTitleStyles : RzStylesBase.RzAlertTitleStylesBase
 public class DefaultRzAlertDescriptionStyles : RzStylesBase.RzAlertDescriptionStylesBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzAlertDescriptionStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzAlertDescriptionStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzAlertDescriptionStyles(RzTheme theme) : base(theme)
@@ -139,7 +139,7 @@ public class DefaultRzAlertDescriptionStyles : RzStylesBase.RzAlertDescriptionSt
     }
 
     /// <summary>
-    /// Gets the base CSS classes for the alert description element.
+    ///     Gets the base CSS classes for the alert description element.
     /// </summary>
     public override string Description => "text-xs font-medium sm:text-sm";
 }

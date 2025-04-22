@@ -1,49 +1,50 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web; // Required for HeadContent
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
+// Required for HeadContent
 
 namespace RizzyUI;
 
 /// <summary>
-/// A Blazor component that provides the current theme's CSS variables and initial dark mode script
-/// into the document head via <see cref="HeadOutlet"/>. It also cascades the resolved theme
-/// to its child content. If no theme parameter is provided, it uses the default theme specified
-/// in <see cref="RizzyUIConfig"/> or falls back to <see cref="RzTheme.Default"/>.
+///     A Blazor component that provides the current theme's CSS variables and initial dark mode script
+///     into the document head via <see cref="HeadOutlet" />. It also cascades the resolved theme
+///     to its child content. If no theme parameter is provided, it uses the default theme specified
+///     in <see cref="RizzyUIConfig" /> or falls back to <see cref="RzTheme.Default" />.
 /// </summary>
 public class RzThemeProvider : ComponentBase
 {
     [Inject] private IOptions<RizzyUIConfig>? RizzyConfig { get; set; }
 
     /// <summary>
-    /// NonceProvider service that provides scoped per-request nonce values to RizzyUI components.
+    ///     NonceProvider service that provides scoped per-request nonce values to RizzyUI components.
     /// </summary>
     [Inject]
     protected IRizzyNonceProvider RizzyNonceProvider { get; set; } = default!;
 
     /// <summary>
-    /// Gets or sets the theme to apply. If null, defaults to the theme configured in
-    /// <see cref="RizzyUIConfig.DefaultTheme"/> or <see cref="RzTheme.Default"/>.
+    ///     Gets or sets the theme to apply. If null, defaults to the theme configured in
+    ///     <see cref="RizzyUIConfig.DefaultTheme" /> or <see cref="RzTheme.Default" />.
     /// </summary>
     [Parameter]
     public RzTheme? Theme { get; set; }
 
     /// <summary>
-    /// Gets or sets the child content to render within the theme provider context.
-    /// The resolved theme will be cascaded to this content.
+    ///     Gets or sets the child content to render within the theme provider context.
+    ///     The resolved theme will be cascaded to this content.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Builds the render tree for the component, injecting a &lt;style> tag with CSS variables
-    /// and an initial dark mode script into the head via <see cref="HeadContent"/>. It also
-    /// renders the <see cref="ChildContent"/> wrapped in a <see cref="CascadingValue{TValue}"/>
-    /// providing the resolved <see cref="RzTheme"/>.
+    ///     Builds the render tree for the component, injecting a &lt;style> tag with CSS variables
+    ///     and an initial dark mode script into the head via <see cref="HeadContent" />. It also
+    ///     renders the <see cref="ChildContent" /> wrapped in a <see cref="CascadingValue{TValue}" />
+    ///     providing the resolved <see cref="RzTheme" />.
     /// </summary>
-    /// <param name="builder">The <see cref="RenderTreeBuilder"/> used to build the component's output.</param>
+    /// <param name="builder">The <see cref="RenderTreeBuilder" /> used to build the component's output.</param>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         // Determine the theme to use based on priority: Parameter > Config > Default
@@ -59,7 +60,7 @@ public class RzThemeProvider : ComponentBase
         {
             // Inject the style tag with theme variables
             headBuilder.AddMarkupContent(2, $"<style nonce=\"{nonce}\">{css}</style>");
-            
+
             // Inject the initial dark mode script
             headBuilder.AddMarkupContent(3, $@"<script nonce=""{nonce}"">
                 const storedMode = localStorage.getItem('darkMode') ?? 'auto';
@@ -81,7 +82,7 @@ public class RzThemeProvider : ComponentBase
     }
 
     /// <summary>
-    /// Generates the CSS variable definitions for the given theme.
+    ///     Generates the CSS variable definitions for the given theme.
     /// </summary>
     /// <param name="theme">The theme to generate variables from.</param>
     /// <returns>A string containing a :root CSS block with the theme variables.</returns>
@@ -89,7 +90,7 @@ public class RzThemeProvider : ComponentBase
     {
         var sb = new StringBuilder();
         sb.AppendLine(":root {");
-        
+
         // --- Base (Light) Variables ---
         sb.AppendLine($"--color-surface: {theme.Light.Surface.ToCssColorString()};");
         sb.AppendLine($"--color-on-surface: {theme.Light.OnSurface.ToCssColorString()};");
@@ -104,7 +105,7 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"--color-on-secondary: {theme.Light.OnSecondary.ToCssColorString()};");
         sb.AppendLine($"--color-outline: {theme.Light.Outline.ToCssColorString()};");
         sb.AppendLine($"--color-outline-strong: {theme.Light.OutlineStrong.ToCssColorString()};");
-        
+
         // --- Status Colors (Same for Light/Dark in current definition) ---
         sb.AppendLine($"--color-danger: {theme.Danger.ToCssColorString()};");
         sb.AppendLine($"--color-on-danger: {theme.OnDanger.ToCssColorString()};");
@@ -114,11 +115,11 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"--color-on-warning: {theme.OnWarning.ToCssColorString()};");
         sb.AppendLine($"--color-success: {theme.Success.ToCssColorString()};");
         sb.AppendLine($"--color-on-success: {theme.OnSuccess.ToCssColorString()};");
-        
+
         // --- Border Variables ---
         sb.AppendLine($"--borderWidth: {theme.BorderWidth};");
         sb.AppendLine($"--borderRadius: {theme.BorderRadius};");
-        
+
         // --- Highlight.js (Light) Variables ---
         sb.AppendLine($"--highlight-bg: {theme.Light.Code.Background.ToCssColorString()};");
         sb.AppendLine($"--highlight-color: {theme.Light.Code.Color.ToCssColorString()};");
@@ -132,7 +133,7 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"--highlight-punctuation: {theme.Light.Code.Punctuation.ToCssColorString()};");
         sb.AppendLine($"--highlight-deletion: {theme.Light.Code.Deletion.ToCssColorString()};");
         sb.AppendLine($"--highlight-addition: {theme.Light.Code.Addition.ToCssColorString()};");
-        
+
         // Link highlight variables to Tailwind Prose variables
         sb.AppendLine(".prose {");
         sb.AppendLine("  --tw-prose-code: var(--highlight-color);");
@@ -155,7 +156,7 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"  --color-on-secondary: {theme.Dark.OnSecondary.ToCssColorString()};");
         sb.AppendLine($"  --color-outline: {theme.Dark.Outline.ToCssColorString()};");
         sb.AppendLine($"  --color-outline-strong: {theme.Dark.OutlineStrong.ToCssColorString()};");
-        
+
         // Highlight.js (Dark) Variables
         sb.AppendLine($"  --highlight-bg: {theme.Dark.Code.Background.ToCssColorString()};");
         sb.AppendLine($"  --highlight-color: {theme.Dark.Code.Color.ToCssColorString()};");
@@ -169,7 +170,7 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"  --highlight-punctuation: {theme.Dark.Code.Punctuation.ToCssColorString()};");
         sb.AppendLine($"  --highlight-deletion: {theme.Dark.Code.Deletion.ToCssColorString()};");
         sb.AppendLine($"  --highlight-addition: {theme.Dark.Code.Addition.ToCssColorString()};");
-        
+
         // Note: Status colors (Danger, Info, etc.) don't have dark overrides in RzTheme current definition
         sb.AppendLine("}"); // Close &:where(...)
         sb.AppendLine("}"); // Close :root

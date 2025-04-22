@@ -1,8 +1,8 @@
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
+
 // For RzInputNumber
 
 // For EditContext
@@ -72,10 +72,8 @@ public partial class RzNumberEdit<TValue> : InputBase<TValue> // Inherits InputB
         base.OnParametersSet(); // Call base for InputBase logic
 
         _placeholder = Placeholder;
-        if (AdditionalAttributes is not null && AdditionalAttributes.TryGetValue("placeholder", out var ph) && ph is string phStr)
-        {
-            _placeholder = phStr;
-        }
+        if (AdditionalAttributes is not null && AdditionalAttributes.TryGetValue("placeholder", out var ph) &&
+            ph is string phStr) _placeholder = phStr;
 
         // Compile the field expression to get the initial value.
         _value = For!.Compile().Invoke(); // For is guaranteed non-null by base/OnInitialized

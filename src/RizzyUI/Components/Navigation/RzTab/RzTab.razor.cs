@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
@@ -51,7 +50,7 @@ public partial class RzTab : RzComponent
 
         if (Parent == null)
             throw new InvalidOperationException($"{GetType()} must exist within an RzTabs component.");
-        
+
         if (TabStrip == null)
             throw new InvalidOperationException($"{GetType()} must exist within an RzTabStrip component.");
 

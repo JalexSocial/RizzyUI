@@ -3,9 +3,8 @@ namespace RizzyUI;
 /// <summary> Provides default styles for RzCheckboxGroup. </summary>
 public class DefaultRzCheckboxGroupStyles : RzStylesBase.RzCheckboxGroupStylesBase
 {
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzCheckboxGroupStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzCheckboxGroupStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCheckboxGroupStyles(RzTheme theme) : base(theme)
@@ -31,7 +30,7 @@ public class DefaultRzCheckboxGroupStyles : RzStylesBase.RzCheckboxGroupStylesBa
 public class DefaultRzCheckboxGroupItemStyles : RzStylesBase.RzCheckboxGroupItemStylesBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzCheckboxGroupItemStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzCheckboxGroupItemStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCheckboxGroupItemStyles(RzTheme theme) : base(theme)
@@ -47,7 +46,7 @@ public class DefaultRzCheckboxGroupItemStyles : RzStylesBase.RzCheckboxGroupItem
     /// <inheritdoc />
     // Note: text-primary-500 is hardcoded here, ideally map to theme.Primary or similar if needed for specific check color
     public override string CheckboxInput =>
-        $"size-4 rounded-theme-sm border border-outline text-primary-500 focus:border-primary-500 focus:ring-3 focus:ring-primary/50 dark:bg-surface-alt dark:ring-offset-surface dark:checked:border-transparent dark:checked:bg-primary dark:focus:border-primary";
+        "size-4 rounded-theme-sm border border-outline text-primary-500 focus:border-primary-500 focus:ring-3 focus:ring-primary/50 dark:bg-surface-alt dark:ring-offset-surface dark:checked:border-transparent dark:checked:bg-primary dark:focus:border-primary";
 
     /// <inheritdoc />
     public override string IconContainer =>
@@ -67,7 +66,7 @@ public class DefaultRzCheckboxGroupItemStyles : RzStylesBase.RzCheckboxGroupItem
 public class DefaultRzCheckboxGroupFieldStyles : RzStylesBase.RzCheckboxGroupFieldStylesBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzCheckboxGroupFieldStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzCheckboxGroupFieldStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzCheckboxGroupFieldStyles(RzTheme theme) : base(theme)

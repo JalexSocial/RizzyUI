@@ -56,7 +56,7 @@ public partial class RzNumberField<TValue> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (For == null)
             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
         if (EditContext == null)

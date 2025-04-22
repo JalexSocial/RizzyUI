@@ -1,27 +1,33 @@
 // src/RizzyUI/Components/RzDivider/RzDivider.razor.cs
+
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
 /// <xmldoc>
-/// A component that renders a horizontal divider line, optionally with centered or aligned text/content.
-/// Renders as an <c>&lt;hr></c> if no <see cref="ChildContent"/> is provided, otherwise renders as a <c>&lt;div></c>
-/// using pseudo-elements for the lines. Styling is determined by the active <see cref="RzTheme"/>.
+///     A component that renders a horizontal divider line, optionally with centered or aligned text/content.
+///     Renders as an <c>&lt;hr></c> if no <see cref="ChildContent" /> is provided, otherwise renders as a <c>&lt;div></c>
+///     using pseudo-elements for the lines. Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
 public partial class RzDivider : RzComponent
 {
     /// <summary> The style of the dividing line (Solid, Dashed, Dotted). Defaults to Solid. </summary>
     [Parameter] public DividerStyle Style { get; set; } = DividerStyle.Solid;
-    
-    /// <summary> The alignment of the child content within the divider (Start, Center, End). Only used if <see cref="ChildContent"/> is provided. Defaults to Center. </summary>
+
+    /// <summary>
+    ///     The alignment of the child content within the divider (Start, Center, End). Only used if
+    ///     <see cref="ChildContent" /> is provided. Defaults to Center.
+    /// </summary>
     [Parameter] public Align LabelAlignment { get; set; } = Align.Center;
-   
-    /// <summary> Optional content to display within the divider (e.g., text or an icon). If null, a simple <c>&lt;hr></c> is rendered. </summary>
+
+    /// <summary>
+    ///     Optional content to display within the divider (e.g., text or an icon). If null, a simple <c>&lt;hr></c> is
+    ///     rendered.
+    /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -37,7 +43,8 @@ public partial class RzDivider : RzComponent
             styles.Divider, // Base styles including text color, margins, base layout
             ChildContent is null
                 ? styles.GetStyleCss(Style) // Style for <hr> (border-t, border-style)
-                : styles.GetAlignmentCss(LabelAlignment, Style) // Alignment/style for <div> with content (uses ::before/::after)
+                : styles.GetAlignmentCss(LabelAlignment,
+                    Style) // Alignment/style for <div> with content (uses ::before/::after)
         );
     }
 }

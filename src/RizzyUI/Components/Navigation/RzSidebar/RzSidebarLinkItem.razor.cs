@@ -1,7 +1,7 @@
 using Blazicons;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 using Rizzy.Utility;
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace RizzyUI;
@@ -74,7 +74,7 @@ public partial class RzSidebarLinkItem : RzComponent
 
     /// <summary> Gets the unique ID for the collapsible content element. </summary>
     protected string CollapseId { get; private set; } = string.Empty;
-    
+
 
     // --- Style Properties derived from Theme ---
 
@@ -130,12 +130,12 @@ public partial class RzSidebarLinkItem : RzComponent
     protected string NonCollapsibleNestedListClass => Theme.RzSidebarLinkItem.NonCollapsibleNestedList;
 
     /// <summary>
-    /// Gets the CSS class for the chevron icon when the collapsible section is expanded.
+    ///     Gets the CSS class for the chevron icon when the collapsible section is expanded.
     /// </summary>
     protected string ChevronExpandedClass => Theme.RzSidebarLinkItem.GetChevronRotationCss(true);
 
     /// <summary>
-    /// Gets the CSS class for the chevron icon when the collapsible section is collapsed.
+    ///     Gets the CSS class for the chevron icon when the collapsible section is collapsed.
     /// </summary>
     protected string ChevronCollapsedClass => Theme.RzSidebarLinkItem.GetChevronRotationCss(false);
 
@@ -143,7 +143,7 @@ public partial class RzSidebarLinkItem : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (Collapsible)
         {
             var guid = IdGenerator.UniqueId("rzsb"); // Use new prefix
@@ -155,9 +155,9 @@ public partial class RzSidebarLinkItem : RzComponent
     }
 
     /// <summary>
-    /// Called by child components to notify the parent that a child has been added.
+    ///     Called by child components to notify the parent that a child has been added.
     /// </summary>
-    /// <param name="child">The child <see cref="RzSidebarLinkItem"/> being added.</param>
+    /// <param name="child">The child <see cref="RzSidebarLinkItem" /> being added.</param>
     internal void NotifyChildAdded(RzSidebarLinkItem child)
     {
         if (!HasChildren) HasChildren = true;

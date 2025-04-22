@@ -3,12 +3,12 @@
 @inherits RzComponent
 
 <HtmlElement Element="ol" @attributes="AdditionalAttributes" class="@RootClass()" aria-label="@AriaLabel">
-	
+
 	<CascadingValue Value="this" IsFixed="true">
 		@ChildContent
 	</CascadingValue>
 
-	
+
 	@for (var i = 0; i < Items.Count; i++)
 	{
 		var step = Items[i];
@@ -18,7 +18,7 @@
 		<li class="@GetStepItemCss(isFirst)"
 		    aria-label="@(string.IsNullOrEmpty(step.AriaLabel) ? step.Label : step.AriaLabel)">
 
-			
+
 			@if (!isFirst && prevStep != null)
 			{
 				<span class="@GetConnectorCss(prevStep)" aria-hidden="true"></span>
@@ -42,17 +42,17 @@
 						}
 					</span>
 				}
-				else 
+				else
 				{
 					<span class="@CircleDefaultBaseClass @GetCircleDefaultVariantCss(step.Status)">
 						@if (step.Icon is not null)
 						{
 							<Blazicon Svg="step.Icon"
-							          class="size-4"/> 
+							          class="size-4"/>
 						}
 						else
 						{
-							@(i + 1) 
+							@(i + 1)
 						}
 					</span>
 				}
@@ -61,7 +61,7 @@
 					<span class="@LabelBaseClass @GetLabelVariantCss(step.Status)">@step.Label</span>
 				}
 			</div>
-			
+
 			@* @if (!string.IsNullOrEmpty(step.Caption))
                {
                    <span class="@CaptionClass">@step.Caption</span>

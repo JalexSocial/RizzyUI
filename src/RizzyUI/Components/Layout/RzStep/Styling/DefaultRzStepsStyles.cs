@@ -4,7 +4,7 @@ namespace RizzyUI;
 public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzStepsStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzStepsStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzStepsStyles(RzTheme theme) : base(theme)
@@ -42,7 +42,7 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
 
     /// <inheritdoc />
     public override string Caption =>
-        $"text-xs text-on-surface-muted"; // Style for caption
+        "text-xs text-on-surface-muted"; // Style for caption
 
     /// <inheritdoc />
     public override string GetOrientationCss(Orientation orientation)
@@ -116,10 +116,10 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
         {
             StatusColor.Primary => "bg-primary",
             StatusColor.Secondary => "bg-secondary",
-            StatusColor.Success => $"bg-success dark:bg-success",
-            StatusColor.Info => $"bg-info dark:bg-info",
-            StatusColor.Warning => $"bg-warning dark:bg-warning",
-            StatusColor.Danger => $"bg-danger dark:bg-danger",
+            StatusColor.Success => "bg-success dark:bg-success",
+            StatusColor.Info => "bg-info dark:bg-info",
+            StatusColor.Warning => "bg-warning dark:bg-warning",
+            StatusColor.Danger => "bg-danger dark:bg-danger",
             _ => GetActiveBackgroundClass(StatusColor.Primary)
         };
     }
@@ -131,12 +131,12 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
             StatusColor.Primary => "border-primary",
             StatusColor.Secondary => "border-secondary",
             StatusColor.Success =>
-                $"border-success dark:border-success",
-            StatusColor.Info => $"border-info dark:border-info",
+                "border-success dark:border-success",
+            StatusColor.Info => "border-info dark:border-info",
             StatusColor.Warning =>
-                $"border-warning dark:border-warning",
+                "border-warning dark:border-warning",
             StatusColor.Danger =>
-                $"border-danger dark:border-danger",
+                "border-danger dark:border-danger",
             _ => GetActiveBorderClass(StatusColor.Primary)
         };
     }
@@ -148,12 +148,12 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
             StatusColor.Primary => "text-on-primary",
             StatusColor.Secondary => "text-on-secondary",
             StatusColor.Success =>
-                $"text-on-success dark:text-on-success", // Assume dark OnSuccess exists or is same
-            StatusColor.Info => $"text-on-info dark:text-on-info",
+                "text-on-success dark:text-on-success", // Assume dark OnSuccess exists or is same
+            StatusColor.Info => "text-on-info dark:text-on-info",
             StatusColor.Warning =>
-                $"text-on-warning dark:text-on-warning",
+                "text-on-warning dark:text-on-warning",
             StatusColor.Danger =>
-                $"text-on-danger dark:text-on-danger",
+                "text-on-danger dark:text-on-danger",
             _ => GetActiveTextClass(StatusColor.Primary)
         };
     }

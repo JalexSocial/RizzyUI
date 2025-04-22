@@ -4,17 +4,17 @@
 <button
     id="@TabId"
     data-name="@NameLower"
-    data-selectedtextcolor="@SelectedTextColorClass" 
+    data-selectedtextcolor="@SelectedTextColorClass"
     @attributes="AdditionalAttributes"
     x-on:click="tabButtonClicked"
     x-on:keydown="handleKeyDown"
     type="button"
     role="tab"
     :aria-selected="tabButtonActive"
-    tabindex="0" 
+    tabindex="0"
     aria-controls="@PanelId"
     class="@RootClass()"
-    :class="selectedTabTextColor"> 
+    :class="selectedTabTextColor">
     @ChildContent
 </button>
 

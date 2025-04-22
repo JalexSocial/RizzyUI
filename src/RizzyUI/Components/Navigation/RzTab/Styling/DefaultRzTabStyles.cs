@@ -4,7 +4,7 @@ namespace RizzyUI;
 public class DefaultRzTabsStyles : RzStylesBase.RzTabsStylesBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzTabsStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzTabsStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzTabsStyles(RzTheme theme) : base(theme)
@@ -22,7 +22,7 @@ public class DefaultRzTabsStyles : RzStylesBase.RzTabsStylesBase
 public class DefaultRzTabStripStyles : RzStylesBase.RzTabStripStylesBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzTabStripStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzTabStripStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzTabStripStyles(RzTheme theme) : base(theme)
@@ -74,7 +74,7 @@ public class DefaultRzTabStripStyles : RzStylesBase.RzTabStripStylesBase
 public class DefaultRzTabStyles : RzStylesBase.RzTabStylesBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzTabStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzTabStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzTabStyles(RzTheme theme) : base(theme)
@@ -112,7 +112,7 @@ public class DefaultRzTabStyles : RzStylesBase.RzTabStylesBase
 public class DefaultRzTabPanelStyles : RzStylesBase.RzTabPanelStylesBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzTabPanelStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzTabPanelStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzTabPanelStyles(RzTheme theme) : base(theme)

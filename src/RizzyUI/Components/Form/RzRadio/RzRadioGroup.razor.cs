@@ -34,7 +34,7 @@ public partial class RzRadioGroup<TValue> : RzComponent
     /// <summary>
     ///     Specifies the field for which validation messages should be displayed.
     /// </summary>
-    [Parameter][EditorRequired]
+    [Parameter] [EditorRequired]
     public Expression<Func<TValue>>? For { get; set; }
 
     /// <summary> Gets or sets the 'name' attribute shared by all radio buttons in the group. If empty, one is generated. </summary>
@@ -84,10 +84,10 @@ public partial class RzRadioGroup<TValue> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (For == null)
             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
-        
+
         if (EditContext == null)
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 
@@ -102,23 +102,23 @@ public partial class RzRadioGroup<TValue> : RzComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        
+
         // Update internal value if the parameter changes externally
         if (For != null && Value == null)
         {
             var newValue = Value ?? For.Compile().Invoke();
-        
+
             if (!EqualityComparer<TValue?>.Default.Equals(_currentValue, newValue)) _currentValue = newValue;
-        }        
-        
+        }
+
         // Regenerate name if 'For' changes and Name was auto-generated
         if (For == null) return;
-        
+
         var newFieldIdentifier = FieldIdentifier.Create(For);
-            
-        if (string.IsNullOrEmpty(Name) || Name == _fieldIdentifier.FieldName) 
+
+        if (string.IsNullOrEmpty(Name) || Name == _fieldIdentifier.FieldName)
             Name = newFieldIdentifier.FieldName;
-            
+
         _fieldIdentifier = newFieldIdentifier;
     }
 

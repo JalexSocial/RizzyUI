@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
 

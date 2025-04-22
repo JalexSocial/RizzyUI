@@ -6,7 +6,6 @@ using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
 
@@ -65,7 +64,7 @@ public partial class RzMarkdown : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         // Setup default pipeline if none provided
         Pipeline ??= new MarkdownPipelineBuilder()
             .UseAdvancedExtensions()
@@ -110,7 +109,8 @@ public partial class RzMarkdown : RzComponent
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzMarkdown.Container, Theme.RzMarkdown.GetProseWidthCss(ProseWidth));
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzMarkdown.Container,
+            Theme.RzMarkdown.GetProseWidthCss(ProseWidth));
     }
 
     // RenderOutput and ExtractPlainText methods remain the same, but ensure they use the correct

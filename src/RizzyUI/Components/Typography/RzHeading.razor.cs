@@ -10,7 +10,7 @@ namespace RizzyUI;
 ///     Inherits common text styling options from <see cref="RzTypographyBase" />. Can register itself with an
 ///     <see cref="RzQuickReferenceContainer" />.
 /// </xmldoc>
-public partial class RzHeading : RzTypographyBase 
+public partial class RzHeading : RzTypographyBase
 {
     private bool _registered;
 

@@ -25,18 +25,18 @@ public class DefaultRzBadgeStyles : RzStylesBase.RzBadgeStylesBase
     {
         return color switch
         {
-            SemanticColor.Surface => $"border-outline bg-surface text-on-surface",
+            SemanticColor.Surface => "border-outline bg-surface text-on-surface",
             SemanticColor.SurfaceAlt => "border-on-surface bg-surface-alt text-on-surface", // Corrected border
             SemanticColor.Primary => "border-primary bg-primary text-on-primary",
             SemanticColor.Secondary => "border-secondary bg-secondary text-on-secondary",
             SemanticColor.Info =>
-                $"border-info bg-info text-on-info dark:border-info dark:bg-info dark:text-on-info",
+                "border-info bg-info text-on-info dark:border-info dark:bg-info dark:text-on-info",
             SemanticColor.Success =>
-                $"border-success bg-success text-on-success dark:border-success dark:bg-success dark:text-on-success",
+                "border-success bg-success text-on-success dark:border-success dark:bg-success dark:text-on-success",
             SemanticColor.Warning =>
-                $"border-warning bg-warning text-on-warning dark:border-warning dark:bg-warning dark:text-on-warning",
+                "border-warning bg-warning text-on-warning dark:border-warning dark:bg-warning dark:text-on-warning",
             SemanticColor.Danger =>
-                $"border-danger bg-danger text-on-danger dark:border-danger dark:bg-danger dark:text-on-danger",
+                "border-danger bg-danger text-on-danger dark:border-danger dark:bg-danger dark:text-on-danger",
             SemanticColor.Outline => "border-outline bg-transparent text-outline",
             SemanticColor.OnSurface => GetVariantCss(SemanticColor.Surface), // Map On variants to base
             SemanticColor.OnSurfaceStrong => GetVariantCss(SemanticColor.Surface),
@@ -57,18 +57,18 @@ public class DefaultRzBadgeStyles : RzStylesBase.RzBadgeStylesBase
     {
         return color switch
         {
-            SemanticColor.Surface => $"border-outline bg-surface text-on-surface",
+            SemanticColor.Surface => "border-outline bg-surface text-on-surface",
             SemanticColor.SurfaceAlt => "border-on-surface bg-surface-alt text-on-surface",
             SemanticColor.Primary => "border-primary bg-primary/10 text-primary",
             SemanticColor.Secondary => "border-secondary bg-secondary/10 text-secondary",
             SemanticColor.Info =>
-                $"border-info bg-info/10 dark:bg-info/10 text-info dark:border-info dark:text-on-info",
+                "border-info bg-info/10 dark:bg-info/10 text-info dark:border-info dark:text-on-info",
             SemanticColor.Success =>
-                $"border-success bg-success/10 dark:bg-success/10 text-success dark:border-success dark:text-on-success",
+                "border-success bg-success/10 dark:bg-success/10 text-success dark:border-success dark:text-on-success",
             SemanticColor.Warning =>
-                $"border-warning bg-warning/10 dark:bg-warning/10 text-warning dark:border-warning dark:text-on-warning",
+                "border-warning bg-warning/10 dark:bg-warning/10 text-warning dark:border-warning dark:text-on-warning",
             SemanticColor.Danger =>
-                $"border-danger bg-danger/10 dark:bg-danger/10 text-danger dark:border-danger dark:text-on-danger",
+                "border-danger bg-danger/10 dark:bg-danger/10 text-danger dark:border-danger dark:text-on-danger",
             SemanticColor.Outline => "border-outline bg-outline/10 text-on-surface",
             SemanticColor.OnSurface => GetVariantSoftCss(SemanticColor.Surface),
             SemanticColor.OnSurfaceStrong => GetVariantSoftCss(SemanticColor.Surface),

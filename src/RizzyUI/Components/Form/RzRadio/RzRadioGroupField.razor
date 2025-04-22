@@ -1,6 +1,5 @@
 @typeparam TValue
 @namespace RizzyUI
-@using Rizzy
 @inherits RzComponent
 
 <RzField @attributes="AdditionalAttributes" class="@RootClass()">
@@ -17,7 +16,7 @@
                   Orientation="@Orientation"
                   CheckboxIcon="@CheckboxIcon"
                   class="@GroupWithinFieldClass">
-        @RadioGroupContent 
+        @RadioGroupContent
     </RzRadioGroup>
     <RzValidationMessage For="@For"/>
 </RzField>

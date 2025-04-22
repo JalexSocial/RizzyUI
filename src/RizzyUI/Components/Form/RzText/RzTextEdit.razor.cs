@@ -1,8 +1,8 @@
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
+
 // For RzInputText
 
 // For EditContext
@@ -66,7 +66,7 @@ public partial class RzTextEdit : InputBase<string> // Inherits from InputBase<s
 
         if (For == null)
             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
-        
+
         if (EditContext == null) // RzInputText requires EditContext
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
     }

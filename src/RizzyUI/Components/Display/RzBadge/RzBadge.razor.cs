@@ -1,6 +1,5 @@
 using Blazicons;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;

@@ -3,7 +3,7 @@ namespace RizzyUI;
 /// <summary> Provides default styles for RzFormSection. </summary>
 public class DefaultRzFormSectionStyles : RzStylesBase.RzFormSectionStylesBase
 {
-    /// <inheritdoc />    
+    /// <inheritdoc />
     public DefaultRzFormSectionStyles(RzTheme theme) : base(theme)
     {
     }
@@ -16,7 +16,7 @@ public class DefaultRzFormSectionStyles : RzStylesBase.RzFormSectionStylesBase
 
     /// <inheritdoc />
     public override string Title =>
-        $"text-base/7 font-semibold text-on-surface-strong"; // Adjusted line height
+        "text-base/7 font-semibold text-on-surface-strong"; // Adjusted line height
 
     /// <inheritdoc />
     public override string Description => "text-sm text-on-surface";

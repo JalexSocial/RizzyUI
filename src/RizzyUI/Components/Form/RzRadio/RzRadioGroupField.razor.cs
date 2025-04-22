@@ -2,7 +2,6 @@ using System.Linq.Expressions;
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
 
 // For EditContext, FieldIdentifier
@@ -103,7 +102,7 @@ public partial class RzRadioGroupField<TValue> : RzComponent
 
         if (For == null)
             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
-        
+
         if (EditContext == null)
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 
@@ -118,7 +117,7 @@ public partial class RzRadioGroupField<TValue> : RzComponent
         base.OnParametersSet();
         // Update internal value if the parameter changes externally
         var newValue = Value ?? For!.Compile().Invoke();
-        
+
         if (!EqualityComparer<TValue?>.Default.Equals(_currentValue, newValue)) _currentValue = newValue;
         // Update resolved name if 'For' or 'Name' parameter changes
         if (For != null)

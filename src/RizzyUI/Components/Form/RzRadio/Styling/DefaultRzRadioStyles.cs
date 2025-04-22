@@ -4,7 +4,7 @@ namespace RizzyUI;
 public class DefaultRzRadioGroupStyles : RzStylesBase.RzRadioGroupStylesBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzRadioGroupStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzRadioGroupStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzRadioGroupStyles(RzTheme theme) : base(theme)
@@ -30,7 +30,7 @@ public class DefaultRzRadioGroupStyles : RzStylesBase.RzRadioGroupStylesBase
 public class DefaultRzRadioGroupItemStyles : RzStylesBase.RzRadioGroupItemStylesBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzRadioGroupItemStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzRadioGroupItemStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzRadioGroupItemStyles(RzTheme theme) : base(theme)
@@ -73,7 +73,7 @@ public class DefaultRzRadioGroupItemStyles : RzStylesBase.RzRadioGroupItemStyles
 public class DefaultRzRadioGroupFieldStyles : RzStylesBase.RzRadioGroupFieldStylesBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultRzRadioGroupFieldStyles"/> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzRadioGroupFieldStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzRadioGroupFieldStyles(RzTheme theme) : base(theme)

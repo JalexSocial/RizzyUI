@@ -9,47 +9,51 @@
             <div class="@TrafficLightGreenClass"></div>
         </div>
         <div class="@ScreenSizeControlsContainerClass">
-            <div class="@ScreenSizeButtonGroupClass"> 
+            <div class="@ScreenSizeButtonGroupClass">
                 <button title="Desktop Screen" x-on:click="setDesktopScreenSize" class="@ScreenSizeButtonClass">
-                     
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" :class="getDesktopScreenCss" viewBox="0 0 16 16">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         :class="getDesktopScreenCss" viewBox="0 0 16 16">
                         <title>Desktop</title>
-                        <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4c0 .667.083 1.167.25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75c.167-.333.25-.833.25-1.5H2s-2 0-2-2V4zm1.398-.855a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4.01V10c0 .325.078.502.145.602.07.105.17.188.302.254a1.464 1.464 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.758.758 0 0 0 .254-.302 1.464 1.464 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.757.757 0 0 0-.302-.254A1.46 1.46 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145z"></path>
+                        <path
+                            d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4c0 .667.083 1.167.25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75c.167-.333.25-.833.25-1.5H2s-2 0-2-2V4zm1.398-.855a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4.01V10c0 .325.078.502.145.602.07.105.17.188.302.254a1.464 1.464 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.758.758 0 0 0 .254-.302 1.464 1.464 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.757.757 0 0 0-.302-.254A1.46 1.46 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145z"></path>
                     </svg>
                 </button>
                 <button x-on:click="setTabletScreenSize" title="Tablet Screen" class="@ScreenSizeButtonClass">
-                     
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" :class="getTabletScreenCss" viewBox="0 0 16 16">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         :class="getTabletScreenCss" viewBox="0 0 16 16">
                         <title>Tablet</title>
-                        <path d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"></path>
+                        <path
+                            d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"></path>
                         <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
                     </svg>
                 </button>
                 <button x-on:click="setPhoneScreenSize" title="Phone Screen" class="@ScreenSizeButtonClass">
-                     
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" :class="getPhoneScreenCss" viewBox="0 0 16 16">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         :class="getPhoneScreenCss" viewBox="0 0 16 16">
                         <title>Phone</title>
-                        <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z"></path>
+                        <path
+                            d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z"></path>
                         <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
                     </svg>
                 </button>
-             </div>
+            </div>
         </div>
     </div>
     <div class="@ContentAreaClass">
-        <div class="@PreviewContainerClass" :class="getBrowserBorderCss"> 
+        <div class="@PreviewContainerClass" :class="getBrowserBorderCss">
 
             @if (Layout != null)
             {
-                
-	            <RzEmbeddedPreview Layout="@Layout">
+                <RzEmbeddedPreview Layout="@Layout">
                     @ChildContent
-	            </RzEmbeddedPreview>
+                </RzEmbeddedPreview>
             }
             else
             {
-                
-	            @ChildContent
+                @ChildContent
             }
 
         </div>

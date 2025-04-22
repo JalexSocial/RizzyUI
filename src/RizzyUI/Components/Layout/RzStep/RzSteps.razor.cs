@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
@@ -40,18 +39,25 @@ public partial class RzSteps : RzComponent
 
     /// <summary> Gets the base CSS classes for the step list item element. </summary>
     protected string StepItemBaseClass => Theme.RzSteps.StepItem;
+
     /// <summary> Gets the CSS classes for the div wrapping the step circle and label. </summary>
     protected string StepContentContainerClass => Theme.RzSteps.StepContentContainer;
+
     /// <summary> Gets the base CSS classes for the completed step circle. </summary>
     protected string CircleCompletedBaseClass => Theme.RzSteps.CircleCompletedBase;
+
     /// <summary> Gets the CSS classes for the icon within the completed circle. </summary>
     protected string CircleCompletedIconClass => Theme.RzSteps.CircleCompletedIcon;
+
     /// <summary> Gets the CSS classes for the screen reader text within the completed circle. </summary>
     protected string CircleCompletedSrTextClass => Theme.RzSteps.CircleCompletedSrText;
+
     /// <summary> Gets the base CSS classes for the default (current/upcoming) step circle. </summary>
     protected string CircleDefaultBaseClass => Theme.RzSteps.CircleDefaultBase;
+
     /// <summary> Gets the base CSS classes for the step label span. </summary>
     protected string LabelBaseClass => Theme.RzSteps.LabelBase;
+
     /// <summary> Gets the CSS classes for the optional caption span. </summary>
     protected string CaptionClass => Theme.RzSteps.Caption;
 

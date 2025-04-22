@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
+
 // Add this
 
 namespace RizzyUI;
@@ -46,7 +46,7 @@ public partial class RzButton : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         Element = "button";
     }
 
@@ -61,11 +61,11 @@ public partial class RzButton : RzComponent
         if (Group != null)
         {
             var idx = Group.Buttons.IndexOf(this);
-            if (idx == 0) 
+            if (idx == 0)
                 groupSpecificClass = groupStyles.GroupFirst;
-            else if (idx == Group.Buttons.Count - 1) 
+            else if (idx == Group.Buttons.Count - 1)
                 groupSpecificClass = groupStyles.GroupLast;
-            else 
+            else
                 groupSpecificClass = groupStyles.GroupMiddle;
         }
 

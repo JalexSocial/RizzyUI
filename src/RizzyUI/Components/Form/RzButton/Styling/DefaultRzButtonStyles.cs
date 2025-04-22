@@ -1,7 +1,7 @@
 namespace RizzyUI;
 
 /// <summary>
-/// Provides the default styles for the RzButton component.
+///     Provides the default styles for the RzButton component.
 /// </summary>
 public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
 {
@@ -25,19 +25,19 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
             ButtonVariant.Primary =>
                 "bg-primary text-on-primary focus-visible:outline-primary dark:focus-visible:outline-primary",
             ButtonVariant.Secondary =>
-                $"bg-secondary text-on-secondary focus-visible:outline-secondary dark:focus-visible:outline-secondary",
+                "bg-secondary text-on-secondary focus-visible:outline-secondary dark:focus-visible:outline-secondary",
             ButtonVariant.Alternate =>
                 "bg-surface-alt text-on-surface focus-visible:outline-surface-alt dark:focus-visible:outline-surface-alt",
             ButtonVariant.Inverse =>
-                $"bg-surface text-on-surface focus-visible:outline-surface dark:bg-surface dark:text-on-surface-strong dark:focus-visible:outline-surface", // Corrected Inverse
+                "bg-surface text-on-surface focus-visible:outline-surface dark:bg-surface dark:text-on-surface-strong dark:focus-visible:outline-surface", // Corrected Inverse
             ButtonVariant.Information =>
-                $"bg-info text-on-info focus-visible:outline-info dark:bg-info dark:text-on-info dark:focus-visible:outline-info",
+                "bg-info text-on-info focus-visible:outline-info dark:bg-info dark:text-on-info dark:focus-visible:outline-info",
             ButtonVariant.Danger =>
-                $"bg-danger text-on-danger focus-visible:outline-danger dark:bg-danger dark:text-on-danger dark:focus-visible:outline-danger",
+                "bg-danger text-on-danger focus-visible:outline-danger dark:bg-danger dark:text-on-danger dark:focus-visible:outline-danger",
             ButtonVariant.Warning =>
-                $"bg-warning text-on-warning focus-visible:outline-warning dark:bg-warning dark:text-on-warning dark:focus-visible:outline-warning",
+                "bg-warning text-on-warning focus-visible:outline-warning dark:bg-warning dark:text-on-warning dark:focus-visible:outline-warning",
             ButtonVariant.Success =>
-                $"bg-success text-on-success focus-visible:outline-success dark:bg-success dark:text-on-success dark:focus-visible:outline-success",
+                "bg-success text-on-success focus-visible:outline-success dark:bg-success dark:text-on-success dark:focus-visible:outline-success",
             ButtonVariant.Ghost => "bg-transparent text-on-surface focus-visible:outline-none",
             _ => GetVariantCss(ButtonVariant.Primary) // Default
         };
@@ -51,19 +51,19 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
             ButtonVariant.Primary =>
                 "bg-transparent border border-primary text-primary focus-visible:outline-primary dark:focus-visible:outline-primary",
             ButtonVariant.Secondary =>
-                $"bg-transparent border border-secondary text-secondary focus-visible:outline-secondary dark:focus-visible:outline-secondary",
+                "bg-transparent border border-secondary text-secondary focus-visible:outline-secondary dark:focus-visible:outline-secondary",
             ButtonVariant.Alternate =>
                 "bg-transparent border border-outline text-outline focus-visible:outline-outline dark:focus-visible:outline-outline",
             ButtonVariant.Inverse =>
-                $"bg-transparent border border-on-surface-strong text-on-surface-strong focus-visible:outline-on-surface-strong dark:focus-visible:outline-on-surface-strong",
+                "bg-transparent border border-on-surface-strong text-on-surface-strong focus-visible:outline-on-surface-strong dark:focus-visible:outline-on-surface-strong",
             ButtonVariant.Information =>
-                $"bg-transparent border border-info text-info focus-visible:outline-info dark:border-info dark:text-info dark:focus-visible:outline-info",
+                "bg-transparent border border-info text-info focus-visible:outline-info dark:border-info dark:text-info dark:focus-visible:outline-info",
             ButtonVariant.Danger =>
-                $"bg-transparent border border-danger text-danger focus-visible:outline-danger dark:border-danger dark:text-danger dark:focus-visible:outline-danger",
+                "bg-transparent border border-danger text-danger focus-visible:outline-danger dark:border-danger dark:text-danger dark:focus-visible:outline-danger",
             ButtonVariant.Warning =>
-                $"bg-transparent border border-warning text-warning focus-visible:outline-warning dark:border-warning dark:text-warning dark:focus-visible:outline-warning",
+                "bg-transparent border border-warning text-warning focus-visible:outline-warning dark:border-warning dark:text-warning dark:focus-visible:outline-warning",
             ButtonVariant.Success =>
-                $"bg-transparent border border-success text-success focus-visible:outline-success dark:border-success dark:text-success dark:focus-visible:outline-success",
+                "bg-transparent border border-success text-success focus-visible:outline-success dark:border-success dark:text-success dark:focus-visible:outline-success",
             ButtonVariant.Ghost => "bg-transparent border text-on-surface hover:opacity-75 focus-visible:outline-none",
             _ => GetVariantOutlineCss(ButtonVariant.Primary) // Default
         };

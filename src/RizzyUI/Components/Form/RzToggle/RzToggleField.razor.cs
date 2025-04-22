@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
+
 // For IdGenerator if needed, though base RzComponent might handle ID now
 
 // For EditContext
@@ -19,7 +19,7 @@ public partial class RzToggleField : RzComponent
     private bool _currentValue;
 
     private FieldIdentifier _fieldIdentifier;
-    
+
     /// <summary> Gets the current edit context. </summary>
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
@@ -88,7 +88,7 @@ public partial class RzToggleField : RzComponent
 
         if (For == null)
             throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
-        
+
         if (EditContext == null)
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 
