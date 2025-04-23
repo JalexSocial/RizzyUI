@@ -1,255 +1,136 @@
-﻿Your Role: Senior C# Developer
-Specialization: ASP.NET and Blazor Razor Components
-Context: Static Server-Side Rendered (SSR) Blazor component development for the RizzyUI library. **Crucially, Blazor's built-in interactivity (`@onclick`, `@bind`, etc.) is disabled in this context. All UI interactivity MUST be implemented using Alpine.js.**
+﻿# RizzyUI Component Creation Guidelines (LLM Instructions)
 
-You will use the "RizzyUI Component Coding Guidelines", outlined below, to perform your role as a developer. You will be asked to
-potentially develop new components, review code, or answer questions. You are required to be an expert on RizzyUI, so understanding
-the guidelines below and the code provided is extremely important.
+## Purpose
+This document outlines the standard structure and conventions for creating new Razor components within the RizzyUI library. Adhering to these guidelines ensures consistency, maintainability, and proper integration with the theme system, Tailwind CSS, and Alpine.js.
 
-# RizzyUI Component Coding Guidelines (Static SSR Context)
+## Core Principles
+1.  **Two-File Structure:** Each component MUST consist of two files: a `.razor` file for markup and a `.razor.cs` file for code-behind logic.
+2.  **Base Component:** All components MUST inherit from `RzComponent` (or an appropriate derived base class like `RzTypographyBase` if applicable).
+3.  **Theme-Driven Styling:** Styling MUST be primarily driven by the `RzTheme` object available in the base class. CSS classes are accessed directly from the theme within the `.razor` file.
+4.  **Direct Theme Access in Markup:** Access theme style strings and methods directly within the `.razor` file's `class` attributes (e.g., `class="@Theme.ComponentName.StyleName"` or `class="@Theme.ComponentName.GetVariantCss(Variant)"`).
+5.  **Minimal Code-Behind for Styles:** The `.razor.cs` file should NOT contain simple pass-through properties that just return a value from the `Theme` object (e.g., `protected string ContainerClass => Theme.ComponentName.Container;` is **DISCOURAGED**). Only keep properties in the code-behind if they involve computation or complex logic beyond direct theme access.
+6.  **Tailwind CSS & TwMerge:** Use Tailwind utility classes defined by the theme system. Use the `TwMerge` service (available via injection in `RzComponent`) in the `RootClass()` method to correctly merge base, variant, and user-provided classes.
+7.  **Alpine.js for Interactivity:** Use Alpine.js for client-side interactivity. Define Alpine components (`Alpine.data(...)`) in `src/RizzyUI/wwwroot/js/lib/components.js`. Use `x-data`, `x-ref`, `x-on:`, `:class`, etc., in the `.razor` markup. Load necessary JS/CSS assets via the `require` utility function.
 
-> **Note:** These guidelines assume access to the source code (e.g., `RzComponent.cs`, `RzTheme.cs`, `DefaultRzButtonStyles.cs`, etc.) and enforce strict design, accessibility, and security requirements via a structured styling approach and exclusive reliance on Alpine.js for client-side interactivity.
+## File Structure
+```
+src/RizzyUI/Components/
+└── ComponentCategory/
+    └── RzComponentName/
+        ├── RzComponentName.razor
+        ├── RzComponentName.razor.cs
+        └── Styling/ (Optional, only if custom default styles needed beyond base)
+            └── DefaultRzComponentNameStyles.cs
+```
 
----
+## `.razor` File Guidelines
+1.  **Namespace:** Add `@namespace RizzyUI`.
+2.  **Inheritance:** Add `@inherits RzComponent` (or appropriate base).
+3.  **Root Element:** Use `<HtmlElement Element="@Element" ...>` for flexibility or a specific semantic tag (e.g., `<button>`, `<nav>`) if required.
+4.  **Attributes:** Splat `AdditionalAttributes` onto the root element: `@attributes="AdditionalAttributes"`.
+5.  **CSS Classes:**
+    *   Set the `class` attribute on the root element to `@RootClass()`.
+    *   For internal elements, access theme styles **directly**:
+        *   `class="@Theme.ComponentName.StyleName"` for static styles.
+        *   `class="@Theme.ComponentName.GetVariantCss(Variant)"` for dynamic styles based on parameters.
+        *   Combine multiple classes using string interpolation or `string.Join`.
+    *   Use Alpine's `:class` directive for conditional classes based on component state (e.g., `:class="isActive ? 'active-class' : ''"`).
+6.  **Content:** Use `@ChildContent` or specific named `[Parameter] RenderFragment` properties where appropriate.
+7.  **Alpine Integration:** Use `x-data`, `x-ref`, `x-on:`, etc., as needed for interactivity. Pass data via `data-*` attributes if required by the Alpine component.
+8.  **Blazicons:** Use `<Blazicon Svg="IconParameter"/>` for icons passed as parameters.
 
-## 1. Component File Structure
-
-- **Two-File Separation**
-  - **Each component must be split into two files:**
-    - **Markup File (.razor):** Contains *only* markup (`<HtmlElement>`, Alpine directives like `x-data`, `x-on`, `:class`, etc.) and the `@inherits RzComponent` directive. **No direct Tailwind classes or inline styles.** Style application occurs via `@RootClass()` and potentially Alpine's `:class`. **No Blazor event handlers (`@onclick`, etc.).**
-    - **Code-Behind File (.razor.cs):** Contains a partial class with all C# logic (properties, methods) executed *during server-side rendering*. Style selection logic relies exclusively on the `Theme` object.
-  - **Benefits:** Improves clarity, maintainability, and separation of concerns between static render output and client-side enhancements.
-
-- **Styling File Structure**
-  - **Each component requiring specific styles must have a corresponding `Styling` subfolder.**
-  - Inside `Styling`, create a default implementation class (e.g., `DefaultRzButtonStyles.cs`) inheriting from the appropriate abstract base in `RzStylesBase.cs`. This class defines the **literal Tailwind class strings** (e.g., `"bg-primary text-on-primary"`, `"rounded-theme"`).
-  - **The `RzTheme` class aggregates instances of these default style implementations.**
-
-- **File-Scoped Namespaces**
-  - **Rule:** Every C# file (`.cs`, `.razor.cs`) *must* begin with the file-scoped namespace declaration: `namespace RizzyUI;`.
-
-- **Inheritance**
-  - **All components must directly inherit from `RzComponent`.** Provides `AdditionalAttributes`, `Nonce`, `Theme` access, `RootClass()`.
-
-- **Required `using` Directives (Code Review Checklist)**
-  - `.razor` files using Blazicons: Ensure `@using Blazicons`.
-  - `.razor.cs` files: *Always* ensure `using Microsoft.AspNetCore.Components;`.
-  - `.razor.cs` files using `TwMerge.Merge`: Ensure `using RizzyUI.Extensions;`.
-  - `.razor.cs` files accessing Theme/Config: Ensure `using Microsoft.Extensions.Options;` if injecting `IOptions<RizzyUIConfig>`.
-
----
-
-## 2. Root Element and Class Generation
-
-- **Use `<HtmlElement>` for the Root Element**
-  - **Why?** Standardizes root element rendering, allows tag control via `Element` parameter.
-  - **Mandatory Markup:** The root element must always include: `@attributes="@AdditionalAttributes" class="@RootClass()"`. Alpine directives (`x-data`, etc.) are added here as needed.
-  - **Example:**
-    ```razor
-    <HtmlElement Element="button" @attributes="@AdditionalAttributes" class="@RootClass()"
-                 aria-label="@AssistiveLabel" x-data="rzButton" x-on:click="handleClick">
-         @ChildContent
-    </HtmlElement>
-    ```
-    *(Note: `handleClick` refers to an Alpine method in `rizzyui.js`)*
-
-- **`RootClass()` Method in Code-Behind (SSR)**
-  - **Purpose:** Computes the *initial* CSS class string during server-side rendering.
-  - **Implementation:**
-    - Retrieve the component's style object from `Theme` (e.g., `var styles = Theme.RzButton;`).
-    - Call `TwMerge.Merge(AdditionalAttributes, ...)` passing `AdditionalAttributes` and style properties/method results from the `styles` object (which contain *literal Tailwind strings*).
-  - **Key Rule:** Styles sourced *only* from the `Theme` object. No hardcoded Tailwind strings in `.razor.cs`.
-  - **Example (`RzButton.razor.cs`):**
+## `.razor.cs` File Guidelines
+1.  **Namespace:** Add `namespace RizzyUI;`.
+2.  **Inheritance:** Inherit from `RzComponent` (or appropriate base): `public partial class RzComponentName : RzComponent`. Use `sealed` if the class is not intended for further inheritance.
+3.  **Parameters:** Define necessary `[Parameter]` properties for configuration, data binding (using `InputBase<T>` if applicable), and content (`RenderFragment`). Use `[EditorRequired]` where applicable.
+4.  **Theme Access:** The `Theme` property is inherited from `RzComponent` and provides access to the current theme's style definitions.
+5.  **NO Simple Style Wrappers:** **DO NOT** create properties like `protected string ContainerClass => Theme.ComponentName.Container;`. Access these directly in the `.razor` file.
+6.  **KEEP Computed Properties:** *Keep* properties in the code-behind if they compute a value needed by the markup beyond direct theme access (e.g., `AlternateText` in `RzAvatar`, `AriaCheckedValue` in `RzToggle`).
+7.  **`RootClass()` Method:** Override the `RootClass()` method to merge classes:
     ```csharp
-    namespace RizzyUI; // Ensure namespace
-    // ... other usings ...
-    public partial class RzButton : RzComponent
+    protected override string? RootClass()
     {
-        // ... parameters ...
-        protected override string? RootClass()
-        {
-            var styles = Theme.RzButton; // Get component styles from Theme
-            var groupStyles = Theme.RzButtonGroup;
-            var groupSpecificClass = string.Empty;
-            // ... [logic to determine groupSpecificClass based on groupStyles] ...
-
-            // Merge AdditionalAttributes with styles retrieved ONLY from the Theme object
-            return TwMerge.Merge(AdditionalAttributes,
-                styles.Button,                         // Base style property from Theme.RzButton
-                Outline ? styles.GetVariantOutlineCss(Variant) : styles.GetVariantCss(Variant), // Variant helper from Theme.RzButton
-                Animate ? styles.Animated : "",        // State property from Theme.RzButton
-                styles.GetSizeCss(Size),               // Size helper from Theme.RzButton
-                groupSpecificClass);                   // Logic derived using Theme.RzButtonGroup
-        }
-        // ... other SSR methods ...
+        // Access theme styles directly here if needed for the root element
+        var styles = Theme.ComponentName;
+        return TwMerge.Merge(AdditionalAttributes,
+            styles.BaseStyle, // Example: Base class from theme
+            styles.GetVariantCss(VariantParameter), // Example: Variant class
+            ConditionalClass // Example: Class based on internal state
+        );
     }
     ```
+8.  **Lifecycle Methods:** Use `OnInitialized`, `OnParametersSet`, `OnAfterRender` as needed for component logic. Remember to call `base.` methods.
+9.  **XML Documentation:** Add `<xmldoc>` comments to the class and `<summary>` comments to public parameters and properties.
+10. **Helpers:** Internal helper methods or properties can be defined as needed.
 
----
+## Styling (`RzStylesBase`, `Default...Styles`)
+1.  **Abstract Definition:** Define the *structure* of the component's styles in `src/RizzyUI/Styles/RzStylesBase.cs` by adding a nested abstract class (e.g., `public abstract class RzComponentNameStylesBase { ... }`). Define abstract string properties for static classes and abstract methods (`Get...Css`) for dynamic classes based on parameters (like `Variant`, `Size`, `Orientation`).
+2.  **Default Implementation:** Create a `DefaultRzComponentNameStyles.cs` file (e.g., in `Components/ComponentCategory/RzComponentName/Styling/`). Implement the abstract class, providing Tailwind class strings for each property and method. Use theme tokens (`Theme.Light.Primary`, `Theme.BorderRadius`, etc.) where appropriate.
+3.  **Theme Integration:** Add a property to `RzTheme.StyleProviders.cs` (partial class of `RzTheme`) for your new style definition (e.g., `public virtual RzStylesBase.RzComponentNameStylesBase RzComponentName { get; }`). Initialize it in the `RzTheme` constructor using the default implementation (e.g., `RzComponentName = new DefaultRzComponentNameStyles(this);`).
 
-## 3. Styling Abstraction via RzTheme and RzStylesBase
+## Theme Access in Components
+The resolved theme (`RzTheme` instance) is available via the inherited `Theme` property in any component deriving from `RzComponent`.
 
-- **Centralized Style Definitions:** All Tailwind CSS class strings defined *only* within `Styling/Default*.cs` implementation classes. Use **literal Tailwind class strings**.
-- **Strict Access via `Theme` Object:** Components *must* access styles exclusively through the `Theme` object during SSR.
-- **`RzStylesBase.cs`:** Defines abstract contracts for component styles.
-- **Theme Defines Token *Values*:** `RzTheme` and theme files (e.g., `ArcticTheme.cs`) define *values* for CSS custom properties (e.g., `--color-primary`, `--borderRadius`).
-- **Style Implementations Use Token *Classes*:** `Default*.cs` files use the **literal Tailwind classes** referencing those tokens (e.g., `bg-primary`, `rounded-theme`). **Do not** use `Color.TailwindClassName` or similar dynamic name generation.
-- **Border Radius:** Always use the literal class `rounded-theme` for standard themed rounding.
+## CSS Class Merging (`TwMerge`)
+The `TwMerge` service (injected into `RzComponent`) is crucial for correctly merging default component classes, variant classes, and user-provided classes passed via `AdditionalAttributes`. Always use it in the `RootClass()` override.
 
-  ### **Tailwind Semantic Color Tokens (Context for Theme Definition)**
-  *(The `Default*.cs` style files use the Tailwind classes associated with these tokens, e.g., `bg-surface`, `text-on-primary`)*
+## Alpine.js Integration
+- Define Alpine logic in `packages/rizzyui/src/js/lib/components.js` using `Alpine.data('componentName', () => ({ ... }))`.
+- Add `x-data="componentName"` to the appropriate element in the `.razor` file.
+- Use `x-ref`, `x-on:`, `:class`, `:style`, `$watch`, etc., for interactivity.
+- Pass necessary configuration or initial state from Blazor to Alpine using `data-*` attributes on the `x-data` element. Parse this data (often JSON) within the Alpine component's `init()` function.
+- If external JS/CSS assets are needed (like Flatpickr, Highlight.js), define them as a static `DefaultAssets` array in the `.razor.cs` file and pass them serialized via a `data-assets` attribute. Use the `require(assets, { success: ..., error: ... }, nonce)` function within the Alpine `init()` to load them dynamically. Ensure the `nonce` attribute is also passed if CSP is a concern.
 
-  #### **Core Semantic Colors (Light/Dark Resolved via CSS)**
-  - **surface:** (`--color-surface`) Primary background.
-  - **on-surface:** (`--color-on-surface`) Text/icons on surface.
-  - **on-surface-strong:** (`--color-on-surface-strong`) Stronger text/icons on surface.
-  - **on-surface-muted:** (`--color-on-surface-muted`) Muted text/icons on surface.
-  - **surface-alt:** (`--color-surface-alt`) Alternate background.
-  - **surface-tertiary:** (`--color-surface-tertiary`) Tertiary background.
-  - **on-surface-tertiary:** (`--color-on-surface-tertiary`) Text/icons on tertiary surface.
-  - **primary:** (`--color-primary`) Primary brand/action color.
-  - **on-primary:** (`--color-on-primary`) Text/icons on primary background.
-  - **secondary:** (`--color-secondary`) Secondary accent color.
-  - **on-secondary:** (`--color-on-secondary`) Text/icons on secondary background.
-  - **outline:** (`--color-outline`) Borders/outlines.
-  - **outline-strong:** (`--color-outline-strong`) Stronger outline.
+## Example (`RzSimpleButton.razor` / `.cs`)
 
-  #### **Status & Utility Colors**
-  *(Values defined per theme)*
-  - **danger:** (`--color-danger`) Error/danger states.
-  - **on-danger:** (`--color-on-danger`) Text/icons on danger background.
-  - **info:** (`--color-info`) Informational color.
-  - **onInfo:** (`--color-onInfo`) Text/icons on info background.
-  - **warning:** (`--color-warning`) Warnings.
-  - **on-warning:** (`--color-on-warning`) Text/icons on warning background.
-  - **success:** (`--color-success`) Success/confirmation.
-  - **on-success:** (`--color-on-success`) Text/icons on success background.
+**`RzSimpleButton.razor.cs`**
+```csharp
+using Microsoft.AspNetCore.Components;
+using RizzyUI.Extensions;
 
----
+namespace RizzyUI;
 
-## 4. Alpine.js Integration and Content Security Policy (CSP) - **CRITICAL for SSR**
+/// <xmldoc>A simple button example.</xmldoc>
+public partial class RzSimpleButton : RzComponent
+{
+    [Parameter] public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
+    [Parameter] public Size Size { get; set; } = Size.Medium;
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 
-- **Exclusive Interactivity via Alpine.js**
-  - **Rule:** Since Blazor interactivity is disabled, **all** dynamic UI updates, event handling, and state changes *must* be implemented using Alpine.js in the client's browser.
-  - **Alpine Data Naming Convention:** Prefix data objects with `rz` (e.g., `rzAlert`, `rzDropdown`).
-  - **Event Handling:** Use `x-on:` directives (e.g., `x-on:click="dismiss"`) in `.razor` markup to call methods defined in the corresponding Alpine data object.
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Element = "button"; // It's a button
+    }
 
-- **External Alpine.js Definitions**
-  - **All Alpine logic resides in external JavaScript files** (e.g., **wwwroot/js/rizzyui.js**). Define component logic within `Alpine.data('rzComponentName', () => ({ ... }));`. No inline scripts in `.razor` files.
+    // NO simple style properties like ButtonClass, AnimatedClass, etc.
 
-- **CSP-Compatible Alpine.js Build & Nonce Usage**
-  - **Requirement:** Use the Alpine.js CSP-compatible build.
-  - **Nonce Application:** The `Nonce` property (from `RzComponent`) *must* be added as a `nonce="..."` attribute ONLY to any `<script>` or `<style>` tags directly rendered by a component's `.razor` file during SSR (e.g., `RzThemeProvider`, `RzCodeViewer`, `RzDateEdit`).
+    protected override string? RootClass()
+    {
+        // Access theme directly within the method
+        var styles = Theme.RzButton; // Assuming RzButton styles exist
+        return TwMerge.Merge(AdditionalAttributes,
+            styles.Button, // Base button style
+            styles.GetVariantCss(Variant), // Variant style
+            styles.Animated, // Animation style (if applicable)
+            styles.GetSizeCss(Size) // Size style
+        );
+    }
+}
+```
 
-- **Passing Data to Alpine**
-  - **Pattern:** Use `data-` attributes in the `.razor` file to pass configuration or initial state calculated during SSR from Blazor to Alpine.
+**`RzSimpleButton.razor`**
+```html
+@namespace RizzyUI
+@inherits RzComponent
 
-- **Dynamic Styling with Alpine:**
-  - Use Alpine's `:class` or `x-bind:class` directive in the `.razor` file to *conditionally apply CSS classes in the browser* based on Alpine state.
-  - **Functions called within `:class` (e.g., `:class="getSelectedCss()"`) must be defined within the corresponding `Alpine.data('rzComponentName', ...)` block** in `rizzyui.js`.
-  - These Alpine functions should return class strings. These strings should ideally be **sourced from the C# `Theme` object** (passed down via `data-` attributes if necessary, or hardcoded in the JS if simple utilities) or be basic utility classes. Avoid redefining complex component styles purely in JS.
-  - **Example (`RzQuickReference.razor`):**
-    ```razor
-    <a ... class="@LinkClass" data-headingid="@heading.Id"
-       :class="getSelectedCss" x-on:click="handleHeadingClick">
-        @heading.Title
-    </a>
-    ```
-    *(Here, `getSelectedCss` is a method within the `rzQuickReferenceContainer` Alpine data definition in `rizzyui.js`)*.
+<HtmlElement Element="@Element" @attributes="AdditionalAttributes" class="@RootClass()">
+    @* No internal elements needing direct theme access in this simple example,
+       but if there were, it would look like:
+       <span class="@Theme.RzButton.InnerSpan">...</span>
+    *@
+    @ChildContent
+</HtmlElement>
+```
 
----
-
-## 5. Parameter Definition Standards
-
-- **Clarity and Defaults:**
-    *   Use `[EditorRequired]` for parameters essential for the component's static rendering (e.g., `For`, `Name`).
-    *   Provide sensible default values for optional parameters (`Size = Size.Medium`, `Variant = ButtonVariant.Primary`). Document defaults in xmldoc.
-    *   Use `[CascadingParameter]` mainly for framework (`EditContext`, `RzTheme`) or specific hierarchy state (`RzButtonGroup`, `RzTabs`).
-    *   Use clear, descriptive PascalCase names.
-- **`RenderFragment` vs. Simple Types:**
-    *   Use `RenderFragment` (`ChildContent`, `Description`) for complex, component-containing, or arbitrary HTML content rendered during SSR.
-    *   Use simple types (`string Label`, `SvgIcon Icon`) for atomic data displayed statically.
-    *   Favor specific parameters (`[Parameter] SvgIcon Icon`) over generic `RenderFragment`s (`IconContent`) for clearer APIs.
-- **Constants/Enums:** Use enums (`Variants.cs`) for parameter options. Prefer `private const string` over magic strings internally within `.cs` files.
-
----
-
-## 6. API Consistency
-
-- **Pattern Matching:** When creating new components, examine existing similar components in the library. Use consistent parameter names (`DisplayName`, `Placeholder`, `Variant`, `Size`), property names in style classes, and behavioral patterns where applicable to ensure a predictable and learnable API.
-
----
-
-## 7. Accessibility (WCAG 2.2+)
-
-- **Static Output:** Ensure the initial HTML rendered by the server includes all necessary ARIA roles, states, and properties for accessibility.
-- **Alpine Responsibility:** Ensure Alpine interactions maintain accessibility (e.g., updating `aria-expanded` when a section opens, managing focus correctly via `x-trap`).
-- **Focus Styles:** Use `:focus-visible` styles defined via the `Theme` object.
-- **Skip Links:** Implement for major layout components (`RzSidebar`).
-
----
-
-## 8. XML Documentation (xmldoc)
-
-- **Mandatory:** Required for all `public`/`protected` members in component `.razor.cs` files and all `public abstract`/`public override` members in `RzStylesBase.cs` and `Default*.cs` files.
-- **Content:** Explain purpose, parameters (SSR context), return values, usage, defaults, and exceptions. Use `<inheritdoc />` on overrides.
-
----
-
-## 9. Blazor Lifecycle Methods (SSR Context)
-
-- **Limited Usage:** Blazor lifecycle methods execute *only* during the server-side rendering process. They cannot react to browser events.
-    *   `OnInitialized()`: Use for one-time setup dependent on injected services or basic initialization *before* parameters are set.
-    *   `OnParametersSet()`: Use to react to *parameter values provided during the render*. Calculate derived state needed for the initial render based on these parameters (e.g., setting `_currentValue` from `Value` parameter in form inputs). Avoid heavy computation.
-    *   **Do not** implement Blazor event handlers like `OnClick` or expect methods like `OnAfterRender` to provide browser interactivity hooks.
-
----
-
-## 10. Error Handling and Robustness (SSR)
-
-- **Validate Required Parameters/Context:** Throw `InvalidOperationException` during `OnInitialized` or `OnParametersSet` if required parameters (`For`, `Name`), cascading parameters (`EditContext`, parent component), or injected services are missing.
-- **Defensive Coding:** Use null checks, `?.` operator, and range clamping (`Math.Clamp`) for data used during the initial render.
-
----
-
-## 11. File-Specific Guidelines and References
-
-- **RzComponent.cs:** Base class (provides `AdditionalAttributes`, `Nonce`, `Theme`, etc.).
-- **RzTheme.cs:** Aggregates style implementations (`Theme.ComponentName`), defines core theme properties (token *values*).
-- **RzStylesBase.cs:** Defines abstract style contracts.
-- **Components/**/Styling/Default*.cs:** Defines **literal Tailwind class strings**, implements `RzStylesBase` contracts.
-- **TwMergeExtensions.cs:** Provides `TwMerge.Merge`.
-- **wwwroot/js/rizzyui.js:** Contains **all** client-side interactivity logic via `Alpine.data(...)`.
-- **Variants.cs:** Common enums.
-- **Colors.cs / Oklch.cs:** Base color definitions.
-
----
-
-## 12. Naming Conventions for CSS Helper Methods
-
-- **Location:** Defined `public abstract` in `RzStylesBase`, implemented `public override` in `Default*.cs`.
-- **Access:** Components access *only* via the `Theme` object.
-- **Naming:** `Get[Purpose]Css(parameter)`.
-- **Implementation:** Methods in `Default*.cs` return **complete, literal Tailwind class strings**.
-- **Documentation:** Required for abstract and override, use `<inheritdoc />`.
-
----
-
-## 13. Summary of Key Points
-
-- **Static SSR Context:** Blazor interactivity is DISABLED. All interaction via **Alpine.js**.
-- **Component Files:** Two-file separation (`.razor`/`.razor.cs`), `namespace RizzyUI;`.
-- **Styling Files:** Centralized **literal Tailwind strings** in `Styling/Default*.cs`, inheriting from `RzStylesBase`.
-- **Base Class:** Inherit `RzComponent`.
-- **Root Element:** Use `<HtmlElement>` with standard `@attributes`/`class`.
-- **RootClass():** Always use `Theme.ComponentName...` properties/methods + `TwMerge.Merge(AdditionalAttributes, ...)`.
-- **Styling Access:** **Strictly use the `Theme` object** in components during SSR.
-- **Theme vs Styles:** `RzTheme` defines token *values*; `Default*.cs` uses corresponding Tailwind *classes*. Use `rounded-theme`.
-- **Alpine.js:** **Sole source of interactivity**. External definitions (`Alpine.data`), CSP compliant, `:class` for dynamic styles (functions defined in Alpine data), data via `data-` attributes.
-- **Parameters:** Use `[EditorRequired]`, provide defaults, choose `RenderFragment` vs simple types judiciously.
-- **API Consistency:** Follow patterns of existing components.
-- **Accessibility:** Ensure static HTML output is accessible; Alpine must maintain it.
-- **XML Documentation:** Mandatory for public/protected members (components & styles).
-- **Lifecycle (SSR):** Use `OnInitialized`/`OnParametersSet` only for initial render setup.
-- **CSS Helpers:** Defined in `RzStylesBase` (abstract) / `Default*.cs` (override, returns *literal strings*), accessed via `Theme`.
-- **Error Handling:** Validate required parameters/context during SSR.
+By following these updated guidelines, components will be simpler, easier to maintain, and directly leverage the theme system within the markup where styling is most relevant.
