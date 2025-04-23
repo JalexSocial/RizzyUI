@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -20,20 +21,6 @@ public partial class RzQuickReference : RzComponent
     /// <summary> The title displayed above the quick reference list. Defaults to "On this page". </summary>
     [Parameter]
     public string Title { get; set; } = "On this page";
-
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the title paragraph. </summary>
-    protected string TitleClass => Theme.RzQuickReference.Title;
-
-    /// <summary> Gets the computed CSS classes for the list (ul) element. </summary>
-    protected string ListClass => Theme.RzQuickReference.List;
-
-    /// <summary> Gets the computed CSS classes for the list items (li). </summary>
-    protected string ListItemClass => Theme.RzQuickReference.ListItem;
-
-    /// <summary> Gets the computed CSS classes for the heading links (a). </summary>
-    protected string LinkClass => Theme.RzQuickReference.Link;
-    // Note: LinkSelected class is handled by Alpine :class="getSelectedCss"
 
     /// <inheritdoc />
     protected override void OnInitialized()

@@ -1,3 +1,4 @@
+
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
@@ -21,13 +22,6 @@ public partial class RzBreadcrumb : RzComponent
     /// <summary> Child content for the breadcrumb component, should contain <see cref="RzBreadcrumbItem" /> components. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the wrapping ordered list (ol) element. </summary>
-    protected string ListClass => Theme.RzBreadcrumb.List;
-
-    /// <summary> Gets the computed CSS classes for the individual list item (li) element. </summary>
-    protected string ItemClass => Theme.RzBreadcrumbItem.ListItem; // Get from Item styles
 
     /// <inheritdoc />
     protected override string? RootClass()

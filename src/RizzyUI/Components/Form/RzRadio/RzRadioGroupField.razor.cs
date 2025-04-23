@@ -1,3 +1,4 @@
+
 using System.Linq.Expressions;
 using Blazicons;
 using Microsoft.AspNetCore.Components;
@@ -90,10 +91,6 @@ public partial class RzRadioGroupField<TValue> : RzComponent
 
     /// <summary> The resolved name attribute for the radio group. </summary>
     protected string ResolvedName { get; private set; } = string.Empty;
-
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the RzRadioGroup within this field. </summary>
-    protected string GroupWithinFieldClass => Theme.RzRadioGroupField.GroupWithinField;
 
     /// <inheritdoc />
     protected override void OnInitialized()

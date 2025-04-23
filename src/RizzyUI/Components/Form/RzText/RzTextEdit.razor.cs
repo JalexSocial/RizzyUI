@@ -1,3 +1,4 @@
+
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -46,19 +47,6 @@ public partial class RzTextEdit : InputBase<string> // Inherits from InputBase<s
     /// <summary> Gets the ID attribute of the underlying input element, if available. </summary>
     public string Id => _elem?.Id ?? string.Empty; // Get ID from RzInputText if possible
 
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the input wrapper div. </summary>
-    protected string InputWrapperClass => Theme.RzTextEdit.InputWrapper;
-
-    /// <summary> Gets the computed CSS classes for the prepend element div. </summary>
-    protected string PrependElementClass => Theme.RzTextEdit.PrependElement;
-
-    /// <summary> Gets the computed CSS classes for the prepend icon container. </summary>
-    protected string PrependIconContainerClass => Theme.RzTextEdit.PrependIconContainer;
-
-    /// <summary> Gets the computed CSS classes for the input element itself. </summary>
-    protected string InputClass => Theme.RzTextEdit.Input;
-
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -89,7 +77,7 @@ public partial class RzTextEdit : InputBase<string> // Inherits from InputBase<s
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, InputClass);
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzTextEdit.Input);
         // RzInputText handles merging its class
     }
 }

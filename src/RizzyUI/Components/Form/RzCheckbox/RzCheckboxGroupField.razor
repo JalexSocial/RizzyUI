@@ -1,3 +1,4 @@
+
 @namespace RizzyUI
 @typeparam TValue
 @inherits RzComponent
@@ -9,9 +10,8 @@
 		<RzFieldHelp>@FieldHelp</RzFieldHelp>
 	}
 	<RzCheckboxGroup TValue="TValue" For="@For" @Values="CurrentValues" Orientation="@Orientation"
-	                 class="@GroupWithinFieldClass">
+	                 class="@Theme.RzCheckboxGroupField.GroupWithinField">
 		@CheckboxGroupContent
 	</RzCheckboxGroup>
 	<RzValidationMessage For="@For"/>
 </RzField>
-

@@ -1,3 +1,4 @@
+
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
@@ -29,10 +30,6 @@ public partial class RzBadge : RzComponent
     /// <summary> Child content for the badge, allowing for text and additional elements. Overrides Label if set. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the inner span element. </summary>
-    protected string InnerSpanClass => Theme.RzBadge.InnerSpan;
 
     /// <inheritdoc />
     protected override string? RootClass()

@@ -1,21 +1,21 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
 <div class="@RootClass()">
-	<div class="@DescriptionContainerClass">
+	<div class="@Theme.RzFormSection.GetDescriptionLayoutCss(Layout)">
 		@if (!string.IsNullOrEmpty(Title))
 		{
-			<h2 class="@TitleClass">@Title</h2>
+			<h2 class="@Theme.RzFormSection.Title">@Title</h2>
 		}
 		@if (Description != null)
 		{
-			<p class="@DescriptionClass">
+			<p class="@Theme.RzFormSection.Description">
 				@Description
 			</p>
 		}
 	</div>
-	<div class="@ContentContainerClass">
+	<div class="@Theme.RzFormSection.GetContentLayoutCss(Layout)">
 		@Content
 	</div>
 </div>
-

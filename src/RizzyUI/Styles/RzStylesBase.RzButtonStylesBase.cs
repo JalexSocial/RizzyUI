@@ -82,9 +82,6 @@ public abstract partial class RzStylesBase
     /// <summary>
     ///     Defines the abstract structure for styling the <see cref="RzDarkModeToggle" /> button.
     /// </summary>
-    /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzDarkmodeToggle" /> component.
-    /// </summary>
     public abstract class RzDarkmodeToggleStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -78,13 +79,6 @@ public sealed partial class RzDateEdit : RzComponent
         }
     }
 
-    // --- Style Properties derived from Theme ---
-    private string ContainerClass => Theme.RzDateEdit.Container;
-    private string InputWrapperClass => Theme.RzDateEdit.InputWrapper;
-    private string PrependElementClass => Theme.RzDateEdit.PrependElement;
-    private string PrependIconContainerClass => Theme.RzDateEdit.PrependIconContainer;
-    private string InputClass => Theme.RzDateEdit.Input; // Base input style
-
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -162,6 +156,6 @@ public sealed partial class RzDateEdit : RzComponent
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, ContainerClass);
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzDateEdit.Container);
     }
 }

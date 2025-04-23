@@ -1,15 +1,15 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()">
-    <div class="@InnerContainerClass">
-        <article class="@ArticleClass @ArticleProseClass">
+    <div class="@Theme.RzArticle.InnerContainer">
+        <article class="@Theme.RzArticle.Article @Theme.RzArticle.GetArticleProseCss(ProseWidth)">
             @MainContent
         </article>
 
-        <aside class="@AsideClass">
+        <aside class="@Theme.RzArticle.GetAsideCss(ColumnWidth, IsSideFixed)">
             @SideContent
         </aside>
     </div>
 </HtmlElement>
-

@@ -1,10 +1,11 @@
-﻿@namespace RizzyUI
+
+@namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement class="@ContainerClass">
+<HtmlElement class="@Theme.RzEmbeddedPreview.Container">
 	<iframe x-data="rzEmbeddedPreview"
 	        id="@Id"
-	        class="@IFrameClass"
+	        class="@Theme.RzEmbeddedPreview.IFrame"
 	        srcdoc="@_content"
 	        x-ref="iframe">
 	</iframe>

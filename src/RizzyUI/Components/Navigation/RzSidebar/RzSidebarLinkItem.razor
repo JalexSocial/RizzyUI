@@ -1,3 +1,4 @@
+
 @namespace RizzyUI
 @using Blazicons
 @inherits RzComponent
@@ -5,25 +6,25 @@
 
 @if (Collapsible)
 {
-    <li class="@CollapsibleListItemClass">
+    <li class="@Theme.RzSidebarLinkItem.CollapsibleListItem">
         <div data-expanded="@((!Collapsed).ToString().ToLowerInvariant())" x-data="rzSidebarLinkItem"
-             data-chevron-expanded-class="@ChevronExpandedClass"
-             data-chevron-collapsed-class="@ChevronCollapsedClass"
-             class="@CollapsibleInnerDivClass">
+             data-chevron-expanded-class="@Theme.RzSidebarLinkItem.GetChevronRotationCss(true)"
+             data-chevron-collapsed-class="@Theme.RzSidebarLinkItem.GetChevronRotationCss(false)"
+             class="@Theme.RzSidebarLinkItem.CollapsibleInnerDiv">
             <button type="button" x-on:click="toggleExpanded" id="@ButtonId" aria-controls="@CollapseId"
-                    x-bind:aria-expanded="isExpanded" class="@CollapsibleButtonClass">
+                    x-bind:aria-expanded="isExpanded" class="@Theme.RzSidebarLinkItem.CollapsibleButton">
                 @if (Icon != null)
                 {
-                    <div class="@CollapsibleButtonIconContainerClass" aria-hidden="true">
+                    <div class="@Theme.RzSidebarLinkItem.CollapsibleButtonIconContainer" aria-hidden="true">
                         <Blazicon Svg="@Icon"/>
                     </div>
                 }
-                <span class="@CollapsibleButtonTitleClass">@Title</span>
+                <span class="@Theme.RzSidebarLinkItem.CollapsibleButtonTitle">@Title</span>
                 @if (TrailerContent != null)
                 {
-                    <div class="@CollapsibleButtonTrailerClass">@TrailerContent</div>
+                    <div class="@Theme.RzSidebarLinkItem.CollapsibleButtonTrailer">@TrailerContent</div>
                 }
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="@CollapsibleButtonChevronClass"
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="@Theme.RzSidebarLinkItem.CollapsibleButtonChevron"
                      x-bind:class="getExpandedClass" aria-hidden="true">
                     <path fill-rule="evenodd"
                           d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
@@ -31,7 +32,7 @@
                 </svg>
             </button>
             <ul x-cloak x-collapse x-show="isExpanded" aria-labelledby="@ButtonId" id="@CollapseId"
-                class="@CollapsibleNestedListClass">
+                class="@Theme.RzSidebarLinkItem.CollapsibleNestedList">
                 <CascadingValue Value="this" IsFixed="true">
                     @ChildContent
                 </CascadingValue>
@@ -41,42 +42,42 @@
 }
 else if (Parent is { HasChildren: true, Collapsible: false }) // Sub-item under non-collapsible parent
 {
-    <li class="@SubListItemClass">
+    <li class="@Theme.RzSidebarLinkItem.SubListItem">
         @if (HasChildren) // Sub-item that itself has children (render as div)
         {
-            <div @attributes="AdditionalAttributes" class="@SubLinkOrDivClass">
+            <div @attributes="AdditionalAttributes" class="@Theme.RzSidebarLinkItem.SubLinkOrDiv">
                 @if (Icon != null)
                 {
-                    <div class="@ItemIconContainerClass" aria-hidden="true">
+                    <div class="@Theme.RzSidebarLinkItem.ItemIconContainer" aria-hidden="true">
                         <Blazicon Svg="@Icon"/>
                     </div>
                 }
-                <span class="@ItemTitleClass">@Title</span>
+                <span class="@Theme.RzSidebarLinkItem.ItemTitle">@Title</span>
                 @if (TrailerContent != null)
                 {
-                    <div class="@ItemTrailerClass">@TrailerContent</div>
+                    <div class="@Theme.RzSidebarLinkItem.ItemTrailer">@TrailerContent</div>
                 }
             </div>
         }
         else // Leaf sub-item (render as link)
         {
-            <a @attributes="AdditionalAttributes" href="@Href" target="@Target" class="@SubLinkOrDivClass">
+            <a @attributes="AdditionalAttributes" href="@Href" target="@Target" class="@Theme.RzSidebarLinkItem.SubLinkOrDiv">
                 @if (Icon != null)
                 {
-                    <div class="@ItemIconContainerClass" aria-hidden="true">
+                    <div class="@Theme.RzSidebarLinkItem.ItemIconContainer" aria-hidden="true">
                         <Blazicon Svg="@Icon"/>
                     </div>
                 }
-                <span class="@ItemTitleClass">@Title</span>
+                <span class="@Theme.RzSidebarLinkItem.ItemTitle">@Title</span>
                 @if (TrailerContent != null)
                 {
-                    <div class="@ItemTrailerClass">@TrailerContent</div>
+                    <div class="@Theme.RzSidebarLinkItem.ItemTrailer">@TrailerContent</div>
                 }
             </a>
         }
         @if (ChildContent != null)
         {
-            <ul class="@NonCollapsibleNestedListClass">
+            <ul class="@Theme.RzSidebarLinkItem.NonCollapsibleNestedList">
                 <CascadingValue Value="this" IsFixed="true">
                     @ChildContent
                 </CascadingValue>
@@ -86,42 +87,42 @@ else if (Parent is { HasChildren: true, Collapsible: false }) // Sub-item under 
 }
 else // Top-level non-collapsible item
 {
-    <li class="@TopLevelListItemClass">
+    <li class="@Theme.RzSidebarLinkItem.TopLevelListItem">
         @if (HasChildren) // Top-level item with children (render as div)
         {
-            <div @attributes="AdditionalAttributes" class="@TopLevelNonCollapsibleDivClass">
+            <div @attributes="AdditionalAttributes" class="@Theme.RzSidebarLinkItem.TopLevelNonCollapsibleDiv">
                 @if (Icon != null)
                 {
-                    <div class="@ItemIconContainerClass" aria-hidden="true">
+                    <div class="@Theme.RzSidebarLinkItem.ItemIconContainer" aria-hidden="true">
                         <Blazicon Svg="@Icon"/>
                     </div>
                 }
-                <span class="@ItemTitleClass">@Title</span>
+                <span class="@Theme.RzSidebarLinkItem.ItemTitle">@Title</span>
                 @if (TrailerContent != null)
                 {
-                    <div class="@ItemTrailerClass">@TrailerContent</div>
+                    <div class="@Theme.RzSidebarLinkItem.ItemTrailer">@TrailerContent</div>
                 }
             </div>
         }
         else // Top-level leaf item (render as link)
         {
-            <a @attributes="AdditionalAttributes" href="@Href" target="@Target" class="@TopLevelLinkClass">
+            <a @attributes="AdditionalAttributes" href="@Href" target="@Target" class="@Theme.RzSidebarLinkItem.TopLevelLink">
                 @if (Icon != null)
                 {
-                    <div class="@ItemIconContainerClass" aria-hidden="true">
+                    <div class="@Theme.RzSidebarLinkItem.ItemIconContainer" aria-hidden="true">
                         <Blazicon Svg="@Icon"/>
                     </div>
                 }
-                <span class="@ItemTitleClass">@Title</span>
+                <span class="@Theme.RzSidebarLinkItem.ItemTitle">@Title</span>
                 @if (TrailerContent != null)
                 {
-                    <div class="@ItemTrailerClass">@TrailerContent</div>
+                    <div class="@Theme.RzSidebarLinkItem.ItemTrailer">@TrailerContent</div>
                 }
             </a>
         }
         @if (ChildContent != null)
         {
-            <ul class="@NonCollapsibleNestedListClass">
+            <ul class="@Theme.RzSidebarLinkItem.NonCollapsibleNestedList">
                 <CascadingValue Value="this" IsFixed="true">
                     @ChildContent
                 </CascadingValue>
@@ -129,4 +130,3 @@ else // Top-level non-collapsible item
         }
     </li>
 }
-

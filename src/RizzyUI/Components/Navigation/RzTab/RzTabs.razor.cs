@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
@@ -53,10 +54,6 @@ public partial class RzTabs : RzComponent
 
     /// <summary> Gets the lowercase name of the active tab for data binding. </summary>
     protected string ActiveTabNameLower => ActiveTab?.Name?.ToLowerInvariant() ?? string.Empty;
-
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the panels container div. </summary>
-    protected string PanelsContainerClass => Theme.RzTabs.PanelsContainer;
 
     /// <inheritdoc />
     protected override string? RootClass()

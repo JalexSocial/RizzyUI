@@ -1,3 +1,4 @@
+
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -64,22 +65,6 @@ public partial class RzToggleField : RzComponent
             }
         }
     }
-
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the content wrapper div. </summary>
-    protected string ContentWrapperClass => Theme.RzToggleField.ContentWrapper;
-
-    /// <summary> Gets the computed CSS classes for the inner flex container div. </summary>
-    protected string InnerWrapperClass => Theme.RzToggleField.InnerWrapper;
-
-    /// <summary> Gets the computed CSS classes for the RzFieldLabel within this field. </summary>
-    protected string LabelInFieldClass => Theme.RzToggleField.LabelInField;
-
-    /// <summary> Gets the computed CSS classes for the RzToggle within this field. </summary>
-    protected string ToggleInFieldClass => Theme.RzToggleField.ToggleInField;
-
-    /// <summary> Gets the computed CSS classes for the description span within the label. </summary>
-    protected string DescriptionInLabelClass => Theme.RzToggleField.DescriptionInLabel;
 
     /// <inheritdoc />
     protected override void OnInitialized()

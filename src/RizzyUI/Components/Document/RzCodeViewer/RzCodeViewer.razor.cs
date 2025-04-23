@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+
+using System.Text.Json;
 using System.Web;
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
@@ -46,40 +47,6 @@ public partial class RzCodeViewer : RzComponent
 
     /// <summary> The title displayed in the header of the code viewer card. Defaults to "Source". </summary>
     [Parameter] public string ViewerTitle { get; set; } = "Source";
-
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the header div. </summary>
-    protected string HeaderClass => Theme.RzCodeViewer.Header;
-
-    /// <summary> Gets the computed CSS classes for the header title span. </summary>
-    protected string HeaderTitleClass => Theme.RzCodeViewer.HeaderTitle;
-
-    /// <summary> Gets the computed CSS classes for the main code container div. </summary>
-    protected string CodeContainerClass => Theme.RzCodeViewer.CodeContainer;
-
-    /// <summary> Gets the computed CSS classes for the copy button container div. </summary>
-    protected string CopyButtonContainerClass => Theme.RzCodeViewer.CopyButtonContainer;
-
-    /// <summary> Gets the computed CSS classes for the copy button. </summary>
-    protected string CopyButtonClass => Theme.RzCodeViewer.CopyButton;
-
-    /// <summary> Gets the computed CSS classes for the default copy icon. </summary>
-    protected string CopyIconDefaultClass => Theme.RzCodeViewer.CopyIconDefault;
-
-    /// <summary> Gets the computed CSS classes for the copied state icon. </summary>
-    protected string CopyIconCopiedClass => Theme.RzCodeViewer.CopyIconCopied;
-
-    /// <summary> Gets the computed CSS classes for the pre element wrapper div. </summary>
-    protected string PreWrapperClass => Theme.RzCodeViewer.PreWrapper;
-
-    /// <summary> Gets the computed CSS classes for the pre element. </summary>
-    protected string PreElementClass => Theme.RzCodeViewer.PreElement;
-
-    /// <summary> Gets the computed CSS classes for the expand/collapse button. </summary>
-    protected string ExpandButtonClass => Theme.RzCodeViewer.ExpandButton;
-
-    /// <summary> Gets the computed CSS classes for the expand/collapse icon. </summary>
-    protected string ExpandIconClass => Theme.RzCodeViewer.ExpandIcon;
 
     /// <summary> Gets the full language class name for Highlight.js. </summary>
     protected string LanguageClass => CodeLanguage.GetLanguageClass(Language);

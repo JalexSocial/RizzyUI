@@ -45,9 +45,6 @@ public abstract partial class RzStylesBase
     /// <summary>
     ///     Defines the abstract structure for styling the <see cref="RzNumberField{TValue}" /> component.
     /// </summary>
-    /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzNumberField" /> component.
-    /// </summary>
     public abstract class RzNumberFieldStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>

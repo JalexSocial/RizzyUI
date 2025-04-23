@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -33,19 +34,6 @@ public partial class RzArticle : RzComponent
     /// </summary>
     [Parameter]
     public bool IsSideFixed { get; set; } = true;
-
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the inner container div. </summary>
-    protected string InnerContainerClass => Theme.RzArticle.InnerContainer;
-
-    /// <summary> Gets the computed CSS classes for the article element. </summary>
-    protected string ArticleClass => Theme.RzArticle.Article;
-
-    /// <summary> Gets the computed CSS classes for the article's prose width. </summary>
-    protected string ArticleProseClass => Theme.RzArticle.GetArticleProseCss(ProseWidth);
-
-    /// <summary> Gets the computed CSS classes for the aside element, including width and fixed state. </summary>
-    protected string AsideClass => Theme.RzArticle.GetAsideCss(ColumnWidth, IsSideFixed);
 
     /// <inheritdoc />
     protected override string? RootClass()

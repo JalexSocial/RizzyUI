@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -35,13 +36,6 @@ public partial class RzTabPanel : RzComponent
     /// <summary> Gets the ID for this panel element. </summary>
     protected string PanelId => $"{NameLower}-panel";
 
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the outer container div. </summary>
-    protected string OuterContainerClass => Theme.RzTabPanel.OuterContainer;
-
-    /// <summary> Gets the computed CSS classes for the inner content div. </summary>
-    protected string InnerContainerClass => Theme.RzTabPanel.InnerContainer;
-
     /// <summary> Gets the computed CSS classes for the text color, inheriting from the parent Tabs component. </summary>
     protected string TextColorClass =>
         Theme.RzTabPanel.GetTextColorCss(Parent?.TabTextColor ?? SemanticColor.OnSurface);
@@ -59,6 +53,6 @@ public partial class RzTabPanel : RzComponent
     protected override string? RootClass()
     {
         // RootClass is now applied to the inner div via the markup
-        return TwMerge.Merge(AdditionalAttributes, InnerContainerClass, TextColorClass);
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzTabPanel.InnerContainer, TextColorClass);
     }
 }

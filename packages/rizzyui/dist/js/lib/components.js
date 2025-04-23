@@ -392,6 +392,7 @@ function registerComponents(Alpine) {
 // --------------------------------------------------------------------------------
     Alpine.data('rzDarkModeToggle', () => ({
         mode: 'light',
+        applyTheme: null,
         init() {
             const hasLocalStorage = typeof window !== 'undefined' && 'localStorage' in window;
             const allowedModes = ['light', 'dark', 'auto'];
@@ -413,14 +414,14 @@ function registerComponents(Alpine) {
             }
 
             // Function to apply the theme based on stored mode and OS preference
-            const applyTheme = () => {
+            this.applyTheme = () => {
                 document.documentElement.classList.toggle('dark',
                     storedMode === 'dark' || (storedMode === 'auto' && prefersDark));
             };
-            applyTheme();
+            this.applyTheme();
 
             // Listen for OS-level color scheme changes to reapply the theme
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.applyTheme);
         },
         // Returns true if dark mode should be active
         isDark() {
@@ -445,8 +446,8 @@ function registerComponents(Alpine) {
                 storedMode = prefersDark ? 'light' : 'dark';
             }
 
-            localStorage.setItem('darkMode', storedMode);
             this.mode = storedMode;
+            localStorage.setItem('darkMode', storedMode);
 
             const isDark = storedMode === 'dark' || (storedMode === 'auto' && prefersDark);
             document.documentElement.classList.toggle('dark', isDark);
@@ -455,6 +456,11 @@ function registerComponents(Alpine) {
                 detail: {darkMode: isDark}
             });
             window.dispatchEvent(darkModeEvent);
+        },
+        destroy() {
+            if (this.applyTheme) {
+                window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.applyTheme);
+            }
         }
     }));
     

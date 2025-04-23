@@ -1,4 +1,5 @@
-﻿@namespace RizzyUI
+
+@namespace RizzyUI
 @using Blazicons
 @inherits RzComponent
 
@@ -11,9 +12,9 @@
              x-on:click="toggle"
              :aria-pressed="isDark">
 	<div x-show="isLight" x-cloak>
-		<Blazicon Svg="@DarkIcon" class="@IconClass"/>
+		<Blazicon Svg="@DarkIcon" class="@Theme.RzDarkmodeToggle.Icon"/>
 	</div>
 	<div x-show="isDark" x-cloak>
-		<Blazicon Svg="@LightIcon" class="@IconClass"/>
+		<Blazicon Svg="@LightIcon" class="@Theme.RzDarkmodeToggle.Icon"/>
 	</div>
 </HtmlElement>

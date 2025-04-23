@@ -1,16 +1,16 @@
+
 @namespace RizzyUI
 @typeparam TValue
 @using Blazicons
 @inherits RzComponent
 
-<HtmlElement Element="@Element" x-data="rzCheckboxGroupItem" @attributes="@AdditionalAttributes" class="@LabelClass">
-	<div class="@CheckboxWrapperClass">
-		<RzInputCheckbox @bind-Value="IsChecked" class="@CheckboxInputClass" x-on:change="toggleCheckbox" x-ref="chk"/>
-		<div class="@IconContainerClass" :class="'@(GetIconVisibilityCss(IsChecked))'">
+<HtmlElement Element="@Element" x-data="rzCheckboxGroupItem" @attributes="@AdditionalAttributes" class="@Theme.RzCheckboxGroupItem.Label">
+	<div class="@Theme.RzCheckboxGroupItem.CheckboxWrapper">
+		<RzInputCheckbox @bind-Value="IsChecked" class="@Theme.RzCheckboxGroupItem.CheckboxInput" x-on:change="toggleCheckbox" x-ref="chk"/>
+		<div class="@Theme.RzCheckboxGroupItem.IconContainer" :class="'@(GetIconVisibilityCss(IsChecked))'">
 			<Blazicon Svg="EffectiveCheckedIcon"/>
 		</div>
 	</div>
-	<span class="@TitleSpanClass">@Title</span>
+	<span class="@Theme.RzCheckboxGroupItem.TitleSpan">@Title</span>
 	@ChildContent
 </HtmlElement>
-

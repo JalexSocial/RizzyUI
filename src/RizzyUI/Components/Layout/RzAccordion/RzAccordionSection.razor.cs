@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
@@ -33,16 +34,9 @@ public partial class RzAccordionSection : RzComponent
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the section's button element. </summary>
-    protected string? ButtonClass => TwMerge.Merge(AdditionalAttributes, Theme.RzAccordionSection.Button);
-
-    /// <summary> Gets the computed CSS classes for the section's content container div. </summary>
-    protected string ContentContainerClass => Theme.RzAccordionSection.ContentContainer;
-
-    /// <summary> Gets the base CSS classes for the chevron icon. </summary>
-    protected string ChevronIconClass => Theme.RzAccordionSection.ChevronIcon;
-
-    /// <summary> Gets the CSS class applied to the chevron icon when the section is expanded. </summary>
-    protected string ChevronIconExpandedClass => Theme.RzAccordionSection.ChevronIconExpanded;
+    /// <inheritdoc />
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzAccordionSection.Button);
+    }
 }

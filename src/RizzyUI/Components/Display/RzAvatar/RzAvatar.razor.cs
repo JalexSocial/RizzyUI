@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -57,58 +58,9 @@ public partial class RzAvatar : RzComponent
     /// <summary> Gets the alternate text for the avatar image, used for accessibility. </summary>
     private string AlternateText => string.IsNullOrEmpty(DisplayName) ? "User Avatar" : $"{DisplayName}";
 
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the main avatar container. </summary>
-    protected string? ContainerClass => Theme.RzAvatar.Container;
-
-    /// <summary> Gets the computed CSS classes for the status indicator base style. </summary>
-    protected string IndicatorClass => Theme.RzAvatar.Indicator;
-
-    /// <summary> Gets the computed CSS classes for the indicator size. </summary>
-    protected string IndicatorSizeClass => Theme.RzAvatar.GetIndicatorSizeCss(Size);
-
-    /// <summary> Gets the computed CSS classes for the indicator color. </summary>
-    protected string IndicatorColorClass => Theme.RzAvatar.GetIndicatorColorCss(IndicatorColor);
-
-    /// <summary> Gets the computed CSS classes for the image element. </summary>
-    protected string ImageClass => Theme.RzAvatar.Image;
-
-    /// <summary> Gets the computed CSS classes for the image size. </summary>
-    protected string ImageSizeClass => Theme.RzAvatar.GetSizeCss(Size);
-
-    /// <summary> Gets the computed CSS classes for the image shape. </summary>
-    protected string ImageShapeClass => Theme.RzAvatar.GetShapeCss(Shape);
-
-    /// <summary> Gets the computed CSS classes for the initials container. </summary>
-    protected string InitialsContainerClass => Theme.RzAvatar.InitialsContainer;
-
-    /// <summary> Gets the computed CSS classes for the initials container size. </summary>
-    protected string InitialsContainerSizeClass => Theme.RzAvatar.GetSizeCss(Size);
-
-    /// <summary> Gets the computed CSS classes for the initials container shape. </summary>
-    protected string InitialsContainerShapeClass => Theme.RzAvatar.GetShapeCss(Shape);
-
-    /// <summary> Gets the computed CSS classes for the initials text size. </summary>
-    protected string InitialsTextSizeClass => Theme.RzAvatar.GetInitialsSizeCss(Size);
-
-    /// <summary> Gets the computed CSS classes for the placeholder container. </summary>
-    protected string PlaceholderContainerClass => Theme.RzAvatar.PlaceholderContainer;
-
-    /// <summary> Gets the computed CSS classes for the placeholder container size. </summary>
-    protected string PlaceholderContainerSizeClass => Theme.RzAvatar.GetSizeCss(Size);
-
-    /// <summary> Gets the computed CSS classes for the placeholder container shape. </summary>
-    protected string PlaceholderContainerShapeClass => Theme.RzAvatar.GetShapeCss(Shape);
-
-    /// <summary> Gets the computed CSS classes for the placeholder icon. </summary>
-    protected string PlaceholderIconClass => Theme.RzAvatar.PlaceholderIcon;
-
-    /// <summary> Gets the computed CSS classes for the placeholder icon size. </summary>
-    protected string PlaceholderIconSizeClass => Theme.RzAvatar.GetPlaceholderSizeCss(Size);
-
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, ContainerClass ?? string.Empty, Theme.RzAvatar.GetSizeCss(Size));
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzAvatar.Container ?? string.Empty, Theme.RzAvatar.GetSizeCss(Size));
     }
 }

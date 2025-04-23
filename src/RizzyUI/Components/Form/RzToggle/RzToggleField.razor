@@ -1,20 +1,21 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
 <RzField class="@RootClass()">
-	<div class="@ContentWrapperClass">
-		<div class="@InnerWrapperClass">
-			<RzFieldLabel DisplayName="@DisplayName" For="@For" class="@LabelInFieldClass">
+	<div class="@Theme.RzToggleField.ContentWrapper">
+		<div class="@Theme.RzToggleField.InnerWrapper">
+			<RzFieldLabel DisplayName="@DisplayName" For="@For" class="@Theme.RzToggleField.LabelInField">
 				@if (Description != null)
 				{
-					<span class="@DescriptionInLabelClass">
+					<span class="@Theme.RzToggleField.DescriptionInLabel">
 						@Description
 					</span>
 				}
 			</RzFieldLabel>
 
 
-			<RzToggle For="@For" @bind-Value="CurrentValue" class="@ToggleInFieldClass"
+			<RzToggle For="@For" @bind-Value="CurrentValue" class="@Theme.RzToggleField.ToggleInField"
 			          @attributes="AdditionalAttributes"/>
 		</div>
 	</div>

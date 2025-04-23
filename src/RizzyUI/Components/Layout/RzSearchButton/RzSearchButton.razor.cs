@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+
+using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
@@ -14,13 +15,6 @@ public partial class RzSearchButton : RzComponent
 
     /// <summary> Gets or sets the text label displayed on the button and used for the aria-label. Defaults to "Search". </summary>
     [Parameter] public string Label { get; set; } = "Search";
-
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the inner div containing icon and label. </summary>
-    protected string InnerContainerClass => Theme.RzSearchButton.InnerContainer;
-
-    /// <summary> Gets the computed CSS classes for the span wrapping the search icon. </summary>
-    protected string IconSpanClass => Theme.RzSearchButton.IconSpan;
 
     /// <inheritdoc />
     protected override string? RootClass()

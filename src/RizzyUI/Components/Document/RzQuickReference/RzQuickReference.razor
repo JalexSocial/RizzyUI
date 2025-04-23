@@ -1,16 +1,17 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
 <div class="@RootClass()">
-    <p class="@TitleClass">
+    <p class="@Theme.RzQuickReference.Title">
         @Title
     </p>
-    <ul class="@ListClass">
+    <ul class="@Theme.RzQuickReference.List">
         @foreach (var heading in _headings)
         {
-            <li class="@ListItemClass @GetIndentationClass(heading.Level)">
+            <li class="@Theme.RzQuickReference.ListItem @GetIndentationClass(heading.Level)">
                 <a href="#@heading.Id"
-                   class="@LinkClass"
+                   class="@Theme.RzQuickReference.Link"
                    data-headingid="@heading.Id"
                    :class="getSelectedCss"
                    x-on:click="handleHeadingClick">
@@ -20,4 +21,3 @@
         }
     </ul>
 </div>
-

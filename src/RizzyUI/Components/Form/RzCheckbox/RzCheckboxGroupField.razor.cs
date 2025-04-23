@@ -1,3 +1,4 @@
+
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -66,10 +67,6 @@ public partial class RzCheckboxGroupField<TValue> : RzComponent
             }
         }
     }
-
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the RzCheckboxGroup when inside this field. </summary>
-    protected string GroupWithinFieldClass => Theme.RzCheckboxGroupField.GroupWithinField;
 
     /// <inheritdoc />
     protected override void OnInitialized()

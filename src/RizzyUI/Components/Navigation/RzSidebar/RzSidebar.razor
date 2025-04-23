@@ -1,30 +1,31 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
-<div x-data="rzSidebar" class="@ContainerClass">
+<div x-data="rzSidebar" class="@RootClass()">
     @if (NavbarContent != null)
     {
         @NavbarContent
     }
 
-    <div class="@LayoutContainerClass @LayoutContainerTopClass">
+    <div class="@Theme.RzSidebar.LayoutContainer @Theme.RzSidebar.GetLayoutContainerTopCss(HasNavbar)">
         <div class="@LayoutInnerContainerClass">
             <!-- Skip Link -->
-            <a class="@SkipLinkClass" href="#@MainContentId">skip to the main content</a>
+            <a class="@Theme.RzSidebar.SkipLink" href="#@MainContentId">skip to the main content</a>
 
             <!-- Mobile Overlay -->
-            <div x-cloak x-show="showSidebar" class="@OverlayClass" aria-hidden="true" x-on:click="hideSidebar"
+            <div x-cloak x-show="showSidebar" class="@Theme.RzSidebar.Overlay" aria-hidden="true" x-on:click="hideSidebar"
                  x-transition.opacity></div>
 
             <!-- Sidebar -->
-            <aside x-cloak class="@SidebarClass @SidebarTopClass" :class="getSidebarTranslation"
+            <aside x-cloak class="@Theme.RzSidebar.Sidebar @Theme.RzSidebar.GetSidebarTopCss(HasNavbar)" :class="getSidebarTranslation"
                    aria-label="sidebar navigation">
                 @MenuContent
             </aside>
 
             <!-- Main Content -->
-            <section id="@MainContentId" class="@MainContentContainerClass">
-                <div class="@MainContentPaddingClass">
+            <section id="@MainContentId" class="@Theme.RzSidebar.MainContentContainer">
+                <div class="@Theme.RzSidebar.MainContentPadding">
                     @MainContent
                 </div>
             </section>
@@ -34,7 +35,7 @@
     @if (NavbarContent == null)
     {
         <!-- Floating Toggle Button (only if no navbar) -->
-        <button class="@FloatingToggleButtonClass" x-on:click="toggleSidebar">
+        <button class="@Theme.RzSidebar.FloatingToggleButton" x-on:click="toggleSidebar">
 
             <svg x-show="showSidebar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                  class="size-5" aria-hidden="true">
@@ -50,4 +51,3 @@
         </button>
     }
 </div>
-

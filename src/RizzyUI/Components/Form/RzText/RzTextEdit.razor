@@ -1,25 +1,25 @@
+
 @namespace RizzyUI
 @using Blazicons
 @using Rizzy
 @inherits InputBase<string>
 
-<div class="@InputWrapperClass" x-data="rzPrependInput">
+<div class="@Theme.RzTextEdit.InputWrapper" x-data="rzPrependInput">
     @if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
     {
-        <div x-ref="prependContainer" class="@PrependElementClass">
+        <div x-ref="prependContainer" class="@Theme.RzTextEdit.PrependElement">
             @if (!string.IsNullOrEmpty(PrependText))
             {
                 @PrependText
             }
             else if (PrependIcon != null) // Ensure PrependIcon is not null before rendering
             {
-                <div class="@PrependIconContainerClass">
+                <div class="@Theme.RzTextEdit.PrependIconContainer">
                     <Blazicon Svg="PrependIcon"/>
                 </div>
             }
         </div>
     }
     <RzInputText x-ref="textInput" @ref="_elem" type="@_role" Value="@_value" ValueExpression="For"
-                 placeholder="@_placeholder" @attributes="AdditionalAttributes" class="@InputClass"/>
+                 placeholder="@_placeholder" @attributes="AdditionalAttributes" class="@Theme.RzTextEdit.Input"/>
 </div>
-

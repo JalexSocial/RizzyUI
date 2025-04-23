@@ -1,3 +1,4 @@
+
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
@@ -35,17 +36,6 @@ public partial class RzAlert : RzComponent
     /// <summary> Gets or sets whether to display a pulse behind the icon. </summary>
     [Parameter]
     public bool Pulse { get; set; }
-
-    // --- Properties used by Razor markup ---
-    internal string InnerContainerClass => Theme.RzAlert.InnerContainer + " " + _bgLight; // Add bgLight here
-
-    internal string IconContainerClass =>
-        Theme.RzAlert.IconContainer + (Pulse ? "" : " " + _bgLighter) + " " + _iconColor;
-
-    internal string IconPulseClass => Pulse ? Theme.RzAlert.IconPulse + " " + _bgLighter : "";
-    internal string ContentContainerClass => Theme.RzAlert.ContentContainer;
-    internal string CloseButtonClass => Theme.RzAlert.CloseButton;
-    internal string CloseButtonIconClass => Theme.RzAlert.CloseButtonIcon;
 
     /// <inheritdoc />
     protected override void OnInitialized()

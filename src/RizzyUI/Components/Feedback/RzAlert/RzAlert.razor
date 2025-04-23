@@ -1,4 +1,5 @@
-﻿@namespace RizzyUI
+
+@namespace RizzyUI
 @using Blazicons
 @inherits RzComponent
 
@@ -20,18 +21,18 @@
 	             x-transition:leave-start="opacity-100"
 	             x-transition:leave-end="opacity-0">
 
-		<div class="@InnerContainerClass">
+		<div class="@Theme.RzAlert.InnerContainer @(_bgLight)"> 
 			@if (Icon != null)
 			{
-				<div class="@IconContainerClass" aria-hidden="true">
+				<div class="@Theme.RzAlert.IconContainer @(Pulse ? "" : " " + _bgLighter) @(_iconColor)" aria-hidden="true">
 					@if (Pulse)
 					{
-						<div class="@IconPulseClass"></div>
+						<div class="@Theme.RzAlert.IconPulse @(_bgLighter)"></div>
 					}
 					<Blazicon Svg="Icon"></Blazicon>
 				</div>
 			}
-			<div class="@ContentContainerClass">
+			<div class="@Theme.RzAlert.ContentContainer">
 				@ChildContent
 			</div>
 
@@ -41,9 +42,9 @@
 					type="button"
 					x-on:click="dismiss"
 					aria-label="Close alert"
-					class="@CloseButtonClass">
+					class="@Theme.RzAlert.CloseButton">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor"
-					     fill="none" stroke-width="2.5" class="@CloseButtonIconClass">
+					     fill="none" stroke-width="2.5" class="@Theme.RzAlert.CloseButtonIcon">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
 					</svg>
 				</button>

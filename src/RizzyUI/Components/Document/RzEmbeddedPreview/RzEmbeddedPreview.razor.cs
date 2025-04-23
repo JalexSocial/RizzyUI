@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+
+using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 
 // For Task
@@ -26,13 +27,6 @@ public partial class RzEmbeddedPreview : RzComponent
 
     /// <summary> An optional Blazor layout component type to wrap the <see cref="ChildContent" /> within the iframe. </summary>
     [Parameter] public Type? Layout { get; set; }
-
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the container div. </summary>
-    protected string ContainerClass => Theme.RzEmbeddedPreview.Container;
-
-    /// <summary> Gets the computed CSS classes for the iframe element. </summary>
-    protected string IFrameClass => Theme.RzEmbeddedPreview.IFrame;
 
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync() // Use async version for RenderHtmlAsync

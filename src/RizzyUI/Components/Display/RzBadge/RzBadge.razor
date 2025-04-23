@@ -1,9 +1,10 @@
+
 @namespace RizzyUI
 @using Blazicons
 @inherits RzComponent
 
 <HtmlElement Element="span" @attributes="AdditionalAttributes" class="@RootClass()">
-    <span class="@InnerSpanClass">
+    <span class="@Theme.RzBadge.InnerSpan">
 	    <span class="flex items-center gap-1"> 
 		    @if (Icon != null)
 		    {
@@ -13,4 +14,3 @@
 	    </span>
 	</span>
 </HtmlElement>
-

@@ -30,9 +30,6 @@ public abstract partial class RzStylesBase
     /// <summary>
     ///     Defines the abstract structure for styling the <see cref="RzFieldLabel{TValue}" /> component.
     /// </summary>
-    /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzFieldLabel" /> component.
-    /// </summary>
     public abstract class RzFieldLabelStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>

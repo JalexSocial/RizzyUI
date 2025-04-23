@@ -1,3 +1,4 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
@@ -5,23 +6,23 @@
              aria-label="@AlternateText">
     @if (IndicatorVisible)
     {
-        <div class="@IndicatorClass @IndicatorSizeClass @IndicatorColorClass"></div>
+        <div class="@Theme.RzAvatar.Indicator @Theme.RzAvatar.GetIndicatorSizeCss(Size) @Theme.RzAvatar.GetIndicatorColorCss(IndicatorColor)"></div>
     }
     @if (!string.IsNullOrEmpty(ImageSource))
     {
-        <img src="@ImageSource" alt="@AlternateText" class="@ImageClass @ImageSizeClass @ImageShapeClass"/>
+        <img src="@ImageSource" alt="@AlternateText" class="@Theme.RzAvatar.Image @Theme.RzAvatar.GetSizeCss(Size) @Theme.RzAvatar.GetShapeCss(Shape)"/>
     }
     else if (!string.IsNullOrEmpty(Initials))
     {
         <div
-            class="@InitialsContainerClass @InitialsContainerSizeClass @InitialsContainerShapeClass @InitialsTextSizeClass">
+            class="@Theme.RzAvatar.InitialsContainer @Theme.RzAvatar.GetSizeCss(Size) @Theme.RzAvatar.GetShapeCss(Shape) @Theme.RzAvatar.GetInitialsSizeCss(Size)">
             @Initials
         </div>
     }
     else
     {
-        <div class="@PlaceholderContainerClass @PlaceholderContainerSizeClass @PlaceholderContainerShapeClass">
-            <svg class="@PlaceholderIconClass @PlaceholderIconSizeClass"
+        <div class="@Theme.RzAvatar.PlaceholderContainer @Theme.RzAvatar.GetSizeCss(Size) @Theme.RzAvatar.GetShapeCss(Shape)">
+            <svg class="@Theme.RzAvatar.PlaceholderIcon @Theme.RzAvatar.GetPlaceholderSizeCss(Size)"
                  fill="currentColor"
                  viewBox="0 0 20 20"
                  xmlns="http://www.w3.org/2000/svg">
@@ -33,4 +34,3 @@
         </div>
     }
 </HtmlElement>
-

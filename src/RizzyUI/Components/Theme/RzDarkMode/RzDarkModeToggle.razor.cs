@@ -1,4 +1,5 @@
-﻿using Blazicons;
+
+using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -17,10 +18,6 @@ public partial class RzDarkModeToggle : RzComponent
 
     /// <summary> Icon shown when dark mode is active (clicking enables light mode). Defaults to SunnyOutline. </summary>
     [Parameter] public SvgIcon LightIcon { get; set; } = Ionicon.SunnyOutline;
-
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the icon elements. </summary>
-    protected string IconClass => Theme.RzDarkmodeToggle.Icon;
 
     /// <inheritdoc />
     protected override string? RootClass()

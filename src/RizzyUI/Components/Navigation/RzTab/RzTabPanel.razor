@@ -1,3 +1,4 @@
+
 @inherits RzComponent
 @namespace RizzyUI
 
@@ -8,11 +9,10 @@
     role="tabpanel"
     aria-labelledby="@TabId"
     tabindex="0"
-    class="@OuterContainerClass"
+    class="@Theme.RzTabPanel.OuterContainer"
     x-cloak
 >
-    <div @attributes="AdditionalAttributes" class="@InnerContainerClass @TextColorClass">
+    <div @attributes="AdditionalAttributes" class="@RootClass()">
         @ChildContent
     </div>
 </div>
-

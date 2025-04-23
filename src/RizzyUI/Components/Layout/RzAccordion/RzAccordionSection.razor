@@ -1,23 +1,23 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
 <div x-data="rzAccordionSection" x-ref="@SectionId" data-is-open="@((!Collapsed).ToString().ToLowerInvariant())"
      data-section-id="@SectionId"
-     data-expanded-class="@ChevronIconExpandedClass">
-	<button id="@ButtonId" type="button" class="@ButtonClass" aria-controls="@ContentId"
+     data-expanded-class="@Theme.RzAccordionSection.ChevronIconExpanded">
+	<button id="@ButtonId" type="button" class="@RootClass()" aria-controls="@ContentId"
 	        x-on:click="toggle" x-bind:aria-expanded="open">
 		@Title
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
-		     stroke="currentColor" class="@ChevronIconClass" aria-hidden="true"
+		     stroke="currentColor" class="@Theme.RzAccordionSection.ChevronIcon" aria-hidden="true"
 		     x-bind:class="getExpandedCss">
 			<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
 		</svg>
 	</button>
 	<div id="@ContentId" role="region" aria-labelledby="@ButtonId"
 	     x-cloak x-show="open" x-collapse>
-		<div class="@ContentContainerClass">
+		<div class="@Theme.RzAccordionSection.ContentContainer">
 			@ChildContent
 		</div>
 	</div>
 </div>
-

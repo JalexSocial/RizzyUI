@@ -1,10 +1,11 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement Element="div" @attributes="@AdditionalAttributes" class="@ContainerClass">
-	<div x-data="rzDropdown" data-anchor="@Anchor.ToString().ToLowerInvariant()" class="@RelativeWrapperClass">
+<HtmlElement Element="div" @attributes="@AdditionalAttributes" class="@RootClass()">
+	<div x-data="rzDropdown" data-anchor="@Anchor.ToString().ToLowerInvariant()" class="@Theme.RzDropdown.RelativeWrapper">
 		<div
-			class="@TriggerWrapperClass"
+			class="@Theme.RzDropdown.TriggerWrapper"
 			aria-haspopup="true"
 			x-bind:aria-expanded="dropdownOpen"
 			x-on:click="toggleDropdown"
@@ -27,12 +28,11 @@
 		     x-on:keydown.down.prevent="focusWrapNext" x-on:keydown.up.prevent="focusWrapPrevious"
 		     role="menu"
 		     aria-labelledby="rz-dropdown-trigger"
-		     class="@MenuContainerClass"
+		     class="@Theme.RzDropdown.MenuContainer"
 		     x-bind:class="anchorCss">
-			<div class="@MenuInnerContainerClass">
+			<div class="@Theme.RzDropdown.MenuInnerContainer">
 				@Content
 			</div>
 		</div>
 	</div>
 </HtmlElement>
-

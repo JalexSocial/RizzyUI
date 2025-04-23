@@ -1,3 +1,4 @@
+
 @namespace RizzyUI
 @using Blazicons
 @inherits RzComponent
@@ -5,14 +6,13 @@
 <a role="menuitem" @attributes="AdditionalAttributes" class="@RootClass()" x-on:click="closeDropdown" tabindex="0">
 	@if (Icon != null)
 	{
-		<span class="@IconSpanClass"><Blazicon Svg="@Icon" class="@IconClass"/></span>
+		<span class="@Theme.RzDropdownMenuItem.IconSpan"><Blazicon Svg="@Icon" class="@Theme.RzDropdownMenuItem.Icon"/></span>
 	}
-	<span class="@TitleSpanClass">@Title</span>
+	<span class="@Theme.RzDropdownMenuItem.TitleSpan">@Title</span>
 	@if (Count != null)
 	{
-		<div class="@CountDivClass">
+		<div class="@Theme.RzDropdownMenuItem.CountDiv">
 			@Count
 		</div>
 	}
 </a>
-

@@ -1,3 +1,4 @@
+
 // src/RizzyUI/Components/RzDivider/RzDivider.razor.cs
 
 using Microsoft.AspNetCore.Components;

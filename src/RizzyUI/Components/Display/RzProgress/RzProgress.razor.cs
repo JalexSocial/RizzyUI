@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -38,28 +39,9 @@ public partial class RzProgress : RzComponent
     [Parameter]
     public string AriaLabel { get; set; } = "Progress Bar";
 
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the outside label container. </summary>
-    protected string OutsideLabelContainerClass => Theme.RzProgress.OutsideLabelContainer;
-
-    /// <summary> Gets the computed CSS classes for the outside label text. </summary>
-    protected string OutsideLabelTextClass => Theme.RzProgress.OutsideLabelText;
-
-    /// <summary> Gets the computed CSS classes for the outer bar (track). </summary>
-    protected string OuterBarClass => Theme.RzProgress.OuterBar;
-
-    /// <summary> Gets the computed CSS classes for the outer bar's height based on label position. </summary>
-    protected string OuterBarHeightClass => Theme.RzProgress.GetOuterBarHeightCss(LabelPosition);
-
     /// <summary> Gets the computed CSS classes for the inner bar (value), including base and variant styles. </summary>
     protected string InnerBarClass =>
         $"{Theme.RzProgress.InnerBarBase} {Theme.RzProgress.GetInnerBarVariantCss(Variant)}";
-
-    /// <summary> Gets the computed CSS classes for the inside label container. </summary>
-    protected string InsideLabelContainerClass => Theme.RzProgress.InsideLabelContainer;
-
-    /// <summary> Gets the computed CSS classes for the inside label text. </summary>
-    protected string InsideLabelTextClass => Theme.RzProgress.InsideLabelText;
 
     /// <inheritdoc />
     protected override string? RootClass()

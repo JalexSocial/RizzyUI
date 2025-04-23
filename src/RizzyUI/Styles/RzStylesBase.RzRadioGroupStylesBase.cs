@@ -36,9 +36,6 @@ public abstract partial class RzStylesBase
     /// <summary>
     ///     Defines the abstract structure for styling individual <see cref="RzRadioGroupItem{TValue}" /> components.
     /// </summary>
-    /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzRadioGroupItem" /> component.
-    /// </summary>
     public abstract class RzRadioGroupItemStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
@@ -83,9 +80,6 @@ public abstract partial class RzStylesBase
 
     /// <summary>
     ///     Defines the abstract structure for styling the <see cref="RzRadioGroupField{TValue}" /> component.
-    /// </summary>
-    /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzRadioGroupField" /> component.
     /// </summary>
     public abstract class RzRadioGroupFieldStylesBase
     {

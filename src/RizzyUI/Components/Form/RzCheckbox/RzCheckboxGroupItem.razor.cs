@@ -1,3 +1,4 @@
+
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
@@ -47,22 +48,6 @@ public partial class RzCheckboxGroupItem<TValue> : RzComponent
         }
     }
 
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the label element. </summary>
-    protected string LabelClass => Theme.RzCheckboxGroupItem.Label;
-
-    /// <summary> Gets the computed CSS classes for the checkbox wrapper div. </summary>
-    protected string CheckboxWrapperClass => Theme.RzCheckboxGroupItem.CheckboxWrapper;
-
-    /// <summary> Gets the computed CSS classes for the checkbox input element. </summary>
-    protected string CheckboxInputClass => Theme.RzCheckboxGroupItem.CheckboxInput;
-
-    /// <summary> Gets the computed CSS classes for the icon container div. </summary>
-    protected string IconContainerClass => Theme.RzCheckboxGroupItem.IconContainer;
-
-    /// <summary> Gets the computed CSS classes for the title span. </summary>
-    protected string TitleSpanClass => Theme.RzCheckboxGroupItem.TitleSpan;
-
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -93,7 +78,7 @@ public partial class RzCheckboxGroupItem<TValue> : RzComponent
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, LabelClass);
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzCheckboxGroupItem.Label);
     }
 
     /// <summary> Gets the CSS class for icon visibility based on the checked state. </summary>

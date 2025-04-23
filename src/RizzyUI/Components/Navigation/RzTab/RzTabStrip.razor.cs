@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -28,17 +29,10 @@ public partial class RzTabStrip : RzComponent
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    // --- Style Properties derived from Theme ---
-    /// <summary> Gets the computed CSS classes for the selection marker div. </summary>
-    protected string MarkerClass => Theme.RzTabStrip.Marker;
-
     /// <summary> Gets the computed CSS classes for the marker's ::after background color. </summary>
     protected string MarkerAfterBackgroundClass => Parent != null
         ? Theme.RzTabStrip.GetMarkerAfterBackgroundCss(Parent.SelectedTabUnderlineColor)
         : "";
-
-    /// <summary> Gets the computed CSS classes for the inner div within the marker. </summary>
-    protected string MarkerInnerClass => Theme.RzTabStrip.MarkerInner;
 
     /// <inheritdoc />
     protected override void OnInitialized()
