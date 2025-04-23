@@ -36,22 +36,22 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="safelist.js"/>
+        <None Include="safelist.js" />
     </ItemGroup>
 
     <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
-        <PackageReference Include="Blazicons.Ionicons" Version="2.2.18"/>
-        <PackageReference Include="Markdig" Version="0.40.0"/>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Blazicons.Ionicons" Version="2.2.18" />
+        <PackageReference Include="Markdig" Version="0.40.0" />
         <PackageReference Include="Rizzy" Version="5.1.1" />
-        <PackageReference Include="Blazicons" Version="2.1.30"/>
-        <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23"/>
-        <PackageReference Include="TailwindMerge.NET" Version="1.0.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11"/>
+        <PackageReference Include="Blazicons" Version="2.1.30" />
+        <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23" />
+        <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
     </ItemGroup>
 
     <ItemGroup>
-        <SupportedPlatform Include="browser"/>
+        <SupportedPlatform Include="browser" />
     </ItemGroup>
     
     <PropertyGroup>
@@ -61,10 +61,7 @@
         <NodeModulesStampFile>/node_modules/.install-stamp</NodeModulesStampFile>
     </PropertyGroup>
 
-    <Target Name="InstallClientPackages"
-            BeforeTargets="BuildClientAssets"
-            Inputs="$(ClientPackageDir)/rizzyui/package.json;$(ClientPackageDir)/rizzyui/package-lock.json"
-            Outputs="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)">
+    <Target Name="InstallClientPackages" BeforeTargets="BuildClientAssets" Inputs="$(ClientPackageDir)/rizzyui/package.json;$(ClientPackageDir)/rizzyui/package-lock.json" Outputs="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)">
 
         <Message Text="Ensuring npm packages are installed in $(ClientPackageDir)..." Importance="high" />
         <!-- WorkingDirectory uses the property defined above -->

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="RzAlert.CloseButtonAriaLabel" xml:space="preserve">
+    <value>Fermer l'alerte</value>
+  </data>
+  <data name="RzAvatar.DefaultAlternateText" xml:space="preserve">
+    <value>Avatar de l'utilisateur</value>
+  </data>
+  <data name="RzBreadcrumb.AriaLabel" xml:space="preserve">
+    <value>fil d'Ariane</value>
+  </data>
+  <data name="RzBrowser.DesktopScreenTitle" xml:space="preserve">
+    <value>Écran du bureau</value>
+  </data>
+  <data name="RzBrowser.TabletScreenTitle" xml:space="preserve">
+    <value>Écran de tablette</value>
+  </data>
+  <data name="RzBrowser.PhoneScreenTitle" xml:space="preserve">
+    <value>Écran de téléphone</value>
+  </data>
+  <data name="RzButton.AssistiveLabelDefault" xml:space="preserve">
+    <value>Bouton d'action</value>
+  </data>
+  <data name="RzCodeViewer.DefaultViewerTitle" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="RzCodeViewer.CopyButtonAriaLabel" xml:space="preserve">
+    <value>copier le code</value>
+  </data>
+  <data name="RzCodeViewer.CopyButtonTitleCopy" xml:space="preserve">
+    <value>copie</value>
+  </data>
+  <data name="RzCodeViewer.CopyButtonTitleCopied" xml:space="preserve">
+    <value>copié</value>
+  </data>
+  <data name="RzCodeViewer.ExpandButtonAriaLabel" xml:space="preserve">
+    <value>développer le conteneur de code</value>
+  </data>
+  <data name="RzDarkModeToggle.AriaLabel" xml:space="preserve">
+    <value>Activer le mode sombre</value>
+  </data>
+  <data name="RzDateEdit.AriaLabel" xml:space="preserve">
+    <value>Sélecteur de date</value>
+  </data>
+  <data name="RzDateEdit.InputAriaLabel" xml:space="preserve">
+    <value>Sélectionnez la date</value>
+  </data>
+  <data name="RzNavbar.ToggleButtonScreenReaderTextDefault" xml:space="preserve">
+    <value>Basculer la navigation latérale</value>
+  </data>
+  <data name="RzProgress.DefaultAriaLabel" xml:space="preserve">
+    <value>Barre de progression</value>
+  </data>
+  <data name="RzQuickReference.DefaultTitle" xml:space="preserve">
+    <value>Sur cette page</value>
+  </data>
+  <data name="RzSearchButton.DefaultLabel" xml:space="preserve">
+    <value>Recherche</value>
+  </data>
+  <data name="RzSidebar.SkipLinkText" xml:space="preserve">
+    <value>passer au contenu principal</value>
+  </data>
+  <data name="RzSidebar.FloatingToggleButtonSrText" xml:space="preserve">
+    <value>bascule de la barre latérale</value>
+  </data>
+  <data name="RzSteps.DefaultAriaLabel" xml:space="preserve">
+    <value>étapes de progression</value>
+  </data>
+  <data name="RzSteps.CompletedStepSrText" xml:space="preserve">
+    <value>complété</value>
+  </data>
+</root>
