@@ -4,51 +4,51 @@
 @inherits RzComponent
 
 <CascadingValue Value="this" IsFixed="true">
-	<HtmlElement Element="@Element"
-	             @attributes="@AdditionalAttributes"
-	             class="@RootClass()"
-	             role="alert"
-	             aria-live="assertive"
-	             aria-labelledby="rzalert-title"
-	             aria-describedby="rzalert-description"
-	             x-cloak
-	             x-show="showAlert"
-	             x-data="rzAlert"
-	             x-transition:enter="transition ease-out duration-200"
-	             x-transition:enter-start="opacity-0"
-	             x-transition:enter-end="opacity-100"
-	             x-transition:leave="transition ease-in duration-100"
-	             x-transition:leave-start="opacity-100"
-	             x-transition:leave-end="opacity-0">
+    <HtmlElement Element="@Element"
+                 @attributes="@AdditionalAttributes"
+                 class="@RootClass()"
+                 role="alert"
+                 aria-live="assertive"
+                 aria-labelledby="rzalert-title"
+                 aria-describedby="rzalert-description"
+                 x-cloak
+                 x-show="showAlert"
+                 x-data="rzAlert"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition ease-in duration-100"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0">
 
-		<div class="@Theme.RzAlert.InnerContainer @(_bgLight)"> 
-			@if (Icon != null)
-			{
-				<div class="@Theme.RzAlert.IconContainer @(Pulse ? "" : " " + _bgLighter) @(_iconColor)" aria-hidden="true">
-					@if (Pulse)
-					{
-						<div class="@Theme.RzAlert.IconPulse @(_bgLighter)"></div>
-					}
-					<Blazicon Svg="Icon"></Blazicon>
-				</div>
-			}
-			<div class="@Theme.RzAlert.ContentContainer">
-				@ChildContent
-			</div>
+        <div class="@Theme.RzAlert.InnerContainer @(_bgLight)">
+            @if (Icon != null)
+            {
+                <div class="@Theme.RzAlert.IconContainer @(Pulse ? "" : " " + _bgLighter) @(_iconColor)" aria-hidden="true">
+                    @if (Pulse)
+                    {
+                        <div class="@Theme.RzAlert.IconPulse @(_bgLighter)"></div>
+                    }
+                    <Blazicon Svg="Icon"></Blazicon>
+                </div>
+            }
+            <div class="@Theme.RzAlert.ContentContainer">
+                @ChildContent
+            </div>
 
-			@if (Dismissable)
-			{
-				<button
-					type="button"
-					x-on:click="dismiss"
-					aria-label="Close alert"
-					class="@Theme.RzAlert.CloseButton">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor"
-					     fill="none" stroke-width="2.5" class="@Theme.RzAlert.CloseButtonIcon">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-					</svg>
-				</button>
-			}
-		</div>
-	</HtmlElement>
+            @if (Dismissable)
+            {
+                <button
+                    type="button"
+                    x-on:click="dismiss"
+                    aria-label="@Localizer["RzAlert.CloseButtonAriaLabel"]"
+                    class="@Theme.RzAlert.CloseButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor"
+                         fill="none" stroke-width="2.5" class="@Theme.RzAlert.CloseButtonIcon">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            }
+        </div>
+    </HtmlElement>
 </CascadingValue>

@@ -6,6 +6,11 @@ internal class Constants
     ///     Package name
     /// </summary>
     public const string PackageName = "RizzyUI";
+    
+    /// <summary>
+    /// Conventional name for RizzyLocalization override resource files.
+    /// </summary>
+    internal const string RizzyLocalizationResourceName = "RizzyLocalization";
 
     /// <summary>
     ///     Resolves path to internal package assets

@@ -4,17 +4,17 @@
 @inherits RzComponent
 
 <HtmlElement Element="button"
-             @attributes="AdditionalAttributes"
+             @attributes="@AdditionalAttributes"
              class="@RootClass()"
              type="button"
-             aria-label="Toggle dark mode"
+             aria-label="@Localizer["RzDarkModeToggle.AriaLabel"]"
              x-data="rzDarkModeToggle"
              x-on:click="toggle"
              :aria-pressed="isDark">
-	<div x-show="isLight" x-cloak>
-		<Blazicon Svg="@DarkIcon" class="@Theme.RzDarkmodeToggle.Icon"/>
-	</div>
-	<div x-show="isDark" x-cloak>
-		<Blazicon Svg="@LightIcon" class="@Theme.RzDarkmodeToggle.Icon"/>
-	</div>
+    <div x-show="isLight" x-cloak>
+        <Blazicon Svg="@DarkIcon" class="@Theme.RzDarkmodeToggle.Icon"/>
+    </div>
+    <div x-show="isDark" x-cloak>
+        <Blazicon Svg="@LightIcon" class="@Theme.RzDarkmodeToggle.Icon"/>
+    </div>
 </HtmlElement>

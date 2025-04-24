@@ -1,5 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
+
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization; // Required for IStringLocalizer
 using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
 using TailwindMerge;
@@ -7,74 +10,120 @@ using TailwindMerge;
 namespace RizzyUI;
 
 /// <summary>
-///     Base class for all RizzyUI components
+/// Base class for all RizzyUI components, providing common functionality
+/// such as theme access, attribute merging, nonce handling, and localization support.
 /// </summary>
-public class RzComponent : ComponentBase
+public abstract class RzComponent : ComponentBase
 {
     private string? _nonce;
 
-    /// <summary> Get the currently active theme via Cascading Parameter </summary>
+    /// <summary>
+    /// Gets the currently active theme instance via Cascading Parameter.
+    /// This allows components to access theme settings defined by <see cref="RzThemeProvider"/>.
+    /// </summary>
     [CascadingParameter]
     protected RzTheme? CascadedTheme { get; set; }
 
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
+    /// <summary>
+    /// Injected configuration options for RizzyUI. Used primarily to access the default theme
+    /// if no theme is provided via the cascading parameter.
+    /// </summary>
     [Inject]
     private IOptions<RizzyUIConfig>? Config { get; set; }
-    
-    /// <summary> The effective theme being used (Cascaded or Default). </summary>
-    protected RzTheme Theme { get; private set; } = RzTheme.Default;
-    
+
     /// <summary>
-    ///     Reference to Tailwind Merge service
+    /// Gets the Tailwind Merge service instance, used for intelligently merging
+    /// Tailwind CSS classes, resolving conflicts, and removing redundancies.
     /// </summary>
     [Inject]
     protected TwMerge TwMerge { get; set; } = default!;
 
     /// <summary>
-    ///     NonceProvider service that provides scoped per-request nonce values to RizzyUI
-    ///     components
+    /// Gets the nonce provider service, which supplies per-request nonce values
+    /// required for Content Security Policy (CSP) compliance when components
+    /// generate or load dynamic scripts or styles.
     /// </summary>
     [Inject]
     protected IRizzyNonceProvider RizzyNonceProvider { get; set; } = default!;
 
     /// <summary>
-    ///     Specifies the root HTML element to render (e.g., "div", "a", "button").
-    ///     If not set, defaults to "div".
+    /// Gets the string localizer instance configured for RizzyUI.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This localizer uses <see cref="RizzyLocalization"/> as its marker type. If the consuming
+    /// application has configured localization overrides via <see cref="RizzyUIConfig"/> (by setting
+    /// <see cref="RizzyUIConfig.LocalizationResourceType"/> or <see cref="RizzyUIConfig.LocalizationResourceLocation"/>),
+    /// this instance will prioritize the application's resources before falling back to
+    /// RizzyUI's embedded defaults.
+    /// </para>
+    /// <para>
+    /// Use this property within derived components to access localized default strings, e.g.,
+    /// <c>Localizer["RzButton.AssistiveLabelDefault"]</c>. The keys should follow the
+    /// convention `ComponentName.ResourceKey`.
+    /// </para>
+    /// <para>
+    /// For localizing text provided *by* the consuming application (e.g., via `Label` or
+    /// `Title` parameters), the application should use its own <see cref="IStringLocalizer{T}"/> instance
+    /// before passing the localized string to the component parameter.
+    /// </para>
+    /// </remarks>
+    [Inject]
+    protected IStringLocalizer<RizzyLocalization> Localizer { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the HTML element tag name to be rendered as the root of this component.
+    /// Defaults to "div". Derived components can override this in their `OnInitialized` method if needed.
     /// </summary>
     [Parameter]
     public string Element { get; set; } = "div";
 
     /// <summary>
-    ///     Captures any additional unmatched attributes
+    /// Captures unmatched HTML attributes passed to the component. These attributes are typically
+    /// applied to the root element rendered by the component. Use the `class` attribute here
+    /// for additional CSS classes; they will be merged with the component's base classes.
     /// </summary>
-    [SuppressMessage("Usage", "CA2227:Collection properties should be read only",
-        Justification = "False positive. This is a parameter.")]
+    [SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Required by Blazor for parameter capture.")]
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     /// <summary>
-    ///     Nonce values used if component requires dynamic script loading.  If needed, Nonce
-    ///     should be updated by calling Nonce = RizzyNonceProvider.GetNonce() in OnParametersSet
-    ///     to match scoped nonce value
+    /// Gets the effective theme instance being used by this component. It prioritizes the
+    /// theme cascaded from <see cref="RzThemeProvider"/>, falling back to the configured
+    /// default theme (<see cref="RizzyUIConfig.DefaultTheme"/>), and finally to the library's
+    /// hardcoded default (<see cref="RzTheme.Default"/>).
+    /// </summary>
+    protected RzTheme Theme { get; private set; } = RzTheme.Default;
+
+    /// <summary>
+    /// Gets the Content Security Policy (CSP) nonce value for the current HTTP request.
+    /// This value is retrieved once per component instance from the <see cref="RizzyNonceProvider"/>
+    /// and should be applied to inline `<script>` or `<style>` tags generated by the component, if any,
+    /// to comply with strict CSP directives.
     /// </summary>
     protected string Nonce => _nonce ??= RizzyNonceProvider.GetNonce();
 
     /// <summary>
-    ///     Method that provides a set of CSS root classes to the component
+    /// Calculates the final CSS class string for the component's root element by merging
+    /// base classes defined by the theme (if overridden) with any additional classes
+    /// provided via the `class` attribute in <see cref="AdditionalAttributes"/>.
+    /// Derived components MUST override this method to include their specific base classes.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A string containing the merged CSS classes, or null/empty if no classes are applicable.</returns>
     protected virtual string? RootClass()
     {
-        return AdditionalAttributes?.GetValueOrDefault("class", string.Empty).ToString();
+        // Base implementation only handles the 'class' attribute from AdditionalAttributes.
+        // Derived components should override and use TwMerge.Merge(AdditionalAttributes, baseClass, ...)
+        return AdditionalAttributes?.GetValueOrDefault("class", string.Empty)?.ToString();
     }
 
     /// <summary>
-    ///  Configure the theme based on the CascadedTheme or the default theme from the configuration.
+    /// Initializes the component and resolves the effective theme.
     /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+        // Resolve the theme instance based on cascade or config/default.
         Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
     }
 }
