@@ -117,25 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-
   <!-- RzAlert -->
   <data name="RzAlert.CloseButtonAriaLabel" xml:space="preserve">
     <value>Close alert</value>
     <comment>Aria-label for the close button on the alert component.</comment>
   </data>
-
   <!-- RzAvatar -->
   <data name="RzAvatar.DefaultAlternateText" xml:space="preserve">
     <value>User Avatar</value>
     <comment>Default alt text for the avatar image if DisplayName is not provided.</comment>
   </data>
-
   <!-- RzBreadcrumb -->
   <data name="RzBreadcrumb.AriaLabel" xml:space="preserve">
     <value>breadcrumb</value>
     <comment>Aria-label for the breadcrumb navigation container.</comment>
   </data>
-
   <!-- RzBrowser -->
   <data name="RzBrowser.DesktopScreenTitle" xml:space="preserve">
     <value>Desktop Screen</value>
@@ -149,13 +145,11 @@
     <value>Phone Screen</value>
     <comment>Title attribute for the phone screen size button in the browser simulation.</comment>
   </data>
-
   <!-- RzButton -->
   <data name="RzButton.AssistiveLabelDefault" xml:space="preserve">
     <value>Action Button</value>
     <comment>Default aria-label for a button component if not explicitly specified.</comment>
   </data>
-
   <!-- RzCodeViewer -->
   <data name="RzCodeViewer.DefaultViewerTitle" xml:space="preserve">
     <value>Source</value>
@@ -177,13 +171,11 @@
     <value>expand the code container</value>
     <comment>Aria-label for the button that expands/collapses the code view.</comment>
   </data>
-
   <!-- RzDarkModeToggle -->
   <data name="RzDarkModeToggle.AriaLabel" xml:space="preserve">
     <value>Toggle dark mode</value>
     <comment>Aria-label for the button that toggles between light and dark themes.</comment>
   </data>
-
   <!-- RzDateEdit -->
   <data name="RzDateEdit.AriaLabel" xml:space="preserve">
     <value>Date picker</value>
@@ -193,32 +185,27 @@
     <value>Select date</value>
     <comment>Aria-label specifically for the date input field.</comment>
   </data>
-
   <!-- RzNavbar -->
   <data name="RzNavbar.ToggleButtonScreenReaderTextDefault" xml:space="preserve">
     <value>Toggle side navigation</value>
     <comment>Default screen reader text for the mobile navigation toggle button.</comment>
   </data>
-
   <!-- RzProgress -->
   <data name="RzProgress.DefaultAriaLabel" xml:space="preserve">
     <value>Progress Bar</value>
     <comment>Default aria-label for the progress bar component if not explicitly specified.</comment>
   </data>
   <!-- Note: RzProgress.DefaultLabelFormat ({percent}%) is handled in JS -->
-
   <!-- RzQuickReference -->
   <data name="RzQuickReference.DefaultTitle" xml:space="preserve">
     <value>On this page</value>
     <comment>Default title displayed above the quick reference link list.</comment>
   </data>
-
   <!-- RzSearchButton -->
   <data name="RzSearchButton.DefaultLabel" xml:space="preserve">
     <value>Search</value>
     <comment>Default text label and aria-label for the search button if not explicitly specified.</comment>
   </data>
-
   <!-- RzSidebar -->
   <data name="RzSidebar.SkipLinkText" xml:space="preserve">
     <value>skip to the main content</value>
@@ -228,7 +215,6 @@
     <value>sidebar toggle</value>
     <comment>Screen reader text for the floating sidebar toggle button (used when no navbar).</comment>
   </data>
-
   <!-- RzSteps -->
   <data name="RzSteps.DefaultAriaLabel" xml:space="preserve">
     <value>steps progress</value>
@@ -238,72 +224,26 @@
     <value>completed</value>
     <comment>Screen reader text announced for a completed step indicator.</comment>
   </data>
-
   <!-- RzBrowser -->
   <data name="RzBrowser.ScreenSizeGroupAriaLabel" xml:space="preserve">
     <value>Select preview screen size</value>
     <comment>Aria-label for the group of buttons controlling the simulated screen size.</comment>
   </data>
-  <data name="RzBrowser.DesktopScreenTitle" xml:space="preserve">
-    <value>Desktop Screen</value>
-    <comment>Title attribute and aria-label for the desktop screen size button in the browser simulation.</comment>
-  </data>
-  <data name="RzBrowser.TabletScreenTitle" xml:space="preserve">
-    <value>Tablet Screen</value>
-    <comment>Title attribute and aria-label for the tablet screen size button in the browser simulation.</comment>
-  </data>
-  <data name="RzBrowser.PhoneScreenTitle" xml:space="preserve">
-    <value>Phone Screen</value>
-    <comment>Title attribute and aria-label for the phone screen size button in the browser simulation.</comment>
-  </data>
-
   <!-- RzCodeViewer -->
-  <data name="RzCodeViewer.CopyButtonAriaLabel" xml:space="preserve">
-    <value>Copy code to clipboard</value>
-    <comment>Aria-label for the copy-to-clipboard button.</comment>
-  </data>
-  <data name="RzCodeViewer.CopyButtonTitleCopy" xml:space="preserve">
-    <value>Copy</value>
-    <comment>Title attribute/tooltip text for the copy button before copying.</comment>
-  </data>
-  <data name="RzCodeViewer.CopyButtonTitleCopied" xml:space="preserve">
-    <value>Copied!</value>
-    <comment>Title attribute/tooltip text for the copy button after copying.</comment>
-  </data>
-  <data name="RzCodeViewer.ExpandButtonAriaLabel" xml:space="preserve">
-    <value>Expand or collapse the code container</value>
-    <comment>Aria-label for the button that expands/collapses the code view.</comment>
-  </data>
-  <data name="RzCodeViewer.DefaultViewerTitle" xml:space="preserve">
-    <value>Source</value>
-    <comment>Default title displayed in the header of the code viewer component.</comment>
-  </data>
-
   <!-- RzQuickReference -->
-  <data name="RzQuickReference.DefaultTitle" xml:space="preserve">
-    <value>On this page</value>
-    <comment>Default title displayed above the quick reference link list.</comment>
-  </data>
   <data name="RzQuickReference.DefaultAriaLabel" xml:space="preserve">
     <value>On this page navigation</value>
     <comment>Default aria-label for the quick reference navigation container.</comment>
   </data>
-
   <!-- RzArticle -->
   <data name="RzArticle.DefaultAsideAriaLabel" xml:space="preserve">
     <value>Supplementary Content</value>
     <comment>Default aria-label for the aside element in the RzArticle component.</comment>
   </data>
-
-<!-- RzEmbeddedPreview -->
+  <!-- RzEmbeddedPreview -->
   <data name="RzEmbeddedPreview.DefaultIFrameTitle" xml:space="preserve">
     <value>Embedded Content Preview</value>
     <comment>Default title attribute for the iframe in the RzEmbeddedPreview component, used for accessibility.</comment>
   </data>
-
   <!-- RzAlert -->
-  <data name="RzAlert.CloseButtonAriaLabel" xml:space="preserve">
-    <value>Close alert</value>
-    <comment>Aria-label for the close button on the alert component.</comment>
-  </data>
 </root>

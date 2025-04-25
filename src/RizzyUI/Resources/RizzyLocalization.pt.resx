@@ -13,25 +13,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="RzAlert.CloseButtonAriaLabel" xml:space="preserve">
-    <value>Alerta de fechamento</value>
+    <value>Fechar alerta</value>
   </data>
   <data name="RzAvatar.DefaultAlternateText" xml:space="preserve">
-    <value>Avatar do usuário</value>
+    <value>Avatar do Usuário</value>
   </data>
   <data name="RzBreadcrumb.AriaLabel" xml:space="preserve">
-    <value>migalha de pão</value>
+    <value>caminho de navegação</value>
   </data>
   <data name="RzBrowser.DesktopScreenTitle" xml:space="preserve">
-    <value>Tela da área de trabalho</value>
+    <value>Tela de Desktop</value>
   </data>
   <data name="RzBrowser.TabletScreenTitle" xml:space="preserve">
-    <value>Tela do tablet</value>
+    <value>Tela de Tablet</value>
   </data>
   <data name="RzBrowser.PhoneScreenTitle" xml:space="preserve">
-    <value>Tela do telefone</value>
+    <value>Tela do Telefone</value>
   </data>
   <data name="RzButton.AssistiveLabelDefault" xml:space="preserve">
-    <value>Botão de ação</value>
+    <value>Botão de Ação</value>
   </data>
   <data name="RzCodeViewer.DefaultViewerTitle" xml:space="preserve">
     <value>Fonte</value>
@@ -40,7 +40,7 @@
     <value>copiar código</value>
   </data>
   <data name="RzCodeViewer.CopyButtonTitleCopy" xml:space="preserve">
-    <value>cópia</value>
+    <value>copiar</value>
   </data>
   <data name="RzCodeViewer.CopyButtonTitleCopied" xml:space="preserve">
     <value>copiado</value>
@@ -55,30 +55,42 @@
     <value>Seletor de data</value>
   </data>
   <data name="RzDateEdit.InputAriaLabel" xml:space="preserve">
-    <value>Selecione a data</value>
+    <value>Selecionar data</value>
   </data>
   <data name="RzNavbar.ToggleButtonScreenReaderTextDefault" xml:space="preserve">
     <value>Alternar navegação lateral</value>
   </data>
   <data name="RzProgress.DefaultAriaLabel" xml:space="preserve">
-    <value>Barra de progresso</value>
+    <value>Barra de Progresso</value>
   </data>
   <data name="RzQuickReference.DefaultTitle" xml:space="preserve">
     <value>Nesta página</value>
   </data>
   <data name="RzSearchButton.DefaultLabel" xml:space="preserve">
-    <value>Procurar</value>
+    <value>Buscar</value>
   </data>
   <data name="RzSidebar.SkipLinkText" xml:space="preserve">
-    <value>pular para o conteúdo principal</value>
+    <value>ir para o conteúdo principal</value>
   </data>
   <data name="RzSidebar.FloatingToggleButtonSrText" xml:space="preserve">
     <value>alternar barra lateral</value>
   </data>
   <data name="RzSteps.DefaultAriaLabel" xml:space="preserve">
-    <value>passos de progresso</value>
+    <value>progresso dos passos</value>
   </data>
   <data name="RzSteps.CompletedStepSrText" xml:space="preserve">
     <value>concluído</value>
+  </data>
+  <data name="RzBrowser.ScreenSizeGroupAriaLabel" xml:space="preserve">
+    <value>Selecionar tamanho da tela de visualização</value>
+  </data>
+  <data name="RzQuickReference.DefaultAriaLabel" xml:space="preserve">
+    <value>Navegação nesta página</value>
+  </data>
+  <data name="RzArticle.DefaultAsideAriaLabel" xml:space="preserve">
+    <value>Conteúdo Suplementar</value>
+  </data>
+  <data name="RzEmbeddedPreview.DefaultIFrameTitle" xml:space="preserve">
+    <value>Pré-visualização de Conteúdo Incorporado</value>
   </data>
 </root>

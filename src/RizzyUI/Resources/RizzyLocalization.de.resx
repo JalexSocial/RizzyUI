@@ -13,19 +13,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="RzAlert.CloseButtonAriaLabel" xml:space="preserve">
-    <value>Warnung schließen</value>
+    <value>Alarm schließen</value>
   </data>
   <data name="RzAvatar.DefaultAlternateText" xml:space="preserve">
-    <value>Benutzer-Avatar</value>
+    <value>Benutzeravatar</value>
   </data>
   <data name="RzBreadcrumb.AriaLabel" xml:space="preserve">
-    <value>Semmelbrösel</value>
+    <value>Brotkrümel</value>
   </data>
   <data name="RzBrowser.DesktopScreenTitle" xml:space="preserve">
     <value>Desktop-Bildschirm</value>
   </data>
   <data name="RzBrowser.TabletScreenTitle" xml:space="preserve">
-    <value>Tablet-Bildschirm</value>
+    <value>Tablett-Bildschirm</value>
   </data>
   <data name="RzBrowser.PhoneScreenTitle" xml:space="preserve">
     <value>Telefonbildschirm</value>
@@ -40,13 +40,13 @@
     <value>Code kopieren</value>
   </data>
   <data name="RzCodeViewer.CopyButtonTitleCopy" xml:space="preserve">
-    <value>Kopie</value>
+    <value>kopieren</value>
   </data>
   <data name="RzCodeViewer.CopyButtonTitleCopied" xml:space="preserve">
     <value>kopiert</value>
   </data>
   <data name="RzCodeViewer.ExpandButtonAriaLabel" xml:space="preserve">
-    <value>Erweitern Sie den Codecontainer</value>
+    <value>den Code-Container erweitern</value>
   </data>
   <data name="RzDarkModeToggle.AriaLabel" xml:space="preserve">
     <value>Dunkelmodus umschalten</value>
@@ -55,10 +55,10 @@
     <value>Datumsauswahl</value>
   </data>
   <data name="RzDateEdit.InputAriaLabel" xml:space="preserve">
-    <value>Datum wählen</value>
+    <value>Datum auswählen</value>
   </data>
   <data name="RzNavbar.ToggleButtonScreenReaderTextDefault" xml:space="preserve">
-    <value>Seitennavigation umschalten</value>
+    <value>Seitenmenü umschalten</value>
   </data>
   <data name="RzProgress.DefaultAriaLabel" xml:space="preserve">
     <value>Fortschrittsbalken</value>
@@ -67,18 +67,30 @@
     <value>Auf dieser Seite</value>
   </data>
   <data name="RzSearchButton.DefaultLabel" xml:space="preserve">
-    <value>Suchen</value>
+    <value>Suche</value>
   </data>
   <data name="RzSidebar.SkipLinkText" xml:space="preserve">
-    <value>zum Hauptinhalt springen</value>
+    <value>Zum Hauptinhalt springen</value>
   </data>
   <data name="RzSidebar.FloatingToggleButtonSrText" xml:space="preserve">
     <value>Seitenleisten-Umschalter</value>
   </data>
   <data name="RzSteps.DefaultAriaLabel" xml:space="preserve">
-    <value>Schritte Fortschritt</value>
+    <value>Fortschritt der Schritte</value>
   </data>
   <data name="RzSteps.CompletedStepSrText" xml:space="preserve">
-    <value>vollendet</value>
+    <value>abgeschlossen</value>
+  </data>
+  <data name="RzBrowser.ScreenSizeGroupAriaLabel" xml:space="preserve">
+    <value>Vorschau-Bildschirmgröße auswählen</value>
+  </data>
+  <data name="RzQuickReference.DefaultAriaLabel" xml:space="preserve">
+    <value>Auf dieser Seite Navigation</value>
+  </data>
+  <data name="RzArticle.DefaultAsideAriaLabel" xml:space="preserve">
+    <value>Ergänzende Inhalte</value>
+  </data>
+  <data name="RzEmbeddedPreview.DefaultIFrameTitle" xml:space="preserve">
+    <value>Eingebettete Inhaltsvorschau</value>
   </data>
 </root>
