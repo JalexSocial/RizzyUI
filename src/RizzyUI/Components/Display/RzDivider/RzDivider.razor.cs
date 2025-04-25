@@ -13,6 +13,11 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzDivider : RzComponent
 {
+    // Used for Tailwind class discovery
+#pragma warning disable CS0414 // Field is assigned but its value is never used
+    private static readonly string TwDiscovery = "after:border-solid after:border-dashed after:border-dotted before:border-solid before:border-dashed before:border-dotted";
+#pragma warning restore CS0414 // Field is assigned but its value is never used
+    
     /// <summary> The style of the dividing line (Solid, Dashed, Dotted). Defaults to Solid. </summary>
     [Parameter] public DividerStyle Style { get; set; } = DividerStyle.Solid;
 
