@@ -5,12 +5,11 @@ using RizzyUI.Extensions;
 namespace RizzyUI;
 
 /// <xmldoc>
-///     Represents the title section (<c>h3</c>) for an <see cref="RzAlert" /> component.
+///     Represents the title section (defaults to <c>h3</c>) for an <see cref="RzAlert" /> component.
 ///     Its text color is determined by the parent alert's variant and the active <see cref="RzTheme" />.
 /// </xmldoc>
 public partial class RzAlertTitle : RzComponent
 {
-    /// <summary> Injected configuration to get the default theme as fallback. </summary>
     private string _variantTextClass = string.Empty;
 
     /// <summary> Gets the parent <see cref="RzAlert" /> component to determine the variant. </summary>
@@ -23,8 +22,7 @@ public partial class RzAlertTitle : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        Element = "h3";
+        Element = "h3"; // Default semantic level for an alert title within its context
     }
 
     /// <inheritdoc />

@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary>
@@ -32,7 +33,7 @@ public abstract partial class RzStylesBase
         /// <summary> Gets the CSS classes for the div wrapping the alert icon. </summary>
         public abstract string IconContainer { get; }
 
-        /// <summary> Gets the CSS classes for the pulsing animation div behind the icon (when applicable). </summary>
+        /// <summary> Gets the CSS classes for the pulsing animation div behind the icon (when applicable). Includes motion reduction. </summary>
         public abstract string IconPulse { get; }
 
         /// <summary> Gets the CSS classes for the div containing the alert title and description. </summary>
@@ -68,9 +69,6 @@ public abstract partial class RzStylesBase
     /// <summary>
     ///     Defines the abstract structure for styling the <see cref="RzAlertTitle" /> component.
     /// </summary>
-    /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzAlertTitle" /> component.
-    /// </summary>
     public abstract class RzAlertTitleStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
@@ -82,7 +80,7 @@ public abstract partial class RzStylesBase
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the RzAlertTitle h3 element. </summary>
+        /// <summary> Gets the base CSS classes for the RzAlertTitle element (e.g., h3). </summary>
         public abstract string Title { get; }
 
         /// <summary> Gets the variant-specific text color CSS class for the alert title. </summary>
@@ -91,9 +89,6 @@ public abstract partial class RzStylesBase
         public abstract string GetVariantTextColorCss(AlertVariant? variant);
     }
 
-    /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzAlertDescription" /> component.
-    /// </summary>
     /// <summary>
     ///     Defines the abstract structure for styling the <see cref="RzAlertDescription" /> component.
     /// </summary>
@@ -108,7 +103,7 @@ public abstract partial class RzStylesBase
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the RzAlertDescription p element. </summary>
+        /// <summary> Gets the base CSS classes for the RzAlertDescription element (e.g., p). </summary>
         public abstract string Description { get; }
     }
 

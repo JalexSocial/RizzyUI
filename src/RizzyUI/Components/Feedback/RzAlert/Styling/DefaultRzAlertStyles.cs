@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <inheritdoc />
@@ -22,10 +23,10 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
         "absolute animate-ping motion-reduce:animate-none size-6 aspect-square rounded-full";
 
     /// <inheritdoc />
-    public override string ContentContainer => "ml-2";
+    public override string ContentContainer => "ml-2 flex-grow"; // Added flex-grow
 
     /// <inheritdoc />
-    public override string CloseButton => "ml-auto";
+    public override string CloseButton => "ml-auto self-start p-1 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary dark:focus-visible:ring-offset-surface-dark"; // Added focus styles
 
     /// <inheritdoc />
     public override string CloseButtonIcon => "shrink-0 h-4 w-4";
