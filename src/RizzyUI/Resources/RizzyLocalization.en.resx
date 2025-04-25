@@ -239,4 +239,65 @@
     <comment>Screen reader text announced for a completed step indicator.</comment>
   </data>
 
+  <!-- RzBrowser -->
+  <data name="RzBrowser.ScreenSizeGroupAriaLabel" xml:space="preserve">
+    <value>Select preview screen size</value>
+    <comment>Aria-label for the group of buttons controlling the simulated screen size.</comment>
+  </data>
+  <data name="RzBrowser.DesktopScreenTitle" xml:space="preserve">
+    <value>Desktop Screen</value>
+    <comment>Title attribute and aria-label for the desktop screen size button in the browser simulation.</comment>
+  </data>
+  <data name="RzBrowser.TabletScreenTitle" xml:space="preserve">
+    <value>Tablet Screen</value>
+    <comment>Title attribute and aria-label for the tablet screen size button in the browser simulation.</comment>
+  </data>
+  <data name="RzBrowser.PhoneScreenTitle" xml:space="preserve">
+    <value>Phone Screen</value>
+    <comment>Title attribute and aria-label for the phone screen size button in the browser simulation.</comment>
+  </data>
+
+  <!-- RzCodeViewer -->
+  <data name="RzCodeViewer.CopyButtonAriaLabel" xml:space="preserve">
+    <value>Copy code to clipboard</value>
+    <comment>Aria-label for the copy-to-clipboard button.</comment>
+  </data>
+  <data name="RzCodeViewer.CopyButtonTitleCopy" xml:space="preserve">
+    <value>Copy</value>
+    <comment>Title attribute/tooltip text for the copy button before copying.</comment>
+  </data>
+  <data name="RzCodeViewer.CopyButtonTitleCopied" xml:space="preserve">
+    <value>Copied!</value>
+    <comment>Title attribute/tooltip text for the copy button after copying.</comment>
+  </data>
+  <data name="RzCodeViewer.ExpandButtonAriaLabel" xml:space="preserve">
+    <value>Expand or collapse the code container</value>
+    <comment>Aria-label for the button that expands/collapses the code view.</comment>
+  </data>
+  <data name="RzCodeViewer.DefaultViewerTitle" xml:space="preserve">
+    <value>Source</value>
+    <comment>Default title displayed in the header of the code viewer component.</comment>
+  </data>
+
+  <!-- RzQuickReference -->
+  <data name="RzQuickReference.DefaultTitle" xml:space="preserve">
+    <value>On this page</value>
+    <comment>Default title displayed above the quick reference link list.</comment>
+  </data>
+  <data name="RzQuickReference.DefaultAriaLabel" xml:space="preserve">
+    <value>On this page navigation</value>
+    <comment>Default aria-label for the quick reference navigation container.</comment>
+  </data>
+
+  <!-- RzArticle -->
+  <data name="RzArticle.DefaultAsideAriaLabel" xml:space="preserve">
+    <value>Supplementary Content</value>
+    <comment>Default aria-label for the aside element in the RzArticle component.</comment>
+  </data>
+
+<!-- RzEmbeddedPreview -->
+  <data name="RzEmbeddedPreview.DefaultIFrameTitle" xml:space="preserve">
+    <value>Embedded Content Preview</value>
+    <comment>Default title attribute for the iframe in the RzEmbeddedPreview component, used for accessibility.</comment>
+  </data>  
 </root>

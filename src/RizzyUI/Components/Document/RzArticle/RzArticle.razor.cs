@@ -35,6 +35,30 @@ public partial class RzArticle : RzComponent
     [Parameter]
     public bool IsSideFixed { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets the aria-label for the aside element, providing context for screen readers.
+    /// If not set, defaults to a localized "Supplementary Content". Consider providing a more specific label based on the content
+    /// (e.g., "On this page navigation", "Related links").
+    /// </summary>
+    [Parameter]
+    public string? AsideAriaLabel { get; set; }
+
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        AsideAriaLabel ??= Localizer["RzArticle.DefaultAsideAriaLabel"];
+    }
+
+    /// <inheritdoc />
+     protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        // Ensure default is applied if parameter becomes null after initialization
+        AsideAriaLabel ??= Localizer["RzArticle.DefaultAsideAriaLabel"];
+    }
+
     /// <inheritdoc />
     protected override string? RootClass()
     {

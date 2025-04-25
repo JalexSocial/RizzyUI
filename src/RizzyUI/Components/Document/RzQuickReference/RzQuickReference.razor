@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<div class="@RootClass()">
+<nav class="@RootClass()" aria-label="@AriaLabel">
     <p class="@Theme.RzQuickReference.Title">
         @Title
     </p>
@@ -14,10 +14,11 @@
                    class="@Theme.RzQuickReference.Link"
                    data-headingid="@heading.Id"
                    :class="getSelectedCss"
+                   :aria-current="getSelectedAriaCurrent"
                    x-on:click="handleHeadingClick">
                     @heading.Title
                 </a>
             </li>
         }
     </ul>
-</div>
+</nav>

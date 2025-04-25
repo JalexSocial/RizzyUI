@@ -8,8 +8,11 @@
             @MainContent
         </article>
 
-        <aside class="@Theme.RzArticle.GetAsideCss(ColumnWidth, IsSideFixed)">
-            @SideContent
-        </aside>
+        @if (SideContent != null)
+        {
+            <aside class="@Theme.RzArticle.GetAsideCss(ColumnWidth, IsSideFixed)" aria-label="@AsideAriaLabel">
+                @SideContent
+            </aside>
+        }
     </div>
 </HtmlElement>

@@ -4825,10 +4825,7 @@ function registerComponents(Alpine) {
         this.selected = this.sectionId;
         this.open = !this.open;
       },
-      // Computed getter for the icon rotation class (rotates icon 180° when open)
-      iconRotation: function iconRotation() {
-        return open ? "rotate-180" : "";
-      },
+      // Get the CSS classes for the expanded/collapsed chevron icon.
       getExpandedCss: function getExpandedCss() {
         return this.open ? this.expandedClass : "";
       }
@@ -4864,19 +4861,19 @@ function registerComponents(Alpine) {
       setPhoneScreenSize: function setPhoneScreenSize() {
         this.screenSize = 'max-w-sm';
       },
-      // Return CSS classes for browser border based on screen size
+      // Get CSS classes for browser border based on screen size
       getBrowserBorderCss: function getBrowserBorderCss() {
         return [this.screenSize, this.screenSize === '' ? 'border-none' : 'border-x'];
       },
-      // Return CSS classes for desktop text styling
+      // Get CSS classes for desktop screen button styling
       getDesktopScreenCss: function getDesktopScreenCss() {
         return [this.screenSize === '' ? 'text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong' : 'opacity-60'];
       },
-      // Return CSS classes for tablet text styling
+      // Get CSS classes for tablet screen button styling
       getTabletScreenCss: function getTabletScreenCss() {
         return [this.screenSize === 'max-w-2xl' ? 'text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong' : 'opacity-60'];
       },
-      // Return CSS classes for phone text styling
+      // Get CSS classes for phone screen button styling
       getPhoneScreenCss: function getPhoneScreenCss() {
         return [this.screenSize === 'max-w-sm' ? 'text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong' : 'opacity-60'];
       }
@@ -4913,16 +4910,20 @@ function registerComponents(Alpine) {
     return {
       expand: false,
       border: true,
-      codeStyle: '',
       copied: false,
+      copyTitle: 'Copy',
+      // Default title
+      copiedTitle: 'Copied!',
+      // Default title
       init: function init() {
-        // Retrieve assets and configuration from data attributes
         var assets = JSON.parse(this.$el.dataset.assets);
         var codeId = this.$el.dataset.codeid;
         var nonce = this.$el.dataset.nonce;
+        // Get localized titles from data attributes
+        this.copyTitle = this.$el.dataset.copyTitle || this.copyTitle;
+        this.copiedTitle = this.$el.dataset.copiedTitle || this.copiedTitle;
         require(assets, {
           success: function success() {
-            // After assets load, highlight the code block using Highlight.js
             var codeBlock = document.getElementById(codeId);
             if (window.hljs && codeBlock) {
               window.hljs.highlightElement(codeBlock);
@@ -4933,37 +4934,38 @@ function registerComponents(Alpine) {
           }
         }, nonce);
       },
+      // Function to check if code is NOT copied (for x-show)
       notCopied: function notCopied() {
         return !this.copied;
       },
+      // Function to reset the copied state (e.g., on blur)
       disableCopied: function disableCopied() {
         this.copied = false;
       },
+      // Function to toggle the expand state
       toggleExpand: function toggleExpand() {
         this.expand = !this.expand;
       },
-      // Copy the inner text of the code block to the clipboard
+      // Function to copy code to clipboard
       copyHTML: function copyHTML() {
         navigator.clipboard.writeText(this.$refs.codeBlock.textContent);
         this.copied = !this.copied;
       },
+      // Get the title for the copy button (copy/copied)
       getCopiedTitle: function getCopiedTitle() {
-        return this.copied ? 'copied' : 'copy';
+        return this.copied ? this.copiedTitle : this.copyTitle;
       },
+      // Get CSS classes for the copy button based on copied state
       getCopiedCss: function getCopiedCss() {
         return [this.copied ? 'focus-visible:outline-success' : 'focus-visible:outline-on-surface-dark'];
       },
+      // Get CSS classes for the code container based on expand state
       getExpandCss: function getExpandCss() {
         return [this.expand ? '' : 'max-h-60'];
       },
+      // Get CSS classes for the expand button icon based on expand state
       getExpandButtonCss: function getExpandButtonCss() {
         return this.expand ? 'rotate-180' : 'rotate-0';
-      },
-      getExpandMaxHeightCss: function getExpandMaxHeightCss() {
-        return [this.expand ? '' : 'max-h-[400px]', this.border ? 'border' : 'border-none', 'rounded-b'];
-      },
-      getBorderCss: function getBorderCss() {
-        return [this.border ? 'border-b' : ''];
       }
     };
   });
@@ -5134,6 +5136,7 @@ function registerComponents(Alpine) {
   Alpine.data('rzDarkModeToggle', function () {
     return {
       mode: 'light',
+      applyTheme: null,
       init: function init() {
         var hasLocalStorage = typeof window !== 'undefined' && 'localStorage' in window;
         var allowedModes = ['light', 'dark', 'auto'];
@@ -5153,13 +5156,13 @@ function registerComponents(Alpine) {
         }
 
         // Function to apply the theme based on stored mode and OS preference
-        var applyTheme = function applyTheme() {
+        this.applyTheme = function () {
           document.documentElement.classList.toggle('dark', storedMode === 'dark' || storedMode === 'auto' && prefersDark);
         };
-        applyTheme();
+        this.applyTheme();
 
         // Listen for OS-level color scheme changes to reapply the theme
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.applyTheme);
       },
       // Returns true if dark mode should be active
       isDark: function isDark() {
@@ -5178,8 +5181,8 @@ function registerComponents(Alpine) {
         if (storedMode === 'light') storedMode = 'dark';else if (storedMode === 'dark') storedMode = 'light';else if (storedMode === 'auto') {
           storedMode = prefersDark ? 'light' : 'dark';
         }
-        localStorage.setItem('darkMode', storedMode);
         this.mode = storedMode;
+        localStorage.setItem('darkMode', storedMode);
         var isDark = storedMode === 'dark' || storedMode === 'auto' && prefersDark;
         document.documentElement.classList.toggle('dark', isDark);
         var darkModeEvent = new CustomEvent('darkModeToggle', {
@@ -5188,6 +5191,11 @@ function registerComponents(Alpine) {
           }
         });
         window.dispatchEvent(darkModeEvent);
+      },
+      destroy: function destroy() {
+        if (this.applyTheme) {
+          window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.applyTheme);
+        }
       }
     };
   });
@@ -5295,6 +5303,7 @@ function registerComponents(Alpine) {
       observer: null,
       init: function init() {
         var _this4 = this;
+        // Ensure setCurrentHeading exists in the parent scope (rzQuickReferenceContainer)
         if (typeof this.setCurrentHeading === 'function') {
           var callback = function callback(entries, observer) {
             entries.forEach(function (entry) {
@@ -5309,6 +5318,8 @@ function registerComponents(Alpine) {
           this.observer = new IntersectionObserver(callback, options);
           // Begin observing the heading element
           this.observer.observe(this.$el);
+        } else {
+          console.warn("rzHeading: Could not find 'setCurrentHeading' function in parent scope.");
         }
       },
       destroy: function destroy() {
@@ -5476,33 +5487,46 @@ function registerComponents(Alpine) {
 
   // --------------------------------------------------------------------------------
   // Alpine.js component: rzQuickReferenceContainer
-  // Maintains a list of heading IDs for a quick-reference sidebar.
+  // Manages the state for the quick reference sidebar, including headings and current selection.
   // --------------------------------------------------------------------------------
   Alpine.data('rzQuickReferenceContainer', function () {
     return {
       headings: [],
+      // Array of heading IDs
       currentHeadingId: '',
+      // ID of the currently highlighted heading
+      // Initializes the component with headings and the initial current heading from data attributes.
+      init: function init() {
+        this.headings = JSON.parse(this.$el.dataset.headings || '[]');
+        this.currentHeadingId = this.$el.dataset.currentheadingid || '';
+      },
+      // Handles click events on quick reference links.
       handleHeadingClick: function handleHeadingClick() {
         var _this6 = this;
-        var id = this.$el.dataset.headingid;
-        setTimeout(function () {
+        var id = this.$el.dataset.headingid; // Get ID from the clicked link's context
+        // Use requestAnimationFrame for smoother UI update before potential scroll jump
+        window.requestAnimationFrame(function () {
           _this6.currentHeadingId = id;
-        }, 10);
+        });
       },
+      // Sets the current heading ID based on intersection observer events from rzHeading.
       setCurrentHeading: function setCurrentHeading(id) {
         if (this.headings.includes(id)) {
           this.currentHeadingId = id;
         }
       },
+      // Provides CSS classes for a link based on whether it's the current heading.
+      // Returns an object suitable for :class binding.
       getSelectedCss: function getSelectedCss() {
-        var id = this.$el.dataset.headingid;
+        var id = this.$el.dataset.headingid; // Get ID from the link element's context
         return {
-          'font-bold': this.currentHeadingId === id
+          'font-bold': this.currentHeadingId === id // Apply 'font-bold' if current
         };
       },
-      init: function init() {
-        this.headings = JSON.parse(this.$el.dataset.headings);
-        this.currentHeadingId = this.$el.dataset.currentheadingid;
+      // Determines the value for the aria-current attribute.
+      getSelectedAriaCurrent: function getSelectedAriaCurrent() {
+        var id = this.$el.dataset.headingid; // Get ID from the link element's context
+        return this.currentHeadingId === id ? 'true' : null; // Set aria-current="true" if current
       }
     };
   });
@@ -5538,13 +5562,11 @@ function registerComponents(Alpine) {
           _this7.$refs.tabMarker.style.opacity = 1;
         }, 150);
       },
-      tabContentActive: function tabContentActive(tabContent) {
-        tabContent = tabContent !== null && tabContent !== void 0 ? tabContent : this.$el;
-        return this.tabSelected === tabContent.dataset.name;
+      tabContentActive: function tabContentActive() {
+        return this.tabSelected === this.$el.dataset.name;
       },
-      tabButtonActive: function tabButtonActive(tabButton) {
-        tabButton = tabButton !== null && tabButton !== void 0 ? tabButton : this.$el;
-        return this.tabSelected === tabButton.dataset.name;
+      tabButtonActive: function tabButtonActive() {
+        return this.tabSelected === this.$el.dataset.name;
       },
       selectedTabTextColor: function selectedTabTextColor() {
         var _this$$el$dataset$sel;
@@ -5618,7 +5640,7 @@ function registerComponents(Alpine) {
       chevronExpandedClass: "",
       chevronCollapsedClass: "",
       init: function init() {
-        this.isExpanded = this.$el.dataset.expanded;
+        this.isExpanded = this.$el.dataset.expanded === "true"; // Ensure comparison with string "true"
         this.chevronExpandedClass = this.$el.dataset.chevronExpandedClass;
         this.chevronCollapsedClass = this.$el.dataset.chevronCollapsedClass;
       },
@@ -5629,7 +5651,14 @@ function registerComponents(Alpine) {
         this.isExpanded = !this.isExpanded;
       },
       hideSidebar: function hideSidebar() {
-        this.showSidebar = false;
+        // Check if the parent 'showSidebar' property exists before trying to set it
+        // Assuming the parent component (or one ancestor up) has the rzSidebar data
+        var sidebarScope = this.$el.closest('[x-data^="rzSidebar"]');
+        if (sidebarScope && sidebarScope.__x) {
+          sidebarScope.__x.dataStack[0].showSidebar = false;
+        } else {
+          console.warn("Parent sidebar context not found or 'showSidebar' is not defined.");
+        }
       },
       getExpandedClass: function getExpandedClass() {
         return this.isExpanded ? this.chevronExpandedClass : this.chevronCollapsedClass;
