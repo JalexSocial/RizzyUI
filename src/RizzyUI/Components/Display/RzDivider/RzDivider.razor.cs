@@ -38,7 +38,7 @@ public partial class RzDivider : RzComponent
     {
         base.OnInitialized();
 
-        Element = "hr";
+        Element = "div";
     }
 
     /// <inheritdoc />

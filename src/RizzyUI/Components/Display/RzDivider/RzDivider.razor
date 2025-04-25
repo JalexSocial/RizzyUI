@@ -2,13 +2,6 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-@if (ChildContent != null)
-{
-	<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()" role="separator">
-		@ChildContent
-	</HtmlElement>
-}
-else
-{
-	<hr @attributes="@AdditionalAttributes" class="@RootClass()"/>
-}
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" class="@RootClass()" role="separator">
+	@ChildContent
+</HtmlElement>
