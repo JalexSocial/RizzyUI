@@ -16,7 +16,6 @@ public partial class RzQuickReferenceContainer : RzComponent
     private readonly List<HeadingItem> _headingItems = new();
     private string _currentHeadingId = string.Empty; // Store initial heading ID
     private string _headingItemsSerialized = "[]";
-    private bool _isFirstRender = true;
 
     /// <summary> The lowest heading level (e.g., H2) to include in the quick reference outline. Defaults to H2. </summary>
     [Parameter]

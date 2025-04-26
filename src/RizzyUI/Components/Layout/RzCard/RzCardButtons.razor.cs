@@ -15,6 +15,13 @@ public partial class RzCardButtons : RzComponent
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc />
+     protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Element = "div";
+    }
+
+    /// <inheritdoc />
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, Theme.RzCardButtons.ButtonsContainer);

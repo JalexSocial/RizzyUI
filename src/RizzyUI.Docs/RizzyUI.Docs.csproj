@@ -30,10 +30,6 @@
     <ProjectReference Include="..\RizzyUI\RizzyUI.csproj" />
   </ItemGroup>
 
-    <ItemGroup>
-        <None Include="safelist.js" />
-    </ItemGroup>
-
     <!--
     Download safelist.js from repository on build 
     <Target Name="DownloadRizzyUISafelist" BeforeTargets="Build">
@@ -45,16 +41,12 @@
     </Target>
     -->
 
-    <Target Name="CopyRizzyUISafelist" BeforeTargets="Build">
-        <Copy SourceFiles="..\RizzyUI\safelist.js" DestinationFolder="$(ProjectDir)" />
-    </Target>
-
     <Target Name="EnsureNodeModules" BeforeTargets="Build">
         <Exec Command="npm install" />
     </Target>
 
     <Target Name="Tailwind" BeforeTargets="Build">
-        <Exec Command="npm run css:build" />
+        <Exec Command="npm run build:css" />
     </Target>
 
 </Project>

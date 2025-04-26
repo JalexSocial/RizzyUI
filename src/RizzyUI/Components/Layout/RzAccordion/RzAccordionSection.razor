@@ -4,18 +4,20 @@
 
 <div x-data="rzAccordionSection" x-ref="@SectionId" data-is-open="@((!Collapsed).ToString().ToLowerInvariant())"
      data-section-id="@SectionId"
-     data-expanded-class="@Theme.RzAccordionSection.ChevronIconExpanded">
+     data-expanded-class="@Theme.RzAccordionSection.ChevronIconExpanded"
+     class="@Theme.RzAccordionSection.Container">
 	<button id="@ButtonId" type="button" class="@RootClass()" aria-controls="@ContentId"
-	        x-on:click="toggle" x-bind:aria-expanded="open">
+	        x-on:click="toggle" :aria-expanded="getAriaExpanded">
 		@Title
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
-		     stroke="currentColor" class="@Theme.RzAccordionSection.ChevronIcon" aria-hidden="true"
-		     x-bind:class="getExpandedCss">
+		     stroke="currentColor" class="@Theme.RzAccordionSection.ChevronIcon motion-safe:transition-transform" aria-hidden="true"
+		     :class="getExpandedCss">
 			<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
 		</svg>
 	</button>
 	<div id="@ContentId" role="region" aria-labelledby="@ButtonId"
-	     x-cloak x-show="open" x-collapse>
+	     x-cloak x-show="open" x-collapse
+         class="@Theme.RzAccordionSection.ContentContainerWrapper">
 		<div class="@Theme.RzAccordionSection.ContentContainer">
 			@ChildContent
 		</div>

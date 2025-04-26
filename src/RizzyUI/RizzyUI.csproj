@@ -34,11 +34,7 @@
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
-
-    <ItemGroup>
-        <None Include="safelist.js" />
-    </ItemGroup>
-
+    
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Blazicons.Ionicons" Version="2.2.18" />

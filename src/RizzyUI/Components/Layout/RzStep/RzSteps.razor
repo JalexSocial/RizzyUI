@@ -9,16 +9,15 @@
 		@ChildContent
 	</CascadingValue>
 
-
 	@for (var i = 0; i < Items.Count; i++)
 	{
 		var step = Items[i];
 		var isFirst = i == 0;
 		var prevStep = isFirst ? null : Items[i - 1];
+		var effectiveAriaLabel = string.IsNullOrEmpty(step.AriaLabel) ? step.Label : step.AriaLabel;
+        var isCurrent = step.Status == StepStatus.Current;
 
-		<li class="@GetStepItemCss(isFirst)"
-		    aria-label="@(string.IsNullOrEmpty(step.AriaLabel) ? step.Label : step.AriaLabel)">
-
+		<li class="@GetStepItemCss(isFirst)" aria-label="@effectiveAriaLabel" aria-current="@(isCurrent ? "step" : null)">
 
 			@if (!isFirst && prevStep != null)
 			{
@@ -31,7 +30,7 @@
 					<span class="@Theme.RzSteps.CircleCompletedBase @Theme.RzSteps.GetCircleCompletedCss(ActiveColor)">
 						@if (step.Icon is not null)
 						{
-							<Blazicon Svg="step.Icon" class="@Theme.RzSteps.CircleCompletedIcon"/>
+							<Blazicon Svg="step.Icon" class="@Theme.RzSteps.CircleCompletedIcon" aria-hidden="true"/>
 						}
 						else
 						{
@@ -39,8 +38,8 @@
 							     viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" aria-hidden="true">
 								<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
 							</svg>
-							<span class="@Theme.RzSteps.CircleCompletedSrText">completed</span>
 						}
+                        <span class="@Theme.RzSteps.CircleCompletedSrText">@Localizer["RzSteps.CompletedStepSrText"]</span>
 					</span>
 				}
 				else
@@ -48,8 +47,7 @@
 					<span class="@Theme.RzSteps.CircleDefaultBase @Theme.RzSteps.GetCircleDefaultCss(step.Status, ActiveColor)">
 						@if (step.Icon is not null)
 						{
-							<Blazicon Svg="step.Icon"
-							          class="size-4"/>
+							<Blazicon Svg="step.Icon" class="@Theme.RzSteps.CircleDefaultIcon" aria-hidden="true"/>
 						}
 						else
 						{
@@ -66,7 +64,7 @@
 			@if (!string.IsNullOrEmpty(step.Caption))
            {
                <span class="@Theme.RzSteps.Caption">@step.Caption</span>
-           } 
+           }
 		</li>
 	}
 </HtmlElement>

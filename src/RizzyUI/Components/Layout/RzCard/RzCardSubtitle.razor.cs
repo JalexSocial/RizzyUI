@@ -18,7 +18,6 @@ public partial class RzCardSubtitle : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
         Element = "h4"; // Default element for a subtitle
     }
 

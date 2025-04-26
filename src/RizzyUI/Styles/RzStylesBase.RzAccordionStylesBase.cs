@@ -30,9 +30,6 @@ public abstract partial class RzStylesBase
     /// <summary>
     ///     Defines the abstract structure for styling the <see cref="RzAccordionSection" /> component.
     /// </summary>
-    /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzAccordionSection" /> component.
-    /// </summary>
     public abstract class RzAccordionSectionStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
@@ -44,16 +41,22 @@ public abstract partial class RzStylesBase
             Theme = theme;
         }
 
+        /// <summary> Gets the base CSS classes for the main container div of the accordion section. </summary>
+        public abstract string Container { get; }
+
         /// <summary> Gets the base CSS classes for the section's clickable button element. </summary>
         public abstract string Button { get; }
 
-        /// <summary> Gets the base CSS classes for the section's collapsible content container div. </summary>
+        /// <summary> Gets the base CSS classes for the div wrapping the collapsible content (often used with x-collapse). </summary>
+        public abstract string ContentContainerWrapper { get; }
+
+        /// <summary> Gets the base CSS classes for the inner content container div (padding, typography). </summary>
         public abstract string ContentContainer { get; }
 
-        /// <summary> Gets the CSS classes for the chevron indicator icon. </summary>
+        /// <summary> Gets the CSS classes for the chevron indicator icon (base size, transitions). </summary>
         public abstract string ChevronIcon { get; }
 
-        /// <summary> Gets the CSS classes applied to the chevron icon when the section is expanded. </summary>
+        /// <summary> Gets the CSS classes applied to the chevron icon when the section is expanded (e.g., rotation). </summary>
         public abstract string ChevronIconExpanded { get; }
     }
 

@@ -110,7 +110,7 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"--color-danger: {theme.Danger.ToCssColorString()};");
         sb.AppendLine($"--color-on-danger: {theme.OnDanger.ToCssColorString()};");
         sb.AppendLine($"--color-info: {theme.Info.ToCssColorString()};");
-        sb.AppendLine($"--color-onInfo: {theme.OnInfo.ToCssColorString()};"); // Consistent naming needed
+        sb.AppendLine($"--color-on-info: {theme.OnInfo.ToCssColorString()};"); // Consistent naming needed
         sb.AppendLine($"--color-warning: {theme.Warning.ToCssColorString()};");
         sb.AppendLine($"--color-on-warning: {theme.OnWarning.ToCssColorString()};");
         sb.AppendLine($"--color-success: {theme.Success.ToCssColorString()};");

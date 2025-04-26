@@ -246,14 +246,5 @@
     <comment>Default title attribute for the iframe in the RzEmbeddedPreview component, used for accessibility.</comment>
   </data>
   <!-- RzSearchButton -->
-  <data name="RzSearchButton.DefaultLabel" xml:space="preserve">
-    <value>Search</value>
-    <comment>Default text label and aria-label for the search button if not explicitly specified.</comment>
-  </data>
-
   <!-- RzSteps -->
-  <data name="RzSteps.DefaultAriaLabel" xml:space="preserve">
-    <value>Steps progress indicator</value>
-    <comment>Default aria-label for the steps container.</comment>
-  </data>
 </root>

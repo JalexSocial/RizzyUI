@@ -1,4 +1,5 @@
-﻿using Blazicons;
+
+using Blazicons;
 
 namespace RizzyUI;
 

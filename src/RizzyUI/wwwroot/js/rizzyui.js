@@ -4735,17 +4735,19 @@ function registerComponents(Alpine) {
   // --------------------------------------------------------------------------------
   // Alpine.js component: rzAccordion
   // This component manages the overall accordion container.
+  // Provides 'selected' and 'allowMultiple' properties to child rzAccordionSection components.
   // --------------------------------------------------------------------------------
   Alpine.data('rzAccordion', function () {
     return {
       selected: '',
+      // ID of the currently selected/opened section (if not allowMultiple)
       allowMultiple: false,
+      // Whether multiple sections can be open
       init: function init() {
-        // Set whether multiple sections can be open based on data attribute
         this.allowMultiple = this.$el.dataset.multiple === "true";
       },
       destroy: function destroy() {
-        // Cleanup if needed (currently empty)
+        // Cleanup if needed
       }
     };
   });
@@ -4753,7 +4755,7 @@ function registerComponents(Alpine) {
   // --------------------------------------------------------------------------------
   // Alpine.js component: rzAccordionSection
   // This component controls each individual accordion section.
-  // It listens for changes on the "selected" property to close the section if needed.
+  // It accesses 'selected' and 'allowMultiple' from the parent rzAccordion scope.
   // --------------------------------------------------------------------------------
   Alpine.data('rzAccordionSection', function () {
     return {
@@ -4761,23 +4763,28 @@ function registerComponents(Alpine) {
       sectionId: "",
       expandedClass: "",
       init: function init() {
-        // Initialize open state and section identifier from element data attributes
         this.open = this.$el.dataset.isOpen === "true";
         this.sectionId = this.$el.dataset.sectionId;
         this.expandedClass = this.$el.dataset.expandedClass;
 
-        // Watch for changes in the parent "selected" value to close this section if it isn't selected
+        // Watch the 'selected' property inherited from the parent rzAccordion scope.
         var self = this;
-        this.$watch('selected', function (value, oldValue) {
-          if (value !== self.sectionId && !self.allowMultiple) {
-            self.open = false;
-          }
-        });
+        // Check if inherited properties exist before watching
+        if (typeof this.selected !== 'undefined' && typeof this.allowMultiple !== 'undefined') {
+          this.$watch('selected', function (value, oldValue) {
+            // If multiple sections are not allowed and a *different* section is selected, close this one.
+            if (value !== self.sectionId && !self.allowMultiple) {
+              self.open = false;
+            }
+          });
+        } else {
+          console.warn("rzAccordionSection: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
+        }
       },
       destroy: function destroy() {
-        // Cleanup if needed (currently empty)
+        // Cleanup if needed
       },
-      // Toggle the section's open state and mark this section as selected
+      // Toggle the section's open state and update the parent's 'selected' state.
       toggle: function toggle() {
         this.selected = this.sectionId;
         this.open = !this.open;
@@ -4785,6 +4792,10 @@ function registerComponents(Alpine) {
       // Get the CSS classes for the expanded/collapsed chevron icon.
       getExpandedCss: function getExpandedCss() {
         return this.open ? this.expandedClass : "";
+      },
+      // Get the value for aria-expanded attribute based on the 'open' state.
+      getAriaExpanded: function getAriaExpanded() {
+        return this.open ? 'true' : 'false';
       }
     };
   });
@@ -5519,19 +5530,19 @@ function registerComponents(Alpine) {
           _this7.$refs.tabMarker.style.opacity = 1;
         }, 150);
       },
-      tabContentActive: function tabContentActive() {
-        return this.tabSelected === this.$el.dataset.name;
+      // Get the CSS classes for the tab content panel based on selection
+      getTabContentCss: function getTabContentCss() {
+        return this.tabSelected === this.$el.dataset.name ? '' : 'hidden';
       },
-      tabButtonActive: function tabButtonActive() {
-        return this.tabSelected === this.$el.dataset.name;
+      // Get the value for the aria-selected attribute
+      getTabButtonAriaSelected: function getTabButtonAriaSelected() {
+        return this.tabSelected === this.$el.dataset.name ? 'true' : 'false';
       },
-      selectedTabTextColor: function selectedTabTextColor() {
+      // Get the CSS classes for the tab button text color based on selection
+      getSelectedTabTextColorCss: function getSelectedTabTextColorCss() {
         var _this$$el$dataset$sel;
         var color = (_this$$el$dataset$sel = this.$el.dataset.selectedtextcolor) !== null && _this$$el$dataset$sel !== void 0 ? _this$$el$dataset$sel : '';
-        if (this.tabButtonActive(this.$el)) {
-          return color;
-        }
-        return '';
+        return this.tabSelected === this.$el.dataset.name ? color : '';
       },
       handleResize: function handleResize() {
         this.tabRepositionMarker(this.tabButton);
@@ -5541,7 +5552,7 @@ function registerComponents(Alpine) {
         var key = event.key;
         var tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
         var currentIndex = tabButtons.findIndex(function (button) {
-          return _this8.tabButtonActive(button);
+          return _this8.tabSelected === button.dataset.name;
         });
         var newIndex = currentIndex;
         if (key === 'ArrowRight') {
@@ -5611,14 +5622,19 @@ function registerComponents(Alpine) {
         // Check if the parent 'showSidebar' property exists before trying to set it
         // Assuming the parent component (or one ancestor up) has the rzSidebar data
         var sidebarScope = this.$el.closest('[x-data^="rzSidebar"]');
-        if (sidebarScope && sidebarScope.__x) {
-          sidebarScope.__x.dataStack[0].showSidebar = false;
+        if (sidebarScope) {
+          var data = Alpine.$data(sidebarScope);
+          data.showSidebar = false;
         } else {
           console.warn("Parent sidebar context not found or 'showSidebar' is not defined.");
         }
       },
       getExpandedClass: function getExpandedClass() {
         return this.isExpanded ? this.chevronExpandedClass : this.chevronCollapsedClass;
+      },
+      // Get the value for the aria-expanded attribute
+      getAriaExpanded: function getAriaExpanded() {
+        return this.isExpanded ? 'true' : 'false';
       }
     };
   });
