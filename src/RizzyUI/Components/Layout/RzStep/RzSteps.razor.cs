@@ -26,9 +26,9 @@ public partial class RzSteps : RzComponent
     [Parameter]
     public bool ShowLabels { get; set; } = true;
 
-    /// <summary> Gets or sets the ARIA label for the steps container. Defaults to "steps progress". </summary>
+    /// <summary> Gets or sets the ARIA label for the steps container. Defaults to localized "Steps progress indicator". </summary>
     [Parameter]
-    public string AriaLabel { get; set; } = "steps progress";
+    public string? AriaLabel { get; set; }
 
     /// <summary> Gets or sets the active color used for completed and current steps. Defaults to Primary. </summary>
     [Parameter]
@@ -37,6 +37,20 @@ public partial class RzSteps : RzComponent
     /// <summary> The child content, expected to be <see cref="RzStep" /> components. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        AriaLabel ??= Localizer["RzSteps.DefaultAriaLabel"];
+    }
+
+     /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        AriaLabel ??= Localizer["RzSteps.DefaultAriaLabel"];
+    }
 
     /// <inheritdoc />
     protected override string? RootClass()
@@ -49,10 +63,10 @@ public partial class RzSteps : RzComponent
     internal void RegisterStep(StepData data)
     {
         // Avoid adding if already present during potential re-renders
-        if (!Items.Exists(i => i.Label == data.Label)) // Simple check based on Label, adjust if needed
+        if (!Items.Exists(i => i.Label == data.Label && i.Caption == data.Caption)) // Check more fields for uniqueness
         {
             Items.Add(data);
-            StateHasChanged(); // Update UI after adding
+            InvokeAsync(StateHasChanged); // Update UI after adding
         }
     }
 
@@ -62,19 +76,5 @@ public partial class RzSteps : RzComponent
     protected string GetStepItemCss(bool isFirst)
     {
         return $"{Theme.RzSteps.StepItem} {Theme.RzSteps.GetStepItemWidthCss(isFirst)}";
-    }
-
-    /// <inheritdoc />
-    protected override void OnAfterRender(bool firstRender)
-    {
-        // Needed if steps are registered dynamically after initial render
-        if (firstRender && ChildContent != null)
-        {
-            // Re-rendering might be necessary if children register late,
-            // but often the initial render catches them.
-            // Consider if StateHasChanged() is truly needed here.
-        }
-
-        base.OnAfterRender(firstRender);
     }
 }

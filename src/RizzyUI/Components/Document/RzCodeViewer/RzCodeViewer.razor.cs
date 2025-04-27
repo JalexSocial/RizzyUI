@@ -45,8 +45,14 @@ public partial class RzCodeViewer : RzComponent
     /// <summary> The code content provided as a string. Takes precedence over <see cref="ChildContent" />. </summary>
     [Parameter] public string? Source { get; set; }
 
-    /// <summary> The title displayed in the header of the code viewer card. Defaults to "Source". </summary>
-    [Parameter] public string ViewerTitle { get; set; } = "Source";
+    /// <summary> The title displayed in the header of the code viewer card. Defaults to localized "Source". </summary>
+    [Parameter] public string? ViewerTitle { get; set; }
+
+    /// <summary> Gets the title text for the copy button before copying. </summary>
+    protected string CopyButtonTitle => Localizer["RzCodeViewer.CopyButtonTitleCopy"];
+
+    /// <summary> Gets the title text for the copy button after copying. </summary>
+    protected string CopiedButtonTitle => Localizer["RzCodeViewer.CopyButtonTitleCopied"];
 
     /// <summary> Gets the full language class name for Highlight.js. </summary>
     protected string LanguageClass => CodeLanguage.GetLanguageClass(Language);
@@ -57,12 +63,14 @@ public partial class RzCodeViewer : RzComponent
         // Base class handles Theme initialization
         base.OnInitialized();
         _assets = JsonSerializer.Serialize(ComponentAssets);
+        ViewerTitle ??= Localizer["RzCodeViewer.DefaultViewerTitle"];
     }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        ViewerTitle ??= Localizer["RzCodeViewer.DefaultViewerTitle"]; // Ensure default if becomes null
         SetCodeContent();
     }
 

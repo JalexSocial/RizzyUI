@@ -3,13 +3,12 @@ using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
-// Add this
-
 namespace RizzyUI;
 
 /// <xmldoc>
 ///     Represents an alert component that displays a message with optional icon, variant, and dismiss functionality.
-///     Styling is handled by the active theme.
+///     Styling is handled by the active theme. Content within the alert is implicitly announced by assistive technologies
+///     due to the `role="alert"` attribute on the container.
 /// </xmldoc>
 public partial class RzAlert : RzComponent
 {
@@ -21,19 +20,19 @@ public partial class RzAlert : RzComponent
     [Parameter]
     public AlertVariant Variant { get; set; } = AlertVariant.Information;
 
-    /// <summary> Gets or sets the icon displayed in the alert. </summary>
+    /// <summary> Gets or sets the icon displayed in the alert. If null, a default icon based on the variant may be shown. </summary>
     [Parameter]
     public SvgIcon? Icon { get; set; }
 
-    /// <summary> Gets or sets a value indicating whether the alert can be dismissed. </summary>
+    /// <summary> Gets or sets a value indicating whether the alert can be dismissed via a close button. </summary>
     [Parameter]
     public bool Dismissable { get; set; }
 
-    /// <summary> Gets or sets the content to be displayed inside the alert. </summary>
+    /// <summary> Gets or sets the content to be displayed inside the alert, typically including <see cref="RzAlertTitle"/> and <see cref="RzAlertDescription"/>. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary> Gets or sets whether to display a pulse behind the icon. </summary>
+    /// <summary> Gets or sets whether to display a pulsing animation behind the icon for emphasis. Requires `Pulse` to be true in the theme. </summary>
     [Parameter]
     public bool Pulse { get; set; }
 
@@ -41,7 +40,6 @@ public partial class RzAlert : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
         SetVariantStyles(); // Set styles after Theme is confirmed
         SetDefaultIcon(); // Set default icon after variant styles are known
     }
@@ -53,9 +51,8 @@ public partial class RzAlert : RzComponent
         if (Theme != null) // Ensure theme is available
         {
             SetVariantStyles();
-            SetDefaultIcon();
+            SetDefaultIcon(); // Re-evaluate default icon if variant changed and Icon is null
         }
-
         base.OnParametersSet();
     }
 

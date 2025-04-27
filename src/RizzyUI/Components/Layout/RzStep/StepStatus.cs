@@ -1,4 +1,5 @@
-﻿namespace RizzyUI;
+
+namespace RizzyUI;
 
 /// <xmldoc>
 ///     Specifies the status of a step in the Steps component.

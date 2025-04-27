@@ -19,13 +19,13 @@
     <value>Avatar de usuario</value>
   </data>
   <data name="RzBreadcrumb.AriaLabel" xml:space="preserve">
-    <value>migaja de pan</value>
+    <value>miga de pan</value>
   </data>
   <data name="RzBrowser.DesktopScreenTitle" xml:space="preserve">
     <value>Pantalla de escritorio</value>
   </data>
   <data name="RzBrowser.TabletScreenTitle" xml:space="preserve">
-    <value>Pantalla de la tableta</value>
+    <value>Pantalla de tableta</value>
   </data>
   <data name="RzBrowser.PhoneScreenTitle" xml:space="preserve">
     <value>Pantalla del teléfono</value>
@@ -40,7 +40,7 @@
     <value>copiar código</value>
   </data>
   <data name="RzCodeViewer.CopyButtonTitleCopy" xml:space="preserve">
-    <value>Copiar</value>
+    <value>copiar</value>
   </data>
   <data name="RzCodeViewer.CopyButtonTitleCopied" xml:space="preserve">
     <value>copiado</value>
@@ -49,7 +49,7 @@
     <value>expandir el contenedor de código</value>
   </data>
   <data name="RzDarkModeToggle.AriaLabel" xml:space="preserve">
-    <value>Activar el modo oscuro</value>
+    <value>Alternar modo oscuro</value>
   </data>
   <data name="RzDateEdit.AriaLabel" xml:space="preserve">
     <value>Selector de fecha</value>
@@ -70,15 +70,27 @@
     <value>Buscar</value>
   </data>
   <data name="RzSidebar.SkipLinkText" xml:space="preserve">
-    <value>Saltar al contenido principal</value>
+    <value>saltar al contenido principal</value>
   </data>
   <data name="RzSidebar.FloatingToggleButtonSrText" xml:space="preserve">
-    <value>alternar la barra lateral</value>
+    <value>alternar barra lateral</value>
   </data>
   <data name="RzSteps.DefaultAriaLabel" xml:space="preserve">
-    <value>pasos de progreso</value>
+    <value>progreso de pasos</value>
   </data>
   <data name="RzSteps.CompletedStepSrText" xml:space="preserve">
-    <value>terminado</value>
+    <value>completado</value>
+  </data>
+  <data name="RzBrowser.ScreenSizeGroupAriaLabel" xml:space="preserve">
+    <value>Seleccionar tamaño de pantalla de vista previa</value>
+  </data>
+  <data name="RzQuickReference.DefaultAriaLabel" xml:space="preserve">
+    <value>En la navegación de esta página</value>
+  </data>
+  <data name="RzArticle.DefaultAsideAriaLabel" xml:space="preserve">
+    <value>Contenido Suplementario</value>
+  </data>
+  <data name="RzEmbeddedPreview.DefaultIFrameTitle" xml:space="preserve">
+    <value>Vista previa de contenido incrustado</value>
   </data>
 </root>

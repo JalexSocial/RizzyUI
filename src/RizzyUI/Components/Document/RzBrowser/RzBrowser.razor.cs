@@ -15,9 +15,15 @@ public partial class RzBrowser : RzComponent
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    ///     Optional layout for rendering <see cref="ChildContent" /> inside an iframe.
+    ///     Optional layout for rendering <see cref="ChildContent" /> inside an iframe via <see cref="RzEmbeddedPreview"/>.
     /// </summary>
     [Parameter] public Type? Layout { get; set; }
+
+    /// <summary>
+    /// Gets or sets the title attribute for the iframe when a layout is used.
+    /// Defaults to "Component Preview". Provides context for screen reader users.
+    /// </summary>
+    [Parameter] public string PreviewIFrameTitle { get; set; } = "Component Preview";
 
     /// <inheritdoc />
     protected override string? RootClass()

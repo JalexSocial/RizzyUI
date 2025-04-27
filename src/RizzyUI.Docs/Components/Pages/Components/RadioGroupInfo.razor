@@ -7,6 +7,7 @@
 @using RizzyUI.Extensions
 @using Blazicons
 @using RizzyUI.Docs.Models
+@using Rizzy
 @inherits RzComponent
 
 <PageTitle>RadioGroup and RzRadioGroupField</PageTitle>
@@ -46,11 +47,11 @@
                             <RzInitialValidator/>
                             <RzValidationSummary/>
 
-                            <RadioGroup TValue="string" For="@(() => Model.PreferredContactMethod)" Orientation="Orientation.Vertical">
+                            <RzRadioGroup TValue="string" For="@(() => Model.PreferredContactMethod)" Orientation="Orientation.Vertical">
                                 <RzRadioGroupItem TValue="string" Value="@("email")" Label="Email" />
                                 <RzRadioGroupItem TValue="string" Value="@("phone")" Label="Phone" />
                                 <RzRadioGroupItem TValue="string" Value="@("text")" Label="Text Message" />
-                            </RadioGroup>
+                            </RzRadioGroup>
                         </EditForm>
                     </div>
                 </RzBrowser>

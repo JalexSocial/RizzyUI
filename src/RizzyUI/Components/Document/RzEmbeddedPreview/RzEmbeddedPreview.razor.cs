@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 
@@ -27,6 +26,28 @@ public partial class RzEmbeddedPreview : RzComponent
 
     /// <summary> An optional Blazor layout component type to wrap the <see cref="ChildContent" /> within the iframe. </summary>
     [Parameter] public Type? Layout { get; set; }
+
+    /// <summary>
+    /// Gets or sets the title attribute for the iframe, providing context for screen readers.
+    /// If not set, defaults to a localized "Embedded Content Preview".
+    /// </summary>
+    [Parameter] public string? IFrameTitle { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        // Set default localized value if parameter is not provided
+        IFrameTitle ??= Localizer["RzEmbeddedPreview.DefaultIFrameTitle"];
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+         // Ensure default is applied if parameter becomes null after initialization
+        IFrameTitle ??= Localizer["RzEmbeddedPreview.DefaultIFrameTitle"];
+    }
 
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync() // Use async version for RenderHtmlAsync

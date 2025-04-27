@@ -57,6 +57,12 @@ public abstract partial class RzStylesBase
         public abstract string CircleDefaultBase { get; }
 
         /// <summary>
+        ///     Gets the CSS classes for the icon (if used) within the default step circle (size).
+        /// </summary>
+        public abstract string CircleDefaultIcon { get; }
+
+
+        /// <summary>
         ///     Gets the base CSS classes for the step label span (visibility, width). Status-specific styles are applied
         ///     separately.
         /// </summary>
@@ -96,7 +102,7 @@ public abstract partial class RzStylesBase
 
         /// <summary>
         ///     Gets the variant-specific CSS classes for the step circle based on its status (Current or Upcoming) and the
-        ///     active color.
+        ///     active color. Includes focus styles.
         /// </summary>
         /// <param name="status">The current status of the step.</param>
         /// <param name="activeColor">The theme's active status color.</param>
@@ -109,8 +115,6 @@ public abstract partial class RzStylesBase
         /// <returns>A string representing text color and font weight classes.</returns>
         public abstract string GetLabelStatusCss(StepStatus status, StatusColor activeColor);
     }
-
-    // RzStep component itself doesn't render HTML, so no RzStepStylesBase needed.
 
     #endregion
 }

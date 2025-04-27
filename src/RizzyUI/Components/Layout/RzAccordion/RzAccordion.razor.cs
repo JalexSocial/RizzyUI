@@ -6,6 +6,7 @@ namespace RizzyUI;
 
 /// <xmldoc>
 ///     Represents an accordion component that allows for collapsible sections. Styling is handled by the active theme.
+///     Interactivity is managed by the 'rzAccordion' Alpine.js component.
 /// </xmldoc>
 public partial class RzAccordion : RzComponent
 {

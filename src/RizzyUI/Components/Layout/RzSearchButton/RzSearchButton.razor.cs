@@ -13,8 +13,26 @@ public partial class RzSearchButton : RzComponent
 {
     // Theme is inherited from RzComponent
 
-    /// <summary> Gets or sets the text label displayed on the button and used for the aria-label. Defaults to "Search". </summary>
-    [Parameter] public string Label { get; set; } = "Search";
+    /// <summary>
+    /// Gets or sets the text label displayed on the button and used for the aria-label.
+    /// Defaults to a localized "Search" value.
+    /// </summary>
+    [Parameter] public string? Label { get; set; }
+
+     /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Label ??= Localizer["RzSearchButton.DefaultLabel"];
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        // Ensure default is applied if parameter becomes null after initialization
+        Label ??= Localizer["RzSearchButton.DefaultLabel"];
+    }
 
     /// <inheritdoc />
     protected override string? RootClass()

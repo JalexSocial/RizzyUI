@@ -1,4 +1,4 @@
-﻿import loadjs from "./loadjs/loadjs";
+import loadjs from "./loadjs/loadjs";
 
 // --------------------------------------------------------------------------------
 // Utility: Generate a unique bundle ID based on an array of script paths.
@@ -42,59 +42,65 @@ function registerComponents(Alpine) {
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzAccordion
 // This component manages the overall accordion container.
+// Provides 'selected' and 'allowMultiple' properties to child rzAccordionSection components.
 // --------------------------------------------------------------------------------
     Alpine.data('rzAccordion', () => ({
-        selected: '',
-        allowMultiple: false,
+        selected: '',          // ID of the currently selected/opened section (if not allowMultiple)
+        allowMultiple: false,  // Whether multiple sections can be open
         init() {
-            // Set whether multiple sections can be open based on data attribute
             this.allowMultiple = this.$el.dataset.multiple === "true";
         },
         destroy() {
-            // Cleanup if needed (currently empty)
+            // Cleanup if needed
         }
     }));
 
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzAccordionSection
 // This component controls each individual accordion section.
-// It listens for changes on the "selected" property to close the section if needed.
+// It accesses 'selected' and 'allowMultiple' from the parent rzAccordion scope.
 // --------------------------------------------------------------------------------
     Alpine.data('rzAccordionSection', () => ({
         open: false,
         sectionId: "",
         expandedClass: "",
         init() {
-            // Initialize open state and section identifier from element data attributes
             this.open = this.$el.dataset.isOpen === "true";
             this.sectionId = this.$el.dataset.sectionId;
             this.expandedClass = this.$el.dataset.expandedClass;
 
-            // Watch for changes in the parent "selected" value to close this section if it isn't selected
+            // Watch the 'selected' property inherited from the parent rzAccordion scope.
             const self = this;
-            this.$watch('selected', (value, oldValue) => {
-                if (value !== self.sectionId && !self.allowMultiple) {
-                    self.open = false;
-                }
-            });
+            // Check if inherited properties exist before watching
+            if (typeof this.selected !== 'undefined' && typeof this.allowMultiple !== 'undefined') {
+                this.$watch('selected', (value, oldValue) => {
+                    // If multiple sections are not allowed and a *different* section is selected, close this one.
+                    if (value !== self.sectionId && !self.allowMultiple) {
+                        self.open = false;
+                    }
+                });
+            } else {
+                console.warn("rzAccordionSection: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
+            }
         },
         destroy() {
-            // Cleanup if needed (currently empty)
+            // Cleanup if needed
         },
-        // Toggle the section's open state and mark this section as selected
+        // Toggle the section's open state and update the parent's 'selected' state.
         toggle() {
             this.selected = this.sectionId;
             this.open = !this.open;
         },
-        // Computed getter for the icon rotation class (rotates icon 180° when open)
-        iconRotation() {
-            return open ? "rotate-180" : "";
-        },
+        // Get the CSS classes for the expanded/collapsed chevron icon.
         getExpandedCss() {
             return this.open ? this.expandedClass : "";
+        },
+        // Get the value for aria-expanded attribute based on the 'open' state.
+        getAriaExpanded() {
+            return this.open ? 'true' : 'false';
         }
     }));
-    
+
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzAlert
 // This component manages an alert's visibility and provides a dismiss method.
@@ -124,19 +130,19 @@ function registerComponents(Alpine) {
             setPhoneScreenSize() {
                 this.screenSize = 'max-w-sm';
             },
-            // Return CSS classes for browser border based on screen size
+            // Get CSS classes for browser border based on screen size
             getBrowserBorderCss() {
                 return [this.screenSize, this.screenSize === '' ? 'border-none' : 'border-x'];
             },
-            // Return CSS classes for desktop text styling
+            // Get CSS classes for desktop screen button styling
             getDesktopScreenCss() {
                 return [this.screenSize === '' ? 'text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong' : 'opacity-60'];
             },
-            // Return CSS classes for tablet text styling
+            // Get CSS classes for tablet screen button styling
             getTabletScreenCss() {
                 return [this.screenSize === 'max-w-2xl' ? 'text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong' : 'opacity-60'];
             },
-            // Return CSS classes for phone text styling
+            // Get CSS classes for phone screen button styling
             getPhoneScreenCss() {
                 return [this.screenSize === 'max-w-sm' ? 'text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong' : 'opacity-60'];
             }
@@ -173,17 +179,19 @@ function registerComponents(Alpine) {
         return {
             expand: false,
             border: true,
-            codeStyle: '',
             copied: false,
+            copyTitle: 'Copy',     // Default title
+            copiedTitle: 'Copied!', // Default title
             init() {
-                // Retrieve assets and configuration from data attributes
                 const assets = JSON.parse(this.$el.dataset.assets);
                 const codeId = this.$el.dataset.codeid;
                 const nonce = this.$el.dataset.nonce;
+                // Get localized titles from data attributes
+                this.copyTitle = this.$el.dataset.copyTitle || this.copyTitle;
+                this.copiedTitle = this.$el.dataset.copiedTitle || this.copiedTitle;
 
                 require(assets, {
                     success: function () {
-                        // After assets load, highlight the code block using Highlight.js
                         const codeBlock = document.getElementById(codeId);
                         if (window.hljs && codeBlock) {
                             window.hljs.highlightElement(codeBlock);
@@ -194,37 +202,38 @@ function registerComponents(Alpine) {
                     }
                 }, nonce);
             },
+            // Function to check if code is NOT copied (for x-show)
             notCopied() {
                 return !this.copied;
             },
+            // Function to reset the copied state (e.g., on blur)
             disableCopied() {
                 this.copied = false;
             },
+            // Function to toggle the expand state
             toggleExpand() {
                 this.expand = !this.expand;
             },
-            // Copy the inner text of the code block to the clipboard
+            // Function to copy code to clipboard
             copyHTML() {
                 navigator.clipboard.writeText(this.$refs.codeBlock.textContent);
                 this.copied = !this.copied;
             },
+            // Get the title for the copy button (copy/copied)
             getCopiedTitle() {
-                return this.copied ? 'copied' : 'copy';
+                return this.copied ? this.copiedTitle : this.copyTitle;
             },
+            // Get CSS classes for the copy button based on copied state
             getCopiedCss() {
                 return [this.copied ? 'focus-visible:outline-success' : 'focus-visible:outline-on-surface-dark'];
             },
+            // Get CSS classes for the code container based on expand state
             getExpandCss() {
                 return [this.expand ? '' : 'max-h-60'];
             },
+            // Get CSS classes for the expand button icon based on expand state
             getExpandButtonCss() {
                 return this.expand ? 'rotate-180' : 'rotate-0';
-            },
-            getExpandMaxHeightCss() {
-                return [this.expand ? '' : 'max-h-[400px]', this.border ? 'border' : 'border-none', 'rounded-b'];
-            },
-            getBorderCss() {
-                return [this.border ? 'border-b' : ''];
             }
         };
     });
@@ -398,17 +407,17 @@ function registerComponents(Alpine) {
             const allowedModes = ['light', 'dark', 'auto'];
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-            let storedMode = "auto"; 
-            
+            let storedMode = "auto";
+
             if (hasLocalStorage) {
                 storedMode = localStorage.getItem('darkMode') ?? 'auto';
 
                 // Validate stored mode against allowed values
                 if (!allowedModes.includes(storedMode)) {
                     storedMode = 'light';
-                }                
+                }
             }
-            
+
             if (hasLocalStorage) {
                 localStorage.setItem('darkMode', storedMode);
             }
@@ -463,7 +472,7 @@ function registerComponents(Alpine) {
             }
         }
     }));
-    
+
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzEmbeddedPreview
 // Manages an iframe preview and adjusts its height dynamically.
@@ -543,7 +552,7 @@ function registerComponents(Alpine) {
 // --------------------------------------------------------------------------------
     Alpine.data('rzEmpty', () => {
     });
-    
+
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzHeading
 // Observes heading elements to automatically update the current heading in the quick-reference.
@@ -552,6 +561,7 @@ function registerComponents(Alpine) {
         return {
             observer: null,
             init() {
+                // Ensure setCurrentHeading exists in the parent scope (rzQuickReferenceContainer)
                 if (typeof this.setCurrentHeading === 'function') {
                     const callback = (entries, observer) => {
                         entries.forEach(entry => {
@@ -560,10 +570,12 @@ function registerComponents(Alpine) {
                             }
                         });
                     };
-                    const options = {threshold: 0.5};
+                    const options = { threshold: 0.5 };
                     this.observer = new IntersectionObserver(callback, options);
                     // Begin observing the heading element
                     this.observer.observe(this.$el);
+                } else {
+                    console.warn("rzHeading: Could not find 'setCurrentHeading' function in parent scope.");
                 }
             },
             destroy() {
@@ -572,7 +584,7 @@ function registerComponents(Alpine) {
             }
         };
     });
-    
+
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzMarkdown
 // Initializes Markdown rendering with syntax highlighting.
@@ -730,33 +742,52 @@ function registerComponents(Alpine) {
 
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzQuickReferenceContainer
-// Maintains a list of heading IDs for a quick-reference sidebar.
+// Manages the state for the quick reference sidebar, including headings and current selection.
 // --------------------------------------------------------------------------------
     Alpine.data('rzQuickReferenceContainer', () => {
         return {
-            headings: [],
-            currentHeadingId: '',
-            handleHeadingClick() {
-                const id = this.$el.dataset.headingid;
-                setTimeout(() => {
-                    this.currentHeadingId = id;
-                }, 10);
+            headings: [],          // Array of heading IDs
+            currentHeadingId: '',  // ID of the currently highlighted heading
+
+            // Initializes the component with headings and the initial current heading from data attributes.
+            init() {
+                this.headings = JSON.parse(this.$el.dataset.headings || '[]');
+                this.currentHeadingId = this.$el.dataset.currentheadingid || '';
             },
+
+            // Handles click events on quick reference links.
+            handleHeadingClick() {
+                const id = this.$el.dataset.headingid; // Get ID from the clicked link's context
+                // Use requestAnimationFrame for smoother UI update before potential scroll jump
+                window.requestAnimationFrame(() => {
+                    this.currentHeadingId = id;
+                });
+            },
+
+            // Sets the current heading ID based on intersection observer events from rzHeading.
             setCurrentHeading(id) {
                 if (this.headings.includes(id)) {
                     this.currentHeadingId = id;
                 }
             },
+
+            // Provides CSS classes for a link based on whether it's the current heading.
+            // Returns an object suitable for :class binding.
             getSelectedCss() {
-                const id = this.$el.dataset.headingid;
-                return {'font-bold': this.currentHeadingId === id};
+                const id = this.$el.dataset.headingid; // Get ID from the link element's context
+                return {
+                    'font-bold': this.currentHeadingId === id // Apply 'font-bold' if current
+                };
             },
-            init() {
-                this.headings = JSON.parse(this.$el.dataset.headings);
-                this.currentHeadingId = this.$el.dataset.currentheadingid;
+
+            // Determines the value for the aria-current attribute.
+            getSelectedAriaCurrent() {
+                const id = this.$el.dataset.headingid; // Get ID from the link element's context
+                return this.currentHeadingId === id ? 'true' : null; // Set aria-current="true" if current
             }
         };
     });
+
 
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzTabs
@@ -789,20 +820,18 @@ function registerComponents(Alpine) {
                     this.$refs.tabMarker.style.opacity = 1;
                 }, 150);
             },
-            tabContentActive(tabContent) {
-                tabContent = tabContent ?? this.$el;
-                return this.tabSelected === tabContent.dataset.name;
+            // Get the CSS classes for the tab content panel based on selection
+            getTabContentCss() {
+                return this.tabSelected === this.$el.dataset.name ? '' : 'hidden';
             },
-            tabButtonActive(tabButton) {
-                tabButton = tabButton ?? this.$el;
-                return this.tabSelected === tabButton.dataset.name;
+            // Get the value for the aria-selected attribute
+            getTabButtonAriaSelected() {
+                return this.tabSelected === this.$el.dataset.name ? 'true' : 'false';
             },
-            selectedTabTextColor() {
+            // Get the CSS classes for the tab button text color based on selection
+            getSelectedTabTextColorCss() {
                 const color = this.$el.dataset.selectedtextcolor ?? '';
-                if (this.tabButtonActive(this.$el)) {
-                    return color;
-                }
-                return '';
+                return this.tabSelected === this.$el.dataset.name ? color : '';
             },
             handleResize() {
                 this.tabRepositionMarker(this.tabButton);
@@ -810,7 +839,7 @@ function registerComponents(Alpine) {
             handleKeyDown(event) {
                 const key = event.key;
                 const tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
-                const currentIndex = tabButtons.findIndex(button => this.tabButtonActive(button));
+                const currentIndex = tabButtons.findIndex(button => this.tabSelected === button.dataset.name);
                 let newIndex = currentIndex;
 
                 if (key === 'ArrowRight') {
@@ -867,7 +896,7 @@ function registerComponents(Alpine) {
             chevronExpandedClass: "",
             chevronCollapsedClass: "",
             init() {
-                this.isExpanded = this.$el.dataset.expanded;
+                this.isExpanded = this.$el.dataset.expanded === "true"; // Ensure comparison with string "true"
                 this.chevronExpandedClass = this.$el.dataset.chevronExpandedClass;
                 this.chevronCollapsedClass = this.$el.dataset.chevronCollapsedClass;
             },
@@ -878,10 +907,22 @@ function registerComponents(Alpine) {
                 this.isExpanded = !this.isExpanded;
             },
             hideSidebar() {
-                this.showSidebar = false;
+                // Check if the parent 'showSidebar' property exists before trying to set it
+                // Assuming the parent component (or one ancestor up) has the rzSidebar data
+                const sidebarScope = this.$el.closest('[x-data^="rzSidebar"]');
+                if (sidebarScope) {
+                    let data = Alpine.$data(sidebarScope);
+                    data.showSidebar = false;
+                } else {
+                    console.warn("Parent sidebar context not found or 'showSidebar' is not defined.");
+                }
             },
             getExpandedClass() {
                 return this.isExpanded ? this.chevronExpandedClass : this.chevronCollapsedClass;
+            },
+            // Get the value for the aria-expanded attribute
+            getAriaExpanded() {
+                return this.isExpanded ? 'true' : 'false';
             }
         };
     });

@@ -4,11 +4,12 @@
 @inherits RzComponent
 
 <HtmlElement Element="button"
+             type="button"
              @attributes="@AdditionalAttributes"
              class="@RootClass()"
              aria-label="@Label">
 	<div class="@Theme.RzSearchButton.InnerContainer">
-		<span class="@Theme.RzSearchButton.IconSpan">
+		<span class="@Theme.RzSearchButton.IconSpan" aria-hidden="true">
 			<Blazicon Svg="MdiIcon.Magnify"/>
 		</span>
 		@Label

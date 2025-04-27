@@ -10,6 +10,7 @@ namespace RizzyUI;
 /// <xmldoc>
 ///     Represents a section of an accordion component (<see cref="RzAccordion" />) that can be expanded or collapsed
 ///     to show or hide its content. Styling is managed by the active <see cref="RzTheme" />.
+///     Interactivity is managed by the 'rzAccordionSection' Alpine.js component.
 /// </xmldoc>
 public partial class RzAccordionSection : RzComponent
 {

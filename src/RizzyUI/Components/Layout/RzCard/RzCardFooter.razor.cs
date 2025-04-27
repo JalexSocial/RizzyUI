@@ -23,13 +23,26 @@ public partial class RzCardFooter : RzComponent
     public SemanticColor TextColor { get; set; } = SemanticColor.OnSurface;
 
     /// <inheritdoc />
+     protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Element = "div";
+    }
+
+    /// <inheritdoc />
     protected override string? RootClass()
     {
+         var bgColorClass = BackgroundColor != SemanticColor.None
+            ? BackgroundColor.ToBackgroundClass()
+            : Theme.Light.SurfaceAlt.ToCssClassString("bg"); // Use theme default if None
+
+        var textColorClass = TextColor != SemanticColor.None
+            ? TextColor.ToTextClass()
+            : Theme.Light.OnSurface.ToCssClassString("text"); // Use theme default if None
+
         return TwMerge.Merge(AdditionalAttributes,
             Theme.RzCardFooter.Footer,
-            BackgroundColor != SemanticColor.None
-                ? BackgroundColor.ToBackgroundClass()
-                : Theme.Light.SurfaceAlt.ToCssClassString("bg"),
-            TextColor != SemanticColor.None ? TextColor.ToTextClass() : Theme.Light.OnSurface.ToCssClassString("text"));
+            bgColorClass,
+            textColorClass);
     }
 }
