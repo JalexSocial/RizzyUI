@@ -291,6 +291,7 @@
     --ease-in: cubic-bezier(0.4, 0, 1, 1);
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --animate-spin: spin 1s linear infinite;
     --animate-ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
     --blur-sm: 8px;
     --blur-xl: 24px;
@@ -1363,6 +1364,10 @@
     width: calc(var(--spacing) * 6);
     height: calc(var(--spacing) * 6);
   }
+  .size-7 {
+    width: calc(var(--spacing) * 7);
+    height: calc(var(--spacing) * 7);
+  }
   .size-8 {
     width: calc(var(--spacing) * 8);
     height: calc(var(--spacing) * 8);
@@ -2147,6 +2152,60 @@
   }
   .mask-repeat {
     mask-repeat: repeat;
+  }
+  .fill-danger {
+    fill: var(--color-danger);
+  }
+  .fill-info {
+    fill: var(--color-info);
+  }
+  .fill-on-danger {
+    fill: var(--color-on-danger);
+  }
+  .fill-on-info {
+    fill: var(--color-on-info);
+  }
+  .fill-on-primary {
+    fill: var(--color-on-primary);
+  }
+  .fill-on-secondary {
+    fill: var(--color-on-secondary);
+  }
+  .fill-on-success {
+    fill: var(--color-on-success);
+  }
+  .fill-on-surface {
+    fill: var(--color-on-surface);
+  }
+  .fill-on-surface-strong {
+    fill: var(--color-on-surface-strong);
+  }
+  .fill-on-warning {
+    fill: var(--color-on-warning);
+  }
+  .fill-outline {
+    fill: var(--color-outline);
+  }
+  .fill-outline-strong {
+    fill: var(--color-outline-strong);
+  }
+  .fill-primary {
+    fill: var(--color-primary);
+  }
+  .fill-secondary {
+    fill: var(--color-secondary);
+  }
+  .fill-success {
+    fill: var(--color-success);
+  }
+  .fill-surface {
+    fill: var(--color-surface);
+  }
+  .fill-surface-alt {
+    fill: var(--color-surface-alt);
+  }
+  .fill-warning {
+    fill: var(--color-warning);
   }
   .object-cover {
     object-fit: cover;
@@ -3436,6 +3495,11 @@
   .disabled\:opacity-75 {
     &:disabled {
       opacity: 75%;
+    }
+  }
+  .motion-safe\:animate-spin {
+    @media (prefers-reduced-motion: no-preference) {
+      animation: var(--animate-spin);
     }
   }
   .motion-safe\:transition-transform {
@@ -5284,6 +5348,11 @@ pre:has(> code) {
   syntax: "*";
   initial-value: "";
   inherits: false;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 @keyframes ping {
   75%, 100% {

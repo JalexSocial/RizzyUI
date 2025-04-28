@@ -1,4 +1,5 @@
-﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+﻿
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 namespace RizzyUI;
 
@@ -74,6 +75,7 @@ public partial class RzTheme
         RzSidebar = new DefaultRzSidebarStyles(this);
         RzSidebarLinkItem = new DefaultRzSidebarLinkItemStyles(this);
         RzSidebarLinks = new DefaultRzSidebarLinksStyles(this);
+        RzSpinner = new DefaultRzSpinnerStyles(this); 
         RzSteps = new DefaultRzStepsStyles(this);
         RzTabs = new DefaultRzTabsStyles(this);
         RzTab = new DefaultRzTabStyles(this);
@@ -156,7 +158,7 @@ public partial class RzTheme
     ///     Gets the default border radius value used across components (e.g., "6px", "0.5rem").
     /// </summary>
     public string BorderRadius { get; protected init; }
-    
+
     /// <summary>
     ///     Gets the default Arctic theme instance.
     /// </summary>
