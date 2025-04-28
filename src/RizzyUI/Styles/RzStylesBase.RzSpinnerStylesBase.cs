@@ -1,4 +1,4 @@
-using RizzyUI;
+namespace RizzyUI;
 
 /// <summary>
 ///     Abstract base class defining the structure for component style definitions.

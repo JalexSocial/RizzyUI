@@ -1,4 +1,4 @@
-﻿using RizzyUI;
+﻿namespace RizzyUI;
 
 /// <summary>
 ///     Default implementation of <see cref="RzStylesBase.RzDividerStylesBase" /> that maps each
