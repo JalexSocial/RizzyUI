@@ -127,6 +127,38 @@ public static class ColorUtil
     }
 
     /// <summary>
+    /// Converts a SemanticColor to a fill class string.
+    /// </summary>
+    /// <param name="color">The color enum value.</param>
+    /// <returns>A string representing the corresponding CSS fill class.</returns>
+    public static string ToFillClass(this SemanticColor color)
+    {
+        return color switch
+        {
+            SemanticColor.None => "", // Uses SpinnerBase default (fill-on-surface)
+            SemanticColor.Surface => "fill-surface",
+            SemanticColor.OnSurface => "fill-on-surface",
+            SemanticColor.OnSurfaceStrong => "fill-on-surface-strong",
+            SemanticColor.SurfaceAlt => "fill-surface-alt",
+            SemanticColor.Primary => "fill-primary",
+            SemanticColor.OnPrimary => "fill-on-primary",
+            SemanticColor.Secondary => "fill-secondary",
+            SemanticColor.OnSecondary => "fill-on-secondary",
+            SemanticColor.Outline => "fill-outline",
+            SemanticColor.OutlineStrong => "fill-outline-strong",
+            SemanticColor.Danger => "fill-danger",
+            SemanticColor.OnDanger => "fill-on-danger",
+            SemanticColor.Info => "fill-info",
+            SemanticColor.OnInfo => "fill-on-info", // Check if onInfo fill exists or adjust
+            SemanticColor.Warning => "fill-warning",
+            SemanticColor.OnWarning => "fill-on-warning",
+            SemanticColor.Success => "fill-success",
+            SemanticColor.OnSuccess => "fill-on-success",
+            _ => "" // Fallback to SpinnerBase default
+        };
+    }
+    
+    /// <summary>
     ///     Converts a StatusColor to a text class string, including dark mode variants for Status colors.
     /// </summary>
     /// <param name="color">The color enum value.</param>

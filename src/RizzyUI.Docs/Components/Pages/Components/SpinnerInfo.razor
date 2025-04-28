@@ -1,0 +1,143 @@
+
+@page "/components/spinner"
+@using RizzyUI
+@using RizzyUI.Extensions
+
+<PageTitle>RzSpinner</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <!-- Page Title and Overview -->
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">
+                RzSpinner
+            </RzHeading>
+            <RzParagraph>
+                The RzSpinner component provides a visual indicator for loading or processing states.
+                It renders an SVG animation that is styled according to the current theme, supporting various sizes and semantic colors.
+            </RzParagraph>
+
+            <!-- Example 1: Default RzSpinner -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Spinner" class="scroll-mt-20">
+                    Default Spinner
+                </RzHeading>
+                <RzParagraph>
+                    The default spinner uses the medium size and the theme's 'OnSurface' color.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzSpinner />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                    &lt;RzSpinner /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 2: Spinner Sizes -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Spinner Sizes" class="scroll-mt-20">
+                    Spinner Sizes
+                </RzHeading>
+                <RzParagraph>
+                    Spinners are available in multiple sizes using the `Size` parameter.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center gap-4 min-h-20">
+                        <RzSpinner Size="Size.ExtraSmall" />
+                        <RzSpinner Size="Size.Small" />
+                        <RzSpinner Size="Size.Medium" />
+                        <RzSpinner Size="Size.Large" />
+                        <RzSpinner Size="Size.ExtraLarge" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                    &lt;RzSpinner Size=&quot;Size.ExtraSmall&quot; /&gt;
+                    &lt;RzSpinner Size=&quot;Size.Small&quot; /&gt;
+                    &lt;RzSpinner Size=&quot;Size.Medium&quot; /&gt;
+                    &lt;RzSpinner Size=&quot;Size.Large&quot; /&gt;
+                    &lt;RzSpinner Size=&quot;Size.ExtraLarge&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 3: Spinner Colors -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Spinner Colors" class="scroll-mt-20">
+                    Spinner Colors
+                </RzHeading>
+                <RzParagraph>
+                    Customize the spinner's color using the `Color` parameter with semantic color options.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center gap-4 min-h-20 flex-wrap">
+                        <RzSpinner Color="SemanticColor.Primary" />
+                        <RzSpinner Color="SemanticColor.Secondary" />
+                        <RzSpinner Color="SemanticColor.Success" />
+                        <RzSpinner Color="SemanticColor.Info" />
+                        <RzSpinner Color="SemanticColor.Warning" />
+                        <RzSpinner Color="SemanticColor.Danger" />
+                        <RzSpinner Color="SemanticColor.OnSurfaceStrong" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                    &lt;RzSpinner Color=&quot;SemanticColor.Primary&quot; /&gt;
+                    &lt;RzSpinner Color=&quot;SemanticColor.Secondary&quot; /&gt;
+                    &lt;RzSpinner Color=&quot;SemanticColor.Success&quot; /&gt;
+                    &lt;RzSpinner Color=&quot;SemanticColor.Info&quot; /&gt;
+                    &lt;RzSpinner Color=&quot;SemanticColor.Warning&quot; /&gt;
+                    &lt;RzSpinner Color=&quot;SemanticColor.Danger&quot; /&gt;
+                    &lt;RzSpinner Color=&quot;SemanticColor.OnSurfaceStrong&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Parameters Table: RzSpinner -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzSpinner Component Parameters" class="scroll-mt-20">
+                    RzSpinner Component Parameters
+                </RzHeading>
+                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
+                    <thead>
+                        <tr class="bg-surface-alt ">
+                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong ">
+                                Property
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong ">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Size</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>Size</em> – Specifies the size of the spinner. Options: <code>ExtraSmall</code>, <code>Small</code>, <code>Medium</code>, <code>Large</code>, <code>ExtraLarge</code>. (Default: <code>Medium</code>)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>Color</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>SemanticColor</em> – Determines the fill color of the spinner. Defaults to <code>None</code>, which uses the theme's default 'OnSurface' color. Options include <code>Primary</code>, <code>Secondary</code>, <code>Success</code>, <code>Info</code>, <code>Warning</code>, <code>Danger</code>, etc.
+                            </td>
+                        </tr>
+                         <tr>
+                            <td class="text-base p-4 text-center">
+                                <strong>AriaLabel</strong>
+                            </td>
+                            <td class="text-base p-4">
+                                <em>string?</em> – Sets the accessible label for the spinner, announced by screen readers. Defaults to a localized "Loading...". It's recommended to provide a more specific label indicating what is loading (e.g., "Loading user data...").
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
