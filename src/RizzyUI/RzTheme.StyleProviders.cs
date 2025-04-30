@@ -122,6 +122,9 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzMarkdown" /> component. </summary>
     public virtual RzStylesBase.RzMarkdownStylesBase RzMarkdown { get; }
+    
+    /// <summary> Gets or sets the style definitions for the <see cref="RzModal"/> component. </summary>
+    public virtual RzStylesBase.RzModalStylesBase RzModal { get; }    
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzNavbar" /> component. </summary>
     public virtual RzStylesBase.RzNavbarStylesBase RzNavbar { get; }
