@@ -5,33 +5,37 @@
 <HtmlElement Element="div"
              @attributes="AdditionalAttributes"
              class="@RootClass()"
-             x-data="rzProgress"
-             data-label="@Label"
-             data-current-val="@CurrentValue"
-             data-min-val="@MinValue"
-             data-max-val="@MaxValue"
-             role="progressbar"
-             aria-label="@AriaLabel"
-             aria-valuenow="@CurrentValue"
-             aria-valuemin="@MinValue"
-             aria-valuemax="@MaxValue"
-             data-progress="true">
+             >
 
-	@if (LabelPosition == ProgressLabelPosition.Outside && !string.IsNullOrEmpty(Label))
-	{
-		<div class="@Theme.RzProgress.OutsideLabelContainer">
-			<div class="grow"></div>
-			<div class="@Theme.RzProgress.OutsideLabelText"><span x-text="buildLabel"></span></div>
-		</div>
-	}
-	<div class="@Theme.RzProgress.OuterBar @Theme.RzProgress.GetOuterBarHeightCss(LabelPosition)">
-		<div class="@InnerBarClass" x-ref="progressBar" nonce="@Nonce">
-			@if (LabelPosition == ProgressLabelPosition.Inside && !string.IsNullOrEmpty(Label))
-			{
-				<div class="@Theme.RzProgress.InsideLabelContainer" x-ref="progressBarLabel" :class="getLabelCss">
-					<span class="@Theme.RzProgress.InsideLabelText" x-ref="innerLabel"></span>
-				</div>
-			}
-		</div>
-	</div>
+	             <div x-data="rzProgress"
+	                  data-label="@Label"
+	                  data-current-val="@CurrentValue"
+	                  data-min-val="@MinValue"
+	                  data-max-val="@MaxValue"
+	                  role="progressbar"
+	                  aria-label="@AriaLabel"
+	                  aria-valuenow="@CurrentValue"
+	                  aria-valuemin="@MinValue"
+	                  aria-valuemax="@MaxValue"
+	                  data-progress="true">
+		             
+		             @if (LabelPosition == ProgressLabelPosition.Outside && !string.IsNullOrEmpty(Label))
+		             {
+			             <div class="@Theme.RzProgress.OutsideLabelContainer">
+				             <div class="grow"></div>
+				             <div class="@Theme.RzProgress.OutsideLabelText"><span x-text="buildLabel"></span></div>
+			             </div>
+		             }
+		             <div class="@Theme.RzProgress.OuterBar @Theme.RzProgress.GetOuterBarHeightCss(LabelPosition)">
+			             <div class="@InnerBarClass" x-ref="progressBar" nonce="@Nonce">
+				             @if (LabelPosition == ProgressLabelPosition.Inside && !string.IsNullOrEmpty(Label))
+				             {
+					             <div class="@Theme.RzProgress.InsideLabelContainer" x-ref="progressBarLabel" :class="getLabelCss">
+						             <span class="@Theme.RzProgress.InsideLabelText" x-ref="innerLabel"></span>
+					             </div>
+				             }
+			             </div>
+		             </div>
+
+	             </div>
 </HtmlElement>
