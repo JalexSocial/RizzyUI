@@ -5319,6 +5319,165 @@ function registerComponents(Alpine) {
   });
 
   // --------------------------------------------------------------------------------
+  // Alpine.js component: rzModal
+  // Manages the state and behavior of a modal dialog.
+  // Can be triggered by a window event, closed via button, escape key,
+  // or outside click. Supports HTMX content swapping within its body/footer.
+  // Also listens for a 'rz:modal-close' window event triggered by HTMX responses.
+  // Dispatches lifecycle events: rz:modal-initialized, rz:modal-before-open,
+  // rz:modal-after-open, rz:modal-before-close, rz:modal-after-close.
+  // --------------------------------------------------------------------------------
+  Alpine.data('rzModal', function () {
+    return {
+      modalOpen: false,
+      // Main state variable
+      eventTriggerName: '',
+      closeEventName: 'rz:modal-close',
+      // Default value, corresponds to Constants.Events.ModalClose
+      closeOnEscape: true,
+      closeOnClickOutside: true,
+      modalId: '',
+      bodyId: '',
+      footerId: '',
+      _escapeListener: null,
+      _openListener: null,
+      _closeEventListener: null,
+      init: function init() {
+        var _this5 = this;
+        this.modalId = this.$el.dataset.modalId || '';
+        this.bodyId = this.$el.dataset.bodyId || '';
+        this.footerId = this.$el.dataset.footerId || '';
+        this.eventTriggerName = this.$el.dataset.eventTriggerName || '';
+        this.closeEventName = this.$el.dataset.closeEventName || this.closeEventName; // Use provided or default
+        this.closeOnEscape = this.$el.dataset.closeOnEscape !== 'false';
+        this.closeOnClickOutside = this.$el.dataset.closeOnClickOutside !== 'false';
+
+        // Dispatch initialized event - Use "rz:modal-initialized"
+        this.$el.dispatchEvent(new CustomEvent('rz:modal-initialized', {
+          detail: {
+            modalId: this.modalId,
+            bodyId: this.bodyId,
+            footerId: this.footerId
+          },
+          bubbles: true
+        }));
+
+        // Listener for the custom window event to open the modal
+        if (this.eventTriggerName) {
+          this._openListener = function (e) {
+            _this5.openModal(e);
+          };
+          window.addEventListener(this.eventTriggerName, this._openListener);
+        }
+
+        // Listener for the custom window event to close the modal
+        this._closeEventListener = function (event) {
+          if (_this5.modalOpen) {
+            _this5.closeModalInternally('event');
+          }
+        };
+        window.addEventListener(this.closeEventName, this._closeEventListener);
+
+        // Listener for the Escape key
+        this._escapeListener = function (e) {
+          if (_this5.modalOpen && _this5.closeOnEscape && e.key === 'Escape') {
+            _this5.closeModalInternally('escape');
+          }
+        };
+        window.addEventListener('keydown', this._escapeListener);
+
+        // Watch the 'modalOpen' state to manage body overflow and focus
+        this.$watch('modalOpen', function (value) {
+          document.body.classList.toggle('overflow-hidden', value);
+          if (value) {
+            _this5.$nextTick(function () {
+              var dialogElement = _this5.$el.querySelector('[role="document"]');
+              var focusable = dialogElement === null || dialogElement === void 0 ? void 0 : dialogElement.querySelector('button, [href], input:not([type=\'hidden\']), select, textarea, [tabindex]:not([tabindex="-1"])');
+              focusable === null || focusable === void 0 || focusable.focus();
+              // Dispatch after-open event - Use "rz:modal-after-open"
+              _this5.$el.dispatchEvent(new CustomEvent('rz:modal-after-open', {
+                detail: {
+                  modalId: _this5.modalId
+                },
+                bubbles: true
+              }));
+            });
+          } else {
+            _this5.$nextTick(function () {
+              // Dispatch after-close event - Use "rz:modal-after-close"
+              _this5.$el.dispatchEvent(new CustomEvent('rz:modal-after-close', {
+                detail: {
+                  modalId: _this5.modalId
+                },
+                bubbles: true
+              }));
+            });
+          }
+        });
+      },
+      notModalOpen: function notModalOpen() {
+        return !this.modalOpen;
+      },
+      destroy: function destroy() {
+        // Clean up listeners
+        if (this._openListener && this.eventTriggerName) {
+          window.removeEventListener(this.eventTriggerName, this._openListener);
+        }
+        if (this._closeEventListener) {
+          window.removeEventListener(this.closeEventName, this._closeEventListener);
+        }
+        if (this._escapeListener) {
+          window.removeEventListener('keydown', this._escapeListener);
+        }
+        document.body.classList.remove('overflow-hidden');
+      },
+      openModal: function openModal() {
+        var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+        // Dispatch before-open event - Use "rz:modal-before-open"
+        var beforeOpenEvent = new CustomEvent('rz:modal-before-open', {
+          detail: {
+            modalId: this.modalId,
+            originalEvent: event
+          },
+          bubbles: true,
+          cancelable: true
+        });
+        this.$el.dispatchEvent(beforeOpenEvent);
+        if (!beforeOpenEvent.defaultPrevented) {
+          this.modalOpen = true;
+        }
+      },
+      // Internal close function called by button, escape, backdrop, event
+      closeModalInternally: function closeModalInternally() {
+        var reason = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'unknown';
+        // Dispatch before-close event - Use "rz:modal-before-close"
+        var beforeCloseEvent = new CustomEvent('rz:modal-before-close', {
+          detail: {
+            modalId: this.modalId,
+            reason: reason
+          },
+          bubbles: true,
+          cancelable: true
+        });
+        this.$el.dispatchEvent(beforeCloseEvent);
+        if (!beforeCloseEvent.defaultPrevented) {
+          this.modalOpen = false;
+        }
+      },
+      // Called only by the explicit close button in the template
+      requestCloseFromButton: function requestCloseFromButton() {
+        this.closeModalInternally('button');
+      },
+      // Method called by x-on:click.outside on the dialog element
+      handleClickOutside: function handleClickOutside() {
+        if (this.closeOnClickOutside) {
+          this.closeModalInternally('backdrop');
+        }
+      }
+    };
+  });
+
+  // --------------------------------------------------------------------------------
   // Alpine.js component: rzPrependInput
   // Adjusts the padding of an input element based on the width of a prepend element.
   // --------------------------------------------------------------------------------
@@ -5371,7 +5530,7 @@ function registerComponents(Alpine) {
       percentage: 0,
       label: '',
       init: function init() {
-        var _this5 = this;
+        var _this6 = this;
         var element = this.$el;
         // Retrieve progress values from data attributes
         this.currentVal = parseInt(element.getAttribute('data-current-val')) || 0;
@@ -5386,16 +5545,16 @@ function registerComponents(Alpine) {
         element.setAttribute('aria-valuetext', "".concat(this.percentage, "%"));
         this.updateProgressBar();
         var resizeObserver = new ResizeObserver(function (entries) {
-          _this5.updateProgressBar();
+          _this6.updateProgressBar();
         });
         resizeObserver.observe(element);
 
         // Watch for changes in currentVal to update progress dynamically
         this.$watch('currentVal', function () {
-          _this5.calculatePercentage();
-          _this5.updateProgressBar();
-          element.setAttribute('aria-valuenow', _this5.currentVal);
-          element.setAttribute('aria-valuetext', "".concat(_this5.percentage, "%"));
+          _this6.calculatePercentage();
+          _this6.updateProgressBar();
+          element.setAttribute('aria-valuenow', _this6.currentVal);
+          element.setAttribute('aria-valuetext', "".concat(_this6.percentage, "%"));
         });
       },
       calculatePercentage: function calculatePercentage() {
@@ -5470,11 +5629,11 @@ function registerComponents(Alpine) {
       },
       // Handles click events on quick reference links.
       handleHeadingClick: function handleHeadingClick() {
-        var _this6 = this;
+        var _this7 = this;
         var id = this.$el.dataset.headingid; // Get ID from the clicked link's context
         // Use requestAnimationFrame for smoother UI update before potential scroll jump
         window.requestAnimationFrame(function () {
-          _this6.currentHeadingId = id;
+          _this7.currentHeadingId = id;
         });
       },
       // Sets the current heading ID based on intersection observer events from rzHeading.
@@ -5521,13 +5680,13 @@ function registerComponents(Alpine) {
         tabButton.focus();
       },
       tabRepositionMarker: function tabRepositionMarker(tabButton) {
-        var _this7 = this;
+        var _this8 = this;
         this.tabButton = tabButton;
         this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
         this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
         this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
         setTimeout(function () {
-          _this7.$refs.tabMarker.style.opacity = 1;
+          _this8.$refs.tabMarker.style.opacity = 1;
         }, 150);
       },
       // Get the CSS classes for the tab content panel based on selection
@@ -5548,11 +5707,11 @@ function registerComponents(Alpine) {
         this.tabRepositionMarker(this.tabButton);
       },
       handleKeyDown: function handleKeyDown(event) {
-        var _this8 = this;
+        var _this9 = this;
         var key = event.key;
         var tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
         var currentIndex = tabButtons.findIndex(function (button) {
-          return _this8.tabSelected === button.dataset.name;
+          return _this9.tabSelected === button.dataset.name;
         });
         var newIndex = currentIndex;
         if (key === 'ArrowRight') {

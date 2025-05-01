@@ -696,6 +696,10 @@ function registerComponents(Alpine) {
                 }
             });
         },
+        
+        notModalOpen() {
+            return !this.modalOpen;
+        },
 
         destroy() {
             // Clean up listeners
@@ -752,7 +756,7 @@ function registerComponents(Alpine) {
             }
         }
     }));
-    
+
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzPrependInput
 // Adjusts the padding of an input element based on the width of a prepend element.
