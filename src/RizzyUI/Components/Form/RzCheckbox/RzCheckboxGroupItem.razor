@@ -5,13 +5,15 @@
 @using Rizzy
 @inherits RzComponent
 
-<HtmlElement Element="@Element" x-data="rzCheckboxGroupItem" @attributes="@AdditionalAttributes" class="@Theme.RzCheckboxGroupItem.Label">
-	<div class="@Theme.RzCheckboxGroupItem.CheckboxWrapper">
-		<RzInputCheckbox @Value="IsChecked" class="@Theme.RzCheckboxGroupItem.CheckboxInput" x-on:change="toggleCheckbox" x-ref="chk"/>
-		<div class="@Theme.RzCheckboxGroupItem.IconContainer" :class="@(GetIconVisibilityCss(IsChecked))">
-			<Blazicon Svg="EffectiveCheckedIcon"/>
+<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@Theme.RzCheckboxGroupItem.Label">
+	<div x-data="rzCheckboxGroupItem" data-alpine-root="@Id">
+		<div class="@Theme.RzCheckboxGroupItem.CheckboxWrapper">
+			<RzInputCheckbox @Value="IsChecked" class="@Theme.RzCheckboxGroupItem.CheckboxInput" x-on:change="toggleCheckbox" x-ref="chk"/>
+			<div class="@Theme.RzCheckboxGroupItem.IconContainer" :class="@(GetIconVisibilityCss(IsChecked))">
+				<Blazicon Svg="EffectiveCheckedIcon"/>
+			</div>
 		</div>
+		<span class="@Theme.RzCheckboxGroupItem.TitleSpan">@Title</span>
+		@ChildContent
 	</div>
-	<span class="@Theme.RzCheckboxGroupItem.TitleSpan">@Title</span>
-	@ChildContent
 </HtmlElement>

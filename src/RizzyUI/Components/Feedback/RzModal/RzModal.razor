@@ -4,14 +4,15 @@
 
 <template x-teleport="body">
     <div x-data="rzModal"
-         data-modal-id="@UniqueId"
+         id="@Id"
+         data-alpine-root="@Id"
+         data-modal-id="@Id"
          data-body-id="@BodyId"
          data-footer-id="@FooterId"
          data-event-trigger-name="@EventTriggerName"
          data-close-event-name="@CloseEventName"
          data-close-on-escape="@CloseOnEscape.ToString().ToLowerInvariant()"
          data-close-on-click-outside="@CloseOnClickOutside.ToString().ToLowerInvariant()"
-         id="@UniqueId"
          class="contents">
 
         <div x-cloak
@@ -39,7 +40,7 @@
                  x-transition:leave-start="opacity-100 scale-100"
                  x-transition:leave-end="opacity-0 scale-125"
                  x-trap.inert="modalOpen"
-                 x-on:click.outside="handleClickOutside()"
+                 x-on:click.outside="handleClickOutside"
                  role="document"
                  class="@RootClass()">
 
@@ -66,7 +67,7 @@
                         @if(ShowCloseButton)
                         {
                             <div class="@Theme.RzModal.CloseButtonContainer">
-                                <button x-on:click="requestCloseFromButton()"
+                                <button x-on:click="requestCloseFromButton"
                                         type="button"
                                         aria-label="@Localizer["RzModal.CloseButtonAriaLabel"]"
                                         class="@Theme.RzModal.CloseButton">

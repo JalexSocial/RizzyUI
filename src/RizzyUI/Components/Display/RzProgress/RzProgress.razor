@@ -4,10 +4,12 @@
 
 <HtmlElement Element="div"
              @attributes="AdditionalAttributes"
+             id="@Id"
              class="@RootClass()"
              >
 
 	             <div x-data="rzProgress"
+	                  data-alpine-root="@Id"
 	                  data-label="@Label"
 	                  data-current-val="@CurrentValue"
 	                  data-min-val="@MinValue"

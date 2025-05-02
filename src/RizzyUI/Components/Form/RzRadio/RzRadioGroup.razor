@@ -1,11 +1,12 @@
 
 @typeparam TValue
 @namespace RizzyUI
+@using Rizzy
 @inherits RzComponent
 
 <CascadingValue Value="this" IsFixed="true">
 
-    <RzInputRadioGroup TValue="TValue" ValueExpression="@For" Value="CurrentValue" Name="@Name">
+    <RzInputRadioGroup TValue="TValue" ValueExpression="@For" Value="CurrentValue" Id="@Id" Name="@Name">
         <div @attributes="AdditionalAttributes" class="@RootClass()">
             @ChildContent
         </div>

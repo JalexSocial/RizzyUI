@@ -3,7 +3,7 @@
 @inherits RzTypographyBase
 
 <HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
-    <div x-data="rzHeading">
+    <div x-data="rzHeading" data-alpine-root="@Id">
         @if (ChildContent == null && !string.IsNullOrEmpty(QuickReferenceTitle))
         {
             @QuickReferenceTitle

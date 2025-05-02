@@ -2,8 +2,8 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement Element="div" @attributes="@AdditionalAttributes" class="@RootClass()">
-	<div x-data="rzDropdown" data-anchor="@Anchor.ToString().ToLowerInvariant()" class="@Theme.RzDropdown.RelativeWrapper">
+<HtmlElement Element="div" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
+	<div x-data="rzDropdown" data-alpine-root="@Id" data-anchor="@Anchor.ToString().ToLowerInvariant()" class="@Theme.RzDropdown.RelativeWrapper">
 		<div
 			class="@Theme.RzDropdown.TriggerWrapper"
 			aria-haspopup="true"

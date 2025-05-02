@@ -4,6 +4,7 @@ import intersect from '@alpinejs/intersect';
 import focus from '@alpinejs/focus';
 import toast from "./lib/notify/toast";
 import { registerComponents, require } from './lib/components.js';
+import $data from './lib/alpineData.js';
 
 // Register Alpine.js extensions
 Alpine.plugin(collapse);
@@ -15,9 +16,10 @@ const RizzyUI = {
     Alpine,
     require,
     toast,
+    $data
 }
 
-window.Alpine = Alpine
+window.Alpine = Alpine;
 window.Rizzy = { ...(window.Rizzy || {}), ...RizzyUI };
 
 Alpine.start()

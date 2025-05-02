@@ -6,7 +6,7 @@
 
 @if (Collapsible)
 {
-    <li class="@Theme.RzSidebarLinkItem.CollapsibleListItem">
+    <li class="@Theme.RzSidebarLinkItem.CollapsibleListItem" id="@Id">
         <div data-expanded="@((!Collapsed).ToString().ToLowerInvariant())" x-data="rzSidebarLinkItem"
              data-chevron-expanded-class="@Theme.RzSidebarLinkItem.GetChevronRotationCss(true)"
              data-chevron-collapsed-class="@Theme.RzSidebarLinkItem.GetChevronRotationCss(false)"
@@ -42,7 +42,7 @@
 }
 else if (Parent is { HasChildren: true, Collapsible: false }) // Sub-item under non-collapsible parent
 {
-    <li class="@Theme.RzSidebarLinkItem.SubListItem">
+    <li class="@Theme.RzSidebarLinkItem.SubListItem" id="@Id">
         @if (HasChildren) // Sub-item that itself has children (render as div)
         {
             <div @attributes="AdditionalAttributes" class="@Theme.RzSidebarLinkItem.SubLinkOrDiv">
@@ -87,7 +87,7 @@ else if (Parent is { HasChildren: true, Collapsible: false }) // Sub-item under 
 }
 else // Top-level non-collapsible item
 {
-    <li class="@Theme.RzSidebarLinkItem.TopLevelListItem">
+    <li class="@Theme.RzSidebarLinkItem.TopLevelListItem" id="@Id">
         @if (HasChildren) // Top-level item with children (render as div)
         {
             <div @attributes="AdditionalAttributes" class="@Theme.RzSidebarLinkItem.TopLevelNonCollapsibleDiv">

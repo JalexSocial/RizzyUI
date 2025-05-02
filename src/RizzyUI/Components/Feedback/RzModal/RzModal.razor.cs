@@ -15,12 +15,6 @@ namespace RizzyUI;
 public partial class RzModal : RzComponent
 {
     /// <summary>
-    /// Gets the unique identifier for the root x-data element. Useful if multiple modals need distinct event handling.
-    /// Also passed to Alpine for event details.
-    /// </summary>
-    protected string UniqueId { get; } = IdGenerator.UniqueId("rzmdlwrapper");
-
-    /// <summary>
     /// Gets the unique identifier used for the `aria-labelledby` attribute, linking the dialog to its title.
     /// </summary>
     protected string AriaLabelId { get; } = IdGenerator.UniqueId("rzmdlttl");

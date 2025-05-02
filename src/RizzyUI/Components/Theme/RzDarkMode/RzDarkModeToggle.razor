@@ -5,16 +5,19 @@
 
 <HtmlElement Element="button"
              @attributes="@AdditionalAttributes"
+             id="@Id"
              class="@RootClass()"
              type="button"
-             aria-label="@Localizer["RzDarkModeToggle.AriaLabel"]"
-             x-data="rzDarkModeToggle"
-             x-on:click="toggle"
-             :aria-pressed="isDark">
-    <div x-show="isLight" x-cloak>
-        <Blazicon Svg="@DarkIcon" class="@Theme.RzDarkmodeToggle.Icon"/>
-    </div>
-    <div x-show="isDark" x-cloak>
-        <Blazicon Svg="@LightIcon" class="@Theme.RzDarkmodeToggle.Icon"/>
+             aria-label="@Localizer["RzDarkModeToggle.AriaLabel"]">
+    <div x-data="rzDarkModeToggle"
+         x-on:click="toggle"
+         alpine-data-root="@Id"
+         :aria-pressed="isDark">
+        <div x-show="isLight" x-cloak>
+            <Blazicon Svg="@DarkIcon" class="@Theme.RzDarkmodeToggle.Icon"/>
+        </div>
+        <div x-show="isDark" x-cloak>
+            <Blazicon Svg="@LightIcon" class="@Theme.RzDarkmodeToggle.Icon"/>
+        </div>
     </div>
 </HtmlElement>

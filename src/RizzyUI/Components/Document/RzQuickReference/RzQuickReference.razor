@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<nav class="@RootClass()" aria-label="@AriaLabel">
+<nav @attributes="@AdditionalAttributes" class="@RootClass()" id="@Id" aria-label="@AriaLabel">
     <p class="@Theme.RzQuickReference.Title">
         @Title
     </p>

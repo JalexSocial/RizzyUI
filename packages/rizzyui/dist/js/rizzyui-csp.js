@@ -4698,6 +4698,132 @@ function t(t,e){if(!(t instanceof e)){throw new TypeError("Cannot call a class a
 
 /***/ }),
 
+/***/ "./src/js/lib/alpineData.js":
+/*!**********************************!*\
+  !*** ./src/js/lib/alpineData.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * Helper function to retrieve the Alpine.js x-data state object associated with
+ * a specific component. It accepts either the component's wrapper ID (string)
+ * or a direct reference to the wrapper element itself (Element).
+ *
+ * This function bridges the gap between a known component wrapper (identified
+ * by ID or element reference) and the potentially nested element that actually
+ * holds the Alpine `x-data` directive and is marked with a `data-alpine-root`
+ * attribute matching the wrapper's ID.
+ *
+ * @prerequisites
+ *   - Alpine.js (v3+) must be loaded and initialized globally as `Alpine`.
+ *   - If `idOrElement` is a string, the DOM must contain an element with that ID.
+ *   - The identified wrapper element (whether found by ID or passed directly)
+ *     MUST have an `id` attribute.
+ *   - EITHER the wrapper element OR one of its descendants MUST have the
+ *     attribute `data-alpine-root` set to the wrapper element's `id`. This
+ *     element with `data-alpine-root` is assumed to be the intended Alpine
+ *     component root containing the `x-data`. Failure to meet this structure
+ *     will result in `undefined` being returned and a warning logged.
+ *
+ * @param {string | Element} idOrElement - The unique ID attribute (string) of
+ *   the component's outermost wrapper element, OR a direct reference (Element)
+ *   to that wrapper element.
+ * @returns {object | undefined} The Alpine x-data state object if the designated
+ *   Alpine root element is found and successfully initialized by Alpine.
+ *   Returns `undefined` if the input is invalid, prerequisites are not met,
+ *   the designated Alpine root element cannot be located, or if Alpine.$data
+ *   itself returns undefined for the located element. This mirrors the return
+ *   behavior of the native `Alpine.$data`.
+ */
+function $data(idOrElement) {
+  // --- Prerequisite Checks ---
+
+  // Guard clause: Verify Alpine.js and its $data utility are available.
+  if (typeof Alpine === 'undefined' || typeof Alpine.$data !== 'function') {
+    console.error('$data helper: Alpine.js context (Alpine.$data) is not available. ' + 'Ensure Alpine is loaded and initialized globally before use.');
+    return undefined;
+  }
+
+  // --- Determine Outer Element and Component ID ---
+
+  var outerElement = null;
+  var componentId = null; // Store the string ID for selector construction
+
+  if (typeof idOrElement === 'string') {
+    // Input is a string ID
+    if (!idOrElement) {
+      // Check for empty string
+      console.warn('Rizzy.$data: Invalid componentId provided (empty string).');
+      return undefined;
+    }
+    componentId = idOrElement;
+    outerElement = document.getElementById(componentId);
+
+    // Check if element was found using the ID
+    if (!outerElement) {
+      console.warn("Rizzy.$data: Rizzy component with ID \"".concat(componentId, "\" not found in the DOM."));
+      return undefined;
+    }
+  } else if (idOrElement instanceof Element) {
+    // Input is an Element object
+    outerElement = idOrElement;
+    // Crucial: The wrapper element itself MUST have an ID for the
+    // data-alpine-root lookup logic to work correctly.
+    if (!outerElement.id) {
+      console.warn('Rizzy.$data: Provided element does not have an ID attribute, which is required for locating the data-alpine-root.');
+      return undefined;
+    }
+    componentId = outerElement.id;
+  } else {
+    // Input is neither a valid string nor an Element
+    console.warn('Rizzy.$data: Invalid input provided. Expected a non-empty string ID or an Element object.');
+    return undefined;
+  }
+
+  // --- DOM Element Location (using determined outerElement and componentId) ---
+
+  // Prepare the CSS selector using the determined component ID.
+  var alpineRootSelector = "[data-alpine-root=\"".concat(componentId, "\"]");
+  var alpineRootElement = null;
+
+  // Strategy: Check wrapper first, then descendants.
+  if (outerElement.matches(alpineRootSelector)) {
+    alpineRootElement = outerElement;
+  } else {
+    alpineRootElement = outerElement.querySelector(alpineRootSelector);
+  }
+
+  // Verify the designated Alpine root was located.
+  if (!alpineRootElement) {
+    console.warn("Rizzy.$data: Could not locate the designated Alpine root element " + "using selector \"".concat(alpineRootSelector, "\" on or inside the wrapper element ") + "(ID: #".concat(componentId, "). Verify the 'data-alpine-root' attribute placement."));
+    return undefined;
+  }
+
+  // --- Alpine Data Retrieval ---
+
+  // Delegate to native Alpine.$data.
+  var alpineData = Alpine.$data(alpineRootElement);
+
+  // Check Alpine.$data's result.
+  if (alpineData === undefined) {
+    var targetDesc = "".concat(alpineRootElement.tagName.toLowerCase()) + "".concat(alpineRootElement.id ? '#' + alpineRootElement.id : '') + "".concat(alpineRootElement.classList.length ? '.' + Array.from(alpineRootElement.classList).join('.') : '');
+    console.warn("Rizzy.$data: Located designated Alpine root (".concat(targetDesc, ") ") + "via 'data-alpine-root=\"".concat(componentId, "\"', but Alpine.$data returned undefined. ") + "Ensure 'x-data' is correctly defined and initialized on this element.");
+    // Return undefined, consistent with Alpine.$data.
+  }
+
+  // Return the data or undefined.
+  return alpineData;
+}
+
+// Default ES Module export
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ($data);
+
+/***/ }),
+
 /***/ "./src/js/lib/components.js":
 /*!**********************************!*\
   !*** ./src/js/lib/components.js ***!
@@ -6342,12 +6468,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _alpinejs_focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @alpinejs/focus */ "./node_modules/@alpinejs/focus/dist/module.esm.js");
 /* harmony import */ var _lib_notify_toast__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib/notify/toast */ "./src/js/lib/notify/toast.js");
 /* harmony import */ var _lib_components_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lib/components.js */ "./src/js/lib/components.js");
+/* harmony import */ var _lib_alpineData_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./lib/alpineData.js */ "./src/js/lib/alpineData.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 
 
@@ -6363,7 +6491,8 @@ _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"].plugin(_alpinejs_focus__WE
 var RizzyUI = {
   Alpine: _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"],
   require: _lib_components_js__WEBPACK_IMPORTED_MODULE_5__.require,
-  toast: _lib_notify_toast__WEBPACK_IMPORTED_MODULE_4__["default"]
+  toast: _lib_notify_toast__WEBPACK_IMPORTED_MODULE_4__["default"],
+  $data: _lib_alpineData_js__WEBPACK_IMPORTED_MODULE_6__["default"]
 };
 window.Alpine = _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"];
 window.Rizzy = _objectSpread(_objectSpread({}, window.Rizzy || {}), RizzyUI);

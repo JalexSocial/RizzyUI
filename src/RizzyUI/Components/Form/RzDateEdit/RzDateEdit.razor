@@ -5,39 +5,42 @@
 
 <HtmlElement Element="div"
              @attributes="AdditionalAttributes"
+             id="@Id"
              class="@Theme.RzDateEdit.Container"
-             x-data="rzDateEdit"
-             data-config="@_serializedConfig"
-             data-uid="@_uid"
-             data-assets="@_assets"
-             data-nonce="@Nonce"
              role="group" aria-label="Date picker">
+	
+	<div x-data="rzDateEdit"
+	     data-alpine-root="@Id"
+	     data-config="@_serializedConfig"
+	     data-uid="@_uid"
+	     data-assets="@_assets"
+	     data-nonce="@Nonce">
 
-	<div class="@Theme.RzDateEdit.InputWrapper" x-data="rzPrependInput" x-ref="pickerWrapper">
-		@if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
-		{
-			<div x-ref="prependContainer" class="@Theme.RzDateEdit.PrependElement">
-				@if (!string.IsNullOrEmpty(PrependText))
-				{
-					@PrependText
-				}
-				else if (PrependIcon != null)
-				{
-					<div class="@Theme.RzDateEdit.PrependIconContainer">
-						<Blazicon Svg="PrependIcon"/>
-					</div>
-				}
-			</div>
-		}
+		<div class="@Theme.RzDateEdit.InputWrapper" x-data="rzPrependInput" x-ref="pickerWrapper">
+			@if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
+			{
+				<div x-ref="prependContainer" class="@Theme.RzDateEdit.PrependElement">
+					@if (!string.IsNullOrEmpty(PrependText))
+					{
+						@PrependText
+					}
+					else if (PrependIcon != null)
+					{
+						<div class="@Theme.RzDateEdit.PrependIconContainer">
+							<Blazicon Svg="PrependIcon"/>
+						</div>
+					}
+				</div>
+			}
 
-
-		<input x-ref="textInput"
-		       id="@_uidInputId"
-		       type="text"
-		       @bind="CurrentValue"
-		       placeholder="@Placeholder"
-		       class="@Theme.RzDateEdit.Input"
-		       data-input
-		       aria-label="Select date"/>
-	</div>
+			<input x-ref="textInput"
+			       id="@_uidInputId"
+			       type="text"
+			       @bind="CurrentValue"
+			       placeholder="@Placeholder"
+			       class="@Theme.RzDateEdit.Input"
+			       data-input
+			       aria-label="Select date"/>
+		</div>
+	</div>	
 </HtmlElement>

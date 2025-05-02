@@ -6,20 +6,19 @@
 <CascadingValue Value="this" IsFixed="true">
     <HtmlElement Element="@Element"
                  @attributes="@AdditionalAttributes"
+                 id="@Id"
                  class="@RootClass()"
                  role="alert"
                  aria-live="assertive"
                  x-cloak
-                 x-show="showAlert"
-                 x-data="rzAlert"
                  x-transition:enter="transition ease-out duration-200 motion-reduce:transition-none"
                  x-transition:enter-start="opacity-0"
                  x-transition:enter-end="opacity-100"
                  x-transition:leave="transition ease-in duration-100 motion-reduce:transition-none"
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0">
-
-        <div class="@Theme.RzAlert.InnerContainer @(_bgLight)">
+                     
+        <div data-alpine-root="@Id" x-data="rzAlert" x-show="showAlert" class="@Theme.RzAlert.InnerContainer @(_bgLight)">
             @if (Icon != null)
             {
                 <div class="@Theme.RzAlert.IconContainer @(Pulse ? "" : " " + _bgLighter) @(_iconColor)" aria-hidden="true">

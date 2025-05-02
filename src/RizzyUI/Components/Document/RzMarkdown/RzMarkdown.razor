@@ -2,9 +2,8 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement Element="div" @attributes="@AdditionalAttributes" class="@RootClass()"
-             data-assets="@_assets"
-             data-nonce="@Nonce"
-             x-data="rzMarkdown">
+<HtmlElement Element="div" @attributes="@AdditionalAttributes" class="@RootClass()" id="@Id">
+	<div data-alpine-root="@Id" data-assets="@_assets" data-nonce="@Nonce" x-data="rzMarkdown">
 	@OutputHtml
+	</div>
 </HtmlElement>

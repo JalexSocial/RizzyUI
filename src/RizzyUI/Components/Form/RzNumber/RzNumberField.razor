@@ -1,10 +1,11 @@
 
 @typeparam TValue
 @namespace RizzyUI
+@using Rizzy
 @inherits RzComponent
 
 
-<RzField @attributes="AdditionalAttributes" class="@RootClass()">
+<RzField @attributes="AdditionalAttributes" Id="@Id" class="@RootClass()">
 	<RzFieldLabel DisplayName="@DisplayName" For="@For" Required="Required"/>
 
 	<RzNumberEdit TValue="TValue"

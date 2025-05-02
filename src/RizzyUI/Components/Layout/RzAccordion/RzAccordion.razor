@@ -3,9 +3,9 @@
 @inherits RzComponent
 
 <HtmlElement Element="div"
-             x-data="rzAccordion"
              @attributes="@AdditionalAttributes"
-             class="@RootClass()"
-             data-multiple="@AllowMultipleOpen.ToString().ToLowerInvariant()">
-	@ChildContent
+             class="@RootClass()">
+	<div x-data="rzAccordion" data-alpine-root="@Id" data-multiple="@AllowMultipleOpen.ToString().ToLowerInvariant()">
+		@ChildContent
+	</div>
 </HtmlElement>
