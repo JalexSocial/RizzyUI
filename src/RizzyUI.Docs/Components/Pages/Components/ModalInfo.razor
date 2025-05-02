@@ -44,7 +44,7 @@
                             </ChildContent>
                             <FooterContent>
                                 <div class="flex justify-end gap-2">
-                                     <RzButton Variant="ButtonVariant.Alternate" x-on:click="closeModal()">Close (Alpine)</RzButton>
+                                     <RzButton Variant="ButtonVariant.Alternate" x-on:click="closeModal">Close (Alpine)</RzButton>
                                      <RzButton Variant="ButtonVariant.Primary">Okay</RzButton>
                                 </div>
                             </FooterContent>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
 
-                <RzCodeViewer Language="CodeLanguage.Razor" class="mb-10">
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzButton onclick=&quot;window.dispatchEvent(new CustomEvent(&#39;show-basic-modal&#39;))&quot;&gt;
     Open Basic Modal
 &lt;/RzButton&gt;
@@ -64,7 +64,7 @@
     &lt;/ChildContent&gt;
     &lt;FooterContent&gt;
         &lt;div class=&quot;flex justify-end gap-2&quot;&gt;
-             &lt;RzButton Variant=&quot;ButtonVariant.Alternate&quot; x-on:click=&quot;closeModal()&quot;&gt;Close (Alpine)&lt;/RzButton&gt;
+             &lt;RzButton Variant=&quot;ButtonVariant.Alternate&quot; x-on:click=&quot;closeModal&quot;&gt;Close (Alpine)&lt;/RzButton&gt;
              &lt;RzButton Variant=&quot;ButtonVariant.Primary&quot;&gt;Okay&lt;/RzButton&gt;
         &lt;/div&gt;
     &lt;/FooterContent&gt;
@@ -84,7 +84,7 @@
                     You can customize the modal's appearance using parameters like `Size`, `ShowHeader`, `ShowCloseButton`, and providing custom `TitleContent`.
                 </RzParagraph>
 
-                <RzBrowser Layout="typeof(PreviewLayout)">
+                <div>
                     <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-40 space-x-4">
                          <RzButton x-on:click="showSmallModal">
                             Open Small (No Header)
@@ -97,7 +97,7 @@
                             <ChildContent>
                                 <p>This modal has no header or default close button.</p>
                                 <div class="mt-4 text-right">
-                                     <RzButton Variant="ButtonVariant.Alternate" x-on:click="closeModal()">Close Me</RzButton>
+                                     <RzButton Variant="ButtonVariant.Alternate" x-on:click="closeModal">Close Me</RzButton>
                                 </div>
                             </ChildContent>
                         </RzModal>
@@ -114,9 +114,9 @@
                             </ChildContent>
                         </RzModal>
                     </div>
-                </RzBrowser>
+                </div>
 
-                <RzCodeViewer Language="CodeLanguage.Razor" class="mb-10">
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;!-- Button to open small modal --&gt;
 &lt;RzButton onclick=&quot;window.dispatchEvent(new CustomEvent(&#39;show-small-modal&#39;))&quot;&gt;
     Open Small (No Header)
@@ -127,7 +127,7 @@
     &lt;ChildContent&gt;
         &lt;p&gt;This modal has no header or default close button.&lt;/p&gt;
         &lt;div class=&quot;mt-4 text-right&quot;&gt;
-             &lt;RzButton Variant=&quot;ButtonVariant.Alternate&quot; x-on:click=&quot;closeModal()&quot;&gt;Close Me&lt;/RzButton&gt;
+             &lt;RzButton Variant=&quot;ButtonVariant.Alternate&quot; x-on:click=&quot;closeModal&quot;&gt;Close Me&lt;/RzButton&gt;
         &lt;/div&gt;
     &lt;/ChildContent&gt;
 &lt;/RzModal&gt;
@@ -160,7 +160,7 @@
                     This demonstrates using HTMX to load content dynamically into the modal's body *after* the modal is opened via a client-side event. The button first triggers the modal open event, then initiates an HTMX GET request targeting the modal's specific `BodyId`. The content is loaded from a static Blazor page created for this demo.
                 </RzParagraph>
 
-                <RzBrowser Layout="typeof(PreviewLayout)">
+                <div>
                     <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-40">
                         <RzButton hx-get="/demo/htmx-modal-sample"
                                   hx-target="@($"#{htmxLoadModalRef?.BodyId}")"
@@ -178,9 +178,9 @@
                             </ChildContent>
                         </RzModal>
                     </div>
-                </RzBrowser>
+                </div>
 
-                <RzCodeViewer Language="CodeLanguage.Razor" class="mb-10" Title="Blazor Component">
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10" Title="Blazor Component">
 &lt;RzButton hx-get=&quot;/demo/htmx-modal-sample&quot;
           hx-target=&quot;#@htmxLoadModalRef?.BodyId&quot; 
           hx-swap=&quot;innerHTML&quot;
@@ -201,7 +201,7 @@
     RzModal htmxLoadModalRef = default!;
 }
                 </RzCodeViewer>
-                 <RzCodeViewer Language="CodeLanguage.Razor" class="mb-10" Title="Demo Content Page (/demo/htmx-modal-sample)">
+                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10" Title="Demo Content Page (/demo/htmx-modal-sample)">
 @@page &quot;/demo/htmx-modal-sample&quot;
 @@layout RizzyUI.Docs.Components.Layout.EmptyLayout
 @@using RizzyUI
@@ -229,7 +229,7 @@
                    </RzAlertDescription>
                </RzAlert>
 
-                <RzBrowser Layout="typeof(PreviewLayout)">
+                <div>
                      <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-40">
                          <RzButton onclick="window.dispatchEvent(new CustomEvent('show-htmx-close-modal'))">
                              Open HTMX Close Example
@@ -248,9 +248,9 @@
                              </ChildContent>
                          </RzModal>
                      </div>
-                </RzBrowser>
+                </div>
 
-                 <RzCodeViewer Language="CodeLanguage.Razor" class="mb-10" Title="Blazor Component">
+                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10" Title="Blazor Component">
 &lt;RzButton onclick=&quot;window.dispatchEvent(new CustomEvent(&#39;show-htmx-close-modal&#39;))&quot;&gt;
     Open HTMX Close Example
 &lt;/RzButton&gt;
@@ -268,7 +268,7 @@
     &lt;/ChildContent&gt;
 &lt;/RzModal&gt;
                  </RzCodeViewer>
-                <RzCodeViewer Language="CodeLanguage.CSharp" class="mb-10" Title="Example Controller Action (using RzController)">
+                <RzCodeViewer Language="@CodeLanguage.CSharp" class="mb-10" Title="Example Controller Action (using RzController)">
 [HttpPost(&quot;/api/modal/htmx-close-action&quot;)]
 public IResult CloseModalAction()
 {

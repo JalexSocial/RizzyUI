@@ -15,11 +15,11 @@ public class DefaultRzModalStyles : RzStylesBase.RzModalStylesBase
 
     /// <inheritdoc />
     public override string Backdrop =>
-        "z-[10004] fixed inset-0 overflow-y-auto overflow-x-hidden bg-surface/75 p-4 lg:p-8";
+        "z-[10004] fixed inset-0 overflow-y-auto overflow-x-hidden bg-surface/75 backdrop-brightness-75 backdrop-blur-xs p-4 lg:p-8";
 
     /// <inheritdoc />
     public override string Dialog =>
-        "mx-auto flex w-full flex-col rounded-theme bg-surface shadow-sm dark:text-on-surface";
+        "mx-auto flex w-full flex-col rounded-theme bg-surface shadow-lg dark:text-on-surface";
 
     /// <inheritdoc />
     public override string Header =>
