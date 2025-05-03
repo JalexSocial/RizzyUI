@@ -414,16 +414,23 @@ public IResult CloseModalAction()
                         </thead>
                         <tbody class="bg-surface divide-y divide-outline dark:divide-outlineDark">
                             <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">modalOpen</td><td class="px-6 py-4 text-sm text-on-surface">Boolean state variable indicating if the modal is currently visible.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">openModal(event = null)</td><td class="px-6 py-4 text-sm text-on-surface">Method to programmatically open the modal. Dispatches `rz:modal-before-open` (cancelable) and `rz:modal-after-open`.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">closeModal()</td><td class="px-6 py-4 text-sm text-on-surface">Method to programmatically close the modal. Called internally by Escape, backdrop click, close button, and close event. Dispatches `rz:modal-before-close` (cancelable) and `rz:modal-after-close`.</td></tr>
-                             <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">modalId, bodyId, footerId</td><td class="px-6 py-4 text-sm text-on-surface">Read-only properties holding the IDs passed from Blazor, available in dispatched event details.</td></tr>
+                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">eventTriggerName</td><td class="px-6 py-4 text-sm text-on-surface">Name of the window event that triggers the modal to open.</td></tr>
+                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">closeEventName</td><td class="px-6 py-4 text-sm text-on-surface">Name of the window event that triggers the modal to close.</td></tr>
+                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">closeOnEscape</td><td class="px-6 py-4 text-sm text-on-surface">Boolean that controls whether the modal closes when Escape key is pressed.</td></tr>
+                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">closeOnClickOutside</td><td class="px-6 py-4 text-sm text-on-surface">Boolean that controls whether the modal closes when clicking outside the dialog.</td></tr>
+                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">modalId, bodyId, footerId</td><td class="px-6 py-4 text-sm text-on-surface">Read-only properties holding the generated IDs for the modal elements, available in dispatched event details.</td></tr>
+                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">openModal(event = null)</td><td class="px-6 py-4 text-sm text-on-surface">Method to programmatically open the modal. Dispatches `rz:modal-before-open` (cancelable) and if not prevented, sets modalOpen to true.</td></tr>
+                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">closeModal()</td><td class="px-6 py-4 text-sm text-on-surface">Public method to close the modal from the close button. Internally calls closeModalInternally with reason 'button'.</td></tr>
+                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">closeModalInternally(reason)</td><td class="px-6 py-4 text-sm text-on-surface">Internal method that handles closing the modal with a specific reason ('button', 'escape', 'backdrop', 'event'). Dispatches `rz:modal-before-close` (cancelable).</td></tr>
+                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">handleClickOutside()</td><td class="px-6 py-4 text-sm text-on-surface">Method called by click.outside event handler. Checks closeOnClickOutside setting before closing.</td></tr>
+                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">notModalOpen()</td><td class="px-6 py-4 text-sm text-on-surface">Helper method that returns !modalOpen, useful for x-show directives.</td></tr>
                         </tbody>
                     </table>
                 </div>
 
                 <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Custom Events" class="scroll-mt-20">Custom Events</RzHeading>
                 <RzParagraph>
-                    The component dispatches events on its root element (`#@@UniqueId`) during its lifecycle. You can listen for these using `window.addEventListener` or Alpine's `x-on`.
+                    The component dispatches events on its root element (`#@@Id`) during its lifecycle. You can listen for these using `window.addEventListener` or Alpine's `x-on`.
                 </RzParagraph>
                 <div class="overflow-x-auto">
                      <table class="min-w-full divide-y divide-outline dark:divide-outlineDark">
@@ -440,7 +447,7 @@ public IResult CloseModalAction()
                             <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">@Constants.Events.ModalBeforeOpen</td><td class="px-6 py-4 text-sm text-on-surface">`{ modalId, originalEvent }`</td><td class="px-6 py-4 whitespace-nowrap text-sm text-on-surface">Yes</td><td class="px-6 py-4 text-sm text-on-surface">Fired before opening. Call `event.preventDefault()` to stop.</td></tr>
                             <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">@Constants.Events.ModalAfterOpen</td><td class="px-6 py-4 text-sm text-on-surface">`{ modalId }`</td><td class="px-6 py-4 whitespace-nowrap text-sm text-on-surface">No</td><td class="px-6 py-4 text-sm text-on-surface">Fired after opening transitions complete.</td></tr>
                             <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">@Constants.Events.ModalBeforeClose</td><td class="px-6 py-4 text-sm text-on-surface">`{ modalId, reason }`</td><td class="px-6 py-4 whitespace-nowrap text-sm text-on-surface">Yes</td><td class="px-6 py-4 text-sm text-on-surface">Fired before closing. Call `event.preventDefault()` to stop. `reason` indicates cause ('escape', 'backdrop', 'button', 'event').</td></tr>
-                             <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">@Constants.Events.ModalAfterClose</td><td class="px-6 py-4 text-sm text-on-surface">`{ modalId }`</td><td class="px-6 py-4 whitespace-nowrap text-sm text-on-surface">No</td><td class="px-6 py-4 text-sm text-on-surface">Fired after closing transitions complete.</td></tr>
+                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-on-surface-strong">@Constants.Events.ModalAfterClose</td><td class="px-6 py-4 text-sm text-on-surface">`{ modalId }`</td><td class="px-6 py-4 whitespace-nowrap text-sm text-on-surface">No</td><td class="px-6 py-4 text-sm text-on-surface">Fired after closing transitions complete.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -460,10 +467,26 @@ window.dispatchEvent(new CustomEvent('show-my-modal', { detail: { /* optional da
 window.dispatchEvent(new CustomEvent('@Constants.Events.ModalClose'));
 
 // To close a specific modal listening for 'close-my-modal-xyz'
-// (Note: The Alpine listener currently doesn't filter by detail, but could be modified)
 window.dispatchEvent(new CustomEvent('close-my-modal-xyz', { detail: { /* optional data */ } }));
                 </RzCodeViewer>
 
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Alpine.js Access" class="scroll-mt-20">Alpine.js Direct Access</RzHeading>
+                <RzParagraph>
+                    You can directly interact with the modal from other Alpine.js components or event handlers:
+                </RzParagraph>
+                <RzCodeViewer Language="CodeLanguage.JavaScript" class="mb-10">
+// In an event handler or another Alpine component
+// Get the modal's Alpine data context
+const modalElement = document.getElementById('my-modal-id');
+const modalData = Alpine.$data(modalElement);
+
+// Open or close programmatically
+modalData.openModal();
+modalData.closeModal();
+
+// Check if modal is open
+const isOpen = modalData.modalOpen;
+                </RzCodeViewer>
             </section>
 
         </MainContent>

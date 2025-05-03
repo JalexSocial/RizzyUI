@@ -972,6 +972,14 @@ function registerComponents(Alpine) {
             getTabContentCss() {
                 return this.tabSelected === this.$el.dataset.name ? '' : 'hidden';
             },
+            tabContentActive(tabContent) {
+                tabContent = tabContent ?? this.$el;
+                return this.tabSelected === tabContent.dataset.name;
+            },
+            tabButtonActive(tabButton) {
+                tabButton = tabButton ?? this.$el;
+                return this.tabSelected === tabButton.dataset.name;
+            },            
             // Get the value for the aria-selected attribute
             getTabButtonAriaSelected() {
                 return this.tabSelected === this.$el.dataset.name ? 'true' : 'false';
