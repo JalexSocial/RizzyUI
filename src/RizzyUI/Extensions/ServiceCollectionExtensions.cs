@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
@@ -88,10 +89,21 @@ public static class ServiceCollectionExtensions
                 }
             });
 
+            //var assembly = typeof(RizzyLocalization).Assembly;
+            //var assemblyName = assembly.GetName();
+            
             // Ensure IStringLocalizer<RizzyLocalization> can be resolved.
             // It will use the potentially decorated factory.
-            //services.TryAddTransient<IStringLocalizer<RizzyLocalization>>(sp =>
-            //    (IStringLocalizer<RizzyLocalization>)sp.GetRequiredService<IStringLocalizerFactory>().Create(typeof(RizzyLocalization)));
+            /*
+            services.TryAddTransient<IStringLocalizer<RizzyLocalization>>(sp =>
+            {
+                var factory = sp.GetRequiredService<IStringLocalizerFactory>();
+
+                return factory.Create(typeof(RizzyLocalization)) as IStringLocalizer<RizzyLocalization>
+                       ?? throw new InvalidOperationException(
+                           $"Failed to create IStringLocalizer<RizzyLocalization> using the factory. Ensure the factory is correctly registered and configured.");
+            });
+            */
         }
         else
         {
