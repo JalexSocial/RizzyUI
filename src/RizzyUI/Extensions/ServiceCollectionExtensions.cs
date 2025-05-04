@@ -90,8 +90,8 @@ public static class ServiceCollectionExtensions
 
             // Ensure IStringLocalizer<RizzyLocalization> can be resolved.
             // It will use the potentially decorated factory.
-            services.TryAddTransient<IStringLocalizer<RizzyLocalization>>(sp =>
-                (IStringLocalizer<RizzyLocalization>)sp.GetRequiredService<IStringLocalizerFactory>().Create(typeof(RizzyLocalization)));
+            //services.TryAddTransient<IStringLocalizer<RizzyLocalization>>(sp =>
+            //    (IStringLocalizer<RizzyLocalization>)sp.GetRequiredService<IStringLocalizerFactory>().Create(typeof(RizzyLocalization)));
         }
         else
         {

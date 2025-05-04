@@ -459,7 +459,7 @@ public IResult CloseModalAction()
                  <RzParagraph>
                     You can open or close the modal from JavaScript by dispatching the window events specified in the `EventTriggerName` or `CloseEventName` parameters respectively.
                 </RzParagraph>
-                 <RzCodeViewer Language="CodeLanguage.JavaScript" class="mb-10">
+                 <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mb-10">
 // To open a modal listening for 'show-my-modal'
 window.dispatchEvent(new CustomEvent('show-my-modal', { detail: { /* optional data */ } }));
 
@@ -474,7 +474,7 @@ window.dispatchEvent(new CustomEvent('close-my-modal-xyz', { detail: { /* option
                 <RzParagraph>
                     You can directly interact with the modal from other Alpine.js components or event handlers:
                 </RzParagraph>
-                <RzCodeViewer Language="CodeLanguage.JavaScript" class="mb-10">
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mb-10">
 // In an event handler or another Alpine component
 // Get the modal's Alpine data context
 const modalElement = document.getElementById('my-modal-id');

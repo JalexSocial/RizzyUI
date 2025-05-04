@@ -16,7 +16,7 @@ namespace RizzyUI.Localization;
 /// translations for cultures not directly supported by the library. The correct culture is
 /// determined by the ambient <see cref="CultureInfo.CurrentUICulture"/>.
 /// </remarks>
-internal sealed class RizzyStringLocalizer : IStringLocalizer
+internal sealed class RizzyStringLocalizer : IStringLocalizer<RizzyLocalization>, IStringLocalizer
 {
     private readonly IStringLocalizer _applicationOverrideLocalizer;
     private readonly IStringLocalizer _rizzyLocalizer;

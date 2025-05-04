@@ -745,7 +745,7 @@ function registerComponents(Alpine) {
         },
 
         // Called only by the explicit close button in the template
-        requestCloseFromButton() {
+        closeModal() {
             this.closeModalInternally('button');
         },
 

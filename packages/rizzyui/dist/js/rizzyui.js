@@ -5591,7 +5591,7 @@ function registerComponents(Alpine) {
         }
       },
       // Called only by the explicit close button in the template
-      requestCloseFromButton: function requestCloseFromButton() {
+      closeModal: function closeModal() {
         this.closeModalInternally('button');
       },
       // Method called by x-on:click.outside on the dialog element
