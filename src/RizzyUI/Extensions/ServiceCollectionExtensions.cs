@@ -1,10 +1,9 @@
+
 using System;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging; 
 using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
 using RizzyUI.Localization;
@@ -47,76 +46,41 @@ public static class ServiceCollectionExtensions
 
     /// <summary>
     /// Internal helper method containing the core service registrations for RizzyUI.
+    /// Sets up TailwindMerge, HTTP context access, nonce provider, and localization.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection.</returns>
     private static IServiceCollection AddRizzyUIInternal(this IServiceCollection services)
     {
-        // Register core dependencies used by RizzyUI components.
+        // Register core dependencies used by RizzyUI.
         services.AddTailwindMerge();
         services.AddHttpContextAccessor();
         services.TryAddScoped<IRizzyNonceProvider, RizzyNonceProvider>();
 
         // --- Localization Setup ---
 
-        // Check if standard localization services (IStringLocalizerFactory) are registered by the application.
         bool localizationFactoryRegistered = services.Any(d => d.ServiceType == typeof(IStringLocalizerFactory));
 
         if (localizationFactoryRegistered)
         {
-            // Localization is available. Now, conditionally decorate the factory based on RizzyUIConfig.
-            // The decision is made *when the factory is resolved*, not during initial configuration.
+            // Decorate the existing factory IF localization is configured.
             services.Decorate<IStringLocalizerFactory>((innerFactory, sp) =>
             {
-                // Resolve RizzyUIConfig using the provided service provider (sp)
-                // This gives us the correctly configured options instance for the current scope/request.
                 var config = sp.GetRequiredService<IOptions<RizzyUIConfig>>().Value;
-
-                // Check if the user configured application-specific resources for overrides.
-                if (config?.LocalizationResourceType != null || !string.IsNullOrEmpty(config?.LocalizationResourceLocation))
-                {
-                    // If overrides are configured, return our custom factory, wrapping the original one.
-                    return new RizzyStringLocalizerFactory(
-                        innerFactory,
-                        config.LocalizationResourceType,
-                        config.LocalizationResourceLocation
-                    );
-                }
-                else
-                {
-                    // If overrides are NOT configured, return the original factory unmodified.
-                    return innerFactory;
-                }
+                // Pass the original factory, the service provider, and override config.
+                return new RizzyStringLocalizerFactory(
+                    innerFactory,
+                    sp, // Provide IServiceProvider
+                    config.LocalizationResourceType,
+                    config.LocalizationResourceLocation
+                );
             });
-
-            //var assembly = typeof(RizzyLocalization).Assembly;
-            //var assemblyName = assembly.GetName();
-            
-            // Ensure IStringLocalizer<RizzyLocalization> can be resolved.
-            // It will use the potentially decorated factory.
-            /*
-            services.TryAddTransient<IStringLocalizer<RizzyLocalization>>(sp =>
-            {
-                var factory = sp.GetRequiredService<IStringLocalizerFactory>();
-
-                return factory.Create(typeof(RizzyLocalization)) as IStringLocalizer<RizzyLocalization>
-                       ?? throw new InvalidOperationException(
-                           $"Failed to create IStringLocalizer<RizzyLocalization> using the factory. Ensure the factory is correctly registered and configured.");
-            });
-            */
         }
         else
         {
-            // Standard localization services are NOT registered by the application.
-            // Register the DummyRizzyStringLocalizer as a fallback.
-            // This requires ILogger<DummyRizzyStringLocalizer>, which should typically be available.
+            // If no factory registered, register the dummy for RizzyUI's needs.
             services.TryAddSingleton<IStringLocalizer<RizzyLocalization>, DummyRizzyStringLocalizer>();
-
-            // Log a warning during startup to inform the developer.
-            // This is still useful for immediate feedback.
-            Console.WriteLine("Warning: ASP.NET Core Localization services (AddLocalization) were not detected. RizzyUI components will display resource keys instead of localized text. Configure localization in Program.cs to enable translations.");
         }
-        // --- End Localization Setup ---
 
         return services;
     }
