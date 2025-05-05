@@ -13,9 +13,6 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzEmbeddedPreview : RzComponent
 {
-    private readonly string Id = IdGenerator.UniqueId("rzpreview");
-    // Theme is inherited from RzComponent
-
     private string? _content;
 
     /// <summary> ServiceProvider reference needed to render components to string correctly. </summary>

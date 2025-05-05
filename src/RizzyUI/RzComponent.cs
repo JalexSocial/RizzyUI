@@ -1,10 +1,12 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization; // Required for IStringLocalizer
 using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
+using Rizzy.Utility;
 using TailwindMerge;
 
 namespace RizzyUI;
@@ -78,6 +80,12 @@ public abstract class RzComponent : ComponentBase
     [Parameter]
     public string Element { get; set; } = "div";
 
+    /// <summary>
+    /// Unique identifier for the component instance. 
+    /// </summary>
+    [Parameter]
+    public string Id { get; set; } = IdGenerator.UniqueId("rz");
+    
     /// <summary>
     /// Captures unmatched HTML attributes passed to the component. These attributes are typically
     /// applied to the root element rendered by the component. Use the `class` attribute here

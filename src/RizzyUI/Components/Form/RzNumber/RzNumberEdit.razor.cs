@@ -39,10 +39,7 @@ public partial class RzNumberEdit<TValue> : InputBase<TValue> // Inherits InputB
     /// </summary>
     [Parameter]
     public SvgIcon? PrependIcon { get; set; }
-
-    /// <summary> Gets the ID attribute of the underlying input element, if available. </summary>
-    public string Id => _elem?.Id ?? string.Empty;
-
+    
     /// <inheritdoc />
     protected override void OnInitialized()
     {

@@ -4698,6 +4698,132 @@ function t(t,e){if(!(t instanceof e)){throw new TypeError("Cannot call a class a
 
 /***/ }),
 
+/***/ "./src/js/lib/alpineData.js":
+/*!**********************************!*\
+  !*** ./src/js/lib/alpineData.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * Helper function to retrieve the Alpine.js x-data state object associated with
+ * a specific component. It accepts either the component's wrapper ID (string)
+ * or a direct reference to the wrapper element itself (Element).
+ *
+ * This function bridges the gap between a known component wrapper (identified
+ * by ID or element reference) and the potentially nested element that actually
+ * holds the Alpine `x-data` directive and is marked with a `data-alpine-root`
+ * attribute matching the wrapper's ID.
+ *
+ * @prerequisites
+ *   - Alpine.js (v3+) must be loaded and initialized globally as `Alpine`.
+ *   - If `idOrElement` is a string, the DOM must contain an element with that ID.
+ *   - The identified wrapper element (whether found by ID or passed directly)
+ *     MUST have an `id` attribute.
+ *   - EITHER the wrapper element OR one of its descendants MUST have the
+ *     attribute `data-alpine-root` set to the wrapper element's `id`. This
+ *     element with `data-alpine-root` is assumed to be the intended Alpine
+ *     component root containing the `x-data`. Failure to meet this structure
+ *     will result in `undefined` being returned and a warning logged.
+ *
+ * @param {string | Element} idOrElement - The unique ID attribute (string) of
+ *   the component's outermost wrapper element, OR a direct reference (Element)
+ *   to that wrapper element.
+ * @returns {object | undefined} The Alpine x-data state object if the designated
+ *   Alpine root element is found and successfully initialized by Alpine.
+ *   Returns `undefined` if the input is invalid, prerequisites are not met,
+ *   the designated Alpine root element cannot be located, or if Alpine.$data
+ *   itself returns undefined for the located element. This mirrors the return
+ *   behavior of the native `Alpine.$data`.
+ */
+function $data(idOrElement) {
+  // --- Prerequisite Checks ---
+
+  // Guard clause: Verify Alpine.js and its $data utility are available.
+  if (typeof Alpine === 'undefined' || typeof Alpine.$data !== 'function') {
+    console.error('$data helper: Alpine.js context (Alpine.$data) is not available. ' + 'Ensure Alpine is loaded and initialized globally before use.');
+    return undefined;
+  }
+
+  // --- Determine Outer Element and Component ID ---
+
+  var outerElement = null;
+  var componentId = null; // Store the string ID for selector construction
+
+  if (typeof idOrElement === 'string') {
+    // Input is a string ID
+    if (!idOrElement) {
+      // Check for empty string
+      console.warn('Rizzy.$data: Invalid componentId provided (empty string).');
+      return undefined;
+    }
+    componentId = idOrElement;
+    outerElement = document.getElementById(componentId);
+
+    // Check if element was found using the ID
+    if (!outerElement) {
+      console.warn("Rizzy.$data: Rizzy component with ID \"".concat(componentId, "\" not found in the DOM."));
+      return undefined;
+    }
+  } else if (idOrElement instanceof Element) {
+    // Input is an Element object
+    outerElement = idOrElement;
+    // Crucial: The wrapper element itself MUST have an ID for the
+    // data-alpine-root lookup logic to work correctly.
+    if (!outerElement.id) {
+      console.warn('Rizzy.$data: Provided element does not have an ID attribute, which is required for locating the data-alpine-root.');
+      return undefined;
+    }
+    componentId = outerElement.id;
+  } else {
+    // Input is neither a valid string nor an Element
+    console.warn('Rizzy.$data: Invalid input provided. Expected a non-empty string ID or an Element object.');
+    return undefined;
+  }
+
+  // --- DOM Element Location (using determined outerElement and componentId) ---
+
+  // Prepare the CSS selector using the determined component ID.
+  var alpineRootSelector = "[data-alpine-root=\"".concat(componentId, "\"]");
+  var alpineRootElement = null;
+
+  // Strategy: Check wrapper first, then descendants.
+  if (outerElement.matches(alpineRootSelector)) {
+    alpineRootElement = outerElement;
+  } else {
+    alpineRootElement = outerElement.querySelector(alpineRootSelector);
+  }
+
+  // Verify the designated Alpine root was located.
+  if (!alpineRootElement) {
+    console.warn("Rizzy.$data: Could not locate the designated Alpine root element " + "using selector \"".concat(alpineRootSelector, "\" on or inside the wrapper element ") + "(ID: #".concat(componentId, "). Verify the 'data-alpine-root' attribute placement."));
+    return undefined;
+  }
+
+  // --- Alpine Data Retrieval ---
+
+  // Delegate to native Alpine.$data.
+  var alpineData = Alpine.$data(alpineRootElement);
+
+  // Check Alpine.$data's result.
+  if (alpineData === undefined) {
+    var targetDesc = "".concat(alpineRootElement.tagName.toLowerCase()) + "".concat(alpineRootElement.id ? '#' + alpineRootElement.id : '') + "".concat(alpineRootElement.classList.length ? '.' + Array.from(alpineRootElement.classList).join('.') : '');
+    console.warn("Rizzy.$data: Located designated Alpine root (".concat(targetDesc, ") ") + "via 'data-alpine-root=\"".concat(componentId, "\"', but Alpine.$data returned undefined. ") + "Ensure 'x-data' is correctly defined and initialized on this element.");
+    // Return undefined, consistent with Alpine.$data.
+  }
+
+  // Return the data or undefined.
+  return alpineData;
+}
+
+// Default ES Module export
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ($data);
+
+/***/ }),
+
 /***/ "./src/js/lib/components.js":
 /*!**********************************!*\
   !*** ./src/js/lib/components.js ***!
@@ -5362,6 +5488,165 @@ function registerComponents(Alpine) {
   });
 
   // --------------------------------------------------------------------------------
+  // Alpine.js component: rzModal
+  // Manages the state and behavior of a modal dialog.
+  // Can be triggered by a window event, closed via button, escape key,
+  // or outside click. Supports HTMX content swapping within its body/footer.
+  // Also listens for a 'rz:modal-close' window event triggered by HTMX responses.
+  // Dispatches lifecycle events: rz:modal-initialized, rz:modal-before-open,
+  // rz:modal-after-open, rz:modal-before-close, rz:modal-after-close.
+  // --------------------------------------------------------------------------------
+  Alpine.data('rzModal', function () {
+    return {
+      modalOpen: false,
+      // Main state variable
+      eventTriggerName: '',
+      closeEventName: 'rz:modal-close',
+      // Default value, corresponds to Constants.Events.ModalClose
+      closeOnEscape: true,
+      closeOnClickOutside: true,
+      modalId: '',
+      bodyId: '',
+      footerId: '',
+      _escapeListener: null,
+      _openListener: null,
+      _closeEventListener: null,
+      init: function init() {
+        var _this5 = this;
+        this.modalId = this.$el.dataset.modalId || '';
+        this.bodyId = this.$el.dataset.bodyId || '';
+        this.footerId = this.$el.dataset.footerId || '';
+        this.eventTriggerName = this.$el.dataset.eventTriggerName || '';
+        this.closeEventName = this.$el.dataset.closeEventName || this.closeEventName; // Use provided or default
+        this.closeOnEscape = this.$el.dataset.closeOnEscape !== 'false';
+        this.closeOnClickOutside = this.$el.dataset.closeOnClickOutside !== 'false';
+
+        // Dispatch initialized event - Use "rz:modal-initialized"
+        this.$el.dispatchEvent(new CustomEvent('rz:modal-initialized', {
+          detail: {
+            modalId: this.modalId,
+            bodyId: this.bodyId,
+            footerId: this.footerId
+          },
+          bubbles: true
+        }));
+
+        // Listener for the custom window event to open the modal
+        if (this.eventTriggerName) {
+          this._openListener = function (e) {
+            _this5.openModal(e);
+          };
+          window.addEventListener(this.eventTriggerName, this._openListener);
+        }
+
+        // Listener for the custom window event to close the modal
+        this._closeEventListener = function (event) {
+          if (_this5.modalOpen) {
+            _this5.closeModalInternally('event');
+          }
+        };
+        window.addEventListener(this.closeEventName, this._closeEventListener);
+
+        // Listener for the Escape key
+        this._escapeListener = function (e) {
+          if (_this5.modalOpen && _this5.closeOnEscape && e.key === 'Escape') {
+            _this5.closeModalInternally('escape');
+          }
+        };
+        window.addEventListener('keydown', this._escapeListener);
+
+        // Watch the 'modalOpen' state to manage body overflow and focus
+        this.$watch('modalOpen', function (value) {
+          document.body.classList.toggle('overflow-hidden', value);
+          if (value) {
+            _this5.$nextTick(function () {
+              var dialogElement = _this5.$el.querySelector('[role="document"]');
+              var focusable = dialogElement === null || dialogElement === void 0 ? void 0 : dialogElement.querySelector('button, [href], input:not([type=\'hidden\']), select, textarea, [tabindex]:not([tabindex="-1"])');
+              focusable === null || focusable === void 0 || focusable.focus();
+              // Dispatch after-open event - Use "rz:modal-after-open"
+              _this5.$el.dispatchEvent(new CustomEvent('rz:modal-after-open', {
+                detail: {
+                  modalId: _this5.modalId
+                },
+                bubbles: true
+              }));
+            });
+          } else {
+            _this5.$nextTick(function () {
+              // Dispatch after-close event - Use "rz:modal-after-close"
+              _this5.$el.dispatchEvent(new CustomEvent('rz:modal-after-close', {
+                detail: {
+                  modalId: _this5.modalId
+                },
+                bubbles: true
+              }));
+            });
+          }
+        });
+      },
+      notModalOpen: function notModalOpen() {
+        return !this.modalOpen;
+      },
+      destroy: function destroy() {
+        // Clean up listeners
+        if (this._openListener && this.eventTriggerName) {
+          window.removeEventListener(this.eventTriggerName, this._openListener);
+        }
+        if (this._closeEventListener) {
+          window.removeEventListener(this.closeEventName, this._closeEventListener);
+        }
+        if (this._escapeListener) {
+          window.removeEventListener('keydown', this._escapeListener);
+        }
+        document.body.classList.remove('overflow-hidden');
+      },
+      openModal: function openModal() {
+        var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+        // Dispatch before-open event - Use "rz:modal-before-open"
+        var beforeOpenEvent = new CustomEvent('rz:modal-before-open', {
+          detail: {
+            modalId: this.modalId,
+            originalEvent: event
+          },
+          bubbles: true,
+          cancelable: true
+        });
+        this.$el.dispatchEvent(beforeOpenEvent);
+        if (!beforeOpenEvent.defaultPrevented) {
+          this.modalOpen = true;
+        }
+      },
+      // Internal close function called by button, escape, backdrop, event
+      closeModalInternally: function closeModalInternally() {
+        var reason = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'unknown';
+        // Dispatch before-close event - Use "rz:modal-before-close"
+        var beforeCloseEvent = new CustomEvent('rz:modal-before-close', {
+          detail: {
+            modalId: this.modalId,
+            reason: reason
+          },
+          bubbles: true,
+          cancelable: true
+        });
+        this.$el.dispatchEvent(beforeCloseEvent);
+        if (!beforeCloseEvent.defaultPrevented) {
+          this.modalOpen = false;
+        }
+      },
+      // Called only by the explicit close button in the template
+      closeModal: function closeModal() {
+        this.closeModalInternally('button');
+      },
+      // Method called by x-on:click.outside on the dialog element
+      handleClickOutside: function handleClickOutside() {
+        if (this.closeOnClickOutside) {
+          this.closeModalInternally('backdrop');
+        }
+      }
+    };
+  });
+
+  // --------------------------------------------------------------------------------
   // Alpine.js component: rzPrependInput
   // Adjusts the padding of an input element based on the width of a prepend element.
   // --------------------------------------------------------------------------------
@@ -5414,7 +5699,7 @@ function registerComponents(Alpine) {
       percentage: 0,
       label: '',
       init: function init() {
-        var _this5 = this;
+        var _this6 = this;
         var element = this.$el;
         // Retrieve progress values from data attributes
         this.currentVal = parseInt(element.getAttribute('data-current-val')) || 0;
@@ -5429,16 +5714,16 @@ function registerComponents(Alpine) {
         element.setAttribute('aria-valuetext', "".concat(this.percentage, "%"));
         this.updateProgressBar();
         var resizeObserver = new ResizeObserver(function (entries) {
-          _this5.updateProgressBar();
+          _this6.updateProgressBar();
         });
         resizeObserver.observe(element);
 
         // Watch for changes in currentVal to update progress dynamically
         this.$watch('currentVal', function () {
-          _this5.calculatePercentage();
-          _this5.updateProgressBar();
-          element.setAttribute('aria-valuenow', _this5.currentVal);
-          element.setAttribute('aria-valuetext', "".concat(_this5.percentage, "%"));
+          _this6.calculatePercentage();
+          _this6.updateProgressBar();
+          element.setAttribute('aria-valuenow', _this6.currentVal);
+          element.setAttribute('aria-valuetext', "".concat(_this6.percentage, "%"));
         });
       },
       calculatePercentage: function calculatePercentage() {
@@ -5513,11 +5798,11 @@ function registerComponents(Alpine) {
       },
       // Handles click events on quick reference links.
       handleHeadingClick: function handleHeadingClick() {
-        var _this6 = this;
+        var _this7 = this;
         var id = this.$el.dataset.headingid; // Get ID from the clicked link's context
         // Use requestAnimationFrame for smoother UI update before potential scroll jump
         window.requestAnimationFrame(function () {
-          _this6.currentHeadingId = id;
+          _this7.currentHeadingId = id;
         });
       },
       // Sets the current heading ID based on intersection observer events from rzHeading.
@@ -5564,18 +5849,26 @@ function registerComponents(Alpine) {
         tabButton.focus();
       },
       tabRepositionMarker: function tabRepositionMarker(tabButton) {
-        var _this7 = this;
+        var _this8 = this;
         this.tabButton = tabButton;
         this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
         this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
         this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
         setTimeout(function () {
-          _this7.$refs.tabMarker.style.opacity = 1;
+          _this8.$refs.tabMarker.style.opacity = 1;
         }, 150);
       },
       // Get the CSS classes for the tab content panel based on selection
       getTabContentCss: function getTabContentCss() {
         return this.tabSelected === this.$el.dataset.name ? '' : 'hidden';
+      },
+      tabContentActive: function tabContentActive(tabContent) {
+        tabContent = tabContent !== null && tabContent !== void 0 ? tabContent : this.$el;
+        return this.tabSelected === tabContent.dataset.name;
+      },
+      tabButtonActive: function tabButtonActive(tabButton) {
+        tabButton = tabButton !== null && tabButton !== void 0 ? tabButton : this.$el;
+        return this.tabSelected === tabButton.dataset.name;
       },
       // Get the value for the aria-selected attribute
       getTabButtonAriaSelected: function getTabButtonAriaSelected() {
@@ -5591,11 +5884,11 @@ function registerComponents(Alpine) {
         this.tabRepositionMarker(this.tabButton);
       },
       handleKeyDown: function handleKeyDown(event) {
-        var _this8 = this;
+        var _this9 = this;
         var key = event.key;
         var tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
         var currentIndex = tabButtons.findIndex(function (button) {
-          return _this8.tabSelected === button.dataset.name;
+          return _this9.tabSelected === button.dataset.name;
         });
         var newIndex = currentIndex;
         if (key === 'ArrowRight') {
@@ -6183,12 +6476,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _alpinejs_focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @alpinejs/focus */ "./node_modules/@alpinejs/focus/dist/module.esm.js");
 /* harmony import */ var _lib_notify_toast__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib/notify/toast */ "./src/js/lib/notify/toast.js");
 /* harmony import */ var _lib_components_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lib/components.js */ "./src/js/lib/components.js");
+/* harmony import */ var _lib_alpineData_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./lib/alpineData.js */ "./src/js/lib/alpineData.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 
 
@@ -6204,7 +6499,8 @@ _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"].plugin(_alpinejs_focus__WE
 var RizzyUI = {
   Alpine: _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"],
   require: _lib_components_js__WEBPACK_IMPORTED_MODULE_5__.require,
-  toast: _lib_notify_toast__WEBPACK_IMPORTED_MODULE_4__["default"]
+  toast: _lib_notify_toast__WEBPACK_IMPORTED_MODULE_4__["default"],
+  $data: _lib_alpineData_js__WEBPACK_IMPORTED_MODULE_6__["default"]
 };
 window.Alpine = _alpinejs_csp__WEBPACK_IMPORTED_MODULE_0__["default"];
 window.Rizzy = _objectSpread(_objectSpread({}, window.Rizzy || {}), RizzyUI);

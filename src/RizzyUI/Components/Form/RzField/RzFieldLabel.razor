@@ -6,7 +6,7 @@
 
 @if (!string.IsNullOrEmpty(_effectiveDisplayName))
 {
-    <label for="@_for" @attributes="AdditionalAttributes" class="@RootClass()">
+    <label for="@_for" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
         @_effectiveDisplayName
         @ChildContent
     </label>

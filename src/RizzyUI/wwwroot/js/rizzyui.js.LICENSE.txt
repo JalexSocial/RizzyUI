@@ -1,3 +1,5 @@
+/*! ./lib/alpineData.js */
+
 /*! ./lib/components.js */
 
 /*! ./lib/notify/toast */
@@ -34,6 +36,10 @@ focus-trap/dist/focus-trap.esm.js:
 /*!***************************!*\
   !*** ./src/js/rizzyui.js ***!
   \***************************/
+
+/*!**********************************!*\
+  !*** ./src/js/lib/alpineData.js ***!
+  \**********************************/
 
 /*!**********************************!*\
   !*** ./src/js/lib/components.js ***!

@@ -1,0 +1,95 @@
+@namespace RizzyUI
+@inherits RzComponent
+@using Blazicons
+
+<template x-teleport="body">
+    <div x-data="rzModal"
+         id="@Id"
+         data-alpine-root="@Id"
+         data-modal-id="@Id"
+         data-body-id="@BodyId"
+         data-footer-id="@FooterId"
+         data-event-trigger-name="@EventTriggerName"
+         data-close-event-name="@CloseEventName"
+         data-close-on-escape="@CloseOnEscape.ToString().ToLowerInvariant()"
+         data-close-on-click-outside="@CloseOnClickOutside.ToString().ToLowerInvariant()"
+         class="contents">
+
+        <div x-cloak
+             x-show="modalOpen"
+             x-transition:enter="transition ease-out duration-200 motion-reduce:transition-none"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-100 motion-reduce:transition-none"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             x-bind:aria-hidden="notModalOpen"
+             tabindex="-1"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="@AriaLabelId"
+             class="@Theme.RzModal.Backdrop">
+
+            <HtmlElement Element="div" @attributes="AdditionalAttributes"
+                 x-cloak
+                 x-show="modalOpen"
+                 x-transition:enter="transition ease-out duration-200 motion-reduce:transition-none"
+                 x-transition:enter-start="opacity-0 scale-125"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-100 motion-reduce:transition-none"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-125"
+                 x-trap.inert="modalOpen"
+                 x-on:click.outside="handleClickOutside"
+                 role="document"
+                 class="@RootClass()">
+
+                @if (ShowHeader)
+                {
+                    <div class="@Theme.RzModal.Header">
+                        @if (TitleContent is not null)
+                        {
+                            <div id="@AriaLabelId" class="@Theme.RzModal.TitleContainer">
+                                @TitleContent
+                            </div>
+                        }
+                        else if (!string.IsNullOrEmpty(Title))
+                        {
+                            <h3 id="@AriaLabelId" class="@Theme.RzModal.Title">
+                                @Title
+                            </h3>
+                        }
+                        else
+                        {
+                             <div id="@AriaLabelId" class="@Theme.RzModal.TitleContainer"></div>
+                        }
+
+                        @if(ShowCloseButton)
+                        {
+                            <div class="@Theme.RzModal.CloseButtonContainer">
+                                <button x-on:click="closeModal"
+                                        type="button"
+                                        aria-label="@Localizer["RzModal.CloseButtonAriaLabel"]"
+                                        class="@Theme.RzModal.CloseButton">
+                                    <Blazicon Svg="MdiIcon.Close" class="@Theme.RzModal.CloseButtonIcon"/>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                }
+
+                <div id="@BodyId" class="@Theme.RzModal.Body">
+                    @ChildContent
+                </div>
+
+                @if (FooterContent is not null)
+                {
+                     <div id="@FooterId" class="@Theme.RzModal.Footer">
+                        @FooterContent
+                    </div>
+                }
+
+            </HtmlElement>
+        </div>
+    </div>
+</template>

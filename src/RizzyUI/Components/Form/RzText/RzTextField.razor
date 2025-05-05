@@ -1,9 +1,10 @@
 
 @namespace RizzyUI
+@using Rizzy
 @inherits RzComponent
 
 
-<RzField class="@RootClass()">
+<RzField class="@RootClass()" Id="@Id">
 	<RzFieldLabel DisplayName="@DisplayName" For="@For" Required="Required"/>
 
 	<RzTextEdit For="@For"

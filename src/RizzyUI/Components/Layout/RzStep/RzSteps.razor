@@ -3,7 +3,7 @@
 @using Blazicons
 @inherits RzComponent
 
-<HtmlElement Element="ol" @attributes="@AdditionalAttributes" class="@RootClass()" aria-label="@AriaLabel">
+<HtmlElement Element="ol" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" aria-label="@AriaLabel">
 
 	<CascadingValue Value="this" IsFixed="true">
 		@ChildContent

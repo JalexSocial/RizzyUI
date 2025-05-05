@@ -3,7 +3,7 @@
 @using Blazicons
 @inherits RzComponent
 
-<a role="menuitem" @attributes="AdditionalAttributes" class="@RootClass()" x-on:click="closeDropdown" tabindex="0">
+<a role="menuitem" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()" x-on:click="closeDropdown" tabindex="0">
 	@if (Icon != null)
 	{
 		<span class="@Theme.RzDropdownMenuItem.IconSpan"><Blazicon Svg="@Icon" class="@Theme.RzDropdownMenuItem.Icon"/></span>

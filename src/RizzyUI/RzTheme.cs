@@ -61,6 +61,7 @@ public partial class RzTheme
         RzHeading = new DefaultRzHeadingStyles(this);
         RzLink = new DefaultRzLinkStyles(this);
         RzMarkdown = new DefaultRzMarkdownStyles(this);
+        RzModal = new DefaultRzModalStyles(this);
         RzNavbar = new DefaultRzNavbarStyles(this);
         RzNumberEdit = new DefaultRzNumberEditStyles(this);
         RzNumberField = new DefaultRzNumberFieldStyles(this);

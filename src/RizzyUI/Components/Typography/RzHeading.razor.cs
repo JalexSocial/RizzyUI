@@ -34,10 +34,7 @@ public partial class RzHeading : RzTypographyBase
     /// <summary> Gets the parent <see cref="RzQuickReferenceContainer" /> if this heading is nested within one. </summary>
     [CascadingParameter]
     private RzQuickReferenceContainer? QuickReferenceContainer { get; set; }
-
-    /// <summary> The unique ID automatically generated for this heading element, used for linking. </summary>
-    public string Id { get; } = IdGenerator.UniqueId("rzheading"); // Use new prefix
-
+    
     /// <inheritdoc />
     protected override void OnParametersSet()
     {

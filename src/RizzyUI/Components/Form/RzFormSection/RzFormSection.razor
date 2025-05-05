@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<div class="@RootClass()">
+<HtmlElement Element="@Element" class="@RootClass()" @attributes="AdditionalAttributes" id="@Id">
 	<div class="@Theme.RzFormSection.GetDescriptionLayoutCss(Layout)">
 		@if (!string.IsNullOrEmpty(Title))
 		{
@@ -18,4 +18,4 @@
 	<div class="@Theme.RzFormSection.GetContentLayoutCss(Layout)">
 		@Content
 	</div>
-</div>
+</HtmlElement>

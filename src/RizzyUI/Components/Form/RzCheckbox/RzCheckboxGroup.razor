@@ -4,7 +4,7 @@
 @inherits RzComponent
 
 <CascadingValue Value="this" IsFixed="true">
-	<HtmlElement Element="div" @attributes="@AdditionalAttributes" class="@RootClass()">
+	<HtmlElement Element="div" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
 		@ChildContent
 	</HtmlElement>
 </CascadingValue>

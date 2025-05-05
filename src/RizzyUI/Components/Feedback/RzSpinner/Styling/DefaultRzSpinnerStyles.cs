@@ -40,14 +40,11 @@ public class DefaultRzSpinnerStyles : RzStylesBase.RzSpinnerStylesBase
     }
 }
 
+/// <summary>
+/// Supports conversion of SemanticColor to CSS fill class strings.
+/// </summary>
 public static partial class ColorUtilExtensions
 {
-    // Note: Tailwind does not directly support 'fill-*' with CSS variables easily across all browsers
-    // without plugins or complex setups. This uses direct utility classes based on the theme's
-    // semantic color mapping, which relies on the theme definition mapping semantic colors
-    // to appropriate Tailwind color names (like 'primary', 'danger', etc.).
-    // Ensure your theme CSS correctly defines these fills or adjust this logic.
-
     /// <summary>
     /// Converts a SemanticColor to a fill class string.
     /// </summary>
