@@ -6,7 +6,7 @@
 @inherits RzComponent
 
 <label @attributes="AdditionalAttributes" id="@Id" class="@Theme.RzRadioGroupItem.LabelWrapper">
-    <RzInputRadio TValue="TValue" class="@Theme.RzRadioGroupItem.RadioInput" Name="@ParentRadioGroup?.Name" Id="@Id" Value="@Value"/>
+    <RzInputRadio @ref="_radioRef" TValue="TValue" class="@Theme.RzRadioGroupItem.RadioInput" Name="@ParentRadioGroup?.Name" Id="@RadioInputId" Value="@Value"/>
     <span class="@Theme.RzRadioGroupItem.IconContainer">
 	    <Blazicon Svg="EffectiveCheckboxIcon"/>
     </span>
