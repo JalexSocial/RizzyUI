@@ -9,7 +9,7 @@
     "build:css:prod": "npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.min.css --minify",
     "build:safelist": "node ./build/parse-tailwind-css.js",
     "build:webpack": "webpack --config webpack.config.js",
-    "build": "run-s build:webpack build:css build:safelist copy:assets copy:dist",
+    "build": "run-s build:webpack copy:lib build:css build:safelist copy:theme copy:dist",
     "build:dev": "webpack --mode development --watch",
     "analyze": "npm run webpack:stats && webpack-bundle-analyzer stats.json",
     "copy:theme": "copyfiles -u 2 src/css/rizzyui-theme.css dist/css",

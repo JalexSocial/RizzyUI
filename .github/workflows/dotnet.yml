@@ -61,9 +61,9 @@ jobs:
       # Restore Dependencies
       - name: Restore Dependencies
         run: dotnet restore src/RizzyUI.sln
-        
-      - name: Debug with tmate
-        uses: mxschmitt/action-tmate@v3
+
+      #- name: Debug with tmate
+      #  uses: mxschmitt/action-tmate@v3
 
       # Build the Solution in Release mode
       - name: Build Solution
