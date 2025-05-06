@@ -10,10 +10,6 @@ using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
 
-// Add this
-
-// Add this
-
 namespace RizzyUI;
 
 /// <xmldoc>
@@ -81,7 +77,8 @@ public partial class RzMarkdown : RzComponent
     {
         base.OnParametersSet();
         // Re-render HTML only if content changes
-        RenderMarkdownContent();
+        if (OutputHtml is null)
+            RenderMarkdownContent();
     }
 
     private void RenderMarkdownContent()

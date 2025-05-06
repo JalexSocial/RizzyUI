@@ -52,7 +52,7 @@ module.exports = [
         entryFile : 'rizzyui.js',
         filename  : 'rizzyui.js',
         isProd    : false,
-        doClean   : true,               // ← only this compiler cleans DIST_DIR
+        doClean   : false,               // ← only this compiler cleans DIST_DIR
     }),
     makeConfig({
         name      : 'rizzyui-min',

@@ -117,7 +117,8 @@ public static class StaticResourcesInfoProviderExtensions
         provider.Add(allWebRootFiles
                 .Where(r =>
                     !cssExts.Contains(Path.GetExtension(r), comparer) &&
-                    !jsExts.Contains(Path.GetExtension(r), comparer)
+                    !jsExts.Contains(Path.GetExtension(r), comparer) &&
+                    Path.GetExtension(r) != ".gz"
                 )
                 .Select(r => new BinResource($"{virtualPathPrefix}/{r}") { Route = $"{virtualPathPrefix}/{r}" }))
             ;
