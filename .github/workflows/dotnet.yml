@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: 22
           registry-url: https://registry.npmjs.org/
           
       - name: Install npm packages for RizzyUI
@@ -61,6 +61,9 @@ jobs:
       # Restore Dependencies
       - name: Restore Dependencies
         run: dotnet restore src/RizzyUI.sln
+        
+      - name: Debug with tmate
+        uses: mxschmitt/action-tmate@v3
 
       # Build the Solution in Release mode
       - name: Build Solution
