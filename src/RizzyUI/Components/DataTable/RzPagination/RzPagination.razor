@@ -1,0 +1,72 @@
+
+@namespace RizzyUI
+@typeparam TItem
+@inherits RzComponent
+
+<HtmlElement Element="@Element" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()" aria-label="@NavigationAriaLabel">
+    @if (EffectivePaginationState.TotalPages > 1) 
+    {
+        <ul class="@Theme.RzPagination.List">
+            <li>
+                @if (CanGoPrevious)
+                {
+                    <button type="button"
+                            class="@Theme.RzPagination.Link"
+                            aria-label="@PreviousButtonLabel"
+                            @attributes="GetPageLinkHxAttributes(EffectivePaginationState.CurrentPage - 1)">
+                        @PreviousButtonLabel
+                    </button>
+                }
+                else
+                {
+                    <span class="@Theme.RzPagination.LinkDisabled" aria-disabled="true">
+                        @PreviousButtonLabel
+                    </span>
+                }
+            </li>
+
+            @foreach (var link in GetPageLinks())
+            {
+                <li>
+                    @if (link.IsEllipsis)
+                    {
+                        <span class="@Theme.RzPagination.Ellipsis">@link.Text</span>
+                    }
+                    else
+                    {
+                        <button type="button"
+                                class="@(link.IsCurrent ? Theme.RzPagination.LinkCurrent : Theme.RzPagination.Link)"
+                                aria-current="@(link.IsCurrent ? "page" : null)"
+                                aria-label="@($"Go to page {link.PageNumber}")"
+                                disabled="@link.IsCurrent" 
+                                @attributes="link.IsCurrent ? null : GetPageLinkHxAttributes(link.PageNumber)">
+                            @link.Text
+                        </button>
+                    }
+                </li>
+            }
+
+            <li>
+                @if (CanGoNext)
+                {
+                    <button type="button"
+                            class="@Theme.RzPagination.Link"
+                            aria-label="@NextButtonLabel"
+                            @attributes="GetPageLinkHxAttributes(EffectivePaginationState.CurrentPage + 1)">
+                        @NextButtonLabel
+                    </button>
+                }
+                else
+                {
+                    <span class="@Theme.RzPagination.LinkDisabled" aria-disabled="true">
+                        @NextButtonLabel
+                    </span>
+                }
+            </li>
+        </ul>
+    }
+    else if (EffectivePaginationState.TotalItems > 0 && EffectivePaginationState.TotalPages <= 1)
+    {
+        // Optionally show nothing or a minimal message if only one page or no items?
+    }
+</HtmlElement>

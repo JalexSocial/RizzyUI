@@ -78,6 +78,11 @@ public partial class RzTheme
         RzSidebarLinks = new DefaultRzSidebarLinksStyles(this);
         RzSpinner = new DefaultRzSpinnerStyles(this); 
         RzSteps = new DefaultRzStepsStyles(this);
+        RzTable = new DefaultRzTableStyles(this);
+        RzTableHeaderCell = new DefaultRzTableHeaderCellStyles(this);
+        RzTableBody = new DefaultRzTableBodyStyles(this);
+        RzTableCell = new DefaultRzTableCellStyles(this);
+        RzPagination = new DefaultRzPaginationStyles(this);        
         RzTabs = new DefaultRzTabsStyles(this);
         RzTab = new DefaultRzTabStyles(this);
         RzTabPanel = new DefaultRzTabPanelStyles(this);

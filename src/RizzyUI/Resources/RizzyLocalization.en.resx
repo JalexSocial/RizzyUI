@@ -246,5 +246,36 @@
     <comment>Default title attribute for the iframe in the RzEmbeddedPreview component, used for accessibility.</comment>
   </data>
   <!-- RzSearchButton -->
-  <!-- RzSteps -->
+    <data name="RzPagination.PreviousButtonLabel" xml:space="preserve">
+        <value>Previous</value>
+        <comment>Label for the 'Previous' page button in pagination controls.</comment>
+    </data>
+    <data name="RzPagination.NextButtonLabel" xml:space="preserve">
+        <value>Next</value>
+        <comment>Label for the 'Next' page button in pagination controls.</comment>
+    </data>
+    <data name="RzPagination.NavigationAriaLabel" xml:space="preserve">
+        <value>Pagination Navigation</value>
+        <comment>ARIA label for the main pagination navigation container.</comment>
+    </data>
+    <data name="RzTable.SortButtonAriaLabelFormat" xml:space="preserve">
+        <value>Sort by {0}, currently {1}</value>
+        <comment>ARIA label for sortable table header buttons. {0} is column name, {1} is current sort direction (e.g., "ascending", "descending", "unsorted").</comment>
+    </data>
+    <data name="RzTable.SortDirectionAscendingLong" xml:space="preserve">
+        <value>sorted ascending</value>
+        <comment>Text for ARIA label indicating ascending sort.</comment>
+    </data>
+    <data name="RzTable.SortDirectionDescendingLong" xml:space="preserve">
+        <value>sorted descending</value>
+        <comment>Text for ARIA label indicating descending sort.</comment>
+    </data>
+    <data name="RzTable.SortDirectionNone" xml:space="preserve">
+        <value>not sorted</value>
+        <comment>Text for ARIA label indicating column is not sorted.</comment>
+    </data>
+    <data name="RzTable.DefaultEmptyMessage" xml:space="preserve">
+        <value>No items to display.</value>
+        <comment>Default message shown in RzTableBody when there are no items and no EmptyTemplate is provided.</comment>
+    </data>    
 </root>

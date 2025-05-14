@@ -1,0 +1,210 @@
+@page "/table-demo"
+@using RizzyUI
+@using RizzyUI.Docs.Models 
+
+<PageTitle>RzTable Demo</PageTitle>
+
+<RzHeading Level="HeadingLevel.H1">RzTable Component Demo</RzHeading>
+<RzParagraph>
+    This page demonstrates a basic implementation of the RzTable component
+    with sorting and pagination capabilities, driven by HTMX concepts.
+    The actual HTMX calls would require a backend endpoint at <code>@ProductTableControllerUrl</code>.
+</RzParagraph>
+
+<div class="my-6">
+    <EditForm EditContext="@(new EditContext(CurrentRequestState))">
+        <RzTextField For="@(() => CurrentRequestState.Query)"
+                     DisplayName="Search Products"
+                     Placeholder="Enter product name or category..."
+                     Role="TextRole.Search"
+                     PrependIcon="Blazicons.MdiIcon.Magnify"
+                     name="q"
+                     hx-get="@ProductTableControllerUrl"
+                     hx-target="@($"#{TableBodyId}")"
+                     hx-swap="innerHTML"
+                     hx-trigger="keyup changed delay:300ms, search"
+                     hx-include="[name='page'], [name='pageSize'], [name='sortBy'], [name='sortDir']"
+                     hx-indicator="@($"#{TableBodyId}-spinner")"/>
+    </EditForm>
+</div>
+
+<RzTable @ref="productTableInstance"
+         Items="@VisibleProducts" TItem="Product"
+         HxControllerUrl="@ProductTableControllerUrl"
+         CurrentTableRequest="@CurrentRequestState"
+         CurrentPaginationState="@CurrentPagingState"
+         Id="demoProductTable"
+         class="shadow-md rounded-lg"
+         hx-boost="true"> 
+
+    <Header>
+        <RzTableHeaderCell For="p => p.Id" Sortable="true">ID</RzTableHeaderCell>
+        <RzTableHeaderCell For="p => p.Name" Sortable="true">Product Name</RzTableHeaderCell>
+        <RzTableHeaderCell For="p => p.Category" Sortable="true">Category</RzTableHeaderCell>
+        <RzTableHeaderCell For="p => p.Price" Sortable="true" InitialSortDirection="SortDirection.Descending">Price</RzTableHeaderCell>
+        <RzTableHeaderCell For="p => p.StockQuantity">Stock</RzTableHeaderCell>
+        <RzTableHeaderCell ColumnKey="actions">Actions</RzTableHeaderCell>
+    </Header>
+
+    <Body>
+        <RzTableBody Id="@TableBodyId">
+            <RowTemplate Context="product">
+                <tr>
+                    <RzTableCell>@product.Id</RzTableCell>
+                    <RzTableCell>@product.Name</RzTableCell>
+                    <RzTableCell>@product.Category</RzTableCell>
+                    <RzTableCell>@product.Price.ToString("C")</RzTableCell>
+                    <RzTableCell>
+                        @if (product.StockQuantity > 0)
+                        {
+                            <RzBadge Color="SemanticColor.Success" Soft="true" class="px-2 py-1">@product.StockQuantity</RzBadge>
+                        }
+                        else
+                        {
+                            <RzBadge Color="SemanticColor.Danger" Soft="true" class="px-2 py-1">Out of Stock</RzBadge>
+                        }
+                    </RzTableCell>
+                    <RzTableCell ColumnKey="actions">
+                        <RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small"
+                                  hx-get="@($"/products/view-details/{product.Id}")"
+                                  hx-target="#detail-modal-content"
+                                  hx-swap="innerHTML"
+                                  onclick="myEditModal.show()"> @* Example: JS interop still direct *@
+                            View
+                        </RzButton>
+                        <RzButton Variant="ButtonVariant.Danger" Outline="true" Size="Size.Small"
+                                  hx-delete="@($"/api/products/{product.Id}")"
+                                  hx-confirm="@($"Are you sure you want to delete {product.Name}?")"
+                                  hx-target="closest tr"
+                                  hx-swap="outerHTML swap:1s"
+                                  class="ml-2">
+                            Delete
+                        </RzButton>
+                    </RzTableCell>
+                </tr>
+            </RowTemplate>
+            <EmptyTemplate>
+                <div class="text-center py-10">
+                    <div class="text-5xl text-on-surface-muted mx-auto mb-3">
+                        <Blazicon Svg="MdiIcon.PackageVariantClosedRemove"/>
+                    </div>
+                    <p class="text-lg font-semibold text-on-surface-strong">No Products Found</p>
+                    <p class="text-sm text-on-surface-muted">
+                        Please try adjusting your search or filter criteria.
+                    </p>
+                </div>
+            </EmptyTemplate>
+        </RzTableBody>
+    </Body>
+
+    <Footer Context="table">
+        <RzTableCell Colspan="@table.ColumnCount">
+            <div class="flex flex-col sm:flex-row justify-between items-center p-3 gap-3">
+                <div class="text-sm text-on-surface-muted">
+                    @if (CurrentPagingState.TotalItems > 0)
+                    {
+                        <span>
+                            Page @CurrentPagingState.CurrentPage of @CurrentPagingState.TotalPages
+                            (@CurrentPagingState.TotalItems items)
+                        </span>
+                    }
+                    else
+                    {
+                        <span>No entries found</span>
+                    }
+                </div>
+                <RzPagination MaxVisiblePageLinks="5" />
+            </div>
+        </RzTableCell>
+    </Footer>
+</RzTable>
+
+@code {
+    private RzTable<Product> productTableInstance = default!;
+    private List<Product> AllProductsMasterList { get; set; } = new();
+    private List<Product> VisibleProducts { get; set; } = new();
+
+    private TableRequestModel CurrentRequestState { get; set; } = new()
+    {
+        Page = 1,
+        PageSize = 5,
+        SortBy = "Name",
+        SortDir = "asc",
+        Query = "" // Ensure Query is initialized for RzTextField binding
+    };
+
+    private PaginationState CurrentPagingState { get; set; } = new(1, 0, 5, 0);
+    private const string ProductTableControllerUrl = "/api/demoproducts/table";
+
+    private string TableBodyId = "demo-product-table-body";
+
+    protected override void OnInitialized()
+    {
+        AllProductsMasterList = GenerateDummyProducts();
+        ApplyTableState();
+    }
+
+    private void ApplyTableState()
+    {
+        IEnumerable<Product> query = AllProductsMasterList;
+
+        if (!string.IsNullOrWhiteSpace(CurrentRequestState.Query))
+        {
+            string searchTerm = CurrentRequestState.Query.ToLowerInvariant();
+            query = query.Where(p =>
+                p.Name.ToLowerInvariant().Contains(searchTerm) ||
+                p.Category.ToLowerInvariant().Contains(searchTerm));
+        }
+
+        if (!string.IsNullOrWhiteSpace(CurrentRequestState.SortBy))
+        {
+            bool ascending = CurrentRequestState.SortDir?.ToLowerInvariant() == "asc";
+            var propInfo = typeof(Product).GetProperty(CurrentRequestState.SortBy, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            if (propInfo != null)
+            {
+                query = ascending ? query.OrderBy(p => propInfo.GetValue(p)) : query.OrderByDescending(p => propInfo.GetValue(p));
+            }
+        }
+
+        var totalItems = query.Count();
+        var page = Math.Max(1, CurrentRequestState.Page);
+        var pageSize = Math.Max(1, CurrentRequestState.PageSize);
+        var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+        page = Math.Min(page, Math.Max(1, totalPages));
+
+        VisibleProducts = query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        CurrentPagingState = new PaginationState(page, totalPages, pageSize, totalItems);
+        CurrentRequestState = CurrentRequestState with { Page = page };
+    }
+
+    private List<Product> GenerateDummyProducts()
+    {
+        return new List<Product>
+        {
+            new Product { Id = 1, Name = "Hyperion Laptop X1", Category = "Electronics", Price = 1299.99m, StockQuantity = 22, LastUpdated = DateTime.UtcNow.AddDays(-2) },
+            new Product { Id = 2, Name = "Aether Wireless Mouse", Category = "Accessories", Price = 39.99m, StockQuantity = 150, LastUpdated = DateTime.UtcNow.AddDays(-5) },
+            new Product { Id = 3, Name = "Orion Ergonomic Chair", Category = "Furniture", Price = 249.50m, StockQuantity = 0, LastUpdated = DateTime.UtcNow.AddDays(-10) },
+            new Product { Id = 4, Name = "Nova Mechanical Keyboard", Category = "Accessories", Price = 89.00m, StockQuantity = 65, LastUpdated = DateTime.UtcNow.AddDays(-1) },
+            new Product { Id = 5, Name = "Zenith 27\" 4K Monitor", Category = "Electronics", Price = 379.00m, StockQuantity = 40, LastUpdated = DateTime.UtcNow.AddDays(-22) },
+            new Product { Id = 6, Name = "Helios Desk Lamp", Category = "Furniture", Price = 55.00m, StockQuantity = 70, LastUpdated = DateTime.UtcNow.AddDays(-3) },
+            new Product { Id = 7, Name = "Cygnus USB-C Hub", Category = "Accessories", Price = 32.50m, StockQuantity = 180, LastUpdated = DateTime.UtcNow.AddDays(-8) },
+            new Product { Id = 8, Name = "Nebula External SSD 2TB", Category = "Storage", Price = 179.99m, StockQuantity = 55, LastUpdated = DateTime.UtcNow.AddDays(-14) },
+            new Product { Id = 9, Name = "Starlight Webcam Pro", Category = "Electronics", Price = 65.00m, StockQuantity = 0, LastUpdated = DateTime.UtcNow.AddDays(-6) },
+            new Product { Id = 10, Name = "Terra Ergonomic Footrest", Category = "Furniture", Price = 30.00m, StockQuantity = 100, LastUpdated = DateTime.UtcNow.AddDays(-18) },
+            new Product { Id = 11, Name = "Cosmos Gaming Headset", Category = "Accessories", Price = 99.90m, StockQuantity = 33, LastUpdated = DateTime.UtcNow.AddDays(-4) },
+            new Product { Id = 12, Name = "Apollo Smart Thermostat", Category = "Home Automation", Price = 189.00m, StockQuantity = 20, LastUpdated = DateTime.UtcNow.AddDays(-35) },
+            new Product { Id = 13, Name = "Sirius Bluetooth Speaker", Category = "Electronics", Price = 72.00m, StockQuantity = 80, LastUpdated = DateTime.UtcNow.AddDays(-9) },
+            new Product { Id = 14, Name = "Gaia Yoga Mat XL", Category = "Fitness", Price = 28.50m, StockQuantity = 130, LastUpdated = DateTime.UtcNow.AddDays(-7) },
+            new Product { Id = 15, Name = "Chronos Coffee Maker Deluxe", Category = "Appliances", Price = 95.00m, StockQuantity = 0, LastUpdated = DateTime.UtcNow.AddDays(-28) },
+            new Product { Id = 16, Name = "Solstice Bookshelf", Category = "Furniture", Price = 160.25m, StockQuantity = 15, LastUpdated = DateTime.UtcNow.AddDays(-42) },
+            new Product { Id = 17, Name = "Lunar Tablet Stand", Category = "Accessories", Price = 22.99m, StockQuantity = 220, LastUpdated = DateTime.UtcNow.AddDays(-3) },
+            new Product { Id = 18, Name = "Equinox Smart Watch", Category = "Wearables", Price = 279.00m, StockQuantity = 45, LastUpdated = DateTime.UtcNow.AddDays(-12) },
+            new Product { Id = 19, Name = "Polaris VR Headset", Category = "Electronics", Price = 399.00m, StockQuantity = 8, LastUpdated = DateTime.UtcNow.AddDays(-50) },
+            new Product { Id = 20, Name = "Vertex Gaming Mousepad", Category = "Accessories", Price = 19.99m, StockQuantity = 300, LastUpdated = DateTime.UtcNow.AddDays(-1) }
+        };
+    }
+}

@@ -1,0 +1,33 @@
+
+@namespace RizzyUI
+@typeparam TItem
+@inherits RzComponent
+
+<CascadingValue Value="this" Name="ParentRzTable" IsFixed="true">
+    <HtmlElement Element="div" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
+        <table class="@Theme.RzTable.Table" id="@($"{Id}_table")"> 
+            @if (Header != null)
+            {
+                <thead class="@Theme.RzTable.Thead">
+                    <tr>
+                        @Header(this)
+                    </tr>
+                </thead>
+            }
+            
+            @if (Body != null)
+            {
+                @Body!(this)
+            }
+
+            @if (Footer != null)
+            {
+                <tfoot class="@Theme.RzTable.Tfoot">
+                    <tr>
+                        @Footer(this)
+                    </tr>
+                </tfoot>
+            }
+        </table>
+    </HtmlElement>
+</CascadingValue>

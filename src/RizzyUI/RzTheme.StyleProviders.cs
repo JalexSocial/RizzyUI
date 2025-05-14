@@ -200,4 +200,19 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for base typography used by multiple components. </summary>
     public virtual RzStylesBase.RzTypographyStylesBase RzTypography { get; }
+    
+    /// <summary> Gets or sets the style definitions for the <see cref="RzTable{TItem}" /> component. </summary>
+    public virtual RzStylesBase.RzTableStylesBase RzTable { get; }
+
+    /// <summary> Gets or sets the style definitions for the <see cref="RzTableHeaderCell{TItem}" /> component. </summary>
+    public virtual RzStylesBase.RzTableHeaderCellStylesBase RzTableHeaderCell { get; }
+    
+    /// <summary> Gets or sets the style definitions for the <see cref="RzTableBody{TItem}" /> component. </summary>
+    public virtual RzStylesBase.RzTableBodyStylesBase RzTableBody { get; }
+
+    /// <summary> Gets or sets the style definitions for the <see cref="RzTableCell{TItem}" /> component. </summary>
+    public virtual RzStylesBase.RzTableCellStylesBase RzTableCell { get; }
+    
+    /// <summary> Gets or sets the style definitions for the <see cref="RzPagination{TItem}" /> component. </summary>
+    public virtual RzStylesBase.RzPaginationStylesBase RzPagination { get; }    
 }
