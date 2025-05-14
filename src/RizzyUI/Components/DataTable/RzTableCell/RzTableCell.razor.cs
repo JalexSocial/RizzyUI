@@ -1,13 +1,13 @@
-
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System.Collections.Generic;
 
 namespace RizzyUI;
 
-/// <xmldoc>
-/// Represents a table data cell (<td>) within an RzTable.
-/// </xmldoc>
+/// <summary>
+/// Represents a table data cell (&lt;td&gt;) within an RzTable.
+/// Provides basic cell functionality including content, colspan, and styling.
+/// </summary>
 public partial class RzTableCell<TItem> : RzComponent 
 {
     /// <summary>
@@ -32,6 +32,10 @@ public partial class RzTableCell<TItem> : RzComponent
     /// </summary>
     [Parameter] public string? ColumnKey { get; set; }
     
+    /// <summary>
+    /// Gets combined attributes including any passed-in AdditionalAttributes and
+    /// dynamically adds colspan attribute if the Colspan parameter has a value.
+    /// </summary>
     protected Dictionary<string, object> CombinedAttributes
     {
         get
@@ -45,12 +49,20 @@ public partial class RzTableCell<TItem> : RzComponent
         }
     }
 
+    /// <summary>
+    /// Initializes the component by setting the HTML element to "td" and preparing base attributes.
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();
         Element = "td";
     }
 
+    /// <summary>
+    /// Determines the CSS classes to apply to the root element by merging theme-based
+    /// table cell styles with any additional class attributes.
+    /// </summary>
+    /// <returns>A string containing the merged CSS classes.</returns>
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, Theme.RzTableCell.TableCell);

@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
@@ -8,12 +7,12 @@ using System.Linq.Expressions;
 
 namespace RizzyUI;
 
-/// <xmldoc>
+/// <summary>
 /// A highly configurable and HTMX-interactive table component.
 /// It supports generic data types, templated headers, body, and footers,
 /// and integrates with HTMX for dynamic operations like sorting, pagination, and filtering.
 /// This component cascades itself to child components for easy access to table-wide properties.
-/// </xmldoc>
+/// </summary>
 [CascadingTypeParameter(nameof(TItem))]
 public partial class RzTable<TItem> : RzComponent
 {
@@ -142,6 +141,11 @@ public partial class RzTable<TItem> : RzComponent
     /// </summary>
     [Parameter] public List<TItem> SelectedItems { get; set; } = new();
 
+    /// <summary>
+    /// Adds a column definition to the table's internal collection of columns.
+    /// This is called by RzTableHeaderCell components during their initialization.
+    /// </summary>
+    /// <param name="columnDefinition">The column definition to add.</param>
     internal void AddColumnDefinition(ColumnDefinition<TItem> columnDefinition)
     {
         if (!_columnDefinitions.Any(cd => cd.Key == columnDefinition.Key))
@@ -151,6 +155,11 @@ public partial class RzTable<TItem> : RzComponent
         }
     }
 
+    /// <summary>
+    /// Returns a read-only list of all column definitions registered with this table.
+    /// This allows other components to access column metadata without modifying the collection.
+    /// </summary>
+    /// <returns>A read-only list of column definitions.</returns>
     internal IReadOnlyList<ColumnDefinition<TItem>> GetColumnDefinitions() => _columnDefinitions.AsReadOnly();
     
     /// <summary>
@@ -159,6 +168,11 @@ public partial class RzTable<TItem> : RzComponent
     /// </summary>
     public int ColumnCount => _columnDefinitions.Count > 0 ? _columnDefinitions.Count : 1;
 
+    /// <summary>
+    /// Determines the CSS classes to apply to the root container element by merging theme-based
+    /// table container styles with any additional class attributes.
+    /// </summary>
+    /// <returns>A string containing the merged CSS classes.</returns>
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, Theme.RzTable.Container);

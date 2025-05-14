@@ -210,6 +210,9 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzTableBody{TItem}" /> component. </summary>
     public virtual RzStylesBase.RzTableBodyStylesBase RzTableBody { get; }
 
+    /// <summary> Gets or sets the style definitions for the <see cref="RzTableRow{TItem}" /> component. </summary>
+    public virtual RzStylesBase.RzTableRowStylesBase RzTableRow { get; }
+    
     /// <summary> Gets or sets the style definitions for the <see cref="RzTableCell{TItem}" /> component. </summary>
     public virtual RzStylesBase.RzTableCellStylesBase RzTableCell { get; }
     

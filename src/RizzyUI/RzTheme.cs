@@ -81,6 +81,7 @@ public partial class RzTheme
         RzTable = new DefaultRzTableStyles(this);
         RzTableHeaderCell = new DefaultRzTableHeaderCellStyles(this);
         RzTableBody = new DefaultRzTableBodyStyles(this);
+        RzTableRow = new DefaultRzTableRowStyles(this);        
         RzTableCell = new DefaultRzTableCellStyles(this);
         RzPagination = new DefaultRzPaginationStyles(this);        
         RzTabs = new DefaultRzTabsStyles(this);

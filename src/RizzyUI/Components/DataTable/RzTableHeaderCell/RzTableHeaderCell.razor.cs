@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System;
@@ -11,11 +10,11 @@ using Rizzy.Utility;
 
 namespace RizzyUI;
 
-/// <xmldoc>
-/// Represents a header cell (<th>) in an RzTable.
+/// <summary>
+/// Represents a header cell (&lt;th&gt;) in an RzTable.
 /// It can define a column, enable sorting via HTMX, display sort direction indicators,
 /// and includes ARIA attributes for accessibility.
-/// </xmldoc>
+/// </summary>
 public partial class RzTableHeaderCell<TItem> : RzComponent
 {
     private string? _columnKeyInternal;
@@ -73,7 +72,39 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
     /// </summary>
     public string EffectiveColumnKey => _columnKeyInternal ?? "unknown_column";
     
+    /// <summary>
+    /// Gets the current sort direction for this column.
+    /// This is determined based on the parent table's CurrentTableRequest.
+    /// </summary>
+    protected SortDirection CurrentSortDirection => _currentSortDirection;
+
+    /// <summary>
+    /// Gets the next sort direction that would be applied when clicking the header.
+    /// The sequence typically cycles: Unset -> Ascending -> Descending -> Unset.
+    /// </summary>
+    protected SortDirection NextSortDirection => _nextSortDirection;
+
+    /// <summary>
+    /// Gets the value for the aria-sort attribute, which helps screen readers announce the current sort state.
+    /// Values can be "none", "ascending", or "descending".
+    /// </summary>
+    protected string AriaSortValue => _ariaSortValue;
+
+    /// <summary>
+    /// Gets the aria-label for the sort button, which provides accessible description of the column and its current sort state.
+    /// </summary>
+    protected string SortButtonAriaLabel => _sortButtonAriaLabel;
+
+    /// <summary>
+    /// Gets the CSS class string for the sort direction indicator icon.
+    /// The styling changes based on current sort direction to provide visual cues.
+    /// </summary>
     protected string SortIndicatorClass => Theme.RzTableHeaderCell.GetSortIndicatorCss(_currentSortDirection);
+
+    /// <summary>
+    /// Gets the appropriate icon to display based on the current sort direction.
+    /// Returns different icons for ascending, descending, and unsorted states.
+    /// </summary>
     protected SvgIcon? SortIndicatorIcon => Theme.RzTableHeaderCell.GetSortIndicatorIcon(_currentSortDirection);
 
     protected override void OnInitialized()
