@@ -6,7 +6,7 @@
 <HtmlElement Element="@Element" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()" hx-indicator="@EffectiveHxIndicatorSelector">
     @if (EffectiveItems.Any())
     {
-        int rowIndex = 0;
+        int rowIndex = (this.ParentRzTable?.CurrentPaginationState.CurrentPage-1) * this.ParentRzTable?.CurrentPaginationState.PageSize ?? 0;
         foreach (var item in EffectiveItems)
         {
             <CascadingValue Value="rowIndex" Name="RowIndex" IsFixed="false">

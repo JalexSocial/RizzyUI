@@ -6,12 +6,12 @@ using System; // For Math
 
 namespace RizzyUI;
 
-/// <xmldoc>
+/// <summary>
 /// Renders a pagination control UI based on the provided or cascaded PaginationState.
 /// Generates HTMX-enabled links to navigate through pages of data in an RzTable.
 /// This component is generic and will infer TItem from its parent RzTable.
-/// </xmldoc>
-[CascadingTypeParameter(nameof(TItem))] // Ensures TItem can be inferred from parent RzTable
+/// </summary>
+[CascadingTypeParameter(nameof(TItem))] 
 public partial class RzPagination<TItem> : RzComponent
 {
     /// <summary>

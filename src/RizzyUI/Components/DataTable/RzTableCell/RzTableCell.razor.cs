@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace RizzyUI;
 
 /// <summary>
-/// Represents a table data cell (<td>) within an RzTable.
+/// Represents a table data cell (&lt;td>) within an RzTable.
 /// Provides basic cell functionality including content, colspan, and styling.
 /// Can conditionally render a border based on the parent RzTable's Border property.
 /// </summary>
@@ -18,6 +18,9 @@ public partial class RzTableCell<TItem> : RzComponent
     [CascadingParameter(Name = "ParentRzTable")]
     protected RzTable<TItem>? ParentRzTable { get; set; }
 
+    [CascadingParameter(Name = "ParentRzTableRowParentRzTableRow")]
+    protected RzTableRow<TItem>? ParentRzTableRow { get; set; }
+    
     /// <summary>
     /// The content to be rendered inside the table cell.
     /// </summary>

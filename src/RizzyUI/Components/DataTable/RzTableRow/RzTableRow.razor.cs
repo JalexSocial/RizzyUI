@@ -1,7 +1,8 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
-using System.Collections.Generic; // Required for List
+using System.Collections.Generic;
+using Rizzy.Utility; // Required for List
 
 namespace RizzyUI;
 
@@ -20,7 +21,7 @@ public partial class RzTableRow<TItem> : RzComponent
     protected RzTable<TItem>? ParentRzTable { get; set; }
 
     /// <summary>
-    /// Cascaded row index from RzTableBody, used for striping. Null if not in a body context or if striping is disabled.
+    /// Cascaded row index from RzTableBody. Null if not in a body context or if striping is disabled.
     /// </summary>
     [CascadingParameter(Name = "RowIndex")]
     protected int? RowIndex { get; set; }
@@ -41,7 +42,19 @@ public partial class RzTableRow<TItem> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "tr"; // This component directly renders a <tr> element.
+        Element = "tr";
+
+        if (ParentRzTable != null)
+        {
+            Id = $"{ParentRzTable.TableBodyIdInternal}-row";
+            
+            if (RowIndex != null)
+                Id += "-" + RowIndex;
+            else
+            {
+                Id = IdGenerator.UniqueId(Id);
+            }
+        }
     }
 
     /// <inheritdoc />

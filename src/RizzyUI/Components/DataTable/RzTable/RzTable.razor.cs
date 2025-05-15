@@ -154,6 +154,21 @@ public partial class RzTable<TItem> : RzComponent
     [Parameter] public List<TItem> SelectedItems { get; set; } = new();
 
     /// <summary>
+    /// Id of the table element. This is used for HTMX interactions.
+    /// </summary>
+    public string TableId => $"{Id}-table";
+    
+    /// <summary>
+    /// Id of the table head element. This is used for HTMX interactions.
+    /// </summary>
+    public string TableHeaderId => $"{Id}-table-head";
+    
+    /// <summary>
+    /// Id of the table footer element. This is used for HTMX interactions.
+    /// </summary>
+    public string TableFooterId => $"{Id}-table-foot";
+    
+    /// <summary>
     /// Adds a column definition to the table's internal collection of columns.
     /// This is called by RzTableHeaderCell components during their initialization.
     /// </summary>
