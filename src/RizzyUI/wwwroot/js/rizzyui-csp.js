@@ -5508,6 +5508,7 @@ function registerComponents(Alpine) {
       modalId: '',
       bodyId: '',
       footerId: '',
+      nonce: '',
       _escapeListener: null,
       _openListener: null,
       _closeEventListener: null,
@@ -5516,6 +5517,7 @@ function registerComponents(Alpine) {
         this.modalId = this.$el.dataset.modalId || '';
         this.bodyId = this.$el.dataset.bodyId || '';
         this.footerId = this.$el.dataset.footerId || '';
+        this.nonce = this.$el.dataset.nonce || '';
         this.eventTriggerName = this.$el.dataset.eventTriggerName || '';
         this.closeEventName = this.$el.dataset.closeEventName || this.closeEventName; // Use provided or default
         this.closeOnEscape = this.$el.dataset.closeOnEscape !== 'false';
@@ -5557,7 +5559,10 @@ function registerComponents(Alpine) {
 
         // Watch the 'modalOpen' state to manage body overflow and focus
         this.$watch('modalOpen', function (value) {
+          var currentWidth = document.body.offsetWidth;
           document.body.classList.toggle('overflow-hidden', value);
+          var scrollBarWidth = document.body.offsetWidth - currentWidth;
+          document.body.style.setProperty('--page-scrollbar-width', "".concat(scrollBarWidth, "px"));
           if (value) {
             _this5.$nextTick(function () {
               var dialogElement = _this5.$el.querySelector('[role="document"]');
@@ -5599,6 +5604,7 @@ function registerComponents(Alpine) {
           window.removeEventListener('keydown', this._escapeListener);
         }
         document.body.classList.remove('overflow-hidden');
+        document.body.style.setProperty('--page-scrollbar-width', "0px");
       },
       openModal: function openModal() {
         var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -5631,6 +5637,8 @@ function registerComponents(Alpine) {
         this.$el.dispatchEvent(beforeCloseEvent);
         if (!beforeCloseEvent.defaultPrevented) {
           this.modalOpen = false;
+          document.body.classList.remove('overflow-hidden');
+          document.body.style.setProperty('--page-scrollbar-width', "0px");
         }
       },
       // Called only by the explicit close button in the template

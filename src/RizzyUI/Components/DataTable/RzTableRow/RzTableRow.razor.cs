@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System.Collections.Generic;
-using Rizzy.Utility; // Required for List
+using Rizzy.Utility; 
 
 namespace RizzyUI;
 

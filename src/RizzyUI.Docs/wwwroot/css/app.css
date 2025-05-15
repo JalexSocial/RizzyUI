@@ -5517,6 +5517,10 @@
     max-width: none;
   }
 }
+body {
+  --page-scrollbar-width: 0px;
+  margin-right: var(--page-scrollbar-width);
+}
 [x-cloak] {
   display: none !important;
 }
