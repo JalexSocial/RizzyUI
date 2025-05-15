@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System;
@@ -11,9 +12,9 @@ using Rizzy.Utility;
 namespace RizzyUI;
 
 /// <summary>
-/// Represents a header cell (&lt;th&gt;) in an RzTable.
+/// Represents a header cell (<th>) in an RzTable.
 /// It can define a column, enable sorting via HTMX, display sort direction indicators,
-/// and includes ARIA attributes for accessibility.
+/// include ARIA attributes for accessibility, and conditionally render a border.
 /// </summary>
 public partial class RzTableHeaderCell<TItem> : RzComponent
 {
@@ -125,10 +126,6 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        // It's possible ColumnKey or For could change, re-evaluate if necessary,
-        // though this is less common for header cells after initial render.
-        // For now, primary resolution is in OnInitialized.
-        // Key part is updating sort state based on potentially changed ParentRzTable.CurrentTableRequest
         UpdateSortStateAndHxUrl();
     }
     
@@ -149,11 +146,8 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
         }
         else
         {
-            // Fallback to a generated key if no other means, or use ChildContent's text if simple.
-            // This makes the column technically sortable by this key if Sortable=true,
-            // but the server needs to know how to handle this key.
             resolvedKey = ChildContent.AsMarkupString().Trim().Replace(" ", "_") + "_" + IdGenerator.UniqueId("col");
-            if (string.IsNullOrWhiteSpace(resolvedKey) || resolvedKey.StartsWith("_")) // if ChildContent was empty or just an icon
+            if (string.IsNullOrWhiteSpace(resolvedKey) || resolvedKey.StartsWith("_"))
             {
                  resolvedKey = IdGenerator.UniqueId("col_anon_");
             }
@@ -171,7 +165,7 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
 
     private void UpdateSortStateAndHxUrl()
     {
-        if (ParentRzTable == null) return; // Should not happen due to OnInitialized check
+        if (ParentRzTable == null) return;
 
         var currentRequest = ParentRzTable.CurrentTableRequest;
         _currentSortDirection = SortDirection.Unset;
@@ -199,12 +193,10 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
                     _sortButtonAriaLabel = string.Format(Localizer["RzTable.SortButtonAriaLabelFormat"], ChildContent.AsMarkupString(), Localizer["RzTable.SortDirectionDescendingLong"]);
                 }
             } else {
-                 // This column is not the primary sort, but if it has an InitialSortDirection and no other column is sorted, reflect that.
                 if (InitialSortDirection != SortDirection.Unset && string.IsNullOrEmpty(currentRequest.SortBy))
                 {
-                     _currentSortDirection = InitialSortDirection; // For visual cue only if server pre-sorted
+                     _currentSortDirection = InitialSortDirection;
                      _ariaSortValue = InitialSortDirection == SortDirection.Ascending ? "ascending" : "descending";
-                     // Next click will still cycle from its default (usually ascending)
                 }
             }
 
@@ -218,7 +210,7 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
                 nextRequestParameters = currentRequest with { 
                     SortBy = _columnKeyInternal, 
                     SortDir = _nextSortDirection == SortDirection.Ascending ? "asc" : "desc",
-                    Page = 1 // Reset to page 1 on sort change
+                    Page = 1 
                 };
             }
             _effectiveHxGetUrl = $"{ParentRzTable.HxControllerUrl}{nextRequestParameters.ToQueryString()}";
@@ -255,11 +247,17 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
 
     protected override string? RootClass()
     {
-        var classes = new List<string> { Theme.RzTableHeaderCell.HeaderCell };
+        var styles = Theme.RzTableHeaderCell;
+        var classBuilder = new List<string> { styles.HeaderCellBase };
+
         if (Sortable)
         {
-            classes.Add(Theme.RzTableHeaderCell.SortableHeaderCell);
+            classBuilder.Add(styles.SortableHeaderCell);
         }
-        return TwMerge.Merge(AdditionalAttributes, classes.ToArray());
+        if (ParentRzTable is { Border: true })
+        {
+            classBuilder.Add(styles.HeaderCellBordered);
+        }
+        return TwMerge.Merge(AdditionalAttributes, classBuilder.ToArray());
     }
 }

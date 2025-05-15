@@ -15,8 +15,15 @@ public class DefaultRzTableCellStyles : RzStylesBase.RzTableCellStylesBase
     }
 
     /// <summary>
-    /// Gets the CSS classes for the table cell element.
-    /// Default is "p-4" which provides consistent padding.
+    /// Gets the CSS classes for the base table cell element (padding).
     /// </summary>
-    public override string TableCell => "p-4";
+    public override string TableCellBase => "p-4";
+
+    /// <summary>
+    /// Gets the CSS classes for a bordered table cell element.
+    /// Default adds a right border. Use with CSS :last-child selectors for cleaner table appearance if needed.
+    /// </summary>
+    public override string TableCellBordered => "border-r border-outline dark:border-outline"; 
+    // Consider if a full border "border border-outline" is better or if this should be more specific (e.g. border-x)
+    // For now, just right border, assuming row handles bottom.
 }

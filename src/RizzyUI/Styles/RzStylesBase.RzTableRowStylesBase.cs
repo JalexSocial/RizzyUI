@@ -7,29 +7,23 @@
 /// </summary>
 public abstract partial class RzStylesBase
 {
-    #region RzTableRow Styles
-
     /// <summary>
     /// Defines the abstract structure for styling the <see cref="RzTableRow{TItem}"/> component.
     /// </summary>
     public abstract class RzTableRowStylesBase
     {
-        /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="RzTableRowStylesBase"/> class. </summary>
         protected RzTableRowStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary>Gets the base CSS classes for the table row (<tr>) element.</summary>
-        public abstract string TableRow { get; }
-
-        // Potentially add other style properties later if needed, e.g., for selected rows, hover states, etc.
-        // public abstract string TableRowHover { get; }
-        // public abstract string TableRowSelected { get; }
-    }
-
-    #endregion
+        /// <summary>Gets the base CSS classes for the table row (<tr>) element, without hover or striping.</summary>
+        public abstract string TableRowBase { get; }
+        
+        /// <summary>Gets the CSS classes to apply for hover effects on a table row.</summary>
+        public abstract string TableRowHover { get; }
+    }    
 }
+

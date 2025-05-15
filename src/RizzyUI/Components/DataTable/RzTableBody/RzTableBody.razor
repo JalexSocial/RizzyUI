@@ -1,3 +1,4 @@
+
 @namespace RizzyUI
 @typeparam TItem
 @inherits RzComponent
@@ -5,9 +6,13 @@
 <HtmlElement Element="@Element" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()" hx-indicator="@EffectiveHxIndicatorSelector">
     @if (EffectiveItems.Any())
     {
+        int rowIndex = 0;
         foreach (var item in EffectiveItems)
         {
-            @RowTemplate(item)
+            <CascadingValue Value="rowIndex" Name="RowIndex" IsFixed="false">
+                @RowTemplate(item)
+            </CascadingValue>
+            rowIndex++;
         }
     }
     else if (EmptyTemplate != null)

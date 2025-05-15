@@ -17,16 +17,16 @@ public class DefaultRzTableHeaderCellStyles : RzStylesBase.RzTableHeaderCellStyl
     }
 
     /// <summary>
-    /// Gets the CSS classes for the header cell element.
+    /// Gets the CSS classes for the base header cell element.
     /// Default is "p-4" which provides consistent padding.
     /// </summary>
-    public override string HeaderCell => "p-4";
+    public override string HeaderCellBase => "p-4";
 
     /// <summary>
     /// Gets the CSS classes for the sort button inside sortable header cells.
     /// Styles include spacing, alignment, and focus states for better accessibility.
     /// </summary>
-    public override string SortableButton => "flex items-center justify-between gap-2 w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-surface-alt rounded-sm"; // Added focus styles, full width, justify between
+    public override string SortableButton => "flex items-center justify-between gap-2 w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-surface-alt rounded-sm";
 
     /// <summary>
     /// Gets the CSS classes for sortable header cells.
@@ -39,6 +39,11 @@ public class DefaultRzTableHeaderCellStyles : RzStylesBase.RzTableHeaderCellStyl
     /// Uses flex-grow to allow the sort indicator to be properly positioned.
     /// </summary>
     public override string TitleSpan => "flex-grow";
+    
+    /// <summary>
+    /// Gets the CSS classes for a bordered header cell element.
+    /// </summary>
+    public override string HeaderCellBordered => "border-r border-outline dark:border-outline";
 
     /// <summary>
     /// Gets the CSS classes for the sort direction indicator based on the current sort direction.
@@ -52,7 +57,7 @@ public class DefaultRzTableHeaderCellStyles : RzStylesBase.RzTableHeaderCellStyl
             SortDirection.Ascending => "size-4 text-on-surface-strong dark:text-on-surface-strong",
             SortDirection.Descending => "size-4 text-on-surface-strong dark:text-on-surface-strong",
             SortDirection.Unset => "size-4 text-on-surface-muted dark:text-on-surface-muted opacity-60",
-            _ => "size-4 opacity-0" // Should ideally not be hit if icon is null
+            _ => "size-4 opacity-0" 
         };
     }
     
@@ -67,7 +72,7 @@ public class DefaultRzTableHeaderCellStyles : RzStylesBase.RzTableHeaderCellStyl
         {
             SortDirection.Ascending => MdiIcon.ArrowUp,
             SortDirection.Descending => MdiIcon.ArrowDown,
-            SortDirection.Unset => MdiIcon.ArrowUpDownBoldOutline, // A more neutral "sortable" icon
+            SortDirection.Unset => MdiIcon.ArrowUpDownBoldOutline,
             _ => null
         };
     }

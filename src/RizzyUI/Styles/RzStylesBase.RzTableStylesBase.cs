@@ -1,3 +1,4 @@
+
 using Blazicons; 
 
 namespace RizzyUI;
@@ -21,13 +22,13 @@ public abstract partial class RzStylesBase
         /// <summary>Gets the CSS classes for the outermost wrapper div of the RzTable (e.g., overflow, rounding, border).</summary>
         public abstract string Container { get; }
 
-        /// <summary>Gets the CSS classes for the &lt;table> element (e.g., width, text alignment, base text styles).</summary>
+        /// <summary>Gets the CSS classes for the <table> element (e.g., width, text alignment, base text styles).</summary>
         public abstract string Table { get; }
 
-        /// <summary>Gets the CSS classes for the &lt;thead> element (e.g., border, background, text styles for headers).</summary>
+        /// <summary>Gets the CSS classes for the <thead> element (e.g., border, background, text styles for headers).</summary>
         public abstract string Thead { get; }
 
-        /// <summary>Gets the CSS classes for the &lt;tfoot> element (e.g., border, background, text styles for footers).</summary>
+        /// <summary>Gets the CSS classes for the <tfoot> element (e.g., border, background, text styles for footers).</summary>
         public abstract string Tfoot { get; }
     }
 
@@ -43,8 +44,8 @@ public abstract partial class RzStylesBase
             Theme = theme;
         }
 
-        /// <summary>Gets the CSS classes for the <th> element.</summary>
-        public abstract string HeaderCell { get; }
+        /// <summary>Gets the CSS classes for the base <th> element.</summary>
+        public abstract string HeaderCellBase { get; }
         
         /// <summary>Gets the CSS classes for the button element inside a sortable header cell.</summary>
         public abstract string SortableButton { get; }
@@ -54,6 +55,9 @@ public abstract partial class RzStylesBase
         
         /// <summary>Gets the CSS classes for the span containing the title text within the header cell.</summary>
         public abstract string TitleSpan { get; }
+        
+        /// <summary>Gets the CSS classes for a bordered <th> element.</summary>
+        public abstract string HeaderCellBordered { get; }
 
         /// <summary>Gets the CSS classes for the sort direction indicator icon.</summary>
         /// <param name="direction">The current sort direction.</param>
@@ -84,7 +88,7 @@ public abstract partial class RzStylesBase
         /// <summary>Gets the CSS classes for the default cell (<td>) used when displaying the empty row message (e.g., padding, text alignment, color).</summary>
         public abstract string EmptyRowCell { get; }
     }
-
+    
     /// <summary>
     /// Defines the abstract structure for styling the <see cref="RzTableCell{TItem}"/> component.
     /// </summary>
@@ -97,8 +101,11 @@ public abstract partial class RzStylesBase
             Theme = theme;
         }
 
-        /// <summary>Gets the CSS classes for the <td> element (e.g., padding).</summary>
-        public abstract string TableCell { get; }
+        /// <summary>Gets the CSS classes for the base <td> element (e.g., padding).</summary>
+        public abstract string TableCellBase { get; }
+        
+        /// <summary>Gets the CSS classes for a bordered <td> element.</summary>
+        public abstract string TableCellBordered { get; }
     }
 
     /// <summary>

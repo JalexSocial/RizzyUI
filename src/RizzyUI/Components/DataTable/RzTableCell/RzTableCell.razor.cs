@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System.Collections.Generic;
@@ -5,13 +6,14 @@ using System.Collections.Generic;
 namespace RizzyUI;
 
 /// <summary>
-/// Represents a table data cell (&lt;td&gt;) within an RzTable.
+/// Represents a table data cell (<td>) within an RzTable.
 /// Provides basic cell functionality including content, colspan, and styling.
+/// Can conditionally render a border based on the parent RzTable's Border property.
 /// </summary>
 public partial class RzTableCell<TItem> : RzComponent 
 {
     /// <summary>
-    /// Cascaded parent RzTable instance. Available for context if needed, though not directly used by RzTableCell itself.
+    /// Cascaded parent RzTable instance. Available for context like the Border property.
     /// </summary>
     [CascadingParameter(Name = "ParentRzTable")]
     protected RzTable<TItem>? ParentRzTable { get; set; }
@@ -60,11 +62,19 @@ public partial class RzTableCell<TItem> : RzComponent
 
     /// <summary>
     /// Determines the CSS classes to apply to the root element by merging theme-based
-    /// table cell styles with any additional class attributes.
+    /// table cell styles with any additional class attributes and conditional border styles.
     /// </summary>
     /// <returns>A string containing the merged CSS classes.</returns>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzTableCell.TableCell);
+        var styles = Theme.RzTableCell;
+        var classBuilder = new List<string> { styles.TableCellBase };
+
+        if (ParentRzTable is { Border: true })
+        {
+            classBuilder.Add(styles.TableCellBordered);
+        }
+
+        return TwMerge.Merge(AdditionalAttributes, classBuilder.ToArray());
     }
 }

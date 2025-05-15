@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 namespace RizzyUI;
 
 /// <summary>
-/// Represents the body (&lt;tbody>) of an RzTable. It's responsible for rendering rows based on the provided data
+/// Represents the body (<tbody>) of an RzTable. It's responsible for rendering rows based on the provided data
 /// and templates. It infers its item type and data source from a parent RzTable if not explicitly provided.
 /// It also registers its ID with the parent RzTable and adds a data-attribute for fallback targeting.
 /// </summary>

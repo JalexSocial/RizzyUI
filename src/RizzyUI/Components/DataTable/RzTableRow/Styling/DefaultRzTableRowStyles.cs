@@ -1,4 +1,5 @@
-﻿namespace RizzyUI;
+
+namespace RizzyUI;
 
 /// <summary>
 /// Provides the default styles for the RzTableRow component.
@@ -14,6 +15,10 @@ public class DefaultRzTableRowStyles : RzStylesBase.RzTableRowStylesBase
     }
 
     /// <inheritdoc />
-    public override string TableRow =>
-        "border-b border-outline dark:border-outline hover:bg-surface-alt/50 dark:hover:bg-surface-alt/50 transition-colors duration-150 ease-in-out";
+    public override string TableRowBase =>
+        "border-b border-outline dark:border-outline transition-colors duration-150 ease-in-out";
+        
+    /// <inheritdoc />
+    public override string TableRowHover =>
+        "hover:bg-surface-alt/50 dark:hover:bg-surface-alt/50";
 }

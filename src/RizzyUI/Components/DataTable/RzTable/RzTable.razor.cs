@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
@@ -40,10 +41,6 @@ public partial class RzTable<TItem> : RzComponent
         if (_hasRegisteredBody && TableBodyIdInternal != tableBodyId)
         {
             // This situation should ideally not happen if RzTableBody is used correctly (only one instance).
-            // If it does, it might indicate a misuse or an unexpected re-rendering scenario.
-            // For now, we'll allow re-registration from the same body ID (e.g. if RzTableBody re-initializes)
-            // but log or handle if a *different* body tries to register.
-            // However, the primary guard is the _hasRegisteredBody flag.
         }
         
         if (_hasRegisteredBody && TableBodyIdInternal != tableBodyId)
@@ -109,22 +106,37 @@ public partial class RzTable<TItem> : RzComponent
     [Parameter] public string? HxIndicatorSelector { get; set; }
 
     /// <summary>
-    /// Defines the content for the table's header (&lt;thead>).
+    /// Defines the content for the table's header (<thead>).
     /// Typically contains one or more <see cref="RzTableHeaderCell{TItem}"/> components.
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment<RzTable<TItem>>? Header { get; set; }
 
     /// <summary>
-    /// Defines the content for the table's body (&lt;tbody>).
+    /// Defines the content for the table's body (<tbody>).
     /// This should be an <see cref="RzTableBody{TItem}"/> component.
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment<RzTable<TItem>>? Body { get; set; }
 
     /// <summary>
-    /// Optional. Defines the content for the table's footer (&lt;tfoot>).
+    /// Optional. Defines the content for the table's footer (<tfoot>).
     /// Often used for pagination controls or summary information.
     /// </summary>
     [Parameter] public RenderFragment<RzTable<TItem>>? Footer { get; set; }
+    
+    /// <summary>
+    /// If true, applies alternating background colors to table rows. Defaults to false.
+    /// </summary>
+    [Parameter] public bool Striped { get; set; } = false;
+
+    /// <summary>
+    /// If true, applies hover styling to table rows. Defaults to true.
+    /// </summary>
+    [Parameter] public bool Hoverable { get; set; } = true;
+
+    /// <summary>
+    /// If true, applies borders to table cells (td and th). Defaults to false.
+    /// </summary>
+    [Parameter] public bool Border { get; set; } = false;
 
     /// <summary>
     /// [Future V2] Specifies the row selection mode. Defaults to None.

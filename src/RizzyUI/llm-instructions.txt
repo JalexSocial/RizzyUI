@@ -134,3 +134,15 @@ public partial class RzSimpleButton : RzComponent
 ```
 
 By following these updated guidelines, components will be simpler, easier to maintain, and directly leverage the theme system within the markup where styling is most relevant.
+
+Output files in a structured output format that uses appropriate paths for the RizzyUI library (as provided):
+
+```
+<files>
+   <file path="src/RizzyUI/Components/Datatable/RzTable/RzTable.cs">
+   ... code goes here
+   </file>
+</files>
+```
+
+The format doesn't need to be true xml.  I can understand the code between the opening and closing <file> tags.  
