@@ -154,6 +154,18 @@ public partial class RzTable<TItem> : RzComponent
     [Parameter] public List<TItem> SelectedItems { get; set; } = new();
 
     /// <summary>
+    /// If true, the table header and footer (if present) will remain fixed while the table body scrolls.
+    /// Defaults to false.
+    /// </summary>
+    [Parameter] public bool FixedHeader { get; set; } = false;
+
+    /// <summary>
+    /// The CSS class(es) to define the height of the scrollable table body when FixedHeader is true.
+    /// Defaults to "h-96" (Tailwind class for height: 24rem).
+    /// </summary>
+    [Parameter] public string TableBodyHeightClass { get; set; } = "h-96";
+    
+    /// <summary>
     /// Id of the table element. This is used for HTMX interactions.
     /// </summary>
     public string TableId => $"{Id}-table";
@@ -202,6 +214,13 @@ public partial class RzTable<TItem> : RzComponent
     /// <returns>A string containing the merged CSS classes.</returns>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzTable.Container);
+        var classes = new List<string> { Theme.RzTable.Container };
+        if (FixedHeader)
+        {
+            // Apply the specific height class to the main container for fixed header scenarios
+            classes.Add(Theme.RzTable.FixedHeaderContainer);
+            classes.Add(TableBodyHeightClass); // User-defined or default height for the scrollable area
+        }
+        return TwMerge.Merge(AdditionalAttributes, classes.ToArray());
     }
 }

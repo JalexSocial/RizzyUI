@@ -16,8 +16,8 @@
         <RzTextField For="@(() => CurrentRequestState.Query)"
                      DisplayName="Search Products"
                      Placeholder="Enter product name or category..."
-                     Role="TextRole.Search"
-                     PrependIcon="Blazicons.MdiIcon.Magnify"
+                     Role="@TextRole.Search"
+                     PrependIcon="MdiIcon.Magnify"
                      name="q"
                      hx-get="@ProductTableControllerUrl"
                      hx-target="@($"#{TableBodyId}")"
@@ -35,6 +35,7 @@
          CurrentPaginationState="@CurrentPagingState"
          Striped
          Hoverable
+         FixedHeader
          Id="demoProductTable"
          class="shadow-md rounded-lg"
          hx-boost="true"> 

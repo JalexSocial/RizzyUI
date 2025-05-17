@@ -28,4 +28,10 @@ public class DefaultRzTableBodyStyles : RzStylesBase.RzTableBodyStylesBase
     /// to properly display the empty state message.
     /// </summary>
     public override string EmptyRowCell => "p-4 text-center text-on-surface-muted dark:text-on-surface-muted";
+
+    /// <summary>
+    /// Gets the CSS classes that enable and style the scrollable behavior of the table body.
+    /// Defines overflow properties allowing vertical scrolling for content within the table body area.
+    /// </summary>
+    public override string ScrollableBody => "block overflow-y-auto";
 }

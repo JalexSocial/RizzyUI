@@ -578,6 +578,9 @@
   .static {
     position: static;
   }
+  .sticky {
+    position: sticky;
+  }
   .inset-0 {
     inset: calc(var(--spacing) * 0);
   }
@@ -1515,6 +1518,9 @@
   }
   .h-44 {
     height: calc(var(--spacing) * 44);
+  }
+  .h-96 {
+    height: calc(var(--spacing) * 96);
   }
   .h-auto {
     height: auto;

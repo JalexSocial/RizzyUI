@@ -22,14 +22,22 @@ public abstract partial class RzStylesBase
         /// <summary>Gets the CSS classes for the outermost wrapper div of the RzTable (e.g., overflow, rounding, border).</summary>
         public abstract string Container { get; }
 
-        /// <summary>Gets the CSS classes for the <table> element (e.g., width, text alignment, base text styles).</summary>
+        /// <summary>Gets the CSS classes for the &lt;table> element (e.g., width, text alignment, base text styles).</summary>
         public abstract string Table { get; }
 
-        /// <summary>Gets the CSS classes for the <thead> element (e.g., border, background, text styles for headers).</summary>
+        /// <summary>Gets the CSS classes for the &lt;thead> element (e.g., border, background, text styles for headers).</summary>
         public abstract string Thead { get; }
 
-        /// <summary>Gets the CSS classes for the <tfoot> element (e.g., border, background, text styles for footers).</summary>
+        /// <summary>Gets the CSS classes for the &lt;tfoot> element (e.g., border, background, text styles for footers).</summary>
         public abstract string Tfoot { get; }
+        
+        /// <summary>Gets the CSS classes applied to the RzTable's root container when FixedHeader is true.</summary>
+        public abstract string FixedHeaderContainer { get; } 
+        /// <summary>Gets the CSS classes for the &lt;thead> element when it should be fixed (sticky).</summary>
+        public abstract string FixedThead { get; }      
+        /// <summary>Gets the CSS classes for the &lt;tfoot> element when it should be fixed (sticky).</summary>
+        public abstract string FixedTfoot { get; }         
+        
     }
 
     /// <summary>
@@ -82,11 +90,14 @@ public abstract partial class RzStylesBase
             Theme = theme;
         }
 
-        /// <summary>Gets the CSS classes for the <tbody> element (e.g., row dividers, relative positioning for indicators).</summary>
+        /// <summary>Gets the CSS classes for the &lt;tbody> element (e.g., row dividers, relative positioning for indicators).</summary>
         public abstract string TableBody { get; }
 
-        /// <summary>Gets the CSS classes for the default cell (<td>) used when displaying the empty row message (e.g., padding, text alignment, color).</summary>
+        /// <summary>Gets the CSS classes for the default cell (&lt;td>) used when displaying the empty row message (e.g., padding, text alignment, color).</summary>
         public abstract string EmptyRowCell { get; }
+        
+        /// <summary>Gets the CSS classes for the &lt;tbody> element to make it scrollable when FixedHeader is true.</summary>
+        public abstract string ScrollableBody { get; }        
     }
     
     /// <summary>

@@ -8,20 +8,20 @@
         <table class="@Theme.RzTable.Table" id="@TableId"> 
             @if (Header != null)
             {
-                <thead class="@Theme.RzTable.Thead" id="@TableHeaderId">
-                        @Header(this)
+                <thead class="@(FixedHeader ? $"{Theme.RzTable.Thead} {Theme.RzTable.FixedThead}" : Theme.RzTable.Thead)" id="@TableHeaderId">
+                @Header(this)
                 </thead>
             }
             
             @if (Body != null)
             {
-                @Body!(this)
+                @Body!(this) @* RzTableBody will handle its own scrollable class based on FixedHeader *@
             }
 
             @if (Footer != null)
             {
-                <tfoot class="@Theme.RzTable.Tfoot" id="@TableFooterId">
-                        @Footer(this)
+                <tfoot class="@(FixedHeader ? $"{Theme.RzTable.Tfoot} {Theme.RzTable.FixedTfoot}" : Theme.RzTable.Tfoot)" id="@TableFooterId">
+                @Footer(this)
                 </tfoot>
             }
         </table>

@@ -746,6 +746,7 @@ function registerComponents(Alpine) {
             this.$el.dispatchEvent(beforeCloseEvent);
 
             if (!beforeCloseEvent.defaultPrevented) {
+                document.activeElement?.blur && document.activeElement.blur();
                 this.modalOpen = false;
                 document.body.classList.remove('overflow-hidden');
                 document.body.style.setProperty('--page-scrollbar-width', `0px`);

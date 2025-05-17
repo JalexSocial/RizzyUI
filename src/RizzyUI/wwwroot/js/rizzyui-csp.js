@@ -5636,6 +5636,8 @@ function registerComponents(Alpine) {
         });
         this.$el.dispatchEvent(beforeCloseEvent);
         if (!beforeCloseEvent.defaultPrevented) {
+          var _document$activeEleme;
+          ((_document$activeEleme = document.activeElement) === null || _document$activeEleme === void 0 ? void 0 : _document$activeEleme.blur) && document.activeElement.blur();
           this.modalOpen = false;
           document.body.classList.remove('overflow-hidden');
           document.body.style.setProperty('--page-scrollbar-width', "0px");
