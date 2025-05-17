@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
@@ -106,19 +105,19 @@ public partial class RzTable<TItem> : RzComponent
     [Parameter] public string? HxIndicatorSelector { get; set; }
 
     /// <summary>
-    /// Defines the content for the table's header (<thead>).
-    /// Typically contains one or more <see cref="RzTableHeaderCell{TItem}"/> components.
+    /// Defines the content for the table's header (&lt;thead&gt;).
+    /// Typically contains one or more &lt;see cref="RzTableHeaderCell{TItem}"/&gt; components.
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment<RzTable<TItem>>? Header { get; set; }
 
     /// <summary>
-    /// Defines the content for the table's body (<tbody>).
-    /// This should be an <see cref="RzTableBody{TItem}"/> component.
+    /// Defines the content for the table's body (&lt;tbody&gt;).
+    /// This should be an &lt;see cref="RzTableBody{TItem}"/&gt; component.
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment<RzTable<TItem>>? Body { get; set; }
 
     /// <summary>
-    /// Optional. Defines the content for the table's footer (<tfoot>).
+    /// Optional. Defines the content for the table's footer (&lt;tfoot&gt;).
     /// Often used for pagination controls or summary information.
     /// </summary>
     [Parameter] public RenderFragment<RzTable<TItem>>? Footer { get; set; }

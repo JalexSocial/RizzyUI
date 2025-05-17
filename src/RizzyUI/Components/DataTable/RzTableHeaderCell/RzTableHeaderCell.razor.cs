@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System;
@@ -12,7 +11,7 @@ using Rizzy.Utility;
 namespace RizzyUI;
 
 /// <summary>
-/// Represents a header cell (<th>) in an RzTable.
+/// Represents a header cell (&lt;th&gt;) in an RzTable.
 /// It can define a column, enable sorting via HTMX, display sort direction indicators,
 /// include ARIA attributes for accessibility, and conditionally render a border.
 /// </summary>

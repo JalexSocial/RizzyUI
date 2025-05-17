@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System.Collections.Generic;
@@ -6,11 +5,11 @@ using Rizzy.Utility;
 
 namespace RizzyUI;
 
-/// <xmldoc>
-/// Represents a table row (<tr>) within an RzTable, typically used in Header, Body (RowTemplate), or Footer.
+/// <summary>
+/// Represents a table row (&lt;tr&gt;) within an RzTable, typically used in Header, Body (RowTemplate), or Footer.
 /// It primarily acts as a styled wrapper for its ChildContent, which should consist of RzTableHeaderCell or RzTableCell components.
 /// Styling is determined by the active <see cref="RzTheme"/>, and can be influenced by parent RzTable properties like Striped and Hoverable.
-/// </xmldoc>
+/// </summary>
 [CascadingTypeParameter(nameof(TItem))] // Allows TItem to be inferred from parent RzTable or RzTableBody
 public partial class RzTableRow<TItem> : RzComponent
 {

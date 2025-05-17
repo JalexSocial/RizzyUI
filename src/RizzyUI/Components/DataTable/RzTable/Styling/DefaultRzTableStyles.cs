@@ -28,13 +28,13 @@ public class DefaultRzTableStyles : RzStylesBase.RzTableStylesBase
     public override string Table => "w-full text-left text-sm text-on-surface dark:text-on-surface";
 
     /// <summary>
-    /// Gets the CSS classes for the table header (thead) element.
+    /// Gets the CSS classes for the table header (&lt;thead&gt;) element.
     /// Adds a bottom border, background color, and stronger text color for better contrast.
     /// </summary>
     public override string Thead => "border-b border-outline bg-surface-alt text-sm text-on-surface-strong dark:border-outline dark:bg-surface-alt dark:text-on-surface-strong";
     
     /// <summary>
-    /// Gets the CSS classes for the table footer (tfoot) element.
+    /// Gets the CSS classes for the table footer (&lt;tfoot&gt;) element.
     /// Adds a top border, background color, and appropriate text colors for consistent styling.
     /// </summary>
     public override string Tfoot => "border-t border-outline bg-surface-alt text-sm text-on-surface dark:border-outline dark:bg-surface-alt dark:text-on-surface";
@@ -53,7 +53,7 @@ public class DefaultRzTableStyles : RzStylesBase.RzTableStylesBase
     public override string FixedThead => "sticky top-0 z-10";
 
     /// <summary>
-    /// Gets the CSS classes for a fixed-position table footer (tfoot).
+    /// Gets the CSS classes for a fixed-position table footer (&lt;tfoot&gt;).
     /// Ensures the footer remains visible at the bottom edge of its container when scrolling vertically.
     /// Commonly used in tables with vertical overflow for improved accessibility and usability.
     /// </summary>

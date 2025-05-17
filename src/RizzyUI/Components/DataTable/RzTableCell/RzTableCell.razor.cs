@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System.Collections.Generic;
@@ -6,7 +5,7 @@ using System.Collections.Generic;
 namespace RizzyUI;
 
 /// <summary>
-/// Represents a table data cell (&lt;td>) within an RzTable.
+/// Represents a table data cell (&lt;td&gt;) within an RzTable.
 /// Provides basic cell functionality including content, colspan, and styling.
 /// Can conditionally render a border based on the parent RzTable's Border property.
 /// </summary>
@@ -18,6 +17,9 @@ public partial class RzTableCell<TItem> : RzComponent
     [CascadingParameter(Name = "ParentRzTable")]
     protected RzTable<TItem>? ParentRzTable { get; set; }
 
+    /// <summary>
+    /// Cascaded parent row containing this cell, if available.
+    /// </summary>
     [CascadingParameter(Name = "ParentRzTableRowParentRzTableRow")]
     protected RzTableRow<TItem>? ParentRzTableRow { get; set; }
     

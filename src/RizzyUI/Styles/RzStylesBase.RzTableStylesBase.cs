@@ -1,4 +1,3 @@
-
 using Blazicons; 
 
 namespace RizzyUI;
@@ -14,6 +13,10 @@ public abstract partial class RzStylesBase
     {
         protected readonly RzTheme Theme;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RzTableStylesBase"/> class with the specified theme.
+        /// </summary>
+        /// <param name="theme">The theme to use for styling.</param>
         protected RzTableStylesBase(RzTheme theme)
         {
             Theme = theme;
@@ -22,20 +25,20 @@ public abstract partial class RzStylesBase
         /// <summary>Gets the CSS classes for the outermost wrapper div of the RzTable (e.g., overflow, rounding, border).</summary>
         public abstract string Container { get; }
 
-        /// <summary>Gets the CSS classes for the &lt;table> element (e.g., width, text alignment, base text styles).</summary>
+        /// <summary>Gets the CSS classes for the &lt;table&gt; element (e.g., width, text alignment, base text styles).</summary>
         public abstract string Table { get; }
 
-        /// <summary>Gets the CSS classes for the &lt;thead> element (e.g., border, background, text styles for headers).</summary>
+        /// <summary>Gets the CSS classes for the &lt;thead&gt; element (e.g., border, background, text styles for headers).</summary>
         public abstract string Thead { get; }
 
-        /// <summary>Gets the CSS classes for the &lt;tfoot> element (e.g., border, background, text styles for footers).</summary>
+        /// <summary>Gets the CSS classes for the &lt;tfoot&gt; element (e.g., border, background, text styles for footers).</summary>
         public abstract string Tfoot { get; }
         
         /// <summary>Gets the CSS classes applied to the RzTable's root container when FixedHeader is true.</summary>
         public abstract string FixedHeaderContainer { get; } 
-        /// <summary>Gets the CSS classes for the &lt;thead> element when it should be fixed (sticky).</summary>
+        /// <summary>Gets the CSS classes for the &lt;thead&gt; element when it should be fixed (sticky).</summary>
         public abstract string FixedThead { get; }      
-        /// <summary>Gets the CSS classes for the &lt;tfoot> element when it should be fixed (sticky).</summary>
+        /// <summary>Gets the CSS classes for the &lt;tfoot&gt; element when it should be fixed (sticky).</summary>
         public abstract string FixedTfoot { get; }         
         
     }
@@ -47,12 +50,16 @@ public abstract partial class RzStylesBase
     {
         protected readonly RzTheme Theme;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RzTableHeaderCellStylesBase"/> class with the specified theme.
+        /// </summary>
+        /// <param name="theme">The theme to use for styling.</param>
         protected RzTableHeaderCellStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary>Gets the CSS classes for the base <th> element.</summary>
+        /// <summary>Gets the CSS classes for the base &lt;th&gt; element.</summary>
         public abstract string HeaderCellBase { get; }
         
         /// <summary>Gets the CSS classes for the button element inside a sortable header cell.</summary>
@@ -64,7 +71,7 @@ public abstract partial class RzStylesBase
         /// <summary>Gets the CSS classes for the span containing the title text within the header cell.</summary>
         public abstract string TitleSpan { get; }
         
-        /// <summary>Gets the CSS classes for a bordered <th> element.</summary>
+        /// <summary>Gets the CSS classes for a bordered &lt;th&gt; element.</summary>
         public abstract string HeaderCellBordered { get; }
 
         /// <summary>Gets the CSS classes for the sort direction indicator icon.</summary>
@@ -85,18 +92,22 @@ public abstract partial class RzStylesBase
     {
         protected readonly RzTheme Theme;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RzTableBodyStylesBase"/> class with the specified theme.
+        /// </summary>
+        /// <param name="theme">The theme to use for styling.</param>
         protected RzTableBodyStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary>Gets the CSS classes for the &lt;tbody> element (e.g., row dividers, relative positioning for indicators).</summary>
+        /// <summary>Gets the CSS classes for the &lt;tbody&gt; element (e.g., row dividers, relative positioning for indicators).</summary>
         public abstract string TableBody { get; }
 
-        /// <summary>Gets the CSS classes for the default cell (&lt;td>) used when displaying the empty row message (e.g., padding, text alignment, color).</summary>
+        /// <summary>Gets the CSS classes for the default cell (&lt;td&gt;) used when displaying the empty row message (e.g., padding, text alignment, color).</summary>
         public abstract string EmptyRowCell { get; }
         
-        /// <summary>Gets the CSS classes for the &lt;tbody> element to make it scrollable when FixedHeader is true.</summary>
+        /// <summary>Gets the CSS classes for the &lt;tbody&gt; element to make it scrollable when FixedHeader is true.</summary>
         public abstract string ScrollableBody { get; }        
     }
     
@@ -107,15 +118,19 @@ public abstract partial class RzStylesBase
     {
         protected readonly RzTheme Theme;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RzTableCellStylesBase"/> class with the specified theme.
+        /// </summary>
+        /// <param name="theme">The theme to use for styling.</param>
         protected RzTableCellStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary>Gets the CSS classes for the base <td> element (e.g., padding).</summary>
+        /// <summary>Gets the CSS classes for the base &lt;td&gt; element (e.g., padding).</summary>
         public abstract string TableCellBase { get; }
         
-        /// <summary>Gets the CSS classes for a bordered <td> element.</summary>
+        /// <summary>Gets the CSS classes for a bordered &lt;td&gt; element.</summary>
         public abstract string TableCellBordered { get; }
     }
 
@@ -126,18 +141,22 @@ public abstract partial class RzStylesBase
     {
         protected readonly RzTheme Theme;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RzPaginationStylesBase"/> class with the specified theme.
+        /// </summary>
+        /// <param name="theme">The theme to use for styling.</param>
         protected RzPaginationStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary>Gets the CSS classes for the main pagination navigation container (e.g., <nav>, flex properties).</summary>
+        /// <summary>Gets the CSS classes for the main pagination navigation container (e.g., &lt;nav&gt;, flex properties).</summary>
         public abstract string Container { get; }
 
-        /// <summary>Gets the CSS classes for the unordered list (<ul>) holding the pagination items (e.g., flex, spacing, rounding).</summary>
+        /// <summary>Gets the CSS classes for the unordered list (&lt;ul&gt;) holding the pagination items (e.g., flex, spacing, rounding).</summary>
         public abstract string List { get; }
 
-        /// <summary>Gets the CSS classes for individual page links/buttons (<a> or <button>) in their default state.</summary>
+        /// <summary>Gets the CSS classes for individual page links/buttons (&lt;a&gt; or &lt;button&gt;) in their default state.</summary>
         public abstract string Link { get; }
 
         /// <summary>Gets the CSS classes for the currently active/selected page link/button.</summary>
