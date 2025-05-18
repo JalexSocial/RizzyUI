@@ -85,4 +85,9 @@
         <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+        <Using Include="System.Diagnostics.CodeAnalysis" />
+    </ItemGroup>
+    
 </Project>
