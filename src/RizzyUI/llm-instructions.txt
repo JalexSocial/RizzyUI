@@ -1,6 +1,6 @@
 ﻿# RizzyUI LLM-Authoring Guide
 
-**Fully expanded specification for code-generation models — May 2025, rev 2.3**
+**Fully expanded specification for code-generation models — May 2025, rev 2.4**
 
 ---
 
@@ -10,7 +10,7 @@ This guide is a **contract for any large-language model**—ChatGPT, Claude, Gem
 If the model follows every rule, a maintainer can:
 
 1. Paste the generated files into `src/RizzyUI/…`.
-2. Apply the indicated cross-file edits (see § 13).
+2. Apply the indicated cross-file edits (see § 14).
 3. Run `dotnet build`.
 
 The solution should compile, pass unit tests, and conform to RizzyUI’s conventions **without manual tweaks**.
@@ -74,9 +74,10 @@ When the user requests code, wrap each file in a single **`output` block** so au
         *   Static styles: `class="@Theme.RzComponentName.InternalElementStyle"`
         *   Dynamic styles: `class="@Theme.RzComponentName.GetInternalElementVariantCss(Parameter)"`
         *   Combine with other static classes or conditional Alpine classes as needed.
-*   **Alpine Integration:** See §9 for the Alpine child-container convention if Alpine is used.
-*   **Accessibility:** Refer to §7 for accessibility guidelines.
-*   **Localization:** Refer to §8 for localization guidelines.
+    *   Refer to §6 for Tailwind 4 and semantic token usage.
+*   **Alpine Integration:** See §10 for the Alpine child-container convention if Alpine is used.
+*   **Accessibility:** Refer to §8 for accessibility guidelines.
+*   **Localization:** Refer to §9 for localization guidelines.
 
 ---
 
@@ -84,9 +85,9 @@ When the user requests code, wrap each file in a single **`output` block** so au
 
 ```csharp
 // src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor.cs
-using Microsoft.AspNetCore.Components; // For [Parameter], RenderFragment
-using RizzyUI.Extensions;            // For TwMerge extensions
-using Blazicons;                     // For SvgIcon (if used)
+using Microsoft.AspNetCore.Components;
+using RizzyUI.Extensions;
+using Blazicons;
 // Add other necessary using statements
 
 namespace RizzyUI;
@@ -127,7 +128,7 @@ public partial class RzFancyThing : RzComponent
     {
         base.OnInitialized();
         // Set Element = "button"; or other specific tag if not a div
-        // Initialize AriaLabel with localized default if not provided by user (see §8)
+        // Initialize AriaLabel with localized default if not provided by user (see §9)
         // Example: AriaLabel ??= Localizer["RzFancyThing.DefaultAriaLabel"];
     }
 
@@ -170,7 +171,7 @@ Important for the LLM:
 * Use `TwMerge.Merge(...)`; never concatenate class strings manually in `RootClass()`.
 * Default `Element` to "div" unless overridden in `OnInitialized()`.
 * If `DefaultAssets` are not needed, initialize as `public static readonly string[] DefaultAssets = Array.Empty<string>();`.
-* Include an `AriaLabel` parameter and initialize it with a localized default if not set by the user (see §8).
+* Include an `AriaLabel` parameter and initialize it with a localized default if not set by the user (see §9).
 
 ---
 
@@ -193,7 +194,124 @@ Important for the LLM:
 
 ---
 
-## 6. Styling providers (`RzStylesBase`, `Default...Styles.cs`)
+## 6. Using Tailwind 4 with the RizzyUI Theme System
+
+RizzyUI ships its own **Tailwind 4 plugin** (`/packages/rizzyui/src/css/rizzyui-plugin.css`).
+That file defines a palette of **CSS custom-property tokens** (surface, on-surface, primary, etc.) plus a `@variant dark` block that swaps token values when `.dark` is present on `html` or any ancestor.
+
+### 6.1 Semantic tokens, not raw palette colors
+
+You never hard-code `text-blue-600` or `bg-slate-900` in a component.
+Instead you write utilities that reference the semantic tokens shipped by the plugin:
+
+```
+bg-surface
+text-on-surface
+hover:bg-surface-alt
+ring-outline-strong
+```
+
+Because the **token names stay identical** across light and dark modes, you do **not** need `dark:` prefixes for these semantic tokens:
+
+```html
+<span class="text-on-surface">Works in both themes</span>
+```
+
+Tailwind expands that to:
+
+```css
+.text-on-surface { color: var(--color-on-surface); }
+```
+
+and the plugin’s `@variant dark` ensures `--color-on-surface` swaps automatically.
+
+### 6.2 Where utilities live
+
+* **Component markup (`.razor`)** should be free of presentation classes except for small, internal layout helpers (`flex`, `gap-2`, etc.).
+* **All root and variant styles** belong in a **style-provider object** (see §7) so end users can swap them out.
+
+Example provider properties:
+
+```csharp
+public override string Container  =>
+    "inline-flex items-center rounded-full px-3 py-1 bg-surface text-on-surface";
+
+public override string Active     =>
+    "ring-2 ring-primary";
+
+public override string IconStyle  =>
+    "size-5 text-on-surface-muted";
+```
+
+### 6.3 TwMerge: the required glue
+
+Use the injected `TwMerge.Merge(attributes, class1, class2, …)` in the `RootClass()` method of your `.razor.cs` file to combine:
+
+```csharp
+// In RzFancyThing.razor.cs
+protected override string? RootClass()
+{
+    var s = Theme.RzFancyThing;
+    return TwMerge.Merge(
+        AdditionalAttributes,    // User-supplied classes (e.g., from <RzFancyThing class="mt-4">)
+        s.Container,             // Base classes from the style provider
+        s.GetSizeCss(Size),      // Dynamic classes based on parameters
+        IsActive ? s.Active : null // Conditional classes
+    );
+}
+```
+
+TwMerge deduplicates utilities and correctly appends any user-supplied `class` from `AdditionalAttributes`.
+
+### 6.4 Defining size / variant helpers in Style Providers
+
+Enums for variants (like `Size`, `ButtonVariant`) should be defined globally in RizzyUI (e.g., `RizzyUI/Components/Variants.cs`).
+Style provider methods (`GetSizeCss`, `GetVariantCss`) take these enums.
+
+```csharp
+// In DefaultRzFancyThingStyles.cs
+public override string GetSizeCss(Size sz) => sz switch // Using global 'Size' enum
+{
+    Size.Small => "text-xs py-1 px-2",    // Assuming 'Small' is part of the global 'Size' enum
+    Size.Medium => "text-sm py-2 px-3",   // Assuming 'Medium' is part of the global 'Size' enum
+    Size.Large => "text-base py-3 px-4",  // Assuming 'Large' is part of the global 'Size' enum
+    _             => "text-sm py-2 px-3" // Default case
+};
+```
+
+### 6.5 Overriding in a custom theme
+
+A consumer can replace the default style provider inside their own `Theme` subclass:
+
+```csharp
+public sealed class MyTheme : RzTheme
+{
+    public MyTheme() : base("MyTheme", "my-theme")
+    {
+        // Assuming RzFancyThing is the property name in RzTheme for RzFancyThingStylesBase
+        RzFancyThing = new MyFancyThingStyles(this);
+    }
+}
+
+public sealed class MyFancyThingStyles : DefaultRzFancyThingStyles // Or RzStylesBase.RzFancyThingStylesBase
+{
+    public MyFancyThingStyles(RzTheme t) : base(t) { }
+
+    public override string Container =>
+        "inline-flex gap-2 rounded-md px-4 py-2 "
+      + "bg-gradient-to-r from-primary to-secondary text-on-primary"; // Still uses semantic tokens
+}
+```
+
+Because all classes still use the plugin’s semantic tokens (like `from-primary`, `text-on-primary`), light/dark support is automatic.
+
+### 6.6 No purge / safelist step needed
+
+Tailwind 4’s JIT engine and the RizzyUI build process handle class discovery. Any utility string that appears in a style provider or `.razor` file is automatically retained.
+
+---
+
+## 7. Styling providers (`RzStylesBase`, `Default...Styles.cs`)
 
 1.  **Abstract base** goes into `src/RizzyUI/Styles/RzStylesBase.cs` (add a new nested class):
 
@@ -208,9 +326,9 @@ Important for the LLM:
 
            public abstract string Container { get; }
            public abstract string Active { get; }
-           public abstract string IconStyle { get; } // Example for icon styling
+           public abstract string IconStyle { get; }
 
-           public abstract string GetSizeCss(Size sz);
+           public abstract string GetSizeCss(Size sz); // Using global Size enum
        }
    }
    ```
@@ -225,11 +343,11 @@ Important for the LLM:
    {
        public DefaultRzFancyThingStyles(RzTheme theme) : base(theme) { }
 
-       public override string Container => "inline-flex items-center rounded-full px-3 py-1 bg-neutral-100 dark:bg-neutral-700";
-       public override string Active => "ring-2 ring-primary dark:ring-primary";
-       public override string IconStyle => "size-5 text-on-surface"; // Example
+       public override string Container => "inline-flex items-center rounded-full px-3 py-1 bg-surface text-on-surface"; // Uses semantic tokens
+       public override string Active => "ring-2 ring-primary"; // Uses semantic token
+       public override string IconStyle => "size-5 text-on-surface-muted"; // Uses semantic token
 
-       public override string GetSizeCss(Size sz) => sz switch
+       public override string GetSizeCss(Size sz) => sz switch // Using global Size enum
        {
            Size.Small => "text-xs",
            Size.Medium => "text-sm",
@@ -244,7 +362,7 @@ Important for the LLM:
 
 ---
 
-## 7. Accessibility Best Practices
+## 8. Accessibility Best Practices
 
 Ensuring components are accessible is paramount. LLMs must generate components that strive to adhere to WCAG standards where applicable.
 
@@ -299,7 +417,7 @@ Ensuring components are accessible is paramount. LLMs must generate components t
 
 ---
 
-## 8. Localization
+## 9. Localization
 
 All user-facing strings within components (default labels, ARIA labels, titles, placeholders, etc.) MUST be localizable.
 
@@ -344,9 +462,9 @@ All user-facing strings within components (default labels, ARIA labels, titles, 
     **Example Presentation for New Resource Strings:**
 
     ````markdown
-    **New English Localization Strings for `RizzyLocalization.en.resx`:**
+    **New English Localization Strings for `RizzyLocalization.resx`:**
 
-    Please add the following entries to `src/RizzyUI/Resources/RizzyLocalization.en.resx`:
+    Please add the following entries to `src/RizzyUI/Resources/RizzyLocalization.resx`:
 
     | Name                               | Value                         | Comment (Optional)                  |
     |------------------------------------|-------------------------------|-------------------------------------|
@@ -372,9 +490,8 @@ All user-facing strings within components (default labels, ARIA labels, titles, 
 
 ---
 
-## 9. Alpine.js Integration & Asset Bundling
+## 10. Alpine.js Integration & Asset Bundling
 
-*   **Special note**: Comments in the Razor markup below are for LLM guidance only and should not be included in the final output.  You are not allowed to ever include comments in Razor markup.
 *   **Alpine Child-Container Convention:** If the component uses Alpine.js for interactivity, the root element in the `.razor` file (e.g., `<HtmlElement>`) MUST contain a direct child `<div>` with the following attributes:
     ```razor
     <HtmlElement ...>
@@ -445,7 +562,7 @@ All user-facing strings within components (default labels, ARIA labels, titles, 
 
 ---
 
-## 10. Unit tests (bUnit) (IMPORTANT: ONLY ON REQUEST)
+## 11. Unit tests (bUnit) (IMPORTANT: ONLY ON REQUEST)
 
 * Render the component and assert:
     * Presence of `data-alpine-root="@Id"` if an `x-data` section is utilized.
@@ -456,7 +573,7 @@ All user-facing strings within components (default labels, ARIA labels, titles, 
 
 ---
 
-## 11. The output block example (canonical)
+## 12. The output block example (canonical)
 
 When asked to generate *RzFancyThing*, your response **must** contain an `output` block like this (all XML docs omitted for brevity):
 
@@ -480,7 +597,7 @@ When asked to generate *RzFancyThing*, your response **must** contain an `output
 
 ---
 
-## 12. What **not** to place in the `output` block
+## 13. What **not** to place in the `output` block
 
 Changes to **global theme scaffolding** (`RzTheme.cs`, `RzTheme.StyleProviders.cs`, `RzStylesBase.cs` additions to the *partial class itself*) and **localization resource files** (`RizzyLocalization.resx`) go in a **separate, preface section** that appears *before* the `output` block.
 That section must identify each existing file and show the lines/entries to insert, either as a diff or as verbatim code snippets/tables.
@@ -488,7 +605,7 @@ Never embed these edits in `<file>` tags because CI merges them manually.
 
 ---
 
-## 13. Theme integration & Localization (cross-file edits the LLM must describe)
+## 14. Theme integration & Localization (cross-file edits the LLM must describe)
 
 Whenever a new style provider (e.g., `RzFancyThingStylesBase` and its default implementation) is introduced, or new localizable strings are needed, instruct the user accordingly:
 
@@ -502,7 +619,7 @@ Whenever a new style provider (e.g., `RzFancyThingStylesBase` and its default im
     // ... (inside public abstract partial class RzStylesBase)
     public abstract class RzFancyThingStylesBase
     {
-        // ... (as defined in §6.1 of the guide)
+        // ... (as defined in §7.1 of the guide)
     }
     ```
 
@@ -545,17 +662,17 @@ Alternatively, in raw .resx XML format:
 
 ---
 
-## 14. Final checklist for the LLM
+## 15. Final checklist for the LLM
 
 * CRITICAL - Only generate or modify code directly related to the task requested. You are not permitted to modify code outside the scope of the request.
-* Prepend the cross-file edit instructions for theme and localization if needed (§13).
-* Provide an `output` block for new or replaced component-specific files only (§1, §11).
-* Use the root element pattern (§2) and Alpine child-container convention if Alpine is used (§9).
-* `.razor` files: Use direct `@Theme...` access for internal element styling (§3, §5). Implement accessibility attributes (§7).
-* `.razor.cs` files: Start with `/// <summary>...</summary>` for the class, ensure public members have `<summary>`, use `TwMerge` in `RootClass()`, define `DefaultAssets`, serialize assets to `_assets` string, set `Element` if not "div", and handle default localized strings for parameters like `AriaLabel` (§4, §8).
-* Styling providers: Abstract base in `RzStylesBase.cs` and default implementation in its own file; constructor takes `RzTheme` (§6).
-* Asset bundling: Follow the C# -> `data-assets` -> JS `require()` flow (§9).
-* Include unit tests *only* when specifically requested (§10).
+* Prepend the cross-file edit instructions for theme and localization if needed (§14).
+* Provide an `output` block for new or replaced component-specific files only (§1, §12).
+* Use the root element pattern (§2) and Alpine child-container convention if Alpine is used (§10).
+* `.razor` files: Use direct `@Theme...` access for internal element styling (§3, §5). Implement accessibility attributes (§8).
+* `.razor.cs` files: Start with `/// <summary>...</summary>` for the class, ensure public members have `<summary>`, use `TwMerge` in `RootClass()`, define `DefaultAssets`, serialize assets to `_assets` string, set `Element` if not "div", and handle default localized strings for parameters like `AriaLabel` (§4, §9).
+* Styling providers: Abstract base in `RzStylesBase.cs` and default implementation in its own file; constructor takes `RzTheme` (§6, §7).
+* Asset bundling: Follow the C# -> `data-assets` -> JS `require()` flow (§10).
+* Include unit tests *only* when specifically requested (§11).
 * Adhere to all specified conventions and avoid manual concatenation of class strings.
 * Do not include comments in Razor markup.
 * Do not add comments to using statements.
