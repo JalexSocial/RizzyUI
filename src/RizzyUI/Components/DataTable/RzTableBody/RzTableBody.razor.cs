@@ -105,4 +105,3 @@ public partial class RzTableBody<TItem> : RzComponent
         return TwMerge.Merge(AdditionalAttributes, Theme.RzTableBody.TableBody);
     }
 }
-

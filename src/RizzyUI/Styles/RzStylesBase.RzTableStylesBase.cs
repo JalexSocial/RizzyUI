@@ -2,6 +2,9 @@ using Blazicons;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Serves as the foundational abstract class for defining style structures and behaviors specific to various UI components within the RizzyUI framework.
+/// </summary>
 public abstract partial class RzStylesBase
 {
     #region RzTable Component Family Styles
@@ -11,6 +14,9 @@ public abstract partial class RzStylesBase
     /// </summary>
     public abstract class RzTableStylesBase
     {
+        /// <summary>
+        /// The theme that provides the styling context.
+        /// </summary>
         protected readonly RzTheme Theme;
 
         /// <summary>
@@ -48,6 +54,9 @@ public abstract partial class RzStylesBase
     /// </summary>
     public abstract class RzTableHeaderCellStylesBase
     {
+        /// <summary>
+        /// The theme that provides the styling context.
+        /// </summary>
         protected readonly RzTheme Theme;
 
         /// <summary>
@@ -90,6 +99,9 @@ public abstract partial class RzStylesBase
     /// </summary>
     public abstract class RzTableBodyStylesBase
     {
+        /// <summary>
+        /// The theme that provides the styling context.
+        /// </summary>
         protected readonly RzTheme Theme;
 
         /// <summary>
@@ -116,6 +128,9 @@ public abstract partial class RzStylesBase
     /// </summary>
     public abstract class RzTableCellStylesBase
     {
+        /// <summary>
+        /// The theme that provides the styling context.
+        /// </summary>
         protected readonly RzTheme Theme;
 
         /// <summary>
@@ -139,6 +154,9 @@ public abstract partial class RzStylesBase
     /// </summary>
     public abstract class RzPaginationStylesBase
     {
+        /// <summary>
+        /// The theme that provides the styling context.
+        /// </summary>
         protected readonly RzTheme Theme;
 
         /// <summary>

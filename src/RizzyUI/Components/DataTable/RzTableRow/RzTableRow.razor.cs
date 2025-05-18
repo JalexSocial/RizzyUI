@@ -28,7 +28,7 @@ public partial class RzTableRow<TItem> : RzComponent
     /// <summary>
     /// The data item for the current row, typically provided by the RzTableBody's RowTemplate context.
     /// This can be used for conditional styling or row-specific attributes if needed in the future,
-    /// though it's not directly used by the base <tr> styling itself currently.
+    /// though it's not directly used by the base &lt;tr&gt; styling itself currently.
     /// </summary>
     [Parameter] public TItem? Item { get; set; }
 
@@ -37,7 +37,9 @@ public partial class RzTableRow<TItem> : RzComponent
     /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Called when the component is initialized.
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -56,7 +58,10 @@ public partial class RzTableRow<TItem> : RzComponent
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Returns the CSS class for the root element of the row.
+    /// </summary>
+    /// <returns>The merged CSS class string.</returns>
     protected override string? RootClass()
     {
         var styles = Theme.RzTableRow;
@@ -83,3 +88,4 @@ public partial class RzTableRow<TItem> : RzComponent
         return TwMerge.Merge(AdditionalAttributes, classBuilder.ToArray());
     }
 }
+

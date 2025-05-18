@@ -33,4 +33,3 @@ public abstract partial class RzStylesBase
         public abstract string TableRowHover { get; }
     }    
 }
-

@@ -77,17 +77,49 @@ public partial class RzPagination<TItem> : RzComponent
     /// </summary>
     [Parameter] public string? NavigationAriaLabel { get; set; }
 
+    /// <summary>
+    /// Gets the effective pagination state, using the parameter or falling back to the parent table or a default.
+    /// </summary>
     protected PaginationState EffectivePaginationState => PaginationState ?? ParentRzTable?.CurrentPaginationState ?? new PaginationState(1, 0, 10, 0);
+
+    /// <summary>
+    /// Gets the current table request from the parent table or a new default.
+    /// </summary>
     protected TableRequestModel CurrentTableRequest => ParentRzTable?.CurrentTableRequest ?? new TableRequestModel();
+
+    /// <summary>
+    /// Gets the effective controller URL for HTMX requests.
+    /// </summary>
     protected string EffectiveHxControllerUrl => HxControllerUrl ?? ParentRzTable?.HxControllerUrl ?? string.Empty;
+
+    /// <summary>
+    /// Gets the effective HTMX target selector.
+    /// </summary>
     protected string EffectiveHxTargetSelector => HxTargetSelector ?? ParentRzTable?.EffectiveHxTargetSelector ?? $"#{(ParentRzTable?.TableBodyIdInternal ?? ParentRzTable?.Id + "-tbody-default")}";
+
+    /// <summary>
+    /// Gets the effective HTMX swap mode.
+    /// </summary>
     protected string EffectiveHxSwapMode => HxSwapMode ?? ParentRzTable?.HxSwapMode ?? "innerHTML";
+
+    /// <summary>
+    /// Gets the effective HTMX indicator selector.
+    /// </summary>
     protected string? EffectiveHxIndicatorSelector => HxIndicatorSelector ?? ParentRzTable?.HxIndicatorSelector ?? $"#{(ParentRzTable?.TableBodyIdInternal ?? ParentRzTable?.Id + "-tbody-default")}-spinner";
 
-
+    /// <summary>
+    /// Gets a value indicating whether the "Previous" button should be enabled.
+    /// </summary>
     protected bool CanGoPrevious => EffectivePaginationState.CurrentPage > 1;
+
+    /// <summary>
+    /// Gets a value indicating whether the "Next" button should be enabled.
+    /// </summary>
     protected bool CanGoNext => EffectivePaginationState.CurrentPage < EffectivePaginationState.TotalPages;
 
+    /// <summary>
+    /// Called when the component is initialized.
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -101,6 +133,9 @@ public partial class RzPagination<TItem> : RzComponent
         EnsureParameterDefaults();
     }
     
+    /// <summary>
+    /// Called when component parameters are set.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -108,6 +143,9 @@ public partial class RzPagination<TItem> : RzComponent
         EnsureParameterDefaults();
     }
 
+    /// <summary>
+    /// Ensures that parameter defaults are set for labels and ARIA attributes.
+    /// </summary>
     private void EnsureParameterDefaults()
     {
         PreviousButtonLabel ??= Localizer["RzPagination.PreviousButtonLabel"];
@@ -115,6 +153,11 @@ public partial class RzPagination<TItem> : RzComponent
         NavigationAriaLabel ??= Localizer["RzPagination.NavigationAriaLabel"];
     }
 
+    /// <summary>
+    /// Gets the URL for a specific page number.
+    /// </summary>
+    /// <param name="pageNumber">The page number.</param>
+    /// <returns>The URL for the page.</returns>
     protected string GetPageUrl(int pageNumber)
     {
         if (string.IsNullOrEmpty(EffectiveHxControllerUrl) || pageNumber < 1) return "#";
@@ -123,6 +166,11 @@ public partial class RzPagination<TItem> : RzComponent
         return $"{EffectiveHxControllerUrl}{requestParams.ToQueryString()}";
     }
 
+    /// <summary>
+    /// Gets the HTMX attributes for a page link.
+    /// </summary>
+    /// <param name="pageNumber">The page number.</param>
+    /// <returns>A dictionary of HTMX attributes.</returns>
     protected Dictionary<string, object> GetPageLinkHxAttributes(int pageNumber)
     {
         var defaultAttributes = new Dictionary<string, object>
@@ -146,6 +194,10 @@ public partial class RzPagination<TItem> : RzComponent
         return defaultAttributes;
     }
     
+    /// <summary>
+    /// Gets the list of page links to display in the pagination control.
+    /// </summary>
+    /// <returns>A list of page links.</returns>
     protected List<PageLink> GetPageLinks()
     {
         var links = new List<PageLink>();
@@ -219,10 +271,21 @@ public partial class RzPagination<TItem> : RzComponent
                     .ToList();
     }
 
-    protected record PageLink(string Text, int PageNumber, bool IsCurrent, bool IsEllipsis);
-
+    /// <summary>
+    /// Returns the CSS class for the root element of the pagination component.
+    /// </summary>
+    /// <returns>The merged CSS class string.</returns>
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, Theme.RzPagination.Container);
     }
+
+    /// <summary>
+    /// Represents a link in the pagination control.
+    /// </summary>
+    /// <param name="Text">The text of the link.</param>
+    /// <param name="PageNumber">The page number the link points to.</param>
+    /// <param name="IsCurrent">Indicates if the link is for the current page.</param>
+    /// <param name="IsEllipsis">Indicates if the link is an ellipsis.</param>
+    protected record PageLink(string Text, int PageNumber, bool IsCurrent, bool IsEllipsis);
 }

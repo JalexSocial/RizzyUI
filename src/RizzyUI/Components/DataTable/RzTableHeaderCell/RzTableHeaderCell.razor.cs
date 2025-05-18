@@ -107,6 +107,9 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
     /// </summary>
     protected SvgIcon? SortIndicatorIcon => Theme.RzTableHeaderCell.GetSortIndicatorIcon(_currentSortDirection);
 
+    /// <summary>
+    /// Called when the component is initialized.
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -122,12 +125,18 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
         ResolveColumnKeyAndRegister();
     }
 
+    /// <summary>
+    /// Called when component parameters are set.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         UpdateSortStateAndHxUrl();
     }
     
+    /// <summary>
+    /// Resolves the column key and registers the column definition with the parent table.
+    /// </summary>
     private void ResolveColumnKeyAndRegister()
     {
         string resolvedKey;
@@ -162,6 +171,9 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
         ));
     }
 
+    /// <summary>
+    /// Updates the sort state and the HTMX URL for sorting.
+    /// </summary>
     private void UpdateSortStateAndHxUrl()
     {
         if (ParentRzTable == null) return;
@@ -220,6 +232,10 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
         }
     }
 
+    /// <summary>
+    /// Gets the effective HTMX attributes for the sortable button.
+    /// </summary>
+    /// <returns>A dictionary of HTMX attributes.</returns>
     protected Dictionary<string, object> GetEffectiveHxAttributes()
     {
         var defaultAttributes = new Dictionary<string, object>();
@@ -244,6 +260,10 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
         return defaultAttributes;
     }
 
+    /// <summary>
+    /// Returns the CSS class for the root element of the header cell.
+    /// </summary>
+    /// <returns>The merged CSS class string.</returns>
     protected override string? RootClass()
     {
         var styles = Theme.RzTableHeaderCell;
@@ -260,3 +280,4 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
         return TwMerge.Merge(AdditionalAttributes, classBuilder.ToArray());
     }
 }
+
