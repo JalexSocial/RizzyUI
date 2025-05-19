@@ -5,7 +5,7 @@
 @typeparam TItem
 @inherits RzComponent
 
-<HtmlElement Element="@Element" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()" aria-sort="@_ariaSortValue">
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()" aria-sort="@_ariaSortValue">
     @if (Sortable)
     {
         <button type="button"

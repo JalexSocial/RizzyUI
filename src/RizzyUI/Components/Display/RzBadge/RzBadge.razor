@@ -3,7 +3,7 @@
 @using Blazicons
 @inherits RzComponent
 
-<HtmlElement Element="span" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
     <span class="@Theme.RzBadge.InnerSpan">
 	    <span class="flex items-center gap-1"> 
 		    @if (Icon != null)

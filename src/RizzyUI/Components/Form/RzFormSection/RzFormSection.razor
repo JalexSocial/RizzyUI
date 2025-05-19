@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement Element="@Element" class="@RootClass()" @attributes="AdditionalAttributes" id="@Id">
+<HtmlElement Element="@EffectiveElement" class="@RootClass()" @attributes="AdditionalAttributes" id="@Id">
 	<div class="@Theme.RzFormSection.GetDescriptionLayoutCss(Layout)">
 		@if (!string.IsNullOrEmpty(Title))
 		{

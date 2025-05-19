@@ -27,7 +27,9 @@ public partial class RzParagraph : RzTypographyBase
         // Initialize inherited properties first
         base.OnInitialized();
 
-        Element = "p"; // Set the specific element tag
+        if (string.IsNullOrEmpty(Element))
+            Element = "p"; // Set the specific element tag
+        
         TextColor ??= SemanticColor.OnSurface; // Default paragraph text color if not set by base or parameter
     }
 

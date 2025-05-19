@@ -62,7 +62,9 @@ public partial class RzTableCell<TItem> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "td";
+        
+        if (string.IsNullOrEmpty(Element))
+            Element = "td";
     }
 
     /// <summary>

@@ -2,6 +2,6 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<div @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
 	@ChildContent
-</div>
+</HtmlElement>

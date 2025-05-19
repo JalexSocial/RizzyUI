@@ -34,6 +34,7 @@ public partial class RzEmbeddedPreview : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        
         // Set default localized value if parameter is not provided
         IFrameTitle ??= Localizer["RzEmbeddedPreview.DefaultIFrameTitle"];
     }

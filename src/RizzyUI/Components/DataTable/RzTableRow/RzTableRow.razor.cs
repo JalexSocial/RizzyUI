@@ -43,7 +43,9 @@ public partial class RzTableRow<TItem> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "tr";
+        
+        if (string.IsNullOrEmpty(Element))
+            Element = "tr";
 
         if (ParentRzTable != null)
         {

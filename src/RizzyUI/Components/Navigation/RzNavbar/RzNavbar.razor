@@ -3,7 +3,7 @@
 @using Blazicons
 @inherits RzComponent
 
-<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
     <!-- Navbar Toggle Button (conditionally rendered based on screen size by CSS) -->
     <button type="button" class="@Theme.RzNavbar.ToggleButton" x-on:click="toggleSidebar">
         <div class="@Theme.RzNavbar.ToggleButtonIconContainer">

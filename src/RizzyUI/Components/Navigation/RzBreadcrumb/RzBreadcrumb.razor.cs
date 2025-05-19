@@ -23,6 +23,15 @@ public partial class RzBreadcrumb : RzComponent
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary> The HTML element to render this component as. Defaults to "nav". </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        if (string.IsNullOrEmpty(Element))
+            Element = "nav"; // Default element for a breadcrumb
+    }
+
     /// <inheritdoc />
     protected override string? RootClass()
     {

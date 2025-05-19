@@ -56,7 +56,9 @@ public partial class RzCheckboxGroupItem<TValue> : RzComponent
         if (Parent == null)
             throw new InvalidOperationException($"{GetType()} must be placed within an RzCheckboxGroup.");
 
-        Element = "label";
+        if (string.IsNullOrEmpty(Element))
+            Element = "label";
+        
         SetEffectiveIcon();
     }
 

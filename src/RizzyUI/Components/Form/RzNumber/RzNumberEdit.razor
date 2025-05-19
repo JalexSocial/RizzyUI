@@ -5,7 +5,7 @@
 @using Rizzy
 @inherits InputBase<TValue>
 
-<HtmlElement Element="@Element" id="@Id" class="@Theme.RzNumberEdit.InputWrapper">
+<HtmlElement Element="@EffectiveElement" id="@Id" class="@Theme.RzNumberEdit.InputWrapper">
 	<div x-data="rzPrependInput" alpine-data-root="@Id">
 		@if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
 		{

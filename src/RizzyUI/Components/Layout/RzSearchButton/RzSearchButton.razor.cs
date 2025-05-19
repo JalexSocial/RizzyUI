@@ -24,6 +24,9 @@ public partial class RzSearchButton : RzComponent
     {
         base.OnInitialized();
         Label ??= Localizer["RzSearchButton.DefaultLabel"];
+        
+        if (string.IsNullOrEmpty(Element))
+            Element = "button"; // Set the root element tag
     }
 
     /// <inheritdoc />

@@ -118,7 +118,9 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
             throw new InvalidOperationException($"{GetType().Name} must be used within an RzTable.");
         }
 
-        Element = "th"; 
+        if (string.IsNullOrEmpty(Element))
+            Element = "th";
+        
         AdditionalAttributes ??= new Dictionary<string, object>();
         AdditionalAttributes.TryAdd("scope", "col");
 

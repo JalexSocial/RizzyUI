@@ -123,7 +123,9 @@ public partial class RzPagination<TItem> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "nav"; 
+        
+        if (string.IsNullOrEmpty(Element))
+            Element = "nav"; 
 
         if (ParentRzTable == null && (PaginationState == null || string.IsNullOrEmpty(HxControllerUrl)))
         {

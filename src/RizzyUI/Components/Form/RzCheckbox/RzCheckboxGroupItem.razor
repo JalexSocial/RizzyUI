@@ -5,7 +5,7 @@
 @using Rizzy
 @inherits RzComponent
 
-<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id">
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id">
 	<div x-data="rzCheckboxGroupItem" data-alpine-root="@Id" class="@Theme.RzCheckboxGroupItem.Label">
 		<div class="@Theme.RzCheckboxGroupItem.CheckboxWrapper">
 			<RzInputCheckbox @bind-Value="IsChecked" class="@Theme.RzCheckboxGroupItem.CheckboxInput" x-on:change="toggleCheckbox" x-ref="chk"/>

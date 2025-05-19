@@ -48,7 +48,7 @@ When the user requests code, wrap each file in a single **`output` block** so au
 ## 2. Root element pattern (in every `.razor` file)
 
 ```razor
-<HtmlElement Element="@Element"
+<HtmlElement Element="@EffectiveElement"
              id="@Id"
              class="@RootClass()"
              @attributes="@AdditionalAttributes">
@@ -56,11 +56,16 @@ When the user requests code, wrap each file in a single **`output` block** so au
 </HtmlElement>
 ```
 
-* `Element="@Element"` keeps the tag overridable (default "div" in `RzComponent`).
+* `Element="@EffectiveElement"` keeps the tag overridable (default "div" in `RzComponent`).
 * `@Id` is required for HTMX, Alpine, and tests.
 * `@RootClass()` is supplied by `RootClass()` in code-behind.
 * **Always** write `@attributes="@AdditionalAttributes"` (note the leading `@`).
 * **Never** use @* *@ comments inside Razor markup for elements that will be rendered.
+* To change the `Element` type, override `OnInitialized()` in the code-behind. Set Element to the new type only if Element is empty or null.
+```csharp
+        if (string.IsNullOrEmpty(Element))
+            Element = "nav";
+``` 
 
 ---
 

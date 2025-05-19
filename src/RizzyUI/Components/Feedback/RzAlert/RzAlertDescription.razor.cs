@@ -18,7 +18,9 @@ public partial class RzAlertDescription : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "p"; // Default to paragraph element
+        
+        if (string.IsNullOrEmpty(Element))
+            Element = "p"; // Default to paragraph element
     }
 
     /// <inheritdoc />

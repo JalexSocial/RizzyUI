@@ -19,6 +19,15 @@ public partial class RzDarkModeToggle : RzComponent
     /// <summary> Icon shown when dark mode is active (clicking enables light mode). Defaults to SunnyOutline. </summary>
     [Parameter] public SvgIcon LightIcon { get; set; } = Ionicon.SunnyOutline;
 
+    /// <summary> Defaults Element to "button" </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        if (string.IsNullOrEmpty(Element))
+            Element = "button"; // Set the root element tag
+    }
+
     /// <inheritdoc />
     protected override string? RootClass()
     {

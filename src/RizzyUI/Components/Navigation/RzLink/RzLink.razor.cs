@@ -25,6 +25,17 @@ public partial class RzLink : RzComponent
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
+    /// Sets default element to <c>a</c> for the link component.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        if (string.IsNullOrEmpty(Element))
+            Element = "a"; // Set the root element tag to <a> for links
+    }
+
+    /// <summary>
     /// Invoked when a component's parameters have been set or updated.
     /// Updates the <c>Href</c> parameter to a default value if it has not been specified.
     /// </summary>

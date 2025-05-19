@@ -82,7 +82,9 @@ public partial class RzTableBody<TItem> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "tbody"; 
+        
+        if (string.IsNullOrEmpty(Element))
+            Element = "tbody"; 
 
         if (ParentRzTable == null)
         {
