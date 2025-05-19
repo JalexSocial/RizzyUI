@@ -28,10 +28,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Assets\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\RizzyUI\RizzyUI.csproj" />
     </ItemGroup>
 

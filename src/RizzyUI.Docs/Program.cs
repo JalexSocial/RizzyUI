@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var provider = new StaticResourcesInfoProvider();
 
-builder.Services.AddLocalization(options => options.ResourcesPath = "Resources2");
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 builder.Services.AddRizzy();
 builder.Services.AddHtmx(config =>
