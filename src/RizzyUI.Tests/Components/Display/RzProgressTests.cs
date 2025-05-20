@@ -11,7 +11,7 @@ namespace RizzyUI.Tests.Components.Display
         public RzProgressTests()
         {
             // Register RizzyUI services
-            Services.AddRizzyUI();
+            Services.AddRizzyBaseConfiguration();
         }
 
         [Fact]
