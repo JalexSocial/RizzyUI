@@ -6,12 +6,13 @@ using Xunit;
 
 namespace RizzyUI.Tests.Components.Display
 {
-    public class RzProgressTests : TestContext
+    public class RzProgressTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     {
-        public RzProgressTests()
+        private readonly IAlbaHost _host;
+        
+        public RzProgressTests(WebAppFixture fixture) : base(fixture)
         {
-            // Register RizzyUI services
-            Services.AddRizzyBaseConfiguration();
+            _host = fixture.Host;
         }
 
         [Fact]
