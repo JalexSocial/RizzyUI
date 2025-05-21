@@ -1,6 +1,9 @@
 using Alba;
+using Bunit.Rendering;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using Rizzy;
 using Rizzy.Htmx;
 
@@ -14,6 +17,13 @@ public sealed class WebAppFixture : IAsyncLifetime
     {
         var builder = WebApplication.CreateBuilder([]);
 
+        // Add an HttpContextAccessor to the service collection to allow HttpContext resolution
+        // RizzyUI depends on HttpContext to provide nonces for CSP
+        var httpContext = new DefaultHttpContext();
+        var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
+        httpContextAccessorMock.Setup(_ => _.HttpContext).Returns(httpContext);
+        builder.Services.AddSingleton(httpContextAccessorMock.Object);
+        
         builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
         builder.Services.AddRizzy();
@@ -27,10 +37,10 @@ public sealed class WebAppFixture : IAsyncLifetime
         });
         
         builder.Services.AddRazorComponents();
+        builder.Services.AddControllers();
 
         Host = await builder.StartAlbaAsync(configureRoutes: config =>
         {
-
         });
     }
 

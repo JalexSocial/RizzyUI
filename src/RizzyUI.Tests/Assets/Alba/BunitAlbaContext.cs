@@ -8,6 +8,7 @@ namespace RizzyUI.Tests;
 public abstract class BunitAlbaContext : TestContext, IAsyncLifetime
 {
     private readonly WebAppFixture _fixture;
+    private IServiceScope _scope;
 
     protected BunitAlbaContext(WebAppFixture fixture)
     {
@@ -16,14 +17,22 @@ public abstract class BunitAlbaContext : TestContext, IAsyncLifetime
 
     public Task InitializeAsync()
     {
-        // ❶  Let bUnit fall back to the real container
-        Services.AddFallbackServiceProvider(_fixture.Host.Services);
+        // Create a scope for the test to allow 
+        _scope = _fixture.Host.Services.CreateScope();
+        
+        // Let bUnit fall back to the scoped service container for DI
+        Services.AddFallbackServiceProvider(_scope.ServiceProvider);
 
-        // ❷  Re-use the TestServer’s HttpClient so components talk to the in-proc API
+        // Re-use the TestServer’s HttpClient so components talk to the in-proc API
         Services.AddSingleton(_fixture.Host.Server.CreateClient());
 
         return Task.CompletedTask;
     }
 
-    public Task DisposeAsync() => Task.CompletedTask;
+    public Task DisposeAsync()
+    {
+        _scope.Dispose();
+        
+        return Task.CompletedTask;
+    }
 }
