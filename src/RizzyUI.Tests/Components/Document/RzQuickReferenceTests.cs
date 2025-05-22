@@ -33,16 +33,19 @@ namespace RizzyUI.Tests.Components.Document
                     builder.OpenComponent<RzHeading>(0);
                     builder.AddAttribute(1, "Level", HeadingLevel.H2);
                     builder.AddAttribute(2, "ChildContent", (RenderFragment)(h => h.AddContent(3, headingText1)));
+                    builder.AddAttribute(4, "QuickReferenceTitle", headingText1);
                     builder.CloseComponent();
                     
                     builder.OpenComponent<RzHeading>(10);
                     builder.AddAttribute(11, "Level", HeadingLevel.H3);
                     builder.AddAttribute(12, "ChildContent", (RenderFragment)(h => h.AddContent(13, headingText2)));
+                    builder.AddAttribute(14, "QuickReferenceTitle", headingText2);
                     builder.CloseComponent();
                     
                     builder.OpenComponent<RzHeading>(20);
                     builder.AddAttribute(21, "Level", HeadingLevel.H4);
                     builder.AddAttribute(22, "ChildContent", (RenderFragment)(h => h.AddContent(23, headingText3)));
+                    builder.AddAttribute(24, "QuickReferenceTitle", headingText3);
                     builder.CloseComponent();
                     
                     builder.OpenComponent<RzQuickReference>(30);
@@ -72,12 +75,14 @@ namespace RizzyUI.Tests.Components.Document
                     builder.AddAttribute(1, "Level", HeadingLevel.H2);
                     builder.AddAttribute(2, "Id", "section-1");
                     builder.AddAttribute(3, "ChildContent", (RenderFragment)(h => h.AddContent(4, "First Section")));
+                    builder.AddAttribute(5, "QuickReferenceTitle", "First Section");
                     builder.CloseComponent();
                     
                     builder.OpenComponent<RzHeading>(10);
                     builder.AddAttribute(11, "Level", HeadingLevel.H3);
                     builder.AddAttribute(12, "Id", "section-2");
                     builder.AddAttribute(13, "ChildContent", (RenderFragment)(h => h.AddContent(14, "Second Section")));
+                    builder.AddAttribute(15, "QuickReferenceTitle", "Second Section");
                     builder.CloseComponent();
                 })
             );
@@ -171,11 +176,13 @@ namespace RizzyUI.Tests.Components.Document
                     builder.OpenComponent<RzHeading>(0);
                     builder.AddAttribute(1, "Level", minLevel);
                     builder.AddAttribute(2, "ChildContent", (RenderFragment)(h => h.AddContent(3, "First Heading")));
+                    builder.AddAttribute(4, "QuickReferenceTitle", "First Heading");
                     builder.CloseComponent();
                     
                     builder.OpenComponent<RzHeading>(10);
                     builder.AddAttribute(11, "Level", secondLevel);
                     builder.AddAttribute(12, "ChildContent", (RenderFragment)(h => h.AddContent(13, "Second Heading")));
+                    builder.AddAttribute(14, "QuickReferenceTitle", "Second Heading");
                     builder.CloseComponent();
                 })
             );
@@ -205,24 +212,28 @@ namespace RizzyUI.Tests.Components.Document
                     builder.OpenComponent<RzHeading>(0);
                     builder.AddAttribute(1, "Level", HeadingLevel.H1);
                     builder.AddAttribute(2, "ChildContent", (RenderFragment)(h => h.AddContent(3, "Document Title")));
+                    builder.AddAttribute(4, "QuickReferenceTitle", "Document Title");
                     builder.CloseComponent();
                     
                     // H2 heading - should be included
                     builder.OpenComponent<RzHeading>(10);
                     builder.AddAttribute(11, "Level", HeadingLevel.H2);
                     builder.AddAttribute(12, "ChildContent", (RenderFragment)(h => h.AddContent(13, "Section")));
+                    builder.AddAttribute(14, "QuickReferenceTitle", "Section");
                     builder.CloseComponent();
                     
                     // H3 heading - should be included
                     builder.OpenComponent<RzHeading>(20);
                     builder.AddAttribute(21, "Level", HeadingLevel.H3);
                     builder.AddAttribute(22, "ChildContent", (RenderFragment)(h => h.AddContent(23, "Subsection")));
+                    builder.AddAttribute(24, "QuickReferenceTitle", "Subsection");
                     builder.CloseComponent();
                     
                     // H4 heading - should be filtered out
                     builder.OpenComponent<RzHeading>(30);
                     builder.AddAttribute(31, "Level", HeadingLevel.H4);
                     builder.AddAttribute(32, "ChildContent", (RenderFragment)(h => h.AddContent(33, "Detail")));
+                    builder.AddAttribute(34, "QuickReferenceTitle", "Detail");
                     builder.CloseComponent();
                     
                     // The quick reference component

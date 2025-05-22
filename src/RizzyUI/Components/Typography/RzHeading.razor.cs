@@ -28,7 +28,7 @@ public partial class RzHeading : RzTypographyBase
     ///     The title text to use when registering this heading with an <see cref="RzQuickReferenceContainer" />. If null
     ///     or empty, the heading will not be registered.
     /// </summary>
-    [Parameter]
+    [Parameter, EditorRequired]
     public string? QuickReferenceTitle { get; set; }
 
     /// <summary> Gets the parent <see cref="RzQuickReferenceContainer" /> if this heading is nested within one. </summary>
