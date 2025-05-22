@@ -2,20 +2,42 @@
   "name": "@jalexsocial/rizzyui",
   "version": "0.6.2",
   "description": "Client library for Asp.net RizzyUI",
-  "main": "dist/js/rizzyui.js",
+  "main": "dist/js/rizzyui.umd.js",
+  "module": "dist/js/rizzyui.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/js/rizzyui.es.js",
+      "require": "./dist/js/rizzyui.umd.js"
+    },
+    "./csp": {
+      "import": "./dist/js/rizzyui-csp.es.js",
+      "require": "./dist/js/rizzyui-csp.umd.js"
+    },
+    "./antiforgerySnippet": {
+      "import": "./dist/js/antiforgerySnippet.es.js",
+      "require": "./dist/js/antiforgerySnippet.min.js"
+    },
+    "./antiforgerySnippet.js": "./dist/js/antiforgerySnippet.js",
+    "./antiforgerySnippet.min.js": "./dist/js/antiforgerySnippet.min.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build:css": "run-s build:css:dev build:css:prod",
     "build:css:dev": "npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.css",
     "build:css:prod": "npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.min.css --minify",
+    "build:css": "run-s build:css:dev build:css:prod",
     "build:safelist": "node ./build/parse-tailwind-css.js",
-    "build:webpack": "webpack --config webpack.config.js",
-    "build": "run-s build:webpack copy:lib build:css build:safelist copy:theme copy:dist",
-    "build:dev": "webpack --mode development --watch",
-    "analyze": "npm run webpack:stats && webpack-bundle-analyzer stats.json",
+    "build:js": "vite build",
+    "dev": "vite",
+    "build": "run-s build:js copy:lib copy:antiforgery build:css build:safelist copy:theme copy:dist",
+    "analyze": "vite build",
+    "preview": "vite preview --outDir dist",
     "copy:theme": "copyfiles -u 2 src/css/rizzyui-theme.css dist/css",
-    "copy:lib": "copyfiles -u 2 src/js/lib/**/* dist/js",
+    "copy:lib": "copyfiles -u 2 src/js/lib/**/* dist/js/lib",
+    "copy:antiforgery": "copyfiles -f src/js/antiforgerySnippet.js dist/js",
     "copy:dist": "copyfiles -u 1 dist/**/* ../../src/RizzyUI/wwwroot/",
-    "copy:assets": "run-s copy:theme copy:lib"
+    "copy:assets": "run-s copy:theme copy:lib copy:antiforgery"
   },
   "repository": {
     "type": "git",
@@ -36,32 +58,27 @@
   },
   "homepage": "https://github.com/jalexsocial/RizzyUI#readme",
   "devDependencies": {
-    "@babel/preset-env": "^7.26.9",
-    "@tailwindcss/cli": "^4.0.0",
-    "babel-loader": "^10.0.0",
-    "copy-webpack-plugin": "^13.0.0",
+    "@tailwindcss/cli": "^4.1.7",
     "copyfiles": "^2.4.1",
-    "css-loader": "^6.8.1",
-    "eslint": "^8.52.0",
+    "eslint": "^9.27.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.5.3",
-    "postcss-selector-parser": "^7.0.0",
-    "repomix": "^0.2.24",
-    "style-loader": "^3.3.3",
-    "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4"
+    "postcss-selector-parser": "^7.1.0",
+    "repomix": "^0.3.6",
+    "rollup-plugin-visualizer": "^5.14.0",
+    "vite": "^6.3.5"
   },
   "dependencies": {
     "@alpinejs/collapse": "^3.14.9",
     "@alpinejs/csp": "^3.14.9",
     "@alpinejs/focus": "^3.14.9",
     "@alpinejs/intersect": "^3.14.9",
-    "@tailwindcss/forms": "^0.5.4",
-    "@tailwindcss/typography": "^0.5.9",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
     "alpinejs": "^3.14.9",
     "htmx.org": "^2.0.4",
     "simple-notify": "^1.0.6",
-    "tailwindcss": "^4.0.5",
+    "tailwindcss": "^4.1.7",
     "tailwindcss-inset": "^1.0.0"
   }
 }

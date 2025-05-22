@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RizzyUI Dev Demo</title>
+    <!--
+        During 'npm run dev', Vite serves CSS from src if imported in JS,
+        or you can link to a pre-built dev version of your CSS.
+        For simplicity with your separate CSS build, you might need to run
+        'npm run build:css:dev' once initially or in a separate terminal.
+    -->
+    <link rel="stylesheet" href="/dist/css/rizzyui.css"> <!-- Adjust path if needed or build CSS first -->
+
+    <!-- htmx.org is external, so include it for the demo page -->
+    <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js" defer></script>
+
+    <!-- Vite serves this from src/js during dev -->
+    <script type="module" src="/src/js/rizzyui.js"></script>
+</head>
+<body>
+<h1>RizzyUI Dev Demo</h1>
+<p>Use this page to test components during development with Vite's HMR.</p>
+
+<hr>
+<h2>RzAccordion Test</h2>
+<div x-data="rzAccordion" data-alpine-root="myAccordion" data-multiple="true" class="my-4 p-4 border rounded">
+    <div x-data="rzAccordionSection" data-section-id="s1" data-expanded-class="!rotate-180" class="border-b">
+        <button @click="toggle" class="flex justify-between w-full p-2 hover:bg-gray-100">
+            <span>Section 1</span>
+            <span :class="getExpandedCss()" class="transform transition-transform duration-200">▼</span>
+        </button>
+        <div x-show="open" x-collapse class="p-2 bg-gray-50">Content for Section 1</div>
+    </div>
+    <div x-data="rzAccordionSection" data-section-id="s2" data-expanded-class="!rotate-180" class="border-b">
+        <button @click="toggle" class="flex justify-between w-full p-2 hover:bg-gray-100">
+            <span>Section 2</span>
+            <span :class="getExpandedCss()" class="transform transition-transform duration-200">▼</span>
+        </button>
+        <div x-show="open" x-collapse class="p-2 bg-gray-50">Content for Section 2</div>
+    </div>
+</div>
+
+<hr>
+<h2>RzModal Test</h2>
+<button id="openModalBtn" class="p-2 bg-blue-500 text-white rounded">Open Basic Modal</button>
+<template x-teleport="body">
+    <div x-data="rzModal" id="basicModal" data-alpine-root="basicModal" data-event-trigger-name="show-basic-modal" class="contents">
+        <div x-cloak x-show="modalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div @click.outside="closeModal" class="bg-white p-6 rounded shadow-lg w-1/3">
+                <h3 class="text-xl mb-4">Basic Modal Example</h3>
+                <p>This is the content of the basic modal.</p>
+                <div class="mt-4 text-right">
+                    <button @click="closeModal" class="p-2 bg-gray-300 rounded">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    document.getElementById('openModalBtn').addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('show-basic-modal'));
+    });
+</script>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        console.log('Alpine initialized by RizzyUI for demo page.');
+        // You can access Rizzy.Alpine or Rizzy.toast here if needed for demo
+    });
+</script>
+</body>
+</html>
