@@ -24,20 +24,27 @@
     "dist"
   ],
   "scripts": {
+    "minify:antiforgery": "esbuild src/js/antiforgerySnippet.js --minify --outfile=dist/js/antiforgerySnippet.min.js",    
+    "build:js:dev": "run-s build:js:dev:main build:js:dev:csp",
+    "build:js:prod": "run-s build:js:prod:main build:js:prod:csp",
+    "build:js:dev:main": "cross-env ENTRY=rizzyui      MINIFY=false vite build --mode development",
+    "build:js:dev:csp": "cross-env ENTRY=rizzyui-csp  MINIFY=false vite build --mode development",
+    "build:js:prod:main": "cross-env ENTRY=rizzyui      MINIFY=true  vite build",
+    "build:js:prod:csp": "cross-env ENTRY=rizzyui-csp  MINIFY=true  vite build",
+    "build:js": "run-s build:js:dev build:js:prod",
     "build:css:dev": "npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.css",
     "build:css:prod": "npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.min.css --minify",
     "build:css": "run-s build:css:dev build:css:prod",
     "build:safelist": "node ./build/parse-tailwind-css.js",
-    "build:js": "vite build",
-    "dev": "vite",
-    "build": "run-s build:js copy:lib copy:antiforgery build:css build:safelist copy:theme copy:dist",
-    "analyze": "vite build",
-    "preview": "vite preview --outDir dist",
     "copy:theme": "copyfiles -u 2 src/css/rizzyui-theme.css dist/css",
     "copy:lib": "copyfiles -u 2 src/js/lib/**/* dist/js/lib",
     "copy:antiforgery": "copyfiles -f src/js/antiforgerySnippet.js dist/js",
     "copy:dist": "copyfiles -u 1 dist/**/* ../../src/RizzyUI/wwwroot/",
-    "copy:assets": "run-s copy:theme copy:lib copy:antiforgery"
+    "copy:assets": "run-s copy:theme copy:lib copy:antiforgery",
+    "build": "run-s build:js copy:lib copy:antiforgery minify:antiforgery build:css build:safelist copy:theme copy:dist",
+    "dev": "vite",
+    "preview": "vite preview --outDir dist",
+    "analyze": "vite build"
   },
   "repository": {
     "type": "git",
@@ -60,11 +67,14 @@
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.7",
     "copyfiles": "^2.4.1",
+    "cross-env": "^7.0.3",
+    "esbuild": "^0.25.4",
     "eslint": "^9.27.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.5.3",
     "postcss-selector-parser": "^7.1.0",
     "repomix": "^0.3.6",
+    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-visualizer": "^5.14.0",
     "vite": "^6.3.5"
   },

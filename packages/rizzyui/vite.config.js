@@ -1,67 +1,42 @@
-﻿// packages/rizzyui/vite.config.js
-import { resolve } from 'path';
-import { defineConfig } from 'vite';
-import { visualizer } from 'rollup-plugin-visualizer';
+﻿import { defineConfig } from 'vite';
+import path from 'node:path';
+import copy from 'rollup-plugin-copy';
 
-const entries = {
-    rizzyui: resolve(__dirname, 'src/js/rizzyui.js'),
-    'rizzyui-csp': resolve(__dirname, 'src/js/rizzyui-csp.js'),
-    antiforgerySnippet: resolve(__dirname, 'src/js/antiforgerySnippet.js'),
-};
+const ROOT           = __dirname;
+const SRC_DIR        = path.resolve(ROOT, 'src/js');
+const DIST_DIR       = path.resolve(ROOT, 'dist/js');
+const TARGET_WWWROOT = path.resolve(ROOT, '../../src/RizzyUI/wwwroot/');
+
+const entryName   = process.env.ENTRY || 'rizzyui';          // 'rizzyui' | 'rizzyui-csp'
+const isMinified  = process.env.MINIFY === 'true';
 
 export default defineConfig({
     build: {
-        outDir: resolve(__dirname, 'dist/js'),
-        emptyOutDir: true,
-        sourcemap: true,
-        target: 'esnext',
-        // No lib option here, we use rollupOptions directly for more control
-        rollupOptions: {
-            input: entries,
-            external: ['htmx.org'],
-            output: [
-                // ES Module Output
-                {
-                    format: 'es',
-                    dir: resolve(__dirname, 'dist/js'),
-                    entryFileNames: '[name].es.js',
-                    // When preserveModules is true, inlineDynamicImports is implicitly false
-                    // but being explicit can sometimes help.
-                    inlineDynamicImports: false,
-                    preserveModules: true,
-                    preserveModulesRoot: 'src/js',
-                    // Let's try 'strict' to be very explicit, or remove it to see if Rollup's default 'exports-only' works better via Vite
-                    preserveEntrySignatures: 'strict', // Changed from 'exports-only' to 'strict' for testing
-                },
-                // UMD Output
-                {
-                    format: 'umd',
-                    dir: resolve(__dirname, 'dist/js'),
-                    entryFileNames: (chunkInfo) => {
-                        if (chunkInfo.name === 'antiforgerySnippet') {
-                            return '[name].min.js';
-                        }
-                        return '[name].umd.js';
-                    },
-                    name: (chunkInfo) => {
-                        if (chunkInfo.name === 'rizzyui') return 'RizzyUI';
-                        if (chunkInfo.name === 'rizzyui-csp') return 'RizzyUICSP';
-                        return undefined;
-                    },
-                    globals: {
-                        'htmx.org': 'htmx',
-                    },
-                    // inlineDynamicImports: false, // Generally not needed for UMD single files per entry
-                },
-            ],
+        emptyOutDir: !isMinified && entryName === 'rizzyui',                    // clean only on the first pass
+        outDir: DIST_DIR,
+        sourcemap: !isMinified,
+        minify:   isMinified ? 'esbuild' : false,
+        target:   'es2020',
+
+        lib: {
+            entry: path.resolve(SRC_DIR, `${entryName}.js`),
+            name:  entryName === 'rizzyui' ? 'RizzyUI' : 'RizzyUICsp',
+            fileName: fmt => `${entryName}${isMinified ? '.min' : ''}.${fmt}.js`,
+            formats: ['es', 'umd']                               // legal now that we have ONE entry
         },
-    },
-    plugins: [
-        visualizer({
-            filename: resolve(__dirname, 'dist/stats.html'),
-            open: false,
-            gzipSize: true,
-            brotliSize: true,
-        }),
-    ],
+
+        rollupOptions: {
+            external: ['alpinejs', 'htmx.org'],
+            output: {
+                globals: { alpinejs: 'Alpine', 'htmx.org': 'htmx' }
+            },
+            plugins: [
+                copy({
+                    targets: [{ src: `${DIST_DIR}/*`, dest: TARGET_WWWROOT }],
+                    hook: 'writeBundle',
+                    overwrite: true
+                })
+            ]
+        }
+    }
 });
