@@ -560,13 +560,17 @@ function registerComponents(Alpine) {
     Alpine.data('rzHeading', () => {
         return {
             observer: null,
+            headingId: '',
             init() {
+                this.headingId = this.$el.dataset.alpineRoot;
+                
+                const self = this;
                 // Ensure setCurrentHeading exists in the parent scope (rzQuickReferenceContainer)
                 if (typeof this.setCurrentHeading === 'function') {
                     const callback = (entries, observer) => {
                         entries.forEach(entry => {
                             if (entry.isIntersecting) {
-                                this.setCurrentHeading(this.$el.id);
+                                self.setCurrentHeading(self.headingId);
                             }
                         });
                     };
@@ -627,6 +631,7 @@ function registerComponents(Alpine) {
         modalId: '',
         bodyId: '',
         footerId: '',
+        nonce: '',
         _escapeListener: null,
         _openListener: null,
         _closeEventListener: null,
@@ -635,6 +640,7 @@ function registerComponents(Alpine) {
             this.modalId = this.$el.dataset.modalId || '';
             this.bodyId = this.$el.dataset.bodyId || '';
             this.footerId = this.$el.dataset.footerId || '';
+            this.nonce = this.$el.dataset.nonce || '';
             this.eventTriggerName = this.$el.dataset.eventTriggerName || '';
             this.closeEventName = this.$el.dataset.closeEventName || this.closeEventName; // Use provided or default
             this.closeOnEscape = this.$el.dataset.closeOnEscape !== 'false';
@@ -673,7 +679,10 @@ function registerComponents(Alpine) {
 
             // Watch the 'modalOpen' state to manage body overflow and focus
             this.$watch('modalOpen', value => {
+                const currentWidth = document.body.offsetWidth;
                 document.body.classList.toggle('overflow-hidden', value);
+                const scrollBarWidth = document.body.offsetWidth - currentWidth;
+                document.body.style.setProperty('--page-scrollbar-width', `${scrollBarWidth}px`);
                 if (value) {
                     this.$nextTick(() => {
                         const dialogElement = this.$el.querySelector('[role="document"]');
@@ -713,6 +722,7 @@ function registerComponents(Alpine) {
                 window.removeEventListener('keydown', this._escapeListener);
             }
             document.body.classList.remove('overflow-hidden');
+            document.body.style.setProperty('--page-scrollbar-width', `0px`);
         },
 
         openModal(event = null) {
@@ -740,7 +750,10 @@ function registerComponents(Alpine) {
             this.$el.dispatchEvent(beforeCloseEvent);
 
             if (!beforeCloseEvent.defaultPrevented) {
+                document.activeElement?.blur && document.activeElement.blur();
                 this.modalOpen = false;
+                document.body.classList.remove('overflow-hidden');
+                document.body.style.setProperty('--page-scrollbar-width', `0px`);
             }
         },
 

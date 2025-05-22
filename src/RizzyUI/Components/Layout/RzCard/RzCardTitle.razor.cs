@@ -18,7 +18,9 @@ public partial class RzCardTitle : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "h3"; // Default element for a title
+        
+        if (string.IsNullOrEmpty(Element))
+            Element = "h3"; // Default element for a title
     }
 
     /// <inheritdoc />

@@ -24,7 +24,8 @@ public partial class RzNavbar : RzComponent
     {
         base.OnInitialized();
 
-        Element = "nav"; // Set the root element tag
+        if (string.IsNullOrEmpty(Element))
+            Element = "nav"; // Set the root element tag
     }
 
     /// <inheritdoc />

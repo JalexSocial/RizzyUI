@@ -1,0 +1,29 @@
+
+@namespace RizzyUI
+@typeparam TItem
+@inherits RzComponent
+
+<CascadingValue Value="this" Name="ParentRzTable" IsFixed="true">
+    <HtmlElement Element="div" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
+        <table class="@Theme.RzTable.Table" id="@TableId"> 
+            @if (Header != null)
+            {
+                <thead class="@(FixedHeader ? $"{Theme.RzTable.Thead} {Theme.RzTable.FixedThead}" : Theme.RzTable.Thead)" id="@TableHeaderId">
+                @Header(this)
+                </thead>
+            }
+            
+            @if (Body != null)
+            {
+                @Body!(this) @* RzTableBody will handle its own scrollable class based on FixedHeader *@
+            }
+
+            @if (Footer != null)
+            {
+                <tfoot class="@(FixedHeader ? $"{Theme.RzTable.Tfoot} {Theme.RzTable.FixedTfoot}" : Theme.RzTable.Tfoot)" id="@TableFooterId">
+                @Footer(this)
+                </tfoot>
+            }
+        </table>
+    </HtmlElement>
+</CascadingValue>

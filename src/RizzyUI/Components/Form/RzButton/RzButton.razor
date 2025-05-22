@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" aria-label="@EffectiveAssistiveLabel">
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" aria-label="@EffectiveAssistiveLabel">
 
     @if (ChildContent != null)
     {

@@ -5438,14 +5438,16 @@ function registerComponents(Alpine) {
   Alpine.data('rzHeading', function () {
     return {
       observer: null,
+      headingId: '',
       init: function init() {
-        var _this4 = this;
+        this.headingId = this.$el.dataset.alpineRoot;
+        var self = this;
         // Ensure setCurrentHeading exists in the parent scope (rzQuickReferenceContainer)
         if (typeof this.setCurrentHeading === 'function') {
           var callback = function callback(entries, observer) {
             entries.forEach(function (entry) {
               if (entry.isIntersecting) {
-                _this4.setCurrentHeading(_this4.$el.id);
+                self.setCurrentHeading(self.headingId);
               }
             });
           };
@@ -5508,14 +5510,16 @@ function registerComponents(Alpine) {
       modalId: '',
       bodyId: '',
       footerId: '',
+      nonce: '',
       _escapeListener: null,
       _openListener: null,
       _closeEventListener: null,
       init: function init() {
-        var _this5 = this;
+        var _this4 = this;
         this.modalId = this.$el.dataset.modalId || '';
         this.bodyId = this.$el.dataset.bodyId || '';
         this.footerId = this.$el.dataset.footerId || '';
+        this.nonce = this.$el.dataset.nonce || '';
         this.eventTriggerName = this.$el.dataset.eventTriggerName || '';
         this.closeEventName = this.$el.dataset.closeEventName || this.closeEventName; // Use provided or default
         this.closeOnEscape = this.$el.dataset.closeOnEscape !== 'false';
@@ -5534,49 +5538,52 @@ function registerComponents(Alpine) {
         // Listener for the custom window event to open the modal
         if (this.eventTriggerName) {
           this._openListener = function (e) {
-            _this5.openModal(e);
+            _this4.openModal(e);
           };
           window.addEventListener(this.eventTriggerName, this._openListener);
         }
 
         // Listener for the custom window event to close the modal
         this._closeEventListener = function (event) {
-          if (_this5.modalOpen) {
-            _this5.closeModalInternally('event');
+          if (_this4.modalOpen) {
+            _this4.closeModalInternally('event');
           }
         };
         window.addEventListener(this.closeEventName, this._closeEventListener);
 
         // Listener for the Escape key
         this._escapeListener = function (e) {
-          if (_this5.modalOpen && _this5.closeOnEscape && e.key === 'Escape') {
-            _this5.closeModalInternally('escape');
+          if (_this4.modalOpen && _this4.closeOnEscape && e.key === 'Escape') {
+            _this4.closeModalInternally('escape');
           }
         };
         window.addEventListener('keydown', this._escapeListener);
 
         // Watch the 'modalOpen' state to manage body overflow and focus
         this.$watch('modalOpen', function (value) {
+          var currentWidth = document.body.offsetWidth;
           document.body.classList.toggle('overflow-hidden', value);
+          var scrollBarWidth = document.body.offsetWidth - currentWidth;
+          document.body.style.setProperty('--page-scrollbar-width', "".concat(scrollBarWidth, "px"));
           if (value) {
-            _this5.$nextTick(function () {
-              var dialogElement = _this5.$el.querySelector('[role="document"]');
+            _this4.$nextTick(function () {
+              var dialogElement = _this4.$el.querySelector('[role="document"]');
               var focusable = dialogElement === null || dialogElement === void 0 ? void 0 : dialogElement.querySelector('button, [href], input:not([type=\'hidden\']), select, textarea, [tabindex]:not([tabindex="-1"])');
               focusable === null || focusable === void 0 || focusable.focus();
               // Dispatch after-open event - Use "rz:modal-after-open"
-              _this5.$el.dispatchEvent(new CustomEvent('rz:modal-after-open', {
+              _this4.$el.dispatchEvent(new CustomEvent('rz:modal-after-open', {
                 detail: {
-                  modalId: _this5.modalId
+                  modalId: _this4.modalId
                 },
                 bubbles: true
               }));
             });
           } else {
-            _this5.$nextTick(function () {
+            _this4.$nextTick(function () {
               // Dispatch after-close event - Use "rz:modal-after-close"
-              _this5.$el.dispatchEvent(new CustomEvent('rz:modal-after-close', {
+              _this4.$el.dispatchEvent(new CustomEvent('rz:modal-after-close', {
                 detail: {
-                  modalId: _this5.modalId
+                  modalId: _this4.modalId
                 },
                 bubbles: true
               }));
@@ -5599,6 +5606,7 @@ function registerComponents(Alpine) {
           window.removeEventListener('keydown', this._escapeListener);
         }
         document.body.classList.remove('overflow-hidden');
+        document.body.style.setProperty('--page-scrollbar-width', "0px");
       },
       openModal: function openModal() {
         var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -5630,7 +5638,11 @@ function registerComponents(Alpine) {
         });
         this.$el.dispatchEvent(beforeCloseEvent);
         if (!beforeCloseEvent.defaultPrevented) {
+          var _document$activeEleme;
+          ((_document$activeEleme = document.activeElement) === null || _document$activeEleme === void 0 ? void 0 : _document$activeEleme.blur) && document.activeElement.blur();
           this.modalOpen = false;
+          document.body.classList.remove('overflow-hidden');
+          document.body.style.setProperty('--page-scrollbar-width', "0px");
         }
       },
       // Called only by the explicit close button in the template
@@ -5699,7 +5711,7 @@ function registerComponents(Alpine) {
       percentage: 0,
       label: '',
       init: function init() {
-        var _this6 = this;
+        var _this5 = this;
         var element = this.$el;
         // Retrieve progress values from data attributes
         this.currentVal = parseInt(element.getAttribute('data-current-val')) || 0;
@@ -5714,16 +5726,16 @@ function registerComponents(Alpine) {
         element.setAttribute('aria-valuetext', "".concat(this.percentage, "%"));
         this.updateProgressBar();
         var resizeObserver = new ResizeObserver(function (entries) {
-          _this6.updateProgressBar();
+          _this5.updateProgressBar();
         });
         resizeObserver.observe(element);
 
         // Watch for changes in currentVal to update progress dynamically
         this.$watch('currentVal', function () {
-          _this6.calculatePercentage();
-          _this6.updateProgressBar();
-          element.setAttribute('aria-valuenow', _this6.currentVal);
-          element.setAttribute('aria-valuetext', "".concat(_this6.percentage, "%"));
+          _this5.calculatePercentage();
+          _this5.updateProgressBar();
+          element.setAttribute('aria-valuenow', _this5.currentVal);
+          element.setAttribute('aria-valuetext', "".concat(_this5.percentage, "%"));
         });
       },
       calculatePercentage: function calculatePercentage() {
@@ -5798,11 +5810,11 @@ function registerComponents(Alpine) {
       },
       // Handles click events on quick reference links.
       handleHeadingClick: function handleHeadingClick() {
-        var _this7 = this;
+        var _this6 = this;
         var id = this.$el.dataset.headingid; // Get ID from the clicked link's context
         // Use requestAnimationFrame for smoother UI update before potential scroll jump
         window.requestAnimationFrame(function () {
-          _this7.currentHeadingId = id;
+          _this6.currentHeadingId = id;
         });
       },
       // Sets the current heading ID based on intersection observer events from rzHeading.
@@ -5849,13 +5861,13 @@ function registerComponents(Alpine) {
         tabButton.focus();
       },
       tabRepositionMarker: function tabRepositionMarker(tabButton) {
-        var _this8 = this;
+        var _this7 = this;
         this.tabButton = tabButton;
         this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
         this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
         this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
         setTimeout(function () {
-          _this8.$refs.tabMarker.style.opacity = 1;
+          _this7.$refs.tabMarker.style.opacity = 1;
         }, 150);
       },
       // Get the CSS classes for the tab content panel based on selection
@@ -5884,11 +5896,11 @@ function registerComponents(Alpine) {
         this.tabRepositionMarker(this.tabButton);
       },
       handleKeyDown: function handleKeyDown(event) {
-        var _this9 = this;
+        var _this8 = this;
         var key = event.key;
         var tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
         var currentIndex = tabButtons.findIndex(function (button) {
-          return _this9.tabSelected === button.dataset.name;
+          return _this8.tabSelected === button.dataset.name;
         });
         var newIndex = currentIndex;
         if (key === 'ArrowRight') {

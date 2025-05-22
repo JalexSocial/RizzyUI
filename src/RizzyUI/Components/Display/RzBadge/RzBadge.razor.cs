@@ -31,6 +31,17 @@ public partial class RzBadge : RzComponent
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Initializes the component, setting the default element type if not specified.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        if (string.IsNullOrEmpty(Element))
+            Element = "span"; // Default element for a badge
+    }
+
     /// <inheritdoc />
     protected override string? RootClass()
     {

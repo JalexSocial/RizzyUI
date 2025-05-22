@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
 	<div data-alpine-root="@Id" data-headings="@_headingItemsSerialized"
 	     data-currentheadingid="@(_currentHeadingId)"
 	     x-data="rzQuickReferenceContainer">

@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement Element="@Element" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" role="img"
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" role="img"
              aria-label="@AlternateText">
     @if (IndicatorVisible)
     {
@@ -15,7 +15,7 @@
     else if (!string.IsNullOrEmpty(Initials))
     {
         <div
-            class="@Theme.RzAvatar.InitialsContainer @Theme.RzAvatar.GetSizeCss(Size) @Theme.RzAvatar.GetShapeCss(Shape) @Theme.RzAvatar.GetInitialsSizeCss(Size)">
+            class="initialsContainer @Theme.RzAvatar.InitialsContainer @Theme.RzAvatar.GetSizeCss(Size) @Theme.RzAvatar.GetShapeCss(Shape) @Theme.RzAvatar.GetInitialsSizeCss(Size)">
             @Initials
         </div>
     }

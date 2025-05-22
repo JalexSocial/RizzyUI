@@ -1,0 +1,9 @@
+﻿@namespace RizzyUI
+@typeparam TItem
+@inherits RzComponent
+
+<CascadingValue Value="this" Name="ParentRzTableRow" IsFixed="true">
+	<tr @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
+			@ChildContent
+	</tr>	
+</CascadingValue>

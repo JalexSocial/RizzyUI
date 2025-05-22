@@ -43,6 +43,9 @@ public partial class RzSteps : RzComponent
     {
         base.OnInitialized();
         AriaLabel ??= Localizer["RzSteps.DefaultAriaLabel"];
+
+        if (string.IsNullOrEmpty(Element))
+            Element = "ol";
     }
 
      /// <inheritdoc />

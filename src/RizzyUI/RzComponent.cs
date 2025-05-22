@@ -78,7 +78,7 @@ public abstract class RzComponent : ComponentBase
     /// Defaults to "div". Derived components can override this in their `OnInitialized` method if needed.
     /// </summary>
     [Parameter]
-    public string Element { get; set; } = "div";
+    public string Element { get; set; } = string.Empty;
 
     /// <summary>
     /// Unique identifier for the component instance. 
@@ -112,6 +112,11 @@ public abstract class RzComponent : ComponentBase
     protected string Nonce => _nonce ??= RizzyNonceProvider.GetNonce();
 
     /// <summary>
+    /// Actual HTML element tag name to be rendered as the root of this component.
+    /// </summary>
+    protected string EffectiveElement => string.IsNullOrEmpty(Element) ? "div" : Element;
+    
+    /// <summary>
     /// Calculates the final CSS class string for the component's root element by merging
     /// base classes defined by the theme (if overridden) with any additional classes
     /// provided via the `class` attribute in <see cref="AdditionalAttributes"/>.
@@ -131,6 +136,7 @@ public abstract class RzComponent : ComponentBase
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        
         // Resolve the theme instance based on cascade or config/default.
         Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
     }

@@ -14,7 +14,7 @@ public partial class RzLink : RzComponent
 {
     /// <summary> Gets or sets the URL to which the link navigates. If null or empty, defaults to "#". </summary>
     [Parameter]
-    public string? Href { get; set; }
+    public string? Href { get; set; } 
 
     /// <summary> Gets or sets whether the link should be underlined on hover and focus. Defaults to true. </summary>
     [Parameter]
@@ -24,16 +24,26 @@ public partial class RzLink : RzComponent
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary> Combines AdditionalAttributes with the href attribute. </summary>
-    protected Dictionary<string, object> CombinedAttributes
+    /// <summary>
+    /// Sets default element to <c>a</c> for the link component.
+    /// </summary>
+    protected override void OnInitialized()
     {
-        get
-        {
-            var attributes = AdditionalAttributes ?? new Dictionary<string, object>();
-            // Ensure Href is added or updated correctly
-            attributes["href"] = string.IsNullOrEmpty(Href) ? "#" : Href;
-            return attributes;
-        }
+        base.OnInitialized();
+        
+        if (string.IsNullOrEmpty(Element))
+            Element = "a"; // Set the root element tag to <a> for links
+    }
+
+    /// <summary>
+    /// Invoked when a component's parameters have been set or updated.
+    /// Updates the <c>Href</c> parameter to a default value if it has not been specified.
+    /// </summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        Href ??= "#";
     }
 
     /// <inheritdoc />
