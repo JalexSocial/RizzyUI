@@ -560,13 +560,17 @@ function registerComponents(Alpine) {
     Alpine.data('rzHeading', () => {
         return {
             observer: null,
+            headingId: '',
             init() {
+                this.headingId = this.$el.dataset.alpineRoot;
+                
+                const self = this;
                 // Ensure setCurrentHeading exists in the parent scope (rzQuickReferenceContainer)
                 if (typeof this.setCurrentHeading === 'function') {
                     const callback = (entries, observer) => {
                         entries.forEach(entry => {
                             if (entry.isIntersecting) {
-                                this.setCurrentHeading(this.$el.id);
+                                self.setCurrentHeading(self.headingId);
                             }
                         });
                     };
