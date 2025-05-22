@@ -4833,20 +4833,61 @@ function $data(idOrElement) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   registerComponents: () => (/* binding */ registerComponents),
-/* harmony export */   require: () => (/* binding */ require)
+/* harmony export */   require: () => (/* binding */ rizzyRequire)
 /* harmony export */ });
-/* harmony import */ var _loadjs_loadjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./loadjs/loadjs */ "./src/js/lib/loadjs/loadjs.js");
+/* harmony import */ var _loadjs_loadjs_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./loadjs/loadjs.js */ "./src/js/lib/loadjs/loadjs.js");
+/* harmony import */ var _components_rzAccordion_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/rzAccordion.js */ "./src/js/lib/components/rzAccordion.js");
+/* harmony import */ var _components_rzAccordionSection_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/rzAccordionSection.js */ "./src/js/lib/components/rzAccordionSection.js");
+/* harmony import */ var _components_rzAlert_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/rzAlert.js */ "./src/js/lib/components/rzAlert.js");
+/* harmony import */ var _components_rzBrowser_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/rzBrowser.js */ "./src/js/lib/components/rzBrowser.js");
+/* harmony import */ var _components_rzCheckboxGroupItem_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/rzCheckboxGroupItem.js */ "./src/js/lib/components/rzCheckboxGroupItem.js");
+/* harmony import */ var _components_rzCodeViewer_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/rzCodeViewer.js */ "./src/js/lib/components/rzCodeViewer.js");
+/* harmony import */ var _components_rzDateEdit_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/rzDateEdit.js */ "./src/js/lib/components/rzDateEdit.js");
+/* harmony import */ var _components_rzDropdown_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/rzDropdown.js */ "./src/js/lib/components/rzDropdown.js");
+/* harmony import */ var _components_rzDarkModeToggle_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/rzDarkModeToggle.js */ "./src/js/lib/components/rzDarkModeToggle.js");
+/* harmony import */ var _components_rzEmbeddedPreview_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/rzEmbeddedPreview.js */ "./src/js/lib/components/rzEmbeddedPreview.js");
+/* harmony import */ var _components_rzEmpty_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/rzEmpty.js */ "./src/js/lib/components/rzEmpty.js");
+/* harmony import */ var _components_rzHeading_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/rzHeading.js */ "./src/js/lib/components/rzHeading.js");
+/* harmony import */ var _components_rzMarkdown_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/rzMarkdown.js */ "./src/js/lib/components/rzMarkdown.js");
+/* harmony import */ var _components_rzModal_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/rzModal.js */ "./src/js/lib/components/rzModal.js");
+/* harmony import */ var _components_rzPrependInput_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/rzPrependInput.js */ "./src/js/lib/components/rzPrependInput.js");
+/* harmony import */ var _components_rzProgress_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/rzProgress.js */ "./src/js/lib/components/rzProgress.js");
+/* harmony import */ var _components_rzQuickReferenceContainer_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/rzQuickReferenceContainer.js */ "./src/js/lib/components/rzQuickReferenceContainer.js");
+/* harmony import */ var _components_rzTabs_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/rzTabs.js */ "./src/js/lib/components/rzTabs.js");
+/* harmony import */ var _components_rzSidebar_js__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/rzSidebar.js */ "./src/js/lib/components/rzSidebar.js");
+/* harmony import */ var _components_rzSidebarLinkItem_js__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/rzSidebarLinkItem.js */ "./src/js/lib/components/rzSidebarLinkItem.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
+
+// Import component registration functions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // --------------------------------------------------------------------------------
@@ -4888,24 +4929,60 @@ function _generateBundleId() {
   }));
   return _generateBundleId.apply(this, arguments);
 }
-function require(paths, callbackFn, nonce) {
+function rizzyRequire(paths, callbackFn, nonce) {
   generateBundleId(paths).then(function (bundleId) {
-    if (!_loadjs_loadjs__WEBPACK_IMPORTED_MODULE_0__["default"].isDefined(bundleId)) {
-      (0,_loadjs_loadjs__WEBPACK_IMPORTED_MODULE_0__["default"])(paths, bundleId, {
+    if (!_loadjs_loadjs_js__WEBPACK_IMPORTED_MODULE_0__["default"].isDefined(bundleId)) {
+      (0,_loadjs_loadjs_js__WEBPACK_IMPORTED_MODULE_0__["default"])(paths, bundleId, {
         async: false,
         inlineScriptNonce: nonce,
         inlineStyleNonce: nonce
       });
     }
-    _loadjs_loadjs__WEBPACK_IMPORTED_MODULE_0__["default"].ready([bundleId], callbackFn);
+    _loadjs_loadjs_js__WEBPACK_IMPORTED_MODULE_0__["default"].ready([bundleId], callbackFn);
   });
 }
 function registerComponents(Alpine) {
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzAccordion
-  // This component manages the overall accordion container.
-  // Provides 'selected' and 'allowMultiple' properties to child rzAccordionSection components.
-  // --------------------------------------------------------------------------------
+  (0,_components_rzAccordion_js__WEBPACK_IMPORTED_MODULE_1__["default"])(Alpine);
+  (0,_components_rzAccordionSection_js__WEBPACK_IMPORTED_MODULE_2__["default"])(Alpine);
+  (0,_components_rzAlert_js__WEBPACK_IMPORTED_MODULE_3__["default"])(Alpine);
+  (0,_components_rzBrowser_js__WEBPACK_IMPORTED_MODULE_4__["default"])(Alpine);
+  (0,_components_rzCheckboxGroupItem_js__WEBPACK_IMPORTED_MODULE_5__["default"])(Alpine);
+  (0,_components_rzCodeViewer_js__WEBPACK_IMPORTED_MODULE_6__["default"])(Alpine, rizzyRequire);
+  (0,_components_rzDateEdit_js__WEBPACK_IMPORTED_MODULE_7__["default"])(Alpine, rizzyRequire);
+  (0,_components_rzDropdown_js__WEBPACK_IMPORTED_MODULE_8__["default"])(Alpine);
+  (0,_components_rzDarkModeToggle_js__WEBPACK_IMPORTED_MODULE_9__["default"])(Alpine);
+  (0,_components_rzEmbeddedPreview_js__WEBPACK_IMPORTED_MODULE_10__["default"])(Alpine);
+  (0,_components_rzEmpty_js__WEBPACK_IMPORTED_MODULE_11__["default"])(Alpine);
+  (0,_components_rzHeading_js__WEBPACK_IMPORTED_MODULE_12__["default"])(Alpine);
+  (0,_components_rzMarkdown_js__WEBPACK_IMPORTED_MODULE_13__["default"])(Alpine, rizzyRequire);
+  (0,_components_rzModal_js__WEBPACK_IMPORTED_MODULE_14__["default"])(Alpine);
+  (0,_components_rzPrependInput_js__WEBPACK_IMPORTED_MODULE_15__["default"])(Alpine);
+  (0,_components_rzProgress_js__WEBPACK_IMPORTED_MODULE_16__["default"])(Alpine);
+  (0,_components_rzQuickReferenceContainer_js__WEBPACK_IMPORTED_MODULE_17__["default"])(Alpine);
+  (0,_components_rzTabs_js__WEBPACK_IMPORTED_MODULE_18__["default"])(Alpine);
+  (0,_components_rzSidebar_js__WEBPACK_IMPORTED_MODULE_19__["default"])(Alpine);
+  (0,_components_rzSidebarLinkItem_js__WEBPACK_IMPORTED_MODULE_20__["default"])(Alpine);
+}
+
+
+/***/ }),
+
+/***/ "./src/js/lib/components/rzAccordion.js":
+/*!**********************************************!*\
+  !*** ./src/js/lib/components/rzAccordion.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzAccordion
+// This component manages the overall accordion container.
+// Provides 'selected' and 'allowMultiple' properties to child rzAccordionSection components.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzAccordion', function () {
     return {
       selected: '',
@@ -4920,12 +4997,26 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzAccordionSection
-  // This component controls each individual accordion section.
-  // It accesses 'selected' and 'allowMultiple' from the parent rzAccordion scope.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzAccordionSection.js":
+/*!*****************************************************!*\
+  !*** ./src/js/lib/components/rzAccordionSection.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzAccordionSection
+// This component controls each individual accordion section.
+// It accesses 'selected' and 'allowMultiple' from the parent rzAccordion scope.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzAccordionSection', function () {
     return {
       open: false,
@@ -4968,11 +5059,25 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzAlert
-  // This component manages an alert's visibility and provides a dismiss method.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzAlert.js":
+/*!******************************************!*\
+  !*** ./src/js/lib/components/rzAlert.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzAlert
+// This component manages an alert's visibility and provides a dismiss method.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzAlert', function () {
     return {
       showAlert: true,
@@ -4981,11 +5086,25 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzBrowser
-  // This component simulates a browser preview with adjustable screen sizes.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzBrowser.js":
+/*!********************************************!*\
+  !*** ./src/js/lib/components/rzBrowser.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzBrowser
+// This component simulates a browser preview with adjustable screen sizes.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzBrowser', function () {
     return {
       screenSize: '',
@@ -5016,11 +5135,25 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzCheckboxGroupItem
-  // Manages a checkbox's state and its associated icon visibility.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzCheckboxGroupItem.js":
+/*!******************************************************!*\
+  !*** ./src/js/lib/components/rzCheckboxGroupItem.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzCheckboxGroupItem
+// Manages a checkbox's state and its associated icon visibility.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzCheckboxGroupItem', function () {
     return {
       checkbox: null,
@@ -5037,12 +5170,26 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzCodeViewer
-  // This component handles code display, syntax highlighting, copy-to-clipboard,
-  // and expand/collapse functionality.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzCodeViewer.js":
+/*!***********************************************!*\
+  !*** ./src/js/lib/components/rzCodeViewer.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzCodeViewer
+// This component handles code display, syntax highlighting, copy-to-clipboard,
+// and expand/collapse functionality.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine, require) {
   Alpine.data('rzCodeViewer', function () {
     return {
       expand: false,
@@ -5106,12 +5253,112 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzDateEdit
-  // This component initializes a date picker (using Flatpickr) on an input element.
-  // It retrieves its configuration and assets from data attributes.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzDarkModeToggle.js":
+/*!***************************************************!*\
+  !*** ./src/js/lib/components/rzDarkModeToggle.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzDarkModeToggle
+// This component toggles between light and dark themes.
+// It reads the stored mode, applies the theme, and listens for OS-level changes.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
+  Alpine.data('rzDarkModeToggle', function () {
+    return {
+      mode: 'light',
+      applyTheme: null,
+      init: function init() {
+        var hasLocalStorage = typeof window !== 'undefined' && 'localStorage' in window;
+        var allowedModes = ['light', 'dark', 'auto'];
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var storedMode = "auto";
+        if (hasLocalStorage) {
+          var _localStorage$getItem;
+          storedMode = (_localStorage$getItem = localStorage.getItem('darkMode')) !== null && _localStorage$getItem !== void 0 ? _localStorage$getItem : 'auto';
+
+          // Validate stored mode against allowed values
+          if (!allowedModes.includes(storedMode)) {
+            storedMode = 'light';
+          }
+        }
+        if (hasLocalStorage) {
+          localStorage.setItem('darkMode', storedMode);
+        }
+
+        // Function to apply the theme based on stored mode and OS preference
+        this.applyTheme = function () {
+          document.documentElement.classList.toggle('dark', storedMode === 'dark' || storedMode === 'auto' && prefersDark);
+        };
+        this.applyTheme();
+
+        // Listen for OS-level color scheme changes to reapply the theme
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.applyTheme);
+      },
+      // Returns true if dark mode should be active
+      isDark: function isDark() {
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var storedMode = localStorage.getItem('darkMode');
+        return this.mode === 'dark' || this.mode === 'auto' && prefersDark;
+      },
+      // Returns true if light mode should be active
+      isLight: function isLight() {
+        return !this.isDark();
+      },
+      // Toggle the dark mode setting and dispatch a custom event
+      toggle: function toggle() {
+        var storedMode = localStorage.getItem('darkMode');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (storedMode === 'light') storedMode = 'dark';else if (storedMode === 'dark') storedMode = 'light';else if (storedMode === 'auto') {
+          storedMode = prefersDark ? 'light' : 'dark';
+        }
+        this.mode = storedMode;
+        localStorage.setItem('darkMode', storedMode);
+        var isDark = storedMode === 'dark' || storedMode === 'auto' && prefersDark;
+        document.documentElement.classList.toggle('dark', isDark);
+        var darkModeEvent = new CustomEvent('darkModeToggle', {
+          detail: {
+            darkMode: isDark
+          }
+        });
+        window.dispatchEvent(darkModeEvent);
+      },
+      destroy: function destroy() {
+        if (this.applyTheme) {
+          window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.applyTheme);
+        }
+      }
+    };
+  });
+}
+
+/***/ }),
+
+/***/ "./src/js/lib/components/rzDateEdit.js":
+/*!*********************************************!*\
+  !*** ./src/js/lib/components/rzDateEdit.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzDateEdit
+// This component initializes a date picker (using Flatpickr) on an input element.
+// It retrieves its configuration and assets from data attributes.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine, require) {
   Alpine.data('rzDateEdit', function () {
     return {
       options: {},
@@ -5145,12 +5392,26 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzDropdown
-  // Handles dropdown menus including open/close behavior, keyboard navigation,
-  // and dynamically computing placement classes.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzDropdown.js":
+/*!*********************************************!*\
+  !*** ./src/js/lib/components/rzDropdown.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzDropdown
+// Handles dropdown menus including open/close behavior, keyboard navigation,
+// and dynamically computing placement classes.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzDropdown', function () {
     return {
       dropdownEl: null,
@@ -5264,84 +5525,29 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzDarkModeToggle
-  // This component toggles between light and dark themes.
-  // It reads the stored mode, applies the theme, and listens for OS-level changes.
-  // --------------------------------------------------------------------------------
-  Alpine.data('rzDarkModeToggle', function () {
-    return {
-      mode: 'light',
-      applyTheme: null,
-      init: function init() {
-        var hasLocalStorage = typeof window !== 'undefined' && 'localStorage' in window;
-        var allowedModes = ['light', 'dark', 'auto'];
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var storedMode = "auto";
-        if (hasLocalStorage) {
-          var _localStorage$getItem;
-          storedMode = (_localStorage$getItem = localStorage.getItem('darkMode')) !== null && _localStorage$getItem !== void 0 ? _localStorage$getItem : 'auto';
+/***/ }),
 
-          // Validate stored mode against allowed values
-          if (!allowedModes.includes(storedMode)) {
-            storedMode = 'light';
-          }
-        }
-        if (hasLocalStorage) {
-          localStorage.setItem('darkMode', storedMode);
-        }
+/***/ "./src/js/lib/components/rzEmbeddedPreview.js":
+/*!****************************************************!*\
+  !*** ./src/js/lib/components/rzEmbeddedPreview.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-        // Function to apply the theme based on stored mode and OS preference
-        this.applyTheme = function () {
-          document.documentElement.classList.toggle('dark', storedMode === 'dark' || storedMode === 'auto' && prefersDark);
-        };
-        this.applyTheme();
-
-        // Listen for OS-level color scheme changes to reapply the theme
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.applyTheme);
-      },
-      // Returns true if dark mode should be active
-      isDark: function isDark() {
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var storedMode = localStorage.getItem('darkMode');
-        return this.mode === 'dark' || this.mode === 'auto' && prefersDark;
-      },
-      // Returns true if light mode should be active
-      isLight: function isLight() {
-        return !this.isDark();
-      },
-      // Toggle the dark mode setting and dispatch a custom event
-      toggle: function toggle() {
-        var storedMode = localStorage.getItem('darkMode');
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (storedMode === 'light') storedMode = 'dark';else if (storedMode === 'dark') storedMode = 'light';else if (storedMode === 'auto') {
-          storedMode = prefersDark ? 'light' : 'dark';
-        }
-        this.mode = storedMode;
-        localStorage.setItem('darkMode', storedMode);
-        var isDark = storedMode === 'dark' || storedMode === 'auto' && prefersDark;
-        document.documentElement.classList.toggle('dark', isDark);
-        var darkModeEvent = new CustomEvent('darkModeToggle', {
-          detail: {
-            darkMode: isDark
-          }
-        });
-        window.dispatchEvent(darkModeEvent);
-      },
-      destroy: function destroy() {
-        if (this.applyTheme) {
-          window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.applyTheme);
-        }
-      }
-    };
-  });
-
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzEmbeddedPreview
-  // Manages an iframe preview and adjusts its height dynamically.
-  // It also passes dark mode settings to the iframe via postMessage.
-  // --------------------------------------------------------------------------------
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzEmbeddedPreview
+// Manages an iframe preview and adjusts its height dynamically.
+// It also passes dark mode settings to the iframe via postMessage.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzEmbeddedPreview', function () {
     return {
       iframe: null,
@@ -5423,18 +5629,46 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzEmpty
-  // Empty component to prevent CSP errors if defining x-data on it's own without a
-  // parameter
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzEmpty.js":
+/*!******************************************!*\
+  !*** ./src/js/lib/components/rzEmpty.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzEmpty
+// Empty component to prevent CSP errors if defining x-data on it's own without a
+// parameter
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzEmpty', function () {});
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzHeading
-  // Observes heading elements to automatically update the current heading in the quick-reference.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzHeading.js":
+/*!********************************************!*\
+  !*** ./src/js/lib/components/rzHeading.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzHeading
+// Observes heading elements to automatically update the current heading in the quick-reference.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzHeading', function () {
     return {
       observer: null,
@@ -5466,11 +5700,25 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzMarkdown
-  // Initializes Markdown rendering with syntax highlighting.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzMarkdown.js":
+/*!*********************************************!*\
+  !*** ./src/js/lib/components/rzMarkdown.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzMarkdown
+// Initializes Markdown rendering with syntax highlighting.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine, require) {
   Alpine.data('rzMarkdown', function () {
     return {
       init: function init() {
@@ -5488,16 +5736,30 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzModal
-  // Manages the state and behavior of a modal dialog.
-  // Can be triggered by a window event, closed via button, escape key,
-  // or outside click. Supports HTMX content swapping within its body/footer.
-  // Also listens for a 'rz:modal-close' window event triggered by HTMX responses.
-  // Dispatches lifecycle events: rz:modal-initialized, rz:modal-before-open,
-  // rz:modal-after-open, rz:modal-before-close, rz:modal-after-close.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzModal.js":
+/*!******************************************!*\
+  !*** ./src/js/lib/components/rzModal.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzModal
+// Manages the state and behavior of a modal dialog.
+// Can be triggered by a window event, closed via button, escape key,
+// or outside click. Supports HTMX content swapping within its body/footer.
+// Also listens for a 'rz:modal-close' window event triggered by HTMX responses.
+// Dispatches lifecycle events: rz:modal-initialized, rz:modal-before-open,
+// rz:modal-after-open, rz:modal-before-close, rz:modal-after-close.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzModal', function () {
     return {
       modalOpen: false,
@@ -5515,7 +5777,7 @@ function registerComponents(Alpine) {
       _openListener: null,
       _closeEventListener: null,
       init: function init() {
-        var _this4 = this;
+        var _this = this;
         this.modalId = this.$el.dataset.modalId || '';
         this.bodyId = this.$el.dataset.bodyId || '';
         this.footerId = this.$el.dataset.footerId || '';
@@ -5538,23 +5800,23 @@ function registerComponents(Alpine) {
         // Listener for the custom window event to open the modal
         if (this.eventTriggerName) {
           this._openListener = function (e) {
-            _this4.openModal(e);
+            _this.openModal(e);
           };
           window.addEventListener(this.eventTriggerName, this._openListener);
         }
 
         // Listener for the custom window event to close the modal
         this._closeEventListener = function (event) {
-          if (_this4.modalOpen) {
-            _this4.closeModalInternally('event');
+          if (_this.modalOpen) {
+            _this.closeModalInternally('event');
           }
         };
         window.addEventListener(this.closeEventName, this._closeEventListener);
 
         // Listener for the Escape key
         this._escapeListener = function (e) {
-          if (_this4.modalOpen && _this4.closeOnEscape && e.key === 'Escape') {
-            _this4.closeModalInternally('escape');
+          if (_this.modalOpen && _this.closeOnEscape && e.key === 'Escape') {
+            _this.closeModalInternally('escape');
           }
         };
         window.addEventListener('keydown', this._escapeListener);
@@ -5566,24 +5828,24 @@ function registerComponents(Alpine) {
           var scrollBarWidth = document.body.offsetWidth - currentWidth;
           document.body.style.setProperty('--page-scrollbar-width', "".concat(scrollBarWidth, "px"));
           if (value) {
-            _this4.$nextTick(function () {
-              var dialogElement = _this4.$el.querySelector('[role="document"]');
+            _this.$nextTick(function () {
+              var dialogElement = _this.$el.querySelector('[role="document"]');
               var focusable = dialogElement === null || dialogElement === void 0 ? void 0 : dialogElement.querySelector('button, [href], input:not([type=\'hidden\']), select, textarea, [tabindex]:not([tabindex="-1"])');
               focusable === null || focusable === void 0 || focusable.focus();
               // Dispatch after-open event - Use "rz:modal-after-open"
-              _this4.$el.dispatchEvent(new CustomEvent('rz:modal-after-open', {
+              _this.$el.dispatchEvent(new CustomEvent('rz:modal-after-open', {
                 detail: {
-                  modalId: _this4.modalId
+                  modalId: _this.modalId
                 },
                 bubbles: true
               }));
             });
           } else {
-            _this4.$nextTick(function () {
+            _this.$nextTick(function () {
               // Dispatch after-close event - Use "rz:modal-after-close"
-              _this4.$el.dispatchEvent(new CustomEvent('rz:modal-after-close', {
+              _this.$el.dispatchEvent(new CustomEvent('rz:modal-after-close', {
                 detail: {
-                  modalId: _this4.modalId
+                  modalId: _this.modalId
                 },
                 bubbles: true
               }));
@@ -5657,11 +5919,25 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzPrependInput
-  // Adjusts the padding of an input element based on the width of a prepend element.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzPrependInput.js":
+/*!*************************************************!*\
+  !*** ./src/js/lib/components/rzPrependInput.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzPrependInput
+// Adjusts the padding of an input element based on the width of a prepend element.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzPrependInput', function () {
     return {
       prependContainer: null,
@@ -5697,12 +5973,26 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzProgress
-  // Implements a progress bar with dynamic percentage calculation, ARIA attributes,
-  // and methods to update, increment, or decrement progress.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzProgress.js":
+/*!*********************************************!*\
+  !*** ./src/js/lib/components/rzProgress.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzProgress
+// Implements a progress bar with dynamic percentage calculation, ARIA attributes,
+// and methods to update, increment, or decrement progress.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzProgress', function () {
     return {
       currentVal: 0,
@@ -5711,7 +6001,7 @@ function registerComponents(Alpine) {
       percentage: 0,
       label: '',
       init: function init() {
-        var _this5 = this;
+        var _this = this;
         var element = this.$el;
         // Retrieve progress values from data attributes
         this.currentVal = parseInt(element.getAttribute('data-current-val')) || 0;
@@ -5726,16 +6016,16 @@ function registerComponents(Alpine) {
         element.setAttribute('aria-valuetext', "".concat(this.percentage, "%"));
         this.updateProgressBar();
         var resizeObserver = new ResizeObserver(function (entries) {
-          _this5.updateProgressBar();
+          _this.updateProgressBar();
         });
         resizeObserver.observe(element);
 
         // Watch for changes in currentVal to update progress dynamically
         this.$watch('currentVal', function () {
-          _this5.calculatePercentage();
-          _this5.updateProgressBar();
-          element.setAttribute('aria-valuenow', _this5.currentVal);
-          element.setAttribute('aria-valuetext', "".concat(_this5.percentage, "%"));
+          _this.calculatePercentage();
+          _this.updateProgressBar();
+          element.setAttribute('aria-valuenow', _this.currentVal);
+          element.setAttribute('aria-valuetext', "".concat(_this.percentage, "%"));
         });
       },
       calculatePercentage: function calculatePercentage() {
@@ -5792,11 +6082,25 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzQuickReferenceContainer
-  // Manages the state for the quick reference sidebar, including headings and current selection.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzQuickReferenceContainer.js":
+/*!************************************************************!*\
+  !*** ./src/js/lib/components/rzQuickReferenceContainer.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzQuickReferenceContainer
+// Manages the state for the quick reference sidebar, including headings and current selection.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzQuickReferenceContainer', function () {
     return {
       headings: [],
@@ -5810,11 +6114,11 @@ function registerComponents(Alpine) {
       },
       // Handles click events on quick reference links.
       handleHeadingClick: function handleHeadingClick() {
-        var _this6 = this;
+        var _this = this;
         var id = this.$el.dataset.headingid; // Get ID from the clicked link's context
         // Use requestAnimationFrame for smoother UI update before potential scroll jump
         window.requestAnimationFrame(function () {
-          _this6.currentHeadingId = id;
+          _this.currentHeadingId = id;
         });
       },
       // Sets the current heading ID based on intersection observer events from rzHeading.
@@ -5838,95 +6142,25 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzTabs
-  // Implements tabbed navigation with keyboard support and marker repositioning.
-  // --------------------------------------------------------------------------------
-  Alpine.data('rzTabs', function () {
-    return {
-      buttonRef: null,
-      tabSelected: '',
-      tabButton: null,
-      init: function init() {
-        this.buttonRef = document.getElementById(this.$el.dataset.buttonref);
-        this.tabSelected = this.$el.dataset.tabselected;
-        this.tabButton = this.buttonRef.querySelector('[data-name=\'' + this.tabSelected + '\']');
-        this.tabRepositionMarker(this.tabButton);
-      },
-      tabButtonClicked: function tabButtonClicked(tabButton) {
-        if (tabButton instanceof Event) tabButton = tabButton.target;
-        this.tabSelected = tabButton.dataset.name;
-        this.tabRepositionMarker(tabButton);
-        tabButton.focus();
-      },
-      tabRepositionMarker: function tabRepositionMarker(tabButton) {
-        var _this7 = this;
-        this.tabButton = tabButton;
-        this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
-        this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
-        this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
-        setTimeout(function () {
-          _this7.$refs.tabMarker.style.opacity = 1;
-        }, 150);
-      },
-      // Get the CSS classes for the tab content panel based on selection
-      getTabContentCss: function getTabContentCss() {
-        return this.tabSelected === this.$el.dataset.name ? '' : 'hidden';
-      },
-      tabContentActive: function tabContentActive(tabContent) {
-        tabContent = tabContent !== null && tabContent !== void 0 ? tabContent : this.$el;
-        return this.tabSelected === tabContent.dataset.name;
-      },
-      tabButtonActive: function tabButtonActive(tabButton) {
-        tabButton = tabButton !== null && tabButton !== void 0 ? tabButton : this.$el;
-        return this.tabSelected === tabButton.dataset.name;
-      },
-      // Get the value for the aria-selected attribute
-      getTabButtonAriaSelected: function getTabButtonAriaSelected() {
-        return this.tabSelected === this.$el.dataset.name ? 'true' : 'false';
-      },
-      // Get the CSS classes for the tab button text color based on selection
-      getSelectedTabTextColorCss: function getSelectedTabTextColorCss() {
-        var _this$$el$dataset$sel;
-        var color = (_this$$el$dataset$sel = this.$el.dataset.selectedtextcolor) !== null && _this$$el$dataset$sel !== void 0 ? _this$$el$dataset$sel : '';
-        return this.tabSelected === this.$el.dataset.name ? color : '';
-      },
-      handleResize: function handleResize() {
-        this.tabRepositionMarker(this.tabButton);
-      },
-      handleKeyDown: function handleKeyDown(event) {
-        var _this8 = this;
-        var key = event.key;
-        var tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
-        var currentIndex = tabButtons.findIndex(function (button) {
-          return _this8.tabSelected === button.dataset.name;
-        });
-        var newIndex = currentIndex;
-        if (key === 'ArrowRight') {
-          newIndex = (currentIndex + 1) % tabButtons.length;
-          event.preventDefault();
-        } else if (key === 'ArrowLeft') {
-          newIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
-          event.preventDefault();
-        } else if (key === 'Home') {
-          newIndex = 0;
-          event.preventDefault();
-        } else if (key === 'End') {
-          newIndex = tabButtons.length - 1;
-          event.preventDefault();
-        }
-        if (newIndex !== currentIndex) {
-          this.tabButtonClicked(tabButtons[newIndex]);
-        }
-      }
-    };
-  });
+/***/ }),
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzSidebar
-  // Controls the visibility and animation of a collapsible sidebar.
-  // --------------------------------------------------------------------------------
+/***/ "./src/js/lib/components/rzSidebar.js":
+/*!********************************************!*\
+  !*** ./src/js/lib/components/rzSidebar.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzSidebar
+// Controls the visibility and animation of a collapsible sidebar.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzSidebar', function () {
     return {
       showSidebar: false,
@@ -5945,11 +6179,25 @@ function registerComponents(Alpine) {
       }
     };
   });
+}
 
-  // --------------------------------------------------------------------------------
-  // Alpine.js component: rzSidebarLinkItem
-  // Manages individual sidebar link items, including collapsible behavior.
-  // --------------------------------------------------------------------------------
+/***/ }),
+
+/***/ "./src/js/lib/components/rzSidebarLinkItem.js":
+/*!****************************************************!*\
+  !*** ./src/js/lib/components/rzSidebarLinkItem.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzSidebarLinkItem
+// Manages individual sidebar link items, including collapsible behavior.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
   Alpine.data('rzSidebarLinkItem', function () {
     return {
       isExpanded: false,
@@ -5988,6 +6236,103 @@ function registerComponents(Alpine) {
   });
 }
 
+/***/ }),
+
+/***/ "./src/js/lib/components/rzTabs.js":
+/*!*****************************************!*\
+  !*** ./src/js/lib/components/rzTabs.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// --------------------------------------------------------------------------------
+// Alpine.js component: rzTabs
+// Implements tabbed navigation with keyboard support and marker repositioning.
+// --------------------------------------------------------------------------------
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
+  Alpine.data('rzTabs', function () {
+    return {
+      buttonRef: null,
+      tabSelected: '',
+      tabButton: null,
+      init: function init() {
+        this.buttonRef = document.getElementById(this.$el.dataset.buttonref);
+        this.tabSelected = this.$el.dataset.tabselected;
+        this.tabButton = this.buttonRef.querySelector('[data-name=\'' + this.tabSelected + '\']');
+        this.tabRepositionMarker(this.tabButton);
+      },
+      tabButtonClicked: function tabButtonClicked(tabButton) {
+        if (tabButton instanceof Event) tabButton = tabButton.target;
+        this.tabSelected = tabButton.dataset.name;
+        this.tabRepositionMarker(tabButton);
+        tabButton.focus();
+      },
+      tabRepositionMarker: function tabRepositionMarker(tabButton) {
+        var _this = this;
+        this.tabButton = tabButton;
+        this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
+        this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
+        this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
+        setTimeout(function () {
+          _this.$refs.tabMarker.style.opacity = 1;
+        }, 150);
+      },
+      // Get the CSS classes for the tab content panel based on selection
+      getTabContentCss: function getTabContentCss() {
+        return this.tabSelected === this.$el.dataset.name ? '' : 'hidden';
+      },
+      tabContentActive: function tabContentActive(tabContent) {
+        tabContent = tabContent !== null && tabContent !== void 0 ? tabContent : this.$el;
+        return this.tabSelected === tabContent.dataset.name;
+      },
+      tabButtonActive: function tabButtonActive(tabButton) {
+        tabButton = tabButton !== null && tabButton !== void 0 ? tabButton : this.$el;
+        return this.tabSelected === tabButton.dataset.name;
+      },
+      // Get the value for the aria-selected attribute
+      getTabButtonAriaSelected: function getTabButtonAriaSelected() {
+        return this.tabSelected === this.$el.dataset.name ? 'true' : 'false';
+      },
+      // Get the CSS classes for the tab button text color based on selection
+      getSelectedTabTextColorCss: function getSelectedTabTextColorCss() {
+        var _this$$el$dataset$sel;
+        var color = (_this$$el$dataset$sel = this.$el.dataset.selectedtextcolor) !== null && _this$$el$dataset$sel !== void 0 ? _this$$el$dataset$sel : '';
+        return this.tabSelected === this.$el.dataset.name ? color : '';
+      },
+      handleResize: function handleResize() {
+        this.tabRepositionMarker(this.tabButton);
+      },
+      handleKeyDown: function handleKeyDown(event) {
+        var _this2 = this;
+        var key = event.key;
+        var tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
+        var currentIndex = tabButtons.findIndex(function (button) {
+          return _this2.tabSelected === button.dataset.name;
+        });
+        var newIndex = currentIndex;
+        if (key === 'ArrowRight') {
+          newIndex = (currentIndex + 1) % tabButtons.length;
+          event.preventDefault();
+        } else if (key === 'ArrowLeft') {
+          newIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
+          event.preventDefault();
+        } else if (key === 'Home') {
+          newIndex = 0;
+          event.preventDefault();
+        } else if (key === 'End') {
+          newIndex = tabButtons.length - 1;
+          event.preventDefault();
+        }
+        if (newIndex !== currentIndex) {
+          this.tabButtonClicked(tabButtons[newIndex]);
+        }
+      }
+    };
+  });
+}
 
 /***/ }),
 
