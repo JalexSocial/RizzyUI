@@ -74,7 +74,7 @@ public static class StaticResourcesInfoProviderExtensions
 
         AddWebResources(provider, env.WebRootPath, string.Empty);
         AddVirtualResources(provider, env, "/_content/RizzyUI");
-        AddVirtualResources(provider, env, "/_content/Rizzy");
+        AddVirtualResources(provider, env, "/_content/Rizzy/js");
 
         return provider;
     }

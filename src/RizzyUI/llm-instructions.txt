@@ -497,84 +497,289 @@ All user-facing strings within components (default labels, ARIA labels, titles, 
 
 ## 10. Alpine.js Integration & Asset Bundling
 
-*   **Alpine Child-Container Convention:** If the component uses Alpine.js for interactivity, the root element in the `.razor` file (e.g., `<HtmlElement>`) MUST contain a direct child `<div>` with the following attributes:
+## 10. Alpine.js Integration & Asset Bundling
+
+RizzyUI components that require client-side interactivity leverage Alpine.js. The integration follows a specific pattern for defining components, managing their assets, and ensuring CSP compliance.
+
+*   **Alpine Child-Container Convention (in `.razor` file):**
+    If a RizzyUI component uses Alpine.js, its root `<HtmlElement>` in the `.razor` file MUST contain a direct child `<div>` with the following attributes. This `div` serves as the root for the Alpine component.
     ```razor
-    <HtmlElement ...>
-        <div data-alpine-root="@Id"
-             x-data="rzFancyThing" @* 'rzFancyThing' should match the Alpine component name *@
-             data-assets="@_assets" @* Serialized JSON string of asset URLs *@
-             data-nonce="@Nonce">
-            @* Interactive content, x-ref, x-on:, :class, etc. goes here *@
+    <HtmlElement Element="@EffectiveElement" id="@Id" class="@RootClass()" @attributes="@AdditionalAttributes">
+        <div data-alpine-root="@Id" @* Crucial: Must match the Blazor component's @Id *@
+             x-data="rzFancyThing"   @* Alpine component name, e.g., 'rzComponentName' *@
+             data-assets="@_assets"   @* Serialized JSON string of asset URLs for this component *@
+             data-nonce="@Nonce">     @* CSP nonce for inline scripts/styles loaded by this component *@
+            @* Alpine-interactive content, x-ref, x-on:, :class, etc. goes here *@
         </div>
     </HtmlElement>
     ```
-    *   `data-alpine-root` MUST exactly equal the component's `@Id`.
-    *   `x-data` MUST reference the corresponding Alpine component name (e.g., `rzComponentName`).
-    *   `data-assets` (see below) and `data-nonce` are crucial for dynamic asset loading and CSP.
+    *   `data-alpine-root="@Id"`: This attribute is **essential**. It MUST exactly match the Blazor component's `@Id`. It's used by the `Rizzy.$data()` helper to locate the Alpine component's scope.
+    *   `x-data="rzComponentName"`: Specifies the name of the Alpine.js component to initialize on this `div`. The name should follow the `rzComponentName` convention.
+    *   `data-assets="@_assets"`: A JSON stringified array of asset URLs (JavaScript/CSS) that this specific Alpine component instance needs. This is populated from the C# code-behind.
+    *   `data-nonce="@Nonce"`: The CSP nonce value, passed from the C# `RzComponent` base. This is used by the `require` utility to load assets in a CSP-compliant manner.
 
-*   **Asset Declaration (`.razor.cs`):**
-    *   Define a `public static readonly string[] DefaultAssets` array in the component's code-behind.
-    *   Populate it with URLs to necessary JS/CSS files. Use `Constants.ContentUrl("path/to/asset.js")` for library-internal assets.
+*   **Asset Declaration (in `.razor.cs` file):**
+    *   Each Blazor component that uses an Alpine module should define a `public static readonly string[] DefaultAssets` array. This array lists the URLs of JavaScript or CSS files required by its Alpine counterpart.
+    *   Use `Constants.ContentUrl("path/to/asset.js")` for assets internal to the RizzyUI library.
         ```csharp
+        // In RzFancyThing.razor.cs
         public static readonly string[] DefaultAssets =
         {
-            Constants.ContentUrl("js/lib/some-dependency.js"), // Example
-            Constants.ContentUrl("js/rzfancything-alpine-module.js") // If module is separate
+            Constants.ContentUrl("js/lib/some-dependency.js"), // Example third-party lib
+            // If the Alpine module itself is in a separate file (less common now):
+            // Constants.ContentUrl("js/rzfancymodule.js")
         };
-        // Or if no assets: public static readonly string[] DefaultAssets = Array.Empty<string>();
+        // If no external assets are needed by the Alpine component:
+        // public static readonly string[] DefaultAssets = Array.Empty<string>();
         ```
-    *   In `OnInitialized()` or `OnParametersSet()`, serialize this array to a private string field (e.g., `_assets`):
+    *   In the `OnInitialized()` or `OnParametersSet()` method of the Blazor component, serialize this `DefaultAssets` array (or a dynamically determined `ComponentAssets` parameter) into a private string field (e.g., `_assets`). This `_assets` field is then bound to the `data-assets` attribute in the Razor markup.
         ```csharp
-        _assets = System.Text.Json.JsonSerializer.Serialize(ComponentAssets ?? DefaultAssets);
+        // In RzFancyThing.razor.cs
+        private string _assets = string.Empty; // Backing field for data-assets
+
+        [Parameter] public string[] ComponentAssets { get; set; } // Allow overriding default assets
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            // Serialize assets for the Alpine component
+            _assets = System.Text.Json.JsonSerializer.Serialize(ComponentAssets ?? DefaultAssets);
+        }
         ```
 
-*   **Alpine Component Definition & Asset Loading (JavaScript):**
-    *   New Alpine component logic (`Alpine.data('rzFancyThing', ...`) should be defined in `packages/rizzyui/src/js/lib/components.js`.
-    *   Within the Alpine component's `init()` function:
-        1.  Parse `this.$el.dataset.assets` (the JSON string from `data-assets`).
-        2.  Parse `this.$el.dataset.nonce` (the string from `data-nonce`).
-        3.  Use the `require(assets, { success: callback, error: errCallback }, nonce)` function (from `components.js`) to load these assets.
-        4.  Place the actual Alpine initialization logic (event listeners, watches, etc.) inside the `success` callback of `require`.
-        ```javascript
-        // In packages/rizzyui/src/js/lib/components.js
-        // Make sure 'require' is imported or available in this scope
+*   **Alpine Component Definition (Individual JavaScript File):**
+    *   Each new Alpine component (e.g., `rzFancyThing`) MUST have its logic defined in a **new, separate JavaScript file**.
+    *   Location: `packages/rizzyui/src/js/lib/components/rzFancyThing.js` (replace `rzFancyThing` with the actual component name).
+    *   This file MUST export a default function.
+        *   The first argument to this function will always be the `Alpine` instance.
+        *   If the component needs to dynamically load assets (using the `data-assets` attribute), the function should accept `require` as a second argument. This `require` is the `rizzyRequire` utility provided by `components.js`.
+    *   Inside this exported function, the Alpine component is defined using `Alpine.data('rzFancyThing', () => ({ /* component logic */ }));`. The name used here (e.g., `'rzFancyThing'`) MUST match the `x-data` attribute in the Razor markup.
+    *   The `init()` method within the Alpine data object is typically responsible for:
+        1.  Retrieving `assetsToLoad` by parsing `this.$el.dataset.assets`.
+        2.  Retrieving `nonce` from `this.$el.dataset.nonce`.
+        3.  If `assetsToLoad` is not empty and the `require` function was passed in, call `require(assetsToLoad, { success: callback, error: errCallback }, nonce)`.
+        4.  Place any Alpine initialization logic that *depends* on these external assets (e.g., initializing a third-party library like Flatpickr or Highlight.js) inside the `success` callback of `require`.
+        5.  Other initialization logic (e.g., setting up internal state, watchers) can be placed directly in `init()` or in a separate method called from `init()` (either before or after `require`, or within its callbacks, as appropriate).
+
+    **Example: `packages/rizzyui/src/js/lib/components/rzFancyThing.js`**
+    ```javascript
+    // This component demonstrates conditional asset loading.
+    // If data-assets is empty or 'require' is not provided, it proceeds without loading.
+    export default function(Alpine, require) { // 'require' is optional here
         Alpine.data('rzFancyThing', () => ({
-            someProperty: '',
-            init() {
-                const assets = JSON.parse(this.$el.dataset.assets || '[]');
-                const nonce = this.$el.dataset.nonce || '';
-                const self = this; // To retain 'this' context in callbacks
+            someProperty: 'initialValue',
+            assetsLoaded: false,
 
-                require(assets, {
-                    success: function() {
-                        // Asset-dependent initialization logic here
-                        // e.g., if an asset was Flatpickr: window.flatpickr(self.$refs.input, {});
-                        console.log('Assets for rzFancyThing loaded.');
-                        self.setupInteractivity();
-                    },
-                    error: function(err) {
-                        console.error('Failed to load assets for rzFancyThing:', err);
-                    }
-                }, nonce);
+            init() {
+                const assetsToLoad = JSON.parse(this.$el.dataset.assets || '[]');
+                const nonce = this.$el.dataset.nonce || '';
+                const self = this; // Retain 'this' context for callbacks
+
+                // Example: Read an initial value from a data attribute
+                this.someProperty = this.$el.dataset.initialFancyValue || 'default fancy value';
+
+                if (assetsToLoad.length > 0 && typeof require === 'function') {
+                    console.log(`rzFancyThing (${this.$el.id}): Attempting to load assets:`, assetsToLoad);
+                    require(assetsToLoad, {
+                        success: function() {
+                            console.log(`rzFancyThing (${self.$el.id}): Assets loaded successfully.`);
+                            self.assetsLoaded = true;
+                            // Example: Initialize a library if 'some-library.js' was loaded
+                            // if (window.SomeLibrary) {
+                            //     self.libraryInstance = new window.SomeLibrary(self.$el.querySelector('.target-for-lib'));
+                            // }
+                            self.setupInteractivity(); // Call main logic after assets
+                        },
+                        error: function(err) {
+                            console.error(`rzFancyThing (${self.$el.id}): Failed to load assets.`, err);
+                            // Decide if setupInteractivity should still run or if it's critical
+                            self.setupInteractivity(); // Or handle error state
+                        }
+                    }, nonce);
+                } else {
+                    // No assets to load, or 'require' function not available/needed by this component.
+                    // Proceed with non-asset-dependent setup.
+                    console.log(`rzFancyThing (${this.$el.id}): No assets to load or require not provided.`);
+                    self.setupInteractivity();
+                }
             },
+
             setupInteractivity() {
-                // Main Alpine logic that runs after assets are loaded
-                // Example: this.someProperty = this.$el.dataset.initialValue;
+                // Main Alpine logic that runs (potentially after assets are loaded)
+                console.log(`rzFancyThing (${this.$el.id}): Setting up interactivity. Current someProperty:`, this.someProperty);
+                
+                // Example: Watch for changes to 'someProperty'
+                // this.$watch('someProperty', (value) => {
+                //    console.log(`rzFancyThing (${this.$el.id}): someProperty changed to:`, value);
+                // });
+            },
+
+            updateFancyProperty(newValue) {
+                this.someProperty = newValue;
             }
-            // ... other methods and properties
+            // ... other methods and properties for rzFancyThing
         }));
-        ```
+    }
+    ```
+
+*   **Alpine Component Registration (in `packages/rizzyui/src/js/lib/components.js`):**
+    *   The newly created component registration function (e.g., `registerRzFancyThing` which is the default export from `rzFancyThing.js`) MUST be imported into `packages/rizzyui/src/js/lib/components.js`.
+    *   It must then be called within the `registerComponents(Alpine)` function in `components.js`. Pass the `Alpine` instance. If the component's registration function (e.g., `export default function(Alpine, require)`) expects the `require` utility, pass `rizzyRequire` (which is `loadjs` aliased as `require` in this file) as the second argument.
+
+    **Example: Modifying `packages/rizzyui/src/js/lib/components.js`**
+    ```javascript
+    // packages/rizzyui/src/js/lib/components.js
+    import loadjs from "./loadjs/loadjs.js"; // Underlying asset loader
+
+    // ... other existing component imports ...
+    import registerRzAccordion from './components/rzAccordion.js';
+    import registerRzFancyThing from './components/rzFancyThing.js'; // <-- NEW IMPORT
+
+    // ... (rizzyRequire function definition using loadjs) ...
+    // async function generateBundleId(paths) { ... }
+    // function rizzyRequire(paths, callbackFn, nonce) { ... }
+
+
+    function registerComponents(Alpine) {
+        // ... other existing component registrations ...
+        registerRzAccordion(Alpine); // Example of a component not needing 'require'
+        
+        // Register the new component.
+        // Pass 'rizzyRequire' if its definition function expects it.
+        registerRzFancyThing(Alpine, rizzyRequire); // <-- NEW REGISTRATION
+    }
+
+    export { registerComponents, rizzyRequire as require };
+    ```
+
 
 ---
 
 ## 11. Unit tests (bUnit) (IMPORTANT: ONLY ON REQUEST)
 
-* Render the component and assert:
-    * Presence of `data-alpine-root="@Id"` if an `x-data` section is utilized.
-    * Correct JSON in `data-assets` if assets are used (verify `_assets` field after rendering).
-    * Correct classes after parameter updates using `MarkupMatches`.
-    * Correct ARIA attributes are present and have expected (or default localized) values.
-    * Test behavior by invoking event handlers if applicable.
+When unit tests are specifically requested for a new or modified component, they should be generated using bUnit and adhere to the following guidelines. Tests ensure component correctness, accessibility, and integration with the RizzyUI theme system and Alpine.js patterns.
+
+*   **File Location and Naming:**
+    *   Test files should reside in the `src/RizzyUI.Tests/Components/` directory, mirroring the component's path under `src/RizzyUI/Components/`.
+    *   Example: For `src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor`, the test file would be `src/RizzyUI.Tests/Components/Fancy/RzFancyThingTests.cs`.
+    *   Use file-scoped namespaces matching the directory structure within the test project (e.g., `namespace RizzyUI.Tests.Components.Fancy;`).
+
+*   **Test Class Structure:**
+    *   Test classes MUST inherit from `BunitAlbaContext`.
+    *   Test classes MUST implement `IClassFixture<WebAppFixture>`.
+    *   The constructor MUST accept a `WebAppFixture` parameter and pass it to the `base(fixture)` constructor.
+    *   The `WebAppFixture` (via `BunitAlbaContext`) handles the setup of essential services like `IHttpContextAccessor`, `IRizzyNonceProvider`, and automatically calls `AddRizzyUI()`, which registers `TwMerge` and the default `RzTheme`.
+
+    ```csharp
+    // Example: src/RizzyUI.Tests/Components/Fancy/RzFancyThingTests.cs
+    using Bunit;
+    using Microsoft.AspNetCore.Components; // For RenderFragment, etc.
+    using RizzyUI.Components.Fancy.RzFancyThing; // Import the component being tested
+    // Add other necessary using statements (e.g., Blazicons, System.Linq.Expressions)
+
+    namespace RizzyUI.Tests.Components.Fancy; // File-scoped namespace
+
+    public class RzFancyThingTests : BunitAlbaContext, IClassFixture<WebAppFixture>
+    {
+        // private readonly IAlbaHost _host; // Only needed if testing HTTP interactions via Alba
+
+        public RzFancyThingTests(WebAppFixture fixture) : base(fixture)
+        {
+            // _host = fixture.Host; // Store if needed for Alba HTTP tests
+            // Services.AddRizzyUI(); // This is ALREADY CALLED by WebAppFixture, no need to call again.
+        }
+
+        // ... Test methods ...
+    }
+    ```
+
+*   **Test Method Guidelines (`[Fact]` or `[Theory]`):**
+
+    1.  **Default Render Test:**
+        *   Render the component with minimal or no parameters (or only required ones like `Id`).
+        *   Assert the root element exists and has the correct default tag (e.g., `div` unless overridden).
+        *   Verify the `Id` is correctly applied.
+        *   Assert that `RootClass()` applies the expected base classes from the theme's style provider.
+        *   Assert default ARIA attributes (e.g., `role`, default `aria-label` if applicable from localization).
+        *   If the component uses Alpine.js:
+            *   Assert the presence of the Alpine child-container (`div[data-alpine-root='@Id']`).
+            *   Assert `x-data` attribute matches the component's Alpine module name.
+            *   Assert `data-assets` attribute is present and contains the JSON serialized `DefaultAssets` from the component's `.razor.cs`.
+            *   Assert `data-nonce` attribute is present.
+
+    2.  **Parameter Variation Tests:**
+        *   For each significant parameter, create tests to verify its effect on rendering.
+        *   **CSS Classes:** Use `cut.Find("selector").ClassList.Contains("expected-class")` or `cut.Find("selector").Should().HaveClass("expected-class")` (if using FluentAssertions with bUnit extensions). Verify that dynamic style provider methods (e.g., `GetSizeCss`, `GetVariantCss`) are correctly applying classes.
+        *   **ARIA Attributes:** Assert that ARIA attributes change correctly based on parameters (e.g., `aria-expanded`, `aria-pressed`, `aria-current`).
+        *   **Conditional Rendering:** Assert elements are rendered or hidden based on boolean parameters (e.g., `ShowIcon`, `Dismissable`).
+        *   **Content Parameters:**
+            *   Test `Label` parameter vs. `ChildContent` precedence if applicable.
+            *   Verify `RenderFragment` parameters like `ChildContent`, `LeadingIcon`, `TrailingIcon`, `HeaderContent`, `FooterContent` are rendered correctly.
+            *   For icons (`SvgIcon?`), assert that `<Blazicon Svg="@IconParameter" ... />` is rendered with appropriate classes and `aria-hidden="true"` if decorative.
+
+    3.  **Accessibility Tests:**
+        *   Explicitly verify that `AriaLabel` parameter, when set, overrides any default.
+        *   Verify that if `AriaLabel` is *not* set, the component applies a default localized ARIA label (retrieved via `Localizer["ComponentName.DefaultAriaLabel"]`).
+        *   Check for other critical ARIA attributes relevant to the component's role.
+
+    4.  **Interaction Tests (if applicable):**
+        *   For interactive components (e.g., buttons, toggles), simulate user actions:
+            *   `cut.Find("button").Click()`
+            *   `cut.Find("input").Change("new value")`
+        *   Assert that `EventCallback` parameters are invoked.
+        *   Assert that component state (if exposed or reflected in markup/ARIA) changes as expected.
+
+    5.  **Styling and `AdditionalAttributes`:**
+        *   Verify that classes passed via `AdditionalAttributes` (e.g., `<RzFancyThing class="my-custom-style">`) are correctly merged into the root element's class list by `RootClass()` and `TwMerge`.
+        *   Verify other `AdditionalAttributes` are passed through to the root element.
+
+    6.  **Localization of Defaults:**
+        *   Test that default text values (e.g., for `AriaLabel`, `Placeholder`, `Title` if not provided by user) are correctly sourced from `Localizer["ComponentName.ResourceKey"]`.
+
+*   **bUnit Assertions:**
+    *   Use `cut.Find("css-selector")` to locate elements.
+    *   Use `element.MarkupMatches("expected html")` for precise structural and attribute checks. Use `diff.MissingAttributes` or `diff.MissingChildren` from the diff result for debugging.
+    *   Use `element.ClassList` for asserting CSS classes.
+    *   Use `element.GetAttribute("attribute-name")` for asserting attribute values.
+    *   Use `cut.Instance` to access the component instance's properties and methods if needed (e.g., to check the `_assets` field).
+
+*   **Example Test Snippet (Default Render with Alpine):**
+    ```csharp
+    [Fact]
+    public void DefaultRender_ShouldRenderCorrectAlpineAttributesAndBaseClasses()
+    {
+        // Arrange
+        var expectedId = "fancy-default-alpine";
+        var expectedDefaultLabel = Localizer["RzFancyThing.DefaultAriaLabel"].Value; // Get localized default
+
+        // Act
+        var cut = RenderComponent<RzFancyThing>(parameters => parameters
+            .Add(p => p.Id, expectedId)
+        );
+
+        // Assert - Root Element
+        var rootElement = cut.Find($"div#{expectedId}"); // Assuming default Element is "div"
+        Assert.NotNull(rootElement);
+        Assert.Equal(expectedDefaultLabel, rootElement.GetAttribute("aria-label"));
+        // Example: Assert base class from theme (actual class depends on RzFancyThingStyles.Container)
+        // Assert.Contains("fancy-thing-base-class", rootElement.ClassList);
+
+        // Assert - Alpine Child Container
+        var alpineRoot = cut.Find($"div[data-alpine-root='{expectedId}']");
+        Assert.NotNull(alpineRoot);
+        Assert.Equal("rzFancyThing", alpineRoot.GetAttribute("x-data")); // Matches Alpine component name
+        
+        // Assert data-assets
+        var expectedAssetsJson = System.Text.Json.JsonSerializer.Serialize(RzFancyThing.DefaultAssets);
+        Assert.Equal(expectedAssetsJson, alpineRoot.GetAttribute("data-assets"));
+        
+        // Assert data-nonce (presence is usually enough, value is dynamic)
+        Assert.NotNull(alpineRoot.GetAttribute("data-nonce"));
+    }
+    ```
+
+*   **Output Format:**
+    *   When tests are requested, the generated `.cs` test file(s) should be included within the `<files>` block of the ````output ... ```` section, just like component files.
 
 ---
 
@@ -589,16 +794,28 @@ When asked to generate *RzFancyThing*, your response **must** contain an `output
   <file path="src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor.cs">…</file>
   <file path="src/RizzyUI/Components/Fancy/RzFancyThing/Styling/DefaultRzFancyThingStyles.cs">…</file>
   @* If new Alpine module needed and LLM is instructed to generate JS: *@
-  @* <file path="packages/rizzyui/src/js/lib/components.js">
-    // Append the new Alpine.data('rzFancyThing', ...) to existing content.
-    // LLM should indicate this is an APPEND operation.
-    // ... existing content ...
-    Alpine.data('rzFancyThing', () => ({ /* ... */ }));
-  </file> *@
+  <file path="packages/rizzyui/src/js/lib/components/rzFancyThing.js">
+    // Content of the new rzFancyThing.js file
+    // Example:
+    // export default function(Alpine, require) { // 'require' is optional
+    //     Alpine.data('rzFancyThing', () => ({
+    //         // ... component logic ...
+    //         init() {
+    //             const assets = JSON.parse(this.$el.dataset.assets || '[]');
+    //             const nonce = this.$el.dataset.nonce || '';
+    //             if (assets.length > 0 && typeof require === 'function') {
+    //                 require(assets, { /* callbacks */ }, nonce);
+    //             } else {
+    //                 this.setupInteractivity();
+    //             }
+    //         },
+    //         setupInteractivity() { /* main logic */ }
+    //     }));
+    // }
+  </file>
 </files>
 ```
 ````
-*(Note on JS output: If providing JS, clearly state if it's a new file or an append/modification to `components.js`. For simplicity, initially focus on Razor/C# generation; JS generation can be a separate, more complex step.)*
 
 ---
 
@@ -612,10 +829,10 @@ Never embed these edits in `<file>` tags because CI merges them manually.
 
 ## 14. Theme integration & Localization (cross-file edits the LLM must describe)
 
-Whenever a new style provider (e.g., `RzFancyThingStylesBase` and its default implementation) is introduced, or new localizable strings are needed, instruct the user accordingly:
+Whenever a new style provider (e.g., `RzFancyThingStylesBase` and its default implementation) is introduced, or new localizable strings are needed, or a new JavaScript Alpine component is created, instruct the user accordingly:
 
 ````markdown
-**Manual Edits Required for Theme Integration & Localization:**
+**Manual Edits Required for Theme, Localization, and JavaScript Integration:**
 
 **Theme Integration:**
 
@@ -663,6 +880,28 @@ Alternatively, in raw .resx XML format:
   <comment>Placeholder for RzFancyThing input</comment>
 </data>
 ```
+
+**JavaScript Integration (if new Alpine component `rzFancyThing` was created in `packages/rizzyui/src/js/lib/components/rzFancyThing.js`):**
+
+1.  **Modify `packages/rizzyui/src/js/lib/components.js`**:
+    *   Add an import statement for your new component module at the top of the file:
+        ```javascript
+        // ... other existing component imports ...
+        import registerRzFancyThing from './components/rzFancyThing.js'; 
+        ```
+    *   Call the imported registration function within the `registerComponents(Alpine)` function:
+        ```javascript
+        function registerComponents(Alpine) {
+            // ... other existing component registrations ...
+            
+            // Register the new RzFancyThing component.
+            // Pass 'rizzyRequire' as the second argument if your 
+            // rzFancyThing.js's exported function expects 'require'.
+            registerRzFancyThing(Alpine, rizzyRequire); 
+            // If rzFancyThing.js does not use 'require', call it as:
+            // registerRzFancyThing(Alpine); 
+        }
+        ```
 ````
 
 ---
