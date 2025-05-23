@@ -8,7 +8,7 @@ namespace RizzyUI.Tests;
 public abstract class BunitAlbaContext : TestContext, IAsyncLifetime
 {
     private readonly WebAppFixture _fixture;
-    private IServiceScope _scope;
+    private IServiceScope? _scope;
 
     protected BunitAlbaContext(WebAppFixture fixture)
     {
@@ -31,7 +31,7 @@ public abstract class BunitAlbaContext : TestContext, IAsyncLifetime
 
     public Task DisposeAsync()
     {
-        _scope.Dispose();
+        _scope?.Dispose();
         
         return Task.CompletedTask;
     }
