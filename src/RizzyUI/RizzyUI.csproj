@@ -56,9 +56,15 @@
         <ClientPackageDir>$(MSBuildProjectDirectory)/../../packages</ClientPackageDir>
         <!-- Define a stamp file to track installation -->
         <NodeModulesStampFile>/node_modules/.install-stamp</NodeModulesStampFile>
+
+        <_RunOnce Condition="'$(IsCrossTargetingBuild)' == 'true' or '$(TargetFrameworks)' == ''">true</_RunOnce>        
     </PropertyGroup>
 
-    <Target Name="InstallClientPackages" BeforeTargets="BuildClientAssets" Inputs="$(ClientPackageDir)/rizzyui/package.json;$(ClientPackageDir)/rizzyui/package-lock.json" Outputs="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)">
+    <Target Name="InstallClientPackages"
+            Condition="'$(_RunOnce)' == 'true'"
+            BeforeTargets="DispatchToInnerBuilds"
+            Inputs="$(ClientPackageDir)/rizzyui/package.json;$(ClientPackageDir)/rizzyui/package-lock.json"
+            Outputs="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)">
 
         <Message Text="Ensuring npm packages are installed in $(ClientPackageDir)..." Importance="high" />
         <!-- WorkingDirectory uses the property defined above -->
@@ -68,17 +74,22 @@
 
     </Target>
 
-    <Target Name="BuildClientAssets" BeforeTargets="Build">
+    <Target Name="BuildClientAssets"
+            Condition="'$(_RunOnce)' == 'true'"
+            DependsOnTargets="InstallClientPackages"
+            BeforeTargets="DispatchToInnerBuilds">
         <!-- This target now implicitly depends on InstallClientPackages running first if needed -->
         <Message Text="Building client assets in $(ClientPackageDir)/rizzyui..." Importance="high" />
-        
+
         <Exec Command="npm run build" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
     </Target>
 
-    <Target Name="LLM" AfterTargets="Build">
+    <Target Name="LLM"
+            Condition="'$(_RunOnce)' == 'true'"
+            AfterTargets="Build">
         <Exec Command="npm run llm" />
     </Target>
-
+    
     <ItemGroup>
         <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
         <None Include="..\..\README.md" Pack="true" PackagePath="\" />
