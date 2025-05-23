@@ -1,7 +1,4 @@
 using Bunit;
-using Microsoft.Extensions.DependencyInjection;
-using RizzyUI.Extensions;
-using Xunit;
 
 namespace RizzyUI.Tests.Components.Display
 {
@@ -67,7 +64,7 @@ namespace RizzyUI.Tests.Components.Display
             // Assert
             var avatar = cut.Find($"div#{expectedId}");
             Assert.NotNull(avatar);
-            
+
             // Find the initials container div and check its text content
             var initialsContainer = cut.Find(".initialsContainer");
             Assert.Contains(initials, initialsContainer.TextContent);
@@ -130,10 +127,10 @@ namespace RizzyUI.Tests.Components.Display
             // Assert
             var avatar = cut.Find($"div#{expectedId}");
             Assert.NotNull(avatar);
-            
+
             // Check the aria-label attribute for the display name
             Assert.Equal(displayName, avatar.Attributes["aria-label"]?.Value);
-            
+
             // Also check the alt text on the image
             var img = cut.Find("img");
             Assert.Equal(displayName, img.Attributes["alt"]?.Value);

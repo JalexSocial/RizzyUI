@@ -52,7 +52,7 @@ public partial class RzArticle : RzComponent
     }
 
     /// <inheritdoc />
-     protected override void OnParametersSet()
+    protected override void OnParametersSet()
     {
         base.OnParametersSet();
         // Ensure default is applied if parameter becomes null after initialization

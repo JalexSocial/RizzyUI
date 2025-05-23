@@ -14,7 +14,7 @@ public partial class RzLink : RzComponent
 {
     /// <summary> Gets or sets the URL to which the link navigates. If null or empty, defaults to "#". </summary>
     [Parameter]
-    public string? Href { get; set; } 
+    public string? Href { get; set; }
 
     /// <summary> Gets or sets whether the link should be underlined on hover and focus. Defaults to true. </summary>
     [Parameter]
@@ -30,7 +30,7 @@ public partial class RzLink : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (string.IsNullOrEmpty(Element))
             Element = "a"; // Set the root element tag to <a> for links
     }

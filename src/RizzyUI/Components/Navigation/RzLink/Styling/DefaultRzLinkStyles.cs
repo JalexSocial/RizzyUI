@@ -5,11 +5,11 @@ namespace RizzyUI;
 /// </summary>
 public class DefaultRzLinkStyles : RzStylesBase.RzLinkStylesBase
 {
-	/// <summary>
-	///     Initializes a new instance of the <see cref="DefaultRzLinkStyles" /> class.
-	/// </summary>
-	/// <param name="theme">The theme instance providing styling context.</param>
-	public DefaultRzLinkStyles(RzTheme theme) : base(theme)
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefaultRzLinkStyles" /> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultRzLinkStyles(RzTheme theme) : base(theme)
     {
     }
 

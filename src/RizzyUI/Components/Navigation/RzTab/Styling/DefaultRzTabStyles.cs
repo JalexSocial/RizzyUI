@@ -44,9 +44,18 @@ public class DefaultRzTabStripStyles : RzStylesBase.RzTabStripStylesBase
     {
         return tabCount switch
         {
-            1 => "grid-cols-1", 2 => "grid-cols-2", 3 => "grid-cols-3", 4 => "grid-cols-4",
-            5 => "grid-cols-5", 6 => "grid-cols-6", 7 => "grid-cols-7", 8 => "grid-cols-8",
-            9 => "grid-cols-9", 10 => "grid-cols-10", 11 => "grid-cols-11", 12 => "grid-cols-12",
+            1 => "grid-cols-1",
+            2 => "grid-cols-2",
+            3 => "grid-cols-3",
+            4 => "grid-cols-4",
+            5 => "grid-cols-5",
+            6 => "grid-cols-6",
+            7 => "grid-cols-7",
+            8 => "grid-cols-8",
+            9 => "grid-cols-9",
+            10 => "grid-cols-10",
+            11 => "grid-cols-11",
+            12 => "grid-cols-12",
             _ => "grid-cols-1" // Fallback or handle more if needed
         };
     }
@@ -56,8 +65,11 @@ public class DefaultRzTabStripStyles : RzStylesBase.RzTabStripStylesBase
     {
         return spaceBetween switch
         {
-            Size.ExtraSmall => "gap-0", Size.Small => "gap-1", Size.Medium => "gap-2",
-            Size.Large => "gap-3", Size.ExtraLarge => "gap-4",
+            Size.ExtraSmall => "gap-0",
+            Size.Small => "gap-1",
+            Size.Medium => "gap-2",
+            Size.Large => "gap-3",
+            Size.ExtraLarge => "gap-4",
             _ => GetGapCss(Size.Medium)
         };
     }
@@ -90,7 +102,9 @@ public class DefaultRzTabStyles : RzStylesBase.RzTabStylesBase
     {
         return justify switch
         {
-            Justify.Start => "justify-start", Justify.Center => "justify-center", Justify.End => "justify-end",
+            Justify.Start => "justify-start",
+            Justify.Center => "justify-center",
+            Justify.End => "justify-end",
             _ => GetJustifyCss(Justify.Center)
         };
     }

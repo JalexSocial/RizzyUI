@@ -1,9 +1,6 @@
 using Blazicons;
 using Bunit;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using RizzyUI.Extensions;
-using Xunit;
 
 namespace RizzyUI.Tests.Components.Navigation
 {

@@ -1,12 +1,8 @@
+using Blazicons;
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using Blazicons; 
 using Rizzy.Utility;
+using RizzyUI.Extensions;
+using System.Linq.Expressions;
 
 namespace RizzyUI;
 
@@ -55,7 +51,7 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
     /// This is primarily for visual indication; actual sorting is driven by `ParentRzTable.CurrentTableRequest`.
     /// </summary>
     [Parameter] public SortDirection InitialSortDirection { get; set; } = SortDirection.Unset;
-    
+
     /// <summary>
     /// The content to be rendered inside the header cell (e.g., column title).
     /// </summary>
@@ -71,7 +67,7 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
     /// Gets the effective column key, derived from `ColumnKey` or the `For` expression.
     /// </summary>
     public string EffectiveColumnKey => _columnKeyInternal ?? "unknown_column";
-    
+
     /// <summary>
     /// Gets the current sort direction for this column.
     /// This is determined based on the parent table's CurrentTableRequest.
@@ -120,7 +116,7 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
 
         if (string.IsNullOrEmpty(Element))
             Element = "th";
-        
+
         AdditionalAttributes ??= new Dictionary<string, object>();
         AdditionalAttributes.TryAdd("scope", "col");
 
@@ -135,7 +131,7 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
         base.OnParametersSet();
         UpdateSortStateAndHxUrl();
     }
-    
+
     /// <summary>
     /// Resolves the column key and registers the column definition with the parent table.
     /// </summary>
@@ -150,7 +146,7 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
         {
             resolvedKey = memberExpression.Member.Name;
         }
-        else if (For?.Body is UnaryExpression { Operand: MemberExpression unaryMemberExpression }) 
+        else if (For?.Body is UnaryExpression { Operand: MemberExpression unaryMemberExpression })
         {
             resolvedKey = unaryMemberExpression.Member.Name;
         }
@@ -159,7 +155,7 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
             resolvedKey = ChildContent.AsMarkupString().Trim().Replace(" ", "_") + "_" + IdGenerator.UniqueId("col");
             if (string.IsNullOrWhiteSpace(resolvedKey) || resolvedKey.StartsWith("_"))
             {
-                 resolvedKey = IdGenerator.UniqueId("col_anon_");
+                resolvedKey = IdGenerator.UniqueId("col_anon_");
             }
         }
         _columnKeyInternal = resolvedKey;
@@ -201,15 +197,17 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
                 else if (currentRequest.SortDir?.ToLowerInvariant() == "desc")
                 {
                     _currentSortDirection = SortDirection.Descending;
-                    _nextSortDirection = SortDirection.Unset; 
+                    _nextSortDirection = SortDirection.Unset;
                     _ariaSortValue = "descending";
                     _sortButtonAriaLabel = string.Format(Localizer["RzTable.SortButtonAriaLabelFormat"], ChildContent.AsMarkupString(), Localizer["RzTable.SortDirectionDescendingLong"]);
                 }
-            } else {
+            }
+            else
+            {
                 if (InitialSortDirection != SortDirection.Unset && string.IsNullOrEmpty(currentRequest.SortBy))
                 {
-                     _currentSortDirection = InitialSortDirection;
-                     _ariaSortValue = InitialSortDirection == SortDirection.Ascending ? "ascending" : "descending";
+                    _currentSortDirection = InitialSortDirection;
+                    _ariaSortValue = InitialSortDirection == SortDirection.Ascending ? "ascending" : "descending";
                 }
             }
 
@@ -220,10 +218,11 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
             }
             else
             {
-                nextRequestParameters = currentRequest with { 
-                    SortBy = _columnKeyInternal, 
+                nextRequestParameters = currentRequest with
+                {
+                    SortBy = _columnKeyInternal,
                     SortDir = _nextSortDirection == SortDirection.Ascending ? "asc" : "desc",
-                    Page = 1 
+                    Page = 1
                 };
             }
             _effectiveHxGetUrl = $"{ParentRzTable.HxControllerUrl}{nextRequestParameters.ToQueryString()}";
@@ -248,7 +247,7 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
             defaultAttributes["hx-swap"] = ParentRzTable.HxSwapMode;
             if (!string.IsNullOrEmpty(ParentRzTable.HxIndicatorSelector))
             {
-                 defaultAttributes["hx-indicator"] = ParentRzTable.HxIndicatorSelector;
+                defaultAttributes["hx-indicator"] = ParentRzTable.HxIndicatorSelector;
             }
         }
 

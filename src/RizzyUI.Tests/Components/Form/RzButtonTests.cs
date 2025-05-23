@@ -1,7 +1,4 @@
 using Bunit;
-using Microsoft.Extensions.DependencyInjection;
-using RizzyUI.Extensions;
-using Xunit;
 
 namespace RizzyUI.Tests.Components.Form
 {
@@ -120,7 +117,7 @@ namespace RizzyUI.Tests.Components.Form
             // Assert
             var button = cut.Find($"button#{expectedId}");
             Assert.NotNull(button);
-            
+
             // Size class check
             Assert.Contains(expectedClass, button.OuterHtml);
         }

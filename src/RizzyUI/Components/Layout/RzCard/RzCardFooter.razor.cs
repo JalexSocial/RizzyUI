@@ -23,7 +23,7 @@ public partial class RzCardFooter : RzComponent
     public SemanticColor TextColor { get; set; } = SemanticColor.OnSurface;
 
     /// <inheritdoc />
-     protected override void OnInitialized()
+    protected override void OnInitialized()
     {
         base.OnInitialized();
         Element = "div";
@@ -32,9 +32,9 @@ public partial class RzCardFooter : RzComponent
     /// <inheritdoc />
     protected override string? RootClass()
     {
-         var bgColorClass = BackgroundColor != SemanticColor.None
-            ? BackgroundColor.ToBackgroundClass()
-            : Theme.Light.SurfaceAlt.ToCssClassString("bg"); // Use theme default if None
+        var bgColorClass = BackgroundColor != SemanticColor.None
+           ? BackgroundColor.ToBackgroundClass()
+           : Theme.Light.SurfaceAlt.ToCssClassString("bg"); // Use theme default if None
 
         var textColorClass = TextColor != SemanticColor.None
             ? TextColor.ToTextClass()

@@ -3,11 +3,11 @@ namespace RizzyUI;
 /// <summary> Provides default styles for RzTextEdit. </summary>
 public class DefaultRzTextEditStyles : RzStylesBase.RzTextEditStylesBase
 {
-	/// <summary>
-	///     Initializes a new instance of the <see cref="DefaultRzTextEditStyles" /> class.
-	/// </summary>
-	/// <param name="theme">The theme instance providing styling context.</param>
-	public DefaultRzTextEditStyles(RzTheme theme) : base(theme)
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefaultRzTextEditStyles" /> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultRzTextEditStyles(RzTheme theme) : base(theme)
     {
     }
 
@@ -29,11 +29,11 @@ public class DefaultRzTextEditStyles : RzStylesBase.RzTextEditStylesBase
 /// <summary> Provides default styles for RzTextField. </summary>
 public class DefaultRzTextFieldStyles : RzStylesBase.RzTextFieldStylesBase
 {
-	/// <summary>
-	///     Initializes a new instance of the <see cref="DefaultRzTextFieldStyles" /> class.
-	/// </summary>
-	/// <param name="theme">The theme instance providing styling context.</param>
-	public DefaultRzTextFieldStyles(RzTheme theme) : base(theme)
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefaultRzTextFieldStyles" /> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultRzTextFieldStyles(RzTheme theme) : base(theme)
     {
     }
 

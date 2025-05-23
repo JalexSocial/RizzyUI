@@ -32,7 +32,7 @@ public class DefaultRzTableStyles : RzStylesBase.RzTableStylesBase
     /// Adds a bottom border, background color, and stronger text color for better contrast.
     /// </summary>
     public override string Thead => "border-b border-outline bg-surface-alt text-sm text-on-surface-strong dark:border-outline dark:bg-surface-alt dark:text-on-surface-strong";
-    
+
     /// <summary>
     /// Gets the CSS classes for the table footer (&lt;tfoot&gt;) element.
     /// Adds a top border, background color, and appropriate text colors for consistent styling.
@@ -57,5 +57,5 @@ public class DefaultRzTableStyles : RzStylesBase.RzTableStylesBase
     /// Ensures the footer remains visible at the bottom edge of its container when scrolling vertically.
     /// Commonly used in tables with vertical overflow for improved accessibility and usability.
     /// </summary>
-    public override string FixedTfoot => "sticky bottom-0 z-10";     
+    public override string FixedTfoot => "sticky bottom-0 z-10";
 }

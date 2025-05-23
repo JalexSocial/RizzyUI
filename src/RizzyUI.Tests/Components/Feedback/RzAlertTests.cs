@@ -1,8 +1,5 @@
-using Bunit;
-using Microsoft.Extensions.DependencyInjection;
-using RizzyUI.Extensions;
-using Xunit;
 using Blazicons;
+using Bunit;
 using Microsoft.AspNetCore.Components;
 
 namespace RizzyUI.Tests.Components.Feedback
@@ -150,7 +147,7 @@ namespace RizzyUI.Tests.Components.Feedback
                     builder.AddAttribute(1, "ChildContent", (RenderFragment)(titleBuilder =>
                         titleBuilder.AddContent(0, titleText)));
                     builder.CloseComponent();
-                    
+
                     builder.OpenComponent<RzAlertDescription>(2);
                     builder.AddAttribute(3, "ChildContent", (RenderFragment)(descBuilder =>
                         descBuilder.AddContent(0, "Description text")));
@@ -233,7 +230,7 @@ namespace RizzyUI.Tests.Components.Feedback
                     builder.AddAttribute(1, "ChildContent", (RenderFragment)(titleBuilder =>
                         titleBuilder.AddContent(0, titleText)));
                     builder.CloseComponent();
-                    
+
                     builder.OpenComponent<RzAlertDescription>(2);
                     builder.AddAttribute(3, "ChildContent", (RenderFragment)(descBuilder =>
                         descBuilder.AddContent(0, descriptionText)));

@@ -5,11 +5,11 @@ namespace RizzyUI;
 /// </summary>
 public class DefaultRzNavbarStyles : RzStylesBase.RzNavbarStylesBase
 {
-	/// <summary>
-	///     Initializes a new instance of the <see cref="DefaultRzNavbarStyles" /> class.
-	/// </summary>
-	/// <param name="theme">The theme instance providing styling context.</param>
-	public DefaultRzNavbarStyles(RzTheme theme) : base(theme)
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefaultRzNavbarStyles" /> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultRzNavbarStyles(RzTheme theme) : base(theme)
     {
     }
 

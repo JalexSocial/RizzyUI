@@ -3,11 +3,11 @@ namespace RizzyUI;
 /// <summary> Provides default styles for RzField. </summary>
 public class DefaultRzFieldStyles : RzStylesBase.RzFieldStylesBase
 {
-	/// <summary>
-	///     Initializes a new instance of the <see cref="DefaultRzFieldStyles" /> class.
-	/// </summary>
-	/// <param name="theme">The theme instance providing styling context.</param>
-	public DefaultRzFieldStyles(RzTheme theme) : base(theme)
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefaultRzFieldStyles" /> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultRzFieldStyles(RzTheme theme) : base(theme)
     {
     }
 
@@ -18,11 +18,11 @@ public class DefaultRzFieldStyles : RzStylesBase.RzFieldStylesBase
 /// <summary> Provides default styles for RzFieldLabel. </summary>
 public class DefaultRzFieldLabelStyles : RzStylesBase.RzFieldLabelStylesBase
 {
-	/// <summary>
-	///     Initializes a new instance of the <see cref="DefaultRzFieldLabelStyles" /> class.
-	/// </summary>
-	/// <param name="theme">The theme instance providing styling context.</param>
-	public DefaultRzFieldLabelStyles(RzTheme theme) : base(theme)
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefaultRzFieldLabelStyles" /> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultRzFieldLabelStyles(RzTheme theme) : base(theme)
     {
     }
 
@@ -37,11 +37,11 @@ public class DefaultRzFieldLabelStyles : RzStylesBase.RzFieldLabelStylesBase
 /// <summary> Provides default styles for RzFieldHelp. </summary>
 public class DefaultRzFieldHelpStyles : RzStylesBase.RzFieldHelpStylesBase
 {
-	/// <summary>
-	///     Initializes a new instance of the <see cref="DefaultRzFieldHelpStyles" /> class.
-	/// </summary>
-	/// <param name="theme">The theme instance providing styling context.</param>
-	public DefaultRzFieldHelpStyles(RzTheme theme) : base(theme)
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefaultRzFieldHelpStyles" /> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultRzFieldHelpStyles(RzTheme theme) : base(theme)
     {
     }
 

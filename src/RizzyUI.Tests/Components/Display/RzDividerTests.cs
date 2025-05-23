@@ -1,7 +1,4 @@
 using Bunit;
-using Microsoft.Extensions.DependencyInjection;
-using RizzyUI.Extensions;
-using Xunit;
 
 namespace RizzyUI.Tests.Components.Display
 {
@@ -166,7 +163,7 @@ namespace RizzyUI.Tests.Components.Display
             // Assert
             var divider = cut.Find($"div#{expectedId}");
             Assert.NotNull(divider);
-            
+
             // Custom class should be applied
             Assert.Contains("my-custom-class", divider.ClassList);
             Assert.Contains("py-8", divider.ClassList);

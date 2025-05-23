@@ -1,7 +1,7 @@
 
-using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using System.Text.Json;
 
 namespace RizzyUI;
 
@@ -42,7 +42,7 @@ public partial class RzQuickReferenceContainer : RzComponent
             _headingItems.Add(new HeadingItem(level, title, id));
 
         UpdateSerializedHeadings();
-        
+
         StateHasChanged();
     }
 

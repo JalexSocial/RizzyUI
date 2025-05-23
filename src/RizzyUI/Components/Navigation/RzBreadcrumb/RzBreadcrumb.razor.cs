@@ -27,7 +27,7 @@ public partial class RzBreadcrumb : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (string.IsNullOrEmpty(Element))
             Element = "nav"; // Default element for a breadcrumb
     }

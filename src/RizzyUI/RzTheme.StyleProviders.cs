@@ -123,9 +123,9 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzMarkdown" /> component. </summary>
     public virtual RzStylesBase.RzMarkdownStylesBase RzMarkdown { get; }
-    
+
     /// <summary> Gets or sets the style definitions for the <see cref="RzModal"/> component. </summary>
-    public virtual RzStylesBase.RzModalStylesBase RzModal { get; }    
+    public virtual RzStylesBase.RzModalStylesBase RzModal { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzNavbar" /> component. </summary>
     public virtual RzStylesBase.RzNavbarStylesBase RzNavbar { get; }
@@ -144,7 +144,7 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzSpinner" /> component. </summary>
     public virtual RzStylesBase.RzSpinnerStylesBase RzSpinner { get; }
-    
+
     /// <summary> Gets or sets the style definitions for the <see cref="RzQuickReferenceContainer" /> component. </summary>
     public virtual RzStylesBase.RzQuickReferenceContainerStylesBase RzQuickReferenceContainer { get; }
 
@@ -180,19 +180,19 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzTableHeaderCell{TItem}" /> component. </summary>
     public virtual RzStylesBase.RzTableHeaderCellStylesBase RzTableHeaderCell { get; }
-    
+
     /// <summary> Gets or sets the style definitions for the <see cref="RzTableBody{TItem}" /> component. </summary>
     public virtual RzStylesBase.RzTableBodyStylesBase RzTableBody { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzTableRow{TItem}" /> component. </summary>
     public virtual RzStylesBase.RzTableRowStylesBase RzTableRow { get; }
-    
+
     /// <summary> Gets or sets the style definitions for the <see cref="RzTableCell{TItem}" /> component. </summary>
     public virtual RzStylesBase.RzTableCellStylesBase RzTableCell { get; }
-    
+
     /// <summary> Gets or sets the style definitions for the <see cref="RzPagination{TItem}" /> component. </summary>
-    public virtual RzStylesBase.RzPaginationStylesBase RzPagination { get; }   
-    
+    public virtual RzStylesBase.RzPaginationStylesBase RzPagination { get; }
+
     /// <summary> Gets or sets the style definitions for the <see cref="RzTabs" /> component. </summary>
     public virtual RzStylesBase.RzTabsStylesBase RzTabs { get; }
 

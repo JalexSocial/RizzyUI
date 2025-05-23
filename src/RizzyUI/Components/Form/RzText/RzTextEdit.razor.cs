@@ -43,7 +43,7 @@ public partial class RzTextEdit : InputBase<string> // Inherits from InputBase<s
     /// </summary>
     [Parameter]
     public SvgIcon? PrependIcon { get; set; }
-    
+
     /// <summary>
     /// Provides a reference to the underlying <see cref="RzInputText"/> component.
     /// </summary>
@@ -71,7 +71,7 @@ public partial class RzTextEdit : InputBase<string> // Inherits from InputBase<s
         _placeholder =
             GetParameterValue("placeholder", Placeholder); // Get placeholder from attributes or Placeholder prop
         _value = For!.Compile().Invoke(); // Get initial value from expression (For is required by base)
-        
+
         if (!string.IsNullOrEmpty(PrependText) && PrependIcon != null)
             throw new InvalidOperationException(
                 $"{nameof(PrependText)} and {nameof(PrependIcon)} cannot both be set at the same time.");

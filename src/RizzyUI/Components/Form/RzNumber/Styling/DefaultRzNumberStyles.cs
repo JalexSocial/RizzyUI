@@ -3,11 +3,11 @@ namespace RizzyUI;
 /// <summary> Provides default styles for RzNumberEdit. </summary>
 public class DefaultRzNumberEditStyles : RzStylesBase.RzNumberEditStylesBase
 {
-	/// <summary>
-	///     Initializes a new instance of the <see cref="DefaultRzNumberEditStyles" /> class.
-	/// </summary>
-	/// <param name="theme">The theme instance providing styling context.</param>
-	public DefaultRzNumberEditStyles(RzTheme theme) : base(theme)
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefaultRzNumberEditStyles" /> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultRzNumberEditStyles(RzTheme theme) : base(theme)
     {
     }
 
@@ -29,11 +29,11 @@ public class DefaultRzNumberEditStyles : RzStylesBase.RzNumberEditStylesBase
 /// <summary> Provides default styles for RzNumberField. </summary>
 public class DefaultRzNumberFieldStyles : RzStylesBase.RzNumberFieldStylesBase
 {
-	/// <summary>
-	///     Initializes a new instance of the <see cref="DefaultRzNumberFieldStyles" /> class.
-	/// </summary>
-	/// <param name="theme">The theme instance providing styling context.</param>
-	public DefaultRzNumberFieldStyles(RzTheme theme) : base(theme)
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefaultRzNumberFieldStyles" /> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultRzNumberFieldStyles(RzTheme theme) : base(theme)
     {
     }
 

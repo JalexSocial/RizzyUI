@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
-using System.Collections.Generic;
 
 namespace RizzyUI;
 
@@ -9,7 +8,7 @@ namespace RizzyUI;
 /// Provides basic cell functionality including content, colspan, and styling.
 /// Can conditionally render a border based on the parent RzTable's Border property.
 /// </summary>
-public partial class RzTableCell<TItem> : RzComponent 
+public partial class RzTableCell<TItem> : RzComponent
 {
     /// <summary>
     /// Cascaded parent RzTable instance. Available for context like the Border property.
@@ -22,7 +21,7 @@ public partial class RzTableCell<TItem> : RzComponent
     /// </summary>
     [CascadingParameter(Name = "ParentRzTableRowParentRzTableRow")]
     protected RzTableRow<TItem>? ParentRzTableRow { get; set; }
-    
+
     /// <summary>
     /// The content to be rendered inside the table cell.
     /// </summary>
@@ -38,7 +37,7 @@ public partial class RzTableCell<TItem> : RzComponent
     /// or potential future features like column-specific styling from the cell itself.
     /// </summary>
     [Parameter] public string? ColumnKey { get; set; }
-    
+
     /// <summary>
     /// Gets combined attributes including any passed-in AdditionalAttributes and
     /// dynamically adds colspan attribute if the Colspan parameter has a value.
@@ -62,7 +61,7 @@ public partial class RzTableCell<TItem> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (string.IsNullOrEmpty(Element))
             Element = "td";
     }

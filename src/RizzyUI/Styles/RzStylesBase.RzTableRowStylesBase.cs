@@ -28,8 +28,8 @@ public abstract partial class RzStylesBase
 
         /// <summary>Gets the base CSS classes for the table row (&lt;tr&gt;) element, without hover or striping.</summary>
         public abstract string TableRowBase { get; }
-        
+
         /// <summary>Gets the CSS classes to apply for hover effects on a table row.</summary>
         public abstract string TableRowHover { get; }
-    }    
+    }
 }

@@ -1,8 +1,4 @@
 using Bunit;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using RizzyUI.Extensions; // For TwMerge and AddRizzyUI
-using Xunit;
 
 namespace RizzyUI.Tests.Components.Navigation
 {
@@ -104,7 +100,7 @@ namespace RizzyUI.Tests.Components.Navigation
                 </a>";
             cut.MarkupMatches(expectedMarkup);
         }
-        
+
         [Fact]
         public void RzLink_WithNullHref_DefaultsToHash()
         {

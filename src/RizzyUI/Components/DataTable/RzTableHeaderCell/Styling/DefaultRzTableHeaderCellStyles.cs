@@ -33,13 +33,13 @@ public class DefaultRzTableHeaderCellStyles : RzStylesBase.RzTableHeaderCellStyl
     /// Changes the cursor and adds hover states to provide visual feedback for interactive cells.
     /// </summary>
     public override string SortableHeaderCell => "cursor-pointer hover:bg-surface-alt/50 dark:hover:bg-surface-alt/50";
-    
+
     /// <summary>
     /// Gets the CSS classes for the title span within header cells.
     /// Uses flex-grow to allow the sort indicator to be properly positioned.
     /// </summary>
     public override string TitleSpan => "flex-grow";
-    
+
     /// <summary>
     /// Gets the CSS classes for a bordered header cell element.
     /// </summary>
@@ -57,10 +57,10 @@ public class DefaultRzTableHeaderCellStyles : RzStylesBase.RzTableHeaderCellStyl
             SortDirection.Ascending => "size-4 text-on-surface-strong dark:text-on-surface-strong",
             SortDirection.Descending => "size-4 text-on-surface-strong dark:text-on-surface-strong",
             SortDirection.Unset => "size-4 text-on-surface-muted dark:text-on-surface-muted opacity-60",
-            _ => "size-4 opacity-0" 
+            _ => "size-4 opacity-0"
         };
     }
-    
+
     /// <summary>
     /// Gets the appropriate SVG icon for the sort direction indicator based on the current sort direction.
     /// </summary>

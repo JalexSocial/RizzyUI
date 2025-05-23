@@ -53,7 +53,7 @@ public partial class RzQuickReference : RzComponent
         // Update headings if the container might have changed (less common, but possible)
         if (QuickReferenceContainer != null) _headings = QuickReferenceContainer.GetHeadingItems();
 
-         // Ensure defaults are applied if parameters become null after initialization
+        // Ensure defaults are applied if parameters become null after initialization
         Title ??= Localizer["RzQuickReference.DefaultTitle"];
         AriaLabel ??= Localizer["RzQuickReference.DefaultAriaLabel"];
     }

@@ -1,9 +1,5 @@
-
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using Microsoft.Extensions.Localization;
+using System.Globalization;
 
 namespace RizzyUI.Localization;
 
@@ -76,7 +72,7 @@ internal sealed class RizzyStringLocalizer : IStringLocalizer<RizzyLocalization>
         get
         {
             var appString = _applicationOverrideLocalizer[name, arguments];
-             if (!appString.ResourceNotFound || !appString.Value.Equals(name, StringComparison.Ordinal))
+            if (!appString.ResourceNotFound || !appString.Value.Equals(name, StringComparison.Ordinal))
             {
                 return appString;
             }
@@ -105,7 +101,7 @@ internal sealed class RizzyStringLocalizer : IStringLocalizer<RizzyLocalization>
             // Only overwrite if the application resource was truly found
             if (!appString.ResourceNotFound || !appString.Value.Equals(appString.Name, StringComparison.Ordinal))
             {
-                 mergedStrings[appString.Name] = appString; // Overwrites library string if key exists
+                mergedStrings[appString.Name] = appString; // Overwrites library string if key exists
             }
         }
 

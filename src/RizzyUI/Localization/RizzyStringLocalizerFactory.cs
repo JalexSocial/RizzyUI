@@ -1,4 +1,3 @@
-using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -43,7 +42,7 @@ internal sealed class RizzyStringLocalizerFactory : IStringLocalizerFactory
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         _localizationResourceType = localizationResourceType;
         _localizationResourceLocation = localizationResourceLocation;
-        
+
         // Initialize the lazy field with a factory delegate
         _cachedLibraryLocalizer = new Lazy<IStringLocalizer>(CreateLibraryLocalizer, LazyThreadSafetyMode.ExecutionAndPublication);
     }
@@ -112,7 +111,7 @@ internal sealed class RizzyStringLocalizerFactory : IStringLocalizerFactory
         // Resolve dependencies needed to create a default factory instance
         var loggerFactory = _serviceProvider.GetRequiredService<ILoggerFactory>();
         // Use default (empty) LocalizationOptions to ignore app's ResourcesPath
-        var defaultLocalizationOptions = Options.Create(new LocalizationOptions() { ResourcesPath = "Resources"});
+        var defaultLocalizationOptions = Options.Create(new LocalizationOptions() { ResourcesPath = "Resources" });
         // Instantiate the default Microsoft factory directly
         var librarySpecificFactory = new ResourceManagerStringLocalizerFactory(defaultLocalizationOptions, loggerFactory);
         // Create the localizer using the type marker, ensuring it finds embedded resources

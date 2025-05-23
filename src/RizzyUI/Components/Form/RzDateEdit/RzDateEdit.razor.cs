@@ -1,13 +1,13 @@
 
-using System.Globalization;
-using System.Linq.Expressions;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
+using System.Globalization;
+using System.Linq.Expressions;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 // For EditContext, FieldIdentifier
 
@@ -41,7 +41,7 @@ public sealed partial class RzDateEdit : RzComponent
     private string _uidInputId => $"{_uid}-input";
 
     /// <summary> Gets or sets the expression identifying the DateTime? field to bind to. Required. </summary>
-    [Parameter] [EditorRequired] public Expression<Func<DateTime?>>? For { get; set; }
+    [Parameter][EditorRequired] public Expression<Func<DateTime?>>? For { get; set; }
 
     /// <summary> Gets or sets the Flatpickr configuration options. </summary>
     [Parameter] public FlatpickrOptions Options { get; set; } = new() { Locale = "en" }; // Ensure default locale
@@ -147,7 +147,7 @@ public sealed partial class RzDateEdit : RzComponent
 
         // Prepare data object for Alpine
         var alpineData = new
-            { options = Options, placeholder = Placeholder, prependText = PrependText ?? string.Empty };
+        { options = Options, placeholder = Placeholder, prependText = PrependText ?? string.Empty };
         _serializedConfig = JsonSerializer.Serialize(alpineData,
             new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
         _assets = JsonSerializer.Serialize(ComponentAssets);

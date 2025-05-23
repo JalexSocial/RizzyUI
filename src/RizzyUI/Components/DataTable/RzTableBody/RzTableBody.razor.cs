@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace RizzyUI;
 
@@ -43,19 +41,19 @@ public partial class RzTableBody<TItem> : RzComponent
     /// or returns an empty collection if neither is available.
     /// </summary>
     protected IEnumerable<TItem> EffectiveItems => Items ?? ParentRzTable?.Items ?? Enumerable.Empty<TItem>();
-    
+
     /// <summary>
     /// Gets the number of columns in the table.
     /// Uses the parent RzTable's ColumnCount if available, or defaults to 1.
     /// </summary>
     protected int ColumnCount => ParentRzTable?.ColumnCount ?? 1;
-    
+
     /// <summary>
     /// Gets the ID to use for the loading spinner element.
     /// Constructed by appending "-spinner" to the component's ID.
     /// </summary>
     protected string SpinnerId => $"{Id}-spinner";
-    
+
     /// <summary>
     /// Gets the effective HX indicator selector to use for HTMX loading indicators.
     /// Prioritizes any explicitly set "hx-indicator" in AdditionalAttributes,
@@ -82,9 +80,9 @@ public partial class RzTableBody<TItem> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (string.IsNullOrEmpty(Element))
-            Element = "tbody"; 
+            Element = "tbody";
 
         if (ParentRzTable == null)
         {
@@ -96,7 +94,7 @@ public partial class RzTableBody<TItem> : RzComponent
         AdditionalAttributes ??= new Dictionary<string, object>();
         AdditionalAttributes[$"data-rztable-body-for"] = ParentRzTable.Id;
     }
-    
+
     /// <summary>
     /// Determines the CSS classes to apply to the root element by merging theme-based
     /// table body styles with any additional class attributes.

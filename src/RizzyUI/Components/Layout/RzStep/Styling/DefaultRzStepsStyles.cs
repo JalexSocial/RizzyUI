@@ -115,7 +115,7 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
     {
         return status switch
         {
-             // Use theme colors for text, potentially different for dark mode
+            // Use theme colors for text, potentially different for dark mode
             StepStatus.Completed => GetActiveTextColorClass(activeColor),
             StepStatus.Current => $"font-bold {GetActiveTextColorClass(activeColor)}",
             StepStatus.Upcoming => "text-on-surface dark:text-on-surface",
@@ -166,7 +166,7 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
         };
     }
 
-     private string GetActiveTextColorClass(StatusColor color)
+    private string GetActiveTextColorClass(StatusColor color)
     {
         return color switch
         {

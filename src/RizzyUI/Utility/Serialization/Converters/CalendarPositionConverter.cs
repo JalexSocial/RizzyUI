@@ -1,6 +1,6 @@
-﻿using System.Text.Json;
+﻿using RizzyUI;
+using System.Text.Json;
 using System.Text.Json.Serialization;
-using RizzyUI;
 
 namespace Jalex.UI.Components.Form.Converters;
 

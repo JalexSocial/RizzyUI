@@ -39,7 +39,7 @@ public partial class RzNumberEdit<TValue> : InputBase<TValue> // Inherits InputB
     /// </summary>
     [Parameter]
     public SvgIcon? PrependIcon { get; set; }
-    
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {

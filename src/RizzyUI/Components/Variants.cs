@@ -1,16 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace RizzyUI;
+﻿namespace RizzyUI;
 
 /// <summary>
 ///     Variants for alert components, defining their visual appearance.
 /// </summary>
 public enum AlertVariant
 {
-	/// <summary>
-	///     Alert using the alternate background color
-	/// </summary>
-	Alternate,
+    /// <summary>
+    ///     Alert using the alternate background color
+    /// </summary>
+    Alternate,
 
     /// <summary>Informational alert, typically blue or neutral.</summary>
     Information,
@@ -93,20 +91,20 @@ public enum ButtonVariant
 /// </summary>
 public enum DividerStyle
 {
-	/// <summary>
-	///     Solid line
-	/// </summary>
-	Solid,
+    /// <summary>
+    ///     Solid line
+    /// </summary>
+    Solid,
 
-	/// <summary>
-	///     Dashed line
-	/// </summary>
-	Dashed,
+    /// <summary>
+    ///     Dashed line
+    /// </summary>
+    Dashed,
 
-	/// <summary>
-	///     Dotted line
-	/// </summary>
-	Dotted
+    /// <summary>
+    ///     Dotted line
+    /// </summary>
+    Dotted
 }
 
 /// <summary>
@@ -135,41 +133,41 @@ public enum Size
 /// </summary>
 public enum ProseWidth
 {
-	/// <summary>
-	///     A compact width, approximately 56 characters per line.
-	///     Best for sidebars, footnotes, or narrow content blocks.
-	/// </summary>
-	Compact,
+    /// <summary>
+    ///     A compact width, approximately 56 characters per line.
+    ///     Best for sidebars, footnotes, or narrow content blocks.
+    /// </summary>
+    Compact,
 
-	/// <summary>
-	///     A comfortable width, approximately 64 characters per line.
-	///     Ideal for general prose readability in documentation and articles.
-	/// </summary>
-	Comfortable,
+    /// <summary>
+    ///     A comfortable width, approximately 64 characters per line.
+    ///     Ideal for general prose readability in documentation and articles.
+    /// </summary>
+    Comfortable,
 
-	/// <summary>
-	///     A relaxed width, approximately 72 characters per line.
-	///     Provides more space while maintaining good readability.
-	/// </summary>
-	Relaxed,
+    /// <summary>
+    ///     A relaxed width, approximately 72 characters per line.
+    ///     Provides more space while maintaining good readability.
+    /// </summary>
+    Relaxed,
 
-	/// <summary>
-	///     A wide width, approximately 80 characters per line.
-	///     Suitable for blog posts, long-form content, and expanded reading areas.
-	/// </summary>
-	Wide,
+    /// <summary>
+    ///     A wide width, approximately 80 characters per line.
+    ///     Suitable for blog posts, long-form content, and expanded reading areas.
+    /// </summary>
+    Wide,
 
-	/// <summary>
-	///     An ultrawide width, approximately 100 characters per line.
-	///     Best for technical documentation, research papers, or code-heavy content.
-	/// </summary>
-	UltraWide,
+    /// <summary>
+    ///     An ultrawide width, approximately 100 characters per line.
+    ///     Best for technical documentation, research papers, or code-heavy content.
+    /// </summary>
+    UltraWide,
 
-	/// <summary>
-	///     No maximum width constraint.
-	///     Useful for tables, charts, or content requiring full-width display.
-	/// </summary>
-	Full
+    /// <summary>
+    ///     No maximum width constraint.
+    ///     Useful for tables, charts, or content requiring full-width display.
+    /// </summary>
+    Full
 }
 
 /// <summary>
@@ -207,45 +205,45 @@ public enum Align
 /// </summary>
 public enum AnchorPoint
 {
-	/// <summary>
-	///     Anchor to top start
-	/// </summary>
-	TopStart,
+    /// <summary>
+    ///     Anchor to top start
+    /// </summary>
+    TopStart,
 
-	/// <summary>
-	///     Anchor to top with center-alignment
-	/// </summary>
-	TopCenter,
+    /// <summary>
+    ///     Anchor to top with center-alignment
+    /// </summary>
+    TopCenter,
 
-	/// <summary>
-	///     Anchor to top end
-	/// </summary>
-	TopEnd,
+    /// <summary>
+    ///     Anchor to top end
+    /// </summary>
+    TopEnd,
 
-	/// <summary>
-	///     Anchor to Start middle
-	/// </summary>
-	Start,
+    /// <summary>
+    ///     Anchor to Start middle
+    /// </summary>
+    Start,
 
-	/// <summary>
-	///     Anchor to end middle
-	/// </summary>
-	End,
+    /// <summary>
+    ///     Anchor to end middle
+    /// </summary>
+    End,
 
-	/// <summary>
-	///     Anchor to bottom end
-	/// </summary>
-	BottomEnd,
+    /// <summary>
+    ///     Anchor to bottom end
+    /// </summary>
+    BottomEnd,
 
-	/// <summary>
-	///     Anchor to bottom start
-	/// </summary>
-	BottomStart,
+    /// <summary>
+    ///     Anchor to bottom start
+    /// </summary>
+    BottomStart,
 
-	/// <summary>
-	///     Anchor to bottom center
-	/// </summary>
-	BottomCenter
+    /// <summary>
+    ///     Anchor to bottom center
+    /// </summary>
+    BottomCenter
 }
 
 /// <summary>
@@ -253,50 +251,50 @@ public enum AnchorPoint
 /// </summary>
 public enum OriginPoint
 {
-	/// <summary>
-	///     Origin at the center.
-	/// </summary>
-	OriginCenter,
+    /// <summary>
+    ///     Origin at the center.
+    /// </summary>
+    OriginCenter,
 
-	/// <summary>
-	///     Origin at the top.
-	/// </summary>
-	OriginTop,
+    /// <summary>
+    ///     Origin at the top.
+    /// </summary>
+    OriginTop,
 
-	/// <summary>
-	///     Origin at the top-right.
-	/// </summary>
-	OriginTopRight,
+    /// <summary>
+    ///     Origin at the top-right.
+    /// </summary>
+    OriginTopRight,
 
-	/// <summary>
-	///     Origin at the right.
-	/// </summary>
-	OriginRight,
+    /// <summary>
+    ///     Origin at the right.
+    /// </summary>
+    OriginRight,
 
-	/// <summary>
-	///     Origin at the bottom-right.
-	/// </summary>
-	OriginBottomRight,
+    /// <summary>
+    ///     Origin at the bottom-right.
+    /// </summary>
+    OriginBottomRight,
 
-	/// <summary>
-	///     Origin at the bottom.
-	/// </summary>
-	OriginBottom,
+    /// <summary>
+    ///     Origin at the bottom.
+    /// </summary>
+    OriginBottom,
 
-	/// <summary>
-	///     Origin at the bottom-left.
-	/// </summary>
-	OriginBottomLeft,
+    /// <summary>
+    ///     Origin at the bottom-left.
+    /// </summary>
+    OriginBottomLeft,
 
-	/// <summary>
-	///     Origin at the left.
-	/// </summary>
-	OriginLeft,
+    /// <summary>
+    ///     Origin at the left.
+    /// </summary>
+    OriginLeft,
 
-	/// <summary>
-	///     Origin at the top-left.
-	/// </summary>
-	OriginTopLeft
+    /// <summary>
+    ///     Origin at the top-left.
+    /// </summary>
+    OriginTopLeft
 }
 
 /// <summary>

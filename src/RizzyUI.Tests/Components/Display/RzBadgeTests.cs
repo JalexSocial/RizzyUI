@@ -1,8 +1,5 @@
-using Bunit;
-using Microsoft.Extensions.DependencyInjection;
-using RizzyUI.Extensions;
-using Xunit;
 using Blazicons;
+using Bunit;
 
 namespace RizzyUI.Tests.Components.Display
 {
@@ -107,7 +104,7 @@ namespace RizzyUI.Tests.Components.Display
             // Assert
             var badge = cut.Find($"span#{expectedId}");
             Assert.NotNull(badge);
-            
+
             // Should have primary color classes (checking for a subset of the expected classes)
             Assert.Contains("border-primary", badge.ClassList);
             Assert.Contains("bg-primary", badge.ClassList);
@@ -132,7 +129,7 @@ namespace RizzyUI.Tests.Components.Display
             // Assert
             var badge = cut.Find($"span#{expectedId}");
             Assert.NotNull(badge);
-            
+
             // Should have soft primary color classes
             Assert.Contains("border-primary", badge.ClassList);
             Assert.Contains("bg-primary/10", badge.ClassList);
@@ -165,7 +162,7 @@ namespace RizzyUI.Tests.Components.Display
         public void RzBadge_DifferentSemanticColors_ApplyCorrectClasses()
         {
             // Test different semantic colors to verify they apply the right classes
-            var colors = new[] 
+            var colors = new[]
             {
                 SemanticColor.Success,
                 SemanticColor.Warning,
@@ -185,7 +182,7 @@ namespace RizzyUI.Tests.Components.Display
                 // Assert
                 var badge = cut.Find($"span#{color}-badge");
                 Assert.NotNull(badge);
-                
+
                 // Should have the correct color class
                 Assert.Contains($"border-{color.ToString().ToLower()}", badge.ClassList);
                 Assert.Contains($"bg-{color.ToString().ToLower()}", badge.ClassList);

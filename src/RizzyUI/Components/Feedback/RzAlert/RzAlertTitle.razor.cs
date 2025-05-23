@@ -22,7 +22,7 @@ public partial class RzAlertTitle : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (string.IsNullOrEmpty(Element))
             Element = "h3"; // Default semantic level for an alert title within its context
     }

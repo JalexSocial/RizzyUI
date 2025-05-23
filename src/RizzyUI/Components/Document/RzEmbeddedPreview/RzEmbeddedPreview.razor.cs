@@ -19,7 +19,7 @@ public partial class RzEmbeddedPreview : RzComponent
     [Inject] private IServiceProvider ServiceProvider { get; set; } = default!;
 
     /// <summary> The content (markup or components) to render inside the iframe. Required. </summary>
-    [Parameter] [EditorRequired] public required RenderFragment ChildContent { get; set; }
+    [Parameter][EditorRequired] public required RenderFragment ChildContent { get; set; }
 
     /// <summary> An optional Blazor layout component type to wrap the <see cref="ChildContent" /> within the iframe. </summary>
     [Parameter] public Type? Layout { get; set; }
@@ -34,7 +34,7 @@ public partial class RzEmbeddedPreview : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         // Set default localized value if parameter is not provided
         IFrameTitle ??= Localizer["RzEmbeddedPreview.DefaultIFrameTitle"];
     }
@@ -43,7 +43,7 @@ public partial class RzEmbeddedPreview : RzComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-         // Ensure default is applied if parameter becomes null after initialization
+        // Ensure default is applied if parameter becomes null after initialization
         IFrameTitle ??= Localizer["RzEmbeddedPreview.DefaultIFrameTitle"];
     }
 

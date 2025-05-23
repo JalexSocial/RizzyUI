@@ -16,8 +16,10 @@ public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase
     {
         return weight switch
         {
-            TextWeight.Thin => "font-thin", TextWeight.Normal => "font-normal",
-            TextWeight.Bold => "font-bold", TextWeight.ExtraBold => "font-extrabold",
+            TextWeight.Thin => "font-thin",
+            TextWeight.Normal => "font-normal",
+            TextWeight.Bold => "font-bold",
+            TextWeight.ExtraBold => "font-extrabold",
             _ => ""
         };
     }
@@ -27,9 +29,14 @@ public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase
     {
         return size switch
         {
-            TextSize.Small => "text-sm", TextSize.Medium => "text-base", TextSize.Large => "text-lg",
-            TextSize.ExtraLarge => "text-xl", TextSize.TwoXL => "text-2xl", TextSize.ThreeXL => "text-3xl",
-            TextSize.FourXL => "text-4xl", TextSize.FiveXL => "text-5xl",
+            TextSize.Small => "text-sm",
+            TextSize.Medium => "text-base",
+            TextSize.Large => "text-lg",
+            TextSize.ExtraLarge => "text-xl",
+            TextSize.TwoXL => "text-2xl",
+            TextSize.ThreeXL => "text-3xl",
+            TextSize.FourXL => "text-4xl",
+            TextSize.FiveXL => "text-5xl",
             _ => ""
         };
     }
@@ -39,8 +46,10 @@ public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase
     {
         return transform switch
         {
-            TextTransform.None => "normal-case", TextTransform.Uppercase => "uppercase",
-            TextTransform.Lowercase => "lowercase", TextTransform.Capitalize => "capitalize",
+            TextTransform.None => "normal-case",
+            TextTransform.Uppercase => "uppercase",
+            TextTransform.Lowercase => "lowercase",
+            TextTransform.Capitalize => "capitalize",
             _ => ""
         };
     }
@@ -50,8 +59,10 @@ public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase
     {
         return decoration switch
         {
-            TextDecoration.None => "no-underline", TextDecoration.Underline => "underline",
-            TextDecoration.Overline => "overline", TextDecoration.LineThrough => "line-through",
+            TextDecoration.None => "no-underline",
+            TextDecoration.Underline => "underline",
+            TextDecoration.Overline => "overline",
+            TextDecoration.LineThrough => "line-through",
             _ => ""
         };
     }
@@ -61,8 +72,12 @@ public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase
     {
         return leading switch
         {
-            Leading.None => "leading-none", Leading.Tight => "leading-tight", Leading.Snug => "leading-snug",
-            Leading.Normal => "leading-normal", Leading.Relaxed => "leading-relaxed", Leading.Loose => "leading-loose",
+            Leading.None => "leading-none",
+            Leading.Tight => "leading-tight",
+            Leading.Snug => "leading-snug",
+            Leading.Normal => "leading-normal",
+            Leading.Relaxed => "leading-relaxed",
+            Leading.Loose => "leading-loose",
             _ => ""
         };
     }

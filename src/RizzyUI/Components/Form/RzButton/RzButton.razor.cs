@@ -77,7 +77,7 @@ public partial class RzButton : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         // Set the root HTML element for this component to 'button'.
         if (string.IsNullOrEmpty(Element))
             Element = "button";

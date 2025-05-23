@@ -23,7 +23,7 @@ public class DefaultRzTableCellStyles : RzStylesBase.RzTableCellStylesBase
     /// Gets the CSS classes for a bordered table cell element.
     /// Default adds a right border. Use with CSS :last-child selectors for cleaner table appearance if needed.
     /// </summary>
-    public override string TableCellBordered => "border-r border-outline dark:border-outline"; 
+    public override string TableCellBordered => "border-r border-outline dark:border-outline";
     // Consider if a full border "border border-outline" is better or if this should be more specific (e.g. border-x)
     // For now, just right border, assuming row handles bottom.
 }

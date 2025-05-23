@@ -109,31 +109,31 @@ public record SemanticColor : Color
 /// </summary>
 public record Color
 {
-	/// <summary>
-	///     Stores oklch color (if _type is ColorType.Oklch)
-	/// </summary>
-	private readonly Oklch _oklchColor;
+    /// <summary>
+    ///     Stores oklch color (if _type is ColorType.Oklch)
+    /// </summary>
+    private readonly Oklch _oklchColor;
 
-	/// <summary>
-	///     Stores tailwind classname for color (e.g. rose-500)
-	/// </summary>
-	private readonly string _tailwindClass;
+    /// <summary>
+    ///     Stores tailwind classname for color (e.g. rose-500)
+    /// </summary>
+    private readonly string _tailwindClass;
 
-	/// <summary>
-	///     Type of color
-	/// </summary>
-	protected readonly ColorType _type;
+    /// <summary>
+    ///     Type of color
+    /// </summary>
+    protected readonly ColorType _type;
 
-	/// <summary>
-	///     Stores variable string name (if _type is ColorType.Variable)
-	/// </summary>
-	private readonly string _variable;
+    /// <summary>
+    ///     Stores variable string name (if _type is ColorType.Variable)
+    /// </summary>
+    private readonly string _variable;
 
-	/// <summary>
-	///     Stores a color in Oklch format
-	/// </summary>
-	/// <param name="color"></param>
-	public Color(Oklch color)
+    /// <summary>
+    ///     Stores a color in Oklch format
+    /// </summary>
+    /// <param name="color"></param>
+    public Color(Oklch color)
     {
         _type = ColorType.Oklch;
         _oklchColor = color;
@@ -141,23 +141,23 @@ public record Color
         _tailwindClass = $"[{ToCssColorString()}]";
     }
 
-	/// <summary>
-	///     Stores a color as a variable
-	/// </summary>
-	/// <param name="colorVariable"></param>
-	/// <param name="colorName"></param>
-	public Color(string colorVariable, string colorName)
+    /// <summary>
+    ///     Stores a color as a variable
+    /// </summary>
+    /// <param name="colorVariable"></param>
+    /// <param name="colorName"></param>
+    public Color(string colorVariable, string colorName)
     {
         _type = ColorType.Variable;
         _variable = colorVariable;
         _tailwindClass = colorName;
     }
 
-	/// <summary>
-	///     Stores a color as RGB
-	/// </summary>
-	/// <param name="rgbHexColor">Hex color starting with a pound sign</param>
-	public Color(string rgbHexColor)
+    /// <summary>
+    ///     Stores a color as RGB
+    /// </summary>
+    /// <param name="rgbHexColor">Hex color starting with a pound sign</param>
+    public Color(string rgbHexColor)
     {
         if (!IsValidHexColor(rgbHexColor))
             throw new ArgumentException($"{nameof(rgbHexColor)} must be a valid CSS rgb hex color starting with a #");
@@ -167,11 +167,11 @@ public record Color
         _tailwindClass = string.Empty;
     }
 
-	/// <summary>
-	///     Initializes a color using another color as a base
-	/// </summary>
-	/// <param name="other"></param>
-	public Color(Color other)
+    /// <summary>
+    ///     Initializes a color using another color as a base
+    /// </summary>
+    /// <param name="other"></param>
+    public Color(Color other)
     {
         _type = other._type;
         _oklchColor = other._oklchColor;
@@ -179,12 +179,12 @@ public record Color
         _tailwindClass = other._tailwindClass;
     }
 
-	/// <summary>
-	///     Returns a Tailwind CSS utility class fragment corresponding to this color.
-	///     - For Variable: The provided tailwind class name (e.g., "primary", "red-500").
-	///     - For OKLCH/RgbHex: An arbitrary value class (e.g., "[oklch(0.5_0.1_20)]", "[#ff0000]").
-	/// </summary>
-	public string TailwindClassName => _tailwindClass;
+    /// <summary>
+    ///     Returns a Tailwind CSS utility class fragment corresponding to this color.
+    ///     - For Variable: The provided tailwind class name (e.g., "primary", "red-500").
+    ///     - For OKLCH/RgbHex: An arbitrary value class (e.g., "[oklch(0.5_0.1_20)]", "[#ff0000]").
+    /// </summary>
+    public string TailwindClassName => _tailwindClass;
 
     private static bool IsValidHexColor(string color)
     {
@@ -224,20 +224,20 @@ public record Color
     /// </summary>
     protected enum ColorType
     {
-	    /// <summary>
-	    ///     Color is a CSS variable
-	    /// </summary>
-	    Variable,
+        /// <summary>
+        ///     Color is a CSS variable
+        /// </summary>
+        Variable,
 
-	    /// <summary>
-	    ///     Color is in Oklch format
-	    /// </summary>
-	    Oklch,
+        /// <summary>
+        ///     Color is in Oklch format
+        /// </summary>
+        Oklch,
 
-	    /// <summary>
-	    ///     Color is in Rgb format (unsupported for now)
-	    /// </summary>
-	    Rgb
+        /// <summary>
+        ///     Color is in Rgb format (unsupported for now)
+        /// </summary>
+        Rgb
     }
 }
 

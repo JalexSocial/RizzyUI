@@ -23,7 +23,7 @@ public partial class RzCardHeader : RzComponent
     public SemanticColor TextColor { get; set; } = SemanticColor.OnSurface;
 
     /// <inheritdoc />
-     protected override void OnInitialized()
+    protected override void OnInitialized()
     {
         base.OnInitialized();
         Element = "div"; // Often a div, but could be header semantically

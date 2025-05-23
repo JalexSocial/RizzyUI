@@ -1,9 +1,9 @@
 
-using System.Linq.Expressions;
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using RizzyUI.Extensions;
+using System.Linq.Expressions;
 
 namespace RizzyUI;
 
@@ -35,7 +35,8 @@ public partial class RzRadioGroup<TValue> : RzComponent
     /// <summary>
     ///     Specifies the field for which validation messages should be displayed.
     /// </summary>
-    [Parameter] [EditorRequired]
+    [Parameter]
+    [EditorRequired]
     public Expression<Func<TValue>>? For { get; set; }
 
     /// <summary> Gets or sets the 'name' attribute shared by all radio buttons in the group. If empty, one is generated. </summary>

@@ -1,9 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using Rizzy.Utility;
 using RizzyUI.Extensions;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace RizzyUI;
 
@@ -41,16 +37,16 @@ public partial class RzTable<TItem> : RzComponent
         {
             // This situation should ideally not happen if RzTableBody is used correctly (only one instance).
         }
-        
+
         if (_hasRegisteredBody && TableBodyIdInternal != tableBodyId)
         {
-             throw new InvalidOperationException($"An RzTableBody with ID '{TableBodyIdInternal}' is already registered with this RzTable. Only one RzTableBody is allowed.");
+            throw new InvalidOperationException($"An RzTableBody with ID '{TableBodyIdInternal}' is already registered with this RzTable. Only one RzTableBody is allowed.");
         }
 
         TableBodyIdInternal = tableBodyId;
-        _hasRegisteredBody = true; 
+        _hasRegisteredBody = true;
     }
-    
+
     /// <summary>
     /// Gets the effectively resolved HTMX target selector for child components.
     /// Prioritizes HxTargetSelector parameter, then the registered TableBodyIdInternal,
@@ -97,7 +93,7 @@ public partial class RzTable<TItem> : RzComponent
     /// Defaults to "innerHTML".
     /// </summary>
     [Parameter] public string HxSwapMode { get; set; } = "innerHTML";
-    
+
     /// <summary>
     /// Optional default hx-indicator selector for child-initiated HTMX actions.
     /// If not set, RzTableBody will use its internal default spinner.
@@ -121,7 +117,7 @@ public partial class RzTable<TItem> : RzComponent
     /// Often used for pagination controls or summary information.
     /// </summary>
     [Parameter] public RenderFragment<RzTable<TItem>>? Footer { get; set; }
-    
+
     /// <summary>
     /// If true, applies alternating background colors to table rows. Defaults to false.
     /// </summary>
@@ -163,22 +159,22 @@ public partial class RzTable<TItem> : RzComponent
     /// Defaults to "h-96" (Tailwind class for height: 24rem).
     /// </summary>
     [Parameter] public string TableBodyHeightClass { get; set; } = "h-96";
-    
+
     /// <summary>
     /// Id of the table element. This is used for HTMX interactions.
     /// </summary>
     public string TableId => $"{Id}-table";
-    
+
     /// <summary>
     /// Id of the table head element. This is used for HTMX interactions.
     /// </summary>
     public string TableHeaderId => $"{Id}-table-head";
-    
+
     /// <summary>
     /// Id of the table footer element. This is used for HTMX interactions.
     /// </summary>
     public string TableFooterId => $"{Id}-table-foot";
-    
+
     /// <summary>
     /// Adds a column definition to the table's internal collection of columns.
     /// This is called by RzTableHeaderCell components during their initialization.
@@ -189,7 +185,7 @@ public partial class RzTable<TItem> : RzComponent
         if (!_columnDefinitions.Any(cd => cd.Key == columnDefinition.Key))
         {
             _columnDefinitions.Add(columnDefinition);
-            StateHasChanged(); 
+            StateHasChanged();
         }
     }
 
@@ -199,7 +195,7 @@ public partial class RzTable<TItem> : RzComponent
     /// </summary>
     /// <returns>A read-only list of column definitions.</returns>
     internal IReadOnlyList<ColumnDefinition<TItem>> GetColumnDefinitions() => _columnDefinitions.AsReadOnly();
-    
+
     /// <summary>
     /// Gets the count of defined columns. Returns 1 if no columns are explicitly defined,
     /// to ensure colspans in templates like EmptyTemplate work correctly.

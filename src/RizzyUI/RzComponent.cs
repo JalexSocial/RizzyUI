@@ -1,7 +1,3 @@
-
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization; // Required for IStringLocalizer
 using Microsoft.Extensions.Options;
@@ -85,7 +81,7 @@ public abstract class RzComponent : ComponentBase
     /// </summary>
     [Parameter]
     public string Id { get; set; } = IdGenerator.UniqueId("rz");
-    
+
     /// <summary>
     /// Captures unmatched HTML attributes passed to the component. These attributes are typically
     /// applied to the root element rendered by the component. Use the `class` attribute here
@@ -115,7 +111,7 @@ public abstract class RzComponent : ComponentBase
     /// Actual HTML element tag name to be rendered as the root of this component.
     /// </summary>
     protected string EffectiveElement => string.IsNullOrEmpty(Element) ? "div" : Element;
-    
+
     /// <summary>
     /// Calculates the final CSS class string for the component's root element by merging
     /// base classes defined by the theme (if overridden) with any additional classes
@@ -136,7 +132,7 @@ public abstract class RzComponent : ComponentBase
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         // Resolve the theme instance based on cascade or config/default.
         Theme = CascadedTheme ?? Config?.Value.DefaultTheme ?? RzTheme.Default;
     }

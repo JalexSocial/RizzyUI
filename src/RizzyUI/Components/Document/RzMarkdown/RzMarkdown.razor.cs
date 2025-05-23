@@ -1,7 +1,4 @@
 
-using System.Text;
-using System.Text.Json;
-using System.Web;
 using Markdig;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
@@ -9,6 +6,9 @@ using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
+using System.Text;
+using System.Text.Json;
+using System.Web;
 
 namespace RizzyUI;
 
@@ -130,7 +130,10 @@ public partial class RzMarkdown : RzComponent
 
                     var headingLevel = level switch
                     {
-                        1 => HeadingLevel.H1, 2 => HeadingLevel.H2, 3 => HeadingLevel.H3, _ => HeadingLevel.H4
+                        1 => HeadingLevel.H1,
+                        2 => HeadingLevel.H2,
+                        3 => HeadingLevel.H3,
+                        _ => HeadingLevel.H4
                     };
 
                     // Ensure QuickReferenceContainer parameter type matches RzQuickReferenceContainer

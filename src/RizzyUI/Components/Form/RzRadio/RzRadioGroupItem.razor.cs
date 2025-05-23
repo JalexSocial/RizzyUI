@@ -16,7 +16,7 @@ namespace RizzyUI;
 public partial class RzRadioGroupItem<TValue> : RzComponent
 {
     private RzInputRadio<TValue>? _radioRef;
-    
+
     /// <summary> Gets the parent radio group. </summary>
     [CascadingParameter]
     public RzRadioGroup<TValue>? ParentRadioGroup { get; set; }
@@ -45,7 +45,7 @@ public partial class RzRadioGroupItem<TValue> : RzComponent
     /// <summary> Optional child content rendered within the text container. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-    
+
     /// <summary> Provides a reference to the underlying <see cref="RzInputRadio{TValue}"/> component. </summary>
     public RzInputRadio<TValue> InputRadioRef => _radioRef ?? throw new InvalidOperationException("RzInputRadio reference is not set.");
 

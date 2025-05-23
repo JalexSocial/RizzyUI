@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace RizzyUI;
+﻿namespace RizzyUI;
 
 /// <summary>
 ///     Provides utility methods for converting accent and semantic color values to complete Tailwind CSS class strings for
@@ -157,7 +155,7 @@ public static class ColorUtil
             _ => "" // Fallback to SpinnerBase default
         };
     }
-    
+
     /// <summary>
     ///     Converts a StatusColor to a text class string, including dark mode variants for Status colors.
     /// </summary>

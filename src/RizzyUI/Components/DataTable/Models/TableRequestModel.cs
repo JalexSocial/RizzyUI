@@ -1,9 +1,5 @@
 
 using Microsoft.AspNetCore.Http.Extensions; // For QueryBuilder
-using Microsoft.AspNetCore.WebUtilities; // For QueryHelpers
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RizzyUI;
 
@@ -63,8 +59,8 @@ public record TableRequestModel
         // Only include pageSize if not the default (assuming 10 is default)
         // However, it's often safer to always include pageSize if it's part of the request contract
         // For this example, let's include it if it's not the absolute common default or has been set.
-        if (PageSize != 10) 
-             queryParams["pageSize"] = PageSize.ToString();
+        if (PageSize != 10)
+            queryParams["pageSize"] = PageSize.ToString();
 
 
         if (!string.IsNullOrWhiteSpace(SortBy))
@@ -80,9 +76,9 @@ public record TableRequestModel
         {
             queryParams[filter.Key] = filter.Value;
         }
-        
+
         var builder = new QueryBuilder();
-        foreach(var kvp in queryParams.Where(kvp => kvp.Value != null))
+        foreach (var kvp in queryParams.Where(kvp => kvp.Value != null))
         {
             builder.Add(kvp.Key, kvp.Value!);
         }
@@ -117,9 +113,9 @@ public record TableRequestModel
         {
             queryParams[filter.Key] = filter.Value;
         }
-        
+
         var builder = new QueryBuilder();
-        foreach(var kvp in queryParams.Where(kvp => kvp.Value != null))
+        foreach (var kvp in queryParams.Where(kvp => kvp.Value != null))
         {
             builder.Add(kvp.Key, kvp.Value!);
         }

@@ -15,7 +15,7 @@ public partial class RzCardButtons : RzComponent
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc />
-     protected override void OnInitialized()
+    protected override void OnInitialized()
     {
         base.OnInitialized();
         Element = "div";

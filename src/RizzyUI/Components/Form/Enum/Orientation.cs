@@ -6,13 +6,13 @@
 /// </summary>
 public enum Orientation
 {
-	/// <summary>
-	///     Indicates that elements should be arranged in a horizontal layout.
-	/// </summary>
-	Horizontal,
+    /// <summary>
+    ///     Indicates that elements should be arranged in a horizontal layout.
+    /// </summary>
+    Horizontal,
 
-	/// <summary>
-	///     Indicates that elements should be arranged in a vertical layout.
-	/// </summary>
-	Vertical
+    /// <summary>
+    ///     Indicates that elements should be arranged in a vertical layout.
+    /// </summary>
+    Vertical
 }

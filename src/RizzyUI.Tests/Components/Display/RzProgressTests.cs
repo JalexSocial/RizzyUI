@@ -1,15 +1,12 @@
 using Alba;
 using Bunit;
-using Microsoft.Extensions.DependencyInjection;
-using RizzyUI.Extensions;
-using Xunit;
 
 namespace RizzyUI.Tests.Components.Display
 {
     public class RzProgressTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     {
         private readonly IAlbaHost _host;
-        
+
         public RzProgressTests(WebAppFixture fixture) : base(fixture)
         {
             _host = fixture.Host;

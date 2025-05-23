@@ -1,8 +1,8 @@
 
-using System.Linq.Expressions;
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using System.Linq.Expressions;
 
 namespace RizzyUI;
 

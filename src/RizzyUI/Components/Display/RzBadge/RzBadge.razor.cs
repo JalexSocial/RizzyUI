@@ -37,7 +37,7 @@ public partial class RzBadge : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (string.IsNullOrEmpty(Element))
             Element = "span"; // Default element for a badge
     }

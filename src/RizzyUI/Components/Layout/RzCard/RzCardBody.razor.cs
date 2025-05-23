@@ -23,7 +23,7 @@ public partial class RzCardBody : RzComponent
     public SemanticColor TextColor { get; set; } = SemanticColor.None;
 
     /// <inheritdoc />
-     protected override void OnInitialized()
+    protected override void OnInitialized()
     {
         base.OnInitialized();
         Element = "div";

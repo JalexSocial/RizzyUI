@@ -1,15 +1,12 @@
-using Bunit;
-using Microsoft.Extensions.DependencyInjection;
-using RizzyUI;
-using Xunit;
 using Alba;
+using Bunit;
 
 namespace RizzyUI.Tests.Components.Document
 {
     public class RzArticleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     {
         private readonly IAlbaHost _host;
-        
+
         public RzArticleTests(WebAppFixture fixture) : base(fixture)
         {
             _host = fixture.Host;

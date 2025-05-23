@@ -20,7 +20,7 @@ public class DefaultRzTableBodyStyles : RzStylesBase.RzTableBodyStylesBase
     /// Provides divider styling between rows and establishes relative positioning
     /// for potential overlays or loading indicators.
     /// </summary>
-    public override string TableBody => "divide-y divide-outline dark:divide-outline relative"; 
+    public override string TableBody => "divide-y divide-outline dark:divide-outline relative";
 
     /// <summary>
     /// Gets the CSS classes for cells in empty state rows.

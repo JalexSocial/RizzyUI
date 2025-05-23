@@ -48,7 +48,7 @@ public partial class RzSteps : RzComponent
             Element = "ol";
     }
 
-     /// <inheritdoc />
+    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

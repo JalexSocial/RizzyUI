@@ -23,7 +23,7 @@ public partial class RzDarkModeToggle : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (string.IsNullOrEmpty(Element))
             Element = "button"; // Set the root element tag
     }

@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
-using System.Collections.Generic;
-using System; // For Math
 
 namespace RizzyUI;
 
@@ -10,7 +8,7 @@ namespace RizzyUI;
 /// Generates HTMX-enabled links to navigate through pages of data in an RzTable.
 /// This component is generic and will infer TItem from its parent RzTable.
 /// </summary>
-[CascadingTypeParameter(nameof(TItem))] 
+[CascadingTypeParameter(nameof(TItem))]
 public partial class RzPagination<TItem> : RzComponent
 {
     /// <summary>
@@ -42,7 +40,7 @@ public partial class RzPagination<TItem> : RzComponent
     /// If not provided, it uses HxSwapMode from the cascaded ParentRzTable.
     /// </summary>
     [Parameter] public string? HxSwapMode { get; set; }
-    
+
     /// <summary>
     /// Optional. The HTMX indicator selector.
     /// If not provided, it uses HxIndicatorSelector from the cascaded ParentRzTable.
@@ -123,18 +121,18 @@ public partial class RzPagination<TItem> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (string.IsNullOrEmpty(Element))
-            Element = "nav"; 
+            Element = "nav";
 
         if (ParentRzTable == null && (PaginationState == null || string.IsNullOrEmpty(HxControllerUrl)))
         {
             throw new InvalidOperationException($"{GetType().Name} requires either to be within an RzTable, or to have PaginationState and HxControllerUrl parameters provided.");
         }
-        
+
         EnsureParameterDefaults();
     }
-    
+
     /// <summary>
     /// Called when component parameters are set.
     /// </summary>
@@ -181,7 +179,7 @@ public partial class RzPagination<TItem> : RzComponent
             { "hx-target", EffectiveHxTargetSelector },
             { "hx-swap", EffectiveHxSwapMode }
         };
-        if(!string.IsNullOrEmpty(EffectiveHxIndicatorSelector))
+        if (!string.IsNullOrEmpty(EffectiveHxIndicatorSelector))
         {
             defaultAttributes["hx-indicator"] = EffectiveHxIndicatorSelector;
         }
@@ -190,12 +188,12 @@ public partial class RzPagination<TItem> : RzComponent
         {
             foreach (var attr in HxPageLinkAttributes)
             {
-                defaultAttributes[attr.Key] = attr.Value; 
+                defaultAttributes[attr.Key] = attr.Value;
             }
         }
         return defaultAttributes;
     }
-    
+
     /// <summary>
     /// Gets the list of page links to display in the pagination control.
     /// </summary>
@@ -233,7 +231,7 @@ public partial class RzPagination<TItem> : RzComponent
                 hasEndEllipsis = true;
                 linksToShow--; // for end ellipsis
             }
-            
+
             links.Add(new PageLink("1", 1, currentPage == 1, false));
 
             if (hasStartEllipsis)
@@ -241,35 +239,36 @@ public partial class RzPagination<TItem> : RzComponent
                 links.Add(new PageLink("...", -1, false, true));
             }
 
-            int rangeStart = Math.Max(2, currentPage - (linksToShow / 2) + (hasStartEllipsis && !hasEndEllipsis && (MaxVisiblePageLinks % 2 == 0) ? 1 : 0) );
-            int rangeEnd = Math.Min(totalPages - 1, rangeStart + linksToShow -1);
+            int rangeStart = Math.Max(2, currentPage - (linksToShow / 2) + (hasStartEllipsis && !hasEndEllipsis && (MaxVisiblePageLinks % 2 == 0) ? 1 : 0));
+            int rangeEnd = Math.Min(totalPages - 1, rangeStart + linksToShow - 1);
 
             // Adjust rangeStart if rangeEnd is too small due to proximity to totalPages
-            if (rangeEnd == totalPages -1 && (rangeEnd - rangeStart + 1) < linksToShow) {
-                rangeStart = Math.Max(2, rangeEnd - linksToShow +1);
+            if (rangeEnd == totalPages - 1 && (rangeEnd - rangeStart + 1) < linksToShow)
+            {
+                rangeStart = Math.Max(2, rangeEnd - linksToShow + 1);
             }
 
 
             for (int i = rangeStart; i <= rangeEnd; i++)
             {
                 if (i == 1 && links.Any(l => l.PageNumber == 1)) continue; // Already added
-                if (i == totalPages && links.Any(l=>l.PageNumber == totalPages)) continue; // Will be added
+                if (i == totalPages && links.Any(l => l.PageNumber == totalPages)) continue; // Will be added
                 links.Add(new PageLink(i.ToString(), i, i == currentPage, false));
             }
-            
+
             if (hasEndEllipsis)
             {
-                 if(links.Last().PageNumber < totalPages -1 ) // ensure ellipsis is not redundant with last page
+                if (links.Last().PageNumber < totalPages - 1) // ensure ellipsis is not redundant with last page
                     links.Add(new PageLink("...", -2, false, true)); // Use -2 for end ellipsis to differentiate
             }
-            if(totalPages > 1) // Only add last page if it's not the same as the first page
+            if (totalPages > 1) // Only add last page if it's not the same as the first page
                 links.Add(new PageLink(totalPages.ToString(), totalPages, totalPages == currentPage, false));
         }
         // Deduplicate (e.g. if totalPages = 1, it might be added twice)
         // Simple distinct by PageNumber, then by IsEllipsis to prioritize numbers over ellipses if they overlap
         return links.GroupBy(l => l.PageNumber)
                     .Select(g => g.OrderBy(l => l.IsEllipsis).First())
-                    .OrderBy(l => l.PageNumber == -2 ? totalPages -0.5 : (l.PageNumber == -1 ? 1.5 : l.PageNumber )   ) // Sort ellipses correctly
+                    .OrderBy(l => l.PageNumber == -2 ? totalPages - 0.5 : (l.PageNumber == -1 ? 1.5 : l.PageNumber)) // Sort ellipses correctly
                     .ToList();
     }
 

@@ -58,7 +58,7 @@ public partial class RzCheckboxGroupItem<TValue> : RzComponent
 
         if (string.IsNullOrEmpty(Element))
             Element = "label";
-        
+
         SetEffectiveIcon();
     }
 

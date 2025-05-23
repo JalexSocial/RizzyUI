@@ -1,7 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
-using Rizzy;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
@@ -35,7 +34,7 @@ public partial class RzHeading : RzTypographyBase
     /// <summary> Gets the parent <see cref="RzQuickReferenceContainer" /> if this heading is nested within one. </summary>
     [CascadingParameter]
     private RzQuickReferenceContainer? QuickReferenceContainer { get; set; }
-    
+
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
@@ -44,8 +43,10 @@ public partial class RzHeading : RzTypographyBase
 
         Element = Level switch // Set the HTML tag based on Level
         {
-            HeadingLevel.H1 => "h1", HeadingLevel.H2 => "h2",
-            HeadingLevel.H3 => "h3", HeadingLevel.H4 => "h4",
+            HeadingLevel.H1 => "h1",
+            HeadingLevel.H2 => "h2",
+            HeadingLevel.H3 => "h3",
+            HeadingLevel.H4 => "h4",
             _ => "h1" // Default to h1
         };
 
@@ -60,9 +61,9 @@ public partial class RzHeading : RzTypographyBase
         {
             if (string.IsNullOrEmpty(QuickReferenceTitle))
                 QuickReferenceTitle = ChildContent?.AsMarkupString() ?? "[Missing QuickReferenceTitle]";
-            
+
             QuickReferenceContainer.RegisterHeading(Level, QuickReferenceTitle, Id);
-            
+
             _registered = true;
         }
     }

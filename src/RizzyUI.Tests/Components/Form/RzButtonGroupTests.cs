@@ -1,8 +1,4 @@
 using Bunit;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using RizzyUI.Extensions;
-using Xunit;
 
 namespace RizzyUI.Tests.Components.Form
 {
@@ -28,7 +24,7 @@ namespace RizzyUI.Tests.Components.Form
                     builder.OpenComponent<RzButton>(0);
                     builder.AddAttribute(1, "Label", "Button 1");
                     builder.CloseComponent();
-                    
+
                     builder.OpenComponent<RzButton>(2);
                     builder.AddAttribute(3, "Label", "Button 2");
                     builder.CloseComponent();
@@ -39,7 +35,7 @@ namespace RizzyUI.Tests.Components.Form
             var buttonGroup = cut.Find($"div#{expectedId}");
             Assert.NotNull(buttonGroup);
             Assert.Contains("inline-flex", buttonGroup.OuterHtml);
-            
+
             // Should contain two buttons
             var buttons = cut.FindAll("button");
             Assert.Equal(2, buttons.Count);
@@ -62,13 +58,13 @@ namespace RizzyUI.Tests.Components.Form
                     builder.AddAttribute(1, "Id", buttonIds[0]);
                     builder.AddAttribute(2, "Label", "First");
                     builder.CloseComponent();
-                    
+
                     // Middle button
                     builder.OpenComponent<RzButton>(3);
                     builder.AddAttribute(4, "Id", buttonIds[1]);
                     builder.AddAttribute(5, "Label", "Middle");
                     builder.CloseComponent();
-                    
+
                     // Last button
                     builder.OpenComponent<RzButton>(6);
                     builder.AddAttribute(7, "Id", buttonIds[2]);
@@ -80,19 +76,19 @@ namespace RizzyUI.Tests.Components.Form
             // Assert
             var buttonGroup = cut.Find($"div#{expectedId}");
             Assert.NotNull(buttonGroup);
-            
+
             // First button should have rounded left corners
             var firstButton = cut.Find($"button#{buttonIds[0]}");
             Assert.Contains("rounded-l-borderRadius", firstButton.OuterHtml);
             Assert.DoesNotContain("border-l-0", firstButton.OuterHtml);
-            
+
             // Middle button should have no rounded corners and border-left-0
             var middleButton = cut.Find($"button#{buttonIds[1]}");
             Assert.Contains("rounded-none", middleButton.OuterHtml);
             Assert.Contains("border-l-0", middleButton.OuterHtml);
             Assert.DoesNotContain("rounded-l-borderRadius", middleButton.OuterHtml);
             Assert.DoesNotContain("rounded-r-borderRadius", middleButton.OuterHtml);
-            
+
             // Last button should have rounded right corners and border-left-0
             var lastButton = cut.Find($"button#{buttonIds[2]}");
             Assert.Contains("rounded-r-borderRadius", lastButton.OuterHtml);
@@ -121,7 +117,7 @@ namespace RizzyUI.Tests.Components.Form
             // Assert
             var buttonGroup = cut.Find($"div#{expectedId}");
             Assert.NotNull(buttonGroup);
-            
+
             // A single button should still get the first button treatment
             var button = cut.Find($"button#{buttonId}");
             Assert.Contains("rounded-l-borderRadius", button.OuterHtml);
@@ -152,7 +148,7 @@ namespace RizzyUI.Tests.Components.Form
             // Assert
             var buttonGroup = cut.Find($"div#{expectedId}");
             Assert.NotNull(buttonGroup);
-            
+
             // Should have custom class and data attribute
             Assert.Contains(customClass, buttonGroup.OuterHtml);
             Assert.Equal(dataAttribute, buttonGroup.GetAttribute("data-testid"));
@@ -180,7 +176,7 @@ namespace RizzyUI.Tests.Components.Form
             // Assert
             var buttonGroup = cut.Find($"div#{expectedId}");
             Assert.NotNull(buttonGroup);
-            
+
             // Even with custom element, the outer wrapper should still be a div
             // because RzButtonGroup uses a fixed div element in its Razor file
             Assert.StartsWith("<div", buttonGroup.OuterHtml);

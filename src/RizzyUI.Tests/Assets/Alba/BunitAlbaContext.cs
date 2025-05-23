@@ -1,7 +1,5 @@
-using Alba;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
-using RizzyUI.Tests;
 
 namespace RizzyUI.Tests;
 
@@ -19,7 +17,7 @@ public abstract class BunitAlbaContext : TestContext, IAsyncLifetime
     {
         // Create a scope for the test to allow 
         _scope = _fixture.Host.Services.CreateScope();
-        
+
         // Let bUnit fall back to the scoped service container for DI
         Services.AddFallbackServiceProvider(_scope.ServiceProvider);
 
@@ -32,7 +30,7 @@ public abstract class BunitAlbaContext : TestContext, IAsyncLifetime
     public Task DisposeAsync()
     {
         _scope?.Dispose();
-        
+
         return Task.CompletedTask;
     }
 }

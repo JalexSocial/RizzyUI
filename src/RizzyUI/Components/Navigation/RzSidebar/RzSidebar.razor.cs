@@ -32,7 +32,7 @@ public partial class RzSidebar : RzComponent
 
     /// <summary> Determines if a Navbar is present. </summary>
     protected bool HasNavbar => NavbarContent != null;
-    
+
     /// <summary> Gets computed CSS classes for the inner layout container. </summary>
     protected string LayoutInnerContainerClass => "relative flex w-full flex-col md:flex-row"; // Added this wrapper
 

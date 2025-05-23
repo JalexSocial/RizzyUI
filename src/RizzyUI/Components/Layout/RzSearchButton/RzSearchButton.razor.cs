@@ -19,12 +19,12 @@ public partial class RzSearchButton : RzComponent
     /// </summary>
     [Parameter] public string? Label { get; set; }
 
-     /// <inheritdoc />
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
         Label ??= Localizer["RzSearchButton.DefaultLabel"];
-        
+
         if (string.IsNullOrEmpty(Element))
             Element = "button"; // Set the root element tag
     }

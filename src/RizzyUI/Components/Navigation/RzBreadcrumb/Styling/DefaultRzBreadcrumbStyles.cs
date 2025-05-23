@@ -5,11 +5,11 @@ namespace RizzyUI;
 /// </summary>
 public class DefaultRzBreadcrumbStyles : RzStylesBase.RzBreadcrumbStylesBase
 {
-	/// <summary>
-	///     Initializes a new instance of the <see cref="DefaultRzBreadcrumbStyles" /> class.
-	/// </summary>
-	/// <param name="theme">The theme instance providing styling context.</param>
-	public DefaultRzBreadcrumbStyles(RzTheme theme) : base(theme)
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefaultRzBreadcrumbStyles" /> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultRzBreadcrumbStyles(RzTheme theme) : base(theme)
     {
     }
 
@@ -25,11 +25,11 @@ public class DefaultRzBreadcrumbStyles : RzStylesBase.RzBreadcrumbStylesBase
 /// </summary>
 public class DefaultRzBreadcrumbItemStyles : RzStylesBase.RzBreadcrumbItemStylesBase
 {
-	/// <summary>
-	///     Initializes a new instance of the <see cref="DefaultRzBreadcrumbItemStyles" /> class.
-	/// </summary>
-	/// <param name="theme">The theme instance providing styling context.</param>
-	public DefaultRzBreadcrumbItemStyles(RzTheme theme) : base(theme)
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefaultRzBreadcrumbItemStyles" /> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultRzBreadcrumbItemStyles(RzTheme theme) : base(theme)
     {
     }
 

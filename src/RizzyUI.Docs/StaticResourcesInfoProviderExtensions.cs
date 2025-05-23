@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics;
 using System.Reflection;
-using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using ThrowGuard;
 
 namespace RizzyUI.Docs;
@@ -72,11 +71,11 @@ public static class StaticResourcesInfoProviderExtensions
     {
         Throw.IfNull(provider);
         Throw.IfNull(env);
-        
+
         AddWebResources(provider, env.WebRootPath, string.Empty);
         AddVirtualResources(provider, env, "/_content/RizzyUI");
-        AddVirtualResources(provider, env, "/_content/Rizzy/dist"); 
-        
+        AddVirtualResources(provider, env, "/_content/Rizzy/dist");
+
         return provider;
     }
 
@@ -96,9 +95,9 @@ public static class StaticResourcesInfoProviderExtensions
 
         foreach (var directory in directories)
         {
-            AddVirtualResources(provider, env, directory);    
+            AddVirtualResources(provider, env, directory);
         }
-        
+
         string[] cssExts = [".css", ".scss"];
         string[] jsExts = [".js", ".js.map", ".json"];
 
@@ -108,12 +107,12 @@ public static class StaticResourcesInfoProviderExtensions
                 .Where(r => !string.IsNullOrEmpty(r) && cssExts.Contains(Path.GetExtension(r), comparer))
                 .Select(r => new CssResource($"{virtualPathPrefix}/{r}") { Route = $"{virtualPathPrefix}/{r}" }))
             ;
-        
+
         provider.Add(allWebRootFiles
                 .Where(r => !string.IsNullOrEmpty(r) && jsExts.Contains(Path.GetExtension(r), comparer))
-                .Select(r => new JsResource($"{virtualPathPrefix}/{r}") { Route = $"{virtualPathPrefix}/{r}"}))
+                .Select(r => new JsResource($"{virtualPathPrefix}/{r}") { Route = $"{virtualPathPrefix}/{r}" }))
             ;
-        
+
         provider.Add(allWebRootFiles
                 .Where(r =>
                     !cssExts.Contains(Path.GetExtension(r), comparer) &&
@@ -122,7 +121,7 @@ public static class StaticResourcesInfoProviderExtensions
                 )
                 .Select(r => new BinResource($"{virtualPathPrefix}/{r}") { Route = $"{virtualPathPrefix}/{r}" }))
             ;
-        
+
         foreach (var file in allWebRootFiles)
         {
             Debug.WriteLine($"Processing {virtualPathPrefix}/{file}");
@@ -137,13 +136,13 @@ public static class StaticResourcesInfoProviderExtensions
                 .Select(f => f
                     .Replace(webRootPath, string.Empty)
                     .Replace(Path.DirectorySeparatorChar, '/')).ToList();
-            ;
+        ;
 
         foreach (var file in allWebRootFiles)
         {
             Debug.WriteLine($"Processing {file}");
         }
-        
+
         string[] cssExts = [".css", ".scss"];
         string[] jsExts = [".js", ".js.map", ".json"];
 

@@ -1,16 +1,13 @@
 using Alba;
 using Bunit;
 using Markdig;
-using Microsoft.Extensions.DependencyInjection;
-using RizzyUI.Extensions;
-using Xunit;
 
 namespace RizzyUI.Tests.Components.Document
 {
     public class RzMarkdownTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     {
         private readonly IAlbaHost _host;
-        
+
         public RzMarkdownTests(WebAppFixture fixture) : base(fixture)
         {
             _host = fixture.Host;
@@ -109,7 +106,7 @@ namespace RizzyUI.Tests.Components.Document
             var customPipeline = new MarkdownPipelineBuilder()
                 .UseAdvancedExtensions()
                 .Build();
-            
+
             var markdownWithAbbr = "This is HTML.";
 
             // Act

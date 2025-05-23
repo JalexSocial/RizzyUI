@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
+using Rizzy.Utility;
 using RizzyUI.Extensions;
-using System.Collections.Generic;
-using Rizzy.Utility; 
 
 namespace RizzyUI;
 
@@ -43,14 +42,14 @@ public partial class RzTableRow<TItem> : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         if (string.IsNullOrEmpty(Element))
             Element = "tr";
 
         if (ParentRzTable != null)
         {
             Id = $"{ParentRzTable.TableBodyIdInternal}-row";
-            
+
             if (RowIndex != null)
                 Id += "-" + RowIndex;
             else
