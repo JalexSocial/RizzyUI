@@ -15,6 +15,8 @@ If the model follows every rule, a maintainer can:
 
 The solution should compile, pass unit tests, and conform to RizzyUI’s conventions **without manual tweaks**.
 
+SPECIAL NOTE: @* *@ comments in this document are used to provide LLM guidance only. They are **not** to be included in the generated code. 
+
 ---
 
 ## 1. Output-file syntax (mandatory for new or replacement files)
