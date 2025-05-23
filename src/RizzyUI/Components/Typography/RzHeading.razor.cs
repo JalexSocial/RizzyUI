@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
+using Rizzy;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
@@ -28,7 +29,7 @@ public partial class RzHeading : RzTypographyBase
     ///     The title text to use when registering this heading with an <see cref="RzQuickReferenceContainer" />. If null
     ///     or empty, the heading will not be registered.
     /// </summary>
-    [Parameter, EditorRequired]
+    [Parameter]
     public string? QuickReferenceTitle { get; set; }
 
     /// <summary> Gets the parent <see cref="RzQuickReferenceContainer" /> if this heading is nested within one. </summary>
@@ -55,9 +56,13 @@ public partial class RzHeading : RzTypographyBase
                 : SemanticColor.OnSurface;
 
         // Register with Quick Reference if applicable
-        if (!_registered && QuickReferenceContainer != null && !string.IsNullOrEmpty(QuickReferenceTitle))
+        if (!_registered && QuickReferenceContainer != null)
         {
+            if (string.IsNullOrEmpty(QuickReferenceTitle))
+                QuickReferenceTitle = ChildContent?.AsMarkupString() ?? "[Missing QuickReferenceTitle]";
+            
             QuickReferenceContainer.RegisterHeading(Level, QuickReferenceTitle, Id);
+            
             _registered = true;
         }
     }
