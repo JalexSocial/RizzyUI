@@ -1,138 +1,193 @@
+# ──────────────────────────────────────────────────────────────
+# RizzyUI CI/CD Pipeline
+#  • build  : compiles + produces GitHub Pages artefact
+#  • publish: NuGet / npm publishing (best-effort)
+#  • deploy : pushes the artefact to GitHub Pages
+# ──────────────────────────────────────────────────────────────
 name: RizzyUI CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
+defaults:
+  run:
+    shell: bash
+
+# =============================================================
+# BUILD — succeed once artefact is uploaded
+# =============================================================
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    # Expose artefact ID so downstream jobs can reference it
+    outputs:
+      pages_artifact: ${{ steps.upload_pages_artifact.outputs.artifact-id }}
+
     steps:
-      # Checkout Repository and Submodules
-      - name: Checkout Repository and Submodules
-        uses: actions/checkout@v4
-        with:
-          submodules: true
+    # ────────── Checkout & submodules ──────────
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: true
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org/
-          
-      - name: Install npm packages for RizzyUI
-        working-directory: ./src/RizzyUI  # Specify the directory containing package.json
-        run: npm install
+    # ────────── Tooling setup (Node & .NET) ──────────
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        registry-url: https://registry.npmjs.org/
 
-      - name: Link tailwindcss for RizzyUI
-        working-directory: ./src/RizzyUI  # Specify the directory where you want to run the command
-        run: npm link tailwindcss
-       
-      - name: Install npm packages for RizzyUI.Docs
-        working-directory: ./src/RizzyUI.Docs  # Specify the directory containing package.json
-        run: npm install
+    - name: Setup .NET SDK 8 & 9
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          8.0.x
+          9.0.x
 
-      - name: Link tailwindcss for RizzyUI.Docs
-        working-directory: ./src/RizzyUI.Docs  # Specify the directory where you want to run the command
-        run: npm link tailwindcss
+    # ────────── Dependency caches ──────────
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
 
-      - name: Install npm packages for RizzyUI Packages
-        working-directory: ./packages/rizzyui  # Specify the directory containing package.json
-        run: npm install
-        
-      # Cache NuGet packages to speed up builds
-      - name: Cache NuGet packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
+    # ────────── NPM installs (three workspaces) ──────────
+    - name: Install npm packages (RizzyUI)
+      working-directory: ./src/RizzyUI
+      run: npm ci
 
-      # Setup .NET SDKs (8.x and 9.x)
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: |
-            8.0.x
-            9.0.x
+    - name: Link tailwindcss (RizzyUI)
+      working-directory: ./src/RizzyUI
+      run: npm link tailwindcss
 
-      # Restore Dependencies
-      - name: Restore Dependencies
-        run: dotnet restore src/RizzyUI.sln
+    - name: Install npm packages (RizzyUI.Docs)
+      working-directory: ./src/RizzyUI.Docs
+      run: npm ci
 
-      #- name: Debug with tmate
-      #  uses: mxschmitt/action-tmate@v3
+    - name: Link tailwindcss (RizzyUI.Docs)
+      working-directory: ./src/RizzyUI.Docs
+      run: npm link tailwindcss
 
-      # Build the Solution in Release mode
-      - name: Build Solution
-        run: dotnet build src/RizzyUI.sln --configuration Release --no-restore
+    - name: Install npm packages (packages/rizzyui)
+      working-directory: ./packages/rizzyui
+      run: npm ci
 
-      # Publish NuGet Package using brandedoutcast/publish-nuget action
-      - name: Publish NuGet Package 
-        uses: brandedoutcast/publish-nuget@v2.5.2  
-        with:   
-          PROJECT_FILE_PATH: src/RizzyUI/RizzyUI.csproj   
-          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+    # ────────── Restore & build solution ──────────
+    - name: dotnet restore
+      run: dotnet restore src/RizzyUI.sln
 
-      # Generate Static Documentation
-      - name: Generate Static Documentation
-        working-directory: ./src/RizzyUI.Docs  # Specify the directory where you want to run the command
-        run: dotnet run --configuration Release --no-build --project RizzyUI.Docs.csproj -- --generate-static
+    - name: dotnet build (Release)
+      run: dotnet build src/RizzyUI.sln --configuration Release --no-restore
 
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v5
-        
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./docs
-          destination: ./_site
-          
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        
-      - name: Extract version from RizzyUI.csproj
-        id: get_version
-        shell: bash
-        run: |
-          ver=$(grep -oPm1 '(?<=<Version>)[^<]+' src/RizzyUI/RizzyUI.csproj)
-          echo "version=$ver" >> "$GITHUB_OUTPUT"
+    # ────────── Generate static docs (Jekyll) ──────────
+    - name: Generate static docs
+      working-directory: ./src/RizzyUI.Docs
+      run: >
+        dotnet run --configuration Release --no-build --project RizzyUI.Docs.csproj -- --generate-static
 
-      - name: Set npm package.json version
-        working-directory: packages/rizzyui
-        run: |
-          npm pkg set version=${{ steps.get_version.outputs.version }}
+    - name: Configure GitHub Pages
+      id: pages
+      uses: actions/configure-pages@v5
 
-      - name: Install dependencies
-        working-directory: packages/rizzyui
-        run: npm install
+    - name: Build site with Jekyll
+      uses: actions/jekyll-build-pages@v1
+      with:
+        source: ./docs
+        destination: ./_site
 
-      - name: Build package
-        working-directory: packages/rizzyui
-        run: |
-          npm run build
-        
-      - name: Publish Rizzy JS package to npm
-        working-directory: packages/rizzyui
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # create this secret in the repo / org
-        run: |
-          npm publish --access public        
+    - name: Upload Pages artefact
+      id: upload_pages_artifact
+      uses: actions/upload-pages-artifact@v3
 
+# =============================================================
+# PUBLISH — NuGet & npm (best-effort)
+# =============================================================
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    continue-on-error: true   # Publishing should not block deploy
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        registry-url: https://registry.npmjs.org/
+
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          8.0.x
+          9.0.x
+
+    # ────────── NuGet publish ──────────
+    - name: Publish NuGet package
+      uses: brandedoutcast/publish-nuget@v2.5.2
+      with:
+        PROJECT_FILE_PATH: src/RizzyUI/RizzyUI.csproj
+        NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+
+    # ────────── Extract version for npm ──────────
+    - name: Extract version from csproj
+      id: get_version
+      run: |
+        ver=$(grep -oPm1 '(?<=<Version>)[^<]+' src/RizzyUI/RizzyUI.csproj)
+        echo "version=$ver" >> "$GITHUB_OUTPUT"
+
+    # ────────── Skip npm publish if version exists ──────────
+    - name: Check if npm version already exists
+      id: npm_check
+      working-directory: packages/rizzyui
+      run: |
+        existing=$(npm view @jalexsocial/rizzyui version || echo "0.0.0")
+        if [ "$existing" = "${{ steps.get_version.outputs.version }}" ]; then
+          echo "skip=true" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Set package.json version
+      if: steps.npm_check.outputs.skip != 'true'
+      working-directory: packages/rizzyui
+      run: npm pkg set version=${{ steps.get_version.outputs.version }}
+
+    - name: Install npm dependencies
+      if: steps.npm_check.outputs.skip != 'true'
+      working-directory: packages/rizzyui
+      run: npm ci
+
+    - name: Build npm package
+      if: steps.npm_check.outputs.skip != 'true'
+      working-directory: packages/rizzyui
+      run: npm run build
+
+    - name: Publish npm package
+      if: steps.npm_check.outputs.skip != 'true'
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      working-directory: packages/rizzyui
+      run: npm publish --access public
+
+# =============================================================
+# DEPLOY — GitHub Pages
+# =============================================================
   deploy:
+    needs: build           # only requires successful artefact upload
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     permissions:
       contents: read
       pages: write
-      id-token: write  
-    environment:
-      name: github-pages
-      url: ${{steps.deployment.outputs.page_url}}
-    runs-on: ubuntu-latest
-    needs: build
+      id-token: write
+
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
