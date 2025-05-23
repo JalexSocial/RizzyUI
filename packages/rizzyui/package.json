@@ -41,7 +41,7 @@
     "copy:antiforgery": "copyfiles -f src/js/antiforgerySnippet.js dist/js",
     "copy:dist": "copyfiles -u 1 dist/**/* ../../src/RizzyUI/wwwroot/",
     "copy:assets": "run-s copy:theme copy:lib copy:antiforgery",
-    "build": "run-s build:js copy:lib copy:antiforgery minify:antiforgery build:css build:safelist copy:theme copy:dist",
+    "build": "run-s build:js copy:lib copy:antiforgery minify:antiforgery build:css copy:theme build:safelist copy:dist",
     "dev": "vite",
     "preview": "vite preview --outDir dist",
     "analyze": "vite build"
