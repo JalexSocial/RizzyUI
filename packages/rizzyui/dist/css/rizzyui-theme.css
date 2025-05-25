@@ -1,5 +1,7 @@
 ﻿@import "../js/lib/notify/style.css";
 @import "../js/lib/aspnet-client-validation/style.css";
+@import "../js/lib/flatpickr/flatpickr.css";
+@import "../js/lib/highlightjs/highlightjs.css";
 
 @variant dark (&:where(.dark, .dark *));
 

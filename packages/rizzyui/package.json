@@ -34,7 +34,7 @@
     "build:js": "run-s build:js:dev build:js:prod",
     "build:css:dev": "npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.css",
     "build:css:prod": "npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.min.css --minify",
-    "build:css": "run-s build:css:dev build:css:prod",
+    "build:css": "run-s copy:lib build:css:dev build:css:prod",
     "build:safelist": "node ./build/parse-tailwind-css.js",
     "copy:theme": "copyfiles -u 2 src/css/rizzyui-theme.css dist/css",
     "copy:lib": "copyfiles -u 3 src/js/lib/**/* dist/js/lib",

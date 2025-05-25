@@ -1,7 +1,4 @@
-﻿@import "../js/lib/notify/style.css";
-@import "../js/lib/aspnet-client-validation/style.css";
-
-@variant dark (&:where(.dark, .dark *));
+﻿@variant dark (&:where(.dark, .dark *));
 
 @theme {
     --default-font-family: 'Inter', 'Figtree', 'open sans';

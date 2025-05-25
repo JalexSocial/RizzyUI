@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "../../../../packages/rizzyui/dist/css/rizzyui-plugin.css";
-@import "./vendor/flatpickr.css";
-@import "./vendor/highlightjs.css";
+
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
 
