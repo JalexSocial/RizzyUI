@@ -1,4 +1,3 @@
-@import "../js/lib/notify/style.css";
-@import "../js/lib/aspnet-client-validation/style.css";
 @import "./rizzyui-theme.css";
+
 @source "../js/safelist.js";
