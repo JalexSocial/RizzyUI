@@ -1632,9 +1632,18 @@ function registerRzAccordionSection(Alpine2) {
 function registerRzAlert(Alpine2) {
   Alpine2.data("rzAlert", () => {
     return {
+      parentElement: null,
       showAlert: true,
+      init() {
+        const alpineRoot = this.$el.dataset.alpineRoot || this.$el.closest("[data-alpine-root]");
+        this.parentElement = document.getElementById(alpineRoot);
+      },
       dismiss() {
         this.showAlert = false;
+        const self = this;
+        setTimeout(() => {
+          self.parentElement.style.display = "none";
+        }, 205);
       }
     };
   });

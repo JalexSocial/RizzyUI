@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "./rizzyui-theme.css";
+@import "./rizzyui-theme.css" theme(static);
 
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";

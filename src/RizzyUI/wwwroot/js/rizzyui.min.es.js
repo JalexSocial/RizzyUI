@@ -1140,9 +1140,18 @@ function It(i) {
 }
 function Tt(i) {
   i.data("rzAlert", () => ({
+    parentElement: null,
     showAlert: !0,
+    init() {
+      const e = this.$el.dataset.alpineRoot || this.$el.closest("[data-alpine-root]");
+      this.parentElement = document.getElementById(e);
+    },
     dismiss() {
       this.showAlert = !1;
+      const e = this;
+      setTimeout(() => {
+        e.parentElement.style.display = "none";
+      }, 205);
     }
   }));
 }

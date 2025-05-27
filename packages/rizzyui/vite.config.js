@@ -21,8 +21,10 @@ export default defineConfig({
         lib: {
             entry: path.resolve(SRC_DIR, `${entryName}.js`),
             name:  entryName === 'rizzyui' ? 'RizzyUI' : 'RizzyUICsp',
-            fileName: fmt => `${entryName}${isMinified ? '.min' : ''}.${fmt}.js`,
-            formats: ['es', 'umd']                               // legal now that we have ONE entry
+            fileName: fmt => fmt === 'umd' ?
+                `${entryName}${isMinified ? '.min' : ''}.js`:
+                `${entryName}${isMinified ? '.min' : ''}.${fmt}.js`,
+            formats: ['es', 'umd']                               
         },
 
         rollupOptions: {

@@ -10,7 +10,7 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
     }
 
     /// <inheritdoc />
-    public override string Container => "relative w-full overflow-hidden rounded-theme border";
+    public override string Container => "relative w-full overflow-hidden";
 
     /// <inheritdoc />
     public override string InnerContainer => "flex w-full items-center gap-2 p-4";
@@ -36,15 +36,15 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
     {
         return variant switch
         {
-            AlertVariant.Alternate => "border-outline bg-surface text-on-surface",
+            AlertVariant.Alternate => "rounded-theme border border-outline bg-surface text-on-surface",
             AlertVariant.Information =>
-                "border-info bg-surface text-on-surface",
+                "rounded-theme border border-info bg-surface text-on-surface",
             AlertVariant.Success =>
-                "border-success bg-surface text-on-surface",
+                "rounded-theme border border-success bg-surface text-on-surface",
             AlertVariant.Warning =>
-                "border-warning bg-surface text-on-surface",
+                "rounded-theme border border-warning bg-surface text-on-surface",
             AlertVariant.Danger =>
-                "border-danger bg-surface text-on-surface",
+                "rounded-theme border border-danger bg-surface text-on-surface",
             _ => GetVariantCss(AlertVariant.Information) // Default
         };
     }

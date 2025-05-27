@@ -1635,9 +1635,18 @@
   function registerRzAlert(Alpine2) {
     Alpine2.data("rzAlert", () => {
       return {
+        parentElement: null,
         showAlert: true,
+        init() {
+          const alpineRoot = this.$el.dataset.alpineRoot || this.$el.closest("[data-alpine-root]");
+          this.parentElement = document.getElementById(alpineRoot);
+        },
         dismiss() {
           this.showAlert = false;
+          const self2 = this;
+          setTimeout(() => {
+            self2.parentElement.style.display = "none";
+          }, 205);
         }
       };
     });
@@ -2602,4 +2611,4 @@
   Alpine$1.start();
   return RizzyUI;
 });
-//# sourceMappingURL=rizzyui.umd.js.map
+//# sourceMappingURL=rizzyui.js.map

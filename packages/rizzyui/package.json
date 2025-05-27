@@ -2,16 +2,16 @@
   "name": "@jalexsocial/rizzyui",
   "version": "0.6.2",
   "description": "Client library for Asp.net RizzyUI",
-  "main": "dist/js/rizzyui.umd.js",
+  "main": "dist/js/rizzyui.js",
   "module": "dist/js/rizzyui.es.js",
   "exports": {
     ".": {
       "import": "./dist/js/rizzyui.es.js",
-      "require": "./dist/js/rizzyui.umd.js"
+      "require": "./dist/js/rizzyui.js"
     },
     "./csp": {
       "import": "./dist/js/rizzyui-csp.es.js",
-      "require": "./dist/js/rizzyui-csp.umd.js"
+      "require": "./dist/js/rizzyui-csp.js"
     },
     "./antiforgerySnippet": {
       "import": "./dist/js/antiforgerySnippet.es.js",

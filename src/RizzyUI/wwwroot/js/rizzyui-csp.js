@@ -4942,9 +4942,18 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
   function registerRzAlert(Alpine2) {
     Alpine2.data("rzAlert", () => {
       return {
+        parentElement: null,
         showAlert: true,
+        init() {
+          const alpineRoot = this.$el.dataset.alpineRoot || this.$el.closest("[data-alpine-root]");
+          this.parentElement = document.getElementById(alpineRoot);
+        },
         dismiss() {
           this.showAlert = false;
+          const self2 = this;
+          setTimeout(() => {
+            self2.parentElement.style.display = "none";
+          }, 205);
         }
       };
     });
@@ -5909,4 +5918,4 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
   module_default$3.start();
   return RizzyUI;
 });
-//# sourceMappingURL=rizzyui-csp.umd.js.map
+//# sourceMappingURL=rizzyui-csp.js.map

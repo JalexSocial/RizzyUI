@@ -81,6 +81,6 @@ public partial class RzAlert : RzComponent
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzAlert.Container, Theme.RzAlert.GetVariantCss(Variant));
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzAlert.Container);
     }
 }
