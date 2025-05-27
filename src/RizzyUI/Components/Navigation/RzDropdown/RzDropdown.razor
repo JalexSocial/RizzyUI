@@ -5,6 +5,7 @@
 <HtmlElement Element="div" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
 	<div x-data="rzDropdown" data-alpine-root="@Id" data-anchor="@Anchor.ToString().ToLowerInvariant()" class="@Theme.RzDropdown.RelativeWrapper">
 		<div
+			data-trigger
 			class="@Theme.RzDropdown.TriggerWrapper"
 			aria-haspopup="true"
 			x-bind:aria-expanded="dropdownOpen"
@@ -15,7 +16,8 @@
 			x-on:keydown.esc.window="closeDropdown">
 			<div>@Trigger</div>
 		</div>
-		<div x-cloak
+		<div data-floating
+		     x-cloak
 		     x-show="dropdownOpen"
 		     x-transition:enter="transition ease-out duration-100"
 		     x-transition:enter-start="opacity-0 scale-90"

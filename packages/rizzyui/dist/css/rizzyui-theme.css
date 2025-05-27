@@ -249,7 +249,7 @@
     --color-stone-900: oklch(0.216 0.006 56.043);
     --color-stone-950: oklch(0.147 0.004 49.25);
     --color-black: #000;
-    --color-white: #fff;
+    --color-white: #fff;    
 }
 
 @theme {

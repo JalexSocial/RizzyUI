@@ -1,3 +1,4 @@
+import {computePosition} from '@floating-ui/dom';
 
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzDropdown
@@ -7,16 +8,28 @@
 export default function(Alpine) {
     Alpine.data('rzDropdown', () => ({
         dropdownEl: null,
+        triggerEl: null,
+        floatingEl: null,
         anchorCss: "",
         dropdownOpen: false,
         openedWithKeyboard: false,
         init() {
             this.dropdownEl = this.$el;
+            this.triggerEl = this.dropdownEl.querySelector('[data-trigger]');
+            this.floatingEl = this.dropdownEl.querySelector('[data-floating]');
             this.anchorCss = this.getAnchorCss();
         },
         toggleDropdown() {
             this.anchorCss = this.getAnchorCss();
-            this.dropdownOpen = !this.dropdownOpen;
+            
+            computePosition(this.triggerEl, this.floatingEl).then(({x, y}) => {
+                Object.assign(this.floatingEl.style, {
+                    left: `${x}px`,
+                    top: `${y}px`,
+                });
+
+                this.dropdownOpen = !this.dropdownOpen;
+            });            
         },
         openDropdown() {
             this.anchorCss = this.getAnchorCss();
@@ -41,6 +54,9 @@ export default function(Alpine) {
         },
         // Computes the Tailwind CSS classes for the dropdown's anchor based on its data attribute
         getAnchorCss() {
+            
+            if (true) return '';
+            
             let defaultAnchorRaw = this.dropdownEl.getAttribute('data-anchor') || "";
             let defaultAnchor = defaultAnchorRaw.replace(/-/g, "").toLowerCase();
             // Map normalized anchor strings to Tailwind CSS class strings

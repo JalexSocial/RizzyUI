@@ -333,6 +333,7 @@
     --borderWidth: 1px;
     --borderRadius: 6px;
     --radius-theme: var(--borderRadius);
+    --border-theme: var(--borderWidth);
   }
 }
 @layer base {
