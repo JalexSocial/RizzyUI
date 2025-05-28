@@ -438,7 +438,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     shouldAutoEvaluateFunctions = cache;
     return result;
   }
-  function evaluate(el, expression, extras = {}) {
+  function evaluate$1(el, expression, extras = {}) {
     let result;
     evaluateLater(el, expression)((value) => result = value, extras);
     return result;
@@ -604,7 +604,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       effect: effect3,
       cleanup: cleanup2,
       evaluateLater: evaluateLater.bind(evaluateLater, el),
-      evaluate: evaluate.bind(evaluate, el)
+      evaluate: evaluate$1.bind(evaluate$1, el)
     };
     let doCleanup = () => cleanups.forEach((i2) => i2());
     return [utilities, doCleanup];
@@ -1427,7 +1427,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       let binding = el._x_inlineBindings[name];
       binding.extract = extract;
       return dontAutoEvaluateFunctions(() => {
-        return evaluate(el, binding.expression);
+        return evaluate$1(el, binding.expression);
       });
     }
     return getAttributeBinding(el, name, fallback);
@@ -1638,7 +1638,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     entangle,
     throttle,
     debounce,
-    evaluate,
+    evaluate: evaluate$1,
     initTree,
     nextTick,
     prefixed: prefix,
@@ -2967,16 +2967,16 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
     injectMagics(magicContext, el);
     let dataProviderContext = {};
     injectDataProviders(dataProviderContext, magicContext);
-    let data2 = evaluate(el, expression, { scope: dataProviderContext });
+    let data2 = evaluate$1(el, expression, { scope: dataProviderContext });
     if (data2 === void 0 || data2 === true)
       data2 = {};
     injectMagics(data2, el);
     let reactiveData = reactive(data2);
     initInterceptors(reactiveData);
     let undo = addScopeToNode(el, reactiveData);
-    reactiveData["init"] && evaluate(el, reactiveData["init"]);
+    reactiveData["init"] && evaluate$1(el, reactiveData["init"]);
     cleanup2(() => {
-      reactiveData["destroy"] && evaluate(el, reactiveData["destroy"]);
+      reactiveData["destroy"] && evaluate$1(el, reactiveData["destroy"]);
       undo();
     });
   });
@@ -5110,6 +5110,22 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
     x: v2,
     y: v2
   });
+  const oppositeSideMap = {
+    left: "right",
+    right: "left",
+    bottom: "top",
+    top: "bottom"
+  };
+  const oppositeAlignmentMap = {
+    start: "end",
+    end: "start"
+  };
+  function clamp(start2, value, end) {
+    return max(start2, min(value, end));
+  }
+  function evaluate(value, param) {
+    return typeof value === "function" ? value(param) : value;
+  }
   function getSide(placement) {
     return placement.split("-")[0];
   }
@@ -5127,6 +5143,74 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
   }
   function getAlignmentAxis(placement) {
     return getOppositeAxis(getSideAxis(placement));
+  }
+  function getAlignmentSides(placement, rects, rtl) {
+    if (rtl === void 0) {
+      rtl = false;
+    }
+    const alignment = getAlignment(placement);
+    const alignmentAxis = getAlignmentAxis(placement);
+    const length = getAxisLength(alignmentAxis);
+    let mainAlignmentSide = alignmentAxis === "x" ? alignment === (rtl ? "end" : "start") ? "right" : "left" : alignment === "start" ? "bottom" : "top";
+    if (rects.reference[length] > rects.floating[length]) {
+      mainAlignmentSide = getOppositePlacement(mainAlignmentSide);
+    }
+    return [mainAlignmentSide, getOppositePlacement(mainAlignmentSide)];
+  }
+  function getExpandedPlacements(placement) {
+    const oppositePlacement = getOppositePlacement(placement);
+    return [getOppositeAlignmentPlacement(placement), oppositePlacement, getOppositeAlignmentPlacement(oppositePlacement)];
+  }
+  function getOppositeAlignmentPlacement(placement) {
+    return placement.replace(/start|end/g, (alignment) => oppositeAlignmentMap[alignment]);
+  }
+  function getSideList(side, isStart, rtl) {
+    const lr = ["left", "right"];
+    const rl = ["right", "left"];
+    const tb = ["top", "bottom"];
+    const bt = ["bottom", "top"];
+    switch (side) {
+      case "top":
+      case "bottom":
+        if (rtl) return isStart ? rl : lr;
+        return isStart ? lr : rl;
+      case "left":
+      case "right":
+        return isStart ? tb : bt;
+      default:
+        return [];
+    }
+  }
+  function getOppositeAxisPlacements(placement, flipAlignment, direction, rtl) {
+    const alignment = getAlignment(placement);
+    let list = getSideList(getSide(placement), direction === "start", rtl);
+    if (alignment) {
+      list = list.map((side) => side + "-" + alignment);
+      if (flipAlignment) {
+        list = list.concat(list.map(getOppositeAlignmentPlacement));
+      }
+    }
+    return list;
+  }
+  function getOppositePlacement(placement) {
+    return placement.replace(/left|right|bottom|top/g, (side) => oppositeSideMap[side]);
+  }
+  function expandPaddingObject(padding) {
+    return {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      ...padding
+    };
+  }
+  function getPaddingObject(padding) {
+    return typeof padding !== "number" ? expandPaddingObject(padding) : {
+      top: padding,
+      right: padding,
+      bottom: padding,
+      left: padding
+    };
   }
   function rectToClientRect(rect) {
     const {
@@ -5282,6 +5366,310 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       placement: statefulPlacement,
       strategy,
       middlewareData
+    };
+  };
+  async function detectOverflow(state, options) {
+    var _await$platform$isEle;
+    if (options === void 0) {
+      options = {};
+    }
+    const {
+      x,
+      y,
+      platform: platform2,
+      rects,
+      elements,
+      strategy
+    } = state;
+    const {
+      boundary = "clippingAncestors",
+      rootBoundary = "viewport",
+      elementContext = "floating",
+      altBoundary = false,
+      padding = 0
+    } = evaluate(options, state);
+    const paddingObject = getPaddingObject(padding);
+    const altContext = elementContext === "floating" ? "reference" : "floating";
+    const element = elements[altBoundary ? altContext : elementContext];
+    const clippingClientRect = rectToClientRect(await platform2.getClippingRect({
+      element: ((_await$platform$isEle = await (platform2.isElement == null ? void 0 : platform2.isElement(element))) != null ? _await$platform$isEle : true) ? element : element.contextElement || await (platform2.getDocumentElement == null ? void 0 : platform2.getDocumentElement(elements.floating)),
+      boundary,
+      rootBoundary,
+      strategy
+    }));
+    const rect = elementContext === "floating" ? {
+      x,
+      y,
+      width: rects.floating.width,
+      height: rects.floating.height
+    } : rects.reference;
+    const offsetParent = await (platform2.getOffsetParent == null ? void 0 : platform2.getOffsetParent(elements.floating));
+    const offsetScale = await (platform2.isElement == null ? void 0 : platform2.isElement(offsetParent)) ? await (platform2.getScale == null ? void 0 : platform2.getScale(offsetParent)) || {
+      x: 1,
+      y: 1
+    } : {
+      x: 1,
+      y: 1
+    };
+    const elementClientRect = rectToClientRect(platform2.convertOffsetParentRelativeRectToViewportRelativeRect ? await platform2.convertOffsetParentRelativeRectToViewportRelativeRect({
+      elements,
+      rect,
+      offsetParent,
+      strategy
+    }) : rect);
+    return {
+      top: (clippingClientRect.top - elementClientRect.top + paddingObject.top) / offsetScale.y,
+      bottom: (elementClientRect.bottom - clippingClientRect.bottom + paddingObject.bottom) / offsetScale.y,
+      left: (clippingClientRect.left - elementClientRect.left + paddingObject.left) / offsetScale.x,
+      right: (elementClientRect.right - clippingClientRect.right + paddingObject.right) / offsetScale.x
+    };
+  }
+  const flip$1 = function(options) {
+    if (options === void 0) {
+      options = {};
+    }
+    return {
+      name: "flip",
+      options,
+      async fn(state) {
+        var _middlewareData$arrow, _middlewareData$flip;
+        const {
+          placement,
+          middlewareData,
+          rects,
+          initialPlacement,
+          platform: platform2,
+          elements
+        } = state;
+        const {
+          mainAxis: checkMainAxis = true,
+          crossAxis: checkCrossAxis = true,
+          fallbackPlacements: specifiedFallbackPlacements,
+          fallbackStrategy = "bestFit",
+          fallbackAxisSideDirection = "none",
+          flipAlignment = true,
+          ...detectOverflowOptions
+        } = evaluate(options, state);
+        if ((_middlewareData$arrow = middlewareData.arrow) != null && _middlewareData$arrow.alignmentOffset) {
+          return {};
+        }
+        const side = getSide(placement);
+        const initialSideAxis = getSideAxis(initialPlacement);
+        const isBasePlacement = getSide(initialPlacement) === initialPlacement;
+        const rtl = await (platform2.isRTL == null ? void 0 : platform2.isRTL(elements.floating));
+        const fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipAlignment ? [getOppositePlacement(initialPlacement)] : getExpandedPlacements(initialPlacement));
+        const hasFallbackAxisSideDirection = fallbackAxisSideDirection !== "none";
+        if (!specifiedFallbackPlacements && hasFallbackAxisSideDirection) {
+          fallbackPlacements.push(...getOppositeAxisPlacements(initialPlacement, flipAlignment, fallbackAxisSideDirection, rtl));
+        }
+        const placements = [initialPlacement, ...fallbackPlacements];
+        const overflow = await detectOverflow(state, detectOverflowOptions);
+        const overflows = [];
+        let overflowsData = ((_middlewareData$flip = middlewareData.flip) == null ? void 0 : _middlewareData$flip.overflows) || [];
+        if (checkMainAxis) {
+          overflows.push(overflow[side]);
+        }
+        if (checkCrossAxis) {
+          const sides = getAlignmentSides(placement, rects, rtl);
+          overflows.push(overflow[sides[0]], overflow[sides[1]]);
+        }
+        overflowsData = [...overflowsData, {
+          placement,
+          overflows
+        }];
+        if (!overflows.every((side2) => side2 <= 0)) {
+          var _middlewareData$flip2, _overflowsData$filter;
+          const nextIndex = (((_middlewareData$flip2 = middlewareData.flip) == null ? void 0 : _middlewareData$flip2.index) || 0) + 1;
+          const nextPlacement = placements[nextIndex];
+          if (nextPlacement) {
+            var _overflowsData$;
+            const ignoreCrossAxisOverflow = checkCrossAxis === "alignment" ? initialSideAxis !== getSideAxis(nextPlacement) : false;
+            const hasInitialMainAxisOverflow = ((_overflowsData$ = overflowsData[0]) == null ? void 0 : _overflowsData$.overflows[0]) > 0;
+            if (!ignoreCrossAxisOverflow || hasInitialMainAxisOverflow) {
+              return {
+                data: {
+                  index: nextIndex,
+                  overflows: overflowsData
+                },
+                reset: {
+                  placement: nextPlacement
+                }
+              };
+            }
+          }
+          let resetPlacement = (_overflowsData$filter = overflowsData.filter((d2) => d2.overflows[0] <= 0).sort((a2, b) => a2.overflows[1] - b.overflows[1])[0]) == null ? void 0 : _overflowsData$filter.placement;
+          if (!resetPlacement) {
+            switch (fallbackStrategy) {
+              case "bestFit": {
+                var _overflowsData$filter2;
+                const placement2 = (_overflowsData$filter2 = overflowsData.filter((d2) => {
+                  if (hasFallbackAxisSideDirection) {
+                    const currentSideAxis = getSideAxis(d2.placement);
+                    return currentSideAxis === initialSideAxis || // Create a bias to the `y` side axis due to horizontal
+                    // reading directions favoring greater width.
+                    currentSideAxis === "y";
+                  }
+                  return true;
+                }).map((d2) => [d2.placement, d2.overflows.filter((overflow2) => overflow2 > 0).reduce((acc, overflow2) => acc + overflow2, 0)]).sort((a2, b) => a2[1] - b[1])[0]) == null ? void 0 : _overflowsData$filter2[0];
+                if (placement2) {
+                  resetPlacement = placement2;
+                }
+                break;
+              }
+              case "initialPlacement":
+                resetPlacement = initialPlacement;
+                break;
+            }
+          }
+          if (placement !== resetPlacement) {
+            return {
+              reset: {
+                placement: resetPlacement
+              }
+            };
+          }
+        }
+        return {};
+      }
+    };
+  };
+  async function convertValueToCoords(state, options) {
+    const {
+      placement,
+      platform: platform2,
+      elements
+    } = state;
+    const rtl = await (platform2.isRTL == null ? void 0 : platform2.isRTL(elements.floating));
+    const side = getSide(placement);
+    const alignment = getAlignment(placement);
+    const isVertical = getSideAxis(placement) === "y";
+    const mainAxisMulti = ["left", "top"].includes(side) ? -1 : 1;
+    const crossAxisMulti = rtl && isVertical ? -1 : 1;
+    const rawValue = evaluate(options, state);
+    let {
+      mainAxis,
+      crossAxis,
+      alignmentAxis
+    } = typeof rawValue === "number" ? {
+      mainAxis: rawValue,
+      crossAxis: 0,
+      alignmentAxis: null
+    } : {
+      mainAxis: rawValue.mainAxis || 0,
+      crossAxis: rawValue.crossAxis || 0,
+      alignmentAxis: rawValue.alignmentAxis
+    };
+    if (alignment && typeof alignmentAxis === "number") {
+      crossAxis = alignment === "end" ? alignmentAxis * -1 : alignmentAxis;
+    }
+    return isVertical ? {
+      x: crossAxis * crossAxisMulti,
+      y: mainAxis * mainAxisMulti
+    } : {
+      x: mainAxis * mainAxisMulti,
+      y: crossAxis * crossAxisMulti
+    };
+  }
+  const offset$1 = function(options) {
+    if (options === void 0) {
+      options = 0;
+    }
+    return {
+      name: "offset",
+      options,
+      async fn(state) {
+        var _middlewareData$offse, _middlewareData$arrow;
+        const {
+          x,
+          y,
+          placement,
+          middlewareData
+        } = state;
+        const diffCoords = await convertValueToCoords(state, options);
+        if (placement === ((_middlewareData$offse = middlewareData.offset) == null ? void 0 : _middlewareData$offse.placement) && (_middlewareData$arrow = middlewareData.arrow) != null && _middlewareData$arrow.alignmentOffset) {
+          return {};
+        }
+        return {
+          x: x + diffCoords.x,
+          y: y + diffCoords.y,
+          data: {
+            ...diffCoords,
+            placement
+          }
+        };
+      }
+    };
+  };
+  const shift$1 = function(options) {
+    if (options === void 0) {
+      options = {};
+    }
+    return {
+      name: "shift",
+      options,
+      async fn(state) {
+        const {
+          x,
+          y,
+          placement
+        } = state;
+        const {
+          mainAxis: checkMainAxis = true,
+          crossAxis: checkCrossAxis = false,
+          limiter = {
+            fn: (_ref) => {
+              let {
+                x: x2,
+                y: y2
+              } = _ref;
+              return {
+                x: x2,
+                y: y2
+              };
+            }
+          },
+          ...detectOverflowOptions
+        } = evaluate(options, state);
+        const coords = {
+          x,
+          y
+        };
+        const overflow = await detectOverflow(state, detectOverflowOptions);
+        const crossAxis = getSideAxis(getSide(placement));
+        const mainAxis = getOppositeAxis(crossAxis);
+        let mainAxisCoord = coords[mainAxis];
+        let crossAxisCoord = coords[crossAxis];
+        if (checkMainAxis) {
+          const minSide = mainAxis === "y" ? "top" : "left";
+          const maxSide = mainAxis === "y" ? "bottom" : "right";
+          const min2 = mainAxisCoord + overflow[minSide];
+          const max2 = mainAxisCoord - overflow[maxSide];
+          mainAxisCoord = clamp(min2, mainAxisCoord, max2);
+        }
+        if (checkCrossAxis) {
+          const minSide = crossAxis === "y" ? "top" : "left";
+          const maxSide = crossAxis === "y" ? "bottom" : "right";
+          const min2 = crossAxisCoord + overflow[minSide];
+          const max2 = crossAxisCoord - overflow[maxSide];
+          crossAxisCoord = clamp(min2, crossAxisCoord, max2);
+        }
+        const limitedCoords = limiter.fn({
+          ...state,
+          [mainAxis]: mainAxisCoord,
+          [crossAxis]: crossAxisCoord
+        });
+        return {
+          ...limitedCoords,
+          data: {
+            x: limitedCoords.x - x,
+            y: limitedCoords.y - y,
+            enabled: {
+              [mainAxis]: checkMainAxis,
+              [crossAxis]: checkCrossAxis
+            }
+          }
+        };
+      }
     };
   };
   function hasWindow() {
@@ -5858,6 +6246,9 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
     isElement,
     isRTL
   };
+  const offset = offset$1;
+  const shift = shift$1;
+  const flip = flip$1;
   const computePosition = (reference, floating, options) => {
     const cache = /* @__PURE__ */ new Map();
     const mergedOptions = {
@@ -5878,33 +6269,29 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       dropdownEl: null,
       triggerEl: null,
       floatingEl: null,
-      anchorCss: "",
+      anchor: "",
+      offset: 6,
       dropdownOpen: false,
       openedWithKeyboard: false,
       init() {
         this.dropdownEl = this.$el;
+        this.offset = this.$el.dataset.offset || 6;
+        this.anchor = (this.$el.dataset.anchor || "bottom").toLowerCase();
         this.triggerEl = this.dropdownEl.querySelector("[data-trigger]");
         this.floatingEl = this.dropdownEl.querySelector("[data-floating]");
         this.anchorCss = this.getAnchorCss();
       },
       toggleDropdown() {
         this.anchorCss = this.getAnchorCss();
-        let tempContainer = document.createElement("div");
-        tempContainer.style.cssText = "position: absolute; top: 0; left: 0; visibility: hidden; pointer-events: none;";
-        this.dropdownEl.appendChild(tempContainer);
-        let clone2 = this.floatingEl.cloneNode(true);
-        clone2.style.transition = "none";
-        clone2.style.transform = "none";
-        clone2.style.opacity = "1";
-        clone2.style.display = "block";
-        tempContainer.appendChild(clone2);
-        computePosition(this.triggerEl, clone2).then(({ x, y }) => {
+        computePosition(this.triggerEl, this.floatingEl, {
+          placement: this.anchor,
+          middleware: [offset(this.offset), flip(), shift()]
+        }).then(({ x, y }) => {
           Object.assign(this.floatingEl.style, {
             left: `${x}px`,
             top: `${y}px`
           });
           this.dropdownOpen = !this.dropdownOpen;
-          tempContainer.parentNode.removeChild(tempContainer);
         });
       },
       openDropdown() {

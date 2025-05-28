@@ -3,7 +3,7 @@
 @inherits RzComponent
 
 <HtmlElement Element="div" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
-	<div x-data="rzDropdown" data-alpine-root="@Id" data-anchor="@Anchor.ToString().ToLowerInvariant()" class="@Theme.RzDropdown.RelativeWrapper">
+	<div x-data="rzDropdown" data-alpine-root="@Id" data-offset="@Offset" data-anchor="@Anchor.ToString().ToLowerInvariant()" class="@Theme.RzDropdown.RelativeWrapper">
 		<div
 			data-trigger
 			class="@Theme.RzDropdown.TriggerWrapper"
@@ -16,25 +16,24 @@
 			x-on:keydown.esc.window="closeDropdown">
 			<div>@Trigger</div>
 		</div>
-		<div data-floating
-		     x-cloak
-		     x-show="dropdownOpen"
-		     x-transition:enter="transition ease-out duration-100"
-		     x-transition:enter-start="opacity-0 scale-90"
-		     x-transition:enter-end="opacity-100 scale-100"
-		     x-transition:leave="transition ease-in duration-75"
-		     x-transition:leave-start="opacity-100 scale-100"
-		     x-transition:leave-end="opacity-0 scale-90"
-		     x-on:click.outside="closeDropdown"
-		     x-trap="openedWithKeyboard"
-		     x-on:keydown.down.prevent="focusWrapNext" x-on:keydown.up.prevent="focusWrapPrevious"
-		     role="menu"
-		     aria-labelledby="rz-dropdown-trigger"
-		     class="@Theme.RzDropdown.MenuContainer"
-		     x-bind:class="anchorCss">
-			<div class="@Theme.RzDropdown.MenuInnerContainer">
-				@Content
-			</div>
+		<div data-floating class="@Theme.RzDropdown.MenuContainer">
+			<div x-cloak
+			     x-show="dropdownOpen"
+			     x-transition:enter="transition ease-out duration-100"
+			     x-transition:enter-start="opacity-0 scale-90"
+			     x-transition:enter-end="opacity-100 scale-100"
+			     x-transition:leave="transition ease-in duration-75"
+			     x-transition:leave-start="opacity-100 scale-100"
+			     x-transition:leave-end="opacity-0 scale-90"
+			     x-on:click.outside="closeDropdown"
+			     x-trap="openedWithKeyboard"
+			     x-on:keydown.down.prevent="focusWrapNext" x-on:keydown.up.prevent="focusWrapPrevious"
+			     role="menu"
+			     aria-labelledby="rz-dropdown-trigger">
+				<div class="@Theme.RzDropdown.MenuInnerContainer">
+					@Content
+				</div>
+			</div>			
 		</div>
 	</div>
 </HtmlElement>

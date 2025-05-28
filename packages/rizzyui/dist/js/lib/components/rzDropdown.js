@@ -1,4 +1,4 @@
-import {computePosition} from '@floating-ui/dom';
+import {computePosition, flip, shift, offset} from '@floating-ui/dom';
 
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzDropdown
@@ -10,11 +10,14 @@ export default function(Alpine) {
         dropdownEl: null,
         triggerEl: null,
         floatingEl: null,
-        anchorCss: "",
+        anchor: "",
+        offset: 6,
         dropdownOpen: false,
         openedWithKeyboard: false,
         init() {
             this.dropdownEl = this.$el;
+            this.offset = this.$el.dataset.offset || 6;
+            this.anchor = (this.$el.dataset.anchor || "bottom").toLowerCase();
             this.triggerEl = this.dropdownEl.querySelector('[data-trigger]');
             this.floatingEl = this.dropdownEl.querySelector('[data-floating]');
             this.anchorCss = this.getAnchorCss();
@@ -22,26 +25,16 @@ export default function(Alpine) {
         toggleDropdown() {
             this.anchorCss = this.getAnchorCss();
 
-            let tempContainer = document.createElement('div');
-            tempContainer.style.cssText = "position: absolute; top: 0; left: 0; visibility: hidden; pointer-events: none;";
-            this.dropdownEl.appendChild(tempContainer);
-
-            // Clone the dropdown menu element (expected to have role="menu")
-            let clone = this.floatingEl.cloneNode(true);
-            clone.style.transition = "none";
-            clone.style.transform = "none";
-            clone.style.opacity = "1";
-            clone.style.display = "block";
-            tempContainer.appendChild(clone);
-
-            computePosition(this.triggerEl, clone).then(({x, y}) => {
+            computePosition(this.triggerEl, this.floatingEl, {
+                placement: this.anchor,
+                middleware: [offset(this.offset), flip(), shift()]
+            }).then(({x, y}) => {
                 Object.assign(this.floatingEl.style, {
                     left: `${x}px`,
                     top: `${y}px`,
                 });
 
                 this.dropdownOpen = !this.dropdownOpen;
-                tempContainer.parentNode.removeChild(tempContainer);
             });            
         },
         openDropdown() {

@@ -213,7 +213,7 @@ public enum AnchorPoint
     /// <summary>
     ///     Anchor to top with center-alignment
     /// </summary>
-    TopCenter,
+    Top,
 
     /// <summary>
     ///     Anchor to top end
@@ -221,19 +221,34 @@ public enum AnchorPoint
     TopEnd,
 
     /// <summary>
-    ///     Anchor to Start middle
+    ///     Anchor to left start
     /// </summary>
-    Start,
+    LeftStart,
 
     /// <summary>
-    ///     Anchor to end middle
+    /// Anchor to left middle
     /// </summary>
-    End,
+    Left,
+    
+    /// <summary>
+    /// Anchor to left end
+    /// </summary>
+    LeftEnd,
+    
+    /// <summary>
+    ///     Anchor to right start
+    /// </summary>
+    RightStart,
 
     /// <summary>
-    ///     Anchor to bottom end
+    /// Anchor to right middle
     /// </summary>
-    BottomEnd,
+    Right,
+    
+    /// <summary>
+    /// Anchor to right end
+    /// </summary>
+    RightEnd,
 
     /// <summary>
     ///     Anchor to bottom start
@@ -241,9 +256,14 @@ public enum AnchorPoint
     BottomStart,
 
     /// <summary>
-    ///     Anchor to bottom center
+    ///     Anchor to bottom
     /// </summary>
-    BottomCenter
+    Bottom,
+
+    /// <summary>
+    ///     Anchor to bottom end
+    /// </summary>
+    BottomEnd
 }
 
 /// <summary>
