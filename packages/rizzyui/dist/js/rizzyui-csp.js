@@ -6269,6 +6269,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       dropdownEl: null,
       triggerEl: null,
       floatingEl: null,
+      floatingCss: "",
       anchor: "",
       offset: 6,
       dropdownOpen: false,
@@ -6279,6 +6280,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         this.anchor = (this.$el.dataset.anchor || "bottom").toLowerCase();
         this.triggerEl = this.dropdownEl.querySelector("[data-trigger]");
         this.floatingEl = this.dropdownEl.querySelector("[data-floating]");
+        this.updateFloatingCss();
       },
       toggleDropdown() {
         this.dropdownOpen = !this.dropdownOpen;
@@ -6309,6 +6311,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       // Computes the Tailwind CSS classes for the dropdown's anchor based on its data attribute
       updateFloatingCss() {
         this.floatingEl.style.display = this.dropdownOpen ? "block" : "none";
+        this.floatingCss = this.dropdownOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none";
         if (this.dropdownOpen) {
           computePosition(this.triggerEl, this.floatingEl, {
             placement: this.anchor,

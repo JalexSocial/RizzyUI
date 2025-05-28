@@ -4264,12 +4264,13 @@ function Fc(e) {
     dropdownEl: null,
     triggerEl: null,
     floatingEl: null,
+    floatingCss: "",
     anchor: "",
     offset: 6,
     dropdownOpen: !1,
     openedWithKeyboard: !1,
     init() {
-      this.dropdownEl = this.$el, this.offset = parseInt(this.$el.dataset.offset || 6), this.anchor = (this.$el.dataset.anchor || "bottom").toLowerCase(), this.triggerEl = this.dropdownEl.querySelector("[data-trigger]"), this.floatingEl = this.dropdownEl.querySelector("[data-floating]");
+      this.dropdownEl = this.$el, this.offset = parseInt(this.$el.dataset.offset || 6), this.anchor = (this.$el.dataset.anchor || "bottom").toLowerCase(), this.triggerEl = this.dropdownEl.querySelector("[data-trigger]"), this.floatingEl = this.dropdownEl.querySelector("[data-floating]"), this.updateFloatingCss();
     },
     toggleDropdown() {
       this.dropdownOpen = !this.dropdownOpen, this.updateFloatingCss();
@@ -4291,7 +4292,7 @@ function Fc(e) {
     },
     // Computes the Tailwind CSS classes for the dropdown's anchor based on its data attribute
     updateFloatingCss() {
-      this.floatingEl.style.display = this.dropdownOpen ? "block" : "none", this.dropdownOpen && $c(this.triggerEl, this.floatingEl, {
+      this.floatingEl.style.display = this.dropdownOpen ? "block" : "none", this.floatingCss = this.dropdownOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none", this.dropdownOpen && $c(this.triggerEl, this.floatingEl, {
         placement: this.anchor,
         middleware: [Rc(this.offset), kc(), Lc()]
       }).then(({ x: t, y: n }) => {
