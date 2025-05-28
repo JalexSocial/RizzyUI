@@ -21,7 +21,7 @@ public class DefaultRzDropdownStyles : RzStylesBase.RzDropdownStylesBase
     public override string TriggerWrapper => "inline-flex items-center justify-center space-x-2";
 
     /// <inheritdoc />
-    public override string MenuContainer => "z-60 absolute w-64 rounded-theme shadow-xl dark:shadow-gray-900";
+    public override string MenuContainer => "z-60 w-64 rounded-theme shadow-xl dark:shadow-gray-900";
 
     /// <inheritdoc />
     public override string MenuInnerContainer =>
