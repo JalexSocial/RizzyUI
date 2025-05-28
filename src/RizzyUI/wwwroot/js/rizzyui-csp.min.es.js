@@ -4269,27 +4269,19 @@ function Fc(e) {
     dropdownOpen: !1,
     openedWithKeyboard: !1,
     init() {
-      this.dropdownEl = this.$el, this.offset = this.$el.dataset.offset || 6, this.anchor = (this.$el.dataset.anchor || "bottom").toLowerCase(), this.triggerEl = this.dropdownEl.querySelector("[data-trigger]"), this.floatingEl = this.dropdownEl.querySelector("[data-floating]"), this.anchorCss = this.getAnchorCss();
+      this.dropdownEl = this.$el, this.offset = parseInt(this.$el.dataset.offset || 6), this.anchor = (this.$el.dataset.anchor || "bottom").toLowerCase(), this.triggerEl = this.dropdownEl.querySelector("[data-trigger]"), this.floatingEl = this.dropdownEl.querySelector("[data-floating]");
     },
     toggleDropdown() {
-      this.anchorCss = this.getAnchorCss(), $c(this.triggerEl, this.floatingEl, {
-        placement: this.anchor,
-        middleware: [Rc(this.offset), kc(), Lc()]
-      }).then(({ x: t, y: n }) => {
-        Object.assign(this.floatingEl.style, {
-          left: `${t}px`,
-          top: `${n}px`
-        }), this.dropdownOpen = !this.dropdownOpen;
-      });
+      this.dropdownOpen = !this.dropdownOpen, this.updateFloatingCss();
     },
     openDropdown() {
-      this.anchorCss = this.getAnchorCss(), this.dropdownOpen = !0, this.openedWithKeyboard = !1;
+      this.dropdownOpen = !0, this.openedWithKeyboard = !1, this.updateFloatingCss();
     },
     openWithKeyboard() {
-      this.anchorCss = this.getAnchorCss(), this.dropdownOpen = !0, this.openedWithKeyboard = !0, this.focusWrapNext();
+      this.dropdownOpen = !0, this.openedWithKeyboard = !0, this.updateFloatingCss(), this.focusWrapNext();
     },
     closeDropdown() {
-      this.dropdownOpen = !1, this.openedWithKeyboard = !1;
+      this.dropdownOpen = !1, this.openedWithKeyboard = !1, this.updateFloatingCss();
     },
     focusWrapNext() {
       this.$focus.wrap().next();
@@ -4298,8 +4290,16 @@ function Fc(e) {
       this.$focus.wrap().previous();
     },
     // Computes the Tailwind CSS classes for the dropdown's anchor based on its data attribute
-    getAnchorCss() {
-      return "";
+    updateFloatingCss() {
+      this.floatingEl.style.display = this.dropdownOpen ? "block" : "none", this.dropdownOpen && $c(this.triggerEl, this.floatingEl, {
+        placement: this.anchor,
+        middleware: [Rc(this.offset), kc(), Lc()]
+      }).then(({ x: t, y: n }) => {
+        Object.assign(this.floatingEl.style, {
+          left: `${t}px`,
+          top: `${n}px`
+        });
+      });
     }
   }));
 }

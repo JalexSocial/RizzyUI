@@ -2965,39 +2965,30 @@ function registerRzDropdown(Alpine2) {
     openedWithKeyboard: false,
     init() {
       this.dropdownEl = this.$el;
-      this.offset = this.$el.dataset.offset || 6;
+      this.offset = parseInt(this.$el.dataset.offset || 6);
       this.anchor = (this.$el.dataset.anchor || "bottom").toLowerCase();
       this.triggerEl = this.dropdownEl.querySelector("[data-trigger]");
       this.floatingEl = this.dropdownEl.querySelector("[data-floating]");
-      this.anchorCss = this.getAnchorCss();
     },
     toggleDropdown() {
-      this.anchorCss = this.getAnchorCss();
-      computePosition(this.triggerEl, this.floatingEl, {
-        placement: this.anchor,
-        middleware: [offset(this.offset), flip(), shift()]
-      }).then(({ x, y }) => {
-        Object.assign(this.floatingEl.style, {
-          left: `${x}px`,
-          top: `${y}px`
-        });
-        this.dropdownOpen = !this.dropdownOpen;
-      });
+      this.dropdownOpen = !this.dropdownOpen;
+      this.updateFloatingCss();
     },
     openDropdown() {
-      this.anchorCss = this.getAnchorCss();
       this.dropdownOpen = true;
       this.openedWithKeyboard = false;
+      this.updateFloatingCss();
     },
     openWithKeyboard() {
-      this.anchorCss = this.getAnchorCss();
       this.dropdownOpen = true;
       this.openedWithKeyboard = true;
+      this.updateFloatingCss();
       this.focusWrapNext();
     },
     closeDropdown() {
       this.dropdownOpen = false;
       this.openedWithKeyboard = false;
+      this.updateFloatingCss();
     },
     focusWrapNext() {
       this.$focus.wrap().next();
@@ -3006,8 +2997,19 @@ function registerRzDropdown(Alpine2) {
       this.$focus.wrap().previous();
     },
     // Computes the Tailwind CSS classes for the dropdown's anchor based on its data attribute
-    getAnchorCss() {
-      return "";
+    updateFloatingCss() {
+      this.floatingEl.style.display = this.dropdownOpen ? "block" : "none";
+      if (this.dropdownOpen) {
+        computePosition(this.triggerEl, this.floatingEl, {
+          placement: this.anchor,
+          middleware: [offset(this.offset), flip(), shift()]
+        }).then(({ x, y }) => {
+          Object.assign(this.floatingEl.style, {
+            left: `${x}px`,
+            top: `${y}px`
+          });
+        });
+      }
     }
   }));
 }
