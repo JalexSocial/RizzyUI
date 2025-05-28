@@ -5885,12 +5885,22 @@ function registerRzDropdown(Alpine2) {
     },
     toggleDropdown() {
       this.anchorCss = this.getAnchorCss();
-      computePosition(this.triggerEl, this.floatingEl).then(({ x, y }) => {
+      let tempContainer = document.createElement("div");
+      tempContainer.style.cssText = "position: absolute; top: 0; left: 0; visibility: hidden; pointer-events: none;";
+      this.dropdownEl.appendChild(tempContainer);
+      let clone2 = this.floatingEl.cloneNode(true);
+      clone2.style.transition = "none";
+      clone2.style.transform = "none";
+      clone2.style.opacity = "1";
+      clone2.style.display = "block";
+      tempContainer.appendChild(clone2);
+      computePosition(this.triggerEl, clone2).then(({ x, y }) => {
         Object.assign(this.floatingEl.style, {
           left: `${x}px`,
           top: `${y}px`
         });
         this.dropdownOpen = !this.dropdownOpen;
+        tempContainer.parentNode.removeChild(tempContainer);
       });
     },
     openDropdown() {

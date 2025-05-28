@@ -3971,11 +3971,15 @@ function fc(e) {
       this.dropdownEl = this.$el, this.triggerEl = this.dropdownEl.querySelector("[data-trigger]"), this.floatingEl = this.dropdownEl.querySelector("[data-floating]"), this.anchorCss = this.getAnchorCss();
     },
     toggleDropdown() {
-      this.anchorCss = this.getAnchorCss(), dc(this.triggerEl, this.floatingEl).then(({ x: t, y: n }) => {
+      this.anchorCss = this.getAnchorCss();
+      let t = document.createElement("div");
+      t.style.cssText = "position: absolute; top: 0; left: 0; visibility: hidden; pointer-events: none;", this.dropdownEl.appendChild(t);
+      let n = this.floatingEl.cloneNode(!0);
+      n.style.transition = "none", n.style.transform = "none", n.style.opacity = "1", n.style.display = "block", t.appendChild(n), dc(this.triggerEl, n).then(({ x: r, y: i }) => {
         Object.assign(this.floatingEl.style, {
-          left: `${t}px`,
-          top: `${n}px`
-        }), this.dropdownOpen = !this.dropdownOpen;
+          left: `${r}px`,
+          top: `${i}px`
+        }), this.dropdownOpen = !this.dropdownOpen, t.parentNode.removeChild(t);
       });
     },
     openDropdown() {

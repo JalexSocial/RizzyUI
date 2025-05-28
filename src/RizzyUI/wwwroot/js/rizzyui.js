@@ -2582,12 +2582,22 @@
       },
       toggleDropdown() {
         this.anchorCss = this.getAnchorCss();
-        computePosition(this.triggerEl, this.floatingEl).then(({ x, y }) => {
+        let tempContainer = document.createElement("div");
+        tempContainer.style.cssText = "position: absolute; top: 0; left: 0; visibility: hidden; pointer-events: none;";
+        this.dropdownEl.appendChild(tempContainer);
+        let clone = this.floatingEl.cloneNode(true);
+        clone.style.transition = "none";
+        clone.style.transform = "none";
+        clone.style.opacity = "1";
+        clone.style.display = "block";
+        tempContainer.appendChild(clone);
+        computePosition(this.triggerEl, clone).then(({ x, y }) => {
           Object.assign(this.floatingEl.style, {
             left: `${x}px`,
             top: `${y}px`
           });
           this.dropdownOpen = !this.dropdownOpen;
+          tempContainer.parentNode.removeChild(tempContainer);
         });
       },
       openDropdown() {
