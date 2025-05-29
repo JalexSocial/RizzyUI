@@ -54,7 +54,7 @@ export default function(Alpine) {
         updateFloatingCss() {
             this.floatingEl.style.display = this.dropdownOpen ? "block" : "none";
             this.floatingCss = this.dropdownOpen ? 'opacity-100 scale-100 pointer-events-auto'
-                : 'opacity-0 scale-95 pointer-events-none';
+                : 'opacity-0 scale-90 pointer-events-none';
 
             if (this.dropdownOpen) {
                 computePosition(this.triggerEl, this.floatingEl, {

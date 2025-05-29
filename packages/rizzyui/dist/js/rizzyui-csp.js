@@ -6311,7 +6311,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       // Computes the Tailwind CSS classes for the dropdown's anchor based on its data attribute
       updateFloatingCss() {
         this.floatingEl.style.display = this.dropdownOpen ? "block" : "none";
-        this.floatingCss = this.dropdownOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none";
+        this.floatingCss = this.dropdownOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-90 pointer-events-none";
         if (this.dropdownOpen) {
           computePosition(this.triggerEl, this.floatingEl, {
             placement: this.anchor,

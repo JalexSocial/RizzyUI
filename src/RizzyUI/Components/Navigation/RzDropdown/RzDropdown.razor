@@ -16,7 +16,7 @@
 			x-on:keydown.esc.window="closeDropdown">
 			<div>@Trigger</div>
 		</div>
-		<div data-floating class="absolute top-0 left-0 z-60 w-max hidden ease-in transition-[opacity,scale] duration-75" :class="floatingCss">
+		<div data-floating class="absolute top-0 left-0 z-60 w-max hidden ease-in transition-[opacity,scale] motion-reduce:transition-opacity duration-75" :class="floatingCss">
 			<div class="@Theme.RzDropdown.MenuContainer"
 				 x-cloak
 			     x-on:click.outside="closeDropdown"

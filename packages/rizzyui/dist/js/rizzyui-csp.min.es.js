@@ -4292,7 +4292,7 @@ function Fc(e) {
     },
     // Computes the Tailwind CSS classes for the dropdown's anchor based on its data attribute
     updateFloatingCss() {
-      this.floatingEl.style.display = this.dropdownOpen ? "block" : "none", this.floatingCss = this.dropdownOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none", this.dropdownOpen && $c(this.triggerEl, this.floatingEl, {
+      this.floatingEl.style.display = this.dropdownOpen ? "block" : "none", this.floatingCss = this.dropdownOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-90 pointer-events-none", this.dropdownOpen && $c(this.triggerEl, this.floatingEl, {
         placement: this.anchor,
         middleware: [Rc(this.offset), kc(), Lc()]
       }).then(({ x: t, y: n }) => {
