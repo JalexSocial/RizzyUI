@@ -1514,7 +1514,7 @@ function Lo() {
     i
   ];
 }
-var [ko, $o, Xc, Qc] = /* @__PURE__ */ Lo();
+var [ko, $o, Qc, el] = /* @__PURE__ */ Lo();
 function sr(e, t) {
   const n = e ? $o : ko;
   return (i, r, s) => r === "__v_isReactive" ? !e : r === "__v_isReadonly" ? e : r === "__v_raw" ? i : Reflect.get(yt(n, r) && r in i ? n : i, r, s);
@@ -4426,7 +4426,15 @@ function zc(e) {
     }
   }));
 }
-function Bc(e, t) {
+function Bc(e) {
+  e.data("rzIndicator", () => ({
+    init() {
+      const t = this.$el.dataset.color;
+      t && (this.$el.style.backgroundColor = t);
+    }
+  }));
+}
+function jc(e, t) {
   e.data("rzMarkdown", () => ({
     init() {
       const n = JSON.parse(this.$el.dataset.assets), i = this.$el.dataset.nonce;
@@ -4441,7 +4449,7 @@ function Bc(e, t) {
     }
   }));
 }
-function jc(e) {
+function Wc(e) {
   e.data("rzModal", () => ({
     modalOpen: !1,
     // Main state variable
@@ -4517,7 +4525,7 @@ function jc(e) {
     }
   }));
 }
-function Wc(e) {
+function Hc(e) {
   e.data("rzPrependInput", () => ({
     prependContainer: null,
     textInput: null,
@@ -4542,7 +4550,7 @@ function Wc(e) {
     }
   }));
 }
-function Hc(e) {
+function Vc(e) {
   e.data("rzProgress", () => ({
     currentVal: 0,
     minVal: 0,
@@ -4588,7 +4596,7 @@ function Hc(e) {
     }
   }));
 }
-function Vc(e) {
+function Yc(e) {
   e.data("rzQuickReferenceContainer", () => ({
     headings: [],
     // Array of heading IDs
@@ -4625,7 +4633,7 @@ function Vc(e) {
     }
   }));
 }
-function Yc(e) {
+function Kc(e) {
   e.data("rzTabs", () => ({
     buttonRef: null,
     tabSelected: "",
@@ -4670,7 +4678,7 @@ function Yc(e) {
     }
   }));
 }
-function Kc(e) {
+function qc(e) {
   e.data("rzSidebar", () => ({
     showSidebar: !1,
     isSidebarHidden() {
@@ -4688,7 +4696,7 @@ function Kc(e) {
     }
   }));
 }
-function qc(e) {
+function Uc(e) {
   e.data("rzSidebarLinkItem", () => ({
     isExpanded: !1,
     chevronExpandedClass: "",
@@ -4719,13 +4727,13 @@ function qc(e) {
     }
   }));
 }
-async function Uc(e) {
+async function Gc(e) {
   e = [...e].sort();
   const t = e.join("|"), i = new TextEncoder().encode(t), r = await crypto.subtle.digest("SHA-256", i);
   return Array.from(new Uint8Array(r)).map((o) => o.toString(16).padStart(2, "0")).join("");
 }
 function st(e, t, n) {
-  Uc(e).then((i) => {
+  Gc(e).then((i) => {
     te.isDefined(i) || te(
       e,
       i,
@@ -4737,10 +4745,10 @@ function st(e, t, n) {
     ), te.ready([i], t);
   });
 }
-function Gc(e) {
-  Ga(e), Za(e), Ja(e), Xa(e), Qa(e), ec(e, st), tc(e, st), Fc(e), Mc(e), Dc(e), Pc(e), zc(e), Bc(e, st), jc(e), Wc(e), Hc(e), Vc(e), Yc(e), Kc(e), qc(e);
-}
 function Zc(e) {
+  Ga(e), Za(e), Ja(e), Xa(e), Qa(e), ec(e, st), tc(e, st), Fc(e), Mc(e), Dc(e), Pc(e), zc(e), Bc(e), jc(e, st), Wc(e), Hc(e), Vc(e), Yc(e), Kc(e), qc(e), Uc(e);
+}
+function Jc(e) {
   if (typeof Alpine > "u" || typeof Alpine.$data != "function") {
     console.error(
       "$data helper: Alpine.js context (Alpine.$data) is not available. Ensure Alpine is loaded and initialized globally before use."
@@ -4787,16 +4795,16 @@ function Zc(e) {
 ye.plugin(oa);
 ye.plugin(fa);
 ye.plugin(La);
-Gc(ye);
-const Jc = {
+Zc(ye);
+const Xc = {
   Alpine: ye,
   require: st,
   toast: Ya,
-  $data: Zc
+  $data: Jc
 };
 window.Alpine = ye;
-window.Rizzy = { ...window.Rizzy || {}, ...Jc };
+window.Rizzy = { ...window.Rizzy || {}, ...Xc };
 ye.start();
 export {
-  Jc as default
+  Xc as default
 };

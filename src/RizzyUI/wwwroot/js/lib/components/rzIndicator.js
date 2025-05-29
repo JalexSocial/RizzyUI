@@ -1,7 +1,6 @@
 
 export default function(Alpine) {
     Alpine.data('rzIndicator', () => ({
-        visible: false,
         init() {
             const colorValue = this.$el.dataset.color;
             if (colorValue) {
@@ -12,9 +11,6 @@ export default function(Alpine) {
             // bound to the Blazor 'Visible' parameter. No need for Alpine to manage it
             // from a data-visible attribute, unless more complex Alpine-driven logic
             // for visibility is required later.
-        },
-        notVisible() {
-            return !this.visible;
         }
     }));
 }

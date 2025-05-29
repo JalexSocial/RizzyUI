@@ -7,9 +7,10 @@
      id="@Id"
      class="@RootClass()"
      aria-label="@EffectiveAriaLabel"
-     aria-hidden="@(!Visible).ToString().ToLowerInvariant()"
-     x-show="@Visible.ToString().ToLowerInvariant()"
+     :aria-hidden="notVisible"
+     x-show="visible"
      data-color="@Color.ToCssColorString()"
+     data-visible="@Visible.ToString().ToLowerInvariant()"
      @attributes="@AdditionalAttributes"
      x-cloak>
 </div>

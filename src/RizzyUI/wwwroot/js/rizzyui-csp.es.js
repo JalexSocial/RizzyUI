@@ -6484,6 +6484,16 @@ function registerRzHeading(Alpine2) {
     };
   });
 }
+function registerRzIndicator(Alpine2) {
+  Alpine2.data("rzIndicator", () => ({
+    init() {
+      const colorValue = this.$el.dataset.color;
+      if (colorValue) {
+        this.$el.style.backgroundColor = colorValue;
+      }
+    }
+  }));
+}
 function registerRzMarkdown(Alpine2, require2) {
   Alpine2.data("rzMarkdown", () => {
     return {
@@ -6957,6 +6967,7 @@ function registerComponents(Alpine2) {
   registerRzEmbeddedPreview(Alpine2);
   registerRzEmpty(Alpine2);
   registerRzHeading(Alpine2);
+  registerRzIndicator(Alpine2);
   registerRzMarkdown(Alpine2, rizzyRequire);
   registerRzModal(Alpine2);
   registerRzPrependInput(Alpine2);

@@ -30,6 +30,8 @@ public partial class RzTheme
         AlertDescription = new DefaultAlertDescriptionStyles(this);
         RzArticle = new DefaultRzArticleStyles(this);
         RzAvatar = new DefaultRzAvatarStyles(this);
+        AvatarImage = new DefaultAvatarImageStyles(this);
+        AvatarFallback = new DefaultAvatarFallbackStyles(this);
         RzBadge = new DefaultRzBadgeStyles(this);
         RzBreadcrumb = new DefaultRzBreadcrumbStyles(this);
         RzBreadcrumbItem = new DefaultRzBreadcrumbItemStyles(this);

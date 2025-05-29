@@ -14,6 +14,7 @@ import registerRzDarkModeToggle from './components/rzDarkModeToggle.js';
 import registerRzEmbeddedPreview from './components/rzEmbeddedPreview.js';
 import registerRzEmpty from './components/rzEmpty.js';
 import registerRzHeading from './components/rzHeading.js';
+import registerRzIndicator from './components/rzIndicator.js';
 import registerRzMarkdown from './components/rzMarkdown.js';
 import registerRzModal from './components/rzModal.js';
 import registerRzPrependInput from './components/rzPrependInput.js';
@@ -73,6 +74,7 @@ function registerComponents(Alpine) {
     registerRzEmbeddedPreview(Alpine);
     registerRzEmpty(Alpine);
     registerRzHeading(Alpine);
+    registerRzIndicator(Alpine);
     registerRzMarkdown(Alpine, rizzyRequire);
     registerRzModal(Alpine);
     registerRzPrependInput(Alpine);

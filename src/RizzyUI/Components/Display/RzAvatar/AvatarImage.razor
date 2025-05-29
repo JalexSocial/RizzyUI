@@ -1,0 +1,8 @@
+
+@namespace RizzyUI
+@inherits RzComponent
+
+@if (_renderImage)
+{
+    <img src="@ImageSource" alt="@EffectiveAlternateText" class="@RootClass()" @attributes="AdditionalAttributes" id="@Id" />
+}

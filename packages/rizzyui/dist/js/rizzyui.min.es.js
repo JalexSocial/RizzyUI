@@ -2296,7 +2296,15 @@ function ci(t) {
     }
   }));
 }
-function di(t, e) {
+function di(t) {
+  t.data("rzIndicator", () => ({
+    init() {
+      const e = this.$el.dataset.color;
+      e && (this.$el.style.backgroundColor = e);
+    }
+  }));
+}
+function ui(t, e) {
   t.data("rzMarkdown", () => ({
     init() {
       const n = JSON.parse(this.$el.dataset.assets), i = this.$el.dataset.nonce;
@@ -2311,7 +2319,7 @@ function di(t, e) {
     }
   }));
 }
-function ui(t) {
+function fi(t) {
   t.data("rzModal", () => ({
     modalOpen: !1,
     // Main state variable
@@ -2387,7 +2395,7 @@ function ui(t) {
     }
   }));
 }
-function fi(t) {
+function hi(t) {
   t.data("rzPrependInput", () => ({
     prependContainer: null,
     textInput: null,
@@ -2412,7 +2420,7 @@ function fi(t) {
     }
   }));
 }
-function hi(t) {
+function pi(t) {
   t.data("rzProgress", () => ({
     currentVal: 0,
     minVal: 0,
@@ -2458,7 +2466,7 @@ function hi(t) {
     }
   }));
 }
-function pi(t) {
+function gi(t) {
   t.data("rzQuickReferenceContainer", () => ({
     headings: [],
     // Array of heading IDs
@@ -2495,7 +2503,7 @@ function pi(t) {
     }
   }));
 }
-function gi(t) {
+function mi(t) {
   t.data("rzTabs", () => ({
     buttonRef: null,
     tabSelected: "",
@@ -2540,7 +2548,7 @@ function gi(t) {
     }
   }));
 }
-function mi(t) {
+function vi(t) {
   t.data("rzSidebar", () => ({
     showSidebar: !1,
     isSidebarHidden() {
@@ -2558,7 +2566,7 @@ function mi(t) {
     }
   }));
 }
-function vi(t) {
+function bi(t) {
   t.data("rzSidebarLinkItem", () => ({
     isExpanded: !1,
     chevronExpandedClass: "",
@@ -2589,13 +2597,13 @@ function vi(t) {
     }
   }));
 }
-async function bi(t) {
+async function wi(t) {
   t = [...t].sort();
   const e = t.join("|"), i = new TextEncoder().encode(e), r = await crypto.subtle.digest("SHA-256", i);
   return Array.from(new Uint8Array(r)).map((o) => o.toString(16).padStart(2, "0")).join("");
 }
 function he(t, e, n) {
-  bi(t).then((i) => {
+  wi(t).then((i) => {
     j.isDefined(i) || j(
       t,
       i,
@@ -2607,10 +2615,10 @@ function he(t, e, n) {
     ), j.ready([i], e);
   });
 }
-function wi(t) {
-  wn(t), yn(t), xn(t), En(t), Tn(t), Cn(t, he), In(t, he), si(t), oi(t), ai(t), li(t), ci(t), di(t, he), ui(t), fi(t), hi(t), pi(t), gi(t), mi(t), vi(t);
-}
 function yi(t) {
+  wn(t), yn(t), xn(t), En(t), Tn(t), Cn(t, he), In(t, he), si(t), oi(t), ai(t), li(t), ci(t), di(t), ui(t, he), fi(t), hi(t), pi(t), gi(t), mi(t), vi(t), bi(t);
+}
+function xi(t) {
   if (typeof Alpine > "u" || typeof Alpine.$data != "function") {
     console.error(
       "$data helper: Alpine.js context (Alpine.$data) is not available. Ensure Alpine is loaded and initialized globally before use."
@@ -2657,16 +2665,16 @@ function yi(t) {
 X.plugin(Lt);
 X.plugin(Dt);
 X.plugin(tn);
-wi(X);
-const xi = {
+yi(X);
+const Ei = {
   Alpine: X,
   require: he,
   toast: gn,
-  $data: yi
+  $data: xi
 };
 window.Alpine = X;
-window.Rizzy = { ...window.Rizzy || {}, ...xi };
+window.Rizzy = { ...window.Rizzy || {}, ...Ei };
 X.start();
 export {
-  xi as default
+  Ei as default
 };

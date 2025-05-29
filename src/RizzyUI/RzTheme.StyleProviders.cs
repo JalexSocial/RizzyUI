@@ -26,8 +26,20 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzArticle" /> component. </summary>
     public virtual RzStylesBase.RzArticleStylesBase RzArticle { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzAvatar" /> component. </summary>
+    /// <summary>
+    /// Gets the style definitions for the <see cref="Avatar" /> component.
+    /// </summary>
     public virtual RzStylesBase.RzAvatarStylesBase RzAvatar { get; }
+    
+    /// <summary>
+    /// Gets the style definitions for the <see cref="AvatarImage" /> component.
+    /// </summary>
+    public virtual RzStylesBase.AvatarImageStylesBase AvatarImage { get; }
+
+    /// <summary>
+    /// Gets the style definitions for the <see cref="AvatarFallback" /> component.
+    /// </summary>
+    public virtual RzStylesBase.AvatarFallbackStylesBase AvatarFallback { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzBadge" /> component. </summary>
     public virtual RzStylesBase.RzBadgeStylesBase RzBadge { get; }

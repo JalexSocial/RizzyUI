@@ -282,4 +282,8 @@
       <value>Indicator</value>
       <comment>Default ARIA label for RzIndicator</comment>
     </data>  
+    <data name="RzAvatar.DefaultAriaLabel" xml:space="preserve">
+      <value>Avatar</value>
+      <comment>Default ARIA label for RzAvatar container</comment>
+    </data>  
 </root>

@@ -24,34 +24,15 @@ public abstract partial class RzStylesBase
         }
 
         /// <summary>
-        ///     Gets the base CSS classes for the main RzAvatar container element (positioning and object-fit). Size is
-        ///     applied separately.
+        ///     Gets the base CSS classes for the main RzAvatar container element (positioning, aspect ratio, object-fit, overflow). 
+        ///     Size and shape are applied separately.
         /// </summary>
         public abstract string Container { get; }
 
         /// <summary>
-        ///     Gets the CSS classes for the status indicator div (base style, border). Size and color are applied
-        ///     separately.
+        ///     Gets the CSS classes for the border if the Border parameter is true.
         /// </summary>
-        public abstract string Indicator { get; }
-
-        /// <summary> Gets the base CSS classes for the img element. Size and shape are applied separately. </summary>
-        public abstract string Image { get; }
-
-        /// <summary>
-        ///     Gets the base CSS classes for the initials container div (flex, alignment, base colors). Size, shape, and
-        ///     text size are applied separately.
-        /// </summary>
-        public abstract string InitialsContainer { get; }
-
-        /// <summary>
-        ///     Gets the base CSS classes for the placeholder container div (flex, alignment, base colors). Size and shape
-        ///     are applied separately.
-        /// </summary>
-        public abstract string PlaceholderContainer { get; }
-
-        /// <summary> Gets the base CSS classes for the placeholder SVG icon. Size is applied separately. </summary>
-        public abstract string PlaceholderIcon { get; }
+        public abstract string Border { get; }
 
         /// <summary> Gets the CSS classes for the avatar's shape (e.g., rounded-full, rounded-lg). </summary>
         /// <param name="shape">The desired avatar shape.</param>
@@ -63,25 +44,64 @@ public abstract partial class RzStylesBase
         /// <returns>A string of CSS classes (e.g., "size-10").</returns>
         public abstract string GetSizeCss(Size size);
 
-        /// <summary> Gets the CSS classes for the text size of the initials. </summary>
+        /// <summary> Gets the CSS classes for the text size of the initials, used by AvatarFallback. </summary>
         /// <param name="size">The corresponding avatar size.</param>
         /// <returns>A string of CSS classes (e.g., "text-base").</returns>
         public abstract string GetInitialsSizeCss(Size size);
 
-        /// <summary> Gets the CSS classes for the size of the placeholder icon. </summary>
+        /// <summary> Gets the CSS classes for the size of the placeholder icon, used by AvatarFallback. </summary>
         /// <param name="size">The corresponding avatar size.</param>
         /// <returns>A string of CSS classes (e.g., "size-6").</returns>
         public abstract string GetPlaceholderSizeCss(Size size);
+    }
 
-        /// <summary> Gets the CSS classes for the size of the status indicator. </summary>
-        /// <param name="size">The corresponding avatar size.</param>
-        /// <returns>A string of CSS classes (e.g., "size-3").</returns>
-        public abstract string GetIndicatorSizeCss(Size size);
+    #endregion    
+    #region AvatarImage Styles
 
-        /// <summary> Gets the CSS background color classes (light and dark) for the status indicator. </summary>
-        /// <param name="color">The desired accent color.</param>
-        /// <returns>A string of CSS classes (e.g., "bg-emerald-200 dark:bg-emerald-800").</returns>
-        public abstract string GetIndicatorColorCss(AccentColor color);
+    /// <summary>
+    /// Defines the abstract structure for styling the AvatarImage component.
+    /// </summary>
+    public abstract class AvatarImageStylesBase
+    {
+        /// <summary> The theme instance providing color and sizing tokens. </summary>
+        protected readonly RzTheme Theme;
+
+        /// <summary> Initializes a new instance of the <see cref="AvatarImageStylesBase"/> class. </summary>
+        protected AvatarImageStylesBase(RzTheme theme)
+        {
+            Theme = theme;
+        }
+
+        /// <summary> Gets the base CSS classes for the img element. Shape and size are applied dynamically. </summary>
+        public abstract string Image { get; }
+    }
+
+    #endregion
+
+    #region AvatarFallback Styles
+
+    /// <summary>
+    /// Defines the abstract structure for styling the AvatarFallback component.
+    /// </summary>
+    public abstract class AvatarFallbackStylesBase
+    {
+        /// <summary> The theme instance providing color and sizing tokens. </summary>
+        protected readonly RzTheme Theme;
+
+        /// <summary> Initializes a new instance of the <see cref="AvatarFallbackStylesBase"/> class. </summary>
+        protected AvatarFallbackStylesBase(RzTheme theme)
+        {
+            Theme = theme;
+        }
+
+        /// <summary> Gets the base CSS classes for the initials container div. Size, shape, and text size are applied dynamically. </summary>
+        public abstract string InitialsContainer { get; }
+
+        /// <summary> Gets the base CSS classes for the placeholder container div. Size and shape are applied dynamically. </summary>
+        public abstract string PlaceholderContainer { get; }
+
+        /// <summary> Gets the base CSS classes for the placeholder SVG icon. Size is applied dynamically. </summary>
+        public abstract string PlaceholderIcon { get; }
     }
 
     #endregion
