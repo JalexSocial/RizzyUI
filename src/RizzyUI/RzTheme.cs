@@ -59,6 +59,7 @@ public partial class RzTheme
         RzFieldLabel = new DefaultRzFieldLabelStyles(this);
         RzFormSection = new DefaultRzFormSectionStyles(this);
         RzHeading = new DefaultRzHeadingStyles(this);
+        RzIndicator = new DefaultRzIndicatorStyles(this);
         RzLink = new DefaultRzLinkStyles(this);
         RzMarkdown = new DefaultRzMarkdownStyles(this);
         RzModal = new DefaultRzModalStyles(this);

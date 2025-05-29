@@ -278,4 +278,8 @@
         <value>No items to display.</value>
         <comment>Default message shown in RzTableBody when there are no items and no EmptyTemplate is provided.</comment>
     </data>    
+    <data name="RzIndicator.DefaultAriaLabel" xml:space="preserve">
+      <value>Indicator</value>
+      <comment>Default ARIA label for RzIndicator</comment>
+    </data>  
 </root>

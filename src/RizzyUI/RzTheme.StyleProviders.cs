@@ -118,6 +118,11 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzHeading" /> component. </summary>
     public virtual RzStylesBase.RzHeadingStylesBase RzHeading { get; }
 
+    /// <summary>
+    /// Gets the style definitions for the <see cref="RzIndicator" /> component.
+    /// </summary>
+    public virtual RzStylesBase.RzIndicatorStylesBase RzIndicator { get; }
+    
     /// <summary> Gets or sets the style definitions for the <see cref="RzLink" /> component. </summary>
     public virtual RzStylesBase.RzLinkStylesBase RzLink { get; }
 
