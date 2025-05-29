@@ -28,15 +28,15 @@ public abstract partial class RzStylesBase
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzAccordionSection" /> component.
+    ///     Defines the abstract structure for styling the <see cref="AccordionItem" /> component.
     /// </summary>
-    public abstract class RzAccordionSectionStylesBase
+    public abstract class AccordionItemStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="RzAccordionSectionStylesBase" /> class. </summary>
-        protected RzAccordionSectionStylesBase(RzTheme theme)
+        /// <summary> Initializes a new instance of the <see cref="AccordionItemStylesBase" /> class. </summary>
+        protected AccordionItemStylesBase(RzTheme theme)
         {
             Theme = theme;
         }

@@ -24,7 +24,7 @@ public partial class RzTheme
 
         // Instantiate default styles for all components
         RzAccordion = new DefaultRzAccordionStyles(this);
-        RzAccordionSection = new DefaultRzAccordionSectionStyles(this);
+        AccordionItem = new DefaultAccordionItemStyles(this);
         RzAlert = new DefaultRzAlertStyles(this);
         RzAlertTitle = new DefaultRzAlertTitleStyles(this);
         RzAlertDescription = new DefaultRzAlertDescriptionStyles(this);

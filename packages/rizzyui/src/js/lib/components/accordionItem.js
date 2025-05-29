@@ -1,11 +1,11 @@
 
 // --------------------------------------------------------------------------------
-// Alpine.js component: rzAccordionSection
+// Alpine.js component: accordionItem
 // This component controls each individual accordion section.
 // It accesses 'selected' and 'allowMultiple' from the parent rzAccordion scope.
 // --------------------------------------------------------------------------------
 export default function(Alpine) {
-    Alpine.data('rzAccordionSection', () => ({
+    Alpine.data('accordionItem', () => ({
         open: false,
         sectionId: "",
         expandedClass: "",
@@ -25,7 +25,7 @@ export default function(Alpine) {
                     }
                 });
             } else {
-                console.warn("rzAccordionSection: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
+                console.warn("accordionItem: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
             }
         },
         destroy() {

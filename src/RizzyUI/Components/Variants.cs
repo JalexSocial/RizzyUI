@@ -506,3 +506,19 @@ public enum ProgressLabelPosition
     /// <summary>Label is positioned outside the progress bar.</summary>
     Outside
 }
+
+/// <summary>
+/// Specifies the type of behavior for accordion components, determining whether single or multiple sections can be expanded simultaneously.
+/// </summary>
+public enum AccordionType
+{
+    /// <summary>
+    /// An accordion type where only a single section can be expanded at a time.
+    /// </summary>
+    Single,
+
+    /// <summary>
+    /// Allows multiple sections of the accordion to be expanded at the same time.
+    /// </summary>
+    Multiple
+}

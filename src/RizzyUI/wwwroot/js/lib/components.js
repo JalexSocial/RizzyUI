@@ -3,7 +3,7 @@ import loadjs from "./loadjs/loadjs.js";
 
 // Import component registration functions
 import registerRzAccordion from './components/rzAccordion.js';
-import registerRzAccordionSection from './components/rzAccordionSection.js';
+import registerAccordionItem from './components/accordionItem.js';
 import registerRzAlert from './components/rzAlert.js';
 import registerRzBrowser from './components/rzBrowser.js';
 import registerRzCheckboxGroupItem from './components/rzCheckboxGroupItem.js';
@@ -62,7 +62,7 @@ function rizzyRequire(paths, callbackFn, nonce) {
 
 function registerComponents(Alpine) {
     registerRzAccordion(Alpine);
-    registerRzAccordionSection(Alpine);
+    registerAccordionItem(Alpine);
     registerRzAlert(Alpine);
     registerRzBrowser(Alpine);
     registerRzCheckboxGroupItem(Alpine);

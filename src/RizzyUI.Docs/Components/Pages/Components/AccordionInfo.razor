@@ -23,54 +23,72 @@
                     Default RzAccordion (Multiple Open)
                 </RzHeading>
                 <RzParagraph TextColor="SemanticColor.OnSurface">
-                    In this example, <code>AllowMultipleOpen</code> is set to <code>true</code>, so more than one section can be expanded at once.
+                    In this example, <code>Type</code> is set to <code>AccordionType.Multiple</code>, so more than one section can be expanded at once.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5">
-		                <RzAccordion AllowMultipleOpen="true">
-			                <RzAccordionSection Title="What browsers are supported?">
-				                <p>
-					                Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
-					                Check our <a href="#" class="underline underline-offset-2 text-primary ">documentation</a> for more info.
-				                </p>
-			                </RzAccordionSection>
-			                <RzAccordionSection Title="How can I contact customer support?">
-				                <p>
-					                Reach out to our support team via email at
-					                <a href="#" class="underline underline-offset-2 text-primary ">support@example.com</a>
-					                or call 1-800-123-4567.
-				                </p>
-			                </RzAccordionSection>
-			                <RzAccordionSection Title="What is the refund policy?">
-				                <p>
-					                Please refer to our <a href="#" class="underline underline-offset-2 text-primary ">refund policy page</a> for details.
-				                </p>
-			                </RzAccordionSection>
+		                <RzAccordion Type="AccordionType.Multiple">
+			                <AccordionItem>
+                                <AccordionTrigger>What browsers are supported?</AccordionTrigger>
+                                <AccordionContent>
+				                    <p>
+					                    Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
+					                    Check our <a href="#" class="underline underline-offset-2 text-primary ">documentation</a> for more info.
+				                    </p>
+                                </AccordionContent>
+			                </AccordionItem>
+			                <AccordionItem>
+                                <AccordionTrigger>How can I contact customer support?</AccordionTrigger>
+                                <AccordionContent>
+				                    <p>
+					                    Reach out to our support team via email at
+					                    <a href="#" class="underline underline-offset-2 text-primary ">support@example.com</a>
+					                    or call 1-800-123-4567.
+				                    </p>
+                                </AccordionContent>
+			                </AccordionItem>
+			                <AccordionItem>
+                                <AccordionTrigger>What is the refund policy?</AccordionTrigger>
+                                <AccordionContent>
+				                    <p>
+					                    Please refer to our <a href="#" class="underline underline-offset-2 text-primary ">refund policy page</a> for details.
+				                    </p>
+                                </AccordionContent>
+			                </AccordionItem>
 		                </RzAccordion>
 	                </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzAccordion AllowMultipleOpen=&quot;true&quot;&gt;
-    &lt;RzAccordionSection Title=&quot;What browsers are supported?&quot;&gt;
-        &lt;p&gt;
-            Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
-            Check our &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;documentation&lt;/a&gt; for more info.
-        &lt;/p&gt;
-    &lt;/RzAccordionSection&gt;
-    &lt;RzAccordionSection Title=&quot;How can I contact customer support?&quot;&gt;
-        &lt;p&gt;
-            Reach out to our support team via email at 
-            &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;support@example.com&lt;/a&gt;
-            or call 1-800-123-4567.
-        &lt;/p&gt;
-    &lt;/RzAccordionSection&gt;
-    &lt;RzAccordionSection Title=&quot;What is the refund policy?&quot;&gt;
-        &lt;p&gt;
-            Please refer to our &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;refund policy page&lt;/a&gt; for details.
-        &lt;/p&gt;
-    &lt;/RzAccordionSection&gt;
+&lt;RzAccordion Type=&quot;AccordionType.Multiple&quot;&gt;
+    &lt;AccordionItem&gt;
+        &lt;AccordionTrigger&gt;What browsers are supported?&lt;/AccordionTrigger&gt;
+        &lt;AccordionContent&gt;
+            &lt;p&gt;
+                Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
+                Check our &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;documentation&lt;/a&gt; for more info.
+            &lt;/p&gt;
+        &lt;/AccordionContent&gt;
+    &lt;/AccordionItem&gt;
+    &lt;AccordionItem&gt;
+        &lt;AccordionTrigger&gt;How can I contact customer support?&lt;/AccordionTrigger&gt;
+        &lt;AccordionContent&gt;
+            &lt;p&gt;
+                Reach out to our support team via email at 
+                &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;support@example.com&lt;/a&gt;
+                or call 1-800-123-4567.
+            &lt;/p&gt;
+        &lt;/AccordionContent&gt;
+    &lt;/AccordionItem&gt;
+    &lt;AccordionItem&gt;
+        &lt;AccordionTrigger&gt;What is the refund policy?&lt;/AccordionTrigger&gt;
+        &lt;AccordionContent&gt;
+            &lt;p&gt;
+                Please refer to our &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;refund policy page&lt;/a&gt; for details.
+            &lt;/p&gt;
+        &lt;/AccordionContent&gt;
+    &lt;/AccordionItem&gt;
 &lt;/RzAccordion&gt;
                 </RzCodeViewer>
             </section>
@@ -81,54 +99,72 @@
                     Single Open RzAccordion
                 </RzHeading>
                 <RzParagraph>
-                    In this example, <code>AllowMultipleOpen</code> is set to <code>false</code>, ensuring that only one section is open at a time.
+                    In this example, <code>Type</code> is set to <code>AccordionType.Single</code>, ensuring that only one section is open at a time.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
 	                <div class="mx-auto p-8 mb-5">
-		                <RzAccordion AllowMultipleOpen="false">
-			                <RzAccordionSection Title="What browsers are supported?">
-				                <p>
-					                Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
-					                Check our <a href="#" class="underline underline-offset-2 text-primary ">documentation</a> for more info.
-				                </p>
-			                </RzAccordionSection>
-			                <RzAccordionSection Title="How can I contact customer support?">
-				                <p>
-					                Reach out to our support team via email at
-					                <a href="#" class="underline underline-offset-2 text-primary ">support@example.com</a>
-					                or call 1-800-123-4567.
-				                </p>
-			                </RzAccordionSection>
-			                <RzAccordionSection Title="What is the refund policy?">
-				                <p>
-					                Please refer to our <a href="#" class="underline underline-offset-2 text-primary ">refund policy page</a> for details.
-				                </p>
-			                </RzAccordionSection>
+		                <RzAccordion Type="AccordionType.Single">
+			                <AccordionItem>
+                                <AccordionTrigger>What browsers are supported?</AccordionTrigger>
+                                <AccordionContent>
+				                    <p>
+					                    Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
+					                    Check our <a href="#" class="underline underline-offset-2 text-primary ">documentation</a> for more info.
+				                    </p>
+                                </AccordionContent>
+			                </AccordionItem>
+			                <AccordionItem>
+                                <AccordionTrigger>How can I contact customer support?</AccordionTrigger>
+                                <AccordionContent>
+				                    <p>
+					                    Reach out to our support team via email at
+					                    <a href="#" class="underline underline-offset-2 text-primary ">support@example.com</a>
+					                    or call 1-800-123-4567.
+				                    </p>
+                                </AccordionContent>
+			                </AccordionItem>
+			                <AccordionItem>
+                                <AccordionTrigger>What is the refund policy?</AccordionTrigger>
+                                <AccordionContent>
+				                    <p>
+					                    Please refer to our <a href="#" class="underline underline-offset-2 text-primary ">refund policy page</a> for details.
+				                    </p>
+                                </AccordionContent>
+			                </AccordionItem>
 		                </RzAccordion>
 	                </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzAccordion AllowMultipleOpen=&quot;false&quot;&gt;
-    &lt;RzAccordionSection Title=&quot;What browsers are supported?&quot;&gt;
-        &lt;p&gt;
-            Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
-            Check our &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;documentation&lt;/a&gt; for more info.
-        &lt;/p&gt;
-    &lt;/RzAccordionSection&gt;
-    &lt;RzAccordionSection Title=&quot;How can I contact customer support?&quot;&gt;
-        &lt;p&gt;
-            Reach out to our support team via email at 
-            &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;support@example.com&lt;/a&gt;
-            or call 1-800-123-4567.
-        &lt;/p&gt;
-    &lt;/RzAccordionSection&gt;
-    &lt;RzAccordionSection Title=&quot;What is the refund policy?&quot;&gt;
-        &lt;p&gt;
-            Please refer to our &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;refund policy page&lt;/a&gt; for details.
-        &lt;/p&gt;
-    &lt;/RzAccordionSection&gt;
+&lt;RzAccordion Type=&quot;AccordionType.Single&quot;&gt;
+    &lt;AccordionItem&gt;
+        &lt;AccordionTrigger&gt;What browsers are supported?&lt;/AccordionTrigger&gt;
+        &lt;AccordionContent&gt;
+            &lt;p&gt;
+                Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
+                Check our &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;documentation&lt;/a&gt; for more info.
+            &lt;/p&gt;
+        &lt;/AccordionContent&gt;
+    &lt;/AccordionItem&gt;
+    &lt;AccordionItem&gt;
+        &lt;AccordionTrigger&gt;How can I contact customer support?&lt;/AccordionTrigger&gt;
+        &lt;AccordionContent&gt;
+            &lt;p&gt;
+                Reach out to our support team via email at 
+                &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;support@example.com&lt;/a&gt;
+                or call 1-800-123-4567.
+            &lt;/p&gt;
+        &lt;/AccordionContent&gt;
+    &lt;/AccordionItem&gt;
+    &lt;AccordionItem&gt;
+        &lt;AccordionTrigger&gt;What is the refund policy?&lt;/AccordionTrigger&gt;
+        &lt;AccordionContent&gt;
+            &lt;p&gt;
+                Please refer to our &lt;a href=&quot;#&quot; class=&quot;underline underline-offset-2 text-primary &quot;&gt;refund policy page&lt;/a&gt; for details.
+            &lt;/p&gt;
+        &lt;/AccordionContent&gt;
+    &lt;/AccordionItem&gt;
 &lt;/RzAccordion&gt;
                 </RzCodeViewer>
             </section>
@@ -156,11 +192,14 @@
                     <tbody class="divide-y divide-outline dark:divide-outline-dark">
                         <tr>
                             <td align="center" class="text-base p-4">
-                                <span class="font-bold">AllowMultipleOpen</span>
+                                <span class="font-bold">Type</span>
                             </td>
                             <td align="left" class="text-base p-4">
-                                Boolean – Determines whether multiple accordion sections can be expanded simultaneously.
-                                When set to <code>true</code>, more than one section may be open; when <code>false</code>, only one section is open at a time.
+                                <code>AccordionType</code> enum – Determines how accordion sections behave when opened.
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><code>AccordionType.Multiple</code>: Allows multiple sections to be expanded simultaneously.</li>
+                                    <li><code>AccordionType.Single</code>: Ensures only one section is open at a time; opening a new section closes any previously open one.</li>
+                                </ul>
                             </td>
                         </tr>
                         <tr>
@@ -168,7 +207,64 @@
                                 <span class="font-bold">ChildContent</span>
                             </td>
                             <td align="left" class="text-base p-4">
-                                RenderFragment – The content of the RzAccordion, typically consisting of one or more <code>RzAccordionSection</code> components.
+                                RenderFragment – The content of the RzAccordion, typically consisting of one or more <code>AccordionItem</code> components, each containing <code>AccordionTrigger</code> and <code>AccordionContent</code> components.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- AccordionItem Parameters Table -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="AccordionItem Parameters" class="scroll-mt-20">
+                    AccordionItem Component Parameters
+                </RzHeading>
+                <RzParagraph>
+                    The following table summarizes the key parameters for the AccordionItem component.
+                </RzParagraph>
+
+                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark">
+                    <thead>
+                        <tr class="bg-surface-alt ">
+                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong ">
+                                Property
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong ">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
+                        <tr>
+                            <td align="center" class="text-base p-4">
+                                <span class="font-bold">Title</span>
+                            </td>
+                            <td align="left" class="text-base p-4">
+                                String – The title displayed in the clickable header of the accordion section. This is used as a fallback when <code>AccordionTrigger</code> is not defined.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" class="text-base p-4">
+                                <span class="font-bold">Collapsed</span>
+                            </td>
+                            <td align="left" class="text-base p-4">
+                                Boolean – Determines if the section is initially collapsed (<code>true</code>) or expanded (<code>false</code>). Defaults to <code>true</code>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" class="text-base p-4">
+                                <span class="font-bold">AccordionTrigger</span>
+                            </td>
+                            <td align="left" class="text-base p-4">
+                                RenderFragment – The content for the clickable header part of the accordion item. When provided, this takes precedence over the <code>Title</code> property.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" class="text-base p-4">
+                                <span class="font-bold">AccordionContent</span>
+                            </td>
+                            <td align="left" class="text-base p-4">
+                                RenderFragment – The content to be displayed inside the section when it is expanded.
                             </td>
                         </tr>
                     </tbody>
@@ -178,3 +274,4 @@
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>
+

@@ -4898,8 +4898,8 @@ function registerRzAccordion(Alpine2) {
     }
   }));
 }
-function registerRzAccordionSection(Alpine2) {
-  Alpine2.data("rzAccordionSection", () => ({
+function registerAccordionItem(Alpine2) {
+  Alpine2.data("accordionItem", () => ({
     open: false,
     sectionId: "",
     expandedClass: "",
@@ -4915,7 +4915,7 @@ function registerRzAccordionSection(Alpine2) {
           }
         });
       } else {
-        console.warn("rzAccordionSection: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
+        console.warn("accordionItem: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
       }
     },
     destroy() {
@@ -6946,7 +6946,7 @@ function rizzyRequire(paths, callbackFn, nonce) {
 }
 function registerComponents(Alpine2) {
   registerRzAccordion(Alpine2);
-  registerRzAccordionSection(Alpine2);
+  registerAccordionItem(Alpine2);
   registerRzAlert(Alpine2);
   registerRzBrowser(Alpine2);
   registerRzCheckboxGroupItem(Alpine2);

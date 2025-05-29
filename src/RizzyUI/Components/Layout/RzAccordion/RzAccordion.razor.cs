@@ -12,7 +12,7 @@ public partial class RzAccordion : RzComponent
 {
     /// <summary> When true, multiple sections may be open simultaneously. </summary>
     [Parameter]
-    public bool AllowMultipleOpen { get; set; }
+    public AccordionType Type { get; set; }
 
     /// <summary> Child content containing one or more RzAccordionSection components. </summary>
     [Parameter]

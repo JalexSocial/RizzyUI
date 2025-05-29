@@ -3241,7 +3241,7 @@ function Ga(e) {
   }));
 }
 function Za(e) {
-  e.data("rzAccordionSection", () => ({
+  e.data("accordionItem", () => ({
     open: !1,
     sectionId: "",
     expandedClass: "",
@@ -3250,7 +3250,7 @@ function Za(e) {
       const t = this;
       typeof this.selected < "u" && typeof this.allowMultiple < "u" ? this.$watch("selected", (n, i) => {
         n !== t.sectionId && !t.allowMultiple && (t.open = !1);
-      }) : console.warn("rzAccordionSection: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
+      }) : console.warn("accordionItem: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
     },
     destroy() {
     },

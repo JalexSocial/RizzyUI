@@ -11,8 +11,8 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzAccordion" /> component. </summary>
     public virtual RzStylesBase.RzAccordionStylesBase RzAccordion { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzAccordionSection" /> component. </summary>
-    public virtual RzStylesBase.RzAccordionSectionStylesBase RzAccordionSection { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="AccordionItem" /> component. </summary>
+    public virtual RzStylesBase.AccordionItemStylesBase AccordionItem { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzAlert" /> component. </summary>
     public virtual RzStylesBase.RzAlertStylesBase RzAlert { get; }

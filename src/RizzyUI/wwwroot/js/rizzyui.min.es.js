@@ -388,10 +388,10 @@ var We = /* @__PURE__ */ function() {
         return h;
       throw new Error("`".concat(u, "` was specified but was not a node, or did not return a node"));
     }
-    var I = h;
-    if (typeof h == "string" && (I = i.querySelector(h), !I))
+    var S = h;
+    if (typeof h == "string" && (S = i.querySelector(h), !S))
       throw new Error("`".concat(u, "` as selector refers to no known node"));
-    return I;
+    return S;
   }, f = function() {
     var u = c("initialFocus");
     if (u === !1)
@@ -424,11 +424,11 @@ var We = /* @__PURE__ */ function() {
          * @returns {HTMLElement|undefined} The next tabbable node, if any.
          */
         nextTabbableNode: function(x) {
-          var I = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !0, L = m.findIndex(function(R) {
+          var S = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !0, L = m.findIndex(function(R) {
             return R === x;
           });
           if (!(L < 0))
-            return I ? m.slice(L + 1).find(function(R) {
+            return S ? m.slice(L + 1).find(function(R) {
               return de(R, r.tabbableOptions);
             }) : m.slice(0, L).reverse().find(function(R) {
               return de(R, r.tabbableOptions);
@@ -486,12 +486,12 @@ var We = /* @__PURE__ */ function() {
       if (T < 0)
         u.shiftKey ? m = s.tabbableGroups[s.tabbableGroups.length - 1].lastTabbableNode : m = s.tabbableGroups[0].firstTabbableNode;
       else if (u.shiftKey) {
-        var I = He(s.tabbableGroups, function(D) {
+        var S = He(s.tabbableGroups, function(D) {
           var A = D.firstTabbableNode;
           return h === A;
         });
-        if (I < 0 && (x.container === h || fe(h, r.tabbableOptions) && !de(h, r.tabbableOptions) && !x.nextTabbableNode(h, !1)) && (I = T), I >= 0) {
-          var L = I === 0 ? s.tabbableGroups.length - 1 : I - 1, R = s.tabbableGroups[L];
+        if (S < 0 && (x.container === h || fe(h, r.tabbableOptions) && !de(h, r.tabbableOptions) && !x.nextTabbableNode(h, !1)) && (S = T), S >= 0) {
+          var L = S === 0 ? s.tabbableGroups.length - 1 : S - 1, R = s.tabbableGroups[L];
           m = R.lastTabbableNode;
         }
       } else {
@@ -516,7 +516,7 @@ var We = /* @__PURE__ */ function() {
       w(u);
       return;
     }
-  }, S = function(u) {
+  }, I = function(u) {
     var h = ue(u);
     l(h) >= 0 || ne(r.clickOutsideDeactivates, u) || ne(r.allowOutsideClick, u) || (u.preventDefault(), u.stopImmediatePropagation());
   }, O = function() {
@@ -529,7 +529,7 @@ var We = /* @__PURE__ */ function() {
       }), i.addEventListener("touchstart", v, {
         capture: !0,
         passive: !1
-      }), i.addEventListener("click", S, {
+      }), i.addEventListener("click", I, {
         capture: !0,
         passive: !1
       }), i.addEventListener("keydown", C, {
@@ -538,7 +538,7 @@ var We = /* @__PURE__ */ function() {
       }), o;
   }, N = function() {
     if (s.active)
-      return i.removeEventListener("focusin", y, !0), i.removeEventListener("mousedown", v, !0), i.removeEventListener("touchstart", v, !0), i.removeEventListener("click", S, !0), i.removeEventListener("keydown", C, !0), o;
+      return i.removeEventListener("focusin", y, !0), i.removeEventListener("mousedown", v, !0), i.removeEventListener("touchstart", v, !0), i.removeEventListener("click", I, !0), i.removeEventListener("keydown", C, !0), o;
   };
   return o = {
     get active() {
@@ -566,14 +566,14 @@ var We = /* @__PURE__ */ function() {
         checkCanReturnFocus: r.checkCanReturnFocus
       }, u);
       clearTimeout(s.delayInitialFocusTimer), s.delayInitialFocusTimer = void 0, N(), s.active = !1, s.paused = !1, We.deactivateTrap(o);
-      var m = a(h, "onDeactivate"), T = a(h, "onPostDeactivate"), x = a(h, "checkCanReturnFocus"), I = a(h, "returnFocus", "returnFocusOnDeactivate");
+      var m = a(h, "onDeactivate"), T = a(h, "onPostDeactivate"), x = a(h, "checkCanReturnFocus"), S = a(h, "returnFocus", "returnFocusOnDeactivate");
       m && m();
       var L = function() {
         Ve(function() {
-          I && p(g(s.nodeFocusedBeforeActivation)), T && T();
+          S && p(g(s.nodeFocusedBeforeActivation)), T && T();
         });
       };
-      return I && x ? (x(g(s.nodeFocusedBeforeActivation)).then(L, L), this) : (L(), this);
+      return S && x ? (x(g(s.nodeFocusedBeforeActivation)).then(L, L), this) : (L(), this);
     },
     pause: function() {
       return s.paused || !s.active ? this : (s.paused = !0, N(), this);
@@ -784,7 +784,7 @@ var on = Object.defineProperty, W = function(t, e) {
 }, "stringToHTML"), ie = W(function(t) {
   var e = new DOMParser().parseFromString(t, "application/xml");
   return document.importNode(e.documentElement, !0).outerHTML;
-}, "getSvgNode"), E = { CONTAINER: "sn-notifications-container", NOTIFY: "sn-notify", NOTIFY_CONTENT: "sn-notify-content", NOTIFY_ICON: "sn-notify-icon", NOTIFY_CLOSE: "sn-notify-close", NOTIFY_TITLE: "sn-notify-title", NOTIFY_TEXT: "sn-notify-text", IS_X_CENTER: "sn-is-x-center", IS_Y_CENTER: "sn-is-y-center", IS_CENTER: "sn-is-center", IS_LEFT: "sn-is-left", IS_RIGHT: "sn-is-right", IS_TOP: "sn-is-top", IS_BOTTOM: "sn-is-bottom", NOTIFY_OUTLINE: "sn-notify-outline", NOTIFY_FILLED: "sn-notify-filled", NOTIFY_ERROR: "sn-notify-error", NOTIFY_WARNING: "sn-notify-warning", NOTIFY_SUCCESS: "sn-notify-success", NOTIFY_INFO: "sn-notify-info", NOTIFY_FADE: "sn-notify-fade", NOTIFY_FADE_IN: "sn-notify-fade-in", NOTIFY_SLIDE: "sn-notify-slide", NOTIFY_SLIDE_IN: "sn-notify-slide-in", NOTIFY_AUTOCLOSE: "sn-notify-autoclose" }, Y = { ERROR: "error", WARNING: "warning", SUCCESS: "success", INFO: "info" }, je = { OUTLINE: "outline", FILLED: "filled" }, Se = { FADE: "fade", SLIDE: "slide" }, re = { CLOSE: ie(an), SUCCESS: ie(dn), ERROR: ie(ln), WARNING: ie(un), INFO: ie(cn) }, qe = W(function(t) {
+}, "getSvgNode"), E = { CONTAINER: "sn-notifications-container", NOTIFY: "sn-notify", NOTIFY_CONTENT: "sn-notify-content", NOTIFY_ICON: "sn-notify-icon", NOTIFY_CLOSE: "sn-notify-close", NOTIFY_TITLE: "sn-notify-title", NOTIFY_TEXT: "sn-notify-text", IS_X_CENTER: "sn-is-x-center", IS_Y_CENTER: "sn-is-y-center", IS_CENTER: "sn-is-center", IS_LEFT: "sn-is-left", IS_RIGHT: "sn-is-right", IS_TOP: "sn-is-top", IS_BOTTOM: "sn-is-bottom", NOTIFY_OUTLINE: "sn-notify-outline", NOTIFY_FILLED: "sn-notify-filled", NOTIFY_ERROR: "sn-notify-error", NOTIFY_WARNING: "sn-notify-warning", NOTIFY_SUCCESS: "sn-notify-success", NOTIFY_INFO: "sn-notify-info", NOTIFY_FADE: "sn-notify-fade", NOTIFY_FADE_IN: "sn-notify-fade-in", NOTIFY_SLIDE: "sn-notify-slide", NOTIFY_SLIDE_IN: "sn-notify-slide-in", NOTIFY_AUTOCLOSE: "sn-notify-autoclose" }, Y = { ERROR: "error", WARNING: "warning", SUCCESS: "success", INFO: "info" }, je = { OUTLINE: "outline", FILLED: "filled" }, Ie = { FADE: "fade", SLIDE: "slide" }, re = { CLOSE: ie(an), SUCCESS: ie(dn), ERROR: ie(ln), WARNING: ie(un), INFO: ie(cn) }, qe = W(function(t) {
   t.wrapper.classList.add(E.NOTIFY_FADE), setTimeout(function() {
     t.wrapper.classList.add(E.NOTIFY_FADE_IN);
   }, 100);
@@ -806,8 +806,8 @@ var on = Object.defineProperty, W = function(t, e) {
     nn(this, t), this.notifyOut = W(function(D) {
       D(n);
     }, "notifyOut");
-    var i = e.notificationsGap, r = i === void 0 ? 20 : i, s = e.notificationsPadding, o = s === void 0 ? 20 : s, a = e.status, l = a === void 0 ? "success" : a, c = e.effect, f = c === void 0 ? Se.FADE : c, d = e.type, p = d === void 0 ? "outline" : d, g = e.title, v = e.text, y = e.showIcon, w = y === void 0 ? !0 : y, C = e.customIcon, S = C === void 0 ? "" : C, O = e.customClass, N = O === void 0 ? "" : O, b = e.speed, u = b === void 0 ? 500 : b, h = e.showCloseButton, m = h === void 0 ? !0 : h, T = e.autoclose, x = T === void 0 ? !0 : T, I = e.autotimeout, L = I === void 0 ? 3e3 : I, R = e.position, P = R === void 0 ? "right top" : R, F = e.customWrapper, G = F === void 0 ? "" : F;
-    if (this.customWrapper = G, this.status = l, this.title = g, this.text = v, this.showIcon = w, this.customIcon = S, this.customClass = N, this.speed = u, this.effect = f, this.showCloseButton = m, this.autoclose = x, this.autotimeout = L, this.notificationsGap = r, this.notificationsPadding = o, this.type = p, this.position = P, !this.checkRequirements()) {
+    var i = e.notificationsGap, r = i === void 0 ? 20 : i, s = e.notificationsPadding, o = s === void 0 ? 20 : s, a = e.status, l = a === void 0 ? "success" : a, c = e.effect, f = c === void 0 ? Ie.FADE : c, d = e.type, p = d === void 0 ? "outline" : d, g = e.title, v = e.text, y = e.showIcon, w = y === void 0 ? !0 : y, C = e.customIcon, I = C === void 0 ? "" : C, O = e.customClass, N = O === void 0 ? "" : O, b = e.speed, u = b === void 0 ? 500 : b, h = e.showCloseButton, m = h === void 0 ? !0 : h, T = e.autoclose, x = T === void 0 ? !0 : T, S = e.autotimeout, L = S === void 0 ? 3e3 : S, R = e.position, P = R === void 0 ? "right top" : R, F = e.customWrapper, G = F === void 0 ? "" : F;
+    if (this.customWrapper = G, this.status = l, this.title = g, this.text = v, this.showIcon = w, this.customIcon = I, this.customClass = N, this.speed = u, this.effect = f, this.showCloseButton = m, this.autoclose = x, this.autotimeout = L, this.notificationsGap = r, this.notificationsPadding = o, this.type = p, this.position = P, !this.checkRequirements()) {
       console.error("You must specify 'title' or 'text' at least.");
       return;
     }
@@ -892,10 +892,10 @@ var on = Object.defineProperty, W = function(t, e) {
     this.notifyOut(this.selectedNotifyOutEffect);
   } }, { key: "setEffect", value: function() {
     switch (this.effect) {
-      case Se.FADE:
+      case Ie.FADE:
         this.selectedNotifyInEffect = qe, this.selectedNotifyOutEffect = Ge;
         break;
-      case Se.SLIDE:
+      case Ie.SLIDE:
         this.selectedNotifyInEffect = hn, this.selectedNotifyOutEffect = pn;
         break;
       default:
@@ -1111,7 +1111,7 @@ function wn(t) {
   }));
 }
 function yn(t) {
-  t.data("rzAccordionSection", () => ({
+  t.data("accordionItem", () => ({
     open: !1,
     sectionId: "",
     expandedClass: "",
@@ -1120,7 +1120,7 @@ function yn(t) {
       const e = this;
       typeof this.selected < "u" && typeof this.allowMultiple < "u" ? this.$watch("selected", (n, i) => {
         n !== e.sectionId && !e.allowMultiple && (e.open = !1);
-      }) : console.warn("rzAccordionSection: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
+      }) : console.warn("accordionItem: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
     },
     destroy() {
     },
@@ -1255,7 +1255,7 @@ function Cn(t, e) {
     }
   }));
 }
-function Sn(t, e) {
+function In(t, e) {
   t.data("rzDateEdit", () => ({
     options: {},
     placeholder: "",
@@ -1281,7 +1281,7 @@ function Sn(t, e) {
 const ke = Math.min, J = Math.max, ve = Math.round, M = (t) => ({
   x: t,
   y: t
-}), In = {
+}), Sn = {
   left: "right",
   right: "left",
   bottom: "top",
@@ -1346,7 +1346,7 @@ function kn(t, e, n, i) {
   return r && (s = s.map((o) => o + "-" + r), e && (s = s.concat(s.map(Fe)))), s;
 }
 function be(t) {
-  return t.replace(/left|right|bottom|top/g, (e) => In[e]);
+  return t.replace(/left|right|bottom|top/g, (e) => Sn[e]);
 }
 function Fn(t) {
   return {
@@ -1451,7 +1451,7 @@ const Dn = async (t, e, n) => {
       name: w,
       fn: C
     } = a[y], {
-      x: S,
+      x: I,
       y: O,
       data: N,
       reset: b
@@ -1469,7 +1469,7 @@ const Dn = async (t, e, n) => {
         floating: e
       }
     });
-    f = S ?? f, d = O ?? d, g = {
+    f = I ?? f, d = O ?? d, g = {
       ...g,
       [w]: {
         ...g[w],
@@ -1513,7 +1513,7 @@ async function vt(t, e) {
     boundary: c,
     rootBoundary: f,
     strategy: l
-  })), S = d === "floating" ? {
+  })), I = d === "floating" ? {
     x: i,
     y: r,
     width: o.floating.width,
@@ -1526,10 +1526,10 @@ async function vt(t, e) {
     y: 1
   }, b = we(s.convertOffsetParentRelativeRectToViewportRelativeRect ? await s.convertOffsetParentRelativeRectToViewportRelativeRect({
     elements: a,
-    rect: S,
+    rect: I,
     offsetParent: O,
     strategy: l
-  }) : S);
+  }) : I);
   return {
     top: (C.top - b.top + v.top) / N.y,
     bottom: (b.bottom - C.bottom + v.bottom) / N.y,
@@ -1561,7 +1561,7 @@ const $n = function(t) {
       } = ye(t, e);
       if ((n = s.arrow) != null && n.alignmentOffset)
         return {};
-      const C = K(r), S = U(a), O = K(a) === a, N = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), b = p || (O || !y ? [be(a)] : Ln(a)), u = v !== "none";
+      const C = K(r), I = U(a), O = K(a) === a, N = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), b = p || (O || !y ? [be(a)] : Ln(a)), u = v !== "none";
       !p && u && b.push(...kn(a, y, v, N));
       const h = [a, ...b], m = await vt(e, w), T = [];
       let x = ((i = s.flip) == null ? void 0 : i.overflows) || [];
@@ -1573,11 +1573,11 @@ const $n = function(t) {
         placement: r,
         overflows: T
       }], !T.every((F) => F <= 0)) {
-        var I, L;
-        const F = (((I = s.flip) == null ? void 0 : I.index) || 0) + 1, G = h[F];
+        var S, L;
+        const F = (((S = s.flip) == null ? void 0 : S.index) || 0) + 1, G = h[F];
         if (G) {
           var R;
-          const A = d === "alignment" ? S !== U(G) : !1, z = ((R = x[0]) == null ? void 0 : R.overflows[0]) > 0;
+          const A = d === "alignment" ? I !== U(G) : !1, z = ((R = x[0]) == null ? void 0 : R.overflows[0]) > 0;
           if (!A || z)
             return {
               data: {
@@ -1597,7 +1597,7 @@ const $n = function(t) {
               const A = (P = x.filter((z) => {
                 if (u) {
                   const H = U(z.placement);
-                  return H === S || // Create a bias to the `y` side axis due to horizontal
+                  return H === I || // Create a bias to the `y` side axis due to horizontal
                   // reading directions favoring greater width.
                   H === "y";
                 }
@@ -1686,11 +1686,11 @@ const Pn = function(t) {
           fn: (w) => {
             let {
               x: C,
-              y: S
+              y: I
             } = w;
             return {
               x: C,
-              y: S
+              y: I
             };
           }
         },
@@ -1701,12 +1701,12 @@ const Pn = function(t) {
       }, f = await vt(e, l), d = U(K(r)), p = pt(d);
       let g = c[p], v = c[d];
       if (s) {
-        const w = p === "y" ? "top" : "left", C = p === "y" ? "bottom" : "right", S = g + f[w], O = g - f[C];
-        g = Ue(S, g, O);
+        const w = p === "y" ? "top" : "left", C = p === "y" ? "bottom" : "right", I = g + f[w], O = g - f[C];
+        g = Ue(I, g, O);
       }
       if (o) {
-        const w = d === "y" ? "top" : "left", C = d === "y" ? "bottom" : "right", S = v + f[w], O = v - f[C];
-        v = Ue(S, v, O);
+        const w = d === "y" ? "top" : "left", C = d === "y" ? "bottom" : "right", I = v + f[w], O = v - f[C];
+        v = Ue(I, v, O);
       }
       const y = a.fn({
         ...e,
@@ -1882,7 +1882,7 @@ function le(t, e, n, i) {
     const p = k(s), g = i && $(i) ? k(i) : i;
     let v = p, y = Ae(v);
     for (; y && i && g !== v; ) {
-      const w = Q(y), C = y.getBoundingClientRect(), S = _(y), O = C.left + (y.clientLeft + parseFloat(S.paddingLeft)) * w.x, N = C.top + (y.clientTop + parseFloat(S.paddingTop)) * w.y;
+      const w = Q(y), C = y.getBoundingClientRect(), I = _(y), O = C.left + (y.clientLeft + parseFloat(I.paddingLeft)) * w.x, N = C.top + (y.clientTop + parseFloat(I.paddingTop)) * w.y;
       l *= w.x, c *= w.y, f *= w.x, d *= w.y, l += O, c += N, v = k(y), y = Ae(v);
     }
   }
@@ -1992,9 +1992,9 @@ function Xe(t, e, n) {
   }
   return we(i);
 }
-function St(t, e) {
+function It(t, e) {
   const n = q(t);
-  return n === e || !$(n) || ee(n) ? !1 : _(n).position === "fixed" || St(n, e);
+  return n === e || !$(n) || ee(n) ? !1 : _(n).position === "fixed" || It(n, e);
 }
 function Un(t, e) {
   const n = e.get(t);
@@ -2005,7 +2005,7 @@ function Un(t, e) {
   let o = s ? q(t) : t;
   for (; $(o) && !ee(o); ) {
     const a = _(o), l = De(o);
-    !l && a.position === "fixed" && (r = null), (s ? !l && !r : !l && a.position === "static" && !!r && ["absolute", "fixed"].includes(r.position) || ce(o) && !l && St(t, o)) ? i = i.filter((f) => f !== o) : r = a, o = q(o);
+    !l && a.position === "fixed" && (r = null), (s ? !l && !r : !l && a.position === "static" && !!r && ["absolute", "fixed"].includes(r.position) || ce(o) && !l && It(t, o)) ? i = i.filter((f) => f !== o) : r = a, o = q(o);
   }
   return e.set(t, i), i;
 }
@@ -2061,7 +2061,7 @@ function Xn(t, e, n) {
     height: o.height
   };
 }
-function Ie(t) {
+function Se(t) {
   return _(t).position === "static";
 }
 function Je(t, e) {
@@ -2072,26 +2072,26 @@ function Je(t, e) {
   let n = t.offsetParent;
   return V(t) === n && (n = n.ownerDocument.body), n;
 }
-function It(t, e) {
+function St(t, e) {
   const n = k(t);
   if (Te(t))
     return n;
   if (!B(t)) {
     let r = q(t);
     for (; r && !ee(r); ) {
-      if ($(r) && !Ie(r))
+      if ($(r) && !Se(r))
         return r;
       r = q(r);
     }
     return n;
   }
   let i = Je(t, e);
-  for (; i && Mn(i) && Ie(i); )
+  for (; i && Mn(i) && Se(i); )
     i = Je(i, e);
-  return i && ee(i) && Ie(i) && !De(i) ? n : i || Bn(t) || n;
+  return i && ee(i) && Se(i) && !De(i) ? n : i || Bn(t) || n;
 }
 const Jn = async function(t) {
-  const e = this.getOffsetParent || It, n = this.getDimensions, i = await n(t.floating);
+  const e = this.getOffsetParent || St, n = this.getDimensions, i = await n(t.floating);
   return {
     reference: Xn(t.reference, await e(t.floating), t.strategy),
     floating: {
@@ -2109,7 +2109,7 @@ const ei = {
   convertOffsetParentRelativeRectToViewportRelativeRect: Hn,
   getDocumentElement: V,
   getClippingRect: Zn,
-  getOffsetParent: It,
+  getOffsetParent: St,
   getElementRects: Jn,
   getClientRects: Yn,
   getDimensions: Kn,
@@ -2608,7 +2608,7 @@ function he(t, e, n) {
   });
 }
 function wi(t) {
-  wn(t), yn(t), xn(t), En(t), Tn(t), Cn(t, he), Sn(t, he), si(t), oi(t), ai(t), li(t), ci(t), di(t, he), ui(t), fi(t), hi(t), pi(t), gi(t), mi(t), vi(t);
+  wn(t), yn(t), xn(t), En(t), Tn(t), Cn(t, he), In(t, he), si(t), oi(t), ai(t), li(t), ci(t), di(t, he), ui(t), fi(t), hi(t), pi(t), gi(t), mi(t), vi(t);
 }
 function yi(t) {
   if (typeof Alpine > "u" || typeof Alpine.$data != "function") {

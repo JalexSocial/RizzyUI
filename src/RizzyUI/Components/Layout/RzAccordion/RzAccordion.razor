@@ -5,7 +5,7 @@
 <HtmlElement Element="div"
              @attributes="@AdditionalAttributes"
              class="@RootClass()">
-	<div x-data="rzAccordion" data-alpine-root="@Id" data-multiple="@AllowMultipleOpen.ToString().ToLowerInvariant()">
+	<div x-data="rzAccordion" data-alpine-root="@Id" data-multiple="@(Type == AccordionType.Multiple ? "true" : "false")">
 		@ChildContent
 	</div>
 </HtmlElement>

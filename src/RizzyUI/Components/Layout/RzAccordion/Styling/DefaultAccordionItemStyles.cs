@@ -1,15 +1,15 @@
 namespace RizzyUI;
 
 /// <summary>
-///     Provides the default styles for the RzAccordionSection component.
+///     Provides the default styles for the AccordionItem component.
 /// </summary>
-public class DefaultRzAccordionSectionStyles : RzStylesBase.RzAccordionSectionStylesBase
+public class DefaultAccordionItemStyles : RzStylesBase.AccordionItemStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzAccordionSectionStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultAccordionItemStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance to use for styling.</param>
-    public DefaultRzAccordionSectionStyles(RzTheme theme) : base(theme)
+    public DefaultAccordionItemStyles(RzTheme theme) : base(theme)
     {
     }
 
