@@ -1,38 +1,34 @@
-
+@using RizzyUI.Extensions
 @namespace RizzyUI
 @inherits RzComponent
 
 <HtmlElement Element="div" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
-	<div x-data="rzDropdown" data-alpine-root="@Id" data-anchor="@Anchor.ToString().ToLowerInvariant()" class="@Theme.RzDropdown.RelativeWrapper">
+	<div x-data="rzDropdown" data-alpine-root="@Id" data-offset="@Offset" data-anchor="@Anchor.ToString().ToKebabCase()" class="@Theme.RzDropdown.RelativeWrapper">
 		<div
+			data-trigger
 			class="@Theme.RzDropdown.TriggerWrapper"
 			aria-haspopup="true"
 			x-bind:aria-expanded="dropdownOpen"
-			x-on:click="toggleDropdown"
+			x-on:click.stop.prevent="toggleDropdown"
 			x-on:keydown.space.prevent="openWithKeyboard"
 			x-on:keydown.enter.prevent="openWithKeyboard"
 			x-on:keydown.down.prevent="openWithKeyboard"
 			x-on:keydown.esc.window="closeDropdown">
 			<div>@Trigger</div>
 		</div>
-		<div x-cloak
-		     x-show="dropdownOpen"
-		     x-transition:enter="transition ease-out duration-100"
-		     x-transition:enter-start="opacity-0 scale-90"
-		     x-transition:enter-end="opacity-100 scale-100"
-		     x-transition:leave="transition ease-in duration-75"
-		     x-transition:leave-start="opacity-100 scale-100"
-		     x-transition:leave-end="opacity-0 scale-90"
-		     x-on:click.outside="closeDropdown"
-		     x-trap="openedWithKeyboard"
-		     x-on:keydown.down.prevent="focusWrapNext" x-on:keydown.up.prevent="focusWrapPrevious"
-		     role="menu"
-		     aria-labelledby="rz-dropdown-trigger"
-		     class="@Theme.RzDropdown.MenuContainer"
-		     x-bind:class="anchorCss">
-			<div class="@Theme.RzDropdown.MenuInnerContainer">
-				@Content
-			</div>
+		<div data-floating class="absolute top-0 left-0 z-60 w-max hidden ease-in transition-[opacity,scale] motion-reduce:transition-opacity duration-75" :class="floatingCss">
+			<div class="@Theme.RzDropdown.MenuContainer"
+				 x-cloak
+			     x-on:click.outside="closeDropdown"
+			     x-trap="openedWithKeyboard"
+			     x-on:keydown.down.prevent="focusWrapNext" x-on:keydown.up.prevent="focusWrapPrevious"
+			     role="menu"
+			     aria-labelledby="rz-dropdown-trigger"
+			     >
+				<div class="@Theme.RzDropdown.MenuInnerContainer">
+					@Content
+				</div>
+			</div>			
 		</div>
 	</div>
 </HtmlElement>

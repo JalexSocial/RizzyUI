@@ -1,4 +1,3 @@
-@import "./rizzyui-theme.css";
+@import "./rizzyui-theme.css" theme(static);
 
-@source inline('{bg}-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,{100..900..100},950}');
 @source "../js/safelist.js";

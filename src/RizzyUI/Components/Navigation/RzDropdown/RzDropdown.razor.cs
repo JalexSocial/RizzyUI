@@ -23,7 +23,13 @@ public partial class RzDropdown : RzComponent
 
     /// <summary> Gets or sets the point on the trigger where the dropdown menu attaches. Defaults to BottomCenter. </summary>
     [Parameter]
-    public AnchorPoint Anchor { get; set; } = AnchorPoint.BottomCenter;
+    public AnchorPoint Anchor { get; set; } = AnchorPoint.Bottom;
+
+    /// <summary>
+    /// Offset in pixels from the anchor point where the dropdown menu appears.
+    /// </summary>
+    [Parameter]
+    public int Offset { get; set; } = 6;
 
     /// <inheritdoc />
     protected override string? RootClass()
