@@ -4428,9 +4428,13 @@ function zc(e) {
 }
 function Bc(e) {
   e.data("rzIndicator", () => ({
+    visible: !1,
     init() {
       const t = this.$el.dataset.color;
-      t && (this.$el.style.backgroundColor = t);
+      t && (this.$el.style.backgroundColor = t), this.$el.dataset.visible === "true" && (this.visible = !0);
+    },
+    notVisible() {
+      return !this.visible;
     }
   }));
 }

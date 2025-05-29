@@ -90,8 +90,7 @@ public partial class RzAvatar : RzComponent
             AdditionalAttributes,
             s.Container,
             s.GetSizeCss(Size),
-            s.GetShapeCss(Shape),
-            Border ? s.Border : null
+            Border ? s.Border : string.Empty
         );
     }
 }

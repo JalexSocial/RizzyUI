@@ -6,6 +6,12 @@ export default function(Alpine) {
             const colorValue = this.$el.dataset.color;
             if (colorValue) {
                 this.$el.style.backgroundColor = colorValue;
+            } else {
+                this.$el.style.backgroundColor = "var(--color-success)";
+            }
+            
+            if (this.$el.dataset.visible === "true") {
+                this.visible = true;
             }
             
             // Visibility is handled by x-show in the .razor template directly
@@ -15,6 +21,9 @@ export default function(Alpine) {
         },
         notVisible() {
             return !this.visible;
+        },
+        setVisible(value) {
+            this.visible = value;
         }
     }));
 }

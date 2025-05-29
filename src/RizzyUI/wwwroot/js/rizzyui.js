@@ -3183,11 +3183,18 @@
   }
   function registerRzIndicator(Alpine2) {
     Alpine2.data("rzIndicator", () => ({
+      visible: false,
       init() {
         const colorValue = this.$el.dataset.color;
         if (colorValue) {
           this.$el.style.backgroundColor = colorValue;
         }
+        if (this.$el.dataset.visible === "true") {
+          this.visible = true;
+        }
+      },
+      notVisible() {
+        return !this.visible;
       }
     }));
   }

@@ -21,7 +21,7 @@ public partial class RzIndicator : RzComponent
     /// Gets or sets the size of the indicator.
     /// Defaults to <see cref="Size.Small"/>.
     /// </summary>
-    [Parameter] public Size Size { get; set; } = Size.Small;
+    [Parameter] public Size Size { get; set; } = Size.Medium;
 
     /// <summary>
     /// Gets or sets a value indicating whether the indicator is visible.
