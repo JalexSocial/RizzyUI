@@ -26,8 +26,8 @@ public partial class RzTheme
         RzAccordion = new DefaultRzAccordionStyles(this);
         AccordionItem = new DefaultAccordionItemStyles(this);
         RzAlert = new DefaultRzAlertStyles(this);
-        RzAlertTitle = new DefaultRzAlertTitleStyles(this);
-        RzAlertDescription = new DefaultRzAlertDescriptionStyles(this);
+        AlertTitle = new DefaultAlertTitleStyles(this);
+        AlertDescription = new DefaultAlertDescriptionStyles(this);
         RzArticle = new DefaultRzArticleStyles(this);
         RzAvatar = new DefaultRzAvatarStyles(this);
         RzBadge = new DefaultRzBadgeStyles(this);

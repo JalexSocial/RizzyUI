@@ -17,11 +17,11 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzAlert" /> component. </summary>
     public virtual RzStylesBase.RzAlertStylesBase RzAlert { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzAlertTitle" /> component. </summary>
-    public virtual RzStylesBase.RzAlertTitleStylesBase RzAlertTitle { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="AlertTitle" /> component. </summary>
+    public virtual RzStylesBase.AlertTitleStylesBase AlertTitle { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzAlertDescription" /> component. </summary>
-    public virtual RzStylesBase.RzAlertDescriptionStylesBase RzAlertDescription { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="AlertDescription" /> component. </summary>
+    public virtual RzStylesBase.AlertDescriptionStylesBase AlertDescription { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzArticle" /> component. </summary>
     public virtual RzStylesBase.RzArticleStylesBase RzArticle { get; }

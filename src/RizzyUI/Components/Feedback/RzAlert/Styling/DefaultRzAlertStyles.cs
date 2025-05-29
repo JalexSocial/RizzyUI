@@ -93,13 +93,13 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
 }
 
 /// <inheritdoc />
-public class DefaultRzAlertTitleStyles : RzStylesBase.RzAlertTitleStylesBase
+public class DefaultAlertTitleStyles : RzStylesBase.AlertTitleStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzAlertTitleStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultAlertTitleStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzAlertTitleStyles(RzTheme theme) : base(theme)
+    public DefaultAlertTitleStyles(RzTheme theme) : base(theme)
     {
     }
 
@@ -129,13 +129,13 @@ public class DefaultRzAlertTitleStyles : RzStylesBase.RzAlertTitleStylesBase
 }
 
 /// <inheritdoc />
-public class DefaultRzAlertDescriptionStyles : RzStylesBase.RzAlertDescriptionStylesBase
+public class DefaultAlertDescriptionStyles : RzStylesBase.AlertDescriptionStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzAlertDescriptionStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultAlertDescriptionStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzAlertDescriptionStyles(RzTheme theme) : base(theme)
+    public DefaultAlertDescriptionStyles(RzTheme theme) : base(theme)
     {
     }
 

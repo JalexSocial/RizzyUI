@@ -143,12 +143,12 @@ namespace RizzyUI.Tests.Components.Feedback
                 .Add(p => p.Id, expectedId)
                 .AddChildContent(builder =>
                 {
-                    builder.OpenComponent<RzAlertTitle>(0);
+                    builder.OpenComponent<AlertTitle>(0);
                     builder.AddAttribute(1, "ChildContent", (RenderFragment)(titleBuilder =>
                         titleBuilder.AddContent(0, titleText)));
                     builder.CloseComponent();
 
-                    builder.OpenComponent<RzAlertDescription>(2);
+                    builder.OpenComponent<AlertDescription>(2);
                     builder.AddAttribute(3, "ChildContent", (RenderFragment)(descBuilder =>
                         descBuilder.AddContent(0, "Description text")));
                     builder.CloseComponent();
@@ -174,7 +174,7 @@ namespace RizzyUI.Tests.Components.Feedback
                 .Add(p => p.Id, expectedId)
                 .AddChildContent(builder =>
                 {
-                    builder.OpenComponent<RzAlertDescription>(0);
+                    builder.OpenComponent<AlertDescription>(0);
                     builder.AddAttribute(1, "ChildContent", (RenderFragment)(descBuilder =>
                         descBuilder.AddContent(0, descriptionText)));
                     builder.CloseComponent();
@@ -226,12 +226,12 @@ namespace RizzyUI.Tests.Components.Feedback
                 .Add(p => p.Pulse, true)
                 .AddChildContent(builder =>
                 {
-                    builder.OpenComponent<RzAlertTitle>(0);
+                    builder.OpenComponent<AlertTitle>(0);
                     builder.AddAttribute(1, "ChildContent", (RenderFragment)(titleBuilder =>
                         titleBuilder.AddContent(0, titleText)));
                     builder.CloseComponent();
 
-                    builder.OpenComponent<RzAlertDescription>(2);
+                    builder.OpenComponent<AlertDescription>(2);
                     builder.AddAttribute(3, "ChildContent", (RenderFragment)(descBuilder =>
                         descBuilder.AddContent(0, descriptionText)));
                     builder.CloseComponent();

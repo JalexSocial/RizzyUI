@@ -6,10 +6,10 @@ namespace RizzyUI;
 
 /// <xmldoc>
 ///     Represents the descriptive content (<c>p</c> tag by default) within an <see cref="RzAlert" /> component.
-///     Provides supplementary information to the <see cref="RzAlertTitle" />.
+///     Provides supplementary information to the <see cref="AlertTitle" />.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzAlertDescription : RzComponent
+public partial class AlertDescription : RzComponent
 {
     /// <summary> The descriptive content to be rendered. </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -26,6 +26,6 @@ public partial class RzAlertDescription : RzComponent
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzAlertDescription.Description);
+        return TwMerge.Merge(AdditionalAttributes, Theme.AlertDescription.Description);
     }
 }

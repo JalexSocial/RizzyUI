@@ -4102,6 +4102,13 @@
       animation: none;
     }
   }
+  .motion-reduce\:transition-opacity {
+    @media (prefers-reduced-motion: reduce) {
+      transition-property: opacity;
+      transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+      transition-duration: var(--tw-duration, var(--default-transition-duration));
+    }
+  }
   .motion-reduce\:transition-none {
     @media (prefers-reduced-motion: reduce) {
       transition-property: none;

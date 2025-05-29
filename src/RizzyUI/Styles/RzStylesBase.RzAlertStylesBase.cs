@@ -67,20 +67,20 @@ public abstract partial class RzStylesBase
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzAlertTitle" /> component.
+    ///     Defines the abstract structure for styling the <see cref="AlertTitle" /> component.
     /// </summary>
-    public abstract class RzAlertTitleStylesBase
+    public abstract class AlertTitleStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="RzAlertTitleStylesBase" /> class. </summary>
-        protected RzAlertTitleStylesBase(RzTheme theme)
+        /// <summary> Initializes a new instance of the <see cref="AlertTitleStylesBase" /> class. </summary>
+        protected AlertTitleStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the RzAlertTitle element (e.g., h3). </summary>
+        /// <summary> Gets the base CSS classes for the AlertTitle element (e.g., h3). </summary>
         public abstract string Title { get; }
 
         /// <summary> Gets the variant-specific text color CSS class for the alert title. </summary>
@@ -90,20 +90,20 @@ public abstract partial class RzStylesBase
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzAlertDescription" /> component.
+    ///     Defines the abstract structure for styling the <see cref="AlertDescription" /> component.
     /// </summary>
-    public abstract class RzAlertDescriptionStylesBase
+    public abstract class AlertDescriptionStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="RzAlertDescriptionStylesBase" /> class. </summary>
-        protected RzAlertDescriptionStylesBase(RzTheme theme)
+        /// <summary> Initializes a new instance of the <see cref="AlertDescriptionStylesBase" /> class. </summary>
+        protected AlertDescriptionStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the RzAlertDescription element (e.g., p). </summary>
+        /// <summary> Gets the base CSS classes for the AlertDescription element (e.g., p). </summary>
         public abstract string Description { get; }
     }
 

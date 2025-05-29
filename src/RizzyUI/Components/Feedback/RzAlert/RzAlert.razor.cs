@@ -28,7 +28,7 @@ public partial class RzAlert : RzComponent
     [Parameter]
     public bool Dismissable { get; set; }
 
-    /// <summary> Gets or sets the content to be displayed inside the alert, typically including <see cref="RzAlertTitle"/> and <see cref="RzAlertDescription"/>. </summary>
+    /// <summary> Gets or sets the content to be displayed inside the alert, typically including <see cref="AlertTitle"/> and <see cref="AlertDescription"/>. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 

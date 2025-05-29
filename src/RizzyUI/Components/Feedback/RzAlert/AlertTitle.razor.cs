@@ -8,7 +8,7 @@ namespace RizzyUI;
 ///     Represents the title section (defaults to <c>h3</c>) for an <see cref="RzAlert" /> component.
 ///     Its text color is determined by the parent alert's variant and the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzAlertTitle : RzComponent
+public partial class AlertTitle : RzComponent
 {
     private string _variantTextClass = string.Empty;
 
@@ -32,13 +32,13 @@ public partial class RzAlertTitle : RzComponent
     {
         base.OnParametersSet();
         // Get variant color class after AlertParent should be available
-        _variantTextClass = Theme.RzAlertTitle.GetVariantTextColorCss(AlertParent?.Variant);
+        _variantTextClass = Theme.AlertTitle.GetVariantTextColorCss(AlertParent?.Variant);
     }
 
 
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzAlertTitle.Title, _variantTextClass);
+        return TwMerge.Merge(AdditionalAttributes, Theme.AlertTitle.Title, _variantTextClass);
     }
 }

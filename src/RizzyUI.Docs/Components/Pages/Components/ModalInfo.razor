@@ -17,10 +17,10 @@
             </RzParagraph>
 
             <RzAlert Variant="AlertVariant.Information" class="mb-6">
-                <RzAlertTitle>Under the Hood</RzAlertTitle>
-                <RzAlertDescription>
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
                     This component uses an Alpine.js component (`x-data="rzModal"`) to manage its state and interactions. It utilizes `&lt;template x-teleport="body">` to ensure the modal is rendered at the end of the document body, avoiding potential z-index issues.
-                </RzAlertDescription>
+                </AlertDescription>
             </RzAlert>
 
             <section class="my-8 py-2">
@@ -208,8 +208,8 @@
 
 &lt;p&gt;This content was loaded dynamically via an HTMX request!&lt;/p&gt;
 &lt;RzAlert Variant=&quot;AlertVariant.Success&quot;&gt;
-    &lt;RzAlertTitle&gt;Success&lt;/RzAlertTitle&gt;
-    &lt;RzAlertDescription&gt;Content loaded successfully.&lt;/RzAlertDescription&gt;
+    &lt;AlertTitle&gt;Success&lt;/AlertTitle&gt;
+    &lt;AlertDescription&gt;Content loaded successfully.&lt;/AlertDescription&gt;
 &lt;/RzAlert&gt;
                 </RzCodeViewer>
             </section>
@@ -223,10 +223,10 @@
                 </RzParagraph>
 
                 <RzAlert Variant="AlertVariant.Warning" class="mb-6">
-                   <RzAlertTitle>Static Documentation Limitation</RzAlertTitle>
-                   <RzAlertDescription>
+                   <AlertTitle>Static Documentation Limitation</AlertTitle>
+                   <AlertDescription>
                        This specific "Close via HTMX Header" example requires server-side processing to send the `HX-Trigger` response header. Since this documentation is rendered as static HTML, clicking the "Submit & Close" button below will not actually close the modal in this demo environment. It demonstrates the client-side setup and the expected server-side response.
-                   </RzAlertDescription>
+                   </AlertDescription>
                </RzAlert>
 
                 <div>
