@@ -4431,10 +4431,13 @@ function Bc(e) {
     visible: !1,
     init() {
       const t = this.$el.dataset.color;
-      t && (this.$el.style.backgroundColor = t), this.$el.dataset.visible === "true" && (this.visible = !0);
+      t ? this.$el.style.backgroundColor = t : this.$el.style.backgroundColor = "var(--color-success)", this.$el.dataset.visible === "true" && (this.visible = !0);
     },
     notVisible() {
       return !this.visible;
+    },
+    setVisible(t) {
+      this.visible = t;
     }
   }));
 }

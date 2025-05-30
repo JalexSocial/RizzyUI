@@ -91,7 +91,7 @@ namespace RizzyUI.Tests.Components.Feedback
         [Theory]
         [InlineData(SemanticColor.Primary, "fill-primary")]
         [InlineData(SemanticColor.Secondary, "fill-secondary")]
-        [InlineData(SemanticColor.Danger, "fill-danger")]
+        [InlineData(SemanticColor.Destructive, "fill-danger")]
         [InlineData(SemanticColor.Success, "fill-success")]
         [InlineData(SemanticColor.Warning, "fill-warning")]
         [InlineData(SemanticColor.Info, "fill-info")]

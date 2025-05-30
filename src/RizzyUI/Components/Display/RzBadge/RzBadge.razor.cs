@@ -13,7 +13,7 @@ public partial class RzBadge : RzComponent
 {
     /// <summary> The semantic color of the badge. Defaults to SurfaceAlt. </summary>
     [Parameter]
-    public SemanticColor Color { get; set; } = SemanticColor.SurfaceAlt;
+    public SemanticColor Color { get; set; } = SemanticColor.Muted;
 
     /// <summary> When set to true, applies a softer styling to the badge. </summary>
     [Parameter]

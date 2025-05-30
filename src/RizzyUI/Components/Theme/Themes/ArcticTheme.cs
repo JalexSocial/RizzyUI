@@ -17,7 +17,10 @@ public class ArcticTheme : RzTheme
             Background = Colors.White, // White
             Foreground = Colors.Slate.L700, // Black
             Card = Colors.Slate.L100,
-            CardForeground = Colors.Slate.L800, 
+            CardForeground = Colors.Slate.L800,
+            Popover = Colors.Slate.L50, // #F8FAFC (248,250,252)
+            PopoverForeground = Colors.Slate.L800, // #1E293B (30,41,59)
+            Muted = Colors.Slate.L200, 
             MutedForeground = Colors.Neutral.L500,
             Accent = Colors.Slate.L200,
             AccentForeground = Colors.Slate.L600,
@@ -43,17 +46,21 @@ public class ArcticTheme : RzTheme
         // Dark mode colors
         Dark = new RzThemeVariant
         {
-            Background = Colors.Slate.L900, // #0F172A (15,23,42)
-            Foreground = Colors.Slate.L300, // White
+            Background = Colors.White, // White
+            Foreground = Colors.Slate.L700, // Black
+            Card = Colors.Slate.L100,
+            CardForeground = Colors.Slate.L800,
+            Popover = Colors.Slate.L50, // #F8FAFC (248,250,252)
+            PopoverForeground = Colors.Slate.L800, // #1E293B (30,41,59)
+            Muted = Colors.Slate.L200, 
             MutedForeground = Colors.Neutral.L500,
-            Card = Colors.Slate.L800,
-            Accent = Colors.Slate.L700,
-            AccentForeground = Colors.Slate.L300,
-            Primary = Colors.Blue.L600, // #2563EB (37,99,235)
+            Accent = Colors.Slate.L200,
+            AccentForeground = Colors.Slate.L600,
+            Primary = Colors.Blue.L700, // #1D4ED8 (29,78,216)
             PrimaryForeground = Colors.Slate.L100, // #F1F5F9
-            Secondary = Colors.Indigo.L600, // #4F46E5 (79,70,229)
+            Secondary = Colors.Indigo.L700, // #4338CA (67,56,202)
             SecondaryForeground = Colors.Slate.L100, // #F1F5F9
-            Border = Colors.Slate.L700, // #CBD5E1 (203,213,225)
+            Border = Colors.Slate.L300, // #1E293B (30,41,59)
             
             // Status colors
             Danger = Colors.Red.L600, // #DC2626 (220,38,38)

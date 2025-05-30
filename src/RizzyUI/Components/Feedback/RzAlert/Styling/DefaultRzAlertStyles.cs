@@ -43,7 +43,7 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
                 "rounded-theme border border-success bg-surface text-on-surface",
             AlertVariant.Warning =>
                 "rounded-theme border border-warning bg-surface text-on-surface",
-            AlertVariant.Danger =>
+            AlertVariant.Destructive =>
                 "rounded-theme border border-danger bg-surface text-on-surface",
             _ => GetVariantCss(AlertVariant.Information) // Default
         };
@@ -58,7 +58,7 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
             AlertVariant.Information => "bg-info/10",
             AlertVariant.Success => "bg-success/10",
             AlertVariant.Warning => "bg-warning/10",
-            AlertVariant.Danger => "bg-danger/10",
+            AlertVariant.Destructive => "bg-danger/10",
             _ => GetVariantBackgroundLightCss(AlertVariant.Information)
         };
     }
@@ -72,7 +72,7 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
             AlertVariant.Information => "bg-info/15",
             AlertVariant.Success => "bg-success/15",
             AlertVariant.Warning => "bg-warning/15",
-            AlertVariant.Danger => "bg-danger/15",
+            AlertVariant.Destructive => "bg-danger/15",
             _ => GetVariantBackgroundLighterCss(AlertVariant.Information)
         };
     }
@@ -86,7 +86,7 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
             AlertVariant.Information => "text-info",
             AlertVariant.Success => "text-success",
             AlertVariant.Warning => "text-warning",
-            AlertVariant.Danger => "text-danger",
+            AlertVariant.Destructive => "text-danger",
             _ => GetVariantIconColorCss(AlertVariant.Information)
         };
     }
@@ -122,7 +122,7 @@ public class DefaultAlertTitleStyles : RzStylesBase.AlertTitleStylesBase
             AlertVariant.Information => "text-info",
             AlertVariant.Success => "text-success",
             AlertVariant.Warning => "text-warning",
-            AlertVariant.Danger => "text-danger",
+            AlertVariant.Destructive => "text-danger",
             _ => "text-info" // Default
         };
     }

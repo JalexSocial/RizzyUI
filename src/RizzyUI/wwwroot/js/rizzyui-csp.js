@@ -6495,6 +6495,8 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         const colorValue = this.$el.dataset.color;
         if (colorValue) {
           this.$el.style.backgroundColor = colorValue;
+        } else {
+          this.$el.style.backgroundColor = "var(--color-success)";
         }
         if (this.$el.dataset.visible === "true") {
           this.visible = true;
@@ -6502,6 +6504,9 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       },
       notVisible() {
         return !this.visible;
+      },
+      setVisible(value) {
+        this.visible = value;
       }
     }));
   }

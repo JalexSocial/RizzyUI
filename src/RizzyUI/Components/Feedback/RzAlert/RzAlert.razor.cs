@@ -72,7 +72,7 @@ public partial class RzAlert : RzComponent
                 AlertVariant.Information => MdiIcon.InformationSlabCircle,
                 AlertVariant.Success => MdiIcon.CheckCircle,
                 AlertVariant.Warning => MdiIcon.AlertCircle,
-                AlertVariant.Danger => MdiIcon.CloseCircle,
+                AlertVariant.Destructive => MdiIcon.CloseCircle,
                 AlertVariant.Alternate => null, // No default for alternate
                 _ => MdiIcon.InformationSlabCircle
             };

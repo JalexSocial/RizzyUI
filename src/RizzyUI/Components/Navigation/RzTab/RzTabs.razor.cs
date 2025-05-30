@@ -25,7 +25,7 @@ public partial class RzTabs : RzComponent
 
     /// <summary> Gets or sets the text color for non-selected tabs. Defaults to OnSurface. </summary>
     [Parameter]
-    public SemanticColor TabTextColor { get; set; } = SemanticColor.OnSurface;
+    public SemanticColor TabTextColor { get; set; } = SemanticColor.Foreground;
 
     /// <summary> Gets or sets the text color for the selected tab. Defaults to Primary. </summary>
     [Parameter]
@@ -37,7 +37,7 @@ public partial class RzTabs : RzComponent
 
     /// <summary> Gets or sets the background color for the tabs (applied to individual tabs). Defaults to Surface. </summary>
     [Parameter]
-    public SemanticColor TabBackgroundColor { get; set; } = SemanticColor.Surface;
+    public SemanticColor TabBackgroundColor { get; set; } = SemanticColor.Background;
 
     /// <summary> The required RenderFragment containing the tab menu structure (usually includes <see cref="RzTabStrip" />). </summary>
     [Parameter]

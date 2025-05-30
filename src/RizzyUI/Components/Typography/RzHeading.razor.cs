@@ -52,9 +52,7 @@ public partial class RzHeading : RzTypographyBase
 
         // Apply default text colors based on level if not explicitly set
         if (TextColor is null)
-            TextColor = Level is HeadingLevel.H1 or HeadingLevel.H2
-                ? SemanticColor.OnSurfaceStrong
-                : SemanticColor.OnSurface;
+            TextColor = SemanticColor.Foreground;
 
         // Register with Quick Reference if applicable
         if (!_registered && QuickReferenceContainer != null)

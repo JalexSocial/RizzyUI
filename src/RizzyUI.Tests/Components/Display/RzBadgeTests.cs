@@ -166,7 +166,7 @@ namespace RizzyUI.Tests.Components.Display
             {
                 SemanticColor.Success,
                 SemanticColor.Warning,
-                SemanticColor.Danger,
+                SemanticColor.Destructive,
                 SemanticColor.Info
             };
 

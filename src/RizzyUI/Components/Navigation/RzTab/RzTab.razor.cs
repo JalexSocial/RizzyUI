@@ -64,8 +64,8 @@ public partial class RzTab : RzComponent
         var styles = Theme.RzTab;
         return TwMerge.Merge(AdditionalAttributes,
             styles.Button,
-            styles.GetBackgroundColorCss(Parent?.TabBackgroundColor ?? SemanticColor.Surface), // Use parent's BG color
-            styles.GetTextColorCss(Parent?.TabTextColor ?? SemanticColor.OnSurface), // Use parent's default text color
+            styles.GetBackgroundColorCss(Parent?.TabBackgroundColor ?? SemanticColor.Background), // Use parent's BG color
+            styles.GetTextColorCss(Parent?.TabTextColor ?? SemanticColor.Foreground), // Use parent's default text color
             styles.GetJustifyCss(TabStrip?.Justify ?? Justify.Center) // Use strip's justify
         );
     }

@@ -18,18 +18,18 @@
             <section class="my-8 py-2">
 
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Badge" class="scroll-mt-20">Default Badge</RzHeading>
-                <RzParagraph TextColor="SemanticColor.OnSurface">
+                <RzParagraph TextColor="SemanticColor.Foreground">
                     Default badges are simple labels that convey information without additional styling or icons. They are ideal for displaying static text or statuses.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-4 text-base mx-auto grid min-h-[10rem] place-content-center place-items-center gap-4 rounded-xl p-4 xl:grid-cols-5 2xl:grid-cols-6">
-	                    <RzBadge Color="SemanticColor.Surface">Badge</RzBadge>
-	                    <RzBadge Color="SemanticColor.SurfaceAlt">Badge</RzBadge>
+	                    <RzBadge Color="SemanticColor.Background">Badge</RzBadge>
+	                    <RzBadge Color="SemanticColor.Muted">Badge</RzBadge>
                         <RzBadge Color="SemanticColor.Primary">Badge</RzBadge>
                         <RzBadge Color="SemanticColor.Secondary">Badge</RzBadge>
                         <RzBadge Color="SemanticColor.Info">Badge</RzBadge>
-                        <RzBadge Color="SemanticColor.Danger">Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Destructive">Badge</RzBadge>
                         <RzBadge Color="SemanticColor.Warning">Badge</RzBadge>
                         <RzBadge Color="SemanticColor.Success">Badge</RzBadge>
                     </div>
@@ -52,18 +52,18 @@
             <section class="my-8 py-2">
 
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Soft Badge" class="scroll-mt-20">Soft Badge</RzHeading>
-                <RzParagraph TextColor="SemanticColor.OnSurface">
+                <RzParagraph TextColor="SemanticColor.Foreground">
                     Soft badges have a lighter appearance, utilizing semi-transparent backgrounds to subtly highlight information without overwhelming the interface. They are perfect for secondary actions or less critical statuses.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-2 text-base mx-auto grid min-h-[10rem] place-content-center place-items-center gap-4 rounded-xl p-4 xl:grid-cols-3 2xl:grid-cols-4">
-	                    <RzBadge Color="SemanticColor.Surface" Soft>Badge</RzBadge>
-                        <RzBadge Color="SemanticColor.SurfaceAlt" Soft>Badge</RzBadge>
+	                    <RzBadge Color="SemanticColor.Background" Soft>Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Muted" Soft>Badge</RzBadge>
                         <RzBadge Color="SemanticColor.Primary" Soft>Badge</RzBadge>
                         <RzBadge Color="SemanticColor.Secondary" Soft>Badge</RzBadge>
                         <RzBadge Color="SemanticColor.Info" Soft>Badge</RzBadge>
-                        <RzBadge Color="SemanticColor.Danger" Soft>Badge</RzBadge>
+                        <RzBadge Color="SemanticColor.Destructive" Soft>Badge</RzBadge>
                         <RzBadge Color="SemanticColor.Warning" Soft>Badge</RzBadge>
                         <RzBadge Color="SemanticColor.Success" Soft>Badge</RzBadge>
                     </div>
@@ -86,17 +86,17 @@
             <section class="my-8 py-2">
 
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Badge with Indicator" class="scroll-mt-20">Badge with Indicator</RzHeading>
-                <RzParagraph TextColor="SemanticColor.OnSurface">
+                <RzParagraph TextColor="SemanticColor.Foreground">
                     Badges with indicators include a small icon or dot to signify status changes, notifications, or alerts. This enhances the visual feedback and draws attention to important information.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-2 text-base mx-auto grid min-h-[10rem] place-content-center place-items-center gap-4 rounded-xl p-4 xl:grid-cols-3 2xl:grid-cols-4">
-	                    <RzBadge Color="SemanticColor.Surface" Soft>
+	                    <RzBadge Color="SemanticColor.Background" Soft>
 		                    <Blazicon Svg="MdiIcon.CircleMedium" />
 		                    Badge
 	                    </RzBadge>
-	                    <RzBadge Color="SemanticColor.SurfaceAlt" Soft>
+	                    <RzBadge Color="SemanticColor.Muted" Soft>
 		                    <Blazicon Svg="MdiIcon.CircleMedium" />
 		                    Badge
 	                    </RzBadge>
@@ -112,7 +112,7 @@
                             <Blazicon Svg="MdiIcon.CircleMedium"/>
                             Badge
                         </RzBadge>
-                        <RzBadge Color="SemanticColor.Danger" Soft>
+                        <RzBadge Color="SemanticColor.Destructive" Soft>
                             <Blazicon Svg="MdiIcon.CircleMedium" />
                             Badge
                         </RzBadge>
@@ -168,17 +168,17 @@
             <section class="my-8 py-2">
 
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Badge with Icon" class="scroll-mt-20">Badge with Icon</RzHeading>
-                <RzParagraph TextColor="SemanticColor.OnSurface">
+                <RzParagraph TextColor="SemanticColor.Foreground">
                     Badges can include various icons to represent actions, statuses, or categories. Icons enhance the badge's meaning and provide visual cues for better user experience.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="grid-cols-2 text-base mx-auto grid min-h-[10rem] place-content-center place-items-center gap-4 rounded-xl p-4 xl:grid-cols-3 2xl:grid-cols-4">
-	                    <RzBadge Color="SemanticColor.Surface" Soft>
+	                    <RzBadge Color="SemanticColor.Background" Soft>
 		                    <Blazicon Svg="MdiIcon.Tag" />
 		                    Tag
 	                    </RzBadge>
-	                    <RzBadge Color="SemanticColor.SurfaceAlt" Soft Icon="MdiIcon.Tag" Label="Tag"/>
+	                    <RzBadge Color="SemanticColor.Muted" Soft Icon="MdiIcon.Tag" Label="Tag"/>
                     
 	                    <RzBadge Color="SemanticColor.Primary" Soft Icon="MdiIcon.Check" Label="Approved"/>
                         
@@ -186,7 +186,7 @@
                         
 	                    <RzBadge Color="SemanticColor.Info" Soft Icon="MdiIcon.Information" Label="Info"/>
                         
-	                    <RzBadge Color="SemanticColor.Danger" Soft Icon="MdiIcon.Alert" Label="RzAlert"/>
+	                    <RzBadge Color="SemanticColor.Destructive" Soft Icon="MdiIcon.Alert" Label="RzAlert"/>
                         
 	                    <RzBadge Color="SemanticColor.Warning" Soft Icon="MdiIcon.AlertCircle" Label="Caution"/>
                         

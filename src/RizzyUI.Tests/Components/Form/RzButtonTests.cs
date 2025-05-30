@@ -36,7 +36,7 @@ namespace RizzyUI.Tests.Components.Form
         [InlineData(ButtonVariant.Alternate)]
         [InlineData(ButtonVariant.Inverse)]
         [InlineData(ButtonVariant.Information)]
-        [InlineData(ButtonVariant.Danger)]
+        [InlineData(ButtonVariant.Destructive)]
         [InlineData(ButtonVariant.Warning)]
         [InlineData(ButtonVariant.Success)]
         [InlineData(ButtonVariant.Ghost)]
@@ -64,7 +64,7 @@ namespace RizzyUI.Tests.Components.Form
                 ButtonVariant.Alternate => "bg-surface-alt",
                 ButtonVariant.Inverse => "bg-surface",
                 ButtonVariant.Information => "bg-info",
-                ButtonVariant.Danger => "bg-danger",
+                ButtonVariant.Destructive => "bg-danger",
                 ButtonVariant.Warning => "bg-warning",
                 ButtonVariant.Success => "bg-success",
                 ButtonVariant.Ghost => "bg-transparent",

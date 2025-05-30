@@ -99,26 +99,24 @@ public static class ColorUtil
             SemanticColor.None => "",
 
             // Surface Colors
-            SemanticColor.Surface => "text-surface ",
-            SemanticColor.OnSurface => "text-on-surface ",
-            SemanticColor.OnSurfaceStrong => "text-on-surface-strong ",
-            SemanticColor.SurfaceAlt => "text-surface-alt ",
+            SemanticColor.Background => "text-surface ",
+            SemanticColor.Foreground => "text-on-surface ",
+            SemanticColor.Muted => "text-surface-alt ",
             SemanticColor.Primary => "text-primary ",
-            SemanticColor.OnPrimary => "text-on-primary ",
+            SemanticColor.PrimaryForeground => "text-on-primary ",
             SemanticColor.Secondary => "text-secondary ",
-            SemanticColor.OnSecondary => "text-on-secondary ",
-            SemanticColor.Outline => "text-outline ",
-            SemanticColor.OutlineStrong => "text-outline-strong ",
+            SemanticColor.SecondaryForeground => "text-on-secondary ",
+            SemanticColor.Border => "text-outline ",
 
             // Status Colors (no dark variants)
-            SemanticColor.Danger => "text-danger",
-            SemanticColor.OnDanger => "text-on-danger",
+            SemanticColor.Destructive => "text-danger",
+            SemanticColor.DestructiveForeground => "text-on-danger",
             SemanticColor.Info => "text-info",
-            SemanticColor.OnInfo => "text-onInfo",
+            SemanticColor.InfoForeground => "text-onInfo",
             SemanticColor.Warning => "text-warning",
-            SemanticColor.OnWarning => "text-on-warning",
+            SemanticColor.WarningForeground => "text-on-warning",
             SemanticColor.Success => "text-success",
-            SemanticColor.OnSuccess => "text-on-success",
+            SemanticColor.SuccessForeground => "text-on-success",
 
             _ => "text-on-surface "
         };
@@ -134,24 +132,22 @@ public static class ColorUtil
         return color switch
         {
             SemanticColor.None => "", // Uses SpinnerBase default (fill-on-surface)
-            SemanticColor.Surface => "fill-surface",
-            SemanticColor.OnSurface => "fill-on-surface",
-            SemanticColor.OnSurfaceStrong => "fill-on-surface-strong",
-            SemanticColor.SurfaceAlt => "fill-surface-alt",
+            SemanticColor.Background => "fill-surface",
+            SemanticColor.Foreground => "fill-on-surface",
+            SemanticColor.Muted => "fill-surface-alt",
             SemanticColor.Primary => "fill-primary",
-            SemanticColor.OnPrimary => "fill-on-primary",
+            SemanticColor.PrimaryForeground => "fill-on-primary",
             SemanticColor.Secondary => "fill-secondary",
-            SemanticColor.OnSecondary => "fill-on-secondary",
-            SemanticColor.Outline => "fill-outline",
-            SemanticColor.OutlineStrong => "fill-outline-strong",
-            SemanticColor.Danger => "fill-danger",
-            SemanticColor.OnDanger => "fill-on-danger",
+            SemanticColor.SecondaryForeground => "fill-on-secondary",
+            SemanticColor.Border => "fill-outline",
+            SemanticColor.Destructive => "fill-danger",
+            SemanticColor.DestructiveForeground => "fill-on-danger",
             SemanticColor.Info => "fill-info",
-            SemanticColor.OnInfo => "fill-on-info", // Check if onInfo fill exists or adjust
+            SemanticColor.InfoForeground => "fill-on-info", // Check if onInfo fill exists or adjust
             SemanticColor.Warning => "fill-warning",
-            SemanticColor.OnWarning => "fill-on-warning",
+            SemanticColor.WarningForeground => "fill-on-warning",
             SemanticColor.Success => "fill-success",
-            SemanticColor.OnSuccess => "fill-on-success",
+            SemanticColor.SuccessForeground => "fill-on-success",
             _ => "" // Fallback to SpinnerBase default
         };
     }
@@ -187,26 +183,24 @@ public static class ColorUtil
             SemanticColor.None => "",
 
             // Surface Colors
-            SemanticColor.Surface => "bg-surface",
-            SemanticColor.OnSurface => "bg-on-surface",
-            SemanticColor.OnSurfaceStrong => "bg-on-surface-strong",
-            SemanticColor.SurfaceAlt => "bg-surface-alt",
+            SemanticColor.Background => "bg-surface",
+            SemanticColor.Foreground => "bg-on-surface",
+            SemanticColor.Muted => "bg-surface-alt",
             SemanticColor.Primary => "bg-primary",
-            SemanticColor.OnPrimary => "bg-on-primary",
+            SemanticColor.PrimaryForeground => "bg-on-primary",
             SemanticColor.Secondary => "bg-secondary",
-            SemanticColor.OnSecondary => "bg-on-secondary",
-            SemanticColor.Outline => "bg-outline",
-            SemanticColor.OutlineStrong => "bg-outline-strong",
+            SemanticColor.SecondaryForeground => "bg-on-secondary",
+            SemanticColor.Border => "bg-outline",
 
             // Status Colors (no dark variants)
-            SemanticColor.Danger => "bg-danger",
-            SemanticColor.OnDanger => "bg-on-danger",
+            SemanticColor.Destructive => "bg-danger",
+            SemanticColor.DestructiveForeground => "bg-on-danger",
             SemanticColor.Info => "bg-info",
-            SemanticColor.OnInfo => "bg-onInfo",
+            SemanticColor.InfoForeground => "bg-onInfo",
             SemanticColor.Warning => "bg-warning",
-            SemanticColor.OnWarning => "bg-on-warning",
+            SemanticColor.WarningForeground => "bg-on-warning",
             SemanticColor.Success => "bg-success",
-            SemanticColor.OnSuccess => "bg-on-success",
+            SemanticColor.SuccessForeground => "bg-on-success",
 
             _ => "bg-surface "
         };
@@ -227,26 +221,24 @@ public static class ColorUtil
             SemanticColor.None => "",
 
             // Surface Colors
-            SemanticColor.Surface => $"{ps}bg-surface",
-            SemanticColor.OnSurface => $"{ps}bg-on-surface",
-            SemanticColor.OnSurfaceStrong => $"{ps}bg-on-surface-strong",
-            SemanticColor.SurfaceAlt => $"{ps}bg-surface-alt",
+            SemanticColor.Background => $"{ps}bg-surface",
+            SemanticColor.Foreground => $"{ps}bg-on-surface",
+            SemanticColor.Muted => $"{ps}bg-surface-alt",
             SemanticColor.Primary => $"{ps}bg-primary",
-            SemanticColor.OnPrimary => $"{ps}bg-on-primary",
+            SemanticColor.PrimaryForeground => $"{ps}bg-on-primary",
             SemanticColor.Secondary => $"{ps}bg-secondary",
-            SemanticColor.OnSecondary => $"{ps}bg-on-secondary",
-            SemanticColor.Outline => $"{ps}bg-outline",
-            SemanticColor.OutlineStrong => $"{ps}bg-outline-strong",
+            SemanticColor.SecondaryForeground => $"{ps}bg-on-secondary",
+            SemanticColor.Border => $"{ps}bg-outline",
 
             // Status Colors (no dark variants)
-            SemanticColor.Danger => ps + "bg-danger",
-            SemanticColor.OnDanger => ps + "bg-on-danger",
+            SemanticColor.Destructive => ps + "bg-danger",
+            SemanticColor.DestructiveForeground => ps + "bg-on-danger",
             SemanticColor.Info => ps + "bg-info",
-            SemanticColor.OnInfo => ps + "bg-onInfo",
+            SemanticColor.InfoForeground => ps + "bg-onInfo",
             SemanticColor.Warning => ps + "bg-warning",
-            SemanticColor.OnWarning => ps + "bg-on-warning",
+            SemanticColor.WarningForeground => ps + "bg-on-warning",
             SemanticColor.Success => ps + "bg-success",
-            SemanticColor.OnSuccess => ps + "bg-on-success",
+            SemanticColor.SuccessForeground => ps + "bg-on-success",
 
             _ => "bg-surface "
         };

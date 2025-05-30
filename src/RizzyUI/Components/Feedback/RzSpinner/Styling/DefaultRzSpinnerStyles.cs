@@ -55,24 +55,22 @@ public static partial class ColorUtilExtensions
         return color switch
         {
             SemanticColor.None => "", // Uses SpinnerBase default (fill-on-surface)
-            SemanticColor.Surface => "fill-surface",
-            SemanticColor.OnSurface => "fill-on-surface",
-            SemanticColor.OnSurfaceStrong => "fill-on-surface-strong",
-            SemanticColor.SurfaceAlt => "fill-surface-alt",
+            SemanticColor.Background => "fill-surface",
+            SemanticColor.Foreground => "fill-on-surface",
+            SemanticColor.Muted => "fill-surface-alt",
             SemanticColor.Primary => "fill-primary",
-            SemanticColor.OnPrimary => "fill-on-primary",
+            SemanticColor.PrimaryForeground => "fill-on-primary",
             SemanticColor.Secondary => "fill-secondary",
-            SemanticColor.OnSecondary => "fill-on-secondary",
-            SemanticColor.Outline => "fill-outline",
-            SemanticColor.OutlineStrong => "fill-outline-strong",
-            SemanticColor.Danger => "fill-danger",
-            SemanticColor.OnDanger => "fill-on-danger",
+            SemanticColor.SecondaryForeground => "fill-on-secondary",
+            SemanticColor.Border => "fill-outline",
+            SemanticColor.Destructive => "fill-danger",
+            SemanticColor.DestructiveForeground => "fill-on-danger",
             SemanticColor.Info => "fill-info",
-            SemanticColor.OnInfo => "fill-on-info", // Check if onInfo fill exists or adjust
+            SemanticColor.InfoForeground => "fill-on-info", // Check if onInfo fill exists or adjust
             SemanticColor.Warning => "fill-warning",
-            SemanticColor.OnWarning => "fill-on-warning",
+            SemanticColor.WarningForeground => "fill-on-warning",
             SemanticColor.Success => "fill-success",
-            SemanticColor.OnSuccess => "fill-on-success",
+            SemanticColor.SuccessForeground => "fill-on-success",
             _ => "" // Fallback to SpinnerBase default
         };
     }

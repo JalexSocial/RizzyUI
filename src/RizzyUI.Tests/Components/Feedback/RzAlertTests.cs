@@ -100,7 +100,7 @@ namespace RizzyUI.Tests.Components.Feedback
         [InlineData(AlertVariant.Information)]
         [InlineData(AlertVariant.Success)]
         [InlineData(AlertVariant.Warning)]
-        [InlineData(AlertVariant.Danger)]
+        [InlineData(AlertVariant.Destructive)]
         [InlineData(AlertVariant.Alternate)]
         public void RzAlert_WithVariant_AppliesCorrectClasses(AlertVariant variant)
         {
@@ -125,7 +125,7 @@ namespace RizzyUI.Tests.Components.Feedback
                 AlertVariant.Information => "border-info",
                 AlertVariant.Success => "border-success",
                 AlertVariant.Warning => "border-warning",
-                AlertVariant.Danger => "border-danger",
+                AlertVariant.Destructive => "border-danger",
                 _ => "border-info"
             };
             Assert.Contains(expectedClass, alert.OuterHtml);

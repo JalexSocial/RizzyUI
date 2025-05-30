@@ -30,7 +30,7 @@ public partial class RzParagraph : RzTypographyBase
         if (string.IsNullOrEmpty(Element))
             Element = "p"; // Set the specific element tag
 
-        TextColor ??= SemanticColor.OnSurface; // Default paragraph text color if not set by base or parameter
+        TextColor ??= SemanticColor.Foreground; // Default paragraph text color if not set by base or parameter
     }
 
     /// <inheritdoc />

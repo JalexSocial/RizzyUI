@@ -38,7 +38,7 @@ public partial class RzTabPanel : RzComponent
 
     /// <summary> Gets the computed CSS classes for the text color, inheriting from the parent Tabs component. </summary>
     protected string TextColorClass =>
-        Theme.RzTabPanel.GetTextColorCss(Parent?.TabTextColor ?? SemanticColor.OnSurface);
+        Theme.RzTabPanel.GetTextColorCss(Parent?.TabTextColor ?? SemanticColor.Foreground);
 
     /// <inheritdoc />
     protected override void OnInitialized()

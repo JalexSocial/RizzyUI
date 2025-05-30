@@ -32,7 +32,7 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
                 "bg-surface text-on-surface focus-visible:outline-surface dark:bg-surface dark:text-on-surface-strong dark:focus-visible:outline-surface", // Corrected Inverse
             ButtonVariant.Information =>
                 "bg-info text-on-info focus-visible:outline-info dark:bg-info dark:text-on-info dark:focus-visible:outline-info",
-            ButtonVariant.Danger =>
+            ButtonVariant.Destructive =>
                 "bg-danger text-on-danger focus-visible:outline-danger dark:bg-danger dark:text-on-danger dark:focus-visible:outline-danger",
             ButtonVariant.Warning =>
                 "bg-warning text-on-warning focus-visible:outline-warning dark:bg-warning dark:text-on-warning dark:focus-visible:outline-warning",
@@ -58,7 +58,7 @@ public class DefaultRzButtonStyles : RzStylesBase.RzButtonStylesBase
                 "bg-transparent border border-on-surface-strong text-on-surface-strong focus-visible:outline-on-surface-strong dark:focus-visible:outline-on-surface-strong",
             ButtonVariant.Information =>
                 "bg-transparent border border-info text-info focus-visible:outline-info dark:border-info dark:text-info dark:focus-visible:outline-info",
-            ButtonVariant.Danger =>
+            ButtonVariant.Destructive =>
                 "bg-transparent border border-danger text-danger focus-visible:outline-danger dark:border-danger dark:text-danger dark:focus-visible:outline-danger",
             ButtonVariant.Warning =>
                 "bg-transparent border border-warning text-warning focus-visible:outline-warning dark:border-warning dark:text-warning dark:focus-visible:outline-warning",

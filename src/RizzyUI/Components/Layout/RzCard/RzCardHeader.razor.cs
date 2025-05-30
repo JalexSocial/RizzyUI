@@ -16,11 +16,11 @@ public partial class RzCardHeader : RzComponent
 
     /// <summary> The background color for the card header. Defaults to SurfaceAlt. </summary>
     [Parameter]
-    public SemanticColor BackgroundColor { get; set; } = SemanticColor.SurfaceAlt;
+    public SemanticColor BackgroundColor { get; set; } = SemanticColor.Muted;
 
     /// <summary> The text color for the card header content. Defaults to OnSurface. </summary>
     [Parameter]
-    public SemanticColor TextColor { get; set; } = SemanticColor.OnSurface;
+    public SemanticColor TextColor { get; set; } = SemanticColor.Foreground;
 
     /// <inheritdoc />
     protected override void OnInitialized()

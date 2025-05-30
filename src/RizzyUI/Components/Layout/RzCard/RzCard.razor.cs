@@ -16,11 +16,11 @@ public partial class RzCard : RzComponent
 
     /// <summary> The background color for the card. Defaults to Surface. </summary>
     [Parameter]
-    public SemanticColor BackgroundColor { get; set; } = SemanticColor.Surface;
+    public SemanticColor BackgroundColor { get; set; } = SemanticColor.Background;
 
     /// <summary> The text color for the card content. Defaults to OnSurface. </summary>
     [Parameter]
-    public SemanticColor TextColor { get; set; } = SemanticColor.OnSurface;
+    public SemanticColor TextColor { get; set; } = SemanticColor.Foreground;
 
     /// <inheritdoc />
     protected override void OnInitialized()

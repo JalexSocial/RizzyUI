@@ -19,8 +19,8 @@ public enum AlertVariant
     /// <summary>Warning alert, often yellow to indicate caution.</summary>
     Warning,
 
-    /// <summary>Danger alert, often red to indicate errors or critical issues.</summary>
-    Danger
+    /// <summary>Destructive alert, often red to indicate errors or critical issues.</summary>
+    Destructive
 }
 
 /// <summary>
@@ -73,8 +73,8 @@ public enum ButtonVariant
     /// <summary>Information button, typically blue for neutral actions.</summary>
     Information,
 
-    /// <summary>Danger button, often red for critical actions.</summary>
-    Danger,
+    /// <summary>Destructive button, often red for critical actions.</summary>
+    Destructive,
 
     /// <summary>Warning button, often yellow for cautionary actions.</summary>
     Warning,
@@ -374,62 +374,83 @@ public enum ModalSize
 /// </summary>
 public enum SemanticColor
 {
-    /// <summary>No color specified.</summary>
+    /// <summary>No specific semantic color is applied; typically inherits or uses a component default.</summary>
     None,
 
-    /// <summary>Surface color, typically for backgrounds.</summary>
-    Surface,
+    /// <summary>General page background color (maps to --background in kitchen sink).</summary>
+    Background,
+    
+    /// <summary>General page foreground/text color (maps to --foreground).</summary>
+    Foreground,
 
-    /// <summary>Foreground color on surface.</summary>
-    OnSurface,
+    /// <summary>Background color for card components (maps to --card).</summary>
+    Card,
+    
+    /// <summary>Foreground/text color for content on card components (maps to --card-foreground).</summary>
+    CardForeground,
 
-    /// <summary>Strong foreground color on surface.</summary>
-    OnSurfaceStrong,
+    /// <summary>Background color for popover components (maps to --popover).</summary>
+    Popover,
+    
+    /// <summary>Foreground/text color for content on popover components (maps to --popover-foreground).</summary>
+    PopoverForeground,
 
-    /// <summary>Alternate surface color for secondary areas.</summary>
-    SurfaceAlt,
-
-    /// <summary>Primary color for highlights or accents.</summary>
+    /// <summary>Primary accent color, typically for interactive elements (maps to --primary).</summary>
     Primary,
+    
+    /// <summary>Foreground/text color for content on primary-colored elements (maps to --primary-foreground).</summary>
+    PrimaryForeground,
 
-    /// <summary>Foreground color on primary background.</summary>
-    OnPrimary,
-
-    /// <summary>Secondary color for less emphasized elements.</summary>
+    /// <summary>Secondary accent color (maps to --secondary).</summary>
     Secondary,
+    
+    /// <summary>Foreground/text color for content on secondary-colored elements (maps to --secondary-foreground).</summary>
+    SecondaryForeground,
 
-    /// <summary>Foreground color on secondary background.</summary>
-    OnSecondary,
+    /// <summary>Color for muted surfaces or backgrounds (maps to --muted).</summary>
+    Muted,
+    
+    /// <summary>Foreground/text color for content on muted surfaces (maps to --muted-foreground).</summary>
+    MutedForeground,
 
-    /// <summary>Outline color for borders or separators.</summary>
-    Outline,
+    /// <summary>Color for accented surfaces or backgrounds (maps to --accent).</summary>
+    Accent,
+    
+    /// <summary>Foreground/text color for content on accented surfaces (maps to --accent-foreground).</summary>
+    AccentForeground,
 
-    /// <summary>Strong outline color for emphasis.</summary>
-    OutlineStrong,
+    /// <summary>Color for destructive actions or elements, indicating errors or critical operations (maps to --destructive).</summary>
+    Destructive,
+    
+    /// <summary>Foreground/text color for content on destructive-colored elements (maps to an implied --destructive-foreground).</summary>
+    DestructiveForeground,
 
-    /// <summary>Danger color, often red for errors.</summary>
-    Danger,
-
-    /// <summary>Foreground color on danger background.</summary>
-    OnDanger,
+    /// <summary>Color for borders (maps to --border).</summary>
+    Border,
+    
+    /// <summary>Color for input backgrounds or borders (maps to --input).</summary>
+    Input,
+    
+    /// <summary>Color for focus rings (maps to --ring).</summary>
+    Ring,
 
     /// <summary>Informational color, often blue or neutral.</summary>
     Info,
 
     /// <summary>Foreground color on info background.</summary>
-    OnInfo,
+    InfoForeground,
 
     /// <summary>Warning color, often yellow for caution.</summary>
     Warning,
 
     /// <summary>Foreground color on warning background.</summary>
-    OnWarning,
+    WarningForeground,
 
     /// <summary>Success color, often green for positive feedback.</summary>
     Success,
 
     /// <summary>Foreground color on success background.</summary>
-    OnSuccess
+    SuccessForeground
 }
 
 /// <summary>
