@@ -76,7 +76,7 @@ public class CustomTheme : RizzyTheme
             OnSurfaceStrong = Colors.Black,
             SurfaceAlt = Colors.Gray.L100,
             Primary = Colors.Blue.L700,
-            OnPrimary = Colors.White,
+            PrimaryForeground = Colors.White,
             // Define additional tokens as required...
         };
         Dark = new RizzyThemeVariant
@@ -86,7 +86,7 @@ public class CustomTheme : RizzyTheme
             OnSurfaceStrong = Colors.White,
             SurfaceAlt = Colors.Gray.L800,
             Primary = Colors.Blue.L600,
-            OnPrimary = Colors.Black,
+            PrimaryForeground = Colors.Black,
             // Define additional tokens as required...
         };
         Danger = Colors.Red.L600;
@@ -189,9 +189,9 @@ The semantic colors are defined in the `SemanticColor` enum and include the foll
 | **OnSurfaceStrong**  | A stronger variant for text on a Surface background, typically used for RzHeadings or prominent labels (e.g., `text-on-surface-strong`).                                                                                                                                                                            |
 | **SurfaceAlt**       | An alternate background color used to differentiate sections or secondary surfaces (e.g., `bg-surface-alt`).                                                                                                                                                                                                     |
 | **Primary**          | The main accent or brand color used in interactive elements like buttons or links (e.g., `bg-primary`).                                                                                                                                                                                                          |
-| **OnPrimary**        | Used for text and icons placed on a Primary-colored background, ensuring readability (e.g., `text-on-primary`).                                                                                                                                                                                                 |
+| **PrimaryForeground**        | Used for text and icons placed on a Primary-colored background, ensuring readability (e.g., `text-on-primary`).                                                                                                                                                                                                 |
 | **Secondary**        | A secondary accent color that complements the primary color. Often used for additional interactive elements (e.g., `bg-secondary`).                                                                                                                                                                               |
-| **OnSecondary**      | For text and icons on a Secondary-colored background (e.g., `text-on-secondary`).                                                                                                                                                                                                                                 |
+| **SecondaryForeground**      | For text and icons on a Secondary-colored background (e.g., `text-on-secondary`).                                                                                                                                                                                                                                 |
 | **Outline**          | Defines the color for borders and outlines, providing visual separation (e.g., `border-outline`).                                                                                                                                                                                                                 |
 | **OutlineStrong**    | A stronger version of the outline color, used where a more pronounced border is required (e.g., `border-outline-strong`).                                                                                                                                                                                         |
 | **Danger**           | Indicates error states or destructive actions. This color is used to draw attention to problems (e.g., `bg-danger`).                                                                                                                                                                                              |

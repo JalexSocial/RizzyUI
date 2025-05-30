@@ -3,7 +3,7 @@
 @import "../js/lib/flatpickr/flatpickr.css";
 @import "../js/lib/highlightjs/highlightjs.css";
 
-@variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:is(.dark *));
 
 @theme {
     --color-red-50: oklch(0.971 0.013 17.38);
@@ -282,25 +282,6 @@
 }
 
 
-@layer theme {
-    * {
-        @variant dark {
-            --color-surface: var(--color-slate-900);
-            --color-on-surface: var(--color-slate-300);
-            --color-on-surface-strong: var(--color-white);
-            --color-on-surface-muted: var(--color-neutral-500);
-            --color-surface-alt: var(--color-slate-800);
-            --color-surface-tertiary: var(--color-slate-700);
-            --color-on-surface-tertiary: var(--color-slate-300);
-            --color-primary: var(--color-blue-600);
-            --color-on-primary: var(--color-slate-100);
-            --color-secondary: var(--color-indigo-600);
-            --color-on-secondary: var(--color-slate-100);
-            --color-outline: var(--color-slate-700);
-            --color-outline-strong: var(--color-slate-300);
-        }
-    }
-}
 
 @layer utilities {
     .prose-compact { max-width: 56ch; }

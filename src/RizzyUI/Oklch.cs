@@ -35,7 +35,7 @@ public record SemanticColor : Color
         new ("--color-on-surface-dark-strong", "on-surface-dark-strong"));
 
     /// <summary>Muted foreground color on surface.</summary>
-    public static SemanticColor OnSurfaceMuted => new SemanticColor(new("--color-on-surface-muted", "on-surface-muted"),
+    public static SemanticColor MutedForeground => new SemanticColor(new("--color-on-surface-muted", "on-surface-muted"),
         new("--color-on-surface-dark-muted", "on-surface-dark-muted"));
 
     /// <summary>Alternate surface color for secondary areas.</summary>
@@ -46,7 +46,7 @@ public record SemanticColor : Color
     public static SemanticColor Primary => new SemanticColor(new Color("--color-primary", "primary"));
 
     /// <summary>Foreground color on primary background.</summary>
-    public static SemanticColor OnPrimary => new SemanticColor(new ("--color-on-primary", "on-primary"),
+    public static SemanticColor PrimaryForeground => new SemanticColor(new ("--color-on-primary", "on-primary"),
         new ("--color-on-primary-dark", "on-primary-dark"));
 
     /// <summary>Secondary color for less emphasized elements.</summary>
@@ -54,7 +54,7 @@ public record SemanticColor : Color
         new Color("--color-secondary-dark", "secondary-dark"));
 
     /// <summary>Foreground color on secondary background.</summary>
-    public static SemanticColor OnSecondary => new SemanticColor(new Color("--color-on-secondary", "on-secondary"),
+    public static SemanticColor SecondaryForeground => new SemanticColor(new Color("--color-on-secondary", "on-secondary"),
         new Color("--color-on-secondary-dark", "on-secondary-dark"));
 
     /// <summary>Outline color for borders or separators.</summary>

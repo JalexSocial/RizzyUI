@@ -34,11 +34,11 @@ public partial class RzCardFooter : RzComponent
     {
         var bgColorClass = BackgroundColor != SemanticColor.None
            ? BackgroundColor.ToBackgroundClass()
-           : Theme.Light.SurfaceAlt.ToCssClassString("bg"); // Use theme default if None
+           : Theme.Light.Card.ToCssClassString("bg"); // Use theme default if None
 
         var textColorClass = TextColor != SemanticColor.None
             ? TextColor.ToTextClass()
-            : Theme.Light.OnSurface.ToCssClassString("text"); // Use theme default if None
+            : Theme.Light.Foreground.ToCssClassString("text"); // Use theme default if None
 
         return TwMerge.Merge(AdditionalAttributes,
             Theme.RzCardFooter.Footer,

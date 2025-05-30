@@ -34,11 +34,11 @@ public partial class RzCard : RzComponent
     {
         var bgColorClass = BackgroundColor != SemanticColor.None
             ? BackgroundColor.ToBackgroundClass()
-            : Theme.Light.Surface.ToCssClassString("bg"); // Use theme default if None
+            : Theme.Light.Background.ToCssClassString("bg"); // Use theme default if None
 
         var textColorClass = TextColor != SemanticColor.None
             ? TextColor.ToTextClass()
-            : Theme.Light.OnSurface.ToCssClassString("text"); // Use theme default if None
+            : Theme.Light.Foreground.ToCssClassString("text"); // Use theme default if None
 
         return TwMerge.Merge(AdditionalAttributes,
             Theme.RzCard.Container,

@@ -92,29 +92,31 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine(":root {");
 
         // --- Base (Light) Variables ---
-        sb.AppendLine($"--color-surface: {theme.Light.Surface.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface: {theme.Light.OnSurface.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface-strong: {theme.Light.OnSurfaceStrong.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface-muted: {theme.Light.OnSurfaceMuted.ToCssColorString()};");
-        sb.AppendLine($"--color-surface-alt: {theme.Light.SurfaceAlt.ToCssColorString()};");
-        sb.AppendLine($"--color-surface-tertiary: {theme.Light.SurfaceTertiary.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface-tertiary: {theme.Light.OnSurfaceTertiary.ToCssColorString()};");
-        sb.AppendLine($"--color-primary: {theme.Light.Primary.ToCssColorString()};");
-        sb.AppendLine($"--color-on-primary: {theme.Light.OnPrimary.ToCssColorString()};");
-        sb.AppendLine($"--color-secondary: {theme.Light.Secondary.ToCssColorString()};");
-        sb.AppendLine($"--color-on-secondary: {theme.Light.OnSecondary.ToCssColorString()};");
-        sb.AppendLine($"--color-outline: {theme.Light.Outline.ToCssColorString()};");
-        sb.AppendLine($"--color-outline-strong: {theme.Light.OutlineStrong.ToCssColorString()};");
+        sb.AppendLine($"--background: {theme.Light.Background.ToCssColorString()};");
+        sb.AppendLine($"--foreground: {theme.Light.Foreground.ToCssColorString()};");
+        sb.AppendLine($"--card: {theme.Light.Card.ToCssColorString()};");
+        sb.AppendLine($"--card-foreground: {theme.Light.CardForeground.ToCssColorString()};");
+        sb.AppendLine($"--popover: {theme.Light.Popover.ToCssColorString()};");
+        sb.AppendLine($"--popover-foreground: {theme.Light.PopoverForeground.ToCssColorString()};");
+        sb.AppendLine($"--primary: {theme.Light.Primary.ToCssColorString()};");
+        sb.AppendLine($"--primary-foreground: {theme.Light.PrimaryForeground.ToCssColorString()};");
+        sb.AppendLine($"--secondary: {theme.Light.Secondary.ToCssColorString()};");
+        sb.AppendLine($"--secondary-foreground: {theme.Light.SecondaryForeground.ToCssColorString()};");
+        sb.AppendLine($"--muted: {theme.Light.Muted.ToCssColorString()};");
+        sb.AppendLine($"--muted-foreground: {theme.Light.MutedForeground.ToCssColorString()};");
+        sb.AppendLine($"--accent: {theme.Light.Accent.ToCssColorString()};");
+        sb.AppendLine($"--accent-foreground: {theme.Light.AccentForeground.ToCssColorString()};");
+        sb.AppendLine($"--color-outline: {theme.Light.Border.ToCssColorString()};");
 
         // --- Status Colors (Same for Light/Dark in current definition) ---
-        sb.AppendLine($"--color-danger: {theme.Danger.ToCssColorString()};");
-        sb.AppendLine($"--color-on-danger: {theme.OnDanger.ToCssColorString()};");
-        sb.AppendLine($"--color-info: {theme.Info.ToCssColorString()};");
-        sb.AppendLine($"--color-on-info: {theme.OnInfo.ToCssColorString()};"); // Consistent naming needed
-        sb.AppendLine($"--color-warning: {theme.Warning.ToCssColorString()};");
-        sb.AppendLine($"--color-on-warning: {theme.OnWarning.ToCssColorString()};");
-        sb.AppendLine($"--color-success: {theme.Success.ToCssColorString()};");
-        sb.AppendLine($"--color-on-success: {theme.OnSuccess.ToCssColorString()};");
+        sb.AppendLine($"--danger: {theme.Light.Danger.ToCssColorString()};");
+        sb.AppendLine($"--danger-foreground: {theme.Light.DangerForeground.ToCssColorString()};");
+        sb.AppendLine($"--info: {theme.Light.Info.ToCssColorString()};");
+        sb.AppendLine($"--info-foreground: {theme.Light.InfoForeground.ToCssColorString()};"); // Consistent naming needed
+        sb.AppendLine($"--warning: {theme.Light.Warning.ToCssColorString()};");
+        sb.AppendLine($"--warning-foreground: {theme.Light.WarningForeground.ToCssColorString()};");
+        sb.AppendLine($"--success: {theme.Light.Success.ToCssColorString()};");
+        sb.AppendLine($"--success-foreground: {theme.Light.SuccessForeground.ToCssColorString()};");
 
         // --- Border Variables ---
         sb.AppendLine($"--borderWidth: {theme.BorderWidth};");
@@ -143,19 +145,27 @@ public class RzThemeProvider : ComponentBase
 
         // --- Dark Mode Overrides
         sb.AppendLine("&:where(.dark, .dark *) {");
-        sb.AppendLine($"  --color-surface: {theme.Dark.Surface.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-surface: {theme.Dark.OnSurface.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-surface-strong: {theme.Dark.OnSurfaceStrong.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-surface-muted: {theme.Dark.OnSurfaceMuted.ToCssColorString()};");
-        sb.AppendLine($"  --color-surface-alt: {theme.Dark.SurfaceAlt.ToCssColorString()};");
-        sb.AppendLine($"  --color-surface-tertiary: {theme.Dark.SurfaceTertiary.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-surface-tertiary: {theme.Dark.OnSurfaceTertiary.ToCssColorString()};");
+        sb.AppendLine($"  --color-surface: {theme.Dark.Background.ToCssColorString()};");
+        sb.AppendLine($"  --color-on-surface: {theme.Dark.Foreground.ToCssColorString()};");
+        sb.AppendLine($"  --color-on-surface-muted: {theme.Dark.MutedForeground.ToCssColorString()};");
+        sb.AppendLine($"  --color-surface-alt: {theme.Dark.Card.ToCssColorString()};");
+        sb.AppendLine($"  --color-surface-tertiary: {theme.Dark.Accent.ToCssColorString()};");
+        sb.AppendLine($"  --color-on-surface-tertiary: {theme.Dark.AccentForeground.ToCssColorString()};");
         sb.AppendLine($"  --color-primary: {theme.Dark.Primary.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-primary: {theme.Dark.OnPrimary.ToCssColorString()};");
+        sb.AppendLine($"  --color-on-primary: {theme.Dark.PrimaryForeground.ToCssColorString()};");
         sb.AppendLine($"  --color-secondary: {theme.Dark.Secondary.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-secondary: {theme.Dark.OnSecondary.ToCssColorString()};");
-        sb.AppendLine($"  --color-outline: {theme.Dark.Outline.ToCssColorString()};");
-        sb.AppendLine($"  --color-outline-strong: {theme.Dark.OutlineStrong.ToCssColorString()};");
+        sb.AppendLine($"  --color-on-secondary: {theme.Dark.SecondaryForeground.ToCssColorString()};");
+        sb.AppendLine($"  --color-outline: {theme.Dark.Border.ToCssColorString()};");
+        
+        // --- Status Colors (Same for Light/Dark in current definition) ---
+        sb.AppendLine($"--danger: {theme.Light.Danger.ToCssColorString()};");
+        sb.AppendLine($"--danger-foreground: {theme.Light.DangerForeground.ToCssColorString()};");
+        sb.AppendLine($"--info: {theme.Light.Info.ToCssColorString()};");
+        sb.AppendLine($"--info-foreground: {theme.Light.InfoForeground.ToCssColorString()};"); // Consistent naming needed
+        sb.AppendLine($"--warning: {theme.Light.Warning.ToCssColorString()};");
+        sb.AppendLine($"--warning-foreground: {theme.Light.WarningForeground.ToCssColorString()};");
+        sb.AppendLine($"--success: {theme.Light.Success.ToCssColorString()};");
+        sb.AppendLine($"--success-foreground: {theme.Light.SuccessForeground.ToCssColorString()};");
 
         // Highlight.js (Dark) Variables
         sb.AppendLine($"  --highlight-bg: {theme.Dark.Code.Background.ToCssColorString()};");
@@ -171,7 +181,6 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"  --highlight-deletion: {theme.Dark.Code.Deletion.ToCssColorString()};");
         sb.AppendLine($"  --highlight-addition: {theme.Dark.Code.Addition.ToCssColorString()};");
 
-        // Note: Status colors (Danger, Info, etc.) don't have dark overrides in RzTheme current definition
         sb.AppendLine("}"); // Close &:where(...)
         sb.AppendLine("}"); // Close :root
         return sb.ToString();

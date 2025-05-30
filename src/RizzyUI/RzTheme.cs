@@ -118,47 +118,7 @@ public partial class RzTheme
     ///     Gets or sets the color scheme definitions for the dark mode variant of the theme.
     /// </summary>
     public RzThemeVariant Dark { get; set; } = new();
-
-    /// <summary>
-    ///     Gets the <see cref="Color" /> used to indicate dangerous states or error conditions.
-    /// </summary>
-    public Color Danger { get; protected init; }
-
-    /// <summary>
-    ///     Gets the <see cref="Color" /> used for text or icons placed on a <see cref="Danger" /> background.
-    /// </summary>
-    public Color OnDanger { get; protected init; }
-
-    /// <summary>
-    ///     Gets the <see cref="Color" /> used for informational messages or states.
-    /// </summary>
-    public Color Info { get; protected init; }
-
-    /// <summary>
-    ///     Gets the <see cref="Color" /> used for text or icons placed on an <see cref="Info" /> background.
-    /// </summary>
-    public Color OnInfo { get; protected init; }
-
-    /// <summary>
-    ///     Gets the <see cref="Color" /> used to indicate warning or cautionary states.
-    /// </summary>
-    public Color Warning { get; protected init; }
-
-    /// <summary>
-    ///     Gets the <see cref="Color" /> used for text or icons placed on a <see cref="Warning" /> background.
-    /// </summary>
-    public Color OnWarning { get; protected init; }
-
-    /// <summary>
-    ///     Gets the <see cref="Color" /> used to indicate success or positive states.
-    /// </summary>
-    public Color Success { get; protected init; }
-
-    /// <summary>
-    ///     Gets the <see cref="Color" /> used for text or icons placed on a <see cref="Success" /> background.
-    /// </summary>
-    public Color OnSuccess { get; protected init; }
-
+    
     /// <summary>
     ///     Gets the default border width value used across components (e.g., "1px").
     /// </summary>
@@ -178,21 +138,6 @@ public partial class RzTheme
     ///     Gets a new instance of the Arctic theme.
     /// </summary>
     public static RzTheme ArcticTheme => new ArcticTheme();
-
-    /// <summary>
-    ///     Gets a new instance of the High Contrast theme.
-    /// </summary>
-    public static RzTheme HighContrastTheme => new HighContrastTheme();
-
-    /// <summary>
-    ///     Gets a new instance of the Modern theme.
-    /// </summary>
-    public static RzTheme ModernTheme => new ModernTheme();
-
-    /// <summary>
-    ///     Gets a new instance of the News theme.
-    /// </summary>
-    public static RzTheme NewsTheme => new NewsTheme();
 }
 
 #pragma warning restore CS8618
