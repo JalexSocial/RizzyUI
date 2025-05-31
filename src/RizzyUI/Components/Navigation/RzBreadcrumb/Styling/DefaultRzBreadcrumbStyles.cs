@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary>
@@ -14,10 +15,10 @@ public class DefaultRzBreadcrumbStyles : RzStylesBase.RzBreadcrumbStylesBase
     }
 
     /// <inheritdoc />
-    public override string Container => "text-sm font-medium text-on-primary mb-4"; // Adjusted color
+    public override string Container => "text-sm"; // Base container, text color handled by items
 
     /// <inheritdoc />
-    public override string List => "flex flex-wrap items-center gap-1";
+    public override string List => "text-muted-foreground flex flex-wrap items-center gap-1.5 sm:gap-2.5 break-words"; // Matches kitchen sink <ol>
 }
 
 /// <summary>
@@ -34,15 +35,15 @@ public class DefaultRzBreadcrumbItemStyles : RzStylesBase.RzBreadcrumbItemStyles
     }
 
     /// <inheritdoc />
-    public override string ListItem => "flex items-center gap-1 text-on-surface";
+    public override string ListItem => "inline-flex items-center gap-1.5"; // Matches kitchen sink <li>
 
     /// <inheritdoc />
     public override string Link =>
-        "text-on-surface hover:text-on-surface-strong dark:hover:text-on-surface-strong";
+        "hover:text-foreground transition-colors"; // Matches kitchen sink <a>
 
     /// <inheritdoc />
-    public override string ActiveSpan => "font-bold text-on-surface";
+    public override string ActiveSpan => "text-foreground font-normal"; // Matches kitchen sink active <span>
 
     /// <inheritdoc />
-    public override string IconSpan => "text-xl";
+    public override string IconSpan => "size-3.5"; // Matches kitchen sink separator svg size, can be used for item icons too
 }

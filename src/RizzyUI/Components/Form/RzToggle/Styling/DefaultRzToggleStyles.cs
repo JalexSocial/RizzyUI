@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzToggle. </summary>
@@ -12,10 +13,8 @@ public class DefaultRzToggleStyles : RzStylesBase.RzToggleStylesBase
     }
 
     /// <inheritdoc />
-    // Note: Colors like text-primary, checked:bg-primary should ideally map to theme tokens if possible,
-    // but Tailwind's checked: variant often relies on direct color classes.
     public override string Toggle =>
-        "relative w-[3.25rem] h-7 p-px bg-outline border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-primary disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:bg-primary checked:text-primary checked:border-primary focus:checked:border-primary dark:checked:bg-primary dark:checked:border-primary dark:focus:ring-offset-surface before:inline-block before:size-6 before:bg-on-primary checked:before:bg-on-primary before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-on-primary dark:checked:before:bg-on-primary";
+        "appearance-none focus-visible:border-ring focus-visible:ring-ring/50 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 bg-input dark:bg-input/80 checked:bg-primary dark:checked:bg-primary before:content-[''] before:pointer-events-none before:block before:size-4 before:rounded-full before:ring-0 before:transition-all before:bg-background dark:before:bg-foreground dark:checked:before:bg-primary-foreground checked:before:ms-3.5"; // Matches kitchen sink switch
 }
 
 /// <summary> Provides default styles for RzToggleField. </summary>
@@ -33,18 +32,18 @@ public class DefaultRzToggleFieldStyles : RzStylesBase.RzToggleFieldStylesBase
     public override string Field => ""; // Handled by RzField
 
     /// <inheritdoc />
-    public override string ContentWrapper => "space-x-2";
+    public override string ContentWrapper => "gap-2 flex flex-row items-start justify-between rounded-lg border p-4 shadow-xs"; // Matches kitchen sink form switch layout
 
     /// <inheritdoc />
-    public override string InnerWrapper => "flex items-center justify-between space-x-3";
+    public override string InnerWrapper => "flex flex-col gap-0.5"; // For label and description
 
     /// <inheritdoc />
     public override string LabelInField =>
-        "font-medium leading-relaxed"; // Specific style for label within toggle field
+        "leading-normal text-sm font-medium"; // Matches kitchen sink switch label
 
     /// <inheritdoc />
     public override string ToggleInField => ""; // No specific adjustment needed for the toggle itself usually
 
     /// <inheritdoc />
-    public override string DescriptionInLabel => "block text-sm text-on-surface";
+    public override string DescriptionInLabel => "text-sm text-muted-foreground"; // Matches kitchen sink switch description
 }

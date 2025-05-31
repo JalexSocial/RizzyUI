@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzCheckboxGroup. </summary>
@@ -12,15 +13,15 @@ public class DefaultRzCheckboxGroupStyles : RzStylesBase.RzCheckboxGroupStylesBa
     }
 
     /// <inheritdoc />
-    public override string Container => "flex flex-wrap gap-4"; // Base container
+    public override string Container => "flex flex-wrap gap-3"; // Matches kitchen sink form checkbox group layout
 
     /// <inheritdoc />
     public override string GetOrientationCss(Orientation orientation)
     {
         return orientation switch
         {
-            Orientation.Horizontal => "flex-row items-center", // Keep gap-4 from Container
-            Orientation.Vertical => "flex-col", // Keep gap-4 from Container, but vertical
+            Orientation.Horizontal => "flex-row items-center",
+            Orientation.Vertical => "flex-col", // Matches kitchen sink form fieldset for checkboxes
             _ => GetOrientationCss(Orientation.Vertical)
         };
     }
@@ -38,27 +39,29 @@ public class DefaultRzCheckboxGroupItemStyles : RzStylesBase.RzCheckboxGroupItem
     }
 
     /// <inheritdoc />
-    public override string Label => "inline-flex items-center cursor-pointer"; // Added cursor-pointer
+    public override string Label => "flex items-center gap-3 cursor-pointer"; // Matches kitchen sink label structure
 
     /// <inheritdoc />
-    public override string CheckboxWrapper => "relative";
+    public override string CheckboxWrapper => "relative"; // No specific wrapper in kitchen sink, but useful for icon positioning
 
     /// <inheritdoc />
-    // Note: text-primary-500 is hardcoded here, ideally map to theme.Primary or similar if needed for specific check color
+    // This is for the RzInputCheckbox which is the actual input element
     public override string CheckboxInput =>
-        "size-4 rounded-theme-sm border border-outline text-primary-500 focus:border-primary-500 focus:ring-3 focus:ring-primary/50 dark:bg-surface-alt dark:ring-offset-surface dark:checked:border-transparent dark:checked:bg-primary dark:focus:border-primary";
+        "appearance-none border-input dark:bg-input/30 checked:bg-primary dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"; // Matches kitchen sink input[type='checkbox']
 
     /// <inheritdoc />
     public override string IconContainer =>
-        "absolute inset-0 flex items-center justify-center text-on-primary"; // Text color for icon on checked bg
+        "absolute inset-0 flex items-center justify-center pointer-events-none"; // For checkmark icon overlay, if used instead of pseudo-element
 
     /// <inheritdoc />
-    public override string TitleSpan => "ml-2";
+    public override string TitleSpan => "text-sm leading-none font-medium select-none peer-disabled:opacity-50"; // Matches kitchen sink label text style
 
     /// <inheritdoc />
     public override string GetIconVisibilityCss(bool isChecked)
     {
-        return isChecked ? "" : "hidden";
+        // The checkmark is typically part of the :checked:after pseudo-element in the kitchen sink style.
+        // If using an SVG icon here, it would be:
+        return isChecked ? "opacity-100" : "opacity-0";
     }
 }
 
@@ -78,5 +81,5 @@ public class DefaultRzCheckboxGroupFieldStyles : RzStylesBase.RzCheckboxGroupFie
     public override string Field => ""; // Handled by RzFieldStylesBase
 
     /// <inheritdoc />
-    public override string GroupWithinField => "my-3"; // Default margin for the group inside the field
+    public override string GroupWithinField => "flex flex-col gap-2"; // Matches kitchen sink fieldset for checkboxes
 }

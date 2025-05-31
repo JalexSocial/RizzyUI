@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary> Provides default styles for base typography settings. </summary>
@@ -17,8 +18,8 @@ public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase
         return weight switch
         {
             TextWeight.Thin => "font-thin",
-            TextWeight.Normal => "font-normal",
-            TextWeight.Bold => "font-bold",
+            TextWeight.Normal => "font-normal", // Default for p
+            TextWeight.Bold => "font-bold",     // Default for h1
             TextWeight.ExtraBold => "font-extrabold",
             _ => ""
         };
@@ -27,14 +28,15 @@ public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase
     /// <inheritdoc />
     public override string GetTextSizeCss(TextSize? size)
     {
+        // These map to Tailwind's text size utilities
         return size switch
         {
-            TextSize.Small => "text-sm",
-            TextSize.Medium => "text-base",
+            TextSize.Small => "text-sm",         // Kitchen sink uses text-sm for many things
+            TextSize.Medium => "text-base",      // Default paragraph size
             TextSize.Large => "text-lg",
             TextSize.ExtraLarge => "text-xl",
             TextSize.TwoXL => "text-2xl",
-            TextSize.ThreeXL => "text-3xl",
+            TextSize.ThreeXL => "text-3xl",      // Kitchen sink h1
             TextSize.FourXL => "text-4xl",
             TextSize.FiveXL => "text-5xl",
             _ => ""
@@ -70,6 +72,7 @@ public class DefaultRzTypographyStyles : RzStylesBase.RzTypographyStylesBase
     /// <inheritdoc />
     public override string GetLineHeightCss(Leading? leading)
     {
+        // Kitchen sink uses leading-relaxed for p in alerts, leading-none for card titles
         return leading switch
         {
             Leading.None => "leading-none",
@@ -107,14 +110,14 @@ public class DefaultRzHeadingStyles : RzStylesBase.RzHeadingStylesBase
     /// <inheritdoc />
     public override string GetLevelCss(HeadingLevel level)
     {
+        // Based on kitchen sink h1, h2, etc.
         return level switch
         {
-            // Tailwind defaults provide good responsive sizing based on H tag
-            HeadingLevel.H1 => "mb-5 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold",
-            HeadingLevel.H2 => "mb-4 text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold",
-            HeadingLevel.H3 => "mb-3 text-base sm:text-lg md:text-xl lg:text-2xl font-medium",
-            HeadingLevel.H4 => "mb-2 text-base sm:text-lg md:text-xl lg:text-2xl font-normal", // Adjusted H4 slightly
-            _ => GetLevelCss(HeadingLevel.H1) // Default to H1 style if needed
+            HeadingLevel.H1 => "text-3xl font-semibold tracking-tight", // Matches kitchen sink h1
+            HeadingLevel.H2 => "text-lg font-semibold leading-none", // Common for card titles, alert titles in kitchen sink are font-medium
+            HeadingLevel.H3 => "text-base font-medium", // General purpose sub-heading
+            HeadingLevel.H4 => "text-sm font-medium",   // Smaller sub-heading
+            _ => GetLevelCss(HeadingLevel.H1)
         };
     }
 }
@@ -131,20 +134,22 @@ public class DefaultRzParagraphStyles : RzStylesBase.RzParagraphStylesBase
     }
 
     /// <inheritdoc />
-    public override string Paragraph => "my-4 leading-relaxed"; // Base margin and leading
+    public override string Paragraph => "text-sm leading-relaxed"; // Matches kitchen sink alert description p, general p
 
     /// <inheritdoc />
     public override string GetProseWidthCss(ProseWidth width)
     {
+        // Kitchen sink doesn't explicitly use prose width utilities in the provided HTML,
+        // but these are standard Tailwind typography plugin classes.
         return width switch
         {
-            ProseWidth.Compact => "max-w-prose prose-compact", // Use standard prose and potentially a custom compact utility if defined
-            ProseWidth.Comfortable => "max-w-prose prose-comfortable",
-            ProseWidth.Relaxed => "max-w-prose prose-relaxed",
-            ProseWidth.Wide => "max-w-prose prose-wide",
-            ProseWidth.UltraWide => "max-w-prose prose-ultrawide",
-            ProseWidth.Full => "max-w-none", // No max-width constraint
-            _ => GetProseWidthCss(ProseWidth.Full) // Default Paragraphs to full width unless specified
+            ProseWidth.Compact => "max-w-prose prose-sm", // Adjusted to prose-sm for compact
+            ProseWidth.Comfortable => "max-w-prose",      // Standard prose
+            ProseWidth.Relaxed => "max-w-prose prose-lg", // Adjusted to prose-lg for relaxed
+            ProseWidth.Wide => "max-w-screen-md",         // Example for wider
+            ProseWidth.UltraWide => "max-w-screen-lg",   // Example for even wider
+            ProseWidth.Full => "max-w-none",
+            _ => GetProseWidthCss(ProseWidth.Full)
         };
     }
 }

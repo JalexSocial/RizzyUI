@@ -1,4 +1,5 @@
-﻿namespace RizzyUI;
+
+namespace RizzyUI;
 
 /// <summary>
 ///     Provides utility methods for converting accent and semantic color values to complete Tailwind CSS class strings for
@@ -12,7 +13,11 @@ public static class ColorUtil
 #pragma warning disable CS0414 // Field is assigned but its value is never used
     private static readonly string TwBackgroundClassAfterDiscovery =
 #pragma warning restore CS0414 // Field is assigned but its value is never used
-        "after:bg-surface after:bg-on-surface after:bg-on-surface-strong after:bg-surface-alt after:bg-primary after:bg-on-primary after:bg-secondary after:bg-on-secondary after:bg-outline after:bg-outline-strong after:bg-danger after:bg-on-danger after:bg-info after:bg-on-info after:bg-warning after:bg-on-warning after:bg-success after:bg-on-success after:bg-surface";
+        "after:bg-background after:bg-foreground after:bg-card after:bg-card-foreground after:bg-popover after:bg-popover-foreground " +
+        "after:bg-primary after:bg-primary-foreground after:bg-secondary after:bg-secondary-foreground " +
+        "after:bg-muted after:bg-muted-foreground after:bg-accent after:bg-accent-foreground " +
+        "after:bg-destructive after:bg-destructive-foreground after:bg-border after:bg-input after:bg-ring " +
+        "after:bg-info after:bg-info-foreground after:bg-warning after:bg-warning-foreground after:bg-success after:bg-success-foreground"; // Updated to OnInfo, OnWarning, OnSuccess to match SemanticColor
 
     /// <summary>
     ///     Converts an AccentColor to a background class string
@@ -97,28 +102,32 @@ public static class ColorUtil
         return color switch
         {
             SemanticColor.None => "",
-
-            // Surface Colors
-            SemanticColor.Background => "text-surface ",
-            SemanticColor.Foreground => "text-on-surface ",
-            SemanticColor.Muted => "text-surface-alt ",
-            SemanticColor.Primary => "text-primary ",
-            SemanticColor.PrimaryForeground => "text-on-primary ",
-            SemanticColor.Secondary => "text-secondary ",
-            SemanticColor.SecondaryForeground => "text-on-secondary ",
-            SemanticColor.Border => "text-outline ",
-
-            // Status Colors (no dark variants)
-            SemanticColor.Destructive => "text-danger",
-            SemanticColor.DestructiveForeground => "text-on-danger",
+            SemanticColor.Background => "text-background",
+            SemanticColor.Foreground => "text-foreground",
+            SemanticColor.Card => "text-card",
+            SemanticColor.CardForeground => "text-card-foreground",
+            SemanticColor.Popover => "text-popover",
+            SemanticColor.PopoverForeground => "text-popover-foreground",
+            SemanticColor.Primary => "text-primary",
+            SemanticColor.PrimaryForeground => "text-primary-foreground",
+            SemanticColor.Secondary => "text-secondary",
+            SemanticColor.SecondaryForeground => "text-secondary-foreground",
+            SemanticColor.Muted => "text-muted",
+            SemanticColor.MutedForeground => "text-muted-foreground",
+            SemanticColor.Accent => "text-accent",
+            SemanticColor.AccentForeground => "text-accent-foreground",
+            SemanticColor.Destructive => "text-destructive",
+            SemanticColor.DestructiveForeground => "text-destructive-foreground",
+            SemanticColor.Border => "text-border",
+            SemanticColor.Input => "text-input",
+            SemanticColor.Ring => "text-ring",
             SemanticColor.Info => "text-info",
-            SemanticColor.InfoForeground => "text-onInfo",
+            SemanticColor.InfoForeground => "text--info-foreground",
             SemanticColor.Warning => "text-warning",
-            SemanticColor.WarningForeground => "text-on-warning",
+            SemanticColor.WarningForeground => "text-warning-foreground",
             SemanticColor.Success => "text-success",
-            SemanticColor.SuccessForeground => "text-on-success",
-
-            _ => "text-on-surface "
+            SemanticColor.SuccessForeground => "text-success-foreground",
+            _ => "text-foreground"
         };
     }
 
@@ -131,24 +140,33 @@ public static class ColorUtil
     {
         return color switch
         {
-            SemanticColor.None => "", // Uses SpinnerBase default (fill-on-surface)
-            SemanticColor.Background => "fill-surface",
-            SemanticColor.Foreground => "fill-on-surface",
-            SemanticColor.Muted => "fill-surface-alt",
+            SemanticColor.None => "",
+            SemanticColor.Background => "fill-background",
+            SemanticColor.Foreground => "fill-foreground",
+            SemanticColor.Card => "fill-card",
+            SemanticColor.CardForeground => "fill-card-foreground",
+            SemanticColor.Popover => "fill-popover",
+            SemanticColor.PopoverForeground => "fill-popover-foreground",
             SemanticColor.Primary => "fill-primary",
-            SemanticColor.PrimaryForeground => "fill-on-primary",
+            SemanticColor.PrimaryForeground => "fill-primary-foreground",
             SemanticColor.Secondary => "fill-secondary",
-            SemanticColor.SecondaryForeground => "fill-on-secondary",
-            SemanticColor.Border => "fill-outline",
-            SemanticColor.Destructive => "fill-danger",
-            SemanticColor.DestructiveForeground => "fill-on-danger",
+            SemanticColor.SecondaryForeground => "fill-secondary-foreground",
+            SemanticColor.Muted => "fill-muted",
+            SemanticColor.MutedForeground => "fill-muted-foreground",
+            SemanticColor.Accent => "fill-accent",
+            SemanticColor.AccentForeground => "fill-accent-foreground",
+            SemanticColor.Destructive => "fill-destructive",
+            SemanticColor.DestructiveForeground => "fill-destructive-foreground",
+            SemanticColor.Border => "fill-border",
+            SemanticColor.Input => "fill-input",
+            SemanticColor.Ring => "fill-ring",
             SemanticColor.Info => "fill-info",
-            SemanticColor.InfoForeground => "fill-on-info", // Check if onInfo fill exists or adjust
+            SemanticColor.InfoForeground => "fill--info-foreground",
             SemanticColor.Warning => "fill-warning",
-            SemanticColor.WarningForeground => "fill-on-warning",
+            SemanticColor.WarningForeground => "fill-warning-foreground",
             SemanticColor.Success => "fill-success",
-            SemanticColor.SuccessForeground => "fill-on-success",
-            _ => "" // Fallback to SpinnerBase default
+            SemanticColor.SuccessForeground => "fill-success-foreground",
+            _ => "fill-foreground"
         };
     }
 
@@ -161,13 +179,13 @@ public static class ColorUtil
     {
         return color switch
         {
-            StatusColor.Primary => "text-on-primary ",
-            StatusColor.Danger => "text-on-danger",
-            StatusColor.Info => "text-onInfo",
-            StatusColor.Secondary => "text-on-secondary",
-            StatusColor.Success => "text-on-success",
-            StatusColor.Warning => "text-on-warning",
-            _ => "text-on-primary "
+            StatusColor.Primary => "text-primary",
+            StatusColor.Secondary => "text-secondary",
+            StatusColor.Success => "text-success", // Assumes --success CSS var exists
+            StatusColor.Info => "text-info",       // Assumes --info CSS var exists
+            StatusColor.Warning => "text-warning",   // Assumes --warning CSS var exists
+            StatusColor.Danger => "text-destructive", // Maps to semantic destructive
+            _ => "text-primary"
         };
     }
 
@@ -181,28 +199,32 @@ public static class ColorUtil
         return color switch
         {
             SemanticColor.None => "",
-
-            // Surface Colors
-            SemanticColor.Background => "bg-surface",
-            SemanticColor.Foreground => "bg-on-surface",
-            SemanticColor.Muted => "bg-surface-alt",
+            SemanticColor.Background => "bg-background",
+            SemanticColor.Foreground => "bg-foreground",
+            SemanticColor.Card => "bg-card",
+            SemanticColor.CardForeground => "bg-card-foreground",
+            SemanticColor.Popover => "bg-popover",
+            SemanticColor.PopoverForeground => "bg-popover-foreground",
             SemanticColor.Primary => "bg-primary",
-            SemanticColor.PrimaryForeground => "bg-on-primary",
+            SemanticColor.PrimaryForeground => "bg-primary-foreground",
             SemanticColor.Secondary => "bg-secondary",
-            SemanticColor.SecondaryForeground => "bg-on-secondary",
-            SemanticColor.Border => "bg-outline",
-
-            // Status Colors (no dark variants)
-            SemanticColor.Destructive => "bg-danger",
-            SemanticColor.DestructiveForeground => "bg-on-danger",
+            SemanticColor.SecondaryForeground => "bg-secondary-foreground",
+            SemanticColor.Muted => "bg-muted",
+            SemanticColor.MutedForeground => "bg-muted-foreground",
+            SemanticColor.Accent => "bg-accent",
+            SemanticColor.AccentForeground => "bg-accent-foreground",
+            SemanticColor.Destructive => "bg-destructive",
+            SemanticColor.DestructiveForeground => "bg-destructive-foreground",
+            SemanticColor.Border => "bg-border",
+            SemanticColor.Input => "bg-input",
+            SemanticColor.Ring => "bg-ring",
             SemanticColor.Info => "bg-info",
-            SemanticColor.InfoForeground => "bg-onInfo",
+            SemanticColor.InfoForeground => "bg--info-foreground",
             SemanticColor.Warning => "bg-warning",
-            SemanticColor.WarningForeground => "bg-on-warning",
+            SemanticColor.WarningForeground => "bg-warning-foreground",
             SemanticColor.Success => "bg-success",
-            SemanticColor.SuccessForeground => "bg-on-success",
-
-            _ => "bg-surface "
+            SemanticColor.SuccessForeground => "bg-success-foreground",
+            _ => "bg-background"
         };
     }
 
@@ -219,28 +241,32 @@ public static class ColorUtil
         return color switch
         {
             SemanticColor.None => "",
-
-            // Surface Colors
-            SemanticColor.Background => $"{ps}bg-surface",
-            SemanticColor.Foreground => $"{ps}bg-on-surface",
-            SemanticColor.Muted => $"{ps}bg-surface-alt",
+            SemanticColor.Background => $"{ps}bg-background",
+            SemanticColor.Foreground => $"{ps}bg-foreground",
+            SemanticColor.Card => $"{ps}bg-card",
+            SemanticColor.CardForeground => $"{ps}bg-card-foreground",
+            SemanticColor.Popover => $"{ps}bg-popover",
+            SemanticColor.PopoverForeground => $"{ps}bg-popover-foreground",
             SemanticColor.Primary => $"{ps}bg-primary",
-            SemanticColor.PrimaryForeground => $"{ps}bg-on-primary",
+            SemanticColor.PrimaryForeground => $"{ps}bg-primary-foreground",
             SemanticColor.Secondary => $"{ps}bg-secondary",
-            SemanticColor.SecondaryForeground => $"{ps}bg-on-secondary",
-            SemanticColor.Border => $"{ps}bg-outline",
-
-            // Status Colors (no dark variants)
-            SemanticColor.Destructive => ps + "bg-danger",
-            SemanticColor.DestructiveForeground => ps + "bg-on-danger",
-            SemanticColor.Info => ps + "bg-info",
-            SemanticColor.InfoForeground => ps + "bg-onInfo",
-            SemanticColor.Warning => ps + "bg-warning",
-            SemanticColor.WarningForeground => ps + "bg-on-warning",
-            SemanticColor.Success => ps + "bg-success",
-            SemanticColor.SuccessForeground => ps + "bg-on-success",
-
-            _ => "bg-surface "
+            SemanticColor.SecondaryForeground => $"{ps}bg-secondary-foreground",
+            SemanticColor.Muted => $"{ps}bg-muted",
+            SemanticColor.MutedForeground => $"{ps}bg-muted-foreground",
+            SemanticColor.Accent => $"{ps}bg-accent",
+            SemanticColor.AccentForeground => $"{ps}bg-accent-foreground",
+            SemanticColor.Destructive => $"{ps}bg-destructive",
+            SemanticColor.DestructiveForeground => $"{ps}bg-destructive-foreground",
+            SemanticColor.Border => $"{ps}bg-border",
+            SemanticColor.Input => $"{ps}bg-input",
+            SemanticColor.Ring => $"{ps}bg-ring",
+            SemanticColor.Info => $"{ps}bg-info",
+            SemanticColor.InfoForeground => $"{ps}bg--info-foreground",
+            SemanticColor.Warning => $"{ps}bg-warning",
+            SemanticColor.WarningForeground => $"{ps}bg-warning-foreground",
+            SemanticColor.Success => $"{ps}bg-success",
+            SemanticColor.SuccessForeground => $"{ps}bg-success-foreground",
+            _ => $"{ps}bg-background"
         };
     }
 }

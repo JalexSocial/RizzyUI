@@ -1,4 +1,4 @@
-﻿
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 namespace RizzyUI;
@@ -24,7 +24,7 @@ public partial class RzTheme
 
         // Instantiate default styles for all components
         RzAccordion = new DefaultRzAccordionStyles(this);
-        AccordionItem = new DefaultAccordionItemStyles(this);
+        AccordionItem = new DefaultAccordionItemStyles(this); // Corrected name
         RzAlert = new DefaultRzAlertStyles(this);
         AlertTitle = new DefaultAlertTitleStyles(this);
         AlertDescription = new DefaultAlertDescriptionStyles(this);
@@ -119,6 +119,10 @@ public partial class RzTheme
     /// </summary>
     public RzThemeVariant Dark { get; set; } = new();
     
+    // Status colors are now part of RzThemeVariant to align with kitchen sink's light/dark definitions for --destructive
+    // Other status colors (Info, Warning, Success) might still be defined globally if they don't have distinct light/dark CSS vars in kitchen sink
+    // For now, assuming they are part of RzThemeVariant for consistency, but their actual values might be the same for light/dark if not specified otherwise by kitchen sink.
+
     /// <summary>
     ///     Gets the default border width value used across components (e.g., "1px").
     /// </summary>
@@ -138,6 +142,11 @@ public partial class RzTheme
     ///     Gets a new instance of the Arctic theme.
     /// </summary>
     public static RzTheme ArcticTheme => new ArcticTheme();
+
+    // Other theme instances can be added here if needed
+    // public static RzTheme HighContrastTheme => new HighContrastTheme();
+    // public static RzTheme ModernTheme => new ModernTheme();
+    // public static RzTheme NewsTheme => new NewsTheme();
 }
 
 #pragma warning restore CS8618

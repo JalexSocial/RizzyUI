@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary>
@@ -14,14 +15,14 @@ public class DefaultRzButtonGroupStyles : RzStylesBase.RzButtonGroupStylesBase
     }
 
     /// <inheritdoc />
-    public override string Container => "inline-flex";
+    public override string Container => "inline-flex rounded-md shadow-sm"; // Added rounded-md and shadow-sm for group consistency
 
     /// <inheritdoc />
-    public override string GroupFirst => "rounded-none rounded-l-borderRadius"; // Use theme token
+    public override string GroupFirst => "-ml-px first:rounded-l-md"; // Use -ml-px for overlap, ensure left rounding
 
     /// <inheritdoc />
-    public override string GroupLast => "rounded-none rounded-r-borderRadius border-l-0"; // Use theme token
+    public override string GroupLast => "-ml-px last:rounded-r-md"; // Use -ml-px for overlap, ensure right rounding
 
     /// <inheritdoc />
-    public override string GroupMiddle => "rounded-none border-l-0";
+    public override string GroupMiddle => "-ml-px rounded-none"; // Middle buttons are not rounded and overlap
 }

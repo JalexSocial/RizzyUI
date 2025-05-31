@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary>
@@ -17,5 +18,5 @@ public class DefaultRzAccordionStyles : RzStylesBase.RzAccordionStylesBase
     ///     Gets the base CSS classes for the main RzAccordion container div.
     /// </summary>
     public override string Container =>
-        "w-full divide-y divide-outline overflow-hidden rounded-theme border border-outline bg-surface-alt/40 text-on-surface dark:divide-outline";
+        "w-full"; // Kitchen sink accordion itself doesn't have border/bg, it's on the items or the wrapping section
 }

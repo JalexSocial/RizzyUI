@@ -65,7 +65,7 @@ public enum ButtonVariant
     Secondary,
 
     /// <summary>Alternate button styling for varied contexts.</summary>
-    Alternate,
+    Accent,
 
     /// <summary>Inverse button styling for dark backgrounds.</summary>
     Inverse,

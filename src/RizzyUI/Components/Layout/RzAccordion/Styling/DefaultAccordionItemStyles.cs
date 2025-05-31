@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary>
@@ -14,21 +15,21 @@ public class DefaultAccordionItemStyles : RzStylesBase.AccordionItemStylesBase
     }
 
     /// <inheritdoc />
-    public override string Container => ""; // Container div has no specific base style
+    public override string Container => "border-b last:border-b-0"; // Matches kitchen sink <details>
 
     /// <inheritdoc />
     public override string Button =>
-        "flex w-full items-center justify-between gap-4 bg-surface-alt p-4 text-left underline-offset-2 hover:bg-surface-alt/75 focus-visible:bg-surface-alt/75 focus-visible:underline focus-visible:outline-none dark:hover:bg-surface-alt/75 dark:focus-visible:bg-surface-alt/75 text-on-surface font-medium"; // Removed focus-visible:outline-hidden for better accessibility
+        "flex flex-1 items-start justify-between gap-4 py-4 text-left text-sm font-medium hover:underline w-full focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-all outline-none rounded-md"; // Matches kitchen sink <summary> and <h2> inside
 
     /// <inheritdoc />
-    public override string ContentContainerWrapper => ""; // Wrapper for x-collapse has no base style
+    public override string ContentContainerWrapper => "pb-4"; // Matches kitchen sink <section class="pb-4">
 
     /// <inheritdoc />
-    public override string ContentContainer => "p-4 text-sm sm:text-base text-pretty text-on-surface"; // Added text color
+    public override string ContentContainer => "text-sm"; // Matches kitchen sink <p class="text-sm">
 
     /// <inheritdoc />
-    public override string ChevronIcon => "size-5 shrink-0 motion-safe:transition-transform"; // Added motion-safe
+    public override string ChevronIcon => "text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200"; // Matches kitchen sink chevron svg
 
     /// <inheritdoc />
-    public override string ChevronIconExpanded => "rotate-180"; // Class applied when expanded
+    public override string ChevronIconExpanded => "group-open:rotate-180"; // Matches kitchen sink chevron svg group-open state
 }

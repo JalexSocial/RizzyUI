@@ -19,7 +19,7 @@ public partial class RzSpinner : RzComponent
 
     /// <summary>
     /// Gets or sets the semantic color of the spinner.
-    /// Defaults to <see cref="SemanticColor.None"/>, which results in the theme's default 'OnSurface' fill color being used.
+    /// Defaults to <see cref="SemanticColor.None"/>, which results in the theme's default 'Foreground' fill color being used.
     /// </summary>
     [Parameter]
     public SemanticColor Color { get; set; } = SemanticColor.None;

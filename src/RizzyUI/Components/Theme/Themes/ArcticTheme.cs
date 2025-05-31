@@ -1,4 +1,5 @@
-﻿namespace RizzyUI;
+
+namespace RizzyUI;
 
 /// <summary>
 ///     The default theme used for the application, inheriting from <see cref="RzTheme" />.
@@ -11,72 +12,76 @@ public class ArcticTheme : RzTheme
     /// </summary>
     public ArcticTheme() : base("Arctic", "arctic")
     {
-        // Light mode colors
+        // Light mode colors based on kitchen sink CSS variables
         Light = new RzThemeVariant
         {
-            Background = Colors.White, // White
-            Foreground = Colors.Slate.L700, // Black
-            Card = Colors.Slate.L100,
-            CardForeground = Colors.Slate.L800,
-            Popover = Colors.Slate.L50, // #F8FAFC (248,250,252)
-            PopoverForeground = Colors.Slate.L800, // #1E293B (30,41,59)
-            Muted = Colors.Slate.L200, 
-            MutedForeground = Colors.Neutral.L500,
-            Accent = Colors.Slate.L200,
-            AccentForeground = Colors.Slate.L600,
-            Primary = Colors.Blue.L700, // #1D4ED8 (29,78,216)
-            PrimaryForeground = Colors.Slate.L100, // #F1F5F9
-            Secondary = Colors.Indigo.L700, // #4338CA (67,56,202)
-            SecondaryForeground = Colors.Slate.L100, // #F1F5F9
-            Border = Colors.Slate.L300, // #1E293B (30,41,59)
-            
-            // Status colors
-            Danger = Colors.Red.L600, // #DC2626 (220,38,38)
-            DangerForeground = Colors.White, // white
-            Info = Colors.Sky.L600, // #0284C7 (2,132,199)
-            InfoForeground = Colors.White, // white
-            Warning = Colors.Amber.L500, // #F59E0B (245,158,11)
-            WarningForeground = Colors.White, // #FFFFFF
-            Success = Colors.Green.L600, // #16A34A (22,163,74)
-            SuccessForeground = Colors.White, // #FFFFFF
-            
-            Code = CodeThemes.Github
+            Background = new Color("--background", "background"), // oklch(1 0 0)
+            Foreground = new Color("--foreground", "foreground"), // oklch(0.145 0 0)
+            Card = new Color("--card", "card"),                   // oklch(1 0 0)
+            CardForeground = new Color("--card-foreground", "card-foreground"), // oklch(0.145 0 0)
+            Popover = new Color("--popover", "popover"),             // oklch(1 0 0)
+            PopoverForeground = new Color("--popover-foreground", "popover-foreground"), // oklch(0.145 0 0)
+            Primary = new Color("--primary", "primary"),             // oklch(0.205 0 0)
+            PrimaryForeground = new Color("--primary-foreground", "primary-foreground"), // oklch(0.985 0 0)
+            Secondary = new Color("--secondary", "secondary"),         // oklch(0.97 0 0)
+            SecondaryForeground = new Color("--secondary-foreground", "secondary-foreground"), // oklch(0.205 0 0)
+            Muted = new Color("--muted", "muted"),                 // oklch(0.97 0 0)
+            MutedForeground = new Color("--muted-foreground", "muted-foreground"), // oklch(0.556 0 0)
+            Accent = new Color("--accent", "accent"),               // oklch(0.97 0 0)
+            AccentForeground = new Color("--accent-foreground", "accent-foreground"), // oklch(0.205 0 0)
+            Destructive = new Color("--destructive", "destructive"),     // oklch(0.577 0.245 27.325)
+            DestructiveForeground = Colors.White, // Kitchen sink uses text-white for destructive buttons
+            Border = new Color("--border", "border"),               // oklch(0.922 0 0)
+            Input = new Color("--input", "input"),                 // oklch(0.922 0 0)
+            Ring = new Color("--ring", "ring"),                   // oklch(0.708 0 0)
+
+            // Status colors (map to semantic colors or define if kitchen sink had specific status vars)
+            Info = new Color("--primary", "primary"), // Example: Info maps to primary
+            InfoForeground = new Color("--primary-foreground", "primary-foreground"),
+            Warning = Colors.Amber.L500, // Example: Warning maps to an amber color
+            WarningForeground = Colors.Black, // Text for amber
+            Success = Colors.Green.L600, // Example: Success maps to a green color
+            SuccessForeground = Colors.White,
+
+            Code = CodeThemes.Github // Default light code theme
         };
 
-        // Dark mode colors
+        // Dark mode colors based on kitchen sink CSS variables
         Dark = new RzThemeVariant
         {
-            Background = Colors.White, // White
-            Foreground = Colors.Slate.L700, // Black
-            Card = Colors.Slate.L100,
-            CardForeground = Colors.Slate.L800,
-            Popover = Colors.Slate.L50, // #F8FAFC (248,250,252)
-            PopoverForeground = Colors.Slate.L800, // #1E293B (30,41,59)
-            Muted = Colors.Slate.L200, 
-            MutedForeground = Colors.Neutral.L500,
-            Accent = Colors.Slate.L200,
-            AccentForeground = Colors.Slate.L600,
-            Primary = Colors.Blue.L700, // #1D4ED8 (29,78,216)
-            PrimaryForeground = Colors.Slate.L100, // #F1F5F9
-            Secondary = Colors.Indigo.L700, // #4338CA (67,56,202)
-            SecondaryForeground = Colors.Slate.L100, // #F1F5F9
-            Border = Colors.Slate.L300, // #1E293B (30,41,59)
+            Background = new Color("--background", "background"), // oklch(0.145 0 0)
+            Foreground = new Color("--foreground", "foreground"), // oklch(0.985 0 0)
+            Card = new Color("--card", "card"),                   // oklch(0.205 0 0)
+            CardForeground = new Color("--card-foreground", "card-foreground"), // oklch(0.985 0 0)
+            Popover = new Color("--popover", "popover"),             // oklch(0.269 0 0)
+            PopoverForeground = new Color("--popover-foreground", "popover-foreground"), // oklch(0.985 0 0)
+            Primary = new Color("--primary", "primary"),             // oklch(0.922 0 0)
+            PrimaryForeground = new Color("--primary-foreground", "primary-foreground"), // oklch(0.205 0 0)
+            Secondary = new Color("--secondary", "secondary"),         // oklch(0.269 0 0)
+            SecondaryForeground = new Color("--secondary-foreground", "secondary-foreground"), // oklch(0.985 0 0)
+            Muted = new Color("--muted", "muted"),                 // oklch(0.269 0 0)
+            MutedForeground = new Color("--muted-foreground", "muted-foreground"), // oklch(0.708 0 0)
+            Accent = new Color("--accent", "accent"),               // oklch(0.371 0 0)
+            AccentForeground = new Color("--accent-foreground", "accent-foreground"), // oklch(0.985 0 0)
+            Destructive = new Color("--destructive", "destructive"),     // oklch(0.704 0.191 22.216)
+            DestructiveForeground = Colors.White, // Kitchen sink uses text-white for destructive buttons
+            Border = new Color("--border", "border"),               // oklch(1 0 0 / 10%)
+            Input = new Color("--input", "input"),                 // oklch(1 0 0 / 15%)
+            Ring = new Color("--ring", "ring"),                   // oklch(0.556 0 0)
+
+            // Status colors (dark variants)
+            Info = new Color("--primary", "primary"), // Example: Info maps to primary (dark variant)
+            InfoForeground = new Color("--primary-foreground", "primary-foreground"),
+            Warning = Colors.Amber.L400, // Example: Darker amber for warning
+            WarningForeground = Colors.Black,
+            Success = Colors.Green.L500, // Example: Darker green for success
+            SuccessForeground = Colors.White,
             
-            // Status colors
-            Danger = Colors.Red.L600, // #DC2626 (220,38,38)
-            DangerForeground = Colors.White, // white
-            Info = Colors.Sky.L600, // #0284C7 (2,132,199)
-            InfoForeground = Colors.White, // white
-            Warning = Colors.Amber.L500, // #F59E0B (245,158,11)
-            WarningForeground = Colors.White, // #FFFFFF
-            Success = Colors.Green.L600, // #16A34A (22,163,74)
-            SuccessForeground = Colors.White, // #FFFFFF
-            
-            Code = CodeThemes.DefaultDark
+            Code = CodeThemes.DefaultDark // Default dark code theme
         };
 
-        // Borders and radius
-        BorderWidth = "1px";
-        BorderRadius = "6px";
+        // Borders and radius from kitchen sink
+        BorderWidth = "1px"; // Assumed from typical border usage
+        BorderRadius = "var(--radius)"; // Use the CSS variable defined in kitchen sink
     }
 }

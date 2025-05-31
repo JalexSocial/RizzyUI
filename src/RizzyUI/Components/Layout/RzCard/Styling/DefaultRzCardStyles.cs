@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzCard. </summary>
@@ -13,7 +14,7 @@ public class DefaultRzCardStyles : RzStylesBase.RzCardStylesBase
 
     /// <inheritdoc />
     public override string Container =>
-        "flex flex-col rounded-theme overflow-hidden shadow-sm border border-outline";
+        "flex flex-col gap-6 rounded-xl border py-6 shadow-sm bg-card text-card-foreground"; // Matches kitchen sink .card
 }
 
 /// <summary> Provides default styles for RzCardHeader. </summary>
@@ -29,7 +30,7 @@ public class DefaultRzCardHeaderStyles : RzStylesBase.RzCardHeaderStylesBase
 
     /// <inheritdoc />
     public override string Header =>
-        "flex flex-col gap-3 px-5 py-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left";
+        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"; // Matches kitchen sink > header
 }
 
 /// <summary> Provides default styles for RzCardBody. </summary>
@@ -44,7 +45,7 @@ public class DefaultRzCardBodyStyles : RzStylesBase.RzCardBodyStylesBase
     }
 
     /// <inheritdoc />
-    public override string Body => "grow p-5";
+    public override string Body => "px-6"; // Matches kitchen sink > section (for body content)
 }
 
 /// <summary> Provides default styles for RzCardFooter. </summary>
@@ -59,7 +60,7 @@ public class DefaultRzCardFooterStyles : RzStylesBase.RzCardFooterStylesBase
     }
 
     /// <inheritdoc />
-    public override string Footer => "px-5 py-4 text-sm last:rounded-b-borderRadius";
+    public override string Footer => "flex items-center px-6 [.border-t]:pt-6"; // Matches kitchen sink > footer
 }
 
 /// <summary> Provides default styles for RzCardTitle. </summary>
@@ -75,7 +76,7 @@ public class DefaultRzCardTitleStyles : RzStylesBase.RzCardTitleStylesBase
 
     /// <inheritdoc />
     public override string Title =>
-        "flex items-center mb-1 text-lg font-semibold text-on-surface-strong";
+        "leading-none font-semibold"; // Matches kitchen sink > header h2
 }
 
 /// <summary> Provides default styles for RzCardSubtitle. </summary>
@@ -90,7 +91,7 @@ public class DefaultRzCardSubtitleStyles : RzStylesBase.RzCardSubtitleStylesBase
     }
 
     /// <inheritdoc />
-    public override string Subtitle => "text-sm font-medium text-on-surface";
+    public override string Subtitle => "text-muted-foreground text-sm"; // Matches kitchen sink > header p
 }
 
 /// <summary> Provides default styles for RzCardButtons. </summary>
@@ -105,5 +106,5 @@ public class DefaultRzCardButtonsStyles : RzStylesBase.RzCardButtonsStylesBase
     }
 
     /// <inheritdoc />
-    public override string ButtonsContainer => "md:flex items-center gap-2 md:-my-4";
+    public override string ButtonsContainer => "flex flex-col items-center gap-2 sm:flex-row"; // Adapted from kitchen sink card footer button layout
 }

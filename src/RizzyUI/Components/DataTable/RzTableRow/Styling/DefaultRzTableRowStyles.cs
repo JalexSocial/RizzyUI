@@ -16,9 +16,9 @@ public class DefaultRzTableRowStyles : RzStylesBase.RzTableRowStylesBase
 
     /// <inheritdoc />
     public override string TableRowBase =>
-        "border-b border-outline dark:border-outline transition-colors duration-150 ease-in-out";
+        "border-b transition-colors"; // Matches kitchen sink tr
 
     /// <inheritdoc />
     public override string TableRowHover =>
-        "hover:bg-surface-alt/50 dark:hover:bg-surface-alt/50";
+        "hover:bg-muted/50"; // Matches kitchen sink tr hover
 }

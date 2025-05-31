@@ -15,10 +15,10 @@ public class DefaultRzAvatarStyles : RzStylesBase.RzAvatarStylesBase
 
     /// <inheritdoc/>
     public override string Container =>
-        "relative inline-block aspect-square object-cover overflow-hidden"; // Added overflow-hidden
+        "relative inline-flex items-center justify-center shrink-0 aspect-square object-cover overflow-hidden align-middle"; // Added align-middle and shrink-0
 
     /// <inheritdoc/>
-    public override string Border => "border-2 border-outline dark:border-outline-dark"; // Example border style
+    public override string Border => "border-2 border-background ring-2 ring-border"; // Example border style, kitchen sink uses ring for stacked avatars
 
     /// <inheritdoc/>
     public override string GetShapeCss(AvatarShape shape)
@@ -26,7 +26,7 @@ public class DefaultRzAvatarStyles : RzStylesBase.RzAvatarStylesBase
         return shape switch
         {
             AvatarShape.Circle => "rounded-full",
-            AvatarShape.Square => "rounded-theme", // Use theme's border radius
+            AvatarShape.Square => "rounded-lg", // Kitchen sink uses rounded-lg for square-ish avatars
             _ => "rounded-full"
         };
     }
@@ -35,13 +35,14 @@ public class DefaultRzAvatarStyles : RzStylesBase.RzAvatarStylesBase
     public override string GetSizeCss(Size size)
     {
         // These classes apply to the RzAvatar container itself
+        // Mapping to kitchen sink's `size-*` utilities
         return size switch
         {
-            Size.ExtraSmall => "size-6",
-            Size.Small => "size-8",
-            Size.Medium => "size-10",
-            Size.Large => "size-14",
-            Size.ExtraLarge => "size-20",
+            Size.ExtraSmall => "size-6", // Assuming kitchen sink might have this or similar
+            Size.Small => "size-8",      // Matches kitchen sink's size-8
+            Size.Medium => "size-10",    // Common medium size
+            Size.Large => "size-12",     // Matches kitchen sink's size-12
+            Size.ExtraLarge => "size-16", // Larger size
             _ => GetSizeCss(Size.Medium)
         };
     }
@@ -50,13 +51,14 @@ public class DefaultRzAvatarStyles : RzStylesBase.RzAvatarStylesBase
     public override string GetInitialsSizeCss(Size size)
     {
         // This will be used by AvatarFallback when rendering initials
+        // Font size should scale with avatar size
         return size switch
         {
             Size.ExtraSmall => "text-xs",
             Size.Small => "text-sm",
-            Size.Medium => "text-base",
-            Size.Large => "text-2xl",
-            Size.ExtraLarge => "text-4xl",
+            Size.Medium => "text-base", // e.g., for size-10 avatar
+            Size.Large => "text-lg",   // e.g., for size-12 avatar
+            Size.ExtraLarge => "text-xl", // e.g., for size-16 avatar
             _ => GetInitialsSizeCss(Size.Medium)
         };
     }
@@ -65,13 +67,14 @@ public class DefaultRzAvatarStyles : RzStylesBase.RzAvatarStylesBase
     public override string GetPlaceholderSizeCss(Size size)
     {
         // This will be used by AvatarFallback for the default SVG placeholder icon
+        // Icon size should scale appropriately within the avatar
         return size switch
         {
-            Size.ExtraSmall => "size-4",
-            Size.Small => "size-5",
-            Size.Medium => "size-6",
-            Size.Large => "size-8",
-            Size.ExtraLarge => "size-10",
+            Size.ExtraSmall => "size-3/5", // Proportionate to container
+            Size.Small => "size-3/5",
+            Size.Medium => "size-3/5",
+            Size.Large => "size-3/5",
+            Size.ExtraLarge => "size-3/5",
             _ => GetPlaceholderSizeCss(Size.Medium)
         };
     }

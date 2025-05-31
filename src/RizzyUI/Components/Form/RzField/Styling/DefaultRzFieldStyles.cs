@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzField. </summary>
@@ -12,7 +13,7 @@ public class DefaultRzFieldStyles : RzStylesBase.RzFieldStylesBase
     }
 
     /// <inheritdoc />
-    public override string Field => "space-y-1";
+    public override string Field => "grid gap-2"; // Matches kitchen sink form field structure
 }
 
 /// <summary> Provides default styles for RzFieldLabel. </summary>
@@ -27,11 +28,11 @@ public class DefaultRzFieldLabelStyles : RzStylesBase.RzFieldLabelStylesBase
     }
 
     /// <inheritdoc />
-    public override string Label => "font-medium";
+    public override string Label => "text-sm leading-none font-medium peer-disabled:opacity-50"; // Matches kitchen sink label
 
     /// <inheritdoc />
     public override string RequiredIndicator =>
-        "text-sm text-danger dark:text-danger"; // Assuming Danger has dark variant or is same
+        "text-sm text-destructive dark:text-destructive"; // Matches kitchen sink (though not explicitly shown there)
 }
 
 /// <summary> Provides default styles for RzFieldHelp. </summary>
@@ -46,5 +47,5 @@ public class DefaultRzFieldHelpStyles : RzStylesBase.RzFieldHelpStylesBase
     }
 
     /// <inheritdoc />
-    public override string HelpText => "text-sm text-on-surface";
+    public override string HelpText => "text-sm text-muted-foreground"; // Matches kitchen sink help text
 }

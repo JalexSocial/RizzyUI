@@ -20,18 +20,18 @@ public class DefaultRzTableBodyStyles : RzStylesBase.RzTableBodyStylesBase
     /// Provides divider styling between rows and establishes relative positioning
     /// for potential overlays or loading indicators.
     /// </summary>
-    public override string TableBody => "divide-y divide-outline dark:divide-outline relative";
+    public override string TableBody => "[&_tr:last-child]:border-0"; // Matches kitchen sink tbody
 
     /// <summary>
     /// Gets the CSS classes for cells in empty state rows.
     /// Styles include padding, centered text alignment, and muted text color
     /// to properly display the empty state message.
     /// </summary>
-    public override string EmptyRowCell => "p-4 text-center text-on-surface-muted dark:text-on-surface-muted";
+    public override string EmptyRowCell => "p-4 text-center text-muted-foreground"; // Retained, good default
 
     /// <summary>
     /// Gets the CSS classes that enable and style the scrollable behavior of the table body.
     /// Defines overflow properties allowing vertical scrolling for content within the table body area.
     /// </summary>
-    public override string ScrollableBody => "block overflow-y-auto";
+    public override string ScrollableBody => "block overflow-y-auto"; // Retained, useful for fixed header
 }

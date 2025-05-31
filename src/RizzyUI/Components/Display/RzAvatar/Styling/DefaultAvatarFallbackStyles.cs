@@ -15,12 +15,12 @@ public class DefaultAvatarFallbackStyles : RzStylesBase.AvatarFallbackStylesBase
 
     /// <inheritdoc/>
     public override string InitialsContainer =>
-        "inline-flex items-center justify-center bg-surface-alt text-on-surface-muted dark:bg-surface-alt dark:text-on-surface-muted w-full h-full";
+        "inline-flex items-center justify-center bg-muted text-foreground w-full h-full"; // Matches kitchen sink fallback span
 
     /// <inheritdoc/>
     public override string PlaceholderContainer =>
-        "inline-flex items-center justify-center bg-surface-alt text-outline dark:bg-surface-alt dark:text-outline w-full h-full";
+        "inline-flex items-center justify-center bg-muted text-muted-foreground w-full h-full"; // Similar to initials, but icon color might differ
 
     /// <inheritdoc/>
-    public override string PlaceholderIcon => "inline-block"; // Size applied dynamically
+    public override string PlaceholderIcon => "inline-block"; // Size applied dynamically by RzAvatarStyles
 }

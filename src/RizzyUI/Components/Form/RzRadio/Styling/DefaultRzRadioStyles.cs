@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzRadioGroup. </summary>
@@ -12,15 +13,17 @@ public class DefaultRzRadioGroupStyles : RzStylesBase.RzRadioGroupStylesBase
     }
 
     /// <inheritdoc />
-    public override string Container => "grid gap-2 pt-3"; // Base grid layout
+    public override string Container => "grid gap-3"; // Matches kitchen sink form radio group layout
 
     /// <inheritdoc />
     public override string GetGridColumnsCss(Orientation orientation, int itemCount)
     {
+        // Kitchen sink example shows vertical layout for radio buttons.
+        // Horizontal might need more specific column counts if used.
         return orientation switch
         {
-            Orientation.Horizontal => $"grid-cols-{itemCount}", // Dynamic columns for horizontal
-            Orientation.Vertical => "grid-cols-1", // Single column for vertical
+            Orientation.Horizontal => $"grid-cols-{Math.Min(itemCount, 4)}", // Example: max 4 cols for horizontal
+            Orientation.Vertical => "grid-cols-1",
             _ => GetGridColumnsCss(Orientation.Vertical, itemCount)
         };
     }
@@ -38,35 +41,35 @@ public class DefaultRzRadioGroupItemStyles : RzStylesBase.RzRadioGroupItemStyles
     }
 
     /// <inheritdoc />
-    public override string LabelWrapper => "group relative flex";
+    public override string LabelWrapper => "flex items-center gap-2 cursor-pointer"; // Matches kitchen sink label structure
 
     /// <inheritdoc />
-    public override string RadioInput => "opacity-0 peer absolute left-0 top-0 appearance-none"; // Hidden input
+    // Kitchen sink uses native radio appearance, but RizzyUI uses custom.
+    // This style is for the hidden input, the visual part is IconContainer and ClickableContainer.
+    public override string RadioInput => "appearance-none peer absolute"; 
 
     /// <inheritdoc />
-    // Styling for the checkmark circle indicator
+    // Styling for the custom radio button circle and checkmark
     public override string IconContainer =>
-        "z-1 text-primary text-xl opacity-0 absolute bottom-0 right-0 top-0 flex scale-50 cursor-pointer items-center px-4 transition peer-checked:scale-100 peer-checked:opacity-100";
+        "relative size-4 shrink-0 rounded-full border border-input shadow-xs text-primary focus-visible:border-ring focus-visible:ring-ring/50 peer-checked:border-primary peer-checked:before:bg-primary peer-checked:before:content-[''] peer-checked:before:absolute peer-checked:before:top-1/2 peer-checked:before:left-1/2 peer-checked:before:-translate-x-1/2 peer-checked:before:-translate-y-1/2 peer-checked:before:size-2 peer-checked:before:rounded-full dark:bg-input/30 dark:peer-checked:border-primary dark:peer-checked:before:bg-primary";
 
     /// <inheritdoc />
-    // Styling for the main visible container that gets border/bg on check/focus
-    public override string ClickableContainer =>
-        "group-hover:border-primary relative flex grow cursor-pointer rounded-theme border border-outline p-4 peer-checked:bg-surface-alt peer-checked:border-primary dark:peer-checked:border-primary dark:peer-checked:bg-surface-alt dark:peer-checked:bg-opacity-10 peer-focus:ring peer-focus:ring-primary";
+    public override string ClickableContainer => "flex-1"; // Container for text content
 
     /// <inheritdoc />
-    public override string ContentWrapper => "flex";
+    public override string ContentWrapper => "flex items-center gap-2";
 
     /// <inheritdoc />
-    public override string LeadingIconContainer => "mr-2 text-2xl content-center";
+    public override string LeadingIconContainer => "text-muted-foreground size-4"; // For optional icon next to label
 
     /// <inheritdoc />
-    public override string TextContainer => "grow pr-8 text-sm"; // Padding right to avoid overlap with check icon
+    public override string TextContainer => "grid gap-0.5"; // For label and description
 
     /// <inheritdoc />
-    public override string LabelText => "mb-1 block font-bold";
+    public override string LabelText => "font-normal text-sm peer-disabled:opacity-50"; // Matches kitchen sink label text
 
     /// <inheritdoc />
-    public override string DescriptionText => "block text-on-surface";
+    public override string DescriptionText => "text-xs text-muted-foreground peer-disabled:opacity-50"; // For optional description
 }
 
 /// <summary> Provides default styles for RzRadioGroupField. </summary>
@@ -84,5 +87,5 @@ public class DefaultRzRadioGroupFieldStyles : RzStylesBase.RzRadioGroupFieldStyl
     public override string Field => ""; // Handled by RzField component
 
     /// <inheritdoc />
-    public override string GroupWithinField => ""; // No extra styling needed for the group within the field by default
+    public override string GroupWithinField => "mt-1"; // Spacing for the group within the field
 }

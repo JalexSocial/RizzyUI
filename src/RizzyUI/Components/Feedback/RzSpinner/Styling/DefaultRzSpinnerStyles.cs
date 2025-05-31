@@ -15,7 +15,7 @@ public class DefaultRzSpinnerStyles : RzStylesBase.RzSpinnerStylesBase
     }
 
     /// <inheritdoc />
-    public override string SpinnerBase => "motion-safe:animate-spin fill-on-surface"; // Default fill and animation
+    public override string SpinnerBase => "motion-safe:animate-spin fill-background"; // Default fill and animation
 
     /// <inheritdoc />
     public override string GetSizeCss(Size size)
@@ -35,8 +35,8 @@ public class DefaultRzSpinnerStyles : RzStylesBase.RzSpinnerStylesBase
     public override string GetColorCss(SemanticColor color)
     {
         // Return fill class based on SemanticColor, defaulting to empty if None
-        // The base class already provides fill-on-surface
-        return color != SemanticColor.None ? ColorUtilExtensions.ToFillClass(color) : "";
+        // The base class already provides fill-background
+        return color != SemanticColor.None ? ColorUtilExtensions.ToFillClass(color) : "fill-foreground";
     }
 }
 
@@ -54,24 +54,24 @@ public static partial class ColorUtilExtensions
     {
         return color switch
         {
-            SemanticColor.None => "", // Uses SpinnerBase default (fill-on-surface)
-            SemanticColor.Background => "fill-surface",
-            SemanticColor.Foreground => "fill-on-surface",
-            SemanticColor.Muted => "fill-surface-alt",
+            SemanticColor.None => "fill-foreground", // Uses SpinnerBase default (fill-background)
+            SemanticColor.Background => "fill-background",
+            SemanticColor.Foreground => "fill-foreground",
+            SemanticColor.Muted => "fill-muted",
             SemanticColor.Primary => "fill-primary",
-            SemanticColor.PrimaryForeground => "fill-on-primary",
+            SemanticColor.PrimaryForeground => "fill-primary-foreground",
             SemanticColor.Secondary => "fill-secondary",
-            SemanticColor.SecondaryForeground => "fill-on-secondary",
-            SemanticColor.Border => "fill-outline",
-            SemanticColor.Destructive => "fill-danger",
-            SemanticColor.DestructiveForeground => "fill-on-danger",
+            SemanticColor.SecondaryForeground => "fill-secondary-foreground",
+            SemanticColor.Border => "fill-border",
+            SemanticColor.Destructive => "fill-destructive",
+            SemanticColor.DestructiveForeground => "fill-destructive-foreground",
             SemanticColor.Info => "fill-info",
-            SemanticColor.InfoForeground => "fill-on-info", // Check if onInfo fill exists or adjust
+            SemanticColor.InfoForeground => "fill-info-foreground", 
             SemanticColor.Warning => "fill-warning",
-            SemanticColor.WarningForeground => "fill-on-warning",
+            SemanticColor.WarningForeground => "fill-warning-foreground",
             SemanticColor.Success => "fill-success",
-            SemanticColor.SuccessForeground => "fill-on-success",
-            _ => "" // Fallback to SpinnerBase default
+            SemanticColor.SuccessForeground => "fill-success-foreground",
+            _ => "fill-foreground" // Fallback to SpinnerBase default
         };
     }
 }

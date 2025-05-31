@@ -33,7 +33,7 @@ namespace RizzyUI.Tests.Components.Form
         [Theory]
         [InlineData(ButtonVariant.Primary)]
         [InlineData(ButtonVariant.Secondary)]
-        [InlineData(ButtonVariant.Alternate)]
+        [InlineData(ButtonVariant.Accent)]
         [InlineData(ButtonVariant.Inverse)]
         [InlineData(ButtonVariant.Information)]
         [InlineData(ButtonVariant.Destructive)]
@@ -61,7 +61,7 @@ namespace RizzyUI.Tests.Components.Form
             {
                 ButtonVariant.Primary => "bg-primary",
                 ButtonVariant.Secondary => "bg-secondary",
-                ButtonVariant.Alternate => "bg-surface-alt",
+                ButtonVariant.Accent => "bg-surface-alt",
                 ButtonVariant.Inverse => "bg-surface",
                 ButtonVariant.Information => "bg-info",
                 ButtonVariant.Destructive => "bg-danger",

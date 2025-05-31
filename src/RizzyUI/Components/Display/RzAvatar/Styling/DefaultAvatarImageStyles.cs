@@ -14,5 +14,5 @@ public class DefaultAvatarImageStyles : RzStylesBase.AvatarImageStylesBase
     public DefaultAvatarImageStyles(RzTheme theme) : base(theme) { }
 
     /// <inheritdoc/>
-    public override string Image => "inline-block aspect-square object-cover w-full h-full"; // Ensure image fills parent
+    public override string Image => "inline-block aspect-square object-cover w-full h-full"; // Matches kitchen sink img styles
 }

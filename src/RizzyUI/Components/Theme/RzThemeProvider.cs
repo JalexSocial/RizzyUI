@@ -51,7 +51,7 @@ public class RzThemeProvider : ComponentBase
         var actualTheme = Theme ?? RizzyConfig?.Value.DefaultTheme ?? RzTheme.Default;
 
         // Generate the CSS variables string
-        var css = GenerateRootVariables(actualTheme);
+        var css = "<!--TEMPORARILY DISABLED-->"; // GenerateRootVariables(actualTheme);
         var nonce = RizzyNonceProvider.GetNonce(); // Get nonce once for efficiency
 
         // Render HeadContent to inject style and script into <head>
@@ -109,8 +109,8 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"--color-outline: {theme.Light.Border.ToCssColorString()};");
 
         // --- Status Colors (Same for Light/Dark in current definition) ---
-        sb.AppendLine($"--danger: {theme.Light.Danger.ToCssColorString()};");
-        sb.AppendLine($"--danger-foreground: {theme.Light.DangerForeground.ToCssColorString()};");
+        sb.AppendLine($"--danger: {theme.Light.Destructive.ToCssColorString()};");
+        sb.AppendLine($"--danger-foreground: {theme.Light.DestructiveForeground.ToCssColorString()};");
         sb.AppendLine($"--info: {theme.Light.Info.ToCssColorString()};");
         sb.AppendLine($"--info-foreground: {theme.Light.InfoForeground.ToCssColorString()};"); // Consistent naming needed
         sb.AppendLine($"--warning: {theme.Light.Warning.ToCssColorString()};");
@@ -158,8 +158,8 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"  --color-outline: {theme.Dark.Border.ToCssColorString()};");
         
         // --- Status Colors (Same for Light/Dark in current definition) ---
-        sb.AppendLine($"--danger: {theme.Light.Danger.ToCssColorString()};");
-        sb.AppendLine($"--danger-foreground: {theme.Light.DangerForeground.ToCssColorString()};");
+        sb.AppendLine($"--danger: {theme.Light.Destructive.ToCssColorString()};");
+        sb.AppendLine($"--danger-foreground: {theme.Light.DestructiveForeground.ToCssColorString()};");
         sb.AppendLine($"--info: {theme.Light.Info.ToCssColorString()};");
         sb.AppendLine($"--info-foreground: {theme.Light.InfoForeground.ToCssColorString()};"); // Consistent naming needed
         sb.AppendLine($"--warning: {theme.Light.Warning.ToCssColorString()};");

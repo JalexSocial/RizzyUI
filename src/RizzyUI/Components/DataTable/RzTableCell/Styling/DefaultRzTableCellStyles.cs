@@ -17,13 +17,11 @@ public class DefaultRzTableCellStyles : RzStylesBase.RzTableCellStylesBase
     /// <summary>
     /// Gets the CSS classes for the base table cell element (padding).
     /// </summary>
-    public override string TableCellBase => "p-4";
+    public override string TableCellBase => "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"; // Matches kitchen sink td
 
     /// <summary>
     /// Gets the CSS classes for a bordered table cell element.
     /// Default adds a right border. Use with CSS :last-child selectors for cleaner table appearance if needed.
     /// </summary>
-    public override string TableCellBordered => "border-r border-outline dark:border-outline";
-    // Consider if a full border "border border-outline" is better or if this should be more specific (e.g. border-x)
-    // For now, just right border, assuming row handles bottom.
+    public override string TableCellBordered => ""; // Border is handled by <tr> in kitchen sink
 }

@@ -1,4 +1,5 @@
-﻿namespace RizzyUI;
+
+namespace RizzyUI;
 
 /// <summary> Provides default styles for RzDarkmodeToggle. </summary>
 public class DefaultRzDarkmodeToggleStyles : RzStylesBase.RzDarkmodeToggleStylesBase
@@ -13,8 +14,9 @@ public class DefaultRzDarkmodeToggleStyles : RzStylesBase.RzDarkmodeToggleStyles
 
     /// <inheritdoc />
     public override string Button =>
-        "inline-flex text-xl items-center justify-center p-2 mr-2 rounded-theme transition-colors ease-in-out duration-300 focus:outline-none text-on-surface bg-surface hover:bg-surface-alt/75 dark:hover:bg-surface-alt/75"; // Use semantic names, adjusted hover slightly
+        "inline-flex items-center justify-center p-2 rounded-md transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground bg-background hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent dark:hover:text-accent-foreground dark:focus-visible:ring-offset-background"; 
+        // General interactive element styling, similar to an icon button
 
     /// <inheritdoc />
-    public override string Icon => "transition-transform duration-300 ease-out h-6 w-6";
+    public override string Icon => "transition-transform duration-300 ease-out size-5"; // Adjusted size to match common icon sizes
 }
