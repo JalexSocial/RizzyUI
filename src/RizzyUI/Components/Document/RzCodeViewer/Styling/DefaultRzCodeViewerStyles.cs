@@ -9,44 +9,44 @@ public class DefaultRzCodeViewerStyles : RzStylesBase.RzCodeViewerStylesBase
     }
 
     /// <inheritdoc />
-    public override string Container => "mt-2 overflow-auto";
+    public override string Container => "mt-2 overflow-auto card p-0 rounded-lg";
 
     /// <inheritdoc />
     public override string Header =>
-        "border-b-0 border-outline bg-surface-alt flex flex-col items-start justify-between gap-4 rounded-theme rounded-b-none border p-4 text-sm text-slate-400 md:flex-row md:items-center md:gap-2"; // Use semantic names
+        "border-b-0 border-outline bg-secondary flex flex-col items-start justify-between gap-4 rounded-theme rounded-b-none border p-4 text-sm text-secondary-foreground md:flex-row md:items-center md:gap-2"; 
 
     /// <inheritdoc />
-    public override string HeaderTitle => "text-on-surface"; // Use semantic names
+    public override string HeaderTitle => "text-foreground";
 
     /// <inheritdoc />
     public override string CodeContainer =>
-        "border-outline w-full overflow-y-auto transition-all !rounded-b-none rounded-b-xl border"; // Use semantic names
+        "border-outline w-full overflow-y-auto transition-all !rounded-b-none rounded-b-xl border"; 
 
     /// <inheritdoc />
     public override string CopyButtonContainer =>
-        "border-surface-tertiary/70 bg-surface-tertiary text-on-surface-tertiary flex h-11 items-center justify-between border-b"; // Use semantic names
+        "border-accent/70 bg-accent text-accent-foreground flex h-11 items-center justify-between border-b"; // Use semantic names
 
     /// <inheritdoc />
     public override string CopyButton =>
-        "my-auto ml-auto mr-2 overflow-hidden rounded-full p-1 hover:bg-surface/10 focus:outline-none focus:outline-offset-0 focus-visible:outline-2 active:-outline-offset-2"; // Use semantic names
+        "my-auto ml-auto mr-2 overflow-hidden rounded-full p-1 hover:bg-background/10 focus:outline-none focus:outline-offset-0 focus-visible:outline-2 active:-outline-offset-2"; // Use semantic names
 
     /// <inheritdoc />
     public override string CopyIconDefault =>
-        "text-on-surface-strong size-6 cursor-pointer"; // Use semantic names (adjusted for likely contrast)
+        "text-foreground font-bold size-6 cursor-pointer"; // Use semantic names (adjusted for likely contrast)
 
     /// <inheritdoc />
-    public override string CopyIconCopied => "size-6 text-emerald-500"; // Keep specific color for success state
+    public override string CopyIconCopied => "size-6 text-success";
 
     /// <inheritdoc />
     public override string PreWrapper => "relative overflow-y-auto";
 
     /// <inheritdoc />
     public override string PreElement =>
-        "text-on-surface/60 overflow-x-auto text-sm p-8 border-none"; // Use semantic names
+        "text-foreground/60 overflow-x-auto text-sm p-8 border-none"; // Use semantic names
 
     /// <inheritdoc />
     public override string ExpandButton =>
-        "border-t-0 border-outline bg-surface-alt text-on-surface flex w-full items-center justify-center gap-2 rounded-theme rounded-t-none border p-2 focus:outline-none focus-visible:rounded-t-none focus-visible:border-2 focus-visible:border-primary dark:focus-visible:border-primary"; // Use semantic names
+        "border-t-0 border-outline bg-secondary text-foreground flex w-full items-center justify-center gap-2 rounded-theme rounded-t-none border p-2 focus:outline-none focus-visible:rounded-t-none focus-visible:border-2 focus-visible:border-primary dark:focus-visible:border-primary"; // Use semantic names
 
     /// <inheritdoc />
     public override string ExpandIcon => "rotate-0 h-5 w-5 transition";
@@ -66,7 +66,7 @@ public class DefaultRzCodeViewerStyles : RzStylesBase.RzCodeViewerStylesBase
     /// <inheritdoc />
     public override string GetCopyButtonStateCss(bool isCopied)
     {
-        return isCopied ? "focus-visible:outline-success" : "focus-visible:outline-on-surface-strong";
+        return isCopied ? "focus-visible:outline-success" : "focus-visible:outline-foreground";
         // Use semantic names
     }
 }

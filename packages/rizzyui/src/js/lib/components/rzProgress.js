@@ -68,7 +68,7 @@ export default function(Alpine) {
             const barLabel = this.$refs.progressBarLabel;
             const progressBar = this.$refs.progressBar;
             if (barLabel && progressBar && barLabel.clientWidth > progressBar.clientWidth) {
-                return "text-on-surface dark:text-on-surface-dark";
+                return "text-foreground dark:text-foreground";
             }
             return "";
         },

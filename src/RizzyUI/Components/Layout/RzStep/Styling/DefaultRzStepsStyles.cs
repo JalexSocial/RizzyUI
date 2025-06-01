@@ -97,7 +97,7 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
             StatusColor.Success => "focus-visible:ring-success",
             StatusColor.Info => "focus-visible:ring-info",
             StatusColor.Warning => "focus-visible:ring-warning",
-            StatusColor.Danger => "focus-visible:ring-destructive",
+            StatusColor.Destructive => "focus-visible:ring-destructive",
             _ => "focus-visible:ring-primary"
         };
 
@@ -133,7 +133,7 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
             StatusColor.Success => "bg-success",
             StatusColor.Info => "bg-info",
             StatusColor.Warning => "bg-warning",
-            StatusColor.Danger => "bg-destructive",
+            StatusColor.Destructive => "bg-destructive",
             _ => GetActiveBackgroundClass(StatusColor.Primary)
         };
     }
@@ -147,7 +147,7 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
             StatusColor.Success => "border-success",
             StatusColor.Info => "border-info",
             StatusColor.Warning => "border-warning",
-            StatusColor.Danger => "border-destructive",
+            StatusColor.Destructive => "border-destructive",
             _ => GetActiveBorderClass(StatusColor.Primary)
         };
     }
@@ -161,7 +161,7 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
             StatusColor.Success => "text-success-foreground", // Assuming success-foreground exists
             StatusColor.Info => "text-info-foreground",       // Assuming info-foreground exists
             StatusColor.Warning => "text-warning-foreground",   // Assuming warning-foreground exists
-            StatusColor.Danger => "text-destructive-foreground", // Assuming destructive-foreground exists
+            StatusColor.Destructive => "text-destructive-foreground", // Assuming destructive-foreground exists
             _ => GetActiveTextClass(StatusColor.Primary)
         };
     }
@@ -175,7 +175,7 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
             StatusColor.Success => "text-success",
             StatusColor.Info => "text-info",
             StatusColor.Warning => "text-warning",
-            StatusColor.Danger => "text-destructive",
+            StatusColor.Destructive => "text-destructive",
             _ => GetActiveTextColorClass(StatusColor.Primary)
         };
     }

@@ -184,7 +184,7 @@ public static class ColorUtil
             StatusColor.Success => "text-success", // Assumes --success CSS var exists
             StatusColor.Info => "text-info",       // Assumes --info CSS var exists
             StatusColor.Warning => "text-warning",   // Assumes --warning CSS var exists
-            StatusColor.Danger => "text-destructive", // Maps to semantic destructive
+            StatusColor.Destructive => "text-destructive", // Maps to semantic destructive
             _ => "text-primary"
         };
     }

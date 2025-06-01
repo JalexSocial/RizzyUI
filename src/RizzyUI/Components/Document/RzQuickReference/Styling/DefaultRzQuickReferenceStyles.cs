@@ -9,7 +9,7 @@ public class DefaultRzQuickReferenceStyles : RzStylesBase.RzQuickReferenceStyles
     }
 
     /// <inheritdoc />
-    public override string Container => "text-on-surface-strong"; // Base text color
+    public override string Container => "text-foreground"; // Base text color
 
     /// <inheritdoc />
     public override string Title => "mb-4 font-bold";

@@ -25,7 +25,7 @@ public class DefaultRzDropdownStyles : RzStylesBase.RzDropdownStylesBase
 
     /// <inheritdoc />
     public override string MenuInnerContainer =>
-        "border border-outline divide-y divide-outline rounded-theme bg-surface ring-black dark:divide-outline"; // Simplified ring
+        "border border-outline divide-y divide-outline rounded-theme bg-background ring-black dark:divide-outline"; // Simplified ring
 }
 
 /// <summary> Provides default styles for RzDropdownSection. </summary>
@@ -56,7 +56,7 @@ public class DefaultRzDropdownMenuItemStyles : RzStylesBase.RzDropdownMenuItemSt
 
     /// <inheritdoc />
     public override string MenuItem =>
-        "group flex items-center justify-between space-x-2 rounded-theme cursor-pointer border border-transparent px-2.5 py-2 text-sm font-medium text-on-surface hover:bg-primary/10 hover:text-primary focus-visible:bg-primary/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:hover:bg-surface-alt dark:focus-visible:bg-primary/10 dark:focus-visible:text-on-surface-strong";
+        "group flex items-center justify-between space-x-2 rounded-theme cursor-pointer border border-transparent px-2.5 py-2 text-sm font-medium text-foreground hover:bg-primary/10 hover:text-primary focus-visible:bg-primary/10 focus-visible:text-foreground focus-visible:outline-hidden dark:hover:bg-secondary dark:focus-visible:bg-primary/10 dark:focus-visible:text-foreground";
 
     /// <inheritdoc />
     public override string IconSpan => "text-xl";

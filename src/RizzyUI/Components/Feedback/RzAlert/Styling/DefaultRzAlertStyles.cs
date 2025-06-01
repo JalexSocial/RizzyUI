@@ -1,140 +1,147 @@
-
 namespace RizzyUI;
 
 /// <inheritdoc />
 public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
 {
-    /// <inheritdoc />
-    public DefaultRzAlertStyles(RzTheme theme) : base(theme)
-    {
-    }
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefaultRzAlertStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultRzAlertStyles(RzTheme theme) : base(theme) { }
+
+    /* ---------- layout -------------------------------------------------- */
 
     /// <inheritdoc />
-    public override string Container => "relative w-full overflow-hidden"; // Base container for the alert
+    public override string Container =>
+        "relative w-full overflow-hidden";
 
     /// <inheritdoc />
-    public override string InnerContainer => "flex w-full items-start gap-x-3 p-4"; // Matches kitchen sink grid structure implicitly
+    public override string InnerContainer =>
+        "flex w-full items-start gap-x-3 px-4 py-3";
 
     /// <inheritdoc />
-    public override string IconContainer => "relative flex size-4 shrink-0 translate-y-0.5"; // Matches kitchen sink icon styling
+    public override string IconContainer =>
+        "relative flex size-6 shrink-0 text-2xl translate-y-0.5";
 
     /// <inheritdoc />
     public override string IconPulse =>
-        "absolute animate-ping motion-reduce:animate-none size-full rounded-full"; // Pulse effect for the icon
+        "absolute animate-ping motion-reduce:animate-none size-6 aspect-square rounded-full";
 
     /// <inheritdoc />
-    public override string ContentContainer => "grid flex-1 gap-y-0.5"; // For title and description stacking
+    public override string ContentContainer =>
+        "flex flex-col flex-1 gap-y-0.5";
 
     /// <inheritdoc />
-    public override string CloseButton => "ml-auto self-start p-1 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring dark:focus-visible:ring-offset-background opacity-70 hover:opacity-100 transition-opacity"; // Matches kitchen sink close button
+    public override string CloseButton =>
+        "ml-auto self-start p-1 rounded-full opacity-70 hover:opacity-100 " +
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 " +
+        "focus-visible:ring-ring dark:focus-visible:ring-offset-background " +
+        "transition-opacity text-foreground";
 
     /// <inheritdoc />
-    public override string CloseButtonIcon => "shrink-0 size-4"; // Matches kitchen sink close icon
+    public override string CloseButtonIcon => "size-4 shrink-0";
+
+    /* ---------- variant helpers ---------------------------------------- */
+
+    private const string BaseAlert =
+        "relative w-full rounded-lg border text-sm bg-card text-card-foreground";
 
     /// <inheritdoc />
-    public override string GetVariantCss(AlertVariant variant)
-    {
-        // Base styles for all alerts from kitchen sink
-        var baseAlertStyle = "relative w-full rounded-lg border px-4 py-3 text-sm bg-card text-card-foreground";
-        // Grid structure is applied if an icon is present, handled by has-[>svg] in kitchen sink.
-        // RizzyUI's RzAlert.razor always renders an icon container, so we can assume the grid structure.
-        var gridStructure = "grid has-[>svg]:grid-cols-[calc(var(--spacing,1rem)*1)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3"; // Assuming var(--spacing) is 1rem or similar for icon size
-
-        return variant switch
+    public override string GetVariantCss(AlertVariant v) =>
+        v switch
         {
-            // Kitchen sink destructive alert uses text-destructive and current (destructive) icon color
-            AlertVariant.Destructive => $"{baseAlertStyle} {gridStructure} text-destructive border-destructive", // Added border-destructive for consistency
-            // Other variants in kitchen sink use default text/border or custom (like amber)
-            // For simplicity, we'll map them to a base style and allow overrides for specific colors like amber
-            AlertVariant.Warning => $"{baseAlertStyle} {gridStructure} border-amber-500 bg-amber-50 text-amber-900 dark:border-amber-950 dark:bg-amber-950 dark:text-amber-100", // Example for a warning/amber
-            _ => $"{baseAlertStyle} {gridStructure}" // Default for Info, Success, Alternate
+            AlertVariant.Alternate   => $"{BaseAlert} border-outline",
+
+            AlertVariant.Information => $"{BaseAlert} border-info " +
+                                        "bg-info/10 text-info-foreground " +
+                                        "dark:bg-info/15",
+
+            AlertVariant.Success     => $"{BaseAlert} border-success " +
+                                        "bg-success/10 text-success-foreground " +
+                                        "dark:bg-success/15",
+
+            AlertVariant.Warning     => $"{BaseAlert} border-warning " +
+                                        "bg-warning/10 text-warning-foreground " +
+                                        "dark:bg-warning/15",
+
+            AlertVariant.Destructive => $"{BaseAlert} border-destructive " +
+                                        "bg-destructive/10 text-destructive " +
+                                        "dark:bg-destructive/15",
+
+            _                        => BaseAlert
         };
-    }
 
     /// <inheritdoc />
-    public override string GetVariantBackgroundLightCss(AlertVariant variant)
-    {
-        // This was for a lighter background for the icon container, kitchen sink doesn't do this explicitly
-        // For pulse, it might use a variant of the icon color.
-        return variant switch
+    public override string GetVariantBackgroundLightCss(AlertVariant v) =>
+        v switch
         {
-            AlertVariant.Destructive => "bg-destructive/15", // For pulse
-            AlertVariant.Warning => "bg-amber-500/15", // For pulse on warning
-            _ => "bg-accent/15" // Generic accent for pulse on other variants
+            AlertVariant.Information => "bg-info/10",
+            AlertVariant.Success     => "bg-success/10",
+            AlertVariant.Warning     => "bg-warning/10",
+            AlertVariant.Destructive => "bg-destructive/10",
+            _                        => "bg-muted/10"
         };
-    }
 
     /// <inheritdoc />
-    public override string GetVariantBackgroundLighterCss(AlertVariant variant)
-    {
-        // Similar to above, less direct mapping.
-        return variant switch
+    public override string GetVariantBackgroundLighterCss(AlertVariant v) =>
+        v switch
         {
-            AlertVariant.Destructive => "bg-destructive/20",
-            AlertVariant.Warning => "bg-amber-500/20",
-            _ => "bg-accent/20"
+            AlertVariant.Information => "bg-info/15",
+            AlertVariant.Success     => "bg-success/15",
+            AlertVariant.Warning     => "bg-warning/15",
+            AlertVariant.Destructive => "bg-destructive/15",
+            _                        => "bg-muted/15"
         };
-    }
 
     /// <inheritdoc />
-    public override string GetVariantIconColorCss(AlertVariant variant)
-    {
-        // In kitchen sink, destructive icon takes destructive color, others take current text color.
-        return variant switch
+    public override string GetVariantIconColorCss(AlertVariant v) =>
+        v switch
         {
+            AlertVariant.Information => "text-info",
+            AlertVariant.Success     => "text-success",
+            AlertVariant.Warning     => "text-warning",
             AlertVariant.Destructive => "text-destructive",
-            AlertVariant.Warning => "text-amber-900 dark:text-amber-100", // For amber alert icon
-            _ => "text-current" // Inherits from the main alert text color (e.g., card-foreground)
+            _                        => "text-current"
         };
-    }
 }
 
 /// <inheritdoc />
 public class DefaultAlertTitleStyles : RzStylesBase.AlertTitleStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultAlertTitleStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultAlertTitleStyles"/> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultAlertTitleStyles(RzTheme theme) : base(theme)
-    {
-    }
+    public DefaultAlertTitleStyles(RzTheme theme) : base(theme) { }
 
-    /// <summary>
-    ///     Gets the base CSS classes for the alert title element.
-    /// </summary>
-    public override string Title => "col-start-2 min-h-4 font-medium tracking-tight line-clamp-1"; // Matches kitchen sink h2 inside alert
+    /// <inheritdoc />
+    public override string Title =>
+        "font-medium tracking-tight line-clamp-1";
 
-    /// <summary>
-    ///     Gets the CSS classes for the text color based on the alert variant.
-    /// </summary>
-    /// <param name="variant">The alert variant type (can be null if context is unavailable).</param>
-    /// <returns>A string of CSS classes.</returns>
-    public override string GetVariantTextColorCss(AlertVariant? variant)
-    {
-        // Title color generally matches the alert's main text color in kitchen sink.
-        return variant switch
+    /// <inheritdoc />
+    public override string GetVariantTextColorCss(AlertVariant? variant) =>
+        variant switch
         {
-            AlertVariant.Destructive => "", // text-destructive is on the parent
-            AlertVariant.Warning => "",     // text-amber-900 is on the parent
-            _ => "" // text-card-foreground is on the parent
+            AlertVariant.Destructive => "text-destructive",
+            AlertVariant.Warning     => "text-warning",
+            AlertVariant.Information => "text-info",
+            AlertVariant.Success     => "text-success",
+            // Alternate / default variants inherit the parent’s colour
+            _                         => string.Empty
         };
-    }
 }
 
 /// <inheritdoc />
 public class DefaultAlertDescriptionStyles : RzStylesBase.AlertDescriptionStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultAlertDescriptionStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultAlertDescriptionStyles"/> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultAlertDescriptionStyles(RzTheme theme) : base(theme)
-    {
-    }
+    public DefaultAlertDescriptionStyles(RzTheme theme) : base(theme) { }
 
-    /// <summary>
-    ///     Gets the base CSS classes for the alert description element.
-    /// </summary>
-    public override string Description => "col-start-2 text-sm text-muted-foreground grid justify-items-start gap-1 [&_p]:leading-relaxed [&_ul]:list-inside [&_ul]:list-disc"; // Matches kitchen sink section inside alert
+    /// <inheritdoc />
+    public override string Description =>
+        "text-sm text-foreground [&_p]:leading-relaxed [&_ul]:list-inside [&_ul]:list-disc";
 }
+

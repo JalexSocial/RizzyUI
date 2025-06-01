@@ -15,10 +15,10 @@ public class DefaultRzNavbarStyles : RzStylesBase.RzNavbarStylesBase
 
     /// <inheritdoc />
     public override string Navbar =>
-        "fixed top-0 z-50 h-16 w-screen items-center justify-between border-outline bg-surface-alt/75 px-4 py-2 backdrop-blur-xl flex border-b";
+        "fixed top-0 z-50 h-16 w-screen items-center justify-between border-outline bg-secondary/75 px-4 py-2 backdrop-blur-xl flex border-b";
 
     /// <inheritdoc />
-    public override string ToggleButton => "md:hidden inline-block text-on-surface";
+    public override string ToggleButton => "md:hidden inline-block text-foreground";
 
     /// <inheritdoc />
     public override string ToggleButtonIconContainer => "text-xl";

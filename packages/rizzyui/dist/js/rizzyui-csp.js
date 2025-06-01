@@ -4977,15 +4977,15 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         },
         // Get CSS classes for desktop screen button styling
         getDesktopScreenCss() {
-          return [this.screenSize === "" ? "text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong" : "opacity-60"];
+          return [this.screenSize === "" ? "text-foreground forced-color-adjust-auto dark:text-foreground" : "opacity-60"];
         },
         // Get CSS classes for tablet screen button styling
         getTabletScreenCss() {
-          return [this.screenSize === "max-w-2xl" ? "text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong" : "opacity-60"];
+          return [this.screenSize === "max-w-2xl" ? "text-foreground forced-color-adjust-auto dark:text-foreground" : "opacity-60"];
         },
         // Get CSS classes for phone screen button styling
         getPhoneScreenCss() {
-          return [this.screenSize === "max-w-sm" ? "text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong" : "opacity-60"];
+          return [this.screenSize === "max-w-sm" ? "text-foreground forced-color-adjust-auto dark:text-foreground" : "opacity-60"];
         }
       };
     });
@@ -5059,7 +5059,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         },
         // Get CSS classes for the copy button based on copied state
         getCopiedCss() {
-          return [this.copied ? "focus-visible:outline-success" : "focus-visible:outline-on-surface-dark"];
+          return [this.copied ? "focus-visible:outline-success" : "focus-visible:outline-foreground"];
         },
         // Get CSS classes for the code container based on expand state
         getExpandCss() {
@@ -6747,7 +6747,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         const barLabel = this.$refs.progressBarLabel;
         const progressBar = this.$refs.progressBar;
         if (barLabel && progressBar && barLabel.clientWidth > progressBar.clientWidth) {
-          return "text-on-surface dark:text-on-surface-dark";
+          return "text-foreground dark:text-foreground";
         }
         return "";
       },

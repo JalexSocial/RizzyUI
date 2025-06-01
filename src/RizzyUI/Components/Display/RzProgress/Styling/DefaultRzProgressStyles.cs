@@ -22,7 +22,7 @@ public class DefaultRzProgressStyles : RzStylesBase.RzProgressStylesBase
     public override string OutsideLabelContainer => "mb-2 flex items-center";
 
     /// <inheritdoc />
-    public override string OutsideLabelText => "text-on-surface";
+    public override string OutsideLabelText => "text-foreground";
 
     /// <inheritdoc />
     public override string OuterBar =>
@@ -49,16 +49,16 @@ public class DefaultRzProgressStyles : RzStylesBase.RzProgressStylesBase
     {
         return variant switch
         {
-            StatusColor.Primary => "h-full rounded-theme bg-primary text-on-primary",
-            StatusColor.Secondary => "h-full rounded-theme bg-secondary text-on-secondary",
+            StatusColor.Primary => "h-full rounded-theme bg-primary text-primary-foreground",
+            StatusColor.Secondary => "h-full rounded-theme bg-secondary text-secondary-foreground",
             StatusColor.Success =>
-                "h-full rounded-theme bg-success dark:bg-success text-on-success dark:text-on-success",
+                "h-full rounded-theme bg-success dark:bg-success text-success-foreground dark:text-success-foreground",
             StatusColor.Info =>
-                "h-full rounded-theme bg-info dark:bg-info text-on-info dark:text-on-info",
+                "h-full rounded-theme bg-info dark:bg-info text-info-foreground dark:text-info-foreground",
             StatusColor.Warning =>
-                "h-full rounded-theme bg-warning dark:bg-warning text-on-warning dark:text-on-warning",
-            StatusColor.Danger =>
-                "h-full rounded-theme bg-danger dark:bg-danger text-on-danger dark:text-on-danger",
+                "h-full rounded-theme bg-warning dark:bg-warning text-warning-foreground dark:text-warning-foreground",
+            StatusColor.Destructive =>
+                "h-full rounded-theme bg-destructive dark:bg-destructive text-destructive-foreground dark:text-destructive-foreground",
             _ => GetInnerBarVariantCss(StatusColor.Primary)
         };
     }
@@ -66,6 +66,6 @@ public class DefaultRzProgressStyles : RzStylesBase.RzProgressStylesBase
     /// <inheritdoc />
     public override string GetInsideLabelColorCss(bool overflows)
     {
-        return overflows ? "text-on-surface dark:text-on-surface" : string.Empty;
+        return overflows ? "text-foreground dark:text-foreground" : string.Empty;
     }
 }

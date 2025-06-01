@@ -125,7 +125,7 @@ namespace RizzyUI.Tests.Components.Feedback
                 AlertVariant.Information => "border-info",
                 AlertVariant.Success => "border-success",
                 AlertVariant.Warning => "border-warning",
-                AlertVariant.Destructive => "border-danger",
+                AlertVariant.Destructive => "border-destructive",
                 _ => "border-info"
             };
             Assert.Contains(expectedClass, alert.OuterHtml);

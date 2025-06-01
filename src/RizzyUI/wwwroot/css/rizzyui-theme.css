@@ -1117,18 +1117,9 @@ svg[blazicon] {
     vertical-align: -0.125em;
 }
 
-.rounded {
-    border-radius: var(--borderRadius);
-}
-
-.border {
-    border-width: var(--borderWidth);
-}
-
 pre:has(> code) {
-    border-color: var(--color-outline);
-    border-radius: var(--borderRadius);
-    border-width: var(--borderWidth);
+    border-color: var(--border);
+    border-radius: var(--radius-lg);
 }
 
 /* Custom Scrollbar Styles */

@@ -89,8 +89,8 @@ public class CustomTheme : RizzyTheme
             PrimaryForeground = Colors.Black,
             // Define additional tokens as required...
         };
-        Danger = Colors.Red.L600;
-        OnDanger = Colors.White;
+        Destructive = Colors.Red.L600;
+        DestructiveForeground = Colors.White;
         // Set other status colors...
         BorderWidth = &quot;1px&quot;;
         BorderRadius = &quot;6px&quot;;
@@ -104,7 +104,7 @@ Once you have created your custom theme, you can apply it by either passing it d
 
 After you configure a theme, all RizzyUI components will automatically use the defined design tokens. For example:
 
-- Classes like `bg-surface` and `text-on-surface` reference the `--color-surface` and `--color-on-surface` tokens from your current theme.
+- Classes like `bg-background` and `text-foreground` reference the `--color-surface` and `--color-foreground` tokens from your current theme.
 - In dark mode, the theme provider swaps these tokens with the dark variant values.
 
 This approach ensures that your components maintain a consistent look and feel, regardless of the theme or mode (light/dark) in use.
@@ -158,7 +158,7 @@ Each color scale class (e.g. **Colors.Rose**) exposes properties representing di
   The numeric value (L50, L100, L200, etc.) directly maps to the intensity in Tailwind. Lower numbers (e.g., L50, L100) are lighter shades, while higher numbers (e.g., L900, L950) are darker shades.
   
 - **Usage in Components:**  
-  When using theme tokens in your component styles (via Tailwind classes like `bg-primary` or `text-on-surface`), the underlying theme may reference these color scales. For instance, a theme might set its primary color as **Colors.Blue.L700** so that any component using `bg-primary` will get the same blue tone as defined by Tailwind’s **blue-700**.
+  When using theme tokens in your component styles (via Tailwind classes like `bg-primary` or `text-foreground`), the underlying theme may reference these color scales. For instance, a theme might set its primary color as **Colors.Blue.L700** so that any component using `bg-primary` will get the same blue tone as defined by Tailwind’s **blue-700**.
 
 - **Consistency:**  
   This direct mapping ensures that when you use a color scale in code—for example, in a custom theme or a component’s variant—the numeric suffix always corresponds to the same Tailwind color. It simplifies maintenance and helps guarantee visual consistency across your application.
@@ -168,7 +168,7 @@ Each color scale class (e.g. **Colors.Rose**) exposes properties representing di
 If you want to apply the “Rose” color at intensity **500** as a background, you could use the following Tailwind class:
 
 ```razor
-&lt;div class=&quot;bg-rose-500 text-on-surface&quot;&gt;
+&lt;div class=&quot;bg-rose-500 text-foreground&quot;&gt;
     This div uses the rose color at intensity 500.
 &lt;/div&gt;
 ```
@@ -177,31 +177,31 @@ Under the hood, **Colors.Rose.L500** in the theme provider will supply the same 
 
 ## Semantic Colors in RizzyUI Themes
 
-Semantic colors in RizzyUI provide a meaningful and consistent way to style components. Instead of hardcoding specific color values, the library uses semantic tokens that map to design choices. For example, a theme defines its background, text, accent, and status colors using these tokens. When you apply a theme (via the `&lt;RzThemeProvider&gt;` or through configuration), components reference these semantic tokens (such as `Surface`, `Primary`, or `Danger`) to determine their visual appearance. This abstraction allows you to change the look of your entire application simply by switching themes or adjusting the theme’s values.
+Semantic colors in RizzyUI provide a meaningful and consistent way to style components. Instead of hardcoding specific color values, the library uses semantic tokens that map to design choices. For example, a theme defines its background, text, accent, and status colors using these tokens. When you apply a theme (via the `&lt;RzThemeProvider&gt;` or through configuration), components reference these semantic tokens (such as `Surface`, `Primary`, or `Destructive`) to determine their visual appearance. This abstraction allows you to change the look of your entire application simply by switching themes or adjusting the theme’s values.
 
 The semantic colors are defined in the `SemanticColor` enum and include the following values:
 
 | **Semantic Color**   | **Role/Usage**                                                                                                                                                                                                                                                                                                  |
 |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **None**             | Indicates that no semantic color is applied. Useful as a placeholder when no styling is desired.                                                                                                                                                                                                               |
-| **Surface**          | The primary background color for components (e.g., the default container or card background). Often referenced using the `bg-surface` class.                                                                                                                                                                   |
-| **OnSurface**        | Used for text and icons displayed on a Surface background. This ensures adequate contrast (e.g., using `text-on-surface`).                                                                                                                                                                                      |
-| **OnSurfaceStrong**  | A stronger variant for text on a Surface background, typically used for RzHeadings or prominent labels (e.g., `text-on-surface-strong`).                                                                                                                                                                            |
-| **SurfaceAlt**       | An alternate background color used to differentiate sections or secondary surfaces (e.g., `bg-surface-alt`).                                                                                                                                                                                                     |
+| **Surface**          | The primary background color for components (e.g., the default container or card background). Often referenced using the `bg-background` class.                                                                                                                                                                   |
+| **OnSurface**        | Used for text and icons displayed on a Surface background. This ensures adequate contrast (e.g., using `text-foreground`).                                                                                                                                                                                      |
+| **OnSurfaceStrong**  | A stronger variant for text on a Surface background, typically used for RzHeadings or prominent labels (e.g., `text-foreground`).                                                                                                                                                                            |
+| **SurfaceAlt**       | An alternate background color used to differentiate sections or secondary surfaces (e.g., `bg-secondary`).                                                                                                                                                                                                     |
 | **Primary**          | The main accent or brand color used in interactive elements like buttons or links (e.g., `bg-primary`).                                                                                                                                                                                                          |
-| **PrimaryForeground**        | Used for text and icons placed on a Primary-colored background, ensuring readability (e.g., `text-on-primary`).                                                                                                                                                                                                 |
+| **PrimaryForeground**        | Used for text and icons placed on a Primary-colored background, ensuring readability (e.g., `text-primary-foreground`).                                                                                                                                                                                                 |
 | **Secondary**        | A secondary accent color that complements the primary color. Often used for additional interactive elements (e.g., `bg-secondary`).                                                                                                                                                                               |
-| **SecondaryForeground**      | For text and icons on a Secondary-colored background (e.g., `text-on-secondary`).                                                                                                                                                                                                                                 |
+| **SecondaryForeground**      | For text and icons on a Secondary-colored background (e.g., `text-secondary-foreground`).                                                                                                                                                                                                                                 |
 | **Outline**          | Defines the color for borders and outlines, providing visual separation (e.g., `border-outline`).                                                                                                                                                                                                                 |
 | **OutlineStrong**    | A stronger version of the outline color, used where a more pronounced border is required (e.g., `border-outline-strong`).                                                                                                                                                                                         |
-| **Danger**           | Indicates error states or destructive actions. This color is used to draw attention to problems (e.g., `bg-danger`).                                                                                                                                                                                              |
-| **OnDanger**         | Used for text or icons on a Danger background, ensuring contrast and readability (e.g., `text-on-danger`).                                                                                                                                                                                                       |
+| **Destructive**           | Indicates error states or destructive actions. This color is used to draw attention to problems (e.g., `bg-destructive`).                                                                                                                                                                                              |
+| **DestructiveForeground**         | Used for text or icons on a Destructive background, ensuring contrast and readability (e.g., `text-destructive-foreground`).                                                                                                                                                                                                       |
 | **Info**             | Represents informational messages, providing context or guidance (e.g., `bg-info`).                                                                                                                                                                                                                               |
-| **OnInfo**           | Used for text and icons on an Info background (e.g., `text-on-info`).                                                                                                                                                                                                                                               |
+| **OnInfo**           | Used for text and icons on an Info background (e.g., `text-info-foreground`).                                                                                                                                                                                                                                               |
 | **Warning**          | Used to signal caution or alert messages. It draws attention without the severity of a danger color (e.g., `bg-warning`).                                                                                                                                                                                         |
-| **OnWarning**        | For text and icons displayed on a Warning background, ensuring they remain legible (e.g., `text-on-warning`).                                                                                                                                                                                                     |
+| **OnWarning**        | For text and icons displayed on a Warning background, ensuring they remain legible (e.g., `text-warning-foreground`).                                                                                                                                                                                                     |
 | **Success**          | Indicates successful operations, confirmations, or positive statuses (e.g., `bg-success`).                                                                                                                                                                                                                        |
-| **OnSuccess**        | Used for text or icons on a Success background (e.g., `text-on-success`), ensuring clear communication of success.                                                                                                                                                                                                 |
+| **OnSuccess**        | Used for text or icons on a Success background (e.g., `text-success-foreground`), ensuring clear communication of success.                                                                                                                                                                                                 |
 
 By using these semantic color tokens within your themes, you can easily adjust the visual appearance of your entire application. Whether you choose one of the built-in themes (like **HighContrastTheme**, **ModernTheme**, or **NewsTheme**) or create a custom theme, these tokens ensure a consistent, accessible, and easily maintainable design throughout your RizzyUI-powered application.
 

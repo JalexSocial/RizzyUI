@@ -85,13 +85,13 @@ namespace RizzyUI.Tests.Components.Feedback
             // Assert
             var svg = cut.Find("svg");
             Assert.NotNull(svg);
-            Assert.Contains("fill-on-surface", svg.ClassList); // Default from SpinnerBase
+            Assert.Contains("fill-foreground", svg.ClassList); // Default from SpinnerBase
         }
 
         [Theory]
         [InlineData(SemanticColor.Primary, "fill-primary")]
         [InlineData(SemanticColor.Secondary, "fill-secondary")]
-        [InlineData(SemanticColor.Destructive, "fill-danger")]
+        [InlineData(SemanticColor.Destructive, "fill-destructive")]
         [InlineData(SemanticColor.Success, "fill-success")]
         [InlineData(SemanticColor.Warning, "fill-warning")]
         [InlineData(SemanticColor.Info, "fill-info")]

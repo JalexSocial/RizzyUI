@@ -13,7 +13,7 @@ public class DefaultRzSearchButtonStyles : RzStylesBase.RzSearchButtonStylesBase
 
     /// <inheritdoc />
     public override string Button =>
-        "flex h-10 w-full cursor-pointer items-center justify-between border-outline bg-surface-alt p-2 px-4 font-light transition-all duration-200 rounded-theme border"; // Use semantic names & rounded-theme
+        "flex h-10 w-full cursor-pointer items-center justify-between border-outline bg-secondary p-2 px-4 font-light transition-all duration-200 rounded-theme border"; // Use semantic names & rounded-theme
 
     /// <inheritdoc />
     public override string InnerContainer => "flex items-center gap-2";

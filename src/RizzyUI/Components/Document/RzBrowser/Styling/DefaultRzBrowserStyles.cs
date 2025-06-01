@@ -16,11 +16,11 @@ public class DefaultRzBrowserStyles : RzStylesBase.RzBrowserStylesBase
     }
 
     /// <inheritdoc />
-    public override string Container => "overflow-hidden border border-outline rounded-theme";
+    public override string Container => "mt-2 card p-0 overflow-hidden border border-outline rounded-lg";
 
     /// <inheritdoc />
     public override string TopBar =>
-        "bg-surface-alt w-full px-4 py-3 lg:py-1.5 pr-0 flex items-center justify-between border-outline border-b";
+        "bg-secondary w-full px-4 py-3 lg:py-1.5 pr-0 flex items-center justify-between border-b";
 
     /// <inheritdoc />
     public override string TrafficLightsContainer => "flex gap-1.5";
@@ -36,20 +36,20 @@ public class DefaultRzBrowserStyles : RzStylesBase.RzBrowserStylesBase
 
     /// <inheritdoc />
     public override string ScreenSizeControlsContainer =>
-        "text-on-surface hidden items-center justify-center gap-4 lg:flex";
+        "text-foreground hidden items-center justify-center gap-4 lg:flex";
 
     /// <inheritdoc />
     public override string ScreenSizeButton =>
-        "rounded-full p-1 transition hover:bg-surface-dark/10 focus:outline-none focus-visible:bg-surface-dark/10 dark:hover-bg-surface/10 dark:focus-visible-bg-surface/10";
+        "rounded-full p-1 transition hover:bg-secondary/10 focus:outline-none focus-visible:bg-secondary/10 dark:hover-bg-background/10 dark:focus-visible-bg-background/10";
 
     /// <inheritdoc />
     public override string ScreenSizeButtonGroup =>
-        "bg-surface-alt border-outline flex items-center gap-1 rounded-full px-4";
+        "bg-secondary border-outline flex items-center gap-1 rounded-full px-4";
 
     /// <inheritdoc />
-    public override string ContentArea => "grid-pattern bg-surface flex justify-center";
+    public override string ContentArea => "grid-pattern bg-background flex justify-center";
 
     /// <inheritdoc />
     public override string PreviewContainer =>
-        "bg-surface border-outline relative w-full overflow-hidden transition-all";
+        "bg-background border-outline relative w-full overflow-hidden transition-all";
 }

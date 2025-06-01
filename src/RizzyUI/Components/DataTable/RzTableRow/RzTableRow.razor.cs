@@ -77,12 +77,12 @@ public partial class RzTableRow<TItem> : RzComponent
         {
             // Apply theme-based surface colors for striping
             // These Tailwind classes will respect the theme's definitions
-            classBuilder.Add(RowIndex.Value % 2 == 0 ? "bg-surface" : "bg-surface-alt");
+            classBuilder.Add(RowIndex.Value % 2 == 0 ? "bg-background" : "bg-secondary");
         }
         else if (ParentRzTable is { Striped: false })
         {
             // Ensure default row background if not striped
-            classBuilder.Add("bg-surface");
+            classBuilder.Add("bg-background");
         }
 
 

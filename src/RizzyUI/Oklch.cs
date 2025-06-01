@@ -27,35 +27,35 @@ public record SemanticColor : Color
         new ("--color-surface-dark", "surface-dark"));
 
     /// <summary>Foreground color on surface.</summary>
-    public static SemanticColor OnSurface => new SemanticColor(new ("--color-on-surface", "on-surface"),
-        new ("--color-on-surface-dark", "on-surface-dark"));
+    public static SemanticColor OnSurface => new SemanticColor(new ("--color-foreground", "on-surface"),
+        new ("--color-foreground", "on-surface-dark"));
 
     /// <summary>Strong foreground color on surface.</summary>
-    public static SemanticColor OnSurfaceStrong => new SemanticColor(new ("--color-on-surface-strong", "on-surface-strong"),
-        new ("--color-on-surface-dark-strong", "on-surface-dark-strong"));
+    public static SemanticColor OnSurfaceStrong => new SemanticColor(new ("--color-foreground", "on-surface-strong"),
+        new ("--color-foreground", "on-surface-dark-strong"));
 
     /// <summary>Muted foreground color on surface.</summary>
-    public static SemanticColor MutedForeground => new SemanticColor(new("--color-on-surface-muted", "on-surface-muted"),
-        new("--color-on-surface-dark-muted", "on-surface-dark-muted"));
+    public static SemanticColor MutedForeground => new SemanticColor(new("--color-muted-foreground", "on-surface-muted"),
+        new("--color-foreground-muted", "on-surface-dark-muted"));
 
     /// <summary>Alternate surface color for secondary areas.</summary>
-    public static SemanticColor SurfaceAlt => new SemanticColor(new ("--color-surface-alt", "surface-alt"),
+    public static SemanticColor SurfaceAlt => new SemanticColor(new ("--color-secondary", "secondary"),
         new ("--color-surface-dark-alt", "surface-dark-alt"));
 
     /// <summary>Primary color for highlights or accents.</summary>
     public static SemanticColor Primary => new SemanticColor(new Color("--color-primary", "primary"));
 
     /// <summary>Foreground color on primary background.</summary>
-    public static SemanticColor PrimaryForeground => new SemanticColor(new ("--color-on-primary", "on-primary"),
-        new ("--color-on-primary-dark", "on-primary-dark"));
+    public static SemanticColor PrimaryForeground => new SemanticColor(new ("--color-primary-foreground", "on-primary"),
+        new ("--color-primary-foreground", "on-primary-dark"));
 
     /// <summary>Secondary color for less emphasized elements.</summary>
     public static SemanticColor Secondary => new SemanticColor(new Color("--color-secondary", "secondary"),
         new Color("--color-secondary-dark", "secondary-dark"));
 
     /// <summary>Foreground color on secondary background.</summary>
-    public static SemanticColor SecondaryForeground => new SemanticColor(new Color("--color-on-secondary", "on-secondary"),
-        new Color("--color-on-secondary-dark", "on-secondary-dark"));
+    public static SemanticColor SecondaryForeground => new SemanticColor(new Color("--color-secondary-foreground", "on-secondary"),
+        new Color("--color-secondary-foreground", "on-secondary-dark"));
 
     /// <summary>Outline color for borders or separators.</summary>
     public static SemanticColor Outline => new SemanticColor(new Color("--color-outline", "outline"),
@@ -65,29 +65,29 @@ public record SemanticColor : Color
     public static SemanticColor OutlineStrong => new SemanticColor(new Color("--color-outline-strong", "outline-strong"),
         new Color("--color-outline-dark-strong", "outline-dark-strong"));
 
-    /// <summary>Danger color, often red for errors.</summary>
-    public static SemanticColor Danger => new SemanticColor(new Color("--color-danger", "danger"));
+    /// <summary>Destructive color, often red for errors.</summary>
+    public static SemanticColor Destructive => new SemanticColor(new Color("--color-destructive", "danger"));
 
     /// <summary>Foreground color on danger background.</summary>
-    public static SemanticColor OnDanger => new SemanticColor(new Color("--color-on-danger", "on-danger"));
+    public static SemanticColor DestructiveForeground => new SemanticColor(new Color("--color-destructive-foreground", "on-destructive"));
 
     /// <summary>Informational color, often blue or neutral.</summary>
     public static SemanticColor Info => new SemanticColor(new Color("--color-info", "info"));
 
     /// <summary>Foreground color on info background.</summary>
-    public static SemanticColor OnInfo => new SemanticColor(new Color("--color-on-info", "on-info"));
+    public static SemanticColor OnInfo => new SemanticColor(new Color("--color-info-foreground", "on-info"));
 
     /// <summary>Warning color, often yellow for caution.</summary>
     public static SemanticColor Warning => new SemanticColor(new Color("--color-warning", "warning"));
 
     /// <summary>Foreground color on warning background.</summary>
-    public static SemanticColor OnWarning => new SemanticColor(new Color("--color-on-warning", "on-warning"));
+    public static SemanticColor OnWarning => new SemanticColor(new Color("--color-warning-foreground", "on-warning"));
 
     /// <summary>Success color, often green for positive feedback.</summary>
     public static SemanticColor Success => new SemanticColor(new Color("--color-success", "success"));
 
     /// <summary>Foreground color on success background.</summary>
-    public static SemanticColor OnSuccess => new SemanticColor(new Color("--color-on-success", "on-success"));
+    public static SemanticColor OnSuccess => new SemanticColor(new Color("--color-success-foreground", "on-success"));
 
     /// <summary>
     /// Creates a Tailwind class string that optionally includes a dark mode class

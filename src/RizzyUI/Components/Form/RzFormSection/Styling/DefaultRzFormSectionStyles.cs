@@ -16,10 +16,10 @@ public class DefaultRzFormSectionStyles : RzStylesBase.RzFormSectionStylesBase
 
     /// <inheritdoc />
     public override string Title =>
-        "text-base/7 font-semibold text-on-surface-strong"; // Adjusted line height
+        "text-base/7 font-semibold text-foreground"; // Adjusted line height
 
     /// <inheritdoc />
-    public override string Description => "text-sm text-on-surface";
+    public override string Description => "text-sm text-foreground";
 
     /// <inheritdoc />
     public override string ContentContainer => ""; // Determined by layout method

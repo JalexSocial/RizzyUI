@@ -77,7 +77,7 @@ namespace RizzyUI.Tests.Components.Display
         [InlineData(StatusColor.Success, "bg-success")]
         [InlineData(StatusColor.Info, "bg-info")]
         [InlineData(StatusColor.Warning, "bg-warning")]
-        [InlineData(StatusColor.Danger, "bg-danger")]
+        [InlineData(StatusColor.Destructive, "bg-destructive")]
         public void RzProgress_Variant_AppliesCorrectClass(StatusColor variant, string expectedClass)
         {
             // Arrange & Act

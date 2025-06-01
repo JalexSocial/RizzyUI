@@ -89,11 +89,11 @@
             </RowTemplate>
             <EmptyTemplate>
                 <div class="text-center py-10">
-                    <div class="text-5xl text-on-surface-muted mx-auto mb-3">
+                    <div class="text-5xl text-muted-foreground mx-auto mb-3">
                         <Blazicon Svg="MdiIcon.PackageVariantClosedRemove"/>
                     </div>
-                    <p class="text-lg font-semibold text-on-surface-strong">No Products Found</p>
-                    <p class="text-sm text-on-surface-muted">
+                    <p class="text-lg font-semibold text-foreground">No Products Found</p>
+                    <p class="text-sm text-muted-foreground">
                         Please try adjusting your search or filter criteria.
                     </p>
                 </div>
@@ -105,7 +105,7 @@
         <RzTableRow>
             <RzTableCell Colspan="@table.ColumnCount">
                 <div class="flex flex-col sm:flex-row justify-between items-center p-3 gap-3">
-                    <div class="text-sm text-on-surface-muted">
+                    <div class="text-sm text-muted-foreground">
                         @if (CurrentPagingState.TotalItems > 0)
                         {
                             <span>

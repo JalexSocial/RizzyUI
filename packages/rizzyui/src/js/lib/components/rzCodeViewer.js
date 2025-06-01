@@ -55,7 +55,7 @@ export default function(Alpine, require) {
             },
             // Get CSS classes for the copy button based on copied state
             getCopiedCss() {
-                return [this.copied ? 'focus-visible:outline-success' : 'focus-visible:outline-on-surface-dark'];
+                return [this.copied ? 'focus-visible:outline-success' : 'focus-visible:outline-foreground'];
             },
             // Get CSS classes for the code container based on expand state
             getExpandCss() {

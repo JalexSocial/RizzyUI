@@ -232,7 +232,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         // AvatarFallback's content ("JD") should not be in the markup if it didn't render.
         // It's tricky to assert non-existence of a component that might render nothing.
         // We rely on ParentAvatar.HasImage being true, which prevents AvatarFallback from rendering its div.
-        var fallbackDivs = cut.FindAll("div").Where(d => d.TextContent.Contains("JD") && d.ClassList.Contains("bg-surface-alt"));
+        var fallbackDivs = cut.FindAll("div").Where(d => d.TextContent.Contains("JD") && d.ClassList.Contains("bg-secondary"));
         Assert.Empty(fallbackDivs);
     }
 

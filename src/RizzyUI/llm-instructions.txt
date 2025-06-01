@@ -212,25 +212,25 @@ You never hard-code `text-blue-600` or `bg-slate-900` in a component.
 Instead you write utilities that reference the semantic tokens shipped by the plugin:
 
 ```
-bg-surface
-text-on-surface
-hover:bg-surface-alt
+bg-background
+text-foreground
+hover:bg-secondary
 ring-outline-strong
 ```
 
 Because the **token names stay identical** across light and dark modes, you do **not** need `dark:` prefixes for these semantic tokens:
 
 ```html
-<span class="text-on-surface">Works in both themes</span>
+<span class="text-foreground">Works in both themes</span>
 ```
 
 Tailwind expands that to:
 
 ```css
-.text-on-surface { color: var(--color-on-surface); }
+.text-foreground { color: var(--color-foreground); }
 ```
 
-and the plugin’s `@variant dark` ensures `--color-on-surface` swaps automatically.
+and the plugin’s `@variant dark` ensures `--color-foreground` swaps automatically.
 
 ### 6.2 Where utilities live
 
@@ -241,13 +241,13 @@ Example provider properties:
 
 ```csharp
 public override string Container  =>
-    "inline-flex items-center rounded-full px-3 py-1 bg-surface text-on-surface";
+    "inline-flex items-center rounded-full px-3 py-1 bg-background text-foreground";
 
 public override string Active     =>
     "ring-2 ring-primary";
 
 public override string IconStyle  =>
-    "size-5 text-on-surface-muted";
+    "size-5 text-muted-foreground";
 ```
 
 ### 6.3 TwMerge: the required glue
@@ -306,11 +306,11 @@ public sealed class MyFancyThingStyles : DefaultRzFancyThingStyles // Or RzStyle
 
     public override string Container =>
         "inline-flex gap-2 rounded-md px-4 py-2 "
-      + "bg-gradient-to-r from-primary to-secondary text-on-primary"; // Still uses semantic tokens
+      + "bg-gradient-to-r from-primary to-secondary text-primary-foreground"; // Still uses semantic tokens
 }
 ```
 
-Because all classes still use the plugin’s semantic tokens (like `from-primary`, `text-on-primary`), light/dark support is automatic.
+Because all classes still use the plugin’s semantic tokens (like `from-primary`, `text-primary-foreground`), light/dark support is automatic.
 
 ### 6.6 No purge / safelist step needed
 
@@ -350,9 +350,9 @@ Tailwind 4’s JIT engine and the RizzyUI build process handle class discovery. 
    {
        public DefaultRzFancyThingStyles(RzTheme theme) : base(theme) { }
 
-       public override string Container => "inline-flex items-center rounded-full px-3 py-1 bg-surface text-on-surface"; // Uses semantic tokens
+       public override string Container => "inline-flex items-center rounded-full px-3 py-1 bg-background text-foreground"; // Uses semantic tokens
        public override string Active => "ring-2 ring-primary"; // Uses semantic token
-       public override string IconStyle => "size-5 text-on-surface-muted"; // Uses semantic token
+       public override string IconStyle => "size-5 text-muted-foreground"; // Uses semantic token
 
        public override string GetSizeCss(Size sz) => sz switch // Using global Size enum
        {

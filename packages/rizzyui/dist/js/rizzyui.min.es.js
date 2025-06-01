@@ -67,11 +67,11 @@ function Pe(t, e, n) {
   return i;
 }
 var Lt = Nt;
-function kt(t) {
+function Rt(t) {
   t.directive("intersect", t.skipDuringClone((e, { value: n, expression: i, modifiers: r }, { evaluateLater: s, cleanup: o }) => {
     let a = s(i), l = {
       rootMargin: At(r),
-      threshold: Rt(r)
+      threshold: kt(r)
     }, c = new IntersectionObserver((f) => {
       f.forEach((d) => {
         d.isIntersecting !== (n === "leave") && (a(), r.includes("once") && c.disconnect());
@@ -82,7 +82,7 @@ function kt(t) {
     });
   }));
 }
-function Rt(t) {
+function kt(t) {
   if (t.includes("full"))
     return 0.99;
   if (t.includes("half"))
@@ -105,7 +105,7 @@ function At(t) {
     r.push(Ft(t[i + s] || ""));
   return r = r.filter((s) => s !== void 0), r.length ? r.join(" ").trim() : n;
 }
-var $t = kt, Qe = ["input", "select", "textarea", "a[href]", "button", "[tabindex]:not(slot)", "audio[controls]", "video[controls]", '[contenteditable]:not([contenteditable="false"])', "details>summary:first-of-type", "details"], pe = /* @__PURE__ */ Qe.join(","), et = typeof Element > "u", Z = et ? function() {
+var $t = Rt, Qe = ["input", "select", "textarea", "a[href]", "button", "[tabindex]:not(slot)", "audio[controls]", "video[controls]", '[contenteditable]:not([contenteditable="false"])', "details>summary:first-of-type", "details"], pe = /* @__PURE__ */ Qe.join(","), et = typeof Element > "u", Z = et ? function() {
 } : Element.prototype.matches || Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector, Oe = !et && Element.prototype.getRootNode ? function(t) {
   return t.getRootNode();
 } : function(t) {
@@ -424,14 +424,14 @@ var We = /* @__PURE__ */ function() {
          * @returns {HTMLElement|undefined} The next tabbable node, if any.
          */
         nextTabbableNode: function(x) {
-          var S = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !0, L = m.findIndex(function(k) {
-            return k === x;
+          var S = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !0, L = m.findIndex(function(R) {
+            return R === x;
           });
           if (!(L < 0))
-            return S ? m.slice(L + 1).find(function(k) {
-              return de(k, r.tabbableOptions);
-            }) : m.slice(0, L).reverse().find(function(k) {
-              return de(k, r.tabbableOptions);
+            return S ? m.slice(L + 1).find(function(R) {
+              return de(R, r.tabbableOptions);
+            }) : m.slice(0, L).reverse().find(function(R) {
+              return de(R, r.tabbableOptions);
             });
         }
       };
@@ -491,8 +491,8 @@ var We = /* @__PURE__ */ function() {
           return h === A;
         });
         if (S < 0 && (x.container === h || fe(h, r.tabbableOptions) && !de(h, r.tabbableOptions) && !x.nextTabbableNode(h, !1)) && (S = T), S >= 0) {
-          var L = S === 0 ? s.tabbableGroups.length - 1 : S - 1, k = s.tabbableGroups[L];
-          m = k.lastTabbableNode;
+          var L = S === 0 ? s.tabbableGroups.length - 1 : S - 1, R = s.tabbableGroups[L];
+          m = R.lastTabbableNode;
         }
       } else {
         var P = He(s.tabbableGroups, function($) {
@@ -806,7 +806,7 @@ var on = Object.defineProperty, W = function(t, e) {
     nn(this, t), this.notifyOut = W(function($) {
       $(n);
     }, "notifyOut");
-    var i = e.notificationsGap, r = i === void 0 ? 20 : i, s = e.notificationsPadding, o = s === void 0 ? 20 : s, a = e.status, l = a === void 0 ? "success" : a, c = e.effect, f = c === void 0 ? Ie.FADE : c, d = e.type, p = d === void 0 ? "outline" : d, g = e.title, v = e.text, y = e.showIcon, w = y === void 0 ? !0 : y, C = e.customIcon, I = C === void 0 ? "" : C, O = e.customClass, N = O === void 0 ? "" : O, b = e.speed, u = b === void 0 ? 500 : b, h = e.showCloseButton, m = h === void 0 ? !0 : h, T = e.autoclose, x = T === void 0 ? !0 : T, S = e.autotimeout, L = S === void 0 ? 3e3 : S, k = e.position, P = k === void 0 ? "right top" : k, F = e.customWrapper, G = F === void 0 ? "" : F;
+    var i = e.notificationsGap, r = i === void 0 ? 20 : i, s = e.notificationsPadding, o = s === void 0 ? 20 : s, a = e.status, l = a === void 0 ? "success" : a, c = e.effect, f = c === void 0 ? Ie.FADE : c, d = e.type, p = d === void 0 ? "outline" : d, g = e.title, v = e.text, y = e.showIcon, w = y === void 0 ? !0 : y, C = e.customIcon, I = C === void 0 ? "" : C, O = e.customClass, N = O === void 0 ? "" : O, b = e.speed, u = b === void 0 ? 500 : b, h = e.showCloseButton, m = h === void 0 ? !0 : h, T = e.autoclose, x = T === void 0 ? !0 : T, S = e.autotimeout, L = S === void 0 ? 3e3 : S, R = e.position, P = R === void 0 ? "right top" : R, F = e.customWrapper, G = F === void 0 ? "" : F;
     if (this.customWrapper = G, this.status = l, this.title = g, this.text = v, this.showIcon = w, this.customIcon = I, this.customClass = N, this.speed = u, this.effect = f, this.showCloseButton = m, this.autoclose = x, this.autotimeout = L, this.notificationsGap = r, this.notificationsPadding = o, this.type = p, this.position = P, !this.checkRequirements()) {
       console.error("You must specify 'title' or 'text' at least.");
       return;
@@ -1018,7 +1018,7 @@ function ft(t, e) {
     for (; n.length; )
       n[0](t, e), n.splice(0, 1);
 }
-function ke(t, e) {
+function Re(t, e) {
   typeof t == "function" && (t = { success: t }), e.length ? (t.error || Le)(e) : (t.success || Le)(t);
 }
 function vn(t, e, n, i, r, s, o, a) {
@@ -1076,7 +1076,7 @@ function j(t, e, n) {
   }
   function s(o, a) {
     bn(t, function(l) {
-      ke(r, l), o && ke({ success: o, error: a }, l), ft(i, l);
+      Re(r, l), o && Re({ success: o, error: a }, l), ft(i, l);
     }, r);
   }
   if (r.returnPromise)
@@ -1085,7 +1085,7 @@ function j(t, e, n) {
 }
 j.ready = function(e, n) {
   return mn(e, function(i) {
-    ke(n, i);
+    Re(n, i);
   }), j;
 };
 j.done = function(e) {
@@ -1173,15 +1173,15 @@ function En(t) {
     },
     // Get CSS classes for desktop screen button styling
     getDesktopScreenCss() {
-      return [this.screenSize === "" ? "text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong" : "opacity-60"];
+      return [this.screenSize === "" ? "text-foreground forced-color-adjust-auto dark:text-foreground" : "opacity-60"];
     },
     // Get CSS classes for tablet screen button styling
     getTabletScreenCss() {
-      return [this.screenSize === "max-w-2xl" ? "text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong" : "opacity-60"];
+      return [this.screenSize === "max-w-2xl" ? "text-foreground forced-color-adjust-auto dark:text-foreground" : "opacity-60"];
     },
     // Get CSS classes for phone screen button styling
     getPhoneScreenCss() {
-      return [this.screenSize === "max-w-sm" ? "text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong" : "opacity-60"];
+      return [this.screenSize === "max-w-sm" ? "text-foreground forced-color-adjust-auto dark:text-foreground" : "opacity-60"];
     }
   }));
 }
@@ -1243,7 +1243,7 @@ function Cn(t, e) {
     },
     // Get CSS classes for the copy button based on copied state
     getCopiedCss() {
-      return [this.copied ? "focus-visible:outline-success" : "focus-visible:outline-on-surface-dark"];
+      return [this.copied ? "focus-visible:outline-success" : "focus-visible:outline-foreground"];
     },
     // Get CSS classes for the code container based on expand state
     getExpandCss() {
@@ -1278,7 +1278,7 @@ function In(t, e) {
     }
   }));
 }
-const Re = Math.min, J = Math.max, ve = Math.round, M = (t) => ({
+const ke = Math.min, J = Math.max, ve = Math.round, M = (t) => ({
   x: t,
   y: t
 }), Sn = {
@@ -1291,7 +1291,7 @@ const Re = Math.min, J = Math.max, ve = Math.round, M = (t) => ({
   end: "start"
 };
 function Ue(t, e, n) {
-  return J(t, Re(e, n));
+  return J(t, ke(e, n));
 }
 function ye(t, e) {
   return typeof t == "function" ? t(e) : t;
@@ -1327,7 +1327,7 @@ function Ln(t) {
 function Fe(t) {
   return t.replace(/start|end/g, (e) => On[e]);
 }
-function kn(t, e, n) {
+function Rn(t, e, n) {
   const i = ["left", "right"], r = ["right", "left"], s = ["top", "bottom"], o = ["bottom", "top"];
   switch (t) {
     case "top":
@@ -1340,9 +1340,9 @@ function kn(t, e, n) {
       return [];
   }
 }
-function Rn(t, e, n, i) {
+function kn(t, e, n, i) {
   const r = xe(t);
-  let s = kn(K(t), n === "start", i);
+  let s = Rn(K(t), n === "start", i);
   return r && (s = s.map((o) => o + "-" + r), e && (s = s.concat(s.map(Fe)))), s;
 }
 function be(t) {
@@ -1562,7 +1562,7 @@ const Dn = function(t) {
       if ((n = s.arrow) != null && n.alignmentOffset)
         return {};
       const C = K(r), I = U(a), O = K(a) === a, N = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), b = p || (O || !y ? [be(a)] : Ln(a)), u = v !== "none";
-      !p && u && b.push(...Rn(a, y, v, N));
+      !p && u && b.push(...kn(a, y, v, N));
       const h = [a, ...b], m = await vt(e, w), T = [];
       let x = ((i = s.flip) == null ? void 0 : i.overflows) || [];
       if (f && T.push(m[C]), d) {
@@ -1576,8 +1576,8 @@ const Dn = function(t) {
         var S, L;
         const F = (((S = s.flip) == null ? void 0 : S.index) || 0) + 1, G = h[F];
         if (G) {
-          var k;
-          const A = d === "alignment" ? I !== U(G) : !1, z = ((k = x[0]) == null ? void 0 : k.overflows[0]) > 0;
+          var R;
+          const A = d === "alignment" ? I !== U(G) : !1, z = ((R = x[0]) == null ? void 0 : R.overflows[0]) > 0;
           if (!A || z)
             return {
               data: {
@@ -1733,7 +1733,7 @@ function Ee() {
 function te(t) {
   return bt(t) ? (t.nodeName || "").toLowerCase() : "#document";
 }
-function R(t) {
+function k(t) {
   var e;
   return (t == null || (e = t.ownerDocument) == null ? void 0 : e.defaultView) || window;
 }
@@ -1742,16 +1742,16 @@ function V(t) {
   return (e = (bt(t) ? t.ownerDocument : t.document) || window.document) == null ? void 0 : e.documentElement;
 }
 function bt(t) {
-  return Ee() ? t instanceof Node || t instanceof R(t).Node : !1;
+  return Ee() ? t instanceof Node || t instanceof k(t).Node : !1;
 }
 function D(t) {
-  return Ee() ? t instanceof Element || t instanceof R(t).Element : !1;
+  return Ee() ? t instanceof Element || t instanceof k(t).Element : !1;
 }
 function B(t) {
-  return Ee() ? t instanceof HTMLElement || t instanceof R(t).HTMLElement : !1;
+  return Ee() ? t instanceof HTMLElement || t instanceof k(t).HTMLElement : !1;
 }
 function Ke(t) {
-  return !Ee() || typeof ShadowRoot > "u" ? !1 : t instanceof ShadowRoot || t instanceof R(t).ShadowRoot;
+  return !Ee() || typeof ShadowRoot > "u" ? !1 : t instanceof ShadowRoot || t instanceof k(t).ShadowRoot;
 }
 function ce(t) {
   const {
@@ -1796,7 +1796,7 @@ function ee(t) {
   return ["html", "body", "#document"].includes(te(t));
 }
 function _(t) {
-  return R(t).getComputedStyle(t);
+  return k(t).getComputedStyle(t);
 }
 function Ce(t) {
   return D(t) ? {
@@ -1826,7 +1826,7 @@ function wt(t) {
 function yt(t, e, n) {
   var i;
   e === void 0 && (e = []);
-  const r = wt(t), s = r === ((i = t.ownerDocument) == null ? void 0 : i.body), o = R(r);
+  const r = wt(t), s = r === ((i = t.ownerDocument) == null ? void 0 : i.body), o = k(r);
   return s ? (Ae(o), e.concat(o, o.visualViewport || [], ce(r) ? r : [], [])) : e.concat(r, yt(r, []));
 }
 function Ae(t) {
@@ -1862,14 +1862,14 @@ function Q(t) {
 }
 const Wn = /* @__PURE__ */ M(0);
 function Tt(t) {
-  const e = R(t);
+  const e = k(t);
   return !De() || !e.visualViewport ? Wn : {
     x: e.visualViewport.offsetLeft,
     y: e.visualViewport.offsetTop
   };
 }
 function Vn(t, e, n) {
-  return e === void 0 && (e = !1), !n || e && n !== R(t) ? !1 : e;
+  return e === void 0 && (e = !1), !n || e && n !== k(t) ? !1 : e;
 }
 function le(t, e, n, i) {
   e === void 0 && (e = !1), n === void 0 && (n = !1);
@@ -1879,11 +1879,11 @@ function le(t, e, n, i) {
   const a = Vn(s, n, i) ? Tt(s) : M(0);
   let l = (r.left + a.x) / o.x, c = (r.top + a.y) / o.y, f = r.width / o.x, d = r.height / o.y;
   if (s) {
-    const p = R(s), g = i && D(i) ? R(i) : i;
+    const p = k(s), g = i && D(i) ? k(i) : i;
     let v = p, y = Ae(v);
     for (; y && i && g !== v; ) {
       const w = Q(y), C = y.getBoundingClientRect(), I = _(y), O = C.left + (y.clientLeft + parseFloat(I.paddingLeft)) * w.x, N = C.top + (y.clientTop + parseFloat(I.paddingTop)) * w.y;
-      l *= w.x, c *= w.y, f *= w.x, d *= w.y, l += O, c += N, v = R(y), y = Ae(v);
+      l *= w.x, c *= w.y, f *= w.x, d *= w.y, l += O, c += N, v = k(y), y = Ae(v);
     }
   }
   return we({
@@ -1950,7 +1950,7 @@ function jn(t) {
   };
 }
 function qn(t, e) {
-  const n = R(t), i = V(t), r = n.visualViewport;
+  const n = k(t), i = V(t), r = n.visualViewport;
   let s = i.clientWidth, o = i.clientHeight, a = 0, l = 0;
   if (r) {
     s = r.width, o = r.height;
@@ -2018,7 +2018,7 @@ function Zn(t) {
   } = t;
   const o = [...n === "clippingAncestors" ? Te(e) ? [] : Un(e, this._c) : [].concat(n), i], a = o[0], l = o.reduce((c, f) => {
     const d = Xe(e, f, r);
-    return c.top = J(d.top, c.top), c.right = Re(d.right, c.right), c.bottom = Re(d.bottom, c.bottom), c.left = J(d.left, c.left), c;
+    return c.top = J(d.top, c.top), c.right = ke(d.right, c.right), c.bottom = ke(d.bottom, c.bottom), c.left = J(d.left, c.left), c;
   }, Xe(e, a, r));
   return {
     width: l.right - l.left,
@@ -2073,7 +2073,7 @@ function Je(t, e) {
   return V(t) === n && (n = n.ownerDocument.body), n;
 }
 function St(t, e) {
-  const n = R(t);
+  const n = k(t);
   if (Te(t))
     return n;
   if (!B(t)) {
@@ -2455,7 +2455,7 @@ function pi(t) {
     },
     getLabelCss() {
       const e = this.$refs.progressBarLabel, n = this.$refs.progressBar;
-      return e && n && e.clientWidth > n.clientWidth ? "text-on-surface dark:text-on-surface-dark" : "";
+      return e && n && e.clientWidth > n.clientWidth ? "text-foreground dark:text-foreground" : "";
     },
     updateProgressBar() {
       const e = this.$refs.progressBar;

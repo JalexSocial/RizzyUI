@@ -512,8 +512,8 @@ public enum StatusColor
     /// <summary>Warning status color.</summary>
     Warning,
 
-    /// <summary>Danger status color.</summary>
-    Danger
+    /// <summary>Destructive status color.</summary>
+    Destructive
 }
 
 /// <summary>

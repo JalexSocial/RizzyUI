@@ -61,10 +61,10 @@ namespace RizzyUI.Tests.Components.Form
             {
                 ButtonVariant.Primary => "bg-primary",
                 ButtonVariant.Secondary => "bg-secondary",
-                ButtonVariant.Accent => "bg-surface-alt",
-                ButtonVariant.Inverse => "bg-surface",
+                ButtonVariant.Accent => "bg-secondary",
+                ButtonVariant.Inverse => "bg-background",
                 ButtonVariant.Information => "bg-info",
-                ButtonVariant.Destructive => "bg-danger",
+                ButtonVariant.Destructive => "bg-destructive",
                 ButtonVariant.Warning => "bg-warning",
                 ButtonVariant.Success => "bg-success",
                 ButtonVariant.Ghost => "bg-transparent",

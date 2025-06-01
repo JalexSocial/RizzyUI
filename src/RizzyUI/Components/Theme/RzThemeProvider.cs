@@ -109,8 +109,8 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"--color-outline: {theme.Light.Border.ToCssColorString()};");
 
         // --- Status Colors (Same for Light/Dark in current definition) ---
-        sb.AppendLine($"--danger: {theme.Light.Destructive.ToCssColorString()};");
-        sb.AppendLine($"--danger-foreground: {theme.Light.DestructiveForeground.ToCssColorString()};");
+        sb.AppendLine($"--destructive: {theme.Light.Destructive.ToCssColorString()};");
+        sb.AppendLine($"--destructive-foreground: {theme.Light.DestructiveForeground.ToCssColorString()};");
         sb.AppendLine($"--info: {theme.Light.Info.ToCssColorString()};");
         sb.AppendLine($"--info-foreground: {theme.Light.InfoForeground.ToCssColorString()};"); // Consistent naming needed
         sb.AppendLine($"--warning: {theme.Light.Warning.ToCssColorString()};");
@@ -146,20 +146,20 @@ public class RzThemeProvider : ComponentBase
         // --- Dark Mode Overrides
         sb.AppendLine("&:where(.dark, .dark *) {");
         sb.AppendLine($"  --color-surface: {theme.Dark.Background.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-surface: {theme.Dark.Foreground.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-surface-muted: {theme.Dark.MutedForeground.ToCssColorString()};");
-        sb.AppendLine($"  --color-surface-alt: {theme.Dark.Card.ToCssColorString()};");
+        sb.AppendLine($"  --color-foreground: {theme.Dark.Foreground.ToCssColorString()};");
+        sb.AppendLine($"  --color-muted-foreground: {theme.Dark.MutedForeground.ToCssColorString()};");
+        sb.AppendLine($"  --color-secondary: {theme.Dark.Card.ToCssColorString()};");
         sb.AppendLine($"  --color-surface-tertiary: {theme.Dark.Accent.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-surface-tertiary: {theme.Dark.AccentForeground.ToCssColorString()};");
+        sb.AppendLine($"  --color-accent-foreground: {theme.Dark.AccentForeground.ToCssColorString()};");
         sb.AppendLine($"  --color-primary: {theme.Dark.Primary.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-primary: {theme.Dark.PrimaryForeground.ToCssColorString()};");
+        sb.AppendLine($"  --color-primary-foreground: {theme.Dark.PrimaryForeground.ToCssColorString()};");
         sb.AppendLine($"  --color-secondary: {theme.Dark.Secondary.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-secondary: {theme.Dark.SecondaryForeground.ToCssColorString()};");
+        sb.AppendLine($"  --color-secondary-foreground: {theme.Dark.SecondaryForeground.ToCssColorString()};");
         sb.AppendLine($"  --color-outline: {theme.Dark.Border.ToCssColorString()};");
         
         // --- Status Colors (Same for Light/Dark in current definition) ---
-        sb.AppendLine($"--danger: {theme.Light.Destructive.ToCssColorString()};");
-        sb.AppendLine($"--danger-foreground: {theme.Light.DestructiveForeground.ToCssColorString()};");
+        sb.AppendLine($"--destructive: {theme.Light.Destructive.ToCssColorString()};");
+        sb.AppendLine($"--destructive-foreground: {theme.Light.DestructiveForeground.ToCssColorString()};");
         sb.AppendLine($"--info: {theme.Light.Info.ToCssColorString()};");
         sb.AppendLine($"--info-foreground: {theme.Light.InfoForeground.ToCssColorString()};"); // Consistent naming needed
         sb.AppendLine($"--warning: {theme.Light.Warning.ToCssColorString()};");

@@ -4,20 +4,20 @@
 }
 
 .validation-errors {
-    color: var(--color-danger);
+    color: var(--color-destructive);
     font-style: italic;
 }
 
 /* Field Validation Error */
 .field-validation-error {
-    color: var(--color-danger);
+    color: var(--color-destructive);
     font-style: italic;
 }
 
 /* Input Validation Error */
 .input-validation-error {
-    border-color: var(--color-danger);
-    outline-color: var(--color-danger);
+    border-color: var(--color-destructive);
+    outline-color: var(--color-destructive);
 }
 
 /* Input Validation Valid */
@@ -28,7 +28,7 @@
 
 /* Validation Summary Errors */
 .validation-summary-errors {
-    color: var(--color-danger);
+    color: var(--color-destructive);
     font-style: italic;
 }
 
