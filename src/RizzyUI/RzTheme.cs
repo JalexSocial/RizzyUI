@@ -52,9 +52,9 @@ public partial class RzTheme
         RzDarkmodeToggle = new DefaultRzDarkmodeToggleStyles(this);
         RzDateEdit = new DefaultRzDateEditStyles(this);
         RzDivider = new DefaultRzDividerStyles(this);
-        RzDropdown = new DefaultRzDropdownStyles(this);
+        RzDropdownMenu = new DefaultRzDropdownMenuStyles(this);
         RzDropdownMenuItem = new DefaultRzDropdownMenuItemStyles(this);
-        RzDropdownSection = new DefaultRzDropdownSectionStyles(this);
+        RzDropdownMenuSection = new DefaultRzDropdownMenuSectionStyles(this);
         RzEmbeddedPreview = new DefaultRzEmbeddedPreviewStyles(this);
         RzField = new DefaultRzFieldStyles(this);
         RzFieldHelp = new DefaultRzFieldHelpStyles(this);

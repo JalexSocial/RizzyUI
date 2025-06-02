@@ -103,14 +103,14 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzDivider" /> component. </summary>
     public virtual RzStylesBase.RzDividerStylesBase RzDivider { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzDropdown" /> component. </summary>
-    public virtual RzStylesBase.RzDropdownStylesBase RzDropdown { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RzDropdownMenu" /> component. </summary>
+    public virtual RzStylesBase.RzDropdownMenuStylesBase RzDropdownMenu { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzDropdownMenuItem" /> component. </summary>
     public virtual RzStylesBase.RzDropdownMenuItemStylesBase RzDropdownMenuItem { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzDropdownSection" /> component. </summary>
-    public virtual RzStylesBase.RzDropdownSectionStylesBase RzDropdownSection { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RzDropdownMenuSection" /> component. </summary>
+    public virtual RzStylesBase.RzDropdownMenuSectionStylesBase RzDropdownMenuSection { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzEmbeddedPreview" /> component. </summary>
     public virtual RzStylesBase.RzEmbeddedPreviewStylesBase RzEmbeddedPreview { get; }

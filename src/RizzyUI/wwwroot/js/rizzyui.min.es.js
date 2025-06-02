@@ -2130,7 +2130,7 @@ const ei = {
   });
 };
 function si(t) {
-  t.data("rzDropdown", () => ({
+  t.data("rzDropdownMenu", () => ({
     dropdownEl: null,
     triggerEl: null,
     floatingEl: null,

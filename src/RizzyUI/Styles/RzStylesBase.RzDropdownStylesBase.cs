@@ -7,23 +7,23 @@ namespace RizzyUI;
 /// </summary>
 public abstract partial class RzStylesBase
 {
-    #region RzDropdown Styles
+    #region RzDropdownMenu Styles
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzDropdown" /> component.
+    ///     Defines the abstract structure for styling the <see cref="RzDropdownMenu" /> component.
     /// </summary>
-    public abstract class RzDropdownStylesBase
+    public abstract class RzDropdownMenuStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="RzDropdownStylesBase" /> class. </summary>
-        protected RzDropdownStylesBase(RzTheme theme)
+        /// <summary> Initializes a new instance of the <see cref="RzDropdownMenuStylesBase" /> class. </summary>
+        protected RzDropdownMenuStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the main RzDropdown container div (usually empty or just display property). </summary>
+        /// <summary> Gets the base CSS classes for the main RzDropdownMenu container div (usually empty or just display property). </summary>
         public abstract string Container { get; }
 
         /// <summary> Gets the CSS classes for the relative div that wraps both the trigger and the floating menu. </summary>
@@ -46,28 +46,28 @@ public abstract partial class RzStylesBase
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling sections within an <see cref="RzDropdown" />.
+    ///     Defines the abstract structure for styling sections within an <see cref="RzDropdownMenu" />.
     /// </summary>
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzDropdownSection" /> component.
+    ///     Defines the abstract structure for styling the <see cref="RzDropdownMenuSection" /> component.
     /// </summary>
-    public abstract class RzDropdownSectionStylesBase
+    public abstract class RzDropdownMenuSectionStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="RzDropdownSectionStylesBase" /> class. </summary>
-        protected RzDropdownSectionStylesBase(RzTheme theme)
+        /// <summary> Initializes a new instance of the <see cref="RzDropdownMenuSectionStylesBase" /> class. </summary>
+        protected RzDropdownMenuSectionStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the RzDropdownSection div (layout, padding). </summary>
+        /// <summary> Gets the base CSS classes for the RzDropdownMenuSection div (layout, padding). </summary>
         public abstract string Section { get; }
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling individual items within an <see cref="RzDropdownSection" />.
+    ///     Defines the abstract structure for styling individual items within an <see cref="RzDropdownMenuSection" />.
     /// </summary>
     /// <summary>
     ///     Defines the abstract structure for styling the <see cref="RzDropdownMenuItem" /> component.

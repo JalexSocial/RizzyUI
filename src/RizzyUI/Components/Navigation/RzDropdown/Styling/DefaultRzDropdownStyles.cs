@@ -1,13 +1,13 @@
 namespace RizzyUI;
 
-/// <summary> Provides default styles for RzDropdown. </summary>
-public class DefaultRzDropdownStyles : RzStylesBase.RzDropdownStylesBase
+/// <summary> Provides default styles for RzDropdownMenu. </summary>
+public class DefaultRzDropdownMenuStyles : RzStylesBase.RzDropdownMenuStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzDropdownStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzDropdownMenuStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzDropdownStyles(RzTheme theme) : base(theme)
+    public DefaultRzDropdownMenuStyles(RzTheme theme) : base(theme)
     {
     }
 
@@ -28,14 +28,14 @@ public class DefaultRzDropdownStyles : RzStylesBase.RzDropdownStylesBase
         "border border-outline divide-y divide-outline rounded-theme bg-background ring-black dark:divide-outline"; // Simplified ring
 }
 
-/// <summary> Provides default styles for RzDropdownSection. </summary>
-public class DefaultRzDropdownSectionStyles : RzStylesBase.RzDropdownSectionStylesBase
+/// <summary> Provides default styles for RzDropdownMenuSection. </summary>
+public class DefaultRzDropdownMenuSectionStyles : RzStylesBase.RzDropdownMenuSectionStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzDropdownSectionStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzDropdownMenuSectionStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzDropdownSectionStyles(RzTheme theme) : base(theme)
+    public DefaultRzDropdownMenuSectionStyles(RzTheme theme) : base(theme)
     {
     }
 

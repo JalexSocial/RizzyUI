@@ -9,17 +9,17 @@ namespace RizzyUI;
 ///     It manages its open/close state and keyboard navigation via Alpine.js.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzDropdown : RzComponent
+public partial class RzDropdownMenu : RzComponent
 {
     /// <summary> Gets or sets the render fragment that defines the dropdown trigger. Required. </summary>
     [Parameter]
     [EditorRequired]
-    public RenderFragment? Trigger { get; set; }
+    public RenderFragment? DropdownMenuTrigger { get; set; }
 
     /// <summary> Gets or sets the render fragment that defines the dropdown content. Required. </summary>
     [Parameter]
     [EditorRequired]
-    public RenderFragment? Content { get; set; }
+    public RenderFragment? DropdownMenuContent { get; set; }
 
     /// <summary> Gets or sets the point on the trigger where the dropdown menu attaches. Defaults to BottomCenter. </summary>
     [Parameter]
@@ -34,7 +34,7 @@ public partial class RzDropdown : RzComponent
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdown.Container);
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdownMenu.Container);
         // Apply base style from theme
     }
 }

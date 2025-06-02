@@ -201,20 +201,20 @@
         </RzMarkdown>
 
     <div class="p-8">
-        <RzDropdown Anchor="AnchorPoint.TopStart">
-            <Trigger>
+        <RzDropdownMenu Anchor="AnchorPoint.TopStart">
+            <DropdownMenuTrigger>
                 <RzButton Variant="ButtonVariant.Primary" Label="Open Menu"></RzButton>
-            </Trigger>
-            <Content>
-                <RzDropdownSection>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <RzDropdownMenuSection>
                     <RzDropdownMenuItem Icon="MdiIcon.Cog" Title="Settings"/>
                     <RzDropdownMenuItem Icon="MdiIcon.FaceManProfile" Title="Profile" Count="5"/>
-                </RzDropdownSection>
-                <RzDropdownSection>
+                </RzDropdownMenuSection>
+                <RzDropdownMenuSection>
                     <RzDropdownMenuItem Icon="MdiIcon.Logout" Title="Logout"/>
-                </RzDropdownSection>
-            </Content>
-        </RzDropdown>
+                </RzDropdownMenuSection>
+            </DropdownMenuContent>
+        </RzDropdownMenu>
     </div>
 
     <RzCard x-data="demoTest">

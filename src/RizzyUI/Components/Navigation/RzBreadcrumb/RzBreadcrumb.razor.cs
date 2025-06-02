@@ -44,10 +44,10 @@ public partial class RzBreadcrumb : RzComponent
     /// <param name="item">The breadcrumb item to register.</param>
     internal void RegisterItem(RzBreadcrumbItem item)
     {
-        if (!Items.Contains(item)) // Prevent duplicate registration
+        if (!Items.Contains(item)) 
         {
             Items.Add(item);
-            InvokeAsync(StateHasChanged); // Update UI when items are added
+            StateHasChanged(); // Update UI when items are added
         }
     }
 }

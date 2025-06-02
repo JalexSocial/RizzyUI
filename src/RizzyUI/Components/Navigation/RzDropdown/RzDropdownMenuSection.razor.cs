@@ -6,10 +6,10 @@ namespace RizzyUI;
 
 /// <xmldoc>
 ///     A container component used to group related <see cref="RzDropdownMenuItem" /> components within an
-///     <see cref="RzDropdown" />.
+///     <see cref="RzDropdownMenu" />.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzDropdownSection : RzComponent
+public partial class RzDropdownMenuSection : RzComponent
 {
     /// <summary> Gets or sets the child content for this dropdown section, typically <see cref="RzDropdownMenuItem" />s. </summary>
     [Parameter]
@@ -18,6 +18,6 @@ public partial class RzDropdownSection : RzComponent
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdownSection.Section);
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdownMenuSection.Section);
     }
 }

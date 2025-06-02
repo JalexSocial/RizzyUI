@@ -4260,7 +4260,7 @@ const Nc = {
   });
 };
 function Fc(e) {
-  e.data("rzDropdown", () => ({
+  e.data("rzDropdownMenu", () => ({
     dropdownEl: null,
     triggerEl: null,
     floatingEl: null,

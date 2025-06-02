@@ -2954,8 +2954,8 @@ const computePosition = (reference, floating, options) => {
     platform: platformWithCache
   });
 };
-function registerRzDropdown(Alpine2) {
-  Alpine2.data("rzDropdown", () => ({
+function registerRzDropdownMenu(Alpine2) {
+  Alpine2.data("rzDropdownMenu", () => ({
     dropdownEl: null,
     triggerEl: null,
     floatingEl: null,
@@ -3668,7 +3668,7 @@ function registerComponents(Alpine2) {
   registerRzCheckboxGroupItem(Alpine2);
   registerRzCodeViewer(Alpine2, rizzyRequire);
   registerRzDateEdit(Alpine2, rizzyRequire);
-  registerRzDropdown(Alpine2);
+  registerRzDropdownMenu(Alpine2);
   registerRzDarkModeToggle(Alpine2);
   registerRzEmbeddedPreview(Alpine2);
   registerRzEmpty(Alpine2);

@@ -1,11 +1,11 @@
 
 // --------------------------------------------------------------------------------
-// Alpine.js component: rzDropdown
+// Alpine.js component: rzDropdownMenu
 // Handles dropdown menus including open/close behavior, keyboard navigation,
 // and dynamically computing placement classes.
 // --------------------------------------------------------------------------------
 export default function(Alpine) {
-    Alpine.data('rzDropdown', () => ({
+    Alpine.data('rzDropdownMenu', () => ({
         dropdownEl: null,
         anchorCss: "",
         dropdownOpen: false,

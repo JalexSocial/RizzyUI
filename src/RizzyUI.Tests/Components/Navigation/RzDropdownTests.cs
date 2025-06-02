@@ -4,23 +4,23 @@ using Microsoft.AspNetCore.Components;
 
 namespace RizzyUI.Tests.Components.Navigation
 {
-    public class RzDropdownTests : TestContext
+    public class RzDropdownMenuTests : TestContext
     {
-        public RzDropdownTests()
+        public RzDropdownMenuTests()
         {
             Services.AddRizzyUI();
         }
 
         [Fact]
-        public void RzDropdown_DefaultRender_DisplaysTriggerAndNotContent()
+        public void RzDropdownMenu_DefaultRender_DisplaysTriggerAndNotContent()
         {
             // Arrange & Act
-            var cut = RenderComponent<RzDropdown>(parameters => parameters
-                .Add(p => p.Trigger, (RenderFragment)(builder =>
+            var cut = RenderComponent<RzDropdownMenu>(parameters => parameters
+                .Add(p => p.DropdownMenuTrigger, (RenderFragment)(builder =>
                 {
                     builder.AddContent(0, "TriggerContent");
                 }))
-                .Add(p => p.Content, (RenderFragment)(builder =>
+                .Add(p => p.DropdownMenuContent, (RenderFragment)(builder =>
                 {
                     builder.AddContent(0, "<div>DropdownContent</div>");
                 }))
@@ -34,11 +34,11 @@ namespace RizzyUI.Tests.Components.Navigation
         }
 
         [Fact]
-        public void RzDropdown_WithAvatarTrigger_RendersMenuItems()
+        public void RzDropdownMenu_WithAvatarTrigger_RendersMenuItems()
         {
             // Arrange & Act
-            var cut = RenderComponent<RzDropdown>(parameters => parameters
-                .Add(p => p.Trigger, (RenderFragment)(builder =>
+            var cut = RenderComponent<RzDropdownMenu>(parameters => parameters
+                .Add(p => p.DropdownMenuTrigger, (RenderFragment)(builder =>
                 {
                     builder.OpenComponent(0, typeof(RzAvatar));
                     builder.AddAttribute(1, "ImageSource", "/images/profile/51.jpg");
@@ -47,9 +47,9 @@ namespace RizzyUI.Tests.Components.Navigation
                     builder.AddAttribute(4, "Size", Size.Medium);
                     builder.CloseComponent();
                 }))
-                .Add(p => p.Content, (RenderFragment)(builder =>
+                .Add(p => p.DropdownMenuContent, (RenderFragment)(builder =>
                 {
-                    builder.OpenComponent(5, typeof(RzDropdownSection));
+                    builder.OpenComponent(5, typeof(RzDropdownMenuSection));
                     builder.AddAttribute(6, "ChildContent", (RenderFragment)(sectionBuilder =>
                     {
                         sectionBuilder.OpenComponent(7, typeof(RzDropdownMenuItem));
@@ -76,21 +76,21 @@ namespace RizzyUI.Tests.Components.Navigation
         }
 
         [Fact]
-        public void RzDropdown_WithButtonTriggerAndMultipleSections_RendersAllSections()
+        public void RzDropdownMenu_WithButtonTriggerAndMultipleSections_RendersAllSections()
         {
             // Arrange & Act
-            var cut = RenderComponent<RzDropdown>(parameters => parameters
-                .Add(p => p.Trigger, (RenderFragment)(builder =>
+            var cut = RenderComponent<RzDropdownMenu>(parameters => parameters
+                .Add(p => p.DropdownMenuTrigger, (RenderFragment)(builder =>
                 {
                     builder.OpenComponent(0, typeof(RzButton));
                     builder.AddAttribute(1, "Variant", ButtonVariant.Primary);
                     builder.AddAttribute(2, "Label", "Menu");
                     builder.CloseComponent();
                 }))
-                .Add(p => p.Content, (RenderFragment)(builder =>
+                .Add(p => p.DropdownMenuContent, (RenderFragment)(builder =>
                 {
                     // Section 1
-                    builder.OpenComponent(3, typeof(RzDropdownSection));
+                    builder.OpenComponent(3, typeof(RzDropdownMenuSection));
                     builder.AddAttribute(4, "ChildContent", (RenderFragment)(sectionBuilder =>
                     {
                         sectionBuilder.OpenComponent(5, typeof(RzDropdownMenuItem));
@@ -109,7 +109,7 @@ namespace RizzyUI.Tests.Components.Navigation
                     }));
                     builder.CloseComponent();
                     // Section 2
-                    builder.OpenComponent(15, typeof(RzDropdownSection));
+                    builder.OpenComponent(15, typeof(RzDropdownMenuSection));
                     builder.AddAttribute(16, "ChildContent", (RenderFragment)(sectionBuilder =>
                     {
                         sectionBuilder.OpenComponent(17, typeof(RzDropdownMenuItem));
@@ -123,7 +123,7 @@ namespace RizzyUI.Tests.Components.Navigation
                     }));
                     builder.CloseComponent();
                     // Section 3
-                    builder.OpenComponent(23, typeof(RzDropdownSection));
+                    builder.OpenComponent(23, typeof(RzDropdownMenuSection));
                     builder.AddAttribute(24, "ChildContent", (RenderFragment)(sectionBuilder =>
                     {
                         sectionBuilder.OpenComponent(25, typeof(RzDropdownMenuItem));
@@ -146,21 +146,21 @@ namespace RizzyUI.Tests.Components.Navigation
         }
 
         [Fact]
-        public void RzDropdown_WithCustomAnchor_RendersWithAnchorAttribute()
+        public void RzDropdownMenu_WithCustomAnchor_RendersWithAnchorAttribute()
         {
             // Arrange & Act
-            var cut = RenderComponent<RzDropdown>(parameters => parameters
+            var cut = RenderComponent<RzDropdownMenu>(parameters => parameters
                 .Add(p => p.Anchor, AnchorPoint.TopEnd)
-                .Add(p => p.Trigger, (RenderFragment)(builder =>
+                .Add(p => p.DropdownMenuTrigger, (RenderFragment)(builder =>
                 {
                     builder.OpenComponent(0, typeof(RzButton));
                     builder.AddAttribute(1, "Variant", ButtonVariant.Secondary);
                     builder.AddAttribute(2, "Label", "Options");
                     builder.CloseComponent();
                 }))
-                .Add(p => p.Content, (RenderFragment)(builder =>
+                .Add(p => p.DropdownMenuContent, (RenderFragment)(builder =>
                 {
-                    builder.OpenComponent(3, typeof(RzDropdownSection));
+                    builder.OpenComponent(3, typeof(RzDropdownMenuSection));
                     builder.AddAttribute(4, "ChildContent", (RenderFragment)(sectionBuilder =>
                     {
                         sectionBuilder.OpenComponent(5, typeof(RzDropdownMenuItem));

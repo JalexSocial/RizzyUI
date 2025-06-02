@@ -3,10 +3,10 @@
 @inherits RzComponent
 
 <HtmlElement Element="div" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
-	<div x-data="rzDropdown" data-alpine-root="@Id" data-offset="@Offset" data-anchor="@Anchor.ToString().ToKebabCase()" class="@Theme.RzDropdown.RelativeWrapper">
+	<div x-data="rzDropdownMenu" data-alpine-root="@Id" data-offset="@Offset" data-anchor="@Anchor.ToString().ToKebabCase()" class="@Theme.RzDropdownMenu.RelativeWrapper">
 		<div
 			data-trigger
-			class="@Theme.RzDropdown.TriggerWrapper"
+			class="@Theme.RzDropdownMenu.TriggerWrapper"
 			aria-haspopup="true"
 			x-bind:aria-expanded="dropdownOpen"
 			x-on:click.stop.prevent="toggleDropdown"
@@ -14,10 +14,10 @@
 			x-on:keydown.enter.prevent="openWithKeyboard"
 			x-on:keydown.down.prevent="openWithKeyboard"
 			x-on:keydown.esc.window="closeDropdown">
-			<div>@Trigger</div>
+			<div>@DropdownMenuTrigger</div>
 		</div>
 		<div data-floating class="absolute top-0 left-0 z-60 w-max hidden ease-in transition-[opacity,scale] motion-reduce:transition-opacity duration-75" :class="floatingCss">
-			<div class="@Theme.RzDropdown.MenuContainer"
+			<div class="@Theme.RzDropdownMenu.MenuContainer"
 				 x-cloak
 			     x-on:click.outside="closeDropdown"
 			     x-trap="openedWithKeyboard"
@@ -25,8 +25,8 @@
 			     role="menu"
 			     aria-labelledby="rz-dropdown-trigger"
 			     >
-				<div class="@Theme.RzDropdown.MenuInnerContainer">
-					@Content
+				<div class="@Theme.RzDropdownMenu.MenuInnerContainer">
+					@DropdownMenuContent
 				</div>
 			</div>			
 		</div>
