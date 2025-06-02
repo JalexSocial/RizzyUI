@@ -53,8 +53,6 @@ public partial class RzTheme
         RzDateEdit = new DefaultRzDateEditStyles(this);
         RzDivider = new DefaultRzDividerStyles(this);
         RzDropdownMenu = new DefaultRzDropdownMenuStyles(this);
-        RzDropdownMenuItem = new DefaultRzDropdownMenuItemStyles(this);
-        RzDropdownMenuSection = new DefaultRzDropdownMenuSectionStyles(this);
         RzEmbeddedPreview = new DefaultRzEmbeddedPreviewStyles(this);
         RzField = new DefaultRzFieldStyles(this);
         RzFieldHelp = new DefaultRzFieldHelpStyles(this);

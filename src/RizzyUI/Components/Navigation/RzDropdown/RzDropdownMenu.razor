@@ -1,34 +1,18 @@
-@using RizzyUI.Extensions
+
 @namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement Element="div" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
-	<div x-data="rzDropdownMenu" data-alpine-root="@Id" data-offset="@Offset" data-anchor="@Anchor.ToString().ToKebabCase()" class="@Theme.RzDropdownMenu.RelativeWrapper">
-		<div
-			data-trigger
-			class="@Theme.RzDropdownMenu.TriggerWrapper"
-			aria-haspopup="true"
-			x-bind:aria-expanded="dropdownOpen"
-			x-on:click.stop.prevent="toggleDropdown"
-			x-on:keydown.space.prevent="openWithKeyboard"
-			x-on:keydown.enter.prevent="openWithKeyboard"
-			x-on:keydown.down.prevent="openWithKeyboard"
-			x-on:keydown.esc.window="closeDropdown">
-			<div>@DropdownMenuTrigger</div>
-		</div>
-		<div data-floating class="absolute top-0 left-0 z-60 w-max hidden ease-in transition-[opacity,scale] motion-reduce:transition-opacity duration-75" :class="floatingCss">
-			<div class="@Theme.RzDropdownMenu.MenuContainer"
-				 x-cloak
-			     x-on:click.outside="closeDropdown"
-			     x-trap="openedWithKeyboard"
-			     x-on:keydown.down.prevent="focusWrapNext" x-on:keydown.up.prevent="focusWrapPrevious"
-			     role="menu"
-			     aria-labelledby="rz-dropdown-trigger"
-			     >
-				<div class="@Theme.RzDropdownMenu.MenuInnerContainer">
-					@DropdownMenuContent
-				</div>
-			</div>			
-		</div>
-	</div>
-</HtmlElement>
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement" 
+                 @attributes="@AdditionalAttributes" 
+                 id="@Id" 
+                 class="@RootClass()"
+                 x-data="rzDropdownMenu"
+                 data-alpine-root="@Id"
+                 data-offset="@Offset" 
+                 data-anchor="@Anchor.ToString().ToKebabCase()"
+                 data-modal="@IsModal.ToString().ToLowerInvariant()"
+                 x-on:keydown.escape.window="handleWindowEscape()">
+        @ChildContent
+    </HtmlElement>
+</CascadingValue>

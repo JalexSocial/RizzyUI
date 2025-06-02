@@ -1,40 +1,48 @@
 
+// src/RizzyUI/Components/Navigation/RzDropdown/RzDropdownMenu.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
-/// <xmldoc>
-///     Represents a dropdown component with a customizable trigger and content area.
-///     It manages its open/close state and keyboard navigation via Alpine.js.
-///     Styling is determined by the active <see cref="RzTheme" />.
-/// </xmldoc>
+/// <summary>
+/// The root component for a dropdown menu system. It provides context for its children,
+/// including trigger, content, items, groups, and sub-menus.
+/// Interactivity is managed by the 'rzDropdownMenu' Alpine.js component.
+/// </summary>
 public partial class RzDropdownMenu : RzComponent
 {
-    /// <summary> Gets or sets the render fragment that defines the dropdown trigger. Required. </summary>
-    [Parameter]
-    [EditorRequired]
-    public RenderFragment? DropdownMenuTrigger { get; set; }
+    /// <summary>
+    /// Gets or sets the content of the dropdown menu, typically including a <see cref="DropdownMenuTrigger"/>
+    /// and a <see cref="DropdownMenuContent"/>. Required.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
 
-    /// <summary> Gets or sets the render fragment that defines the dropdown content. Required. </summary>
-    [Parameter]
-    [EditorRequired]
-    public RenderFragment? DropdownMenuContent { get; set; }
-
-    /// <summary> Gets or sets the point on the trigger where the dropdown menu attaches. Defaults to BottomCenter. </summary>
+    /// <summary>
+    /// Gets or sets the preferred position of the dropdown menu relative to the trigger.
+    /// Defaults to <see cref="AnchorPoint.Bottom"/>.
+    /// </summary>
     [Parameter]
     public AnchorPoint Anchor { get; set; } = AnchorPoint.Bottom;
 
     /// <summary>
-    /// Offset in pixels from the anchor point where the dropdown menu appears.
+    /// Gets or sets the offset in pixels from the anchor point where the dropdown menu should appear.
+    /// Defaults to 6.
     /// </summary>
     [Parameter]
     public int Offset { get; set; } = 6;
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets or sets whether the dropdown menu behaves as a modal, affecting focus trapping.
+    /// Defaults to true.
+    /// </summary>
+    [Parameter]
+    public bool IsModal { get; set; } = true;
+
+    /// <inheritdoc/>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdownMenu.Container);
-        // Apply base style from theme
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdownMenu.Container, Theme.RzDropdownMenu.RelativeWrapper);
     }
 }

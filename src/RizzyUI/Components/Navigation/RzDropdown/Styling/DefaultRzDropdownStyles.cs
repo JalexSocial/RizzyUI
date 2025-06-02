@@ -1,73 +1,78 @@
+
+// src/RizzyUI/Components/Navigation/RzDropdown/Styling/DefaultRzDropdownStyles.cs
 namespace RizzyUI;
 
-/// <summary> Provides default styles for RzDropdownMenu. </summary>
+/// <summary>
+/// Provides default styles for RzDropdownMenu and its child components.
+/// </summary>
 public class DefaultRzDropdownMenuStyles : RzStylesBase.RzDropdownMenuStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzDropdownMenuStyles" /> class.
+    /// Initializes a new instance of the <see cref="DefaultRzDropdownMenuStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
     public DefaultRzDropdownMenuStyles(RzTheme theme) : base(theme)
     {
     }
 
+    // RzDropdownMenu (Root)
     /// <inheritdoc />
-    public override string Container => ""; // Root container has no specific style by default
-
+    public override string Container => "relative inline-block text-left"; // Base container
     /// <inheritdoc />
-    public override string RelativeWrapper => "relative inline-block";
+    public override string RelativeWrapper => ""; // No specific style needed for the Alpine x-data div itself
 
+    // DropdownMenuTrigger
     /// <inheritdoc />
-    public override string TriggerWrapper => "inline-flex items-center justify-center space-x-2";
+    public override string TriggerWrapper => "inline-flex"; // Allows trigger to be any inline-flex element
 
+    // DropdownMenuContent
     /// <inheritdoc />
-    public override string MenuContainer => "z-60 w-64 rounded-theme shadow-xl dark:shadow-gray-900";
-
+    public override string ContentContainer => 
+        "absolute z-50 mt-1 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2";
+        // Based on shadcn/ui, includes animation classes. Actual positioning is handled by floating-ui via Alpine.
     /// <inheritdoc />
-    public override string MenuInnerContainer =>
-        "border border-outline divide-y divide-outline rounded-theme bg-background ring-black dark:divide-outline"; // Simplified ring
-}
+    public override string ContentInnerContainer => ""; // No specific inner container style, padding is on ContentContainer
 
-/// <summary> Provides default styles for RzDropdownMenuSection. </summary>
-public class DefaultRzDropdownMenuSectionStyles : RzStylesBase.RzDropdownMenuSectionStylesBase
-{
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzDropdownMenuSectionStyles" /> class.
-    /// </summary>
-    /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzDropdownMenuSectionStyles(RzTheme theme) : base(theme)
-    {
-    }
-
+    // DropdownMenuLabel
     /// <inheritdoc />
-    public override string Section => "space-y-1 p-2.5";
-}
+    public override string Label => "px-2 py-1.5 text-sm font-semibold text-foreground"; // Based on shadcn/ui
 
-/// <summary> Provides default styles for RzDropdownMenuItem. </summary>
-public class DefaultRzDropdownMenuItemStyles : RzStylesBase.RzDropdownMenuItemStylesBase
-{
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzDropdownMenuItemStyles" /> class.
-    /// </summary>
-    /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzDropdownMenuItemStyles(RzTheme theme) : base(theme)
-    {
-    }
+    // DropdownMenuGroup
+    /// <inheritdoc />
+    public override string Group => "py-1"; // Grouping usually just needs some padding if items have their own
 
+    // DropdownMenuItem
     /// <inheritdoc />
     public override string MenuItem =>
-        "group flex items-center justify-between space-x-2 rounded-theme cursor-pointer border border-transparent px-2.5 py-2 text-sm font-medium text-foreground hover:bg-primary/10 hover:text-primary focus-visible:bg-primary/10 focus-visible:text-foreground focus-visible:outline-hidden dark:hover:bg-secondary dark:focus-visible:bg-primary/10 dark:focus-visible:text-foreground";
-
+        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 hover:bg-accent hover:text-accent-foreground"; // Based on shadcn/ui
     /// <inheritdoc />
-    public override string IconSpan => "text-xl";
-
+    public override string MenuItemIconSpan => ""; // No specific span, icon is direct child
     /// <inheritdoc />
-    public override string Icon => "size-5 flex-none opacity-25 group-hover:opacity-50";
-
+    public override string MenuItemIcon => "mr-2 size-4"; // Based on shadcn/ui
     /// <inheritdoc />
-    public override string TitleSpan => "grow";
-
+    public override string MenuItemTitleSpan => "flex-grow";
     /// <inheritdoc />
-    public override string CountDiv =>
-        "inline-flex rounded-full border px-1.5 py-0.5 text-xs font-semibold border-outline"; // Added border color
+    public override string MenuItemShortcut => "ml-auto text-xs tracking-widest text-muted-foreground"; // Based on shadcn/ui
+
+    // DropdownMenuSeparator
+    /// <inheritdoc />
+    public override string Separator => "-mx-1 my-1 h-px bg-border"; // Based on shadcn/ui
+
+    // DropdownMenuSub (Container for sub-menu)
+    /// <inheritdoc />
+    public override string SubContainer => "relative"; // Sub-menu is also a dropdown
+
+    // DropdownMenuSubTrigger
+    /// <inheritdoc />
+    public override string SubTrigger =>
+        "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent hover:bg-accent hover:text-accent-foreground"; // Based on shadcn/ui
+    /// <inheritdoc />
+    public override string SubTriggerChevron => "ml-auto size-4"; // Based on shadcn/ui
+
+    // DropdownMenuSubContent
+    /// <inheritdoc />
+    public override string SubContentContainer =>
+        "absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg animate-in data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"; // Based on shadcn/ui
+    /// <inheritdoc />
+    public override string SubContentInnerContainer => "";
 }

@@ -286,4 +286,20 @@
       <value>Avatar</value>
       <comment>Default ARIA label for RzAvatar container</comment>
     </data>  
+    <data name="RzDropdownMenu.TriggerAriaLabel" xml:space="preserve">
+      <value>Open menu</value>
+      <comment>Default ARIA label for the dropdown trigger</comment>
+    </data>
+    <data name="RzDropdownMenu.ContentAriaLabel" xml:space="preserve">
+      <value>Menu options</value>
+      <comment>Default ARIA label for the dropdown content area</comment>
+    </data>
+    <data name="RzDropdownMenu.SubTriggerAriaLabelFormat" xml:space="preserve">
+      <value>Open {0} sub-menu</value>
+      <comment>Format for sub-menu trigger ARIA label, {0} is item title</comment>
+    </data>
+    <data name="RzDropdownMenu.SubContentAriaLabelFormat" xml:space="preserve">
+      <value>{0} sub-menu options</value>
+      <comment>Format for sub-menu content ARIA label, {0} is item title</comment>
+    </data>  
 </root>

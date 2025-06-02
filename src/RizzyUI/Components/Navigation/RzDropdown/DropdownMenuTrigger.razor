@@ -1,0 +1,19 @@
+
+@namespace RizzyUI
+@inherits RzComponent
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
+             id="@TriggerId"
+             class="@RootClass()"
+             x-ref="trigger"
+             aria-haspopup="menu"
+             aria-controls="@ContentId"
+             x-bind:aria-expanded="getAriaExpandedState"
+             x-on:click="toggle"
+             x-on:keydown.enter.prevent="handleTriggerKeydown"
+             x-on:keydown.space.prevent="handleTriggerKeydown"
+             x-on:keydown.down.prevent="handleTriggerKeydown"
+             x-on:keydown.up.prevent="handleTriggerKeydown">
+    @ChildContent
+</HtmlElement>

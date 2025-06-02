@@ -1,0 +1,26 @@
+
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
+             id="@TriggerId"
+             class="@RootClass()"
+             role="menuitem"
+             tabindex="-1"
+             aria-haspopup="menu"
+             aria-controls="@SubContentId"
+             x-ref="subTrigger"
+             x-bind:aria-expanded="getAriaExpandedState"
+             x-on:click.prevent="toggleSubmenu"
+             x-on:keydown.enter.prevent="toggleSubmenu"
+             x-on:keydown.space.prevent="toggleSubmenu"
+             x-on:keydown.arrowright.prevent="openSubmenuAndFocusFirst">
+    @if (Icon != null)
+    {
+        <span class="@Theme.RzDropdownMenu.MenuItemIconSpan"><Blazicon Svg="@Icon" class="@Theme.RzDropdownMenu.MenuItemIcon"/></span>
+    }
+    <span class="@Theme.RzDropdownMenu.MenuItemTitleSpan">@ChildContent</span>
+    <Blazicon Svg="MdiIcon.ChevronRight" class="@Theme.RzDropdownMenu.SubTriggerChevron" aria-hidden="true"/>
+</HtmlElement>

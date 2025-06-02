@@ -1,0 +1,18 @@
+
+@namespace RizzyUI
+@inherits RzComponent
+
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement"
+                 @attributes="@AdditionalAttributes"
+                 id="@Id"
+                 class="@RootClass()"
+                 x-data="rzDropdownSubmenu"
+                 data-alpine-root="@Id"
+                 x-on:mouseenter="openSubmenu(true)"
+                 x-on:mouseleave="openSubmenu(false)"
+                 x-on:focusin="openSubmenu(true)"
+                 x-on:focusout="handleFocusOut($event)">
+        @ChildContent
+    </HtmlElement>
+</CascadingValue>
