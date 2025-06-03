@@ -2147,6 +2147,7 @@ function ri(t) {
     anchor: "bottom",
     pixelOffset: 6,
     activeSubmenu: null,
+    isSubmenuActive: !1,
     init() {
       this.triggerEl = this.$refs.trigger, this.contentEl = this.$refs.content, this.anchor = this.$el.dataset.anchor || "bottom", this.pixelOffset = parseInt(this.$el.dataset.offset) || 6, this.isModal = this.$el.dataset.modal !== "false", this.$watch("open", (e) => {
         e ? (this.$nextTick(() => {
@@ -2217,51 +2218,54 @@ function ri(t) {
       this.$el.querySelectorAll('[x-data^="rzDropdownSubmenu"]').forEach((i) => {
         const s = t.$data(i);
         s && s !== e && s.open && (s.open = !1);
-      });
+      }), this.activeSubmenu = null, this.isSubmenuActive = !1;
     },
     setActiveSubmenu(e) {
-      this.activeSubmenu && this.activeSubmenu !== e && (this.activeSubmenu.open = !1), this.activeSubmenu = e;
+      this.activeSubmenu && this.activeSubmenu !== e && (this.activeSubmenu.open = !1), this.activeSubmenu = e, this.isSubmenuActive = this.activeSubmenu && this.activeSubmenu.open;
     }
   })), t.data("rzDropdownSubmenu", () => ({
     open: !1,
     ariaExpanded: "false",
     parentDropdown: null,
     triggerEl: null,
-    contentEl: null,
     menuItems: [],
     focusedIndex: null,
     anchor: "right-start",
     pixelOffset: -4,
     init() {
-      this.parentDropdown = t.$data(this.$el.closest('[x-data^="rzDropdownMenu"]')), this.triggerEl = this.$refs.subTrigger, this.contentEl = this.$refs.subContent, this.anchor = this.$el.dataset.subAnchor || this.anchor, this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset, this.$watch("open", (e) => {
+      this.parentDropdown = t.$data(this.$el.closest('[x-data^="rzDropdownMenu"]')), this.triggerEl = this.$refs.subTrigger, this.anchor = this.$el.dataset.subAnchor || this.anchor, this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset, this.$watch("open", (e) => {
         e ? (this.parentDropdown?.setActiveSubmenu(this), this.$nextTick(() => {
-          this.updatePosition(), this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
+          const n = this.$refs.subContent;
+          this.updatePosition(n), this.menuItems = Array.from(n.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
         }), this.ariaExpanded = "true") : (this.focusedIndex = null, this.parentDropdown?.activeSubmenu === this && (this.parentDropdown.activeSubmenu = null), this.ariaExpanded = "false");
       });
     },
-    updatePosition() {
-      !this.triggerEl || !this.contentEl || nt(this.triggerEl, this.contentEl, {
+    updatePosition(e) {
+      !this.triggerEl || !e || nt(this.triggerEl, e, {
         placement: this.anchor,
         middleware: [
           Qe(this.pixelOffset),
           tt(),
           et({ padding: 8 })
         ]
-      }).then(({ x: e, y: n }) => {
-        Object.assign(this.contentEl.style, {
-          left: `${e}px`,
-          top: `${n}px`
+      }).then(({ x: n, y: i }) => {
+        Object.assign(e.style, {
+          left: `${n}px`,
+          top: `${i}px`
         });
       });
     },
     toggleSubmenu() {
       this.open = !this.open, this.open && (this.parentDropdown?.closeAllSubmenus(this), this.focusedIndex = -1);
     },
-    openSubmenu(e, n = !1) {
+    openSubmenu(e = !0, n = !1) {
       e && !this.open && (this.parentDropdown?.closeAllSubmenus(this), this.open = !0, n && this.$nextTick(() => this.focusFirstItem()));
     },
     openSubmenuAndFocusFirst() {
       this.openSubmenu(!0, !0);
+    },
+    closeSubmenu() {
+      this.openSubmenu(!1);
     },
     handleFocusOut(e) {
       this.$el.contains(e.relatedTarget) || (this.open = !1);

@@ -9,10 +9,10 @@
                  class="@RootClass()"
                  x-data="rzDropdownSubmenu"
                  data-alpine-root="@Id"
-                 x-on:mouseenter="openSubmenu(true)"
-                 x-on:mouseleave="openSubmenu(false)"
-                 x-on:focusin="openSubmenu(true)"
-                 x-on:focusout="handleFocusOut($event)">
+                 x-on:mouseenter="openSubmenu"
+                 x-on:mouseleave="closeSubmenu"
+                 x-on:focusin="openSubmenu"
+                 x-on:focusout="handleFocusOut">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

@@ -8168,6 +8168,8 @@
           width: calc(var(--spacing) * 4);
           height: calc(var(--spacing) * 4);
           flex-shrink: 0;
+          font-size: var(--text-xl);
+          line-height: var(--tw-leading, var(--text-xl--line-height));
           opacity: 50%;
         }
         input[role='combobox'] {

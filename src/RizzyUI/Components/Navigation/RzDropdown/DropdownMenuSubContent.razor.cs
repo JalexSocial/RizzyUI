@@ -11,6 +11,12 @@ namespace RizzyUI;
 public partial class DropdownMenuSubContent : RzComponent
 {
     /// <summary>
+    /// Gets the parent <see cref="RzDropdownMenu"/> component.
+    /// </summary>
+    [CascadingParameter]
+    protected RzDropdownMenu? ParentDropdownMenu { get; set; }
+    
+    /// <summary>
     /// Gets the parent <see cref="DropdownMenuSub"/> component.
     /// </summary>
     [CascadingParameter]

@@ -17,7 +17,7 @@ public class DefaultRzDropdownMenuStyles : RzStylesBase.RzDropdownMenuStylesBase
 
     // RzDropdownMenu (Root)
     /// <inheritdoc />
-    public override string Container => "relative inline-block text-left"; // Base container
+    public override string Container => "popover relative inline-block text-left"; // Base container
     /// <inheritdoc />
     public override string RelativeWrapper => ""; // No specific style needed for the Alpine x-data div itself
 
@@ -28,7 +28,7 @@ public class DefaultRzDropdownMenuStyles : RzStylesBase.RzDropdownMenuStylesBase
     // DropdownMenuContent
     /// <inheritdoc />
     public override string ContentContainer => 
-        "absolute z-50 mt-1 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2";
+        "absolute z-50 mt-1 min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2";
         // Based on shadcn/ui, includes animation classes. Actual positioning is handled by floating-ui via Alpine.
     /// <inheritdoc />
     public override string ContentInnerContainer => ""; // No specific inner container style, padding is on ContentContainer
@@ -46,11 +46,8 @@ public class DefaultRzDropdownMenuStyles : RzStylesBase.RzDropdownMenuStylesBase
     public override string MenuItem =>
         "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 hover:bg-accent hover:text-accent-foreground"; // Based on shadcn/ui
     /// <inheritdoc />
-    public override string MenuItemIconSpan => ""; // No specific span, icon is direct child
-    /// <inheritdoc />
-    public override string MenuItemIcon => "mr-2 size-4"; // Based on shadcn/ui
-    /// <inheritdoc />
-    public override string MenuItemTitleSpan => "flex-grow";
+    public override string MenuItemIcon => "mr-2 size-4 text-xl"; // Based on shadcn/ui
+
     /// <inheritdoc />
     public override string MenuItemShortcut => "ml-auto text-xs tracking-widest text-muted-foreground"; // Based on shadcn/ui
 

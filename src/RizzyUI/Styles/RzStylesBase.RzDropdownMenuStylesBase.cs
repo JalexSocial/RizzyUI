@@ -50,12 +50,9 @@ public abstract partial class RzStylesBase
         // DropdownMenuItem (Existing, ensure it's covered or adapt)
         /// <summary> Gets the base CSS classes for a menu item. </summary>
         public abstract string MenuItem { get; }
-        /// <summary> Gets the CSS classes for the icon span within a menu item. </summary>
-        public abstract string MenuItemIconSpan { get; }
         /// <summary> Gets the CSS classes for the icon itself within a menu item. </summary>
         public abstract string MenuItemIcon { get; }
-        /// <summary> Gets the CSS classes for the title span within a menu item. </summary>
-        public abstract string MenuItemTitleSpan { get; }
+
         /// <summary> Gets the CSS classes for the shortcut/count div within a menu item. </summary>
         public abstract string MenuItemShortcut { get; } // Renamed from CountDiv for clarity
 

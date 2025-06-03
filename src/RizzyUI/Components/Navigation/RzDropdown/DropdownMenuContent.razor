@@ -5,6 +5,7 @@
 <div x-ref="content"
      id="@ContentId"
      data-floating
+     data-popover
      tabindex="-1"
      role="menu"
      aria-labelledby="@TriggerId"
@@ -16,15 +17,15 @@
      x-transition:leave="transition ease-in duration-75"
      x-transition:leave-start="opacity-100 scale-100"
      x-transition:leave-end="opacity-0 scale-95"
-     x-bind:inert="trapActive" 
      x-trap="trapActive"
+     :inert="isSubmenuActive"
      x-on:keydown.down.prevent="focusNextItem"
      x-on:keydown.up.prevent="focusPreviousItem"
      x-on:keydown.home.prevent="focusFirstItem"
      x-on:keydown.end.prevent="focusLastItem"
      x-on:keydown.tab.prevent="handleContentTabKey"
-     class="@RootClass()"
-     @attributes="AdditionalAttributes">
+     @attributes="AdditionalAttributes"
+     class="@RootClass()">
     <div class="@Theme.RzDropdownMenu.ContentInnerContainer">
         @ChildContent
     </div>

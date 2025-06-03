@@ -9,15 +9,15 @@
              class="@RootClass()"
              role="menuitem"
              tabindex="-1"
-             x-on:click="handleItemClick($event)"
-             x-on:mousemove="handleItemMousemove($event)"
+             x-on:click="handleItemClick"
+             x-on:mousemove="handleItemMousemove"
              aria-disabled="@(Disabled.ToString().ToLowerInvariant())"
              disabled="@(Disabled ? "disabled" : null)">
     @if (Icon != null)
     {
-        <span class="@Theme.RzDropdownMenu.MenuItemIconSpan"><Blazicon Svg="@Icon" class="@Theme.RzDropdownMenu.MenuItemIcon"/></span>
+        <span class="@Theme.RzDropdownMenu.MenuItemIcon"><Blazicon Svg="@Icon"/></span>
     }
-    <span class="@Theme.RzDropdownMenu.MenuItemTitleSpan">@ChildContent</span>
+    @ChildContent
     @if (ShortcutContent != null)
     {
         @ShortcutContent

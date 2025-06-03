@@ -35,10 +35,10 @@ public partial class RzDropdownMenu : RzComponent
 
     /// <summary>
     /// Gets or sets whether the dropdown menu behaves as a modal, affecting focus trapping.
-    /// Defaults to true.
+    /// Defaults to false.
     /// </summary>
     [Parameter]
-    public bool IsModal { get; set; } = true;
+    public bool IsModal { get; set; } = false;
 
     /// <inheritdoc/>
     protected override string? RootClass()

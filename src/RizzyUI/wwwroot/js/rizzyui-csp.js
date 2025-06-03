@@ -6282,6 +6282,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       anchor: "bottom",
       pixelOffset: 6,
       activeSubmenu: null,
+      isSubmenuActive: false,
       init() {
         this.triggerEl = this.$refs.trigger;
         this.contentEl = this.$refs.content;
@@ -6406,12 +6407,15 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
             alpineInstance.open = false;
           }
         });
+        this.activeSubmenu = null;
+        this.isSubmenuActive = false;
       },
       setActiveSubmenu(submenuInstance) {
         if (this.activeSubmenu && this.activeSubmenu !== submenuInstance) {
           this.activeSubmenu.open = false;
         }
         this.activeSubmenu = submenuInstance;
+        this.isSubmenuActive = this.activeSubmenu && this.activeSubmenu.open;
       }
     }));
     Alpine2.data("rzDropdownSubmenu", () => ({
@@ -6419,7 +6423,6 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       ariaExpanded: "false",
       parentDropdown: null,
       triggerEl: null,
-      contentEl: null,
       menuItems: [],
       focusedIndex: null,
       anchor: "right-start",
@@ -6427,15 +6430,15 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       init() {
         this.parentDropdown = Alpine2.$data(this.$el.closest('[x-data^="rzDropdownMenu"]'));
         this.triggerEl = this.$refs.subTrigger;
-        this.contentEl = this.$refs.subContent;
         this.anchor = this.$el.dataset.subAnchor || this.anchor;
         this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset;
         this.$watch("open", (value) => {
           if (value) {
             this.parentDropdown?.setActiveSubmenu(this);
             this.$nextTick(() => {
-              this.updatePosition();
-              this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
+              const contentEl = this.$refs.subContent;
+              this.updatePosition(contentEl);
+              this.menuItems = Array.from(contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
             });
             this.ariaExpanded = "true";
           } else {
@@ -6447,9 +6450,9 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           }
         });
       },
-      updatePosition() {
-        if (!this.triggerEl || !this.contentEl) return;
-        computePosition(this.triggerEl, this.contentEl, {
+      updatePosition(contentEl) {
+        if (!this.triggerEl || !contentEl) return;
+        computePosition(this.triggerEl, contentEl, {
           placement: this.anchor,
           middleware: [
             offset(this.pixelOffset),
@@ -6457,7 +6460,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
             shift({ padding: 8 })
           ]
         }).then(({ x, y }) => {
-          Object.assign(this.contentEl.style, {
+          Object.assign(contentEl.style, {
             left: `${x}px`,
             top: `${y}px`
           });
@@ -6470,7 +6473,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           this.focusedIndex = -1;
         }
       },
-      openSubmenu(isOpen, focusFirst = false) {
+      openSubmenu(isOpen = true, focusFirst = false) {
         if (isOpen && !this.open) {
           this.parentDropdown?.closeAllSubmenus(this);
           this.open = true;
@@ -6481,6 +6484,9 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       },
       openSubmenuAndFocusFirst() {
         this.openSubmenu(true, true);
+      },
+      closeSubmenu() {
+        this.openSubmenu(false);
       },
       handleFocusOut(event) {
         if (!this.$el.contains(event.relatedTarget)) {

@@ -36,7 +36,9 @@
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-60">
                         <RzDropdownMenu Anchor="AnchorPoint.Bottom">
                             <DropdownMenuTrigger>
-                                <RzAvatar ImageSource="/images/profile/51.jpg" Initials="JD" Shape="AvatarShape.Circle" Size="Size.Medium" />
+                                <RzAvatar Size="Size.Medium">
+                                    <AvatarImage ImageSource="/images/profile/51.jpg" AlternateText="User 51 Medium" />
+                                </RzAvatar>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent class="w-56">
                                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -53,21 +55,23 @@
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-<RzDropdownMenu Anchor="AnchorPoint.Bottom">
-    <DropdownMenuTrigger>
-        <RzAvatar ImageSource="/images/profile/51.jpg" Initials="JD" Shape="AvatarShape.Circle" Size="Size.Medium" />
-    </DropdownMenuTrigger>
-    <DropdownMenuContent class="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-            <DropdownMenuItem Icon="MdiIcon.Home">Dashboard</DropdownMenuItem>
-            <DropdownMenuItem Icon="MdiIcon.Cog">Settings</DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem Icon="MdiIcon.Logout">Sign Out</DropdownMenuItem>
-    </DropdownMenuContent>
-</RzDropdownMenu>
+                        &lt;RzDropdownMenu Anchor=&quot;AnchorPoint.Bottom&quot;&gt;
+                            &lt;DropdownMenuTrigger&gt;
+                                &lt;RzAvatar Size=&quot;Size.Medium&quot;&gt;
+                                    &lt;AvatarImage ImageSource=&quot;/images/profile/51.jpg&quot; AlternateText=&quot;User 51 Medium&quot; /&gt;
+                                &lt;/RzAvatar&gt;
+                            &lt;/DropdownMenuTrigger&gt;
+                            &lt;DropdownMenuContent class=&quot;w-56&quot;&gt;
+                                &lt;DropdownMenuLabel&gt;My Account&lt;/DropdownMenuLabel&gt;
+                                &lt;DropdownMenuSeparator /&gt;
+                                &lt;DropdownMenuGroup&gt;
+                                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.Home&quot;&gt;Dashboard&lt;/DropdownMenuItem&gt;
+                                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.Cog&quot;&gt;Settings&lt;/DropdownMenuItem&gt;
+                                &lt;/DropdownMenuGroup&gt;
+                                &lt;DropdownMenuSeparator /&gt;
+                                &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot;&gt;Sign Out&lt;/DropdownMenuItem&gt;
+                            &lt;/DropdownMenuContent&gt;
+                        &lt;/RzDropdownMenu&gt;
                 </RzCodeViewer>
             </section>
 
@@ -139,57 +143,57 @@
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-<RzDropdownMenu Anchor="AnchorPoint.Bottom">
-    <DropdownMenuTrigger>
-        <RzButton Variant="ButtonVariant.Primary">Open Menu</RzButton>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent class="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-            <DropdownMenuItem Icon="MdiIcon.AccountCircleOutline">
-                Profile
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem Icon="MdiIcon.CreditCardOutline">
-                Billing
-                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem Icon="MdiIcon.CogOutline">
-                Settings
-                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-            </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-            <DropdownMenuItem Icon="MdiIcon.AccountGroupOutline">Team</DropdownMenuItem>
-            <DropdownMenuSub>
-                <DropdownMenuSubTrigger Icon="MdiIcon.AccountPlusOutline">
-                    Invite users
-                </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent class="w-48">
-                    <DropdownMenuItem Icon="MdiIcon.EmailOutline">Email</DropdownMenuItem>
-                    <DropdownMenuItem Icon="MdiIcon.MessageOutline">Message</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>More...</DropdownMenuItem>
-                </DropdownMenuSubContent>
-            </DropdownMenuSub>
-            <DropdownMenuItem Icon="MdiIcon.PlusBoxOutline">
-                New Team
-                <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-            </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem Icon="MdiIcon.Github">GitHub</DropdownMenuItem>
-        <DropdownMenuItem Icon="MdiIcon.Lifebuoy">Support</DropdownMenuItem>
-        <DropdownMenuItem Disabled="true" Icon="MdiIcon.CloudOutline">API</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem Icon="MdiIcon.Logout">
-            Log out
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
-    </DropdownMenuContent>
-</RzDropdownMenu>
+                        &lt;RzDropdownMenu Anchor=&quot;AnchorPoint.Bottom&quot;&gt;
+                            &lt;DropdownMenuTrigger&gt;
+                                &lt;RzButton Variant=&quot;ButtonVariant.Primary&quot;&gt;Open Menu&lt;/RzButton&gt;
+                            &lt;/DropdownMenuTrigger&gt;
+                            &lt;DropdownMenuContent class=&quot;w-56&quot;&gt;
+                                &lt;DropdownMenuLabel&gt;My Account&lt;/DropdownMenuLabel&gt;
+                                &lt;DropdownMenuSeparator /&gt;
+                                &lt;DropdownMenuGroup&gt;
+                                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.AccountCircleOutline&quot;&gt;
+                                        Profile
+                                        &lt;DropdownMenuShortcut&gt;⇧⌘P&lt;/DropdownMenuShortcut&gt;
+                                    &lt;/DropdownMenuItem&gt;
+                                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.CreditCardOutline&quot;&gt;
+                                        Billing
+                                        &lt;DropdownMenuShortcut&gt;⌘B&lt;/DropdownMenuShortcut&gt;
+                                    &lt;/DropdownMenuItem&gt;
+                                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.CogOutline&quot;&gt;
+                                        Settings
+                                        &lt;DropdownMenuShortcut&gt;⌘S&lt;/DropdownMenuShortcut&gt;
+                                    &lt;/DropdownMenuItem&gt;
+                                &lt;/DropdownMenuGroup&gt;
+                                &lt;DropdownMenuSeparator /&gt;
+                                &lt;DropdownMenuGroup&gt;
+                                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.AccountGroupOutline&quot;&gt;Team&lt;/DropdownMenuItem&gt;
+                                    &lt;DropdownMenuSub&gt;
+                                        &lt;DropdownMenuSubTrigger Icon=&quot;MdiIcon.AccountPlusOutline&quot;&gt;
+                                            Invite users
+                                        &lt;/DropdownMenuSubTrigger&gt;
+                                        &lt;DropdownMenuSubContent class=&quot;w-48&quot;&gt;
+                                            &lt;DropdownMenuItem Icon=&quot;MdiIcon.EmailOutline&quot;&gt;Email&lt;/DropdownMenuItem&gt;
+                                            &lt;DropdownMenuItem Icon=&quot;MdiIcon.MessageOutline&quot;&gt;Message&lt;/DropdownMenuItem&gt;
+                                            &lt;DropdownMenuSeparator /&gt;
+                                            &lt;DropdownMenuItem&gt;More...&lt;/DropdownMenuItem&gt;
+                                        &lt;/DropdownMenuSubContent&gt;
+                                    &lt;/DropdownMenuSub&gt;
+                                    &lt;DropdownMenuItem Icon=&quot;MdiIcon.PlusBoxOutline&quot;&gt;
+                                        New Team
+                                        &lt;DropdownMenuShortcut&gt;⌘+T&lt;/DropdownMenuShortcut&gt;
+                                    &lt;/DropdownMenuItem&gt;
+                                &lt;/DropdownMenuGroup&gt;
+                                &lt;DropdownMenuSeparator /&gt;
+                                &lt;DropdownMenuItem Icon=&quot;MdiIcon.Github&quot;&gt;GitHub&lt;/DropdownMenuItem&gt;
+                                &lt;DropdownMenuItem Icon=&quot;MdiIcon.Lifebuoy&quot;&gt;Support&lt;/DropdownMenuItem&gt;
+                                &lt;DropdownMenuItem Disabled=&quot;true&quot; Icon=&quot;MdiIcon.CloudOutline&quot;&gt;API&lt;/DropdownMenuItem&gt;
+                                &lt;DropdownMenuSeparator /&gt;
+                                &lt;DropdownMenuItem Icon=&quot;MdiIcon.Logout&quot;&gt;
+                                    Log out
+                                    &lt;DropdownMenuShortcut&gt;⇧⌘Q&lt;/DropdownMenuShortcut&gt;
+                                &lt;/DropdownMenuItem&gt;
+                            &lt;/DropdownMenuContent&gt;
+                        &lt;/RzDropdownMenu&gt;
                 </RzCodeViewer>
             </section>
 

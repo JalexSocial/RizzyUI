@@ -19,8 +19,8 @@
              x-on:keydown.arrowright.prevent="openSubmenuAndFocusFirst">
     @if (Icon != null)
     {
-        <span class="@Theme.RzDropdownMenu.MenuItemIconSpan"><Blazicon Svg="@Icon" class="@Theme.RzDropdownMenu.MenuItemIcon"/></span>
+        <span class="@Theme.RzDropdownMenu.MenuItemIcon"><Blazicon Svg="@Icon"/></span>
     }
-    <span class="@Theme.RzDropdownMenu.MenuItemTitleSpan">@ChildContent</span>
+    @ChildContent
     <Blazicon Svg="MdiIcon.ChevronRight" class="@Theme.RzDropdownMenu.SubTriggerChevron" aria-hidden="true"/>
 </HtmlElement>
