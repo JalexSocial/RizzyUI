@@ -4,8 +4,13 @@ import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 
 export default function(Alpine) {
     Alpine.data('rzDropdownMenu', () => ({
+        /* ------------------------------------------------------------------
+           Reactive state (all plain keys – no getters / computed properties)
+        ------------------------------------------------------------------ */
         open: false,
         isModal: true,
+        ariaExpanded: 'false',     // <- string, so we can bind directly
+        trapActive: false,         // <- boolean for x-trap / inert
         focusedIndex: null,
         menuItems: [],
         triggerEl: null,
@@ -19,27 +24,26 @@ export default function(Alpine) {
             this.contentEl = this.$refs.content;
             this.anchor = this.$el.dataset.anchor || 'bottom';
             this.pixelOffset = parseInt(this.$el.dataset.offset) || 6;
-            this.isModal = (this.$el.dataset.modal !== 'false'); // Default to true if not specified or invalid
+            this.isModal = (this.$el.dataset.modal !== 'false'); 
 
             this.$watch('open', (value) => {
                 if (value) {
                     this.$nextTick(() => {
                         this.updatePosition();
-                        this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
+                        this.menuItems = Array.from(
+                            this.contentEl.querySelectorAll(
+                                '[role^="menuitem"]:not([disabled],[aria-disabled="true"])'
+                        ));
                     });
+                    this.ariaExpanded = 'true';
+                    this.trapActive   = this.isModal;
                 } else {
                     this.focusedIndex = null;
                     this.closeAllSubmenus();
+                    this.ariaExpanded = 'false';
+                    this.trapActive   = false;
                 }
             });
-        },
-
-        getAriaExpandedState() {
-            return this.open.toString();
-        },
-
-        isFocusTrappedAndOpen() {
-            return this.open && this.isModal;
         },
 
         updatePosition() {
@@ -67,7 +71,6 @@ export default function(Alpine) {
         },
         
         handleTriggerKeydown(event) {
-            // event is already passed by Alpine if not explicitly named in x-on
             if (['Enter', ' ', 'ArrowDown', 'ArrowUp'].includes(event.key)) {
                 event.preventDefault();
                 this.open = true;
@@ -113,7 +116,7 @@ export default function(Alpine) {
             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) {
                 return;
             }
-            if (item.getAttribute('aria-haspopup') === 'menu') { // It's a sub-trigger
+            if (item.getAttribute('aria-haspopup') === 'menu') { 
                 return; 
             }
             this.open = false;
@@ -128,8 +131,6 @@ export default function(Alpine) {
             const index = this.menuItems.indexOf(item);
             if (index !== -1 && this.focusedIndex !== index) {
                 this.focusedIndex = index;
-                // Do not focus on mousemove to prevent focus stealing from keyboard users
-                // this.focusCurrentItem(); 
             }
         },
 
@@ -167,19 +168,19 @@ export default function(Alpine) {
 
     Alpine.data('rzDropdownSubmenu', () => ({
         open: false,
+        ariaExpanded: 'false',
         parentDropdown: null,
         triggerEl: null,
         contentEl: null,
         menuItems: [],
         focusedIndex: null,
-        anchor: 'right-start',
-        pixelOffset: -4,
+        anchor: 'right-start', 
+        pixelOffset: -4,       
 
         init() {
             this.parentDropdown = Alpine.$data(this.$el.closest('[x-data^="rzDropdownMenu"]'));
             this.triggerEl = this.$refs.subTrigger;
             this.contentEl = this.$refs.subContent;
-            // data-sub-anchor and data-sub-offset can be added to DropdownMenuSub.razor if needed
             this.anchor = this.$el.dataset.subAnchor || this.anchor; 
             this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset;
 
@@ -190,17 +191,15 @@ export default function(Alpine) {
                         this.updatePosition();
                         this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
                     });
+                    this.ariaExpanded = 'true';
                 } else {
                     this.focusedIndex = null;
                     if (this.parentDropdown?.activeSubmenu === this) {
                         this.parentDropdown.activeSubmenu = null;
                     }
+                    this.ariaExpanded = 'false';
                 }
             });
-        },
-
-        get getAriaExpandedState() {
-            return this.open.toString();
         },
         
         updatePosition() {
@@ -238,7 +237,7 @@ export default function(Alpine) {
             }
         },
         
-        openSubmenuAndFocusFirst() { // Specifically for ArrowRight on subtrigger
+        openSubmenuAndFocusFirst() { 
             this.openSubmenu(true, true);
         },
 
@@ -278,7 +277,7 @@ export default function(Alpine) {
             }
         },
         
-        handleItemClick(event) {
+        handleItemClick(event) { 
             const item = event.currentTarget;
             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) {
                 return;
@@ -296,7 +295,6 @@ export default function(Alpine) {
             const index = this.menuItems.indexOf(item);
             if (index !== -1 && this.focusedIndex !== index) {
                 this.focusedIndex = index;
-                // Do not focus on mousemove
             }
         },
 

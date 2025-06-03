@@ -9,7 +9,7 @@
              x-ref="trigger"
              aria-haspopup="menu"
              aria-controls="@ContentId"
-             x-bind:aria-expanded="getAriaExpandedState"
+             x-bind:aria-expanded="ariaExpanded"
              x-on:click="toggle"
              x-on:keydown.enter.prevent="handleTriggerKeydown"
              x-on:keydown.space.prevent="handleTriggerKeydown"

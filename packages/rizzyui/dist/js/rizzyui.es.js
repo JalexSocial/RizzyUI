@@ -2956,8 +2956,15 @@ const computePosition = (reference, floating, options) => {
 };
 function registerRzDropdownMenu(Alpine2) {
   Alpine2.data("rzDropdownMenu", () => ({
+    /* ------------------------------------------------------------------
+       Reactive state (all plain keys – no getters / computed properties)
+    ------------------------------------------------------------------ */
     open: false,
     isModal: true,
+    ariaExpanded: "false",
+    // <- string, so we can bind directly
+    trapActive: false,
+    // <- boolean for x-trap / inert
     focusedIndex: null,
     menuItems: [],
     triggerEl: null,
@@ -2975,19 +2982,21 @@ function registerRzDropdownMenu(Alpine2) {
         if (value) {
           this.$nextTick(() => {
             this.updatePosition();
-            this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
+            this.menuItems = Array.from(
+              this.contentEl.querySelectorAll(
+                '[role^="menuitem"]:not([disabled],[aria-disabled="true"])'
+              )
+            );
           });
+          this.ariaExpanded = "true";
+          this.trapActive = this.isModal;
         } else {
           this.focusedIndex = null;
           this.closeAllSubmenus();
+          this.ariaExpanded = "false";
+          this.trapActive = false;
         }
       });
-    },
-    getAriaExpandedState() {
-      return this.open.toString();
-    },
-    isFocusTrappedAndOpen() {
-      return this.open && this.isModal;
     },
     updatePosition() {
       if (!this.triggerEl || !this.contentEl) return;
@@ -3097,6 +3106,7 @@ function registerRzDropdownMenu(Alpine2) {
   }));
   Alpine2.data("rzDropdownSubmenu", () => ({
     open: false,
+    ariaExpanded: "false",
     parentDropdown: null,
     triggerEl: null,
     contentEl: null,
@@ -3117,16 +3127,15 @@ function registerRzDropdownMenu(Alpine2) {
             this.updatePosition();
             this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
           });
+          this.ariaExpanded = "true";
         } else {
           this.focusedIndex = null;
           if (this.parentDropdown?.activeSubmenu === this) {
             this.parentDropdown.activeSubmenu = null;
           }
+          this.ariaExpanded = "false";
         }
       });
-    },
-    get getAriaExpandedState() {
-      return this.open.toString();
     },
     updatePosition() {
       if (!this.triggerEl || !this.contentEl) return;

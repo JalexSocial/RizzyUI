@@ -16,8 +16,8 @@
      x-transition:leave="transition ease-in duration-75"
      x-transition:leave-start="opacity-100 scale-100"
      x-transition:leave-end="opacity-0 scale-95"
-     x-bind:inert="isFocusTrappedAndOpen" @* Used for x-trap.inert *@
-     x-trap="isFocusTrappedAndOpen"
+     x-bind:inert="trapActive" 
+     x-trap="trapActive"
      x-on:keydown.down.prevent="focusNextItem"
      x-on:keydown.up.prevent="focusPreviousItem"
      x-on:keydown.home.prevent="focusFirstItem"

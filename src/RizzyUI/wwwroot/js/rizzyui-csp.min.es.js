@@ -4261,8 +4261,15 @@ const $c = {
 };
 function Fc(e) {
   e.data("rzDropdownMenu", () => ({
+    /* ------------------------------------------------------------------
+       Reactive state (all plain keys – no getters / computed properties)
+    ------------------------------------------------------------------ */
     open: !1,
     isModal: !0,
+    ariaExpanded: "false",
+    // <- string, so we can bind directly
+    trapActive: !1,
+    // <- boolean for x-trap / inert
     focusedIndex: null,
     menuItems: [],
     triggerEl: null,
@@ -4272,16 +4279,14 @@ function Fc(e) {
     activeSubmenu: null,
     init() {
       this.triggerEl = this.$refs.trigger, this.contentEl = this.$refs.content, this.anchor = this.$el.dataset.anchor || "bottom", this.pixelOffset = parseInt(this.$el.dataset.offset) || 6, this.isModal = this.$el.dataset.modal !== "false", this.$watch("open", (t) => {
-        t ? this.$nextTick(() => {
-          this.updatePosition(), this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
-        }) : (this.focusedIndex = null, this.closeAllSubmenus());
+        t ? (this.$nextTick(() => {
+          this.updatePosition(), this.menuItems = Array.from(
+            this.contentEl.querySelectorAll(
+              '[role^="menuitem"]:not([disabled],[aria-disabled="true"])'
+            )
+          );
+        }), this.ariaExpanded = "true", this.trapActive = this.isModal) : (this.focusedIndex = null, this.closeAllSubmenus(), this.ariaExpanded = "false", this.trapActive = !1);
       });
-    },
-    getAriaExpandedState() {
-      return this.open.toString();
-    },
-    isFocusTrappedAndOpen() {
-      return this.open && this.isModal;
     },
     updatePosition() {
       !this.triggerEl || !this.contentEl || ci(this.triggerEl, this.contentEl, {
@@ -4349,6 +4354,7 @@ function Fc(e) {
     }
   })), e.data("rzDropdownSubmenu", () => ({
     open: !1,
+    ariaExpanded: "false",
     parentDropdown: null,
     triggerEl: null,
     contentEl: null,
@@ -4360,11 +4366,8 @@ function Fc(e) {
       this.parentDropdown = e.$data(this.$el.closest('[x-data^="rzDropdownMenu"]')), this.triggerEl = this.$refs.subTrigger, this.contentEl = this.$refs.subContent, this.anchor = this.$el.dataset.subAnchor || this.anchor, this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset, this.$watch("open", (t) => {
         t ? (this.parentDropdown?.setActiveSubmenu(this), this.$nextTick(() => {
           this.updatePosition(), this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
-        })) : (this.focusedIndex = null, this.parentDropdown?.activeSubmenu === this && (this.parentDropdown.activeSubmenu = null));
+        }), this.ariaExpanded = "true") : (this.focusedIndex = null, this.parentDropdown?.activeSubmenu === this && (this.parentDropdown.activeSubmenu = null), this.ariaExpanded = "false");
       });
-    },
-    get getAriaExpandedState() {
-      return this.open.toString();
     },
     updatePosition() {
       !this.triggerEl || !this.contentEl || ci(this.triggerEl, this.contentEl, {

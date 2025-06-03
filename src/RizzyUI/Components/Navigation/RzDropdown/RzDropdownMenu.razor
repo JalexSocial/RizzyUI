@@ -12,7 +12,7 @@
                  data-offset="@Offset" 
                  data-anchor="@Anchor.ToString().ToKebabCase()"
                  data-modal="@IsModal.ToString().ToLowerInvariant()"
-                 x-on:keydown.escape.window="handleWindowEscape()">
+                 x-on:keydown.escape.window="handleWindowEscape">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

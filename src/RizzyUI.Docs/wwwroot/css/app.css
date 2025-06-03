@@ -292,6 +292,7 @@
     --tracking-tight: -0.025em;
     --tracking-wide: 0.025em;
     --tracking-wider: 0.05em;
+    --tracking-widest: 0.1em;
     --leading-tight: 1.25;
     --leading-snug: 1.375;
     --leading-normal: 1.5;
@@ -670,6 +671,9 @@
   }
   .-my-4 {
     margin-block: calc(var(--spacing) * -4);
+  }
+  .my-1 {
+    margin-block: calc(var(--spacing) * 1);
   }
   .my-3 {
     margin-block: calc(var(--spacing) * 3);
@@ -1981,14 +1985,14 @@
   .min-h-80 {
     min-height: calc(var(--spacing) * 80);
   }
-  .min-h-100 {
-    min-height: calc(var(--spacing) * 100);
-  }
   .min-h-\[10rem\] {
     min-height: 10rem;
   }
   .min-h-\[18rem\] {
     min-height: 18rem;
+  }
+  .min-h-\[26rem\] {
+    min-height: 26rem;
   }
   .w-0\.5 {
     width: calc(var(--spacing) * 0.5);
@@ -2100,6 +2104,9 @@
   }
   .min-w-0 {
     min-width: calc(var(--spacing) * 0);
+  }
+  .min-w-\[8rem\] {
+    min-width: 8rem;
   }
   .min-w-full {
     min-width: 100%;
@@ -2227,6 +2234,9 @@
   }
   .animate-ping {
     animation: var(--animate-ping);
+  }
+  .cursor-default {
+    cursor: default;
   }
   .cursor-not-allowed {
     cursor: not-allowed;
@@ -3417,6 +3427,10 @@
   .tracking-wider {
     --tw-tracking: var(--tracking-wider);
     letter-spacing: var(--tracking-wider);
+  }
+  .tracking-widest {
+    --tw-tracking: var(--tracking-widest);
+    letter-spacing: var(--tracking-widest);
   }
   .text-pretty {
     text-wrap: pretty;
@@ -4941,6 +4955,16 @@
       border-color: var(--primary);
     }
   }
+  .focus\:bg-accent {
+    &:focus {
+      background-color: var(--accent);
+    }
+  }
+  .focus\:text-accent-foreground {
+    &:focus {
+      color: var(--accent-foreground);
+    }
+  }
   .focus\:underline {
     &:focus {
       text-decoration-line: underline;
@@ -5598,6 +5622,21 @@
   .aria-\[current\=page\]\:ring-primary {
     &[aria-current="page"] {
       --tw-ring-color: var(--primary);
+    }
+  }
+  .data-\[disabled\]\:pointer-events-none {
+    &[data-disabled] {
+      pointer-events: none;
+    }
+  }
+  .data-\[disabled\]\:opacity-50 {
+    &[data-disabled] {
+      opacity: 50%;
+    }
+  }
+  .data-\[state\=open\]\:bg-accent {
+    &[data-state="open"] {
+      background-color: var(--accent);
     }
   }
   .motion-safe\:animate-spin {
