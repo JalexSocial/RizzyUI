@@ -6328,10 +6328,20 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         });
       },
       toggle() {
-        this.open = !this.open;
         if (this.open) {
+          this.closeAllSubmenus();
+          this.open = false;
+          this.$nextTick(() => this.triggerEl?.focus());
+        } else {
+          this.open = true;
           this.focusedIndex = -1;
         }
+      },
+      handleOutsideClick() {
+        if (!this.open) return;
+        this.closeAllSubmenus();
+        this.open = false;
+        this.$nextTick(() => this.triggerEl?.focus());
       },
       handleTriggerKeydown(event) {
         if (["Enter", " ", "ArrowDown", "ArrowUp"].includes(event.key)) {
@@ -6368,15 +6378,11 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           this.menuItems[this.focusedIndex].focus();
         }
       },
-      focusSelectedItem(item) {
-        if (!item)
-          return;
-        if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) {
-          return;
-        }
+      focusSelectedItem(item, { keepSubmenusOpen = false } = {}) {
+        if (!item || item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
         const index = this.menuItems.indexOf(item);
         if (index !== -1 && this.focusedIndex !== index) {
-          this.closeAllSubmenus();
+          if (!keepSubmenusOpen) this.closeAllSubmenus();
           this.focusedIndex = index;
           this.menuItems[this.focusedIndex].focus();
         }
@@ -6387,6 +6393,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           return;
         }
         if (item.getAttribute("aria-haspopup") === "menu") {
+          Alpine2.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
           return;
         }
         this.open = false;
@@ -6484,11 +6491,20 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       },
       openSubmenu(isOpen = true, focusFirst = false) {
         if (isOpen && !this.open) {
-          this.parentDropdown?.focusSelectedItem(this.triggerEl);
+          this.parentDropdown?.focusSelectedItem(
+            this.triggerEl,
+            { keepSubmenusOpen: true }
+          );
+          this.parentDropdown?.closeAllSubmenus(this);
           this.open = true;
-          if (focusFirst) {
-            this.$nextTick(() => this.focusFirstItem());
-          }
+          const giveFocus = () => {
+            if (focusFirst && this.menuItems.length) {
+              this.menuItems[0].focus();
+            } else {
+              this.triggerEl.focus();
+            }
+          };
+          this.$nextTick(giveFocus);
         }
       },
       openSubmenuAndFocusFirst() {
@@ -6497,10 +6513,13 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       closeSubmenu() {
         this.open = false;
       },
-      handleFocusOut(event) {
-        if (!this.$el.contains(event.relatedTarget)) {
-          this.open = false;
+      handleFocusOut(e2) {
+        const next = e2.relatedTarget;
+        if (!next) return;
+        if (this.$el.contains(next) || this.$refs.subContent?.contains(next)) {
+          return;
         }
+        this.open = false;
       },
       focusNextItem() {
         if (!this.menuItems.length) return;
@@ -6530,6 +6549,10 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       handleItemClick(event) {
         const item = event.currentTarget;
         if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) {
+          return;
+        }
+        if (item === this.triggerEl) {
+          this.toggleSubmenu();
           return;
         }
         this.open = false;

@@ -66,11 +66,23 @@ export default function(Alpine) {
             });
         },
 
-        toggle() {
-            this.open = !this.open;
-            if (this.open) {
-                this.focusedIndex = -1; 
+        toggle () {
+            if (this.open) {                          
+                this.closeAllSubmenus();                
+                this.open = false;
+                this.$nextTick(() => this.triggerEl?.focus());
+            } else {                                  
+                this.open = true;
+                this.focusedIndex = -1;
             }
+        },
+
+        handleOutsideClick () {
+            if (!this.open) return;              // already closed → ignore
+
+            this.closeAllSubmenus();             // make sure teleported panels go away
+            this.open = false;
+            this.$nextTick(() => this.triggerEl?.focus());
         },
         
         handleTriggerKeydown(event) {
@@ -113,31 +125,34 @@ export default function(Alpine) {
                 this.menuItems[this.focusedIndex].focus();
             }
         },
-        
-        focusSelectedItem(item) {
-            
-            if (!item) 
-                return;
-            
-            if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) {
-                return;
-            }
+
+        focusSelectedItem (item, {keepSubmenusOpen = false} = {}) {
+            if (!item ||
+                item.getAttribute('aria-disabled') === 'true' ||
+                item.hasAttribute('disabled')) return;
+
             const index = this.menuItems.indexOf(item);
             if (index !== -1 && this.focusedIndex !== index) {
-                this.closeAllSubmenus();
+                if (!keepSubmenusOpen) this.closeAllSubmenus();
                 this.focusedIndex = index;
                 this.menuItems[this.focusedIndex].focus();
-            }            
+            }
         },
-        
-        handleItemClick(event) {
+
+        handleItemClick (event) {
             const item = event.currentTarget;
+
             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) {
                 return;
             }
-            if (item.getAttribute('aria-haspopup') === 'menu') { 
-                return; 
+
+            // If this item is a submenu trigger, forward the action to that submenu
+            if (item.getAttribute('aria-haspopup') === 'menu') {
+                Alpine.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
+                return;                       // do *not* close the whole dropdown
             }
+
+            // Regular leaf item → close the dropdown
             this.open = false;
             this.$nextTick(() => this.triggerEl?.focus());
         },
@@ -241,17 +256,23 @@ export default function(Alpine) {
                 this.focusedIndex = -1; 
             }
         },
-        
-        openSubmenu(isOpen = true, focusFirst = false) {
+
+        openSubmenu (isOpen = true, focusFirst = false) {
             if (isOpen && !this.open) {
-                //this.parentDropdown?.closeAllSubmenus(this);
-                
-                this.parentDropdown?.focusSelectedItem(this.triggerEl);
+                this.parentDropdown?.focusSelectedItem(this.triggerEl,
+                    { keepSubmenusOpen : true });
+                this.parentDropdown?.closeAllSubmenus(this);
                 this.open = true;
-                
-                if (focusFirst) {
-                    this.$nextTick(() => this.focusFirstItem());
-                }
+
+                // ──► ensure the first item, not the <div>, gets focus
+                const giveFocus = () => {
+                    if (focusFirst && this.menuItems.length) {
+                        this.menuItems[0].focus();
+                    } else {
+                        this.triggerEl.focus();          // keep the ring on the trigger
+                    }
+                };
+                this.$nextTick(giveFocus);
             }
         },
         
@@ -263,10 +284,17 @@ export default function(Alpine) {
             this.open = false;
         },
 
-        handleFocusOut(event) {
-            if (!this.$el.contains(event.relatedTarget)) {
-                this.open = false;
+        handleFocusOut (e) {
+            const next = e.relatedTarget;          // element that will receive focus
+            if (!next) return;                     // focus left the document
+
+            // keep the submenu open if focus merely moved into the teleported panel
+            if (this.$el.contains(next) || this.$refs.subContent?.contains(next)) {
+                return;
             }
+
+            // focus really went somewhere else → close
+            this.open = false;
         },
 
         focusNextItem() {
@@ -304,6 +332,12 @@ export default function(Alpine) {
             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) {
                 return;
             }
+
+            if (item === this.triggerEl) {      // submenu trigger
+                this.toggleSubmenu();
+                return;
+            }
+            
             this.open = false; 
             this.parentDropdown.open = false; 
             this.$nextTick(() => this.parentDropdown.triggerEl?.focus());
