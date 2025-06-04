@@ -13,14 +13,16 @@ export default function(Alpine) {
         trapActive: false,         // <- boolean for x-trap / inert
         focusedIndex: null,
         menuItems: [],
+        parentEl: null,
         triggerEl: null,
         contentEl: null,
         anchor: 'bottom',
-        pixelOffset: 6,
+        pixelOffset: 3,
         activeSubmenu: null,
         isSubmenuActive: false,
         
         init() {
+            this.parentEl = this.$el;
             this.triggerEl = this.$refs.trigger;
             this.contentEl = this.$refs.content;
             this.anchor = this.$el.dataset.anchor || 'bottom';
@@ -112,6 +114,22 @@ export default function(Alpine) {
             }
         },
         
+        focusSelectedItem(item) {
+            
+            if (!item) 
+                return;
+            
+            if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) {
+                return;
+            }
+            const index = this.menuItems.indexOf(item);
+            if (index !== -1 && this.focusedIndex !== index) {
+                this.closeAllSubmenus();
+                this.focusedIndex = index;
+                //this.menuItems[this.focusedIndex].focus();
+            }            
+        },
+        
         handleItemClick(event) {
             const item = event.currentTarget;
             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) {
@@ -126,13 +144,7 @@ export default function(Alpine) {
 
         handleItemMousemove(event) {
             const item = event.currentTarget;
-             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) {
-                return;
-            }
-            const index = this.menuItems.indexOf(item);
-            if (index !== -1 && this.focusedIndex !== index) {
-                this.focusedIndex = index;
-            }
+            this.focusSelectedItem(item);
         },
 
         handleWindowEscape() {
@@ -150,11 +162,11 @@ export default function(Alpine) {
         },
 
         closeAllSubmenus(exceptThisOne = null) {
-            const submenus = this.$el.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+            const submenus = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
             submenus.forEach(sm => {
                 const alpineInstance = Alpine.$data(sm);
                 if (alpineInstance && alpineInstance !== exceptThisOne && alpineInstance.open) {
-                    alpineInstance.open = false;
+                    alpineInstance.closeSubmenu();
                 }
             });
             this.activeSubmenu = null;
@@ -178,7 +190,7 @@ export default function(Alpine) {
         menuItems: [],
         focusedIndex: null,
         anchor: 'right-start', 
-        pixelOffset: -4,       
+        pixelOffset: 0,       
 
         init() {
             this.parentDropdown = Alpine.$data(this.$el.closest('[x-data^="rzDropdownMenu"]'));
@@ -234,6 +246,9 @@ export default function(Alpine) {
             if (isOpen && !this.open) {
                 this.parentDropdown?.closeAllSubmenus(this);
                 this.open = true;
+                
+                //this.parentDropdown?.focusSelectedItem(this.triggerEl);
+                
                 if (focusFirst) {
                     this.$nextTick(() => this.focusFirstItem());
                 }
@@ -245,7 +260,7 @@ export default function(Alpine) {
         },
         
         closeSubmenu() {
-            this.openSubmenu(false);
+            this.open = false;
         },
 
         handleFocusOut(event) {

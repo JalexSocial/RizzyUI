@@ -4272,14 +4272,15 @@ function Fc(e) {
     // <- boolean for x-trap / inert
     focusedIndex: null,
     menuItems: [],
+    parentEl: null,
     triggerEl: null,
     contentEl: null,
     anchor: "bottom",
-    pixelOffset: 6,
+    pixelOffset: 3,
     activeSubmenu: null,
     isSubmenuActive: !1,
     init() {
-      this.triggerEl = this.$refs.trigger, this.contentEl = this.$refs.content, this.anchor = this.$el.dataset.anchor || "bottom", this.pixelOffset = parseInt(this.$el.dataset.offset) || 6, this.isModal = this.$el.dataset.modal !== "false", this.$watch("open", (t) => {
+      this.parentEl = this.$el, this.triggerEl = this.$refs.trigger, this.contentEl = this.$refs.content, this.anchor = this.$el.dataset.anchor || "bottom", this.pixelOffset = parseInt(this.$el.dataset.offset) || 6, this.isModal = this.$el.dataset.modal !== "false", this.$watch("open", (t) => {
         t ? (this.$nextTick(() => {
           this.updatePosition(), this.menuItems = Array.from(
             this.contentEl.querySelectorAll(
@@ -4327,16 +4328,19 @@ function Fc(e) {
     focusCurrentItem() {
       this.focusedIndex !== null && this.menuItems[this.focusedIndex] && this.menuItems[this.focusedIndex].focus();
     },
+    focusSelectedItem(t) {
+      if (!t || t.getAttribute("aria-disabled") === "true" || t.hasAttribute("disabled"))
+        return;
+      const n = this.menuItems.indexOf(t);
+      n !== -1 && this.focusedIndex !== n && (this.closeAllSubmenus(), this.focusedIndex = n);
+    },
     handleItemClick(t) {
       const n = t.currentTarget;
       n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled") || n.getAttribute("aria-haspopup") !== "menu" && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
     },
     handleItemMousemove(t) {
       const n = t.currentTarget;
-      if (n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled"))
-        return;
-      const i = this.menuItems.indexOf(n);
-      i !== -1 && this.focusedIndex !== i && (this.focusedIndex = i);
+      this.focusSelectedItem(n);
     },
     handleWindowEscape() {
       this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
@@ -4345,9 +4349,9 @@ function Fc(e) {
       this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
     },
     closeAllSubmenus(t = null) {
-      this.$el.querySelectorAll('[x-data^="rzDropdownSubmenu"]').forEach((i) => {
+      this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]').forEach((i) => {
         const r = e.$data(i);
-        r && r !== t && r.open && (r.open = !1);
+        r && r !== t && r.open && r.closeSubmenu();
       }), this.activeSubmenu = null, this.isSubmenuActive = !1;
     },
     setActiveSubmenu(t) {
@@ -4361,7 +4365,7 @@ function Fc(e) {
     menuItems: [],
     focusedIndex: null,
     anchor: "right-start",
-    pixelOffset: -4,
+    pixelOffset: 0,
     init() {
       this.parentDropdown = e.$data(this.$el.closest('[x-data^="rzDropdownMenu"]')), this.triggerEl = this.$refs.subTrigger, this.anchor = this.$el.dataset.subAnchor || this.anchor, this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset, this.$watch("open", (t) => {
         t ? (this.parentDropdown?.setActiveSubmenu(this), this.$nextTick(() => {
@@ -4395,7 +4399,7 @@ function Fc(e) {
       this.openSubmenu(!0, !0);
     },
     closeSubmenu() {
-      this.openSubmenu(!1);
+      this.open = !1;
     },
     handleFocusOut(t) {
       this.$el.contains(t.relatedTarget) || (this.open = !1);
