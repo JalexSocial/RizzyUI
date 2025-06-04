@@ -3071,6 +3071,7 @@
         if (index !== -1 && this.focusedIndex !== index) {
           this.closeAllSubmenus();
           this.focusedIndex = index;
+          this.menuItems[this.focusedIndex].focus();
         }
       },
       handleItemClick(event) {
@@ -3176,7 +3177,7 @@
       },
       openSubmenu(isOpen = true, focusFirst = false) {
         if (isOpen && !this.open) {
-          this.parentDropdown?.closeAllSubmenus(this);
+          this.parentDropdown?.focusSelectedItem(this.triggerEl);
           this.open = true;
           if (focusFirst) {
             this.$nextTick(() => this.focusFirstItem());

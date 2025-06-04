@@ -126,7 +126,7 @@ export default function(Alpine) {
             if (index !== -1 && this.focusedIndex !== index) {
                 this.closeAllSubmenus();
                 this.focusedIndex = index;
-                //this.menuItems[this.focusedIndex].focus();
+                this.menuItems[this.focusedIndex].focus();
             }            
         },
         
@@ -244,10 +244,10 @@ export default function(Alpine) {
         
         openSubmenu(isOpen = true, focusFirst = false) {
             if (isOpen && !this.open) {
-                this.parentDropdown?.closeAllSubmenus(this);
-                this.open = true;
+                //this.parentDropdown?.closeAllSubmenus(this);
                 
-                //this.parentDropdown?.focusSelectedItem(this.triggerEl);
+                this.parentDropdown?.focusSelectedItem(this.triggerEl);
+                this.open = true;
                 
                 if (focusFirst) {
                     this.$nextTick(() => this.focusFirstItem());

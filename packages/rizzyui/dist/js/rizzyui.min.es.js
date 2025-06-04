@@ -2202,7 +2202,7 @@ function ri(t) {
       if (!e || e.getAttribute("aria-disabled") === "true" || e.hasAttribute("disabled"))
         return;
       const n = this.menuItems.indexOf(e);
-      n !== -1 && this.focusedIndex !== n && (this.closeAllSubmenus(), this.focusedIndex = n);
+      n !== -1 && this.focusedIndex !== n && (this.closeAllSubmenus(), this.focusedIndex = n, this.menuItems[this.focusedIndex].focus());
     },
     handleItemClick(e) {
       const n = e.currentTarget;
@@ -2263,7 +2263,7 @@ function ri(t) {
       this.open = !this.open, this.open && (this.parentDropdown?.closeAllSubmenus(this), this.focusedIndex = -1);
     },
     openSubmenu(e = !0, n = !1) {
-      e && !this.open && (this.parentDropdown?.closeAllSubmenus(this), this.open = !0, n && this.$nextTick(() => this.focusFirstItem()));
+      e && !this.open && (this.parentDropdown?.focusSelectedItem(this.triggerEl), this.open = !0, n && this.$nextTick(() => this.focusFirstItem()));
     },
     openSubmenuAndFocusFirst() {
       this.openSubmenu(!0, !0);
