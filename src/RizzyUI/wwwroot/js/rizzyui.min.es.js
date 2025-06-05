@@ -1,5 +1,5 @@
 import X from "alpinejs";
-function At(t) {
+function Rt(t) {
   t.directive("collapse", e), e.inline = (n, { modifiers: i }) => {
     i.includes("min") && (n._x_doShow = () => {
     }, n._x_doHide = () => {
@@ -66,7 +66,7 @@ function Me(t, e, n) {
   }
   return i;
 }
-var $t = At;
+var $t = Rt;
 function Dt(t) {
   t.directive("intersect", t.skipDuringClone((e, { value: n, expression: i, modifiers: s }, { evaluateLater: r, cleanup: o }) => {
     let a = r(i), l = {
@@ -500,7 +500,7 @@ var We = /* @__PURE__ */ function() {
           return h === $;
         });
         if (M < 0 && (x.container === h || fe(h, s.tabbableOptions) && !ue(h, s.tabbableOptions) && !x.nextTabbableNode(h)) && (M = E), M >= 0) {
-          var A = M === r.tabbableGroups.length - 1 ? 0 : M + 1, q = r.tabbableGroups[A];
+          var R = M === r.tabbableGroups.length - 1 ? 0 : M + 1, q = r.tabbableGroups[R];
           g = q.firstTabbableNode;
         }
       }
@@ -806,7 +806,7 @@ var un = Object.defineProperty, W = function(t, e) {
     an(this, t), this.notifyOut = W(function(D) {
       D(n);
     }, "notifyOut");
-    var i = e.notificationsGap, s = i === void 0 ? 20 : i, r = e.notificationsPadding, o = r === void 0 ? 20 : r, a = e.status, l = a === void 0 ? "success" : a, c = e.effect, f = c === void 0 ? Se.FADE : c, u = e.type, p = u === void 0 ? "outline" : u, m = e.title, b = e.text, y = e.showIcon, w = y === void 0 ? !0 : y, T = e.customIcon, S = T === void 0 ? "" : T, O = e.customClass, N = O === void 0 ? "" : O, v = e.speed, d = v === void 0 ? 500 : v, h = e.showCloseButton, g = h === void 0 ? !0 : h, E = e.autoclose, x = E === void 0 ? !0 : E, C = e.autotimeout, k = C === void 0 ? 3e3 : C, L = e.position, M = L === void 0 ? "right top" : L, A = e.customWrapper, q = A === void 0 ? "" : A;
+    var i = e.notificationsGap, s = i === void 0 ? 20 : i, r = e.notificationsPadding, o = r === void 0 ? 20 : r, a = e.status, l = a === void 0 ? "success" : a, c = e.effect, f = c === void 0 ? Se.FADE : c, u = e.type, p = u === void 0 ? "outline" : u, m = e.title, b = e.text, y = e.showIcon, w = y === void 0 ? !0 : y, T = e.customIcon, S = T === void 0 ? "" : T, O = e.customClass, N = O === void 0 ? "" : O, v = e.speed, d = v === void 0 ? 500 : v, h = e.showCloseButton, g = h === void 0 ? !0 : h, E = e.autoclose, x = E === void 0 ? !0 : E, C = e.autotimeout, k = C === void 0 ? 3e3 : C, L = e.position, M = L === void 0 ? "right top" : L, R = e.customWrapper, q = R === void 0 ? "" : R;
     if (this.customWrapper = q, this.status = l, this.title = m, this.text = b, this.showIcon = w, this.customIcon = S, this.customClass = N, this.speed = d, this.effect = f, this.showCloseButton = g, this.autoclose = x, this.autotimeout = k, this.notificationsGap = s, this.notificationsPadding = o, this.type = p, this.position = M, !this.checkRequirements()) {
       console.error("You must specify 'title' or 'text' at least.");
       return;
@@ -1278,7 +1278,7 @@ function kn(t, e) {
     }
   }));
 }
-const Re = Math.min, J = Math.max, be = Math.round, P = (t) => ({
+const Ae = Math.min, J = Math.max, be = Math.round, P = (t) => ({
   x: t,
   y: t
 }), Ln = {
@@ -1286,12 +1286,12 @@ const Re = Math.min, J = Math.max, be = Math.round, P = (t) => ({
   right: "left",
   bottom: "top",
   top: "bottom"
-}, Rn = {
+}, An = {
   start: "end",
   end: "start"
 };
 function Ge(t, e, n) {
-  return J(t, Re(e, n));
+  return J(t, Ae(e, n));
 }
 function ye(t, e) {
   return typeof t == "function" ? t(e) : t;
@@ -1314,7 +1314,7 @@ function G(t) {
 function yt(t) {
   return vt(G(t));
 }
-function An(t, e, n) {
+function Rn(t, e, n) {
   n === void 0 && (n = !1);
   const i = xe(t), s = yt(t), r = wt(s);
   let o = s === "x" ? i === (n ? "end" : "start") ? "right" : "left" : i === "start" ? "bottom" : "top";
@@ -1322,10 +1322,10 @@ function An(t, e, n) {
 }
 function $n(t) {
   const e = ve(t);
-  return [Ae(t), e, Ae(e)];
+  return [Re(t), e, Re(e)];
 }
-function Ae(t) {
-  return t.replace(/start|end/g, (e) => Rn[e]);
+function Re(t) {
+  return t.replace(/start|end/g, (e) => An[e]);
 }
 function Dn(t, e, n) {
   const i = ["left", "right"], s = ["right", "left"], r = ["top", "bottom"], o = ["bottom", "top"];
@@ -1343,7 +1343,7 @@ function Dn(t, e, n) {
 function Fn(t, e, n, i) {
   const s = xe(t);
   let r = Dn(K(t), n === "start", i);
-  return s && (r = r.map((o) => o + "-" + s), e && (r = r.concat(r.map(Ae)))), r;
+  return s && (r = r.map((o) => o + "-" + s), e && (r = r.concat(r.map(Re)))), r;
 }
 function ve(t) {
   return t.replace(/left|right|bottom|top/g, (e) => Ln[e]);
@@ -1566,22 +1566,22 @@ const Pn = function(t) {
       const h = [a, ...v], g = await xt(e, w), E = [];
       let x = ((i = r.flip) == null ? void 0 : i.overflows) || [];
       if (f && E.push(g[T]), u) {
-        const A = An(s, o, N);
-        E.push(g[A[0]], g[A[1]]);
+        const R = Rn(s, o, N);
+        E.push(g[R[0]], g[R[1]]);
       }
       if (x = [...x, {
         placement: s,
         overflows: E
-      }], !E.every((A) => A <= 0)) {
+      }], !E.every((R) => R <= 0)) {
         var C, k;
-        const A = (((C = r.flip) == null ? void 0 : C.index) || 0) + 1, q = h[A];
+        const R = (((C = r.flip) == null ? void 0 : C.index) || 0) + 1, q = h[R];
         if (q) {
           var L;
           const $ = u === "alignment" ? S !== G(q) : !1, z = ((L = x[0]) == null ? void 0 : L.overflows[0]) > 0;
           if (!$ || z)
             return {
               data: {
-                index: A,
+                index: R,
                 overflows: x
               },
               reset: {
@@ -1602,7 +1602,7 @@ const Pn = function(t) {
                   H === "y";
                 }
                 return !0;
-              }).map((z) => [z.placement, z.overflows.filter((H) => H > 0).reduce((H, Rt) => H + Rt, 0)]).sort((z, H) => z[1] - H[1])[0]) == null ? void 0 : M[0];
+              }).map((z) => [z.placement, z.overflows.filter((H) => H > 0).reduce((H, At) => H + At, 0)]).sort((z, H) => z[1] - H[1])[0]) == null ? void 0 : M[0];
               $ && (D = $);
               break;
             }
@@ -1733,7 +1733,7 @@ function Ie() {
 function te(t) {
   return It(t) ? (t.nodeName || "").toLowerCase() : "#document";
 }
-function R(t) {
+function A(t) {
   var e;
   return (t == null || (e = t.ownerDocument) == null ? void 0 : e.defaultView) || window;
 }
@@ -1742,16 +1742,16 @@ function V(t) {
   return (e = (It(t) ? t.ownerDocument : t.document) || window.document) == null ? void 0 : e.documentElement;
 }
 function It(t) {
-  return Ie() ? t instanceof Node || t instanceof R(t).Node : !1;
+  return Ie() ? t instanceof Node || t instanceof A(t).Node : !1;
 }
 function F(t) {
-  return Ie() ? t instanceof Element || t instanceof R(t).Element : !1;
+  return Ie() ? t instanceof Element || t instanceof A(t).Element : !1;
 }
 function B(t) {
-  return Ie() ? t instanceof HTMLElement || t instanceof R(t).HTMLElement : !1;
+  return Ie() ? t instanceof HTMLElement || t instanceof A(t).HTMLElement : !1;
 }
 function Ke(t) {
-  return !Ie() || typeof ShadowRoot > "u" ? !1 : t instanceof ShadowRoot || t instanceof R(t).ShadowRoot;
+  return !Ie() || typeof ShadowRoot > "u" ? !1 : t instanceof ShadowRoot || t instanceof A(t).ShadowRoot;
 }
 function ce(t) {
   const {
@@ -1796,7 +1796,7 @@ function ee(t) {
   return ["html", "body", "#document"].includes(te(t));
 }
 function _(t) {
-  return R(t).getComputedStyle(t);
+  return A(t).getComputedStyle(t);
 }
 function Te(t) {
   return F(t) ? {
@@ -1826,7 +1826,7 @@ function Et(t) {
 function Tt(t, e, n) {
   var i;
   e === void 0 && (e = []);
-  const s = Et(t), r = s === ((i = t.ownerDocument) == null ? void 0 : i.body), o = R(s);
+  const s = Et(t), r = s === ((i = t.ownerDocument) == null ? void 0 : i.body), o = A(s);
   return r ? ($e(o), e.concat(o, o.visualViewport || [], ce(s) ? s : [], [])) : e.concat(s, Tt(s, []));
 }
 function $e(t) {
@@ -1862,14 +1862,14 @@ function Q(t) {
 }
 const jn = /* @__PURE__ */ P(0);
 function Ot(t) {
-  const e = R(t);
+  const e = A(t);
   return !Fe() || !e.visualViewport ? jn : {
     x: e.visualViewport.offsetLeft,
     y: e.visualViewport.offsetTop
   };
 }
 function Un(t, e, n) {
-  return e === void 0 && (e = !1), !n || e && n !== R(t) ? !1 : e;
+  return e === void 0 && (e = !1), !n || e && n !== A(t) ? !1 : e;
 }
 function le(t, e, n, i) {
   e === void 0 && (e = !1), n === void 0 && (n = !1);
@@ -1879,11 +1879,11 @@ function le(t, e, n, i) {
   const a = Un(r, n, i) ? Ot(r) : P(0);
   let l = (s.left + a.x) / o.x, c = (s.top + a.y) / o.y, f = s.width / o.x, u = s.height / o.y;
   if (r) {
-    const p = R(r), m = i && F(i) ? R(i) : i;
+    const p = A(r), m = i && F(i) ? A(i) : i;
     let b = p, y = $e(b);
     for (; y && i && m !== b; ) {
       const w = Q(y), T = y.getBoundingClientRect(), S = _(y), O = T.left + (y.clientLeft + parseFloat(S.paddingLeft)) * w.x, N = T.top + (y.clientTop + parseFloat(S.paddingTop)) * w.y;
-      l *= w.x, c *= w.y, f *= w.x, u *= w.y, l += O, c += N, b = R(y), y = $e(b);
+      l *= w.x, c *= w.y, f *= w.x, u *= w.y, l += O, c += N, b = A(y), y = $e(b);
     }
   }
   return we({
@@ -1950,7 +1950,7 @@ function Zn(t) {
   };
 }
 function Kn(t, e) {
-  const n = R(t), i = V(t), s = n.visualViewport;
+  const n = A(t), i = V(t), s = n.visualViewport;
   let r = i.clientWidth, o = i.clientHeight, a = 0, l = 0;
   if (s) {
     r = s.width, o = s.height;
@@ -2018,7 +2018,7 @@ function Qn(t) {
   } = t;
   const o = [...n === "clippingAncestors" ? Ee(e) ? [] : Jn(e, this._c) : [].concat(n), i], a = o[0], l = o.reduce((c, f) => {
     const u = Xe(e, f, s);
-    return c.top = J(u.top, c.top), c.right = Re(u.right, c.right), c.bottom = Re(u.bottom, c.bottom), c.left = J(u.left, c.left), c;
+    return c.top = J(u.top, c.top), c.right = Ae(u.right, c.right), c.bottom = Ae(u.bottom, c.bottom), c.left = J(u.left, c.left), c;
   }, Xe(e, a, s));
   return {
     width: l.right - l.left,
@@ -2073,7 +2073,7 @@ function Je(t, e) {
   return V(t) === n && (n = n.ownerDocument.body), n;
 }
 function Lt(t, e) {
-  const n = R(t);
+  const n = A(t);
   if (Ee(t))
     return n;
   if (!B(t)) {
@@ -2231,8 +2231,6 @@ function ri(t) {
     open: !1,
     ariaExpanded: "false",
     parentDropdown: null,
-    parentSubmenu: null,
-    // <-- NEW
     triggerEl: null,
     menuItems: [],
     focusedIndex: null,
@@ -2246,12 +2244,10 @@ function ri(t) {
     closeDelay: 150,
     // --- INIT ---
     init() {
-      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.parentDropdown = t.$data(this.$el.closest('[x-data^="rzDropdownMenu"]')), this.triggerEl = this.$refs.subTrigger, this.siblingContainer = this.$el.parentElement, this.anchor = this.$el.dataset.subAnchor || this.anchor, this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset;
-      const e = this.$el.parentElement.closest('[x-data^="rzDropdownSubmenu"]');
-      e && (this.parentSubmenu = t.$data(e)), this.$watch("open", (n) => {
-        n ? (this._lastNavAt = 0, this.parentDropdown.isSubmenuActive = !0, this.$nextTick(() => {
-          const i = this.$refs.subContent;
-          this.updatePosition(i), this.menuItems = Array.from(i.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
+      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.parentDropdown = t.$data(this.$el.closest('[x-data^="rzDropdownMenu"]')), this.triggerEl = this.$refs.subTrigger, this.siblingContainer = this.$el.parentElement, this.anchor = this.$el.dataset.subAnchor || this.anchor, this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset, this.$watch("open", (e) => {
+        e ? (this._lastNavAt = 0, this.parentDropdown.isSubmenuActive = !0, this.$nextTick(() => {
+          const n = this.$refs.subContent;
+          this.updatePosition(n), this.menuItems = Array.from(n.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
         }), this.ariaExpanded = "true", this.triggerEl.dataset.state = "open") : (this.focusedIndex = null, this.ariaExpanded = "false", delete this.triggerEl.dataset.state, this.$nextTick(() => {
           this.parentDropdown.parentEl.querySelector('[x-data^="rzDropdownSubmenu"] [data-state="open"]') || (this.parentDropdown.isSubmenuActive = !1);
         }));
@@ -2266,32 +2262,18 @@ function ri(t) {
         Object.assign(e.style, { left: `${n}px`, top: `${i}px` });
       });
     },
-    cancelCloseTimeout() {
-      clearTimeout(this.closeTimeout);
-    },
     handleTriggerMouseEnter() {
-      this.parentSubmenu?.cancelCloseTimeout(), clearTimeout(this.closeTimeout), this.openSubmenu();
+      clearTimeout(this.closeTimeout), this.openSubmenu();
     },
     handleTriggerMouseLeave() {
       this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
     },
     handleContentMouseEnter() {
-      this.parentSubmenu?.cancelCloseTimeout(), clearTimeout(this.closeTimeout);
+      clearTimeout(this.closeTimeout);
     },
     handleContentMouseLeave() {
-      this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
-    },
-    handleTriggerFocusIn() {
-      this.parentSubmenu?.cancelCloseTimeout(), clearTimeout(this.closeTimeout);
-    },
-    handleTriggerFocusOut() {
-      this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
-    },
-    handleContentFocusIn() {
-      this.parentSubmenu?.cancelCloseTimeout(), clearTimeout(this.closeTimeout);
-    },
-    handleContentFocusOut() {
-      this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
+      const e = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+      e && Array.from(e).some((i) => t.$data(i)?.open) || (this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay));
     },
     openSubmenu(e = !1) {
       this.open || (this.closeSiblingSubmenus(), this.open = !0, this.$nextTick(() => {

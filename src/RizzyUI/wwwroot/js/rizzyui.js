@@ -3120,8 +3120,6 @@
       open: false,
       ariaExpanded: "false",
       parentDropdown: null,
-      parentSubmenu: null,
-      // <-- NEW
       triggerEl: null,
       menuItems: [],
       focusedIndex: null,
@@ -3142,10 +3140,6 @@
         this.siblingContainer = this.$el.parentElement;
         this.anchor = this.$el.dataset.subAnchor || this.anchor;
         this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset;
-        const parentSubmenuEl = this.$el.parentElement.closest('[x-data^="rzDropdownSubmenu"]');
-        if (parentSubmenuEl) {
-          this.parentSubmenu = Alpine2.$data(parentSubmenuEl);
-        }
         this.$watch("open", (value) => {
           if (value) {
             this._lastNavAt = 0;
@@ -3178,11 +3172,7 @@
           Object.assign(contentEl.style, { left: `${x}px`, top: `${y}px` });
         });
       },
-      cancelCloseTimeout() {
-        clearTimeout(this.closeTimeout);
-      },
       handleTriggerMouseEnter() {
-        this.parentSubmenu?.cancelCloseTimeout();
         clearTimeout(this.closeTimeout);
         this.openSubmenu();
       },
@@ -3190,24 +3180,16 @@
         this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
       },
       handleContentMouseEnter() {
-        this.parentSubmenu?.cancelCloseTimeout();
         clearTimeout(this.closeTimeout);
       },
       handleContentMouseLeave() {
-        this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
-      },
-      handleTriggerFocusIn() {
-        this.parentSubmenu?.cancelCloseTimeout();
-        clearTimeout(this.closeTimeout);
-      },
-      handleTriggerFocusOut() {
-        this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
-      },
-      handleContentFocusIn() {
-        this.parentSubmenu?.cancelCloseTimeout();
-        clearTimeout(this.closeTimeout);
-      },
-      handleContentFocusOut() {
+        const childSubmenus = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+        if (childSubmenus) {
+          const isAnyChildOpen = Array.from(childSubmenus).some((el) => Alpine2.$data(el)?.open);
+          if (isAnyChildOpen) {
+            return;
+          }
+        }
         this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
       },
       openSubmenu(focusFirst = false) {

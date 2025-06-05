@@ -253,6 +253,13 @@ export default function(Alpine) {
         },
 
         handleContentMouseLeave() {
+            const childSubmenus = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+            if (childSubmenus) {
+                const isAnyChildOpen = Array.from(childSubmenus).some(el => Alpine.$data(el)?.open);
+                if (isAnyChildOpen) {
+                    return;
+                }
+            }
             this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
         },
 

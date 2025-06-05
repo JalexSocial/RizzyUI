@@ -183,7 +183,6 @@ export default function(Alpine) {
         open: false,
         ariaExpanded: 'false',
         parentDropdown: null,
-        parentSubmenu: null, // <-- NEW
         triggerEl: null,
         menuItems: [],
         focusedIndex: null,
@@ -205,12 +204,6 @@ export default function(Alpine) {
             this.siblingContainer = this.$el.parentElement;
             this.anchor = this.$el.dataset.subAnchor || this.anchor;
             this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset;
-
-            // Find parent submenu if nested
-            const parentSubmenuEl = this.$el.parentElement.closest('[x-data^="rzDropdownSubmenu"]');
-            if (parentSubmenuEl) {
-                this.parentSubmenu = Alpine.$data(parentSubmenuEl);
-            }
 
             this.$watch('open', (value) => {
                 if (value) {
@@ -246,12 +239,7 @@ export default function(Alpine) {
             });
         },
 
-        cancelCloseTimeout() {
-            clearTimeout(this.closeTimeout);
-        },
-
         handleTriggerMouseEnter() {
-            this.parentSubmenu?.cancelCloseTimeout();
             clearTimeout(this.closeTimeout);
             this.openSubmenu();
         },
@@ -261,29 +249,17 @@ export default function(Alpine) {
         },
 
         handleContentMouseEnter() {
-            this.parentSubmenu?.cancelCloseTimeout();
             clearTimeout(this.closeTimeout);
         },
 
         handleContentMouseLeave() {
-            this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
-        },
-
-        handleTriggerFocusIn() {
-            this.parentSubmenu?.cancelCloseTimeout();
-            clearTimeout(this.closeTimeout);
-        },
-
-        handleTriggerFocusOut() {
-            this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
-        },
-
-        handleContentFocusIn() {
-            this.parentSubmenu?.cancelCloseTimeout();
-            clearTimeout(this.closeTimeout);
-        },
-
-        handleContentFocusOut() {
+            const childSubmenus = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+            if (childSubmenus) {
+                const isAnyChildOpen = Array.from(childSubmenus).some(el => Alpine.$data(el)?.open);
+                if (isAnyChildOpen) {
+                    return;
+                }
+            }
             this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
         },
 
