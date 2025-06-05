@@ -6284,7 +6284,16 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       pixelOffset: 3,
       activeSubmenu: null,
       isSubmenuActive: false,
+      navThrottle: 100,
+      // delay between moves
+      _lastNavAt: 0,
+      // internal time-stamp, updated after every move
+      activeSubmenuId: null,
+      selfId: null,
       init() {
+        if (!this.$el.id) this.$el.id = crypto.randomUUID();
+        this.selfId = this.$el.id;
+        this.activeSubmenuId = null;
         this.parentEl = this.$el;
         this.triggerEl = this.$refs.trigger;
         this.contentEl = this.$refs.content;
@@ -6293,6 +6302,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         this.isModal = this.$el.dataset.modal !== "false";
         this.$watch("open", (value) => {
           if (value) {
+            this._lastNavAt = 0;
             this.$nextTick(() => {
               this.updatePosition();
               this.menuItems = Array.from(
@@ -6356,11 +6366,17 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         }
       },
       focusNextItem() {
+        const now = Date.now();
+        if (now - this._lastNavAt < this.navThrottle) return;
+        this._lastNavAt = now;
         if (!this.menuItems.length) return;
         this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1;
         this.focusCurrentItem();
       },
       focusPreviousItem() {
+        const now = Date.now();
+        if (now - this._lastNavAt < this.navThrottle) return;
+        this._lastNavAt = now;
         if (!this.menuItems.length) return;
         this.focusedIndex = this.focusedIndex === null || this.focusedIndex <= 0 ? this.menuItems.length - 1 : this.focusedIndex - 1;
         this.focusCurrentItem();
@@ -6377,7 +6393,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       },
       focusCurrentItem() {
         if (this.focusedIndex !== null && this.menuItems[this.focusedIndex]) {
-          this.menuItems[this.focusedIndex].focus();
+          this.$nextTick(() => this.menuItems[this.focusedIndex].focus());
         }
       },
       focusSelectedItem(item, { keepSubmenusOpen = false } = {}) {
@@ -6386,7 +6402,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         if (index !== -1 && this.focusedIndex !== index) {
           if (!keepSubmenusOpen) this.closeAllSubmenus();
           this.focusedIndex = index;
-          this.menuItems[this.focusedIndex].focus();
+          this.$nextTick(() => this.menuItems[this.focusedIndex].focus());
         }
       },
       handleItemClick(event) {
@@ -6418,25 +6434,30 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         }
       },
       handleTriggerMouseover() {
-        this.$el.firstChild?.focus();
+        this.$nextTick(() => this.$el.firstChild?.focus());
       },
-      closeAllSubmenus(exceptThisOne = null) {
+      closeAllSubmenus(exceptId = null) {
+        if (!this.isSubmenuActive) return;
         const submenus = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
-        submenus.forEach((sm) => {
-          const alpineInstance = Alpine2.$data(sm);
-          if (alpineInstance && alpineInstance !== exceptThisOne && alpineInstance.open) {
-            alpineInstance.closeSubmenu();
+        submenus.forEach((el) => {
+          const api = Alpine2.$data(el);
+          if (api && api.open && api.selfId !== exceptId) {
+            api.closeSubmenu();
           }
         });
-        this.activeSubmenu = null;
-        this.isSubmenuActive = false;
-      },
-      setActiveSubmenu(submenuInstance) {
-        if (this.activeSubmenu && this.activeSubmenu !== submenuInstance) {
-          this.activeSubmenu.open = false;
+        const anyOpen = Array.from(submenus).some((el) => Alpine2.$data(el)?.open);
+        if (!anyOpen) {
+          this.activeSubmenuId = null;
+          this.isSubmenuActive = false;
         }
-        this.activeSubmenu = submenuInstance;
-        this.isSubmenuActive = this.activeSubmenu && this.activeSubmenu.open;
+      },
+      setActiveSubmenu(submenuApi) {
+        if (this.activeSubmenuId && this.activeSubmenuId !== submenuApi.selfId) {
+          const prev = document.getElementById(this.activeSubmenuId);
+          Alpine2.$data(prev)?.closeSubmenu();
+        }
+        this.activeSubmenuId = submenuApi.selfId;
+        this.isSubmenuActive = true;
       }
     }));
     Alpine2.data("rzDropdownSubmenu", () => ({
@@ -6448,13 +6469,21 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       focusedIndex: null,
       anchor: "right-start",
       pixelOffset: 0,
+      navThrottle: 100,
+      // delay between moves
+      _lastNavAt: 0,
+      // internal time-stamp, updated after every move
+      selfId: null,
       init() {
+        if (!this.$el.id) this.$el.id = crypto.randomUUID();
+        this.selfId = this.$el.id;
         this.parentDropdown = Alpine2.$data(this.$el.closest('[x-data^="rzDropdownMenu"]'));
         this.triggerEl = this.$refs.subTrigger;
         this.anchor = this.$el.dataset.subAnchor || this.anchor;
         this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset;
         this.$watch("open", (value) => {
           if (value) {
+            this._lastNavAt = 0;
             this.parentDropdown?.setActiveSubmenu(this);
             this.$nextTick(() => {
               const contentEl = this.$refs.subContent;
@@ -6492,23 +6521,20 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       toggleSubmenu() {
         this.open = !this.open;
         if (this.open) {
-          this.parentDropdown?.closeAllSubmenus(this);
+          this.parentDropdown?.closeAllSubmenus(this.selfId);
+          this.parentDropdown?.setActiveSubmenu(this);
           this.focusedIndex = -1;
         }
       },
       openSubmenu(isOpen = true, focusFirst = false) {
         if (isOpen && !this.open) {
-          this.parentDropdown?.focusSelectedItem(
-            this.triggerEl,
-            { keepSubmenusOpen: true }
-          );
-          this.parentDropdown?.closeAllSubmenus(this);
+          this.parentDropdown?.focusSelectedItem(this.triggerEl, { keepSubmenusOpen: true });
+          this.parentDropdown?.closeAllSubmenus(this.selfId);
           this.open = true;
           this.$nextTick(() => requestAnimationFrame(() => {
-            if (focusFirst && this.menuItems.length) {
+            if (focusFirst && this.menuItems.length && this.menuItems.length > 0) {
+              this.focusedIndex = 0;
               this.menuItems[0].focus();
-            } else {
-              this.triggerEl.focus();
             }
           }));
         }
@@ -6536,11 +6562,17 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         this.open = false;
       },
       focusNextItem() {
+        const now = Date.now();
+        if (now - this._lastNavAt < this.navThrottle) return;
+        this._lastNavAt = now;
         if (!this.menuItems.length) return;
         this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1;
         this.focusCurrentItem();
       },
       focusPreviousItem() {
+        const now = Date.now();
+        if (now - this._lastNavAt < this.navThrottle) return;
+        this._lastNavAt = now;
         if (!this.menuItems.length) return;
         this.focusedIndex = this.focusedIndex === null || this.focusedIndex <= 0 ? this.menuItems.length - 1 : this.focusedIndex - 1;
         this.focusCurrentItem();

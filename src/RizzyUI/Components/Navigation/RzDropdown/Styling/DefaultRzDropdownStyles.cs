@@ -44,7 +44,7 @@ public class DefaultRzDropdownMenuStyles : RzStylesBase.RzDropdownMenuStylesBase
     // DropdownMenuItem
     /// <inheritdoc />
     public override string MenuItem =>
-        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus-visible:bg-accent focus-visible:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 hover:bg-accent hover:text-accent-foreground"; // Based on shadcn/ui
+        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 hover:bg-accent hover:text-accent-foreground"; // Based on shadcn/ui
     /// <inheritdoc />
     public override string MenuItemIcon => "mr-2 size-4 text-xl"; // Based on shadcn/ui
 
