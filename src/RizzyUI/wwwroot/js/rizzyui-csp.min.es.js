@@ -4282,28 +4282,24 @@ function Fl(e) {
     navThrottle: 100,
     // delay between moves
     _lastNavAt: 0,
-    // internal time-stamp, updated after every move
+    // internal time‑stamp, updated after every move
     activeSubmenuId: null,
     selfId: null,
+    /* ------------------------------ lifecycle ------------------------------ */
     init() {
-      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.activeSubmenuId = null, this.parentEl = this.$el, this.triggerEl = this.$refs.trigger, this.contentEl = this.$refs.content, this.anchor = this.$el.dataset.anchor || "bottom", this.pixelOffset = parseInt(this.$el.dataset.offset) || 6, this.isModal = this.$el.dataset.modal !== "false", this.$watch("open", (t) => {
+      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.parentEl = this.$el, this.triggerEl = this.$refs.trigger, this.contentEl = this.$refs.content, this.anchor = this.$el.dataset.anchor || "bottom", this.pixelOffset = parseInt(this.$el.dataset.offset) || 6, this.isModal = this.$el.dataset.modal !== "false", this.$watch("open", (t) => {
         t ? (this._lastNavAt = 0, this.$nextTick(() => {
           this.updatePosition(), this.menuItems = Array.from(
-            this.contentEl.querySelectorAll(
-              '[role^="menuitem"]:not([disabled],[aria-disabled="true"])'
-            )
+            this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled],[aria-disabled="true"])')
           );
         }), this.ariaExpanded = "true", this.triggerEl.dataset.state = "open", this.trapActive = this.isModal) : (this.focusedIndex = null, this.closeAllSubmenus(), this.ariaExpanded = "false", delete this.triggerEl.dataset.state, this.trapActive = !1);
       });
     },
+    /* --------------------------- positioning --------------------------- */
     updatePosition() {
       !this.triggerEl || !this.contentEl || li(this.triggerEl, this.contentEl, {
         placement: this.anchor,
-        middleware: [
-          si(this.pixelOffset),
-          ai(),
-          oi({ padding: 8 })
-        ]
+        middleware: [si(this.pixelOffset), ai(), oi({ padding: 8 })]
       }).then(({ x: t, y: n }) => {
         Object.assign(this.contentEl.style, {
           left: `${t}px`,
@@ -4311,17 +4307,20 @@ function Fl(e) {
         });
       });
     },
+    /* -------------------------- open / close -------------------------- */
     toggle() {
       this.open ? (this.closeAllSubmenus(), this.open = !1, this.$nextTick(() => this.triggerEl?.focus())) : (this.open = !0, this.focusedIndex = -1);
     },
     handleOutsideClick() {
       this.open && (this.closeAllSubmenus(), this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
     },
+    /* ------------------------- keyboard support ------------------------ */
     handleTriggerKeydown(t) {
       ["Enter", " ", "ArrowDown", "ArrowUp"].includes(t.key) && (t.preventDefault(), this.open = !0, this.$nextTick(() => {
         t.key === "ArrowUp" ? this.focusLastItem() : this.focusFirstItem();
       }));
     },
+    /* -------- generic focus navigation for the root dropdown ---------- */
     focusNextItem() {
       const t = Date.now();
       t - this._lastNavAt < this.navThrottle || (this._lastNavAt = t, this.menuItems.length && (this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1, this.focusCurrentItem()));
@@ -4344,6 +4343,7 @@ function Fl(e) {
       const i = this.menuItems.indexOf(t);
       i !== -1 && this.focusedIndex !== i && (n || this.closeAllSubmenus(), this.focusedIndex = i, this.$nextTick(() => this.menuItems[this.focusedIndex].focus()));
     },
+    /* ---------------------------- item click --------------------------- */
     handleItemClick(t) {
       const n = t.currentTarget;
       if (!(n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled"))) {
@@ -4355,9 +4355,9 @@ function Fl(e) {
       }
     },
     handleItemMousemove(t) {
-      const n = t.currentTarget;
-      this.focusSelectedItem(n);
+      this.focusSelectedItem(t.currentTarget);
     },
+    /* -------------------------- global key‑outs ------------------------ */
     handleWindowEscape() {
       this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
     },
@@ -4367,18 +4367,22 @@ function Fl(e) {
     handleTriggerMouseover() {
       this.$nextTick(() => this.$el.firstChild?.focus());
     },
+    /* ---------------------- submenu book‑keeping ---------------------- */
     closeAllSubmenus(t = null) {
       if (!this.isSubmenuActive) return;
-      const n = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
-      n.forEach((r) => {
-        const s = e.$data(r);
-        s && s.open && s.selfId !== t && s.closeSubmenu();
-      }), Array.from(n).some((r) => e.$data(r)?.open) || (this.activeSubmenuId = null, this.isSubmenuActive = !1);
+      const n = t ? document.getElementById(t) : null, i = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+      i.forEach((s) => {
+        if (n && s.contains(n)) return;
+        const o = e.$data(s);
+        o && o.open && o.selfId !== t && o.closeSubmenu();
+      });
+      const r = Array.from(i).some((s) => e.$data(s)?.open);
+      this.isSubmenuActive = r, r || (this.activeSubmenuId = null);
     },
     setActiveSubmenu(t) {
       if (this.activeSubmenuId && this.activeSubmenuId !== t.selfId) {
         const n = document.getElementById(this.activeSubmenuId);
-        e.$data(n)?.closeSubmenu();
+        (!n || !n.contains(document.getElementById(t.selfId))) && e.$data(n)?.closeSubmenu();
       }
       this.activeSubmenuId = t.selfId, this.isSubmenuActive = !0;
     }
@@ -4392,26 +4396,24 @@ function Fl(e) {
     anchor: "right-start",
     pixelOffset: 0,
     navThrottle: 100,
-    // delay between moves
     _lastNavAt: 0,
-    // internal time-stamp, updated after every move
     selfId: null,
+    /* -- lifecycle -- */
     init() {
       this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.parentDropdown = e.$data(this.$el.closest('[x-data^="rzDropdownMenu"]')), this.triggerEl = this.$refs.subTrigger, this.anchor = this.$el.dataset.subAnchor || this.anchor, this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset, this.$watch("open", (t) => {
         t ? (this._lastNavAt = 0, this.parentDropdown?.setActiveSubmenu(this), this.$nextTick(() => {
           const n = this.$refs.subContent;
-          this.updatePosition(n), this.menuItems = Array.from(n.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
+          this.updatePosition(n), this.menuItems = Array.from(
+            n.querySelectorAll('[role^="menuitem"]:not([disabled],[aria-disabled="true"])')
+          );
         }), this.ariaExpanded = "true", this.triggerEl.dataset.state = "open") : (this.focusedIndex = null, this.parentDropdown?.activeSubmenu === this && (this.parentDropdown.activeSubmenu = null), this.ariaExpanded = "false", delete this.triggerEl.dataset.state);
       });
     },
+    /* -- positioning -- */
     updatePosition(t) {
       !this.triggerEl || !t || li(this.triggerEl, t, {
         placement: this.anchor,
-        middleware: [
-          si(this.pixelOffset),
-          ai(),
-          oi({ padding: 8 })
-        ]
+        middleware: [si(this.pixelOffset), ai(), oi({ padding: 8 })]
       }).then(({ x: n, y: i }) => {
         Object.assign(t.style, {
           left: `${n}px`,
@@ -4419,13 +4421,16 @@ function Fl(e) {
         });
       });
     },
+    /* -- open / close -- */
     toggleSubmenu() {
       this.open = !this.open, this.open && (this.parentDropdown?.closeAllSubmenus(this.selfId), this.parentDropdown?.setActiveSubmenu(this), this.focusedIndex = -1);
     },
     openSubmenu(t = !0, n = !1) {
-      t && !this.open && (this.parentDropdown?.focusSelectedItem(this.triggerEl, { keepSubmenusOpen: !0 }), this.parentDropdown?.closeAllSubmenus(this.selfId), this.open = !0, this.$nextTick(() => requestAnimationFrame(() => {
-        n && this.menuItems.length && this.menuItems.length > 0 && (this.focusedIndex = 0, this.menuItems[0].focus());
-      })));
+      t && !this.open && (this.parentDropdown?.focusSelectedItem(this.triggerEl, { keepSubmenusOpen: !0 }), this.parentDropdown?.closeAllSubmenus(this.selfId), this.open = !0, this.$nextTick(
+        () => requestAnimationFrame(() => {
+          n && this.menuItems.length && (this.focusedIndex = 0, this.menuItems[0].focus());
+        })
+      ));
     },
     openSubmenuAndFocusFirst() {
       this.openSubmenu(!0, !0);
@@ -4433,16 +4438,19 @@ function Fl(e) {
     closeSubmenu() {
       this.open = !1;
     },
+    /* -- trigger events -- */
     handleTriggerKeydown(t) {
       ["ArrowRight", "Enter", " "].includes(t.key) && this.openSubmenuAndFocusFirst();
     },
     handleTriggerClick() {
       this.toggleSubmenu();
     },
+    /* -- focus containment -- */
     handleFocusOut(t) {
       const n = t.relatedTarget;
       n && (this.$el.contains(n) || this.$refs.subContent?.contains(n) || (this.open = !1));
     },
+    /* -- intra‑panel navigation -- */
     focusNextItem() {
       const t = Date.now();
       t - this._lastNavAt < this.navThrottle || (this._lastNavAt = t, this.menuItems.length && (this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1, this.focusCurrentItem()));
@@ -4460,6 +4468,7 @@ function Fl(e) {
     focusCurrentItem() {
       this.focusedIndex !== null && this.menuItems[this.focusedIndex] && this.menuItems[this.focusedIndex].focus();
     },
+    /* -- item interactions -- */
     handleItemClick(t) {
       const n = t.currentTarget;
       if (!(n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled"))) {
@@ -4472,11 +4481,11 @@ function Fl(e) {
     },
     handleItemMousemove(t) {
       const n = t.currentTarget;
-      if (n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled"))
-        return;
+      if (n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled")) return;
       const i = this.menuItems.indexOf(n);
       i !== -1 && this.focusedIndex !== i && (this.focusedIndex = i);
     },
+    /* -- escape routes -- */
     handleSubmenuEscape() {
       this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
     },

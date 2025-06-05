@@ -507,7 +507,7 @@ var Ve = /* @__PURE__ */ function() {
     } else
       g = c("fallbackFocus");
     g && (d.preventDefault(), p(g));
-  }, S = function(d) {
+  }, T = function(d) {
     if (en(d) && ne(s.escapeDeactivates, d) !== !1) {
       d.preventDefault(), o.deactivate();
       return;
@@ -516,7 +516,7 @@ var Ve = /* @__PURE__ */ function() {
       w(d);
       return;
     }
-  }, T = function(d) {
+  }, S = function(d) {
     var h = de(d);
     l(h) >= 0 || ne(s.clickOutsideDeactivates, d) || ne(s.allowOutsideClick, d) || (d.preventDefault(), d.stopImmediatePropagation());
   }, O = function() {
@@ -529,16 +529,16 @@ var Ve = /* @__PURE__ */ function() {
       }), i.addEventListener("touchstart", b, {
         capture: !0,
         passive: !1
-      }), i.addEventListener("click", T, {
+      }), i.addEventListener("click", S, {
         capture: !0,
         passive: !1
-      }), i.addEventListener("keydown", S, {
+      }), i.addEventListener("keydown", T, {
         capture: !0,
         passive: !1
       }), o;
   }, N = function() {
     if (r.active)
-      return i.removeEventListener("focusin", y, !0), i.removeEventListener("mousedown", b, !0), i.removeEventListener("touchstart", b, !0), i.removeEventListener("click", T, !0), i.removeEventListener("keydown", S, !0), o;
+      return i.removeEventListener("focusin", y, !0), i.removeEventListener("mousedown", b, !0), i.removeEventListener("touchstart", b, !0), i.removeEventListener("click", S, !0), i.removeEventListener("keydown", T, !0), o;
   };
   return o = {
     get active() {
@@ -784,7 +784,7 @@ var un = Object.defineProperty, V = function(t, e) {
 }, "stringToHTML"), ie = V(function(t) {
   var e = new DOMParser().parseFromString(t, "application/xml");
   return document.importNode(e.documentElement, !0).outerHTML;
-}, "getSvgNode"), I = { CONTAINER: "sn-notifications-container", NOTIFY: "sn-notify", NOTIFY_CONTENT: "sn-notify-content", NOTIFY_ICON: "sn-notify-icon", NOTIFY_CLOSE: "sn-notify-close", NOTIFY_TITLE: "sn-notify-title", NOTIFY_TEXT: "sn-notify-text", IS_X_CENTER: "sn-is-x-center", IS_Y_CENTER: "sn-is-y-center", IS_CENTER: "sn-is-center", IS_LEFT: "sn-is-left", IS_RIGHT: "sn-is-right", IS_TOP: "sn-is-top", IS_BOTTOM: "sn-is-bottom", NOTIFY_OUTLINE: "sn-notify-outline", NOTIFY_FILLED: "sn-notify-filled", NOTIFY_ERROR: "sn-notify-error", NOTIFY_WARNING: "sn-notify-warning", NOTIFY_SUCCESS: "sn-notify-success", NOTIFY_INFO: "sn-notify-info", NOTIFY_FADE: "sn-notify-fade", NOTIFY_FADE_IN: "sn-notify-fade-in", NOTIFY_SLIDE: "sn-notify-slide", NOTIFY_SLIDE_IN: "sn-notify-slide-in", NOTIFY_AUTOCLOSE: "sn-notify-autoclose" }, Y = { ERROR: "error", WARNING: "warning", SUCCESS: "success", INFO: "info" }, je = { OUTLINE: "outline", FILLED: "filled" }, Te = { FADE: "fade", SLIDE: "slide" }, se = { CLOSE: ie(dn), SUCCESS: ie(pn), ERROR: ie(fn), WARNING: ie(mn), INFO: ie(hn) }, Ue = V(function(t) {
+}, "getSvgNode"), I = { CONTAINER: "sn-notifications-container", NOTIFY: "sn-notify", NOTIFY_CONTENT: "sn-notify-content", NOTIFY_ICON: "sn-notify-icon", NOTIFY_CLOSE: "sn-notify-close", NOTIFY_TITLE: "sn-notify-title", NOTIFY_TEXT: "sn-notify-text", IS_X_CENTER: "sn-is-x-center", IS_Y_CENTER: "sn-is-y-center", IS_CENTER: "sn-is-center", IS_LEFT: "sn-is-left", IS_RIGHT: "sn-is-right", IS_TOP: "sn-is-top", IS_BOTTOM: "sn-is-bottom", NOTIFY_OUTLINE: "sn-notify-outline", NOTIFY_FILLED: "sn-notify-filled", NOTIFY_ERROR: "sn-notify-error", NOTIFY_WARNING: "sn-notify-warning", NOTIFY_SUCCESS: "sn-notify-success", NOTIFY_INFO: "sn-notify-info", NOTIFY_FADE: "sn-notify-fade", NOTIFY_FADE_IN: "sn-notify-fade-in", NOTIFY_SLIDE: "sn-notify-slide", NOTIFY_SLIDE_IN: "sn-notify-slide-in", NOTIFY_AUTOCLOSE: "sn-notify-autoclose" }, Y = { ERROR: "error", WARNING: "warning", SUCCESS: "success", INFO: "info" }, je = { OUTLINE: "outline", FILLED: "filled" }, Se = { FADE: "fade", SLIDE: "slide" }, se = { CLOSE: ie(dn), SUCCESS: ie(pn), ERROR: ie(fn), WARNING: ie(mn), INFO: ie(hn) }, Ue = V(function(t) {
   t.wrapper.classList.add(I.NOTIFY_FADE), setTimeout(function() {
     t.wrapper.classList.add(I.NOTIFY_FADE_IN);
   }, 100);
@@ -806,8 +806,8 @@ var un = Object.defineProperty, V = function(t, e) {
     an(this, t), this.notifyOut = V(function(F) {
       F(n);
     }, "notifyOut");
-    var i = e.notificationsGap, s = i === void 0 ? 20 : i, r = e.notificationsPadding, o = r === void 0 ? 20 : r, a = e.status, l = a === void 0 ? "success" : a, c = e.effect, f = c === void 0 ? Te.FADE : c, u = e.type, p = u === void 0 ? "outline" : u, m = e.title, b = e.text, y = e.showIcon, w = y === void 0 ? !0 : y, S = e.customIcon, T = S === void 0 ? "" : S, O = e.customClass, N = O === void 0 ? "" : O, v = e.speed, d = v === void 0 ? 500 : v, h = e.showCloseButton, g = h === void 0 ? !0 : h, E = e.autoclose, x = E === void 0 ? !0 : E, C = e.autotimeout, k = C === void 0 ? 3e3 : C, L = e.position, P = L === void 0 ? "right top" : L, R = e.customWrapper, q = R === void 0 ? "" : R;
-    if (this.customWrapper = q, this.status = l, this.title = m, this.text = b, this.showIcon = w, this.customIcon = T, this.customClass = N, this.speed = d, this.effect = f, this.showCloseButton = g, this.autoclose = x, this.autotimeout = k, this.notificationsGap = s, this.notificationsPadding = o, this.type = p, this.position = P, !this.checkRequirements()) {
+    var i = e.notificationsGap, s = i === void 0 ? 20 : i, r = e.notificationsPadding, o = r === void 0 ? 20 : r, a = e.status, l = a === void 0 ? "success" : a, c = e.effect, f = c === void 0 ? Se.FADE : c, u = e.type, p = u === void 0 ? "outline" : u, m = e.title, b = e.text, y = e.showIcon, w = y === void 0 ? !0 : y, T = e.customIcon, S = T === void 0 ? "" : T, O = e.customClass, N = O === void 0 ? "" : O, v = e.speed, d = v === void 0 ? 500 : v, h = e.showCloseButton, g = h === void 0 ? !0 : h, E = e.autoclose, x = E === void 0 ? !0 : E, C = e.autotimeout, k = C === void 0 ? 3e3 : C, L = e.position, P = L === void 0 ? "right top" : L, R = e.customWrapper, q = R === void 0 ? "" : R;
+    if (this.customWrapper = q, this.status = l, this.title = m, this.text = b, this.showIcon = w, this.customIcon = S, this.customClass = N, this.speed = d, this.effect = f, this.showCloseButton = g, this.autoclose = x, this.autotimeout = k, this.notificationsGap = s, this.notificationsPadding = o, this.type = p, this.position = P, !this.checkRequirements()) {
       console.error("You must specify 'title' or 'text' at least.");
       return;
     }
@@ -892,10 +892,10 @@ var un = Object.defineProperty, V = function(t, e) {
     this.notifyOut(this.selectedNotifyOutEffect);
   } }, { key: "setEffect", value: function() {
     switch (this.effect) {
-      case Te.FADE:
+      case Se.FADE:
         this.selectedNotifyInEffect = Ue, this.selectedNotifyOutEffect = qe;
         break;
-      case Te.SLIDE:
+      case Se.SLIDE:
         this.selectedNotifyInEffect = bn, this.selectedNotifyOutEffect = vn;
         break;
       default:
@@ -1110,7 +1110,7 @@ function En(t) {
     }
   }));
 }
-function Sn(t) {
+function Tn(t) {
   t.data("accordionItem", () => ({
     open: !1,
     sectionId: "",
@@ -1138,7 +1138,7 @@ function Sn(t) {
     }
   }));
 }
-function Tn(t) {
+function Sn(t) {
   t.data("rzAlert", () => ({
     parentElement: null,
     showAlert: !0,
@@ -1449,13 +1449,13 @@ const Mn = async (t, e, n) => {
   for (let y = 0; y < a.length; y++) {
     const {
       name: w,
-      fn: S
+      fn: T
     } = a[y], {
-      x: T,
+      x: S,
       y: O,
       data: N,
       reset: v
-    } = await S({
+    } = await T({
       x: f,
       y: u,
       initialPlacement: i,
@@ -1469,7 +1469,7 @@ const Mn = async (t, e, n) => {
         floating: e
       }
     });
-    f = T ?? f, u = O ?? u, m = {
+    f = S ?? f, u = O ?? u, m = {
       ...m,
       [w]: {
         ...m[w],
@@ -1508,12 +1508,12 @@ async function xt(t, e) {
     elementContext: u = "floating",
     altBoundary: p = !1,
     padding: m = 0
-  } = ye(e, t), b = Pn(m), w = a[p ? u === "floating" ? "reference" : "floating" : u], S = we(await r.getClippingRect({
+  } = ye(e, t), b = Pn(m), w = a[p ? u === "floating" ? "reference" : "floating" : u], T = we(await r.getClippingRect({
     element: (n = await (r.isElement == null ? void 0 : r.isElement(w))) == null || n ? w : w.contextElement || await (r.getDocumentElement == null ? void 0 : r.getDocumentElement(a.floating)),
     boundary: c,
     rootBoundary: f,
     strategy: l
-  })), T = u === "floating" ? {
+  })), S = u === "floating" ? {
     x: i,
     y: s,
     width: o.floating.width,
@@ -1526,15 +1526,15 @@ async function xt(t, e) {
     y: 1
   }, v = we(r.convertOffsetParentRelativeRectToViewportRelativeRect ? await r.convertOffsetParentRelativeRectToViewportRelativeRect({
     elements: a,
-    rect: T,
+    rect: S,
     offsetParent: O,
     strategy: l
-  }) : T);
+  }) : S);
   return {
-    top: (S.top - v.top + b.top) / N.y,
-    bottom: (v.bottom - S.bottom + b.bottom) / N.y,
-    left: (S.left - v.left + b.left) / N.x,
-    right: (v.right - S.right + b.right) / N.x
+    top: (T.top - v.top + b.top) / N.y,
+    bottom: (v.bottom - T.bottom + b.bottom) / N.y,
+    left: (T.left - v.left + b.left) / N.x,
+    right: (v.right - T.right + b.right) / N.x
   };
 }
 const zn = function(t) {
@@ -1561,11 +1561,11 @@ const zn = function(t) {
       } = ye(t, e);
       if ((n = r.arrow) != null && n.alignmentOffset)
         return {};
-      const S = K(s), T = G(a), O = K(a) === a, N = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), v = p || (O || !y ? [ve(a)] : $n(a)), d = b !== "none";
+      const T = K(s), S = G(a), O = K(a) === a, N = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), v = p || (O || !y ? [ve(a)] : $n(a)), d = b !== "none";
       !p && d && v.push(...Dn(a, y, b, N));
       const h = [a, ...v], g = await xt(e, w), E = [];
       let x = ((i = r.flip) == null ? void 0 : i.overflows) || [];
-      if (f && E.push(g[S]), u) {
+      if (f && E.push(g[T]), u) {
         const R = Rn(s, o, N);
         E.push(g[R[0]], g[R[1]]);
       }
@@ -1577,7 +1577,7 @@ const zn = function(t) {
         const R = (((C = r.flip) == null ? void 0 : C.index) || 0) + 1, q = h[R];
         if (q) {
           var L;
-          const $ = u === "alignment" ? T !== G(q) : !1, M = ((L = x[0]) == null ? void 0 : L.overflows[0]) > 0;
+          const $ = u === "alignment" ? S !== G(q) : !1, M = ((L = x[0]) == null ? void 0 : L.overflows[0]) > 0;
           if (!$ || M)
             return {
               data: {
@@ -1597,7 +1597,7 @@ const zn = function(t) {
               const $ = (P = x.filter((M) => {
                 if (d) {
                   const H = G(M.placement);
-                  return H === T || // Create a bias to the `y` side axis due to horizontal
+                  return H === S || // Create a bias to the `y` side axis due to horizontal
                   // reading directions favoring greater width.
                   H === "y";
                 }
@@ -1685,12 +1685,12 @@ const Vn = function(t) {
         limiter: a = {
           fn: (w) => {
             let {
-              x: S,
-              y: T
+              x: T,
+              y: S
             } = w;
             return {
-              x: S,
-              y: T
+              x: T,
+              y: S
             };
           }
         },
@@ -1701,12 +1701,12 @@ const Vn = function(t) {
       }, f = await xt(e, l), u = G(K(s)), p = vt(u);
       let m = c[p], b = c[u];
       if (r) {
-        const w = p === "y" ? "top" : "left", S = p === "y" ? "bottom" : "right", T = m + f[w], O = m - f[S];
-        m = Ge(T, m, O);
+        const w = p === "y" ? "top" : "left", T = p === "y" ? "bottom" : "right", S = m + f[w], O = m - f[T];
+        m = Ge(S, m, O);
       }
       if (o) {
-        const w = u === "y" ? "top" : "left", S = u === "y" ? "bottom" : "right", T = b + f[w], O = b - f[S];
-        b = Ge(T, b, O);
+        const w = u === "y" ? "top" : "left", T = u === "y" ? "bottom" : "right", S = b + f[w], O = b - f[T];
+        b = Ge(S, b, O);
       }
       const y = a.fn({
         ...e,
@@ -1798,7 +1798,7 @@ function ee(t) {
 function _(t) {
   return A(t).getComputedStyle(t);
 }
-function Se(t) {
+function Te(t) {
   return D(t) ? {
     scrollLeft: t.scrollLeft,
     scrollTop: t.scrollTop
@@ -1823,16 +1823,16 @@ function Et(t) {
   const e = U(t);
   return ee(e) ? t.ownerDocument ? t.ownerDocument.body : t.body : B(e) && ce(e) ? e : Et(e);
 }
-function St(t, e, n) {
+function Tt(t, e, n) {
   var i;
   e === void 0 && (e = []);
   const s = Et(t), r = s === ((i = t.ownerDocument) == null ? void 0 : i.body), o = A(s);
-  return r ? ($e(o), e.concat(o, o.visualViewport || [], ce(s) ? s : [], [])) : e.concat(s, St(s, []));
+  return r ? ($e(o), e.concat(o, o.visualViewport || [], ce(s) ? s : [], [])) : e.concat(s, Tt(s, []));
 }
 function $e(t) {
   return t.parent && Object.getPrototypeOf(t.parent) ? t.frameElement : null;
 }
-function Tt(t) {
+function St(t) {
   const e = _(t);
   let n = parseFloat(e.width) || 0, i = parseFloat(e.height) || 0;
   const s = B(t), r = s ? t.offsetWidth : n, o = s ? t.offsetHeight : i, a = be(n) !== r || be(i) !== o;
@@ -1853,7 +1853,7 @@ function Q(t) {
     width: i,
     height: s,
     $: r
-  } = Tt(e);
+  } = St(e);
   let o = (r ? be(n.width) : n.width) / i, a = (r ? be(n.height) : n.height) / s;
   return (!o || !Number.isFinite(o)) && (o = 1), (!a || !Number.isFinite(a)) && (a = 1), {
     x: o,
@@ -1882,7 +1882,7 @@ function le(t, e, n, i) {
     const p = A(r), m = i && D(i) ? A(i) : i;
     let b = p, y = $e(b);
     for (; y && i && m !== b; ) {
-      const w = Q(y), S = y.getBoundingClientRect(), T = _(y), O = S.left + (y.clientLeft + parseFloat(T.paddingLeft)) * w.x, N = S.top + (y.clientTop + parseFloat(T.paddingTop)) * w.y;
+      const w = Q(y), T = y.getBoundingClientRect(), S = _(y), O = T.left + (y.clientLeft + parseFloat(S.paddingLeft)) * w.x, N = T.top + (y.clientTop + parseFloat(S.paddingTop)) * w.y;
       l *= w.x, c *= w.y, f *= w.x, u *= w.y, l += O, c += N, b = A(y), y = $e(b);
     }
   }
@@ -1894,7 +1894,7 @@ function le(t, e, n, i) {
   });
 }
 function _e(t, e) {
-  const n = Se(t).scrollLeft;
+  const n = Te(t).scrollLeft;
   return e ? e.left + n : le(W(t)).left + n;
 }
 function Nt(t, e, n) {
@@ -1923,7 +1923,7 @@ function qn(t) {
     scrollTop: 0
   }, c = z(1);
   const f = z(0), u = B(i);
-  if ((u || !u && !r) && ((te(i) !== "body" || ce(o)) && (l = Se(i)), B(i))) {
+  if ((u || !u && !r) && ((te(i) !== "body" || ce(o)) && (l = Te(i)), B(i))) {
     const m = le(i);
     c = Q(i), f.x = m.x + i.clientLeft, f.y = m.y + i.clientTop;
   }
@@ -1939,7 +1939,7 @@ function Gn(t) {
   return Array.from(t.getClientRects());
 }
 function Zn(t) {
-  const e = W(t), n = Se(t), i = t.ownerDocument.body, s = J(e.scrollWidth, e.clientWidth, i.scrollWidth, i.clientWidth), r = J(e.scrollHeight, e.clientHeight, i.scrollHeight, i.clientHeight);
+  const e = W(t), n = Te(t), i = t.ownerDocument.body, s = J(e.scrollWidth, e.clientWidth, i.scrollWidth, i.clientWidth), r = J(e.scrollHeight, e.clientHeight, i.scrollHeight, i.clientHeight);
   let o = -n.scrollLeft + _e(t);
   const a = -n.scrollTop;
   return _(i).direction === "rtl" && (o += J(e.clientWidth, i.clientWidth) - s), {
@@ -2000,7 +2000,7 @@ function Jn(t, e) {
   const n = e.get(t);
   if (n)
     return n;
-  let i = St(t, []).filter((a) => D(a) && te(a) !== "body"), s = null;
+  let i = Tt(t, []).filter((a) => D(a) && te(a) !== "body"), s = null;
   const r = _(t).position === "fixed";
   let o = r ? U(t) : t;
   for (; D(o) && !ee(o); ) {
@@ -2031,7 +2031,7 @@ function ei(t) {
   const {
     width: e,
     height: n
-  } = Tt(t);
+  } = St(t);
   return {
     width: e,
     height: n
@@ -2048,7 +2048,7 @@ function ti(t, e, n) {
     l.x = _e(s);
   }
   if (i || !i && !r)
-    if ((te(e) !== "body" || ce(s)) && (a = Se(e)), i) {
+    if ((te(e) !== "body" || ce(s)) && (a = Te(e)), i) {
       const m = le(e, !0, r, e);
       l.x = m.x + e.clientLeft, l.y = m.y + e.clientTop;
     } else s && c();
@@ -2152,28 +2152,24 @@ function ri(t) {
     navThrottle: 100,
     // delay between moves
     _lastNavAt: 0,
-    // internal time-stamp, updated after every move
+    // internal time‑stamp, updated after every move
     activeSubmenuId: null,
     selfId: null,
+    /* ------------------------------ lifecycle ------------------------------ */
     init() {
-      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.activeSubmenuId = null, this.parentEl = this.$el, this.triggerEl = this.$refs.trigger, this.contentEl = this.$refs.content, this.anchor = this.$el.dataset.anchor || "bottom", this.pixelOffset = parseInt(this.$el.dataset.offset) || 6, this.isModal = this.$el.dataset.modal !== "false", this.$watch("open", (e) => {
+      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.parentEl = this.$el, this.triggerEl = this.$refs.trigger, this.contentEl = this.$refs.content, this.anchor = this.$el.dataset.anchor || "bottom", this.pixelOffset = parseInt(this.$el.dataset.offset) || 6, this.isModal = this.$el.dataset.modal !== "false", this.$watch("open", (e) => {
         e ? (this._lastNavAt = 0, this.$nextTick(() => {
           this.updatePosition(), this.menuItems = Array.from(
-            this.contentEl.querySelectorAll(
-              '[role^="menuitem"]:not([disabled],[aria-disabled="true"])'
-            )
+            this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled],[aria-disabled="true"])')
           );
         }), this.ariaExpanded = "true", this.triggerEl.dataset.state = "open", this.trapActive = this.isModal) : (this.focusedIndex = null, this.closeAllSubmenus(), this.ariaExpanded = "false", delete this.triggerEl.dataset.state, this.trapActive = !1);
       });
     },
+    /* --------------------------- positioning --------------------------- */
     updatePosition() {
       !this.triggerEl || !this.contentEl || nt(this.triggerEl, this.contentEl, {
         placement: this.anchor,
-        middleware: [
-          Qe(this.pixelOffset),
-          tt(),
-          et({ padding: 8 })
-        ]
+        middleware: [Qe(this.pixelOffset), tt(), et({ padding: 8 })]
       }).then(({ x: e, y: n }) => {
         Object.assign(this.contentEl.style, {
           left: `${e}px`,
@@ -2181,17 +2177,20 @@ function ri(t) {
         });
       });
     },
+    /* -------------------------- open / close -------------------------- */
     toggle() {
       this.open ? (this.closeAllSubmenus(), this.open = !1, this.$nextTick(() => this.triggerEl?.focus())) : (this.open = !0, this.focusedIndex = -1);
     },
     handleOutsideClick() {
       this.open && (this.closeAllSubmenus(), this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
     },
+    /* ------------------------- keyboard support ------------------------ */
     handleTriggerKeydown(e) {
       ["Enter", " ", "ArrowDown", "ArrowUp"].includes(e.key) && (e.preventDefault(), this.open = !0, this.$nextTick(() => {
         e.key === "ArrowUp" ? this.focusLastItem() : this.focusFirstItem();
       }));
     },
+    /* -------- generic focus navigation for the root dropdown ---------- */
     focusNextItem() {
       const e = Date.now();
       e - this._lastNavAt < this.navThrottle || (this._lastNavAt = e, this.menuItems.length && (this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1, this.focusCurrentItem()));
@@ -2214,6 +2213,7 @@ function ri(t) {
       const i = this.menuItems.indexOf(e);
       i !== -1 && this.focusedIndex !== i && (n || this.closeAllSubmenus(), this.focusedIndex = i, this.$nextTick(() => this.menuItems[this.focusedIndex].focus()));
     },
+    /* ---------------------------- item click --------------------------- */
     handleItemClick(e) {
       const n = e.currentTarget;
       if (!(n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled"))) {
@@ -2225,9 +2225,9 @@ function ri(t) {
       }
     },
     handleItemMousemove(e) {
-      const n = e.currentTarget;
-      this.focusSelectedItem(n);
+      this.focusSelectedItem(e.currentTarget);
     },
+    /* -------------------------- global key‑outs ------------------------ */
     handleWindowEscape() {
       this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
     },
@@ -2237,18 +2237,22 @@ function ri(t) {
     handleTriggerMouseover() {
       this.$nextTick(() => this.$el.firstChild?.focus());
     },
+    /* ---------------------- submenu book‑keeping ---------------------- */
     closeAllSubmenus(e = null) {
       if (!this.isSubmenuActive) return;
-      const n = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
-      n.forEach((s) => {
-        const r = t.$data(s);
-        r && r.open && r.selfId !== e && r.closeSubmenu();
-      }), Array.from(n).some((s) => t.$data(s)?.open) || (this.activeSubmenuId = null, this.isSubmenuActive = !1);
+      const n = e ? document.getElementById(e) : null, i = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+      i.forEach((r) => {
+        if (n && r.contains(n)) return;
+        const o = t.$data(r);
+        o && o.open && o.selfId !== e && o.closeSubmenu();
+      });
+      const s = Array.from(i).some((r) => t.$data(r)?.open);
+      this.isSubmenuActive = s, s || (this.activeSubmenuId = null);
     },
     setActiveSubmenu(e) {
       if (this.activeSubmenuId && this.activeSubmenuId !== e.selfId) {
         const n = document.getElementById(this.activeSubmenuId);
-        t.$data(n)?.closeSubmenu();
+        (!n || !n.contains(document.getElementById(e.selfId))) && t.$data(n)?.closeSubmenu();
       }
       this.activeSubmenuId = e.selfId, this.isSubmenuActive = !0;
     }
@@ -2262,26 +2266,24 @@ function ri(t) {
     anchor: "right-start",
     pixelOffset: 0,
     navThrottle: 100,
-    // delay between moves
     _lastNavAt: 0,
-    // internal time-stamp, updated after every move
     selfId: null,
+    /* -- lifecycle -- */
     init() {
       this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.parentDropdown = t.$data(this.$el.closest('[x-data^="rzDropdownMenu"]')), this.triggerEl = this.$refs.subTrigger, this.anchor = this.$el.dataset.subAnchor || this.anchor, this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset, this.$watch("open", (e) => {
         e ? (this._lastNavAt = 0, this.parentDropdown?.setActiveSubmenu(this), this.$nextTick(() => {
           const n = this.$refs.subContent;
-          this.updatePosition(n), this.menuItems = Array.from(n.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
+          this.updatePosition(n), this.menuItems = Array.from(
+            n.querySelectorAll('[role^="menuitem"]:not([disabled],[aria-disabled="true"])')
+          );
         }), this.ariaExpanded = "true", this.triggerEl.dataset.state = "open") : (this.focusedIndex = null, this.parentDropdown?.activeSubmenu === this && (this.parentDropdown.activeSubmenu = null), this.ariaExpanded = "false", delete this.triggerEl.dataset.state);
       });
     },
+    /* -- positioning -- */
     updatePosition(e) {
       !this.triggerEl || !e || nt(this.triggerEl, e, {
         placement: this.anchor,
-        middleware: [
-          Qe(this.pixelOffset),
-          tt(),
-          et({ padding: 8 })
-        ]
+        middleware: [Qe(this.pixelOffset), tt(), et({ padding: 8 })]
       }).then(({ x: n, y: i }) => {
         Object.assign(e.style, {
           left: `${n}px`,
@@ -2289,13 +2291,16 @@ function ri(t) {
         });
       });
     },
+    /* -- open / close -- */
     toggleSubmenu() {
       this.open = !this.open, this.open && (this.parentDropdown?.closeAllSubmenus(this.selfId), this.parentDropdown?.setActiveSubmenu(this), this.focusedIndex = -1);
     },
     openSubmenu(e = !0, n = !1) {
-      e && !this.open && (this.parentDropdown?.focusSelectedItem(this.triggerEl, { keepSubmenusOpen: !0 }), this.parentDropdown?.closeAllSubmenus(this.selfId), this.open = !0, this.$nextTick(() => requestAnimationFrame(() => {
-        n && this.menuItems.length && this.menuItems.length > 0 && (this.focusedIndex = 0, this.menuItems[0].focus());
-      })));
+      e && !this.open && (this.parentDropdown?.focusSelectedItem(this.triggerEl, { keepSubmenusOpen: !0 }), this.parentDropdown?.closeAllSubmenus(this.selfId), this.open = !0, this.$nextTick(
+        () => requestAnimationFrame(() => {
+          n && this.menuItems.length && (this.focusedIndex = 0, this.menuItems[0].focus());
+        })
+      ));
     },
     openSubmenuAndFocusFirst() {
       this.openSubmenu(!0, !0);
@@ -2303,16 +2308,19 @@ function ri(t) {
     closeSubmenu() {
       this.open = !1;
     },
+    /* -- trigger events -- */
     handleTriggerKeydown(e) {
       ["ArrowRight", "Enter", " "].includes(e.key) && this.openSubmenuAndFocusFirst();
     },
     handleTriggerClick() {
       this.toggleSubmenu();
     },
+    /* -- focus containment -- */
     handleFocusOut(e) {
       const n = e.relatedTarget;
       n && (this.$el.contains(n) || this.$refs.subContent?.contains(n) || (this.open = !1));
     },
+    /* -- intra‑panel navigation -- */
     focusNextItem() {
       const e = Date.now();
       e - this._lastNavAt < this.navThrottle || (this._lastNavAt = e, this.menuItems.length && (this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1, this.focusCurrentItem()));
@@ -2330,6 +2338,7 @@ function ri(t) {
     focusCurrentItem() {
       this.focusedIndex !== null && this.menuItems[this.focusedIndex] && this.menuItems[this.focusedIndex].focus();
     },
+    /* -- item interactions -- */
     handleItemClick(e) {
       const n = e.currentTarget;
       if (!(n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled"))) {
@@ -2342,11 +2351,11 @@ function ri(t) {
     },
     handleItemMousemove(e) {
       const n = e.currentTarget;
-      if (n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled"))
-        return;
+      if (n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled")) return;
       const i = this.menuItems.indexOf(n);
       i !== -1 && this.focusedIndex !== i && (this.focusedIndex = i);
     },
+    /* -- escape routes -- */
     handleSubmenuEscape() {
       this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
     },
@@ -2804,7 +2813,7 @@ function he(t, e, n) {
   });
 }
 function yi(t) {
-  En(t), Sn(t), Tn(t), Cn(t), On(t), Nn(t, he), kn(t, he), ri(t), oi(t), ai(t), li(t), ci(t), ui(t), di(t, he), fi(t), hi(t), pi(t), mi(t), gi(t), bi(t), vi(t);
+  En(t), Tn(t), Sn(t), Cn(t), On(t), Nn(t, he), kn(t, he), ri(t), oi(t), ai(t), li(t), ci(t), ui(t), di(t, he), fi(t), hi(t), pi(t), mi(t), gi(t), bi(t), vi(t);
 }
 function xi(t) {
   if (typeof Alpine > "u" || typeof Alpine.$data != "function") {
