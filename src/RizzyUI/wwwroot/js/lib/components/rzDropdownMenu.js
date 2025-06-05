@@ -39,11 +39,13 @@ export default function(Alpine) {
                         ));
                     });
                     this.ariaExpanded = 'true';
+                    this.triggerEl.dataset.state = 'open';
                     this.trapActive   = this.isModal;
                 } else {
                     this.focusedIndex = null;
                     this.closeAllSubmenus();
                     this.ariaExpanded = 'false';
+                    delete this.triggerEl.dataset.state;
                     this.trapActive   = false;
                 }
             });
@@ -176,6 +178,10 @@ export default function(Alpine) {
             }
         },
 
+        handleTriggerMouseover () {
+            this.$el.firstChild?.focus();    
+        },
+        
         closeAllSubmenus(exceptThisOne = null) {
             const submenus = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
             submenus.forEach(sm => {
@@ -222,12 +228,14 @@ export default function(Alpine) {
                         this.menuItems = Array.from(contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
                     });
                     this.ariaExpanded = 'true';
+                    this.triggerEl.dataset.state = 'open';
                 } else {
                     this.focusedIndex = null;
                     if (this.parentDropdown?.activeSubmenu === this) {
                         this.parentDropdown.activeSubmenu = null;
                     }
                     this.ariaExpanded = 'false';
+                    delete this.triggerEl.dataset.state;
                 }
             });
         },
@@ -264,15 +272,13 @@ export default function(Alpine) {
                 this.parentDropdown?.closeAllSubmenus(this);
                 this.open = true;
 
-                // ──► ensure the first item, not the <div>, gets focus
-                const giveFocus = () => {
+                this.$nextTick(() => requestAnimationFrame(() => {
                     if (focusFirst && this.menuItems.length) {
                         this.menuItems[0].focus();
                     } else {
-                        this.triggerEl.focus();          // keep the ring on the trigger
+                        this.triggerEl.focus();
                     }
-                };
-                this.$nextTick(giveFocus);
+                }));
             }
         },
         
@@ -284,6 +290,16 @@ export default function(Alpine) {
             this.open = false;
         },
 
+        handleTriggerKeydown(e) {
+            if (['ArrowRight', 'Enter', ' '].includes(e.key)) {
+                this.openSubmenuAndFocusFirst();
+            }
+        },
+
+        handleTriggerClick() {
+            this.toggleSubmenu(); 
+        },
+        
         handleFocusOut (e) {
             const next = e.relatedTarget;          // element that will receive focus
             if (!next) return;                     // focus left the document

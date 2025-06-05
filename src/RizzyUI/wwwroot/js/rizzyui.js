@@ -2995,11 +2995,13 @@
               );
             });
             this.ariaExpanded = "true";
+            this.triggerEl.dataset.state = "open";
             this.trapActive = this.isModal;
           } else {
             this.focusedIndex = null;
             this.closeAllSubmenus();
             this.ariaExpanded = "false";
+            delete this.triggerEl.dataset.state;
             this.trapActive = false;
           }
         });
@@ -3108,6 +3110,9 @@
           this.$nextTick(() => this.triggerEl?.focus());
         }
       },
+      handleTriggerMouseover() {
+        this.$el.firstChild?.focus();
+      },
       closeAllSubmenus(exceptThisOne = null) {
         const submenus = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
         submenus.forEach((sm) => {
@@ -3150,12 +3155,14 @@
               this.menuItems = Array.from(contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
             });
             this.ariaExpanded = "true";
+            this.triggerEl.dataset.state = "open";
           } else {
             this.focusedIndex = null;
             if (this.parentDropdown?.activeSubmenu === this) {
               this.parentDropdown.activeSubmenu = null;
             }
             this.ariaExpanded = "false";
+            delete this.triggerEl.dataset.state;
           }
         });
       },
@@ -3190,14 +3197,13 @@
           );
           this.parentDropdown?.closeAllSubmenus(this);
           this.open = true;
-          const giveFocus = () => {
+          this.$nextTick(() => requestAnimationFrame(() => {
             if (focusFirst && this.menuItems.length) {
               this.menuItems[0].focus();
             } else {
               this.triggerEl.focus();
             }
-          };
-          this.$nextTick(giveFocus);
+          }));
         }
       },
       openSubmenuAndFocusFirst() {
@@ -3205,6 +3211,14 @@
       },
       closeSubmenu() {
         this.open = false;
+      },
+      handleTriggerKeydown(e2) {
+        if (["ArrowRight", "Enter", " "].includes(e2.key)) {
+          this.openSubmenuAndFocusFirst();
+        }
+      },
+      handleTriggerClick() {
+        this.toggleSubmenu();
       },
       handleFocusOut(e2) {
         const next = e2.relatedTarget;

@@ -4827,6 +4827,11 @@
       border-color: var(--ring);
     }
   }
+  .focus-visible\:bg-accent {
+    &:focus-visible {
+      background-color: var(--accent);
+    }
+  }
   .focus-visible\:bg-primary\/10 {
     &:focus-visible {
       background-color: var(--primary);
@@ -4849,6 +4854,11 @@
       @supports (color: color-mix(in lab, red, red)) {
         background-color: color-mix(in oklab, var(--secondary) 75%, transparent);
       }
+    }
+  }
+  .focus-visible\:text-accent-foreground {
+    &:focus-visible {
+      color: var(--accent-foreground);
     }
   }
   .focus-visible\:text-foreground {
@@ -5371,6 +5381,11 @@
   .data-\[state\=open\]\:bg-accent {
     &[data-state="open"] {
       background-color: var(--accent);
+    }
+  }
+  .data-\[state\=open\]\:text-accent-foreground {
+    &[data-state="open"] {
+      color: var(--accent-foreground);
     }
   }
   .motion-safe\:animate-spin {

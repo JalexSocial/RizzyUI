@@ -14,9 +14,9 @@
              x-ref="subTrigger"
              x-bind:aria-expanded="ariaExpanded"
              x-on:click.prevent="toggleSubmenu"
-             x-on:keydown.enter.prevent="toggleSubmenu"
-             x-on:keydown.space.prevent="toggleSubmenu"
-             x-on:keydown.arrowright.prevent="openSubmenuAndFocusFirst">
+             x-on:keydown.enter.prevent="handleTriggerKeydown"
+             x-on:keydown.space.prevent="handleTriggerKeydown"
+             x-on:keydown.right.prevent="handleTriggerKeydown">
     @if (Icon != null)
     {
         <span class="@Theme.RzDropdownMenu.MenuItemIcon"><Blazicon Svg="@Icon"/></span>

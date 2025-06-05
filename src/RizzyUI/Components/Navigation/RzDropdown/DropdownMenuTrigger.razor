@@ -11,6 +11,7 @@
              aria-controls="@ContentId"
              x-bind:aria-expanded="ariaExpanded"
              x-on:click="toggle"
+             x-on:mouseover="handleTriggerMouseover"
              x-on:keydown.enter.prevent="handleTriggerKeydown"
              x-on:keydown.space.prevent="handleTriggerKeydown"
              x-on:keydown.down.prevent="handleTriggerKeydown"

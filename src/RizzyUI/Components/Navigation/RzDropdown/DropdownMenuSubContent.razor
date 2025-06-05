@@ -11,7 +11,7 @@
 	     aria-labelledby="@SubTriggerId"
 	     x-show="open"
 	     x-cloak
-	     x-on:click.outside="toggleSubmenu"
+	     x-on:click.outside="closeSubmenu"
 	     x-transition:enter="transition ease-out duration-100"
 	     x-transition:enter-start="opacity-0 scale-95"
 	     x-transition:enter-end="opacity-100 scale-100"
@@ -20,7 +20,7 @@
 	     x-transition:leave-end="opacity-0 scale-95"
 	     x-trap="open"
 	     x-on:keydown.escape.prevent="handleSubmenuEscape"
-	     x-on:keydown.arrowleft.prevent="handleSubmenuArrowLeft"
+	     x-on:keydown.left.prevent="handleSubmenuArrowLeft"
 	     x-on:keydown.down.prevent="focusNextItem"
 	     x-on:keydown.up.prevent="focusPreviousItem"
 	     x-on:keydown.home.prevent="focusFirstItem"
