@@ -1,53 +1,49 @@
 
-using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
-/// <xmldoc>
-///     Represents a breadcrumb navigation component that displays a list of navigation links.
-///     Styling is determined by the active <see cref="RzTheme" />. Child <see cref="RzBreadcrumbItem" />
-///     components register themselves with this parent.
-/// </xmldoc>
+/// <summary>
+/// A root container for a breadcrumb navigation trail. It renders as a <c><nav></c> element
+/// and should contain a <see cref="BreadcrumbList"/> component.
+/// </summary>
 public partial class RzBreadcrumb : RzComponent
 {
-    /// <summary> Gets the list of breadcrumb items registered with this breadcrumb component. </summary>
-    protected readonly List<RzBreadcrumbItem> Items = new();
-
-    /// <summary> Specifies the Blazicon SVG icon to use as a separator between items. Defaults to ChevronRight. </summary>
-    [Parameter]
-    public SvgIcon Separator { get; set; } = MdiIcon.ChevronRight;
-
-    /// <summary> Child content for the breadcrumb component, should contain <see cref="RzBreadcrumbItem" /> components. </summary>
+    /// <summary>
+    /// Gets or sets the content to be rendered inside the breadcrumb container,
+    /// which should be a <see cref="BreadcrumbList"/> component.
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary> The HTML element to render this component as. Defaults to "nav". </summary>
+    /// <summary>
+    /// Gets or sets the ARIA label for the breadcrumb navigation container, providing context for screen readers.
+    /// If not set, it defaults to a localized "Breadcrumb".
+    /// </summary>
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
         if (string.IsNullOrEmpty(Element))
-            Element = "nav"; // Default element for a breadcrumb
+            Element = "nav";
+
+        AriaLabel ??= Localizer["RzBreadcrumb.AriaLabel"];
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        AriaLabel ??= Localizer["RzBreadcrumb.AriaLabel"];
+    }
+
+    /// <inheritdoc/>
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, Theme.RzBreadcrumb.Container);
-    }
-
-    /// <summary>
-    ///     Registers a breadcrumb item with this breadcrumb component. Called by child items.
-    /// </summary>
-    /// <param name="item">The breadcrumb item to register.</param>
-    internal void RegisterItem(RzBreadcrumbItem item)
-    {
-        if (!Items.Contains(item)) 
-        {
-            Items.Add(item);
-            StateHasChanged(); // Update UI when items are added
-        }
     }
 }

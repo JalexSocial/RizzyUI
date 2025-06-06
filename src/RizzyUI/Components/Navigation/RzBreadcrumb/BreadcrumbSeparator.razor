@@ -1,0 +1,19 @@
+
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
+             id="@Id"
+             role="presentation"
+             aria-hidden="true">
+    @if (ChildContent != null)
+    {
+        @ChildContent
+    }
+    else
+    {
+        <Blazicon Svg="MdiIcon.ChevronRight" class="@Theme.RzBreadcrumb.Separator" />
+    }
+</HtmlElement>

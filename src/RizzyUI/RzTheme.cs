@@ -34,7 +34,6 @@ public partial class RzTheme
         AvatarFallback = new DefaultAvatarFallbackStyles(this);
         RzBadge = new DefaultRzBadgeStyles(this);
         RzBreadcrumb = new DefaultRzBreadcrumbStyles(this);
-        RzBreadcrumbItem = new DefaultRzBreadcrumbItemStyles(this);
         RzBrowser = new DefaultRzBrowserStyles(this);
         RzButton = new DefaultRzButtonStyles(this);
         RzButtonGroup = new DefaultRzButtonGroupStyles(this);

@@ -10,7 +10,7 @@ public abstract partial class RzStylesBase
     #region RzBreadcrumb Styles
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzBreadcrumb" /> component container.
+    ///     Defines the abstract structure for styling the RzBreadcrumb component family.
     /// </summary>
     public abstract class RzBreadcrumbStylesBase
     {
@@ -23,38 +23,29 @@ public abstract partial class RzStylesBase
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the RzBreadcrumb nav element (typography, margin). </summary>
+        /// <summary> Gets the base CSS classes for the RzBreadcrumb nav element. </summary>
         public abstract string Container { get; }
 
-        /// <summary> Gets the CSS classes for the ordered list (ol) element wrapping the items (layout, gap). </summary>
+        /// <summary> Gets the CSS classes for the ordered list (ol) element wrapping the items. </summary>
         public abstract string List { get; }
-    }
 
-    /// <summary>
-    ///     Defines the abstract structure for styling individual items within the <see cref="RzBreadcrumb" /> component.
-    /// </summary>
-    public abstract class RzBreadcrumbItemStylesBase
-    {
-        /// <summary> The theme instance providing color and sizing tokens. </summary>
-        protected readonly RzTheme Theme;
+        /// <summary> Gets the CSS classes for the list item (li) element. </summary>
+        public abstract string Item { get; }
 
-        /// <summary> Initializes a new instance of the <see cref="RzBreadcrumbItemStylesBase" /> class. </summary>
-        protected RzBreadcrumbItemStylesBase(RzTheme theme)
-        {
-            Theme = theme;
-        }
-
-        /// <summary> Gets the CSS classes for the list item (li) element (layout, gap, base text color). </summary>
-        public abstract string ListItem { get; }
-
-        /// <summary> Gets the CSS classes for the anchor (a) element used for non-active items (hover states). </summary>
+        /// <summary> Gets the CSS classes for the anchor (a) element used for navigation links. </summary>
         public abstract string Link { get; }
 
-        /// <summary> Gets the CSS classes for the span element used for the active item (font weight). </summary>
-        public abstract string ActiveSpan { get; }
+        /// <summary> Gets the CSS classes for the span element used for the current page. </summary>
+        public abstract string Page { get; }
 
-        /// <summary> Gets the CSS classes for the span wrapping an icon, if used. </summary>
-        public abstract string IconSpan { get; }
+        /// <summary> Gets the CSS classes for the separator element. </summary>
+        public abstract string Separator { get; }
+
+        /// <summary> Gets the CSS classes for the ellipsis container span. </summary>
+        public abstract string EllipsisContainer { get; }
+        
+        /// <summary> Gets the CSS classes for the ellipsis icon SVG. </summary>
+        public abstract string EllipsisIcon { get; }
     }
 
     #endregion

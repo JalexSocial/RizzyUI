@@ -47,9 +47,6 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzBreadcrumb" /> component. </summary>
     public virtual RzStylesBase.RzBreadcrumbStylesBase RzBreadcrumb { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzBreadcrumbItem" /> component. </summary>
-    public virtual RzStylesBase.RzBreadcrumbItemStylesBase RzBreadcrumbItem { get; }
-
     /// <summary>
     /// Gets or sets the style definitions for the <see cref="RzBrowser" /> component.
     /// </summary>
