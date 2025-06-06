@@ -3,6 +3,9 @@
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 
 export default function(Alpine) {
+    /**
+     * Manages the state and behavior of the root dropdown menu.
+     */
     Alpine.data('rzDropdownMenu', () => ({
         // --- STATE ---
         open: false,
@@ -129,6 +132,15 @@ export default function(Alpine) {
             }
         },
 
+        focusSelectedItem(item) {
+            if (!item || item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
+            const index = this.menuItems.indexOf(item);
+            if (index !== -1) {
+                this.focusedIndex = index;
+                item.focus();
+            }
+        },
+
         handleItemClick(event) {
             const item = event.currentTarget;
             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
@@ -142,12 +154,10 @@ export default function(Alpine) {
         
         handleItemMousemove(event) {
             const item = event.currentTarget;
-            if (!item || item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
-
-            const index = this.menuItems.indexOf(item);
-            if (index !== -1 && this.focusedIndex !== index) {
-                this.focusedIndex = index;
-                this.menuItems[this.focusedIndex].focus();
+            this.focusSelectedItem(item);
+            
+            if (item.getAttribute('aria-haspopup') !== 'menu') {
+                this.closeAllSubmenus();
             }
         },
 
@@ -178,6 +188,9 @@ export default function(Alpine) {
         }
     }));
 
+    /**
+     * Manages the state and behavior of a nested submenu.
+     */
     Alpine.data('rzDropdownSubmenu', () => ({
         // --- STATE ---
         open: false,
@@ -241,6 +254,7 @@ export default function(Alpine) {
 
         handleTriggerMouseEnter() {
             clearTimeout(this.closeTimeout);
+            this.parentDropdown.focusSelectedItem(this.triggerEl);
             this.openSubmenu();
         },
 
@@ -263,16 +277,10 @@ export default function(Alpine) {
             this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
         },
 
-        openSubmenu(focusFirst = false) {
+        openSubmenu() {
             if (this.open) return;
             this.closeSiblingSubmenus();
             this.open = true;
-            this.$nextTick(() => {
-                if (focusFirst && this.menuItems.length > 0) {
-                    this.focusedIndex = 0;
-                    this.menuItems[0].focus();
-                }
-            });
         },
         
         closeSubmenu() {
@@ -298,7 +306,8 @@ export default function(Alpine) {
         },
 
         openSubmenuAndFocusFirst() {
-            this.openSubmenu(true);
+            this.openSubmenu();
+            this.$nextTick(() => this.focusFirstItem());
         },
 
         handleTriggerKeydown(e) {
@@ -366,7 +375,7 @@ export default function(Alpine) {
             }
 
             const index = this.menuItems.indexOf(item);
-            if (index !== -1 && this.focusedIndex !== index) {
+            if (index !== -1) {
                 this.focusedIndex = index;
                 this.menuItems[this.focusedIndex].focus();
             }

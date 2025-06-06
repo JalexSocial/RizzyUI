@@ -4326,6 +4326,11 @@ function Fl(e) {
     focusCurrentItem() {
       this.focusedIndex !== null && this.menuItems[this.focusedIndex] && this.$nextTick(() => this.menuItems[this.focusedIndex].focus());
     },
+    focusSelectedItem(t) {
+      if (!t || t.getAttribute("aria-disabled") === "true" || t.hasAttribute("disabled")) return;
+      const n = this.menuItems.indexOf(t);
+      n !== -1 && (this.focusedIndex = n, t.focus());
+    },
     handleItemClick(t) {
       const n = t.currentTarget;
       if (!(n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled"))) {
@@ -4338,9 +4343,7 @@ function Fl(e) {
     },
     handleItemMousemove(t) {
       const n = t.currentTarget;
-      if (!n || n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled")) return;
-      const i = this.menuItems.indexOf(n);
-      i !== -1 && this.focusedIndex !== i && (this.focusedIndex = i, this.menuItems[this.focusedIndex].focus());
+      this.focusSelectedItem(n), n.getAttribute("aria-haspopup") !== "menu" && this.closeAllSubmenus();
     },
     handleWindowEscape() {
       this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
@@ -4393,7 +4396,7 @@ function Fl(e) {
       });
     },
     handleTriggerMouseEnter() {
-      clearTimeout(this.closeTimeout), this.openSubmenu();
+      clearTimeout(this.closeTimeout), this.parentDropdown.focusSelectedItem(this.triggerEl), this.openSubmenu();
     },
     handleTriggerMouseLeave() {
       this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
@@ -4405,10 +4408,8 @@ function Fl(e) {
       const t = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
       t && Array.from(t).some((i) => e.$data(i)?.open) || (this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay));
     },
-    openSubmenu(t = !1) {
-      this.open || (this.closeSiblingSubmenus(), this.open = !0, this.$nextTick(() => {
-        t && this.menuItems.length > 0 && (this.focusedIndex = 0, this.menuItems[0].focus());
-      }));
+    openSubmenu() {
+      this.open || (this.closeSiblingSubmenus(), this.open = !0);
     },
     closeSubmenu() {
       this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]')?.forEach((n) => {
@@ -4427,7 +4428,7 @@ function Fl(e) {
       this.open ? this.closeSubmenu() : this.openSubmenu();
     },
     openSubmenuAndFocusFirst() {
-      this.openSubmenu(!0);
+      this.openSubmenu(), this.$nextTick(() => this.focusFirstItem());
     },
     handleTriggerKeydown(t) {
       ["ArrowRight", "Enter", " "].includes(t.key) && (t.preventDefault(), this.openSubmenuAndFocusFirst());
@@ -4464,7 +4465,7 @@ function Fl(e) {
       if (n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled")) return;
       n.getAttribute("aria-haspopup") === "menu" ? e.$data(n.closest('[x-data^="rzDropdownSubmenu"]'))?.openSubmenu() : this.closeSiblingSubmenus();
       const i = this.menuItems.indexOf(n);
-      i !== -1 && this.focusedIndex !== i && (this.focusedIndex = i, this.menuItems[this.focusedIndex].focus());
+      i !== -1 && (this.focusedIndex = i, this.menuItems[this.focusedIndex].focus());
     },
     handleSubmenuEscape() {
       this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));

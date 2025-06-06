@@ -3070,6 +3070,14 @@ function registerRzDropdownMenu(Alpine2) {
         this.$nextTick(() => this.menuItems[this.focusedIndex].focus());
       }
     },
+    focusSelectedItem(item) {
+      if (!item || item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
+      const index = this.menuItems.indexOf(item);
+      if (index !== -1) {
+        this.focusedIndex = index;
+        item.focus();
+      }
+    },
     handleItemClick(event) {
       const item = event.currentTarget;
       if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
@@ -3082,11 +3090,9 @@ function registerRzDropdownMenu(Alpine2) {
     },
     handleItemMousemove(event) {
       const item = event.currentTarget;
-      if (!item || item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
-      const index = this.menuItems.indexOf(item);
-      if (index !== -1 && this.focusedIndex !== index) {
-        this.focusedIndex = index;
-        this.menuItems[this.focusedIndex].focus();
+      this.focusSelectedItem(item);
+      if (item.getAttribute("aria-haspopup") !== "menu") {
+        this.closeAllSubmenus();
       }
     },
     handleWindowEscape() {
@@ -3171,6 +3177,7 @@ function registerRzDropdownMenu(Alpine2) {
     },
     handleTriggerMouseEnter() {
       clearTimeout(this.closeTimeout);
+      this.parentDropdown.focusSelectedItem(this.triggerEl);
       this.openSubmenu();
     },
     handleTriggerMouseLeave() {
@@ -3189,16 +3196,10 @@ function registerRzDropdownMenu(Alpine2) {
       }
       this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
     },
-    openSubmenu(focusFirst = false) {
+    openSubmenu() {
       if (this.open) return;
       this.closeSiblingSubmenus();
       this.open = true;
-      this.$nextTick(() => {
-        if (focusFirst && this.menuItems.length > 0) {
-          this.focusedIndex = 0;
-          this.menuItems[0].focus();
-        }
-      });
     },
     closeSubmenu() {
       const childSubmenus = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
@@ -3220,7 +3221,8 @@ function registerRzDropdownMenu(Alpine2) {
       this.open ? this.closeSubmenu() : this.openSubmenu();
     },
     openSubmenuAndFocusFirst() {
-      this.openSubmenu(true);
+      this.openSubmenu();
+      this.$nextTick(() => this.focusFirstItem());
     },
     handleTriggerKeydown(e2) {
       if (["ArrowRight", "Enter", " "].includes(e2.key)) {
@@ -3278,7 +3280,7 @@ function registerRzDropdownMenu(Alpine2) {
         this.closeSiblingSubmenus();
       }
       const index = this.menuItems.indexOf(item);
-      if (index !== -1 && this.focusedIndex !== index) {
+      if (index !== -1) {
         this.focusedIndex = index;
         this.menuItems[this.focusedIndex].focus();
       }
