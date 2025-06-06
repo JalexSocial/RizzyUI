@@ -4341,7 +4341,7 @@ function Fl(e) {
         this.open = !1, this.$nextTick(() => this.triggerEl?.focus());
       }
     },
-    handleItemMousemove(t) {
+    handleItemMouseEnter(t) {
       const n = t.currentTarget;
       this.focusSelectedItem(n), n.getAttribute("aria-haspopup") !== "menu" && this.closeAllSubmenus();
     },
@@ -4396,7 +4396,7 @@ function Fl(e) {
       });
     },
     handleTriggerMouseEnter() {
-      clearTimeout(this.closeTimeout), this.parentDropdown.focusSelectedItem(this.triggerEl), this.openSubmenu();
+      clearTimeout(this.closeTimeout), this.triggerEl.focus(), this.openSubmenu();
     },
     handleTriggerMouseLeave() {
       this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
@@ -4408,8 +4408,8 @@ function Fl(e) {
       const t = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
       t && Array.from(t).some((i) => e.$data(i)?.open) || (this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay));
     },
-    openSubmenu() {
-      this.open || (this.closeSiblingSubmenus(), this.open = !0);
+    openSubmenu(t = !1) {
+      this.open || (this.closeSiblingSubmenus(), this.open = !0, t && this.$nextTick(() => requestAnimationFrame(() => this.focusFirstItem())));
     },
     closeSubmenu() {
       this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]')?.forEach((n) => {
@@ -4428,7 +4428,7 @@ function Fl(e) {
       this.open ? this.closeSubmenu() : this.openSubmenu();
     },
     openSubmenuAndFocusFirst() {
-      this.openSubmenu(), this.$nextTick(() => this.focusFirstItem());
+      this.openSubmenu(!0);
     },
     handleTriggerKeydown(t) {
       ["ArrowRight", "Enter", " "].includes(t.key) && (t.preventDefault(), this.openSubmenuAndFocusFirst());
@@ -4460,12 +4460,11 @@ function Fl(e) {
         this.parentDropdown.open = !1, this.$nextTick(() => this.parentDropdown.triggerEl?.focus());
       }
     },
-    handleItemMousemove(t) {
+    handleItemMouseEnter(t) {
       const n = t.currentTarget;
       if (n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled")) return;
-      n.getAttribute("aria-haspopup") === "menu" ? e.$data(n.closest('[x-data^="rzDropdownSubmenu"]'))?.openSubmenu() : this.closeSiblingSubmenus();
       const i = this.menuItems.indexOf(n);
-      i !== -1 && (this.focusedIndex = i, this.menuItems[this.focusedIndex].focus());
+      i !== -1 && (this.focusedIndex = i, n.focus()), n.getAttribute("aria-haspopup") === "menu" ? e.$data(n.closest('[x-data^="rzDropdownSubmenu"]'))?.openSubmenu() : this.closeSiblingSubmenus();
     },
     handleSubmenuEscape() {
       this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));

@@ -277,10 +277,13 @@ export default function(Alpine) {
             this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
         },
 
-        openSubmenu() {
+        openSubmenu(focusFirst = false) {
             if (this.open) return;
             this.closeSiblingSubmenus();
             this.open = true;
+            if (focusFirst) {
+                this.$nextTick(() => requestAnimationFrame(() => this.focusFirstItem()));
+            }
         },
         
         closeSubmenu() {
@@ -306,8 +309,7 @@ export default function(Alpine) {
         },
 
         openSubmenuAndFocusFirst() {
-            this.openSubmenu();
-            this.$nextTick(() => this.focusFirstItem());
+            this.openSubmenu(true);
         },
 
         handleTriggerKeydown(e) {

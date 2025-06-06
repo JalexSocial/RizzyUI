@@ -3088,7 +3088,7 @@ function registerRzDropdownMenu(Alpine2) {
       this.open = false;
       this.$nextTick(() => this.triggerEl?.focus());
     },
-    handleItemMousemove(event) {
+    handleItemMouseEnter(event) {
       const item = event.currentTarget;
       this.focusSelectedItem(item);
       if (item.getAttribute("aria-haspopup") !== "menu") {
@@ -3177,7 +3177,7 @@ function registerRzDropdownMenu(Alpine2) {
     },
     handleTriggerMouseEnter() {
       clearTimeout(this.closeTimeout);
-      this.parentDropdown.focusSelectedItem(this.triggerEl);
+      this.triggerEl.focus();
       this.openSubmenu();
     },
     handleTriggerMouseLeave() {
@@ -3196,10 +3196,13 @@ function registerRzDropdownMenu(Alpine2) {
       }
       this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
     },
-    openSubmenu() {
+    openSubmenu(focusFirst = false) {
       if (this.open) return;
       this.closeSiblingSubmenus();
       this.open = true;
+      if (focusFirst) {
+        this.$nextTick(() => requestAnimationFrame(() => this.focusFirstItem()));
+      }
     },
     closeSubmenu() {
       const childSubmenus = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
@@ -3221,8 +3224,7 @@ function registerRzDropdownMenu(Alpine2) {
       this.open ? this.closeSubmenu() : this.openSubmenu();
     },
     openSubmenuAndFocusFirst() {
-      this.openSubmenu();
-      this.$nextTick(() => this.focusFirstItem());
+      this.openSubmenu(true);
     },
     handleTriggerKeydown(e2) {
       if (["ArrowRight", "Enter", " "].includes(e2.key)) {
@@ -3271,18 +3273,18 @@ function registerRzDropdownMenu(Alpine2) {
       this.parentDropdown.open = false;
       this.$nextTick(() => this.parentDropdown.triggerEl?.focus());
     },
-    handleItemMousemove(event) {
+    handleItemMouseEnter(event) {
       const item = event.currentTarget;
       if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
+      const index = this.menuItems.indexOf(item);
+      if (index !== -1) {
+        this.focusedIndex = index;
+        item.focus();
+      }
       if (item.getAttribute("aria-haspopup") === "menu") {
         Alpine2.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.openSubmenu();
       } else {
         this.closeSiblingSubmenus();
-      }
-      const index = this.menuItems.indexOf(item);
-      if (index !== -1) {
-        this.focusedIndex = index;
-        this.menuItems[this.focusedIndex].focus();
       }
     },
     handleSubmenuEscape() {
