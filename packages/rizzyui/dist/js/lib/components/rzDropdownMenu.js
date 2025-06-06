@@ -3,14 +3,15 @@
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 
 export default function(Alpine) {
+    /**
+     * Manages the state and behavior of the root dropdown menu.
+     */
     Alpine.data('rzDropdownMenu', () => ({
-        /* ------------------------------------------------------------------
-           Reactive state (all plain keys – no getters / computed properties)
-        ------------------------------------------------------------------ */
+        // --- STATE ---
         open: false,
         isModal: true,
-        ariaExpanded: 'false',     // <- string, so we can bind directly
-        trapActive: false,         // <- boolean for x-trap / inert
+        ariaExpanded: 'false',
+        trapActive: false,
         focusedIndex: null,
         menuItems: [],
         parentEl: null,
@@ -18,85 +19,72 @@ export default function(Alpine) {
         contentEl: null,
         anchor: 'bottom',
         pixelOffset: 3,
-        activeSubmenu: null,
         isSubmenuActive: false,
-        navThrottle : 100,   // delay between moves
-        _lastNavAt  : 0,     // internal time-stamp, updated after every move
-        activeSubmenuId : null,   
-        selfId          : null,   
+        navThrottle: 100,
+        _lastNavAt: 0,
+        selfId: null,
 
+        // --- INIT ---
         init() {
-            // give the element a stable id if it doesn't already have one
             if (!this.$el.id) this.$el.id = crypto.randomUUID();
             this.selfId = this.$el.id;
-            this.activeSubmenuId = null;            
             this.parentEl = this.$el;
             this.triggerEl = this.$refs.trigger;
             this.contentEl = this.$refs.content;
             this.anchor = this.$el.dataset.anchor || 'bottom';
             this.pixelOffset = parseInt(this.$el.dataset.offset) || 6;
-            this.isModal = (this.$el.dataset.modal !== 'false'); 
+            this.isModal = (this.$el.dataset.modal !== 'false');
 
             this.$watch('open', (value) => {
                 if (value) {
-                    this._lastNavAt = 0;      // clear throttle so the first press is immediate
-                    
+                    this._lastNavAt = 0;
                     this.$nextTick(() => {
                         this.updatePosition();
                         this.menuItems = Array.from(
                             this.contentEl.querySelectorAll(
                                 '[role^="menuitem"]:not([disabled],[aria-disabled="true"])'
-                        ));
+                            ));
                     });
                     this.ariaExpanded = 'true';
                     this.triggerEl.dataset.state = 'open';
-                    this.trapActive   = this.isModal;
+                    this.trapActive = this.isModal;
                 } else {
                     this.focusedIndex = null;
                     this.closeAllSubmenus();
                     this.ariaExpanded = 'false';
                     delete this.triggerEl.dataset.state;
-                    this.trapActive   = false;
+                    this.trapActive = false;
                 }
             });
         },
 
+        // --- METHODS ---
         updatePosition() {
             if (!this.triggerEl || !this.contentEl) return;
             computePosition(this.triggerEl, this.contentEl, {
                 placement: this.anchor,
-                middleware: [
-                    offset(this.pixelOffset),
-                    flip(),
-                    shift({ padding: 8 })
-                ],
+                middleware: [offset(this.pixelOffset), flip(), shift({ padding: 8 })],
             }).then(({ x, y }) => {
-                Object.assign(this.contentEl.style, {
-                    left: `${x}px`,
-                    top: `${y}px`,
-                });
+                Object.assign(this.contentEl.style, { left: `${x}px`, top: `${y}px` });
             });
         },
 
-        toggle () {
-            if (this.open) {                          
-                this.closeAllSubmenus();                
+        toggle() {
+            if (this.open) {
                 this.open = false;
                 this.$nextTick(() => this.triggerEl?.focus());
-            } else {                                  
+            } else {
                 this.open = true;
                 this.focusedIndex = -1;
             }
         },
 
-        handleOutsideClick () {
-            if (!this.open) return;              // already closed → ignore
-
-            this.closeAllSubmenus();             // make sure teleported panels go away
+        handleOutsideClick() {
+            if (!this.open) return;
             this.open = false;
             this.$nextTick(() => this.triggerEl?.focus());
         },
-        
+
         handleTriggerKeydown(event) {
             if (['Enter', ' ', 'ArrowDown', 'ArrowUp'].includes(event.key)) {
                 event.preventDefault();
@@ -110,27 +98,19 @@ export default function(Alpine) {
 
         focusNextItem() {
             const now = Date.now();
-            if (now - this._lastNavAt < this.navThrottle) return;  // too soon
+            if (now - this._lastNavAt < this.navThrottle) return;
             this._lastNavAt = now;
-
             if (!this.menuItems.length) return;
-            this.focusedIndex =
-                (this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1)
-                    ? 0
-                    : this.focusedIndex + 1;
+            this.focusedIndex = (this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1) ? 0 : this.focusedIndex + 1;
             this.focusCurrentItem();
         },
 
         focusPreviousItem() {
             const now = Date.now();
-            if (now - this._lastNavAt < this.navThrottle) return;  // too soon
+            if (now - this._lastNavAt < this.navThrottle) return;
             this._lastNavAt = now;
-
             if (!this.menuItems.length) return;
-            this.focusedIndex =
-                (this.focusedIndex === null || this.focusedIndex <= 0)
-                    ? this.menuItems.length - 1
-                    : this.focusedIndex - 1;
+            this.focusedIndex = (this.focusedIndex === null || this.focusedIndex <= 0) ? this.menuItems.length - 1 : this.focusedIndex - 1;
             this.focusCurrentItem();
         },
 
@@ -152,40 +132,33 @@ export default function(Alpine) {
             }
         },
 
-        focusSelectedItem (item, {keepSubmenusOpen = false} = {}) {
-            if (!item ||
-                item.getAttribute('aria-disabled') === 'true' ||
-                item.hasAttribute('disabled')) return;
-
+        focusSelectedItem(item) {
+            if (!item || item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
             const index = this.menuItems.indexOf(item);
-            if (index !== -1 && this.focusedIndex !== index) {
-                if (!keepSubmenusOpen) this.closeAllSubmenus();
+            if (index !== -1) {
                 this.focusedIndex = index;
-                this.$nextTick(() => this.menuItems[this.focusedIndex].focus());
+                item.focus();
             }
         },
 
-        handleItemClick (event) {
+        handleItemClick(event) {
             const item = event.currentTarget;
-
-            if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) {
-                return;
-            }
-
-            // If this item is a submenu trigger, forward the action to that submenu
+            if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
             if (item.getAttribute('aria-haspopup') === 'menu') {
                 Alpine.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
-                return;                       // do *not* close the whole dropdown
+                return;
             }
-
-            // Regular leaf item → close the dropdown
             this.open = false;
             this.$nextTick(() => this.triggerEl?.focus());
         },
-
-        handleItemMousemove(event) {
+        
+        handleItemMouseEnter(event) {
             const item = event.currentTarget;
             this.focusSelectedItem(item);
+            
+            if (item.getAttribute('aria-haspopup') !== 'menu') {
+                this.closeAllSubmenus();
+            }
         },
 
         handleWindowEscape() {
@@ -201,67 +174,54 @@ export default function(Alpine) {
                 this.$nextTick(() => this.triggerEl?.focus());
             }
         },
-
-        handleTriggerMouseover () {
-            this.$nextTick(() => this.$el.firstChild?.focus());        
+        
+        handleTriggerMouseover() {
+             this.$nextTick(() => this.$el.firstChild?.focus());
         },
 
-        closeAllSubmenus(exceptId = null) {
-            if (!this.isSubmenuActive) return;
-
+        closeAllSubmenus() {
             const submenus = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
             submenus.forEach(el => {
-                const api = Alpine.$data(el);
-                if (api && api.open && api.selfId !== exceptId) {
-                    api.closeSubmenu();
-                }
+                Alpine.$data(el)?.closeSubmenu();
             });
-
-            const anyOpen = Array.from(submenus).some(el => Alpine.$data(el)?.open);
-            if (!anyOpen) {
-                this.activeSubmenuId = null;
-                this.isSubmenuActive = false;
-            }
-        },
-
-        setActiveSubmenu(submenuApi) {
-            if (this.activeSubmenuId && this.activeSubmenuId !== submenuApi.selfId) {
-                // close the previously active submenu
-                const prev = document.getElementById(this.activeSubmenuId);
-                Alpine.$data(prev)?.closeSubmenu();
-            }
-            this.activeSubmenuId  = submenuApi.selfId;
-            this.isSubmenuActive  = true;
+            this.isSubmenuActive = false;
         }
     }));
 
+    /**
+     * Manages the state and behavior of a nested submenu.
+     */
     Alpine.data('rzDropdownSubmenu', () => ({
+        // --- STATE ---
         open: false,
         ariaExpanded: 'false',
         parentDropdown: null,
         triggerEl: null,
         menuItems: [],
         focusedIndex: null,
-        anchor: 'right-start', 
+        anchor: 'right-start',
         pixelOffset: 0,
-        navThrottle : 100,   // delay between moves
-        _lastNavAt  : 0,     // internal time-stamp, updated after every move
-        selfId      : null,
-        
+        navThrottle: 100,
+        _lastNavAt: 0,
+        selfId: null,
+        siblingContainer: null,
+        closeTimeout: null,
+        closeDelay: 150,
+
+        // --- INIT ---
         init() {
-            // give the element a stable id if it doesn't already have one
             if (!this.$el.id) this.$el.id = crypto.randomUUID();
-            this.selfId = this.$el.id;            
+            this.selfId = this.$el.id;
             this.parentDropdown = Alpine.$data(this.$el.closest('[x-data^="rzDropdownMenu"]'));
             this.triggerEl = this.$refs.subTrigger;
-            this.anchor = this.$el.dataset.subAnchor || this.anchor; 
+            this.siblingContainer = this.$el.parentElement;
+            this.anchor = this.$el.dataset.subAnchor || this.anchor;
             this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset;
 
             this.$watch('open', (value) => {
                 if (value) {
-                    this._lastNavAt = 0;      // clear throttle so the first press is immediate
-                    
-                    this.parentDropdown?.setActiveSubmenu(this);
+                    this._lastNavAt = 0;
+                    this.parentDropdown.isSubmenuActive = true;
                     this.$nextTick(() => {
                         const contentEl = this.$refs.subContent;
                         this.updatePosition(contentEl);
@@ -271,113 +231,112 @@ export default function(Alpine) {
                     this.triggerEl.dataset.state = 'open';
                 } else {
                     this.focusedIndex = null;
-                    if (this.parentDropdown?.activeSubmenu === this) {
-                        this.parentDropdown.activeSubmenu = null;
-                    }
                     this.ariaExpanded = 'false';
                     delete this.triggerEl.dataset.state;
+                    this.$nextTick(() => {
+                        const anySubmenuIsOpen = this.parentDropdown.parentEl.querySelector('[x-data^="rzDropdownSubmenu"] [data-state="open"]');
+                        if (!anySubmenuIsOpen) this.parentDropdown.isSubmenuActive = false;
+                    });
                 }
             });
         },
         
+        // --- METHODS ---
         updatePosition(contentEl) {
             if (!this.triggerEl || !contentEl) return;
             computePosition(this.triggerEl, contentEl, {
                 placement: this.anchor,
-                middleware: [
-                    offset(this.pixelOffset),
-                    flip(),
-                    shift({padding: 8})
-                ],
-            }).then(({x, y}) => {
-                Object.assign(contentEl.style, {
-                    left: `${x}px`,
-                    top: `${y}px`,
-                });
+                middleware: [offset(this.pixelOffset), flip(), shift({ padding: 8 })],
+            }).then(({ x, y }) => {
+                Object.assign(contentEl.style, { left: `${x}px`, top: `${y}px` });
+            });
+        },
+
+        handleTriggerMouseEnter() {
+            clearTimeout(this.closeTimeout);
+            this.triggerEl.focus();
+            this.openSubmenu();
+        },
+
+        handleTriggerMouseLeave() {
+            this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
+        },
+
+        handleContentMouseEnter() {
+            clearTimeout(this.closeTimeout);
+        },
+
+        handleContentMouseLeave() {
+            const childSubmenus = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+            if (childSubmenus) {
+                const isAnyChildOpen = Array.from(childSubmenus).some(el => Alpine.$data(el)?.open);
+                if (isAnyChildOpen) {
+                    return;
+                }
+            }
+            this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
+        },
+
+        openSubmenu(focusFirst = false) {
+            if (this.open) return;
+            this.closeSiblingSubmenus();
+            this.open = true;
+            if (focusFirst) {
+                this.$nextTick(() => requestAnimationFrame(() => this.focusFirstItem()));
+            }
+        },
+        
+        closeSubmenu() {
+            const childSubmenus = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+            childSubmenus?.forEach(el => {
+                Alpine.$data(el)?.closeSubmenu();
+            });
+            this.open = false;
+        },
+
+        closeSiblingSubmenus() {
+            if (!this.siblingContainer) return;
+            const siblings = Array.from(this.siblingContainer.children).filter(
+                el => el.hasAttribute('x-data') && el.getAttribute('x-data').startsWith('rzDropdownSubmenu') && el.id !== this.selfId
+            );
+            siblings.forEach(el => {
+                Alpine.$data(el)?.closeSubmenu();
             });
         },
 
         toggleSubmenu() {
-            this.open = !this.open;
-            if (this.open) {
-                this.parentDropdown?.closeAllSubmenus(this.selfId);
-                this.parentDropdown?.setActiveSubmenu(this);
-                this.focusedIndex = -1;
-            }
+            this.open ? this.closeSubmenu() : this.openSubmenu();
         },
 
-        openSubmenu(isOpen = true, focusFirst = false) {
-            if (isOpen && !this.open) {
-                this.parentDropdown?.focusSelectedItem(this.triggerEl, { keepSubmenusOpen: true });
-                this.parentDropdown?.closeAllSubmenus(this.selfId);
-                this.open = true;
-
-                this.$nextTick(() => requestAnimationFrame(() => {
-                    if (focusFirst && this.menuItems.length && this.menuItems.length > 0) {
-                        this.focusedIndex = 0;
-                        this.menuItems[0].focus();
-                    }
-                }));
-            }
-        },
-        
-        openSubmenuAndFocusFirst() { 
-            this.openSubmenu(true, true);
-        },
-        
-        closeSubmenu() {
-            this.open = false;
+        openSubmenuAndFocusFirst() {
+            this.openSubmenu(true);
         },
 
         handleTriggerKeydown(e) {
             if (['ArrowRight', 'Enter', ' '].includes(e.key)) {
+                e.preventDefault();
                 this.openSubmenuAndFocusFirst();
             }
         },
 
-        handleTriggerClick() {
-            this.toggleSubmenu(); 
-        },
-        
-        handleFocusOut (e) {
-            const next = e.relatedTarget;          // element that will receive focus
-            if (!next) return;                     // focus left the document
-
-            // keep the submenu open if focus merely moved into the teleported panel
-            if (this.$el.contains(next) || this.$refs.subContent?.contains(next)) {
-                return;
-            }
-
-            // focus really went somewhere else → close
-            this.open = false;
-        },
-
         focusNextItem() {
             const now = Date.now();
-            if (now - this._lastNavAt < this.navThrottle) return;  // too soon
+            if (now - this._lastNavAt < this.navThrottle) return;
             this._lastNavAt = now;
-
             if (!this.menuItems.length) return;
-            this.focusedIndex =
-                (this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1)
-                    ? 0
-                    : this.focusedIndex + 1;
+            this.focusedIndex = (this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1) ? 0 : this.focusedIndex + 1;
             this.focusCurrentItem();
         },
 
         focusPreviousItem() {
             const now = Date.now();
-            if (now - this._lastNavAt < this.navThrottle) return;  // too soon
+            if (now - this._lastNavAt < this.navThrottle) return;
             this._lastNavAt = now;
-
             if (!this.menuItems.length) return;
-            this.focusedIndex =
-                (this.focusedIndex === null || this.focusedIndex <= 0)
-                    ? this.menuItems.length - 1
-                    : this.focusedIndex - 1;
+            this.focusedIndex = (this.focusedIndex === null || this.focusedIndex <= 0) ? this.menuItems.length - 1 : this.focusedIndex - 1;
             this.focusCurrentItem();
         },
-        
+
         focusFirstItem() {
             if (!this.menuItems.length) return;
             this.focusedIndex = 0;
@@ -391,47 +350,48 @@ export default function(Alpine) {
         },
 
         focusCurrentItem() {
-             if (this.focusedIndex !== null && this.menuItems[this.focusedIndex]) {
+            if (this.focusedIndex !== null && this.menuItems[this.focusedIndex]) {
                 this.menuItems[this.focusedIndex].focus();
             }
         },
-        
-        handleItemClick(event) { 
-            const item = event.currentTarget;
-            if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) {
-                return;
-            }
 
-            if (item === this.triggerEl) {      // submenu trigger
-                this.toggleSubmenu();
-                return;
+        handleItemClick(event) {
+            const item = event.currentTarget;
+            if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
+            if (item.getAttribute('aria-haspopup') === 'menu') {
+                Alpine.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
+                return; 
             }
-            
-            this.open = false; 
-            this.parentDropdown.open = false; 
+            this.parentDropdown.open = false;
             this.$nextTick(() => this.parentDropdown.triggerEl?.focus());
         },
-        
-        handleItemMousemove(event) {
+
+        handleItemMouseEnter(event) {
             const item = event.currentTarget;
-             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) {
-                return;
-            }
+            if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
+
             const index = this.menuItems.indexOf(item);
-            if (index !== -1 && this.focusedIndex !== index) {
+            if (index !== -1) {
                 this.focusedIndex = index;
+                item.focus();
+            }
+
+            if (item.getAttribute('aria-haspopup') === 'menu') {
+                Alpine.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.openSubmenu();
+            } else {
+                this.closeSiblingSubmenus();
             }
         },
 
         handleSubmenuEscape() {
-            if(this.open) {
+            if (this.open) {
                 this.open = false;
                 this.$nextTick(() => this.triggerEl?.focus());
             }
         },
 
         handleSubmenuArrowLeft() {
-            if(this.open) {
+            if (this.open) {
                 this.open = false;
                 this.$nextTick(() => this.triggerEl?.focus());
             }

@@ -4,13 +4,13 @@
 @inherits RzComponent
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="AdditionalAttributes"
+             @attributes="@AdditionalAttributes"
              id="@Id"
              class="@RootClass()"
              role="menuitem"
              tabindex="-1"
              x-on:click="handleItemClick"
-             x-on:mousemove="handleItemMousemove"
+             x-on:mouseenter="handleItemMouseEnter"
              aria-disabled="@(Disabled.ToString().ToLowerInvariant())"
              disabled="@(Disabled ? "disabled" : null)">
     @if (Icon != null)
