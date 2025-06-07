@@ -24,7 +24,7 @@ public class DefaultRzPaginationStyles : RzStylesBase.RzPaginationStylesBase
     /// Gets the CSS classes for the pagination list element.
     /// Default styles create an inline flex container with small gaps between pagination items.
     /// </summary>
-    public override string List => "inline-flex items-center gap-1 text-sm"; // Removed rounded-theme, buttons will be rounded
+    public override string List => "inline-flex items-center gap-1 text-sm"; // Removed rounded-md, buttons will be rounded
 
     /// <summary>
     /// Gets the base CSS styles used by multiple pagination link types.

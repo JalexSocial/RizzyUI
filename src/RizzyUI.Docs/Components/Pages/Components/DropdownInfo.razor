@@ -1,4 +1,5 @@
-﻿@page "/components/dropdown"
+
+@page "/components/dropdown"
 @namespace RizzyUI.Pages
 @using RizzyUI
 @using RizzyUI.Extensions
@@ -129,7 +130,7 @@
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuItem>More...</DropdownMenuItem>
                                                 </DropdownMenuSubContent>
-                                            </DropdownMenuSub>                                            
+                                            </DropdownMenuSub> 
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem>More...</DropdownMenuItem>
                                         </DropdownMenuSubContent>
@@ -213,32 +214,44 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzDropdownMenu Parameters" class="scroll-mt-20">
                     RzDropdownMenu Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                    <thead>
-                        <tr class="bg-secondary">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment</em> – Contains the <see cref="DropdownMenuTrigger"/> and <see cref="DropdownMenuContent"/> components. (Required)</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>Anchor</strong></td>
-                            <td class="text-base p-4"><em>AnchorPoint</em> – Preferred alignment of the dropdown relative to its trigger. Options include <code>TopStart</code>, <code>Top</code>, <code>TopEnd</code>, <code>LeftStart</code>, <code>Left</code>, <code>LeftEnd</code>, <code>RightStart</code>, <code>Right</code>, <code>RightEnd</code>, <code>BottomStart</code>, <code>Bottom</code>, <code>BottomEnd</code>. (Default: <code>Bottom</code>)</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>Offset</strong></td>
-                            <td class="text-base p-4"><em>int</em> – Offset in pixels from the anchor point. (Default: 6)</td>
-                        </tr>
-                         <tr>
-                            <td class="text-base p-4 text-center"><strong>IsModal</strong></td>
-                            <td class="text-base p-4"><em>bool</em> – Determines if the dropdown behaves modally (traps focus). (Default: true)</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – Contains the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">DropdownMenuTrigger</code> and <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">DropdownMenuContent</code> components.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Anchor</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AnchorPoint</code> – Preferred alignment of the dropdown relative to its trigger. Options include <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">TopStart</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Top</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">TopEnd</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">LeftStart</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Left</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">LeftEnd</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">RightStart</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Right</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">RightEnd</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">BottomStart</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Bottom</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">BottomEnd</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">AnchorPoint</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">AnchorPoint.Bottom</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Offset</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Offset in pixels from the anchor point.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">4</code></td>
+                            </tr>
+                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">IsModal</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – Determines if the dropdown behaves modally (traps focus).</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- DropdownMenuTrigger Parameters -->
@@ -246,20 +259,26 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuTrigger Parameters" class="scroll-mt-20">
                     DropdownMenuTrigger Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                     <thead>
-                        <tr class="bg-secondary">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment</em> – The content that serves as the interactive trigger for the dropdown (e.g., an RzAvatar, RzButton). (Required)</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The content that serves as the interactive trigger for the dropdown (e.g., an RzAvatar, RzButton).</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- DropdownMenuContent Parameters -->
@@ -267,20 +286,26 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuContent Parameters" class="scroll-mt-20">
                     DropdownMenuContent Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                     <thead>
-                        <tr class="bg-secondary">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment</em> – The menu content rendered inside the dropdown panel. Typically includes <see cref="DropdownMenuItem"/>, <see cref="DropdownMenuGroup"/>, etc. (Required)</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The menu content rendered inside the dropdown panel. Typically includes <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">DropdownMenuItem</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">DropdownMenuGroup</code>, etc.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- DropdownMenuLabel Parameters -->
@@ -288,20 +313,26 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuLabel Parameters" class="scroll-mt-20">
                     DropdownMenuLabel Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                     <thead>
-                        <tr class="bg-secondary">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment</em> – The text or content of the label. (Required)</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The text or content of the label.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- DropdownMenuGroup Parameters -->
@@ -309,20 +340,26 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuGroup Parameters" class="scroll-mt-20">
                     DropdownMenuGroup Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                     <thead>
-                        <tr class="bg-secondary">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment</em> – The content of the group, typically <see cref="DropdownMenuItem"/>s. (Required)</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The content of the group, typically <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">DropdownMenuItem</code>s.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- DropdownMenuItem Parameters -->
@@ -330,32 +367,44 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuItem Parameters" class="scroll-mt-20">
                     DropdownMenuItem Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                    <thead>
-                        <tr class="bg-secondary">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment</em> – The primary text content of the menu item. (Required)</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>Icon</strong></td>
-                            <td class="text-base p-4"><em>SvgIcon?</em> – An optional icon (from Blazicons) to display before the item content.</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ShortcutContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment?</em> – Optional content to display as a shortcut hint (e.g., using <see cref="DropdownMenuShortcut"/>).</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>Disabled</strong></td>
-                            <td class="text-base p-4"><em>bool</em> – If true, the menu item will be disabled and non-interactive. (Default: false)</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The primary text content of the menu item.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Icon</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SvgIcon?</code> – An optional icon (from Blazicons) to display before the item content.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SvgIcon?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ShortcutContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Optional content to display as a shortcut hint (e.g., using <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">DropdownMenuShortcut</code>).</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Disabled</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – If true, the menu item will be disabled and non-interactive.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- DropdownMenuSeparator Parameters -->
@@ -363,7 +412,7 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuSeparator Parameters" class="scroll-mt-20">
                     DropdownMenuSeparator Component Parameters
                 </RzHeading>
-                <RzParagraph>This component accepts no specific parameters other than standard HTML attributes via <code>AdditionalAttributes</code>.</RzParagraph>
+                <RzParagraph>This component accepts no specific parameters other than standard HTML attributes via <code class="font-semibold">AdditionalAttributes</code>.</RzParagraph>
             </section>
 
             <!-- DropdownMenuShortcut Parameters -->
@@ -371,20 +420,26 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuShortcut Parameters" class="scroll-mt-20">
                     DropdownMenuShortcut Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                     <thead>
-                        <tr class="bg-secondary">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment</em> – The text or content of the shortcut hint (e.g., "⌘S"). (Required)</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The text or content of the shortcut hint (e.g., "⌘S").</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- DropdownMenuSub Parameters -->
@@ -392,28 +447,38 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuSub Parameters" class="scroll-mt-20">
                     DropdownMenuSub Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                     <thead>
-                        <tr class="bg-secondary">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment</em> – Contains the <see cref="DropdownMenuSubTrigger"/> and <see cref="DropdownMenuSubContent"/> components. (Required)</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>Anchor</strong></td>
-                            <td class="text-base p-4"><em>AnchorPoint</em> – Preferred alignment of the sub-menu content relative to its trigger. (Default: <code>RightStart</code>)</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>Offset</strong></td>
-                            <td class="text-base p-4"><em>int</em> – Offset in pixels for the sub-menu content. (Default: -4)</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – Contains the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">DropdownMenuSubTrigger</code> and <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">DropdownMenuSubContent</code> components.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Anchor</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AnchorPoint</code> – Preferred alignment of the sub-menu content relative to its trigger.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">AnchorPoint</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">AnchorPoint.RightStart</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Offset</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Offset in pixels for the sub-menu content.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">-4</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- DropdownMenuSubTrigger Parameters -->
@@ -421,24 +486,32 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuSubTrigger Parameters" class="scroll-mt-20">
                     DropdownMenuSubTrigger Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                     <thead>
-                        <tr class="bg-secondary">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment</em> – The text or content of the sub-menu trigger. (Required)</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>Icon</strong></td>
-                            <td class="text-base p-4"><em>SvgIcon?</em> – An optional icon to display before the trigger content.</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The text or content of the sub-menu trigger.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Icon</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SvgIcon?</code> – An optional icon to display before the trigger content.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SvgIcon?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- DropdownMenuSubContent Parameters -->
@@ -446,20 +519,26 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="DropdownMenuSubContent Parameters" class="scroll-mt-20">
                     DropdownMenuSubContent Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                     <thead>
-                        <tr class="bg-secondary">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment</em> – The content rendered inside the sub-menu panel, typically <see cref="DropdownMenuItem"/>s. (Required)</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The content rendered inside the sub-menu panel, typically <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">DropdownMenuItem</code>s.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
         </MainContent>

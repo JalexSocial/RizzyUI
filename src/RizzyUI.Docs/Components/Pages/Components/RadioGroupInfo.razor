@@ -1,3 +1,4 @@
+
 @page "/components/radiogroup"
 @namespace RizzyUI.Pages
 
@@ -236,44 +237,62 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RadioGroup Parameters" class="scroll-mt-20">
                     RadioGroup Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                    <tr class="bg-secondary ">
-                        <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground ">Property</th>
-                        <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground ">Description</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>For</strong></td>
-                        <td class="text-base p-4"><em>Expression&lt;Func&lt;TValue&gt;&gt;</em> – Specifies the field the radio group is bound to. (Required)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Value</strong></td>
-                        <td class="text-base p-4"><em>TValue?</em> – The currently selected value of the radio group.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>ValueChanged</strong></td>
-                        <td class="text-base p-4"><em>EventCallback&lt;TValue&gt;</em> – Callback invoked when the selected value changes.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Name</strong></td>
-                        <td class="text-base p-4"><em>string</em> – The name attribute shared by all radio buttons in the group.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Orientation</strong></td>
-                        <td class="text-base p-4"><em>Orientation</em> – Controls the layout direction (Vertical or Horizontal). (Default: Vertical)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>CheckboxIcon</strong></td>
-                        <td class="text-base p-4"><em>SvgIcon</em> – The icon displayed inside the selected radio button. (Default: MdiIcon.CheckboxMarkedCircle)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                        <td class="text-base p-4"><em>RenderFragment</em> – Contains the <code>RzRadioGroupItem</code> components.</td>
-                    </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">For</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Expression&lt;Func&lt;TValue&gt;&gt;</code> – Specifies the field the radio group is bound to.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Expression&lt;Func&lt;TValue&gt;&gt;</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Value</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>TValue?</code> – The currently selected value of the radio group.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">TValue?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ValueChanged</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>EventCallback&lt;TValue&gt;</code> – Callback invoked when the selected value changes.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">EventCallback&lt;TValue&gt;</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">EventCallback.Empty</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Name</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – The name attribute shared by all radio buttons in the group.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">string.Empty</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Orientation</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Orientation</code> – Controls the layout direction (Vertical or Horizontal).</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Orientation</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Orientation.Vertical</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CheckboxIcon</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SvgIcon</code> – The icon displayed inside the selected radio button.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SvgIcon</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">MdiIcon.CheckboxMarkedCircle</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Contains the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">RzRadioGroupItem</code> components.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- Parameters Table: RzRadioGroupField -->
@@ -281,52 +300,80 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzRadioGroupField Parameters" class="scroll-mt-20">
                     RzRadioGroupField Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                    <tr class="bg-secondary ">
-                        <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground ">Property</th>
-                        <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground ">Description</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>For</strong></td>
-                        <td class="text-base p-4"><em>Expression&lt;Func&lt;TValue&gt;&gt;</em> – Specifies the field the radio group is bound to. (Required)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Value</strong></td>
-                        <td class="text-base p-4"><em>TValue?</em> – The currently selected value of the radio group.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>ValueChanged</strong></td>
-                        <td class="text-base p-4"><em>EventCallback&lt;TValue&lt;</em> – Callback invoked when the selected value changes.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>DisplayName</strong></td>
-                        <td class="text-base p-4"><em>string?</em> – The text displayed in the field's label. If not set, it's inferred from the `For` expression.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Name</strong></td>
-                        <td class="text-base p-4"><em>string</em> – The name attribute shared by all radio buttons in the group.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Orientation</strong></td>
-                        <td class="text-base p-4"><em>Orientation</em> – Controls the layout direction (Vertical or Horizontal). (Default: Vertical)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>CheckboxIcon</strong></td>
-                        <td class="text-base p-4"><em>SvgIcon</em> – The icon displayed inside the selected radio button. (Default: MdiIcon.CheckboxMarkedCircle)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>RadioGroupContent</strong></td>
-                        <td class="text-base p-4"><em>RenderFragment</em> – Contains the <code>RzRadioGroupItem</code> components. (Use this instead of ChildContent)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>FieldHelp</strong></td>
-                        <td class="text-base p-4"><em>RenderFragment?</em> – Optional content displayed below the radio group to provide help or context.</td>
-                    </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">For</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Expression&lt;Func&lt;TValue&gt;&gt;</code> – Specifies the field the radio group is bound to.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Expression&lt;Func&lt;TValue&gt;&gt;</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Value</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>TValue?</code> – The currently selected value of the radio group.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">TValue?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ValueChanged</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>EventCallback&lt;TValue&gt;</code> – Callback invoked when the selected value changes.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">EventCallback&lt;TValue&gt;</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">EventCallback.Empty</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">DisplayName</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – The text displayed in the field's label. If not set, it's inferred from the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">For</code> expression.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Name</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – The name attribute shared by all radio buttons in the group.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">string.Empty</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Orientation</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Orientation</code> – Controls the layout direction (Vertical or Horizontal).</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Orientation</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Orientation.Vertical</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CheckboxIcon</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SvgIcon</code> – The icon displayed inside the selected radio button.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SvgIcon</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">MdiIcon.CheckboxMarkedCircle</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">RadioGroupContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Contains the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">RzRadioGroupItem</code> components.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">FieldHelp</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Optional content displayed below the group to provide help or context.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Required</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – If true, the field is marked as required.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- Parameters Table: RzRadioGroupItem -->
@@ -334,40 +381,56 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzRadioGroupItem Parameters" class="scroll-mt-20">
                     RzRadioGroupItem Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                    <tr class="bg-secondary ">
-                        <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground ">Property</th>
-                        <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground ">Description</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Value</strong></td>
-                        <td class="text-base p-4"><em>TValue?</em> – The specific value this radio button represents.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Label</strong></td>
-                        <td class="text-base p-4"><em>string</em> – The text label displayed next to the radio button. (Required)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Icon</strong></td>
-                        <td class="text-base p-4"><em>SvgIcon?</em> – An optional icon displayed next to the label.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Description</strong></td>
-                        <td class="text-base p-4"><em>RenderFragment?</em> – Optional additional content displayed below the label for more context.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                        <td class="text-base p-4"><em>RenderFragment?</em> – Optional content rendered within the item's structure, often alongside the Description.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Id</strong></td>
-                        <td class="text-base p-4"><em>string</em> – The unique ID for the radio input element. Auto-generated if not provided.</td>
-                    </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Value</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>TValue?</code> – The specific value this radio button represents.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">TValue?</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Label</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – The text label displayed next to the radio button.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Icon</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SvgIcon?</code> – An optional icon displayed next to the label.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SvgIcon?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Description</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Optional additional content displayed below the label for more context.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Optional content rendered within the item's structure, often alongside the Description.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Id</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – The unique ID for the radio input element. Auto-generated if not provided.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Generated</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
         </MainContent>

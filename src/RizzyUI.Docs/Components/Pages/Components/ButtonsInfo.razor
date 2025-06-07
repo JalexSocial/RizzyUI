@@ -1,4 +1,5 @@
-﻿@page "/components/buttons"
+
+@page "/components/buttons"
 @using RizzyUI
 
 <PageTitle>Buttons</PageTitle>
@@ -168,82 +169,62 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Button Component Parameters" class="scroll-mt-20">
                     Button Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                        <tr class="bg-secondary ">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground ">
-                                Property
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground ">
-                                Description
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>AssistiveLabel</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>string</em> – Accessible label for screen readers. (Default: "Action Button")
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Variant</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>ButtonVariant</em> – Determines the button style.
-                                Options: <code>Primary</code>, <code>Secondary</code>, <code>Alternate</code>,
-                                <code>Inverse</code>, <code>Information</code>, <code>Destructive</code>,
-                                <code>Warning</code>, <code>Success</code>, <code>Ghost</code>.
-                                (Default: <code>Primary</code>)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Size</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>Size</em> – Specifies the size of the button.
-                                Options: <code>ExtraSmall</code>, <code>Small</code>, <code>Medium</code>,
-                                <code>Large</code>, <code>ExtraLarge</code>. (Default: <code>Medium</code>)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Outline</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>bool</em> – If set to <code>true</code>, renders the button with an outline style instead of a solid background. (Default: false)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Animate</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>bool</em> – Controls whether the button animations (such as active scaling) are enabled. (Default: true)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Label</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>string</em> – Optional text label if no child content is provided.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>ChildContent</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>RenderFragment</em> – The content displayed inside the button.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AssistiveLabel</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – Accessible label for screen readers.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">"Action Button"</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Variant</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>ButtonVariant</code> – Determines the button style. Options: <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Primary</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Secondary</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Accent</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Inverse</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Information</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Destructive</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Warning</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Success</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Ghost</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">ButtonVariant</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ButtonVariant.Primary</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Size</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Size</code> – Specifies the size of the button. Options: <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">ExtraSmall</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Small</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Medium</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Large</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">ExtraLarge</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Size</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Size.Medium</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Outline</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – If set to <code>true</code>, renders the button with an outline style instead of a solid background.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Animate</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – Controls whether the button animations (such as active scaling) are enabled.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Label</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – Optional text label if no child content is provided.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">string.Empty</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The content displayed inside the button.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
         </MainContent>

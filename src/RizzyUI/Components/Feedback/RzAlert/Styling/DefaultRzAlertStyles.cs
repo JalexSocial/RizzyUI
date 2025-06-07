@@ -13,7 +13,7 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
 
     /// <inheritdoc />
     public override string Container =>
-        "relative w-full overflow-hidden";
+        "not-prose relative w-full overflow-hidden";
 
     /// <inheritdoc />
     public override string InnerContainer =>

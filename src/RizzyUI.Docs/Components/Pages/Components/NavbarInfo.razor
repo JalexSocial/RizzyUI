@@ -1,4 +1,5 @@
-﻿@page "/components/navbar"
+
+@page "/components/navbar"
 @using RizzyUI
 @using RizzyUI.Extensions
 @using Blazicons
@@ -106,36 +107,32 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Navbar Component Parameters" class="scroll-mt-20">
                     Navbar Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                        <tr class="bg-secondary ">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground ">
-                                Property
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground ">
-                                Description
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>ChildContent</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>RenderFragment</em> – The content to be displayed inside the navbar.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>ScreenReaderText</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>string</em> – Optional accessible text for the mobile toggle button. Defaults to "Toggle side navigation".
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The content to be displayed inside the navbar.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ScreenReaderText</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – Optional accessible text for the mobile toggle button.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">"Toggle side navigation"</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- Additional Usage: Extra Attributes -->

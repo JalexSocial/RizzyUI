@@ -1,4 +1,5 @@
-﻿@page "/components/steps"
+
+@page "/components/steps"
 @namespace RizzyUI.Pages
 @using RizzyUI
 @using RizzyUI.Extensions
@@ -18,7 +19,7 @@
             </RzHeading>
             <RzParagraph>
                 The Steps component provides a visual progress indicator to guide users through multi‑step processes.
-                Each step is displayed as a circle (with either a number or an icon) along with an associated label and optional caption.
+                Each step is displayed as a circle (with either a number or an an optional icon) along with an associated label and optional caption.
                 Use the <code>StepStatus</code> enum to define whether a step is completed, current, or upcoming.
                 The component supports both horizontal and vertical orientations and adapts its styling based on the active status.
             </RzParagraph>
@@ -48,7 +49,7 @@
                     </div>
                 </RzBrowser>
 
-                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
 &lt;Steps Orientation=&quot;Orientation.Horizontal&quot; 
        ShowLabels=&quot;true&quot; 
        AriaLabel=&quot;Registration RzProgress&quot; 
@@ -86,7 +87,7 @@
                     </div>
                 </RzBrowser>
 
-                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
 &lt;Steps Orientation=&quot;Orientation.Vertical&quot; 
        ShowLabels=&quot;true&quot; 
        AriaLabel=&quot;Onboarding RzProgress&quot; 
@@ -104,53 +105,44 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Steps Component Parameters" class="scroll-mt-20">
                     Steps Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                        <tr class="bg-secondary ">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground ">
-                                Property
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground ">
-                                Description
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Orientation</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>Orientation</em> – Specifies the layout direction of the steps. Options are <code>Orientation.Horizontal</code> or <code>Orientation.Vertical</code>. (Default: Horizontal)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>ShowLabels</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>bool</em> – Determines whether step labels are rendered. (Default: false)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>AriaLabel</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>string</em> – Provides an accessible label for the steps container.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>ActiveColor</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>StatusColor</em> – Determines the color used for completed and current steps.
-                                Options: <code>StatusColor.Primary</code>, <code>StatusColor.Secondary</code>, <code>StatusColor.Success</code>, <code>StatusColor.Info</code>, <code>StatusColor.Warning</code>, or <code>StatusColor.Destructive</code>.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Orientation</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Orientation</code> – Specifies the layout direction of the steps. Options are <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Orientation.Horizontal</code> or <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Orientation.Vertical</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Orientation</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Orientation.Horizontal</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ShowLabels</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – Determines whether step labels are rendered.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Provides an accessible label for the steps container.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ActiveColor</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>StatusColor</code> – Determines the color used for completed and current steps. Options: <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">StatusColor.Primary</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">StatusColor.Secondary</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">StatusColor.Success</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">StatusColor.Info</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">StatusColor.Warning</code>, or <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">StatusColor.Destructive</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">StatusColor</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">StatusColor.Primary</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- Parameters Table: Step -->
@@ -158,44 +150,50 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Step Component Parameters" class="scroll-mt-20">
                     Step Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                        <tr class="bg-secondary ">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground ">
-                                Property
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground ">
-                                Description
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Label</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>string</em> – The main label for the step. (Required)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Status</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>StepStatus</em> – Indicates the step’s current status. Options are <code>StepStatus.Completed</code>, <code>StepStatus.Current</code>, and <code>StepStatus.Upcoming</code>. (Required)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Caption</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>string</em> – Optional supplementary text that provides additional context for the step.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Label</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – The main label for the step.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Status</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>StepStatus</code> – Indicates the step’s current status. Options are <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">StepStatus.Completed</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">StepStatus.Current</code>, and <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">StepStatus.Upcoming</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">StepStatus</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Caption</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Optional supplementary text that provides additional context for the step.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Icon</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SvgIcon?</code> – Optional icon to display in place of the step number.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SvgIcon?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Optional ARIA label for the step, providing more context for accessibility. If not provided, the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Label</code> is typically used by the parent component.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
         </MainContent>

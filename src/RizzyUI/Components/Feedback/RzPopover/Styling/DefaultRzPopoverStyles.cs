@@ -16,7 +16,7 @@ public class DefaultRzPopoverStyles : RzStylesBase.RzPopoverStylesBase
     }
 
     /// <inheritdoc />
-    public override string Container => "popup relative inline-block text-left";
+    public override string Container => "popover relative inline-block text-left";
 
     /// <inheritdoc />
     public override string TriggerWrapper => "inline-flex";

@@ -18,8 +18,9 @@
          data-shift-padding="@ShiftPadding"
          x-on:keydown.escape.window="handleWindowEscape"
          x-on:click.outside="handleOutsideClick"
-         aria-label="@AriaLabel">
-
+         aria-label="@AriaLabel"
+         class="@Theme.RzPopover.Container">
+	
         <div class="@Theme.RzPopover.TriggerWrapper"
              x-ref="trigger"
              x-on:click="toggle"

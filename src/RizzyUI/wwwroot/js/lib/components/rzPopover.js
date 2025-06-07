@@ -5,6 +5,7 @@ import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 export default function(Alpine) {
     Alpine.data('rzPopover', () => ({
         open: false,
+        ariaExpanded: 'false',
         triggerEl: null,
         contentEl: null,
 
@@ -13,6 +14,7 @@ export default function(Alpine) {
             this.contentEl = this.$refs.content;
 
             this.$watch('open', (value) => {
+                this.ariaExpanded = value.toString();
                 if (value) {
                     this.$nextTick(() => this.updatePosition());
                 }
@@ -29,6 +31,7 @@ export default function(Alpine) {
             const strategy = this.$el.dataset.strategy || 'absolute';
             const enableFlip = this.$el.dataset.enableFlip !== 'false';
             const enableShift = this.$el.dataset.enableShift !== 'false';
+            const shiftPadding = parseInt(this.$el.dataset.shiftPadding) || 8;
 
             let middleware = [];
 
@@ -43,7 +46,7 @@ export default function(Alpine) {
             }
 
             if (enableShift) {
-                middleware.push(shift({ padding: 8 }));
+                middleware.push(shift({ padding: shiftPadding }));
             }
 
             computePosition(this.triggerEl, this.contentEl, {

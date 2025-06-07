@@ -1,9 +1,7 @@
-﻿/*
-@import "../js/lib/notify/style.css";
+﻿@import "../js/lib/notify/style.css";
 @import "../js/lib/aspnet-client-validation/style.css";
-@import "../js/lib/flatpickr/flatpickr.css";
 @import "../js/lib/highlightjs/highlightjs.css";
- */
+@import "../js/lib/flatpickr/flatpickr.css";
 
 @custom-variant dark (&:is(.dark *));
 

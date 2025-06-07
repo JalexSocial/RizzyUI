@@ -13,7 +13,7 @@ public class DefaultRzCodeViewerStyles : RzStylesBase.RzCodeViewerStylesBase
 
     /// <inheritdoc />
     public override string Header =>
-        "border-b-0 border-outline bg-secondary flex flex-col items-start justify-between gap-4 rounded-theme rounded-b-none border p-4 text-sm text-secondary-foreground md:flex-row md:items-center md:gap-2"; 
+        "border-b-0 border-outline bg-secondary flex flex-col items-start justify-between gap-4 rounded-md rounded-b-none border px-4 py-1 text-sm text-secondary-foreground md:flex-row md:items-center md:gap-2"; 
 
     /// <inheritdoc />
     public override string HeaderTitle => "text-foreground";
@@ -23,8 +23,7 @@ public class DefaultRzCodeViewerStyles : RzStylesBase.RzCodeViewerStylesBase
         "border-outline w-full overflow-y-auto transition-all !rounded-b-none rounded-b-xl border"; 
 
     /// <inheritdoc />
-    public override string CopyButtonContainer =>
-        "border-accent/70 bg-accent text-accent-foreground flex h-11 items-center justify-between border-b"; // Use semantic names
+    public override string CopyButtonContainer => "flex justify-between";
 
     /// <inheritdoc />
     public override string CopyButton =>
@@ -42,11 +41,11 @@ public class DefaultRzCodeViewerStyles : RzStylesBase.RzCodeViewerStylesBase
 
     /// <inheritdoc />
     public override string PreElement =>
-        "text-foreground/60 overflow-x-auto text-sm p-8 border-none"; // Use semantic names
+        "not-prose text-sm overflow-x-auto p-8 m-0 border-none"; // Use semantic names
 
     /// <inheritdoc />
     public override string ExpandButton =>
-        "border-t-0 border-outline bg-secondary text-foreground flex w-full items-center justify-center gap-2 rounded-theme rounded-t-none border p-2 focus:outline-none focus-visible:rounded-t-none focus-visible:border-2 focus-visible:border-primary dark:focus-visible:border-primary"; // Use semantic names
+        "border-t-0 border-outline bg-secondary text-foreground flex w-full items-center justify-center gap-2 rounded-md rounded-t-none border p-2 focus:outline-none focus-visible:rounded-t-none focus-visible:border-2 focus-visible:border-primary dark:focus-visible:border-primary"; // Use semantic names
 
     /// <inheritdoc />
     public override string ExpandIcon => "rotate-0 h-5 w-5 transition";

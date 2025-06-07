@@ -1,4 +1,5 @@
-﻿@page "/components/alert"
+
+@page "/components/alert"
 @using RizzyUI
 
 <PageTitle>RzAlert</PageTitle>
@@ -23,7 +24,7 @@
 
 	            <RzBrowser Layout="typeof(PreviewLayout)">
 
-		            <div class="mx-auto flex flex-col items-start justify-center gap-4 rounded-theme p-8">
+		            <div class="mx-auto flex flex-col items-start justify-center gap-4 rounded-md p-8">
 						
 			            <RzAlert Variant="AlertVariant.Alternate">
 				            <AlertTitle>Alternate RzAlert</AlertTitle>
@@ -84,7 +85,7 @@
 
 	            <RzBrowser Layout="typeof(PreviewLayout)">
 
-		            <div class="mx-auto flex flex-col items-start justify-center gap-4 rounded-theme p-8">
+		            <div class="mx-auto flex flex-col items-start justify-center gap-4 rounded-md p-8">
 
 			            <RzAlert Variant="AlertVariant.Information" Dismissable>
 				            <AlertTitle>Update Available</AlertTitle>
@@ -137,7 +138,7 @@
 
 	            <RzBrowser Layout="typeof(PreviewLayout)">
 
-		            <div class="mx-auto flex flex-col items-start justify-center gap-4 rounded-theme p-8">
+		            <div class="mx-auto flex flex-col items-start justify-center gap-4 rounded-md p-8">
 
 			            <RzAlert Variant="AlertVariant.Information" Pulse>
 				            <AlertTitle>Update Available</AlertTitle>
@@ -186,67 +187,50 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzAlert Parameters" class="scroll-mt-20">
                     RzAlert Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                        <tr class="bg-secondary ">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground ">
-                                Property
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground ">
-                                Description
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Variant</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>AlertVariant</em> – Determines the visual style and color scheme of the alert. 
-                                Options include: <code>Information</code>, <code>Success</code>, <code>Warning</code>, 
-                                <code>Destructive</code>, and <code>Alternate</code>. 
-                                The default value is <code>Information</code>.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Icon</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>SvgIcon?</em> – The icon displayed in the alert. If null, a default icon based on the 
-                                variant will be used automatically.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Dismissable</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>bool</em> – When set to true, displays a close button that allows users to dismiss the alert. 
-                                Default is <code>false</code>.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>ChildContent</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>RenderFragment?</em> – The content to be displayed inside the alert, typically including 
-                                <code>AlertTitle</code> and <code>AlertDescription</code> components.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Pulse</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>bool</em> – When set to true, displays a pulsing animation behind the icon for emphasis. 
-                                Default is <code>false</code>.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Variant</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AlertVariant</code> enum – Determines the visual style and color scheme of the alert. Options include: <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Information</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Success</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Warning</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Destructive</code>, and <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Alternate</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">AlertVariant</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">AlertVariant.Information</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Icon</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SvgIcon?</code> – The icon displayed in the alert. If null, a default icon based on the variant will be used automatically.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SvgIcon?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Dismissable</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – When set to true, displays a close button that allows users to dismiss the alert.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The content to be displayed inside the alert, typically including <code>AlertTitle</code> and <code>AlertDescription</code> components.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Pulse</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – When set to true, displays a pulsing animation behind the icon for emphasis.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- AlertTitle Component Parameters -->
@@ -254,28 +238,26 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="AlertTitle Parameters" class="scroll-mt-20">
                     AlertTitle Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                        <tr class="bg-secondary ">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground ">
-                                Property
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground ">
-                                Description
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>ChildContent</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>RenderFragment?</em> – The text content of the alert title.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The text content of the alert title.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- AlertDescription Component Parameters -->
@@ -283,28 +265,26 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="AlertDescription Parameters" class="scroll-mt-20">
                     AlertDescription Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                        <tr class="bg-secondary ">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground ">
-                                Property
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground ">
-                                Description
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>ChildContent</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>RenderFragment?</em> – The text content of the alert description.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The text content of the alert description.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
         </MainContent>

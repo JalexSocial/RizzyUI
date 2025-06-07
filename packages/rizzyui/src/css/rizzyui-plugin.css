@@ -1,8 +1,8 @@
 @import "tailwindcss";
+@import 'shadcn-prose';
 @import "./rizzyui-theme.css" theme(static);
 
 @plugin "@tailwindcss/forms";
-@plugin "@tailwindcss/typography";
 
 @source "../../../../src/RizzyUI/";
 

@@ -2575,29 +2575,30 @@ function fi(t) {
 function hi(t) {
   t.data("rzPopover", () => ({
     open: !1,
+    ariaExpanded: "false",
     triggerEl: null,
     contentEl: null,
     init() {
       this.triggerEl = this.$refs.trigger.children[0] || this.$refs.trigger, this.contentEl = this.$refs.content, this.$watch("open", (e) => {
-        e && this.$nextTick(() => this.updatePosition());
+        this.ariaExpanded = e.toString(), e && this.$nextTick(() => this.updatePosition());
       });
     },
     updatePosition() {
       if (!this.triggerEl || !this.contentEl) return;
-      const e = this.$el.dataset.anchor || "bottom", n = parseInt(this.$el.dataset.offset) || 0, i = parseInt(this.$el.dataset.crossAxisOffset) || 0, s = parseInt(this.$el.dataset.alignmentAxisOffset) || 0, r = this.$el.dataset.strategy || "absolute", o = this.$el.dataset.enableFlip !== "false", a = this.$el.dataset.enableShift !== "false";
-      let l = [];
-      l.push(Fe({
+      const e = this.$el.dataset.anchor || "bottom", n = parseInt(this.$el.dataset.offset) || 0, i = parseInt(this.$el.dataset.crossAxisOffset) || 0, s = parseInt(this.$el.dataset.alignmentAxisOffset) || 0, r = this.$el.dataset.strategy || "absolute", o = this.$el.dataset.enableFlip !== "false", a = this.$el.dataset.enableShift !== "false", l = parseInt(this.$el.dataset.shiftPadding) || 8;
+      let c = [];
+      c.push(Fe({
         mainAxis: n,
         crossAxis: i,
         alignmentAxis: s
-      })), o && l.push(_e()), a && l.push(De({ padding: 8 })), Pe(this.triggerEl, this.contentEl, {
+      })), o && c.push(_e()), a && c.push(De({ padding: l })), Pe(this.triggerEl, this.contentEl, {
         placement: e,
         strategy: r,
-        middleware: l
-      }).then(({ x: c, y: f }) => {
+        middleware: c
+      }).then(({ x: f, y: u }) => {
         Object.assign(this.contentEl.style, {
-          left: `${c}px`,
-          top: `${f}px`
+          left: `${f}px`,
+          top: `${u}px`
         });
       });
     },

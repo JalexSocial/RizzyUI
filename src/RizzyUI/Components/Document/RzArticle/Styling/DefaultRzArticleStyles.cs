@@ -18,7 +18,7 @@ public class DefaultRzArticleStyles : RzStylesBase.RzArticleStylesBase
     public override string InnerContainer => "mx-auto flex max-w-7xl grow flex-col overflow-x-auto overflow-y-hidden";
 
     /// <inheritdoc />
-    public override string Article => ""; // Base article element, prose width added by method
+    public override string Article => "prose"; 
 
     /// <inheritdoc />
     public override string Aside =>

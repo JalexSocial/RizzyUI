@@ -1,4 +1,5 @@
-﻿@page "/components/progress"
+
+@page "/components/progress"
 @using RizzyUI
 
 <PageTitle>RzProgress</PageTitle>
@@ -261,6 +262,69 @@
                 </RzCodeViewer>
 
             </section>			
+
+            <!-- RzProgress Component Parameters -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzProgress Component Parameters" class="scroll-mt-20">
+                    RzProgress Component Parameters
+                </RzHeading>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CurrentValue</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Gets or sets the current value of the progress bar.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">0</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">MinValue</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Gets or sets the minimum value of the progress bar.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">0</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">MaxValue</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Gets or sets the maximum value of the progress bar.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">100</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Label</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Gets or sets the label text for the progress bar. Supports <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">{percent}</code> placeholder.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">LabelPosition</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>ProgressLabelPosition</code> – Gets or sets the position of the label (Inside or Outside).</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">ProgressLabelPosition</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ProgressLabelPosition.Outside</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Variant</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>StatusColor</code> – Gets or sets the status color variant of the progress bar.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">StatusColor</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">StatusColor.Primary</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – Gets or sets the aria-label for accessibility.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">"Progress Bar"</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
         </MainContent>
     </RzArticle>

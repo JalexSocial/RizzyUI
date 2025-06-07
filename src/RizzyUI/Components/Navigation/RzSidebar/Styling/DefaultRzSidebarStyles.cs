@@ -84,7 +84,7 @@ public class DefaultRzSidebarLinkItemStyles : RzStylesBase.RzSidebarLinkItemStyl
 
     /// <inheritdoc />
     public override string CollapsibleButton =>
-        "flex items-center justify-between rounded-theme gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-foreground hover:bg-primary/5 hover:text-foreground dark:hover:text-foreground dark:hover:bg-primary/5";
+        "flex items-center justify-between rounded-md gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-foreground hover:bg-primary/5 hover:text-foreground dark:hover:text-foreground dark:hover:bg-primary/5";
 
     /// <inheritdoc />
     public override string CollapsibleButtonIconContainer => "text-xl";
@@ -107,18 +107,18 @@ public class DefaultRzSidebarLinkItemStyles : RzStylesBase.RzSidebarLinkItemStyl
 
     /// <inheritdoc />
     public override string SubLinkOrDiv =>
-        "flex items-center gap-2 px-2 py-1.5 text-sm rounded-theme text-foreground underline-offset-2 hover:bg-primary/5 hover:text-foreground focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-foreground";
+        "flex items-center gap-2 px-2 py-1.5 text-sm rounded-md text-foreground underline-offset-2 hover:bg-primary/5 hover:text-foreground focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-foreground";
 
     /// <inheritdoc />
     public override string TopLevelListItem => "px-1 py-0.5 first:mt-2";
 
     /// <inheritdoc />
     public override string TopLevelNonCollapsibleDiv =>
-        "flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-foreground underline-offset-2 rounded-theme"; // Similar to link but not a link
+        "flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-foreground underline-offset-2 rounded-md"; // Similar to link but not a link
 
     /// <inheritdoc />
     public override string TopLevelLink =>
-        "flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-foreground underline-offset-2 hover:bg-primary/5 hover:text-foreground focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-foreground rounded-theme";
+        "flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-foreground underline-offset-2 hover:bg-primary/5 hover:text-foreground focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-foreground rounded-md";
 
     /// <inheritdoc />
     public override string ItemIconContainer => "text-lg";

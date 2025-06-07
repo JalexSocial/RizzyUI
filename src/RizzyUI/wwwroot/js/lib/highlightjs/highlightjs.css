@@ -1,6 +1,6 @@
 ﻿/* light (default) theme */
 :root {
-    --highlight-bg: #f6f6f6;
+    --highlight-bg: var(--background);
     --highlight-color: #2f3337;
     --highlight-comment: #656e77;
     --highlight-keyword: #015692;
@@ -15,7 +15,7 @@
 }
 /* dark theme */
 html.dark {
-    --highlight-bg: #1c1b1b;
+    --highlight-bg: var(--background);
     --highlight-color: #ffffff;
     --highlight-comment: #999999;
     --highlight-keyword: #88aece;

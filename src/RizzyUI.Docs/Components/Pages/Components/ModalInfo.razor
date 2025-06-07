@@ -1,3 +1,4 @@
+
 @page "/components/modal"
 @using RizzyUI
 @using Rizzy.Htmx
@@ -292,100 +293,100 @@ public IResult CloseModalAction()
                     The following table summarizes the key parameters for the RzModal component.
                 </RzParagraph>
 
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-outline dark:divide-outlineDark">
-                        <thead class="bg-secondary">
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Parameter</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Type</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Default</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-background divide-y divide-outline dark:divide-outlineDark">
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">Id</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">string</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">(Generated)</td>
-                                <td class="px-6 py-4 text-sm text-foreground">Read-only. The unique ID for the main modal `x-data` container div. Passed in event details.</td>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Id</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Read-only. The unique ID for the main modal <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">x-data</code> container div. Passed in event details.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">(Generated)</code></td>
                             </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">BodyId</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">string</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">(Generated)</td>
-                                <td class="px-6 py-4 text-sm text-foreground">Read-only. ID for the modal body `div`. Use this as `hx-target` for HTMX swaps into the body. Passed in `rz:modal-initialized` event detail.</td>
+                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">BodyId</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Read-only. ID for the modal body <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">div</code>. Use this as <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">hx-target</code> for HTMX swaps into the body. Passed in <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">rz:modal-initialized</code> event detail.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">(Generated)</code></td>
                             </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">FooterId</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">string</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">(Generated)</td>
-                                <td class="px-6 py-4 text-sm text-foreground">Read-only. ID for the modal footer `div`. Use this as `hx-target` for HTMX swaps into the footer. Passed in `rz:modal-initialized` event detail.</td>
+                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">FooterId</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Read-only. ID for the modal footer <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">div</code>. Use this as <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">hx-target</code> for HTMX swaps into the footer. Passed in <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">rz:modal-initialized</code> event detail.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">(Generated)</code></td>
                             </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">EventTriggerName</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">string</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">"" (Empty String)</td>
-                                <td class="px-6 py-4 text-sm text-foreground">Name of the `window` event that will trigger the modal to open.</td>
+                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">EventTriggerName</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Name of the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">window</code> event that will trigger the modal to open.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">""</code> (Empty String)</td>
                             </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">CloseEventName</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">string</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">@Constants.Events.ModalClose</td>
-                                <td class="px-6 py-4 text-sm text-foreground">Name of the `window` event the modal listens for to close itself (e.g., triggered by HTMX response header).</td>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CloseEventName</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Name of the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">window</code> event that will trigger this modal to close (e.g., from an HTMX response header).</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">@Constants.Events.ModalClose</code></td>
                             </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">Title</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">string?</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">null</td>
-                                <td class="px-6 py-4 text-sm text-foreground">Optional title text for the modal header. Ignored if `TitleContent` is provided.</td>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Title</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Optional title text for the modal header. Ignored if <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">TitleContent</code> is provided.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
                             </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">Size</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">ModalSize</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">ModalSize.Medium</td>
-                                <td class="px-6 py-4 text-sm text-foreground">Specifies the maximum width of the modal dialog.</td>
+                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Size</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Specifies the maximum width of the modal dialog.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">ModalSize</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ModalSize.Medium</code></td>
                             </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">TitleContent</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">RenderFragment?</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">null</td>
-                                <td class="px-6 py-4 text-sm text-foreground">Optional custom content for the modal header title area. Overrides `Title`.</td>
+                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TitleContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Optional custom content for the modal header title area. Overrides <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Title</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
                             </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">ChildContent</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">RenderFragment?</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">null</td>
-                                <td class="px-6 py-4 text-sm text-foreground">The main content displayed in the modal body. Can be targeted by HTMX using `BodyId`.</td>
+                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The main content displayed in the modal body. Can be targeted by HTMX using <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">BodyId</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
                             </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">FooterContent</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">RenderFragment?</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">null</td>
-                                <td class="px-6 py-4 text-sm text-foreground">Optional content displayed in the modal footer. Can be targeted by HTMX using `FooterId`.</td>
+                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">FooterContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Optional content displayed in the modal footer. Can be targeted by HTMX using <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">FooterId</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
                             </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">CloseOnEscape</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">bool</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">true</td>
-                                <td class="px-6 py-4 text-sm text-foreground">If true, the modal closes when the Escape key is pressed. Configures the Alpine component.</td>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CloseOnEscape</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">If true, the modal closes when the Escape key is pressed. Configures the Alpine component.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
                             </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">CloseOnClickOutside</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">bool</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">true</td>
-                                <td class="px-6 py-4 text-sm text-foreground">If true, the modal closes when clicking on the backdrop. Configures the Alpine component.</td>
+                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CloseOnClickOutside</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">If true, the modal closes when clicking on the backdrop. Configures the Alpine component.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
                             </tr>
-                              <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">ShowHeader</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">bool</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">true</td>
-                                <td class="px-6 py-4 text-sm text-foreground">If true, the modal header section (including title and close button container) is rendered.</td>
+                              <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ShowHeader</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">If true, the modal header section (including title and close button container) is rendered.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
                             </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">ShowCloseButton</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">bool</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">true</td>
-                                <td class="px-6 py-4 text-sm text-foreground">If true (and `ShowHeader` is true), the default 'X' close button is rendered in the header.</td>
+                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ShowCloseButton</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">If true (and <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">ShowHeader</code> is true), the default 'X' close button is rendered in the header.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
                             </tr>
                         </tbody>
                     </table>
@@ -397,67 +398,67 @@ public IResult CloseModalAction()
                     JavaScript & Alpine.js API
                 </RzHeading>
                 <RzParagraph>
-                    The modal's interactivity is primarily managed by the `rzModal` Alpine.js component. You can interact with it programmatically or listen to its lifecycle events.
+                    The modal's interactivity is primarily managed by the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">rzModal</code> Alpine.js component. You can interact with it programmatically or listen to its lifecycle events.
                 </RzParagraph>
 
-                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Alpine Component" class="scroll-mt-20">Alpine Component (`x-data="rzModal"`)</RzHeading>
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Alpine Component" class="scroll-mt-20">Alpine Component (<code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">x-data="rzModal"</code>)</RzHeading>
                 <RzParagraph>
-                    Attached to the modal's root `div` (inside the teleport template). It reads configuration from `data-*` attributes set by the Blazor component.
+                    Attached to the modal's root <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">div</code> (inside the teleport template). It reads configuration from <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">data-*</code> attributes set by the Blazor component.
                 </RzParagraph>
-                 <div class="overflow-x-auto mb-6">
-                    <table class="min-w-full divide-y divide-outline dark:divide-outlineDark">
-                        <thead class="bg-secondary">
+                 <div class="not-prose mt-6 mb-6 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Property/Method</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property/Method</th>
+                                <th scope="col" class="w-4/5 px-4 py-3">Description</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-background divide-y divide-outline dark:divide-outlineDark">
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">modalOpen</td><td class="px-6 py-4 text-sm text-foreground">Boolean state variable indicating if the modal is currently visible.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">eventTriggerName</td><td class="px-6 py-4 text-sm text-foreground">Name of the window event that triggers the modal to open.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">closeEventName</td><td class="px-6 py-4 text-sm text-foreground">Name of the window event that triggers the modal to close.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">closeOnEscape</td><td class="px-6 py-4 text-sm text-foreground">Boolean that controls whether the modal closes when Escape key is pressed.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">closeOnClickOutside</td><td class="px-6 py-4 text-sm text-foreground">Boolean that controls whether the modal closes when clicking outside the dialog.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">modalId, bodyId, footerId</td><td class="px-6 py-4 text-sm text-foreground">Read-only properties holding the generated IDs for the modal elements, available in dispatched event details.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">openModal(event = null)</td><td class="px-6 py-4 text-sm text-foreground">Method to programmatically open the modal. Dispatches `rz:modal-before-open` (cancelable) and if not prevented, sets modalOpen to true.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">closeModal()</td><td class="px-6 py-4 text-sm text-foreground">Public method to close the modal from the close button. Internally calls closeModalInternally with reason 'button'.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">closeModalInternally(reason)</td><td class="px-6 py-4 text-sm text-foreground">Internal method that handles closing the modal with a specific reason ('button', 'escape', 'backdrop', 'event'). Dispatches `rz:modal-before-close` (cancelable).</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">handleClickOutside()</td><td class="px-6 py-4 text-sm text-foreground">Method called by click.outside event handler. Checks closeOnClickOutside setting before closing.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">notModalOpen()</td><td class="px-6 py-4 text-sm text-foreground">Helper method that returns !modalOpen, useful for x-show directives.</td></tr>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">modalOpen</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Boolean state variable indicating if the modal is currently visible.</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">eventTriggerName</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Name of the window event that triggers the modal to open.</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">closeEventName</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Name of the window event that triggers the modal to close.</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">closeOnEscape</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Boolean that controls whether the modal closes when Escape key is pressed.</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">closeOnClickOutside</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Boolean that controls whether the modal closes when clicking outside the dialog.</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">modalId, bodyId, footerId</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Read-only properties holding the generated IDs for the modal elements, available in dispatched event details.</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">openModal(event = null)</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Method to programmatically open the modal. Dispatches <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">rz:modal-before-open</code> (cancelable) and if not prevented, sets modalOpen to true.</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">closeModal()</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Public method to close the modal from the close button. Internally calls closeModalInternally with reason 'button'.</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">closeModalInternally(reason)</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Internal method that handles closing the modal with a specific reason ('button', 'escape', 'backdrop', 'event'). Dispatches <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">rz:modal-before-close</code> (cancelable).</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">handleClickOutside()</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Method called by click.outside event handler. Checks closeOnClickOutside setting before closing.</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">notModalOpen()</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Helper method that returns !modalOpen, useful for x-show directives.</td></tr>
                         </tbody>
                     </table>
                 </div>
 
                 <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Custom Events" class="scroll-mt-20">Custom Events</RzHeading>
                 <RzParagraph>
-                    The component dispatches events on its root element (`#@@Id`) during its lifecycle. You can listen for these using `window.addEventListener` or Alpine's `x-on`.
+                    The component dispatches events on its root element (<code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">#@@Id</code>) during its lifecycle. You can listen for these using <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">window.addEventListener</code> or Alpine's <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">x-on</code>.
                 </RzParagraph>
-                <div class="overflow-x-auto">
-                     <table class="min-w-full divide-y divide-outline dark:divide-outlineDark">
-                        <thead class="bg-secondary">
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                     <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Event Name</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Detail Structure</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Cancelable?</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Event Name</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Detail Structure</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Cancelable?</th>
+                                <th scope="col" class="px-4 py-3">Description</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-background divide-y divide-outline dark:divide-outlineDark">
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">@Constants.Events.ModalInitialized</td><td class="px-6 py-4 text-sm text-foreground">`{ modalId, bodyId, footerId }`</td><td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">No</td><td class="px-6 py-4 text-sm text-foreground">Fired once during Alpine `init`.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">@Constants.Events.ModalBeforeOpen</td><td class="px-6 py-4 text-sm text-foreground">`{ modalId, originalEvent }`</td><td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">Yes</td><td class="px-6 py-4 text-sm text-foreground">Fired before opening. Call `event.preventDefault()` to stop.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">@Constants.Events.ModalAfterOpen</td><td class="px-6 py-4 text-sm text-foreground">`{ modalId }`</td><td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">No</td><td class="px-6 py-4 text-sm text-foreground">Fired after opening transitions complete.</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">@Constants.Events.ModalBeforeClose</td><td class="px-6 py-4 text-sm text-foreground">`{ modalId, reason }`</td><td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">Yes</td><td class="px-6 py-4 text-sm text-foreground">Fired before closing. Call `event.preventDefault()` to stop. `reason` indicates cause ('escape', 'backdrop', 'button', 'event').</td></tr>
-                            <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">@Constants.Events.ModalAfterClose</td><td class="px-6 py-4 text-sm text-foreground">`{ modalId }`</td><td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">No</td><td class="px-6 py-4 text-sm text-foreground">Fired after closing transitions complete.</td></tr>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">@Constants.Events.ModalInitialized</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400"><code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">{ modalId, bodyId, footerId }</code></td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">No</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Fired once during Alpine <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">init</code>.</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">@Constants.Events.ModalBeforeOpen</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400"><code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">{ modalId, originalEvent }</code></td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Yes</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Fired before opening. Call <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">event.preventDefault()</code> to stop.</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">@Constants.Events.ModalAfterOpen</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400"><code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">{ modalId }</code></td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">No</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Fired after opening transitions complete.</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">@Constants.Events.ModalBeforeClose</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400"><code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">{ modalId, reason }</code></td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Yes</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Fired before closing. Call <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">event.preventDefault()</code> to stop. <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">reason</code> indicates cause ('escape', 'backdrop', 'button', 'event').</td></tr>
+                            <tr class="align-top"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-sky-600 dark:text-sky-400">@Constants.Events.ModalAfterClose</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400"><code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">{ modalId }</code></td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">No</td><td class="px-6 py-4 text-zinc-600 dark:text-zinc-400">Fired after closing transitions complete.</td></tr>
                         </tbody>
                     </table>
                 </div>
                 <RzParagraph class="mt-4">
-                    Example: `window.addEventListener('@Constants.Events.ModalAfterOpen', (e) => { console.log('Modal opened:', e.detail.modalId); });`
+                    Example: <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">window.addEventListener('@Constants.Events.ModalAfterOpen', (e) => { console.log('Modal opened:', e.detail.modalId); });</code>
                 </RzParagraph>
 
                 <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Triggering Programmatically" class="scroll-mt-20">Triggering Programmatically</RzHeading>
                  <RzParagraph>
-                    You can open or close the modal from JavaScript by dispatching the window events specified in the `EventTriggerName` or `CloseEventName` parameters respectively.
+                    You can open or close the modal from JavaScript by dispatching the window events specified in the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">EventTriggerName</code> or <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">CloseEventName</code> parameters respectively.
                 </RzParagraph>
                  <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mb-10">
 // To open a modal listening for 'show-my-modal'

@@ -26,7 +26,7 @@ public class DefaultRzProgressStyles : RzStylesBase.RzProgressStylesBase
 
     /// <inheritdoc />
     public override string OuterBar =>
-        "relative flex w-full overflow-hidden rounded-theme bg-outline";
+        "relative flex w-full overflow-hidden rounded-md bg-outline";
 
     /// <inheritdoc />
     public override string InnerBarBase =>
@@ -49,16 +49,16 @@ public class DefaultRzProgressStyles : RzStylesBase.RzProgressStylesBase
     {
         return variant switch
         {
-            StatusColor.Primary => "h-full rounded-theme bg-primary text-primary-foreground",
-            StatusColor.Secondary => "h-full rounded-theme bg-secondary text-secondary-foreground",
+            StatusColor.Primary => "h-full rounded-md bg-primary text-primary-foreground",
+            StatusColor.Secondary => "h-full rounded-md bg-secondary text-secondary-foreground",
             StatusColor.Success =>
-                "h-full rounded-theme bg-success dark:bg-success text-success-foreground dark:text-success-foreground",
+                "h-full rounded-md bg-success dark:bg-success text-success-foreground dark:text-success-foreground",
             StatusColor.Info =>
-                "h-full rounded-theme bg-info dark:bg-info text-info-foreground dark:text-info-foreground",
+                "h-full rounded-md bg-info dark:bg-info text-info-foreground dark:text-info-foreground",
             StatusColor.Warning =>
-                "h-full rounded-theme bg-warning dark:bg-warning text-warning-foreground dark:text-warning-foreground",
+                "h-full rounded-md bg-warning dark:bg-warning text-warning-foreground dark:text-warning-foreground",
             StatusColor.Destructive =>
-                "h-full rounded-theme bg-destructive dark:bg-destructive text-destructive-foreground dark:text-destructive-foreground",
+                "h-full rounded-md bg-destructive dark:bg-destructive text-destructive-foreground dark:text-destructive-foreground",
             _ => GetInnerBarVariantCss(StatusColor.Primary)
         };
     }

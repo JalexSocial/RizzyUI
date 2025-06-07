@@ -1,4 +1,5 @@
-﻿@page "/components/markdown"
+
+@page "/components/markdown"
 @namespace RizzyUI.Pages
 @using RizzyUI
 @using RizzyUI.Extensions
@@ -116,37 +117,44 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Markdown Parameters" class="scroll-mt-20">
                     Markdown Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                        <tr class="bg-secondary ">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-foreground ">
-                                Property
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-foreground ">
-                                Description
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Content</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>RenderFragment</em> – The Markdown content to be converted to HTML.
-                                Alternatively, you can pass a string via the <code>Content</code> parameter.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>ComponentAssets</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>string[]</em> – Optional array of asset URLs (JavaScript/CSS) to load for syntax highlighting.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Content</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The Markdown content to be converted to HTML. Alternatively, you can pass a string via the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Content</code> parameter.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ComponentAssets</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string[]</code> – Optional array of asset URLs (JavaScript/CSS) to load for syntax highlighting.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string[]</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ProseWidth</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>ProseWidth</code> – Controls the maximum width of the rendered prose content.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">ProseWidth</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ProseWidth.Comfortable</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Pipeline</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>MarkdownPipeline?</code> – The Markdig pipeline used for conversion. Defaults to a pipeline with advanced extensions and custom code block rendering.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">MarkdownPipeline?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
         </MainContent>
     </RzArticle>

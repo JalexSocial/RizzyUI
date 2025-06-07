@@ -113,6 +113,6 @@ public partial class RzPopover : RzComponent
     /// <inheritdoc/>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzPopover.Container);
+        return TwMerge.Merge(AdditionalAttributes);
     }
 }

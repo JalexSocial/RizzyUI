@@ -19,7 +19,7 @@ public class DefaultRzModalStyles : RzStylesBase.RzModalStylesBase
 
     /// <inheritdoc />
     public override string Dialog =>
-        "mx-auto flex w-full flex-col rounded-theme bg-background shadow-lg border-outline dark:text-foreground";
+        "mx-auto flex w-full flex-col rounded-md bg-background shadow-lg border-outline dark:text-foreground";
 
     /// <inheritdoc />
     public override string Header =>

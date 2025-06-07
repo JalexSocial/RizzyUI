@@ -42,7 +42,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 
     [Theory]
     [InlineData(AvatarShape.Circle, "rounded-full")]
-    [InlineData(AvatarShape.Square, "rounded-theme")]
+    [InlineData(AvatarShape.Square, "rounded-md")]
     public void RzAvatar_ShapeParameter_AppliesCorrectShapeClass(AvatarShape shape, string expectedClass)
     {
         // Arrange
