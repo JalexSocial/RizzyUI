@@ -302,4 +302,16 @@
       <value>{0} sub-menu options</value>
       <comment>Format for sub-menu content ARIA label, {0} is item title</comment>
     </data>  
+    <data name="RzPopover.DefaultAriaLabel" xml:space="preserve">
+      <value>Popover</value>
+      <comment>Default ARIA label for RzPopover</comment>
+    </data>
+    <data name="RzPopover.TriggerAriaLabel" xml:space="preserve">
+      <value>Open popover</value>
+      <comment>Default ARIA label for the trigger</comment>
+    </data>
+    <data name="RzPopover.ContentAriaLabel" xml:space="preserve">
+      <value>Popover content</value>
+      <comment>Default ARIA label for the content area</comment>
+    </data>  
 </root>

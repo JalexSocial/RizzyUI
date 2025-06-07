@@ -28,10 +28,10 @@ public partial class RzDropdownMenu : RzComponent
 
     /// <summary>
     /// Gets or sets the offset in pixels from the anchor point where the dropdown menu should appear.
-    /// Defaults to 6.
+    /// Defaults to 4.
     /// </summary>
     [Parameter]
-    public int Offset { get; set; } = 6;
+    public int Offset { get; set; } = 4;
 
     /// <summary>
     /// Gets or sets whether the dropdown menu behaves as a modal, affecting focus trapping.

@@ -11,13 +11,13 @@
         <MainContent>
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="RzBreadcrumb" class="scroll-mt-20">RzBreadcrumb</RzHeading>
             <RzParagraph>
-                The RzBreadcrumb component provides a flexible and composable way to display navigation paths. It uses a set of child components like <code class="font-semibold">BreadcrumbList</code>, <code class="font-semibold">BreadcrumbItem</code>, <code class="font-semibold">BreadcrumbLink</code>, and <code class="font-semibold">BreadcrumbSeparator</code> to build a clear and accessible hierarchy of links.
+                <strong>RzBreadcrumb</strong> is a composable navigation component for displaying a user's location within a site hierarchy. It is built from modular subcomponents—<code class="font-semibold">BreadcrumbList</code>, <code class="font-semibold">BreadcrumbItem</code>, <code class="font-semibold">BreadcrumbLink</code>, and <code class="font-semibold">BreadcrumbSeparator</code>—allowing you to create accessible, customizable breadcrumb trails for any application structure.
             </RzParagraph>
 			
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Breadcrumb" class="scroll-mt-20">Basic Breadcrumb</RzHeading>
                 <RzParagraph TextColor="SemanticColor.Foreground">
-                    A standard breadcrumb navigation trail showing the path to the current page. The last item uses <code class="font-semibold">BreadcrumbPage</code> to indicate it is the current, non-interactive page.
+                    Use <strong>RzBreadcrumb</strong> to render a standard navigation trail. Each <code class="font-semibold">BreadcrumbItem</code> represents a step in the path, and the final item uses <code class="font-semibold">BreadcrumbPage</code> to indicate the current page. This pattern improves navigation clarity and accessibility.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
@@ -62,7 +62,7 @@
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Collapsible Breadcrumb" class="scroll-mt-20">Collapsible Breadcrumb with Dropdown</RzHeading>
                 <RzParagraph>
-                    For long navigation paths, you can use the <code class="font-semibold">BreadcrumbEllipsis</code> component within a <code class="font-semibold">RzDropdownMenu</code> to create a collapsible section. This keeps the breadcrumb concise while providing access to the full path.
+                    For deep navigation paths, keep breadcrumbs concise by using <code class="font-semibold">BreadcrumbEllipsis</code> inside a <code class="font-semibold">RzDropdownMenu</code>. This pattern collapses intermediate steps into a dropdown, letting users access the full path without cluttering the UI.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
@@ -133,7 +133,7 @@
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Separator" class="scroll-mt-20">Custom Separator</RzHeading>
                 <RzParagraph>
-                    The default chevron separator can be replaced by providing custom content to the <code class="font-semibold">BreadcrumbSeparator</code> component.
+                    You can override the default chevron separator by providing custom content to <code class="font-semibold">BreadcrumbSeparator</code>. This enables you to match your application's style or use alternative icons.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
@@ -188,7 +188,7 @@
                     Component Parameters
                 </RzHeading>
                 <RzParagraph>
-                    The following tables summarize the key parameters for the RzBreadcrumb component family.
+                    The following tables summarize the main parameters for each breadcrumb component. Use these to customize navigation behavior and appearance as needed.
                 </RzParagraph>
 
                 <RzHeading Level="HeadingLevel.H3" class="mt-6">RzBreadcrumb</RzHeading>

@@ -148,6 +148,11 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzParagraph" /> component. </summary>
     public virtual RzStylesBase.RzParagraphStylesBase RzParagraph { get; }
+    
+    /// <summary>
+    /// Gets the style definitions for the <see cref="RzPopover" /> component.
+    /// </summary>
+    public virtual RzStylesBase.RzPopoverStylesBase RzPopover { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzProgress" /> component. </summary>
     public virtual RzStylesBase.RzProgressStylesBase RzProgress { get; }

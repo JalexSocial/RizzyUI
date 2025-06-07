@@ -66,6 +66,7 @@ public partial class RzTheme
         RzNumberEdit = new DefaultRzNumberEditStyles(this);
         RzNumberField = new DefaultRzNumberFieldStyles(this);
         RzParagraph = new DefaultRzParagraphStyles(this);
+        RzPopover = new DefaultRzPopoverStyles(this);
         RzProgress = new DefaultRzProgressStyles(this);
         RzQuickReferenceContainer = new DefaultRzQuickReferenceContainerStyles(this);
         RzQuickReference = new DefaultRzQuickReferenceStyles(this);

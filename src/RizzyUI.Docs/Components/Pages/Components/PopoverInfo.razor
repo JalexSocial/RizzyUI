@@ -1,0 +1,201 @@
+﻿@page "/components/popover"
+@using RizzyUI
+
+<PageTitle>Popover</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Popover" class="scroll-mt-20">Popover</RzHeading>
+            <RzParagraph>
+                <b>RzPopover</b> lets you render floating content that’s anchored to a trigger element—no page navigation or messy workarounds. Think tooltips, forms, or quick-access panels, all staying in view and behaving well across screen sizes.  
+                <br /><br />
+                Under the hood, this component ties together <b>Alpine.js</b> (for state and interactivity) and <b>floating-ui</b> (for robust positioning), so you don’t need to wrangle the DOM or manage pixel math yourself.
+            </RzParagraph>
+
+            <RzAlert Variant="AlertVariant.Information" class="mb-6">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    RzPopover uses an Alpine.js component (<code>x-data="rzPopover"</code>) for managing open/close state and user interactions. Placement is handled by <b>floating-ui</b>, which keeps the popover visible and anchored—even if the viewport or scroll position changes.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Popover" class="scroll-mt-20">
+                    Basic Popover
+                </RzHeading>
+                <RzParagraph>
+                    Here’s a basic popover attached to a button. The popover contains a small form, but you can embed any interactive content you need—everything from menus to custom panels. Positioning and accessibility are automatic.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-80">
+                        <RzPopover>
+                            <PopoverTrigger>
+                                <RzButton Variant="ButtonVariant.Primary">Open Popover</RzButton>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <div class="grid gap-4">
+                                    <div class="space-y-2">
+                                        <h4 class="font-medium leading-none">Dimensions</h4>
+                                        <p class="text-sm text-muted-foreground">
+                                            Set the dimensions for the layer.
+                                        </p>
+                                    </div>
+                                    <div class="grid gap-2">
+                                        <div class="grid grid-cols-3 items-center gap-4">
+                                            <label for="width">Width</label>
+                                            <input id="width" value="100%" class="col-span-2 h-8 input" />
+                                        </div>
+                                        <div class="grid grid-cols-3 items-center gap-4">
+                                            <label for="maxWidth">Max. width</label>
+                                            <input id="maxWidth" value="300px" class="col-span-2 h-8 input" />
+                                        </div>
+                                        <div class="grid grid-cols-3 items-center gap-4">
+                                            <label for="height">Height</label>
+                                            <input id="height" value="25px" class="col-span-2 h-8 input" />
+                                        </div>
+                                        <div class="grid grid-cols-3 items-center gap-4">
+                                            <label for="maxHeight">Max. height</label>
+                                            <input id="maxHeight" value="none" class="col-span-2 h-8 input" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </PopoverContent>
+                        </RzPopover>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzPopover&gt;
+    &lt;PopoverTrigger&gt;
+        &lt;RzButton Variant="ButtonVariant.Primary"&gt;Open Popover&lt;/RzButton&gt;
+    &lt;/PopoverTrigger&gt;
+    &lt;PopoverContent&gt;
+        &lt;div class="grid gap-4"&gt;
+            &lt;div class="space-y-2"&gt;
+                &lt;h4 class="font-medium leading-none"&gt;Dimensions&lt;/h4&gt;
+                &lt;p class="text-sm text-muted-foreground"&gt;
+                    Set the dimensions for the layer.
+                &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class="grid gap-2"&gt;
+                &lt;div class="grid grid-cols-3 items-center gap-4"&gt;
+                    &lt;label for="width"&gt;Width&lt;/label&gt;
+                    &lt;input id="width" value="100%" class="col-span-2 h-8 input" /&gt;
+                &lt;/div&gt;
+                &lt;div class="grid grid-cols-3 items-center gap-4"&gt;
+                    &lt;label for="maxWidth"&gt;Max. width&lt;/label&gt;
+                    &lt;input id="maxWidth" value="300px" class="col-span-2 h-8 input" /&gt;
+                &lt;/div&gt;
+                &lt;div class="grid grid-cols-3 items-center gap-4"&gt;
+                    &lt;label for="height"&gt;Height&lt;/label&gt;
+                    &lt;input id="height" value="25px" class="col-span-2 h-8 input" /&gt;
+                &lt;/div&gt;
+                &lt;div class="grid grid-cols-3 items-center gap-4"&gt;
+                    &lt;label for="maxHeight"&gt;Max. height&lt;/label&gt;
+                    &lt;input id="maxHeight" value="none" class="col-span-2 h-8 input" /&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/PopoverContent&gt;
+&lt;/RzPopover&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    RzPopover Component Parameters
+                </RzHeading>
+                <RzParagraph>
+                    <b>Parameters at a glance:</b>  
+                    Customize RzPopover’s behavior and positioning by tweaking these properties. Most developers will only need the defaults, but the knobs are here if you want to fine-tune layout or accessibility.
+                </RzParagraph>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-outline dark:divide-outline-dark">
+                        <thead class="bg-secondary">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Parameter</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Type</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Default</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-foreground uppercase tracking-wider">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-background divide-y divide-outline dark:divide-outlineDark">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">PopoverTrigger</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">RenderFragment</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">(Required)</td>
+                                <td class="px-6 py-4 text-sm text-foreground">The trigger element users interact with to open the popover.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">PopoverContent</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">RenderFragment</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">(Required)</td>
+                                <td class="px-6 py-4 text-sm text-foreground">Content displayed inside the floating popover panel.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">Anchor</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">AnchorPoint</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">Bottom</td>
+                                <td class="px-6 py-4 text-sm text-foreground">Preferred placement (top, bottom, etc.) relative to the trigger.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">Offset</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">int</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">0</td>
+                                <td class="px-6 py-4 text-sm text-foreground">Pixel offset along the anchor axis.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">CrossAxisOffset</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">int</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">0</td>
+                                <td class="px-6 py-4 text-sm text-foreground">Pixel offset on the cross axis (perpendicular to anchor).</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">AlignmentAxisOffset</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">int</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">0</td>
+                                <td class="px-6 py-4 text-sm text-foreground">Pixel offset for alignment axis, if used.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">Strategy</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">AnchorStrategy</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">Absolute</td>
+                                <td class="px-6 py-4 text-sm text-foreground">Positioning mode. Use <code>fixed</code> if your trigger is in a scrollable container.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">EnableFlip</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">bool</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">true</td>
+                                <td class="px-6 py-4 text-sm text-foreground">If true, popover will "flip" sides when needed to stay visible.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">EnableShift</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">bool</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">true</td>
+                                <td class="px-6 py-4 text-sm text-foreground">If true, popover will shift along its axis to stay in the viewport.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">ShiftPadding</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">int</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">8</td>
+                                <td class="px-6 py-4 text-sm text-foreground">Viewport padding in pixels before shifting kicks in.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">AriaLabel</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">string?</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-foreground">"Popover"</td>
+                                <td class="px-6 py-4 text-sm text-foreground">Accessible label for the popover container.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
