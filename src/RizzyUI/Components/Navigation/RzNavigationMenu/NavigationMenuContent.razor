@@ -2,15 +2,18 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<template x-teleport="#@ParentMenu?.Id-viewport">
+<template x-teleport="body">
     <div x-ref="content_@ParentItem?.Id"
          id="@ContentId"
          data-item-id="@ParentItem?.Id"
          class="@RootClass()"
          x-show="isContentVisible"
+         x-cloak
+         x-transition
          @attributes="AdditionalAttributes"
          x-on:mouseenter="cancelClose"
          x-on:mouseleave="scheduleClose">
         @ChildContent
+        <NavigationMenuIndicator />
     </div>
 </template>

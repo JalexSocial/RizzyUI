@@ -3640,6 +3640,7 @@
       closeDelay: 150,
       init() {
         this.$nextTick(() => {
+          this.list = this.$refs.list;
           this.viewport = this.$refs.viewport;
           this.indicator = this.$refs.indicator;
           if (this.indicator) {
@@ -3647,11 +3648,11 @@
           }
         });
       },
-      isContentVisible(itemId) {
-        return this.activeItemId === itemId && this.open;
+      isContentVisible() {
+        return this.activeItemId === this.$el.dataset.itemId && this.open;
       },
-      toggleMenu() {
-        const triggerEl = this.$el.closest("[x-data]").querySelector(`[aria-controls='${this.activeItemId}-content']`);
+      toggleActive(event) {
+        const triggerEl = event.currentTarget;
         const itemId = triggerEl.id.replace("-trigger", "");
         if (this.activeItemId === itemId && this.open) {
           this.closeMenu();
@@ -3666,9 +3667,10 @@
         this.$nextTick(() => {
           const trigger = this.$refs[`trigger_${itemId}`];
           if (trigger) {
-            this.updateIndicator(trigger);
+            this.updatePositions(trigger);
             trigger.setAttribute("data-state", "open");
             trigger.setAttribute("aria-expanded", "true");
+            this.viewport.setAttribute("data-state", "open");
           }
         });
       },
@@ -3683,6 +3685,9 @@
         this.open = false;
         if (this.indicator) {
           this.indicator.setAttribute("data-state", "hidden");
+        }
+        if (this.viewport) {
+          this.viewport.setAttribute("data-state", "closed");
         }
       },
       scheduleClose() {
@@ -3707,11 +3712,28 @@
           this.cancelClose();
         }
       },
-      updateIndicator(triggerEl) {
-        if (!this.indicator) return;
+      updatePositions(triggerEl) {
+        if (!this.viewport || !this.list || !this.indicator) return;
         this.indicator.style.width = `${triggerEl.offsetWidth}px`;
         this.indicator.style.left = `${triggerEl.offsetLeft}px`;
         this.indicator.setAttribute("data-state", "visible");
+        const viewportOffset = parseInt(this.$el.dataset.viewportOffset) || 0;
+        const contentEl = this.$refs[`content_${this.activeItemId}`];
+        if (!contentEl) return;
+        this.viewport.style.width = `${contentEl.offsetWidth}px`;
+        this.viewport.style.height = `${contentEl.offsetHeight}px`;
+        computePosition(this.list, this.viewport, {
+          placement: "bottom",
+          middleware: [offset(viewportOffset), flip(), shift({ padding: 8 })]
+        }).then(({ x, y }) => {
+          const listRect = this.list.getBoundingClientRect();
+          const newLeft = listRect.left - this.viewport.offsetWidth / 2 + listRect.width / 2;
+          Object.assign(this.viewport.style, {
+            left: `${newLeft}px`,
+            top: `${y}px`,
+            transformOrigin: "top center"
+          });
+        });
       }
     }));
   }

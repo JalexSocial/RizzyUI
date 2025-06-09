@@ -51,15 +51,15 @@
                                                     </a>
                                                 </NavigationMenuLink>
                                             </li>
-                                            <ListItem Href="/docs" Title="Introduction">
-                                                Re-usable components built for modern ASP.NET Core applications.
-                                            </ListItem>
-                                            <ListItem Href="/docs/installation" Title="Installation">
-                                                How to install dependencies and structure your app.
-                                            </ListItem>
-                                            <ListItem Href="/docs/primitives/typography" Title="Typography">
-                                                Styles for headings, paragraphs, lists...etc
-                                            </ListItem>
+                                            @ListItem("Introduction", "/docs", 
+                                                @<text>Re-usable components built for modern ASP.NET Core applications.</text>
+                                            )
+                                            @ListItem("Installation", "/docs/installation", 
+                                                @<text>How to install dependencies and structure your app.</text>
+                                            )
+                                            @ListItem("Typography", "/docs/primitives/typography", 
+                                                @<text>Styles for headings, paragraphs, lists...etc</text>
+                                            )
                                         </ul>
                                     </NavigationMenuContent>
                                 </NavigationMenuItem>
@@ -70,9 +70,9 @@
                                         <ul class="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                                             @foreach (var component in _components)
                                             {
-                                                <ListItem Href="@component.Href" Title="@component.Title">
-                                                    @component.Description
-                                                </ListItem>
+                                                @ListItem(component.Title, component.Href, 
+                                                    @<text>@component.Description</text>
+                                                )
                                             }
                                         </ul>
                                     </NavigationMenuContent>
@@ -153,21 +153,17 @@
         (&quot;Dropdown Menu&quot;, &quot;/components/dropdown&quot;, &quot;Displays a menu to the user — such as a set of actions or functions — triggered by a button.&quot;)
     };
 
-    private RenderFragment ListItem(string Title, string Href, RenderFragment ChildContent) =&gt; builder =&gt;
-    {
-        &lt;li&gt;
-            &lt;NavigationMenuLink&gt;
-                &lt;a href=&quot;@@Href&quot; class=&quot;block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground&quot;&gt;
-                    &lt;div class=&quot;text-sm font-medium leading-none&quot;&gt;@@Title&lt;/div&gt;
-                    &lt;p class=&quot;line-clamp-2 text-sm leading-snug text-muted-foreground&quot;&gt;
-                        @@ChildContent
-                    &lt;/p&gt;
-                &lt;/a&gt;
-            &lt;/NavigationMenuLink&gt;
-        &lt;/li&gt;
-    };
+    private RenderFragment ListItem(string title, string href, RenderFragment childContent) =&gt; @@&lt;li&gt;
+        &lt;NavigationMenuLink&gt;
+            &lt;a href=&quot;@@href&quot; class=&quot;block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground&quot;&gt;
+                &lt;div class=&quot;text-sm font-medium leading-none&quot;&gt;@@title&lt;/div&gt;
+                &lt;p class=&quot;line-clamp-2 text-sm leading-snug text-muted-foreground&quot;&gt;
+                    @@childContent
+                &lt;/p&gt;
+            &lt;/a&gt;
+        &lt;/NavigationMenuLink&gt;
+    &lt;/li&gt;;
 }
-                
                 </RzCodeViewer>
             </section>
 
@@ -247,17 +243,17 @@
 </RzQuickReferenceContainer>
 
 @code {
-    private readonly (string Title, string Href, string Description)[] _components =
-    [
+    private readonly (string Title, string Href, string Description)[] _components = 
+    {
         ("Alert", "/components/alert", "A modal dialog that interrupts the user with important content."),
         ("Accordion", "/components/accordion", "A vertically stacked set of interactive headings that each reveal a section of content."),
         ("Badge", "/components/badge", "Displays a badge or a component that looks like a badge."),
         ("Button", "/components/buttons", "An interactive element that executes a command or navigates."),
         ("Card", "/components/card", "A container for content and actions about a single subject."),
         ("Dropdown Menu", "/components/dropdown", "Displays a menu to the user — such as a set of actions or functions — triggered by a button.")
-    ];
+    };
 
-    private RenderFragment ListItem(string title, string href, RenderFragment childContent) =>
+    private RenderFragment ListItem(string title, string href, RenderFragment childContent) => 
         @<li>
             <NavigationMenuLink>
                 <a href="@href" class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
@@ -268,5 +264,4 @@
                 </a>
             </NavigationMenuLink>
         </li>;
-
 }

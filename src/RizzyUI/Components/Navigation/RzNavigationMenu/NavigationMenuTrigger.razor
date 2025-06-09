@@ -6,14 +6,13 @@
 <HtmlElement Element="@EffectiveElement"
              id="@TriggerId"
              class="@RootClass()"
-             x-ref="trigger_@ParentItem?.Id"
+             x-ref="@TriggerXRef"
              aria-haspopup="true"
              aria-expanded="false"
              aria-controls="@ContentId"
              data-state="closed"
              x-on:click="toggleActive"
              x-on:mouseenter="handleTriggerEnter"
-             x-on:mouseleave="scheduleClose"
              x-on:focus="handleTriggerEnter"
              @attributes="@AdditionalAttributes">
     @ChildContent

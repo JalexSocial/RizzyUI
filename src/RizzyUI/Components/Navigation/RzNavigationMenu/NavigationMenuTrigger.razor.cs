@@ -31,6 +31,11 @@ public partial class NavigationMenuTrigger : RzComponent
     /// </summary>
     protected string ContentId => $"{ParentItem?.Id}-content";
 
+    /// <summary>
+    /// Trigger XRef is used to reference the trigger element in Alpine.js.
+    /// </summary>
+    protected string TriggerXRef => $"trigger_{ParentItem?.Id}";
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {

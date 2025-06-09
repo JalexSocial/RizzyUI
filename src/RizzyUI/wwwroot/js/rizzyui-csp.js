@@ -6947,6 +6947,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       closeDelay: 150,
       init() {
         this.$nextTick(() => {
+          this.list = this.$refs.list;
           this.viewport = this.$refs.viewport;
           this.indicator = this.$refs.indicator;
           if (this.indicator) {
@@ -6954,11 +6955,11 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           }
         });
       },
-      isContentVisible(itemId) {
-        return this.activeItemId === itemId && this.open;
+      isContentVisible() {
+        return this.activeItemId === this.$el.dataset.itemId && this.open;
       },
-      toggleMenu() {
-        const triggerEl = this.$el.closest("[x-data]").querySelector(`[aria-controls='${this.activeItemId}-content']`);
+      toggleActive(event) {
+        const triggerEl = event.currentTarget;
         const itemId = triggerEl.id.replace("-trigger", "");
         if (this.activeItemId === itemId && this.open) {
           this.closeMenu();
@@ -6973,9 +6974,10 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         this.$nextTick(() => {
           const trigger2 = this.$refs[`trigger_${itemId}`];
           if (trigger2) {
-            this.updateIndicator(trigger2);
+            this.updatePositions(trigger2);
             trigger2.setAttribute("data-state", "open");
             trigger2.setAttribute("aria-expanded", "true");
+            this.viewport.setAttribute("data-state", "open");
           }
         });
       },
@@ -6990,6 +6992,9 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         this.open = false;
         if (this.indicator) {
           this.indicator.setAttribute("data-state", "hidden");
+        }
+        if (this.viewport) {
+          this.viewport.setAttribute("data-state", "closed");
         }
       },
       scheduleClose() {
@@ -7014,11 +7019,28 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           this.cancelClose();
         }
       },
-      updateIndicator(triggerEl) {
-        if (!this.indicator) return;
+      updatePositions(triggerEl) {
+        if (!this.viewport || !this.list || !this.indicator) return;
         this.indicator.style.width = `${triggerEl.offsetWidth}px`;
         this.indicator.style.left = `${triggerEl.offsetLeft}px`;
         this.indicator.setAttribute("data-state", "visible");
+        const viewportOffset = parseInt(this.$el.dataset.viewportOffset) || 0;
+        const contentEl = this.$refs[`content_${this.activeItemId}`];
+        if (!contentEl) return;
+        this.viewport.style.width = `${contentEl.offsetWidth}px`;
+        this.viewport.style.height = `${contentEl.offsetHeight}px`;
+        computePosition(this.list, this.viewport, {
+          placement: "bottom",
+          middleware: [offset(viewportOffset), flip(), shift({ padding: 8 })]
+        }).then(({ x, y }) => {
+          const listRect = this.list.getBoundingClientRect();
+          const newLeft = listRect.left - this.viewport.offsetWidth / 2 + listRect.width / 2;
+          Object.assign(this.viewport.style, {
+            left: `${newLeft}px`,
+            top: `${y}px`,
+            transformOrigin: "top center"
+          });
+        });
       }
     }));
   }

@@ -942,6 +942,9 @@
   .h-\[calc\(100\%-1px\)\] {
     height: calc(100% - 1px);
   }
+  .h-\[var\(--radix-navigation-menu-viewport-height\)\] {
+    height: var(--radix-navigation-menu-viewport-height);
+  }
   .h-full {
     height: 100%;
   }
@@ -1007,6 +1010,9 @@
   }
   .w-\[3\.25rem\] {
     width: 3.25rem;
+  }
+  .w-\[var\(--radix-navigation-menu-viewport-width\)\] {
+    width: var(--radix-navigation-menu-viewport-width);
   }
   .w-auto {
     width: auto;
@@ -4590,6 +4596,11 @@
   .md\:w-60 {
     @media (width >= 48rem) {
       width: calc(var(--spacing) * 60);
+    }
+  }
+  .md\:w-auto {
+    @media (width >= 48rem) {
+      width: auto;
     }
   }
   .md\:flex-none {
