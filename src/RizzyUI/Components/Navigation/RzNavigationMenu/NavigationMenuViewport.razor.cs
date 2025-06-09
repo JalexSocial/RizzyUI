@@ -9,8 +9,6 @@ namespace RizzyUI;
 /// </summary>
 public partial class NavigationMenuViewport : RzComponent
 {
-    private readonly string _positioningStyle = "position: absolute; left: 0px; top: 100%;";
-
     /// <summary>
     /// The parent RzNavigationMenu component.
     /// </summary>

@@ -247,27 +247,26 @@
 </RzQuickReferenceContainer>
 
 @code {
-    private readonly (string Title, string Href, string Description)[] _components = 
-    {
+    private readonly (string Title, string Href, string Description)[] _components =
+    [
         ("Alert", "/components/alert", "A modal dialog that interrupts the user with important content."),
         ("Accordion", "/components/accordion", "A vertically stacked set of interactive headings that each reveal a section of content."),
         ("Badge", "/components/badge", "Displays a badge or a component that looks like a badge."),
         ("Button", "/components/buttons", "An interactive element that executes a command or navigates."),
         ("Card", "/components/card", "A container for content and actions about a single subject."),
         ("Dropdown Menu", "/components/dropdown", "Displays a menu to the user — such as a set of actions or functions — triggered by a button.")
-    };
+    ];
 
-    private RenderFragment ListItem(string Title, string Href, RenderFragment ChildContent) => builder =>
-    {
-        <li>
+    private RenderFragment ListItem(string title, string href, RenderFragment childContent) =>
+        @<li>
             <NavigationMenuLink>
-                <a href="@Href" class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                    <div class="text-sm font-medium leading-none">@Title</div>
+                <a href="@href" class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <div class="text-sm font-medium leading-none">@title</div>
                     <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        @ChildContent
+                        @childContent
                     </p>
                 </a>
             </NavigationMenuLink>
-        </li>
-    };
+        </li>;
+
 }

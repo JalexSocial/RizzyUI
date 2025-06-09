@@ -18,8 +18,8 @@ public partial class NavigationMenuItem : RzComponent
     /// <summary>
     /// Content of the item, typically a <see cref="NavigationMenuTrigger"/> and <see cref="NavigationMenuContent"/> or a <see cref="NavigationMenuLink"/>.
     /// </summary>
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
     protected override void OnInitialized()

@@ -5,8 +5,9 @@
 <template x-teleport="#@ParentMenu?.Id-viewport">
     <div x-ref="content_@ParentItem?.Id"
          id="@ContentId"
+         data-item-id="@ParentItem?.Id"
          class="@RootClass()"
-         x-show="isContentVisible('@ParentItem?.Id')"
+         x-show="isContentVisible"
          @attributes="AdditionalAttributes"
          x-on:mouseenter="cancelClose"
          x-on:mouseleave="scheduleClose">

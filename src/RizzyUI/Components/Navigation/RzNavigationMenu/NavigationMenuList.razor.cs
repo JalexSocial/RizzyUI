@@ -18,8 +18,8 @@ public partial class NavigationMenuList : RzComponent
     /// <summary>
     /// The items to display in the list, typically <see cref="NavigationMenuItem"/> components.
     /// </summary>
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
 
     /// <inheritdoc/>
     protected override void OnInitialized()

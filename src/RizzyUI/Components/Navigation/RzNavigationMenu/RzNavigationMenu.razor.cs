@@ -18,7 +18,7 @@ public partial class RzNavigationMenu : RzComponent
     /// <summary>
     /// Gets or sets the content of the navigation menu, typically a <see cref="NavigationMenuList"/>.
     /// </summary>
-    [Parameter]
+    [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
@@ -26,6 +26,12 @@ public partial class RzNavigationMenu : RzComponent
     /// </summary>
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Horizontal;
+    
+    /// <summary>
+    /// The offset of the viewport from the trigger list.
+    /// </summary>
+    [Parameter]
+    public int ViewportOffset { get; set; } = 0;
 
     /// <summary>
     /// The accessible name for the navigation menu.

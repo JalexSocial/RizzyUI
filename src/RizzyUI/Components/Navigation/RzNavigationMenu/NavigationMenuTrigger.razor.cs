@@ -18,8 +18,8 @@ public partial class NavigationMenuTrigger : RzComponent
     /// <summary>
     /// The text or other content to display in the trigger.
     /// </summary>
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
 
     /// <summary>
     /// The unique ID of the trigger element.
@@ -30,14 +30,7 @@ public partial class NavigationMenuTrigger : RzComponent
     /// The ID of the content panel this trigger controls.
     /// </summary>
     protected string ContentId => $"{ParentItem?.Id}-content";
-    
-    
-    /// <summary>
-    /// Trigger XRef is used to reference the trigger element in Alpine.js.
-    /// </summary>
-    protected string TriggerXRef => $"trigger_{ParentItem?.Id}";
-    
-        
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {

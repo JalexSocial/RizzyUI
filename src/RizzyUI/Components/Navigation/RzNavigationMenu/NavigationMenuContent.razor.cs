@@ -24,8 +24,8 @@ public partial class NavigationMenuContent : RzComponent
     /// <summary>
     /// The content to be rendered inside the panel.
     /// </summary>
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
 
     /// <summary>
     /// The unique ID of the content panel.
