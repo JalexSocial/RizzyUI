@@ -1,0 +1,273 @@
+﻿@page "/components/navigation-menu"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Extensions
+@inherits RzComponent
+
+<PageTitle>Navigation Menu</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Navigation Menu" class="scroll-mt-20">
+                Navigation Menu
+            </RzHeading>
+            <RzParagraph>
+                A navigation bar component that provides a responsive and accessible way to organize links and dropdown menus.
+                It is ideal for website headers, offering a collection of links that can either navigate directly or trigger dropdown content panels.
+                The component automatically handles dropdown positioning, transitions, and keyboard navigation. Interactivity is managed by Alpine.js.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Example" class="scroll-mt-20">
+                    Basic Navigation Menu
+                </RzHeading>
+                <RzParagraph>
+                    This example demonstrates a standard navigation menu. It includes items that trigger dropdown content panels with various layouts, as well as simple navigation links.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-96">
+                        <RzNavigationMenu>
+                            <NavigationMenuList>
+
+                                <NavigationMenuItem>
+                                    <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
+                                    <NavigationMenuContent>
+                                        <ul class="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                                            <li class="row-span-3">
+                                                <NavigationMenuLink>
+                                                    <a class="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md" href="/">
+                                                        <img src="/images/rizzy-logo-wb.svg" class="h-12 w-12" alt="RizzyUI Logo" />
+                                                        <div class="mt-4 mb-2 text-lg font-medium">
+                                                            RizzyUI
+                                                        </div>
+                                                        <p class="text-sm leading-tight text-muted-foreground">
+                                                            Beautifully designed components built with Blazor and Tailwind CSS.
+                                                        </p>
+                                                    </a>
+                                                </NavigationMenuLink>
+                                            </li>
+                                            <ListItem Href="/docs" Title="Introduction">
+                                                Re-usable components built for modern ASP.NET Core applications.
+                                            </ListItem>
+                                            <ListItem Href="/docs/installation" Title="Installation">
+                                                How to install dependencies and structure your app.
+                                            </ListItem>
+                                            <ListItem Href="/docs/primitives/typography" Title="Typography">
+                                                Styles for headings, paragraphs, lists...etc
+                                            </ListItem>
+                                        </ul>
+                                    </NavigationMenuContent>
+                                </NavigationMenuItem>
+
+                                <NavigationMenuItem>
+                                    <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+                                    <NavigationMenuContent>
+                                        <ul class="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                                            @foreach (var component in _components)
+                                            {
+                                                <ListItem Href="@component.Href" Title="@component.Title">
+                                                    @component.Description
+                                                </ListItem>
+                                            }
+                                        </ul>
+                                    </NavigationMenuContent>
+                                </NavigationMenuItem>
+
+                                <NavigationMenuItem>
+                                    <NavigationMenuLink Href="/docs">
+                                        Documentation
+                                    </NavigationMenuLink>
+                                </NavigationMenuItem>
+
+                            </NavigationMenuList>
+                        </RzNavigationMenu>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzNavigationMenu&gt;
+    &lt;NavigationMenuList&gt;
+        &lt;NavigationMenuItem&gt;
+            &lt;NavigationMenuTrigger&gt;Getting Started&lt;/NavigationMenuTrigger&gt;
+            &lt;NavigationMenuContent&gt;
+                &lt;ul class=&quot;grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]&quot;&gt;
+                    &lt;li class=&quot;row-span-3&quot;&gt;
+                        &lt;NavigationMenuLink&gt;
+                            &lt;a class=&quot;flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md&quot; href=&quot;/&quot;&gt;
+                                &lt;img src=&quot;/images/rizzy-logo-wb.svg&quot; class=&quot;h-12 w-12&quot; alt=&quot;RizzyUI Logo&quot; /&gt;
+                                &lt;div class=&quot;mt-4 mb-2 text-lg font-medium&quot;&gt;
+                                    RizzyUI
+                                &lt;/div&gt;
+                                &lt;p class=&quot;text-sm leading-tight text-muted-foreground&quot;&gt;
+                                    Beautifully designed components built with Blazor and Tailwind CSS.
+                                &lt;/p&gt;
+                            &lt;/a&gt;
+                        &lt;/NavigationMenuLink&gt;
+                    &lt;/li&gt;
+                    &lt;ListItem Href=&quot;/docs&quot; Title=&quot;Introduction&quot;&gt;
+                        Re-usable components built for modern ASP.NET Core applications.
+                    &lt;/ListItem&gt;
+                    &lt;ListItem Href=&quot;/docs/installation&quot; Title=&quot;Installation&quot;&gt;
+                        How to install dependencies and structure your app.
+                    &lt;/ListItem&gt;
+                    &lt;ListItem Href=&quot;/docs/primitives/typography&quot; Title=&quot;Typography&quot;&gt;
+                        Styles for headings, paragraphs, lists...etc
+                    &lt;/ListItem&gt;
+                &lt;/ul&gt;
+            &lt;/NavigationMenuContent&gt;
+        &lt;/NavigationMenuItem&gt;
+        &lt;NavigationMenuItem&gt;
+            &lt;NavigationMenuTrigger&gt;Components&lt;/NavigationMenuTrigger&gt;
+            &lt;NavigationMenuContent&gt;
+                &lt;ul class=&quot;grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] &quot;&gt;
+                    @@foreach (var component in _components)
+                    {
+                        &lt;ListItem Href=&quot;@@component.Href&quot; Title=&quot;@@component.Title&quot;&gt;
+                            @@component.Description
+                        &lt;/ListItem&gt;
+                    }
+                &lt;/ul&gt;
+            &lt;/NavigationMenuContent&gt;
+        &lt;/NavigationMenuItem&gt;
+        &lt;NavigationMenuItem&gt;
+            &lt;NavigationMenuLink Href=&quot;/docs&quot;&gt;
+                Documentation
+            &lt;/NavigationMenuLink&gt;
+        &lt;/NavigationMenuItem&gt;
+    &lt;/NavigationMenuList&gt;
+&lt;/RzNavigationMenu&gt;
+
+@@code {
+    private readonly (string Title, string Href, string Description)[] _components = 
+    {
+        (&quot;Alert&quot;, &quot;/components/alert&quot;, &quot;A modal dialog that interrupts the user with important content.&quot;),
+        (&quot;Accordion&quot;, &quot;/components/accordion&quot;, &quot;A vertically stacked set of interactive headings that each reveal a section of content.&quot;),
+        (&quot;Badge&quot;, &quot;/components/badge&quot;, &quot;Displays a badge or a component that looks like a badge.&quot;),
+        (&quot;Button&quot;, &quot;/components/buttons&quot;, &quot;An interactive element that executes a command or navigates.&quot;),
+        (&quot;Card&quot;, &quot;/components/card&quot;, &quot;A container for content and actions about a single subject.&quot;),
+        (&quot;Dropdown Menu&quot;, &quot;/components/dropdown&quot;, &quot;Displays a menu to the user — such as a set of actions or functions — triggered by a button.&quot;)
+    };
+
+    private RenderFragment ListItem(string Title, string Href, RenderFragment ChildContent) =&gt; builder =&gt;
+    {
+        &lt;li&gt;
+            &lt;NavigationMenuLink&gt;
+                &lt;a href=&quot;@@Href&quot; class=&quot;block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground&quot;&gt;
+                    &lt;div class=&quot;text-sm font-medium leading-none&quot;&gt;@@Title&lt;/div&gt;
+                    &lt;p class=&quot;line-clamp-2 text-sm leading-snug text-muted-foreground&quot;&gt;
+                        @@ChildContent
+                    &lt;/p&gt;
+                &lt;/a&gt;
+            &lt;/NavigationMenuLink&gt;
+        &lt;/li&gt;
+    };
+}
+                
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
+                </RzHeading>
+                <RzParagraph>
+                    The following tables summarize the parameters for the `RzNavigationMenu` and its child components.
+                </RzParagraph>
+                
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzNavigationMenu</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content of the navigation menu, typically a <code class="font-semibold">NavigationMenuList</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Orientation</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Specifies the orientation of the menu. Currently, only <code class="font-semibold">Horizontal</code> is fully supported.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Orientation</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Orientation.Horizontal</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Accessible name for the navigation menu. Defaults to a localized "Main Navigation".</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">NavigationMenuTrigger</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content of the trigger, typically text.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">NavigationMenuLink</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content of the link, typically text or custom components.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Href</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The URL to navigate to.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">"#"</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzParagraph>
+                    The components `NavigationMenuList`, `NavigationMenuItem`, and `NavigationMenuContent` primarily accept `ChildContent` and pass through additional HTML attributes. They have no other unique parameters. `NavigationMenuIndicator` and `NavigationMenuViewport` are internal components with no user-configurable parameters.
+                </RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private readonly (string Title, string Href, string Description)[] _components = 
+    {
+        ("Alert", "/components/alert", "A modal dialog that interrupts the user with important content."),
+        ("Accordion", "/components/accordion", "A vertically stacked set of interactive headings that each reveal a section of content."),
+        ("Badge", "/components/badge", "Displays a badge or a component that looks like a badge."),
+        ("Button", "/components/buttons", "An interactive element that executes a command or navigates."),
+        ("Card", "/components/card", "A container for content and actions about a single subject."),
+        ("Dropdown Menu", "/components/dropdown", "Displays a menu to the user — such as a set of actions or functions — triggered by a button.")
+    };
+
+    private RenderFragment ListItem(string Title, string Href, RenderFragment ChildContent) => builder =>
+    {
+        <li>
+            <NavigationMenuLink>
+                <a href="@Href" class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <div class="text-sm font-medium leading-none">@Title</div>
+                    <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        @ChildContent
+                    </p>
+                </a>
+            </NavigationMenuLink>
+        </li>
+    };
+}

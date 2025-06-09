@@ -575,6 +575,12 @@
   .top-16 {
     top: calc(var(--spacing) * 16);
   }
+  .top-\[1px\] {
+    top: 1px;
+  }
+  .top-full {
+    top: 100%;
+  }
   .right-0 {
     right: calc(var(--spacing) * 0);
   }
@@ -631,6 +637,9 @@
   }
   .z-60 {
     z-index: 60;
+  }
+  .z-\[1\] {
+    z-index: 1;
   }
   .z-\[10004\] {
     z-index: 10004;
@@ -745,6 +754,9 @@
   }
   .ml-0 {
     margin-left: calc(var(--spacing) * 0);
+  }
+  .ml-1 {
+    margin-left: calc(var(--spacing) * 1);
   }
   .ml-2 {
     margin-left: calc(var(--spacing) * 2);
@@ -882,6 +894,9 @@
   .h-0\.5 {
     height: calc(var(--spacing) * 0.5);
   }
+  .h-1\.5 {
+    height: calc(var(--spacing) * 1.5);
+  }
   .h-2\.5 {
     height: calc(var(--spacing) * 2.5);
   }
@@ -917,6 +932,9 @@
   }
   .h-96 {
     height: calc(var(--spacing) * 96);
+  }
+  .h-\[--radix-navigation-menu-viewport-height\] {
+    height: --radix-navigation-menu-viewport-height;
   }
   .h-\[1\.15rem\] {
     height: 1.15rem;
@@ -984,8 +1002,14 @@
   .w-80 {
     width: calc(var(--spacing) * 80);
   }
+  .w-\[--radix-navigation-menu-viewport-width\] {
+    width: --radix-navigation-menu-viewport-width;
+  }
   .w-\[3\.25rem\] {
     width: 3.25rem;
+  }
+  .w-auto {
+    width: auto;
   }
   .w-fit {
     width: fit-content;
@@ -1022,6 +1046,9 @@
   }
   .max-w-lg {
     max-width: var(--container-lg);
+  }
+  .max-w-max {
+    max-width: max-content;
   }
   .max-w-md {
     max-width: var(--container-md);
@@ -1193,6 +1220,9 @@
   .resize {
     resize: both;
   }
+  .list-none {
+    list-style-type: none;
+  }
   .appearance-none {
     appearance: none;
   }
@@ -1255,6 +1285,9 @@
   }
   .items-center {
     align-items: center;
+  }
+  .items-end {
+    align-items: flex-end;
   }
   .items-start {
     align-items: flex-start;
@@ -2717,6 +2750,9 @@
     -webkit-user-select: none;
     user-select: none;
   }
+  .perspective-\[2000px\] {
+    perspective: 2000px;
+  }
   .group-open\:rotate-180 {
     &:is(:where(.group):is([open], :popover-open, :open) *) {
       rotate: 180deg;
@@ -2734,6 +2770,11 @@
       @media (hover: hover) {
         opacity: 50%;
       }
+    }
+  }
+  .group-data-\[state\=open\]\:rotate-180 {
+    &:is(:where(.group)[data-state="open"] *) {
+      rotate: 180deg;
     }
   }
   .peer-checked\:scale-100 {
@@ -3070,6 +3111,18 @@
       position: absolute;
     }
   }
+  .after\:relative {
+    &::after {
+      content: var(--tw-content);
+      position: relative;
+    }
+  }
+  .after\:-top-1 {
+    &::after {
+      content: var(--tw-content);
+      top: calc(var(--spacing) * -1);
+    }
+  }
   .after\:bottom-0 {
     &::after {
       content: var(--tw-content);
@@ -3088,6 +3141,13 @@
       margin-inline-start: calc(var(--spacing) * 6);
     }
   }
+  .after\:size-2 {
+    &::after {
+      content: var(--tw-content);
+      width: calc(var(--spacing) * 2);
+      height: calc(var(--spacing) * 2);
+    }
+  }
   .after\:h-0\.5 {
     &::after {
       content: var(--tw-content);
@@ -3104,6 +3164,12 @@
     &::after {
       content: var(--tw-content);
       flex: 1;
+    }
+  }
+  .after\:rotate-45 {
+    &::after {
+      content: var(--tw-content);
+      rotate: 45deg;
     }
   }
   .after\:border-t {
@@ -4366,6 +4432,14 @@
       --tw-ring-color: var(--primary);
     }
   }
+  .data-\[active\]\:bg-accent\/50 {
+    &[data-active] {
+      background-color: var(--accent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--accent) 50%, transparent);
+      }
+    }
+  }
   .data-\[disabled\]\:pointer-events-none {
     &[data-disabled] {
       pointer-events: none;
@@ -4379,6 +4453,14 @@
   .data-\[state\=open\]\:bg-accent {
     &[data-state="open"] {
       background-color: var(--accent);
+    }
+  }
+  .data-\[state\=open\]\:bg-accent\/50 {
+    &[data-state="open"] {
+      background-color: var(--accent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--accent) 50%, transparent);
+      }
     }
   }
   .data-\[state\=open\]\:text-accent-foreground {
