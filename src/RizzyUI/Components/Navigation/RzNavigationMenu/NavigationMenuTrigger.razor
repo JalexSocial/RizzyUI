@@ -1,0 +1,21 @@
+
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent
+
+<HtmlElement Element="@EffectiveElement"
+             id="@TriggerId"
+             class="@RootClass()"
+             x-ref="trigger_@ParentItem?.Id"
+             aria-haspopup="true"
+             aria-expanded="false"
+             aria-controls="@ContentId"
+             data-state="closed"
+             x-on:click="toggleMenu"
+             x-on:mouseenter="handleTriggerEnter"
+             x-on:mouseleave="scheduleClose"
+             x-on:focus="handleTriggerEnter"
+             @attributes="@AdditionalAttributes">
+    @ChildContent
+    <Blazicon Svg="MdiIcon.ChevronDown" class="relative top-[1px] ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180" aria-hidden="true"/>
+</HtmlElement>

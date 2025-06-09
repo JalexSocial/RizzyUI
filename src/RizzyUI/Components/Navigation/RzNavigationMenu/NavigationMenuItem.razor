@@ -1,0 +1,12 @@
+
+@namespace RizzyUI
+@inherits RzComponent
+
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement"
+                 id="@Id"
+                 class="@RootClass()"
+                 @attributes="@AdditionalAttributes">
+        @ChildContent
+    </HtmlElement>
+</CascadingValue>

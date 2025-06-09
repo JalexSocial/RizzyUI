@@ -1,0 +1,21 @@
+
+@namespace RizzyUI
+@inherits RzComponent
+
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement" 
+                 id="@Id" 
+                 class="@RootClass()" 
+                 @attributes="@AdditionalAttributes"
+                 aria-label="@AriaLabel"
+                 data-orientation="@Orientation.ToString().ToLowerInvariant()"
+                 dir="ltr"
+                 x-data="rzNavigationMenu"
+                 data-alpine-root="@Id"
+                 x-on:keydown.escape.window="closeMenu">
+        <div class="relative">
+            @ChildContent
+        </div>
+        <NavigationMenuViewport />
+    </HtmlElement>
+</CascadingValue>

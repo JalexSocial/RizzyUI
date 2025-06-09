@@ -1,0 +1,15 @@
+
+@namespace RizzyUI
+@inherits RzComponent
+
+<template x-teleport="#@ParentMenu?.Id-viewport">
+    <div x-ref="content_@ParentItem?.Id"
+         id="@ContentId"
+         class="@RootClass()"
+         x-show="isContentVisible('@ParentItem?.Id')"
+         @attributes="AdditionalAttributes"
+         x-on:mouseenter="cancelClose"
+         x-on:mouseleave="scheduleClose">
+        @ChildContent
+    </div>
+</template>

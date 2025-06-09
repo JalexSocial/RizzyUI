@@ -314,4 +314,8 @@
       <value>Popover content</value>
       <comment>Default ARIA label for the content area</comment>
     </data>  
+    <data name="RzNavigationMenu.DefaultAriaLabel" xml:space="preserve">
+      <value>Main Navigation</value>
+      <comment>Default ARIA label for RzNavigationMenu</comment>
+    </data>  
 </root>

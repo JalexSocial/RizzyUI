@@ -139,6 +139,11 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzNavbar" /> component. </summary>
     public virtual RzStylesBase.RzNavbarStylesBase RzNavbar { get; }
+    
+    /// <summary>
+    /// Gets the style definitions for the <see cref="RzNavigationMenu" /> component.
+    /// </summary>
+    public virtual RzStylesBase.RzNavigationMenuStylesBase RzNavigationMenu { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzNumberEdit{TValue}" /> component. </summary>
     public virtual RzStylesBase.RzNumberEditStylesBase RzNumberEdit { get; }
