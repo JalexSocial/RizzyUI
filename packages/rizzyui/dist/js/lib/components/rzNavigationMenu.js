@@ -36,6 +36,16 @@ export default function(Alpine) {
 
         openMenu(itemId) {
             this.clearCloseTimeout();
+
+            // Close the previously active item before opening the new one
+            if (this.activeItemId && this.activeItemId !== itemId) {
+                const oldTrigger = this.$refs[`trigger_${this.activeItemId}`];
+                if (oldTrigger) {
+                    oldTrigger.setAttribute('data-state', 'closed');
+                    oldTrigger.setAttribute('aria-expanded', 'false');
+                }
+            }
+            
             this.activeItemId = itemId;
             this.open = true;
 
@@ -52,11 +62,14 @@ export default function(Alpine) {
         
         closeMenu() {
             if (!this.open) return;
-            const currentTrigger = this.$refs[`trigger_${this.activeItemId}`];
-            if (currentTrigger) {
-                currentTrigger.setAttribute('data-state', 'closed');
-                currentTrigger.setAttribute('aria-expanded', 'false');
+            if (this.activeItemId) {
+                const currentTrigger = this.$refs[`trigger_${this.activeItemId}`];
+                if (currentTrigger) {
+                    currentTrigger.setAttribute('data-state', 'closed');
+                    currentTrigger.setAttribute('aria-expanded', 'false');
+                }
             }
+
             this.activeItemId = null;
             this.open = false;
 
@@ -87,10 +100,11 @@ export default function(Alpine) {
         handleTriggerEnter(event) {
             const triggerEl = event.currentTarget;
             const itemId = triggerEl.id.replace('-trigger', '');
+            
+            this.clearCloseTimeout();
+            
             if (this.activeItemId !== itemId) {
                 this.openMenu(itemId);
-            } else {
-                 this.cancelClose();
             }
         },
         
@@ -108,22 +122,19 @@ export default function(Alpine) {
 
             if (!contentEl) return;
             
+            // Set viewport size based on its active content
             this.viewport.style.width = `${contentEl.offsetWidth}px`;
             this.viewport.style.height = `${contentEl.offsetHeight}px`;
 
+            // Position viewport relative to the list container
             computePosition(this.list, this.viewport, {
                 placement: 'bottom',
                 middleware: [offset(viewportOffset), flip(), shift({padding: 8})],
-            }).then(({x, y}) => {
-                const listRect = this.list.getBoundingClientRect();
-                
-                // Center the viewport under the list
-                const newLeft = listRect.left - (this.viewport.offsetWidth / 2) + (listRect.width / 2);
-                
+            }).then(({y}) => {
                 Object.assign(this.viewport.style, {
-                    left: `${newLeft}px`,
+                    left: '50%',
                     top: `${y}px`,
-                    transformOrigin: 'top center',
+                    transform: 'translateX(-50%)',
                 });
             });
         },

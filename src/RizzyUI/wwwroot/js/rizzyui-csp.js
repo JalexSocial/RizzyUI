@@ -6969,6 +6969,13 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       },
       openMenu(itemId) {
         this.clearCloseTimeout();
+        if (this.activeItemId && this.activeItemId !== itemId) {
+          const oldTrigger = this.$refs[`trigger_${this.activeItemId}`];
+          if (oldTrigger) {
+            oldTrigger.setAttribute("data-state", "closed");
+            oldTrigger.setAttribute("aria-expanded", "false");
+          }
+        }
         this.activeItemId = itemId;
         this.open = true;
         this.$nextTick(() => {
@@ -6983,10 +6990,12 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       },
       closeMenu() {
         if (!this.open) return;
-        const currentTrigger = this.$refs[`trigger_${this.activeItemId}`];
-        if (currentTrigger) {
-          currentTrigger.setAttribute("data-state", "closed");
-          currentTrigger.setAttribute("aria-expanded", "false");
+        if (this.activeItemId) {
+          const currentTrigger = this.$refs[`trigger_${this.activeItemId}`];
+          if (currentTrigger) {
+            currentTrigger.setAttribute("data-state", "closed");
+            currentTrigger.setAttribute("aria-expanded", "false");
+          }
         }
         this.activeItemId = null;
         this.open = false;
@@ -7013,10 +7022,9 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       handleTriggerEnter(event) {
         const triggerEl = event.currentTarget;
         const itemId = triggerEl.id.replace("-trigger", "");
+        this.clearCloseTimeout();
         if (this.activeItemId !== itemId) {
           this.openMenu(itemId);
-        } else {
-          this.cancelClose();
         }
       },
       updatePositions(triggerEl) {
@@ -7032,13 +7040,11 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         computePosition(this.list, this.viewport, {
           placement: "bottom",
           middleware: [offset(viewportOffset), flip(), shift({ padding: 8 })]
-        }).then(({ x, y }) => {
-          const listRect = this.list.getBoundingClientRect();
-          const newLeft = listRect.left - this.viewport.offsetWidth / 2 + listRect.width / 2;
+        }).then(({ y }) => {
           Object.assign(this.viewport.style, {
-            left: `${newLeft}px`,
+            left: "50%",
             top: `${y}px`,
-            transformOrigin: "top center"
+            transform: "translateX(-50%)"
           });
         });
       }

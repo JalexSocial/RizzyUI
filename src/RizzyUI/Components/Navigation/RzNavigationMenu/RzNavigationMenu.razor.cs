@@ -16,6 +16,11 @@ public partial class RzNavigationMenu : RzComponent
     internal readonly List<NavigationMenuItem> Items = new();
 
     /// <summary>
+    /// Gets the unique ID for the viewport container, used as a target for teleporting content.
+    /// </summary>
+    public string ViewportId => $"{Id}-viewport";
+
+    /// <summary>
     /// Gets or sets the content of the navigation menu, typically a <see cref="NavigationMenuList"/>.
     /// </summary>
     [Parameter, EditorRequired]

@@ -18,7 +18,7 @@ public partial class NavigationMenuViewport : RzComponent
     /// <summary>
     /// The unique ID of the viewport.
     /// </summary>
-    protected string ViewportId => $"{ParentMenu?.Id}-viewport";
+    protected string ViewportId => ParentMenu?.ViewportId ?? "rz-nav-viewport-fallback";
 
     /// <inheritdoc/>
     protected override void OnInitialized()

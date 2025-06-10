@@ -2,9 +2,13 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement Element="@EffectiveElement"
-             id="@ViewportId"
-             class="@RootClass()"
-             x-ref="viewport"
-             @attributes="@AdditionalAttributes">
-</HtmlElement>
+<div x-ref="viewport"
+     id="@ViewportId"
+     class="@RootClass()"
+     data-state="closed"
+     x-show="open"
+     x-cloak
+     @attributes="@AdditionalAttributes"
+     x-on:mouseenter="cancelClose"
+     x-on:mouseleave="scheduleClose">
+</div>
