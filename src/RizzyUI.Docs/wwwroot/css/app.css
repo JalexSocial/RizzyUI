@@ -3458,6 +3458,9 @@
     --tw-ease: var(--ease-out);
     transition-timing-function: var(--ease-out);
   }
+  .\[will-change\:transform\,opacity\] {
+    will-change: transform,opacity;
+  }
   .forced-color-adjust-auto {
     forced-color-adjust: auto;
   }

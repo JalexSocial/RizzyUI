@@ -3701,6 +3701,45 @@ function registerRzNavigationMenu(Alpine2, $data2) {
       const triggers = Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]'));
       return triggers.findIndex((t2) => t2.id.replace("-trigger", "") === id);
     },
+    _getContentEl(id) {
+      return document.getElementById(`${id}-content`);
+    },
+    _measureSize(el) {
+      if (!el) return { w: 0, h: 0 };
+      let { width: w2, height: h2 } = el.getBoundingClientRect();
+      if (!w2 || !h2) {
+        w2 = el.scrollWidth;
+        h2 = el.scrollHeight;
+      }
+      return { w: w2, h: h2 };
+    },
+    _resizeAndPosition(panelEl, attempt = 0) {
+      if (attempt > 4 || !this.open || !this.viewport) return;
+      const { w: w2, h: h2 } = this._measureSize(panelEl);
+      if (w2 && h2) {
+        this.viewport.style.width = `${w2}px`;
+        this.viewport.style.height = `${h2}px`;
+        if (this.list) {
+          computePosition(this.list, this.viewport, {
+            placement: "bottom",
+            middleware: [
+              offset(parseInt(this.$el.dataset.viewportOffset) || 0),
+              flip(),
+              shift({ padding: 8 })
+            ]
+          }).then(({ y }) => {
+            if (!this.open) return;
+            Object.assign(this.viewport.style, {
+              left: "50%",
+              top: `${y}px`,
+              transform: "translateX(-50%)"
+            });
+          });
+        }
+      } else {
+        requestAnimationFrame(() => this._resizeAndPosition(panelEl, attempt + 1));
+      }
+    },
     _clearAnimations(el) {
       if (!el) return;
       el.classList.remove(
@@ -3723,9 +3762,7 @@ function registerRzNavigationMenu(Alpine2, $data2) {
       if (this.prevIndex === null) {
         this.viewport.classList.add("zoom-in-90");
       } else {
-        this.viewport.classList.add(
-          dir === "right" ? "slide-in-from-right" : "slide-in-from-left"
-        );
+        this.viewport.classList.add(dir === "right" ? "slide-in-from-right" : "slide-in-from-left");
       }
     },
     _playExit(dir) {
@@ -3735,9 +3772,7 @@ function registerRzNavigationMenu(Alpine2, $data2) {
       if (dir === "zoom") {
         this.viewport.classList.add("zoom-out-95");
       } else {
-        this.viewport.classList.add(
-          dir === "right" ? "slide-out-to-left" : "slide-out-to-right"
-        );
+        this.viewport.classList.add(dir === "right" ? "slide-out-to-left" : "slide-out-to-right");
       }
       setTimeout(() => this._clearAnimations(this.viewport), 150);
     },
@@ -3760,9 +3795,7 @@ function registerRzNavigationMenu(Alpine2, $data2) {
       this.clearCloseTimeout();
       if (this.activeItemId !== id) {
         if (this.rafId) cancelAnimationFrame(this.rafId);
-        this.rafId = requestAnimationFrame(() => {
-          this.openMenu(id);
-        });
+        this.rafId = requestAnimationFrame(() => this.openMenu(id));
       }
     },
     scheduleClose() {
@@ -3807,24 +3840,12 @@ function registerRzNavigationMenu(Alpine2, $data2) {
           this.viewport.setAttribute("data-state", "open");
           this.viewport.setAttribute("aria-hidden", "false");
           this._playEnter(dir);
-          const newContent = this.$refs[`content_${id}`];
-          if (newContent) {
-            const { offsetWidth: w2, offsetHeight: h2 } = newContent;
-            this.viewport.style.minWidth = `${Math.max(this.viewport.offsetWidth, w2)}px`;
-            this.viewport.style.minHeight = `${Math.max(this.viewport.offsetHeight, h2)}px`;
-            requestAnimationFrame(() => {
-              this.viewport.style.width = `${w2}px`;
-              this.viewport.style.height = `${h2}px`;
-            });
-          }
-          if (this.list) {
-            computePosition(this.list, this.viewport, {
-              placement: "bottom",
-              middleware: [offset(parseInt(this.$el.dataset.viewportOffset) || 0), flip(), shift({ padding: 8 })]
-            }).then(({ y }) => {
-              if (!this.open || this.activeItemId !== id) return;
-              Object.assign(this.viewport.style, { left: "50%", top: `${y}px`, transform: "translateX(-50%)" });
-            });
+          const panelEl = (this._getContentEl(id) || {}).firstElementChild || this._getContentEl(id);
+          if (panelEl) {
+            const { w: initialW, h: initialH } = this._measureSize(panelEl);
+            this.viewport.style.minWidth = `${Math.max(this.viewport.offsetWidth, initialW)}px`;
+            this.viewport.style.minHeight = `${Math.max(this.viewport.offsetHeight, initialH)}px`;
+            requestAnimationFrame(() => this._resizeAndPosition(panelEl));
           }
           trigger.setAttribute("aria-expanded", "true");
           trigger.dataset.state = "open";
@@ -3858,9 +3879,7 @@ function registerRzNavigationMenu(Alpine2, $data2) {
       }, 150);
     }
   }));
-  Alpine2.data("rzNavigationMenuContent", () => ({
-    visible: false
-  }));
+  Alpine2.data("rzNavigationMenuContent", () => ({ visible: false }));
 }
 function registerRzPopover(Alpine2) {
   Alpine2.data("rzPopover", () => ({
