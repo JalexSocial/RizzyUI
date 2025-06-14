@@ -1759,6 +1759,9 @@
   .animate-in {
     animation: enter var(--tw-animation-duration,var(--tw-duration,.15s))var(--tw-ease,ease)var(--tw-animation-delay,0s)var(--tw-animation-iteration-count,1)var(--tw-animation-direction,normal)var(--tw-animation-fill-mode,none);
   }
+  .animate-out {
+    animation: exit var(--tw-animation-duration,var(--tw-duration,.15s))var(--tw-ease,ease)var(--tw-animation-delay,0s)var(--tw-animation-iteration-count,1)var(--tw-animation-direction,normal)var(--tw-animation-fill-mode,none);
+  }
   .animate-ping {
     animation: var(--animate-ping);
   }
@@ -3474,8 +3477,15 @@
     --tw-enter-scale: calc(90*1%);
     --tw-enter-scale: .9;
   }
+  .zoom-out-95 {
+    --tw-exit-scale: calc(95*1%);
+    --tw-exit-scale: .95;
+  }
   .fade-in {
     --tw-enter-opacity: 0;
+  }
+  .fade-out {
+    --tw-exit-opacity: 0;
   }
   .paused {
     animation-play-state: paused;
@@ -3488,6 +3498,18 @@
   }
   .running {
     animation-play-state: running;
+  }
+  .slide-in-from-left {
+    --tw-enter-translate-x: -100%;
+  }
+  .slide-in-from-right {
+    --tw-enter-translate-x: 100%;
+  }
+  .slide-out-to-left {
+    --tw-exit-translate-x: -100%;
+  }
+  .slide-out-to-right {
+    --tw-exit-translate-x: 100%;
   }
   .group-open\:rotate-180 {
     &:is(:where(.group):is([open], :popover-open, :open) *) {

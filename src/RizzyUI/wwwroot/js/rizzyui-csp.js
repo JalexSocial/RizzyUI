@@ -4889,6 +4889,59 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
   loadjs.isDefined = function isDefined(bundleId) {
     return bundleId in bundleIdCache;
   };
+  function $data(idOrElement) {
+    if (typeof Alpine === "undefined" || typeof Alpine.$data !== "function") {
+      console.error(
+        "$data helper: Alpine.js context (Alpine.$data) is not available. Ensure Alpine is loaded and initialized globally before use."
+      );
+      return void 0;
+    }
+    let outerElement = null;
+    let componentId = null;
+    if (typeof idOrElement === "string") {
+      if (!idOrElement) {
+        console.warn("Rizzy.$data: Invalid componentId provided (empty string).");
+        return void 0;
+      }
+      componentId = idOrElement;
+      outerElement = document.getElementById(componentId);
+      if (!outerElement) {
+        console.warn(`Rizzy.$data: Rizzy component with ID "${componentId}" not found in the DOM.`);
+        return void 0;
+      }
+    } else if (idOrElement instanceof Element) {
+      outerElement = idOrElement;
+      if (!outerElement.id) {
+        console.warn("Rizzy.$data: Provided element does not have an ID attribute, which is required for locating the data-alpine-root.");
+        return void 0;
+      }
+      componentId = outerElement.id;
+    } else {
+      console.warn("Rizzy.$data: Invalid input provided. Expected a non-empty string ID or an Element object.");
+      return void 0;
+    }
+    const alpineRootSelector = `[data-alpine-root="${componentId}"]`;
+    let alpineRootElement = null;
+    if (outerElement.matches(alpineRootSelector)) {
+      alpineRootElement = outerElement;
+    } else {
+      alpineRootElement = outerElement.querySelector(alpineRootSelector);
+    }
+    if (!alpineRootElement) {
+      console.warn(
+        `Rizzy.$data: Could not locate the designated Alpine root element using selector "${alpineRootSelector}" on or inside the wrapper element (ID: #${componentId}). Verify the 'data-alpine-root' attribute placement.`
+      );
+      return void 0;
+    }
+    const alpineData = Alpine.$data(alpineRootElement);
+    if (alpineData === void 0) {
+      const targetDesc = `${alpineRootElement.tagName.toLowerCase()}${alpineRootElement.id ? "#" + alpineRootElement.id : ""}${alpineRootElement.classList.length ? "." + Array.from(alpineRootElement.classList).join(".") : ""}`;
+      console.warn(
+        `Rizzy.$data: Located designated Alpine root (${targetDesc}) via 'data-alpine-root="${componentId}"', but Alpine.$data returned undefined. Ensure 'x-data' is correctly defined and initialized on this element.`
+      );
+    }
+    return alpineData;
+  }
   function registerRzAccordion(Alpine2) {
     Alpine2.data("rzAccordion", () => ({
       selected: "",
@@ -6939,75 +6992,90 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       }
     }));
   }
-  function registerRzNavigationMenu(Alpine2) {
+  function registerRzNavigationMenu(Alpine2, $data2) {
     Alpine2.data("rzNavigationMenu", () => ({
+      /* ---------------- state ---------------- */
       activeItemId: null,
       open: false,
       closeTimeout: null,
       closeDelay: 150,
+      prevIndex: null,
+      lastDirection: null,
+      rafId: null,
+      list: null,
+      viewport: null,
+      indicator: null,
+      /* ---------------- helpers ---------------- */
+      _triggerIndex(id) {
+        if (!this.list) return -1;
+        const triggers = Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]'));
+        return triggers.findIndex((t2) => t2.id.replace("-trigger", "") === id);
+      },
+      _clearAnimations(el) {
+        if (!el) return;
+        el.classList.remove(
+          "animate-in",
+          "fade-in",
+          "zoom-in-90",
+          "slide-in-from-left",
+          "slide-in-from-right",
+          "animate-out",
+          "fade-out",
+          "zoom-out-95",
+          "slide-out-to-left",
+          "slide-out-to-right"
+        );
+      },
+      _playEnter(dir) {
+        if (!this.viewport) return;
+        this._clearAnimations(this.viewport);
+        this.viewport.classList.add("animate-in", "fade-in");
+        if (this.prevIndex === null) {
+          this.viewport.classList.add("zoom-in-90");
+        } else {
+          this.viewport.classList.add(
+            dir === "right" ? "slide-in-from-right" : "slide-in-from-left"
+          );
+        }
+      },
+      _playExit(dir) {
+        if (!this.viewport || this.viewport.classList.contains("animate-out")) return;
+        this._clearAnimations(this.viewport);
+        this.viewport.classList.add("animate-out", "fade-out");
+        if (dir === "zoom") {
+          this.viewport.classList.add("zoom-out-95");
+        } else {
+          this.viewport.classList.add(
+            dir === "right" ? "slide-out-to-left" : "slide-out-to-right"
+          );
+        }
+        setTimeout(() => this._clearAnimations(this.viewport), 150);
+      },
+      /* ---------------- Alpine lifecycle ---------------- */
       init() {
         this.$nextTick(() => {
           this.list = this.$refs.list;
           this.viewport = this.$refs.viewport;
           this.indicator = this.$refs.indicator;
-          if (this.indicator) {
-            this.indicator.setAttribute("data-state", "hidden");
-          }
+          this.indicator?.setAttribute("data-state", "hidden");
         });
       },
-      isContentVisible() {
-        return this.activeItemId === this.$el.dataset.itemId && this.open;
+      /* ---------------- public API ---------------- */
+      toggleActive(e2) {
+        const id = e2.currentTarget.id.replace("-trigger", "");
+        this.activeItemId === id && this.open ? this.closeMenu() : this.openMenu(id);
       },
-      toggleActive(event) {
-        const triggerEl = event.currentTarget;
-        const itemId = triggerEl.id.replace("-trigger", "");
-        if (this.activeItemId === itemId && this.open) {
-          this.closeMenu();
-        } else {
-          this.openMenu(itemId);
-        }
-      },
-      openMenu(itemId) {
+      handleTriggerEnter(e2) {
+        const id = e2.currentTarget.id.replace("-trigger", "");
         this.clearCloseTimeout();
-        if (this.activeItemId && this.activeItemId !== itemId) {
-          const oldTrigger = this.$refs[`trigger_${this.activeItemId}`];
-          if (oldTrigger) {
-            oldTrigger.setAttribute("data-state", "closed");
-            oldTrigger.setAttribute("aria-expanded", "false");
-          }
-        }
-        this.activeItemId = itemId;
-        this.open = true;
-        this.$nextTick(() => {
-          const trigger2 = this.$refs[`trigger_${itemId}`];
-          if (trigger2) {
-            this.updatePositions(trigger2);
-            trigger2.setAttribute("data-state", "open");
-            trigger2.setAttribute("aria-expanded", "true");
-            this.viewport.setAttribute("data-state", "open");
-          }
-        });
-      },
-      closeMenu() {
-        if (!this.open) return;
-        if (this.activeItemId) {
-          const currentTrigger = this.$refs[`trigger_${this.activeItemId}`];
-          if (currentTrigger) {
-            currentTrigger.setAttribute("data-state", "closed");
-            currentTrigger.setAttribute("aria-expanded", "false");
-          }
-        }
-        this.activeItemId = null;
-        this.open = false;
-        if (this.indicator) {
-          this.indicator.setAttribute("data-state", "hidden");
-        }
-        if (this.viewport) {
-          this.viewport.setAttribute("data-state", "closed");
+        if (this.activeItemId !== id) {
+          if (this.rafId) cancelAnimationFrame(this.rafId);
+          this.rafId = requestAnimationFrame(() => {
+            this.openMenu(id);
+          });
         }
       },
       scheduleClose() {
-        this.clearCloseTimeout();
         this.closeTimeout = setTimeout(() => this.closeMenu(), this.closeDelay);
       },
       cancelClose() {
@@ -7019,35 +7087,89 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           this.closeTimeout = null;
         }
       },
-      handleTriggerEnter(event) {
-        const triggerEl = event.currentTarget;
-        const itemId = triggerEl.id.replace("-trigger", "");
+      /* ---------------- open / close ---------------- */
+      openMenu(id) {
         this.clearCloseTimeout();
-        if (this.activeItemId !== itemId) {
-          this.openMenu(itemId);
+        const newIdx = this._triggerIndex(id);
+        const oldIdx = this.prevIndex ?? newIdx;
+        const dir = newIdx > oldIdx ? "right" : "left";
+        this.lastDirection = dir;
+        if (this.open && this.activeItemId) {
+          const oldContentData = $data2(`${this.activeItemId}-content`);
+          if (oldContentData) oldContentData.visible = false;
+          this._playExit(dir);
         }
-      },
-      updatePositions(triggerEl) {
-        if (!this.viewport || !this.list || !this.indicator) return;
-        this.indicator.style.width = `${triggerEl.offsetWidth}px`;
-        this.indicator.style.left = `${triggerEl.offsetLeft}px`;
-        this.indicator.setAttribute("data-state", "visible");
-        const viewportOffset = parseInt(this.$el.dataset.viewportOffset) || 0;
-        const contentEl = this.$refs[`content_${this.activeItemId}`];
-        if (!contentEl) return;
-        this.viewport.style.width = `${contentEl.offsetWidth}px`;
-        this.viewport.style.height = `${contentEl.offsetHeight}px`;
-        computePosition(this.list, this.viewport, {
-          placement: "bottom",
-          middleware: [offset(viewportOffset), flip(), shift({ padding: 8 })]
-        }).then(({ y }) => {
-          Object.assign(this.viewport.style, {
-            left: "50%",
-            top: `${y}px`,
-            transform: "translateX(-50%)"
+        setTimeout(() => {
+          if (!this.viewport) return;
+          this.activeItemId = id;
+          this.open = true;
+          this.prevIndex = newIdx;
+          const newContentData = $data2(`${id}-content`);
+          if (newContentData) newContentData.visible = true;
+          this.$nextTick(() => {
+            const trigger2 = this.$refs[`trigger_${id}`];
+            if (!trigger2) return;
+            if (this.indicator) {
+              this.indicator.setAttribute("data-state", "visible");
+              this.indicator.style.width = `${trigger2.offsetWidth}px`;
+              this.indicator.style.left = `${trigger2.offsetLeft}px`;
+            }
+            this.viewport.setAttribute("data-state", "open");
+            this.viewport.setAttribute("aria-hidden", "false");
+            this._playEnter(dir);
+            const newContent = this.$refs[`content_${id}`];
+            if (newContent) {
+              const { offsetWidth: w2, offsetHeight: h2 } = newContent;
+              this.viewport.style.minWidth = `${Math.max(this.viewport.offsetWidth, w2)}px`;
+              this.viewport.style.minHeight = `${Math.max(this.viewport.offsetHeight, h2)}px`;
+              requestAnimationFrame(() => {
+                this.viewport.style.width = `${w2}px`;
+                this.viewport.style.height = `${h2}px`;
+              });
+            }
+            if (this.list) {
+              computePosition(this.list, this.viewport, {
+                placement: "bottom",
+                middleware: [offset(parseInt(this.$el.dataset.viewportOffset) || 0), flip(), shift({ padding: 8 })]
+              }).then(({ y }) => {
+                if (!this.open || this.activeItemId !== id) return;
+                Object.assign(this.viewport.style, { left: "50%", top: `${y}px`, transform: "translateX(-50%)" });
+              });
+            }
+            trigger2.setAttribute("aria-expanded", "true");
+            trigger2.dataset.state = "open";
           });
-        });
+        }, this.open ? 150 : 0);
+      },
+      closeMenu() {
+        if (!this.open) return;
+        this._playExit("zoom");
+        const currentTrigger = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
+        if (currentTrigger) {
+          currentTrigger.setAttribute("aria-expanded", "false");
+          delete currentTrigger.dataset.state;
+        }
+        this.indicator?.setAttribute("data-state", "hidden");
+        setTimeout(() => {
+          if (this.viewport) {
+            this.viewport.setAttribute("data-state", "closed");
+            this.viewport.setAttribute("aria-hidden", "true");
+            this.viewport.style.minWidth = "";
+            this.viewport.style.minHeight = "";
+          }
+          if (this.activeItemId) {
+            const contentData = $data2(`${this.activeItemId}-content`);
+            if (contentData) contentData.visible = false;
+          }
+          this.open = false;
+          this.activeItemId = null;
+          this.prevIndex = null;
+          this.lastDirection = null;
+        }, 150);
       }
+    }));
+    Alpine2.data("rzNavigationMenuContent", () => ({
+      visible: false
     }));
   }
   function registerRzPopover(Alpine2) {
@@ -7445,7 +7567,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
     registerRzHeading(Alpine2);
     registerRzIndicator(Alpine2);
     registerRzMarkdown(Alpine2, rizzyRequire);
-    registerRzNavigationMenu(Alpine2);
+    registerRzNavigationMenu(Alpine2, $data);
     registerRzModal(Alpine2);
     registerRzPopover(Alpine2);
     registerRzPrependInput(Alpine2);
@@ -7454,59 +7576,6 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
     registerRzTabs(Alpine2);
     registerRzSidebar(Alpine2);
     registerRzSidebarLinkItem(Alpine2);
-  }
-  function $data(idOrElement) {
-    if (typeof Alpine === "undefined" || typeof Alpine.$data !== "function") {
-      console.error(
-        "$data helper: Alpine.js context (Alpine.$data) is not available. Ensure Alpine is loaded and initialized globally before use."
-      );
-      return void 0;
-    }
-    let outerElement = null;
-    let componentId = null;
-    if (typeof idOrElement === "string") {
-      if (!idOrElement) {
-        console.warn("Rizzy.$data: Invalid componentId provided (empty string).");
-        return void 0;
-      }
-      componentId = idOrElement;
-      outerElement = document.getElementById(componentId);
-      if (!outerElement) {
-        console.warn(`Rizzy.$data: Rizzy component with ID "${componentId}" not found in the DOM.`);
-        return void 0;
-      }
-    } else if (idOrElement instanceof Element) {
-      outerElement = idOrElement;
-      if (!outerElement.id) {
-        console.warn("Rizzy.$data: Provided element does not have an ID attribute, which is required for locating the data-alpine-root.");
-        return void 0;
-      }
-      componentId = outerElement.id;
-    } else {
-      console.warn("Rizzy.$data: Invalid input provided. Expected a non-empty string ID or an Element object.");
-      return void 0;
-    }
-    const alpineRootSelector = `[data-alpine-root="${componentId}"]`;
-    let alpineRootElement = null;
-    if (outerElement.matches(alpineRootSelector)) {
-      alpineRootElement = outerElement;
-    } else {
-      alpineRootElement = outerElement.querySelector(alpineRootSelector);
-    }
-    if (!alpineRootElement) {
-      console.warn(
-        `Rizzy.$data: Could not locate the designated Alpine root element using selector "${alpineRootSelector}" on or inside the wrapper element (ID: #${componentId}). Verify the 'data-alpine-root' attribute placement.`
-      );
-      return void 0;
-    }
-    const alpineData = Alpine.$data(alpineRootElement);
-    if (alpineData === void 0) {
-      const targetDesc = `${alpineRootElement.tagName.toLowerCase()}${alpineRootElement.id ? "#" + alpineRootElement.id : ""}${alpineRootElement.classList.length ? "." + Array.from(alpineRootElement.classList).join(".") : ""}`;
-      console.warn(
-        `Rizzy.$data: Located designated Alpine root (${targetDesc}) via 'data-alpine-root="${componentId}"', but Alpine.$data returned undefined. Ensure 'x-data' is correctly defined and initialized on this element.`
-      );
-    }
-    return alpineData;
   }
   module_default$3.plugin(module_default$2);
   module_default$3.plugin(module_default$1);

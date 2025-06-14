@@ -1,5 +1,6 @@
 
 import loadjs from "./loadjs/loadjs.js";
+import $data from './alpineData.js';
 
 // Import component registration functions
 import registerRzAccordion from './components/rzAccordion.js';
@@ -78,7 +79,7 @@ function registerComponents(Alpine) {
     registerRzHeading(Alpine);
     registerRzIndicator(Alpine);
     registerRzMarkdown(Alpine, rizzyRequire);
-    registerRzNavigationMenu(Alpine);
+    registerRzNavigationMenu(Alpine, $data);
     registerRzModal(Alpine);
     registerRzPopover(Alpine);
     registerRzPrependInput(Alpine);

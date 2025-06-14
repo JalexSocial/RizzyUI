@@ -7,8 +7,10 @@
          id="@ContentId"
          data-item-id="@ParentItem?.Id"
          class="@RootClass()"
-         x-show="isContentVisible"
+         x-data="rzNavigationMenuContent"
+         x-show="visible"
          x-cloak
+         data-alpine-root="@ContentId"
          @attributes="AdditionalAttributes">
         @ChildContent
     </div>

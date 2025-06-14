@@ -1,142 +1,193 @@
-
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 
-export default function(Alpine) {
-    Alpine.data('rzNavigationMenu', () => ({
-        activeItemId: null,
-        open: false,
-        closeTimeout: null,
-        closeDelay: 150,
-        
-        init() {
-            this.$nextTick(() => {
-                this.list = this.$refs.list;
-                this.viewport = this.$refs.viewport;
-                this.indicator = this.$refs.indicator;
-                if(this.indicator) {
-                    this.indicator.setAttribute('data-state', 'hidden');
-                }
-            });
-        },
-        
-        isContentVisible() {
-            return this.activeItemId === this.$el.dataset.itemId && this.open;
-        },
+export default function (Alpine, $data) {
+  Alpine.data('rzNavigationMenu', () => ({
+    /* ---------------- state ---------------- */
+    activeItemId: null,
+    open: false,
+    closeTimeout: null,
+    closeDelay: 150,
+    prevIndex: null,
+    lastDirection: null,
+    rafId: null,
+    list: null,
+    viewport: null,
+    indicator: null,
 
-        toggleActive(event) {
-            const triggerEl = event.currentTarget;
-            const itemId = triggerEl.id.replace('-trigger', '');
+    /* ---------------- helpers ---------------- */
+    _triggerIndex(id) {
+      if (!this.list) return -1;
+      const triggers = Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]'));
+      return triggers.findIndex(t => t.id.replace('-trigger', '') === id);
+    },
 
-            if (this.activeItemId === itemId && this.open) {
-                this.closeMenu();
-            } else {
-                this.openMenu(itemId);
-            }
-        },
+    _clearAnimations(el) {
+      if (!el) return;
+      el.classList.remove(
+          'animate-in', 'fade-in', 'zoom-in-90', 'slide-in-from-left', 'slide-in-from-right',
+          'animate-out', 'fade-out', 'zoom-out-95', 'slide-out-to-left', 'slide-out-to-right'
+      );
+    },
 
-        openMenu(itemId) {
-            this.clearCloseTimeout();
+    _playEnter(dir) {
+      if (!this.viewport) return;
+      this._clearAnimations(this.viewport);
+      this.viewport.classList.add('animate-in', 'fade-in');
+      if (this.prevIndex === null) {
+        this.viewport.classList.add('zoom-in-90');
+      } else {
+        this.viewport.classList.add(
+            dir === 'right' ? 'slide-in-from-right' : 'slide-in-from-left'
+        );
+      }
+    },
 
-            // Close the previously active item before opening the new one
-            if (this.activeItemId && this.activeItemId !== itemId) {
-                const oldTrigger = this.$refs[`trigger_${this.activeItemId}`];
-                if (oldTrigger) {
-                    oldTrigger.setAttribute('data-state', 'closed');
-                    oldTrigger.setAttribute('aria-expanded', 'false');
-                }
-            }
-            
-            this.activeItemId = itemId;
-            this.open = true;
+    _playExit(dir) {
+      if (!this.viewport || this.viewport.classList.contains('animate-out')) return;
+      this._clearAnimations(this.viewport);
+      this.viewport.classList.add('animate-out', 'fade-out');
+      if (dir === 'zoom') {
+        this.viewport.classList.add('zoom-out-95');
+      } else {
+        this.viewport.classList.add(
+            dir === 'right' ? 'slide-out-to-left' : 'slide-out-to-right'
+        );
+      }
+      setTimeout(() => this._clearAnimations(this.viewport), 150);
+    },
 
-            this.$nextTick(() => {
-                const trigger = this.$refs[`trigger_${itemId}`];
-                if (trigger) {
-                    this.updatePositions(trigger);
-                    trigger.setAttribute('data-state', 'open');
-                    trigger.setAttribute('aria-expanded', 'true');
-                    this.viewport.setAttribute('data-state', 'open');
-                }
-            });
-        },
-        
-        closeMenu() {
-            if (!this.open) return;
-            if (this.activeItemId) {
-                const currentTrigger = this.$refs[`trigger_${this.activeItemId}`];
-                if (currentTrigger) {
-                    currentTrigger.setAttribute('data-state', 'closed');
-                    currentTrigger.setAttribute('aria-expanded', 'false');
-                }
-            }
+    /* ---------------- Alpine lifecycle ---------------- */
+    init() {
+      this.$nextTick(() => {
+        this.list      = this.$refs.list;
+        this.viewport  = this.$refs.viewport;
+        this.indicator = this.$refs.indicator;
+        this.indicator?.setAttribute('data-state', 'hidden');
+      });
+    },
 
-            this.activeItemId = null;
-            this.open = false;
+    /* ---------------- public API ---------------- */
+    toggleActive(e) {
+      const id = e.currentTarget.id.replace('-trigger', '');
+      (this.activeItemId === id && this.open) ? this.closeMenu() : this.openMenu(id);
+    },
 
-            if (this.indicator) {
-                this.indicator.setAttribute('data-state', 'hidden');
-            }
-            if (this.viewport) {
-                this.viewport.setAttribute('data-state', 'closed');
-            }
-        },
+    handleTriggerEnter(e) {
+      const id = e.currentTarget.id.replace('-trigger', '');
+      this.clearCloseTimeout();
+      if (this.activeItemId !== id) {
+        if (this.rafId) cancelAnimationFrame(this.rafId);
+        this.rafId = requestAnimationFrame(() => {
+          this.openMenu(id);
+        });
+      }
+    },
 
-        scheduleClose() {
-            this.clearCloseTimeout();
-            this.closeTimeout = setTimeout(() => this.closeMenu(), this.closeDelay);
-        },
-        
-        cancelClose() {
-            this.clearCloseTimeout();
-        },
+    scheduleClose()  { this.closeTimeout = setTimeout(() => this.closeMenu(), this.closeDelay); },
+    cancelClose()    { this.clearCloseTimeout(); },
+    clearCloseTimeout() {
+      if (this.closeTimeout) { clearTimeout(this.closeTimeout); this.closeTimeout = null; }
+    },
 
-        clearCloseTimeout() {
-            if(this.closeTimeout) {
-                clearTimeout(this.closeTimeout);
-                this.closeTimeout = null;
-            }
-        },
+    /* ---------------- open / close ---------------- */
+    openMenu(id) {
+      this.clearCloseTimeout();
 
-        handleTriggerEnter(event) {
-            const triggerEl = event.currentTarget;
-            const itemId = triggerEl.id.replace('-trigger', '');
-            
-            this.clearCloseTimeout();
-            
-            if (this.activeItemId !== itemId) {
-                this.openMenu(itemId);
-            }
-        },
-        
-        updatePositions(triggerEl) {
-            if (!this.viewport || !this.list || !this.indicator) return;
+      const newIdx  = this._triggerIndex(id);
+      const oldIdx  = this.prevIndex ?? newIdx;
+      const dir     = newIdx > oldIdx ? 'right' : 'left';
+      this.lastDirection = dir;
 
-            // Update Indicator
-            this.indicator.style.width = `${triggerEl.offsetWidth}px`;
-            this.indicator.style.left = `${triggerEl.offsetLeft}px`;
+      if (this.open && this.activeItemId) {
+        const oldContentData = $data(`${this.activeItemId}-content`);
+        if (oldContentData) oldContentData.visible = false;
+        this._playExit(dir);
+      }
+
+      setTimeout(() => {
+        if (!this.viewport) return;
+
+        this.activeItemId = id;
+        this.open = true;
+        this.prevIndex = newIdx;
+
+        const newContentData = $data(`${id}-content`);
+        if (newContentData) newContentData.visible = true;
+
+        this.$nextTick(() => {
+          const trigger = this.$refs[`trigger_${id}`];
+          if (!trigger) return;
+
+          if (this.indicator) {
             this.indicator.setAttribute('data-state', 'visible');
-            
-            // Update Viewport
-            const viewportOffset = parseInt(this.$el.dataset.viewportOffset) || 0;
-            const contentEl = this.$refs[`content_${this.activeItemId}`];
+            this.indicator.style.width = `${trigger.offsetWidth}px`;
+            this.indicator.style.left  = `${trigger.offsetLeft}px`;
+          }
 
-            if (!contentEl) return;
-            
-            // Set viewport size based on its active content
-            this.viewport.style.width = `${contentEl.offsetWidth}px`;
-            this.viewport.style.height = `${contentEl.offsetHeight}px`;
+          this.viewport.setAttribute('data-state', 'open');
+          this.viewport.setAttribute('aria-hidden', 'false');
+          this._playEnter(dir);
 
-            // Position viewport relative to the list container
-            computePosition(this.list, this.viewport, {
-                placement: 'bottom',
-                middleware: [offset(viewportOffset), flip(), shift({padding: 8})],
-            }).then(({y}) => {
-                Object.assign(this.viewport.style, {
-                    left: '50%',
-                    top: `${y}px`,
-                    transform: 'translateX(-50%)',
-                });
+          const newContent = this.$refs[`content_${id}`];
+          if (newContent) {
+            const { offsetWidth: w, offsetHeight: h } = newContent;
+            this.viewport.style.minWidth  = `${Math.max(this.viewport.offsetWidth, w)}px`;
+            this.viewport.style.minHeight = `${Math.max(this.viewport.offsetHeight, h)}px`;
+            requestAnimationFrame(() => {
+              this.viewport.style.width  = `${w}px`;
+              this.viewport.style.height = `${h}px`;
             });
-        },
-    }));
+          }
+
+          if (this.list) {
+            computePosition(this.list, this.viewport, {
+              placement: 'bottom',
+              middleware: [offset(parseInt(this.$el.dataset.viewportOffset) || 0), flip(), shift({ padding: 8 })],
+            }).then(({ y }) => {
+              if (!this.open || this.activeItemId !== id) return;
+              Object.assign(this.viewport.style, { left: '50%', top: `${y}px`, transform: 'translateX(-50%)' });
+            });
+          }
+
+          trigger.setAttribute('aria-expanded', 'true');
+          trigger.dataset.state = 'open';
+        });
+      }, this.open ? 150 : 0);
+    },
+
+    closeMenu() {
+      if (!this.open) return;
+
+      this._playExit('zoom');
+
+      const currentTrigger = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
+      if (currentTrigger) {
+        currentTrigger.setAttribute('aria-expanded', 'false');
+        delete currentTrigger.dataset.state;
+      }
+
+      this.indicator?.setAttribute('data-state', 'hidden');
+
+      setTimeout(() => {
+        if (this.viewport) {
+          this.viewport.setAttribute('data-state', 'closed');
+          this.viewport.setAttribute('aria-hidden', 'true');
+          this.viewport.style.minWidth = '';
+          this.viewport.style.minHeight = '';
+        }
+        if (this.activeItemId) {
+          const contentData = $data(`${this.activeItemId}-content`);
+          if (contentData) contentData.visible = false;
+        }
+        this.open = false;
+        this.activeItemId = null;
+        this.prevIndex = null;
+        this.lastDirection = null;
+      }, 150);
+    }
+  }));
+
+  Alpine.data('rzNavigationMenuContent', () => ({
+    visible: false
+  }));
 }
