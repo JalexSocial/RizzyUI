@@ -2629,29 +2629,30 @@ function pn(e, t) {
     _triggerIndex(i) {
       return this.list ? Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]')).findIndex((s) => s.id.replace("-trigger", "") === i) : -1;
     },
-    _content(i) {
-      return document.getElementById(`${i}-content`);
-    },
     _contentData(i) {
       return t(`${i}-content`);
     },
+    _contentEl(i) {
+      return document.getElementById(`${i}-content`);
+    },
     _positionViewport() {
       !this.list || !this.viewport || Et(this.list, this.viewport, {
-        placement: "bottom",
+        placement: "bottom-start",
         middleware: [
           yt(parseInt(this.$el.dataset.viewportOffset) || 0),
           It(),
           xt({ padding: 8 })
         ]
-      }).then(({ y: i }) => {
+      }).then(({ x: i, y: n }) => {
         Object.assign(this.viewport.style, {
-          left: "50%",
-          top: `${i}px`,
-          transform: "translateX(-50%)"
+          left: `${i}px`,
+          top: `${n}px`,
+          transform: ""
+          // remove translate(-50%)
         });
       });
     },
-    /* ---------- life-cycle ---------- */
+    /* ---------- lifecycle ---------- */
     init() {
       this.$nextTick(() => {
         this.list = this.$refs.list, this.viewport = this.$refs.viewport, this.indicator = this.$refs.indicator;
@@ -2664,23 +2665,23 @@ function pn(e, t) {
     },
     handleTriggerEnter(i) {
       const n = i.currentTarget.id.replace("-trigger", "");
-      this.clearCloseTimeout(), this.activeItemId !== n && requestAnimationFrame(() => this.openMenu(n));
+      this.cancelClose(), this.activeItemId !== n && requestAnimationFrame(() => this.openMenu(n));
     },
     /* ---------- timers ---------- */
     scheduleClose() {
       this.closeTimeout = setTimeout(() => this.closeMenu(), 150);
     },
-    clearCloseTimeout() {
+    cancelClose() {
       this.closeTimeout && (clearTimeout(this.closeTimeout), this.closeTimeout = null);
     },
     /* ---------- open / close ---------- */
     openMenu(i) {
-      this.clearCloseTimeout();
+      this.cancelClose();
       const n = this._triggerIndex(i), s = n > (this.prevIndex ?? n) ? "end" : "start", r = this.prevIndex === null;
       if (this.open && this.activeItemId) {
         const a = this.$refs[`trigger_${this.activeItemId}`];
         a && delete a.dataset.state;
-        const l = this._content(this.activeItemId);
+        const l = this._contentEl(this.activeItemId);
         l && l.setAttribute("data-motion", `to-${s}`);
         const c = this._contentData(this.activeItemId);
         c && (c.visible = !1);
@@ -2691,11 +2692,11 @@ function pn(e, t) {
         const a = this.$refs[`trigger_${i}`];
         if (!a || !this.viewport) return;
         this.indicator && (this.indicator.style.width = `${a.offsetWidth}px`, this.indicator.style.left = `${a.offsetLeft}px`, this.indicator.setAttribute("data-state", "visible")), this.viewport.setAttribute("data-state", "open"), this.viewport.setAttribute("data-motion", r ? "zoom-in" : "none");
-        const l = this._content(i);
+        const l = this._contentEl(i);
         l && l.setAttribute(
           "data-motion",
           r ? "fade-in" : `from-${s}`
-        ), this._positionViewport(), a.setAttribute("aria-expanded", "true"), a.dataset.state = "open";
+        ), requestAnimationFrame(() => this._positionViewport()), a.setAttribute("aria-expanded", "true"), a.dataset.state = "open";
       });
     },
     closeMenu() {
@@ -2703,7 +2704,7 @@ function pn(e, t) {
       this.viewport && (this.viewport.setAttribute("data-motion", "zoom-out"), this.viewport.setAttribute("data-state", "closed"));
       const i = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
       i && (i.setAttribute("aria-expanded", "false"), delete i.dataset.state), this.indicator?.setAttribute("data-state", "hidden");
-      const n = this.activeItemId && this._content(this.activeItemId);
+      const n = this.activeItemId && this._contentEl(this.activeItemId);
       n && n.setAttribute("data-motion", "fade-out"), setTimeout(() => {
         if (this.activeItemId) {
           const s = this._contentData(this.activeItemId);

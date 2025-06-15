@@ -57,12 +57,12 @@ public sealed class DefaultRzNavigationMenuStyles
 
     /// <inheritdoc/>
     public override string Viewport =>
-        "absolute left-1/2 top-full -translate-x-1/2 mt-1.5 "
-      + "overflow-hidden rounded-md border shadow "
-      + "bg-popover text-popover-foreground "
-      + "data-[state=open]:animate-in data-[state=open]:zoom-in-95 data-[state=open]:fade-in-0 "
-      + "data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=closed]:fade-out-0 "
-      + "duration-200 will-change-[opacity,transform]";
+        "absolute left-0 top-0 "       
+        + "mt-1.5 overflow-hidden rounded-md border shadow "
+        + "bg-popover text-popover-foreground "
+        + "data-[state=open]:animate-in data-[state=open]:zoom-in-95 data-[state=open]:fade-in-0 "
+        + "data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=closed]:fade-out-0 "
+        + "duration-200 will-change-[opacity,transform]";
 
     /// <inheritdoc/>
     public override string Indicator =>

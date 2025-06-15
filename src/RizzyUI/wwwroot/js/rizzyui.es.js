@@ -3697,30 +3697,31 @@ function registerRzNavigationMenu(Alpine2, $data2) {
       const triggers = Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]'));
       return triggers.findIndex((t2) => t2.id.replace("-trigger", "") === id);
     },
-    _content(id) {
-      return document.getElementById(`${id}-content`);
-    },
     _contentData(id) {
       return $data2(`${id}-content`);
+    },
+    _contentEl(id) {
+      return document.getElementById(`${id}-content`);
     },
     _positionViewport() {
       if (!this.list || !this.viewport) return;
       computePosition(this.list, this.viewport, {
-        placement: "bottom",
+        placement: "bottom-start",
         middleware: [
           offset(parseInt(this.$el.dataset.viewportOffset) || 0),
           flip(),
           shift({ padding: 8 })
         ]
-      }).then(({ y }) => {
+      }).then(({ x, y }) => {
         Object.assign(this.viewport.style, {
-          left: "50%",
+          left: `${x}px`,
           top: `${y}px`,
-          transform: "translateX(-50%)"
+          transform: ""
+          // remove translate(-50%)
         });
       });
     },
-    /* ---------- life-cycle ---------- */
+    /* ---------- lifecycle ---------- */
     init() {
       this.$nextTick(() => {
         this.list = this.$refs.list;
@@ -3735,14 +3736,14 @@ function registerRzNavigationMenu(Alpine2, $data2) {
     },
     handleTriggerEnter(e2) {
       const id = e2.currentTarget.id.replace("-trigger", "");
-      this.clearCloseTimeout();
+      this.cancelClose();
       if (this.activeItemId !== id) requestAnimationFrame(() => this.openMenu(id));
     },
     /* ---------- timers ---------- */
     scheduleClose() {
       this.closeTimeout = setTimeout(() => this.closeMenu(), 150);
     },
-    clearCloseTimeout() {
+    cancelClose() {
       if (this.closeTimeout) {
         clearTimeout(this.closeTimeout);
         this.closeTimeout = null;
@@ -3750,23 +3751,23 @@ function registerRzNavigationMenu(Alpine2, $data2) {
     },
     /* ---------- open / close ---------- */
     openMenu(id) {
-      this.clearCloseTimeout();
+      this.cancelClose();
       const newIdx = this._triggerIndex(id);
       const dir = newIdx > (this.prevIndex ?? newIdx) ? "end" : "start";
       const firstPop = this.prevIndex === null;
       if (this.open && this.activeItemId) {
-        const prevTrig = this.$refs[`trigger_${this.activeItemId}`];
-        if (prevTrig) delete prevTrig.dataset.state;
-        const prevEl = this._content(this.activeItemId);
-        if (prevEl) prevEl.setAttribute("data-motion", `to-${dir}`);
-        const prevData = this._contentData(this.activeItemId);
-        if (prevData) prevData.visible = false;
+        const oldTrig = this.$refs[`trigger_${this.activeItemId}`];
+        if (oldTrig) delete oldTrig.dataset.state;
+        const oldEl = this._contentEl(this.activeItemId);
+        if (oldEl) oldEl.setAttribute("data-motion", `to-${dir}`);
+        const oldData = this._contentData(this.activeItemId);
+        if (oldData) oldData.visible = false;
       }
       this.activeItemId = id;
       this.open = true;
       this.prevIndex = newIdx;
-      const cd = this._contentData(id);
-      if (cd) cd.visible = true;
+      const newData = this._contentData(id);
+      if (newData) newData.visible = true;
       this.$nextTick(() => {
         const trig = this.$refs[`trigger_${id}`];
         if (!trig || !this.viewport) return;
@@ -3777,14 +3778,12 @@ function registerRzNavigationMenu(Alpine2, $data2) {
         }
         this.viewport.setAttribute("data-state", "open");
         this.viewport.setAttribute("data-motion", firstPop ? "zoom-in" : "none");
-        const newEl = this._content(id);
-        if (newEl) {
-          newEl.setAttribute(
-            "data-motion",
-            firstPop ? "fade-in" : `from-${dir}`
-          );
-        }
-        this._positionViewport();
+        const newEl = this._contentEl(id);
+        if (newEl) newEl.setAttribute(
+          "data-motion",
+          firstPop ? "fade-in" : `from-${dir}`
+        );
+        requestAnimationFrame(() => this._positionViewport());
         trig.setAttribute("aria-expanded", "true");
         trig.dataset.state = "open";
       });
@@ -3795,13 +3794,13 @@ function registerRzNavigationMenu(Alpine2, $data2) {
         this.viewport.setAttribute("data-motion", "zoom-out");
         this.viewport.setAttribute("data-state", "closed");
       }
-      const tr = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
-      if (tr) {
-        tr.setAttribute("aria-expanded", "false");
-        delete tr.dataset.state;
+      const trig = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
+      if (trig) {
+        trig.setAttribute("aria-expanded", "false");
+        delete trig.dataset.state;
       }
       this.indicator?.setAttribute("data-state", "hidden");
-      const curEl = this.activeItemId && this._content(this.activeItemId);
+      const curEl = this.activeItemId && this._contentEl(this.activeItemId);
       if (curEl) curEl.setAttribute("data-motion", "fade-out");
       setTimeout(() => {
         if (this.activeItemId) {
