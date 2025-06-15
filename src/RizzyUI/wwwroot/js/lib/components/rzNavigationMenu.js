@@ -21,9 +21,14 @@ export default function (Alpine, $data) {
     _contentEl(id)   { return document.getElementById(`${id}-content`); },
 
     _positionViewport() {
-      if (!this.list || !this.viewport) return;
-      computePosition(this.list, this.viewport, {
-        placement : 'bottom-start',
+      if (!this.viewport || !this.activeItemId) return;
+      
+      // Use the active trigger as the reference element, not the list
+      const activeTrigger = this.$refs[`trigger_${this.activeItemId}`];
+      if (!activeTrigger) return;
+      
+      computePosition(activeTrigger, this.viewport, {
+        placement: 'bottom-start',
         middleware: [
           offset(parseInt(this.$el.dataset.viewportOffset) || 0),
           flip(),
@@ -31,9 +36,9 @@ export default function (Alpine, $data) {
         ],
       }).then(({ x, y }) => {
         Object.assign(this.viewport.style, {
-          left : `${x}px`,
-          top  : `${y}px`,
-          transform : '',           // remove translate(-50%)
+          left: `${x}px`,
+          top: `${y}px`,
+          transform: '',           // remove translate(-50%)
         });
       });
     },
@@ -79,7 +84,12 @@ export default function (Alpine, $data) {
         if (oldEl)    oldEl.setAttribute('data-motion', `to-${dir}`);
 
         const oldData = this._contentData(this.activeItemId);
-        if (oldData)  oldData.visible = false;
+        if (oldData) {
+          // Delay hiding old content to allow animation to complete
+          setTimeout(() => {
+            oldData.visible = false;
+          }, 200); // Match duration with CSS animations (200ms)
+        }
       }
 
       /* incoming content ---------------------------------------------------- */

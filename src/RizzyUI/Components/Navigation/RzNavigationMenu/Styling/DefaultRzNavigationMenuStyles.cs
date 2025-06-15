@@ -47,7 +47,8 @@ public sealed class DefaultRzNavigationMenuStyles
     /// <inheritdoc/>
     public override string Content =>
         // Tailwind-animate classes triggered by data-motion / data-state
-        "data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out "
+        "rounded-md border bg-popover text-popover-foreground shadow "
+      + "data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out "
       + "data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out "
       + "data-[motion=from-end]:slide-in-from-right-52 "
       + "data-[motion=from-start]:slide-in-from-left-52 "
@@ -58,8 +59,7 @@ public sealed class DefaultRzNavigationMenuStyles
     /// <inheritdoc/>
     public override string Viewport =>
         "absolute left-0 top-0 "       
-        + "mt-1.5 overflow-hidden rounded-md border shadow "
-        + "bg-popover text-popover-foreground "
+        + "mt-1.5 overflow-hidden "
         + "data-[state=open]:animate-in data-[state=open]:zoom-in-95 data-[state=open]:fade-in-0 "
         + "data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=closed]:fade-out-0 "
         + "duration-200 will-change-[opacity,transform]";

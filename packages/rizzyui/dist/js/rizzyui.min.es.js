@@ -2636,17 +2636,19 @@ function pn(e, t) {
       return document.getElementById(`${i}-content`);
     },
     _positionViewport() {
-      !this.list || !this.viewport || Et(this.list, this.viewport, {
+      if (!this.viewport || !this.activeItemId) return;
+      const i = this.$refs[`trigger_${this.activeItemId}`];
+      i && Et(i, this.viewport, {
         placement: "bottom-start",
         middleware: [
           yt(parseInt(this.$el.dataset.viewportOffset) || 0),
           It(),
           xt({ padding: 8 })
         ]
-      }).then(({ x: i, y: n }) => {
+      }).then(({ x: n, y: s }) => {
         Object.assign(this.viewport.style, {
-          left: `${i}px`,
-          top: `${n}px`,
+          left: `${n}px`,
+          top: `${s}px`,
           transform: ""
           // remove translate(-50%)
         });
@@ -2684,7 +2686,9 @@ function pn(e, t) {
         const l = this._contentEl(this.activeItemId);
         l && l.setAttribute("data-motion", `to-${s}`);
         const c = this._contentData(this.activeItemId);
-        c && (c.visible = !1);
+        c && setTimeout(() => {
+          c.visible = !1;
+        }, 200);
       }
       this.activeItemId = i, this.open = !0, this.prevIndex = n;
       const o = this._contentData(i);

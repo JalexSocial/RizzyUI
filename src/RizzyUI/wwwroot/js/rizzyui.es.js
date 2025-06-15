@@ -3704,8 +3704,10 @@ function registerRzNavigationMenu(Alpine2, $data2) {
       return document.getElementById(`${id}-content`);
     },
     _positionViewport() {
-      if (!this.list || !this.viewport) return;
-      computePosition(this.list, this.viewport, {
+      if (!this.viewport || !this.activeItemId) return;
+      const activeTrigger = this.$refs[`trigger_${this.activeItemId}`];
+      if (!activeTrigger) return;
+      computePosition(activeTrigger, this.viewport, {
         placement: "bottom-start",
         middleware: [
           offset(parseInt(this.$el.dataset.viewportOffset) || 0),
@@ -3761,7 +3763,11 @@ function registerRzNavigationMenu(Alpine2, $data2) {
         const oldEl = this._contentEl(this.activeItemId);
         if (oldEl) oldEl.setAttribute("data-motion", `to-${dir}`);
         const oldData = this._contentData(this.activeItemId);
-        if (oldData) oldData.visible = false;
+        if (oldData) {
+          setTimeout(() => {
+            oldData.visible = false;
+          }, 200);
+        }
       }
       this.activeItemId = id;
       this.open = true;

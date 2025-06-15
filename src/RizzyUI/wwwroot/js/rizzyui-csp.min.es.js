@@ -4766,17 +4766,19 @@ function Vl(t, e) {
       return document.getElementById(`${n}-content`);
     },
     _positionViewport() {
-      !this.list || !this.viewport || ye(this.list, this.viewport, {
+      if (!this.viewport || !this.activeItemId) return;
+      const n = this.$refs[`trigger_${this.activeItemId}`];
+      n && ye(n, this.viewport, {
         placement: "bottom-start",
         middleware: [
           me(parseInt(this.$el.dataset.viewportOffset) || 0),
           ve(),
           be({ padding: 8 })
         ]
-      }).then(({ x: n, y: i }) => {
+      }).then(({ x: i, y: r }) => {
         Object.assign(this.viewport.style, {
-          left: `${n}px`,
-          top: `${i}px`,
+          left: `${i}px`,
+          top: `${r}px`,
           transform: ""
           // remove translate(-50%)
         });
@@ -4814,7 +4816,9 @@ function Vl(t, e) {
         const l = this._contentEl(this.activeItemId);
         l && l.setAttribute("data-motion", `to-${r}`);
         const c = this._contentData(this.activeItemId);
-        c && (c.visible = !1);
+        c && setTimeout(() => {
+          c.visible = !1;
+        }, 200);
       }
       this.activeItemId = n, this.open = !0, this.prevIndex = i;
       const o = this._contentData(n);
