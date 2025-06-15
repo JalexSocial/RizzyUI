@@ -3687,108 +3687,51 @@
   }
   function registerRzNavigationMenu(Alpine2, $data2) {
     Alpine2.data("rzNavigationMenu", () => ({
-      /* ---------------- state ---------------- */
       activeItemId: null,
       open: false,
       closeTimeout: null,
-      closeDelay: 150,
       prevIndex: null,
-      lastDirection: null,
-      rafId: null,
       list: null,
       viewport: null,
       indicator: null,
-      /* ---------------- helpers ---------------- */
+      /* ---------- helpers ---------- */
       _triggerIndex(id) {
         if (!this.list) return -1;
         const triggers = Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]'));
         return triggers.findIndex((t2) => t2.id.replace("-trigger", "") === id);
       },
-      _getContentEl(id) {
+      _content(id) {
         return document.getElementById(`${id}-content`);
       },
-      _measureSize(el) {
-        if (!el) return { w: 0, h: 0 };
-        let { width: w2, height: h2 } = el.getBoundingClientRect();
-        if (!w2 || !h2) {
-          w2 = el.scrollWidth;
-          h2 = el.scrollHeight;
-        }
-        return { w: w2, h: h2 };
+      _contentData(id) {
+        return $data2(`${id}-content`);
       },
-      _resizeAndPosition(panelEl, attempt = 0) {
-        if (attempt > 4 || !this.open || !this.viewport) return;
-        const { w: w2, h: h2 } = this._measureSize(panelEl);
-        if (w2 && h2) {
-          this.viewport.style.width = `${w2}px`;
-          this.viewport.style.height = `${h2}px`;
-          if (this.list) {
-            computePosition(this.list, this.viewport, {
-              placement: "bottom",
-              middleware: [
-                offset(parseInt(this.$el.dataset.viewportOffset) || 0),
-                flip(),
-                shift({ padding: 8 })
-              ]
-            }).then(({ y }) => {
-              if (!this.open) return;
-              Object.assign(this.viewport.style, {
-                left: "50%",
-                top: `${y}px`,
-                transform: "translateX(-50%)"
-              });
-            });
-          }
-        } else {
-          requestAnimationFrame(() => this._resizeAndPosition(panelEl, attempt + 1));
-        }
+      _positionViewport() {
+        if (!this.list || !this.viewport) return;
+        computePosition(this.list, this.viewport, {
+          placement: "bottom",
+          middleware: [
+            offset(parseInt(this.$el.dataset.viewportOffset) || 0),
+            flip(),
+            shift({ padding: 8 })
+          ]
+        }).then(({ y }) => {
+          Object.assign(this.viewport.style, {
+            left: "50%",
+            top: `${y}px`,
+            transform: "translateX(-50%)"
+          });
+        });
       },
-      _clearAnimations(el) {
-        if (!el) return;
-        el.classList.remove(
-          "animate-in",
-          "fade-in",
-          "zoom-in-90",
-          "slide-in-from-left",
-          "slide-in-from-right",
-          "animate-out",
-          "fade-out",
-          "zoom-out-95",
-          "slide-out-to-left",
-          "slide-out-to-right"
-        );
-      },
-      _playEnter(dir) {
-        if (!this.viewport) return;
-        this._clearAnimations(this.viewport);
-        this.viewport.classList.add("animate-in", "fade-in");
-        if (this.prevIndex === null) {
-          this.viewport.classList.add("zoom-in-90");
-        } else {
-          this.viewport.classList.add(dir === "right" ? "slide-in-from-right" : "slide-in-from-left");
-        }
-      },
-      _playExit(dir) {
-        if (!this.viewport || this.viewport.classList.contains("animate-out")) return;
-        this._clearAnimations(this.viewport);
-        this.viewport.classList.add("animate-out", "fade-out");
-        if (dir === "zoom") {
-          this.viewport.classList.add("zoom-out-95");
-        } else {
-          this.viewport.classList.add(dir === "right" ? "slide-out-to-left" : "slide-out-to-right");
-        }
-        setTimeout(() => this._clearAnimations(this.viewport), 150);
-      },
-      /* ---------------- Alpine lifecycle ---------------- */
+      /* ---------- life-cycle ---------- */
       init() {
         this.$nextTick(() => {
           this.list = this.$refs.list;
           this.viewport = this.$refs.viewport;
           this.indicator = this.$refs.indicator;
-          this.indicator?.setAttribute("data-state", "hidden");
         });
       },
-      /* ---------------- public API ---------------- */
+      /* ---------- trigger handlers ---------- */
       toggleActive(e2) {
         const id = e2.currentTarget.id.replace("-trigger", "");
         this.activeItemId === id && this.open ? this.closeMenu() : this.openMenu(id);
@@ -3796,16 +3739,11 @@
       handleTriggerEnter(e2) {
         const id = e2.currentTarget.id.replace("-trigger", "");
         this.clearCloseTimeout();
-        if (this.activeItemId !== id) {
-          if (this.rafId) cancelAnimationFrame(this.rafId);
-          this.rafId = requestAnimationFrame(() => this.openMenu(id));
-        }
+        if (this.activeItemId !== id) requestAnimationFrame(() => this.openMenu(id));
       },
+      /* ---------- timers ---------- */
       scheduleClose() {
-        this.closeTimeout = setTimeout(() => this.closeMenu(), this.closeDelay);
-      },
-      cancelClose() {
-        this.clearCloseTimeout();
+        this.closeTimeout = setTimeout(() => this.closeMenu(), 150);
       },
       clearCloseTimeout() {
         if (this.closeTimeout) {
@@ -3813,73 +3751,70 @@
           this.closeTimeout = null;
         }
       },
-      /* ---------------- open / close ---------------- */
+      /* ---------- open / close ---------- */
       openMenu(id) {
         this.clearCloseTimeout();
         const newIdx = this._triggerIndex(id);
-        const oldIdx = this.prevIndex ?? newIdx;
-        const dir = newIdx > oldIdx ? "right" : "left";
-        this.lastDirection = dir;
+        const dir = newIdx > (this.prevIndex ?? newIdx) ? "end" : "start";
+        const firstPop = this.prevIndex === null;
         if (this.open && this.activeItemId) {
-          const oldContentData = $data2(`${this.activeItemId}-content`);
-          if (oldContentData) oldContentData.visible = false;
-          this._playExit(dir);
+          const prevTrig = this.$refs[`trigger_${this.activeItemId}`];
+          if (prevTrig) delete prevTrig.dataset.state;
+          const prevEl = this._content(this.activeItemId);
+          if (prevEl) prevEl.setAttribute("data-motion", `to-${dir}`);
+          const prevData = this._contentData(this.activeItemId);
+          if (prevData) prevData.visible = false;
         }
-        setTimeout(() => {
-          if (!this.viewport) return;
-          this.activeItemId = id;
-          this.open = true;
-          this.prevIndex = newIdx;
-          const newContentData = $data2(`${id}-content`);
-          if (newContentData) newContentData.visible = true;
-          this.$nextTick(() => {
-            const trigger = this.$refs[`trigger_${id}`];
-            if (!trigger) return;
-            if (this.indicator) {
-              this.indicator.setAttribute("data-state", "visible");
-              this.indicator.style.width = `${trigger.offsetWidth}px`;
-              this.indicator.style.left = `${trigger.offsetLeft}px`;
-            }
-            this.viewport.setAttribute("data-state", "open");
-            this.viewport.setAttribute("aria-hidden", "false");
-            this._playEnter(dir);
-            const panelEl = (this._getContentEl(id) || {}).firstElementChild || this._getContentEl(id);
-            if (panelEl) {
-              const { w: initialW, h: initialH } = this._measureSize(panelEl);
-              this.viewport.style.minWidth = `${Math.max(this.viewport.offsetWidth, initialW)}px`;
-              this.viewport.style.minHeight = `${Math.max(this.viewport.offsetHeight, initialH)}px`;
-              requestAnimationFrame(() => this._resizeAndPosition(panelEl));
-            }
-            trigger.setAttribute("aria-expanded", "true");
-            trigger.dataset.state = "open";
-          });
-        }, this.open ? 150 : 0);
+        this.activeItemId = id;
+        this.open = true;
+        this.prevIndex = newIdx;
+        const cd = this._contentData(id);
+        if (cd) cd.visible = true;
+        this.$nextTick(() => {
+          const trig = this.$refs[`trigger_${id}`];
+          if (!trig || !this.viewport) return;
+          if (this.indicator) {
+            this.indicator.style.width = `${trig.offsetWidth}px`;
+            this.indicator.style.left = `${trig.offsetLeft}px`;
+            this.indicator.setAttribute("data-state", "visible");
+          }
+          this.viewport.setAttribute("data-state", "open");
+          this.viewport.setAttribute("data-motion", firstPop ? "zoom-in" : "none");
+          const newEl = this._content(id);
+          if (newEl) {
+            newEl.setAttribute(
+              "data-motion",
+              firstPop ? "fade-in" : `from-${dir}`
+            );
+          }
+          this._positionViewport();
+          trig.setAttribute("aria-expanded", "true");
+          trig.dataset.state = "open";
+        });
       },
       closeMenu() {
         if (!this.open) return;
-        this._playExit("zoom");
-        const currentTrigger = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
-        if (currentTrigger) {
-          currentTrigger.setAttribute("aria-expanded", "false");
-          delete currentTrigger.dataset.state;
+        if (this.viewport) {
+          this.viewport.setAttribute("data-motion", "zoom-out");
+          this.viewport.setAttribute("data-state", "closed");
+        }
+        const tr = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
+        if (tr) {
+          tr.setAttribute("aria-expanded", "false");
+          delete tr.dataset.state;
         }
         this.indicator?.setAttribute("data-state", "hidden");
+        const curEl = this.activeItemId && this._content(this.activeItemId);
+        if (curEl) curEl.setAttribute("data-motion", "fade-out");
         setTimeout(() => {
-          if (this.viewport) {
-            this.viewport.setAttribute("data-state", "closed");
-            this.viewport.setAttribute("aria-hidden", "true");
-            this.viewport.style.minWidth = "";
-            this.viewport.style.minHeight = "";
-          }
           if (this.activeItemId) {
-            const contentData = $data2(`${this.activeItemId}-content`);
-            if (contentData) contentData.visible = false;
+            const cd = this._contentData(this.activeItemId);
+            if (cd) cd.visible = false;
           }
           this.open = false;
           this.activeItemId = null;
           this.prevIndex = null;
-          this.lastDirection = null;
-        }, 150);
+        }, 200);
       }
     }));
     Alpine2.data("rzNavigationMenuContent", () => ({ visible: false }));
