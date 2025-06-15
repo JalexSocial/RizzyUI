@@ -7013,25 +7013,18 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       _contentEl(id) {
         return document.getElementById(`${id}-content`);
       },
-      _positionViewport() {
-        if (!this.viewport || !this.activeItemId) return;
-        const activeTrigger = this.$refs[`trigger_${this.activeItemId}`];
-        if (!activeTrigger) return;
-        computePosition(activeTrigger, this.viewport, {
-          placement: "bottom-start",
-          middleware: [
-            offset(parseInt(this.$el.dataset.viewportOffset) || 0),
-            flip(),
-            shift({ padding: 8 })
-          ]
-        }).then(({ x, y }) => {
-          Object.assign(this.viewport.style, {
-            left: `${x}px`,
-            top: `${y}px`,
-            transform: ""
-            // remove translate(-50%)
-          });
-        });
+      _setupViewport() {
+        if (!this.viewport) return;
+        this.viewport.style.overflow = "visible";
+      },
+      _positionContentForTrigger(id) {
+        const activeTrigger = this.$refs[`trigger_${id}`];
+        const contentEl = this._contentEl(id);
+        if (!activeTrigger || !contentEl || !this.list) return;
+        const listRect = this.list.getBoundingClientRect();
+        const triggerRect = activeTrigger.getBoundingClientRect();
+        const offsetX = triggerRect.left - listRect.left;
+        contentEl.style.transform = `translateX(${offsetX}px)`;
       },
       /* ---------- lifecycle ---------- */
       init() {
@@ -7039,6 +7032,12 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           this.list = this.$refs.list;
           this.viewport = this.$refs.viewport;
           this.indicator = this.$refs.indicator;
+          this._setupViewport();
+          window.addEventListener("resize", () => {
+            if (this.activeItemId) {
+              this._positionContentForTrigger(this.activeItemId);
+            }
+          });
         });
       },
       /* ---------- trigger handlers ---------- */
@@ -7049,7 +7048,25 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       handleTriggerEnter(e2) {
         const id = e2.currentTarget.id.replace("-trigger", "");
         this.cancelClose();
-        if (this.activeItemId !== id) requestAnimationFrame(() => this.openMenu(id));
+        if (this.activeItemId !== id) {
+          requestAnimationFrame(() => this.openMenu(id));
+        }
+      },
+      handleItemEnter(e2) {
+        const item = e2.currentTarget.closest('[role="menuitem"], li');
+        if (!item) return;
+        const trigger2 = item.querySelector('[x-ref^="trigger_"]');
+        this.cancelClose();
+        if (trigger2) {
+          const id = trigger2.id.replace("-trigger", "");
+          if (this.activeItemId !== id) {
+            requestAnimationFrame(() => this.openMenu(id));
+          }
+        } else {
+          if (this.open) {
+            this.scheduleClose();
+          }
+        }
       },
       /* ---------- timers ---------- */
       scheduleClose() {
@@ -7066,17 +7083,22 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         this.cancelClose();
         const newIdx = this._triggerIndex(id);
         const dir = newIdx > (this.prevIndex ?? newIdx) ? "end" : "start";
-        const firstPop = this.prevIndex === null;
-        if (this.open && this.activeItemId) {
+        const isFirstOpen = this.prevIndex === null;
+        if (this.open && this.activeItemId && this.activeItemId !== id) {
           const oldTrig = this.$refs[`trigger_${this.activeItemId}`];
           if (oldTrig) delete oldTrig.dataset.state;
           const oldEl = this._contentEl(this.activeItemId);
-          if (oldEl) oldEl.setAttribute("data-motion", `to-${dir}`);
           const oldData = this._contentData(this.activeItemId);
-          if (oldData) {
+          if (oldEl) {
+            oldEl.setAttribute("data-motion", `to-${dir}`);
+            setTimeout(() => {
+              if (oldData) oldData.visible = false;
+              oldEl.style.transform = "";
+            }, 220);
+          } else if (oldData) {
             setTimeout(() => {
               oldData.visible = false;
-            }, 200);
+            }, 220);
           }
         }
         this.activeItemId = id;
@@ -7092,16 +7114,20 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
             this.indicator.style.left = `${trig.offsetLeft}px`;
             this.indicator.setAttribute("data-state", "visible");
           }
-          this.viewport.setAttribute("data-state", "open");
-          this.viewport.setAttribute("data-motion", firstPop ? "zoom-in" : "none");
-          const newEl = this._contentEl(id);
-          if (newEl) newEl.setAttribute(
-            "data-motion",
-            firstPop ? "fade-in" : `from-${dir}`
-          );
-          requestAnimationFrame(() => this._positionViewport());
           trig.setAttribute("aria-expanded", "true");
           trig.dataset.state = "open";
+          this.viewport.setAttribute("data-state", "open");
+          if (isFirstOpen) {
+            this.viewport.setAttribute("data-motion", "zoom-in");
+          }
+          const newEl = this._contentEl(id);
+          if (!newEl) return;
+          this._positionContentForTrigger(id);
+          if (isFirstOpen) {
+            newEl.setAttribute("data-motion", "fade-in");
+          } else {
+            newEl.setAttribute("data-motion", `from-${dir}`);
+          }
         });
       },
       closeMenu() {
@@ -7115,18 +7141,25 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           trig.setAttribute("aria-expanded", "false");
           delete trig.dataset.state;
         }
-        this.indicator?.setAttribute("data-state", "hidden");
+        if (this.indicator) {
+          this.indicator.setAttribute("data-state", "hidden");
+        }
         const curEl = this.activeItemId && this._contentEl(this.activeItemId);
-        if (curEl) curEl.setAttribute("data-motion", "fade-out");
+        if (curEl) {
+          curEl.setAttribute("data-motion", "fade-out");
+        }
         setTimeout(() => {
           if (this.activeItemId) {
             const cd = this._contentData(this.activeItemId);
             if (cd) cd.visible = false;
           }
+          if (curEl) {
+            curEl.style.transform = "";
+          }
           this.open = false;
           this.activeItemId = null;
           this.prevIndex = null;
-        }, 200);
+        }, 220);
       }
     }));
     Alpine2.data("rzNavigationMenuContent", () => ({ visible: false }));

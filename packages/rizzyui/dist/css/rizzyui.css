@@ -1483,6 +1483,9 @@
   .overflow-hidden {
     overflow: hidden;
   }
+  .overflow-visible {
+    overflow: visible;
+  }
   .overflow-x-auto {
     overflow-x: auto;
   }

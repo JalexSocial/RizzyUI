@@ -3,7 +3,7 @@ namespace RizzyUI;
 /// <summary>
 /// Default Tailwind / tailwindcss-animate styles for <c>RzNavigationMenu</c>
 /// and its child components. Matches shadcn/ui behaviour while honouring
-/// RizzyUI’s coding standards (root components prefixed with Rz; nested
+/// RizzyUI's coding standards (root components prefixed with Rz; nested
 /// components un-prefixed).
 /// </summary>
 public sealed class DefaultRzNavigationMenuStyles
@@ -54,12 +54,13 @@ public sealed class DefaultRzNavigationMenuStyles
       + "data-[motion=from-start]:slide-in-from-left-52 "
       + "data-[motion=to-end]:slide-out-to-right-52 "
       + "data-[motion=to-start]:slide-out-to-left-52 "
+      + "duration-200 "  // Added explicit duration to match viewport and JavaScript
       + "outline-none focus-visible:ring-0 will-change-[opacity,transform]";
 
     /// <inheritdoc/>
     public override string Viewport =>
-        "absolute left-0 top-0 "       
-        + "mt-1.5 overflow-hidden "
+        "absolute left-0 top-full "
+        + "mt-1.5 overflow-visible "
         + "data-[state=open]:animate-in data-[state=open]:zoom-in-95 data-[state=open]:fade-in-0 "
         + "data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=closed]:fade-out-0 "
         + "duration-200 will-change-[opacity,transform]";
