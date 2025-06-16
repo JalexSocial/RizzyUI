@@ -1201,6 +1201,9 @@
   .mt-16 {
     margin-top: calc(var(--spacing) * 16);
   }
+  .mt-px {
+    margin-top: 1px;
+  }
   .mr-1 {
     margin-right: calc(var(--spacing) * 1);
   }
@@ -1558,6 +1561,9 @@
   }
   .w-\[3\.25rem\] {
     width: 3.25rem;
+  }
+  .w-\[300px\] {
+    width: 300px;
   }
   .w-\[400px\] {
     width: 400px;

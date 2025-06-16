@@ -10,12 +10,6 @@ namespace RizzyUI;
 public partial class NavigationMenuContent : RzComponent
 {
     /// <summary>
-    /// Cascading parent NavigationMenu.
-    /// </summary>
-    [CascadingParameter]
-    protected RzNavigationMenu? ParentMenu { get; set; }
-
-    /// <summary>
     /// Cascading parent NavigationMenuItem.
     /// </summary>
     [CascadingParameter]
@@ -36,7 +30,7 @@ public partial class NavigationMenuContent : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (ParentMenu is null || ParentItem is null)
+        if (ParentItem is null)
         {
             throw new InvalidOperationException($"{nameof(NavigationMenuContent)} must be used within a {nameof(NavigationMenuItem)}.");
         }

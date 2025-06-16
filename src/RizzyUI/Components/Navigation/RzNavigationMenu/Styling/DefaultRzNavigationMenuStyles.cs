@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary>
@@ -46,23 +47,20 @@ public sealed class DefaultRzNavigationMenuStyles
 
     /// <inheritdoc/>
     public override string Content =>
-        // All animations are on content, not viewport
-        "rounded-md border bg-popover text-popover-foreground shadow "
+        "absolute left-0 top-full mt-1.5 overflow-hidden rounded-md border bg-popover text-popover-foreground shadow "
+      + "will-change-[opacity,transform] "
       + "data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out "
       + "data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out "
       + "data-[motion=from-end]:slide-in-from-right-52 "
       + "data-[motion=from-start]:slide-in-from-left-52 "
       + "data-[motion=to-end]:slide-out-to-right-52 "
       + "data-[motion=to-start]:slide-out-to-left-52 "
-      + "data-[motion=fade-in]:animate-in data-[motion=fade-in]:fade-in "
-      + "data-[motion=fade-out]:animate-out data-[motion=fade-out]:fade-out "
-      + "duration-200 "
-      + "outline-none focus-visible:ring-0 will-change-[opacity,transform]";
+      + "data-[motion=fade-in]:animate-in data-[motion=fade-in]:fade-in-0 "
+      + "data-[motion=fade-out]:animate-out data-[motion=fade-out]:fade-out-0 "
+      + "duration-200";
 
     /// <inheritdoc/>
-    public override string Viewport =>
-        // Viewport is just a positioning container, no animations
-        "absolute left-0 top-full mt-1.5 overflow-visible";
+    public override string Viewport => string.Empty;
 
     /// <inheritdoc/>
     public override string Indicator =>

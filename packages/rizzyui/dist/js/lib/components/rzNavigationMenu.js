@@ -29,13 +29,47 @@ export default function (Alpine, $data) {
 
       if (!activeTrigger || !contentEl || !this.list) return;
 
-      // Calculate the offset of the trigger relative to the list
       const listRect = this.list.getBoundingClientRect();
       const triggerRect = activeTrigger.getBoundingClientRect();
       const offsetX = triggerRect.left - listRect.left;
 
-      // Position content to align with its trigger (this is the base position)
       contentEl.style.transform = `translateX(${offsetX}px)`;
+    },
+
+    _showContentWithAnimation(id, motionType) {
+      const contentData = this._contentData(id);
+      const contentEl = this._contentEl(id);
+
+      if (!contentData || !contentEl) return;
+
+      // Make content visible immediately (needed for animations)
+      contentData.visible = true;
+
+      this.$nextTick(() => {
+        // Position content
+        this._positionContentForTrigger(id);
+
+        // Start animation
+        requestAnimationFrame(() => {
+          contentEl.setAttribute('data-motion', motionType);
+        });
+      });
+    },
+
+    _hideContentWithAnimation(id, motionType) {
+      const contentEl = this._contentEl(id);
+
+      if (!contentEl) return;
+
+      // Start fade-out animation but keep Alpine visible=true during animation
+      contentEl.setAttribute('data-motion', motionType);
+
+      // Only hide via Alpine AFTER animation completes
+      setTimeout(() => {
+        const contentData = this._contentData(id);
+        if (contentData) contentData.visible = false;
+        contentEl.style.transform = '';
+      }, 250); // Give extra buffer for animation completion
     },
 
     /* ---------- lifecycle ---------- */
@@ -99,13 +133,15 @@ export default function (Alpine, $data) {
         clearTimeout(this.closeTimeout);
         this.closeTimeout = null;
       }
-      this.isClosing = false;
+      // DON'T reset isClosing here - let close animation complete
     },
 
     /* ---------- open / close ---------- */
     openMenu(id) {
+      // If we're in the middle of closing, wait for it to finish
+      if (this.isClosing) return;
+
       this.cancelClose();
-      this.isClosing = false;
 
       const newIdx = this._triggerIndex(id);
       const dir = newIdx > (this.prevIndex ?? newIdx) ? 'end' : 'start';
@@ -116,18 +152,8 @@ export default function (Alpine, $data) {
         const oldTrig = this.$refs[`trigger_${this.activeItemId}`];
         if (oldTrig) delete oldTrig.dataset.state;
 
-        const oldEl = this._contentEl(this.activeItemId);
-        const oldData = this._contentData(this.activeItemId);
-
-        if (oldEl && oldData) {
-          const outgoingDirection = dir === 'end' ? 'start' : 'end';
-          oldEl.setAttribute('data-motion', `to-${outgoingDirection}`);
-
-          setTimeout(() => {
-            oldData.visible = false;
-            oldEl.style.transform = '';
-          }, 250);
-        }
+        const outgoingDirection = dir === 'end' ? 'start' : 'end';
+        this._hideContentWithAnimation(this.activeItemId, `to-${outgoingDirection}`);
       }
 
       /* incoming content ---------------------------------------------------- */
@@ -135,41 +161,29 @@ export default function (Alpine, $data) {
       this.open = true;
       this.prevIndex = newIdx;
 
-      const newData = this._contentData(id);
-      if (newData) newData.visible = true;
+      const trig = this.$refs[`trigger_${id}`];
+      if (!trig || !this.viewport) return;
 
-      this.$nextTick(() => {
-        const trig = this.$refs[`trigger_${id}`];
-        if (!trig || !this.viewport) return;
+      /* indicator positioning */
+      if (this.indicator) {
+        this.indicator.style.width = `${trig.offsetWidth}px`;
+        this.indicator.style.left = `${trig.offsetLeft}px`;
+        this.indicator.setAttribute('data-state', 'visible');
+      }
 
-        /* indicator positioning */
-        if (this.indicator) {
-          this.indicator.style.width = `${trig.offsetWidth}px`;
-          this.indicator.style.left = `${trig.offsetLeft}px`;
-          this.indicator.setAttribute('data-state', 'visible');
-        }
+      /* trigger state */
+      trig.setAttribute('aria-expanded', 'true');
+      trig.dataset.state = 'open';
 
-        /* trigger state */
-        trig.setAttribute('aria-expanded', 'true');
-        trig.dataset.state = 'open';
+      /* viewport state */
+      this.viewport.setAttribute('data-state', 'open');
 
-        /* viewport state - just show/hide, no animations */
-        this.viewport.setAttribute('data-state', 'open');
-
-        const newEl = this._contentEl(id);
-        if (!newEl) return;
-
-        // Position content for its trigger first
-        this._positionContentForTrigger(id);
-
-        if (isFirstOpen) {
-          // First open - content fades in
-          newEl.setAttribute('data-motion', 'fade-in');
-        } else {
-          // Subsequent opens - content slides in from direction
-          newEl.setAttribute('data-motion', `from-${dir}`);
-        }
-      });
+      /* show new content with animation */
+      if (isFirstOpen) {
+        this._showContentWithAnimation(id, 'fade-in');
+      } else {
+        this._showContentWithAnimation(id, `from-${dir}`);
+      }
     },
 
     closeMenu() {
@@ -178,37 +192,30 @@ export default function (Alpine, $data) {
       this.isClosing = true;
       this.cancelClose();
 
-      /* viewport state - just hide, no animations */
+      /* viewport state */
       if (this.viewport) {
         this.viewport.setAttribute('data-state', 'closed');
       }
 
+      /* trigger cleanup */
       const trig = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
       if (trig) {
         trig.setAttribute('aria-expanded', 'false');
         delete trig.dataset.state;
       }
 
+      /* indicator hide */
       if (this.indicator) {
         this.indicator.setAttribute('data-state', 'hidden');
       }
 
-      /* content handles its own fade-out animation */
-      const curEl = this.activeItemId && this._contentEl(this.activeItemId);
-      if (curEl) {
-        curEl.setAttribute('data-motion', 'fade-out');
+      /* content fade-out */
+      if (this.activeItemId) {
+        this._hideContentWithAnimation(this.activeItemId, 'fade-out');
       }
 
+      /* reset state after animation */
       setTimeout(() => {
-        if (this.activeItemId) {
-          const cd = this._contentData(this.activeItemId);
-          if (cd) cd.visible = false;
-        }
-
-        if (curEl) {
-          curEl.style.transform = '';
-        }
-
         this.open = false;
         this.activeItemId = null;
         this.prevIndex = null;

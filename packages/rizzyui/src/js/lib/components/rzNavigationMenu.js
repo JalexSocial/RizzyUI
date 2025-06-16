@@ -1,3 +1,6 @@
+
+import { computePosition, offset, flip, shift } from '@floating-ui/dom';
+
 export default function (Alpine, $data) {
   Alpine.data('rzNavigationMenu', () => ({
     activeItemId : null,
@@ -5,7 +8,6 @@ export default function (Alpine, $data) {
     closeTimeout : null,
     prevIndex    : null,
     list         : null,
-    viewport     : null,
     indicator    : null,
     isClosing    : false,
 
@@ -18,40 +20,11 @@ export default function (Alpine, $data) {
     _contentData(id) { return $data(`${id}-content`); },
     _contentEl(id)   { return document.getElementById(`${id}-content`); },
 
-    _setupViewport() {
-      if (!this.viewport) return;
-      this.viewport.style.overflow = 'visible';
-    },
-
-    _positionContentForTrigger(id) {
-      const activeTrigger = this.$refs[`trigger_${id}`];
-      const contentEl = this._contentEl(id);
-
-      if (!activeTrigger || !contentEl || !this.list) return;
-
-      // Calculate the offset of the trigger relative to the list
-      const listRect = this.list.getBoundingClientRect();
-      const triggerRect = activeTrigger.getBoundingClientRect();
-      const offsetX = triggerRect.left - listRect.left;
-
-      // Position content to align with its trigger (this is the base position)
-      contentEl.style.transform = `translateX(${offsetX}px)`;
-    },
-
     /* ---------- lifecycle ---------- */
     init() {
       this.$nextTick(() => {
         this.list      = this.$refs.list;
-        this.viewport  = this.$refs.viewport;
         this.indicator = this.$refs.indicator;
-
-        this._setupViewport();
-
-        window.addEventListener('resize', () => {
-          if (this.activeItemId) {
-            this._positionContentForTrigger(this.activeItemId);
-          }
-        });
       });
     },
 
@@ -125,7 +98,6 @@ export default function (Alpine, $data) {
 
           setTimeout(() => {
             oldData.visible = false;
-            oldEl.style.transform = '';
           }, 250);
         }
       }
@@ -136,11 +108,18 @@ export default function (Alpine, $data) {
       this.prevIndex = newIdx;
 
       const newData = this._contentData(id);
-      if (newData) newData.visible = true;
+      if (newData) {
+        newData.visible = true;
+        
+        // Trigger positioning on the content component
+        this.$nextTick(() => {
+          newData.positionContent();
+        });
+      }
 
       this.$nextTick(() => {
         const trig = this.$refs[`trigger_${id}`];
-        if (!trig || !this.viewport) return;
+        if (!trig) return;
 
         /* indicator positioning */
         if (this.indicator) {
@@ -153,14 +132,8 @@ export default function (Alpine, $data) {
         trig.setAttribute('aria-expanded', 'true');
         trig.dataset.state = 'open';
 
-        /* viewport state - just show/hide, no animations */
-        this.viewport.setAttribute('data-state', 'open');
-
         const newEl = this._contentEl(id);
         if (!newEl) return;
-
-        // Position content for its trigger first
-        this._positionContentForTrigger(id);
 
         if (isFirstOpen) {
           // First open - content fades in
@@ -177,11 +150,6 @@ export default function (Alpine, $data) {
 
       this.isClosing = true;
       this.cancelClose();
-
-      /* viewport state - just hide, no animations */
-      if (this.viewport) {
-        this.viewport.setAttribute('data-state', 'closed');
-      }
 
       const trig = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
       if (trig) {
@@ -205,10 +173,6 @@ export default function (Alpine, $data) {
           if (cd) cd.visible = false;
         }
 
-        if (curEl) {
-          curEl.style.transform = '';
-        }
-
         this.open = false;
         this.activeItemId = null;
         this.prevIndex = null;
@@ -217,5 +181,29 @@ export default function (Alpine, $data) {
     },
   }));
 
-  Alpine.data('rzNavigationMenuContent', () => ({ visible: false }));
+  Alpine.data('rzNavigationMenuContent', () => ({ 
+    visible: false,
+    contentEl: null,
+    triggerEl: null,
+    
+    init() {
+      this.contentEl = this.$el;
+      const triggerId = this.$el.dataset.itemId + '-trigger';
+      this.triggerEl = document.getElementById(triggerId);
+    },
+    
+    positionContent() {
+      if (!this.triggerEl || !this.contentEl) return;
+      
+      computePosition(this.triggerEl, this.contentEl, {
+        placement: 'bottom-start',
+        middleware: [offset(6), flip(), shift({ padding: 8 })],
+      }).then(({ x, y }) => {
+        Object.assign(this.contentEl.style, { 
+          left: `${x}px`, 
+          top: `${y}px` 
+        });
+      });
+    }
+  }));
 }

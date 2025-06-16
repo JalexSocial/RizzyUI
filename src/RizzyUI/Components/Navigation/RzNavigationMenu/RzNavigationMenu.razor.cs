@@ -16,11 +16,6 @@ public partial class RzNavigationMenu : RzComponent
     internal readonly List<NavigationMenuItem> Items = new();
 
     /// <summary>
-    /// Gets the unique ID for the viewport container, used as a target for teleporting content.
-    /// </summary>
-    public string ViewportId => $"{Id}-viewport";
-
-    /// <summary>
     /// Gets or sets the content of the navigation menu, typically a <see cref="NavigationMenuList"/>.
     /// </summary>
     [Parameter, EditorRequired]
@@ -31,12 +26,6 @@ public partial class RzNavigationMenu : RzComponent
     /// </summary>
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Horizontal;
-    
-    /// <summary>
-    /// The offset of the viewport from the trigger list.
-    /// </summary>
-    [Parameter]
-    public int ViewportOffset { get; set; } = 0;
 
     /// <summary>
     /// The accessible name for the navigation menu.

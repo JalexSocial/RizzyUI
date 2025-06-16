@@ -7027,6 +7027,28 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         const offsetX = triggerRect.left - listRect.left;
         contentEl.style.transform = `translateX(${offsetX}px)`;
       },
+      _showContentWithAnimation(id, motionType) {
+        const contentData = this._contentData(id);
+        const contentEl = this._contentEl(id);
+        if (!contentData || !contentEl) return;
+        contentData.visible = true;
+        this.$nextTick(() => {
+          this._positionContentForTrigger(id);
+          requestAnimationFrame(() => {
+            contentEl.setAttribute("data-motion", motionType);
+          });
+        });
+      },
+      _hideContentWithAnimation(id, motionType) {
+        const contentEl = this._contentEl(id);
+        if (!contentEl) return;
+        contentEl.setAttribute("data-motion", motionType);
+        setTimeout(() => {
+          const contentData = this._contentData(id);
+          if (contentData) contentData.visible = false;
+          contentEl.style.transform = "";
+        }, 250);
+      },
       /* ---------- lifecycle ---------- */
       init() {
         this.$nextTick(() => {
@@ -7079,54 +7101,38 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           clearTimeout(this.closeTimeout);
           this.closeTimeout = null;
         }
-        this.isClosing = false;
       },
       /* ---------- open / close ---------- */
       openMenu(id) {
+        if (this.isClosing) return;
         this.cancelClose();
-        this.isClosing = false;
         const newIdx = this._triggerIndex(id);
         const dir = newIdx > (this.prevIndex ?? newIdx) ? "end" : "start";
         const isFirstOpen = this.prevIndex === null;
         if (this.open && this.activeItemId && this.activeItemId !== id) {
           const oldTrig = this.$refs[`trigger_${this.activeItemId}`];
           if (oldTrig) delete oldTrig.dataset.state;
-          const oldEl = this._contentEl(this.activeItemId);
-          const oldData = this._contentData(this.activeItemId);
-          if (oldEl && oldData) {
-            const outgoingDirection = dir === "end" ? "start" : "end";
-            oldEl.setAttribute("data-motion", `to-${outgoingDirection}`);
-            setTimeout(() => {
-              oldData.visible = false;
-              oldEl.style.transform = "";
-            }, 250);
-          }
+          const outgoingDirection = dir === "end" ? "start" : "end";
+          this._hideContentWithAnimation(this.activeItemId, `to-${outgoingDirection}`);
         }
         this.activeItemId = id;
         this.open = true;
         this.prevIndex = newIdx;
-        const newData = this._contentData(id);
-        if (newData) newData.visible = true;
-        this.$nextTick(() => {
-          const trig = this.$refs[`trigger_${id}`];
-          if (!trig || !this.viewport) return;
-          if (this.indicator) {
-            this.indicator.style.width = `${trig.offsetWidth}px`;
-            this.indicator.style.left = `${trig.offsetLeft}px`;
-            this.indicator.setAttribute("data-state", "visible");
-          }
-          trig.setAttribute("aria-expanded", "true");
-          trig.dataset.state = "open";
-          this.viewport.setAttribute("data-state", "open");
-          const newEl = this._contentEl(id);
-          if (!newEl) return;
-          this._positionContentForTrigger(id);
-          if (isFirstOpen) {
-            newEl.setAttribute("data-motion", "fade-in");
-          } else {
-            newEl.setAttribute("data-motion", `from-${dir}`);
-          }
-        });
+        const trig = this.$refs[`trigger_${id}`];
+        if (!trig || !this.viewport) return;
+        if (this.indicator) {
+          this.indicator.style.width = `${trig.offsetWidth}px`;
+          this.indicator.style.left = `${trig.offsetLeft}px`;
+          this.indicator.setAttribute("data-state", "visible");
+        }
+        trig.setAttribute("aria-expanded", "true");
+        trig.dataset.state = "open";
+        this.viewport.setAttribute("data-state", "open");
+        if (isFirstOpen) {
+          this._showContentWithAnimation(id, "fade-in");
+        } else {
+          this._showContentWithAnimation(id, `from-${dir}`);
+        }
       },
       closeMenu() {
         if (!this.open || this.isClosing) return;
@@ -7143,18 +7149,10 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         if (this.indicator) {
           this.indicator.setAttribute("data-state", "hidden");
         }
-        const curEl = this.activeItemId && this._contentEl(this.activeItemId);
-        if (curEl) {
-          curEl.setAttribute("data-motion", "fade-out");
+        if (this.activeItemId) {
+          this._hideContentWithAnimation(this.activeItemId, "fade-out");
         }
         setTimeout(() => {
-          if (this.activeItemId) {
-            const cd = this._contentData(this.activeItemId);
-            if (cd) cd.visible = false;
-          }
-          if (curEl) {
-            curEl.style.transform = "";
-          }
           this.open = false;
           this.activeItemId = null;
           this.prevIndex = null;

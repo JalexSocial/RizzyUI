@@ -2,16 +2,16 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<template x-teleport="#@ParentMenu?.ViewportId">
-    <div x-ref="content_@ParentItem?.Id"
-         id="@ContentId"
-         data-item-id="@ParentItem?.Id"
-         class="@RootClass()"
-         x-data="rzNavigationMenuContent"
-         x-show="visible"
-         x-cloak
-         data-alpine-root="@ContentId"
-         @attributes="AdditionalAttributes">
-        @ChildContent
-    </div>
-</template>
+<div x-ref="content_@ParentItem?.Id"
+     id="@ContentId"
+     data-item-id="@ParentItem?.Id"
+     data-floating
+     data-popover
+     class="@RootClass()"
+     x-data="rzNavigationMenuContent"
+     x-show="visible"
+     x-cloak
+     data-alpine-root="@ContentId"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
