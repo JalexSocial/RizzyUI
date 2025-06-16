@@ -7,6 +7,7 @@ export default function (Alpine, $data) {
     list         : null,
     viewport     : null,
     indicator    : null,
+    isClosing    : false,
 
     /* ---------- helpers ---------- */
     _triggerIndex(id) {
@@ -63,7 +64,7 @@ export default function (Alpine, $data) {
     handleTriggerEnter(e) {
       const id = e.currentTarget.id.replace('-trigger', '');
       this.cancelClose();
-      if (this.activeItemId !== id) {
+      if (this.activeItemId !== id && !this.isClosing) {
         requestAnimationFrame(() => this.openMenu(id));
       }
     },
@@ -78,11 +79,11 @@ export default function (Alpine, $data) {
 
       if (trigger) {
         const id = trigger.id.replace('-trigger', '');
-        if (this.activeItemId !== id) {
+        if (this.activeItemId !== id && !this.isClosing) {
           requestAnimationFrame(() => this.openMenu(id));
         }
       } else {
-        if (this.open) {
+        if (this.open && !this.isClosing) {
           this.scheduleClose();
         }
       }
@@ -90,6 +91,7 @@ export default function (Alpine, $data) {
 
     /* ---------- timers ---------- */
     scheduleClose() {
+      if (this.isClosing || this.closeTimeout) return;
       this.closeTimeout = setTimeout(() => this.closeMenu(), 150);
     },
     cancelClose() {
@@ -97,11 +99,13 @@ export default function (Alpine, $data) {
         clearTimeout(this.closeTimeout);
         this.closeTimeout = null;
       }
+      this.isClosing = false;
     },
 
     /* ---------- open / close ---------- */
     openMenu(id) {
       this.cancelClose();
+      this.isClosing = false;
 
       const newIdx = this._triggerIndex(id);
       const dir = newIdx > (this.prevIndex ?? newIdx) ? 'end' : 'start';
@@ -115,21 +119,14 @@ export default function (Alpine, $data) {
         const oldEl = this._contentEl(this.activeItemId);
         const oldData = this._contentData(this.activeItemId);
 
-        if (oldEl) {
-          // Set data-motion attribute - CSS will handle the slide animation
-          oldEl.setAttribute('data-motion', `to-${dir}`);
+        if (oldEl && oldData) {
+          const outgoingDirection = dir === 'end' ? 'start' : 'end';
+          oldEl.setAttribute('data-motion', `to-${outgoingDirection}`);
 
-          // Hide content after animation completes
-          setTimeout(() => {
-            if (oldData) oldData.visible = false;
-            // Clear transform but keep data-motion attribute
-            oldEl.style.transform = '';
-          }, 220);
-        } else if (oldData) {
-          // Fallback if element not found
           setTimeout(() => {
             oldData.visible = false;
-          }, 220);
+            oldEl.style.transform = '';
+          }, 250);
         }
       }
 
@@ -156,11 +153,8 @@ export default function (Alpine, $data) {
         trig.setAttribute('aria-expanded', 'true');
         trig.dataset.state = 'open';
 
-        /* viewport state */
+        /* viewport state - just show/hide, no animations */
         this.viewport.setAttribute('data-state', 'open');
-        if (isFirstOpen) {
-          this.viewport.setAttribute('data-motion', 'zoom-in');
-        }
 
         const newEl = this._contentEl(id);
         if (!newEl) return;
@@ -169,22 +163,23 @@ export default function (Alpine, $data) {
         this._positionContentForTrigger(id);
 
         if (isFirstOpen) {
-          // First open - just fade in
+          // First open - content fades in
           newEl.setAttribute('data-motion', 'fade-in');
         } else {
-          // Subsequent opens - CSS handles slide animation from the direction
+          // Subsequent opens - content slides in from direction
           newEl.setAttribute('data-motion', `from-${dir}`);
         }
-
-        // No need to remove data-motion attributes - they stay for debugging/reference
       });
     },
 
     closeMenu() {
-      if (!this.open) return;
+      if (!this.open || this.isClosing) return;
 
+      this.isClosing = true;
+      this.cancelClose();
+
+      /* viewport state - just hide, no animations */
       if (this.viewport) {
-        this.viewport.setAttribute('data-motion', 'zoom-out');
         this.viewport.setAttribute('data-state', 'closed');
       }
 
@@ -198,12 +193,12 @@ export default function (Alpine, $data) {
         this.indicator.setAttribute('data-state', 'hidden');
       }
 
+      /* content handles its own fade-out animation */
       const curEl = this.activeItemId && this._contentEl(this.activeItemId);
       if (curEl) {
         curEl.setAttribute('data-motion', 'fade-out');
       }
 
-      // Hide content after animation completes, but keep data-motion attributes
       setTimeout(() => {
         if (this.activeItemId) {
           const cd = this._contentData(this.activeItemId);
@@ -217,7 +212,8 @@ export default function (Alpine, $data) {
         this.open = false;
         this.activeItemId = null;
         this.prevIndex = null;
-      }, 220);
+        this.isClosing = false;
+      }, 250);
     },
   }));
 

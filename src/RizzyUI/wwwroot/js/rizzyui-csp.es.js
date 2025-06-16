@@ -6997,6 +6997,7 @@ function registerRzNavigationMenu(Alpine2, $data2) {
     list: null,
     viewport: null,
     indicator: null,
+    isClosing: false,
     /* ---------- helpers ---------- */
     _triggerIndex(id) {
       if (!this.list) return -1;
@@ -7044,7 +7045,7 @@ function registerRzNavigationMenu(Alpine2, $data2) {
     handleTriggerEnter(e2) {
       const id = e2.currentTarget.id.replace("-trigger", "");
       this.cancelClose();
-      if (this.activeItemId !== id) {
+      if (this.activeItemId !== id && !this.isClosing) {
         requestAnimationFrame(() => this.openMenu(id));
       }
     },
@@ -7055,17 +7056,18 @@ function registerRzNavigationMenu(Alpine2, $data2) {
       this.cancelClose();
       if (trigger2) {
         const id = trigger2.id.replace("-trigger", "");
-        if (this.activeItemId !== id) {
+        if (this.activeItemId !== id && !this.isClosing) {
           requestAnimationFrame(() => this.openMenu(id));
         }
       } else {
-        if (this.open) {
+        if (this.open && !this.isClosing) {
           this.scheduleClose();
         }
       }
     },
     /* ---------- timers ---------- */
     scheduleClose() {
+      if (this.isClosing || this.closeTimeout) return;
       this.closeTimeout = setTimeout(() => this.closeMenu(), 150);
     },
     cancelClose() {
@@ -7073,10 +7075,12 @@ function registerRzNavigationMenu(Alpine2, $data2) {
         clearTimeout(this.closeTimeout);
         this.closeTimeout = null;
       }
+      this.isClosing = false;
     },
     /* ---------- open / close ---------- */
     openMenu(id) {
       this.cancelClose();
+      this.isClosing = false;
       const newIdx = this._triggerIndex(id);
       const dir = newIdx > (this.prevIndex ?? newIdx) ? "end" : "start";
       const isFirstOpen = this.prevIndex === null;
@@ -7085,16 +7089,13 @@ function registerRzNavigationMenu(Alpine2, $data2) {
         if (oldTrig) delete oldTrig.dataset.state;
         const oldEl = this._contentEl(this.activeItemId);
         const oldData = this._contentData(this.activeItemId);
-        if (oldEl) {
-          oldEl.setAttribute("data-motion", `to-${dir}`);
-          setTimeout(() => {
-            if (oldData) oldData.visible = false;
-            oldEl.style.transform = "";
-          }, 220);
-        } else if (oldData) {
+        if (oldEl && oldData) {
+          const outgoingDirection = dir === "end" ? "start" : "end";
+          oldEl.setAttribute("data-motion", `to-${outgoingDirection}`);
           setTimeout(() => {
             oldData.visible = false;
-          }, 220);
+            oldEl.style.transform = "";
+          }, 250);
         }
       }
       this.activeItemId = id;
@@ -7113,9 +7114,6 @@ function registerRzNavigationMenu(Alpine2, $data2) {
         trig.setAttribute("aria-expanded", "true");
         trig.dataset.state = "open";
         this.viewport.setAttribute("data-state", "open");
-        if (isFirstOpen) {
-          this.viewport.setAttribute("data-motion", "zoom-in");
-        }
         const newEl = this._contentEl(id);
         if (!newEl) return;
         this._positionContentForTrigger(id);
@@ -7127,9 +7125,10 @@ function registerRzNavigationMenu(Alpine2, $data2) {
       });
     },
     closeMenu() {
-      if (!this.open) return;
+      if (!this.open || this.isClosing) return;
+      this.isClosing = true;
+      this.cancelClose();
       if (this.viewport) {
-        this.viewport.setAttribute("data-motion", "zoom-out");
         this.viewport.setAttribute("data-state", "closed");
       }
       const trig = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
@@ -7155,7 +7154,8 @@ function registerRzNavigationMenu(Alpine2, $data2) {
         this.open = false;
         this.activeItemId = null;
         this.prevIndex = null;
-      }, 220);
+        this.isClosing = false;
+      }, 250);
     }
   }));
   Alpine2.data("rzNavigationMenuContent", () => ({ visible: false }));

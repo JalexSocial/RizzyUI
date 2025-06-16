@@ -46,7 +46,7 @@ public sealed class DefaultRzNavigationMenuStyles
 
     /// <inheritdoc/>
     public override string Content =>
-        // Tailwind-animate classes triggered by data-motion / data-state
+        // All animations are on content, not viewport
         "rounded-md border bg-popover text-popover-foreground shadow "
       + "data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out "
       + "data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out "
@@ -54,16 +54,15 @@ public sealed class DefaultRzNavigationMenuStyles
       + "data-[motion=from-start]:slide-in-from-left-52 "
       + "data-[motion=to-end]:slide-out-to-right-52 "
       + "data-[motion=to-start]:slide-out-to-left-52 "
-      + "duration-200 "  // Added explicit duration to match viewport and JavaScript
+      + "data-[motion=fade-in]:animate-in data-[motion=fade-in]:fade-in "
+      + "data-[motion=fade-out]:animate-out data-[motion=fade-out]:fade-out "
+      + "duration-200 "
       + "outline-none focus-visible:ring-0 will-change-[opacity,transform]";
 
     /// <inheritdoc/>
     public override string Viewport =>
-        "absolute left-0 top-full "
-        + "mt-1.5 overflow-visible "
-        + "data-[state=open]:animate-in data-[state=open]:zoom-in-95 data-[state=open]:fade-in-0 "
-        + "data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=closed]:fade-out-0 "
-        + "duration-200 will-change-[opacity,transform]";
+        // Viewport is just a positioning container, no animations
+        "absolute left-0 top-full mt-1.5 overflow-visible";
 
     /// <inheritdoc/>
     public override string Indicator =>
