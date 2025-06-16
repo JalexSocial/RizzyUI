@@ -8,10 +8,8 @@
      data-floating
      data-popover
      class="@RootClass()"
-     x-data="rzNavigationMenuContent"
-     x-show="visible"
+     x-on:mouseenter="handleContentEnter"
      x-cloak
-     data-alpine-root="@ContentId"
      @attributes="AdditionalAttributes">
     @ChildContent
 </div>

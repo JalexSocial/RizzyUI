@@ -17,18 +17,25 @@ export default function (Alpine, $data) {
       const triggers = Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]'));
       return triggers.findIndex(t => t.id.replace('-trigger', '') === id);
     },
-    _contentData(id) { return $data(`${id}-content`); },
     _contentEl(id)   { return document.getElementById(`${id}-content`); },
 
     /* ---------- lifecycle ---------- */
     init() {
+      // Hide all content panels immediately on initialization to prevent them
+      // from being visible by default. this.$el is available synchronously.
+      const contentEls = this.$el.querySelectorAll('[data-popover]');
+      contentEls.forEach(el => {
+        el.style.display = 'none';
+      });
+
+      // Defer ref assignment until the DOM is fully patched by Alpine.
       this.$nextTick(() => {
-        this.list      = this.$refs.list;
+        this.list = this.$refs.list;
         this.indicator = this.$refs.indicator;
       });
     },
 
-    /* ---------- trigger handlers ---------- */
+    /* ---------- event handlers (from events with no params) ---------- */
     toggleActive(e) {
       const id = e.currentTarget.id.replace('-trigger', '');
       (this.activeItemId === id && this.open) ? this.closeMenu() : this.openMenu(id);
@@ -43,13 +50,12 @@ export default function (Alpine, $data) {
     },
 
     handleItemEnter(e) {
-      const item = e.currentTarget.closest('[role="menuitem"], li');
+      const item = e.currentTarget;
       if (!item) return;
-
-      const trigger = item.querySelector('[x-ref^="trigger_"]');
 
       this.cancelClose();
 
+      const trigger = item.querySelector('[x-ref^="trigger_"]');
       if (trigger) {
         const id = trigger.id.replace('-trigger', '');
         if (this.activeItemId !== id && !this.isClosing) {
@@ -57,16 +63,20 @@ export default function (Alpine, $data) {
         }
       } else {
         if (this.open && !this.isClosing) {
-          this.scheduleClose();
+            this.closeMenu();
         }
       }
     },
 
-    /* ---------- timers ---------- */
+    handleContentEnter() {
+        this.cancelClose();
+    },
+    
     scheduleClose() {
       if (this.isClosing || this.closeTimeout) return;
       this.closeTimeout = setTimeout(() => this.closeMenu(), 150);
     },
+    
     cancelClose() {
       if (this.closeTimeout) {
         clearTimeout(this.closeTimeout);
@@ -75,7 +85,7 @@ export default function (Alpine, $data) {
       this.isClosing = false;
     },
 
-    /* ---------- open / close ---------- */
+    /* ---------- open / close logic with direct DOM manipulation ---------- */
     openMenu(id) {
       this.cancelClose();
       this.isClosing = false;
@@ -84,64 +94,58 @@ export default function (Alpine, $data) {
       const dir = newIdx > (this.prevIndex ?? newIdx) ? 'end' : 'start';
       const isFirstOpen = this.prevIndex === null;
 
-      /* outgoing content ---------------------------------------------------- */
+      // --- Handle outgoing content ---
       if (this.open && this.activeItemId && this.activeItemId !== id) {
         const oldTrig = this.$refs[`trigger_${this.activeItemId}`];
         if (oldTrig) delete oldTrig.dataset.state;
-
+        
         const oldEl = this._contentEl(this.activeItemId);
-        const oldData = this._contentData(this.activeItemId);
-
-        if (oldEl && oldData) {
+        if (oldEl) {
           const outgoingDirection = dir === 'end' ? 'start' : 'end';
           oldEl.setAttribute('data-motion', `to-${outgoingDirection}`);
-
           setTimeout(() => {
-            oldData.visible = false;
-          }, 250);
+            oldEl.style.display = 'none';
+          }, 150); // Match animation duration
         }
       }
 
-      /* incoming content ---------------------------------------------------- */
+      // --- Handle incoming content ---
       this.activeItemId = id;
       this.open = true;
       this.prevIndex = newIdx;
 
-      const newData = this._contentData(id);
-      if (newData) {
-        newData.visible = true;
-        
-        // Trigger positioning on the content component
-        this.$nextTick(() => {
-          newData.positionContent();
-        });
+      const newTrig = this.$refs[`trigger_${id}`];
+      const newContentEl = this._contentEl(id);
+      
+      if (!newTrig || !newContentEl) return;
+
+      // Position first
+      computePosition(newTrig, newContentEl, {
+        placement: 'bottom-start',
+        middleware: [offset(6), flip(), shift({ padding: 8 })],
+      }).then(({ x, y }) => {
+        Object.assign(newContentEl.style, { left: `${x}px`, top: `${y}px` });
+      });
+      
+      // Then make visible and animate
+      newContentEl.style.display = 'block';
+      if (isFirstOpen) {
+        newContentEl.setAttribute('data-motion', 'fade-in');
+      } else {
+        newContentEl.setAttribute('data-motion', `from-${dir}`);
       }
 
       this.$nextTick(() => {
-        const trig = this.$refs[`trigger_${id}`];
-        if (!trig) return;
-
-        /* indicator positioning */
+        // Indicator positioning
         if (this.indicator) {
-          this.indicator.style.width = `${trig.offsetWidth}px`;
-          this.indicator.style.left = `${trig.offsetLeft}px`;
+          this.indicator.style.width = `${newTrig.offsetWidth}px`;
+          this.indicator.style.left = `${newTrig.offsetLeft}px`;
           this.indicator.setAttribute('data-state', 'visible');
         }
 
-        /* trigger state */
-        trig.setAttribute('aria-expanded', 'true');
-        trig.dataset.state = 'open';
-
-        const newEl = this._contentEl(id);
-        if (!newEl) return;
-
-        if (isFirstOpen) {
-          // First open - content fades in
-          newEl.setAttribute('data-motion', 'fade-in');
-        } else {
-          // Subsequent opens - content slides in from direction
-          newEl.setAttribute('data-motion', `from-${dir}`);
-        }
+        // Trigger state
+        newTrig.setAttribute('aria-expanded', 'true');
+        newTrig.dataset.state = 'open';
       });
     },
 
@@ -151,7 +155,13 @@ export default function (Alpine, $data) {
       this.isClosing = true;
       this.cancelClose();
 
-      const trig = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
+      const activeId = this.activeItemId;
+      if (!activeId) {
+          this.isClosing = false;
+          return;
+      }
+      
+      const trig = this.$refs[`trigger_${activeId}`];
       if (trig) {
         trig.setAttribute('aria-expanded', 'false');
         delete trig.dataset.state;
@@ -161,49 +171,22 @@ export default function (Alpine, $data) {
         this.indicator.setAttribute('data-state', 'hidden');
       }
 
-      /* content handles its own fade-out animation */
-      const curEl = this.activeItemId && this._contentEl(this.activeItemId);
-      if (curEl) {
-        curEl.setAttribute('data-motion', 'fade-out');
+      const contentEl = this._contentEl(activeId);
+      if (contentEl) {
+        contentEl.setAttribute('data-motion', 'fade-out');
+        setTimeout(() => {
+            contentEl.style.display = 'none';
+        }, 150); // Match animation duration
       }
-
-      setTimeout(() => {
-        if (this.activeItemId) {
-          const cd = this._contentData(this.activeItemId);
-          if (cd) cd.visible = false;
-        }
-
-        this.open = false;
-        this.activeItemId = null;
-        this.prevIndex = null;
-        this.isClosing = false;
-      }, 250);
-    },
-  }));
-
-  Alpine.data('rzNavigationMenuContent', () => ({ 
-    visible: false,
-    contentEl: null,
-    triggerEl: null,
-    
-    init() {
-      this.contentEl = this.$el;
-      const triggerId = this.$el.dataset.itemId + '-trigger';
-      this.triggerEl = document.getElementById(triggerId);
-    },
-    
-    positionContent() {
-      if (!this.triggerEl || !this.contentEl) return;
       
-      computePosition(this.triggerEl, this.contentEl, {
-        placement: 'bottom-start',
-        middleware: [offset(6), flip(), shift({ padding: 8 })],
-      }).then(({ x, y }) => {
-        Object.assign(this.contentEl.style, { 
-          left: `${x}px`, 
-          top: `${y}px` 
-        });
-      });
-    }
+      this.open = false;
+      this.activeItemId = null;
+      this.prevIndex = null;
+      
+      // Use timeout to prevent re-opening immediately on mouse-out -> mouse-in
+      setTimeout(() => {
+        this.isClosing = false;
+      }, 150);
+    },
   }));
 }

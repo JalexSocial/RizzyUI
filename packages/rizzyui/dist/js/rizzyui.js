@@ -3692,7 +3692,6 @@
       closeTimeout: null,
       prevIndex: null,
       list: null,
-      viewport: null,
       indicator: null,
       isClosing: false,
       /* ---------- helpers ---------- */
@@ -3701,62 +3700,21 @@
         const triggers = Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]'));
         return triggers.findIndex((t2) => t2.id.replace("-trigger", "") === id);
       },
-      _contentData(id) {
-        return $data2(`${id}-content`);
-      },
       _contentEl(id) {
         return document.getElementById(`${id}-content`);
       },
-      _setupViewport() {
-        if (!this.viewport) return;
-        this.viewport.style.overflow = "visible";
-      },
-      _positionContentForTrigger(id) {
-        const activeTrigger = this.$refs[`trigger_${id}`];
-        const contentEl = this._contentEl(id);
-        if (!activeTrigger || !contentEl || !this.list) return;
-        const listRect = this.list.getBoundingClientRect();
-        const triggerRect = activeTrigger.getBoundingClientRect();
-        const offsetX = triggerRect.left - listRect.left;
-        contentEl.style.transform = `translateX(${offsetX}px)`;
-      },
-      _showContentWithAnimation(id, motionType) {
-        const contentData = this._contentData(id);
-        const contentEl = this._contentEl(id);
-        if (!contentData || !contentEl) return;
-        contentData.visible = true;
-        this.$nextTick(() => {
-          this._positionContentForTrigger(id);
-          requestAnimationFrame(() => {
-            contentEl.setAttribute("data-motion", motionType);
-          });
-        });
-      },
-      _hideContentWithAnimation(id, motionType) {
-        const contentEl = this._contentEl(id);
-        if (!contentEl) return;
-        contentEl.setAttribute("data-motion", motionType);
-        setTimeout(() => {
-          const contentData = this._contentData(id);
-          if (contentData) contentData.visible = false;
-          contentEl.style.transform = "";
-        }, 250);
-      },
       /* ---------- lifecycle ---------- */
       init() {
+        const contentEls = this.$el.querySelectorAll("[data-popover]");
+        contentEls.forEach((el) => {
+          el.style.display = "none";
+        });
         this.$nextTick(() => {
           this.list = this.$refs.list;
-          this.viewport = this.$refs.viewport;
           this.indicator = this.$refs.indicator;
-          this._setupViewport();
-          window.addEventListener("resize", () => {
-            if (this.activeItemId) {
-              this._positionContentForTrigger(this.activeItemId);
-            }
-          });
         });
       },
-      /* ---------- trigger handlers ---------- */
+      /* ---------- event handlers (from events with no params) ---------- */
       toggleActive(e2) {
         const id = e2.currentTarget.id.replace("-trigger", "");
         this.activeItemId === id && this.open ? this.closeMenu() : this.openMenu(id);
@@ -3769,10 +3727,10 @@
         }
       },
       handleItemEnter(e2) {
-        const item = e2.currentTarget.closest('[role="menuitem"], li');
+        const item = e2.currentTarget;
         if (!item) return;
-        const trigger = item.querySelector('[x-ref^="trigger_"]');
         this.cancelClose();
+        const trigger = item.querySelector('[x-ref^="trigger_"]');
         if (trigger) {
           const id = trigger.id.replace("-trigger", "");
           if (this.activeItemId !== id && !this.isClosing) {
@@ -3780,11 +3738,13 @@
           }
         } else {
           if (this.open && !this.isClosing) {
-            this.scheduleClose();
+            this.closeMenu();
           }
         }
       },
-      /* ---------- timers ---------- */
+      handleContentEnter() {
+        this.cancelClose();
+      },
       scheduleClose() {
         if (this.isClosing || this.closeTimeout) return;
         this.closeTimeout = setTimeout(() => this.closeMenu(), 150);
@@ -3794,47 +3754,65 @@
           clearTimeout(this.closeTimeout);
           this.closeTimeout = null;
         }
+        this.isClosing = false;
       },
-      /* ---------- open / close ---------- */
+      /* ---------- open / close logic with direct DOM manipulation ---------- */
       openMenu(id) {
-        if (this.isClosing) return;
         this.cancelClose();
+        this.isClosing = false;
         const newIdx = this._triggerIndex(id);
         const dir = newIdx > (this.prevIndex ?? newIdx) ? "end" : "start";
         const isFirstOpen = this.prevIndex === null;
         if (this.open && this.activeItemId && this.activeItemId !== id) {
           const oldTrig = this.$refs[`trigger_${this.activeItemId}`];
           if (oldTrig) delete oldTrig.dataset.state;
-          const outgoingDirection = dir === "end" ? "start" : "end";
-          this._hideContentWithAnimation(this.activeItemId, `to-${outgoingDirection}`);
+          const oldEl = this._contentEl(this.activeItemId);
+          if (oldEl) {
+            const outgoingDirection = dir === "end" ? "start" : "end";
+            oldEl.setAttribute("data-motion", `to-${outgoingDirection}`);
+            setTimeout(() => {
+              oldEl.style.display = "none";
+            }, 150);
+          }
         }
         this.activeItemId = id;
         this.open = true;
         this.prevIndex = newIdx;
-        const trig = this.$refs[`trigger_${id}`];
-        if (!trig || !this.viewport) return;
-        if (this.indicator) {
-          this.indicator.style.width = `${trig.offsetWidth}px`;
-          this.indicator.style.left = `${trig.offsetLeft}px`;
-          this.indicator.setAttribute("data-state", "visible");
-        }
-        trig.setAttribute("aria-expanded", "true");
-        trig.dataset.state = "open";
-        this.viewport.setAttribute("data-state", "open");
+        const newTrig = this.$refs[`trigger_${id}`];
+        const newContentEl = this._contentEl(id);
+        if (!newTrig || !newContentEl) return;
+        computePosition(newTrig, newContentEl, {
+          placement: "bottom-start",
+          middleware: [offset(6), flip(), shift({ padding: 8 })]
+        }).then(({ x, y }) => {
+          Object.assign(newContentEl.style, { left: `${x}px`, top: `${y}px` });
+        });
+        newContentEl.style.display = "block";
         if (isFirstOpen) {
-          this._showContentWithAnimation(id, "fade-in");
+          newContentEl.setAttribute("data-motion", "fade-in");
         } else {
-          this._showContentWithAnimation(id, `from-${dir}`);
+          newContentEl.setAttribute("data-motion", `from-${dir}`);
         }
+        this.$nextTick(() => {
+          if (this.indicator) {
+            this.indicator.style.width = `${newTrig.offsetWidth}px`;
+            this.indicator.style.left = `${newTrig.offsetLeft}px`;
+            this.indicator.setAttribute("data-state", "visible");
+          }
+          newTrig.setAttribute("aria-expanded", "true");
+          newTrig.dataset.state = "open";
+        });
       },
       closeMenu() {
         if (!this.open || this.isClosing) return;
         this.isClosing = true;
         this.cancelClose();
-        if (this.viewport) {
-          this.viewport.setAttribute("data-state", "closed");
+        const activeId = this.activeItemId;
+        if (!activeId) {
+          this.isClosing = false;
+          return;
         }
-        const trig = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
+        const trig = this.$refs[`trigger_${activeId}`];
         if (trig) {
           trig.setAttribute("aria-expanded", "false");
           delete trig.dataset.state;
@@ -3842,18 +3820,21 @@
         if (this.indicator) {
           this.indicator.setAttribute("data-state", "hidden");
         }
-        if (this.activeItemId) {
-          this._hideContentWithAnimation(this.activeItemId, "fade-out");
+        const contentEl = this._contentEl(activeId);
+        if (contentEl) {
+          contentEl.setAttribute("data-motion", "fade-out");
+          setTimeout(() => {
+            contentEl.style.display = "none";
+          }, 150);
         }
+        this.open = false;
+        this.activeItemId = null;
+        this.prevIndex = null;
         setTimeout(() => {
-          this.open = false;
-          this.activeItemId = null;
-          this.prevIndex = null;
           this.isClosing = false;
-        }, 250);
+        }, 150);
       }
     }));
-    Alpine2.data("rzNavigationMenuContent", () => ({ visible: false }));
   }
   function registerRzPopover(Alpine2) {
     Alpine2.data("rzPopover", () => ({
@@ -4250,7 +4231,7 @@
     registerRzHeading(Alpine2);
     registerRzIndicator(Alpine2);
     registerRzMarkdown(Alpine2, rizzyRequire);
-    registerRzNavigationMenu(Alpine2, $data);
+    registerRzNavigationMenu(Alpine2);
     registerRzModal(Alpine2);
     registerRzPopover(Alpine2);
     registerRzPrependInput(Alpine2);

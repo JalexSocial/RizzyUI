@@ -26,6 +26,11 @@ public partial class NavigationMenuContent : RzComponent
     /// </summary>
     protected string ContentId => $"{ParentItem?.Id}-content";
 
+    /// <summary>
+    /// Gets the sanitized, CSP-compliant property name for the x-show directive.
+    /// </summary>
+    protected string IsVisibleProperty => $"is_visible_{ParentItem?.Id?.Replace('-', '_')}";
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {

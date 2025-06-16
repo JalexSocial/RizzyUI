@@ -1,3 +1,6 @@
+
+import { computePosition, offset, flip, shift } from '@floating-ui/dom';
+
 export default function (Alpine, $data) {
   Alpine.data('rzNavigationMenu', () => ({
     activeItemId : null,
@@ -5,7 +8,6 @@ export default function (Alpine, $data) {
     closeTimeout : null,
     prevIndex    : null,
     list         : null,
-    viewport     : null,
     indicator    : null,
     isClosing    : false,
 
@@ -15,81 +17,25 @@ export default function (Alpine, $data) {
       const triggers = Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]'));
       return triggers.findIndex(t => t.id.replace('-trigger', '') === id);
     },
-    _contentData(id) { return $data(`${id}-content`); },
     _contentEl(id)   { return document.getElementById(`${id}-content`); },
-
-    _setupViewport() {
-      if (!this.viewport) return;
-      this.viewport.style.overflow = 'visible';
-    },
-
-    _positionContentForTrigger(id) {
-      const activeTrigger = this.$refs[`trigger_${id}`];
-      const contentEl = this._contentEl(id);
-
-      if (!activeTrigger || !contentEl || !this.list) return;
-
-      const listRect = this.list.getBoundingClientRect();
-      const triggerRect = activeTrigger.getBoundingClientRect();
-      const offsetX = triggerRect.left - listRect.left;
-
-      contentEl.style.transform = `translateX(${offsetX}px)`;
-    },
-
-    _showContentWithAnimation(id, motionType) {
-      const contentData = this._contentData(id);
-      const contentEl = this._contentEl(id);
-
-      if (!contentData || !contentEl) return;
-
-      // Make content visible immediately (needed for animations)
-      contentData.visible = true;
-
-      this.$nextTick(() => {
-        // Position content
-        this._positionContentForTrigger(id);
-
-        // Start animation
-        requestAnimationFrame(() => {
-          contentEl.setAttribute('data-motion', motionType);
-        });
-      });
-    },
-
-    _hideContentWithAnimation(id, motionType) {
-      const contentEl = this._contentEl(id);
-
-      if (!contentEl) return;
-
-      // Start fade-out animation but keep Alpine visible=true during animation
-      contentEl.setAttribute('data-motion', motionType);
-
-      // Only hide via Alpine AFTER animation completes
-      setTimeout(() => {
-        const contentData = this._contentData(id);
-        if (contentData) contentData.visible = false;
-        contentEl.style.transform = '';
-      }, 250); // Give extra buffer for animation completion
-    },
 
     /* ---------- lifecycle ---------- */
     init() {
+      // Hide all content panels immediately on initialization to prevent them
+      // from being visible by default. this.$el is available synchronously.
+      const contentEls = this.$el.querySelectorAll('[data-popover]');
+      contentEls.forEach(el => {
+        el.style.display = 'none';
+      });
+
+      // Defer ref assignment until the DOM is fully patched by Alpine.
       this.$nextTick(() => {
-        this.list      = this.$refs.list;
-        this.viewport  = this.$refs.viewport;
+        this.list = this.$refs.list;
         this.indicator = this.$refs.indicator;
-
-        this._setupViewport();
-
-        window.addEventListener('resize', () => {
-          if (this.activeItemId) {
-            this._positionContentForTrigger(this.activeItemId);
-          }
-        });
       });
     },
 
-    /* ---------- trigger handlers ---------- */
+    /* ---------- event handlers (from events with no params) ---------- */
     toggleActive(e) {
       const id = e.currentTarget.id.replace('-trigger', '');
       (this.activeItemId === id && this.open) ? this.closeMenu() : this.openMenu(id);
@@ -104,13 +50,12 @@ export default function (Alpine, $data) {
     },
 
     handleItemEnter(e) {
-      const item = e.currentTarget.closest('[role="menuitem"], li');
+      const item = e.currentTarget;
       if (!item) return;
-
-      const trigger = item.querySelector('[x-ref^="trigger_"]');
 
       this.cancelClose();
 
+      const trigger = item.querySelector('[x-ref^="trigger_"]');
       if (trigger) {
         const id = trigger.id.replace('-trigger', '');
         if (this.activeItemId !== id && !this.isClosing) {
@@ -118,72 +63,90 @@ export default function (Alpine, $data) {
         }
       } else {
         if (this.open && !this.isClosing) {
-          this.scheduleClose();
+            this.closeMenu();
         }
       }
     },
 
-    /* ---------- timers ---------- */
+    handleContentEnter() {
+        this.cancelClose();
+    },
+    
     scheduleClose() {
       if (this.isClosing || this.closeTimeout) return;
       this.closeTimeout = setTimeout(() => this.closeMenu(), 150);
     },
+    
     cancelClose() {
       if (this.closeTimeout) {
         clearTimeout(this.closeTimeout);
         this.closeTimeout = null;
       }
-      // DON'T reset isClosing here - let close animation complete
+      this.isClosing = false;
     },
 
-    /* ---------- open / close ---------- */
+    /* ---------- open / close logic with direct DOM manipulation ---------- */
     openMenu(id) {
-      // If we're in the middle of closing, wait for it to finish
-      if (this.isClosing) return;
-
       this.cancelClose();
+      this.isClosing = false;
 
       const newIdx = this._triggerIndex(id);
       const dir = newIdx > (this.prevIndex ?? newIdx) ? 'end' : 'start';
       const isFirstOpen = this.prevIndex === null;
 
-      /* outgoing content ---------------------------------------------------- */
+      // --- Handle outgoing content ---
       if (this.open && this.activeItemId && this.activeItemId !== id) {
         const oldTrig = this.$refs[`trigger_${this.activeItemId}`];
         if (oldTrig) delete oldTrig.dataset.state;
-
-        const outgoingDirection = dir === 'end' ? 'start' : 'end';
-        this._hideContentWithAnimation(this.activeItemId, `to-${outgoingDirection}`);
+        
+        const oldEl = this._contentEl(this.activeItemId);
+        if (oldEl) {
+          const outgoingDirection = dir === 'end' ? 'start' : 'end';
+          oldEl.setAttribute('data-motion', `to-${outgoingDirection}`);
+          setTimeout(() => {
+            oldEl.style.display = 'none';
+          }, 150); // Match animation duration
+        }
       }
 
-      /* incoming content ---------------------------------------------------- */
+      // --- Handle incoming content ---
       this.activeItemId = id;
       this.open = true;
       this.prevIndex = newIdx;
 
-      const trig = this.$refs[`trigger_${id}`];
-      if (!trig || !this.viewport) return;
+      const newTrig = this.$refs[`trigger_${id}`];
+      const newContentEl = this._contentEl(id);
+      
+      if (!newTrig || !newContentEl) return;
 
-      /* indicator positioning */
-      if (this.indicator) {
-        this.indicator.style.width = `${trig.offsetWidth}px`;
-        this.indicator.style.left = `${trig.offsetLeft}px`;
-        this.indicator.setAttribute('data-state', 'visible');
-      }
-
-      /* trigger state */
-      trig.setAttribute('aria-expanded', 'true');
-      trig.dataset.state = 'open';
-
-      /* viewport state */
-      this.viewport.setAttribute('data-state', 'open');
-
-      /* show new content with animation */
+      // Position first
+      computePosition(newTrig, newContentEl, {
+        placement: 'bottom-start',
+        middleware: [offset(6), flip(), shift({ padding: 8 })],
+      }).then(({ x, y }) => {
+        Object.assign(newContentEl.style, { left: `${x}px`, top: `${y}px` });
+      });
+      
+      // Then make visible and animate
+      newContentEl.style.display = 'block';
       if (isFirstOpen) {
-        this._showContentWithAnimation(id, 'fade-in');
+        newContentEl.setAttribute('data-motion', 'fade-in');
       } else {
-        this._showContentWithAnimation(id, `from-${dir}`);
+        newContentEl.setAttribute('data-motion', `from-${dir}`);
       }
+
+      this.$nextTick(() => {
+        // Indicator positioning
+        if (this.indicator) {
+          this.indicator.style.width = `${newTrig.offsetWidth}px`;
+          this.indicator.style.left = `${newTrig.offsetLeft}px`;
+          this.indicator.setAttribute('data-state', 'visible');
+        }
+
+        // Trigger state
+        newTrig.setAttribute('aria-expanded', 'true');
+        newTrig.dataset.state = 'open';
+      });
     },
 
     closeMenu() {
@@ -192,37 +155,38 @@ export default function (Alpine, $data) {
       this.isClosing = true;
       this.cancelClose();
 
-      /* viewport state */
-      if (this.viewport) {
-        this.viewport.setAttribute('data-state', 'closed');
+      const activeId = this.activeItemId;
+      if (!activeId) {
+          this.isClosing = false;
+          return;
       }
-
-      /* trigger cleanup */
-      const trig = this.activeItemId && this.$refs[`trigger_${this.activeItemId}`];
+      
+      const trig = this.$refs[`trigger_${activeId}`];
       if (trig) {
         trig.setAttribute('aria-expanded', 'false');
         delete trig.dataset.state;
       }
 
-      /* indicator hide */
       if (this.indicator) {
         this.indicator.setAttribute('data-state', 'hidden');
       }
 
-      /* content fade-out */
-      if (this.activeItemId) {
-        this._hideContentWithAnimation(this.activeItemId, 'fade-out');
+      const contentEl = this._contentEl(activeId);
+      if (contentEl) {
+        contentEl.setAttribute('data-motion', 'fade-out');
+        setTimeout(() => {
+            contentEl.style.display = 'none';
+        }, 150); // Match animation duration
       }
-
-      /* reset state after animation */
+      
+      this.open = false;
+      this.activeItemId = null;
+      this.prevIndex = null;
+      
+      // Use timeout to prevent re-opening immediately on mouse-out -> mouse-in
       setTimeout(() => {
-        this.open = false;
-        this.activeItemId = null;
-        this.prevIndex = null;
         this.isClosing = false;
-      }, 250);
+      }, 150);
     },
   }));
-
-  Alpine.data('rzNavigationMenuContent', () => ({ visible: false }));
 }

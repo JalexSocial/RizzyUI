@@ -5387,6 +5387,12 @@
       animation: enter var(--tw-animation-duration,var(--tw-duration,.15s))var(--tw-ease,ease)var(--tw-animation-delay,0s)var(--tw-animation-iteration-count,1)var(--tw-animation-direction,normal)var(--tw-animation-fill-mode,none);
     }
   }
+  .data-\[motion\=fade-in\]\:fade-in-0 {
+    &[data-motion="fade-in"] {
+      --tw-enter-opacity: calc(0/100);
+      --tw-enter-opacity: 0;
+    }
+  }
   .data-\[motion\=fade-in\]\:fade-in {
     &[data-motion="fade-in"] {
       --tw-enter-opacity: 0;
@@ -5395,6 +5401,12 @@
   .data-\[motion\=fade-out\]\:animate-out {
     &[data-motion="fade-out"] {
       animation: exit var(--tw-animation-duration,var(--tw-duration,.15s))var(--tw-ease,ease)var(--tw-animation-delay,0s)var(--tw-animation-iteration-count,1)var(--tw-animation-direction,normal)var(--tw-animation-fill-mode,none);
+    }
+  }
+  .data-\[motion\=fade-out\]\:fade-out-0 {
+    &[data-motion="fade-out"] {
+      --tw-exit-opacity: calc(0/100);
+      --tw-exit-opacity: 0;
     }
   }
   .data-\[motion\=fade-out\]\:fade-out {
