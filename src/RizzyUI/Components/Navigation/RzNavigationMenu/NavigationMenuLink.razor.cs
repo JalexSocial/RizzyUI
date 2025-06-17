@@ -10,12 +10,6 @@ namespace RizzyUI;
 public partial class NavigationMenuLink : RzComponent
 {
     /// <summary>
-    /// The URL to navigate to.
-    /// </summary>
-    [Parameter]
-    public string Href { get; set; } = "#";
-
-    /// <summary>
     /// The content to display within the link.
     /// </summary>
     [Parameter]
