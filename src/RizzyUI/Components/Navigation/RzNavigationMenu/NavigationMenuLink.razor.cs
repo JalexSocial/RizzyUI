@@ -22,13 +22,5 @@ public partial class NavigationMenuLink : RzComponent
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (string.IsNullOrEmpty(Element))
-            Element = "a";
-    }
-
-    /// <inheritdoc/>
     protected override string? RootClass() => TwMerge.Merge(AdditionalAttributes, Theme.RzNavigationMenu.Link);
 }
