@@ -1,4 +1,3 @@
-
 namespace RizzyUI;
 
 /// <summary>
@@ -25,29 +24,30 @@ public sealed class DefaultRzNavigationMenuStyles
 
     /// <inheritdoc/>
     public override string Trigger =>
-        "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 "
-      + "text-sm font-medium bg-background hover:bg-accent hover:text-accent-foreground "
-      + "focus:bg-accent focus:text-accent-foreground "
-      + "data-[state=open]:bg-accent/50 data-[state=open]:text-accent-foreground "
-      + "disabled:pointer-events-none disabled:opacity-50 "
-      + "transition-[color,box-shadow] outline-none "
-      + "focus-visible:ring-[3px] focus-visible:ring-ring/50";
+        "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 "
+      + "text-sm font-medium hover:bg-accent hover:text-accent-foreground "
+      + "focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 "
+      + "data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground "
+      + "data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 "
+      + "focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] "
+      + "focus-visible:ring-[3px] focus-visible:outline-1";
 
     /// <inheritdoc/>
     public override string Link =>
-        "[&_svg:not([class*='text-'])]:text-muted-foreground "
-      + "flex-col gap-1 p-2 [&_svg:not([class*='size-'])]:size-4 "
-      + "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 "
-      + "text-sm font-medium bg-background hover:bg-accent hover:text-accent-foreground "
-      + "focus:bg-accent focus:text-accent-foreground "
-      + "data-[active=true]:bg-accent/50 data-[active=true]:text-accent-foreground "
-      + "disabled:pointer-events-none disabled:opacity-50 "
-      + "transition-[color,box-shadow] outline-none "
-      + "focus-visible:ring-[3px] focus-visible:ring-ring/50";
+        "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 "
+      + "text-sm font-medium hover:bg-accent hover:text-accent-foreground "
+      + "focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 "
+      + "data-[active=true]:hover:bg-accent data-[active=true]:text-accent-foreground "
+      + "data-[active=true]:focus:bg-accent data-[active=true]:bg-accent/50 "
+      + "focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] "
+      + "focus-visible:ring-[3px] focus-visible:outline-1 "
+      + "[&_svg:not([class*='text-'])]:text-muted-foreground "
+      + "[&_svg:not([class*='size-'])]:size-4";
 
     /// <inheritdoc/>
     public override string Content =>
-        "absolute left-0 top-full mt-1.5 overflow-hidden rounded-md border bg-popover text-popover-foreground shadow "
+        "absolute left-0 top-full z-50 mt-1.5 min-w-[8rem] overflow-hidden rounded-md border "
+      + "bg-popover text-popover-foreground shadow-lg "
       + "will-change-[opacity,transform] "
       + "data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out "
       + "data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out "
@@ -58,13 +58,4 @@ public sealed class DefaultRzNavigationMenuStyles
       + "data-[motion=fade-in]:animate-in data-[motion=fade-in]:fade-in-0 "
       + "data-[motion=fade-out]:animate-out data-[motion=fade-out]:fade-out-0 "
       + "duration-200";
-
-    /// <inheritdoc/>
-    public override string Viewport => string.Empty;
-
-    /// <inheritdoc/>
-    public override string Indicator =>
-        "absolute bottom-0 left-0 h-[2px] bg-primary "
-      + "transition-[width,left] duration-300 "
-      + "data-[state=hidden]:w-0 data-[state=hidden]:opacity-0";
 }

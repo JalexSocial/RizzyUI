@@ -34,11 +34,5 @@ public abstract partial class RzStylesBase
 
         /// <summary> Gets the CSS classes for the content panel that drops down. </summary>
         public abstract string Content { get; }
-
-        /// <summary> Gets the CSS classes for the viewport container that positions the content panels. </summary>
-        public abstract string Viewport { get; }
-        
-        /// <summary> Gets the CSS classes for the active item indicator. </summary>
-        public abstract string Indicator { get; }
     }
 }
