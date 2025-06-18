@@ -12,7 +12,6 @@ public class ArcticTheme : RzTheme
     /// </summary>
     public ArcticTheme() : base("Arctic", "arctic")
     {
-        // Light mode colors based on kitchen sink CSS variables
         Light = new RzThemeVariant
         {
             Background = new Color("--background", "background"), // oklch(1 0 0)
@@ -35,7 +34,7 @@ public class ArcticTheme : RzTheme
             Input = new Color("--input", "input"),                 // oklch(0.922 0 0)
             Ring = new Color("--ring", "ring"),                   // oklch(0.708 0 0)
 
-            // Status colors (map to semantic colors or define if kitchen sink had specific status vars)
+            // Status colors
             Info = new Color("--primary", "primary"), // Example: Info maps to primary
             InfoForeground = new Color("--primary-foreground", "primary-foreground"),
             Warning = Colors.Amber.L500, // Example: Warning maps to an amber color
@@ -46,7 +45,6 @@ public class ArcticTheme : RzTheme
             Code = CodeThemes.Github // Default light code theme
         };
 
-        // Dark mode colors based on kitchen sink CSS variables
         Dark = new RzThemeVariant
         {
             Background = new Color("--background", "background"), // oklch(0.145 0 0)
@@ -80,8 +78,7 @@ public class ArcticTheme : RzTheme
             Code = CodeThemes.DefaultDark // Default dark code theme
         };
 
-        // Borders and radius from kitchen sink
         BorderWidth = "1px"; // Assumed from typical border usage
-        BorderRadius = "var(--radius)"; // Use the CSS variable defined in kitchen sink
+        BorderRadius = "var(--radius)"; 
     }
 }

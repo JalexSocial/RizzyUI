@@ -1,4 +1,5 @@
-﻿@page "/components/navigation-menu"
+
+@page "/components/navigation-menu"
 @namespace RizzyUI.Pages
 @using RizzyUI
 @using RizzyUI.Extensions
@@ -53,7 +54,7 @@
                                         <ul class="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                                             @foreach (var component in _components)
                                             {
-                                                @ListItem(component.Title, component.Href, 
+                                                @ListItem(component.Title, component.Href,
                                                     @<text>@component.Description</text>
                                                 )
                                             }
@@ -62,8 +63,10 @@
                                 </NavigationMenuItem>
 
                                 <NavigationMenuItem>
-                                    <NavigationMenuLink Href="/docs">
-                                        Docs
+                                    <NavigationMenuLink>
+                                        <RzLink Href="/docs" class="@Theme.RzNavigationMenu.Trigger">
+                                            Docs
+                                        </RzLink>
                                     </NavigationMenuLink>
                                 </NavigationMenuItem>
 
@@ -73,7 +76,7 @@
                                         <ul class="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                                             <li class="row-span-3">
                                                 <NavigationMenuLink>
-                                                    <a class="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md" href="/">
+                                                    <RzLink Href="/" class="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
                                                         <img src="/images/rizzy-logo-wb.svg" class="h-12 w-12" alt="RizzyUI Logo" />
                                                         <div class="mt-4 mb-2 text-lg font-medium">
                                                             RizzyUI
@@ -81,16 +84,16 @@
                                                         <p class="text-sm leading-tight text-muted-foreground">
                                                             Beautifully designed components built with Blazor and Tailwind CSS.
                                                         </p>
-                                                    </a>
+                                                    </RzLink>
                                                 </NavigationMenuLink>
                                             </li>
-                                            @ListItem("Introduction", "/docs", 
+                                            @ListItem("Introduction", "/docs",
                                                 @<text>Re-usable components built for modern ASP.NET Core applications.</text>
                                             )
-                                            @ListItem("Installation", "/docs/installation", 
+                                            @ListItem("Installation", "/docs/installation",
                                                 @<text>How to install dependencies and structure your app.</text>
                                             )
-                                            @ListItem("Typography", "/docs/primitives/typography", 
+                                            @ListItem("Typography", "/docs/primitives/typography",
                                                 @<text>Styles for headings, paragraphs, lists...etc</text>
                                             )
                                         </ul>
@@ -113,13 +116,13 @@
                                     <NavigationMenuTrigger>With Icon</NavigationMenuTrigger>
                                     <NavigationMenuContent>
                                         <ul class="grid gap-3 p-6 w-[400px]">
-                                            @IconListItem(MdiIcon.Package, "Package", 
+                                            @IconListItem(MdiIcon.Package, "Package",
                                                 @<text>Manage your package dependencies and configurations.</text>
                                             )
-                                            @IconListItem(MdiIcon.AccountCircle, "Account", 
+                                            @IconListItem(MdiIcon.AccountCircle, "Account",
                                                 @<text>View and edit your account settings and preferences.</text>
                                             )
-                                            @IconListItem(MdiIcon.Cog, "Settings", 
+                                            @IconListItem(MdiIcon.Cog, "Settings",
                                                 @<text>Configure your application settings and options.</text>
                                             )
                                         </ul>
@@ -135,95 +138,27 @@
 &lt;RzNavigationMenu&gt;
     &lt;NavigationMenuList&gt;
         
-        &lt;NavigationMenuItem&gt;
-            &lt;NavigationMenuTrigger&gt;Home&lt;/NavigationMenuTrigger&gt;
-            &lt;NavigationMenuContent&gt;
-                &lt;div class=&quot;w-[400px] gap-3 p-4&quot;&gt;
-                    &lt;h3 class=&quot;mb-2 text-lg font-semibold&quot;&gt;Welcome to RizzyUI&lt;/h3&gt;
-                    &lt;p class=&quot;text-sm text-muted-foreground&quot;&gt;
-                        Build beautiful ASP.NET Core applications with our comprehensive component library.
-                    &lt;/p&gt;
-                &lt;/div&gt;
-            &lt;/NavigationMenuContent&gt;
-        &lt;/NavigationMenuItem&gt;
-        
+        &lt;!-- Item with a dropdown --&gt;
         &lt;NavigationMenuItem&gt;
             &lt;NavigationMenuTrigger&gt;Components&lt;/NavigationMenuTrigger&gt;
             &lt;NavigationMenuContent&gt;
                 &lt;ul class=&quot;grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]&quot;&gt;
                     @@foreach (var component in _components)
                     {
-                        &lt;ListItem Href=&quot;@@component.Href&quot; Title=&quot;@@component.Title&quot;&gt;
-                            @@component.Description
-                        &lt;/ListItem&gt;
+                        &lt;!-- Using a helper method to render list items for clarity --&gt;
+                        @@ListItem(component.Title, component.Href, @@&lt;text&gt;@@component.Description&lt;/text&gt;)
                     }
                 &lt;/ul&gt;
             &lt;/NavigationMenuContent&gt;
         &lt;/NavigationMenuItem&gt;
         
+        &lt;!-- Standalone Link Item --&gt;
         &lt;NavigationMenuItem&gt;
-            &lt;NavigationMenuLink Href=&quot;/docs&quot;&gt;
-                Docs
+            &lt;NavigationMenuLink&gt;
+                &lt;RzLink Href=&quot;/docs&quot; class=&quot;@@Theme.RzNavigationMenu.Trigger&quot;&gt;
+                    Docs
+                &lt;/RzLink&gt;
             &lt;/NavigationMenuLink&gt;
-        &lt;/NavigationMenuItem&gt;
-        
-        &lt;NavigationMenuItem&gt;
-            &lt;NavigationMenuTrigger&gt;List&lt;/NavigationMenuTrigger&gt;
-            &lt;NavigationMenuContent&gt;
-                &lt;ul class=&quot;grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]&quot;&gt;
-                    &lt;li class=&quot;row-span-3&quot;&gt;
-                        &lt;NavigationMenuLink&gt;
-                            &lt;a class=&quot;flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md&quot; href=&quot;/&quot;&gt;
-                                &lt;img src=&quot;/images/rizzy-logo-wb.svg&quot; class=&quot;h-12 w-12&quot; alt=&quot;RizzyUI Logo&quot; /&gt;
-                                &lt;div class=&quot;mt-4 mb-2 text-lg font-medium&quot;&gt;
-                                    RizzyUI
-                                &lt;/div&gt;
-                                &lt;p class=&quot;text-sm leading-tight text-muted-foreground&quot;&gt;
-                                    Beautifully designed components built with Blazor and Tailwind CSS.
-                                &lt;/p&gt;
-                            &lt;/a&gt;
-                        &lt;/NavigationMenuLink&gt;
-                    &lt;/li&gt;
-                    &lt;ListItem Href=&quot;/docs&quot; Title=&quot;Introduction&quot;&gt;
-                        Re-usable components built for modern ASP.NET Core applications.
-                    &lt;/ListItem&gt;
-                    &lt;ListItem Href=&quot;/docs/installation&quot; Title=&quot;Installation&quot;&gt;
-                        How to install dependencies and structure your app.
-                    &lt;/ListItem&gt;
-                    &lt;ListItem Href=&quot;/docs/primitives/typography&quot; Title=&quot;Typography&quot;&gt;
-                        Styles for headings, paragraphs, lists...etc
-                    &lt;/ListItem&gt;
-                &lt;/ul&gt;
-            &lt;/NavigationMenuContent&gt;
-        &lt;/NavigationMenuItem&gt;
-        
-        &lt;NavigationMenuItem&gt;
-            &lt;NavigationMenuTrigger&gt;Simple&lt;/NavigationMenuTrigger&gt;
-            &lt;NavigationMenuContent&gt;
-                &lt;div class=&quot;grid gap-3 p-6 w-[300px]&quot;&gt;
-                    &lt;p class=&quot;text-sm font-medium&quot;&gt;A Simple Menu&lt;/p&gt;
-                    &lt;p class=&quot;text-sm text-muted-foreground&quot;&gt;
-                        This demonstrates a simple dropdown with basic content.
-                    &lt;/p&gt;
-                &lt;/div&gt;
-            &lt;/NavigationMenuContent&gt;
-        &lt;/NavigationMenuItem&gt;
-        
-        &lt;NavigationMenuItem&gt;
-            &lt;NavigationMenuTrigger&gt;With Icon&lt;/NavigationMenuTrigger&gt;
-            &lt;NavigationMenuContent&gt;
-                &lt;ul class=&quot;grid gap-3 p-6 w-[400px]&quot;&gt;
-                    &lt;IconListItem Icon=&quot;@@MdiIcon.Package&quot; Title=&quot;Package&quot;&gt;
-                        Manage your package dependencies and configurations.
-                    &lt;/IconListItem&gt;
-                    &lt;IconListItem Icon=&quot;@@MdiIcon.AccountCircle&quot; Title=&quot;Account&quot;&gt;
-                        View and edit your account settings and preferences.
-                    &lt;/IconListItem&gt;
-                    &lt;IconListItem Icon=&quot;@@MdiIcon.Settings&quot; Title=&quot;Settings&quot;&gt;
-                        Configure your application settings and options.
-                    &lt;/IconListItem&gt;
-                &lt;/ul&gt;
-            &lt;/NavigationMenuContent&gt;
         &lt;/NavigationMenuItem&gt;
         
     &lt;/NavigationMenuList&gt;
@@ -242,18 +177,18 @@
 
     private RenderFragment ListItem(string title, string href, RenderFragment childContent) =&gt; @@&lt;li&gt;
         &lt;NavigationMenuLink&gt;
-            &lt;a href=&quot;@@href&quot; class=&quot;block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground&quot;&gt;
+            &lt;RzLink Href=&quot;@@href&quot; class=&quot;block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground&quot;&gt;
                 &lt;div class=&quot;text-sm font-medium leading-none&quot;&gt;@@title&lt;/div&gt;
                 &lt;p class=&quot;line-clamp-2 text-sm leading-snug text-muted-foreground&quot;&gt;
                     @@childContent
                 &lt;/p&gt;
-            &lt;/a&gt;
+            &lt;/RzLink&gt;
         &lt;/NavigationMenuLink&gt;
     &lt;/li&gt;;
     
     private RenderFragment IconListItem(SvgIcon icon, string title, RenderFragment childContent) =&gt; @@&lt;li&gt;
         &lt;NavigationMenuLink&gt;
-            &lt;a href=&quot;#&quot; class=&quot;flex items-start space-x-3 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground&quot;&gt;
+            &lt;RzLink Href=&quot;#&quot; class=&quot;flex items-start space-x-3 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground&quot;&gt;
                 &lt;Blazicon Svg=&quot;@@icon&quot; class=&quot;size-5 mt-px text-muted-foreground&quot; aria-hidden=&quot;true&quot; /&gt;
                 &lt;div class=&quot;space-y-1&quot;&gt;
                     &lt;div class=&quot;text-sm font-medium leading-none&quot;&gt;@@title&lt;/div&gt;
@@ -261,13 +196,13 @@
                         @@childContent
                     &lt;/p&gt;
                 &lt;/div&gt;
-            &lt;/a&gt;
+            &lt;/RzLink&gt;
         &lt;/NavigationMenuLink&gt;
     &lt;/li&gt;;
 }
                 </RzCodeViewer>
             </section>
-
+            
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
                     Component Parameters
@@ -329,14 +264,13 @@
                             <tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content of the link, typically text or custom components.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Href</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The URL to navigate to.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">"#"</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content of the link, typically an &lt;RzLink> or &lt;a> tag.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
                         </tbody>
                     </table>
                 </div>
 
                 <RzParagraph>
-                    The components `NavigationMenuList`, `NavigationMenuItem`, and `NavigationMenuContent` primarily accept `ChildContent` and pass through additional HTML attributes. They have no other unique parameters. `NavigationMenuIndicator` is an internal component with no user-configurable parameters.
+                    The components `NavigationMenuList`, `NavigationMenuItem`, and `NavigationMenuContent` primarily accept `ChildContent` and pass through additional HTML attributes. They have no other unique parameters.
                 </RzParagraph>
             </section>
         </MainContent>
@@ -344,7 +278,7 @@
 </RzQuickReferenceContainer>
 
 @code {
-    private readonly (string Title, string Href, string Description)[] _components = 
+    private readonly (string Title, string Href, string Description)[] _components =
     {
         ("Alert", "/components/alert", "A modal dialog that interrupts the user with important content."),
         ("Accordion", "/components/accordion", "A vertically stacked set of interactive headings that each reveal a section of content."),
@@ -354,30 +288,32 @@
         ("Dropdown Menu", "/components/dropdown", "Displays a menu to the user — such as a set of actions or functions — triggered by a button.")
     };
 
-    private RenderFragment ListItem(string title, string href, RenderFragment childContent) => 
+    private RenderFragment ListItem(string title, string href, RenderFragment childContent) =>
         @<li>
             <NavigationMenuLink>
-                <a href="@href" class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                <RzLink Href="@href" class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                     <div class="text-sm font-medium leading-none">@title</div>
                     <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         @childContent
                     </p>
-                </a>
+                </RzLink>
             </NavigationMenuLink>
         </li>;
-    
-    private RenderFragment IconListItem(SvgIcon icon, string title, RenderFragment childContent) => 
+
+    private RenderFragment IconListItem(SvgIcon icon, string title, RenderFragment childContent) =>
         @<li>
             <NavigationMenuLink>
-                <a href="#" class="flex items-start space-x-3 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                    <Blazicon Svg="@icon" class="size-5 mt-px text-muted-foreground" aria-hidden="true" />
+                <RzLink Href="#" class="flex items-start space-x-3 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <span class="size-5 text-2xl mt-px text-muted-foreground" aria-hidden="true">
+                        <Blazicon Svg="@icon"/>
+                    </span>
                     <div class="space-y-1">
                         <div class="text-sm font-medium leading-none">@title</div>
                         <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
                             @childContent
                         </p>
                     </div>
-                </a>
+                </RzLink>
             </NavigationMenuLink>
         </li>;
 }
