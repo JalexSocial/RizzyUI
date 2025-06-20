@@ -11,7 +11,7 @@ namespace RizzyUI;
 /// Base class for all RizzyUI components, providing common functionality
 /// such as theme access, attribute merging, nonce handling, and localization support.
 /// </summary>
-public abstract class RzComponent : ComponentBase
+public abstract partial class RzComponent : ComponentBase
 {
     private string? _nonce;
 
