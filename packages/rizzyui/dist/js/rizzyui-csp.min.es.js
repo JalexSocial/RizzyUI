@@ -4753,11 +4753,10 @@ function Vl(e, t) {
     closeTimeout: null,
     prevIndex: null,
     list: null,
-    indicator: null,
     isClosing: !1,
     /* ---------- helpers ---------- */
     _triggerIndex(n) {
-      return this.list ? Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]')).findIndex((r) => r.id.replace("-trigger", "") === n) : -1;
+      return this.list ? Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]')).findIndex((r) => r.getAttribute("x-ref") === `trigger_${n}`) : -1;
     },
     _contentEl(n) {
       return document.getElementById(`${n}-content`);
@@ -4767,16 +4766,16 @@ function Vl(e, t) {
       this.$el.querySelectorAll("[data-popover]").forEach((i) => {
         i.style.display = "none";
       }), this.$nextTick(() => {
-        this.list = this.$refs.list, this.indicator = this.$refs.indicator;
+        this.list = this.$refs.list;
       });
     },
     /* ---------- event handlers (from events with no params) ---------- */
     toggleActive(n) {
-      const i = n.currentTarget.id.replace("-trigger", "");
+      const i = n.currentTarget.getAttribute("x-ref").replace("trigger_", "");
       this.activeItemId === i && this.open ? this.closeMenu() : this.openMenu(i);
     },
     handleTriggerEnter(n) {
-      const i = n.currentTarget.id.replace("-trigger", "");
+      const i = n.currentTarget.getAttribute("x-ref").replace("trigger_", "");
       this.cancelClose(), this.activeItemId !== i && !this.isClosing && requestAnimationFrame(() => this.openMenu(i));
     },
     handleItemEnter(n) {
@@ -4785,7 +4784,7 @@ function Vl(e, t) {
       this.cancelClose();
       const r = i.querySelector('[x-ref^="trigger_"]');
       if (r) {
-        const s = r.id.replace("-trigger", "");
+        const s = r.getAttribute("x-ref").replace("trigger_", "");
         this.activeItemId !== s && !this.isClosing && requestAnimationFrame(() => this.openMenu(s));
       } else
         this.open && !this.isClosing && this.closeMenu();
@@ -4822,7 +4821,7 @@ function Vl(e, t) {
       }).then(({ x: l, y: c }) => {
         Object.assign(a.style, { left: `${l}px`, top: `${c}px` });
       }), a.style.display = "block", s ? a.setAttribute("data-motion", "fade-in") : a.setAttribute("data-motion", `from-${r}`), this.$nextTick(() => {
-        this.indicator && (this.indicator.style.width = `${o.offsetWidth}px`, this.indicator.style.left = `${o.offsetLeft}px`, this.indicator.setAttribute("data-state", "visible")), o.setAttribute("aria-expanded", "true"), o.dataset.state = "open";
+        o.setAttribute("aria-expanded", "true"), o.dataset.state = "open";
       }));
     },
     closeMenu() {
@@ -4834,7 +4833,7 @@ function Vl(e, t) {
         return;
       }
       const i = this.$refs[`trigger_${n}`];
-      i && (i.setAttribute("aria-expanded", "false"), delete i.dataset.state), this.indicator && this.indicator.setAttribute("data-state", "hidden");
+      i && (i.setAttribute("aria-expanded", "false"), delete i.dataset.state);
       const r = this._contentEl(n);
       r && (r.setAttribute("data-motion", "fade-out"), setTimeout(() => {
         r.style.display = "none";

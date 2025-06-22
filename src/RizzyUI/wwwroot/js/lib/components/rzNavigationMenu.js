@@ -1,4 +1,3 @@
-
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 
 export default function (Alpine, $data) {
@@ -8,14 +7,13 @@ export default function (Alpine, $data) {
     closeTimeout : null,
     prevIndex    : null,
     list         : null,
-    indicator    : null,
     isClosing    : false,
 
     /* ---------- helpers ---------- */
     _triggerIndex(id) {
       if (!this.list) return -1;
       const triggers = Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]'));
-      return triggers.findIndex(t => t.id.replace('-trigger', '') === id);
+      return triggers.findIndex(t => t.getAttribute('x-ref') === `trigger_${id}`);
     },
     _contentEl(id)   { return document.getElementById(`${id}-content`); },
 
@@ -31,18 +29,17 @@ export default function (Alpine, $data) {
       // Defer ref assignment until the DOM is fully patched by Alpine.
       this.$nextTick(() => {
         this.list = this.$refs.list;
-        this.indicator = this.$refs.indicator;
       });
     },
 
     /* ---------- event handlers (from events with no params) ---------- */
     toggleActive(e) {
-      const id = e.currentTarget.id.replace('-trigger', '');
+      const id = e.currentTarget.getAttribute('x-ref').replace('trigger_', '');
       (this.activeItemId === id && this.open) ? this.closeMenu() : this.openMenu(id);
     },
 
     handleTriggerEnter(e) {
-      const id = e.currentTarget.id.replace('-trigger', '');
+      const id = e.currentTarget.getAttribute('x-ref').replace('trigger_', '');
       this.cancelClose();
       if (this.activeItemId !== id && !this.isClosing) {
         requestAnimationFrame(() => this.openMenu(id));
@@ -57,26 +54,26 @@ export default function (Alpine, $data) {
 
       const trigger = item.querySelector('[x-ref^="trigger_"]');
       if (trigger) {
-        const id = trigger.id.replace('-trigger', '');
+        const id = trigger.getAttribute('x-ref').replace('trigger_', '');
         if (this.activeItemId !== id && !this.isClosing) {
           requestAnimationFrame(() => this.openMenu(id));
         }
       } else {
         if (this.open && !this.isClosing) {
-            this.closeMenu();
+          this.closeMenu();
         }
       }
     },
 
     handleContentEnter() {
-        this.cancelClose();
+      this.cancelClose();
     },
-    
+
     scheduleClose() {
       if (this.isClosing || this.closeTimeout) return;
       this.closeTimeout = setTimeout(() => this.closeMenu(), 150);
     },
-    
+
     cancelClose() {
       if (this.closeTimeout) {
         clearTimeout(this.closeTimeout);
@@ -98,7 +95,7 @@ export default function (Alpine, $data) {
       if (this.open && this.activeItemId && this.activeItemId !== id) {
         const oldTrig = this.$refs[`trigger_${this.activeItemId}`];
         if (oldTrig) delete oldTrig.dataset.state;
-        
+
         const oldEl = this._contentEl(this.activeItemId);
         if (oldEl) {
           const outgoingDirection = dir === 'end' ? 'start' : 'end';
@@ -116,7 +113,7 @@ export default function (Alpine, $data) {
 
       const newTrig = this.$refs[`trigger_${id}`];
       const newContentEl = this._contentEl(id);
-      
+
       if (!newTrig || !newContentEl) return;
 
       // Position first
@@ -126,7 +123,7 @@ export default function (Alpine, $data) {
       }).then(({ x, y }) => {
         Object.assign(newContentEl.style, { left: `${x}px`, top: `${y}px` });
       });
-      
+
       // Then make visible and animate
       newContentEl.style.display = 'block';
       if (isFirstOpen) {
@@ -136,13 +133,6 @@ export default function (Alpine, $data) {
       }
 
       this.$nextTick(() => {
-        // Indicator positioning
-        if (this.indicator) {
-          this.indicator.style.width = `${newTrig.offsetWidth}px`;
-          this.indicator.style.left = `${newTrig.offsetLeft}px`;
-          this.indicator.setAttribute('data-state', 'visible');
-        }
-
         // Trigger state
         newTrig.setAttribute('aria-expanded', 'true');
         newTrig.dataset.state = 'open';
@@ -157,32 +147,28 @@ export default function (Alpine, $data) {
 
       const activeId = this.activeItemId;
       if (!activeId) {
-          this.isClosing = false;
-          return;
+        this.isClosing = false;
+        return;
       }
-      
+
       const trig = this.$refs[`trigger_${activeId}`];
       if (trig) {
         trig.setAttribute('aria-expanded', 'false');
         delete trig.dataset.state;
       }
 
-      if (this.indicator) {
-        this.indicator.setAttribute('data-state', 'hidden');
-      }
-
       const contentEl = this._contentEl(activeId);
       if (contentEl) {
         contentEl.setAttribute('data-motion', 'fade-out');
         setTimeout(() => {
-            contentEl.style.display = 'none';
+          contentEl.style.display = 'none';
         }, 150); // Match animation duration
       }
-      
+
       this.open = false;
       this.activeItemId = null;
       this.prevIndex = null;
-      
+
       // Use timeout to prevent re-opening immediately on mouse-out -> mouse-in
       setTimeout(() => {
         this.isClosing = false;

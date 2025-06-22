@@ -3,11 +3,11 @@
 
 <CascadingValue Value="this" IsFixed="true">
 	<HtmlElement Element="@EffectiveElement"
+	             @attributes="AdditionalAttributes"
 	             id="@Id"
 	             class="@RootClass()"
 	             role="menuitem"
-	             x-on:mouseenter="handleItemEnter"
-	             @attributes="@AdditionalAttributes">
+	             x-on:mouseenter="handleItemEnter">
 		@ChildContent
 	</HtmlElement>
 </CascadingValue>

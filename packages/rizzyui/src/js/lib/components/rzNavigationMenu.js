@@ -13,7 +13,7 @@ export default function (Alpine, $data) {
     _triggerIndex(id) {
       if (!this.list) return -1;
       const triggers = Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]'));
-      return triggers.findIndex(t => t.id.replace('-trigger', '') === id);
+      return triggers.findIndex(t => t.getAttribute('x-ref') === `trigger_${id}`);
     },
     _contentEl(id)   { return document.getElementById(`${id}-content`); },
 
@@ -34,12 +34,12 @@ export default function (Alpine, $data) {
 
     /* ---------- event handlers (from events with no params) ---------- */
     toggleActive(e) {
-      const id = e.currentTarget.id.replace('-trigger', '');
+      const id = e.currentTarget.getAttribute('x-ref').replace('trigger_', '');
       (this.activeItemId === id && this.open) ? this.closeMenu() : this.openMenu(id);
     },
 
     handleTriggerEnter(e) {
-      const id = e.currentTarget.id.replace('-trigger', '');
+      const id = e.currentTarget.getAttribute('x-ref').replace('trigger_', '');
       this.cancelClose();
       if (this.activeItemId !== id && !this.isClosing) {
         requestAnimationFrame(() => this.openMenu(id));
@@ -54,7 +54,7 @@ export default function (Alpine, $data) {
 
       const trigger = item.querySelector('[x-ref^="trigger_"]');
       if (trigger) {
-        const id = trigger.id.replace('-trigger', '');
+        const id = trigger.getAttribute('x-ref').replace('trigger_', '');
         if (this.activeItemId !== id && !this.isClosing) {
           requestAnimationFrame(() => this.openMenu(id));
         }

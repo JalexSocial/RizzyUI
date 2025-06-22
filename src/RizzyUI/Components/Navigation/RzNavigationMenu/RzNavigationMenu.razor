@@ -3,10 +3,10 @@
 @inherits RzComponent
 
 <CascadingValue Value="this" IsFixed="true">
-    <HtmlElement Element="@EffectiveElement" 
-                 id="@Id" 
-                 class="@RootClass()" 
+    <HtmlElement Element="@EffectiveElement"
                  @attributes="@AdditionalAttributes"
+                 id="@Id" 
+                 class="@RootClass()"
                  aria-label="@AriaLabel"
                  data-orientation="@Orientation.ToString().ToLowerInvariant()"
                  dir="ltr"

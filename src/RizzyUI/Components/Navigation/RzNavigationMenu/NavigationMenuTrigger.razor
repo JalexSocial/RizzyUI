@@ -3,6 +3,7 @@
 @inherits RzComponent
 
 <HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
              id="@TriggerId"
              class="@RootClass()"
              x-ref="@TriggerXRef"
@@ -11,8 +12,7 @@
              aria-controls="@ContentId"
              data-state="closed"
              x-on:click.prevent="toggleActive"
-             x-on:focus="handleTriggerEnter"
-             @attributes="@AdditionalAttributes">
+             x-on:focus="handleTriggerEnter">
 	@ChildContent
 	<span class="relative top-[1px] ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180">
 		<Blazicon Svg="MdiIcon.ChevronDown" aria-hidden="true"/>

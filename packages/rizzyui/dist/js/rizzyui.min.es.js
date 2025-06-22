@@ -424,13 +424,13 @@ var jt = /* @__PURE__ */ function() {
          * @returns {HTMLElement|undefined} The next tabbable node, if any.
          */
         nextTabbableNode: function(x) {
-          var C = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !0, A = m.findIndex(function(k) {
+          var C = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !0, N = m.findIndex(function(k) {
             return k === x;
           });
-          if (!(A < 0))
-            return C ? m.slice(A + 1).find(function(k) {
+          if (!(N < 0))
+            return C ? m.slice(N + 1).find(function(k) {
               return ut(k, s.tabbableOptions);
-            }) : m.slice(0, A).reverse().find(function(k) {
+            }) : m.slice(0, N).reverse().find(function(k) {
               return ut(k, s.tabbableOptions);
             });
         }
@@ -491,7 +491,7 @@ var jt = /* @__PURE__ */ function() {
           return h === R;
         });
         if (C < 0 && (x.container === h || ft(h, s.tabbableOptions) && !ut(h, s.tabbableOptions) && !x.nextTabbableNode(h, !1)) && (C = E), C >= 0) {
-          var A = C === 0 ? r.tabbableGroups.length - 1 : C - 1, k = r.tabbableGroups[A];
+          var N = C === 0 ? r.tabbableGroups.length - 1 : C - 1, k = r.tabbableGroups[N];
           m = k.lastTabbableNode;
         }
       } else {
@@ -536,7 +536,7 @@ var jt = /* @__PURE__ */ function() {
         capture: !0,
         passive: !1
       }), o;
-  }, N = function() {
+  }, A = function() {
     if (r.active)
       return n.removeEventListener("focusin", y, !0), n.removeEventListener("mousedown", b, !0), n.removeEventListener("touchstart", b, !0), n.removeEventListener("click", S, !0), n.removeEventListener("keydown", T, !0), o;
   };
@@ -565,18 +565,18 @@ var jt = /* @__PURE__ */ function() {
         onPostDeactivate: s.onPostDeactivate,
         checkCanReturnFocus: s.checkCanReturnFocus
       }, f);
-      clearTimeout(r.delayInitialFocusTimer), r.delayInitialFocusTimer = void 0, N(), r.active = !1, r.paused = !1, jt.deactivateTrap(o);
+      clearTimeout(r.delayInitialFocusTimer), r.delayInitialFocusTimer = void 0, A(), r.active = !1, r.paused = !1, jt.deactivateTrap(o);
       var m = a(h, "onDeactivate"), E = a(h, "onPostDeactivate"), x = a(h, "checkCanReturnFocus"), C = a(h, "returnFocus", "returnFocusOnDeactivate");
       m && m();
-      var A = function() {
+      var N = function() {
         qt(function() {
           C && p(g(r.nodeFocusedBeforeActivation)), E && E();
         });
       };
-      return C && x ? (x(g(r.nodeFocusedBeforeActivation)).then(A, A), this) : (A(), this);
+      return C && x ? (x(g(r.nodeFocusedBeforeActivation)).then(N, N), this) : (N(), this);
     },
     pause: function() {
-      return r.paused || !r.active ? this : (r.paused = !0, N(), this);
+      return r.paused || !r.active ? this : (r.paused = !0, A(), this);
     },
     unpause: function() {
       return !r.paused || !r.active ? this : (r.paused = !1, u(), O(), this);
@@ -784,7 +784,7 @@ var ci = Object.defineProperty, W = function(e, t) {
 }, "stringToHTML"), nt = W(function(e) {
   var t = new DOMParser().parseFromString(e, "application/xml");
   return document.importNode(t.documentElement, !0).outerHTML;
-}, "getSvgNode"), I = { CONTAINER: "sn-notifications-container", NOTIFY: "sn-notify", NOTIFY_CONTENT: "sn-notify-content", NOTIFY_ICON: "sn-notify-icon", NOTIFY_CLOSE: "sn-notify-close", NOTIFY_TITLE: "sn-notify-title", NOTIFY_TEXT: "sn-notify-text", IS_X_CENTER: "sn-is-x-center", IS_Y_CENTER: "sn-is-y-center", IS_CENTER: "sn-is-center", IS_LEFT: "sn-is-left", IS_RIGHT: "sn-is-right", IS_TOP: "sn-is-top", IS_BOTTOM: "sn-is-bottom", NOTIFY_OUTLINE: "sn-notify-outline", NOTIFY_FILLED: "sn-notify-filled", NOTIFY_ERROR: "sn-notify-error", NOTIFY_WARNING: "sn-notify-warning", NOTIFY_SUCCESS: "sn-notify-success", NOTIFY_INFO: "sn-notify-info", NOTIFY_FADE: "sn-notify-fade", NOTIFY_FADE_IN: "sn-notify-fade-in", NOTIFY_SLIDE: "sn-notify-slide", NOTIFY_SLIDE_IN: "sn-notify-slide-in", NOTIFY_AUTOCLOSE: "sn-notify-autoclose" }, Y = { ERROR: "error", WARNING: "warning", SUCCESS: "success", INFO: "info" }, Zt = { OUTLINE: "outline", FILLED: "filled" }, At = { FADE: "fade", SLIDE: "slide" }, st = { CLOSE: nt(ui), SUCCESS: nt(hi), ERROR: nt(di), WARNING: nt(pi), INFO: nt(fi) }, Kt = W(function(e) {
+}, "getSvgNode"), I = { CONTAINER: "sn-notifications-container", NOTIFY: "sn-notify", NOTIFY_CONTENT: "sn-notify-content", NOTIFY_ICON: "sn-notify-icon", NOTIFY_CLOSE: "sn-notify-close", NOTIFY_TITLE: "sn-notify-title", NOTIFY_TEXT: "sn-notify-text", IS_X_CENTER: "sn-is-x-center", IS_Y_CENTER: "sn-is-y-center", IS_CENTER: "sn-is-center", IS_LEFT: "sn-is-left", IS_RIGHT: "sn-is-right", IS_TOP: "sn-is-top", IS_BOTTOM: "sn-is-bottom", NOTIFY_OUTLINE: "sn-notify-outline", NOTIFY_FILLED: "sn-notify-filled", NOTIFY_ERROR: "sn-notify-error", NOTIFY_WARNING: "sn-notify-warning", NOTIFY_SUCCESS: "sn-notify-success", NOTIFY_INFO: "sn-notify-info", NOTIFY_FADE: "sn-notify-fade", NOTIFY_FADE_IN: "sn-notify-fade-in", NOTIFY_SLIDE: "sn-notify-slide", NOTIFY_SLIDE_IN: "sn-notify-slide-in", NOTIFY_AUTOCLOSE: "sn-notify-autoclose" }, Y = { ERROR: "error", WARNING: "warning", SUCCESS: "success", INFO: "info" }, Zt = { OUTLINE: "outline", FILLED: "filled" }, Nt = { FADE: "fade", SLIDE: "slide" }, st = { CLOSE: nt(ui), SUCCESS: nt(hi), ERROR: nt(di), WARNING: nt(pi), INFO: nt(fi) }, Kt = W(function(e) {
   e.wrapper.classList.add(I.NOTIFY_FADE), setTimeout(function() {
     e.wrapper.classList.add(I.NOTIFY_FADE_IN);
   }, 100);
@@ -806,8 +806,8 @@ var ci = Object.defineProperty, W = function(e, t) {
     oi(this, e), this.notifyOut = W(function(F) {
       F(i);
     }, "notifyOut");
-    var n = t.notificationsGap, s = n === void 0 ? 20 : n, r = t.notificationsPadding, o = r === void 0 ? 20 : r, a = t.status, l = a === void 0 ? "success" : a, c = t.effect, d = c === void 0 ? At.FADE : c, u = t.type, p = u === void 0 ? "outline" : u, g = t.title, b = t.text, y = t.showIcon, w = y === void 0 ? !0 : y, T = t.customIcon, S = T === void 0 ? "" : T, O = t.customClass, N = O === void 0 ? "" : O, v = t.speed, f = v === void 0 ? 500 : v, h = t.showCloseButton, m = h === void 0 ? !0 : h, E = t.autoclose, x = E === void 0 ? !0 : E, C = t.autotimeout, A = C === void 0 ? 3e3 : C, k = t.position, M = k === void 0 ? "right top" : k, L = t.customWrapper, U = L === void 0 ? "" : L;
-    if (this.customWrapper = U, this.status = l, this.title = g, this.text = b, this.showIcon = w, this.customIcon = S, this.customClass = N, this.speed = f, this.effect = d, this.showCloseButton = m, this.autoclose = x, this.autotimeout = A, this.notificationsGap = s, this.notificationsPadding = o, this.type = p, this.position = M, !this.checkRequirements()) {
+    var n = t.notificationsGap, s = n === void 0 ? 20 : n, r = t.notificationsPadding, o = r === void 0 ? 20 : r, a = t.status, l = a === void 0 ? "success" : a, c = t.effect, d = c === void 0 ? Nt.FADE : c, u = t.type, p = u === void 0 ? "outline" : u, g = t.title, b = t.text, y = t.showIcon, w = y === void 0 ? !0 : y, T = t.customIcon, S = T === void 0 ? "" : T, O = t.customClass, A = O === void 0 ? "" : O, v = t.speed, f = v === void 0 ? 500 : v, h = t.showCloseButton, m = h === void 0 ? !0 : h, E = t.autoclose, x = E === void 0 ? !0 : E, C = t.autotimeout, N = C === void 0 ? 3e3 : C, k = t.position, M = k === void 0 ? "right top" : k, L = t.customWrapper, U = L === void 0 ? "" : L;
+    if (this.customWrapper = U, this.status = l, this.title = g, this.text = b, this.showIcon = w, this.customIcon = S, this.customClass = A, this.speed = f, this.effect = d, this.showCloseButton = m, this.autoclose = x, this.autotimeout = N, this.notificationsGap = s, this.notificationsPadding = o, this.type = p, this.position = M, !this.checkRequirements()) {
       console.error("You must specify 'title' or 'text' at least.");
       return;
     }
@@ -892,10 +892,10 @@ var ci = Object.defineProperty, W = function(e, t) {
     this.notifyOut(this.selectedNotifyOutEffect);
   } }, { key: "setEffect", value: function() {
     switch (this.effect) {
-      case At.FADE:
+      case Nt.FADE:
         this.selectedNotifyInEffect = Kt, this.selectedNotifyOutEffect = Xt;
         break;
-      case At.SLIDE:
+      case Nt.SLIDE:
         this.selectedNotifyInEffect = mi, this.selectedNotifyOutEffect = bi;
         break;
       default:
@@ -1244,7 +1244,7 @@ function Oi(e) {
     }
   }));
 }
-function Ni(e, t) {
+function Ai(e, t) {
   e.data("rzCodeViewer", () => ({
     expand: !1,
     border: !0,
@@ -1299,7 +1299,7 @@ function Ni(e, t) {
     }
   }));
 }
-function Ai(e, t) {
+function Ni(e, t) {
   e.data("rzDateEdit", () => ({
     options: {},
     placeholder: "",
@@ -1497,7 +1497,7 @@ const Pi = async (e, t, i) => {
     } = a[y], {
       x: S,
       y: O,
-      data: N,
+      data: A,
       reset: v
     } = await T({
       x: d,
@@ -1517,7 +1517,7 @@ const Pi = async (e, t, i) => {
       ...g,
       [w]: {
         ...g[w],
-        ...N
+        ...A
       }
     }, v && b <= 50 && (b++, typeof v == "object" && (v.placement && (p = v.placement), v.rects && (c = v.rects === !0 ? await o.getElementRects({
       reference: e,
@@ -1562,7 +1562,7 @@ async function xe(e, t) {
     y: s,
     width: o.floating.width,
     height: o.floating.height
-  } : o.reference, O = await (r.getOffsetParent == null ? void 0 : r.getOffsetParent(a.floating)), N = await (r.isElement == null ? void 0 : r.isElement(O)) ? await (r.getScale == null ? void 0 : r.getScale(O)) || {
+  } : o.reference, O = await (r.getOffsetParent == null ? void 0 : r.getOffsetParent(a.floating)), A = await (r.isElement == null ? void 0 : r.isElement(O)) ? await (r.getScale == null ? void 0 : r.getScale(O)) || {
     x: 1,
     y: 1
   } : {
@@ -1575,10 +1575,10 @@ async function xe(e, t) {
     strategy: l
   }) : S);
   return {
-    top: (T.top - v.top + b.top) / N.y,
-    bottom: (v.bottom - T.bottom + b.bottom) / N.y,
-    left: (T.left - v.left + b.left) / N.x,
-    right: (v.right - T.right + b.right) / N.x
+    top: (T.top - v.top + b.top) / A.y,
+    bottom: (v.bottom - T.bottom + b.bottom) / A.y,
+    left: (T.left - v.left + b.left) / A.x,
+    right: (v.right - T.right + b.right) / A.x
   };
 }
 const zi = function(e) {
@@ -1605,19 +1605,19 @@ const zi = function(e) {
       } = Tt(e, t);
       if ((i = r.arrow) != null && i.alignmentOffset)
         return {};
-      const T = K(s), S = G(a), O = K(a) === a, N = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), v = p || (O || !y ? [vt(a)] : Ri(a)), f = b !== "none";
-      !p && f && v.push(...Di(a, y, b, N));
+      const T = K(s), S = G(a), O = K(a) === a, A = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), v = p || (O || !y ? [vt(a)] : Ri(a)), f = b !== "none";
+      !p && f && v.push(...Di(a, y, b, A));
       const h = [a, ...v], m = await xe(t, w), E = [];
       let x = ((n = r.flip) == null ? void 0 : n.overflows) || [];
       if (d && E.push(m[T]), u) {
-        const L = Li(s, o, N);
+        const L = Li(s, o, A);
         E.push(m[L[0]], m[L[1]]);
       }
       if (x = [...x, {
         placement: s,
         overflows: E
       }], !E.every((L) => L <= 0)) {
-        var C, A;
+        var C, N;
         const L = (((C = r.flip) == null ? void 0 : C.index) || 0) + 1, U = h[L];
         if (U) {
           var k;
@@ -1633,7 +1633,7 @@ const zi = function(e) {
               }
             };
         }
-        let F = (A = x.filter((R) => R.overflows[0] <= 0).sort((R, P) => R.overflows[1] - P.overflows[1])[0]) == null ? void 0 : A.placement;
+        let F = (N = x.filter((R) => R.overflows[0] <= 0).sort((R, P) => R.overflows[1] - P.overflows[1])[0]) == null ? void 0 : N.placement;
         if (!F)
           switch (g) {
             case "bestFit": {
@@ -1842,7 +1842,7 @@ function tt(e) {
 function _(e) {
   return $(e).getComputedStyle(e);
 }
-function Nt(e) {
+function At(e) {
   return D(e) ? {
     scrollLeft: e.scrollLeft,
     scrollTop: e.scrollTop
@@ -1926,8 +1926,8 @@ function lt(e, t, i, n) {
     const p = $(r), g = n && D(n) ? $(n) : n;
     let b = p, y = Mt(b);
     for (; y && n && g !== b; ) {
-      const w = Q(y), T = y.getBoundingClientRect(), S = _(y), O = T.left + (y.clientLeft + parseFloat(S.paddingLeft)) * w.x, N = T.top + (y.clientTop + parseFloat(S.paddingTop)) * w.y;
-      l *= w.x, c *= w.y, d *= w.x, u *= w.y, l += O, c += N, b = $(y), y = Mt(b);
+      const w = Q(y), T = y.getBoundingClientRect(), S = _(y), O = T.left + (y.clientLeft + parseFloat(S.paddingLeft)) * w.x, A = T.top + (y.clientTop + parseFloat(S.paddingTop)) * w.y;
+      l *= w.x, c *= w.y, d *= w.x, u *= w.y, l += O, c += A, b = $(y), y = Mt(b);
     }
   }
   return wt({
@@ -1938,10 +1938,10 @@ function lt(e, t, i, n) {
   });
 }
 function Bt(e, t) {
-  const i = Nt(e).scrollLeft;
+  const i = At(e).scrollLeft;
   return t ? t.left + i : lt(V(e)).left + i;
 }
-function Ne(e, t, i) {
+function Ae(e, t, i) {
   i === void 0 && (i = !1);
   const n = e.getBoundingClientRect(), s = n.left + t.scrollLeft - (i ? 0 : (
     // RTL <body> scrollbar.
@@ -1967,11 +1967,11 @@ function Ui(e) {
     scrollTop: 0
   }, c = z(1);
   const d = z(0), u = B(n);
-  if ((u || !u && !r) && ((et(n) !== "body" || ct(o)) && (l = Nt(n)), B(n))) {
+  if ((u || !u && !r) && ((et(n) !== "body" || ct(o)) && (l = At(n)), B(n))) {
     const g = lt(n);
     c = Q(n), d.x = g.x + n.clientLeft, d.y = g.y + n.clientTop;
   }
-  const p = o && !u && !r ? Ne(o, l, !0) : z(0);
+  const p = o && !u && !r ? Ae(o, l, !0) : z(0);
   return {
     width: i.width * c.x,
     height: i.height * c.y,
@@ -1983,7 +1983,7 @@ function Gi(e) {
   return Array.from(e.getClientRects());
 }
 function Zi(e) {
-  const t = V(e), i = Nt(e), n = e.ownerDocument.body, s = J(t.scrollWidth, t.clientWidth, n.scrollWidth, n.clientWidth), r = J(t.scrollHeight, t.clientHeight, n.scrollHeight, n.clientHeight);
+  const t = V(e), i = At(e), n = e.ownerDocument.body, s = J(t.scrollWidth, t.clientWidth, n.scrollWidth, n.clientWidth), r = J(t.scrollHeight, t.clientHeight, n.scrollHeight, n.clientHeight);
   let o = -i.scrollLeft + Bt(e);
   const a = -i.scrollTop;
   return _(n).direction === "rtl" && (o += J(t.clientWidth, n.clientWidth) - s), {
@@ -2036,9 +2036,9 @@ function ee(e, t, i) {
   }
   return wt(n);
 }
-function Ae(e, t) {
+function Ne(e, t) {
   const i = q(e);
-  return i === t || !D(i) || tt(i) ? !1 : _(i).position === "fixed" || Ae(i, t);
+  return i === t || !D(i) || tt(i) ? !1 : _(i).position === "fixed" || Ne(i, t);
 }
 function Ji(e, t) {
   const i = t.get(e);
@@ -2049,7 +2049,7 @@ function Ji(e, t) {
   let o = r ? q(e) : e;
   for (; D(o) && !tt(o); ) {
     const a = _(o), l = Pt(o);
-    !l && a.position === "fixed" && (s = null), (r ? !l && !s : !l && a.position === "static" && !!s && ["absolute", "fixed"].includes(s.position) || ct(o) && !l && Ae(e, o)) ? n = n.filter((d) => d !== o) : s = a, o = q(o);
+    !l && a.position === "fixed" && (s = null), (r ? !l && !s : !l && a.position === "static" && !!s && ["absolute", "fixed"].includes(s.position) || ct(o) && !l && Ne(e, o)) ? n = n.filter((d) => d !== o) : s = a, o = q(o);
   }
   return t.set(e, n), n;
 }
@@ -2092,12 +2092,12 @@ function en(e, t, i) {
     l.x = Bt(s);
   }
   if (n || !n && !r)
-    if ((et(t) !== "body" || ct(s)) && (a = Nt(t)), n) {
+    if ((et(t) !== "body" || ct(s)) && (a = At(t)), n) {
       const g = lt(t, !0, r, t);
       l.x = g.x + t.clientLeft, l.y = g.y + t.clientTop;
     } else s && c();
   r && !n && s && c();
-  const d = s && !n && !r ? Ne(s, a) : z(0), u = o.left + a.scrollLeft - l.x - d.x, p = o.top + a.scrollTop - l.y - d.y;
+  const d = s && !n && !r ? Ae(s, a) : z(0), u = o.left + a.scrollLeft - l.x - d.x, p = o.top + a.scrollTop - l.y - d.y;
   return {
     x: u,
     y: p,
@@ -2623,11 +2623,10 @@ function pn(e, t) {
     closeTimeout: null,
     prevIndex: null,
     list: null,
-    indicator: null,
     isClosing: !1,
     /* ---------- helpers ---------- */
     _triggerIndex(i) {
-      return this.list ? Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]')).findIndex((s) => s.id.replace("-trigger", "") === i) : -1;
+      return this.list ? Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]')).findIndex((s) => s.getAttribute("x-ref") === `trigger_${i}`) : -1;
     },
     _contentEl(i) {
       return document.getElementById(`${i}-content`);
@@ -2637,16 +2636,16 @@ function pn(e, t) {
       this.$el.querySelectorAll("[data-popover]").forEach((n) => {
         n.style.display = "none";
       }), this.$nextTick(() => {
-        this.list = this.$refs.list, this.indicator = this.$refs.indicator;
+        this.list = this.$refs.list;
       });
     },
     /* ---------- event handlers (from events with no params) ---------- */
     toggleActive(i) {
-      const n = i.currentTarget.id.replace("-trigger", "");
+      const n = i.currentTarget.getAttribute("x-ref").replace("trigger_", "");
       this.activeItemId === n && this.open ? this.closeMenu() : this.openMenu(n);
     },
     handleTriggerEnter(i) {
-      const n = i.currentTarget.id.replace("-trigger", "");
+      const n = i.currentTarget.getAttribute("x-ref").replace("trigger_", "");
       this.cancelClose(), this.activeItemId !== n && !this.isClosing && requestAnimationFrame(() => this.openMenu(n));
     },
     handleItemEnter(i) {
@@ -2655,7 +2654,7 @@ function pn(e, t) {
       this.cancelClose();
       const s = n.querySelector('[x-ref^="trigger_"]');
       if (s) {
-        const r = s.id.replace("-trigger", "");
+        const r = s.getAttribute("x-ref").replace("trigger_", "");
         this.activeItemId !== r && !this.isClosing && requestAnimationFrame(() => this.openMenu(r));
       } else
         this.open && !this.isClosing && this.closeMenu();
@@ -2692,7 +2691,7 @@ function pn(e, t) {
       }).then(({ x: l, y: c }) => {
         Object.assign(a.style, { left: `${l}px`, top: `${c}px` });
       }), a.style.display = "block", r ? a.setAttribute("data-motion", "fade-in") : a.setAttribute("data-motion", `from-${s}`), this.$nextTick(() => {
-        this.indicator && (this.indicator.style.width = `${o.offsetWidth}px`, this.indicator.style.left = `${o.offsetLeft}px`, this.indicator.setAttribute("data-state", "visible")), o.setAttribute("aria-expanded", "true"), o.dataset.state = "open";
+        o.setAttribute("aria-expanded", "true"), o.dataset.state = "open";
       }));
     },
     closeMenu() {
@@ -2704,7 +2703,7 @@ function pn(e, t) {
         return;
       }
       const n = this.$refs[`trigger_${i}`];
-      n && (n.setAttribute("aria-expanded", "false"), delete n.dataset.state), this.indicator && this.indicator.setAttribute("data-state", "hidden");
+      n && (n.setAttribute("aria-expanded", "false"), delete n.dataset.state);
       const s = this._contentEl(i);
       s && (s.setAttribute("data-motion", "fade-out"), setTimeout(() => {
         s.style.display = "none";
@@ -2976,7 +2975,7 @@ function ht(e, t, i) {
   });
 }
 function En(e) {
-  Ei(e), Ti(e), Si(e), Ci(e), Oi(e), Ni(e, ht), Ai(e, ht), on(e), an(e), ln(e), cn(e), un(e), dn(e), fn(e, ht), pn(e), hn(e), gn(e), mn(e), bn(e), vn(e), wn(e), yn(e), xn(e);
+  Ei(e), Ti(e), Si(e), Ci(e), Oi(e), Ai(e, ht), Ni(e, ht), on(e), an(e), ln(e), cn(e), un(e), dn(e), fn(e, ht), pn(e), hn(e), gn(e), mn(e), bn(e), vn(e), wn(e), yn(e), xn(e);
 }
 X.plugin(Re);
 X.plugin(Pe);

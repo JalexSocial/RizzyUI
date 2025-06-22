@@ -3692,13 +3692,12 @@
       closeTimeout: null,
       prevIndex: null,
       list: null,
-      indicator: null,
       isClosing: false,
       /* ---------- helpers ---------- */
       _triggerIndex(id) {
         if (!this.list) return -1;
         const triggers = Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]'));
-        return triggers.findIndex((t2) => t2.id.replace("-trigger", "") === id);
+        return triggers.findIndex((t2) => t2.getAttribute("x-ref") === `trigger_${id}`);
       },
       _contentEl(id) {
         return document.getElementById(`${id}-content`);
@@ -3711,16 +3710,15 @@
         });
         this.$nextTick(() => {
           this.list = this.$refs.list;
-          this.indicator = this.$refs.indicator;
         });
       },
       /* ---------- event handlers (from events with no params) ---------- */
       toggleActive(e2) {
-        const id = e2.currentTarget.id.replace("-trigger", "");
+        const id = e2.currentTarget.getAttribute("x-ref").replace("trigger_", "");
         this.activeItemId === id && this.open ? this.closeMenu() : this.openMenu(id);
       },
       handleTriggerEnter(e2) {
-        const id = e2.currentTarget.id.replace("-trigger", "");
+        const id = e2.currentTarget.getAttribute("x-ref").replace("trigger_", "");
         this.cancelClose();
         if (this.activeItemId !== id && !this.isClosing) {
           requestAnimationFrame(() => this.openMenu(id));
@@ -3732,7 +3730,7 @@
         this.cancelClose();
         const trigger = item.querySelector('[x-ref^="trigger_"]');
         if (trigger) {
-          const id = trigger.id.replace("-trigger", "");
+          const id = trigger.getAttribute("x-ref").replace("trigger_", "");
           if (this.activeItemId !== id && !this.isClosing) {
             requestAnimationFrame(() => this.openMenu(id));
           }
@@ -3794,11 +3792,6 @@
           newContentEl.setAttribute("data-motion", `from-${dir}`);
         }
         this.$nextTick(() => {
-          if (this.indicator) {
-            this.indicator.style.width = `${newTrig.offsetWidth}px`;
-            this.indicator.style.left = `${newTrig.offsetLeft}px`;
-            this.indicator.setAttribute("data-state", "visible");
-          }
           newTrig.setAttribute("aria-expanded", "true");
           newTrig.dataset.state = "open";
         });
@@ -3816,9 +3809,6 @@
         if (trig) {
           trig.setAttribute("aria-expanded", "false");
           delete trig.dataset.state;
-        }
-        if (this.indicator) {
-          this.indicator.setAttribute("data-state", "hidden");
         }
         const contentEl = this._contentEl(activeId);
         if (contentEl) {

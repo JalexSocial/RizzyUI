@@ -2,14 +2,14 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<div x-ref="content_@ParentItem?.Id"
+<div @attributes="AdditionalAttributes"
+     x-ref="content_@ParentItem?.Id"
      id="@ContentId"
      data-item-id="@ParentItem?.Id"
      data-floating
      data-popover
      class="@RootClass()"
      x-on:mouseenter="handleContentEnter"
-     x-cloak
-     @attributes="AdditionalAttributes">
+     x-cloak>
     @ChildContent
 </div>
