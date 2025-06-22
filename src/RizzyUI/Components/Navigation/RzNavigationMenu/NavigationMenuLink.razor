@@ -1,10 +1,17 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzAsChildComponent
 
-<HtmlElement Element="@EffectiveElement"
-             id="@Id"
-             class="@RootClass()"
-             @attributes="@AdditionalAttributes">
-    @ChildContent
-</HtmlElement>
+@if (AsChild)
+{
+	@RenderAsChild()
+}
+else
+{
+	<HtmlElement Element="@EffectiveElement"
+	             id="@Id"
+	             class="@RootClass()"
+	             @attributes="@AdditionalAttributes">
+		@ChildContent
+	</HtmlElement>	
+}

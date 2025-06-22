@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<div x-data="accordionItem" x-ref="@SectionId" data-is-open="@((!Collapsed).ToString().ToLowerInvariant())"
+<div x-data="accordionItem" @attributes="@AdditionalAttributes" x-ref="@SectionId" data-is-open="@((!Collapsed).ToString().ToLowerInvariant())"
      data-section-id="@SectionId"
      data-expanded-class="@Theme.AccordionItem.ChevronIconExpanded"
      class="@Theme.AccordionItem.Container">

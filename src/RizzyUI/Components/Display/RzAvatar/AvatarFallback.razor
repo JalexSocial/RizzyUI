@@ -5,10 +5,10 @@
 
 @if (_shouldRender)
 {
-    <HtmlElement Element="@EffectiveElement" 
+    <HtmlElement Element="@EffectiveElement"
+                 @attributes="AdditionalAttributes"
                  id="@Id" 
-                 class="@RootClass()"
-                 @attributes="AdditionalAttributes">
+                 class="@RootClass()">
         @if (ChildContent != null)
         {
             @ChildContent

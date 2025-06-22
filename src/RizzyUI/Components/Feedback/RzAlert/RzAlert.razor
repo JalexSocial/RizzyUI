@@ -4,12 +4,12 @@
 @inherits RzComponent
 
 <CascadingValue Value="this" IsFixed="true">
-    <HtmlElement Element="@EffectiveElement"
+	<HtmlElement Element="@EffectiveElement"
+	             role="alert"
+	             aria-live="assertive"
                  @attributes="@AdditionalAttributes"
                  id="@Id"
-                 class="@RootClass()"
-                 role="alert"
-                 aria-live="assertive">
+                 class="@RootClass()">
 	    <div class="@Theme.RzAlert.GetVariantCss(Variant)" aria-atomic="true"
 	         x-cloak
 	         x-data="rzAlert" x-show="showAlert"

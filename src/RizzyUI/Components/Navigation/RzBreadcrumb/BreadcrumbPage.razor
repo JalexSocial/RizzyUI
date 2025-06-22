@@ -3,11 +3,11 @@
 @inherits RzComponent
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
-             id="@Id"
-             class="@RootClass()"
              aria-current="page"
              aria-disabled="true"
-             role="link">
+             role="link"
+             @attributes="@AdditionalAttributes"
+             id="@Id"
+             class="@RootClass()">
     @ChildContent
 </HtmlElement>

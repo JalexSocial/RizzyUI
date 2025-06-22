@@ -2,12 +2,12 @@
 @inherits RzComponent
 
 <CascadingValue Value="this" IsFixed="true">
-    <HtmlElement Element="@EffectiveElement"
+	<HtmlElement Element="@EffectiveElement"
+	             role="img"
+	             aria-label="@EffectiveAriaLabel"
+	             @attributes="@AdditionalAttributes"
                  id="@Id"
-                 class="@RootClass()"
-                 role="img"
-                 aria-label="@EffectiveAriaLabel"
-                 @attributes="@AdditionalAttributes">
+                 class="@RootClass()">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

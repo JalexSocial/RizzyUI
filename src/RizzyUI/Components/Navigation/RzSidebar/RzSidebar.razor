@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<div id="@Id" class="@RootClass()">
+<div @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
     <div x-data="rzSidebar" data-alpine-root="@Id">
         @if (NavbarContent != null)
         {

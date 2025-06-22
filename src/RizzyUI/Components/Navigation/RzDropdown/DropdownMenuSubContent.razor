@@ -3,7 +3,8 @@
 @inherits RzComponent
 
 <template x-teleport="#@ParentDropdownMenu?.Id">
-	<div x-ref="subContent"
+	<div @attributes="AdditionalAttributes"
+	     x-ref="subContent"
 	     id="@SubContentId"
 	     data-popover
 	     role="menu"
@@ -25,7 +26,6 @@
 	     x-on:keydown.up.prevent="focusPreviousItem"
 	     x-on:keydown.home.prevent="focusFirstItem"
 	     x-on:keydown.end.prevent="focusLastItem"
-	     @attributes="AdditionalAttributes"
 	     class="@RootClass()">
 		<div class="@Theme.RzDropdownMenu.SubContentInnerContainer">
 			@ChildContent

@@ -2,7 +2,8 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<div x-ref="content"
+<div @attributes="AdditionalAttributes"
+     x-ref="content"
      id="@ContentId"
      data-floating
      data-popover
@@ -22,7 +23,6 @@
      x-on:keydown.home.prevent="focusFirstItem"
      x-on:keydown.end.prevent="focusLastItem"
      x-on:keydown.tab.prevent="handleContentTabKey"
-     @attributes="AdditionalAttributes"
      class="@RootClass()">
     <div class="@Theme.RzDropdownMenu.ContentInnerContainer">
         @ChildContent

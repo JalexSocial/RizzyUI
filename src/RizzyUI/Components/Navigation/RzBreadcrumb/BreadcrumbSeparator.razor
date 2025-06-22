@@ -4,10 +4,10 @@
 @inherits RzComponent
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
-             id="@Id"
              role="presentation"
-             aria-hidden="true">
+             aria-hidden="true"
+             @attributes="@AdditionalAttributes"
+             id="@Id">
     @if (ChildContent != null)
     {
         @ChildContent

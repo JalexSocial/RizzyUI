@@ -63,7 +63,7 @@
                                 </NavigationMenuItem>
 
                                 <NavigationMenuItem>
-                                    <NavigationMenuLink>
+                                    <NavigationMenuLink AsChild>
                                         <RzLink Href="/docs" class="@Theme.RzNavigationMenu.Trigger">
                                             Docs
                                         </RzLink>
@@ -75,8 +75,8 @@
                                     <NavigationMenuContent>
                                         <ul class="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                                             <li class="row-span-3">
-                                                <NavigationMenuLink>
-                                                    <RzLink Href="/" class="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                                                <NavigationMenuLink Href="/ParentHref">
+                                                    <RzLink class="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
                                                         <img src="/images/rizzy-logo-wb.svg" class="h-12 w-12" alt="RizzyUI Logo" />
                                                         <div class="mt-4 mb-2 text-lg font-medium">
                                                             RizzyUI

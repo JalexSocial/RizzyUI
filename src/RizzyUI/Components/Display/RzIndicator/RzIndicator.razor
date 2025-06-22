@@ -3,6 +3,7 @@
 @inherits RzComponent
 
 <div x-data="rzIndicator"
+     @attributes="@AdditionalAttributes"
      data-alpine-root="@Id"
      id="@Id"
      class="@RootClass()"
@@ -11,6 +12,5 @@
      x-show="visible"
      data-color="@Color.ToCssColorString()"
      data-visible="@Visible.ToString().ToLowerInvariant()"
-     @attributes="@AdditionalAttributes"
      x-cloak>
 </div>

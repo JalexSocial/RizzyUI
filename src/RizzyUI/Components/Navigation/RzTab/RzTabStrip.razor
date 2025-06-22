@@ -3,9 +3,9 @@
 @namespace RizzyUI
 
 <CascadingValue Value="this" IsFixed="true">
-    <div id="@Parent?.ButtonRefId"
-         role="tablist"
+    <div role="tablist"
          @attributes="AdditionalAttributes"
+         id="@Parent?.ButtonRefId"
          class="@RootClass()">
         @ChildContent
 
