@@ -12,7 +12,7 @@ namespace RizzyUI;
 /// </content>
 [SuppressMessage("Usage", "BL0006:Do not use RenderTree types")]
 [SuppressMessage("Usage", "ASP0006:Do not use non-literal sequence numbers")]
-public abstract partial class RzComponent : ComponentBase
+public abstract partial class RzAsChildComponent : RzComponent
 {
     /// <summary>
     /// Clones a <paramref name="fragment"/> that is expected to have <b>exactly one</b>
@@ -29,7 +29,8 @@ public abstract partial class RzComponent : ComponentBase
     ///     <description>
     ///     When the root is a DOM element, only attributes whose names begin with a lower‑case
     ///     letter are considered. (Upper‑case names are assumed to be Blazor component
-    ///     parameters and are ignored.)
+    ///     parameters and are ignored.)  The exception is the <c>Id</c> attribute, which is passed through
+    ///     to the child Element as <c>id</c> (lower‑case).
     ///     </description>
     /// </item>
     /// <item>
@@ -93,9 +94,20 @@ public abstract partial class RzComponent : ComponentBase
         // For DOM root, drop attributes that begin with an uppercase letter
         if (rootIsElement)
         {
+            // Remove attributes that are not lower-case (assumed to be component parameters)
             foreach (var key in baseAttrs.Keys.ToArray())
-                if (key.Length == 0 || char.IsUpper(key[0]))
-                    baseAttrs.Remove(key);
+            {
+                if (key.Length == 0) { baseAttrs.Remove(key); continue; }
+
+                if (!char.IsUpper(key[0])) continue;
+                
+                if (key is "Id" or "Href")
+                {
+                    baseAttrs.Add(key.ToLowerInvariant(), baseAttrs[key]);    
+                }
+                    
+                baseAttrs.Remove(key);
+            }
         }
 
         // Return a fragment that replays frames and applies precedence rules
