@@ -16,6 +16,12 @@ public partial class RzLink : RzComponent
     [Parameter]
     public string? Href { get; set; }
 
+    /// <summary>
+    /// Gets or sets the color of the link. Defaults to <see cref="SemanticColor.Primary" />.
+    /// </summary>
+    [Parameter]
+    public SemanticColor Color { get; set; } = SemanticColor.Primary; 
+
     /// <summary> Gets or sets whether the link should be underlined on hover and focus. Defaults to true. </summary>
     [Parameter]
     public bool Underline { get; set; } = true;
@@ -50,8 +56,6 @@ public partial class RzLink : RzComponent
     protected override string? RootClass()
     {
         var styles = Theme.RzLink;
-        return TwMerge.Merge(AdditionalAttributes,
-            styles.Link,
-            Underline ? styles.UnderlineEnabled : "");
+        return TwMerge.Merge(AdditionalAttributes, styles.Link, Color.ToTextClass(), Underline ? styles.UnderlineEnabled : "");
     }
 }

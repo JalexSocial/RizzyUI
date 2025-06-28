@@ -26,13 +26,16 @@ public partial class NavigationMenuLink : RzAsChildComponent
     protected override RenderFragment? GetAsChildContent() => ChildContent;
 
     /// <inheritdoc />
-    protected override Dictionary<string, object?> GetComponentAttributes() => new()
+    protected override Dictionary<string, object?> GetComponentAttributes() 
     {
-        ["Id"] = Id,
-        ["class"] = RootClass(),
-        ["Href"] = Href,
-        ["Underline"] = false
-    };
+        Dictionary<string, object?> attrib = AdditionalAttributes?.ToDictionary(static kvp => kvp.Key, static object? (kvp) => kvp.Value) ?? [];
+
+        attrib["Id"] = Id;
+        attrib["class"] = RootClass();
+        attrib["Href"] = Href;
+ 
+        return attrib;
+    }
  
     /// <inheritdoc/>
     protected override string? RootClass() => TwMerge.Merge(AdditionalAttributes, Theme.RzNavigationMenu.Link);

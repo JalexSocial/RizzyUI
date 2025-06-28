@@ -32,7 +32,7 @@ public sealed class DefaultRzNavigationMenuStyles
       + "data-[state=open]:bg-accent/50";
 
     /// <inheritdoc/>
-    public override string Link => ""; // Link wrapper should be unstyled; styles go on the child <RzLink> or <a>
+    public override string Link => "";
 
     /// <inheritdoc/>
     public override string Content =>

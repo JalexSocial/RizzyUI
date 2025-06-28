@@ -63,8 +63,8 @@
                                 </NavigationMenuItem>
 
                                 <NavigationMenuItem>
-                                    <NavigationMenuLink AsChild>
-                                        <RzLink Href="/docs" class="@Theme.RzNavigationMenu.Trigger">
+                                    <NavigationMenuLink AsChild Href="/docs">
+                                        <RzLink Color="SemanticColor.Foreground" Underline="false" class="@Theme.RzNavigationMenu.Trigger">
                                             Docs
                                         </RzLink>
                                     </NavigationMenuLink>
@@ -75,7 +75,7 @@
                                     <NavigationMenuContent>
                                         <ul class="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                                             <li class="row-span-3">
-                                                <NavigationMenuLink Href="/ParentHref">
+                                                <NavigationMenuLink>
                                                     <RzLink class="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
                                                         <img src="/images/rizzy-logo-wb.svg" class="h-12 w-12" alt="RizzyUI Logo" />
                                                         <div class="mt-4 mb-2 text-lg font-medium">
@@ -135,34 +135,105 @@
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzNavigationMenu&gt;
-    &lt;NavigationMenuList&gt;
-        
-        &lt;!-- Item with a dropdown --&gt;
-        &lt;NavigationMenuItem&gt;
-            &lt;NavigationMenuTrigger&gt;Components&lt;/NavigationMenuTrigger&gt;
-            &lt;NavigationMenuContent&gt;
-                &lt;ul class=&quot;grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]&quot;&gt;
-                    @@foreach (var component in _components)
-                    {
-                        &lt;!-- Using a helper method to render list items for clarity --&gt;
-                        @@ListItem(component.Title, component.Href, @@&lt;text&gt;@@component.Description&lt;/text&gt;)
-                    }
-                &lt;/ul&gt;
-            &lt;/NavigationMenuContent&gt;
-        &lt;/NavigationMenuItem&gt;
-        
-        &lt;!-- Standalone Link Item --&gt;
-        &lt;NavigationMenuItem&gt;
-            &lt;NavigationMenuLink&gt;
-                &lt;RzLink Href=&quot;/docs&quot; class=&quot;@@Theme.RzNavigationMenu.Trigger&quot;&gt;
-                    Docs
-                &lt;/RzLink&gt;
-            &lt;/NavigationMenuLink&gt;
-        &lt;/NavigationMenuItem&gt;
-        
-    &lt;/NavigationMenuList&gt;
-&lt;/RzNavigationMenu&gt;
+                        &lt;RzNavigationMenu&gt;
+                            &lt;NavigationMenuList&gt;
+
+                                &lt;NavigationMenuItem&gt;
+                                    &lt;NavigationMenuTrigger&gt;Home&lt;/NavigationMenuTrigger&gt;
+                                    &lt;NavigationMenuContent&gt;
+                                        &lt;div class=&quot;w-[400px] gap-3 p-4&quot;&gt;
+                                            &lt;h3 class=&quot;mb-2 text-lg font-semibold&quot;&gt;Welcome to RizzyUI&lt;/h3&gt;
+                                            &lt;p class=&quot;text-sm text-muted-foreground&quot;&gt;
+                                                Build beautiful ASP.NET Core applications with our comprehensive component library.
+                                            &lt;/p&gt;
+                                        &lt;/div&gt;
+                                    &lt;/NavigationMenuContent&gt;
+                                &lt;/NavigationMenuItem&gt;
+
+                                &lt;NavigationMenuItem&gt;
+                                    &lt;NavigationMenuTrigger&gt;Components&lt;/NavigationMenuTrigger&gt;
+                                    &lt;NavigationMenuContent&gt;
+                                        &lt;ul class=&quot;grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]&quot;&gt;
+                                            @@foreach (var component in _components)
+                                            {
+                                                @@ListItem(component.Title, component.Href,
+                                                    @@&lt;text&gt;@@component.Description&lt;/text&gt;
+                                                )
+                                            }
+                                        &lt;/ul&gt;
+                                    &lt;/NavigationMenuContent&gt;
+                                &lt;/NavigationMenuItem&gt;
+
+                                &lt;NavigationMenuItem&gt;
+                                    &lt;NavigationMenuLink AsChild Href=&quot;/docs&quot;&gt;
+                                        &lt;RzLink Color=&quot;SemanticColor.Foreground&quot; Underline=&quot;false&quot; class=&quot;@Theme.RzNavigationMenu.Trigger&quot;&gt;
+                                            Docs
+                                        &lt;/RzLink&gt;
+                                    &lt;/NavigationMenuLink&gt;
+                                &lt;/NavigationMenuItem&gt;
+
+                                &lt;NavigationMenuItem&gt;
+                                    &lt;NavigationMenuTrigger&gt;List&lt;/NavigationMenuTrigger&gt;
+                                    &lt;NavigationMenuContent&gt;
+                                        &lt;ul class=&quot;grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]&quot;&gt;
+                                            &lt;li class=&quot;row-span-3&quot;&gt;
+                                                &lt;NavigationMenuLink&gt;
+                                                    &lt;RzLink class=&quot;flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md&quot;&gt;
+                                                        &lt;img src=&quot;/images/rizzy-logo-wb.svg&quot; class=&quot;h-12 w-12&quot; alt=&quot;RizzyUI Logo&quot; /&gt;
+                                                        &lt;div class=&quot;mt-4 mb-2 text-lg font-medium&quot;&gt;
+                                                            RizzyUI
+                                                        &lt;/div&gt;
+                                                        &lt;p class=&quot;text-sm leading-tight text-muted-foreground&quot;&gt;
+                                                            Beautifully designed components built with Blazor and Tailwind CSS.
+                                                        &lt;/p&gt;
+                                                    &lt;/RzLink&gt;
+                                                &lt;/NavigationMenuLink&gt;
+                                            &lt;/li&gt;
+                                            @@ListItem(&quot;Introduction&quot;, &quot;/docs&quot;,
+                                                @@&lt;text&gt;Re-usable components built for modern ASP.NET Core applications.&lt;/text&gt;
+                                            )
+                                            @@ListItem(&quot;Installation&quot;, &quot;/docs/installation&quot;,
+                                                @@&lt;text&gt;How to install dependencies and structure your app.&lt;/text&gt;
+                                            )
+                                            @@ListItem(&quot;Typography&quot;, &quot;/docs/primitives/typography&quot;,
+                                                @@&lt;text&gt;Styles for headings, paragraphs, lists...etc&lt;/text&gt;
+                                            )
+                                        &lt;/ul&gt;
+                                    &lt;/NavigationMenuContent&gt;
+                                &lt;/NavigationMenuItem&gt;
+
+                                &lt;NavigationMenuItem&gt;
+                                    &lt;NavigationMenuTrigger&gt;Simple&lt;/NavigationMenuTrigger&gt;
+                                    &lt;NavigationMenuContent&gt;
+                                        &lt;div class=&quot;grid gap-3 p-6 w-[300px]&quot;&gt;
+                                            &lt;p class=&quot;text-sm font-medium&quot;&gt;A Simple Menu&lt;/p&gt;
+                                            &lt;p class=&quot;text-sm text-muted-foreground&quot;&gt;
+                                                This demonstrates a simple dropdown with basic content.
+                                            &lt;/p&gt;
+                                        &lt;/div&gt;
+                                    &lt;/NavigationMenuContent&gt;
+                                &lt;/NavigationMenuItem&gt;
+
+                                &lt;NavigationMenuItem&gt;
+                                    &lt;NavigationMenuTrigger&gt;With Icon&lt;/NavigationMenuTrigger&gt;
+                                    &lt;NavigationMenuContent&gt;
+                                        &lt;ul class=&quot;grid gap-3 p-6 w-[400px]&quot;&gt;
+                                            @@IconListItem(MdiIcon.Package, &quot;Package&quot;,
+                                                @@&lt;text&gt;Manage your package dependencies and configurations.&lt;/text&gt;
+                                            )
+                                            @@IconListItem(MdiIcon.AccountCircle, &quot;Account&quot;,
+                                                @@&lt;text&gt;View and edit your account settings and preferences.&lt;/text&gt;
+                                            )
+                                            @@IconListItem(MdiIcon.Cog, &quot;Settings&quot;,
+                                                @@&lt;text&gt;Configure your application settings and options.&lt;/text&gt;
+                                            )
+                                        &lt;/ul&gt;
+                                    &lt;/NavigationMenuContent&gt;
+                                &lt;/NavigationMenuItem&gt;
+
+                            &lt;/NavigationMenuList&gt;
+                        &lt;/RzNavigationMenu&gt;
+
 
 @@code {
     private readonly (string Title, string Href, string Description)[] _components = 
