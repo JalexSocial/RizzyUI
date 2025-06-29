@@ -127,6 +127,16 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"--success: {theme.Light.Success.ToCssColorString()};");
         sb.AppendLine($"--success-foreground: {theme.Light.SuccessForeground.ToCssColorString()};");
 
+        // --- Additional Variables ---
+        if (theme.Light.AdditionalProperties != null)
+        {
+            // Add any additional properties defined in the theme
+            foreach (var kvp in theme.Light.AdditionalProperties)
+            {
+                sb.AppendLine($"--{kvp.Key}: {kvp.Value};");
+            }
+        }        
+        
         // --- Border Variables ---
         sb.AppendLine($"--radius: {theme.Radius};");
 
@@ -189,6 +199,16 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"  --highlight-deletion: {theme.Dark.Code.Deletion.ToCssColorString()};");
         sb.AppendLine($"  --highlight-addition: {theme.Dark.Code.Addition.ToCssColorString()};");
 
+        // --- Additional Variables ---
+        if (theme.Dark.AdditionalProperties != null)
+        {
+            // Add any additional properties defined in the theme
+            foreach (var kvp in theme.Dark.AdditionalProperties)
+            {
+                sb.AppendLine($"--{kvp.Key}: {kvp.Value};");
+            }
+        }  
+        
         sb.AppendLine("}"); // Close &:where(...)
         sb.AppendLine("}"); // Close :root
         return sb.ToString();
