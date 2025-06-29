@@ -79,6 +79,6 @@ public class ArcticTheme : RzTheme
         };
 
         BorderWidth = "1px"; // Assumed from typical border usage
-        BorderRadius = "var(--radius)"; 
+        Radius = "var(--radius)"; 
     }
 }

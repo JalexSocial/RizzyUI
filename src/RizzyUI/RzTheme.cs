@@ -119,15 +119,15 @@ public partial class RzTheme
     public RzThemeVariant Dark { get; set; } = new();
     
     /// <summary>
-    ///     Gets the default border width value used across components (e.g., "1px").
-    /// </summary>
-    public string BorderWidth { get; protected init; }
-
-    /// <summary>
     ///     Gets the default border radius value used across components (e.g., "6px", "0.5rem").
     /// </summary>
-    public string BorderRadius { get; protected init; }
-
+    public string Radius { get; init; }
+   
+    /// <summary>
+    /// Any additional variables that should be applied to elements using this theme
+    /// </summary>
+    public Dictionary<string,string>? AdditionalProperties { get; init; }
+    
     /// <summary>
     ///     Gets the default Arctic theme instance.
     /// </summary>

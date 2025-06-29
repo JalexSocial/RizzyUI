@@ -90,6 +90,15 @@ public class RzThemeProvider : ComponentBase
     {
         var sb = new StringBuilder();
         sb.AppendLine(":root {");
+        
+        if (theme.AdditionalProperties != null)
+        {
+            // Add any additional properties defined in the theme
+            foreach (var kvp in theme.AdditionalProperties)
+            {
+                sb.AppendLine($"--{kvp.Key}: {kvp.Value};");
+            }
+        }
 
         // --- Base (Light) Variables ---
         sb.AppendLine($"--background: {theme.Light.Background.ToCssColorString()};");
@@ -119,8 +128,7 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"--success-foreground: {theme.Light.SuccessForeground.ToCssColorString()};");
 
         // --- Border Variables ---
-        sb.AppendLine($"--borderWidth: {theme.BorderWidth};");
-        sb.AppendLine($"--borderRadius: {theme.BorderRadius};");
+        sb.AppendLine($"--radius: {theme.Radius};");
 
         // --- Highlight.js (Light) Variables ---
         sb.AppendLine($"--highlight-bg: {theme.Light.Code.Background.ToCssColorString()};");
@@ -157,7 +165,7 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine($"  --color-secondary-foreground: {theme.Dark.SecondaryForeground.ToCssColorString()};");
         sb.AppendLine($"  --color-outline: {theme.Dark.Border.ToCssColorString()};");
         
-        // --- Status Colors (Same for Light/Dark in current definition) ---
+        // --- Status Colors  ---
         sb.AppendLine($"--destructive: {theme.Light.Destructive.ToCssColorString()};");
         sb.AppendLine($"--destructive-foreground: {theme.Light.DestructiveForeground.ToCssColorString()};");
         sb.AppendLine($"--info: {theme.Light.Info.ToCssColorString()};");
