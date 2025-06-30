@@ -139,9 +139,6 @@ public partial class RzTheme
     public static RzTheme ArcticTheme => new ArcticTheme();
 
     // Other theme instances can be added here if needed
-    // public static RzTheme HighContrastTheme => new HighContrastTheme();
-    // public static RzTheme ModernTheme => new ModernTheme();
-    // public static RzTheme NewsTheme => new NewsTheme();
 }
 
 #pragma warning restore CS8618
