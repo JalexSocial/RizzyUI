@@ -137,6 +137,11 @@ public partial class RzTheme
     ///     Gets a new instance of the Arctic theme.
     /// </summary>
     public static RzTheme ArcticTheme => new ArcticTheme();
+    
+    /// <summary>
+    /// Vercel theme instance, loaded from embedded resource.
+    /// </summary>
+    public static RzTheme VercelTheme => ThemeLoader.LoadFromEmbeddedResourceAsync(typeof(RzTheme).Assembly, "RizzyUI.Themes.vercel.json").GetAwaiter().GetResult()!;
 
     // Other theme instances can be added here if needed
 }

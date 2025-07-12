@@ -29,7 +29,7 @@ public class DefaultRzAlertStyles : RzStylesBase.RzAlertStylesBase
 
     /// <inheritdoc />
     public override string ContentContainer =>
-        "flex flex-col flex-1 gap-y-0.5";
+        "flex flex-col flex-1 gap-y-0.5 translate-y-0.5";
 
     /// <inheritdoc />
     public override string CloseButton =>

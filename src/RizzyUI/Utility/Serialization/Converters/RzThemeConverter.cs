@@ -19,7 +19,7 @@ public class RzThemeConverter : JsonConverter<RzTheme>
 
         if (dto is null) return null;
 
-        var themeName = dto.Name;
+        var themeName = dto.Name.ToTitleCase();
         var themeCode = themeName.ToKebabCase();
 
         var lightVariant = MapVariant(dto.CssVars.Light, dto.CssVars.Theme, isDark: false);

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 namespace RizzyUI.Extensions;
 
@@ -116,64 +117,92 @@ internal static class StringExtensions
         return string.Join(Environment.NewLine, lines[start..(end + 1)]);
     }
     
-        /// <summary>
-        /// Converts a string to kebab-case, with words separated by hyphens.
-        /// </summary>
-        /// <param name="text">The input string to be converted to kebab-case.</param>
-        /// <returns>A kebab-case representation of the input string.</returns>
-        public static string ToKebabCase(this string text)
+    /// <summary>
+    /// Converts any delimited string (hyphens, underscores, spaces, etc.)
+    /// into a space-separated Title Case string.
+    /// <para>Examples:</para>
+    /// <list type="bullet">
+    ///   <item><description><c>"amber-vanilla".ToTitleCase()</c> → <c>"Amber Vanilla"</c></description></item>
+    ///   <item><description><c>"amber_vanilla".ToTitleCase()</c> → <c>"Amber Vanilla"</c></description></item>
+    ///   <item><description><c>"amber vanilla".ToTitleCase()</c> → <c>"Amber Vanilla"</c></description></item>
+    /// </list>
+    /// </summary>
+    /// <param name="source">The original string.</param>
+    /// <returns>Title-cased version, or the original string if it’s null/white-space.</returns>
+    public static string ToTitleCase(this string? source)
+    {
+        if (string.IsNullOrWhiteSpace(source))
+            return source ?? string.Empty;
+
+        // Treat hyphens, underscores, and whitespace as word boundaries.
+        char[] delimiters = ['-', '_', ' '];
+
+        var textInfo = CultureInfo.CurrentCulture.TextInfo;
+
+        return string.Join(' ',
+            source
+                .Split(delimiters, StringSplitOptions.RemoveEmptyEntries)
+                .Select(w => textInfo.ToTitleCase(w.Trim())));
+    }    
+    
+    /// <summary>
+    /// Converts a string to kebab-case, with words separated by hyphens.
+    /// </summary>
+    /// <param name="text">The input string to be converted to kebab-case.</param>
+    /// <returns>A kebab-case representation of the input string.</returns>
+    public static string ToKebabCase(this string text)
+    {
+        // Return the input text if it's null or empty
+        if (string.IsNullOrEmpty(text)) return text;
+
+        // Initialize a StringBuilder to store the result
+        StringBuilder result = new();
+        // Define a flag to track whether the previous character is a separator
+        bool previousCharacterIsSeparator = true;
+
+        // Iterate through each character in the input text
+        for (int i = 0; i < text.Length; i++)
         {
-            // Return the input text if it's null or empty
-            if (string.IsNullOrEmpty(text)) return text;
+            char currentChar = text[i];
 
-            // Initialize a StringBuilder to store the result
-            StringBuilder result = new();
-            // Define a flag to track whether the previous character is a separator
-            bool previousCharacterIsSeparator = true;
-
-            // Iterate through each character in the input text
-            for (int i = 0; i < text.Length; i++)
+            // If the current character is an uppercase letter or a digit
+            if (char.IsUpper(currentChar) || char.IsDigit(currentChar))
             {
-                char currentChar = text[i];
+                // Add a hyphen if the previous character is not a separator and
+                // the current character is preceded by a lowercase letter or followed by a lowercase letter
+                if (!previousCharacterIsSeparator && (i > 0 && (char.IsLower(text[i - 1]) || (i < text.Length - 1 && char.IsLower(text[i + 1])))))
+                {
+                    result.Append("-");
+                }
 
-                // If the current character is an uppercase letter or a digit
-                if (char.IsUpper(currentChar) || char.IsDigit(currentChar))
-                {
-                    // Add a hyphen if the previous character is not a separator and
-                    // the current character is preceded by a lowercase letter or followed by a lowercase letter
-                    if (!previousCharacterIsSeparator && (i > 0 && (char.IsLower(text[i - 1]) || (i < text.Length - 1 && char.IsLower(text[i + 1])))))
-                    {
-                        result.Append("-");
-                    }
-
-                    // Append the lowercase version of the current character to the result
-                    result.Append(char.ToLowerInvariant(currentChar));
-                    // Update the flag to indicate that the current character is not a separator
-                    previousCharacterIsSeparator = false;
-                }
-                // If the current character is a lowercase letter
-                else if (char.IsLower(currentChar))
-                {
-                    // Append the current character to the result
-                    result.Append(currentChar);
-                    // Update the flag to indicate that the current character is not a separator
-                    previousCharacterIsSeparator = false;
-                }
-                // If the current character is a space, underscore, or hyphen
-                else if (currentChar == ' ' || currentChar == '_' || currentChar == '-')
-                {
-                    // Add a hyphen if the previous character is not a separator
-                    if (!previousCharacterIsSeparator)
-                    {
-                        result.Append("-");
-                    }
-                    // Update the flag to indicate that the current character is a separator
-                    previousCharacterIsSeparator = true;
-                }
+                // Append the lowercase version of the current character to the result
+                result.Append(char.ToLowerInvariant(currentChar));
+                // Update the flag to indicate that the current character is not a separator
+                previousCharacterIsSeparator = false;
             }
-
-            // Return the kebab-case representation of the input string
-            return result.ToString();
+            // If the current character is a lowercase letter
+            else if (char.IsLower(currentChar))
+            {
+                // Append the current character to the result
+                result.Append(currentChar);
+                // Update the flag to indicate that the current character is not a separator
+                previousCharacterIsSeparator = false;
+            }
+            // If the current character is a space, underscore, or hyphen
+            else if (currentChar == ' ' || currentChar == '_' || currentChar == '-')
+            {
+                // Add a hyphen if the previous character is not a separator
+                if (!previousCharacterIsSeparator)
+                {
+                    result.Append("-");
+                }
+                // Update the flag to indicate that the current character is a separator
+                previousCharacterIsSeparator = true;
+            }
         }
+
+        // Return the kebab-case representation of the input string
+        return result.ToString();
+    }
     
 }

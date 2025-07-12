@@ -23,6 +23,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRizzyUI(this IServiceCollection services, Action<RizzyUIConfig> configure)
     {
         ArgumentNullException.ThrowIfNull(configure);
+       
         // Register IOptions<RizzyUIConfig> and apply the user's configuration.
         services.Configure(configure);
         // Call the internal method that performs the actual service registration.
@@ -38,6 +39,7 @@ public static class ServiceCollectionExtensions
     {
         // Ensure IOptions infrastructure is registered even if no specific configuration is provided.
         services.Configure<RizzyUIConfig>(config => { });
+        
         return services.AddRizzyUIInternal();
     }
 
@@ -47,6 +49,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection.</returns>
+    // ReSharper disable once InconsistentNaming
     private static IServiceCollection AddRizzyUIInternal(this IServiceCollection services)
     {
         // Register core dependencies used by RizzyUI.
@@ -54,6 +57,20 @@ public static class ServiceCollectionExtensions
         services.AddHttpContextAccessor();
         services.TryAddScoped<IRizzyNonceProvider, RizzyNonceProvider>();
 
+        // Post-configure the options to ensure the default theme is always available.
+        // This runs after any user-provided `configure` action.
+        services.PostConfigure<RizzyUIConfig>(config =>
+        {
+            // Check if a theme with the same code as the default already exists.
+            if (config.AvailableThemes.All(t => t.ThemeCode != config.DefaultTheme.ThemeCode))
+            {
+                // Add the default theme to the beginning of the list if it's not already there.
+                config.AvailableThemes.Insert(0, config.DefaultTheme);
+            }
+            
+            config.AvailableThemes.Add(RzTheme.VercelTheme);
+        });
+        
         // --- Localization Setup ---
 
         bool localizationFactoryRegistered = services.Any(d => d.ServiceType == typeof(IStringLocalizerFactory));

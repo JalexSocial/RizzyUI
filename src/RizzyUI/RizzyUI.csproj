@@ -104,5 +104,10 @@
     <ItemGroup>
       <Folder Include="wwwroot\css\" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Themes\vercel.json" />
+      <EmbeddedResource Include="Themes\vercel.json" />
+    </ItemGroup>
     
 </Project>
