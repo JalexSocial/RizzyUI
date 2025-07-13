@@ -113,10 +113,10 @@ public class DefaultRzHeadingStyles : RzStylesBase.RzHeadingStylesBase
         // Based on kitchen sink h1, h2, etc.
         return level switch
         {
-            HeadingLevel.H1 => "text-3xl font-semibold tracking-tight", // Matches kitchen sink h1
-            HeadingLevel.H2 => "text-lg font-semibold leading-none", // Common for card titles, alert titles in kitchen sink are font-medium
-            HeadingLevel.H3 => "text-base font-medium", // General purpose sub-heading
-            HeadingLevel.H4 => "text-sm font-medium",   // Smaller sub-heading
+            HeadingLevel.H1 => "text-4xl font-extrabold tracking-tight lg:text-5xl", 
+            HeadingLevel.H2 => "border-b py-2 text-3xl font-semibold tracking-tight first:mt-0",
+            HeadingLevel.H3 => "text-2xl font-semibold tracking-tight", // General purpose sub-heading
+            HeadingLevel.H4 => "text-xl font-semibold tracking-tight",   // Smaller sub-heading
             _ => GetLevelCss(HeadingLevel.H1)
         };
     }
@@ -134,7 +134,7 @@ public class DefaultRzParagraphStyles : RzStylesBase.RzParagraphStylesBase
     }
 
     /// <inheritdoc />
-    public override string Paragraph => "text-sm leading-relaxed"; // Matches kitchen sink alert description p, general p
+    public override string Paragraph => "leading-[175%] [&:not(:first-child)]:mt-6";
 
     /// <inheritdoc />
     public override string GetProseWidthCss(ProseWidth width)

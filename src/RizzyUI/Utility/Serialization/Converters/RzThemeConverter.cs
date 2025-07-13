@@ -91,8 +91,8 @@ public class RzThemeConverter : JsonConverter<RzTheme>
             SuccessForeground = CreateColor(variantVars, "success-foreground", Colors.White),
             Warning = CreateColor(variantVars, "warning", isDark ? Colors.Amber.L400 : Colors.Amber.L500),
             WarningForeground = CreateColor(variantVars, "warning-foreground", Colors.Black),
-            Info = CreateColor(variantVars, "info", CreateColor(variantVars, "primary")),
-            InfoForeground = CreateColor(variantVars, "info-foreground", CreateColor(variantVars, "primary-foreground")),
+            Info = CreateColor(variantVars, "info", isDark ? Colors.Sky.L500 : Colors.Sky.L600),
+            InfoForeground = CreateColor(variantVars, "info-foreground", Colors.White),
 
             // Fonts
             FontSans = GetValue("font-sans", "sans-serif"),

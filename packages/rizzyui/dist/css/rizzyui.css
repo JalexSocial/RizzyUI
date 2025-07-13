@@ -2358,6 +2358,10 @@
     --tw-leading: calc(var(--spacing) * 6);
     line-height: calc(var(--spacing) * 6);
   }
+  .leading-\[175\%\] {
+    --tw-leading: 175%;
+    line-height: 175%;
+  }
   .leading-loose {
     --tw-leading: var(--leading-loose);
     line-height: var(--leading-loose);
@@ -3512,6 +3516,11 @@
     &::after {
       content: var(--tw-content);
       background-color: var(--warning-foreground);
+    }
+  }
+  .first\:mt-0 {
+    &:first-child {
+      margin-top: calc(var(--spacing) * 0);
     }
   }
   .first\:mt-2 {
@@ -5050,6 +5059,12 @@
       line-height: var(--tw-leading, var(--text-4xl--line-height));
     }
   }
+  .lg\:text-5xl {
+    @media (width >= 64rem) {
+      font-size: var(--text-5xl);
+      line-height: var(--tw-leading, var(--text-5xl--line-height));
+    }
+  }
   .xl\:flex {
     @media (width >= 80rem) {
       display: flex;
@@ -6438,6 +6453,11 @@
       &:is(.dark *) {
         color: var(--foreground);
       }
+    }
+  }
+  .\[\&\:not\(\:first-child\)\]\:mt-6 {
+    &:not(:first-child) {
+      margin-top: calc(var(--spacing) * 6);
     }
   }
   .\[\&\:not\(\[aria-selected\=\'true\'\]\)\]\:bg-transparent {
