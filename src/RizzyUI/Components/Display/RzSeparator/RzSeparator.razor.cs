@@ -1,5 +1,5 @@
 
-// src/RizzyUI/Components/RzDivider/RzDivider.razor.cs
+// src/RizzyUI/Components/RzSeparator/RzSeparator.razor.cs
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
@@ -11,7 +11,7 @@ namespace RizzyUI;
 ///     Renders as an <c>&lt;hr></c> if no <see cref="ChildContent" /> is provided, otherwise renders as a <c>&lt;div></c>
 ///     using pseudo-elements for the lines. Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzDivider : RzComponent
+public partial class RzSeparator : RzComponent
 {
     // Used for Tailwind class discovery
 #pragma warning disable CS0414 // Field is assigned but its value is never used
@@ -19,7 +19,7 @@ public partial class RzDivider : RzComponent
 #pragma warning restore CS0414 // Field is assigned but its value is never used
 
     /// <summary> The style of the dividing line (Solid, Dashed, Dotted). Defaults to Solid. </summary>
-    [Parameter] public DividerStyle Style { get; set; } = DividerStyle.Solid;
+    [Parameter] public SeparatorStyle Style { get; set; } = SeparatorStyle.Solid;
 
     /// <summary>
     ///     The alignment of the child content within the divider (Start, Center, End). Only used if
@@ -44,7 +44,7 @@ public partial class RzDivider : RzComponent
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        var styles = Theme.RzDivider;
+        var styles = Theme.RzSeparator;
         return TwMerge.Merge(AdditionalAttributes,
             styles.Divider, // Base styles including text color, margins, base layout
             ChildContent is null

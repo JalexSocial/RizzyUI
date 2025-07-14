@@ -7,19 +7,19 @@ namespace RizzyUI;
 /// </summary>
 public abstract partial class RzStylesBase
 {
-    #region RzDividerStyles
+    #region RzSeparatorStyles
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzDivider" /> component,
+    ///     Defines the abstract structure for styling the <see cref="RzSeparator" /> component,
     ///     including variants for thickness and inset positioning.
     /// </summary>
-    public abstract class RzDividerStylesBase
+    public abstract class RzSeparatorStylesBase
     {
         /// <summary>The theme instance providing color and sizing tokens.</summary>
         protected readonly RzTheme Theme;
 
-        /// <summary>Initializes a new instance of the <see cref="RzDividerStylesBase" /> class.</summary>
-        protected RzDividerStylesBase(RzTheme theme)
+        /// <summary>Initializes a new instance of the <see cref="RzSeparatorStylesBase" /> class.</summary>
+        protected RzSeparatorStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
@@ -60,17 +60,17 @@ public abstract partial class RzStylesBase
         public abstract string Divider { get; }
 
         // ──────────────────────────────────────────────────────────────
-        // Helper methods used by <see cref="RzDivider"/> runtime logic
+        // Helper methods used by <see cref="RzSeparator"/> runtime logic
         // ──────────────────────────────────────────────────────────────
 
         /// <summary>Returns the CSS for a plain <c>&lt;hr></c> in the requested style.</summary>
-        public abstract string GetStyleCss(DividerStyle style);
+        public abstract string GetStyleCss(SeparatorStyle style);
 
         /// <summary>
         ///     Returns the CSS (incl. <c>::before</c>/<c>::after</c> pseudo‑elements) for
         ///     a labelled divider, taking alignment and desired line style into account.
         /// </summary>
-        public abstract string GetAlignmentCss(Align alignment, DividerStyle style);
+        public abstract string GetAlignmentCss(Align alignment, SeparatorStyle style);
     }
 
     #endregion

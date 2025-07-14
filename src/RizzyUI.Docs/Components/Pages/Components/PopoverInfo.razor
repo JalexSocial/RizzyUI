@@ -17,7 +17,7 @@
                 Under the hood, this component ties together <b>Alpine.js</b> (for state and interactivity) and <b>floating-ui</b> (for robust positioning), so you don’t need to wrangle the DOM or manage pixel math yourself.
             </RzParagraph>
 
-            <RzAlert Variant="AlertVariant.Information" class="mb-6">
+            <RzAlert Variant="AlertVariant.Information" class="my-5">
                 <AlertTitle>Under the Hood</AlertTitle>
                 <AlertDescription>
                     RzPopover uses an Alpine.js component (<code>x-data="rzPopover"</code>) for managing open/close state and user interactions. Placement is handled by <b>floating-ui</b>, which keeps the popover visible and anchored—even if the viewport or scroll position changes.
@@ -46,24 +46,24 @@
                                             Set the dimensions for the layer.
                                         </p>
                                     </div>
-                                    <div class="grid gap-2">
+                                    <form class="form grid gap-2">
                                         <div class="grid grid-cols-3 items-center gap-4">
                                             <label for="width">Width</label>
-                                            <input id="width" value="100%" class="col-span-2 h-8 input" />
+                                            <input type="text" id="width" value="100%" class="col-span-2 h-8 input" />
                                         </div>
                                         <div class="grid grid-cols-3 items-center gap-4">
                                             <label for="maxWidth">Max. width</label>
-                                            <input id="maxWidth" value="300px" class="col-span-2 h-8 input" />
+                                            <input type="text" id="maxWidth" value="300px" class="col-span-2 h-8 input" />
                                         </div>
                                         <div class="grid grid-cols-3 items-center gap-4">
                                             <label for="height">Height</label>
-                                            <input id="height" value="25px" class="col-span-2 h-8 input" />
+                                            <input type="text" id="height" value="25px" class="col-span-2 h-8 input" />
                                         </div>
                                         <div class="grid grid-cols-3 items-center gap-4">
                                             <label for="maxHeight">Max. height</label>
-                                            <input id="maxHeight" value="none" class="col-span-2 h-8 input" />
+                                            <input type="text" id="maxHeight" value="none" class="col-span-2 h-8 input" />
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </PopoverContent>
                         </RzPopover>

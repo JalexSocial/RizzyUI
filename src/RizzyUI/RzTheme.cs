@@ -50,7 +50,7 @@ public partial class RzTheme
         RzCodeViewer = new DefaultRzCodeViewerStyles(this);
         RzDarkmodeToggle = new DefaultRzDarkmodeToggleStyles(this);
         RzDateEdit = new DefaultRzDateEditStyles(this);
-        RzDivider = new DefaultRzDividerStyles(this);
+        RzSeparator = new DefaultRzSeparatorStyles(this);
         RzDropdownMenu = new DefaultRzDropdownMenuStyles(this);
         RzEmbeddedPreview = new DefaultRzEmbeddedPreviewStyles(this);
         RzField = new DefaultRzFieldStyles(this);

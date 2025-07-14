@@ -1,8 +1,8 @@
 ﻿namespace RizzyUI;
 
 /// <summary>
-///     Default implementation of <see cref="RzStylesBase.RzDividerStylesBase" /> that maps each
-///     <see cref="RzDivider" /> visual variant to a Tailwind‑CSS utility string.
+///     Default implementation of <see cref="RzStylesBase.RzSeparatorStylesBase" /> that maps each
+///     <see cref="RzSeparator" /> visual variant to a Tailwind‑CSS utility string.
 ///     The class supplies:
 ///     <list type="bullet">
 ///         <item>
@@ -18,18 +18,18 @@
 /// </summary>
 /// <remarks>
 ///     No string merging is performed here; component‑level merges occur inside
-///     <see cref="RzDivider.RootClass" />.
+///     <see cref="RzSeparator.RootClass" />.
 /// </remarks>
-public sealed class DefaultRzDividerStyles : RzStylesBase.RzDividerStylesBase
+public sealed class DefaultRzSeparatorStyles : RzStylesBase.RzSeparatorStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzDividerStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultRzSeparatorStyles" /> class.
     /// </summary>
     /// <param name="theme">
     ///     The active <see cref="RzTheme" />.  Present for future expansion—no theme tokens are
     ///     currently referenced by this class.
     /// </param>
-    public DefaultRzDividerStyles(RzTheme theme) : base(theme)
+    public DefaultRzSeparatorStyles(RzTheme theme) : base(theme)
     {
     }
 
@@ -62,7 +62,7 @@ public sealed class DefaultRzDividerStyles : RzStylesBase.RzDividerStylesBase
     public override string InsetDashed => "ml-8 my-4 border-t border-dashed  border-outline";
 
     /// <summary>
-    ///     Base classes applied to the wrapper element when <see cref="RzDivider" /> contains
+    ///     Base classes applied to the wrapper element when <see cref="RzSeparator" /> contains
     ///     <c>ChildContent</c> (label, icon, etc.).
     /// </summary>
     public override string Divider => "flex items-center text-sm text-outline";
@@ -77,13 +77,13 @@ public sealed class DefaultRzDividerStyles : RzStylesBase.RzDividerStylesBase
     /// </summary>
     /// <param name="style">The desired divider line style.</param>
     /// <returns>A class string defining border width, style, and color.</returns>
-    public override string GetStyleCss(DividerStyle style)
+    public override string GetStyleCss(SeparatorStyle style)
     {
         return style switch
         {
-            DividerStyle.Solid => $"{Container} border-solid",
-            DividerStyle.Dashed => Dashed,
-            DividerStyle.Dotted => Dotted,
+            SeparatorStyle.Solid => $"{Container} border-solid",
+            SeparatorStyle.Dashed => Dashed,
+            SeparatorStyle.Dotted => Dotted,
             _ => $"{Container} border-solid"
         };
     }
@@ -99,14 +99,14 @@ public sealed class DefaultRzDividerStyles : RzStylesBase.RzDividerStylesBase
     /// </param>
     /// <param name="style">The visual style of the rule (solid, dashed, dotted).</param>
     /// <returns>A Tailwind class string describing flex layout and pseudo‑elements.</returns>
-    public override string GetAlignmentCss(Align alignment, DividerStyle style)
+    public override string GetAlignmentCss(Align alignment, SeparatorStyle style)
     {
         // Determine the border-style part once.
         var lineStyle = style switch
         {
-            DividerStyle.Solid => "border-solid",
-            DividerStyle.Dashed => "border-dashed",
-            DividerStyle.Dotted => "border-dotted",
+            SeparatorStyle.Solid => "border-solid",
+            SeparatorStyle.Dashed => "border-dashed",
+            SeparatorStyle.Dotted => "border-dotted",
             _ => "border-solid"
         };
 

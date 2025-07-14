@@ -89,7 +89,7 @@ public enum ButtonVariant
 /// <summary>
 ///     Appearance option for divider
 /// </summary>
-public enum DividerStyle
+public enum SeparatorStyle
 {
     /// <summary>
     ///     Solid line

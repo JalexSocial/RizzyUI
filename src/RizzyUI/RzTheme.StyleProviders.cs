@@ -97,8 +97,8 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzDateEdit" /> component. </summary>
     public virtual RzStylesBase.RzDateEditStylesBase RzDateEdit { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzDivider" /> component. </summary>
-    public virtual RzStylesBase.RzDividerStylesBase RzDivider { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RzSeparator" /> component. </summary>
+    public virtual RzStylesBase.RzSeparatorStylesBase RzSeparator { get; }
 
     /// <summary>
     /// Gets the style definitions for the <see cref="RzDropdownMenu" /> component and its children.
