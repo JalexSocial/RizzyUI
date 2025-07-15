@@ -27,12 +27,12 @@
 
                     <div class="mx-auto flex items-center justify-center gap-4 rounded-md p-8">
 			            <RzCard class="w-full">
-				            <RzCardHeader>
+				            <CardHeader>
 					            <div>
-						            <RzCardTitle>Project Management</RzCardTitle>
-						            <RzCardSubtitle>Manage all your projects</RzCardSubtitle>
+						            <CardTitle>Project Management</CardTitle>
+						            <CardDescription>Manage all your projects</CardDescription>
 					            </div>
-					            <RzCardButtons>
+					            <CardButtons>
 						            <RzButton Size="Size.Small" Variant="ButtonVariant.Information">
 							            <Blazicon Svg="MdiIcon.Plus"></Blazicon>
 							            <span>New Project</span>
@@ -41,10 +41,10 @@
 							            <Blazicon Svg="MdiIcon.AccountMultiple"></Blazicon>
 							            <span>Clients</span>
 						            </RzButton>
-					            </RzCardButtons>
-				            </RzCardHeader>
-				            <RzCardBody>Body content here</RzCardBody>
-				            <RzCardFooter>Footer content here</RzCardFooter>
+					            </CardButtons>
+				            </CardHeader>
+				            <CardContent>Body content here</CardContent>
+				            <CardFooter>Footer content here</CardFooter>
 			            </RzCard>
 		            </div>
 
@@ -52,12 +52,12 @@
 
 	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
 	    &lt;Card class=&quot;w-full&quot;&gt;
-	        &lt;RzCardHeader&gt;
+	        &lt;CardHeader&gt;
 	            &lt;div&gt;
-	                &lt;RzCardTitle&gt;Information&lt;/RzCardTitle&gt;
-	                &lt;CardSubtitle&gt;This is a subtitle&lt;/RzCardSubtitle&gt;
+	                &lt;CardTitle&gt;Information&lt;/CardTitle&gt;
+	                &lt;CardSubtitle&gt;This is a subtitle&lt;/CardDescription&gt;
 	            &lt;/div&gt;
-	            &lt;RzCardButtons&gt;
+	            &lt;CardButtons&gt;
 	                &lt;RzButton Size=&quot;Size.Small&quot; Variant=&quot;ButtonVariant.Information&quot;&gt;
 	                    &lt;Blazicon Svg=&quot;MdiIcon.Plus&quot;&gt;&lt;/Blazicon&gt;
 	                    &lt;span&gt;New Project&lt;/span&gt;
@@ -66,10 +66,10 @@
 	                    &lt;Blazicon Svg=&quot;MdiIcon.AccountMultiple&quot;&gt;&lt;/Blazicon&gt;
 	                    &lt;span&gt;Clients&lt;/span&gt;
 	                &lt;/RzButton&gt;
-	            &lt;/RzCardButtons&gt;
-	        &lt;/RzCardHeader&gt;
-	        &lt;RzCardBody&gt;Body content here&lt;/RzCardBody&gt;
-	        &lt;RzCardFooter&gt;Footer content here&lt;/RzCardFooter&gt;
+	            &lt;/CardButtons&gt;
+	        &lt;/CardHeader&gt;
+	        &lt;CardContent&gt;Body content here&lt;/CardContent&gt;
+	        &lt;CardFooter&gt;Footer content here&lt;/CardFooter&gt;
 	    &lt;/Card&gt;
 	            </RzCodeViewer>
 
@@ -91,17 +91,17 @@
 					            <img src="/images/card2.jpg" class="w-full object-cover transition duration-700 ease-out group-hover:scale-105" alt="coffee beans spilling out from a coffee mug" />
 				            </div>
 
-				            <RzCardBody BackgroundColor="SemanticColor.Muted">
+				            <CardContent BackgroundColor="SemanticColor.Muted">
 					            <span class="text-sm font-medium">Features</span>
 					            <RzHeading Level="HeadingLevel.H2">Elevate your Coffee Brew With This One Trick</RzHeading>
 					            <RzParagraph class="text-sm mb-0">
 						            Whether you're a barista or a coffee enthusiast, this guide provides expert tips on selecting quality beans, mastering 
 						            the grind, and refining your brewing technique to elevate your coffee ritual and savor every sip.
 					            </RzParagraph>							
-				            </RzCardBody>
-				            <RzCardFooter>
+				            </CardContent>
+				            <CardFooter>
 					            <RzButton Variant="ButtonVariant.Primary">View</RzButton>
-				            </RzCardFooter>
+				            </CardFooter>
 			            </RzCard>
 
 		            </div>
@@ -114,17 +114,17 @@
             &lt;img src=&quot;/images/card2.jpg&quot; class=&quot;h-full object-cover transition duration-700 ease-out group-hover:scale-105&quot; alt=&quot;coffee beans spilling out from a coffee mug&quot; /&gt;
         &lt;/div&gt;
 
-        &lt;RzCardBody BackgroundColor=&quot;SemanticColor.SurfaceAlt&quot;&gt;
+        &lt;CardContent BackgroundColor=&quot;SemanticColor.SurfaceAlt&quot;&gt;
             &lt;span class=&quot;text-sm font-medium&quot;&gt;Features&lt;/span&gt;
             &lt;RzHeading Level=&quot;HeadingLevel.H2&quot;&gt;Elevate your Coffee Brew With This One Trick&lt;/RzHeading&gt;
             &lt;RzParagraph class=&quot;text-sm mb-0&quot;&gt;
 	            Whether you&#39;re a barista or a coffee enthusiast, this guide provides expert tips on selecting quality beans, mastering 
 	            the grind, and refining your brewing technique to elevate your coffee ritual and savor every sip.
             &lt;/RzParagraph&gt;							
-        &lt;/RzCardBody&gt;
-        &lt;RzCardFooter&gt;
+        &lt;/CardContent&gt;
+        &lt;CardFooter&gt;
             &lt;RzButton Variant=&quot;ButtonVariant.Primary&quot;&gt;View&lt;/RzButton&gt;
-        &lt;/RzCardFooter&gt;
+        &lt;/CardFooter&gt;
     &lt;/Card&gt;
 	            </RzCodeViewer>
 
@@ -167,9 +167,9 @@
                 </div>
             </section>
 
-            <!-- RzCardBody Component Parameters -->
+            <!-- CardContent Component Parameters -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzCardBody Parameters" class="scroll-mt-20">RzCardBody Component Parameters</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardContent Parameters" class="scroll-mt-20">CardContent Component Parameters</RzHeading>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
@@ -204,9 +204,9 @@
                 </div>
             </section>
 
-            <!-- RzCardButtons Component Parameters -->
+            <!-- CardButtons Component Parameters -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzCardButtons Parameters" class="scroll-mt-20">RzCardButtons Component Parameters</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardButtons Parameters" class="scroll-mt-20">CardButtons Component Parameters</RzHeading>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
@@ -229,9 +229,9 @@
                 </div>
             </section>
 
-            <!-- RzCardFooter Component Parameters -->
+            <!-- CardFooter Component Parameters -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzCardFooter Parameters" class="scroll-mt-20">RzCardFooter Component Parameters</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardFooter Parameters" class="scroll-mt-20">CardFooter Component Parameters</RzHeading>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
@@ -266,9 +266,9 @@
                 </div>
             </section>
 
-            <!-- RzCardHeader Component Parameters -->
+            <!-- CardHeader Component Parameters -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzCardHeader Parameters" class="scroll-mt-20">RzCardHeader Component Parameters</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardHeader Parameters" class="scroll-mt-20">CardHeader Component Parameters</RzHeading>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
@@ -303,9 +303,9 @@
                 </div>
             </section>
 
-            <!-- RzCardSubtitle Component Parameters -->
+            <!-- CardDescription Component Parameters -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzCardSubtitle Parameters" class="scroll-mt-20">RzCardSubtitle Component Parameters</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardDescription Parameters" class="scroll-mt-20">CardDescription Component Parameters</RzHeading>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
@@ -328,9 +328,9 @@
                 </div>
             </section>
 
-            <!-- RzCardTitle Component Parameters -->
+            <!-- CardTitle Component Parameters -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzCardTitle Parameters" class="scroll-mt-20">RzCardTitle Component Parameters</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardTitle Parameters" class="scroll-mt-20">CardTitle Component Parameters</RzHeading>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">

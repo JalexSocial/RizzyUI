@@ -8,7 +8,7 @@ namespace RizzyUI;
 ///     Represents the main content area of an <see cref="RzCard" />.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzCardBody : RzComponent
+public partial class CardContent : RzComponent
 {
     /// <summary> The content to be rendered inside the card body. </summary>
     [Parameter]
@@ -33,7 +33,7 @@ public partial class RzCardBody : RzComponent
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes,
-            Theme.RzCardBody.Body,
+            Theme.CardContent.Body,
             BackgroundColor != SemanticColor.None ? BackgroundColor.ToBackgroundClass() : "", // Only apply if set
             TextColor != SemanticColor.None ? TextColor.ToTextClass() : ""); // Only apply if set
     }

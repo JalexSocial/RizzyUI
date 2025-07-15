@@ -40,20 +40,8 @@ public abstract partial class RzStylesBase
         /// <summary>Dashed border style.</summary>
         public abstract string Dashed { get; }
 
-        /// <summary>Inset (indented) solid rule.</summary>
-        public abstract string Inset { get; }
-
-        /// <summary>Inset thick rule.</summary>
-        public abstract string InsetThick { get; }
-
-        /// <summary>Inset dotted rule.</summary>
-        public abstract string InsetDotted { get; }
-
-        /// <summary>Inset dashed rule.</summary>
-        public abstract string InsetDashed { get; }
-
         /// <summary>
-        ///     Base classes applied to the <c>&lt;div></c> wrapper when the divider
+        ///     Base classes applied to the <c><div></c> wrapper when the divider
         ///     contains <see cref="Microsoft.AspNetCore.Components.RenderFragment" /> content
         ///     (label, child markup, etc.).
         /// </summary>
@@ -63,14 +51,21 @@ public abstract partial class RzStylesBase
         // Helper methods used by <see cref="RzSeparator"/> runtime logic
         // ──────────────────────────────────────────────────────────────
 
-        /// <summary>Returns the CSS for a plain <c>&lt;hr></c> in the requested style.</summary>
-        public abstract string GetStyleCss(SeparatorStyle style);
+        /// <summary>Returns the CSS for a plain divider line in the requested style and orientation.</summary>
+        public abstract string GetStyleCss(SeparatorStyle style, Orientation orientation);
 
         /// <summary>
         ///     Returns the CSS (incl. <c>::before</c>/<c>::after</c> pseudo‑elements) for
-        ///     a labelled divider, taking alignment and desired line style into account.
+        ///     a labelled divider, taking alignment, style, and orientation into account.
         /// </summary>
-        public abstract string GetAlignmentCss(Align alignment, SeparatorStyle style);
+        public abstract string GetAlignmentCss(Align alignment, SeparatorStyle style, Orientation orientation);
+
+        /// <summary>
+        /// Returns the base layout CSS for a divider with content based on its orientation.
+        /// </summary>
+        /// <param name="orientation">The orientation of the divider.</param>
+        /// <returns>A Tailwind class string for flex layout.</returns>
+        public abstract string GetDividerLayoutCss(Orientation orientation);
     }
 
     #endregion

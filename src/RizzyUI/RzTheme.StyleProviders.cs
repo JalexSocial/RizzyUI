@@ -61,23 +61,23 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzCard" /> component. </summary>
     public virtual RzStylesBase.RzCardStylesBase RzCard { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzCardBody" /> component. </summary>
-    public virtual RzStylesBase.RzCardBodyStylesBase RzCardBody { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="CardContent" /> component. </summary>
+    public virtual RzStylesBase.CardContentStylesBase CardContent { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzCardButtons" /> component. </summary>
-    public virtual RzStylesBase.RzCardButtonsStylesBase RzCardButtons { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="CardButtons" /> component. </summary>
+    public virtual RzStylesBase.CardButtonsStylesBase CardButtons { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzCardFooter" /> component. </summary>
-    public virtual RzStylesBase.RzCardFooterStylesBase RzCardFooter { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="CardFooter" /> component. </summary>
+    public virtual RzStylesBase.CardFooterStylesBase CardFooter { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzCardHeader" /> component. </summary>
-    public virtual RzStylesBase.RzCardHeaderStylesBase RzCardHeader { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="CardHeader" /> component. </summary>
+    public virtual RzStylesBase.CardHeaderStylesBase CardHeader { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzCardSubtitle" /> component. </summary>
-    public virtual RzStylesBase.RzCardSubtitleStylesBase RzCardSubtitle { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="CardDescription" /> component. </summary>
+    public virtual RzStylesBase.CardDescriptionStylesBase CardDescription { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzCardTitle" /> component. </summary>
-    public virtual RzStylesBase.RzCardTitleStylesBase RzCardTitle { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="CardTitle" /> component. </summary>
+    public virtual RzStylesBase.CardTitleStylesBase CardTitle { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzCheckboxGroup{TValue}" /> component. </summary>
     public virtual RzStylesBase.RzCheckboxGroupStylesBase RzCheckboxGroup { get; }

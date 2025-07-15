@@ -11,124 +11,168 @@
         <MainContent>
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Separator" class="scroll-mt-20">Separator</RzHeading>
             <RzParagraph>
-                The Separator component is a versatile UI element used to separate content, providing a clear visual distinction between different sections or elements within your application. It enhances readability and organizes the layout by creating logical divisions.
+                The Separator component is a versatile UI element used to separate content, providing a clear visual distinction between different sections or elements within your application. It enhances readability and organizes the layout by creating logical divisions in both horizontal and vertical orientations.
             </RzParagraph>
 			
             <section class="my-8 py-2">
-
-	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Separator" class="scroll-mt-20">Default Separator</RzHeading>
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Horizontal Separator" class="scroll-mt-20">Horizontal Separator</RzHeading>
 	            <RzParagraph TextColor="SemanticColor.Foreground">
-		            A basic separator shown in solid, dashed, and dotted styles
+		            A basic horizontal separator shown in solid, dashed, and dotted styles. This is the default orientation.
 	            </RzParagraph>
 
 	            <RzBrowser Layout="typeof(PreviewLayout)">
-
-		            <div class="mx-auto p-8 mb-5">
-						
+		            <div class="mx-auto p-8 mb-5 space-y-4">
 			            <RzSeparator/>
-						
 			            <RzSeparator Style="@SeparatorStyle.Dashed"/>
-						
 			            <RzSeparator Style="@SeparatorStyle.Dotted"/>
-
 		            </div>
-
 	            </RzBrowser>
 
 	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;RzSeparator/&gt;
-		
-    &lt;RzSeparator Style=&quot;@@SeparatorStyle.Dashed&quot;/&gt;
-		
-    &lt;RzSeparator Style=&quot;@@SeparatorStyle.Dotted&quot;/&gt;
+                    &lt;RzSeparator/&gt;
+                    &lt;RzSeparator Style="@@SeparatorStyle.Dashed"/&gt;
+                    &lt;RzSeparator Style="@@SeparatorStyle.Dotted"/&gt;
 	            </RzCodeViewer>
-
 	        </section>
 
             <section class="my-8 py-2">
-
-	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Separator with Label" class="scroll-mt-20">Separator with Label</RzHeading>
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Horizontal Separator with Label" class="scroll-mt-20">Horizontal Separator with Label</RzHeading>
 	            <RzParagraph TextColor="SemanticColor.Foreground">
-		            A separator with text label shown in solid, dashed, and dotted styles
+		            A horizontal separator with a text label, aligned to the start, center, or end.
 	            </RzParagraph>
 
 	            <RzBrowser Layout="typeof(PreviewLayout)">
-
-		            <div class="mx-auto p-8 mb-5">
-						
-			            <RzSeparator Style=@SeparatorStyle.Solid>Solid</RzSeparator>
-
-			            <RzSeparator Style=@SeparatorStyle.Dashed>Dashed</RzSeparator>
-
-			            <RzSeparator Style=@SeparatorStyle.Dotted>Dotted</RzSeparator>
-
+		            <div class="mx-auto p-8 mb-5 space-y-4">
+                        <RzSeparator LabelAlignment="Align.Start">Start</RzSeparator>
+                        <RzSeparator LabelAlignment="Align.Center">Center</RzSeparator>
+                        <RzSeparator LabelAlignment="Align.End">End</RzSeparator>
 		            </div>
-
 	            </RzBrowser>
 
 	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;RzSeparator Style=@@SeparatorStyle.Solid&gt;Solid&lt;/RzSeparator&gt;
-
-    &lt;RzSeparator Style=@@SeparatorStyle.Dashed&gt;Dashed&lt;/RzSeparator&gt;
-
-    &lt;RzSeparator Style=@@SeparatorStyle.Dotted&gt;Dotted&lt;/RzSeparator&gt;
+                    &lt;RzSeparator LabelAlignment="Align.Start"&gt;Start&lt;/RzSeparator&gt;
+                    &lt;RzSeparator LabelAlignment="Align.Center"&gt;Center&lt;/RzSeparator&gt;
+                    &lt;RzSeparator LabelAlignment="Align.End"&gt;End&lt;/RzSeparator&gt;
 	            </RzCodeViewer>
-
             </section>
-			
-            <section class="my-8 py-2">
-
-	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Separator with Aligned Label" class="scroll-mt-20">Separator with Aligned Label</RzHeading>
-	            <RzParagraph TextColor="SemanticColor.Foreground">
-		            A separator with text label aligned to start, center, and end
-	            </RzParagraph>
-
-	            <RzBrowser Layout="typeof(PreviewLayout)">
-
-		            <div class="mx-auto p-8 mb-5">
-
-                        <RzSeparator LabelAlignment="Align.Start" class="text-onSurface dark:text-onSurfaceDark">Start</RzSeparator>
-
-                        <RzSeparator LabelAlignment="Align.Center" class="text-onSurface dark:text-onSurfaceDark">Center</RzSeparator>
-
-                        <RzSeparator LabelAlignment="Align.End" class="text-onSurface dark:text-onSurfaceDark">End</RzSeparator>
-
-		            </div>
-
-	            </RzBrowser>
-
-	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;RzSeparator LabelAlignment=&quot;Align.Start&quot; class=&quot;text-onSurface dark:text-onSurfaceDark&quot;&gt;Start&lt;/RzSeparator&gt;
-
-    &lt;RzSeparator LabelAlignment=&quot;Align.Center&quot; class=&quot;text-onSurface dark:text-onSurfaceDark&quot;&gt;Center&lt;/RzSeparator&gt;
-
-    &lt;RzSeparator LabelAlignment=&quot;Align.End&quot; class=&quot;text-onSurface dark:text-onSurfaceDark&quot;&gt;Middle&lt;/RzSeparator&gt;
-
-	            </RzCodeViewer>
-
-            </section>			
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Vertical Separator" class="scroll-mt-20">Vertical Separator</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">
+                    Set `Orientation="Orientation.Vertical"` to render a vertical line, useful for dividing columns or side-by-side content.
+                </RzParagraph>
 
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex flex-row items-stretch h-32 justify-center gap-8">
+                        <RzSeparator Orientation="Orientation.Vertical" />
+                        <RzSeparator Orientation="Orientation.Vertical" Style="SeparatorStyle.Dashed" />
+                        <RzSeparator Orientation="Orientation.Vertical" Style="SeparatorStyle.Dotted" />
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                    &lt;div class="flex flex-row items-stretch h-32"&gt;
+                        &lt;RzSeparator Orientation="Orientation.Vertical" /&gt;
+                        &lt;RzSeparator Orientation="Orientation.Vertical" Style="SeparatorStyle.Dashed" /&gt;
+                        &lt;RzSeparator Orientation="Orientation.Vertical" Style="SeparatorStyle.Dotted" /&gt;
+                    &lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Vertical Separator with Label" class="scroll-mt-20">Vertical Separator with Aligned Label</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">
+                    When using a vertical orientation, `LabelAlignment` positions the content along the line at the start, center, or end.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex flex-row items-stretch h-40 justify-center gap-8">
+                        <RzSeparator Orientation="Orientation.Vertical" LabelAlignment="Align.Start">Start</RzSeparator>
+                        <RzSeparator Orientation="Orientation.Vertical" LabelAlignment="Align.Center">Center</RzSeparator>
+                        <RzSeparator Orientation="Orientation.Vertical" LabelAlignment="Align.End">End</RzSeparator>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                    &lt;div class="flex flex-row items-stretch h-40"&gt;
+                        &lt;RzSeparator Orientation="Orientation.Vertical" LabelAlignment="Align.Start"&gt;Start&lt;/RzSeparator&gt;
+                        &lt;RzSeparator Orientation="Orientation.Vertical" LabelAlignment="Align.Center"&gt;Center&lt;/RzSeparator&gt;
+                        &lt;RzSeparator Orientation="Orientation.Vertical" LabelAlignment="Align.End"&gt;End&lt;/RzSeparator&gt;
+                    &lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
 	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Separator with Icon" class="scroll-mt-20">Separator with Icon</RzHeading>
 	            <RzParagraph TextColor="SemanticColor.Foreground">
-		            A separator with icon label styled by Tailwind classes
+		            A separator can also contain an icon, which can be styled using standard CSS classes.
 	            </RzParagraph>
 
 	            <RzBrowser Layout="typeof(PreviewLayout)">
-
-		            <div class="mx-auto p-8 mb-5">
-						
-			            <RzSeparator Style=@SeparatorStyle.Solid class="text-lg text-onSurface dark:text-onSurfaceDark"><Blazicon Svg="MdiIcon.PlusCircle"/></RzSeparator>
-
+		            <div class="mx-auto p-8 mb-5 flex flex-col items-center gap-8">
+			            <RzSeparator Style=@SeparatorStyle.Solid class="text-lg text-foreground"><Blazicon Svg="MdiIcon.PlusCircle"/></RzSeparator>
+                        <div class="h-24">
+                            <RzSeparator Orientation="Orientation.Vertical" LabelAlignment="Align.Center" class="text-lg text-foreground"><Blazicon Svg="MdiIcon.PlusCircle"/></RzSeparator>
+                        </div>
 		            </div>
-
 	            </RzBrowser>
 
 	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;RzSeparator Style=@@SeparatorStyle.Solid class=&quot;text-lg text-onSurface dark:text-onSurfaceDark&quot;&gt;&lt;Blazicon Svg=&quot;MdiIcon.PlusCircle&quot;/&gt;&lt;/RzSeparator&gt;
-	            </RzCodeViewer>
+                    &lt;!-- Horizontal --&gt;
+                    &lt;RzSeparator Style="@SeparatorStyle.Solid" class="text-lg text-foreground"&gt;
+                        &lt;Blazicon Svg="MdiIcon.PlusCircle"/&gt;
+                    &lt;/RzSeparator&gt;
 
+                    &lt;!-- Vertical --&gt;
+                    &lt;RzSeparator Orientation="Orientation.Vertical" LabelAlignment="Align.Center" class="text-lg text-foreground"&gt;
+                        &lt;Blazicon Svg="MdiIcon.PlusCircle"/&gt;
+                    &lt;/RzSeparator&gt;
+	            </RzCodeViewer>
+            </section>
+
+            <!-- RzSeparator Component Parameters -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Separator Component Parameters" class="scroll-mt-20">
+                    Separator Component Parameters
+                </RzHeading>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Style</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SeparatorStyle</code> – The style of the dividing line. Options are <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Solid</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Dashed</code>, and <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Dotted</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SeparatorStyle</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">SeparatorStyle.Solid</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Orientation</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Orientation</code> – Determines if the separator is displayed horizontally or vertically. Options are <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Orientation.Horizontal</code> and <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Orientation.Vertical</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Orientation</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Orientation.Horizontal</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">LabelAlignment</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Align</code> – The alignment of the child content within the divider. Options are <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Start</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Center</code>, and <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">End</code>. Only used if `ChildContent` is provided.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Align</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Align.Center</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Optional content to display within the divider (e.g., text or an icon). If null, a simple divider line is rendered.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
         </MainContent>

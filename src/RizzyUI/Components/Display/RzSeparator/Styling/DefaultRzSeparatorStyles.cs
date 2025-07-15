@@ -9,9 +9,6 @@
 ///             <description>Standard, thick, dotted, and dashed rules.</description>
 ///         </item>
 ///         <item>
-///             <description>Inset variants (indented 2rem) of the above rules.</description>
-///         </item>
-///         <item>
 ///             <description>Base flex layout styles used when the divider carries a label or icon.</description>
 ///         </item>
 ///     </list>
@@ -38,28 +35,16 @@ public sealed class DefaultRzSeparatorStyles : RzStylesBase.RzSeparatorStylesBas
     // ──────────────────────────────────────────────────────────────
 
     /// <inheritdoc />
-    public override string Container => "my-4 border-t border-outline";
+    public override string Container => "my-4 border-t border-border";
 
     /// <inheritdoc />
-    public override string Thick => "my-4 h-px border-0 bg-outline";
+    public override string Thick => "my-4 h-px border-0 bg-border";
 
     /// <inheritdoc />
-    public override string Dotted => "my-4 border-t border-dotted border-outline";
+    public override string Dotted => "my-4 border-t border-dotted border-border";
 
     /// <inheritdoc />
-    public override string Dashed => "my-4 border-t border-dashed  border-outline";
-
-    /// <inheritdoc />
-    public override string Inset => "ml-8 my-4 border-t border-outline";
-
-    /// <inheritdoc />
-    public override string InsetThick => "ml-8 my-4 h-px border-0 bg-outline";
-
-    /// <inheritdoc />
-    public override string InsetDotted => "ml-8 my-4 border-t border-dotted border-outline";
-
-    /// <inheritdoc />
-    public override string InsetDashed => "ml-8 my-4 border-t border-dashed  border-outline";
+    public override string Dashed => "my-4 border-t border-dashed border-border";
 
     /// <summary>
     ///     Base classes applied to the wrapper element when <see cref="RzSeparator" /> contains
@@ -71,37 +56,43 @@ public sealed class DefaultRzSeparatorStyles : RzStylesBase.RzSeparatorStylesBas
     // Helper methods
     // ──────────────────────────────────────────────────────────────
 
-    /// <summary>
-    ///     Returns the Tailwind class list for a plain <c>&lt;hr&gt;</c> rendered
-    ///     in the requested <paramref name="style" />.
-    /// </summary>
-    /// <param name="style">The desired divider line style.</param>
-    /// <returns>A class string defining border width, style, and color.</returns>
-    public override string GetStyleCss(SeparatorStyle style)
+    /// <inheritdoc />
+    public override string GetDividerLayoutCss(Orientation orientation)
     {
+        return orientation == Orientation.Horizontal
+            ? "flex items-center text-sm text-outline"
+            : "inline-flex flex-col items-center text-sm text-outline h-full";
+    }
+
+    /// <inheritdoc />
+    public override string GetStyleCss(SeparatorStyle style, Orientation orientation)
+    {
+        if (orientation == Orientation.Vertical)
+        {
+            var baseVertical = "mx-4 border-r border-border self-stretch";
+            return style switch
+            {
+                SeparatorStyle.Solid => $"{baseVertical} border-solid",
+                SeparatorStyle.Dashed => $"{baseVertical} border-dashed",
+                SeparatorStyle.Dotted => $"{baseVertical} border-dotted",
+                _ => $"{baseVertical} border-solid"
+            };
+        }
+        
+        // Horizontal
+        var baseHorizontal = "my-4 border-t border-border w-full";
         return style switch
         {
-            SeparatorStyle.Solid => $"{Container} border-solid",
-            SeparatorStyle.Dashed => Dashed,
-            SeparatorStyle.Dotted => Dotted,
-            _ => $"{Container} border-solid"
+            SeparatorStyle.Solid => $"{baseHorizontal} border-solid",
+            SeparatorStyle.Dashed => $"{baseHorizontal} border-dashed",
+            SeparatorStyle.Dotted => $"{baseHorizontal} border-dotted",
+            _ => $"{baseHorizontal} border-solid"
         };
     }
 
-    /// <summary>
-    ///     Returns the class list for a divider rendered as a <c>&lt;div&gt;</c>
-    ///     with <c>ChildContent</c>, including pseudo‑element definitions that draw
-    ///     the left / right lines around the content.
-    /// </summary>
-    /// <param name="alignment">
-    ///     The alignment of the label relative to the rule:
-    ///     <see cref="Align.Start" />, <see cref="Align.Center" />, or <see cref="Align.End" />.
-    /// </param>
-    /// <param name="style">The visual style of the rule (solid, dashed, dotted).</param>
-    /// <returns>A Tailwind class string describing flex layout and pseudo‑elements.</returns>
-    public override string GetAlignmentCss(Align alignment, SeparatorStyle style)
+    /// <inheritdoc />
+    public override string GetAlignmentCss(Align alignment, SeparatorStyle style, Orientation orientation)
     {
-        // Determine the border-style part once.
         var lineStyle = style switch
         {
             SeparatorStyle.Solid => "border-solid",
@@ -109,9 +100,21 @@ public sealed class DefaultRzSeparatorStyles : RzStylesBase.RzSeparatorStylesBas
             SeparatorStyle.Dotted => "border-dotted",
             _ => "border-solid"
         };
+        const string color = "border-border";
 
-        const string color = "border-outline dark:border-outline";
-
+        if (orientation == Orientation.Vertical)
+        {
+            return alignment switch
+            {
+                Align.Start => $"after:flex-1 after:w-px after:border-r after:{lineStyle} after:{color} after:mt-2",
+                Align.Center => $"before:flex-1 before:w-px before:border-r before:{lineStyle} before:{color} before:mb-2 " +
+                                $"after:flex-1 after:w-px after:border-r after:{lineStyle} after:{color} after:mt-2",
+                Align.End => $"before:flex-1 before:w-px before:border-r before:{lineStyle} before:{color} before:mb-2",
+                _ => string.Empty
+            };
+        }
+        
+        // Horizontal
         return alignment switch
         {
             Align.Start => $"after:flex-1 after:border-t after:{lineStyle} after:{color} after:ms-6",

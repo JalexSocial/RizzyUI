@@ -8,7 +8,7 @@ namespace RizzyUI;
 ///     Represents the footer section of an <see cref="RzCard" />.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzCardFooter : RzComponent
+public partial class CardFooter : RzComponent
 {
     /// <summary> The content to be rendered inside the card footer. </summary>
     [Parameter]
@@ -41,7 +41,7 @@ public partial class RzCardFooter : RzComponent
             : Theme.Light.Foreground.ToCssClassString("text"); // Use theme default if None
 
         return TwMerge.Merge(AdditionalAttributes,
-            Theme.RzCardFooter.Footer,
+            Theme.CardFooter.Footer,
             bgColorClass,
             textColorClass);
     }

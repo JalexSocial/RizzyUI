@@ -28,128 +28,128 @@ public abstract partial class RzStylesBase
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzCardHeader" /> section.
+    ///     Defines the abstract structure for styling the <see cref="CardHeader" /> section.
     /// </summary>
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzCardHeader" /> component.
+    ///     Defines the abstract structure for styling the <see cref="CardHeader" /> component.
     /// </summary>
-    public abstract class RzCardHeaderStylesBase
+    public abstract class CardHeaderStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="RzCardHeaderStylesBase" /> class. </summary>
-        protected RzCardHeaderStylesBase(RzTheme theme)
+        /// <summary> Initializes a new instance of the <see cref="CardHeaderStylesBase" /> class. </summary>
+        protected CardHeaderStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the RzCardHeader div (layout, padding, alignment). </summary>
+        /// <summary> Gets the base CSS classes for the CardHeader div (layout, padding, alignment). </summary>
         public abstract string Header { get; }
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzCardBody" /> section.
+    ///     Defines the abstract structure for styling the <see cref="CardContent" /> section.
     /// </summary>
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzCardBody" /> component.
+    ///     Defines the abstract structure for styling the <see cref="CardContent" /> component.
     /// </summary>
-    public abstract class RzCardBodyStylesBase
+    public abstract class CardContentStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="RzCardBodyStylesBase" /> class. </summary>
-        protected RzCardBodyStylesBase(RzTheme theme)
+        /// <summary> Initializes a new instance of the <see cref="CardContentStylesBase" /> class. </summary>
+        protected CardContentStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the RzCardBody div (flex grow, padding). </summary>
+        /// <summary> Gets the base CSS classes for the CardContent div (flex grow, padding). </summary>
         public abstract string Body { get; }
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzCardFooter" /> section.
+    ///     Defines the abstract structure for styling the <see cref="CardFooter" /> section.
     /// </summary>
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzCardFooter" /> component.
+    ///     Defines the abstract structure for styling the <see cref="CardFooter" /> component.
     /// </summary>
-    public abstract class RzCardFooterStylesBase
+    public abstract class CardFooterStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="RzCardFooterStylesBase" /> class. </summary>
-        protected RzCardFooterStylesBase(RzTheme theme)
+        /// <summary> Initializes a new instance of the <see cref="CardFooterStylesBase" /> class. </summary>
+        protected CardFooterStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the RzCardFooter div (padding, typography, bottom rounding). </summary>
+        /// <summary> Gets the base CSS classes for the CardFooter div (padding, typography, bottom rounding). </summary>
         public abstract string Footer { get; }
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzCardTitle" />.
+    ///     Defines the abstract structure for styling the <see cref="CardTitle" />.
     /// </summary>
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzCardTitle" /> component.
+    ///     Defines the abstract structure for styling the <see cref="CardTitle" /> component.
     /// </summary>
-    public abstract class RzCardTitleStylesBase
+    public abstract class CardTitleStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="RzCardTitleStylesBase" /> class. </summary>
-        protected RzCardTitleStylesBase(RzTheme theme)
+        /// <summary> Initializes a new instance of the <see cref="CardTitleStylesBase" /> class. </summary>
+        protected CardTitleStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the RzCardTitle h3 element (layout, margin, typography). </summary>
+        /// <summary> Gets the base CSS classes for the CardTitle h3 element (layout, margin, typography). </summary>
         public abstract string Title { get; }
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzCardSubtitle" />.
+    ///     Defines the abstract structure for styling the <see cref="CardDescription" />.
     /// </summary>
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzCardSubtitle" /> component.
+    ///     Defines the abstract structure for styling the <see cref="CardDescription" /> component.
     /// </summary>
-    public abstract class RzCardSubtitleStylesBase
+    public abstract class CardDescriptionStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="RzCardSubtitleStylesBase" /> class. </summary>
-        protected RzCardSubtitleStylesBase(RzTheme theme)
+        /// <summary> Initializes a new instance of the <see cref="CardDescriptionStylesBase" /> class. </summary>
+        protected CardDescriptionStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the RzCardSubtitle h4 element (typography). </summary>
+        /// <summary> Gets the base CSS classes for the CardDescription h4 element (typography). </summary>
         public abstract string Subtitle { get; }
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzCardButtons" /> container in a card header.
+    ///     Defines the abstract structure for styling the <see cref="CardButtons" /> container in a card header.
     /// </summary>
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="RzCardButtons" /> component.
+    ///     Defines the abstract structure for styling the <see cref="CardButtons" /> component.
     /// </summary>
-    public abstract class RzCardButtonsStylesBase
+    public abstract class CardButtonsStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="RzCardButtonsStylesBase" /> class. </summary>
-        protected RzCardButtonsStylesBase(RzTheme theme)
+        /// <summary> Initializes a new instance of the <see cref="CardButtonsStylesBase" /> class. </summary>
+        protected CardButtonsStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the RzCardButtons div (layout, gap, negative margin for alignment). </summary>
+        /// <summary> Gets the base CSS classes for the CardButtons div (layout, gap, negative margin for alignment). </summary>
         public abstract string ButtonsContainer { get; }
     }
 

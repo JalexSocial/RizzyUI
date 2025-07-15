@@ -17,14 +17,14 @@ public class DefaultRzCardStyles : RzStylesBase.RzCardStylesBase
         "flex flex-col gap-6 rounded-xl border py-6 shadow-sm bg-card text-card-foreground"; // Matches kitchen sink .card
 }
 
-/// <summary> Provides default styles for RzCardHeader. </summary>
-public class DefaultRzCardHeaderStyles : RzStylesBase.RzCardHeaderStylesBase
+/// <summary> Provides default styles for CardHeader. </summary>
+public class DefaultCardHeaderStyles : RzStylesBase.CardHeaderStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzCardHeaderStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultCardHeaderStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzCardHeaderStyles(RzTheme theme) : base(theme)
+    public DefaultCardHeaderStyles(RzTheme theme) : base(theme)
     {
     }
 
@@ -33,29 +33,29 @@ public class DefaultRzCardHeaderStyles : RzStylesBase.RzCardHeaderStylesBase
         "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"; // Matches kitchen sink > header
 }
 
-/// <summary> Provides default styles for RzCardBody. </summary>
-public class DefaultRzCardBodyStyles : RzStylesBase.RzCardBodyStylesBase
+/// <summary> Provides default styles for CardContent. </summary>
+public class DefaultCardContentStyles : RzStylesBase.CardContentStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzCardBodyStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultCardContentStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzCardBodyStyles(RzTheme theme) : base(theme)
+    public DefaultCardContentStyles(RzTheme theme) : base(theme)
     {
     }
 
     /// <inheritdoc />
-    public override string Body => "px-6"; // Matches kitchen sink > section (for body content)
+    public override string Body => "px-6"; 
 }
 
-/// <summary> Provides default styles for RzCardFooter. </summary>
-public class DefaultRzCardFooterStyles : RzStylesBase.RzCardFooterStylesBase
+/// <summary> Provides default styles for CardFooter. </summary>
+public class DefaultCardFooterStyles : RzStylesBase.CardFooterStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzCardFooterStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultCardFooterStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzCardFooterStyles(RzTheme theme) : base(theme)
+    public DefaultCardFooterStyles(RzTheme theme) : base(theme)
     {
     }
 
@@ -63,48 +63,48 @@ public class DefaultRzCardFooterStyles : RzStylesBase.RzCardFooterStylesBase
     public override string Footer => "flex items-center px-6 [.border-t]:pt-6"; // Matches kitchen sink > footer
 }
 
-/// <summary> Provides default styles for RzCardTitle. </summary>
-public class DefaultRzCardTitleStyles : RzStylesBase.RzCardTitleStylesBase
+/// <summary> Provides default styles for CardTitle. </summary>
+public class DefaultCardTitleStyles : RzStylesBase.CardTitleStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzCardTitleStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultCardTitleStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzCardTitleStyles(RzTheme theme) : base(theme)
+    public DefaultCardTitleStyles(RzTheme theme) : base(theme)
     {
     }
 
     /// <inheritdoc />
     public override string Title =>
-        "leading-none font-semibold"; // Matches kitchen sink > header h2
+        "leading-none font-semibold";
 }
 
-/// <summary> Provides default styles for RzCardSubtitle. </summary>
-public class DefaultRzCardSubtitleStyles : RzStylesBase.RzCardSubtitleStylesBase
+/// <summary> Provides default styles for CardDescription. </summary>
+public class DefaultCardDescriptionStyles : RzStylesBase.CardDescriptionStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzCardSubtitleStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultCardDescriptionStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzCardSubtitleStyles(RzTheme theme) : base(theme)
+    public DefaultCardDescriptionStyles(RzTheme theme) : base(theme)
     {
     }
 
     /// <inheritdoc />
-    public override string Subtitle => "text-muted-foreground text-sm"; // Matches kitchen sink > header p
+    public override string Subtitle => "text-muted-foreground text-sm";
 }
 
-/// <summary> Provides default styles for RzCardButtons. </summary>
-public class DefaultRzCardButtonsStyles : RzStylesBase.RzCardButtonsStylesBase
+/// <summary> Provides default styles for CardButtons. </summary>
+public class DefaultCardButtonsStyles : RzStylesBase.CardButtonsStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzCardButtonsStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultCardButtonsStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzCardButtonsStyles(RzTheme theme) : base(theme)
+    public DefaultCardButtonsStyles(RzTheme theme) : base(theme)
     {
     }
 
     /// <inheritdoc />
-    public override string ButtonsContainer => "flex flex-col items-center gap-2 sm:flex-row"; // Adapted from kitchen sink card footer button layout
+    public override string ButtonsContainer => "flex flex-col items-center gap-2 sm:flex-row"; 
 }

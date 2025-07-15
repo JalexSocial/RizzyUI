@@ -8,7 +8,7 @@ namespace RizzyUI;
 ///     Represents the header section of an <see cref="RzCard" />.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzCardHeader : RzComponent
+public partial class CardHeader : RzComponent
 {
     /// <summary> The content to be rendered inside the card header. </summary>
     [Parameter]
@@ -41,7 +41,7 @@ public partial class RzCardHeader : RzComponent
             : Theme.Light.Foreground.ToCssClassString("text"); // Use theme default if None
 
         return TwMerge.Merge(AdditionalAttributes,
-            Theme.RzCardHeader.Header,
+            Theme.CardHeader.Header,
             bgColorClass,
             textColorClass);
     }

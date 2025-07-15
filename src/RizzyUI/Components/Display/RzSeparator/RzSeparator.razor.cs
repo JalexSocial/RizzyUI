@@ -1,15 +1,11 @@
-
-// src/RizzyUI/Components/RzSeparator/RzSeparator.razor.cs
-
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
 /// <xmldoc>
-///     A component that renders a horizontal divider line, optionally with centered or aligned text/content.
-///     Renders as an <c>&lt;hr></c> if no <see cref="ChildContent" /> is provided, otherwise renders as a <c>&lt;div></c>
-///     using pseudo-elements for the lines. Styling is determined by the active <see cref="RzTheme" />.
+///     A component that renders a horizontal or vertical divider line, optionally with centered or aligned text/content.
+///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
 public partial class RzSeparator : RzComponent
 {
@@ -28,7 +24,13 @@ public partial class RzSeparator : RzComponent
     [Parameter] public Align LabelAlignment { get; set; } = Align.Center;
 
     /// <summary>
-    ///     Optional content to display within the divider (e.g., text or an icon). If null, a simple <c>&lt;hr></c> is
+    /// Gets or sets the orientation of the separator (Horizontal or Vertical).
+    /// Defaults to <see cref="Orientation.Horizontal"/>.
+    /// </summary>
+    [Parameter] public Orientation Orientation { get; set; } = Orientation.Horizontal;
+
+    /// <summary>
+    ///     Optional content to display within the divider (e.g., text or an icon). If null, a simple divider line is
     ///     rendered.
     /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -45,12 +47,16 @@ public partial class RzSeparator : RzComponent
     protected override string? RootClass()
     {
         var styles = Theme.RzSeparator;
-        return TwMerge.Merge(AdditionalAttributes,
-            styles.Divider, // Base styles including text color, margins, base layout
-            ChildContent is null
-                ? styles.GetStyleCss(Style) // Style for <hr> (border-t, border-style)
-                : styles.GetAlignmentCss(LabelAlignment,
-                    Style) // Alignment/style for <div> with content (uses ::before/::after)
-        );
+        if (ChildContent is null)
+        {
+            return TwMerge.Merge(AdditionalAttributes, styles.GetStyleCss(Style, Orientation));
+        }
+        else
+        {
+            return TwMerge.Merge(AdditionalAttributes,
+                styles.GetDividerLayoutCss(Orientation),
+                styles.GetAlignmentCss(LabelAlignment, Style, Orientation)
+            );
+        }
     }
 }

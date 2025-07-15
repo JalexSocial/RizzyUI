@@ -5,10 +5,10 @@ using RizzyUI.Extensions;
 namespace RizzyUI;
 
 /// <xmldoc>
-///     A container specifically for placing buttons within an <see cref="RzCardHeader" /> or <see cref="RzCardFooter" />.
+///     A container specifically for placing buttons within an <see cref="CardHeader" /> or <see cref="CardFooter" />.
 ///     Provides appropriate layout styling based on the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzCardButtons : RzComponent
+public partial class CardButtons : RzComponent
 {
     /// <summary> The buttons or other action elements to be rendered within this container. </summary>
     [Parameter]
@@ -24,6 +24,6 @@ public partial class RzCardButtons : RzComponent
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzCardButtons.ButtonsContainer);
+        return TwMerge.Merge(AdditionalAttributes, Theme.CardButtons.ButtonsContainer);
     }
 }

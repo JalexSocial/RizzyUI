@@ -5,12 +5,12 @@ using RizzyUI.Extensions;
 namespace RizzyUI;
 
 /// <xmldoc>
-///     Represents a subtitle within an <see cref="RzCardHeader" />. Typically renders as an H4 element.
+///     Represents the main title within an <see cref="CardHeader" />. Typically renders as an H3 element.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzCardSubtitle : RzComponent
+public partial class CardTitle : RzComponent
 {
-    /// <summary> The text or content to be rendered as the card subtitle. </summary>
+    /// <summary> The text or content to be rendered as the card title. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -20,12 +20,12 @@ public partial class RzCardSubtitle : RzComponent
         base.OnInitialized();
 
         if (string.IsNullOrEmpty(Element))
-            Element = "h4"; // Default element for a subtitle
+            Element = "h3"; // Default element for a title
     }
 
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzCardSubtitle.Subtitle);
+        return TwMerge.Merge(AdditionalAttributes, Theme.CardTitle.Title);
     }
 }
