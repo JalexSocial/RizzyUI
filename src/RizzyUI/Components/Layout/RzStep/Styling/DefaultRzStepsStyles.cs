@@ -42,7 +42,7 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
     public override string CircleDefaultIcon => "size-4"; // Size for the default icon within the circle
 
     /// <inheritdoc />
-    public override string LabelBase => "hidden w-max sm:inline"; // Base label style (hidden on small screens)
+    public override string LabelBase => "hidden w-max whitespace-nowrap sm:inline"; // Base label style (hidden on small screens)
 
     /// <inheritdoc />
     public override string Caption =>

@@ -58,11 +58,11 @@
 				<div>
 					@if (ShowLabels && !string.IsNullOrEmpty(step.Label))
 					{
-						<span class="@Theme.RzSteps.LabelBase @Theme.RzSteps.GetLabelStatusCss(step.Status, ActiveColor)">@step.Label</span>
+						<p class="@Theme.RzSteps.LabelBase @Theme.RzSteps.GetLabelStatusCss(step.Status, ActiveColor)">@step.Label</p>
 					}
 					@if (!string.IsNullOrEmpty(step.Caption))
 					{
-						<span class="@Theme.RzSteps.Caption">@step.Caption</span>
+						<p class="@Theme.RzSteps.Caption">@step.Caption</p>
 					}
 				</div>
 			</div>
