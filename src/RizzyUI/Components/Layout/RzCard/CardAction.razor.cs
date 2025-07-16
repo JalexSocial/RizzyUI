@@ -8,7 +8,7 @@ namespace RizzyUI;
 ///     A container specifically for placing buttons within an <see cref="CardHeader" /> or <see cref="CardFooter" />.
 ///     Provides appropriate layout styling based on the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class CardButtons : RzComponent
+public partial class CardAction : RzComponent
 {
     /// <summary> The buttons or other action elements to be rendered within this container. </summary>
     [Parameter]
@@ -24,6 +24,6 @@ public partial class CardButtons : RzComponent
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.CardButtons.ButtonsContainer);
+        return TwMerge.Merge(AdditionalAttributes, Theme.CardAction.ActionsContainer);
     }
 }

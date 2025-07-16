@@ -20,7 +20,7 @@ public partial class CardDescription : RzComponent
         base.OnInitialized();
 
         if (string.IsNullOrEmpty(Element))
-            Element = "h4"; // Default element for a subtitle
+            Element = "p"; // Default element for a subtitle
     }
 
     /// <inheritdoc />

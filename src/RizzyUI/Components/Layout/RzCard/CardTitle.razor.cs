@@ -20,7 +20,7 @@ public partial class CardTitle : RzComponent
         base.OnInitialized();
 
         if (string.IsNullOrEmpty(Element))
-            Element = "h3"; // Default element for a title
+            Element = "h2"; // Default element for a title
     }
 
     /// <inheritdoc />

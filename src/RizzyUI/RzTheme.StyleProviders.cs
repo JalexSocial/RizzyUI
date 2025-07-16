@@ -64,8 +64,8 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="CardContent" /> component. </summary>
     public virtual RzStylesBase.CardContentStylesBase CardContent { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="CardButtons" /> component. </summary>
-    public virtual RzStylesBase.CardButtonsStylesBase CardButtons { get; }
+    /// <summary> Gets or sets the style definitions for the <see cref="CardAction" /> component. </summary>
+    public virtual RzStylesBase.CardActionStylesBase CardAction { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="CardFooter" /> component. </summary>
     public virtual RzStylesBase.CardFooterStylesBase CardFooter { get; }

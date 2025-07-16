@@ -94,17 +94,17 @@ public class DefaultCardDescriptionStyles : RzStylesBase.CardDescriptionStylesBa
     public override string Subtitle => "text-muted-foreground text-sm";
 }
 
-/// <summary> Provides default styles for CardButtons. </summary>
-public class DefaultCardButtonsStyles : RzStylesBase.CardButtonsStylesBase
+/// <summary> Provides default styles for CardAction. </summary>
+public class DefaultCardActionStyles : RzStylesBase.CardActionStylesBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultCardButtonsStyles" /> class.
+    ///     Initializes a new instance of the <see cref="DefaultCardActionStyles" /> class.
     /// </summary>
     /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultCardButtonsStyles(RzTheme theme) : base(theme)
+    public DefaultCardActionStyles(RzTheme theme) : base(theme)
     {
     }
 
     /// <inheritdoc />
-    public override string ButtonsContainer => "flex flex-col items-center gap-2 sm:flex-row"; 
+    public override string ActionsContainer => "col-start-2 row-span-2 row-start-1 self-start justify-self-end"; 
 }

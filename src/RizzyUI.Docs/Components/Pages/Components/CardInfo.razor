@@ -28,11 +28,9 @@
                     <div class="mx-auto flex items-center justify-center gap-4 rounded-md p-8">
 			            <RzCard class="w-full">
 				            <CardHeader>
-					            <div>
-						            <CardTitle>Project Management</CardTitle>
-						            <CardDescription>Manage all your projects</CardDescription>
-					            </div>
-					            <CardButtons>
+						        <CardTitle>Project Management</CardTitle>
+						        <CardDescription>Manage all your projects</CardDescription>
+					            <CardAction>
 						            <RzButton Size="Size.Small" Variant="ButtonVariant.Information">
 							            <Blazicon Svg="MdiIcon.Plus"></Blazicon>
 							            <span>New Project</span>
@@ -41,7 +39,7 @@
 							            <Blazicon Svg="MdiIcon.AccountMultiple"></Blazicon>
 							            <span>Clients</span>
 						            </RzButton>
-					            </CardButtons>
+					            </CardAction>
 				            </CardHeader>
 				            <CardContent>Body content here</CardContent>
 				            <CardFooter>Footer content here</CardFooter>
@@ -51,13 +49,11 @@
 	            </RzBrowser>
 
 	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
-	    &lt;Card class=&quot;w-full&quot;&gt;
+	    &lt;RzCard class=&quot;w-full&quot;&gt;
 	        &lt;CardHeader&gt;
-	            &lt;div&gt;
-	                &lt;CardTitle&gt;Information&lt;/CardTitle&gt;
-	                &lt;CardSubtitle&gt;This is a subtitle&lt;/CardDescription&gt;
-	            &lt;/div&gt;
-	            &lt;CardButtons&gt;
+	            &lt;CardTitle&gt;Information&lt;/CardTitle&gt;
+	            &lt;CardSubtitle&gt;This is a subtitle&lt;/CardDescription&gt;
+	            &lt;CardAction&gt;
 	                &lt;RzButton Size=&quot;Size.Small&quot; Variant=&quot;ButtonVariant.Information&quot;&gt;
 	                    &lt;Blazicon Svg=&quot;MdiIcon.Plus&quot;&gt;&lt;/Blazicon&gt;
 	                    &lt;span&gt;New Project&lt;/span&gt;
@@ -66,18 +62,18 @@
 	                    &lt;Blazicon Svg=&quot;MdiIcon.AccountMultiple&quot;&gt;&lt;/Blazicon&gt;
 	                    &lt;span&gt;Clients&lt;/span&gt;
 	                &lt;/RzButton&gt;
-	            &lt;/CardButtons&gt;
+	            &lt;/CardAction&gt;
 	        &lt;/CardHeader&gt;
 	        &lt;CardContent&gt;Body content here&lt;/CardContent&gt;
 	        &lt;CardFooter&gt;Footer content here&lt;/CardFooter&gt;
-	    &lt;/Card&gt;
+	    &lt;/RzCard&gt;
 	            </RzCodeViewer>
 
 	        </section>
 		
             <section class="my-8 py-2">
 
-	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzArticle Card" class="scroll-mt-20">RzArticle Card</RzHeading>
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzArticle Card" class="scroll-mt-20">Article Card</RzHeading>
 	            <RzParagraph TextColor="SemanticColor.Foreground">
 		            A card with an image, title, and description.
 	            </RzParagraph>
@@ -86,12 +82,9 @@
 
                     <div class="mx-auto flex items-center justify-center gap-4 rounded-md p-8">
 
-			            <RzCard class="max-w-sm">
-				            <div class="h-44 md:h-64 overflow-hidden"> 
-					            <img src="/images/card2.jpg" class="w-full object-cover transition duration-700 ease-out group-hover:scale-105" alt="coffee beans spilling out from a coffee mug" />
-				            </div>
-
-				            <CardContent BackgroundColor="SemanticColor.Muted">
+			            <RzCard class="max-w-sm py-0 pb-6 overflow-hidden">
+					        <img src="/images/card2.jpg" class="h-44 w-full object-cover transition duration-700 ease-out group-hover:scale-105" alt="coffee beans spilling out from a coffee mug" />
+				            <CardContent>
 					            <span class="text-sm font-medium">Features</span>
 					            <RzHeading Level="HeadingLevel.H2">Elevate your Coffee Brew With This One Trick</RzHeading>
 					            <RzParagraph class="text-sm mb-0">
@@ -109,23 +102,20 @@
 	            </RzBrowser>
 
 	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;Card class=&quot;max-w-sm&quot;&gt;
-        &lt;div class=&quot;h-44 md:h-64 overflow-hidden&quot;&gt; 
-            &lt;img src=&quot;/images/card2.jpg&quot; class=&quot;h-full object-cover transition duration-700 ease-out group-hover:scale-105&quot; alt=&quot;coffee beans spilling out from a coffee mug&quot; /&gt;
-        &lt;/div&gt;
-
-        &lt;CardContent BackgroundColor=&quot;SemanticColor.SurfaceAlt&quot;&gt;
-            &lt;span class=&quot;text-sm font-medium&quot;&gt;Features&lt;/span&gt;
-            &lt;RzHeading Level=&quot;HeadingLevel.H2&quot;&gt;Elevate your Coffee Brew With This One Trick&lt;/RzHeading&gt;
-            &lt;RzParagraph class=&quot;text-sm mb-0&quot;&gt;
-	            Whether you&#39;re a barista or a coffee enthusiast, this guide provides expert tips on selecting quality beans, mastering 
-	            the grind, and refining your brewing technique to elevate your coffee ritual and savor every sip.
-            &lt;/RzParagraph&gt;							
-        &lt;/CardContent&gt;
-        &lt;CardFooter&gt;
-            &lt;RzButton Variant=&quot;ButtonVariant.Primary&quot;&gt;View&lt;/RzButton&gt;
-        &lt;/CardFooter&gt;
-    &lt;/Card&gt;
+			            &lt;RzCard class=&quot;max-w-sm py-0 pb-6 overflow-hidden&quot;&gt;
+					        &lt;img src=&quot;/images/card2.jpg&quot; class=&quot;h-44 w-full object-cover transition duration-700 ease-out group-hover:scale-105&quot; alt=&quot;coffee beans spilling out from a coffee mug&quot; /&gt;
+				            &lt;CardContent&gt;
+					            &lt;span class=&quot;text-sm font-medium&quot;&gt;Features&lt;/span&gt;
+					            &lt;RzHeading Level=&quot;HeadingLevel.H2&quot;&gt;Elevate your Coffee Brew With This One Trick&lt;/RzHeading&gt;
+					            &lt;RzParagraph class=&quot;text-sm mb-0&quot;&gt;
+						            Whether you&#39;re a barista or a coffee enthusiast, this guide provides expert tips on selecting quality beans, mastering 
+						            the grind, and refining your brewing technique to elevate your coffee ritual and savor every sip.
+					            &lt;/RzParagraph&gt;							
+				            &lt;/CardContent&gt;
+				            &lt;CardFooter&gt;
+					            &lt;RzButton Variant=&quot;ButtonVariant.Primary&quot;&gt;View&lt;/RzButton&gt;
+				            &lt;/CardFooter&gt;
+			            &lt;/RzCard&gt;
 	            </RzCodeViewer>
 
             </section>
@@ -149,18 +139,6 @@
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The content to be rendered inside the card.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">BackgroundColor</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SemanticColor</code> – The background color for the card.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SemanticColor</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">SemanticColor.Background</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TextColor</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SemanticColor</code> – The text color for the card content.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SemanticColor</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">SemanticColor.Foreground</code></td>
                             </tr>
                         </tbody>
                     </table>
@@ -187,26 +165,14 @@
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
                             </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">BackgroundColor</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SemanticColor</code> – The background color for the card body.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SemanticColor</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">SemanticColor.None</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TextColor</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SemanticColor</code> – The text color for the card body content.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SemanticColor</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">SemanticColor.None</code></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- CardButtons Component Parameters -->
+            <!-- CardAction Component Parameters -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardButtons Parameters" class="scroll-mt-20">CardButtons Component Parameters</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardAction Parameters" class="scroll-mt-20">CardAction Component Parameters</RzHeading>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
@@ -249,18 +215,6 @@
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
                             </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">BackgroundColor</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SemanticColor</code> – The background color for the card footer.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SemanticColor</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">SemanticColor.Muted</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TextColor</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SemanticColor</code> – The text color for the card footer content.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SemanticColor</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">SemanticColor.Foreground</code></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -285,18 +239,6 @@
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The content to be rendered inside the card header.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">BackgroundColor</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SemanticColor</code> – The background color for the card header.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SemanticColor</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">SemanticColor.Muted</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TextColor</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SemanticColor</code> – The text color for the card header content.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SemanticColor</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">SemanticColor.Foreground</code></td>
                             </tr>
                         </tbody>
                     </table>

@@ -154,6 +154,9 @@
 }
 
 @theme inline {
+    --color-white: #ffffff;
+    --color-black: #000000;
+    
     --info: var(--color-sky-600);
     --info-foreground: var(--color-white);
     --warning: var(--color-amber-500);

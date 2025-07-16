@@ -14,12 +14,12 @@ public static class Colors
     /// <summary>
     ///     The color white.
     /// </summary>
-    public static readonly Color White = new("--color-white", "white");
+    public static readonly Color White = new("var(--color-white)", "white");
 
     /// <summary>
     ///     The color black.
     /// </summary>
-    public static readonly Color Black = new("--color-black", "black");
+    public static readonly Color Black = new("var(--color-black)", "black");
 
     /// <summary>
     ///     Red color scale.

@@ -55,16 +55,17 @@
 						}
 					</span>
 				}
-				@if (ShowLabels && !string.IsNullOrEmpty(step.Label))
-				{
-					<span class="@Theme.RzSteps.LabelBase @Theme.RzSteps.GetLabelStatusCss(step.Status, ActiveColor)">@step.Label</span>
-				}
+				<div>
+					@if (ShowLabels && !string.IsNullOrEmpty(step.Label))
+					{
+						<span class="@Theme.RzSteps.LabelBase @Theme.RzSteps.GetLabelStatusCss(step.Status, ActiveColor)">@step.Label</span>
+					}
+					@if (!string.IsNullOrEmpty(step.Caption))
+					{
+						<span class="@Theme.RzSteps.Caption">@step.Caption</span>
+					}
+				</div>
 			</div>
-
-			@if (!string.IsNullOrEmpty(step.Caption))
-           {
-               <span class="@Theme.RzSteps.Caption">@step.Caption</span>
-           }
 		</li>
 	}
 </HtmlElement>

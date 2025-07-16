@@ -248,8 +248,8 @@
     --color-stone-800: oklch(26.8% 0.007 34.298);
     --color-stone-900: oklch(21.6% 0.006 56.043);
     --color-stone-950: oklch(14.7% 0.004 49.25);
-    --color-black: #000;
-    --color-white: #fff;
+    --color-black: #000000;
+    --color-white: #ffffff;
     --spacing: 0.25rem;
     --breakpoint-md: 48rem;
     --breakpoint-lg: 64rem;
@@ -704,6 +704,12 @@
   }
   .col-start-2 {
     grid-column-start: 2;
+  }
+  .row-span-2 {
+    grid-row: span 2 / span 2;
+  }
+  .row-start-1 {
+    grid-row-start: 1;
   }
   .container {
     width: 100%;
@@ -1487,6 +1493,9 @@
   .self-stretch {
     align-self: stretch;
   }
+  .justify-self-end {
+    justify-self: flex-end;
+  }
   .truncate {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1726,7 +1735,7 @@
     border-color: var(--warning);
   }
   .border-white {
-    border-color: var(--color-white);
+    border-color: #ffffff;
   }
   .bg-accent {
     background-color: var(--accent);
@@ -1795,7 +1804,7 @@
     }
   }
   .bg-black {
-    background-color: var(--color-black);
+    background-color: #000000;
   }
   .bg-blue-100 {
     background-color: var(--color-blue-100);
@@ -2062,7 +2071,7 @@
     }
   }
   .bg-white {
-    background-color: var(--color-white);
+    background-color: #ffffff;
   }
   .bg-yellow-300 {
     background-color: var(--color-yellow-300);
@@ -2472,7 +2481,7 @@
     color: var(--background);
   }
   .text-black {
-    color: var(--color-black);
+    color: #000000;
   }
   .text-blue-600 {
     color: var(--color-blue-600);
@@ -2607,7 +2616,7 @@
     color: var(--warning-foreground);
   }
   .text-white {
-    color: var(--color-white);
+    color: #ffffff;
   }
   .text-yellow-800 {
     color: var(--color-yellow-800);
@@ -2731,7 +2740,7 @@
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
   .ring-black {
-    --tw-ring-color: var(--color-black);
+    --tw-ring-color: #000000;
   }
   .ring-border {
     --tw-ring-color: var(--border);
@@ -3940,7 +3949,7 @@
   .hover\:text-black {
     &:hover {
       @media (hover: hover) {
-        color: var(--color-black);
+        color: #000000;
       }
     }
   }
@@ -5965,7 +5974,7 @@
     &:is(.dark *) {
       &:hover {
         @media (hover: hover) {
-          color: var(--color-white);
+          color: #ffffff;
         }
       }
     }
@@ -7264,13 +7273,13 @@ pre:has(> code) {
     &:hover, &:focus {
       border-color: var(--color-red-400);
       background-color: var(--color-red-400);
-      color: var(--color-white);
+      color: #ffffff;
     }
   }
   &.selected, &.startRange, &.endRange {
     border-color: var(--color-blue-500);
     background-color: var(--color-blue-500);
-    color: var(--color-white);
+    color: #ffffff;
     --tw-shadow: 0 0 #0000;
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
@@ -8086,10 +8095,7 @@ pre:has(> code) {
       position: fixed;
       inset: calc(var(--spacing) * 0);
       z-index: 50;
-      background-color: color-mix(in srgb, #000 50%, transparent);
-      @supports (color: color-mix(in lab, red, red)) {
-        background-color: color-mix(in oklab, var(--color-black) 50%, transparent);
-      }
+      background-color: color-mix(in oklab, #000000 50%, transparent);
       opacity: 0%;
       transition-property: all;
       transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -8939,10 +8945,7 @@ pre:has(> code) {
       z-index: 40;
     }
     @media (width < 48rem) {
-      background-color: color-mix(in srgb, #000 50%, transparent);
-      @supports (color: color-mix(in lab, red, red)) {
-        background-color: color-mix(in oklab, var(--color-black) 50%, transparent);
-      }
+      background-color: color-mix(in oklab, #000000 50%, transparent);
     }
   }
   nav {

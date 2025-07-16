@@ -133,24 +133,24 @@ public abstract partial class RzStylesBase
     }
 
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="CardButtons" /> container in a card header.
+    ///     Defines the abstract structure for styling the <see cref="CardAction" /> container in a card header.
     /// </summary>
     /// <summary>
-    ///     Defines the abstract structure for styling the <see cref="CardButtons" /> component.
+    ///     Defines the abstract structure for styling the <see cref="CardAction" /> component.
     /// </summary>
-    public abstract class CardButtonsStylesBase
+    public abstract class CardActionStylesBase
     {
         /// <summary> The theme instance providing color and sizing tokens. </summary>
         protected readonly RzTheme Theme;
 
-        /// <summary> Initializes a new instance of the <see cref="CardButtonsStylesBase" /> class. </summary>
-        protected CardButtonsStylesBase(RzTheme theme)
+        /// <summary> Initializes a new instance of the <see cref="CardActionStylesBase" /> class. </summary>
+        protected CardActionStylesBase(RzTheme theme)
         {
             Theme = theme;
         }
 
-        /// <summary> Gets the base CSS classes for the CardButtons div (layout, gap, negative margin for alignment). </summary>
-        public abstract string ButtonsContainer { get; }
+        /// <summary> Gets the base CSS classes for the CardAction div (layout, gap, negative margin for alignment). </summary>
+        public abstract string ActionsContainer { get; }
     }
 
     #endregion

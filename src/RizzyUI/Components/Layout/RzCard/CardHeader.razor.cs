@@ -14,35 +14,16 @@ public partial class CardHeader : RzComponent
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary> The background color for the card header. Defaults to SurfaceAlt. </summary>
-    [Parameter]
-    public SemanticColor BackgroundColor { get; set; } = SemanticColor.Muted;
-
-    /// <summary> The text color for the card header content. Defaults to OnSurface. </summary>
-    [Parameter]
-    public SemanticColor TextColor { get; set; } = SemanticColor.Foreground;
-
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "div"; // Often a div, but could be header semantically
+        Element = "header";
     }
 
     /// <inheritdoc />
     protected override string? RootClass()
     {
-        var bgColorClass = BackgroundColor != SemanticColor.None
-            ? BackgroundColor.ToBackgroundClass()
-            : Theme.Light.Card.ToCssClassString("bg"); // Use theme default if None
-
-        var textColorClass = TextColor != SemanticColor.None
-            ? TextColor.ToTextClass()
-            : Theme.Light.Foreground.ToCssClassString("text"); // Use theme default if None
-
-        return TwMerge.Merge(AdditionalAttributes,
-            Theme.CardHeader.Header,
-            bgColorClass,
-            textColorClass);
+        return TwMerge.Merge(AdditionalAttributes, Theme.CardHeader.Header);
     }
 }

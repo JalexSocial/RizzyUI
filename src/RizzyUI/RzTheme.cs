@@ -39,7 +39,7 @@ public partial class RzTheme
         RzButtonGroup = new DefaultRzButtonGroupStyles(this);
         RzCard = new DefaultRzCardStyles(this);
         CardContent = new DefaultCardContentStyles(this);
-        CardButtons = new DefaultCardButtonsStyles(this);
+        CardAction = new DefaultCardActionStyles(this);
         CardFooter = new DefaultCardFooterStyles(this);
         CardHeader = new DefaultCardHeaderStyles(this);
         CardDescription = new DefaultCardDescriptionStyles(this);

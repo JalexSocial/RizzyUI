@@ -60,7 +60,7 @@ public sealed class DefaultRzSeparatorStyles : RzStylesBase.RzSeparatorStylesBas
     public override string GetDividerLayoutCss(Orientation orientation)
     {
         return orientation == Orientation.Horizontal
-            ? "flex items-center text-sm text-outline"
+            ? "flex items-center text-sm text-outline w-full"
             : "inline-flex flex-col items-center text-sm text-outline h-full";
     }
 
