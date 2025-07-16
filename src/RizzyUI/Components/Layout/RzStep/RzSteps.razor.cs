@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -78,6 +77,6 @@ public partial class RzSteps : RzComponent
     /// <returns>A string of CSS classes.</returns>
     protected string GetStepItemCss(bool isFirst)
     {
-        return $"{Theme.RzSteps.StepItem} {Theme.RzSteps.GetStepItemWidthCss(isFirst)}";
+        return $"{Theme.RzSteps.StepItem} {Theme.RzSteps.GetStepItemWidthCss(Orientation, isFirst)}";
     }
 }

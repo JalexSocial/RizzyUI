@@ -1,4 +1,3 @@
-
 @namespace RizzyUI
 @using Blazicons
 @inherits RzComponent
@@ -13,13 +12,16 @@
 	{
 		var step = Items[i];
 		var isFirst = i == 0;
+        var isLast = i == Items.Count - 1;
 		var prevStep = isFirst ? null : Items[i - 1];
 		var effectiveAriaLabel = string.IsNullOrEmpty(step.AriaLabel) ? step.Label : step.AriaLabel;
         var isCurrent = step.Status == StepStatus.Current;
 
-		<li class="@GetStepItemCss(isFirst)" aria-label="@effectiveAriaLabel" aria-current="@(isCurrent ? "step" : null)">
+		<li class="@GetStepItemCss(isFirst) @(Orientation == Orientation.Vertical && !isLast ? Theme.RzSteps.GetConnectorCss(Orientation, step.Status, ActiveColor) : "")" 
+            aria-label="@effectiveAriaLabel" 
+            aria-current="@(isCurrent ? "step" : null)">
 
-			@if (!isFirst && prevStep != null)
+			@if (Orientation == Orientation.Horizontal && !isFirst && prevStep != null)
 			{
 				<span class="@Theme.RzSteps.GetConnectorCss(Orientation, prevStep.Status, ActiveColor)" aria-hidden="true"></span>
 			}

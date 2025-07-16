@@ -80,19 +80,20 @@ public abstract partial class RzStylesBase
         ///     Gets the width CSS class for a step list item based on whether it's the first item (relevant for horizontal
         ///     layout).
         /// </summary>
+        /// <param name="orientation">The layout orientation.</param>
         /// <param name="isFirst">True if this is the first step item.</param>
         /// <returns>A string like "w-full" or "".</returns>
-        public abstract string GetStepItemWidthCss(bool isFirst);
+        public abstract string GetStepItemWidthCss(Orientation orientation, bool isFirst);
 
         /// <summary>
         ///     Gets the CSS classes for the connector line between steps, considering orientation, previous step status, and
         ///     the active color.
         /// </summary>
         /// <param name="orientation">The layout orientation.</param>
-        /// <param name="previousStatus">The status of the preceding step.</param>
+        /// <param name="stepStatus">The status of the step that the connector originates from.</param>
         /// <param name="activeColor">The theme's active status color.</param>
         /// <returns>A string of CSS classes for positioning, size, and color.</returns>
-        public abstract string GetConnectorCss(Orientation orientation, StepStatus previousStatus,
+        public abstract string GetConnectorCss(Orientation orientation, StepStatus stepStatus,
             StatusColor activeColor);
 
         /// <summary> Gets the variant-specific CSS classes for the completed step circle (border, background, text color). </summary>

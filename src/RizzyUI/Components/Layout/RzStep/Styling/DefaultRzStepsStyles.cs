@@ -1,4 +1,3 @@
-
 namespace RizzyUI;
 
 /// <summary> Provides default styles for RzSteps. </summary>
@@ -13,10 +12,10 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
     }
 
     /// <inheritdoc />
-    public override string Container => "flex gap-2"; // Base flex container
+    public override string Container => "flex"; // Base flex container
 
     /// <inheritdoc />
-    public override string StepItem => "flex items-center relative text-sm"; // Styles for each <li>
+    public override string StepItem => "relative flex items-center text-sm"; // Styles for each <li>
 
     /// <inheritdoc />
     public override string ConnectorBase => ""; // Base connector, specific styles added by GetConnectorCss
@@ -53,30 +52,32 @@ public class DefaultRzStepsStyles : RzStylesBase.RzStepsStylesBase
     {
         return orientation switch
         {
-            Orientation.Horizontal => "w-full items-start", // Horizontal layout adjustments, align items start
-            Orientation.Vertical => "w-min flex-col gap-14", // Vertical layout adjustments
+            Orientation.Horizontal => "w-full items-start gap-2", // Horizontal layout adjustments
+            Orientation.Vertical => "w-min flex-col", // Vertical layout adjustments
             _ => GetOrientationCss(Orientation.Horizontal)
         };
     }
 
     /// <inheritdoc />
-    public override string GetStepItemWidthCss(bool isFirst)
+    public override string GetStepItemWidthCss(Orientation orientation, bool isFirst)
     {
+        if (orientation == Orientation.Vertical) return "flex-1";
         return isFirst ? "" : "w-full";
-        // Make non-first items take full width in horizontal
     }
 
     /// <inheritdoc />
-    public override string GetConnectorCss(Orientation orientation, StepStatus previousStatus, StatusColor activeColor)
+    public override string GetConnectorCss(Orientation orientation, StepStatus stepStatus, StatusColor activeColor)
     {
-        var isActive = previousStatus == StepStatus.Completed || previousStatus == StepStatus.Current;
-        // Use semantic colors for active state, fallback to border for inactive
+        var isActive = stepStatus == StepStatus.Completed;
         var colorClass = isActive ? GetActiveBackgroundClass(activeColor) : "bg-border";
-        var positionAndSize = orientation == Orientation.Vertical
-            ? "absolute bottom-8 left-3 h-10 w-0.5" // Vertical positioning
-            : "h-0.5 flex-1 mx-2"; // Horizontal positioning, added margin
 
-        return $"{positionAndSize} {colorClass}";
+        if (orientation == Orientation.Vertical)
+        {
+            return $"after:content-[''] after:absolute after:left-3 after:-bottom-11 after:h-full after:w-0.5 after:{colorClass}";
+        }
+        
+        // Horizontal connector is a separate span
+        return $"h-0.5 flex-1 mx-2 {colorClass}";
     }
 
     /// <inheritdoc />
