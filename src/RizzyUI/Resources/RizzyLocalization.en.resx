@@ -206,15 +206,14 @@
     <value>Search</value>
     <comment>Default text label and aria-label for the search button if not explicitly specified.</comment>
   </data>
-  <!-- RzSidebar -->
-  <data name="RzSidebar.SkipLinkText" xml:space="preserve">
-    <value>skip to the main content</value>
-    <comment>Text for the accessibility skip link.</comment>
-  </data>
-  <data name="RzSidebar.FloatingToggleButtonSrText" xml:space="preserve">
-    <value>sidebar toggle</value>
-    <comment>Screen reader text for the floating sidebar toggle button (used when no navbar).</comment>
-  </data>
+  <data name="RzSidebar.DefaultAriaLabel" xml:space="preserve">
+  <value>Sidebar navigation</value>
+  <comment>Default ARIA label for the Sidebar component</comment>
+</data>
+  <data name="RzSidebarTrigger.DefaultAriaLabel" xml:space="preserve">
+  <value>Toggle sidebar</value>
+  <comment>Default ARIA label for the SidebarTrigger component</comment>
+</data>
   <!-- RzSteps -->
   <data name="RzSteps.DefaultAriaLabel" xml:space="preserve">
     <value>steps progress</value>

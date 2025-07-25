@@ -543,3 +543,71 @@ public enum AccordionType
     /// </summary>
     Multiple
 }
+
+/// <summary>
+/// Specifies the visual variant of the sidebar.
+/// </summary>
+public enum SidebarVariant
+{
+    /// <summary>
+    /// Default docked sidebar.
+    /// </summary>
+    Default,
+    /// <summary>
+    /// Floating sidebar with a margin from the viewport edges.
+    /// </summary>
+    Floating,
+    /// <summary>
+    /// Inset sidebar where the main content flows around it.
+    /// </summary>
+    Inset
+}
+
+/// <summary>
+/// Specifies the collapsible behavior of the sidebar.
+/// </summary>
+public enum SidebarCollapsible
+{
+    /// <summary>
+    /// The sidebar slides off-canvas on mobile and can be collapsed on desktop.
+    /// </summary>
+    Offcanvas,
+    /// <summary>
+    /// The sidebar collapses to show only icons.
+    /// </summary>
+    Icon,
+    /// <summary>
+    /// The sidebar is not collapsible.
+    /// </summary>
+    None
+}
+
+/// <summary>
+/// Specifies the side of the screen where the sidebar appears.
+/// </summary>
+public enum SidebarSide
+{
+    /// <summary>
+    /// The sidebar appears on the left.
+    /// </summary>
+    Left,
+    /// <summary>
+    /// The sidebar appears on the right.
+    /// </summary>
+    Right
+}
+
+/// <summary>
+/// Specifies the visual variant for a sidebar menu button.
+/// </summary>
+public enum SidebarMenuButtonVariant
+{
+    /// <summary>
+    /// Default styling.
+    /// </summary>
+    Default,
+    /// <summary>
+    /// Outline styling.
+    /// </summary>
+    Outline
+}

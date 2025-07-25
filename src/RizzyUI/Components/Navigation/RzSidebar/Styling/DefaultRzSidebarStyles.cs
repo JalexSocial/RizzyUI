@@ -1,155 +1,128 @@
+
 namespace RizzyUI;
 
 /// <summary>
-///     Provides the default styles for the RzSidebar component.
+/// Provides the default styles for all components in the RizzyUI Sidebar suite.
 /// </summary>
-public class DefaultRzSidebarStyles : RzStylesBase.RzSidebarStylesBase
+public class DefaultRzSidebarProviderStyles : RzStylesBase.RzSidebarProviderStylesBase
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzSidebarStyles" /> class.
-    /// </summary>
-    /// <param name="theme">The theme instance to use for styling.</param>
-    public DefaultRzSidebarStyles(RzTheme theme) : base(theme)
-    {
-    }
-
-    /// <inheritdoc />
-    public override string Container => ""; // x-data container usually has no specific style
-
-    /// <inheritdoc />
-    public override string LayoutContainer => "relative flex w-full flex-col md:flex-row";
-
-    /// <inheritdoc />
-    public override string SkipLink => "sr-only";
-
-    /// <inheritdoc />
-    // Use semantic surface color with alpha for overlay
-    public override string Overlay => "z-30 bg-background/10 fixed inset-0 backdrop-blur-sm md:hidden dark:bg-background/10";
-
-    /// <inheritdoc />
-    // Use semantic names for background and border
-    public override string Sidebar =>
-        "fixed left-0 bottom-0 w-60 overflow-y-auto scrollbar-hover bg-secondary border-r border-outline z-40 p-4 transition-transform duration-300 md:w-60 md:translate-x-0";
-
-    /// <inheritdoc />
-    // Use semantic name for background
-    public override string MainContentContainer => "md:pl-60 w-full bg-background"; // pl matches sidebar width
-
-    /// <inheritdoc />
-    public override string MainContentPadding => "p-4 md:p-6 lg:p-8";
-
-    /// <inheritdoc />
-    // Use semantic names for background and text
-    public override string FloatingToggleButton =>
-        "z-50 fixed right-4 top-4 rounded-full bg-primary p-4 text-primary-foreground md:hidden";
-
-    /// <inheritdoc />
-    public override string GetSidebarTopCss(bool hasNavbar)
-    {
-        return hasNavbar ? "top-16" : "top-0";
-        // Adjust based on standard navbar height (h-16)
-    }
-
-    /// <inheritdoc />
-    public override string GetLayoutContainerTopCss(bool hasNavbar)
-    {
-        return hasNavbar ? "mt-16" : "";
-        // Adjust based on standard navbar height (h-16)
-    }
-
-    /// <inheritdoc />
-    // Use fixed width value corresponding to 'w-60'
-    public override string GetSidebarTranslationCss(bool isVisible)
-    {
-        return isVisible ? "translate-x-0" : "-translate-x-60";
-    }
+    public DefaultRzSidebarProviderStyles(RzTheme theme) : base(theme) { }
+    public override string Provider => "relative";
 }
 
-/// <summary> Provides default styles for RzSidebarLinkItem. </summary>
-public class DefaultRzSidebarLinkItemStyles : RzStylesBase.RzSidebarLinkItemStylesBase
+public class DefaultSidebarStyles : RzStylesBase.SidebarStylesBase
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzSidebarLinkItemStyles" /> class.
-    /// </summary>
-    /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzSidebarLinkItemStyles(RzTheme theme) : base(theme)
+    public DefaultSidebarStyles(RzTheme theme) : base(theme) { }
+    public override string SidebarBase => "group/sidebar flex flex-col transition-all ease-in-out duration-300";
+    public override string Nav => "flex flex-1 flex-col";
+    public override string GetVariantCss(SidebarVariant variant) => variant switch
     {
-    }
-
-    /// <inheritdoc />
-    public override string CollapsibleListItem => ""; // No specific style on the LI itself usually
-
-    /// <inheritdoc />
-    public override string CollapsibleInnerDiv => "flex flex-col";
-
-    /// <inheritdoc />
-    public override string CollapsibleButton =>
-        "flex items-center justify-between rounded-md gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus:outline-none focus-visible:underline text-foreground hover:bg-primary/5 hover:text-foreground dark:hover:text-foreground dark:hover:bg-primary/5";
-
-    /// <inheritdoc />
-    public override string CollapsibleButtonIconContainer => "text-xl";
-
-    /// <inheritdoc />
-    public override string CollapsibleButtonTitle => "mr-auto text-left";
-
-    /// <inheritdoc />
-    public override string CollapsibleButtonTrailer => "ml-auto";
-
-    /// <inheritdoc />
-    public override string CollapsibleButtonChevron => "size-5 transition-transform shrink-0";
-
-    /// <inheritdoc />
-    public override string CollapsibleNestedList => ""; // No base style needed, relies on children LI styles
-
-    /// <inheritdoc />
-    public override string SubListItem =>
-        "border-l px-2 py-0.5 border-outline dark:border-outline transition duration-200 hover:border-l-2 hover:border-outline-strong hover:text-foreground dark:hover:border-outline-strong dark:hover:text-foreground";
-
-    /// <inheritdoc />
-    public override string SubLinkOrDiv =>
-        "flex items-center gap-2 px-2 py-1.5 text-sm rounded-md text-foreground underline-offset-2 hover:bg-primary/5 hover:text-foreground focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-foreground";
-
-    /// <inheritdoc />
-    public override string TopLevelListItem => "px-1 py-0.5 first:mt-2";
-
-    /// <inheritdoc />
-    public override string TopLevelNonCollapsibleDiv =>
-        "flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-foreground underline-offset-2 rounded-md"; // Similar to link but not a link
-
-    /// <inheritdoc />
-    public override string TopLevelLink =>
-        "flex items-center gap-2 px-2 py-1.5 text-sm font-medium text-foreground underline-offset-2 hover:bg-primary/5 hover:text-foreground focus-visible:underline focus:outline-none dark:hover:bg-primary/5 dark:hover:text-foreground rounded-md";
-
-    /// <inheritdoc />
-    public override string ItemIconContainer => "text-lg";
-
-    /// <inheritdoc />
-    public override string ItemTitle => ""; // Just a span
-
-    /// <inheritdoc />
-    public override string ItemTrailer => "ml-auto";
-
-    /// <inheritdoc />
-    public override string NonCollapsibleNestedList => "pl-4";
-
-    /// <inheritdoc />
-    public override string GetChevronRotationCss(bool isExpanded)
-    {
-        return isExpanded ? "rotate-180" : "rotate-0";
-    }
+        SidebarVariant.Default => "bg-sidebar text-sidebar-foreground fixed inset-y-0 z-50 border-r border-sidebar-border",
+        SidebarVariant.Floating => "bg-sidebar text-sidebar-foreground fixed inset-y-4 z-50 rounded-lg border border-sidebar-border shadow-lg",
+        SidebarVariant.Inset => "bg-sidebar text-sidebar-foreground relative inset-y-0 z-50 border-r border-sidebar-border",
+        _ => ""
+    };
 }
 
-/// <summary> Provides default styles for RzSidebarLinks. </summary>
-public class DefaultRzSidebarLinksStyles : RzStylesBase.RzSidebarLinksStylesBase
+public class DefaultSidebarTriggerStyles : RzStylesBase.SidebarTriggerStylesBase
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DefaultRzSidebarLinksStyles" /> class.
-    /// </summary>
-    /// <param name="theme">The theme instance providing styling context.</param>
-    public DefaultRzSidebarLinksStyles(RzTheme theme) : base(theme)
-    {
-    }
+    public DefaultSidebarTriggerStyles(RzTheme theme) : base(theme) { }
+    public override string Trigger => "fixed top-4 left-4 z-50 inline-flex items-center justify-center rounded-md p-2 text-sidebar-foreground hover:bg-sidebar-accent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sidebar-ring md:hidden";
+}
 
-    /// <inheritdoc />
-    public override string List => "flex flex-col gap-2 pb-6";
+public class DefaultSidebarHeaderStyles : RzStylesBase.SidebarHeaderStylesBase
+{
+    public DefaultSidebarHeaderStyles(RzTheme theme) : base(theme) { }
+    public override string Header => "flex shrink-0 flex-col gap-2 p-2";
+}
+
+public class DefaultSidebarContentStyles : RzStylesBase.SidebarContentStylesBase
+{
+    public DefaultSidebarContentStyles(RzTheme theme) : base(theme) { }
+    public override string Content => "flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto";
+}
+
+public class DefaultSidebarFooterStyles : RzStylesBase.SidebarFooterStylesBase
+{
+    public DefaultSidebarFooterStyles(RzTheme theme) : base(theme) { }
+    public override string Footer => "flex shrink-0 flex-col gap-2 p-2";
+}
+
+public class DefaultSidebarGroupStyles : RzStylesBase.SidebarGroupStylesBase
+{
+    public DefaultSidebarGroupStyles(RzTheme theme) : base(theme) { }
+    public override string Group => "relative flex w-full min-w-0 flex-col p-2";
+}
+
+public class DefaultSidebarGroupLabelStyles : RzStylesBase.SidebarGroupLabelStylesBase
+{
+    public DefaultSidebarGroupLabelStyles(RzTheme theme) : base(theme) { }
+    public override string Label => "text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-none transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0";
+}
+
+public class DefaultSidebarGroupContentStyles : RzStylesBase.SidebarGroupContentStylesBase
+{
+    public DefaultSidebarGroupContentStyles(RzTheme theme) : base(theme) { }
+    public override string Content => "";
+}
+
+public class DefaultSidebarMenuStyles : RzStylesBase.SidebarMenuStylesBase
+{
+    public DefaultSidebarMenuStyles(RzTheme theme) : base(theme) { }
+    public override string Menu => "flex w-full min-w-0 flex-col gap-1";
+}
+
+public class DefaultSidebarMenuItemStyles : RzStylesBase.SidebarMenuItemStylesBase
+{
+    public DefaultSidebarMenuItemStyles(RzTheme theme) : base(theme) { }
+    public override string Item => "relative";
+}
+
+public class DefaultSidebarMenuButtonStyles : RzStylesBase.SidebarMenuButtonStylesBase
+{
+    public DefaultSidebarMenuButtonStyles(RzTheme theme) : base(theme) { }
+    public override string ButtonBase => "flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&[aria-current=page]]:bg-sidebar-accent [&[aria-current=page]]:font-medium [&[aria-current=page]]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0";
+    public override string GetVariantCss(SidebarMenuButtonVariant variant) => variant switch
+    {
+        SidebarMenuButtonVariant.Default => "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+        SidebarMenuButtonVariant.Outline => "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
+        _ => ""
+    };
+    public override string GetSizeCss(Size size) => size switch
+    {
+        Size.Small => "h-7 text-xs",
+        Size.Medium => "h-8 text-sm",
+        Size.Large => "h-12 text-sm group-data-[collapsible=icon]:p-0",
+        _ => "h-8 text-sm"
+    };
+}
+
+public class DefaultSidebarMenuActionStyles : RzStylesBase.SidebarMenuActionStylesBase
+{
+    public DefaultSidebarMenuActionStyles(RzTheme theme) : base(theme) { }
+    public override string Action => "absolute right-2 top-1/2 -translate-y-1/2 opacity-0 transition-opacity group-hover/menu-item:opacity-100";
+}
+
+public class DefaultSidebarMenuSubStyles : RzStylesBase.SidebarMenuSubStylesBase
+{
+    public DefaultSidebarMenuSubStyles(RzTheme theme) : base(theme) { }
+    public override string SubMenu => "relative";
+}
+
+public class DefaultSidebarMenuBadgeStyles : RzStylesBase.SidebarMenuBadgeStylesBase
+{
+    public DefaultSidebarMenuBadgeStyles(RzTheme theme) : base(theme) { }
+    public override string Badge => "ml-auto text-xs";
+}
+
+public class DefaultSidebarSeparatorStyles : RzStylesBase.SidebarSeparatorStylesBase
+{
+    public DefaultSidebarSeparatorStyles(RzTheme theme) : base(theme) { }
+    public override string Separator => "border-sidebar-border mx-2 w-auto border-t";
+}
+
+public class DefaultSidebarInsetStyles : RzStylesBase.SidebarInsetStylesBase
+{
+    public DefaultSidebarInsetStyles(RzTheme theme) : base(theme) { }
+    public override string Inset => "p-4 md:ml-[--sidebar-width]";
 }

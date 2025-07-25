@@ -183,14 +183,56 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzSearchButton" /> component. </summary>
     public virtual RzStylesBase.RzSearchButtonStylesBase RzSearchButton { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzSidebar" /> component. </summary>
-    public virtual RzStylesBase.RzSidebarStylesBase RzSidebar { get; }
+    /// <summary> Gets the style definitions for the <see cref="RzSidebarProvider" /> component. </summary>
+    public virtual RzStylesBase.RzSidebarProviderStylesBase RzSidebarProvider { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzSidebarLinkItem" /> component. </summary>
-    public virtual RzStylesBase.RzSidebarLinkItemStylesBase RzSidebarLinkItem { get; }
+    /// <summary> Gets the style definitions for the <see cref="Sidebar" /> component. </summary>
+    public virtual RzStylesBase.SidebarStylesBase Sidebar { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzSidebarLinks" /> component. </summary>
-    public virtual RzStylesBase.RzSidebarLinksStylesBase RzSidebarLinks { get; }
+    /// <summary> Gets the style definitions for the <see cref="SidebarTrigger" /> component. </summary>
+    public virtual RzStylesBase.SidebarTriggerStylesBase SidebarTrigger { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="SidebarHeader" /> component. </summary>
+    public virtual RzStylesBase.SidebarHeaderStylesBase SidebarHeader { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="SidebarContent" /> component. </summary>
+    public virtual RzStylesBase.SidebarContentStylesBase SidebarContent { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="SidebarFooter" /> component. </summary>
+    public virtual RzStylesBase.SidebarFooterStylesBase SidebarFooter { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="SidebarGroup" /> component. </summary>
+    public virtual RzStylesBase.SidebarGroupStylesBase SidebarGroup { get; }
+    
+    /// <summary> Gets the style definitions for the <see cref="SidebarGroupLabel" /> component. </summary>
+    public virtual RzStylesBase.SidebarGroupLabelStylesBase SidebarGroupLabel { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="SidebarGroupContent" /> component. </summary>
+    public virtual RzStylesBase.SidebarGroupContentStylesBase SidebarGroupContent { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="SidebarMenu" /> component. </summary>
+    public virtual RzStylesBase.SidebarMenuStylesBase SidebarMenu { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="SidebarMenuItem" /> component. </summary>
+    public virtual RzStylesBase.SidebarMenuItemStylesBase SidebarMenuItem { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="SidebarMenuButton" /> component. </summary>
+    public virtual RzStylesBase.SidebarMenuButtonStylesBase SidebarMenuButton { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="SidebarMenuAction" /> component. </summary>
+    public virtual RzStylesBase.SidebarMenuActionStylesBase SidebarMenuAction { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="SidebarMenuSub" /> component. </summary>
+    public virtual RzStylesBase.SidebarMenuSubStylesBase SidebarMenuSub { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="SidebarMenuBadge" /> component. </summary>
+    public virtual RzStylesBase.SidebarMenuBadgeStylesBase SidebarMenuBadge { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="SidebarSeparator" /> component. </summary>
+    public virtual RzStylesBase.SidebarSeparatorStylesBase SidebarSeparator { get; }
+    
+    /// <summary> Gets the style definitions for the <see cref="SidebarInset" /> component. </summary>
+    public virtual RzStylesBase.SidebarInsetStylesBase SidebarInset { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzSteps" /> component. </summary>
     public virtual RzStylesBase.RzStepsStylesBase RzSteps { get; }

@@ -87,7 +87,6 @@ function registerComponents(Alpine) {
     registerRzQuickReferenceContainer(Alpine);
     registerRzTabs(Alpine);
     registerRzSidebar(Alpine);
-    registerRzSidebarLinkItem(Alpine);
 }
 
 export { registerComponents, rizzyRequire as require };

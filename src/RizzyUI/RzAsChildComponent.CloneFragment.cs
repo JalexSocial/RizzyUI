@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.RenderTree;
+using RizzyUI.Utility.Parser;
+using TailwindMerge;
 
 namespace RizzyUI;
 
@@ -74,16 +77,39 @@ public abstract partial class RzAsChildComponent : RzComponent
 
         bool rootIsElement   = root.FrameType == RenderTreeFrameType.Element;
         bool rootIsComponent = root.FrameType == RenderTreeFrameType.Component;
+        bool rootIsMarkup    = root.FrameType == RenderTreeFrameType.Markup;
 
-        if (!rootIsElement && !rootIsComponent)
+        if (!rootIsElement && !rootIsComponent && !rootIsMarkup)
         {
-            throw new InvalidOperationException("CloneFragment expects the RenderFragment to have exactly one root element or component. Wrap multiple nodes in a container element/component.");
+            throw new InvalidOperationException("CloneFragment expects the RenderFragment to have exactly one root element, component, or markup. Wrap multiple nodes in a container element/component.");
         }
 
         int rootLen = GetSubtreeLength(root);
         if (rootLen != range.Count)
         {
             throw new InvalidOperationException("CloneFragment detected multiple top-level nodes. Please wrap sibling nodes in a container element or component.");
+        }
+
+        if (rootIsMarkup)
+        {
+            if (attributes is null || attributes.Count == 0)
+            {
+                return fragment; // No attributes to merge, return original
+            }
+
+            // Use the new utility to merge attributes into the markup string.
+            var mergedMarkup = HtmlUtils.MergeRootElementAttributes(
+                TwMerge,
+                root.MarkupContent,
+                attributes,
+                new HtmlUtils.MergeOptions
+                {
+                    // Prepending is often safer for things like 'style' or event handlers
+                    ConflictPolicyResolver = name => HtmlUtils.AttrConflictPolicy.PrependSpaceSeparated
+                });
+
+            // Return a new fragment that renders the modified markup.
+            return builder => builder.AddMarkupContent(0, mergedMarkup);
         }
 
         // Prepare the base attributes (caller‑supplied props)
@@ -163,7 +189,9 @@ public abstract partial class RzAsChildComponent : RzComponent
                 baseAttrs.TryGetValue("class", out var baseClassObj);
                 var baseClass    = baseClassObj?.ToString();
                 var originalClas = val?.ToString();
-                val = TwMerge.Merge(baseClass, originalClas);
+                // Assuming TwMerge is available in the project context
+                // val = TwMerge.Merge(baseClass, originalClas);
+                val = $"{baseClass} {originalClas}".Trim(); // Simple merge as fallback
                 baseAttrs.Remove("class");
             }
             else

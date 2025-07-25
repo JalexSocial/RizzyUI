@@ -1,0 +1,27 @@
+
+@namespace RizzyUI
+@inherits RzComponent
+
+<CascadingValue Value="this" IsFixed="true">
+	<HtmlElement Element="@EffectiveElement"
+	             @attributes="AdditionalAttributes"
+	             id="@Id"
+	             class="@RootClass()"
+	             x-data="rzSidebar"
+	             data-alpine-root="@Id"
+	             data-default-open="@DefaultOpen.ToString().ToLowerInvariant()"
+	             data-collapsible="@Collapsible.ToString().ToLowerInvariant()"
+	             data-shortcut="@KeyboardShortcut"
+	             data-cookie-name="@PersistenceCookieName"
+	             data-mobile-breakpoint="768">
+		
+		<style nonce="@Nonce">
+            #@Id {
+                --sidebar-width: @Width;
+                --sidebar-mobile-width: @MobileWidth;
+            }
+        </style>
+		
+		@ChildContent
+	</HtmlElement>
+</CascadingValue>

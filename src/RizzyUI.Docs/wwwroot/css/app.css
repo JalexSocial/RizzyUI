@@ -2666,6 +2666,9 @@
   .text-secondary-foreground {
     color: var(--secondary-foreground);
   }
+  .text-sidebar-foreground {
+    color: var(--sidebar-foreground);
+  }
   .text-sky-600 {
     color: var(--color-sky-600);
   }
@@ -5342,6 +5345,11 @@
   .md\:pl-60 {
     @media (width >= 48rem) {
       padding-left: calc(var(--spacing) * 60);
+    }
+  }
+  .md\:pl-\[--sidebar-width\] {
+    @media (width >= 48rem) {
+      padding-left: --sidebar-width;
     }
   }
   .md\:text-2xl {

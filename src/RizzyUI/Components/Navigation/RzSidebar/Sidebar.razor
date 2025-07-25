@@ -1,0 +1,16 @@
+
+@namespace RizzyUI
+@inherits RzComponent
+
+<HtmlElement Element="@EffectiveElement" 
+             @attributes="AdditionalAttributes" 
+             id="@Id" 
+             class="@RootClass()"
+             data-side="@Side.ToString().ToLowerInvariant()"
+             data-collapsible="@ParentProvider?.Collapsible.ToString().ToLowerInvariant()"
+             x-bind:aria-hidden="isMobileHidden"
+             x-bind:data-state="desktopState">
+    <nav class="@Theme.Sidebar.Nav" aria-label="@AriaLabel">
+        @ChildContent
+    </nav>
+</HtmlElement>
