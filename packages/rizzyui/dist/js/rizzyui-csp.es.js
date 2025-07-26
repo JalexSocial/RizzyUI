@@ -7429,60 +7429,64 @@ function registerRzTabs(Alpine2) {
   });
 }
 function registerRzSidebar(Alpine2) {
-  Alpine2.data("rzSidebar", () => {
-    return {
-      showSidebar: false,
-      isSidebarHidden() {
-        return !this.showSidebar;
-      },
-      toggleSidebar() {
-        this.showSidebar = !this.showSidebar;
-      },
-      hideSidebar() {
-        this.showSidebar = false;
-      },
-      // Return translation classes based on sidebar state for smooth slide-in/out
-      getSidebarTranslation() {
-        return this.showSidebar ? "translate-x-0" : "-translate-x-60";
-      }
-    };
-  });
-}
-function registerRzSidebarLinkItem(Alpine2) {
-  Alpine2.data("rzSidebarLinkItem", () => {
-    return {
-      isExpanded: false,
-      chevronExpandedClass: "",
-      chevronCollapsedClass: "",
-      init() {
-        this.isExpanded = this.$el.dataset.expanded === "true";
-        this.chevronExpandedClass = this.$el.dataset.chevronExpandedClass;
-        this.chevronCollapsedClass = this.$el.dataset.chevronCollapsedClass;
-      },
-      isCollapsed() {
-        return !this.isExpanded;
-      },
-      toggleExpanded() {
-        this.isExpanded = !this.isExpanded;
-      },
-      hideSidebar() {
-        const sidebarScope = this.$el.closest('[x-data^="rzSidebar"]');
-        if (sidebarScope) {
-          let data2 = Alpine2.$data(sidebarScope);
-          data2.showSidebar = false;
-        } else {
-          console.warn("Parent sidebar context not found or 'showSidebar' is not defined.");
+  Alpine2.data("rzSidebar", () => ({
+    open: false,
+    openMobile: false,
+    isMobile: false,
+    collapsible: "offcanvas",
+    shortcut: "b",
+    cookieName: "sidebar_state",
+    mobileBreakpoint: 768,
+    init() {
+      this.collapsible = this.$el.dataset.collapsible || "offcanvas";
+      this.shortcut = this.$el.dataset.shortcut || "b";
+      this.cookieName = this.$el.dataset.cookieName || "sidebar_state";
+      this.mobileBreakpoint = parseInt(this.$el.dataset.mobileBreakpoint) || 768;
+      const savedState = this.cookieName ? document.cookie.split("; ").find((row) => row.startsWith(`${this.cookieName}=`))?.split("=")[1] : null;
+      const defaultOpen = this.$el.dataset.defaultOpen === "true";
+      this.open = savedState !== null ? savedState === "true" : defaultOpen;
+      this.checkIfMobile();
+      window.addEventListener("resize", () => this.checkIfMobile());
+      window.addEventListener("keydown", (e2) => {
+        if ((e2.ctrlKey || e2.metaKey) && e2.key.toLowerCase() === this.shortcut.toLowerCase()) {
+          e2.preventDefault();
+          this.toggle();
         }
-      },
-      getExpandedClass() {
-        return this.isExpanded ? this.chevronExpandedClass : this.chevronCollapsedClass;
-      },
-      // Get the value for the aria-expanded attribute
-      getAriaExpanded() {
-        return this.isExpanded ? "true" : "false";
+      });
+      this.$watch("open", (value) => {
+        if (this.cookieName) {
+          document.cookie = `${this.cookieName}=${value}; path=/; max-age=31536000`;
+        }
+      });
+    },
+    checkIfMobile() {
+      this.isMobile = window.innerWidth < this.mobileBreakpoint;
+    },
+    toggle() {
+      if (this.isMobile) {
+        this.openMobile = !this.openMobile;
+      } else {
+        this.open = !this.open;
       }
-    };
-  });
+    },
+    toggleMobile() {
+      this.openMobile = !this.openMobile;
+    },
+    close() {
+      if (this.isMobile) {
+        this.openMobile = false;
+      }
+    },
+    isMobileHidden() {
+      return !this.openMobile;
+    },
+    isMobileOpen() {
+      return this.openMobile;
+    },
+    desktopState() {
+      return this.open ? "expanded" : "collapsed";
+    }
+  }));
 }
 async function generateBundleId(paths) {
   paths = [...paths].sort();
@@ -7532,7 +7536,6 @@ function registerComponents(Alpine2) {
   registerRzQuickReferenceContainer(Alpine2);
   registerRzTabs(Alpine2);
   registerRzSidebar(Alpine2);
-  registerRzSidebarLinkItem(Alpine2);
 }
 module_default$3.plugin(module_default$2);
 module_default$3.plugin(module_default$1);

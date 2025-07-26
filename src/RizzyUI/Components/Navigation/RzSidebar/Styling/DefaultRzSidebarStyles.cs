@@ -13,7 +13,7 @@ public class DefaultRzSidebarProviderStyles : RzStylesBase.RzSidebarProviderStyl
 public class DefaultSidebarStyles : RzStylesBase.SidebarStylesBase
 {
     public DefaultSidebarStyles(RzTheme theme) : base(theme) { }
-    public override string SidebarBase => "group/sidebar flex flex-col transition-all ease-in-out duration-300";
+    public override string SidebarBase => "sidebar group/sidebar flex flex-col transition-all ease-in-out duration-300";
     public override string Nav => "flex flex-1 flex-col";
     public override string GetVariantCss(SidebarVariant variant) => variant switch
     {

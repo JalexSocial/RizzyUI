@@ -25,7 +25,6 @@ import registerRzProgress from './components/rzProgress.js';
 import registerRzQuickReferenceContainer from './components/rzQuickReferenceContainer.js';
 import registerRzTabs from './components/rzTabs.js';
 import registerRzSidebar from './components/rzSidebar.js';
-import registerRzSidebarLinkItem from './components/rzSidebarLinkItem.js';
 
 // --------------------------------------------------------------------------------
 // Utility: Generate a unique bundle ID based on an array of script paths.
@@ -87,7 +86,6 @@ function registerComponents(Alpine) {
     registerRzQuickReferenceContainer(Alpine);
     registerRzTabs(Alpine);
     registerRzSidebar(Alpine);
-    registerRzSidebarLinkItem(Alpine);
 }
 
 export { registerComponents, rizzyRequire as require };

@@ -58,12 +58,8 @@ export default function(Alpine) {
             }
         },
 
-        isMobileHidden() {
-            return !this.openMobile;
-        },
-
-        isMobileOpen() {
-            return this.openMobile;
+        isHidden() {
+            return (this.isMobile && !this.openMobile) || (!this.isMobile && !this.open);
         },
 
         desktopState() {
