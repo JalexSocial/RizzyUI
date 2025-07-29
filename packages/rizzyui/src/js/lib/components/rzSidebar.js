@@ -62,6 +62,10 @@ export default function(Alpine) {
             return (this.isMobile && !this.openMobile) || (!this.isMobile && !this.open);
         },
 
+        isMobileOpen() {
+            return this.openMobile;
+        },        
+
         desktopState() {
             return this.open ? 'expanded' : 'collapsed';
         }

@@ -5121,6 +5121,17 @@ function registerRzCodeViewer(Alpine2, require2) {
     };
   });
 }
+function registerRzCollapsible(Alpine2) {
+  Alpine2.data("rzCollapsible", () => ({
+    isOpen: false,
+    init() {
+      this.isOpen = this.$el.dataset.defaultOpen === "true";
+    },
+    toggle() {
+      this.isOpen = !this.isOpen;
+    }
+  }));
+}
 function registerRzDateEdit(Alpine2, require2) {
   Alpine2.data("rzDateEdit", () => ({
     options: {},
@@ -7477,8 +7488,8 @@ function registerRzSidebar(Alpine2) {
         this.openMobile = false;
       }
     },
-    isMobileHidden() {
-      return !this.openMobile;
+    isHidden() {
+      return this.isMobile && !this.openMobile || !this.isMobile && !this.open;
     },
     isMobileOpen() {
       return this.openMobile;
@@ -7520,6 +7531,7 @@ function registerComponents(Alpine2) {
   registerRzBrowser(Alpine2);
   registerRzCheckboxGroupItem(Alpine2);
   registerRzCodeViewer(Alpine2, rizzyRequire);
+  registerRzCollapsible(Alpine2);
   registerRzDateEdit(Alpine2, rizzyRequire);
   registerRzDropdownMenu(Alpine2);
   registerRzDarkModeToggle(Alpine2);

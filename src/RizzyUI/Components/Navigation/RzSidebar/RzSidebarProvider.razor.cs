@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -59,17 +58,6 @@ public partial class RzSidebarProvider : RzComponent
     /// </summary>
     [Parameter]
     public string MobileWidth { get; set; } = "18rem";
-
-    /// <summary>
-    /// Internal property to track the open state, primarily for cascading to children.
-    /// This is controlled by the Alpine.js component.
-    /// </summary>
-    internal bool IsOpen { get; set; }
-
-    /// <summary>
-    /// Internal property to track the mobile open state.
-    /// </summary>
-    internal bool IsOpenMobile { get; set; }
 
     /// <inheritdoc/>
     protected override string? RootClass()

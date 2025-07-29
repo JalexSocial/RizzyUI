@@ -1,4 +1,3 @@
-
 namespace RizzyUI;
 
 /// <summary>
@@ -27,7 +26,7 @@ public class DefaultSidebarStyles : RzStylesBase.SidebarStylesBase
 public class DefaultSidebarTriggerStyles : RzStylesBase.SidebarTriggerStylesBase
 {
     public DefaultSidebarTriggerStyles(RzTheme theme) : base(theme) { }
-    public override string Trigger => "fixed top-4 left-4 z-50 inline-flex items-center justify-center rounded-md p-2 text-sidebar-foreground hover:bg-sidebar-accent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sidebar-ring md:hidden";
+    public override string Trigger => "inline-flex items-center justify-center rounded-md p-2 text-sidebar-foreground hover:bg-sidebar-accent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sidebar-ring";
 }
 
 public class DefaultSidebarHeaderStyles : RzStylesBase.SidebarHeaderStylesBase
@@ -81,7 +80,7 @@ public class DefaultSidebarMenuItemStyles : RzStylesBase.SidebarMenuItemStylesBa
 public class DefaultSidebarMenuButtonStyles : RzStylesBase.SidebarMenuButtonStylesBase
 {
     public DefaultSidebarMenuButtonStyles(RzTheme theme) : base(theme) { }
-    public override string ButtonBase => "flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&[aria-current=page]]:bg-sidebar-accent [&[aria-current=page]]:font-medium [&[aria-current=page]]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0";
+    public override string ButtonBase => "flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&[aria-current=page]]:bg-sidebar-accent [&[aria-current=page]]:font-medium [&[aria-current=page]]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0";
     public override string GetVariantCss(SidebarMenuButtonVariant variant) => variant switch
     {
         SidebarMenuButtonVariant.Default => "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
@@ -106,7 +105,7 @@ public class DefaultSidebarMenuActionStyles : RzStylesBase.SidebarMenuActionStyl
 public class DefaultSidebarMenuSubStyles : RzStylesBase.SidebarMenuSubStylesBase
 {
     public DefaultSidebarMenuSubStyles(RzTheme theme) : base(theme) { }
-    public override string SubMenu => "relative";
+    public override string SubMenu => "border-sidebar-border flex min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5 w-full";
 }
 
 public class DefaultSidebarMenuBadgeStyles : RzStylesBase.SidebarMenuBadgeStylesBase

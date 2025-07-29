@@ -48,6 +48,7 @@ public partial class RzTheme
         RzCheckboxGroupField = new DefaultRzCheckboxGroupFieldStyles(this);
         RzCheckboxGroupItem = new DefaultRzCheckboxGroupItemStyles(this);
         RzCodeViewer = new DefaultRzCodeViewerStyles(this);
+        RzCollapsible = new DefaultRzCollapsibleStyles(this);
         RzDarkmodeToggle = new DefaultRzDarkmodeToggleStyles(this);
         RzDateEdit = new DefaultRzDateEditStyles(this);
         RzSeparator = new DefaultRzSeparatorStyles(this);

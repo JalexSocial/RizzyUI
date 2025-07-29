@@ -144,25 +144,41 @@ public abstract partial class RzAsChildComponent : RzComponent
 
     private void EmitRoot(RenderTreeBuilder b, RenderTreeFrame[] frames, IDictionary<string, object?> baseAttrs, bool rootIsElement)
     {
-        int i = 0; // root index
-        var root = frames[0];
+        // root frame is always frames[0]
+        ref var root = ref frames[0];
+        int originalRootIndex = 0;
 
         if (rootIsElement)
         {
             b.OpenElement(root.Sequence, root.ElementName);
             if (root.ElementKey != null) b.SetKey(root.ElementKey);
-            CopyAttributesWithPrecedence(b, frames, ref i, baseAttrs);
-            ReplayChildren(b, frames, i, root.ElementSubtreeLength - 1);
-            b.CloseElement();
         }
-        else // component root
+        else
         {
             b.OpenComponent(root.Sequence, root.ComponentType);
             if (root.ComponentKey != null) b.SetKey(root.ComponentKey);
-            CopyAttributesWithPrecedence(b, frames, ref i, baseAttrs);
-            ReplayChildren(b, frames, i, root.ComponentSubtreeLength - 1);
-            b.CloseComponent();
         }
+
+        // Drain any original attributes (they “win” over baseAttrs)
+        CopyAttributesWithPrecedence(b, frames, ref originalRootIndex, baseAttrs);
+        // originalRootIndex is now the first child/frame after attributes
+
+        // Compute exactly how many child‐frames remain under this root:
+        //   root.SubtreeLength includes root + all attribute frames + all descendant frames
+        //   so descendantFramesCount = root.SubtreeLength – 1 – attributeFrameCount
+        // and attributeFrameCount == originalRootIndex – originalRootIndexOfRoot – 1
+        // but simpler: childCount = root.SubtreeLength – originalRootIndex
+        int childCount = rootIsElement
+            ? root.ElementSubtreeLength - originalRootIndex
+            : root.ComponentSubtreeLength - originalRootIndex;
+
+        // Replay just those child frames
+        ReplayChildren(b, frames, originalRootIndex, childCount);
+
+        if (rootIsElement)
+            b.CloseElement();
+        else
+            b.CloseComponent();
     }
 
     /// <summary>
@@ -230,34 +246,72 @@ public abstract partial class RzAsChildComponent : RzComponent
     private static void ReplayChildren(RenderTreeBuilder b, RenderTreeFrame[] frames, int start, int length)
     {
         int i = start;
-        while (i < start + length)
+        int end = start + length;
+
+        while (i < end)
         {
             var f = frames[i];
+
             switch (f.FrameType)
             {
                 case RenderTreeFrameType.Element:
-                    b.OpenElement(f.Sequence, f.ElementName);
-                    if (f.ElementKey != null) b.SetKey(f.ElementKey);
-                    CopyAttributesVerbatim(b, frames, ref i);
-                    ReplayChildren(b, frames, i, f.ElementSubtreeLength - 1);
-                    b.CloseElement();
-                    i += f.ElementSubtreeLength - 1;
-                    i++;
+                    {
+                        // Remember where this element’s frame sits
+                        int elementIndex    = i;
+                        int subtreeLength   = f.ElementSubtreeLength;
+
+                        // Open it
+                        b.OpenElement(f.Sequence, f.ElementName);
+                        if (f.ElementKey != null) b.SetKey(f.ElementKey);
+
+                        // Drain its attributes (they get written verbatim)
+                        CopyAttributesVerbatim(b, frames, ref i);
+
+                        // Now i == elementIndex + 1 + attributeCount
+                        // So compute how many real children remain in this subtree:
+                        int childCount = subtreeLength - (i - elementIndex);
+
+                        // Recurse into exactly that many child frames
+                        ReplayChildren(b, frames, i, childCount);
+
+                        // Close the element
+                        b.CloseElement();
+
+                        // Skip the entire subtree in one jump:
+                        // elementIndex + subtreeLength = first frame after this subtree
+                        i = elementIndex + subtreeLength;
+                    }
                     break;
 
                 case RenderTreeFrameType.Component:
-                    b.OpenComponent(f.Sequence, f.ComponentType);
-                    if (f.ComponentKey != null) b.SetKey(f.ComponentKey);
-                    CopyAttributesVerbatim(b, frames, ref i);
-                    ReplayChildren(b, frames, i, f.ComponentSubtreeLength - 1);
-                    b.CloseComponent();
-                    i += f.ComponentSubtreeLength - 1;
-                    i++;
+                    {
+                        int componentIndex  = i;
+                        int subtreeLength   = f.ComponentSubtreeLength;
+
+                        b.OpenComponent(f.Sequence, f.ComponentType);
+                        if (f.ComponentKey != null) b.SetKey(f.ComponentKey);
+
+                        CopyAttributesVerbatim(b, frames, ref i);
+                        int childCount = subtreeLength - (i - componentIndex);
+                        ReplayChildren(b, frames, i, childCount);
+
+                        b.CloseComponent();
+                        i = componentIndex + subtreeLength;
+                    }
                     break;
 
                 case RenderTreeFrameType.Region:
-                    ReplayChildren(b, frames, i + 1, f.RegionSubtreeLength - 1);
-                    i += f.RegionSubtreeLength;
+                    {
+                        // Regions never have attributes, so a simple pattern works
+                        int regionIndex     = i;
+                        int subtreeLength   = f.RegionSubtreeLength;
+
+                        // Recurse into its children
+                        ReplayChildren(b, frames, i + 1, subtreeLength - 1);
+
+                        // Skip entire region
+                        i = regionIndex + subtreeLength;
+                    }
                     break;
 
                 case RenderTreeFrameType.Text:
@@ -271,17 +325,17 @@ public abstract partial class RzAsChildComponent : RzComponent
                     break;
 
                 case RenderTreeFrameType.ElementReferenceCapture:
-                    b.AddElementReferenceCapture(f.Sequence, (Action<ElementReference>)f.ElementReferenceCaptureAction);
+                    b.AddElementReferenceCapture(f.Sequence, (Action<ElementReference>)f.ElementReferenceCaptureAction!);
                     i++;
                     break;
 
                 case RenderTreeFrameType.ComponentReferenceCapture:
-                    b.AddComponentReferenceCapture(f.Sequence, (Action<object>)f.ComponentReferenceCaptureAction);
+                    b.AddComponentReferenceCapture(f.Sequence, (Action<object>)f.ComponentReferenceCaptureAction!);
                     i++;
                     break;
 
                 default:
-                    // Skip NamedEvent, ComponentRenderMode, None, etc.
+                    // Skip any frame types we’re not explicitly handling
                     i++;
                     break;
             }

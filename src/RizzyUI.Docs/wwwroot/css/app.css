@@ -1179,6 +1179,10 @@
     --tw-translate-x: calc(var(--spacing) * 0);
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
+  .translate-x-px {
+    --tw-translate-x: 1px;
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
   .-translate-y-1\/2 {
     --tw-translate-y: calc(calc(1/2 * 100%) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
@@ -5169,6 +5173,11 @@
       --tw-enter-translate-y: calc(2*var(--spacing));
     }
   }
+  .data-\[state\=closed\]\:animate-collapsible-up {
+    &[data-state="closed"] {
+      animation: collapsible-up var(--tw-animation-duration,var(--tw-duration,.2s))ease-out;
+    }
+  }
   .data-\[state\=closed\]\:animate-out {
     &[data-state="closed"] {
       animation: exit var(--tw-animation-duration,var(--tw-duration,.15s))var(--tw-ease,ease)var(--tw-animation-delay,0s)var(--tw-animation-iteration-count,1)var(--tw-animation-direction,normal)var(--tw-animation-fill-mode,none);
@@ -5204,6 +5213,11 @@
   .data-\[state\=hidden\]\:fade-out {
     &[data-state="hidden"] {
       --tw-exit-opacity: 0;
+    }
+  }
+  .data-\[state\=open\]\:animate-collapsible-down {
+    &[data-state="open"] {
+      animation: collapsible-down var(--tw-animation-duration,var(--tw-duration,.2s))ease-out;
     }
   }
   .data-\[state\=open\]\:animate-in {

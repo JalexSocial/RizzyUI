@@ -1,0 +1,57 @@
+
+using Microsoft.AspNetCore.Components;
+using RizzyUI.Extensions;
+
+namespace RizzyUI;
+
+/// <summary>
+/// An interactive element that toggles the visibility of its associated <see cref="CollapsibleContent"/>.
+/// It must be a child of an <see cref="RzCollapsible"/> component.
+/// </summary>
+public partial class CollapsibleTrigger : RzAsChildComponent
+{
+    /// <summary>
+    /// Gets the parent <see cref="RzCollapsible"/> component.
+    /// </summary>
+    [CascadingParameter]
+    protected RzCollapsible? ParentCollapsible { get; set; }
+
+    /// <summary>
+    /// Gets or sets the content to be rendered as the trigger. Required.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (ParentCollapsible == null)
+        {
+            throw new InvalidOperationException($"{nameof(CollapsibleTrigger)} must be used within an {nameof(RzCollapsible)}.");
+        }
+        Element = "button";
+    }
+
+    /// <inheritdoc/>
+    protected override RenderFragment? GetAsChildContent() => ChildContent;
+
+    /// <inheritdoc/>
+    protected override Dictionary<string, object?> GetComponentAttributes()
+    {
+        return new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["id"] = $"{ParentCollapsible?.Id}-trigger",
+            ["class"] = RootClass(),
+            ["x-on:click"] = "toggle",
+            ["aria-controls"] = $"{ParentCollapsible?.Id}-content",
+            ["x-bind:aria-expanded"] = "isOpen"
+        };
+    }
+
+    /// <inheritdoc/>
+    protected override string? RootClass()
+    {
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzCollapsible.Trigger);
+    }
+}

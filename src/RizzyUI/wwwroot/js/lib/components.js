@@ -9,6 +9,7 @@ import registerRzAlert from './components/rzAlert.js';
 import registerRzBrowser from './components/rzBrowser.js';
 import registerRzCheckboxGroupItem from './components/rzCheckboxGroupItem.js';
 import registerRzCodeViewer from './components/rzCodeViewer.js';
+import registerRzCollapsible from './components/rzCollapsible.js';
 import registerRzDateEdit from './components/rzDateEdit.js';
 import registerRzDropdownMenu from './components/rzDropdownMenu.js';
 import registerRzDarkModeToggle from './components/rzDarkModeToggle.js';
@@ -70,6 +71,7 @@ function registerComponents(Alpine) {
     registerRzBrowser(Alpine);
     registerRzCheckboxGroupItem(Alpine);
     registerRzCodeViewer(Alpine, rizzyRequire);
+    registerRzCollapsible(Alpine);
     registerRzDateEdit(Alpine, rizzyRequire);
     registerRzDropdownMenu(Alpine);
     registerRzDarkModeToggle(Alpine);

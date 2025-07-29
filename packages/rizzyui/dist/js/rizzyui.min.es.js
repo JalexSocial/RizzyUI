@@ -105,7 +105,7 @@ function _e(e) {
     s.push(Me(e[n + r] || ""));
   return s = s.filter((r) => r !== void 0), s.length ? s.join(" ").trim() : i;
 }
-var Pe = Fe, ne = ["input", "select", "textarea", "a[href]", "button", "[tabindex]:not(slot)", "audio[controls]", "video[controls]", '[contenteditable]:not([contenteditable="false"])', "details>summary:first-of-type", "details"], pt = /* @__PURE__ */ ne.join(","), se = typeof Element > "u", Z = se ? function() {
+var ze = Fe, ne = ["input", "select", "textarea", "a[href]", "button", "[tabindex]:not(slot)", "audio[controls]", "video[controls]", '[contenteditable]:not([contenteditable="false"])', "details>summary:first-of-type", "details"], pt = /* @__PURE__ */ ne.join(","), se = typeof Element > "u", Z = se ? function() {
 } : Element.prototype.matches || Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector, $t = !se && Element.prototype.getRootNode ? function(e) {
   return e.getRootNode();
 } : function(e) {
@@ -140,7 +140,7 @@ var Pe = Fe, ne = ["input", "select", "textarea", "a[href]", "button", "[tabinde
   return s;
 }, ae = function(t, i) {
   return t.tabIndex < 0 && (i || /^(AUDIO|VIDEO|DETAILS)$/.test(t.tagName) || t.isContentEditable) && isNaN(parseInt(t.getAttribute("tabindex"), 10)) ? 0 : t.tabIndex;
-}, ze = function(t, i) {
+}, Pe = function(t, i) {
   return t.tabIndex === i.tabIndex ? t.documentOrder - i.documentOrder : t.tabIndex - i.tabIndex;
 }, le = function(t) {
   return t.tagName === "INPUT";
@@ -234,7 +234,7 @@ var Pe = Fe, ne = ["input", "select", "textarea", "a[href]", "button", "[tabinde
       isScope: o,
       content: c
     });
-  }), n.sort(ze).reduce(function(s, r) {
+  }), n.sort(Pe).reduce(function(s, r) {
     return r.isScope ? s.push.apply(s, r.content) : s.push(r.content), s;
   }, []).concat(i);
 }, Ke = function(t, i) {
@@ -1299,7 +1299,18 @@ function ki(e, t) {
     }
   }));
 }
-function Ni(e, t) {
+function Ni(e) {
+  e.data("rzCollapsible", () => ({
+    isOpen: !1,
+    init() {
+      this.isOpen = this.$el.dataset.defaultOpen === "true";
+    },
+    toggle() {
+      this.isOpen = !this.isOpen;
+    }
+  }));
+}
+function Ai(e, t) {
   e.data("rzDateEdit", () => ({
     options: {},
     placeholder: "",
@@ -1322,15 +1333,15 @@ function Ni(e, t) {
     }
   }));
 }
-const Dt = Math.min, J = Math.max, bt = Math.round, z = (e) => ({
+const Dt = Math.min, J = Math.max, bt = Math.round, P = (e) => ({
   x: e,
   y: e
-}), Ai = {
+}), $i = {
   left: "right",
   right: "left",
   bottom: "top",
   top: "bottom"
-}, $i = {
+}, Li = {
   start: "end",
   end: "start"
 };
@@ -1358,20 +1369,20 @@ function G(e) {
 function ye(e) {
   return ve(G(e));
 }
-function Li(e, t, i) {
+function Ri(e, t, i) {
   i === void 0 && (i = !1);
   const n = St(e), s = ye(e), r = we(s);
   let o = s === "x" ? n === (i ? "end" : "start") ? "right" : "left" : n === "start" ? "bottom" : "top";
   return t.reference[r] > t.floating[r] && (o = vt(o)), [o, vt(o)];
 }
-function Ri(e) {
+function Fi(e) {
   const t = vt(e);
   return [Mt(e), t, Mt(t)];
 }
 function Mt(e) {
-  return e.replace(/start|end/g, (t) => $i[t]);
+  return e.replace(/start|end/g, (t) => Li[t]);
 }
-function Fi(e, t, i) {
+function Di(e, t, i) {
   const n = ["left", "right"], s = ["right", "left"], r = ["top", "bottom"], o = ["bottom", "top"];
   switch (e) {
     case "top":
@@ -1384,15 +1395,15 @@ function Fi(e, t, i) {
       return [];
   }
 }
-function Di(e, t, i, n) {
+function Mi(e, t, i, n) {
   const s = St(e);
-  let r = Fi(K(e), i === "start", n);
+  let r = Di(K(e), i === "start", n);
   return s && (r = r.map((o) => o + "-" + s), t && (r = r.concat(r.map(Mt)))), r;
 }
 function vt(e) {
-  return e.replace(/left|right|bottom|top/g, (t) => Ai[t]);
+  return e.replace(/left|right|bottom|top/g, (t) => $i[t]);
 }
-function Mi(e) {
+function _i(e) {
   return {
     top: 0,
     right: 0,
@@ -1401,8 +1412,8 @@ function Mi(e) {
     ...e
   };
 }
-function _i(e) {
-  return typeof e != "number" ? Mi(e) : {
+function zi(e) {
+  return typeof e != "number" ? _i(e) : {
     top: e,
     right: e,
     bottom: e,
@@ -1552,7 +1563,7 @@ async function xe(e, t) {
     elementContext: u = "floating",
     altBoundary: p = !1,
     padding: m = 0
-  } = Tt(t, e), b = _i(m), w = a[p ? u === "floating" ? "reference" : "floating" : u], T = wt(await r.getClippingRect({
+  } = Tt(t, e), b = zi(m), w = a[p ? u === "floating" ? "reference" : "floating" : u], T = wt(await r.getClippingRect({
     element: (i = await (r.isElement == null ? void 0 : r.isElement(w))) == null || i ? w : w.contextElement || await (r.getDocumentElement == null ? void 0 : r.getDocumentElement(a.floating)),
     boundary: c,
     rootBoundary: d,
@@ -1581,7 +1592,7 @@ async function xe(e, t) {
     right: (v.right - T.right + b.right) / k.x
   };
 }
-const zi = function(e) {
+const Bi = function(e) {
   return e === void 0 && (e = {}), {
     name: "flip",
     options: e,
@@ -1605,12 +1616,12 @@ const zi = function(e) {
       } = Tt(e, t);
       if ((i = r.arrow) != null && i.alignmentOffset)
         return {};
-      const T = K(s), S = G(a), O = K(a) === a, k = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), v = p || (O || !y ? [vt(a)] : Ri(a)), f = b !== "none";
-      !p && f && v.push(...Di(a, y, b, k));
+      const T = K(s), S = G(a), O = K(a) === a, k = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), v = p || (O || !y ? [vt(a)] : Fi(a)), f = b !== "none";
+      !p && f && v.push(...Mi(a, y, b, k));
       const h = [a, ...v], g = await xe(t, w), E = [];
       let x = ((n = r.flip) == null ? void 0 : n.overflows) || [];
       if (d && E.push(g[T]), u) {
-        const L = Li(s, o, k);
+        const L = Ri(s, o, k);
         E.push(g[L[0]], g[L[1]]);
       }
       if (x = [...x, {
@@ -1621,8 +1632,8 @@ const zi = function(e) {
         const L = (((C = r.flip) == null ? void 0 : C.index) || 0) + 1, U = h[L];
         if (U) {
           var A;
-          const R = u === "alignment" ? S !== G(U) : !1, P = ((A = x[0]) == null ? void 0 : A.overflows[0]) > 0;
-          if (!R || P)
+          const R = u === "alignment" ? S !== G(U) : !1, z = ((A = x[0]) == null ? void 0 : A.overflows[0]) > 0;
+          if (!R || z)
             return {
               data: {
                 index: L,
@@ -1633,20 +1644,20 @@ const zi = function(e) {
               }
             };
         }
-        let F = (N = x.filter((R) => R.overflows[0] <= 0).sort((R, P) => R.overflows[1] - P.overflows[1])[0]) == null ? void 0 : N.placement;
+        let F = (N = x.filter((R) => R.overflows[0] <= 0).sort((R, z) => R.overflows[1] - z.overflows[1])[0]) == null ? void 0 : N.placement;
         if (!F)
           switch (m) {
             case "bestFit": {
               var _;
-              const R = (_ = x.filter((P) => {
+              const R = (_ = x.filter((z) => {
                 if (f) {
-                  const H = G(P.placement);
+                  const H = G(z.placement);
                   return H === S || // Create a bias to the `y` side axis due to horizontal
                   // reading directions favoring greater width.
                   H === "y";
                 }
                 return !0;
-              }).map((P) => [P.placement, P.overflows.filter((H) => H > 0).reduce((H, $e) => H + $e, 0)]).sort((P, H) => P[1] - H[1])[0]) == null ? void 0 : _[0];
+              }).map((z) => [z.placement, z.overflows.filter((H) => H > 0).reduce((H, $e) => H + $e, 0)]).sort((z, H) => z[1] - H[1])[0]) == null ? void 0 : _[0];
               R && (F = R);
               break;
             }
@@ -1665,7 +1676,7 @@ const zi = function(e) {
     }
   };
 };
-async function Bi(e, t) {
+async function Wi(e, t) {
   const {
     placement: i,
     platform: n,
@@ -1692,7 +1703,7 @@ async function Bi(e, t) {
     y: m * d
   };
 }
-const Wi = function(e) {
+const Vi = function(e) {
   return e === void 0 && (e = 0), {
     name: "offset",
     options: e,
@@ -1703,7 +1714,7 @@ const Wi = function(e) {
         y: r,
         placement: o,
         middlewareData: a
-      } = t, l = await Bi(t, e);
+      } = t, l = await Wi(t, e);
       return o === ((i = a.offset) == null ? void 0 : i.placement) && (n = a.arrow) != null && n.alignmentOffset ? {} : {
         x: s + l.x,
         y: r + l.y,
@@ -1714,7 +1725,7 @@ const Wi = function(e) {
       };
     }
   };
-}, Vi = function(e) {
+}, Hi = function(e) {
   return e === void 0 && (e = {}), {
     name: "shift",
     options: e,
@@ -1806,7 +1817,7 @@ function ct(e) {
   } = M(e);
   return /auto|scroll|overlay|hidden|clip/.test(t + n + i) && !["inline", "contents"].includes(s);
 }
-function Hi(e) {
+function Yi(e) {
   return ["table", "td", "th"].includes(et(e));
 }
 function Ot(e) {
@@ -1818,14 +1829,14 @@ function Ot(e) {
     }
   });
 }
-function Pt(e) {
-  const t = zt(), i = D(e) ? M(e) : e;
+function zt(e) {
+  const t = Pt(), i = D(e) ? M(e) : e;
   return ["transform", "translate", "scale", "rotate", "perspective"].some((n) => i[n] ? i[n] !== "none" : !1) || (i.containerType ? i.containerType !== "normal" : !1) || !t && (i.backdropFilter ? i.backdropFilter !== "none" : !1) || !t && (i.filter ? i.filter !== "none" : !1) || ["transform", "translate", "scale", "rotate", "perspective", "filter"].some((n) => (i.willChange || "").includes(n)) || ["paint", "layout", "strict", "content"].some((n) => (i.contain || "").includes(n));
 }
-function Yi(e) {
+function ji(e) {
   let t = q(e);
   for (; B(t) && !tt(t); ) {
-    if (Pt(t))
+    if (zt(t))
       return t;
     if (Ot(t))
       return null;
@@ -1833,7 +1844,7 @@ function Yi(e) {
   }
   return null;
 }
-function zt() {
+function Pt() {
   return typeof CSS > "u" || !CSS.supports ? !1 : CSS.supports("-webkit-backdrop-filter", "none");
 }
 function tt(e) {
@@ -1892,7 +1903,7 @@ function Ce(e) {
 function Q(e) {
   const t = Ce(e);
   if (!B(t))
-    return z(1);
+    return P(1);
   const i = t.getBoundingClientRect(), {
     width: n,
     height: s,
@@ -1904,23 +1915,23 @@ function Q(e) {
     y: a
   };
 }
-const ji = /* @__PURE__ */ z(0);
+const qi = /* @__PURE__ */ P(0);
 function Oe(e) {
   const t = $(e);
-  return !zt() || !t.visualViewport ? ji : {
+  return !Pt() || !t.visualViewport ? qi : {
     x: t.visualViewport.offsetLeft,
     y: t.visualViewport.offsetTop
   };
 }
-function qi(e, t, i) {
+function Ui(e, t, i) {
   return t === void 0 && (t = !1), !i || t && i !== $(e) ? !1 : t;
 }
 function lt(e, t, i, n) {
   t === void 0 && (t = !1), i === void 0 && (i = !1);
   const s = e.getBoundingClientRect(), r = Ce(e);
-  let o = z(1);
+  let o = P(1);
   t && (n ? D(n) && (o = Q(n)) : o = Q(e));
-  const a = qi(r, i, n) ? Oe(r) : z(0);
+  const a = Ui(r, i, n) ? Oe(r) : P(0);
   let l = (s.left + a.x) / o.x, c = (s.top + a.y) / o.y, d = s.width / o.x, u = s.height / o.y;
   if (r) {
     const p = $(r), m = n && D(n) ? $(n) : n;
@@ -1952,7 +1963,7 @@ function ke(e, t, i) {
     y: r
   };
 }
-function Ui(e) {
+function Gi(e) {
   let {
     elements: t,
     rect: i,
@@ -1965,13 +1976,13 @@ function Ui(e) {
   let l = {
     scrollLeft: 0,
     scrollTop: 0
-  }, c = z(1);
-  const d = z(0), u = B(n);
+  }, c = P(1);
+  const d = P(0), u = B(n);
   if ((u || !u && !r) && ((et(n) !== "body" || ct(o)) && (l = kt(n)), B(n))) {
     const m = lt(n);
     c = Q(n), d.x = m.x + n.clientLeft, d.y = m.y + n.clientTop;
   }
-  const p = o && !u && !r ? ke(o, l, !0) : z(0);
+  const p = o && !u && !r ? ke(o, l, !0) : P(0);
   return {
     width: i.width * c.x,
     height: i.height * c.y,
@@ -1979,10 +1990,10 @@ function Ui(e) {
     y: i.y * c.y - l.scrollTop * c.y + d.y + p.y
   };
 }
-function Gi(e) {
+function Zi(e) {
   return Array.from(e.getClientRects());
 }
-function Zi(e) {
+function Ki(e) {
   const t = V(e), i = kt(e), n = e.ownerDocument.body, s = J(t.scrollWidth, t.clientWidth, n.scrollWidth, n.clientWidth), r = J(t.scrollHeight, t.clientHeight, n.scrollHeight, n.clientHeight);
   let o = -i.scrollLeft + Bt(e);
   const a = -i.scrollTop;
@@ -1993,12 +2004,12 @@ function Zi(e) {
     y: a
   };
 }
-function Ki(e, t) {
+function Xi(e, t) {
   const i = $(e), n = V(e), s = i.visualViewport;
   let r = n.clientWidth, o = n.clientHeight, a = 0, l = 0;
   if (s) {
     r = s.width, o = s.height;
-    const c = zt();
+    const c = Pt();
     (!c || c && t === "fixed") && (a = s.offsetLeft, l = s.offsetTop);
   }
   return {
@@ -2008,8 +2019,8 @@ function Ki(e, t) {
     y: l
   };
 }
-function Xi(e, t) {
-  const i = lt(e, !0, t === "fixed"), n = i.top + e.clientTop, s = i.left + e.clientLeft, r = B(e) ? Q(e) : z(1), o = e.clientWidth * r.x, a = e.clientHeight * r.y, l = s * r.x, c = n * r.y;
+function Ji(e, t) {
+  const i = lt(e, !0, t === "fixed"), n = i.top + e.clientTop, s = i.left + e.clientLeft, r = B(e) ? Q(e) : P(1), o = e.clientWidth * r.x, a = e.clientHeight * r.y, l = s * r.x, c = n * r.y;
   return {
     width: o,
     height: a,
@@ -2020,11 +2031,11 @@ function Xi(e, t) {
 function ee(e, t, i) {
   let n;
   if (t === "viewport")
-    n = Ki(e, i);
+    n = Xi(e, i);
   else if (t === "document")
-    n = Zi(V(e));
+    n = Ki(V(e));
   else if (D(t))
-    n = Xi(t, i);
+    n = Ji(t, i);
   else {
     const s = Oe(e);
     n = {
@@ -2040,7 +2051,7 @@ function Ne(e, t) {
   const i = q(e);
   return i === t || !D(i) || tt(i) ? !1 : M(i).position === "fixed" || Ne(i, t);
 }
-function Ji(e, t) {
+function Qi(e, t) {
   const i = t.get(e);
   if (i)
     return i;
@@ -2048,19 +2059,19 @@ function Ji(e, t) {
   const r = M(e).position === "fixed";
   let o = r ? q(e) : e;
   for (; D(o) && !tt(o); ) {
-    const a = M(o), l = Pt(o);
+    const a = M(o), l = zt(o);
     !l && a.position === "fixed" && (s = null), (r ? !l && !s : !l && a.position === "static" && !!s && ["absolute", "fixed"].includes(s.position) || ct(o) && !l && Ne(e, o)) ? n = n.filter((d) => d !== o) : s = a, o = q(o);
   }
   return t.set(e, n), n;
 }
-function Qi(e) {
+function tn(e) {
   let {
     element: t,
     boundary: i,
     rootBoundary: n,
     strategy: s
   } = e;
-  const o = [...i === "clippingAncestors" ? Ot(t) ? [] : Ji(t, this._c) : [].concat(i), n], a = o[0], l = o.reduce((c, d) => {
+  const o = [...i === "clippingAncestors" ? Ot(t) ? [] : Qi(t, this._c) : [].concat(i), n], a = o[0], l = o.reduce((c, d) => {
     const u = ee(t, d, s);
     return c.top = J(u.top, c.top), c.right = Dt(u.right, c.right), c.bottom = Dt(u.bottom, c.bottom), c.left = J(u.left, c.left), c;
   }, ee(t, a, s));
@@ -2071,7 +2082,7 @@ function Qi(e) {
     y: l.top
   };
 }
-function tn(e) {
+function en(e) {
   const {
     width: t,
     height: i
@@ -2081,13 +2092,13 @@ function tn(e) {
     height: i
   };
 }
-function en(e, t, i) {
+function nn(e, t, i) {
   const n = B(t), s = V(t), r = i === "fixed", o = lt(e, !0, r, t);
   let a = {
     scrollLeft: 0,
     scrollTop: 0
   };
-  const l = z(0);
+  const l = P(0);
   function c() {
     l.x = Bt(s);
   }
@@ -2097,7 +2108,7 @@ function en(e, t, i) {
       l.x = m.x + t.clientLeft, l.y = m.y + t.clientTop;
     } else s && c();
   r && !n && s && c();
-  const d = s && !n && !r ? ke(s, a) : z(0), u = o.left + a.scrollLeft - l.x - d.x, p = o.top + a.scrollTop - l.y - d.y;
+  const d = s && !n && !r ? ke(s, a) : P(0), u = o.left + a.scrollLeft - l.x - d.x, p = o.top + a.scrollTop - l.y - d.y;
   return {
     x: u,
     y: p,
@@ -2130,14 +2141,14 @@ function Ae(e, t) {
     return i;
   }
   let n = ie(e, t);
-  for (; n && Hi(n) && At(n); )
+  for (; n && Yi(n) && At(n); )
     n = ie(n, t);
-  return n && tt(n) && At(n) && !Pt(n) ? i : n || Yi(e) || i;
+  return n && tt(n) && At(n) && !zt(n) ? i : n || ji(e) || i;
 }
-const nn = async function(e) {
+const sn = async function(e) {
   const t = this.getOffsetParent || Ae, i = this.getDimensions, n = await i(e.floating);
   return {
-    reference: en(e.reference, await t(e.floating), e.strategy),
+    reference: nn(e.reference, await t(e.floating), e.strategy),
     floating: {
       x: 0,
       y: 0,
@@ -2146,23 +2157,23 @@ const nn = async function(e) {
     }
   };
 };
-function sn(e) {
+function rn(e) {
   return M(e).direction === "rtl";
 }
-const rn = {
-  convertOffsetParentRelativeRectToViewportRelativeRect: Ui,
+const on = {
+  convertOffsetParentRelativeRectToViewportRelativeRect: Gi,
   getDocumentElement: V,
-  getClippingRect: Qi,
+  getClippingRect: tn,
   getOffsetParent: Ae,
-  getElementRects: nn,
-  getClientRects: Gi,
-  getDimensions: tn,
+  getElementRects: sn,
+  getClientRects: Zi,
+  getDimensions: en,
   getScale: Q,
   isElement: D,
-  isRTL: sn
-}, yt = Wi, xt = Vi, It = zi, Et = (e, t, i) => {
+  isRTL: rn
+}, yt = Vi, xt = Hi, It = Bi, Et = (e, t, i) => {
   const n = /* @__PURE__ */ new Map(), s = {
-    platform: rn,
+    platform: on,
     ...i
   }, r = {
     ...s.platform,
@@ -2173,7 +2184,7 @@ const rn = {
     platform: r
   });
 };
-function on(e) {
+function an(e) {
   e.data("rzDropdownMenu", () => ({
     // --- STATE ---
     open: !1,
@@ -2388,7 +2399,7 @@ function on(e) {
     }
   }));
 }
-function an(e) {
+function ln(e) {
   e.data("rzDarkModeToggle", () => ({
     mode: "light",
     applyTheme: null,
@@ -2428,7 +2439,7 @@ function an(e) {
     }
   }));
 }
-function ln(e) {
+function cn(e) {
   e.data("rzEmbeddedPreview", () => ({
     iframe: null,
     onDarkModeToggle: null,
@@ -2484,11 +2495,11 @@ function ln(e) {
     }
   }));
 }
-function cn(e) {
+function un(e) {
   e.data("rzEmpty", () => {
   });
 }
-function un(e) {
+function dn(e) {
   e.data("rzHeading", () => ({
     observer: null,
     headingId: "",
@@ -2510,7 +2521,7 @@ function un(e) {
     }
   }));
 }
-function dn(e) {
+function fn(e) {
   e.data("rzIndicator", () => ({
     visible: !1,
     init() {
@@ -2525,7 +2536,7 @@ function dn(e) {
     }
   }));
 }
-function fn(e, t) {
+function hn(e, t) {
   e.data("rzMarkdown", () => ({
     init() {
       const i = JSON.parse(this.$el.dataset.assets), n = this.$el.dataset.nonce;
@@ -2540,7 +2551,7 @@ function fn(e, t) {
     }
   }));
 }
-function hn(e) {
+function pn(e) {
   e.data("rzModal", () => ({
     modalOpen: !1,
     // Main state variable
@@ -2616,7 +2627,7 @@ function hn(e) {
     }
   }));
 }
-function pn(e, t) {
+function mn(e, t) {
   e.data("rzNavigationMenu", () => ({
     activeItemId: null,
     open: !1,
@@ -2713,7 +2724,7 @@ function pn(e, t) {
     }
   }));
 }
-function mn(e) {
+function gn(e) {
   e.data("rzPopover", () => ({
     open: !1,
     ariaExpanded: "false",
@@ -2754,7 +2765,7 @@ function mn(e) {
     }
   }));
 }
-function gn(e) {
+function bn(e) {
   e.data("rzPrependInput", () => ({
     prependContainer: null,
     textInput: null,
@@ -2779,7 +2790,7 @@ function gn(e) {
     }
   }));
 }
-function bn(e) {
+function vn(e) {
   e.data("rzProgress", () => ({
     currentVal: 0,
     minVal: 0,
@@ -2825,7 +2836,7 @@ function bn(e) {
     }
   }));
 }
-function vn(e) {
+function wn(e) {
   e.data("rzQuickReferenceContainer", () => ({
     headings: [],
     // Array of heading IDs
@@ -2862,7 +2873,7 @@ function vn(e) {
     }
   }));
 }
-function wn(e) {
+function yn(e) {
   e.data("rzTabs", () => ({
     buttonRef: null,
     tabSelected: "",
@@ -2907,7 +2918,7 @@ function wn(e) {
     }
   }));
 }
-function yn(e) {
+function xn(e) {
   e.data("rzSidebar", () => ({
     open: !1,
     openMobile: !1,
@@ -2937,8 +2948,8 @@ function yn(e) {
     close() {
       this.isMobile && (this.openMobile = !1);
     },
-    isMobileHidden() {
-      return !this.openMobile;
+    isHidden() {
+      return this.isMobile && !this.openMobile || !this.isMobile && !this.open;
     },
     isMobileOpen() {
       return this.openMobile;
@@ -2948,13 +2959,13 @@ function yn(e) {
     }
   }));
 }
-async function xn(e) {
+async function In(e) {
   e = [...e].sort();
   const t = e.join("|"), n = new TextEncoder().encode(t), s = await crypto.subtle.digest("SHA-256", n);
   return Array.from(new Uint8Array(s)).map((o) => o.toString(16).padStart(2, "0")).join("");
 }
 function ht(e, t, i) {
-  xn(e).then((n) => {
+  In(e).then((n) => {
     j.isDefined(n) || j(
       e,
       n,
@@ -2966,22 +2977,22 @@ function ht(e, t, i) {
     ), j.ready([n], t);
   });
 }
-function In(e) {
-  Ei(e), Ti(e), Si(e), Ci(e), Oi(e), ki(e, ht), Ni(e, ht), on(e), an(e), ln(e), cn(e), un(e), dn(e), fn(e, ht), pn(e), hn(e), mn(e), gn(e), bn(e), vn(e), wn(e), yn(e);
+function En(e) {
+  Ei(e), Ti(e), Si(e), Ci(e), Oi(e), ki(e, ht), Ni(e), Ai(e, ht), an(e), ln(e), cn(e), un(e), dn(e), fn(e), hn(e, ht), mn(e), pn(e), gn(e), bn(e), vn(e), wn(e), yn(e), xn(e);
 }
 X.plugin(Re);
-X.plugin(Pe);
+X.plugin(ze);
 X.plugin(ri);
-In(X);
-const En = {
+En(X);
+const Tn = {
   Alpine: X,
   require: ht,
   toast: vi,
   $data: Ii
 };
 window.Alpine = X;
-window.Rizzy = { ...window.Rizzy || {}, ...En };
+window.Rizzy = { ...window.Rizzy || {}, ...Tn };
 X.start();
 export {
-  En as default
+  Tn as default
 };

@@ -91,6 +91,9 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzCodeViewer" /> component. </summary>
     public virtual RzStylesBase.RzCodeViewerStylesBase RzCodeViewer { get; }
 
+    /// <summary> Gets the style definitions for the <see cref="RzCollapsible" /> component. </summary>
+    public virtual RzStylesBase.RzCollapsibleStylesBase RzCollapsible { get; }
+    
     /// <summary> Gets or sets the style definitions for the <see cref="RzDarkmodeToggle" /> component. </summary>
     public virtual RzStylesBase.RzDarkmodeToggleStylesBase RzDarkmodeToggle { get; }
 
