@@ -9,7 +9,8 @@
                  class="@RootClass()"
                  x-data="rzCollapsible"
                  data-alpine-root="@Id"
-                 data-default-open="@DefaultOpen.ToString().ToLowerInvariant()">
+                 data-default-open="@DefaultOpen.ToString().ToLowerInvariant()"
+                 x-bind:data-state="state">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

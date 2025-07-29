@@ -1,0 +1,175 @@
+﻿@page "/components/collapsible"
+@using RizzyUI
+@using RizzyUI.Extensions
+@inherits RzComponent
+@namespace RizzyUI.Pages
+
+<PageTitle>RzCollapsible</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Collapsible" class="scroll-mt-20">Collapsible</RzHeading>
+            <RzParagraph>
+                An interactive component which expands and collapses a content area. It leverages Alpine.js's collapse plugin for smooth animations.
+            </RzParagraph>
+
+            <!-- Default RzCollapsible -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Collapsible" class="scroll-mt-20">
+                    Default Collapsible
+                </RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">
+                    Click the trigger to expand or collapse the content area.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-start min-h-60">
+                        <RzCollapsible class="w-[350px] space-y-2">
+                            <div class="flex items-center justify-between space-x-4 px-4">
+                                <h4 class="text-sm font-semibold">
+                                    @@rizzyui has 199 followers
+                                </h4>
+                                <CollapsibleTrigger AsChild>
+                                    <RzButton Variant="ButtonVariant.Ghost" Size="Size.Small" class="w-9 p-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevrons-up-down"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg>
+                                        <span class="sr-only">Toggle</span>
+                                    </RzButton>
+                                </CollapsibleTrigger>
+                            </div>
+                            <div class="rounded-md border px-4 py-3 font-mono text-sm">
+                                @@jalexsocial
+                            </div>
+                            <CollapsibleContent class="flex flex-col gap-2">
+                                <div class="rounded-md border px-4 py-3 font-mono text-sm">
+                                    @@blazorators
+                                </div>
+                                <div class="rounded-md border px-4 py-3 font-mono text-sm">
+                                    @@microsoft
+                                </div>
+                            </CollapsibleContent>
+                        </RzCollapsible>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCollapsible class="w-[350px] space-y-2"&gt;
+    &lt;div class="flex items-center justify-between space-x-4 px-4"&gt;
+        &lt;h4 class="text-sm font-semibold"&gt;
+            @@rizzyui has 199 followers
+        &lt;/h4&gt;
+        &lt;CollapsibleTrigger AsChild&gt;
+            &lt;RzButton Variant="ButtonVariant.Ghost" Size="Size.Small" class="w-9 p-0"&gt;
+                &lt;Blazicon Svg="MdiIcon.ChevronUpDown" class="size-4" /&gt;
+                &lt;span class="sr-only"&gt;Toggle&lt;/span&gt;
+            &lt;/RzButton&gt;
+        &lt;/CollapsibleTrigger&gt;
+    &lt;/div&gt;
+    &lt;div class="rounded-md border px-4 py-3 font-mono text-sm"&gt;
+        @@jalexsocial
+    &lt;/div&gt;
+    &lt;CollapsibleContent class="flex flex-col gap-2"&gt;
+        &lt;div class="rounded-md border px-4 py-3 font-mono text-sm"&gt;
+            @@blazorators
+        &lt;/div&gt;
+        &lt;div class="rounded-md border px-4 py-3 font-mono text-sm"&gt;
+            @@microsoft
+        &lt;/div&gt;
+    &lt;/CollapsibleContent&gt;
+&lt;/RzCollapsible&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Parameters Table -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
+                </RzHeading>
+                <RzParagraph>
+                    The following tables summarize the key parameters for the Collapsible components.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzCollapsible</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content of the collapsible component, which should include a <code>CollapsibleTrigger</code> and a <code>CollapsibleContent</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">DefaultOpen</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">If set to <code>true</code>, the collapsible content will be open by default.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">CollapsibleTrigger</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content to be rendered as the trigger element.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AsChild</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">If set to <code>true</code>, the component will merge its properties and behavior into its first child element instead of rendering its own wrapper.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">CollapsibleContent</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content to be displayed inside the collapsible panel.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
