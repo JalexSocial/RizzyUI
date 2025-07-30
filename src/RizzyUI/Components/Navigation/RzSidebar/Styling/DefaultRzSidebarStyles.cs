@@ -12,7 +12,7 @@ public class DefaultRzSidebarProviderStyles : RzStylesBase.RzSidebarProviderStyl
 public class DefaultSidebarStyles : RzStylesBase.SidebarStylesBase
 {
     public DefaultSidebarStyles(RzTheme theme) : base(theme) { }
-    public override string SidebarBase => "sidebar group/sidebar flex flex-col transition-all ease-in-out duration-300";
+    public override string SidebarBase => "sidebar group/sidebar flex flex-col transition-all ease-in-out duration-300 peer";
     public override string Nav => "flex flex-1 flex-col";
     public override string GetVariantCss(SidebarVariant variant) => variant switch
     {
@@ -56,7 +56,7 @@ public class DefaultSidebarGroupStyles : RzStylesBase.SidebarGroupStylesBase
 public class DefaultSidebarGroupLabelStyles : RzStylesBase.SidebarGroupLabelStylesBase
 {
     public DefaultSidebarGroupLabelStyles(RzTheme theme) : base(theme) { }
-    public override string Label => "text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-none transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0";
+    public override string Label => "text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-none transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 group-data-[state=collapsed]/sidebar:mx-auto group-data-[state=collapsed]/sidebar:opacity-0";
 }
 
 public class DefaultSidebarGroupContentStyles : RzStylesBase.SidebarGroupContentStylesBase
@@ -74,13 +74,13 @@ public class DefaultSidebarMenuStyles : RzStylesBase.SidebarMenuStylesBase
 public class DefaultSidebarMenuItemStyles : RzStylesBase.SidebarMenuItemStylesBase
 {
     public DefaultSidebarMenuItemStyles(RzTheme theme) : base(theme) { }
-    public override string Item => "relative";
+    public override string Item => "relative group/menu-item";
 }
 
 public class DefaultSidebarMenuButtonStyles : RzStylesBase.SidebarMenuButtonStylesBase
 {
     public DefaultSidebarMenuButtonStyles(RzTheme theme) : base(theme) { }
-    public override string ButtonBase => "flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&[aria-current=page]]:bg-sidebar-accent [&[aria-current=page]]:font-medium [&[aria-current=page]]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0";
+    public override string ButtonBase => "flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&[aria-current=page]]:bg-sidebar-accent [&[aria-current=page]]:font-medium [&[aria-current=page]]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 group-data-[state=collapsed]/sidebar:w-8 group-data-[state=collapsed]/sidebar:justify-center group-data-[state=collapsed]/sidebar:[&>span:last-child]:hidden";
     public override string GetVariantCss(SidebarMenuButtonVariant variant) => variant switch
     {
         SidebarMenuButtonVariant.Default => "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
@@ -105,7 +105,7 @@ public class DefaultSidebarMenuActionStyles : RzStylesBase.SidebarMenuActionStyl
 public class DefaultSidebarMenuSubStyles : RzStylesBase.SidebarMenuSubStylesBase
 {
     public DefaultSidebarMenuSubStyles(RzTheme theme) : base(theme) { }
-    public override string SubMenu => "border-sidebar-border flex min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5 w-full";
+    public override string SubMenu => "border-sidebar-border flex min-w-0 translate-x-px flex-col gap-1 border-l mx-3.5 px-2.5 py-0.5 w-full";
 }
 
 public class DefaultSidebarMenuBadgeStyles : RzStylesBase.SidebarMenuBadgeStylesBase
@@ -123,5 +123,5 @@ public class DefaultSidebarSeparatorStyles : RzStylesBase.SidebarSeparatorStyles
 public class DefaultSidebarInsetStyles : RzStylesBase.SidebarInsetStylesBase
 {
     public DefaultSidebarInsetStyles(RzTheme theme) : base(theme) { }
-    public override string Inset => "p-4 md:ml-[--sidebar-width]";
+    public override string Inset => "bg-background relative flex w-full flex-1 flex-col md:ml-[--sidebar-width] md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2";
 }

@@ -1,42 +1,43 @@
 @inherits LayoutComponentBase
+@using System.Reflection
 @using RizzyUI
 @using Blazicons
 
 <RzSidebarProvider>
     <Sidebar>
-        <SidebarContent>
-            <!-- Search -->
-            <div class="relative my-4 flex w-full max-w-xs flex-col gap-1 text-sidebar-foreground">
-                <RzSearchButton class="bg-background" />
-            </div>
-
-            <!-- Navigation Menu -->
+        <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>
-                    <SidebarMenuButton AsChild>
+                    <SidebarMenuButton Size="Size.Large" AsChild>
                         <a href="/">
-                            <Blazicon Svg="MdiIcon.ViewDashboard" />
-                            <span>Home</span>
-                        </a>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                    <SidebarMenuButton AsChild>
-                        <a href="/themes">
-                            <Blazicon Svg="MdiIcon.PaletteSwatchVariant" />
-                            <span>Themes</span>
-                        </a>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
+                            <img src="/images/rizzy-icon.svg" class="size-10" alt="RizzyUI Icon" />
 
-                <!-- Collapsible Forms Section -->
-                <SidebarMenuItem>
-                    <details class="group">
-                        <summary class="@Theme.SidebarMenuButton.ButtonBase @Theme.SidebarMenuButton.GetSizeCss(Size.Medium)">
-                            <Blazicon Svg="MdiIcon.FormSelect" />
-                            <span>Forms</span>
-                            <Blazicon Svg="MdiIcon.ChevronDown" class="ml-auto size-4 transition-transform duration-200 group-open:rotate-180" />
-                        </summary>
+                            <div class="flex flex-col gap-0.5 leading-none">
+                                <span class="font-medium">RizzyUI Docs</span>
+                                <span class="text-xs">v@(typeof(RzComponent).Assembly.GetName().Version)</span>
+                            </div>
+                        </a>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarMenu>
+        </SidebarHeader>
+        <SidebarContent>
+            <SidebarGroup>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="/" class="font-medium">Home</a>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="/themes" class="font-medium">Themes</a>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Forms</a>
+                        </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem>
                                 <SidebarMenuButton AsChild>
@@ -54,16 +55,11 @@
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenuSub>
-                    </details>
-                </SidebarMenuItem>
-
-                <SidebarMenuItem>
-                    <details class="group">
-                        <summary class="@Theme.SidebarMenuButton.ButtonBase @Theme.SidebarMenuButton.GetSizeCss(Size.Medium)">
-                            <Blazicon Svg="MdiIcon.Navigation" />
-                            <span>Navigation</span>
-                            <Blazicon Svg="MdiIcon.ChevronDown" class="ml-auto size-4 transition-transform duration-200 group-open:rotate-180" />
-                        </summary>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Navigation</a>
+                        </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/breadcrumb"><span>Breadcrumb</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/collapsible"><span>Collapsible</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -74,16 +70,11 @@
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/sidebar"><span>Sidebar</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/tabs"><span>Tabs</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
-                    </details>
-                </SidebarMenuItem>
-
-                <SidebarMenuItem>
-                    <details class="group">
-                        <summary class="@Theme.SidebarMenuButton.ButtonBase @Theme.SidebarMenuButton.GetSizeCss(Size.Medium)">
-                            <Blazicon Svg="MdiIcon.ViewList" />
-                            <span>Display</span>
-                            <Blazicon Svg="MdiIcon.ChevronDown" class="ml-auto size-4 transition-transform duration-200 group-open:rotate-180" />
-                        </summary>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Display</a>
+                        </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/avatar"><span>Avatar</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/badge"><span>Badge</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -91,16 +82,11 @@
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/table"><span>Table</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/progress"><span>Progress</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
-                    </details>
-                </SidebarMenuItem>
-
-                <SidebarMenuItem>
-                    <details class="group">
-                        <summary class="@Theme.SidebarMenuButton.ButtonBase @Theme.SidebarMenuButton.GetSizeCss(Size.Medium)">
-                            <Blazicon Svg="MdiIcon.Alert" />
-                            <span>Feedback</span>
-                            <Blazicon Svg="MdiIcon.ChevronDown" class="ml-auto size-4 transition-transform duration-200 group-open:rotate-180" />
-                        </summary>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Feedback</a>
+                        </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/alert"><span>Alert</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/toastnotification"><span>Toast Notification</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -110,53 +96,54 @@
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/skeleton"><span>Skeleton</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/steps"><span>Steps</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
-                    </details>
-                </SidebarMenuItem>
-
-                <SidebarMenuItem>
-                    <details class="group">
-                        <summary class="@Theme.SidebarMenuButton.ButtonBase @Theme.SidebarMenuButton.GetSizeCss(Size.Medium)">
-                            <Blazicon Svg="MdiIcon.ViewGrid" />
-                            <span>Layout</span>
-                            <Blazicon Svg="MdiIcon.ChevronDown" class="ml-auto size-4 transition-transform duration-200 group-open:rotate-180" />
-                        </summary>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Layout</a>
+                        </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/card"><span>Card</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/markdown"><span>Markdown</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/accordion"><span>Accordion</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
-                    </details>
-                </SidebarMenuItem>
-            </SidebarMenu>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarGroup>
         </SidebarContent>
     </Sidebar>
 
     <!-- Main Content Area -->
-    <div class="flex flex-1 flex-col md:pl-[--sidebar-width]">
+    <SidebarInset>
         <RzNavbar>
-            <!-- Mobile Sidebar Trigger -->
-            <SidebarTrigger class="md:hidden">
-                <Blazicon Svg="MdiIcon.Menu" />
-            </SidebarTrigger>
-
-            <!-- Logo -->
-            <a href="/" class="text-2xl font-bold text-black dark:text-white">
-                <span class="sr-only">RizzyUI Home</span>
-                <div class="w-32 md:w-50 px-2">
-                    <img src="/images/rizzy-logo-wb.svg" alt="RizzyUI" class="w-full h-full"/>
-                </div>
-            </a>
+            <div class="flex items-center gap-2">
+                <SidebarTrigger />
+                <RzSeparator Orientation="Orientation.Vertical" class="mr-2 h-4" />
+                <RzBreadcrumb>
+                    <BreadcrumbList>
+                        <BreadcrumbItem class="hidden md:block">
+                            <BreadcrumbLink href="/components/sidebar">
+                                Sidebar
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator class="hidden md:block" />
+                        <BreadcrumbItem>
+                            <BreadcrumbPage>Docs Layout</BreadcrumbPage>
+                        </BreadcrumbItem>
+                    </BreadcrumbList>
+                </RzBreadcrumb>
+            </div>
 
             <!-- Right-aligned items -->
             <div class="flex items-center gap-4">
+                <RzSearchButton class="bg-background" />
                 <RzDarkModeToggle/>
             </div>
         </RzNavbar>
 
-        <main class="flex-1 p-4 md:p-6 lg:p-8">
+        <main class="flex flex-1 flex-col gap-4 p-4 mt-16">
             @Body
         </main>
-    </div>
+    </SidebarInset>
 </RzSidebarProvider>
 
 @code {

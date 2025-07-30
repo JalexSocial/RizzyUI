@@ -5133,6 +5133,9 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       },
       toggle() {
         this.isOpen = !this.isOpen;
+      },
+      state() {
+        return this.isOpen ? "open" : "closed";
       }
     }));
   }

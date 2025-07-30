@@ -1826,6 +1826,9 @@
       },
       toggle() {
         this.isOpen = !this.isOpen;
+      },
+      state() {
+        return this.isOpen ? "open" : "closed";
       }
     }));
   }

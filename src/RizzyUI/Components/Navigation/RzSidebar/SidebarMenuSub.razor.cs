@@ -17,6 +17,13 @@ public partial class SidebarMenuSub : RzComponent
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Element = "ul";
+    }
+    
+    /// <inheritdoc/>
     protected override string? RootClass()
     {
         return TwMerge.Merge(AdditionalAttributes, Theme.SidebarMenuSub.SubMenu);

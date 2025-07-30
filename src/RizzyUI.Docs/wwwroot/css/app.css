@@ -599,6 +599,9 @@
   .mx-2 {
     margin-inline: calc(var(--spacing) * 2);
   }
+  .mx-3\.5 {
+    margin-inline: calc(var(--spacing) * 3.5);
+  }
   .mx-4 {
     margin-inline: calc(var(--spacing) * 4);
   }
@@ -1004,9 +1007,6 @@
   }
   .w-24 {
     width: calc(var(--spacing) * 24);
-  }
-  .w-32 {
-    width: calc(var(--spacing) * 32);
   }
   .w-48 {
     width: calc(var(--spacing) * 48);
@@ -3143,6 +3143,26 @@
   .group-data-\[collapsible\=icon\]\:p-0 {
     &:is(:where(.group)[data-collapsible="icon"] *) {
       padding: calc(var(--spacing) * 0);
+    }
+  }
+  .group-data-\[state\=collapsed\]\/sidebar\:mx-auto {
+    &:is(:where(.group\/sidebar)[data-state="collapsed"] *) {
+      margin-inline: auto;
+    }
+  }
+  .group-data-\[state\=collapsed\]\/sidebar\:w-8 {
+    &:is(:where(.group\/sidebar)[data-state="collapsed"] *) {
+      width: calc(var(--spacing) * 8);
+    }
+  }
+  .group-data-\[state\=collapsed\]\/sidebar\:justify-center {
+    &:is(:where(.group\/sidebar)[data-state="collapsed"] *) {
+      justify-content: center;
+    }
+  }
+  .group-data-\[state\=collapsed\]\/sidebar\:opacity-0 {
+    &:is(:where(.group\/sidebar)[data-state="collapsed"] *) {
+      opacity: 0%;
     }
   }
   .group-data-\[state\=open\]\:rotate-180 {
@@ -5383,6 +5403,11 @@
       margin-left: --sidebar-width;
     }
   }
+  .md\:block {
+    @media (width >= 48rem) {
+      display: block;
+    }
+  }
   .md\:flex {
     @media (width >= 48rem) {
       display: flex;
@@ -5401,11 +5426,6 @@
   .md\:w-1\/3 {
     @media (width >= 48rem) {
       width: calc(1/3 * 100%);
-    }
-  }
-  .md\:w-50 {
-    @media (width >= 48rem) {
-      width: calc(var(--spacing) * 50);
     }
   }
   .md\:w-60 {
@@ -5478,11 +5498,6 @@
       padding-left: calc(var(--spacing) * 60);
     }
   }
-  .md\:pl-\[--sidebar-width\] {
-    @media (width >= 48rem) {
-      padding-left: --sidebar-width;
-    }
-  }
   .md\:text-2xl {
     @media (width >= 48rem) {
       font-size: var(--text-2xl);
@@ -5511,6 +5526,44 @@
     @media (width >= 48rem) {
       font-size: var(--text-xl);
       line-height: var(--tw-leading, var(--text-xl--line-height));
+    }
+  }
+  .md\:peer-data-\[variant\=inset\]\:m-2 {
+    @media (width >= 48rem) {
+      &:is(:where(.peer)[data-variant="inset"] ~ *) {
+        margin: calc(var(--spacing) * 2);
+      }
+    }
+  }
+  .md\:peer-data-\[variant\=inset\]\:ml-0 {
+    @media (width >= 48rem) {
+      &:is(:where(.peer)[data-variant="inset"] ~ *) {
+        margin-left: calc(var(--spacing) * 0);
+      }
+    }
+  }
+  .md\:peer-data-\[variant\=inset\]\:rounded-xl {
+    @media (width >= 48rem) {
+      &:is(:where(.peer)[data-variant="inset"] ~ *) {
+        border-radius: calc(var(--radius) + 4px);
+      }
+    }
+  }
+  .md\:peer-data-\[variant\=inset\]\:shadow-sm {
+    @media (width >= 48rem) {
+      &:is(:where(.peer)[data-variant="inset"] ~ *) {
+        --tw-shadow: var(--shadow-sm);
+        box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+      }
+    }
+  }
+  .md\:peer-data-\[variant\=inset\]\:peer-data-\[state\=collapsed\]\:ml-2 {
+    @media (width >= 48rem) {
+      &:is(:where(.peer)[data-variant="inset"] ~ *) {
+        &:is(:where(.peer)[data-state="collapsed"] ~ *) {
+          margin-left: calc(var(--spacing) * 2);
+        }
+      }
     }
   }
   .lg\:flex {
@@ -7177,6 +7230,13 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+  }
+  .group-data-\[state\=collapsed\]\/sidebar\:\[\&\>span\:last-child\]\:hidden {
+    &:is(:where(.group\/sidebar)[data-state="collapsed"] *) {
+      &>span:last-child {
+        display: none;
+      }
     }
   }
   .\[\&\>svg\]\:size-4 {

@@ -1,15 +1,23 @@
 
 @namespace RizzyUI
+@using Blazicons
 @inherits RzComponent
 
-<HtmlElement Element="@EffectiveElement" 
+<HtmlElement Element="@EffectiveElement"
              type="button"
-             @attributes="AdditionalAttributes" 
-             id="@Id" 
+             @attributes="AdditionalAttributes"
+             id="@Id"
              class="@RootClass()"
              aria-label="@AriaLabel"
              x-on:click="toggle"
              aria-controls="@ParentProvider?.Id"
              x-bind:aria-expanded="isMobileOpen">
-    @ChildContent
+	@if (ChildContent == null)
+	{
+		<Blazicon Svg="@Lucide.Menu"/>
+	}
+	else
+	{
+		@ChildContent
+	}
 </HtmlElement>
