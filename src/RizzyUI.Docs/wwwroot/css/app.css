@@ -455,6 +455,9 @@
   .inset-0 {
     inset: calc(var(--spacing) * 0);
   }
+  .inset-x-0 {
+    inset-inline: calc(var(--spacing) * 0);
+  }
   .inset-y-0 {
     inset-block: calc(var(--spacing) * 0);
   }
@@ -5394,6 +5397,11 @@
     @media (width >= 40rem) {
       font-size: var(--text-xl);
       line-height: var(--tw-leading, var(--text-xl--line-height));
+    }
+  }
+  .md\:left-\[var\(--sidebar-width\)\] {
+    @media (width >= 48rem) {
+      left: var(--sidebar-width);
     }
   }
   .md\:-my-4 {

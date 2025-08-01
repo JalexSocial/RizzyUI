@@ -5,7 +5,9 @@
              @attributes="AdditionalAttributes" 
              id="@Id" 
              class="@RootClass()"
+             data-slot="sidebar-container"
              data-side="@Side.ToString().ToLowerInvariant()"
+             data-variant="@Variant.ToString().ToLowerInvariant()"
              data-collapsible="@ParentProvider?.Collapsible.ToString().ToLowerInvariant()"
              x-bind:aria-hidden="isHidden"
              x-bind:data-state="desktopState">

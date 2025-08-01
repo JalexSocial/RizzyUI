@@ -552,7 +552,7 @@ public enum SidebarVariant
     /// <summary>
     /// Default docked sidebar.
     /// </summary>
-    Default,
+    Sidebar,
     /// <summary>
     /// Floating sidebar with a margin from the viewport edges.
     /// </summary>
@@ -571,7 +571,7 @@ public enum SidebarCollapsible
     /// <summary>
     /// The sidebar slides off-canvas on mobile and can be collapsed on desktop.
     /// </summary>
-    Offcanvas,
+    OffCanvas,
     /// <summary>
     /// The sidebar collapses to show only icons.
     /// </summary>

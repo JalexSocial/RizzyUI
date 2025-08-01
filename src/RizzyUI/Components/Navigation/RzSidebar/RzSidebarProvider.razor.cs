@@ -26,10 +26,10 @@ public partial class RzSidebarProvider : RzComponent
 
     /// <summary>
     /// Gets or sets the collapsible behavior of the sidebar.
-    /// Defaults to <see cref="SidebarCollapsible.Offcanvas"/>.
+    /// Defaults to <see cref="SidebarCollapsible.OffCanvas"/>.
     /// </summary>
     [Parameter]
-    public SidebarCollapsible Collapsible { get; set; } = SidebarCollapsible.Offcanvas;
+    public SidebarCollapsible Collapsible { get; set; } = SidebarCollapsible.OffCanvas;
 
     /// <summary>
     /// Gets or sets the keyboard key used for the open/close shortcut (e.g., "b").

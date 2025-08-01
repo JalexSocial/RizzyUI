@@ -30,10 +30,10 @@ public partial class Sidebar : RzComponent
 
     /// <summary>
     /// Gets or sets the variant of the sidebar, which controls its overall layout behavior.
-    /// Defaults to <see cref="SidebarVariant.Default"/>.
+    /// Defaults to <see cref="SidebarVariant.Sidebar"/>.
     /// </summary>
     [Parameter]
-    public SidebarVariant Variant { get; set; } = SidebarVariant.Default;
+    public SidebarVariant Variant { get; set; } = SidebarVariant.Sidebar;
 
     /// <summary>
     /// Gets or sets the ARIA label for the sidebar navigation, providing context for screen readers.

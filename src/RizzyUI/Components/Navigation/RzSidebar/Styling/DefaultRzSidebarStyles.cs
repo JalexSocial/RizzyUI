@@ -16,7 +16,7 @@ public class DefaultSidebarStyles : RzStylesBase.SidebarStylesBase
     public override string Nav => "flex flex-1 flex-col";
     public override string GetVariantCss(SidebarVariant variant) => variant switch
     {
-        SidebarVariant.Default => "bg-sidebar text-sidebar-foreground fixed inset-y-0 z-50 border-r border-sidebar-border",
+        SidebarVariant.Sidebar => "bg-sidebar text-sidebar-foreground fixed inset-y-0 z-50 border-r border-sidebar-border",
         SidebarVariant.Floating => "bg-sidebar text-sidebar-foreground fixed inset-y-4 z-50 rounded-lg border border-sidebar-border shadow-lg",
         SidebarVariant.Inset => "bg-sidebar text-sidebar-foreground relative inset-y-0 z-50 border-r border-sidebar-border",
         _ => ""
@@ -123,5 +123,5 @@ public class DefaultSidebarSeparatorStyles : RzStylesBase.SidebarSeparatorStyles
 public class DefaultSidebarInsetStyles : RzStylesBase.SidebarInsetStylesBase
 {
     public DefaultSidebarInsetStyles(RzTheme theme) : base(theme) { }
-    public override string Inset => "bg-background relative flex w-full flex-1 flex-col md:ml-[--sidebar-width] md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2";
+    public override string Inset => "bg-background relative flex flex-1 flex-col md:ml-[--sidebar-width] md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2";
 }
