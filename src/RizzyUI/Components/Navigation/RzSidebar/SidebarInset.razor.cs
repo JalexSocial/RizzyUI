@@ -5,8 +5,8 @@ using RizzyUI.Extensions;
 namespace RizzyUI;
 
 /// <summary>
-/// A wrapper for the main content area when using the `inset` variant of the <see cref="Sidebar"/>.
-/// It applies the necessary padding to prevent the main content from being obscured by the sidebar.
+/// A wrapper for the main content area that correctly adjusts its margin
+/// based on the sidebar's state and variant.
 /// </summary>
 public partial class SidebarInset : RzComponent
 {
@@ -15,6 +15,13 @@ public partial class SidebarInset : RzComponent
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Element = "main";
+    }
 
     /// <inheritdoc/>
     protected override string? RootClass()

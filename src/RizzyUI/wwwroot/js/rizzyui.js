@@ -4180,9 +4180,6 @@
           this.open = !this.open;
         }
       },
-      toggleMobile() {
-        this.openMobile = !this.openMobile;
-      },
       close() {
         if (this.isMobile) {
           this.openMobile = false;
@@ -4196,6 +4193,9 @@
       },
       desktopState() {
         return this.open ? "expanded" : "collapsed";
+      },
+      mobileState() {
+        return this.openMobile ? "open" : "closed";
       }
     }));
   }

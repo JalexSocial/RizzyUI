@@ -2945,9 +2945,6 @@ function xn(e) {
     toggle() {
       this.isMobile ? this.openMobile = !this.openMobile : this.open = !this.open;
     },
-    toggleMobile() {
-      this.openMobile = !this.openMobile;
-    },
     close() {
       this.isMobile && (this.openMobile = !1);
     },
@@ -2959,6 +2956,9 @@ function xn(e) {
     },
     desktopState() {
       return this.open ? "expanded" : "collapsed";
+    },
+    mobileState() {
+      return this.openMobile ? "open" : "closed";
     }
   }));
 }

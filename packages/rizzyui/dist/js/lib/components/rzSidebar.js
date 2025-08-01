@@ -1,4 +1,3 @@
-
 export default function(Alpine) {
     Alpine.data('rzSidebar', () => ({
         open: false,
@@ -17,7 +16,7 @@ export default function(Alpine) {
 
             const savedState = this.cookieName ? document.cookie.split('; ').find(row => row.startsWith(`${this.cookieName}=`))?.split('=')[1] : null;
             const defaultOpen = this.$el.dataset.defaultOpen === 'true';
-            
+
             this.open = savedState !== null ? savedState === 'true' : defaultOpen;
 
             this.checkIfMobile();
@@ -48,10 +47,6 @@ export default function(Alpine) {
             }
         },
 
-        toggleMobile() {
-            this.openMobile = !this.openMobile;
-        },
-
         close() {
             if (this.isMobile) {
                 this.openMobile = false;
@@ -64,10 +59,14 @@ export default function(Alpine) {
 
         isMobileOpen() {
             return this.openMobile;
-        },        
+        },
 
         desktopState() {
             return this.open ? 'expanded' : 'collapsed';
+        },
+
+        mobileState() {
+            return this.openMobile ? 'open' : 'closed';
         }
     }));
 }

@@ -4177,9 +4177,6 @@ function registerRzSidebar(Alpine2) {
         this.open = !this.open;
       }
     },
-    toggleMobile() {
-      this.openMobile = !this.openMobile;
-    },
     close() {
       if (this.isMobile) {
         this.openMobile = false;
@@ -4193,6 +4190,9 @@ function registerRzSidebar(Alpine2) {
     },
     desktopState() {
       return this.open ? "expanded" : "collapsed";
+    },
+    mobileState() {
+      return this.openMobile ? "open" : "closed";
     }
   }));
 }

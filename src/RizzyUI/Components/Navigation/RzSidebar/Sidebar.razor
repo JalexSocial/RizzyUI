@@ -5,13 +5,16 @@
              @attributes="AdditionalAttributes" 
              id="@Id" 
              class="@RootClass()"
-             data-slot="sidebar-container"
+             data-slot="sidebar"
              data-side="@Side.ToString().ToLowerInvariant()"
              data-variant="@Variant.ToString().ToLowerInvariant()"
              data-collapsible="@ParentProvider?.Collapsible.ToString().ToLowerInvariant()"
              x-bind:aria-hidden="isHidden"
-             x-bind:data-state="desktopState">
-	<nav class="@Theme.Sidebar.Nav" aria-label="@AriaLabel">
+             x-bind:data-state="desktopState"
+             x-bind:data-mobile-state="mobileState"
+             x-on:click.self="close">
+	<nav class="@Theme.Sidebar.Nav" 
+	     aria-label="@AriaLabel">
 		@ChildContent
 	</nav>
 </HtmlElement>

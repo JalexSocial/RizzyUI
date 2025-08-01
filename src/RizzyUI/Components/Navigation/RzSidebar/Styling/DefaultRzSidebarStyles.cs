@@ -6,14 +6,14 @@ namespace RizzyUI;
 public class DefaultRzSidebarProviderStyles : RzStylesBase.RzSidebarProviderStylesBase
 {
     public DefaultRzSidebarProviderStyles(RzTheme theme) : base(theme) { }
-    public override string Provider => "relative";
+    public override string Provider => "group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full";
 }
 
 public class DefaultSidebarStyles : RzStylesBase.SidebarStylesBase
 {
     public DefaultSidebarStyles(RzTheme theme) : base(theme) { }
-    public override string SidebarBase => "sidebar group/sidebar flex flex-col transition-all ease-in-out duration-300 peer";
-    public override string Nav => "flex flex-1 flex-col";
+    public override string SidebarBase => "group/sidebar peer text-sidebar-foreground max-md:bg-black/50 max-md:fixed max-md:inset-0 max-md:z-40";
+    public override string Nav => "bg-sidebar text-sidebar-foreground flex flex-col w-[var(--sidebar-mobile-width)] md:w-[var(--sidebar-width)] fixed inset-y-0 transition-transform ease-in-out duration-300 z-50 data-[side=left]:border-r data-[side=right]:border-l data-[mobile-state=open]:translate-x-0 data-[side=left]:data-[mobile-state=closed]:-translate-x-full data-[side=right]:data-[mobile-state=closed]:translate-x-full";
     public override string GetVariantCss(SidebarVariant variant) => variant switch
     {
         SidebarVariant.Sidebar => "bg-sidebar text-sidebar-foreground fixed inset-y-0 z-50 border-r border-sidebar-border",
@@ -38,7 +38,7 @@ public class DefaultSidebarHeaderStyles : RzStylesBase.SidebarHeaderStylesBase
 public class DefaultSidebarContentStyles : RzStylesBase.SidebarContentStylesBase
 {
     public DefaultSidebarContentStyles(RzTheme theme) : base(theme) { }
-    public override string Content => "flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto";
+    public override string Content => "flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto group-data-[collapsible=icon]:overflow-hidden";
 }
 
 public class DefaultSidebarFooterStyles : RzStylesBase.SidebarFooterStylesBase
@@ -62,7 +62,7 @@ public class DefaultSidebarGroupLabelStyles : RzStylesBase.SidebarGroupLabelStyl
 public class DefaultSidebarGroupContentStyles : RzStylesBase.SidebarGroupContentStylesBase
 {
     public DefaultSidebarGroupContentStyles(RzTheme theme) : base(theme) { }
-    public override string Content => "";
+    public override string Content => "w-full text-sm";
 }
 
 public class DefaultSidebarMenuStyles : RzStylesBase.SidebarMenuStylesBase
@@ -123,5 +123,5 @@ public class DefaultSidebarSeparatorStyles : RzStylesBase.SidebarSeparatorStyles
 public class DefaultSidebarInsetStyles : RzStylesBase.SidebarInsetStylesBase
 {
     public DefaultSidebarInsetStyles(RzTheme theme) : base(theme) { }
-    public override string Inset => "bg-background relative flex flex-1 flex-col md:ml-[--sidebar-width] md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2";
+    public override string Inset => "bg-background relative flex flex-1 flex-col md:ml-[var(--sidebar-width)] md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2";
 }
