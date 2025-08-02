@@ -7488,9 +7488,6 @@ function registerRzSidebar(Alpine2) {
         this.openMobile = false;
       }
     },
-    isHidden() {
-      return this.isMobile && !this.openMobile || !this.isMobile && !this.open && this.collapsible === "offcanvas";
-    },
     isMobileOpen() {
       return this.openMobile;
     },
@@ -7499,6 +7496,9 @@ function registerRzSidebar(Alpine2) {
     },
     mobileState() {
       return this.openMobile ? "open" : "closed";
+    },
+    getCollapsibleAttribute() {
+      return this.desktopState() === "collapsed" ? this.collapsible : "";
     }
   }));
 }

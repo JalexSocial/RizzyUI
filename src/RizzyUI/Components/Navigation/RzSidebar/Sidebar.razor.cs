@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -65,6 +66,12 @@ public partial class Sidebar : RzComponent
     protected override string? RootClass()
     {
         var styles = Theme.Sidebar;
+        
+        if (ParentProvider?.Collapsible == SidebarCollapsible.None)
+        {
+            return TwMerge.Merge(AdditionalAttributes, styles.NonCollapsibleContainer);
+        }
+
         return TwMerge.Merge(
             AdditionalAttributes,
             styles.SidebarBase

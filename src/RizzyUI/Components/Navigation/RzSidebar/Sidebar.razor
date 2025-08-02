@@ -1,3 +1,4 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
@@ -11,7 +12,7 @@ else
 {
 	<div class="@RootClass()"
 	     x-bind:data-state="desktopState"
-	     data-collapsible="@(ParentProvider?.Collapsible.ToString().ToLowerInvariant())"
+	     x-bind:data-collapsible="getCollapsibleAttribute"
 	     data-variant="@Variant.ToString().ToLowerInvariant()"
 	     data-side="@Side.ToString().ToLowerInvariant()"
 	     data-slot="sidebar">
@@ -21,9 +22,14 @@ else
 		     x-cloak
 		     x-on:click.self="close">
 			<nav class="@Theme.Sidebar.Nav"
+			     data-sidebar="sidebar"
+			     data-slot="sidebar"
+			     data-mobile="true"
 			     aria-label="@AriaLabel"
 			     x-bind:data-mobile-state="mobileState">
-				@ChildContent
+				<div class="flex h-full w-full flex-col">
+					@ChildContent
+				</div>
 			</nav>
 		</div>
 

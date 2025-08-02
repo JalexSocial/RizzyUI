@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary>
@@ -12,14 +13,19 @@ public class DefaultRzSidebarProviderStyles : RzStylesBase.RzSidebarProviderStyl
 public class DefaultSidebarStyles : RzStylesBase.SidebarStylesBase
 {
     public DefaultSidebarStyles(RzTheme theme) : base(theme) { }
-    public override string SidebarBase => "group/sidebar peer text-sidebar-foreground";
-    public override string Nav => "bg-sidebar text-sidebar-foreground flex flex-col w-[var(--sidebar-mobile-width)] fixed inset-y-0 transition-transform ease-in-out duration-300 z-50 data-[side=left]:border-r data-[side=right]:border-l data-[mobile-state=open]:translate-x-0 data-[side=left]:data-[mobile-state=closed]:-translate-x-full data-[side=right]:data-[mobile-state=closed]:translate-x-full";
+    public override string SidebarBase => "group peer text-sidebar-foreground hidden md:block";
+    public override string NonCollapsibleContainer => "bg-sidebar text-sidebar-foreground flex h-full w-[var(--sidebar-width)] flex-col";
+    public override string Nav => "bg-sidebar text-sidebar-foreground flex flex-col w-[var(--sidebar-mobile-width)] p-0 fixed inset-y-0 transition-transform ease-in-out duration-300 z-50 data-[side=left]:border-r data-[side=right]:border-l data-[mobile-state=open]:translate-x-0 data-[side=left]:data-[mobile-state=closed]:-translate-x-full data-[side=right]:data-[mobile-state=closed]:translate-x-full";
     
     public override string GetGapCss(SidebarVariant variant, SidebarSide side) =>
-        $"relative w-[var(--sidebar-width)] bg-transparent transition-[width] duration-200 ease-linear group-data-[collapsible=offcanvas]:w-0 group-data-[side=right]:order-last {(variant == SidebarVariant.Floating || variant == SidebarVariant.Inset ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1rem)]" : "group-data-[collapsible=icon]:w-[var(--sidebar-width-icon)]")}";
+        $"relative w-[var(--sidebar-width)] bg-transparent transition-[width] duration-200 ease-linear " +
+        $"group-data-[collapsible=offcanvas]:w-0 " +
+        $"group-data-[side=right]:order-last {(variant == SidebarVariant.Floating || variant == SidebarVariant.Inset ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1rem)]" : "group-data-[collapsible=icon]:w-[var(--sidebar-width-icon)]")}";
 
     public override string GetDesktopContainerCss(SidebarVariant variant, SidebarSide side) =>
-        $"fixed inset-y-0 z-10 hidden h-svh w-[var(--sidebar-width)] transition-[left,right,width] duration-200 ease-linear md:flex {(side == SidebarSide.Left ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]" : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]")} {(variant == SidebarVariant.Floating || variant == SidebarVariant.Inset ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1rem+2px)]" : "group-data-[collapsible=icon]:w-[var(--sidebar-width-icon)] group-data-[side=left]:border-r group-data-[side=right]:border-l")}";
+        $"fixed inset-y-0 z-10 hidden h-svh w-[var(--sidebar-width)] transition-[left,right,width] duration-200 ease-linear md:flex " +
+        $"{(side == SidebarSide.Left ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]" : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]")} " +
+        $"{(variant == SidebarVariant.Floating || variant == SidebarVariant.Inset ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1rem+2px)]" : "group-data-[collapsible=icon]:w-[var(--sidebar-width-icon)] group-data-[side=left]:border-r group-data-[side=right]:border-l")}";
 
     public override string GetDesktopInnerCss(SidebarVariant variant) =>
         $"bg-sidebar flex h-full w-full flex-col {(variant == SidebarVariant.Floating ? "border-sidebar-border rounded-lg border shadow-sm" : "")}";

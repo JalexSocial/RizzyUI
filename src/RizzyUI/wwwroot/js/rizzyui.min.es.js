@@ -70,7 +70,7 @@ var Re = Le;
 function Fe(e) {
   e.directive("intersect", e.skipDuringClone((t, { value: i, expression: n, modifiers: s }, { evaluateLater: r, cleanup: o }) => {
     let a = r(n), l = {
-      rootMargin: _e(s),
+      rootMargin: Me(s),
       threshold: De(s)
     }, c = new IntersectionObserver((d) => {
       d.forEach((u) => {
@@ -92,17 +92,17 @@ function De(e) {
   let t = e[e.indexOf("threshold") + 1];
   return t === "100" ? 1 : t === "0" ? 0 : +`.${t}`;
 }
-function Me(e) {
+function _e(e) {
   let t = e.match(/^(-?[0-9]+)(px|%)?$/);
   return t ? t[1] + (t[2] || "px") : void 0;
 }
-function _e(e) {
+function Me(e) {
   const t = "margin", i = "0px 0px 0px 0px", n = e.indexOf(t);
   if (n === -1)
     return i;
   let s = [];
   for (let r = 1; r < 5; r++)
-    s.push(Me(e[n + r] || ""));
+    s.push(_e(e[n + r] || ""));
   return s = s.filter((r) => r !== void 0), s.length ? s.join(" ").trim() : i;
 }
 var ze = Fe, ne = ["input", "select", "textarea", "a[href]", "button", "[tabindex]:not(slot)", "audio[controls]", "video[controls]", '[contenteditable]:not([contenteditable="false"])', "details>summary:first-of-type", "details"], pt = /* @__PURE__ */ ne.join(","), se = typeof Element > "u", Z = se ? function() {
@@ -495,12 +495,12 @@ var jt = /* @__PURE__ */ function() {
           g = A.lastTabbableNode;
         }
       } else {
-        var _ = Ut(r.tabbableGroups, function(F) {
+        var M = Ut(r.tabbableGroups, function(F) {
           var R = F.lastTabbableNode;
           return h === R;
         });
-        if (_ < 0 && (x.container === h || ft(h, s.tabbableOptions) && !ut(h, s.tabbableOptions) && !x.nextTabbableNode(h)) && (_ = E), _ >= 0) {
-          var L = _ === r.tabbableGroups.length - 1 ? 0 : _ + 1, U = r.tabbableGroups[L];
+        if (M < 0 && (x.container === h || ft(h, s.tabbableOptions) && !ut(h, s.tabbableOptions) && !x.nextTabbableNode(h)) && (M = E), M >= 0) {
+          var L = M === r.tabbableGroups.length - 1 ? 0 : M + 1, U = r.tabbableGroups[L];
           g = U.firstTabbableNode;
         }
       }
@@ -806,8 +806,8 @@ var ci = Object.defineProperty, W = function(e, t) {
     oi(this, e), this.notifyOut = W(function(F) {
       F(i);
     }, "notifyOut");
-    var n = t.notificationsGap, s = n === void 0 ? 20 : n, r = t.notificationsPadding, o = r === void 0 ? 20 : r, a = t.status, l = a === void 0 ? "success" : a, c = t.effect, d = c === void 0 ? Nt.FADE : c, u = t.type, p = u === void 0 ? "outline" : u, m = t.title, b = t.text, y = t.showIcon, w = y === void 0 ? !0 : y, T = t.customIcon, S = T === void 0 ? "" : T, O = t.customClass, k = O === void 0 ? "" : O, v = t.speed, f = v === void 0 ? 500 : v, h = t.showCloseButton, g = h === void 0 ? !0 : h, E = t.autoclose, x = E === void 0 ? !0 : E, C = t.autotimeout, N = C === void 0 ? 3e3 : C, A = t.position, _ = A === void 0 ? "right top" : A, L = t.customWrapper, U = L === void 0 ? "" : L;
-    if (this.customWrapper = U, this.status = l, this.title = m, this.text = b, this.showIcon = w, this.customIcon = S, this.customClass = k, this.speed = f, this.effect = d, this.showCloseButton = g, this.autoclose = x, this.autotimeout = N, this.notificationsGap = s, this.notificationsPadding = o, this.type = p, this.position = _, !this.checkRequirements()) {
+    var n = t.notificationsGap, s = n === void 0 ? 20 : n, r = t.notificationsPadding, o = r === void 0 ? 20 : r, a = t.status, l = a === void 0 ? "success" : a, c = t.effect, d = c === void 0 ? Nt.FADE : c, u = t.type, p = u === void 0 ? "outline" : u, m = t.title, b = t.text, y = t.showIcon, w = y === void 0 ? !0 : y, T = t.customIcon, S = T === void 0 ? "" : T, O = t.customClass, k = O === void 0 ? "" : O, v = t.speed, f = v === void 0 ? 500 : v, h = t.showCloseButton, g = h === void 0 ? !0 : h, E = t.autoclose, x = E === void 0 ? !0 : E, C = t.autotimeout, N = C === void 0 ? 3e3 : C, A = t.position, M = A === void 0 ? "right top" : A, L = t.customWrapper, U = L === void 0 ? "" : L;
+    if (this.customWrapper = U, this.status = l, this.title = m, this.text = b, this.showIcon = w, this.customIcon = S, this.customClass = k, this.speed = f, this.effect = d, this.showCloseButton = g, this.autoclose = x, this.autotimeout = N, this.notificationsGap = s, this.notificationsPadding = o, this.type = p, this.position = M, !this.checkRequirements()) {
       console.error("You must specify 'title' or 'text' at least.");
       return;
     }
@@ -1380,9 +1380,9 @@ function Ri(e, t, i) {
 }
 function Fi(e) {
   const t = vt(e);
-  return [Mt(e), t, Mt(t)];
+  return [_t(e), t, _t(t)];
 }
-function Mt(e) {
+function _t(e) {
   return e.replace(/start|end/g, (t) => Li[t]);
 }
 function Di(e, t, i) {
@@ -1398,15 +1398,15 @@ function Di(e, t, i) {
       return [];
   }
 }
-function Mi(e, t, i, n) {
+function _i(e, t, i, n) {
   const s = St(e);
   let r = Di(K(e), i === "start", n);
-  return s && (r = r.map((o) => o + "-" + s), t && (r = r.concat(r.map(Mt)))), r;
+  return s && (r = r.map((o) => o + "-" + s), t && (r = r.concat(r.map(_t)))), r;
 }
 function vt(e) {
   return e.replace(/left|right|bottom|top/g, (t) => $i[t]);
 }
-function _i(e) {
+function Mi(e) {
   return {
     top: 0,
     right: 0,
@@ -1416,7 +1416,7 @@ function _i(e) {
   };
 }
 function zi(e) {
-  return typeof e != "number" ? _i(e) : {
+  return typeof e != "number" ? Mi(e) : {
     top: e,
     right: e,
     bottom: e,
@@ -1620,7 +1620,7 @@ const Bi = function(e) {
       if ((i = r.arrow) != null && i.alignmentOffset)
         return {};
       const T = K(s), S = G(a), O = K(a) === a, k = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), v = p || (O || !y ? [vt(a)] : Fi(a)), f = b !== "none";
-      !p && f && v.push(...Mi(a, y, b, k));
+      !p && f && v.push(..._i(a, y, b, k));
       const h = [a, ...v], g = await xe(t, w), E = [];
       let x = ((n = r.flip) == null ? void 0 : n.overflows) || [];
       if (d && E.push(g[T]), u) {
@@ -1651,8 +1651,8 @@ const Bi = function(e) {
         if (!F)
           switch (m) {
             case "bestFit": {
-              var _;
-              const R = (_ = x.filter((z) => {
+              var M;
+              const R = (M = x.filter((z) => {
                 if (f) {
                   const H = G(z.placement);
                   return H === S || // Create a bias to the `y` side axis due to horizontal
@@ -1660,7 +1660,7 @@ const Bi = function(e) {
                   H === "y";
                 }
                 return !0;
-              }).map((z) => [z.placement, z.overflows.filter((H) => H > 0).reduce((H, $e) => H + $e, 0)]).sort((z, H) => z[1] - H[1])[0]) == null ? void 0 : _[0];
+              }).map((z) => [z.placement, z.overflows.filter((H) => H > 0).reduce((H, $e) => H + $e, 0)]).sort((z, H) => z[1] - H[1])[0]) == null ? void 0 : M[0];
               R && (F = R);
               break;
             }
@@ -1817,7 +1817,7 @@ function ct(e) {
     overflowX: i,
     overflowY: n,
     display: s
-  } = M(e);
+  } = _(e);
   return /auto|scroll|overlay|hidden|clip/.test(t + n + i) && !["inline", "contents"].includes(s);
 }
 function Yi(e) {
@@ -1833,7 +1833,7 @@ function Ot(e) {
   });
 }
 function zt(e) {
-  const t = Pt(), i = D(e) ? M(e) : e;
+  const t = Pt(), i = D(e) ? _(e) : e;
   return ["transform", "translate", "scale", "rotate", "perspective"].some((n) => i[n] ? i[n] !== "none" : !1) || (i.containerType ? i.containerType !== "normal" : !1) || !t && (i.backdropFilter ? i.backdropFilter !== "none" : !1) || !t && (i.filter ? i.filter !== "none" : !1) || ["transform", "translate", "scale", "rotate", "perspective", "filter"].some((n) => (i.willChange || "").includes(n)) || ["paint", "layout", "strict", "content"].some((n) => (i.contain || "").includes(n));
 }
 function ji(e) {
@@ -1853,7 +1853,7 @@ function Pt() {
 function tt(e) {
   return ["html", "body", "#document"].includes(et(e));
 }
-function M(e) {
+function _(e) {
   return $(e).getComputedStyle(e);
 }
 function kt(e) {
@@ -1885,13 +1885,13 @@ function Te(e, t, i) {
   var n;
   t === void 0 && (t = []);
   const s = Ee(e), r = s === ((n = e.ownerDocument) == null ? void 0 : n.body), o = $(s);
-  return r ? (_t(o), t.concat(o, o.visualViewport || [], ct(s) ? s : [], [])) : t.concat(s, Te(s, []));
+  return r ? (Mt(o), t.concat(o, o.visualViewport || [], ct(s) ? s : [], [])) : t.concat(s, Te(s, []));
 }
-function _t(e) {
+function Mt(e) {
   return e.parent && Object.getPrototypeOf(e.parent) ? e.frameElement : null;
 }
 function Se(e) {
-  const t = M(e);
+  const t = _(e);
   let i = parseFloat(t.width) || 0, n = parseFloat(t.height) || 0;
   const s = B(e), r = s ? e.offsetWidth : i, o = s ? e.offsetHeight : n, a = bt(i) !== r || bt(n) !== o;
   return a && (i = r, n = o), {
@@ -1938,10 +1938,10 @@ function lt(e, t, i, n) {
   let l = (s.left + a.x) / o.x, c = (s.top + a.y) / o.y, d = s.width / o.x, u = s.height / o.y;
   if (r) {
     const p = $(r), m = n && D(n) ? $(n) : n;
-    let b = p, y = _t(b);
+    let b = p, y = Mt(b);
     for (; y && n && m !== b; ) {
-      const w = Q(y), T = y.getBoundingClientRect(), S = M(y), O = T.left + (y.clientLeft + parseFloat(S.paddingLeft)) * w.x, k = T.top + (y.clientTop + parseFloat(S.paddingTop)) * w.y;
-      l *= w.x, c *= w.y, d *= w.x, u *= w.y, l += O, c += k, b = $(y), y = _t(b);
+      const w = Q(y), T = y.getBoundingClientRect(), S = _(y), O = T.left + (y.clientLeft + parseFloat(S.paddingLeft)) * w.x, k = T.top + (y.clientTop + parseFloat(S.paddingTop)) * w.y;
+      l *= w.x, c *= w.y, d *= w.x, u *= w.y, l += O, c += k, b = $(y), y = Mt(b);
     }
   }
   return wt({
@@ -2000,7 +2000,7 @@ function Ki(e) {
   const t = V(e), i = kt(e), n = e.ownerDocument.body, s = J(t.scrollWidth, t.clientWidth, n.scrollWidth, n.clientWidth), r = J(t.scrollHeight, t.clientHeight, n.scrollHeight, n.clientHeight);
   let o = -i.scrollLeft + Bt(e);
   const a = -i.scrollTop;
-  return M(n).direction === "rtl" && (o += J(t.clientWidth, n.clientWidth) - s), {
+  return _(n).direction === "rtl" && (o += J(t.clientWidth, n.clientWidth) - s), {
     width: s,
     height: r,
     x: o,
@@ -2052,17 +2052,17 @@ function ee(e, t, i) {
 }
 function Ne(e, t) {
   const i = q(e);
-  return i === t || !D(i) || tt(i) ? !1 : M(i).position === "fixed" || Ne(i, t);
+  return i === t || !D(i) || tt(i) ? !1 : _(i).position === "fixed" || Ne(i, t);
 }
 function Qi(e, t) {
   const i = t.get(e);
   if (i)
     return i;
   let n = Te(e, []).filter((a) => D(a) && et(a) !== "body"), s = null;
-  const r = M(e).position === "fixed";
+  const r = _(e).position === "fixed";
   let o = r ? q(e) : e;
   for (; D(o) && !tt(o); ) {
-    const a = M(o), l = zt(o);
+    const a = _(o), l = zt(o);
     !l && a.position === "fixed" && (s = null), (r ? !l && !s : !l && a.position === "static" && !!s && ["absolute", "fixed"].includes(s.position) || ct(o) && !l && Ne(e, o)) ? n = n.filter((d) => d !== o) : s = a, o = q(o);
   }
   return t.set(e, n), n;
@@ -2120,10 +2120,10 @@ function nn(e, t, i) {
   };
 }
 function At(e) {
-  return M(e).position === "static";
+  return _(e).position === "static";
 }
 function ie(e, t) {
-  if (!B(e) || M(e).position === "fixed")
+  if (!B(e) || _(e).position === "fixed")
     return null;
   if (t)
     return t(e);
@@ -2161,7 +2161,7 @@ const sn = async function(e) {
   };
 };
 function rn(e) {
-  return M(e).direction === "rtl";
+  return _(e).direction === "rtl";
 }
 const on = {
   convertOffsetParentRelativeRectToViewportRelativeRect: Gi,
@@ -2948,9 +2948,6 @@ function xn(e) {
     close() {
       this.isMobile && (this.openMobile = !1);
     },
-    isHidden() {
-      return this.isMobile && !this.openMobile || !this.isMobile && !this.open && this.collapsible === "offcanvas";
-    },
     isMobileOpen() {
       return this.openMobile;
     },
@@ -2959,6 +2956,9 @@ function xn(e) {
     },
     mobileState() {
       return this.openMobile ? "open" : "closed";
+    },
+    getCollapsibleAttribute() {
+      return this.desktopState() === "collapsed" ? this.collapsible : "";
     }
   }));
 }

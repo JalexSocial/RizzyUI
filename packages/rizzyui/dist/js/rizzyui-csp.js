@@ -7492,9 +7492,6 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           this.openMobile = false;
         }
       },
-      isHidden() {
-        return this.isMobile && !this.openMobile || !this.isMobile && !this.open && this.collapsible === "offcanvas";
-      },
       isMobileOpen() {
         return this.openMobile;
       },
@@ -7503,6 +7500,9 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       },
       mobileState() {
         return this.openMobile ? "open" : "closed";
+      },
+      getCollapsibleAttribute() {
+        return this.desktopState() === "collapsed" ? this.collapsible : "";
       }
     }));
   }

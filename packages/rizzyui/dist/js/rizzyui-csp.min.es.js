@@ -5078,9 +5078,6 @@ function Jl(e) {
     close() {
       this.isMobile && (this.openMobile = !1);
     },
-    isHidden() {
-      return this.isMobile && !this.openMobile || !this.isMobile && !this.open && this.collapsible === "offcanvas";
-    },
     isMobileOpen() {
       return this.openMobile;
     },
@@ -5089,6 +5086,9 @@ function Jl(e) {
     },
     mobileState() {
       return this.openMobile ? "open" : "closed";
+    },
+    getCollapsibleAttribute() {
+      return this.desktopState() === "collapsed" ? this.collapsible : "";
     }
   }));
 }
