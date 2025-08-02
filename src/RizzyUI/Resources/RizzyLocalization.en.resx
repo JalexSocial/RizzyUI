@@ -317,4 +317,8 @@
       <value>Main Navigation</value>
       <comment>Default ARIA label for RzNavigationMenu</comment>
     </data>  
+    <data name="RzSheet.CloseButtonText" xml:space="preserve">
+      <value>Close</value>
+      <comment>Screen reader text for the close button in the Sheet component</comment>
+    </data>
 </root>

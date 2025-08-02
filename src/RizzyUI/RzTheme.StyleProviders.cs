@@ -165,6 +165,9 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzProgress" /> component. </summary>
     public virtual RzStylesBase.RzProgressStylesBase RzProgress { get; }
 
+    /// <summary> Gets the style definitions for the <see cref="RzSheet" /> component family. </summary>
+    public virtual RzStylesBase.RzSheetStylesBase RzSheet { get; }
+    
     /// <summary> Gets or sets the style definitions for the <see cref="RzSpinner" /> component. </summary>
     public virtual RzStylesBase.RzSpinnerStylesBase RzSpinner { get; }
 

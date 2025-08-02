@@ -101,6 +101,7 @@ public partial class RzTheme
         RzTableRow = new DefaultRzTableRowStyles(this);
         RzTableCell = new DefaultRzTableCellStyles(this);
         RzPagination = new DefaultRzPaginationStyles(this);
+        RzSheet = new DefaultRzSheetStyles(this);
         RzTabs = new DefaultRzTabsStyles(this);
         RzTab = new DefaultRzTabStyles(this);
         RzTabPanel = new DefaultRzTabPanelStyles(this);

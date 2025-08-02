@@ -1,0 +1,16 @@
+
+@namespace RizzyUI
+@inherits RzComponent
+
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement" 
+                 @attributes="AdditionalAttributes" 
+                 id="@Id" 
+                 class="@RootClass()"
+                 data-slot="sheet"
+                 x-data="rzSheet"
+                 data-alpine-root="@Id"
+                 data-default-open="@DefaultOpen.ToString().ToLowerInvariant()">
+        @ChildContent
+    </HtmlElement>
+</CascadingValue>

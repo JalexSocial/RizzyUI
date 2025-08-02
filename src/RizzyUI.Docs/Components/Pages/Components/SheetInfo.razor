@@ -1,0 +1,221 @@
+﻿@page "/components/sheet"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Extensions
+@inherits RzComponent
+
+<PageTitle>Sheet</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Sheet" class="scroll-mt-20">
+                Sheet
+            </RzHeading>
+            <RzParagraph>
+                A sheet is a panel that slides in from the edge of the screen. It's a versatile component for displaying supplementary content, forms, or navigation menus without leaving the current context.
+            </RzParagraph>
+
+            <RzAlert Variant="AlertVariant.Information" class="my-5">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    The RzSheet component family uses an Alpine.js component (`x-data="rzSheet"`) to manage its open/close state and user interactions. It leverages data attributes to control its appearance and animations, ensuring a clean separation of concerns and CSP compliance.
+                </AlertDescription>
+            </RzAlert>
+
+            <!-- Example 1: Basic Sheet -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Sheet" class="scroll-mt-20">
+                    Basic Sheet
+                </RzHeading>
+                <RzParagraph>
+                    This example shows a basic sheet that slides in from the right, which is the default behavior. Click the trigger button to open it.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-80">
+                        <RzSheet>
+                            <SheetTrigger AsChild>
+                                <RzButton Variant="ButtonVariant.Primary">Open Sheet</RzButton>
+                            </SheetTrigger>
+                            <SheetContent>
+                                <SheetHeader>
+                                    <SheetTitle>Edit Profile</SheetTitle>
+                                    <SheetDescription>
+                                        Make changes to your profile here. Click save when you're done.
+                                    </SheetDescription>
+                                </SheetHeader>
+                                <div class="grid gap-4 py-4 px-6">
+                                    <div class="grid grid-cols-4 items-center gap-4">
+                                        <label for="name" class="text-right">Name</label>
+                                        <input id="name" value="Michael Tanczos" class="input col-span-3" />
+                                    </div>
+                                    <div class="grid grid-cols-4 items-center gap-4">
+                                        <label for="username" class="text-right">Username</label>
+                                        <input id="username" value="@@jalexsocial" class="input col-span-3" />
+                                    </div>
+                                </div>
+                                <SheetFooter>
+                                    <SheetClose AsChild>
+                                        <RzButton Variant="ButtonVariant.Primary">Save changes</RzButton>
+                                    </SheetClose>
+                                </SheetFooter>
+                            </SheetContent>
+                        </RzSheet>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzSheet&gt;
+    &lt;SheetTrigger AsChild&gt;
+        &lt;RzButton Variant="ButtonVariant.Primary"&gt;Open Sheet&lt;/RzButton&gt;
+    &lt;/SheetTrigger&gt;
+    &lt;SheetContent&gt;
+        &lt;SheetHeader&gt;
+            &lt;SheetTitle&gt;Edit Profile&lt;/SheetTitle&gt;
+            &lt;SheetDescription&gt;
+                Make changes to your profile here. Click save when you're done.
+            &lt;/SheetDescription&gt;
+        &lt;/SheetHeader&gt;
+        &lt;div class="grid gap-4 py-4 px-6"&gt;
+            &lt;div class="grid grid-cols-4 items-center gap-4"&gt;
+                &lt;label for="name" class="text-right"&gt;Name&lt;/label&gt;
+                &lt;input id="name" value="Michael Tanczos" class="input col-span-3" /&gt;
+            &lt;/div&gt;
+            &lt;div class="grid grid-cols-4 items-center gap-4"&gt;
+                &lt;label for="username" class="text-right"&gt;Username&lt;/label&gt;
+                &lt;input id="username" value="@@jalexsocial" class="input col-span-3" /&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;SheetFooter&gt;
+            &lt;SheetClose AsChild&gt;
+                &lt;RzButton Variant="ButtonVariant.Primary"&gt;Save changes&lt;/RzButton&gt;
+            &lt;/SheetClose&gt;
+        &lt;/SheetFooter&gt;
+    &lt;/SheetContent&gt;
+&lt;/RzSheet&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 2: Side Variations -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Side Variations" class="scroll-mt-20">
+                    Side Variations
+                </RzHeading>
+                <RzParagraph>
+                    Use the `Side` parameter on the `SheetContent` component to control which edge of the screen the sheet appears from.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-80 gap-4">
+                        @foreach (var side in Enum.GetValues<SheetSide>())
+                        {
+                            <RzSheet>
+                                <SheetTrigger AsChild>
+                                    <RzButton Variant="ButtonVariant.Secondary">@side</RzButton>
+                                </SheetTrigger>
+                                <SheetContent Side="side">
+                                    <SheetHeader>
+                                        <SheetTitle>Sheet from the @side.ToString().ToLower()</SheetTitle>
+                                        <SheetDescription>
+                                            This is a demonstration of a sheet sliding in from the @side.ToString().ToLower().
+                                        </SheetDescription>
+                                    </SheetHeader>
+                                </SheetContent>
+                            </RzSheet>
+                        }
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+@@foreach (var side in Enum.GetValues&lt;SheetSide&gt;())
+{
+    &lt;RzSheet&gt;
+        &lt;SheetTrigger AsChild&gt;
+            &lt;RzButton Variant="ButtonVariant.Secondary"&gt;@@side&lt;/RzButton&gt;
+        &lt;/SheetTrigger&gt;
+        &lt;SheetContent Side="side"&gt;
+            &lt;SheetHeader&gt;
+                &lt;SheetTitle&gt;Sheet from the @@side.ToString().ToLower()&lt;/SheetTitle&gt;
+                &lt;SheetDescription&gt;
+                    This is a demonstration of a sheet sliding in from the @@side.ToString().ToLower().
+                &lt;/SheetDescription&gt;
+            &lt;/SheetHeader&gt;
+        &lt;/SheetContent&gt;
+    &lt;/RzSheet&gt;
+}
+                </RzCodeViewer>
+            </section>
+
+            <!-- Component Parameters -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
+                </RzHeading>
+                <RzParagraph>
+                    The following tables summarize the parameters for each component in the Sheet family.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzSheet</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content of the sheet, which should include a <code>SheetTrigger</code> and a <code>SheetContent</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">DefaultOpen</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">If set to <code>true</code>, the sheet will be open by default.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">SheetTrigger & SheetClose</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content to be rendered as the trigger or close element.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td><td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AsChild</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">If set to <code>true</code>, the component will merge its properties and behavior into its first child element instead of rendering its own wrapper.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">SheetContent</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content to be displayed inside the sheet panel.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td><td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Side</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The side from which the sheet will appear. Options are <code>Top</code>, <code>Right</code>, <code>Bottom</code>, <code>Left</code>.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SheetSide</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">SheetSide.Right</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">SheetHeader, SheetFooter, SheetTitle, SheetDescription</RzHeading>
+                <RzParagraph>These components primarily accept <code>ChildContent</code> and pass through any additional attributes. They have no unique parameters beyond standard HTML attributes.</RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

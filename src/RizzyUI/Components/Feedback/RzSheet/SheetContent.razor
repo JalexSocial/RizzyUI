@@ -1,0 +1,21 @@
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent
+
+<template x-teleport="body">
+	<div x-show="open" x-cloak>
+		<div class="@Theme.RzSheet.Overlay" x-on:click="close" x-bind:data-state="state"></div>
+		<div @attributes="AdditionalAttributes"
+		     id="@Id"
+		     class="@RootClass()"
+		     data-slot="sheet-content"
+		     x-trap.inert="open"
+		     x-bind:data-state="state">
+			@ChildContent
+			<button type="button" class="@Theme.RzSheet.CloseButton" x-on:click="close">
+				<Blazicon Svg="Lucide.X" class="@Theme.RzSheet.CloseButtonIcon" />
+				<span class="sr-only">@Localizer["RzSheet.CloseButtonText"]</span>
+			</button>
+		</div>
+	</div>
+</template>

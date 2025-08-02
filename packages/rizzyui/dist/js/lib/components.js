@@ -24,6 +24,7 @@ import registerRzPopover from './components/rzPopover.js';
 import registerRzPrependInput from './components/rzPrependInput.js';
 import registerRzProgress from './components/rzProgress.js';
 import registerRzQuickReferenceContainer from './components/rzQuickReferenceContainer.js';
+import registerRzSheet from './components/rzSheet.js';
 import registerRzTabs from './components/rzTabs.js';
 import registerRzSidebar from './components/rzSidebar.js';
 
@@ -86,6 +87,7 @@ function registerComponents(Alpine) {
     registerRzPrependInput(Alpine);
     registerRzProgress(Alpine);
     registerRzQuickReferenceContainer(Alpine);
+    registerRzSheet(Alpine);
     registerRzTabs(Alpine);
     registerRzSidebar(Alpine);
 }

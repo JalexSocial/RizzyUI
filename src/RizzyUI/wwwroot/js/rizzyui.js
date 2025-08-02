@@ -4062,6 +4062,34 @@
       };
     });
   }
+  function registerRzSheet(Alpine2) {
+    Alpine2.data("rzSheet", () => ({
+      open: false,
+      isVisible: false,
+      init() {
+        this.open = this.$el.dataset.defaultOpen === "true";
+        this.isVisible = this.open;
+      },
+      toggle() {
+        this.open ? this.close() : this.show();
+      },
+      close() {
+        this.open = false;
+        setTimeout(() => {
+          this.isVisible = false;
+        }, 500);
+      },
+      show() {
+        this.isVisible = true;
+        this.$nextTick(() => {
+          this.open = true;
+        });
+      },
+      state() {
+        return this.open ? "open" : "closed";
+      }
+    }));
+  }
   function registerRzTabs(Alpine2) {
     Alpine2.data("rzTabs", () => {
       return {
@@ -4246,6 +4274,7 @@
     registerRzPrependInput(Alpine2);
     registerRzProgress(Alpine2);
     registerRzQuickReferenceContainer(Alpine2);
+    registerRzSheet(Alpine2);
     registerRzTabs(Alpine2);
     registerRzSidebar(Alpine2);
   }
