@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -51,7 +50,7 @@ public partial class Sidebar : RzComponent
         {
             throw new InvalidOperationException($"{nameof(Sidebar)} must be used within an {nameof(RzSidebarProvider)}.");
         }
-        Element = "aside";
+        Element = "div"; // Use div as the root to act as a peer
         AriaLabel ??= Localizer["RzSidebar.DefaultAriaLabel"];
     }
 
@@ -68,8 +67,7 @@ public partial class Sidebar : RzComponent
         var styles = Theme.Sidebar;
         return TwMerge.Merge(
             AdditionalAttributes,
-            styles.SidebarBase,
-            styles.GetVariantCss(Variant)
+            styles.SidebarBase
         );
     }
 }

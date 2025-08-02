@@ -7493,7 +7493,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         }
       },
       isHidden() {
-        return this.isMobile && !this.openMobile || !this.isMobile && !this.open;
+        return this.isMobile && !this.openMobile || !this.isMobile && !this.open && this.collapsible === "offcanvas";
       },
       isMobileOpen() {
         return this.openMobile;

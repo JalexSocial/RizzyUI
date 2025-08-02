@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -8,7 +7,7 @@ namespace RizzyUI;
 /// An optional, secondary action button within a <see cref="SidebarMenuItem"/>,
 /// typically used for icon-only actions like "add" or "more options".
 /// </summary>
-public partial class SidebarMenuAction : RzComponent
+public partial class SidebarMenuAction : RzAsChildComponent
 {
     /// <summary>
     /// Gets or sets the content of the action button, usually an icon.
@@ -21,6 +20,19 @@ public partial class SidebarMenuAction : RzComponent
     {
         base.OnInitialized();
         Element = "button";
+    }
+
+    /// <inheritdoc/>
+    protected override RenderFragment? GetAsChildContent() => ChildContent;
+
+    /// <inheritdoc/>
+    protected override Dictionary<string, object?> GetComponentAttributes()
+    {
+        return new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["id"] = Id,
+            ["class"] = RootClass()
+        };
     }
 
     /// <inheritdoc/>

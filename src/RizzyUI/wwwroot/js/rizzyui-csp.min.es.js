@@ -5079,7 +5079,7 @@ function Jl(e) {
       this.isMobile && (this.openMobile = !1);
     },
     isHidden() {
-      return this.isMobile && !this.openMobile || !this.isMobile && !this.open;
+      return this.isMobile && !this.openMobile || !this.isMobile && !this.open && this.collapsible === "offcanvas";
     },
     isMobileOpen() {
       return this.openMobile;

@@ -1,20 +1,39 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement Element="@EffectiveElement" 
-             @attributes="AdditionalAttributes" 
-             id="@Id" 
-             class="@RootClass()"
-             data-slot="sidebar"
-             data-side="@Side.ToString().ToLowerInvariant()"
-             data-variant="@Variant.ToString().ToLowerInvariant()"
-             data-collapsible="@ParentProvider?.Collapsible.ToString().ToLowerInvariant()"
-             x-bind:aria-hidden="isHidden"
-             x-bind:data-state="desktopState"
-             x-bind:data-mobile-state="mobileState"
-             x-on:click.self="close">
-	<nav class="@Theme.Sidebar.Nav" 
-	     aria-label="@AriaLabel">
+@if (ParentProvider?.Collapsible == SidebarCollapsible.None)
+{
+	<div data-slot="sidebar" class="@RootClass()" @attributes="AdditionalAttributes">
 		@ChildContent
-	</nav>
-</HtmlElement>
+	</div>
+}
+else
+{
+	<div class="@RootClass()"
+	     x-bind:data-state="desktopState"
+	     data-collapsible="@(ParentProvider?.Collapsible.ToString().ToLowerInvariant())"
+	     data-variant="@Variant.ToString().ToLowerInvariant()"
+	     data-side="@Side.ToString().ToLowerInvariant()"
+	     data-slot="sidebar">
+
+		<div class="md:hidden fixed inset-0 z-40 bg-black/50"
+		     x-show="isMobileOpen"
+		     x-cloak
+		     x-on:click.self="close">
+			<nav class="@Theme.Sidebar.Nav"
+			     aria-label="@AriaLabel"
+			     x-bind:data-mobile-state="mobileState">
+				@ChildContent
+			</nav>
+		</div>
+
+		<div class="hidden md:block">
+			<div data-slot="sidebar-gap" class="@Theme.Sidebar.GetGapCss(Variant, Side)"></div>
+			<div data-slot="sidebar-container" class="@Theme.Sidebar.GetDesktopContainerCss(Variant, Side)">
+				<div data-sidebar="sidebar" data-slot="sidebar-inner" class="@Theme.Sidebar.GetDesktopInnerCss(Variant)">
+					@ChildContent
+				</div>
+			</div>
+		</div>
+	</div>
+}
