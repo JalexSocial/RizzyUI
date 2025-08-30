@@ -17,7 +17,6 @@ public abstract partial class RzStylesBase
         public abstract string SidebarBase { get; }
         public abstract string NonCollapsibleContainer { get; }
         public abstract string Nav { get; }
-        public abstract string GetVariantCss(SidebarVariant variant);
         public abstract string GetGapCss(SidebarVariant variant, SidebarSide side);
         public abstract string GetDesktopContainerCss(SidebarVariant variant, SidebarSide side);
         public abstract string GetDesktopInnerCss(SidebarVariant variant);

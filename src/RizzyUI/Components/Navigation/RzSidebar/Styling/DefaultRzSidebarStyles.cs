@@ -29,14 +29,6 @@ public class DefaultSidebarStyles : RzStylesBase.SidebarStylesBase
 
     public override string GetDesktopInnerCss(SidebarVariant variant) =>
         $"bg-sidebar flex h-full w-full flex-col {(variant == SidebarVariant.Floating ? "border-sidebar-border rounded-lg border shadow-sm" : "")}";
-
-    public override string GetVariantCss(SidebarVariant variant) => variant switch
-    {
-        SidebarVariant.Sidebar => "bg-sidebar text-sidebar-foreground fixed inset-y-0 z-50 border-r border-sidebar-border",
-        SidebarVariant.Floating => "bg-sidebar text-sidebar-foreground fixed inset-y-4 z-50 rounded-lg border border-sidebar-border shadow-lg",
-        SidebarVariant.Inset => "bg-sidebar text-sidebar-foreground relative inset-y-0 z-50 border-r border-sidebar-border",
-        _ => ""
-    };
 }
 
 public class DefaultSidebarTriggerStyles : RzStylesBase.SidebarTriggerStylesBase

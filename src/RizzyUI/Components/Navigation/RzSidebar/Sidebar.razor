@@ -17,20 +17,17 @@ else
 	     data-side="@Side.ToString().ToLowerInvariant()"
 	     data-slot="sidebar">
 
-		<div class="md:hidden fixed inset-0 z-40 bg-black/50"
-		     x-show="isMobileOpen"
-		     x-cloak
-		     x-on:click.self="close">
-			<nav class="@Theme.Sidebar.Nav"
-			     data-sidebar="sidebar"
-			     data-slot="sidebar"
-			     data-mobile="true"
-			     aria-label="@AriaLabel"
-			     x-bind:data-mobile-state="mobileState">
-				<div class="flex h-full w-full flex-col">
-					@ChildContent
-				</div>
-			</nav>
+		<div class="md:hidden">
+			<RzSheet>
+				<SheetContent Side="@(Side == SidebarSide.Left ? SheetSide.Left : SheetSide.Right)"
+				              class="w-[var(--sidebar-mobile-width)] p-0 [&>button]:hidden"
+				              x-bind:open="openMobile"
+				              x-on:close="close">
+					<div class="flex h-full w-full flex-col">
+						@ChildContent
+					</div>
+				</SheetContent>
+			</RzSheet>
 		</div>
 
 		<div class="hidden md:block">
