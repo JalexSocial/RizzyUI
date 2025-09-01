@@ -1,0 +1,1415 @@
+﻿@page "/components/sidebar"
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+@using RizzyUI
+@using RizzyUI.Docs.Models
+@using Blazicons
+
+<PageTitle>Sidebar</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Sidebar" class="scroll-mt-20">Sidebar</RzHeading>
+            <RzParagraph>
+                A versatile sidebar component that can be used for navigation, content display, or actions. It is highly composable and supports various collapsible behaviors, variants, and layouts.
+            </RzParagraph>
+            <RzAlert Variant="AlertVariant.Information" class="my-5">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    The entire sidebar system is managed by the <code>RzSidebarProvider</code>, which hosts an Alpine.js component (<code>x-data="rzSidebar"</code>) to control its state and interactivity, including collapsible behavior and keyboard shortcuts.
+                </AlertDescription>
+            </RzAlert>
+
+            <!-- Example 1: Default Sidebar -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Sidebar" class="scroll-mt-20">
+                    Default Sidebar
+                </RzHeading>
+                <RzParagraph>
+                    A basic sidebar layout with a header for actions like version switching and search, and a content area with grouped navigation links. The main content area is inset next to the sidebar.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                        <RzSidebarProvider>
+                            <Sidebar>
+                                <SidebarHeader>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem>
+                                            <RzDropdownMenu>
+                                                <DropdownMenuTrigger AsChild>
+                                                    <SidebarMenuButton Size="Size.Large">
+                                                        <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                                                            <Blazicon Svg="MdiIcon.BookOpenVariant" class="size-4" />
+                                                        </div>
+                                                        <div class="flex flex-col gap-0.5 leading-none">
+                                                            <span class="font-medium">Documentation</span>
+                                                            <span>v1.0.1</span>
+                                                        </div>
+                                                        <Blazicon Svg="FluentUiIcon.ChevronUpDown" class="ml-auto" />
+                                                    </SidebarMenuButton>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent>
+                                                    <DropdownMenuItem>v1.0.1</DropdownMenuItem>
+                                                    <DropdownMenuItem>v1.1.0-alpha</DropdownMenuItem>
+                                                    <DropdownMenuItem>v2.0.0-beta1</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </RzDropdownMenu>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                    <div class="relative">
+                                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <Blazicon Svg="MdiIcon.Magnify" class="size-4 text-muted-foreground" />
+                                        </div>
+                                        <input type="search" 
+                                               name="search" 
+                                               id="sidebar-search-1" 
+                                               placeholder="Search the docs..." 
+                                               class="appearance-none file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-8" />
+                                    </div>
+                                </SidebarHeader>
+                                <SidebarContent>
+                                    @foreach (var item in _navMain)
+                                    {
+                                        <SidebarGroup>
+                                            <SidebarGroupLabel>@item.Title</SidebarGroupLabel>
+                                            <SidebarGroupContent>
+                                                <SidebarMenu>
+                                                    @foreach (var subItem in item.Items)
+                                                    {
+                                                        <SidebarMenuItem>
+                                                            <SidebarMenuButton AsChild="true" IsActive="subItem.IsActive">
+                                                                <a href="#">@subItem.Title</a>
+                                                            </SidebarMenuButton>
+                                                        </SidebarMenuItem>
+                                                    }
+                                                </SidebarMenu>
+                                            </SidebarGroupContent>
+                                        </SidebarGroup>
+                                    }
+                                </SidebarContent>
+                            </Sidebar>
+                            <SidebarInset>
+                                <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                                    <SidebarTrigger class="-ml-1" />
+                                    <RzSeparator Orientation="Orientation.Vertical" class="mr-2 h-4" />
+                                    <RzBreadcrumb>
+                                        <BreadcrumbList>
+                                            <BreadcrumbItem>
+                                                <BreadcrumbLink Href="#">Building Your Application</BreadcrumbLink>
+                                            </BreadcrumbItem>
+                                            <BreadcrumbSeparator />
+                                            <BreadcrumbItem>
+                                                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                                            </BreadcrumbItem>
+                                        </BreadcrumbList>
+                                    </RzBreadcrumb>
+                                </header>
+                                <div class="flex flex-1 flex-col gap-4 p-4">
+                                    <div class="bg-muted/50 aspect-video rounded-xl" />
+                                </div>
+                            </SidebarInset>
+                        </RzSidebarProvider>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzSidebarProvider&gt;
+    &lt;Sidebar&gt;
+        &lt;SidebarHeader&gt;
+            &lt;SidebarMenu&gt;
+                &lt;SidebarMenuItem&gt;
+                    &lt;RzDropdownMenu&gt;
+                        &lt;DropdownMenuTrigger AsChild&gt;
+                            &lt;SidebarMenuButton Size=&quot;Size.Large&quot;&gt;
+                                &lt;div class=&quot;bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg&quot;&gt;
+                                    &lt;Blazicon Svg=&quot;MdiIcon.BookOpenVariant&quot; class=&quot;size-4&quot; /&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;flex flex-col gap-0.5 leading-none&quot;&gt;
+                                    &lt;span class=&quot;font-medium&quot;&gt;Documentation&lt;/span&gt;
+                                    &lt;span&gt;v1.0.1&lt;/span&gt;
+                                &lt;/div&gt;
+                                &lt;Blazicon Svg=&quot;FluentUiIcon.ChevronUpDown&quot; class=&quot;ml-auto&quot; /&gt;
+                            &lt;/SidebarMenuButton&gt;
+                        &lt;/DropdownMenuTrigger&gt;
+                        &lt;DropdownMenuContent&gt;
+                            &lt;DropdownMenuItem&gt;v1.0.1&lt;/DropdownMenuItem&gt;
+                            &lt;DropdownMenuItem&gt;v1.1.0-alpha&lt;/DropdownMenuItem&gt;
+                            &lt;DropdownMenuItem&gt;v2.0.0-beta1&lt;/DropdownMenuItem&gt;
+                        &lt;/DropdownMenuContent&gt;
+                    &lt;/RzDropdownMenu&gt;
+                &lt;/SidebarMenuItem&gt;
+            &lt;/SidebarMenu&gt;
+            &lt;div class=&quot;relative&quot;&gt;
+                &lt;div class=&quot;pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3&quot;&gt;
+                    &lt;Blazicon Svg=&quot;MdiIcon.Magnify&quot; class=&quot;size-4 text-muted-foreground&quot; /&gt;
+                &lt;/div&gt;
+                &lt;input type=&quot;search&quot; 
+                       name=&quot;search&quot; 
+                       id=&quot;sidebar-search-1&quot; 
+                       placeholder=&quot;Search the docs...&quot; 
+                       class=&quot;appearance-none file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-8&quot; /&gt;
+            &lt;/div&gt;
+        &lt;/SidebarHeader&gt;
+        &lt;SidebarContent&gt;
+            @@foreach (var item in _navMain)
+            {
+                &lt;SidebarGroup&gt;
+                    &lt;SidebarGroupLabel&gt;@@item.Title&lt;/SidebarGroupLabel&gt;
+                    &lt;SidebarGroupContent&gt;
+                        &lt;SidebarMenu&gt;
+                            @@foreach (var subItem in item.Items)
+                            {
+                                &lt;SidebarMenuItem&gt;
+                                    &lt;SidebarMenuButton AsChild=&quot;true&quot; IsActive=&quot;subItem.IsActive&quot;&gt;
+                                        &lt;a href=&quot;#&quot;&gt;@@subItem.Title&lt;/a&gt;
+                                    &lt;/SidebarMenuButton&gt;
+                                &lt;/SidebarMenuItem&gt;
+                            }
+                        &lt;/SidebarMenu&gt;
+                    &lt;/SidebarGroupContent&gt;
+                &lt;/SidebarGroup&gt;
+            }
+        &lt;/SidebarContent&gt;
+    &lt;/Sidebar&gt;
+    &lt;SidebarInset&gt;
+        &lt;header class=&quot;flex h-16 shrink-0 items-center gap-2 border-b px-4&quot;&gt;
+            &lt;SidebarTrigger class=&quot;-ml-1&quot; /&gt;
+            &lt;RzSeparator Orientation=&quot;Orientation.Vertical&quot; class=&quot;mr-2 h-4&quot; /&gt;
+            &lt;RzBreadcrumb&gt;
+                &lt;BreadcrumbList&gt;
+                    &lt;BreadcrumbItem&gt;
+                        &lt;BreadcrumbLink Href=&quot;#&quot;&gt;Building Your Application&lt;/BreadcrumbLink&gt;
+                    &lt;/BreadcrumbItem&gt;
+                    &lt;BreadcrumbSeparator /&gt;
+                    &lt;BreadcrumbItem&gt;
+                        &lt;BreadcrumbPage&gt;Data Fetching&lt;/BreadcrumbPage&gt;
+                    &lt;/BreadcrumbItem&gt;
+                &lt;/BreadcrumbList&gt;
+            &lt;/RzBreadcrumb&gt;
+        &lt;/header&gt;
+        &lt;div class=&quot;flex flex-1 flex-col gap-4 p-4&quot;&gt;
+            &lt;div class=&quot;bg-muted/50 aspect-video rounded-xl&quot; /&gt;
+        &lt;/div&gt;
+    &lt;/SidebarInset&gt;
+&lt;/RzSidebarProvider&gt;
+
+@@code {
+    public class NavItem {
+        public string Title { get; set; } = &quot;&quot;;
+        public bool IsActive { get; set; }
+    }
+
+    public class NavGroup {
+        public string Title { get; set; } = &quot;&quot;;
+        public List&lt;NavItem&gt; Items { get; set; } = new();
+    }
+
+    private List&lt;NavGroup&gt; _navMain = new()
+    {
+        new() {
+            Title = &quot;Getting Started&quot;,
+            Items = new() { new() { Title = &quot;Installation&quot; }, new() { Title = &quot;Project Structure&quot; } }
+        },
+        new() {
+            Title = &quot;Building Your Application&quot;,
+            Items = new() { new() { Title = &quot;Routing&quot; }, new() { Title = &quot;Data Fetching&quot;, IsActive = true }, new() { Title = &quot;Rendering&quot; } }
+        }
+    };
+}
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 2: Collapsible Groups -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Collapsible Groups" class="scroll-mt-20">
+                    Collapsible Groups
+                </RzHeading>
+                <RzParagraph>
+                    This example demonstrates collapsible sidebar groups using the <code>RzCollapsible</code> component, allowing users to expand and collapse navigation sections.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                        <RzSidebarProvider>
+                            <Sidebar>
+                                <SidebarContent class="gap-0">
+                                    @foreach (var item in _navMain)
+                                    {
+                                        <RzCollapsible class="group/collapsible" DefaultOpen="@item.Items.Any(i => i.IsActive)">
+                                            <SidebarGroup>
+                                                <SidebarGroupLabel AsChild="true" class="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm">
+                                                    <CollapsibleTrigger>
+                                                        @item.Title
+                                                        <Blazicon Svg="MdiIcon.ChevronRight" class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                                                    </CollapsibleTrigger>
+                                                </SidebarGroupLabel>
+                                                <CollapsibleContent>
+                                                    <SidebarGroupContent>
+                                                        <SidebarMenu>
+                                                            @foreach (var subItem in item.Items)
+                                                            {
+                                                                <SidebarMenuItem>
+                                                                    <SidebarMenuButton AsChild="true" IsActive="subItem.IsActive">
+                                                                        <a href="#">@subItem.Title</a>
+                                                                    </SidebarMenuButton>
+                                                                </SidebarMenuItem>
+                                                            }
+                                                        </SidebarMenu>
+                                                    </SidebarGroupContent>
+                                                </CollapsibleContent>
+                                            </SidebarGroup>
+                                        </RzCollapsible>
+                                    }
+                                </SidebarContent>
+                            </Sidebar>
+                            <SidebarInset>
+                                <header class="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                                    <SidebarTrigger class="-ml-1" />
+                                </header>
+                                <div class="flex flex-1 flex-col gap-4 p-4">
+                                    <div class="bg-muted/50 aspect-video rounded-xl" />
+                                </div>
+                            </SidebarInset>
+                        </RzSidebarProvider>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzSidebarProvider&gt;
+    &lt;Sidebar&gt;
+        &lt;SidebarContent class=&quot;gap-0&quot;&gt;
+            @@foreach (var item in _navMain)
+            {
+                &lt;RzCollapsible class=&quot;group/collapsible&quot; DefaultOpen=&quot;@@item.Items.Any(i =&gt; i.IsActive)&quot;&gt;
+                    &lt;SidebarGroup&gt;
+                        &lt;SidebarGroupLabel AsChild=&quot;true&quot; class=&quot;group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm&quot;&gt;
+                            &lt;CollapsibleTrigger&gt;
+                                @@item.Title
+                                &lt;Blazicon Svg=&quot;MdiIcon.ChevronRight&quot; class=&quot;ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90&quot; /&gt;
+                            &lt;/CollapsibleTrigger&gt;
+                        &lt;/SidebarGroupLabel&gt;
+                        &lt;CollapsibleContent&gt;
+                            &lt;SidebarGroupContent&gt;
+                                &lt;SidebarMenu&gt;
+                                    @@foreach (var subItem in item.Items)
+                                    {
+                                        &lt;SidebarMenuItem&gt;
+                                            &lt;SidebarMenuButton AsChild=&quot;true&quot; IsActive=&quot;subItem.IsActive&quot;&gt;
+                                                &lt;a href=&quot;#&quot;&gt;@@subItem.Title&lt;/a&gt;
+                                            &lt;/SidebarMenuButton&gt;
+                                        &lt;/SidebarMenuItem&gt;
+                                    }
+                                &lt;/SidebarMenu&gt;
+                            &lt;/SidebarGroupContent&gt;
+                        &lt;/CollapsibleContent&gt;
+                    &lt;/SidebarGroup&gt;
+                &lt;/RzCollapsible&gt;
+            }
+        &lt;/SidebarContent&gt;
+    &lt;/Sidebar&gt;
+    &lt;SidebarInset&gt;
+        &lt;header class=&quot;bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4&quot;&gt;
+            &lt;SidebarTrigger class=&quot;-ml-1&quot; /&gt;
+        &lt;/header&gt;
+        &lt;div class=&quot;flex flex-1 flex-col gap-4 p-4&quot;&gt;
+            &lt;div class=&quot;bg-muted/50 aspect-video rounded-xl&quot; /&gt;
+        &lt;/div&gt;
+    &lt;/SidebarInset&gt;
+&lt;/RzSidebarProvider&gt;
+                </RzCodeViewer>
+            </section>
+            
+<!-- Example 3: Nested Sub-menus -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Nested Sub-menus (sidebar-03)" class="scroll-mt-20">
+                    Nested Sub-menus
+                </RzHeading>
+                <RzParagraph>
+                    This example showcases a sidebar with nested sub-menus for a hierarchical navigation structure.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                        <RzSidebarProvider>
+                            <Sidebar>
+                                <SidebarHeader>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem>
+                                            <SidebarMenuButton Size="Size.Large" AsChild="true">
+                                                <a href="#">
+                                                    <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                                                        <Blazicon Svg="MdiIcon.BookOpenVariant" class="size-4" />
+                                                    </div>
+                                                    <div class="flex flex-col gap-0.5 leading-none">
+                                                        <span class="font-medium">Documentation</span>
+                                                        <span>v1.0.0</span>
+                                                    </div>
+                                                </a>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarHeader>
+                                <SidebarContent>
+                                    <SidebarGroup>
+                                        <SidebarMenu>
+                                            @foreach (var item in _navMain)
+                                            {
+                                                <SidebarMenuItem>
+                                                    <SidebarMenuButton AsChild="true">
+                                                        <a href="#" class="font-medium">@item.Title</a>
+                                                    </SidebarMenuButton>
+                                                    @if (item.Items.Any())
+                                                    {
+                                                        <SidebarMenuSub>
+                                                            @foreach (var subItem in item.Items)
+                                                            {
+                                                                <SidebarMenuItem>
+                                                                    <SidebarMenuButton AsChild="true" IsActive="subItem.IsActive">
+                                                                        <a href="#">@subItem.Title</a>
+                                                                    </SidebarMenuButton>
+                                                                </SidebarMenuItem>
+                                                            }
+                                                        </SidebarMenuSub>
+                                                    }
+                                                </SidebarMenuItem>
+                                            }
+                                        </SidebarMenu>
+                                    </SidebarGroup>
+                                </SidebarContent>
+                            </Sidebar>
+                            <SidebarInset>
+                                <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                                    <SidebarTrigger class="-ml-1" />
+                                </header>
+                                <div class="flex flex-1 flex-col gap-4 p-4">
+                                    <div class="bg-muted/50 aspect-video rounded-xl" />
+                                </div>
+                            </SidebarInset>
+                        </RzSidebarProvider>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzSidebarProvider&gt;
+    &lt;Sidebar&gt;
+        &lt;SidebarHeader&gt;
+            &lt;SidebarMenu&gt;
+                &lt;SidebarMenuItem&gt;
+                    &lt;SidebarMenuButton Size=&quot;Size.Large&quot; AsChild=&quot;true&quot;&gt;
+                        &lt;a href=&quot;#&quot;&gt;
+                            &lt;div class=&quot;bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg&quot;&gt;
+                                &lt;Blazicon Svg=&quot;MdiIcon.BookOpenVariant&quot; class=&quot;size-4&quot; /&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;flex flex-col gap-0.5 leading-none&quot;&gt;
+                                &lt;span class=&quot;font-medium&quot;&gt;Documentation&lt;/span&gt;
+                                &lt;span&gt;v1.0.0&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/a&gt;
+                    &lt;/SidebarMenuButton&gt;
+                &lt;/SidebarMenuItem&gt;
+            &lt;/SidebarMenu&gt;
+        &lt;/SidebarHeader&gt;
+        &lt;SidebarContent&gt;
+            &lt;SidebarGroup&gt;
+                &lt;SidebarMenu&gt;
+                    @@foreach (var item in _navMain)
+                    {
+                        &lt;SidebarMenuItem&gt;
+                            &lt;SidebarMenuButton AsChild=&quot;true&quot;&gt;
+                                &lt;a href=&quot;#&quot; class=&quot;font-medium&quot;&gt;@@item.Title&lt;/a&gt;
+                            &lt;/SidebarMenuButton&gt;
+                            @@if (item.Items.Any())
+                            {
+                                &lt;SidebarMenuSub&gt;
+                                    @@foreach (var subItem in item.Items)
+                                    {
+                                        &lt;SidebarMenuItem&gt;
+                                            &lt;SidebarMenuButton AsChild=&quot;true&quot; IsActive=&quot;subItem.IsActive&quot;&gt;
+                                                &lt;a href=&quot;#&quot;&gt;@@subItem.Title&lt;/a&gt;
+                                            &lt;/SidebarMenuButton&gt;
+                                        &lt;/SidebarMenuItem&gt;
+                                    }
+                                &lt;/SidebarMenuSub&gt;
+                            }
+                        &lt;/SidebarMenuItem&gt;
+                    }
+                &lt;/SidebarMenu&gt;
+            &lt;/SidebarGroup&gt;
+        &lt;/SidebarContent&gt;
+    &lt;/Sidebar&gt;
+    &lt;SidebarInset&gt;
+        &lt;header class=&quot;flex h-16 shrink-0 items-center gap-2 border-b px-4&quot;&gt;
+            &lt;SidebarTrigger class=&quot;-ml-1&quot; /&gt;
+        &lt;/header&gt;
+        &lt;div class=&quot;flex flex-1 flex-col gap-4 p-4&quot;&gt;
+            &lt;div class=&quot;bg-muted/50 aspect-video rounded-xl&quot; /&gt;
+        &lt;/div&gt;
+    &lt;/SidebarInset&gt;
+&lt;/RzSidebarProvider&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 4: Floating Sidebar -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Floating Sidebar (sidebar-04)" class="scroll-mt-20">
+                    Floating Sidebar
+                </RzHeading>
+                <RzParagraph>
+                    A floating sidebar with a margin from the viewport edges, achieved by setting <code>Variant="SidebarVariant.Floating"</code>.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                        <RzSidebarProvider Width="19rem">
+                            <Sidebar Variant="SidebarVariant.Floating">
+                                <SidebarHeader>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem>
+                                            <SidebarMenuButton Size="Size.Large" AsChild="true">
+                                                <a href="#">
+                                                    <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                                                        <Blazicon Svg="MdiIcon.BookOpenVariant" class="size-4" />
+                                                    </div>
+                                                    <div class="flex flex-col gap-0.5 leading-none">
+                                                        <span class="font-medium">Documentation</span>
+                                                        <span>v1.0.0</span>
+                                                    </div>
+                                                </a>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarHeader>
+                                <SidebarContent>
+                                    <SidebarGroup>
+                                        <SidebarMenu class="gap-2">
+                                            @foreach (var item in _navMain)
+                                            {
+                                                <SidebarMenuItem>
+                                                    <SidebarMenuButton AsChild="true">
+                                                        <a href="#" class="font-medium">@item.Title</a>
+                                                    </SidebarMenuButton>
+                                                    @if (item.Items.Any())
+                                                    {
+                                                        <SidebarMenuSub class="ml-0 border-l-0 px-1.5">
+                                                            @foreach (var subItem in item.Items)
+                                                            {
+                                                                <SidebarMenuItem>
+                                                                    <SidebarMenuButton AsChild="true" IsActive="subItem.IsActive">
+                                                                        <a href="#">@subItem.Title</a>
+                                                                    </SidebarMenuButton>
+                                                                </SidebarMenuItem>
+                                                            }
+                                                        </SidebarMenuSub>
+                                                    }
+                                                </SidebarMenuItem>
+                                            }
+                                        </SidebarMenu>
+                                    </SidebarGroup>
+                                </SidebarContent>
+                            </Sidebar>
+                            <SidebarInset>
+                                <header class="flex h-16 shrink-0 items-center gap-2 px-4">
+                                    <SidebarTrigger class="-ml-1" />
+                                </header>
+                                <div class="flex flex-1 flex-col gap-4 p-4 pt-0">
+                                    <div class="bg-muted/50 aspect-video rounded-xl" />
+                                </div>
+                            </SidebarInset>
+                        </RzSidebarProvider>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzSidebarProvider Width=&quot;19rem&quot;&gt;
+    &lt;Sidebar Variant=&quot;SidebarVariant.Floating&quot;&gt;
+        &lt;!-- Sidebar content from previous examples --&gt;
+    &lt;/Sidebar&gt;
+    &lt;SidebarInset&gt;
+        &lt;!-- Main content --&gt;
+    &lt;/SidebarInset&gt;
+&lt;/RzSidebarProvider&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 5: Collapsible with +/- Icons -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Collapsible with +/- Icons (sidebar-05)" class="scroll-mt-20">
+                    Collapsible with +/- Icons
+                </RzHeading>
+                <RzParagraph>
+                    This example uses <code>RzCollapsible</code> with custom icons to indicate the open/closed state of each navigation group.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                        <RzSidebarProvider>
+                            <Sidebar>
+                                <SidebarHeader>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem>
+                                            <SidebarMenuButton Size="Size.Large" AsChild="true">
+                                                <a href="#">
+                                                    <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                                                        <Blazicon Svg="MdiIcon.BookOpenVariant" class="size-4" />
+                                                    </div>
+                                                    <div class="flex flex-col gap-0.5 leading-none">
+                                                        <span class="font-medium">Documentation</span>
+                                                        <span>v1.0.0</span>
+                                                    </div>
+                                                </a>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarHeader>
+                                <SidebarContent>
+                                    <SidebarGroup>
+                                        <SidebarMenu>
+                                            @foreach (var item in _navMain)
+                                            {
+                                                <RzCollapsible class="group/collapsible" DefaultOpen="@item.Items.Any(i => i.IsActive)">
+                                                    <SidebarMenuItem>
+                                                        <CollapsibleTrigger AsChild="true">
+                                                            <SidebarMenuButton>
+                                                                @item.Title
+                                                                <Blazicon Svg="MdiIcon.Plus" class="ml-auto group-data-[state=open]/collapsible:hidden" />
+                                                                <Blazicon Svg="MdiIcon.Minus" class="ml-auto group-data-[state=closed]/collapsible:hidden" />
+                                                            </SidebarMenuButton>
+                                                        </CollapsibleTrigger>
+                                                        @if (item.Items.Any())
+                                                        {
+                                                            <CollapsibleContent>
+                                                                <SidebarMenuSub>
+                                                                    @foreach (var subItem in item.Items)
+                                                                    {
+                                                                        <SidebarMenuItem>
+                                                                            <SidebarMenuButton AsChild="true" IsActive="subItem.IsActive">
+                                                                                <a href="#">@subItem.Title</a>
+                                                                            </SidebarMenuButton>
+                                                                        </SidebarMenuItem>
+                                                                    }
+                                                                </SidebarMenuSub>
+                                                            </CollapsibleContent>
+                                                        }
+                                                    </SidebarMenuItem>
+                                                </RzCollapsible>
+                                            }
+                                        </SidebarMenu>
+                                    </SidebarGroup>
+                                </SidebarContent>
+                            </Sidebar>
+                            <SidebarInset>
+                                <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                                    <SidebarTrigger class="-ml-1" />
+                                </header>
+                                <div class="flex flex-1 flex-col gap-4 p-4">
+                                    <div class="bg-muted/50 aspect-video rounded-xl" />
+                                </div>
+                            </SidebarInset>
+                        </RzSidebarProvider>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzCollapsible class=&quot;group/collapsible&quot;&gt;
+    &lt;SidebarMenuItem&gt;
+        &lt;CollapsibleTrigger AsChild=&quot;true&quot;&gt;
+            &lt;SidebarMenuButton&gt;
+                Menu Title
+                &lt;Blazicon Svg=&quot;MdiIcon.Plus&quot; class=&quot;ml-auto group-data-[state=open]/collapsible:hidden&quot; /&gt;
+                &lt;Blazicon Svg=&quot;MdiIcon.Minus&quot; class=&quot;ml-auto group-data-[state=closed]/collapsible:hidden&quot; /&gt;
+            &lt;/SidebarMenuButton&gt;
+        &lt;/CollapsibleTrigger&gt;
+        &lt;CollapsibleContent&gt;
+            &lt;!-- Sub-menu items --&gt;
+        &lt;/CollapsibleContent&gt;
+    &lt;/SidebarMenuItem&gt;
+&lt;/RzCollapsible&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 6: Dropdown Navigation -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Dropdown Navigation (sidebar-06)" class="scroll-mt-20">
+                    Dropdown Navigation
+                </RzHeading>
+                <RzParagraph>
+                    This sidebar uses dropdown menus for each main navigation item, providing a compact way to access sub-links. The footer contains a newsletter sign-up form within a card.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                        <RzSidebarProvider>
+                            <Sidebar>
+                                <SidebarHeader>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem>
+                                            <SidebarMenuButton Size="Size.Large" AsChild="true">
+                                                <a href="#">
+                                                    <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                                                        <Blazicon Svg="MdiIcon.BookOpenVariant" class="size-4" />
+                                                    </div>
+                                                    <div class="flex flex-col gap-0.5 leading-none">
+                                                        <span class="font-medium">Documentation</span>
+                                                        <span>v1.0.0</span>
+                                                    </div>
+                                                </a>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarHeader>
+                                <SidebarContent>
+                                    <SidebarGroup>
+                                        <SidebarMenu>
+                                            @foreach (var item in _navMain)
+                                            {
+                                                <RzDropdownMenu>
+                                                    <DropdownMenuTrigger AsChild>
+                                                        <SidebarMenuButton>
+                                                            @item.Title
+                                                            <Blazicon Svg="MdiIcon.DotsHorizontal" class="ml-auto" />
+                                                        </SidebarMenuButton>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent Side="right" Align="start">
+                                                        @foreach (var subItem in item.Items)
+                                                        {
+                                                            <DropdownMenuItem>@subItem.Title</DropdownMenuItem>
+                                                        }
+                                                    </DropdownMenuContent>
+                                                </RzDropdownMenu>
+                                            }
+                                        </SidebarMenu>
+                                    </SidebarGroup>
+                                </SidebarContent>
+                                <SidebarFooter>
+                                    <div class="p-1">
+                                        <RzCard class="gap-2 py-4 shadow-none">
+                                            <CardHeader class="px-4">
+                                                <CardTitle class="text-sm">Subscribe to our newsletter</CardTitle>
+                                                <CardDescription>Opt-in to receive updates and news about the sidebar.</CardDescription>
+                                            </CardHeader>
+                                            <CardContent class="px-4">
+                                                <form>
+                                                    <div class="grid gap-2.5">
+                                                        <input type="email" placeholder="Email" class="appearance-none file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" />
+                                                        <RzButton class="bg-sidebar-primary text-sidebar-primary-foreground w-full shadow-none" Size="Size.Small">
+                                                            Subscribe
+                                                        </RzButton>
+                                                    </div>
+                                                </form>
+                                            </CardContent>
+                                        </RzCard>
+                                    </div>
+                                </SidebarFooter>
+                            </Sidebar>
+                            <SidebarInset>
+                                <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                                    <SidebarTrigger class="-ml-1" />
+                                </header>
+                                <div class="flex flex-1 flex-col gap-4 p-4">
+                                    <div class="bg-muted/50 aspect-video rounded-xl" />
+                                </div>
+                            </SidebarInset>
+                        </RzSidebarProvider>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzSidebarProvider&gt;
+    &lt;Sidebar&gt;
+        &lt;!-- Header --&gt;
+        &lt;SidebarContent&gt;
+            &lt;SidebarGroup&gt;
+                &lt;SidebarMenu&gt;
+                    @@foreach (var item in _navMain)
+                    {
+                        &lt;RzDropdownMenu&gt;
+                            &lt;DropdownMenuTrigger AsChild&gt;
+                                &lt;SidebarMenuButton&gt;
+                                    @@item.Title
+                                    &lt;Blazicon Svg=&quot;MdiIcon.DotsHorizontal&quot; class=&quot;ml-auto&quot; /&gt;
+                                &lt;/SidebarMenuButton&gt;
+                            &lt;/DropdownMenuTrigger&gt;
+                            &lt;DropdownMenuContent Side=&quot;right&quot; Align=&quot;start&quot;&gt;
+                                @@foreach (var subItem in item.Items)
+                                {
+                                    &lt;DropdownMenuItem&gt;@@subItem.Title&lt;/DropdownMenuItem&gt;
+                                }
+                            &lt;/DropdownMenuContent&gt;
+                        &lt;/RzDropdownMenu&gt;
+                    }
+                &lt;/SidebarMenu&gt;
+            &lt;/SidebarGroup&gt;
+        &lt;/SidebarContent&gt;
+        &lt;SidebarFooter&gt;
+            &lt;div class=&quot;p-1&quot;&gt;
+                &lt;RzCard class=&quot;gap-2 py-4 shadow-none&quot;&gt;
+                    &lt;CardHeader class=&quot;px-4&quot;&gt;
+                        &lt;CardTitle class=&quot;text-sm&quot;&gt;Subscribe to our newsletter&lt;/CardTitle&gt;
+                        &lt;CardDescription&gt;Opt-in to receive updates and news about the sidebar.&lt;/CardDescription&gt;
+                    &lt;/CardHeader&gt;
+                    &lt;CardContent class=&quot;px-4&quot;&gt;
+                        &lt;form&gt;
+                            &lt;div class=&quot;grid gap-2.5&quot;&gt;
+                                &lt;input type=&quot;email&quot; placeholder=&quot;Email&quot; class=&quot;...&quot; /&gt;
+                                &lt;RzButton class=&quot;bg-sidebar-primary text-sidebar-primary-foreground w-full shadow-none&quot; Size=&quot;Size.Small&quot;&gt;
+                                    Subscribe
+                                &lt;/RzButton&gt;
+                            &lt;/div&gt;
+                        &lt;/form&gt;
+                    &lt;/CardContent&gt;
+                &lt;/RzCard&gt;
+            &lt;/div&gt;
+        &lt;/SidebarFooter&gt;
+    &lt;/Sidebar&gt;
+    &lt;SidebarInset&gt;
+        &lt;!-- Main content --&gt;
+    &lt;/SidebarInset&gt;
+&lt;/RzSidebarProvider&gt;
+                </RzCodeViewer>
+            </section>
+            
+<!-- Example 7: Icon Collapsible Sidebar -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Icon Collapsible Sidebar (sidebar-07)" class="scroll-mt-20">
+                    Icon Collapsible Sidebar
+                </RzHeading>
+                <RzParagraph>
+                    This sidebar collapses to an icon-only view, providing a compact navigation experience. Set <code>Collapsible="SidebarCollapsible.Icon"</code> on the <code>RzSidebarProvider</code>.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                        <RzSidebarProvider Collapsible="SidebarCollapsible.Icon">
+                            <Sidebar>
+                                <SidebarHeader>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem>
+                                            <RzDropdownMenu>
+                                                <DropdownMenuTrigger AsChild>
+                                                    <SidebarMenuButton Size="Size.Large">
+                                                        <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                                                            <Blazicon Svg="MdiIcon.Atom" class="size-4" />
+                                                        </div>
+                                                        <div class="flex flex-col gap-0.5 leading-none">
+                                                            <span class="font-medium">Acme Inc</span>
+                                                            <span>Enterprise</span>
+                                                        </div>
+                                                        <Blazicon Svg="FluentUiIcon.ChevronUpDown" class="ml-auto" />
+                                                    </SidebarMenuButton>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent>
+                                                    <DropdownMenuItem>Acme Inc</DropdownMenuItem>
+                                                    <DropdownMenuItem>Acme Corp.</DropdownMenuItem>
+                                                    <DropdownMenuItem>Evil Corp.</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </RzDropdownMenu>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarHeader>
+                                <SidebarContent>
+                                    <SidebarGroup>
+                                        <SidebarGroupLabel>Platform</SidebarGroupLabel>
+                                        <SidebarMenu>
+                                            @foreach (var item in _platformNav)
+                                            {
+                                                <RzCollapsible asChild DefaultOpen="@item.IsActive" class="group/collapsible">
+                                                    <SidebarMenuItem>
+                                                        <SidebarMenuButton AsChild="true" Tooltip="@item.Title">
+                                                            <a href="#">
+                                                                <Blazicon Svg="@item.Icon" />
+                                                                <span>@item.Title</span>
+                                                            </a>
+                                                        </SidebarMenuButton>
+                                                        <CollapsibleTrigger AsChild>
+                                                            <SidebarMenuAction class="data-[state=open]:rotate-90">
+                                                                <Blazicon Svg="MdiIcon.ChevronRight" />
+                                                                <span class="sr-only">Toggle</span>
+                                                            </SidebarMenuAction>
+                                                        </CollapsibleTrigger>
+                                                        <CollapsibleContent>
+                                                            <SidebarMenuSub>
+                                                                @foreach (var subItem in item.Items)
+                                                                {
+                                                                    <SidebarMenuItem>
+                                                                        <SidebarMenuButton AsChild="true">
+                                                                            <a href="#"><span>@subItem.Title</span></a>
+                                                                        </SidebarMenuButton>
+                                                                    </SidebarMenuItem>
+                                                                }
+                                                            </SidebarMenuSub>
+                                                        </CollapsibleContent>
+                                                    </SidebarMenuItem>
+                                                </RzCollapsible>
+                                            }
+                                        </SidebarMenu>
+                                    </SidebarGroup>
+                                </SidebarContent>
+                                <SidebarFooter>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem>
+                                            <RzDropdownMenu>
+                                                <DropdownMenuTrigger AsChild>
+                                                    <SidebarMenuButton Size="Size.Large">
+                                                        <RzAvatar Size="Size.Small" Shape="AvatarShape.Square"><AvatarImage ImageSource="/images/profile/51.jpg" /></RzAvatar>
+                                                        <div class="grid flex-1 text-left text-sm leading-tight">
+                                                            <span class="truncate font-medium">Michael Tanczos</span>
+                                                            <span class="truncate text-xs">m@example.com</span>
+                                                        </div>
+                                                        <Blazicon Svg="FluentUiIcon.ChevronUpDown" class="ml-auto size-4" />
+                                                    </SidebarMenuButton>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent Side="right" Align="end">
+                                                    <DropdownMenuItem>Account</DropdownMenuItem>
+                                                    <DropdownMenuItem>Billing</DropdownMenuItem>
+                                                    <DropdownMenuItem>Log out</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </RzDropdownMenu>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarFooter>
+                            </Sidebar>
+                            <SidebarInset>
+                                <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                                    <SidebarTrigger class="-ml-1" />
+                                </header>
+                                <div class="flex flex-1 flex-col gap-4 p-4">
+                                    <div class="bg-muted/50 aspect-video rounded-xl" />
+                                </div>
+                            </SidebarInset>
+                        </RzSidebarProvider>
+                    </div>
+                </RzBrowser>
+            </section>
+
+            <!-- Example 8: Inset Sidebar -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Inset Sidebar (sidebar-08)" class="scroll-mt-20">
+                    Inset Sidebar
+                </RzHeading>
+                <RzParagraph>
+                    An inset sidebar is surrounded by a margin and appears to be "inset" within the main content area. This is achieved by setting <code>Variant="SidebarVariant.Inset"</code> on the <code>Sidebar</code> component.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                        <RzSidebarProvider>
+                            <Sidebar Variant="SidebarVariant.Inset">
+                                <!-- Same content as sidebar-07 -->
+                                <SidebarHeader>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem>
+                                            <SidebarMenuButton Size="Size.Large" AsChild="true">
+                                                <a href="#">
+                                                    <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                                                        <Blazicon Svg="MdiIcon.Atom" class="size-4" />
+                                                    </div>
+                                                    <div class="grid flex-1 text-left text-sm leading-tight">
+                                                        <span class="truncate font-medium">Acme Inc</span>
+                                                        <span class="truncate text-xs">Enterprise</span>
+                                                    </div>
+                                                </a>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarHeader>
+                                <SidebarContent>
+                                    <SidebarGroup>
+                                        <SidebarGroupLabel>Platform</SidebarGroupLabel>
+                                        <SidebarMenu>
+                                            @foreach (var item in _platformNav)
+                                            {
+                                                <RzCollapsible asChild DefaultOpen="@item.IsActive" class="group/collapsible">
+                                                    <SidebarMenuItem>
+                                                        <SidebarMenuButton AsChild="true" Tooltip="@item.Title">
+                                                            <a href="#">
+                                                                <Blazicon Svg="@item.Icon" />
+                                                                <span>@item.Title</span>
+                                                            </a>
+                                                        </SidebarMenuButton>
+                                                        <CollapsibleTrigger AsChild>
+                                                            <SidebarMenuAction class="data-[state=open]:rotate-90">
+                                                                <Blazicon Svg="MdiIcon.ChevronRight" />
+                                                                <span class="sr-only">Toggle</span>
+                                                            </SidebarMenuAction>
+                                                        </CollapsibleTrigger>
+                                                        <CollapsibleContent>
+                                                            <SidebarMenuSub>
+                                                                @foreach (var subItem in item.Items)
+                                                                {
+                                                                    <SidebarMenuItem>
+                                                                        <SidebarMenuButton AsChild="true">
+                                                                            <a href="#"><span>@subItem.Title</span></a>
+                                                                        </SidebarMenuButton>
+                                                                    </SidebarMenuItem>
+                                                                }
+                                                            </SidebarMenuSub>
+                                                        </CollapsibleContent>
+                                                    </SidebarMenuItem>
+                                                </RzCollapsible>
+                                            }
+                                        </SidebarMenu>
+                                    </SidebarGroup>
+                                </SidebarContent>
+                                <SidebarFooter>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem>
+                                            <RzDropdownMenu>
+                                                <DropdownMenuTrigger AsChild>
+                                                    <SidebarMenuButton Size="Size.Large">
+                                                        <RzAvatar Size="Size.Small" Shape="AvatarShape.Square"><AvatarImage ImageSource="/images/profile/51.jpg" /></RzAvatar>
+                                                        <div class="grid flex-1 text-left text-sm leading-tight">
+                                                            <span class="truncate font-medium">Michael Tanczos</span>
+                                                            <span class="truncate text-xs">m@example.com</span>
+                                                        </div>
+                                                        <Blazicon Svg="FluentUiIcon.ChevronUpDown" class="ml-auto size-4" />
+                                                    </SidebarMenuButton>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent Side="right" Align="end">
+                                                    <DropdownMenuItem>Account</DropdownMenuItem>
+                                                    <DropdownMenuItem>Billing</DropdownMenuItem>
+                                                    <DropdownMenuItem>Log out</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </RzDropdownMenu>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarFooter>
+                            </Sidebar>
+                            <SidebarInset>
+                                <header class="flex h-16 shrink-0 items-center gap-2 px-4">
+                                    <SidebarTrigger class="-ml-1" />
+                                </header>
+                                <div class="flex flex-1 flex-col gap-4 p-4 pt-0">
+                                    <div class="bg-muted/50 aspect-video rounded-xl" />
+                                </div>
+                            </SidebarInset>
+                        </RzSidebarProvider>
+                    </div>
+                </RzBrowser>
+            </section>
+
+            <!-- Example 10: Complex Navigation -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Complex Navigation (sidebar-10)" class="scroll-mt-20">
+                    Complex Navigation
+                </RzHeading>
+                <RzParagraph>
+                    A more complex sidebar with multiple distinct navigation sections for main actions, favorites, workspaces, and secondary links.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative h-[800px] w-full overflow-hidden rounded-md border">
+                        <RzSidebarProvider>
+                            <Sidebar>
+                                <SidebarHeader>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem>
+                                            <RzDropdownMenu>
+                                                <DropdownMenuTrigger AsChild>
+                                                    <SidebarMenuButton class="w-fit px-1.5">
+                                                        <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-5 items-center justify-center rounded-md">
+                                                            <Blazicon Svg="MdiIcon.Atom" class="size-3" />
+                                                        </div>
+                                                        <span class="truncate font-medium">Acme Inc</span>
+                                                        <Blazicon Svg="MdiIcon.ChevronDown" class="opacity-50" />
+                                                    </SidebarMenuButton>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent>
+                                                    <DropdownMenuItem>Acme Inc</DropdownMenuItem>
+                                                    <DropdownMenuItem>Acme Corp.</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </RzDropdownMenu>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                    <SidebarMenu>
+                                        @foreach (var item in _mainNavActions)
+                                        {
+                                            <SidebarMenuItem>
+                                                <SidebarMenuButton AsChild="true" IsActive="@item.IsActive">
+                                                    <a href="#">
+                                                        <Blazicon Svg="@item.Icon" />
+                                                        <span>@item.Title</span>
+                                                    </a>
+                                                </SidebarMenuButton>
+                                            </SidebarMenuItem>
+                                        }
+                                    </SidebarMenu>
+                                </SidebarHeader>
+                                <SidebarContent>
+                                    <SidebarGroup>
+                                        <SidebarGroupLabel>Favorites</SidebarGroupLabel>
+                                        <SidebarGroupContent>
+                                            <SidebarMenu>
+                                                @foreach (var item in _favorites)
+                                                {
+                                                    <SidebarMenuItem>
+                                                        <SidebarMenuButton AsChild="true">
+                                                            <a href="#">
+                                                                <span>@item.Emoji</span>
+                                                                <span>@item.Title</span>
+                                                            </a>
+                                                        </SidebarMenuButton>
+                                                    </SidebarMenuItem>
+                                                }
+                                            </SidebarMenu>
+                                        </SidebarGroupContent>
+                                    </SidebarGroup>
+                                </SidebarContent>
+                            </Sidebar>
+                            <SidebarInset>
+                                <header class="flex h-14 shrink-0 items-center gap-2 border-b px-3">
+                                    <SidebarTrigger />
+                                    <RzSeparator Orientation="Orientation.Vertical" class="mr-2 h-4" />
+                                    <RzBreadcrumb>
+                                        <BreadcrumbList>
+                                            <BreadcrumbItem>
+                                                <BreadcrumbPage>Project Management</BreadcrumbPage>
+                                            </BreadcrumbItem>
+                                        </BreadcrumbList>
+                                    </RzBreadcrumb>
+                                    <div class="ml-auto">
+                                        <RzPopover>
+                                            <PopoverTrigger>
+                                                <RzButton Variant="ButtonVariant.Ghost" Size="Size.ExtraSmall" class="h-7 w-7"><Blazicon Svg="MdiIcon.DotsHorizontal" /></RzButton>
+                                            </PopoverTrigger>
+                                            <PopoverContent>
+                                                <p>Popover Content</p>
+                                            </PopoverContent>
+                                        </RzPopover>
+                                    </div>
+                                </header>
+                                <div class="flex flex-1 flex-col gap-4 p-4">
+                                    <div class="bg-muted/50 aspect-video rounded-xl" />
+                                </div>
+                            </SidebarInset>
+                        </RzSidebarProvider>
+                    </div>
+                </RzBrowser>
+            </section>
+
+            <!-- Example 11: File Explorer -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="File Explorer (sidebar-11)" class="scroll-mt-20">
+                    File Explorer
+                </RzHeading>
+                <RzParagraph>
+                    A sidebar styled as a file explorer, using nested collapsible sections to represent directories and files.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                        <RzSidebarProvider>
+                            <Sidebar>
+                                <SidebarContent>
+                                    <SidebarGroup>
+                                        <SidebarGroupLabel>Changes</SidebarGroupLabel>
+                                        <SidebarGroupContent>
+                                            <SidebarMenu>
+                                                <SidebarMenuItem>
+                                                    <SidebarMenuButton><Blazicon Svg="MdiIcon.FileDocument" /> README.md</SidebarMenuButton>
+                                                    <SidebarMenuBadge>M</SidebarMenuBadge>
+                                                </SidebarMenuItem>
+                                            </SidebarMenu>
+                                        </SidebarGroupContent>
+                                    </SidebarGroup>
+                                    <SidebarGroup>
+                                        <SidebarGroupLabel>Files</SidebarGroupLabel>
+                                        <SidebarGroupContent>
+                                            <SidebarMenu>
+                                                <RzCollapsible asChild class="group/collapsible">
+                                                    <SidebarMenuItem>
+                                                        <CollapsibleTrigger AsChild="true">
+                                                            <SidebarMenuButton>
+                                                                <Blazicon Svg="MdiIcon.ChevronRight" class="transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                                                                <Blazicon Svg="MdiIcon.Folder" />
+                                                                app
+                                                            </SidebarMenuButton>
+                                                        </CollapsibleTrigger>
+                                                        <CollapsibleContent>
+                                                            <SidebarMenuSub>
+                                                                <SidebarMenuItem>
+                                                                    <SidebarMenuButton><Blazicon Svg="MdiIcon.FileDocument" /> page.tsx</SidebarMenuButton>
+                                                                </SidebarMenuItem>
+                                                            </SidebarMenuSub>
+                                                        </CollapsibleContent>
+                                                    </SidebarMenuItem>
+                                                </RzCollapsible>
+                                            </SidebarMenu>
+                                        </SidebarGroupContent>
+                                    </SidebarGroup>
+                                </SidebarContent>
+                            </Sidebar>
+                            <SidebarInset>
+                                <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                                    <SidebarTrigger class="-ml-1" />
+                                </header>
+                                <div class="flex flex-1 flex-col gap-4 p-4">
+                                    <div class="bg-muted/50 aspect-video rounded-xl" />
+                                </div>
+                            </SidebarInset>
+                        </RzSidebarProvider>
+                    </div>
+                </RzBrowser>
+            </section>
+
+            <!-- Example 13: Sidebar in a Modal -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Sidebar in a Modal (sidebar-13)" class="scroll-mt-20">
+                    Sidebar in a Modal
+                </RzHeading>
+                <RzParagraph>
+                    This example demonstrates embedding a non-collapsible sidebar within an <code>RzModal</code> component to create a settings dialog.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border p-8">
+                        <RzButton onclick="window.dispatchEvent(new CustomEvent('show-settings-modal'))">Open Settings</RzButton>
+                        <RzModal EventTriggerName="show-settings-modal" Size="ModalSize.FourXL" class="p-0 overflow-hidden">
+                            <ChildContent>
+                                <RzSidebarProvider class="items-start">
+                                    <Sidebar Collapsible="SidebarCollapsible.None" class="hidden md:flex">
+                                        <SidebarContent>
+                                            <SidebarGroup>
+                                                <SidebarGroupContent>
+                                                    <SidebarMenu>
+                                                        @foreach (var item in _settingsNav)
+                                                        {
+                                                            <SidebarMenuItem>
+                                                                <SidebarMenuButton AsChild="true" IsActive="@(item.Title == "Messages & media")">
+                                                                    <a href="#">
+                                                                        <Blazicon Svg="@item.Icon" />
+                                                                        <span>@item.Title</span>
+                                                                    </a>
+                                                                </SidebarMenuButton>
+                                                            </SidebarMenuItem>
+                                                        }
+                                                    </SidebarMenu>
+                                                </SidebarGroupContent>
+                                            </SidebarGroup>
+                                        </SidebarContent>
+                                    </Sidebar>
+                                    <main class="flex h-[480px] flex-1 flex-col overflow-hidden">
+                                        <header class="flex h-16 shrink-0 items-center gap-2 px-4">
+                                            <RzBreadcrumb>
+                                                <BreadcrumbList>
+                                                    <BreadcrumbItem>
+                                                        <BreadcrumbLink Href="#">Settings</BreadcrumbLink>
+                                                    </BreadcrumbItem>
+                                                    <BreadcrumbSeparator />
+                                                    <BreadcrumbItem>
+                                                        <BreadcrumbPage>Messages & media</BreadcrumbPage>
+                                                    </BreadcrumbItem>
+                                                </BreadcrumbList>
+                                            </RzBreadcrumb>
+                                        </header>
+                                        <div class="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0">
+                                            <div class="bg-muted/50 aspect-video max-w-3xl rounded-xl" />
+                                        </div>
+                                    </main>
+                                </RzSidebarProvider>
+                            </ChildContent>
+                        </RzModal>
+                    </div>
+                </RzBrowser>
+            </section>
+
+            <!-- Example 14: Right-aligned Sidebar -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Right-aligned Sidebar (sidebar-14)" class="scroll-mt-20">
+                    Right-aligned Sidebar
+                </RzHeading>
+                <RzParagraph>
+                    A sidebar aligned to the right side of the viewport by setting <code>Side="SidebarSide.Right"</code> on the <code>Sidebar</code> component.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                        <RzSidebarProvider>
+                            <SidebarInset>
+                                <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                                    <RzBreadcrumb>
+                                        <BreadcrumbList>
+                                            <BreadcrumbItem>
+                                                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                                            </BreadcrumbItem>
+                                        </BreadcrumbList>
+                                    </RzBreadcrumb>
+                                    <SidebarTrigger class="-mr-1 ml-auto rotate-180" />
+                                </header>
+                                <div class="flex flex-1 flex-col gap-4 p-4">
+                                    <div class="bg-muted/50 aspect-video rounded-xl" />
+                                </div>
+                            </SidebarInset>
+                            <Sidebar Side="SidebarSide.Right">
+                                <SidebarContent>
+                                    <SidebarGroup>
+                                        <SidebarGroupLabel>Table of Contents</SidebarGroupLabel>
+                                        <SidebarGroupContent>
+                                            <SidebarMenu>
+                                                @foreach (var item in _navMain)
+                                                {
+                                                    <SidebarMenuItem>
+                                                        <SidebarMenuButton AsChild="true">
+                                                            <a href="#" class="font-medium">@item.Title</a>
+                                                        </SidebarMenuButton>
+                                                        @if (item.Items.Any())
+                                                        {
+                                                            <SidebarMenuSub>
+                                                                @foreach (var subItem in item.Items)
+                                                                {
+                                                                    <SidebarMenuItem>
+                                                                        <SidebarMenuButton AsChild="true" IsActive="subItem.IsActive">
+                                                                            <a href="#">@subItem.Title</a>
+                                                                        </SidebarMenuButton>
+                                                                    </SidebarMenuItem>
+                                                                }
+                                                            </SidebarMenuSub>
+                                                        }
+                                                    </SidebarMenuItem>
+                                                }
+                                            </SidebarMenu>
+                                        </SidebarGroupContent>
+                                    </SidebarGroup>
+                                </SidebarContent>
+                            </Sidebar>
+                        </RzSidebarProvider>
+                    </div>
+                </RzBrowser>
+            </section>            
+            
+            <!-- Parameter Tables -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Parameters" class="scroll-mt-20">
+                    Component Parameters
+                </RzHeading>
+                <RzParagraph>
+                    The sidebar system is composed of multiple components that work together. Below are the parameters for each component.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzSidebarProvider</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4">Required</td><td class="p-4">The content of the provider, which should include a <code>Sidebar</code>.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>DefaultOpen</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>true</code></td><td class="p-4">The initial open state of the sidebar on desktop.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Collapsible</code></td><td class="p-4"><code>SidebarCollapsible</code></td><td class="p-4"><code>OffCanvas</code></td><td class="p-4">The collapsible behavior of the sidebar.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>KeyboardShortcut</code></td><td class="p-4"><code>string</code></td><td class="p-4"><code>b</code></td><td class="p-4">The keyboard key for the open/close shortcut (Cmd/Ctrl + key).</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>PersistenceCookieName</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>sidebar_state</code></td><td class="p-4">The name of the cookie to persist the sidebar's state. Null or empty disables persistence.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Width</code></td><td class="p-4"><code>string</code></td><td class="p-4"><code>16rem</code></td><td class="p-4">The width of the sidebar on desktop.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>MobileWidth</code></td><td class="p-4"><code>string</code></td><td class="p-4"><code>18rem</code></td><td class="p-4">The width of the sidebar on mobile.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>IconWidth</code></td><td class="p-4"><code>string</code></td><td class="p-4"><code>3rem</code></td><td class="p-4">The width of the sidebar when collapsed to icon-only mode.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Sidebar</RzHeading>
+                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                             <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4">Required</td><td class="p-4">The content of the sidebar.</td></tr>
+                             <tr class="align-top"><td class="p-4"><code>Side</code></td><td class="p-4"><code>SidebarSide</code></td><td class="p-4"><code>Left</code></td><td class="p-4">The side of the screen where the sidebar appears.</td></tr>
+                             <tr class="align-top"><td class="p-4"><code>Variant</code></td><td class="p-4"><code>SidebarVariant</code></td><td class="p-4"><code>Sidebar</code></td><td class="p-4">The visual variant of the sidebar.</td></tr>
+                             <tr class="align-top"><td class="p-4"><code>AriaLabel</code></td><td class="p-4"><code>string?</code></td><td class="p-4">Localized "Sidebar navigation"</td><td class="p-4">Accessible label for the sidebar.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private string _search = string.Empty;
+
+    public class NavItem
+    {
+        public string Title { get; set; } = "";
+        public bool IsActive { get; set; }
+    }
+
+    public class NavGroup
+    {
+        public string Title { get; set; } = "";
+        public List<NavItem> Items { get; set; } = new();
+    }
+
+    private List<NavGroup> _navMain = new()
+    {
+        new() {
+            Title = "Getting Started",
+            Items = new() { new() { Title = "Installation" }, new() { Title = "Project Structure" } }
+        },
+        new() {
+            Title = "Building Your Application",
+            Items = new() { new() { Title = "Routing" }, new() { Title = "Data Fetching", IsActive = true }, new() { Title = "Rendering" } }
+        },
+        new() {
+            Title = "API Reference",
+            Items = new() { new() { Title = "Components" }, new() { Title = "Functions" } }
+        }
+    };
+
+    public class PlatformNavItem
+    {
+        public string Title { get; set; } = "";
+        public SvgIcon Icon { get; set; } = default!;
+        public bool IsActive { get; set; }
+        public List<NavItem> Items { get; set; } = new();
+    }
+
+    private List<PlatformNavItem> _platformNav = new()
+    {
+        new() {
+            Title = "Playground", Icon = MdiIcon.AirHorn, IsActive = true,
+            Items = new() { new() { Title = "History" }, new() { Title = "Starred" }, new() { Title = "Settings" } }
+        },
+        new() {
+            Title = "Models", Icon = MdiIcon.Robot,
+            Items = new() { new() { Title = "Genesis" }, new() { Title = "Explorer" }, new() { Title = "Quantum" } }
+        },
+        new() {
+            Title = "Documentation", Icon = MdiIcon.BookOpenVariant,
+            Items = new() { new() { Title = "Introduction" }, new() { Title = "Get Started" } }
+        },
+        new() {
+            Title = "Settings", Icon = MdiIcon.Cog,
+            Items = new() { new() { Title = "General" }, new() { Title = "Team" } }
+        }
+    };
+
+    public class MainNavActionItem
+    {
+        public string Title { get; set; } = "";
+        public SvgIcon Icon { get; set; } = default!;
+        public bool IsActive { get; set; }
+    }
+
+    private List<MainNavActionItem> _mainNavActions = new()
+    {
+        new() { Title = "Search", Icon = MdiIcon.Magnify },
+        new() { Title = "Ask AI", Icon = FluentUiIcon.Sparkle },
+        new() { Title = "Home", Icon = MdiIcon.Home, IsActive = true },
+        new() { Title = "Inbox", Icon = MdiIcon.Inbox }
+    };
+
+    public class FavoriteItem
+    {
+        public string Title { get; set; } = "";
+        public string Emoji { get; set; } = "";
+    }
+
+    private List<FavoriteItem> _favorites = new()
+    {
+        new() { Title = "Project Management", Emoji = "📊" },
+        new() { Title = "Family Recipes", Emoji = "🍳" },
+        new() { Title = "Fitness Tracker", Emoji = "💪" }
+    };
+
+    public class SettingsNavItem
+    {
+        public string Title { get; set; } = "";
+        public SvgIcon Icon { get; set; } = default!;
+    }
+
+    private List<SettingsNavItem> _settingsNav = new()
+    {
+        new() { Title = "Notifications", Icon = MdiIcon.Bell },
+        new() { Title = "Navigation", Icon = MdiIcon.Menu },
+        new() { Title = "Home", Icon = MdiIcon.Home },
+        new() { Title = "Appearance", Icon = MdiIcon.Palette },
+        new() { Title = "Messages & media", Icon = MdiIcon.Message },
+        new() { Title = "Language & region", Icon = MdiIcon.Web },
+        new() { Title = "Accessibility", Icon = MdiIcon.Keyboard },
+        new() { Title = "Mark as read", Icon = MdiIcon.Check },
+        new() { Title = "Audio & video", Icon = MdiIcon.Video },
+        new() { Title = "Connected accounts", Icon = MdiIcon.Link },
+        new() { Title = "Privacy & visibility", Icon = MdiIcon.Lock },
+        new() { Title = "Advanced", Icon = MdiIcon.Cog }
+    };
+}
