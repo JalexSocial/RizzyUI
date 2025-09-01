@@ -90,6 +90,7 @@ public partial class RzTheme
         SidebarMenuAction = new DefaultSidebarMenuActionStyles(this);
         SidebarMenuSub = new DefaultSidebarMenuSubStyles(this);
         SidebarMenuBadge = new DefaultSidebarMenuBadgeStyles(this);
+        SidebarRail = new DefaultSidebarRailStyles(this);
         SidebarSeparator = new DefaultSidebarSeparatorStyles(this);
         SidebarInset = new DefaultSidebarInsetStyles(this);
         RzSpinner = new DefaultRzSpinnerStyles(this);

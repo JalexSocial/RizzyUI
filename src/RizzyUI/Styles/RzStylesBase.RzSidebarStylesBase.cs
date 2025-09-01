@@ -128,4 +128,23 @@ public abstract partial class RzStylesBase
         protected SidebarInsetStylesBase(RzTheme theme) { Theme = theme; }
         public abstract string Inset { get; }
     }
+    
+    /// <summary>
+    /// Defines the abstract structure for styling the <see cref="SidebarRail" /> component.
+    /// </summary>
+    public abstract class SidebarRailStylesBase
+    {
+        /// <summary> The theme instance providing color and sizing tokens. </summary>
+        protected readonly RzTheme Theme;
+
+        /// <summary> Initializes a new instance of the <see cref="SidebarRailStylesBase" /> class. </summary>
+        protected SidebarRailStylesBase(RzTheme theme)
+        {
+            Theme = theme;
+        }
+
+        /// <summary> Gets the base CSS classes for the SidebarRail container div. </summary>
+        public abstract string Rail { get; }
+    }
+    
 }

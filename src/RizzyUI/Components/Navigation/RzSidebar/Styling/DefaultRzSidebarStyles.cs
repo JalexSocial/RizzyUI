@@ -133,3 +133,23 @@ public class DefaultSidebarInsetStyles : RzStylesBase.SidebarInsetStylesBase
     public DefaultSidebarInsetStyles(RzTheme theme) : base(theme) { }
     public override string Inset => "bg-background w-full relative flex flex-1 flex-col transition-[margin-left] duration-200 ease-linear peer-data-[state=collapsed]:ml-[var(--sidebar-width-icon)] md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2";
 }
+
+/// <summary>
+/// Provides the default styles for the <see cref="SidebarRail"/> component.
+/// </summary>
+public sealed class DefaultSidebarRailStyles : RzStylesBase.SidebarRailStylesBase
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DefaultSidebarRailStyles"/> class.
+    /// </summary>
+    /// <param name="theme">The theme instance providing styling context.</param>
+    public DefaultSidebarRailStyles(RzTheme theme) : base(theme) { }
+
+    /// <inheritdoc />
+    public override string Rail => "hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]/sidebar-wrapper:-right-4 group-data-[side=right]/sidebar-wrapper:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] sm:flex " +
+                                   "group-data-[side=left]/sidebar-wrapper:cursor-w-resize group-data-[side=right]/sidebar-wrapper:cursor-e-resize " +
+                                   "[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize " +
+                                   "hover:group-data-[collapsible=offcanvas]/sidebar-wrapper:bg-sidebar group-data-[collapsible=offcanvas]/sidebar-wrapper:translate-x-0 group-data-[collapsible=offcanvas]/sidebar-wrapper:after:left-full " +
+                                   "[[data-side=left][data-collapsible=offcanvas]_&]:-right-2 " +
+                                   "[[data-side=right][data-collapsible=offcanvas]_&]:-left-2";
+}

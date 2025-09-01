@@ -321,4 +321,8 @@
       <value>Close</value>
       <comment>Screen reader text for the close button in the Sheet component</comment>
     </data>
+    <data name="RzSidebarRail.DefaultAriaLabel" xml:space="preserve">
+      <value>Toggle Sidebar</value>
+      <comment>Default ARIA label for the SidebarRail component</comment>
+    </data>  
 </root>

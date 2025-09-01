@@ -1,0 +1,12 @@
+﻿@namespace RizzyUI
+@inherits RzComponent
+
+<HtmlElement Element="@EffectiveElement"
+             type="button"
+             @attributes="AdditionalAttributes"
+             id="@Id"
+             class="@RootClass()"
+             aria-label="@AriaLabel"
+             tabindex="-1"
+             x-on:click="toggle"
+             data-slot="sidebar-rail" />

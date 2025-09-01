@@ -231,6 +231,9 @@ public partial class RzTheme
     /// <summary> Gets the style definitions for the <see cref="SidebarMenuBadge" /> component. </summary>
     public virtual RzStylesBase.SidebarMenuBadgeStylesBase SidebarMenuBadge { get; }
 
+    /// <summary> Gets the style definitions for the <see cref="SidebarRail" /> component. </summary>
+    public virtual RzStylesBase.SidebarRailStylesBase SidebarRail { get; }
+    
     /// <summary> Gets the style definitions for the <see cref="SidebarSeparator" /> component. </summary>
     public virtual RzStylesBase.SidebarSeparatorStylesBase SidebarSeparator { get; }
     
