@@ -4062,25 +4062,17 @@ function registerRzQuickReferenceContainer(Alpine2) {
 function registerRzSheet(Alpine2) {
   Alpine2.data("rzSheet", () => ({
     open: false,
-    isVisible: false,
     init() {
       this.open = this.$el.dataset.defaultOpen === "true";
-      this.isVisible = this.open;
     },
     toggle() {
-      this.open ? this.close() : this.show();
+      this.open = !this.open;
     },
     close() {
       this.open = false;
-      setTimeout(() => {
-        this.isVisible = false;
-      }, 500);
     },
     show() {
-      this.isVisible = true;
-      this.$nextTick(() => {
-        this.open = true;
-      });
+      this.open = true;
     },
     state() {
       return this.open ? "open" : "closed";

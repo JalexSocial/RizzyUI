@@ -6,7 +6,7 @@ function Le(e) {
     });
   };
   function t(i, { modifiers: n }) {
-    let s = Vt(n, "duration", 250) / 1e3, r = Vt(n, "min", 0), o = !n.includes("min");
+    let s = Wt(n, "duration", 250) / 1e3, r = Wt(n, "min", 0), o = !n.includes("min");
     i._x_isShown || (i.style.height = `${r}px`), !i._x_isShown && o && (i.hidden = !0), i._x_isShown || (i.style.overflow = "hidden");
     let a = (c, d) => {
       let u = e.setStyles(c, d);
@@ -48,7 +48,7 @@ function Le(e) {
     };
   }
 }
-function Vt(e, t, i) {
+function Wt(e, t, i) {
   if (e.indexOf(t) === -1)
     return i;
   const n = e[e.indexOf(t) + 1];
@@ -146,12 +146,12 @@ var ze = Fe, ne = ["input", "select", "textarea", "a[href]", "button", "[tabinde
   return t.tagName === "INPUT";
 }, Be = function(t) {
   return le(t) && t.type === "hidden";
-}, Ve = function(t) {
+}, We = function(t) {
   var i = t.tagName === "DETAILS" && Array.prototype.slice.apply(t.children).some(function(n) {
     return n.tagName === "SUMMARY";
   });
   return i;
-}, We = function(t, i) {
+}, Ve = function(t, i) {
   for (var n = 0; n < t.length; n++)
     if (t[n].checked && t[n].form === i)
       return t[n];
@@ -169,13 +169,13 @@ var ze = Fe, ne = ["input", "select", "textarea", "a[href]", "button", "[tabinde
     } catch (o) {
       return console.error("Looks like you have a radio button with a name attribute containing invalid CSS selector characters and need the CSS.escape polyfill: %s", o.message), !1;
     }
-  var r = We(s, t.form);
+  var r = Ve(s, t.form);
   return !r || r === t;
 }, Ye = function(t) {
   return le(t) && t.type === "radio";
 }, je = function(t) {
   return Ye(t) && !He(t);
-}, Wt = function(t) {
+}, Vt = function(t) {
   var i = t.getBoundingClientRect(), n = i.width, s = i.height;
   return n === 0 && s === 0;
 }, qe = function(t, i) {
@@ -191,7 +191,7 @@ var ze = Fe, ne = ["input", "select", "textarea", "a[href]", "button", "[tabinde
       for (var c = t; t; ) {
         var d = t.parentElement, u = $t(t);
         if (d && !d.shadowRoot && s(d) === !0)
-          return Wt(t);
+          return Vt(t);
         t.assignedSlot ? t = t.assignedSlot : !d && u !== t.ownerDocument ? t = u.host : t = d;
       }
       t = c;
@@ -199,7 +199,7 @@ var ze = Fe, ne = ["input", "select", "textarea", "a[href]", "button", "[tabinde
     if (l)
       return !t.getClientRects().length;
   } else if (n === "non-zero-area")
-    return Wt(t);
+    return Vt(t);
   return !1;
 }, Ue = function(t) {
   if (/^(INPUT|BUTTON|SELECT|TEXTAREA)$/.test(t.tagName))
@@ -217,7 +217,7 @@ var ze = Fe, ne = ["input", "select", "textarea", "a[href]", "button", "[tabinde
   return !1;
 }, mt = function(t, i) {
   return !(i.disabled || Be(i) || qe(i, t) || // For a details element with a summary, the summary element gets the focus
-  Ve(i) || Ue(i));
+  We(i) || Ue(i));
 }, Lt = function(t, i) {
   return !(je(i) || ae(i) < 0 || !mt(t, i));
 }, Ge = function(t) {
@@ -762,7 +762,7 @@ function ai(e, t) {
 function li(e, t, i) {
   return t && ai(e.prototype, t), e;
 }
-var ci = Object.defineProperty, V = function(e, t) {
+var ci = Object.defineProperty, W = function(e, t) {
   return ci(e, "name", { value: t, configurable: !0 });
 }, ui = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">\r
   <path d="m8.94 8 4.2-4.193a.67.67 0 0 0-.947-.947L8 7.06l-4.193-4.2a.67.67 0 1 0-.947.947L7.06 8l-4.2 4.193a.667.667 0 0 0 .217 1.093.666.666 0 0 0 .73-.146L8 8.94l4.193 4.2a.666.666 0 0 0 1.094-.217.665.665 0 0 0-.147-.73L8.94 8Z" fill="currentColor"/>\r
@@ -779,31 +779,31 @@ var ci = Object.defineProperty, V = function(e, t) {
 `, pi = `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">\r
   <path d="M16.334 17.667a1.334 1.334 0 0 0 1.334-1.333v-5.333a1.333 1.333 0 0 0-2.665 0v5.333a1.333 1.333 0 0 0 1.33 1.333Zm-.508 5.227c.325.134.69.134 1.014 0 .165-.064.314-.159.44-.28a1.56 1.56 0 0 0 .28-.44c.076-.158.112-.332.107-.507a1.332 1.332 0 0 0-.387-.946 1.532 1.532 0 0 0-.44-.28 1.334 1.334 0 0 0-1.838 1.226 1.4 1.4 0 0 0 .385.947c.127.121.277.216.44.28Zm.508 6.773a13.333 13.333 0 1 0 0-26.667 13.333 13.333 0 0 0 0 26.667Zm0-24A10.667 10.667 0 1 1 16.54 27a10.667 10.667 0 0 1-.206-21.333Z" fill="currentColor"/>\r
 </svg>\r
-`, mi = V(function(e) {
+`, mi = W(function(e) {
   return new DOMParser().parseFromString(e, "text/html").body.childNodes[0];
-}, "stringToHTML"), nt = V(function(e) {
+}, "stringToHTML"), nt = W(function(e) {
   var t = new DOMParser().parseFromString(e, "application/xml");
   return document.importNode(t.documentElement, !0).outerHTML;
-}, "getSvgNode"), I = { CONTAINER: "sn-notifications-container", NOTIFY: "sn-notify", NOTIFY_CONTENT: "sn-notify-content", NOTIFY_ICON: "sn-notify-icon", NOTIFY_CLOSE: "sn-notify-close", NOTIFY_TITLE: "sn-notify-title", NOTIFY_TEXT: "sn-notify-text", IS_X_CENTER: "sn-is-x-center", IS_Y_CENTER: "sn-is-y-center", IS_CENTER: "sn-is-center", IS_LEFT: "sn-is-left", IS_RIGHT: "sn-is-right", IS_TOP: "sn-is-top", IS_BOTTOM: "sn-is-bottom", NOTIFY_OUTLINE: "sn-notify-outline", NOTIFY_FILLED: "sn-notify-filled", NOTIFY_ERROR: "sn-notify-error", NOTIFY_WARNING: "sn-notify-warning", NOTIFY_SUCCESS: "sn-notify-success", NOTIFY_INFO: "sn-notify-info", NOTIFY_FADE: "sn-notify-fade", NOTIFY_FADE_IN: "sn-notify-fade-in", NOTIFY_SLIDE: "sn-notify-slide", NOTIFY_SLIDE_IN: "sn-notify-slide-in", NOTIFY_AUTOCLOSE: "sn-notify-autoclose" }, Y = { ERROR: "error", WARNING: "warning", SUCCESS: "success", INFO: "info" }, Zt = { OUTLINE: "outline", FILLED: "filled" }, Nt = { FADE: "fade", SLIDE: "slide" }, st = { CLOSE: nt(ui), SUCCESS: nt(hi), ERROR: nt(di), WARNING: nt(pi), INFO: nt(fi) }, Kt = V(function(e) {
+}, "getSvgNode"), I = { CONTAINER: "sn-notifications-container", NOTIFY: "sn-notify", NOTIFY_CONTENT: "sn-notify-content", NOTIFY_ICON: "sn-notify-icon", NOTIFY_CLOSE: "sn-notify-close", NOTIFY_TITLE: "sn-notify-title", NOTIFY_TEXT: "sn-notify-text", IS_X_CENTER: "sn-is-x-center", IS_Y_CENTER: "sn-is-y-center", IS_CENTER: "sn-is-center", IS_LEFT: "sn-is-left", IS_RIGHT: "sn-is-right", IS_TOP: "sn-is-top", IS_BOTTOM: "sn-is-bottom", NOTIFY_OUTLINE: "sn-notify-outline", NOTIFY_FILLED: "sn-notify-filled", NOTIFY_ERROR: "sn-notify-error", NOTIFY_WARNING: "sn-notify-warning", NOTIFY_SUCCESS: "sn-notify-success", NOTIFY_INFO: "sn-notify-info", NOTIFY_FADE: "sn-notify-fade", NOTIFY_FADE_IN: "sn-notify-fade-in", NOTIFY_SLIDE: "sn-notify-slide", NOTIFY_SLIDE_IN: "sn-notify-slide-in", NOTIFY_AUTOCLOSE: "sn-notify-autoclose" }, Y = { ERROR: "error", WARNING: "warning", SUCCESS: "success", INFO: "info" }, Zt = { OUTLINE: "outline", FILLED: "filled" }, Nt = { FADE: "fade", SLIDE: "slide" }, st = { CLOSE: nt(ui), SUCCESS: nt(hi), ERROR: nt(di), WARNING: nt(pi), INFO: nt(fi) }, Kt = W(function(e) {
   e.wrapper.classList.add(I.NOTIFY_FADE), setTimeout(function() {
     e.wrapper.classList.add(I.NOTIFY_FADE_IN);
   }, 100);
-}, "fadeIn"), Xt = V(function(e) {
+}, "fadeIn"), Xt = W(function(e) {
   e.wrapper.classList.remove(I.NOTIFY_FADE_IN), setTimeout(function() {
     e.wrapper.remove();
   }, e.speed);
-}, "fadeOut"), gi = V(function(e) {
+}, "fadeOut"), gi = W(function(e) {
   e.wrapper.classList.add(I.NOTIFY_SLIDE), setTimeout(function() {
     e.wrapper.classList.add(I.NOTIFY_SLIDE_IN);
   }, 100);
-}, "slideIn"), bi = V(function(e) {
+}, "slideIn"), bi = W(function(e) {
   e.wrapper.classList.remove(I.NOTIFY_SLIDE_IN), setTimeout(function() {
     e.wrapper.remove();
   }, e.speed);
 }, "slideOut"), de = function() {
   function e(t) {
     var i = this;
-    oi(this, e), this.notifyOut = V(function(F) {
+    oi(this, e), this.notifyOut = W(function(F) {
       F(i);
     }, "notifyOut");
     var n = t.notificationsGap, s = n === void 0 ? 20 : n, r = t.notificationsPadding, o = r === void 0 ? 20 : r, a = t.status, l = a === void 0 ? "success" : a, c = t.effect, d = c === void 0 ? Nt.FADE : c, u = t.type, p = u === void 0 ? "outline" : u, m = t.title, b = t.text, y = t.showIcon, w = y === void 0 ? !0 : y, T = t.customIcon, S = T === void 0 ? "" : T, O = t.customClass, k = O === void 0 ? "" : O, v = t.speed, f = v === void 0 ? 500 : v, h = t.showCloseButton, g = h === void 0 ? !0 : h, E = t.autoclose, x = E === void 0 ? !0 : E, C = t.autotimeout, N = C === void 0 ? 3e3 : C, A = t.position, M = A === void 0 ? "right top" : A, L = t.customWrapper, U = L === void 0 ? "" : L;
@@ -860,7 +860,7 @@ var ci = Object.defineProperty, V = function(e, t) {
     var n, s;
     this.title && (n = document.createElement("div"), n.classList.add(I.NOTIFY_TITLE), n.textContent = this.title.trim(), this.showCloseButton || (n.style.paddingRight = "0")), this.text && (s = document.createElement("div"), s.classList.add(I.NOTIFY_TEXT), s.innerHTML = this.text.trim(), this.title || (s.style.marginTop = "0")), this.wrapper.appendChild(i), this.title && i.appendChild(n), this.text && i.appendChild(s);
   } }, { key: "setIcon", value: function() {
-    var i = V(function(s) {
+    var i = W(function(s) {
       switch (s) {
         case Y.SUCCESS:
           return st.SUCCESS;
@@ -903,7 +903,7 @@ var ci = Object.defineProperty, V = function(e, t) {
     }
   } }]), e;
 }();
-V(de, "Notify");
+W(de, "Notify");
 var fe = de;
 globalThis.Notify = fe;
 const he = ["success", "error", "warning", "info"], pe = [
@@ -1679,7 +1679,7 @@ const Bi = function(e) {
     }
   };
 };
-async function Vi(e, t) {
+async function Wi(e, t) {
   const {
     placement: i,
     platform: n,
@@ -1706,7 +1706,7 @@ async function Vi(e, t) {
     y: m * d
   };
 }
-const Wi = function(e) {
+const Vi = function(e) {
   return e === void 0 && (e = 0), {
     name: "offset",
     options: e,
@@ -1717,7 +1717,7 @@ const Wi = function(e) {
         y: r,
         placement: o,
         middlewareData: a
-      } = t, l = await Vi(t, e);
+      } = t, l = await Wi(t, e);
       return o === ((i = a.offset) == null ? void 0 : i.placement) && (n = a.arrow) != null && n.alignmentOffset ? {} : {
         x: s + l.x,
         y: r + l.y,
@@ -1795,7 +1795,7 @@ function $(e) {
   var t;
   return (e == null || (t = e.ownerDocument) == null ? void 0 : t.defaultView) || window;
 }
-function W(e) {
+function V(e) {
   var t;
   return (t = (Ie(e) ? e.ownerDocument : e.document) || window.document) == null ? void 0 : t.documentElement;
 }
@@ -1873,7 +1873,7 @@ function q(e) {
     e.assignedSlot || // DOM Element detected.
     e.parentNode || // ShadowRoot detected.
     te(e) && e.host || // Fallback.
-    W(e)
+    V(e)
   );
   return te(t) ? t.host : t;
 }
@@ -1953,7 +1953,7 @@ function lt(e, t, i, n) {
 }
 function Bt(e, t) {
   const i = kt(e).scrollLeft;
-  return t ? t.left + i : lt(W(e)).left + i;
+  return t ? t.left + i : lt(V(e)).left + i;
 }
 function ke(e, t, i) {
   i === void 0 && (i = !1);
@@ -1973,7 +1973,7 @@ function Gi(e) {
     offsetParent: n,
     strategy: s
   } = e;
-  const r = s === "fixed", o = W(n), a = t ? Ot(t.floating) : !1;
+  const r = s === "fixed", o = V(n), a = t ? Ot(t.floating) : !1;
   if (n === o || a && r)
     return i;
   let l = {
@@ -1997,7 +1997,7 @@ function Zi(e) {
   return Array.from(e.getClientRects());
 }
 function Ki(e) {
-  const t = W(e), i = kt(e), n = e.ownerDocument.body, s = J(t.scrollWidth, t.clientWidth, n.scrollWidth, n.clientWidth), r = J(t.scrollHeight, t.clientHeight, n.scrollHeight, n.clientHeight);
+  const t = V(e), i = kt(e), n = e.ownerDocument.body, s = J(t.scrollWidth, t.clientWidth, n.scrollWidth, n.clientWidth), r = J(t.scrollHeight, t.clientHeight, n.scrollHeight, n.clientHeight);
   let o = -i.scrollLeft + Bt(e);
   const a = -i.scrollTop;
   return _(n).direction === "rtl" && (o += J(t.clientWidth, n.clientWidth) - s), {
@@ -2008,7 +2008,7 @@ function Ki(e) {
   };
 }
 function Xi(e, t) {
-  const i = $(e), n = W(e), s = i.visualViewport;
+  const i = $(e), n = V(e), s = i.visualViewport;
   let r = n.clientWidth, o = n.clientHeight, a = 0, l = 0;
   if (s) {
     r = s.width, o = s.height;
@@ -2036,7 +2036,7 @@ function ee(e, t, i) {
   if (t === "viewport")
     n = Xi(e, i);
   else if (t === "document")
-    n = Ki(W(e));
+    n = Ki(V(e));
   else if (D(t))
     n = Ji(t, i);
   else {
@@ -2096,7 +2096,7 @@ function en(e) {
   };
 }
 function nn(e, t, i) {
-  const n = B(t), s = W(t), r = i === "fixed", o = lt(e, !0, r, t);
+  const n = B(t), s = V(t), r = i === "fixed", o = lt(e, !0, r, t);
   let a = {
     scrollLeft: 0,
     scrollTop: 0
@@ -2128,7 +2128,7 @@ function ie(e, t) {
   if (t)
     return t(e);
   let i = e.offsetParent;
-  return W(e) === i && (i = i.ownerDocument.body), i;
+  return V(e) === i && (i = i.ownerDocument.body), i;
 }
 function Ae(e, t) {
   const i = $(e);
@@ -2165,7 +2165,7 @@ function rn(e) {
 }
 const on = {
   convertOffsetParentRelativeRectToViewportRelativeRect: Gi,
-  getDocumentElement: W,
+  getDocumentElement: V,
   getClippingRect: tn,
   getOffsetParent: Ae,
   getElementRects: sn,
@@ -2174,7 +2174,7 @@ const on = {
   getScale: Q,
   isElement: D,
   isRTL: rn
-}, yt = Wi, xt = Hi, It = Bi, Et = (e, t, i) => {
+}, yt = Vi, xt = Hi, It = Bi, Et = (e, t, i) => {
   const n = /* @__PURE__ */ new Map(), s = {
     platform: on,
     ...i
@@ -2879,22 +2879,17 @@ function wn(e) {
 function yn(e) {
   e.data("rzSheet", () => ({
     open: !1,
-    isVisible: !1,
     init() {
-      this.open = this.$el.dataset.defaultOpen === "true", this.isVisible = this.open;
+      this.open = this.$el.dataset.defaultOpen === "true";
     },
     toggle() {
-      this.open ? this.close() : this.show();
+      this.open = !this.open;
     },
     close() {
-      this.open = !1, setTimeout(() => {
-        this.isVisible = !1;
-      }, 500);
+      this.open = !1;
     },
     show() {
-      this.isVisible = !0, this.$nextTick(() => {
-        this.open = !0;
-      });
+      this.open = !0;
     },
     state() {
       return this.open ? "open" : "closed";

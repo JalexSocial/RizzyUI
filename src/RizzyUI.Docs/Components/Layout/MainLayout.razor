@@ -65,7 +65,6 @@
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/collapsible"><span>Collapsible</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/dropdown"><span>Dropdown Menu</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/link"><span>Link</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/navbar"><span>Navbar</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/navigation-menu"><span>Navigation Menu</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/popover"><span>Popover</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/sidebar"><span>Sidebar</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -116,7 +115,7 @@
 
     <!-- Main Content Area -->
     <SidebarInset>
-        <RzNavbar>
+        <header class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 items-center justify-between border-b bg-secondary/75 px-4 py-2 backdrop-blur-xl">
             <div class="flex items-center gap-2">
                 <SidebarTrigger />
                 <RzSeparator Orientation="Orientation.Vertical" class="mr-2 h-4" />
@@ -128,7 +127,7 @@
                 <RzSearchButton class="bg-background" />
                 <RzDarkModeToggle/>
             </div>
-        </RzNavbar>
+        </header>
 
         <main class="flex flex-1 flex-col gap-4 p-4 mt-16">
             @Body

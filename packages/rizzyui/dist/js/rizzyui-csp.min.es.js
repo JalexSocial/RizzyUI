@@ -5009,22 +5009,17 @@ function Gl(e) {
 function Zl(e) {
   e.data("rzSheet", () => ({
     open: !1,
-    isVisible: !1,
     init() {
-      this.open = this.$el.dataset.defaultOpen === "true", this.isVisible = this.open;
+      this.open = this.$el.dataset.defaultOpen === "true";
     },
     toggle() {
-      this.open ? this.close() : this.show();
+      this.open = !this.open;
     },
     close() {
-      this.open = !1, setTimeout(() => {
-        this.isVisible = !1;
-      }, 500);
+      this.open = !1;
     },
     show() {
-      this.isVisible = !0, this.$nextTick(() => {
-        this.open = !0;
-      });
+      this.open = !0;
     },
     state() {
       return this.open ? "open" : "closed";

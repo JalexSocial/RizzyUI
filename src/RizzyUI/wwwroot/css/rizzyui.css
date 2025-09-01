@@ -2882,8 +2882,18 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .transition-\[left\] {
+    transition-property: left;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
   .transition-\[margin\,opacity\] {
     transition-property: margin,opacity;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .transition-\[margin-left\] {
+    transition-property: margin-left;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
@@ -2951,6 +2961,10 @@
   .duration-300 {
     --tw-duration: 300ms;
     transition-duration: 300ms;
+  }
+  .duration-500 {
+    --tw-duration: 500ms;
+    transition-duration: 500ms;
   }
   .duration-600 {
     --tw-duration: 600ms;
@@ -3179,6 +3193,11 @@
   .peer-disabled\:opacity-50 {
     &:is(:where(.peer):disabled ~ *) {
       opacity: 50%;
+    }
+  }
+  .peer-data-\[state\=collapsed\]\:ml-\[var\(--sidebar-width-icon\)\] {
+    &:is(:where(.peer)[data-state="collapsed"] ~ *) {
+      margin-left: var(--sidebar-width-icon);
     }
   }
   .selection\:bg-primary {
@@ -5523,6 +5542,48 @@
       line-height: var(--tw-leading, var(--text-xl--line-height));
     }
   }
+  .md\:group-data-\[state\=collapsed\]\:left-\[var\(--sidebar-width-icon\)\] {
+    @media (width >= 48rem) {
+      &:is(:where(.group)[data-state="collapsed"] *) {
+        left: var(--sidebar-width-icon);
+      }
+    }
+  }
+  .md\:group-data-\[state\=collapsed\]\/sidebar-wrapper\:left-\[var\(--sidebar-width-icon\)\] {
+    @media (width >= 48rem) {
+      &:is(:where(.group\/sidebar-wrapper)[data-state="collapsed"] *) {
+        left: var(--sidebar-width-icon);
+      }
+    }
+  }
+  .md\:group-data-\[state\=expanded\]\:left-\[var\(--sidebar-width\)\] {
+    @media (width >= 48rem) {
+      &:is(:where(.group)[data-state="expanded"] *) {
+        left: var(--sidebar-width);
+      }
+    }
+  }
+  .md\:group-data-\[state\=expanded\]\/sidebar-wrapper\:left-\[var\(--sidebar-width\)\] {
+    @media (width >= 48rem) {
+      &:is(:where(.group\/sidebar-wrapper)[data-state="expanded"] *) {
+        left: var(--sidebar-width);
+      }
+    }
+  }
+  .md\:peer-data-\[state\=collapsed\]\:left-\[var\(--sidebar-width-icon\)\] {
+    @media (width >= 48rem) {
+      &:is(:where(.peer)[data-state="collapsed"] ~ *) {
+        left: var(--sidebar-width-icon);
+      }
+    }
+  }
+  .md\:peer-data-\[state\=expanded\]\:left-\[var\(--sidebar-width\)\] {
+    @media (width >= 48rem) {
+      &:is(:where(.peer)[data-state="expanded"] ~ *) {
+        left: var(--sidebar-width);
+      }
+    }
+  }
   .md\:peer-data-\[variant\=inset\]\:m-2 {
     @media (width >= 48rem) {
       &:is(:where(.peer)[data-variant="inset"] ~ *) {
@@ -7004,6 +7065,11 @@
     &>[role=checkbox] {
       --tw-translate-y: 2px;
       translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
+  .\[\&\>button\]\:hidden {
+    &>button {
+      display: none;
     }
   }
   .\[\&\>span\:last-child\]\:truncate {
