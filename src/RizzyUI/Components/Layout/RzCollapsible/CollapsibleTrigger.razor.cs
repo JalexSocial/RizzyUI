@@ -39,7 +39,7 @@ public partial class CollapsibleTrigger : RzAsChildComponent
     /// <inheritdoc/>
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        return new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = $"{ParentCollapsible?.Id}-trigger",
             ["class"] = RootClass(),
@@ -48,6 +48,7 @@ public partial class CollapsibleTrigger : RzAsChildComponent
             ["x-bind:aria-expanded"] = "isOpen",
             ["x-bind:data-state"] = "state"
         };
+        return attributes;
     }
 
     /// <inheritdoc/>

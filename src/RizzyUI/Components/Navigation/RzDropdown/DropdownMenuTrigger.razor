@@ -1,20 +1,13 @@
-
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzAsChildComponent
 
-<HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
-             id="@TriggerId"
-             class="@RootClass()"
-             x-ref="trigger"
-             aria-haspopup="menu"
-             aria-controls="@ContentId"
-             x-bind:aria-expanded="ariaExpanded"
-             x-on:click="toggle"
-             x-on:mouseover="handleTriggerMouseover"
-             x-on:keydown.enter.prevent="handleTriggerKeydown"
-             x-on:keydown.space.prevent="handleTriggerKeydown"
-             x-on:keydown.down.prevent="handleTriggerKeydown"
-             x-on:keydown.up.prevent="handleTriggerKeydown">
-    @ChildContent
-</HtmlElement>
+@if (AsChild)
+{
+	@RenderAsChild()
+}
+else
+{
+	<HtmlElement Element="@EffectiveElement" @attributes="GetComponentAttributes()">
+		@ChildContent
+	</HtmlElement>
+}

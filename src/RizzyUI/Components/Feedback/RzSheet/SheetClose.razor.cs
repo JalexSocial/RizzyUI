@@ -40,13 +40,14 @@ public partial class SheetClose : RzAsChildComponent
     /// <inheritdoc/>
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        return new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
             ["class"] = RootClass(),
             ["x-on:click"] = "close",
             ["data-slot"] = "sheet-close"
         };
+        return attributes;
     }
 
     /// <inheritdoc/>

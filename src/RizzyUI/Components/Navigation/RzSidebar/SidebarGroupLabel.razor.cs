@@ -39,7 +39,7 @@ public partial class SidebarGroupLabel : RzAsChildComponent
     /// <inheritdoc/>
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        var attributes = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = ParentGroup?.LabelId,
             ["class"] = RootClass()

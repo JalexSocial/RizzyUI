@@ -9,7 +9,7 @@ namespace RizzyUI;
 /// Represents the trigger element for an <see cref="RzDropdownMenu"/>.
 /// This component wraps the content that users will click or interact with to open the dropdown.
 /// </summary>
-public partial class DropdownMenuTrigger : RzComponent
+public partial class DropdownMenuTrigger : RzAsChildComponent
 {
     /// <summary>
     /// Gets the parent <see cref="RzDropdownMenu"/> component.
@@ -41,7 +41,31 @@ public partial class DropdownMenuTrigger : RzComponent
         {
             throw new InvalidOperationException($"{nameof(DropdownMenuTrigger)} must be used within an {nameof(RzDropdownMenu)}.");
         }
-        // Default element can remain div, or be more specific if needed, but often it's just a wrapper.
+        // The base element is a div by default, which is suitable for wrapping a trigger.
+    }
+
+    /// <inheritdoc/>
+    protected override RenderFragment? GetAsChildContent() => ChildContent;
+
+    /// <inheritdoc/>
+    protected override Dictionary<string, object?> GetComponentAttributes()
+    {
+        var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
+        {
+            ["id"] = TriggerId,
+            ["class"] = RootClass(),
+            ["x-ref"] = "trigger",
+            ["aria-haspopup"] = "menu",
+            ["aria-controls"] = ContentId,
+            ["x-bind:aria-expanded"] = "ariaExpanded",
+            ["x-on:click"] = "toggle",
+            ["x-on:mouseover"] = "handleTriggerMouseover",
+            ["x-on:keydown.enter.prevent"] = "handleTriggerKeydown",
+            ["x-on:keydown.space.prevent"] = "handleTriggerKeydown",
+            ["x-on:keydown.down.prevent"] = "handleTriggerKeydown",
+            ["x-on:keydown.up.prevent"] = "handleTriggerKeydown"
+        };
+        return attributes;
     }
 
     /// <inheritdoc/>

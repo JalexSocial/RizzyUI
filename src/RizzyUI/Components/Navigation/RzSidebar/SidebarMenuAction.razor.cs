@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -28,11 +29,12 @@ public partial class SidebarMenuAction : RzAsChildComponent
     /// <inheritdoc/>
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        return new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase)
+        var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
             ["class"] = RootClass()
         };
+        return attributes;
     }
 
     /// <inheritdoc/>

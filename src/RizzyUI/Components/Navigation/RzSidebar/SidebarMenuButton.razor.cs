@@ -1,3 +1,5 @@
+
+// src/RizzyUI/Components/Navigation/RzSidebar/SidebarMenuButton.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -49,12 +51,19 @@ public partial class SidebarMenuButton : RzAsChildComponent
     /// <inheritdoc/>
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        var attributes = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase)
-        {
-            ["id"] = Id,
-            ["class"] = RootClass(),
-            ["aria-current"] = IsActive ? "page" : null
-        };
+        // Start with a copy of the user-provided attributes.
+        var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase);
+
+        // Add or overwrite with the component's essential attributes.
+        // The `Id` from the component's parameter takes precedence.
+        attributes["id"] = Id;
+
+        // The `class` is merged by RootClass(), which already considers AdditionalAttributes.
+        attributes["class"] = RootClass();
+
+        // Set ARIA attributes based on component state.
+        attributes["aria-current"] = IsActive ? "page" : null;
+
         return attributes;
     }
 
