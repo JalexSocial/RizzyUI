@@ -2,6 +2,6 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<HtmlElement Element="@EffectiveElement" role="list" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
+<HtmlElement Element="@EffectiveElement" data-slot="sidebar-menu" data-sidebar="menu" role="list" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
     @ChildContent
 </HtmlElement>
