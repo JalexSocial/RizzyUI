@@ -131,7 +131,7 @@ public class DefaultSidebarSeparatorStyles : RzStylesBase.SidebarSeparatorStyles
 public class DefaultSidebarInsetStyles : RzStylesBase.SidebarInsetStylesBase
 {
     public DefaultSidebarInsetStyles(RzTheme theme) : base(theme) { }
-    public override string Inset => "bg-background w-full relative flex flex-1 flex-col transition-[margin-left] duration-200 ease-linear peer-data-[state=collapsed]:ml-[var(--sidebar-width-icon)] md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2";
+    public override string Inset => "bg-background w-full relative flex flex-1 flex-col transition-[margin-left] duration-200 ease-linear peer-data-[collapsible=icon][data-state=collapsed]:ml-[var(--sidebar-width-icon)] md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2";
 }
 
 /// <summary>
