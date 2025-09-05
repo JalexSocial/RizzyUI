@@ -13,6 +13,12 @@ namespace RizzyUI;
 public partial class DropdownMenuSub : RzComponent
 {
     /// <summary>
+    /// Gets the parent <see cref="RzDropdownMenu"/> component.
+    /// </summary>
+    [CascadingParameter]
+    protected RzDropdownMenu? ParentDropdownMenu { get; set; }
+
+    /// <summary>
     /// Gets or sets the content of the sub-menu, typically a <see cref="DropdownMenuSubTrigger"/>
     /// and a <see cref="DropdownMenuSubContent"/>. Required.
     /// </summary>
@@ -32,6 +38,16 @@ public partial class DropdownMenuSub : RzComponent
     /// </summary>
     [Parameter]
     public int Offset { get; set; } = -4;
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (ParentDropdownMenu == null)
+        {
+            throw new InvalidOperationException($"{nameof(DropdownMenuSub)} must be used within an {nameof(RzDropdownMenu)}.");
+        }
+    }
 
     /// <inheritdoc/>
     protected override string? RootClass()

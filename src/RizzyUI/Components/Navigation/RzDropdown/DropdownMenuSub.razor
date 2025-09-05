@@ -9,6 +9,7 @@
                  class="@RootClass()"
                  x-data="rzDropdownSubmenu"
                  data-alpine-root="@Id"
+                 data-parent-id="@ParentDropdownMenu?.Id"
                  data-sub-anchor="@Anchor.ToString().ToKebabCase()"
                  data-sub-offset="@Offset">
         @ChildContent

@@ -67,11 +67,11 @@ function Wt(e, t, i) {
   return n;
 }
 var Re = Le;
-function Fe(e) {
+function De(e) {
   e.directive("intersect", e.skipDuringClone((t, { value: i, expression: n, modifiers: s }, { evaluateLater: r, cleanup: o }) => {
     let a = r(n), l = {
       rootMargin: Me(s),
-      threshold: De(s)
+      threshold: Fe(s)
     }, c = new IntersectionObserver((d) => {
       d.forEach((u) => {
         u.isIntersecting !== (i === "leave") && (a(), s.includes("once") && c.disconnect());
@@ -82,7 +82,7 @@ function Fe(e) {
     });
   }));
 }
-function De(e) {
+function Fe(e) {
   if (e.includes("full"))
     return 0.99;
   if (e.includes("half"))
@@ -105,7 +105,7 @@ function Me(e) {
     s.push(_e(e[n + r] || ""));
   return s = s.filter((r) => r !== void 0), s.length ? s.join(" ").trim() : i;
 }
-var ze = Fe, ne = ["input", "select", "textarea", "a[href]", "button", "[tabindex]:not(slot)", "audio[controls]", "video[controls]", '[contenteditable]:not([contenteditable="false"])', "details>summary:first-of-type", "details"], pt = /* @__PURE__ */ ne.join(","), se = typeof Element > "u", Z = se ? function() {
+var ze = De, ne = ["input", "select", "textarea", "a[href]", "button", "[tabindex]:not(slot)", "audio[controls]", "video[controls]", '[contenteditable]:not([contenteditable="false"])', "details>summary:first-of-type", "details"], pt = /* @__PURE__ */ ne.join(","), se = typeof Element > "u", Z = se ? function() {
 } : Element.prototype.matches || Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector, $t = !se && Element.prototype.getRootNode ? function(e) {
   return e.getRootNode();
 } : function(e) {
@@ -486,8 +486,8 @@ var jt = /* @__PURE__ */ function() {
       if (E < 0)
         f.shiftKey ? g = r.tabbableGroups[r.tabbableGroups.length - 1].lastTabbableNode : g = r.tabbableGroups[0].firstTabbableNode;
       else if (f.shiftKey) {
-        var C = Ut(r.tabbableGroups, function(F) {
-          var R = F.firstTabbableNode;
+        var C = Ut(r.tabbableGroups, function(D) {
+          var R = D.firstTabbableNode;
           return h === R;
         });
         if (C < 0 && (x.container === h || ft(h, s.tabbableOptions) && !ut(h, s.tabbableOptions) && !x.nextTabbableNode(h, !1)) && (C = E), C >= 0) {
@@ -495,8 +495,8 @@ var jt = /* @__PURE__ */ function() {
           g = A.lastTabbableNode;
         }
       } else {
-        var M = Ut(r.tabbableGroups, function(F) {
-          var R = F.lastTabbableNode;
+        var M = Ut(r.tabbableGroups, function(D) {
+          var R = D.lastTabbableNode;
           return h === R;
         });
         if (M < 0 && (x.container === h || ft(h, s.tabbableOptions) && !ut(h, s.tabbableOptions) && !x.nextTabbableNode(h)) && (M = E), M >= 0) {
@@ -803,8 +803,8 @@ var ci = Object.defineProperty, W = function(e, t) {
 }, "slideOut"), de = function() {
   function e(t) {
     var i = this;
-    oi(this, e), this.notifyOut = W(function(F) {
-      F(i);
+    oi(this, e), this.notifyOut = W(function(D) {
+      D(i);
     }, "notifyOut");
     var n = t.notificationsGap, s = n === void 0 ? 20 : n, r = t.notificationsPadding, o = r === void 0 ? 20 : r, a = t.status, l = a === void 0 ? "success" : a, c = t.effect, d = c === void 0 ? Nt.FADE : c, u = t.type, p = u === void 0 ? "outline" : u, m = t.title, b = t.text, y = t.showIcon, w = y === void 0 ? !0 : y, T = t.customIcon, S = T === void 0 ? "" : T, O = t.customClass, k = O === void 0 ? "" : O, v = t.speed, f = v === void 0 ? 500 : v, h = t.showCloseButton, g = h === void 0 ? !0 : h, E = t.autoclose, x = E === void 0 ? !0 : E, C = t.autotimeout, N = C === void 0 ? 3e3 : C, A = t.position, M = A === void 0 ? "right top" : A, L = t.customWrapper, U = L === void 0 ? "" : L;
     if (this.customWrapper = U, this.status = l, this.title = m, this.text = b, this.showIcon = w, this.customIcon = S, this.customClass = k, this.speed = f, this.effect = d, this.showCloseButton = g, this.autoclose = x, this.autotimeout = N, this.notificationsGap = s, this.notificationsPadding = o, this.type = p, this.position = M, !this.checkRequirements()) {
@@ -1018,7 +1018,7 @@ function ge(e, t) {
     for (; i.length; )
       i[0](e, t), i.splice(0, 1);
 }
-function Ft(e, t) {
+function Dt(e, t) {
   typeof e == "function" && (e = { success: e }), t.length ? (e.error || Rt)(t) : (e.success || Rt)(e);
 }
 function yi(e, t, i, n, s, r, o, a) {
@@ -1076,7 +1076,7 @@ function j(e, t, i) {
   }
   function r(o, a) {
     xi(e, function(l) {
-      Ft(s, l), o && Ft({ success: o, error: a }, l), ge(n, l);
+      Dt(s, l), o && Dt({ success: o, error: a }, l), ge(n, l);
     }, s);
   }
   if (s.returnPromise)
@@ -1085,7 +1085,7 @@ function j(e, t, i) {
 }
 j.ready = function(t, i) {
   return wi(t, function(n) {
-    Ft(i, n);
+    Dt(i, n);
   }), j;
 };
 j.done = function(t) {
@@ -1336,7 +1336,7 @@ function Ai(e, t) {
     }
   }));
 }
-const Dt = Math.min, J = Math.max, bt = Math.round, P = (e) => ({
+const Ft = Math.min, J = Math.max, bt = Math.round, P = (e) => ({
   x: e,
   y: e
 }), $i = {
@@ -1349,7 +1349,7 @@ const Dt = Math.min, J = Math.max, bt = Math.round, P = (e) => ({
   end: "start"
 };
 function Jt(e, t, i) {
-  return J(e, Dt(t, i));
+  return J(e, Ft(t, i));
 }
 function Tt(e, t) {
   return typeof e == "function" ? e(t) : e;
@@ -1378,14 +1378,14 @@ function Ri(e, t, i) {
   let o = s === "x" ? n === (i ? "end" : "start") ? "right" : "left" : n === "start" ? "bottom" : "top";
   return t.reference[r] > t.floating[r] && (o = vt(o)), [o, vt(o)];
 }
-function Fi(e) {
+function Di(e) {
   const t = vt(e);
   return [_t(e), t, _t(t)];
 }
 function _t(e) {
   return e.replace(/start|end/g, (t) => Li[t]);
 }
-function Di(e, t, i) {
+function Fi(e, t, i) {
   const n = ["left", "right"], s = ["right", "left"], r = ["top", "bottom"], o = ["bottom", "top"];
   switch (e) {
     case "top":
@@ -1400,7 +1400,7 @@ function Di(e, t, i) {
 }
 function _i(e, t, i, n) {
   const s = St(e);
-  let r = Di(K(e), i === "start", n);
+  let r = Fi(K(e), i === "start", n);
   return s && (r = r.map((o) => o + "-" + s), t && (r = r.concat(r.map(_t)))), r;
 }
 function vt(e) {
@@ -1619,7 +1619,7 @@ const Bi = function(e) {
       } = Tt(e, t);
       if ((i = r.arrow) != null && i.alignmentOffset)
         return {};
-      const T = K(s), S = G(a), O = K(a) === a, k = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), v = p || (O || !y ? [vt(a)] : Fi(a)), f = b !== "none";
+      const T = K(s), S = G(a), O = K(a) === a, k = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), v = p || (O || !y ? [vt(a)] : Di(a)), f = b !== "none";
       !p && f && v.push(..._i(a, y, b, k));
       const h = [a, ...v], g = await xe(t, w), E = [];
       let x = ((n = r.flip) == null ? void 0 : n.overflows) || [];
@@ -1647,8 +1647,8 @@ const Bi = function(e) {
               }
             };
         }
-        let F = (N = x.filter((R) => R.overflows[0] <= 0).sort((R, z) => R.overflows[1] - z.overflows[1])[0]) == null ? void 0 : N.placement;
-        if (!F)
+        let D = (N = x.filter((R) => R.overflows[0] <= 0).sort((R, z) => R.overflows[1] - z.overflows[1])[0]) == null ? void 0 : N.placement;
+        if (!D)
           switch (m) {
             case "bestFit": {
               var M;
@@ -1661,17 +1661,17 @@ const Bi = function(e) {
                 }
                 return !0;
               }).map((z) => [z.placement, z.overflows.filter((H) => H > 0).reduce((H, $e) => H + $e, 0)]).sort((z, H) => z[1] - H[1])[0]) == null ? void 0 : M[0];
-              R && (F = R);
+              R && (D = R);
               break;
             }
             case "initialPlacement":
-              F = a;
+              D = a;
               break;
           }
-        if (s !== F)
+        if (s !== D)
           return {
             reset: {
-              placement: F
+              placement: D
             }
           };
       }
@@ -1802,7 +1802,7 @@ function V(e) {
 function Ie(e) {
   return Ct() ? e instanceof Node || e instanceof $(e).Node : !1;
 }
-function D(e) {
+function F(e) {
   return Ct() ? e instanceof Element || e instanceof $(e).Element : !1;
 }
 function B(e) {
@@ -1833,7 +1833,7 @@ function Ot(e) {
   });
 }
 function zt(e) {
-  const t = Pt(), i = D(e) ? _(e) : e;
+  const t = Pt(), i = F(e) ? _(e) : e;
   return ["transform", "translate", "scale", "rotate", "perspective"].some((n) => i[n] ? i[n] !== "none" : !1) || (i.containerType ? i.containerType !== "normal" : !1) || !t && (i.backdropFilter ? i.backdropFilter !== "none" : !1) || !t && (i.filter ? i.filter !== "none" : !1) || ["transform", "translate", "scale", "rotate", "perspective", "filter"].some((n) => (i.willChange || "").includes(n)) || ["paint", "layout", "strict", "content"].some((n) => (i.contain || "").includes(n));
 }
 function ji(e) {
@@ -1857,7 +1857,7 @@ function _(e) {
   return $(e).getComputedStyle(e);
 }
 function kt(e) {
-  return D(e) ? {
+  return F(e) ? {
     scrollLeft: e.scrollLeft,
     scrollTop: e.scrollTop
   } : {
@@ -1901,7 +1901,7 @@ function Se(e) {
   };
 }
 function Ce(e) {
-  return D(e) ? e : e.contextElement;
+  return F(e) ? e : e.contextElement;
 }
 function Q(e) {
   const t = Ce(e);
@@ -1933,11 +1933,11 @@ function lt(e, t, i, n) {
   t === void 0 && (t = !1), i === void 0 && (i = !1);
   const s = e.getBoundingClientRect(), r = Ce(e);
   let o = P(1);
-  t && (n ? D(n) && (o = Q(n)) : o = Q(e));
+  t && (n ? F(n) && (o = Q(n)) : o = Q(e));
   const a = Ui(r, i, n) ? Oe(r) : P(0);
   let l = (s.left + a.x) / o.x, c = (s.top + a.y) / o.y, d = s.width / o.x, u = s.height / o.y;
   if (r) {
-    const p = $(r), m = n && D(n) ? $(n) : n;
+    const p = $(r), m = n && F(n) ? $(n) : n;
     let b = p, y = Mt(b);
     for (; y && n && m !== b; ) {
       const w = Q(y), T = y.getBoundingClientRect(), S = _(y), O = T.left + (y.clientLeft + parseFloat(S.paddingLeft)) * w.x, k = T.top + (y.clientTop + parseFloat(S.paddingTop)) * w.y;
@@ -2037,7 +2037,7 @@ function ee(e, t, i) {
     n = Xi(e, i);
   else if (t === "document")
     n = Ki(V(e));
-  else if (D(t))
+  else if (F(t))
     n = Ji(t, i);
   else {
     const s = Oe(e);
@@ -2052,16 +2052,16 @@ function ee(e, t, i) {
 }
 function Ne(e, t) {
   const i = q(e);
-  return i === t || !D(i) || tt(i) ? !1 : _(i).position === "fixed" || Ne(i, t);
+  return i === t || !F(i) || tt(i) ? !1 : _(i).position === "fixed" || Ne(i, t);
 }
 function Qi(e, t) {
   const i = t.get(e);
   if (i)
     return i;
-  let n = Te(e, []).filter((a) => D(a) && et(a) !== "body"), s = null;
+  let n = Te(e, []).filter((a) => F(a) && et(a) !== "body"), s = null;
   const r = _(e).position === "fixed";
   let o = r ? q(e) : e;
-  for (; D(o) && !tt(o); ) {
+  for (; F(o) && !tt(o); ) {
     const a = _(o), l = zt(o);
     !l && a.position === "fixed" && (s = null), (r ? !l && !s : !l && a.position === "static" && !!s && ["absolute", "fixed"].includes(s.position) || ct(o) && !l && Ne(e, o)) ? n = n.filter((d) => d !== o) : s = a, o = q(o);
   }
@@ -2076,7 +2076,7 @@ function tn(e) {
   } = e;
   const o = [...i === "clippingAncestors" ? Ot(t) ? [] : Qi(t, this._c) : [].concat(i), n], a = o[0], l = o.reduce((c, d) => {
     const u = ee(t, d, s);
-    return c.top = J(u.top, c.top), c.right = Dt(u.right, c.right), c.bottom = Dt(u.bottom, c.bottom), c.left = J(u.left, c.left), c;
+    return c.top = J(u.top, c.top), c.right = Ft(u.right, c.right), c.bottom = Ft(u.bottom, c.bottom), c.left = J(u.left, c.left), c;
   }, ee(t, a, s));
   return {
     width: l.right - l.left,
@@ -2137,7 +2137,7 @@ function Ae(e, t) {
   if (!B(e)) {
     let s = q(e);
     for (; s && !tt(s); ) {
-      if (D(s) && !At(s))
+      if (F(s) && !At(s))
         return s;
       s = q(s);
     }
@@ -2172,7 +2172,7 @@ const on = {
   getClientRects: Zi,
   getDimensions: en,
   getScale: Q,
-  isElement: D,
+  isElement: F,
   isRTL: rn
 }, yt = Vi, xt = Hi, It = Bi, Et = (e, t, i) => {
   const n = /* @__PURE__ */ new Map(), s = {
@@ -2199,6 +2199,7 @@ function an(e) {
     parentEl: null,
     triggerEl: null,
     contentEl: null,
+    // Will be populated when menu opens
     anchor: "bottom",
     pixelOffset: 3,
     isSubmenuActive: !1,
@@ -2207,24 +2208,24 @@ function an(e) {
     selfId: null,
     // --- INIT ---
     init() {
-      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.parentEl = this.$el, this.triggerEl = this.$refs.trigger, this.contentEl = this.$refs.content, this.anchor = this.$el.dataset.anchor || "bottom", this.pixelOffset = parseInt(this.$el.dataset.offset) || 6, this.isModal = this.$el.dataset.modal !== "false", this.$watch("open", (t) => {
+      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.parentEl = this.$el, this.triggerEl = this.$refs.trigger, this.anchor = this.$el.dataset.anchor || "bottom", this.pixelOffset = parseInt(this.$el.dataset.offset) || 6, this.isModal = this.$el.dataset.modal !== "false", this.$watch("open", (t) => {
         t ? (this._lastNavAt = 0, this.$nextTick(() => {
-          this.updatePosition(), this.menuItems = Array.from(
+          this.contentEl = document.getElementById(`${this.selfId}-content`), this.contentEl && (this.updatePosition(), this.menuItems = Array.from(
             this.contentEl.querySelectorAll(
               '[role^="menuitem"]:not([disabled],[aria-disabled="true"])'
             )
-          );
-        }), this.ariaExpanded = "true", this.triggerEl.dataset.state = "open", this.trapActive = this.isModal) : (this.focusedIndex = null, this.closeAllSubmenus(), this.ariaExpanded = "false", delete this.triggerEl.dataset.state, this.trapActive = !1);
+          ));
+        }), this.ariaExpanded = "true", this.triggerEl.dataset.state = "open", this.trapActive = this.isModal) : (this.focusedIndex = null, this.closeAllSubmenus(), this.ariaExpanded = "false", delete this.triggerEl.dataset.state, this.trapActive = !1, this.contentEl = null);
       });
     },
     // --- METHODS ---
     updatePosition() {
-      !this.triggerEl || !this.contentEl || Et(this.triggerEl, this.contentEl, {
+      !this.triggerEl || !this.contentEl || (this.contentEl.style.setProperty("--rizzy-dropdown-trigger-width", `${this.triggerEl.offsetWidth}px`), Et(this.triggerEl, this.contentEl, {
         placement: this.anchor,
         middleware: [yt(this.pixelOffset), It(), xt({ padding: 8 })]
       }).then(({ x: t, y: i }) => {
         Object.assign(this.contentEl.style, { left: `${t}px`, top: `${i}px` });
-      });
+      }));
     },
     toggle() {
       this.open ? (this.open = !1, this.$nextTick(() => this.triggerEl?.focus())) : (this.open = !0, this.focusedIndex = -1);
@@ -2293,6 +2294,8 @@ function an(e) {
     ariaExpanded: "false",
     parentDropdown: null,
     triggerEl: null,
+    contentEl: null,
+    // Will be populated when submenu opens
     menuItems: [],
     focusedIndex: null,
     anchor: "right-start",
@@ -2305,13 +2308,22 @@ function an(e) {
     closeDelay: 150,
     // --- INIT ---
     init() {
-      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.parentDropdown = e.$data(this.$el.closest('[x-data^="rzDropdownMenu"]')), this.triggerEl = this.$refs.subTrigger, this.siblingContainer = this.$el.parentElement, this.anchor = this.$el.dataset.subAnchor || this.anchor, this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset, this.$watch("open", (t) => {
-        t ? (this._lastNavAt = 0, this.parentDropdown.isSubmenuActive = !0, this.$nextTick(() => {
-          const i = this.$refs.subContent;
-          this.updatePosition(i), this.menuItems = Array.from(i.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
+      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id;
+      const t = this.$el.dataset.parentId;
+      if (t) {
+        const i = document.getElementById(t);
+        i && (this.parentDropdown = e.$data(i));
+      }
+      if (!this.parentDropdown) {
+        console.error("RzDropdownSubmenu could not find its parent RzDropdownMenu controller.");
+        return;
+      }
+      this.triggerEl = this.$refs.subTrigger, this.siblingContainer = this.$el.parentElement, this.anchor = this.$el.dataset.subAnchor || this.anchor, this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset, this.$watch("open", (i) => {
+        i ? (this._lastNavAt = 0, this.parentDropdown.isSubmenuActive = !0, this.$nextTick(() => {
+          this.contentEl = document.getElementById(`${this.selfId}-subcontent`), this.contentEl && (this.updatePosition(this.contentEl), this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])')));
         }), this.ariaExpanded = "true", this.triggerEl.dataset.state = "open") : (this.focusedIndex = null, this.ariaExpanded = "false", delete this.triggerEl.dataset.state, this.$nextTick(() => {
           this.parentDropdown.parentEl.querySelector('[x-data^="rzDropdownSubmenu"] [data-state="open"]') || (this.parentDropdown.isSubmenuActive = !1);
-        }));
+        }), this.contentEl = null);
       });
     },
     // --- METHODS ---
@@ -2333,14 +2345,14 @@ function an(e) {
       clearTimeout(this.closeTimeout);
     },
     handleContentMouseLeave() {
-      const t = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+      const t = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
       t && Array.from(t).some((n) => e.$data(n)?.open) || (this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay));
     },
     openSubmenu(t = !1) {
       this.open || (this.closeSiblingSubmenus(), this.open = !0, t && this.$nextTick(() => requestAnimationFrame(() => this.focusFirstItem())));
     },
     closeSubmenu() {
-      this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]')?.forEach((i) => {
+      this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]')?.forEach((i) => {
         e.$data(i)?.closeSubmenu();
       }), this.open = !1;
     },
@@ -2733,9 +2745,12 @@ function gn(e) {
     ariaExpanded: "false",
     triggerEl: null,
     contentEl: null,
+    selfId: null,
     init() {
-      this.triggerEl = this.$refs.trigger.children[0] || this.$refs.trigger, this.contentEl = this.$refs.content, this.$watch("open", (t) => {
-        this.ariaExpanded = t.toString(), t && this.$nextTick(() => this.updatePosition());
+      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.triggerEl = this.$refs.trigger, this.$watch("open", (t) => {
+        this.ariaExpanded = t.toString(), t ? this.$nextTick(() => {
+          this.contentEl = document.getElementById(`${this.selfId}-content`), this.contentEl && this.updatePosition();
+        }) : this.contentEl = null;
       });
     },
     updatePosition() {

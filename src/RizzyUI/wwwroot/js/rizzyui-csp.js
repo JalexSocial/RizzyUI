@@ -6343,6 +6343,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       parentEl: null,
       triggerEl: null,
       contentEl: null,
+      // Will be populated when menu opens
       anchor: "bottom",
       pixelOffset: 3,
       isSubmenuActive: false,
@@ -6355,7 +6356,6 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         this.selfId = this.$el.id;
         this.parentEl = this.$el;
         this.triggerEl = this.$refs.trigger;
-        this.contentEl = this.$refs.content;
         this.anchor = this.$el.dataset.anchor || "bottom";
         this.pixelOffset = parseInt(this.$el.dataset.offset) || 6;
         this.isModal = this.$el.dataset.modal !== "false";
@@ -6363,6 +6363,8 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           if (value) {
             this._lastNavAt = 0;
             this.$nextTick(() => {
+              this.contentEl = document.getElementById(`${this.selfId}-content`);
+              if (!this.contentEl) return;
               this.updatePosition();
               this.menuItems = Array.from(
                 this.contentEl.querySelectorAll(
@@ -6379,12 +6381,14 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
             this.ariaExpanded = "false";
             delete this.triggerEl.dataset.state;
             this.trapActive = false;
+            this.contentEl = null;
           }
         });
       },
       // --- METHODS ---
       updatePosition() {
         if (!this.triggerEl || !this.contentEl) return;
+        this.contentEl.style.setProperty("--rizzy-dropdown-trigger-width", `${this.triggerEl.offsetWidth}px`);
         computePosition(this.triggerEl, this.contentEl, {
           placement: this.anchor,
           middleware: [offset(this.pixelOffset), flip(), shift({ padding: 8 })]
@@ -6501,6 +6505,8 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       ariaExpanded: "false",
       parentDropdown: null,
       triggerEl: null,
+      contentEl: null,
+      // Will be populated when submenu opens
       menuItems: [],
       focusedIndex: null,
       anchor: "right-start",
@@ -6515,7 +6521,17 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       init() {
         if (!this.$el.id) this.$el.id = crypto.randomUUID();
         this.selfId = this.$el.id;
-        this.parentDropdown = Alpine2.$data(this.$el.closest('[x-data^="rzDropdownMenu"]'));
+        const parentId = this.$el.dataset.parentId;
+        if (parentId) {
+          const parentEl = document.getElementById(parentId);
+          if (parentEl) {
+            this.parentDropdown = Alpine2.$data(parentEl);
+          }
+        }
+        if (!this.parentDropdown) {
+          console.error("RzDropdownSubmenu could not find its parent RzDropdownMenu controller.");
+          return;
+        }
         this.triggerEl = this.$refs.subTrigger;
         this.siblingContainer = this.$el.parentElement;
         this.anchor = this.$el.dataset.subAnchor || this.anchor;
@@ -6525,9 +6541,10 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
             this._lastNavAt = 0;
             this.parentDropdown.isSubmenuActive = true;
             this.$nextTick(() => {
-              const contentEl = this.$refs.subContent;
-              this.updatePosition(contentEl);
-              this.menuItems = Array.from(contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
+              this.contentEl = document.getElementById(`${this.selfId}-subcontent`);
+              if (!this.contentEl) return;
+              this.updatePosition(this.contentEl);
+              this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
             });
             this.ariaExpanded = "true";
             this.triggerEl.dataset.state = "open";
@@ -6539,6 +6556,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
               const anySubmenuIsOpen = this.parentDropdown.parentEl.querySelector('[x-data^="rzDropdownSubmenu"] [data-state="open"]');
               if (!anySubmenuIsOpen) this.parentDropdown.isSubmenuActive = false;
             });
+            this.contentEl = null;
           }
         });
       },
@@ -6564,7 +6582,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         clearTimeout(this.closeTimeout);
       },
       handleContentMouseLeave() {
-        const childSubmenus = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+        const childSubmenus = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
         if (childSubmenus) {
           const isAnyChildOpen = Array.from(childSubmenus).some((el) => Alpine2.$data(el)?.open);
           if (isAnyChildOpen) {
@@ -6582,7 +6600,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         }
       },
       closeSubmenu() {
-        const childSubmenus = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+        const childSubmenus = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
         childSubmenus?.forEach((el) => {
           Alpine2.$data(el)?.closeSubmenu();
         });
@@ -7153,13 +7171,21 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       ariaExpanded: "false",
       triggerEl: null,
       contentEl: null,
+      selfId: null,
       init() {
-        this.triggerEl = this.$refs.trigger.children[0] || this.$refs.trigger;
-        this.contentEl = this.$refs.content;
+        if (!this.$el.id) this.$el.id = crypto.randomUUID();
+        this.selfId = this.$el.id;
+        this.triggerEl = this.$refs.trigger;
         this.$watch("open", (value) => {
           this.ariaExpanded = value.toString();
           if (value) {
-            this.$nextTick(() => this.updatePosition());
+            this.$nextTick(() => {
+              this.contentEl = document.getElementById(`${this.selfId}-content`);
+              if (!this.contentEl) return;
+              this.updatePosition();
+            });
+          } else {
+            this.contentEl = null;
           }
         });
       },

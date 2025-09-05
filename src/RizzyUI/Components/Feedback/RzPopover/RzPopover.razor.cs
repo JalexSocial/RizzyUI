@@ -12,16 +12,11 @@ namespace RizzyUI;
 public partial class RzPopover : RzComponent
 {
     /// <summary>
-    /// Gets or sets the content that users will interact with to open the popover. Required.
+    /// Gets or sets the content of the popover, which should include a <see cref="PopoverTrigger"/>
+    /// and a <see cref="PopoverContent"/>. Required.
     /// </summary>
     [Parameter, EditorRequired]
-    public RenderFragment PopoverTrigger { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets the content to be displayed inside the popover panel. Required.
-    /// </summary>
-    [Parameter, EditorRequired]
-    public RenderFragment PopoverContent { get; set; } = default!;
+    public RenderFragment ChildContent { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the preferred position of the popover relative to the trigger.
@@ -89,12 +84,12 @@ public partial class RzPopover : RzComponent
     /// <summary>
     /// Gets the unique ID for the trigger element.
     /// </summary>
-    protected string TriggerId => $"{Id}-trigger";
+    public string TriggerId => $"{Id}-trigger";
 
     /// <summary>
     /// Gets the unique ID for the content element.
     /// </summary>
-    protected string ContentId => $"{Id}-content";
+    public string ContentId => $"{Id}-content";
 
     /// <inheritdoc/>
     protected override void OnInitialized()
