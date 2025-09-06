@@ -3033,6 +3033,7 @@ function registerRzDropdownMenu(Alpine2) {
     parentEl: null,
     triggerEl: null,
     contentEl: null,
+    // Will be populated when menu opens
     anchor: "bottom",
     pixelOffset: 3,
     isSubmenuActive: false,
@@ -3045,7 +3046,6 @@ function registerRzDropdownMenu(Alpine2) {
       this.selfId = this.$el.id;
       this.parentEl = this.$el;
       this.triggerEl = this.$refs.trigger;
-      this.contentEl = this.$refs.content;
       this.anchor = this.$el.dataset.anchor || "bottom";
       this.pixelOffset = parseInt(this.$el.dataset.offset) || 6;
       this.isModal = this.$el.dataset.modal !== "false";
@@ -3053,6 +3053,8 @@ function registerRzDropdownMenu(Alpine2) {
         if (value) {
           this._lastNavAt = 0;
           this.$nextTick(() => {
+            this.contentEl = document.getElementById(`${this.selfId}-content`);
+            if (!this.contentEl) return;
             this.updatePosition();
             this.menuItems = Array.from(
               this.contentEl.querySelectorAll(
@@ -3069,12 +3071,14 @@ function registerRzDropdownMenu(Alpine2) {
           this.ariaExpanded = "false";
           delete this.triggerEl.dataset.state;
           this.trapActive = false;
+          this.contentEl = null;
         }
       });
     },
     // --- METHODS ---
     updatePosition() {
       if (!this.triggerEl || !this.contentEl) return;
+      this.contentEl.style.setProperty("--rizzy-dropdown-trigger-width", `${this.triggerEl.offsetWidth}px`);
       computePosition(this.triggerEl, this.contentEl, {
         placement: this.anchor,
         middleware: [offset(this.pixelOffset), flip(), shift({ padding: 8 })]
@@ -3191,6 +3195,8 @@ function registerRzDropdownMenu(Alpine2) {
     ariaExpanded: "false",
     parentDropdown: null,
     triggerEl: null,
+    contentEl: null,
+    // Will be populated when submenu opens
     menuItems: [],
     focusedIndex: null,
     anchor: "right-start",
@@ -3205,7 +3211,17 @@ function registerRzDropdownMenu(Alpine2) {
     init() {
       if (!this.$el.id) this.$el.id = crypto.randomUUID();
       this.selfId = this.$el.id;
-      this.parentDropdown = Alpine2.$data(this.$el.closest('[x-data^="rzDropdownMenu"]'));
+      const parentId = this.$el.dataset.parentId;
+      if (parentId) {
+        const parentEl = document.getElementById(parentId);
+        if (parentEl) {
+          this.parentDropdown = Alpine2.$data(parentEl);
+        }
+      }
+      if (!this.parentDropdown) {
+        console.error("RzDropdownSubmenu could not find its parent RzDropdownMenu controller.");
+        return;
+      }
       this.triggerEl = this.$refs.subTrigger;
       this.siblingContainer = this.$el.parentElement;
       this.anchor = this.$el.dataset.subAnchor || this.anchor;
@@ -3215,9 +3231,10 @@ function registerRzDropdownMenu(Alpine2) {
           this._lastNavAt = 0;
           this.parentDropdown.isSubmenuActive = true;
           this.$nextTick(() => {
-            const contentEl = this.$refs.subContent;
-            this.updatePosition(contentEl);
-            this.menuItems = Array.from(contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
+            this.contentEl = document.getElementById(`${this.selfId}-subcontent`);
+            if (!this.contentEl) return;
+            this.updatePosition(this.contentEl);
+            this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
           });
           this.ariaExpanded = "true";
           this.triggerEl.dataset.state = "open";
@@ -3229,6 +3246,7 @@ function registerRzDropdownMenu(Alpine2) {
             const anySubmenuIsOpen = this.parentDropdown.parentEl.querySelector('[x-data^="rzDropdownSubmenu"] [data-state="open"]');
             if (!anySubmenuIsOpen) this.parentDropdown.isSubmenuActive = false;
           });
+          this.contentEl = null;
         }
       });
     },
@@ -3254,7 +3272,7 @@ function registerRzDropdownMenu(Alpine2) {
       clearTimeout(this.closeTimeout);
     },
     handleContentMouseLeave() {
-      const childSubmenus = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+      const childSubmenus = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
       if (childSubmenus) {
         const isAnyChildOpen = Array.from(childSubmenus).some((el) => Alpine2.$data(el)?.open);
         if (isAnyChildOpen) {
@@ -3272,7 +3290,7 @@ function registerRzDropdownMenu(Alpine2) {
       }
     },
     closeSubmenu() {
-      const childSubmenus = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+      const childSubmenus = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
       childSubmenus?.forEach((el) => {
         Alpine2.$data(el)?.closeSubmenu();
       });
@@ -3843,13 +3861,21 @@ function registerRzPopover(Alpine2) {
     ariaExpanded: "false",
     triggerEl: null,
     contentEl: null,
+    selfId: null,
     init() {
-      this.triggerEl = this.$refs.trigger.children[0] || this.$refs.trigger;
-      this.contentEl = this.$refs.content;
+      if (!this.$el.id) this.$el.id = crypto.randomUUID();
+      this.selfId = this.$el.id;
+      this.triggerEl = this.$refs.trigger;
       this.$watch("open", (value) => {
         this.ariaExpanded = value.toString();
         if (value) {
-          this.$nextTick(() => this.updatePosition());
+          this.$nextTick(() => {
+            this.contentEl = document.getElementById(`${this.selfId}-content`);
+            if (!this.contentEl) return;
+            this.updatePosition();
+          });
+        } else {
+          this.contentEl = null;
         }
       });
     },

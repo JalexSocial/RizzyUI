@@ -3,17 +3,16 @@
 @inherits RzComponent
 
 <CascadingValue Value="this" IsFixed="true">
-    <HtmlElement Element="@EffectiveElement" 
-                 @attributes="@AdditionalAttributes" 
-                 id="@Id" 
-                 class="@RootClass()"
-                 x-data="rzDropdownMenu"
-                 data-alpine-root="@Id"
-                 data-offset="@Offset" 
-                 data-anchor="@Anchor.ToString().ToKebabCase()"
-                 data-modal="@IsModal.ToString().ToLowerInvariant()"
-                 x-on:keydown.escape.window="handleWindowEscape"
-                 x-on:click.outside="handleOutsideClick">
+    <!-- Invisible Alpine controller: no visual wrapper, retains a stable $el -->
+    <div id="@Id"
+         class="contents"
+         x-data="rzDropdownMenu"
+         data-alpine-root="@Id"
+         data-offset="@Offset"
+         data-anchor="@Anchor.ToString().ToKebabCase()"
+         data-modal="@IsModal.ToString().ToLowerInvariant()"
+         x-on:keydown.escape.window="handleWindowEscape"
+         @attributes="@AdditionalAttributes">
         @ChildContent
-    </HtmlElement>
+    </div>
 </CascadingValue>

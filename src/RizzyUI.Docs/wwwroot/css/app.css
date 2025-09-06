@@ -997,8 +997,8 @@
   .min-h-\[18rem\] {
     min-height: 18rem;
   }
-  .min-h-\[26rem\] {
-    min-height: 26rem;
+  .min-h-\[30rem\] {
+    min-height: 30rem;
   }
   .min-h-svh {
     min-height: 100svh;
@@ -3281,10 +3281,26 @@
       width: calc(var(--spacing) * 0);
     }
   }
+  .group-data-\[collapsible\=offcanvas\]\/sidebar-wrapper\:translate-x-0 {
+    &:is(:where(.group\/sidebar-wrapper)[data-collapsible="offcanvas"] *) {
+      --tw-translate-x: calc(var(--spacing) * 0);
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
   .group-data-\[side\=left\]\:border-r {
     &:is(:where(.group)[data-side="left"] *) {
       border-right-style: var(--tw-border-style);
       border-right-width: 1px;
+    }
+  }
+  .group-data-\[side\=left\]\/sidebar-wrapper\:-right-4 {
+    &:is(:where(.group\/sidebar-wrapper)[data-side="left"] *) {
+      right: calc(var(--spacing) * -4);
+    }
+  }
+  .group-data-\[side\=left\]\/sidebar-wrapper\:cursor-w-resize {
+    &:is(:where(.group\/sidebar-wrapper)[data-side="left"] *) {
+      cursor: w-resize;
     }
   }
   .group-data-\[side\=right\]\:order-last {
@@ -3296,6 +3312,16 @@
     &:is(:where(.group)[data-side="right"] *) {
       border-left-style: var(--tw-border-style);
       border-left-width: 1px;
+    }
+  }
+  .group-data-\[side\=right\]\/sidebar-wrapper\:left-0 {
+    &:is(:where(.group\/sidebar-wrapper)[data-side="right"] *) {
+      left: calc(var(--spacing) * 0);
+    }
+  }
+  .group-data-\[side\=right\]\/sidebar-wrapper\:cursor-e-resize {
+    &:is(:where(.group\/sidebar-wrapper)[data-side="right"] *) {
+      cursor: e-resize;
     }
   }
   .group-data-\[state\=closed\]\/collapsible\:hidden {
@@ -3702,6 +3728,12 @@
       position: relative;
     }
   }
+  .after\:inset-y-0 {
+    &::after {
+      content: var(--tw-content);
+      inset-block: calc(var(--spacing) * 0);
+    }
+  }
   .after\:-top-1 {
     &::after {
       content: var(--tw-content);
@@ -3730,6 +3762,12 @@
     &::after {
       content: var(--tw-content);
       left: calc(var(--spacing) * 0);
+    }
+  }
+  .after\:left-1\/2 {
+    &::after {
+      content: var(--tw-content);
+      left: calc(1/2 * 100%);
     }
   }
   .after\:left-3 {
@@ -3773,6 +3811,12 @@
     &::after {
       content: var(--tw-content);
       width: calc(var(--spacing) * 0.5);
+    }
+  }
+  .after\:w-\[2px\] {
+    &::after {
+      content: var(--tw-content);
+      width: 2px;
     }
   }
   .after\:w-full {
@@ -3989,6 +4033,14 @@
       content: var(--tw-content);
       --tw-content: '';
       content: var(--tw-content);
+    }
+  }
+  .group-data-\[collapsible\=offcanvas\]\/sidebar-wrapper\:after\:left-full {
+    &:is(:where(.group\/sidebar-wrapper)[data-collapsible="offcanvas"] *) {
+      &::after {
+        content: var(--tw-content);
+        left: 100%;
+      }
     }
   }
   .first\:mt-0 {
@@ -4512,6 +4564,25 @@
       @media (hover: hover) {
         --tw-shadow: var(--shadow-sm);
         box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+      }
+    }
+  }
+  .hover\:group-data-\[collapsible\=offcanvas\]\/sidebar-wrapper\:bg-sidebar {
+    &:hover {
+      @media (hover: hover) {
+        &:is(:where(.group\/sidebar-wrapper)[data-collapsible="offcanvas"] *) {
+          background-color: var(--sidebar);
+        }
+      }
+    }
+  }
+  .hover\:after\:bg-sidebar-border {
+    &:hover {
+      @media (hover: hover) {
+        &::after {
+          content: var(--tw-content);
+          background-color: var(--sidebar-border);
+        }
       }
     }
   }
@@ -5632,6 +5703,11 @@
   .max-md\:bg-black\/50 {
     @media (width < 48rem) {
       background-color: color-mix(in oklab, #000000 50%, transparent);
+    }
+  }
+  .sm\:flex {
+    @media (width >= 40rem) {
+      display: flex;
     }
   }
   .sm\:inline {
@@ -7645,6 +7721,26 @@
   .\[\&\[aria-current\=page\]\]\:text-sidebar-accent-foreground {
     &[aria-current=page] {
       color: var(--sidebar-accent-foreground);
+    }
+  }
+  .\[\[data-side\=left\]\[data-collapsible\=offcanvas\]_\&\]\:-right-2 {
+    [data-side=left][data-collapsible=offcanvas] & {
+      right: calc(var(--spacing) * -2);
+    }
+  }
+  .\[\[data-side\=left\]\[data-state\=collapsed\]_\&\]\:cursor-e-resize {
+    [data-side=left][data-state=collapsed] & {
+      cursor: e-resize;
+    }
+  }
+  .\[\[data-side\=right\]\[data-collapsible\=offcanvas\]_\&\]\:-left-2 {
+    [data-side=right][data-collapsible=offcanvas] & {
+      left: calc(var(--spacing) * -2);
+    }
+  }
+  .\[\[data-side\=right\]\[data-state\=collapsed\]_\&\]\:cursor-w-resize {
+    [data-side=right][data-state=collapsed] & {
+      cursor: w-resize;
     }
   }
   .\[a\&\]\:hover\:bg-accent {

@@ -41,7 +41,7 @@ public partial class DropdownMenuTrigger : RzAsChildComponent
         {
             throw new InvalidOperationException($"{nameof(DropdownMenuTrigger)} must be used within an {nameof(RzDropdownMenu)}.");
         }
-        // The base element is a div by default, which is suitable for wrapping a trigger.
+        Element = "button";
     }
 
     /// <inheritdoc/>

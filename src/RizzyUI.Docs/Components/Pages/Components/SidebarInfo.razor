@@ -81,7 +81,7 @@
                                                     @foreach (var subItem in item.Items)
                                                     {
                                                         <SidebarMenuItem>
-                                                            <SidebarMenuButton AsChild="true" IsActive="subItem.IsActive">
+                                                            <SidebarMenuButton AsChild IsActive="subItem.IsActive">
                                                                 <a href="#">@subItem.Title</a>
                                                             </SidebarMenuButton>
                                                         </SidebarMenuItem>
@@ -238,7 +238,7 @@
                                     {
                                         <RzCollapsible class="group/collapsible" DefaultOpen="@item.Items.Any(i => i.IsActive)">
                                             <SidebarGroup>
-                                                <SidebarGroupLabel AsChild="true" class="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm">
+                                                <SidebarGroupLabel AsChild class="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm">
                                                     <CollapsibleTrigger>
                                                         @item.Title
                                                         <Blazicon Svg="MdiIcon.ChevronRight" class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
@@ -250,7 +250,7 @@
                                                             @foreach (var subItem in item.Items)
                                                             {
                                                                 <SidebarMenuItem>
-                                                                    <SidebarMenuButton AsChild="true" IsActive="subItem.IsActive">
+                                                                    <SidebarMenuButton AsChild IsActive="subItem.IsActive">
                                                                         <a href="#">@subItem.Title</a>
                                                                     </SidebarMenuButton>
                                                                 </SidebarMenuItem>
@@ -281,7 +281,7 @@
             {
                 &lt;RzCollapsible class=&quot;group/collapsible&quot; DefaultOpen=&quot;@@item.Items.Any(i =&gt; i.IsActive)&quot;&gt;
                     &lt;SidebarGroup&gt;
-                        &lt;SidebarGroupLabel AsChild=&quot;true&quot; class=&quot;group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm&quot;&gt;
+                        &lt;SidebarGroupLabel AsChild class=&quot;group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm&quot;&gt;
                             &lt;CollapsibleTrigger&gt;
                                 @@item.Title
                                 &lt;Blazicon Svg=&quot;MdiIcon.ChevronRight&quot; class=&quot;ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90&quot; /&gt;
@@ -293,7 +293,7 @@
                                     @@foreach (var subItem in item.Items)
                                     {
                                         &lt;SidebarMenuItem&gt;
-                                            &lt;SidebarMenuButton AsChild=&quot;true&quot; IsActive=&quot;subItem.IsActive&quot;&gt;
+                                            &lt;SidebarMenuButton AsChild IsActive=&quot;subItem.IsActive&quot;&gt;
                                                 &lt;a href=&quot;#&quot;&gt;@@subItem.Title&lt;/a&gt;
                                             &lt;/SidebarMenuButton&gt;
                                         &lt;/SidebarMenuItem&gt;
@@ -320,7 +320,7 @@
             
 <!-- Example 3: Nested Sub-menus -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Nested Sub-menus (sidebar-03)" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Nested Sub-menus" class="scroll-mt-20">
                     Nested Sub-menus
                 </RzHeading>
                 <RzParagraph>
@@ -333,7 +333,7 @@
                                 <SidebarHeader>
                                     <SidebarMenu>
                                         <SidebarMenuItem>
-                                            <SidebarMenuButton Size="Size.Large" AsChild="true">
+                                            <SidebarMenuButton Size="Size.Large" AsChild>
                                                 <a href="#">
                                                     <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                                                         <Blazicon Svg="MdiIcon.BookOpenVariant" class="size-4" />
@@ -353,7 +353,7 @@
                                             @foreach (var item in _navMain)
                                             {
                                                 <SidebarMenuItem>
-                                                    <SidebarMenuButton AsChild="true">
+                                                    <SidebarMenuButton AsChild>
                                                         <a href="#" class="font-medium">@item.Title</a>
                                                     </SidebarMenuButton>
                                                     @if (item.Items.Any())
@@ -362,7 +362,7 @@
                                                             @foreach (var subItem in item.Items)
                                                             {
                                                                 <SidebarMenuItem>
-                                                                    <SidebarMenuButton AsChild="true" IsActive="subItem.IsActive">
+                                                                    <SidebarMenuButton AsChild IsActive="subItem.IsActive">
                                                                         <a href="#">@subItem.Title</a>
                                                                     </SidebarMenuButton>
                                                                 </SidebarMenuItem>
@@ -391,7 +391,7 @@
         &lt;SidebarHeader&gt;
             &lt;SidebarMenu&gt;
                 &lt;SidebarMenuItem&gt;
-                    &lt;SidebarMenuButton Size=&quot;Size.Large&quot; AsChild=&quot;true&quot;&gt;
+                    &lt;SidebarMenuButton Size=&quot;Size.Large&quot; AsChild&gt;
                         &lt;a href=&quot;#&quot;&gt;
                             &lt;div class=&quot;bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg&quot;&gt;
                                 &lt;Blazicon Svg=&quot;MdiIcon.BookOpenVariant&quot; class=&quot;size-4&quot; /&gt;
@@ -411,7 +411,7 @@
                     @@foreach (var item in _navMain)
                     {
                         &lt;SidebarMenuItem&gt;
-                            &lt;SidebarMenuButton AsChild=&quot;true&quot;&gt;
+                            &lt;SidebarMenuButton AsChild&gt;
                                 &lt;a href=&quot;#&quot; class=&quot;font-medium&quot;&gt;@@item.Title&lt;/a&gt;
                             &lt;/SidebarMenuButton&gt;
                             @@if (item.Items.Any())
@@ -447,7 +447,7 @@
 
             <!-- Example 4: Floating Sidebar -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Floating Sidebar (sidebar-04)" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Floating Sidebar" class="scroll-mt-20">
                     Floating Sidebar
                 </RzHeading>
                 <RzParagraph>
@@ -460,7 +460,7 @@
                                 <SidebarHeader>
                                     <SidebarMenu>
                                         <SidebarMenuItem>
-                                            <SidebarMenuButton Size="Size.Large" AsChild="true">
+                                            <SidebarMenuButton Size="Size.Large" AsChild>
                                                 <a href="#">
                                                     <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                                                         <Blazicon Svg="MdiIcon.BookOpenVariant" class="size-4" />
@@ -480,7 +480,7 @@
                                             @foreach (var item in _navMain)
                                             {
                                                 <SidebarMenuItem>
-                                                    <SidebarMenuButton AsChild="true">
+                                                    <SidebarMenuButton AsChild>
                                                         <a href="#" class="font-medium">@item.Title</a>
                                                     </SidebarMenuButton>
                                                     @if (item.Items.Any())
@@ -489,7 +489,7 @@
                                                             @foreach (var subItem in item.Items)
                                                             {
                                                                 <SidebarMenuItem>
-                                                                    <SidebarMenuButton AsChild="true" IsActive="subItem.IsActive">
+                                                                    <SidebarMenuButton AsChild IsActive="subItem.IsActive">
                                                                         <a href="#">@subItem.Title</a>
                                                                     </SidebarMenuButton>
                                                                 </SidebarMenuItem>
@@ -526,7 +526,7 @@
 
             <!-- Example 5: Collapsible with +/- Icons -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Collapsible with +/- Icons (sidebar-05)" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Collapsible with +/- Icons" class="scroll-mt-20">
                     Collapsible with +/- Icons
                 </RzHeading>
                 <RzParagraph>
@@ -539,7 +539,7 @@
                                 <SidebarHeader>
                                     <SidebarMenu>
                                         <SidebarMenuItem>
-                                            <SidebarMenuButton Size="Size.Large" AsChild="true">
+                                            <SidebarMenuButton Size="Size.Large" AsChild>
                                                 <a href="#">
                                                     <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                                                         <Blazicon Svg="MdiIcon.BookOpenVariant" class="size-4" />
@@ -560,7 +560,7 @@
                                             {
                                                 <RzCollapsible class="group/collapsible" DefaultOpen="@item.Items.Any(i => i.IsActive)">
                                                     <SidebarMenuItem>
-                                                        <CollapsibleTrigger AsChild="true">
+                                                        <CollapsibleTrigger AsChild>
                                                             <SidebarMenuButton>
                                                                 @item.Title
                                                                 <Blazicon Svg="MdiIcon.Plus" class="ml-auto group-data-[state=open]/collapsible:hidden" />
@@ -574,7 +574,7 @@
                                                                     @foreach (var subItem in item.Items)
                                                                     {
                                                                         <SidebarMenuItem>
-                                                                            <SidebarMenuButton AsChild="true" IsActive="subItem.IsActive">
+                                                                            <SidebarMenuButton AsChild IsActive="subItem.IsActive">
                                                                                 <a href="#">@subItem.Title</a>
                                                                             </SidebarMenuButton>
                                                                         </SidebarMenuItem>
@@ -602,7 +602,7 @@
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzCollapsible class=&quot;group/collapsible&quot;&gt;
     &lt;SidebarMenuItem&gt;
-        &lt;CollapsibleTrigger AsChild=&quot;true&quot;&gt;
+        &lt;CollapsibleTrigger AsChild&gt;
             &lt;SidebarMenuButton&gt;
                 Menu Title
                 &lt;Blazicon Svg=&quot;MdiIcon.Plus&quot; class=&quot;ml-auto group-data-[state=open]/collapsible:hidden&quot; /&gt;
@@ -619,7 +619,7 @@
 
             <!-- Example 6: Dropdown Navigation -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Dropdown Navigation (sidebar-06)" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Dropdown Navigation" class="scroll-mt-20">
                     Dropdown Navigation
                 </RzHeading>
                 <RzParagraph>
@@ -632,7 +632,7 @@
                                 <SidebarHeader>
                                     <SidebarMenu>
                                         <SidebarMenuItem>
-                                            <SidebarMenuButton Size="Size.Large" AsChild="true">
+                                            <SidebarMenuButton Size="Size.Large" AsChild>
                                                 <a href="#">
                                                     <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                                                         <Blazicon Svg="MdiIcon.BookOpenVariant" class="size-4" />
@@ -757,7 +757,7 @@
             
 <!-- Example 7: Icon Collapsible Sidebar -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Icon Collapsible Sidebar (sidebar-07)" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Icon Collapsible Sidebar" class="scroll-mt-20">
                     Icon Collapsible Sidebar
                 </RzHeading>
                 <RzParagraph>
@@ -798,9 +798,9 @@
                                         <SidebarMenu>
                                             @foreach (var item in _platformNav)
                                             {
-                                                <RzCollapsible asChild DefaultOpen="@item.IsActive" class="group/collapsible">
+                                                <RzCollapsible AsChild DefaultOpen="@item.IsActive" class="group/collapsible">
                                                     <SidebarMenuItem>
-                                                        <SidebarMenuButton AsChild="true" Tooltip="@item.Title">
+                                                        <SidebarMenuButton AsChild Tooltip="@item.Title">
                                                             <a href="#">
                                                                 <Blazicon Svg="@item.Icon" />
                                                                 <span>@item.Title</span>
@@ -817,7 +817,7 @@
                                                                 @foreach (var subItem in item.Items)
                                                                 {
                                                                     <SidebarMenuItem>
-                                                                        <SidebarMenuButton AsChild="true">
+                                                                        <SidebarMenuButton AsChild>
                                                                             <a href="#"><span>@subItem.Title</span></a>
                                                                         </SidebarMenuButton>
                                                                     </SidebarMenuItem>
@@ -869,7 +869,7 @@
 
             <!-- Example 8: Inset Sidebar -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Inset Sidebar (sidebar-08)" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Inset Sidebar" class="scroll-mt-20">
                     Inset Sidebar
                 </RzHeading>
                 <RzParagraph>
@@ -883,7 +883,7 @@
                                 <SidebarHeader>
                                     <SidebarMenu>
                                         <SidebarMenuItem>
-                                            <SidebarMenuButton Size="Size.Large" AsChild="true">
+                                            <SidebarMenuButton Size="Size.Large" AsChild>
                                                 <a href="#">
                                                     <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                                                         <Blazicon Svg="MdiIcon.Atom" class="size-4" />
@@ -903,9 +903,9 @@
                                         <SidebarMenu>
                                             @foreach (var item in _platformNav)
                                             {
-                                                <RzCollapsible asChild DefaultOpen="@item.IsActive" class="group/collapsible">
+                                                <RzCollapsible AsChild DefaultOpen="@item.IsActive" class="group/collapsible">
                                                     <SidebarMenuItem>
-                                                        <SidebarMenuButton AsChild="true" Tooltip="@item.Title">
+                                                        <SidebarMenuButton AsChild Tooltip="@item.Title">
                                                             <a href="#">
                                                                 <Blazicon Svg="@item.Icon" />
                                                                 <span>@item.Title</span>
@@ -922,7 +922,7 @@
                                                                 @foreach (var subItem in item.Items)
                                                                 {
                                                                     <SidebarMenuItem>
-                                                                        <SidebarMenuButton AsChild="true">
+                                                                        <SidebarMenuButton AsChild>
                                                                             <a href="#"><span>@subItem.Title</span></a>
                                                                         </SidebarMenuButton>
                                                                     </SidebarMenuItem>
@@ -974,7 +974,7 @@
 
             <!-- Example 10: Complex Navigation -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Complex Navigation (sidebar-10)" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Complex Navigation" class="scroll-mt-20">
                     Complex Navigation
                 </RzHeading>
                 <RzParagraph>
@@ -1008,7 +1008,7 @@
                                         @foreach (var item in _mainNavActions)
                                         {
                                             <SidebarMenuItem>
-                                                <SidebarMenuButton AsChild="true" IsActive="@item.IsActive">
+                                                <SidebarMenuButton AsChild IsActive="@item.IsActive">
                                                     <a href="#">
                                                         <Blazicon Svg="@item.Icon" />
                                                         <span>@item.Title</span>
@@ -1026,7 +1026,7 @@
                                                 @foreach (var item in _favorites)
                                                 {
                                                     <SidebarMenuItem>
-                                                        <SidebarMenuButton AsChild="true">
+                                                        <SidebarMenuButton AsChild>
                                                             <a href="#">
                                                                 <span>@item.Emoji</span>
                                                                 <span>@item.Title</span>
@@ -1072,7 +1072,7 @@
 
             <!-- Example 11: File Explorer -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="File Explorer (sidebar-11)" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="File Explorer" class="scroll-mt-20">
                     File Explorer
                 </RzHeading>
                 <RzParagraph>
@@ -1098,9 +1098,9 @@
                                         <SidebarGroupLabel>Files</SidebarGroupLabel>
                                         <SidebarGroupContent>
                                             <SidebarMenu>
-                                                <RzCollapsible asChild class="group/collapsible">
+                                                <RzCollapsible AsChild class="group/collapsible">
                                                     <SidebarMenuItem>
-                                                        <CollapsibleTrigger AsChild="true">
+                                                        <CollapsibleTrigger AsChild>
                                                             <SidebarMenuButton>
                                                                 <Blazicon Svg="MdiIcon.ChevronRight" class="transition-transform group-data-[state=open]/collapsible:rotate-90" />
                                                                 <Blazicon Svg="MdiIcon.Folder" />
@@ -1136,7 +1136,7 @@
 
             <!-- Example 13: Sidebar in a Modal -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Sidebar in a Modal (sidebar-13)" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Sidebar in a Modal" class="scroll-mt-20">
                     Sidebar in a Modal
                 </RzHeading>
                 <RzParagraph>
@@ -1156,7 +1156,7 @@
                                                         @foreach (var item in _settingsNav)
                                                         {
                                                             <SidebarMenuItem>
-                                                                <SidebarMenuButton AsChild="true" IsActive="@(item.Title == "Messages & media")">
+                                                                <SidebarMenuButton AsChild IsActive="@(item.Title == "Messages & media")">
                                                                     <a href="#">
                                                                         <Blazicon Svg="@item.Icon" />
                                                                         <span>@item.Title</span>
@@ -1196,7 +1196,7 @@
 
             <!-- Example 14: Right-aligned Sidebar -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Right-aligned Sidebar (sidebar-14)" class="scroll-mt-20">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Right-aligned Sidebar" class="scroll-mt-20">
                     Right-aligned Sidebar
                 </RzHeading>
                 <RzParagraph>
@@ -1229,7 +1229,7 @@
                                                 @foreach (var item in _navMain)
                                                 {
                                                     <SidebarMenuItem>
-                                                        <SidebarMenuButton AsChild="true">
+                                                        <SidebarMenuButton AsChild>
                                                             <a href="#" class="font-medium">@item.Title</a>
                                                         </SidebarMenuButton>
                                                         @if (item.Items.Any())
@@ -1238,7 +1238,7 @@
                                                                 @foreach (var subItem in item.Items)
                                                                 {
                                                                     <SidebarMenuItem>
-                                                                        <SidebarMenuButton AsChild="true" IsActive="subItem.IsActive">
+                                                                        <SidebarMenuButton AsChild IsActive="subItem.IsActive">
                                                                             <a href="#">@subItem.Title</a>
                                                                         </SidebarMenuButton>
                                                                     </SidebarMenuItem>

@@ -2,10 +2,11 @@
 @namespace RizzyUI
 @inherits RzComponent
 
-<template x-teleport="#@ParentDropdownMenu?.Id">
+<template x-teleport="body">
 	<div @attributes="AdditionalAttributes"
 	     x-ref="subContent"
 	     id="@SubContentId"
+	     data-floating
 	     data-popover
 	     role="menu"
 	     aria-labelledby="@SubTriggerId"

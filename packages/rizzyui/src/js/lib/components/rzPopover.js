@@ -1,5 +1,3 @@
-
-// packages/rizzyui/src/js/lib/components/rzPopover.js
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 
 export default function(Alpine) {
@@ -8,15 +6,25 @@ export default function(Alpine) {
         ariaExpanded: 'false',
         triggerEl: null,
         contentEl: null,
+        selfId: null,
 
         init() {
-            this.triggerEl = this.$refs.trigger.children[0] || this.$refs.trigger;
-            this.contentEl = this.$refs.content;
+            if (!this.$el.id) this.$el.id = crypto.randomUUID();
+            this.selfId = this.$el.id;
+            this.triggerEl = this.$refs.trigger;
+            // REMOVED: this.contentEl = this.$refs.content; // Unreliable due to x-teleport
 
             this.$watch('open', (value) => {
                 this.ariaExpanded = value.toString();
                 if (value) {
-                    this.$nextTick(() => this.updatePosition());
+                    this.$nextTick(() => {
+                        // ADDED: Find contentEl by ID when opening
+                        this.contentEl = document.getElementById(`${this.selfId}-content`);
+                        if (!this.contentEl) return;
+                        this.updatePosition();
+                    });
+                } else {
+                    this.contentEl = null; // Clear reference on close
                 }
             });
         },

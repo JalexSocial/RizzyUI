@@ -4329,6 +4329,7 @@ function Dl(e) {
     parentEl: null,
     triggerEl: null,
     contentEl: null,
+    // Will be populated when menu opens
     anchor: "bottom",
     pixelOffset: 3,
     isSubmenuActive: !1,
@@ -4337,24 +4338,24 @@ function Dl(e) {
     selfId: null,
     // --- INIT ---
     init() {
-      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.parentEl = this.$el, this.triggerEl = this.$refs.trigger, this.contentEl = this.$refs.content, this.anchor = this.$el.dataset.anchor || "bottom", this.pixelOffset = parseInt(this.$el.dataset.offset) || 6, this.isModal = this.$el.dataset.modal !== "false", this.$watch("open", (t) => {
+      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.parentEl = this.$el, this.triggerEl = this.$refs.trigger, this.anchor = this.$el.dataset.anchor || "bottom", this.pixelOffset = parseInt(this.$el.dataset.offset) || 6, this.isModal = this.$el.dataset.modal !== "false", this.$watch("open", (t) => {
         t ? (this._lastNavAt = 0, this.$nextTick(() => {
-          this.updatePosition(), this.menuItems = Array.from(
+          this.contentEl = document.getElementById(`${this.selfId}-content`), this.contentEl && (this.updatePosition(), this.menuItems = Array.from(
             this.contentEl.querySelectorAll(
               '[role^="menuitem"]:not([disabled],[aria-disabled="true"])'
             )
-          );
-        }), this.ariaExpanded = "true", this.triggerEl.dataset.state = "open", this.trapActive = this.isModal) : (this.focusedIndex = null, this.closeAllSubmenus(), this.ariaExpanded = "false", delete this.triggerEl.dataset.state, this.trapActive = !1);
+          ));
+        }), this.ariaExpanded = "true", this.triggerEl.dataset.state = "open", this.trapActive = this.isModal) : (this.focusedIndex = null, this.closeAllSubmenus(), this.ariaExpanded = "false", delete this.triggerEl.dataset.state, this.trapActive = !1, this.contentEl = null);
       });
     },
     // --- METHODS ---
     updatePosition() {
-      !this.triggerEl || !this.contentEl || yt(this.triggerEl, this.contentEl, {
+      !this.triggerEl || !this.contentEl || (this.contentEl.style.setProperty("--rizzy-dropdown-trigger-width", `${this.triggerEl.offsetWidth}px`), yt(this.triggerEl, this.contentEl, {
         placement: this.anchor,
         middleware: [mt(this.pixelOffset), vt(), bt({ padding: 8 })]
       }).then(({ x: t, y: n }) => {
         Object.assign(this.contentEl.style, { left: `${t}px`, top: `${n}px` });
-      });
+      }));
     },
     toggle() {
       this.open ? (this.open = !1, this.$nextTick(() => this.triggerEl?.focus())) : (this.open = !0, this.focusedIndex = -1);
@@ -4423,6 +4424,8 @@ function Dl(e) {
     ariaExpanded: "false",
     parentDropdown: null,
     triggerEl: null,
+    contentEl: null,
+    // Will be populated when submenu opens
     menuItems: [],
     focusedIndex: null,
     anchor: "right-start",
@@ -4435,13 +4438,22 @@ function Dl(e) {
     closeDelay: 150,
     // --- INIT ---
     init() {
-      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.parentDropdown = e.$data(this.$el.closest('[x-data^="rzDropdownMenu"]')), this.triggerEl = this.$refs.subTrigger, this.siblingContainer = this.$el.parentElement, this.anchor = this.$el.dataset.subAnchor || this.anchor, this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset, this.$watch("open", (t) => {
-        t ? (this._lastNavAt = 0, this.parentDropdown.isSubmenuActive = !0, this.$nextTick(() => {
-          const n = this.$refs.subContent;
-          this.updatePosition(n), this.menuItems = Array.from(n.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
+      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id;
+      const t = this.$el.dataset.parentId;
+      if (t) {
+        const n = document.getElementById(t);
+        n && (this.parentDropdown = e.$data(n));
+      }
+      if (!this.parentDropdown) {
+        console.error("RzDropdownSubmenu could not find its parent RzDropdownMenu controller.");
+        return;
+      }
+      this.triggerEl = this.$refs.subTrigger, this.siblingContainer = this.$el.parentElement, this.anchor = this.$el.dataset.subAnchor || this.anchor, this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset, this.$watch("open", (n) => {
+        n ? (this._lastNavAt = 0, this.parentDropdown.isSubmenuActive = !0, this.$nextTick(() => {
+          this.contentEl = document.getElementById(`${this.selfId}-subcontent`), this.contentEl && (this.updatePosition(this.contentEl), this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])')));
         }), this.ariaExpanded = "true", this.triggerEl.dataset.state = "open") : (this.focusedIndex = null, this.ariaExpanded = "false", delete this.triggerEl.dataset.state, this.$nextTick(() => {
           this.parentDropdown.parentEl.querySelector('[x-data^="rzDropdownSubmenu"] [data-state="open"]') || (this.parentDropdown.isSubmenuActive = !1);
-        }));
+        }), this.contentEl = null);
       });
     },
     // --- METHODS ---
@@ -4463,14 +4475,14 @@ function Dl(e) {
       clearTimeout(this.closeTimeout);
     },
     handleContentMouseLeave() {
-      const t = this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+      const t = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
       t && Array.from(t).some((i) => e.$data(i)?.open) || (this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay));
     },
     openSubmenu(t = !1) {
       this.open || (this.closeSiblingSubmenus(), this.open = !0, t && this.$nextTick(() => requestAnimationFrame(() => this.focusFirstItem())));
     },
     closeSubmenu() {
-      this.$refs.subContent?.querySelectorAll('[x-data^="rzDropdownSubmenu"]')?.forEach((n) => {
+      this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]')?.forEach((n) => {
         e.$data(n)?.closeSubmenu();
       }), this.open = !1;
     },
@@ -4863,9 +4875,12 @@ function Yl(e) {
     ariaExpanded: "false",
     triggerEl: null,
     contentEl: null,
+    selfId: null,
     init() {
-      this.triggerEl = this.$refs.trigger.children[0] || this.$refs.trigger, this.contentEl = this.$refs.content, this.$watch("open", (t) => {
-        this.ariaExpanded = t.toString(), t && this.$nextTick(() => this.updatePosition());
+      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.triggerEl = this.$refs.trigger, this.$watch("open", (t) => {
+        this.ariaExpanded = t.toString(), t ? this.$nextTick(() => {
+          this.contentEl = document.getElementById(`${this.selfId}-content`), this.contentEl && this.updatePosition();
+        }) : this.contentEl = null;
       });
     },
     updatePosition() {
