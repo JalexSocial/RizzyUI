@@ -1,24 +1,24 @@
-
 @namespace RizzyUI
 @inherits RzComponent
 
 <CascadingValue Value="this" IsFixed="true">
-    <!-- Invisible Alpine controller: no visual wrapper -->
-    <div id="@Id"
-         class="contents"
-         data-alpine-root="@Id"
-         x-data="rzPopover"
-         data-anchor="@Anchor.ToString().ToKebabCase()"
-         data-offset="@Offset"
-         data-cross-axis-offset="@CrossAxisOffset"
-         data-alignment-axis-offset="@AlignmentAxisOffset"
-         data-strategy="@Strategy.ToString().ToLowerInvariant()"
-         data-enable-flip="@EnableFlip.ToString().ToLowerInvariant()"
-         data-enable-shift="@EnableShift.ToString().ToLowerInvariant()"
-         data-shift-padding="@ShiftPadding"
-         x-on:keydown.escape.window="handleWindowEscape"
-         aria-label="@AriaLabel"
-         @attributes="@AdditionalAttributes">
-        @ChildContent
-    </div>
+	<HtmlElement Element="@EffectiveElement"
+	             id="@Id"
+	             class="@RootClass()"
+	             @attributes="@AdditionalAttributes"
+	             x-data="rzPopover"
+	             data-alpine-root="@Id"
+	             data-anchor="@Anchor.ToString().ToKebabCase()"
+	             data-offset="@Offset"
+	             data-cross-axis-offset="@CrossAxisOffset"
+	             data-alignment-axis-offset="@AlignmentAxisOffset"
+	             data-strategy="@Strategy.ToString().ToLowerInvariant()"
+	             data-enable-flip="@EnableFlip.ToString().ToLowerInvariant()"
+	             data-enable-shift="@EnableShift.ToString().ToLowerInvariant()"
+	             data-shift-padding="@ShiftPadding"
+	             x-on:keydown.escape.window="handleWindowEscape"
+	             x-on:click.outside="handleOutsideClick"
+	             aria-label="@AriaLabel">
+		@ChildContent
+	</HtmlElement>
 </CascadingValue>

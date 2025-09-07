@@ -651,7 +651,7 @@
                                         <SidebarMenu>
                                             @foreach (var item in _navMain)
                                             {
-                                                <RzDropdownMenu>
+                                                <RzDropdownMenu Anchor="AnchorPoint.BottomEnd" Offset="0">
                                                     <DropdownMenuTrigger AsChild>
                                                         <SidebarMenuButton>
                                                             @item.Title
@@ -709,7 +709,7 @@
                 &lt;SidebarMenu&gt;
                     @@foreach (var item in _navMain)
                     {
-                        &lt;RzDropdownMenu&gt;
+                        &lt;RzDropdownMenu Anchor="AnchorPoint.BottomEnd"&gt;
                             &lt;DropdownMenuTrigger AsChild&gt;
                                 &lt;SidebarMenuButton&gt;
                                     @@item.Title

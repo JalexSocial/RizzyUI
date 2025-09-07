@@ -159,6 +159,12 @@ public partial class RzTheme
     /// </summary>
     public virtual RzStylesBase.RzPopoverStylesBase RzPopover { get; }
 
+    /// <summary> Gets the style definitions for the <see cref="PopoverTrigger" /> component. </summary>
+    public virtual RzStylesBase.PopoverTriggerStylesBase PopoverTrigger { get; }
+
+    /// <summary> Gets the style definitions for the <see cref="PopoverContent" /> component. </summary>
+    public virtual RzStylesBase.PopoverContentStylesBase PopoverContent { get; }
+    
     /// <summary> Gets or sets the style definitions for the <see cref="RzProgress" /> component. </summary>
     public virtual RzStylesBase.RzProgressStylesBase RzProgress { get; }
 

@@ -3089,7 +3089,8 @@ function registerRzDropdownMenu(Alpine2) {
     toggle() {
       if (this.open) {
         this.open = false;
-        this.$nextTick(() => this.triggerEl?.focus());
+        let self = this;
+        this.$nextTick(() => self.triggerEl?.focus());
       } else {
         this.open = true;
         this.focusedIndex = -1;
@@ -3098,7 +3099,8 @@ function registerRzDropdownMenu(Alpine2) {
     handleOutsideClick() {
       if (!this.open) return;
       this.open = false;
-      this.$nextTick(() => this.triggerEl?.focus());
+      let self = this;
+      this.$nextTick(() => self.triggerEl?.focus());
     },
     handleTriggerKeydown(event) {
       if (["Enter", " ", "ArrowDown", "ArrowUp"].includes(event.key)) {
@@ -3157,7 +3159,8 @@ function registerRzDropdownMenu(Alpine2) {
         return;
       }
       this.open = false;
-      this.$nextTick(() => this.triggerEl?.focus());
+      let self = this;
+      this.$nextTick(() => self.triggerEl?.focus());
     },
     handleItemMouseEnter(event) {
       const item = event.currentTarget;
@@ -3169,17 +3172,20 @@ function registerRzDropdownMenu(Alpine2) {
     handleWindowEscape() {
       if (this.open) {
         this.open = false;
-        this.$nextTick(() => this.triggerEl?.focus());
+        let self = this;
+        this.$nextTick(() => self.triggerEl?.focus());
       }
     },
     handleContentTabKey() {
       if (this.open) {
         this.open = false;
-        this.$nextTick(() => this.triggerEl?.focus());
+        let self = this;
+        this.$nextTick(() => self.triggerEl?.focus());
       }
     },
     handleTriggerMouseover() {
-      this.$nextTick(() => this.$el.firstChild?.focus());
+      let self = this;
+      this.$nextTick(() => self.$el.firstElementChild?.focus());
     },
     closeAllSubmenus() {
       const submenus = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
@@ -3861,21 +3867,13 @@ function registerRzPopover(Alpine2) {
     ariaExpanded: "false",
     triggerEl: null,
     contentEl: null,
-    selfId: null,
     init() {
-      if (!this.$el.id) this.$el.id = crypto.randomUUID();
-      this.selfId = this.$el.id;
       this.triggerEl = this.$refs.trigger;
+      this.contentEl = this.$refs.content;
       this.$watch("open", (value) => {
         this.ariaExpanded = value.toString();
         if (value) {
-          this.$nextTick(() => {
-            this.contentEl = document.getElementById(`${this.selfId}-content`);
-            if (!this.contentEl) return;
-            this.updatePosition();
-          });
-        } else {
-          this.contentEl = null;
+          this.$nextTick(() => this.updatePosition());
         }
       });
     },
@@ -3884,7 +3882,7 @@ function registerRzPopover(Alpine2) {
       const anchor = this.$el.dataset.anchor || "bottom";
       const mainOffset = parseInt(this.$el.dataset.offset) || 0;
       const crossAxisOffset = parseInt(this.$el.dataset.crossAxisOffset) || 0;
-      const alignmentAxisOffset = parseInt(this.$el.dataset.alignmentAxisOffset) || 0;
+      const alignmentAxisOffset = parseInt(this.$el.dataset.alignmentAxisOffset) || null;
       const strategy = this.$el.dataset.strategy || "absolute";
       const enableFlip = this.$el.dataset.enableFlip !== "false";
       const enableShift = this.$el.dataset.enableShift !== "false";

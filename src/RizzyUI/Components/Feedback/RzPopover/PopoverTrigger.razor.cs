@@ -1,13 +1,11 @@
-
-// src/RizzyUI/Components/Feedback/RzPopover/PopoverTrigger.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
 /// <summary>
-/// An interactive element that toggles the visibility of its associated <see cref="PopoverContent"/>.
-/// It must be a child of an <see cref="RzPopover"/> component.
+/// The interactive element that triggers the opening of a <see cref="RzPopover"/>.
+/// It can be rendered as a button or merge its behavior into a child element using the AsChild pattern.
 /// </summary>
 public partial class PopoverTrigger : RzAsChildComponent
 {
@@ -22,6 +20,16 @@ public partial class PopoverTrigger : RzAsChildComponent
     /// </summary>
     [Parameter, EditorRequired]
     public RenderFragment ChildContent { get; set; } = default!;
+
+    /// <summary>
+    /// Gets the ID for the trigger element.
+    /// </summary>
+    protected string TriggerId => $"{ParentPopover?.Id}-trigger";
+
+    /// <summary>
+    /// Gets the ID of the content element this trigger controls.
+    /// </summary>
+    protected string ContentId => $"{ParentPopover?.Id}-content";
 
     /// <inheritdoc/>
     protected override void OnInitialized()
@@ -42,12 +50,12 @@ public partial class PopoverTrigger : RzAsChildComponent
     {
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
-            ["id"] = ParentPopover?.TriggerId,
+            ["id"] = TriggerId,
             ["class"] = RootClass(),
             ["x-ref"] = "trigger",
             ["x-on:click"] = "toggle",
             ["aria-haspopup"] = "dialog",
-            ["aria-controls"] = ParentPopover?.ContentId,
+            ["aria-controls"] = ContentId,
             ["x-bind:aria-expanded"] = "ariaExpanded"
         };
         return attributes;
@@ -56,6 +64,6 @@ public partial class PopoverTrigger : RzAsChildComponent
     /// <inheritdoc/>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzPopover.TriggerWrapper);
+        return TwMerge.Merge(AdditionalAttributes, Theme.PopoverTrigger.TriggerWrapper);
     }
 }

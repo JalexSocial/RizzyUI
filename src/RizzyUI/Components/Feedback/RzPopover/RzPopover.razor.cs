@@ -1,5 +1,3 @@
-
-// src/RizzyUI/Components/Feedback/RzPopover/RzPopover.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -81,16 +79,6 @@ public partial class RzPopover : RzComponent
     [Parameter]
     public string? AriaLabel { get; set; }
 
-    /// <summary>
-    /// Gets the unique ID for the trigger element.
-    /// </summary>
-    public string TriggerId => $"{Id}-trigger";
-
-    /// <summary>
-    /// Gets the unique ID for the content element.
-    /// </summary>
-    public string ContentId => $"{Id}-content";
-
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
@@ -108,6 +96,6 @@ public partial class RzPopover : RzComponent
     /// <inheritdoc/>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes);
+        return TwMerge.Merge(AdditionalAttributes, Theme.RzPopover.Container);
     }
 }

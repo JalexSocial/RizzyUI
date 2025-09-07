@@ -1,13 +1,10 @@
-
-// src/RizzyUI/Components/Feedback/RzPopover/PopoverContent.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
 /// <summary>
-/// The container for content that appears when a <see cref="PopoverTrigger"/> is activated.
-/// It must be a child of an <see cref="RzPopover"/> component.
+/// The content panel of a <see cref="RzPopover"/> that appears when the trigger is activated.
 /// </summary>
 public partial class PopoverContent : RzComponent
 {
@@ -23,6 +20,16 @@ public partial class PopoverContent : RzComponent
     [Parameter, EditorRequired]
     public RenderFragment ChildContent { get; set; } = default!;
 
+    /// <summary>
+    /// Gets the ID for the content element.
+    /// </summary>
+    protected string ContentId => $"{ParentPopover?.Id}-content";
+
+    /// <summary>
+    /// Gets the ID of the trigger element that controls this content.
+    /// </summary>
+    protected string TriggerId => $"{ParentPopover?.Id}-trigger";
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
@@ -36,6 +43,6 @@ public partial class PopoverContent : RzComponent
     /// <inheritdoc/>
     protected override string? RootClass()
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzPopover.ContentContainer);
+        return TwMerge.Merge(AdditionalAttributes, Theme.PopoverContent.ContentContainer);
     }
 }

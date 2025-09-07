@@ -4358,10 +4358,18 @@ function Dl(e) {
       }));
     },
     toggle() {
-      this.open ? (this.open = !1, this.$nextTick(() => this.triggerEl?.focus())) : (this.open = !0, this.focusedIndex = -1);
+      if (this.open) {
+        this.open = !1;
+        let t = this;
+        this.$nextTick(() => t.triggerEl?.focus());
+      } else
+        this.open = !0, this.focusedIndex = -1;
     },
     handleOutsideClick() {
-      this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
+      if (!this.open) return;
+      this.open = !1;
+      let t = this;
+      this.$nextTick(() => t.triggerEl?.focus());
     },
     handleTriggerKeydown(t) {
       ["Enter", " ", "ArrowDown", "ArrowUp"].includes(t.key) && (t.preventDefault(), this.open = !0, this.$nextTick(() => {
@@ -4392,26 +4400,36 @@ function Dl(e) {
     },
     handleItemClick(t) {
       const n = t.currentTarget;
-      if (!(n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled"))) {
-        if (n.getAttribute("aria-haspopup") === "menu") {
-          e.$data(n.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
-          return;
-        }
-        this.open = !1, this.$nextTick(() => this.triggerEl?.focus());
+      if (n.getAttribute("aria-disabled") === "true" || n.hasAttribute("disabled")) return;
+      if (n.getAttribute("aria-haspopup") === "menu") {
+        e.$data(n.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
+        return;
       }
+      this.open = !1;
+      let i = this;
+      this.$nextTick(() => i.triggerEl?.focus());
     },
     handleItemMouseEnter(t) {
       const n = t.currentTarget;
       this.focusSelectedItem(n), n.getAttribute("aria-haspopup") !== "menu" && this.closeAllSubmenus();
     },
     handleWindowEscape() {
-      this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
+      if (this.open) {
+        this.open = !1;
+        let t = this;
+        this.$nextTick(() => t.triggerEl?.focus());
+      }
     },
     handleContentTabKey() {
-      this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
+      if (this.open) {
+        this.open = !1;
+        let t = this;
+        this.$nextTick(() => t.triggerEl?.focus());
+      }
     },
     handleTriggerMouseover() {
-      this.$nextTick(() => this.$el.firstChild?.focus());
+      let t = this;
+      this.$nextTick(() => t.$el.firstElementChild?.focus());
     },
     closeAllSubmenus() {
       this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]').forEach((n) => {
@@ -4875,17 +4893,14 @@ function Yl(e) {
     ariaExpanded: "false",
     triggerEl: null,
     contentEl: null,
-    selfId: null,
     init() {
-      this.$el.id || (this.$el.id = crypto.randomUUID()), this.selfId = this.$el.id, this.triggerEl = this.$refs.trigger, this.$watch("open", (t) => {
-        this.ariaExpanded = t.toString(), t ? this.$nextTick(() => {
-          this.contentEl = document.getElementById(`${this.selfId}-content`), this.contentEl && this.updatePosition();
-        }) : this.contentEl = null;
+      this.triggerEl = this.$refs.trigger, this.contentEl = this.$refs.content, this.$watch("open", (t) => {
+        this.ariaExpanded = t.toString(), t && this.$nextTick(() => this.updatePosition());
       });
     },
     updatePosition() {
       if (!this.triggerEl || !this.contentEl) return;
-      const t = this.$el.dataset.anchor || "bottom", n = parseInt(this.$el.dataset.offset) || 0, i = parseInt(this.$el.dataset.crossAxisOffset) || 0, r = parseInt(this.$el.dataset.alignmentAxisOffset) || 0, s = this.$el.dataset.strategy || "absolute", o = this.$el.dataset.enableFlip !== "false", a = this.$el.dataset.enableShift !== "false", l = parseInt(this.$el.dataset.shiftPadding) || 8;
+      const t = this.$el.dataset.anchor || "bottom", n = parseInt(this.$el.dataset.offset) || 0, i = parseInt(this.$el.dataset.crossAxisOffset) || 0, r = parseInt(this.$el.dataset.alignmentAxisOffset) || null, s = this.$el.dataset.strategy || "absolute", o = this.$el.dataset.enableFlip !== "false", a = this.$el.dataset.enableShift !== "false", l = parseInt(this.$el.dataset.shiftPadding) || 8;
       let c = [];
       c.push(mt({
         mainAxis: n,

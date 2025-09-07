@@ -6,25 +6,15 @@ export default function(Alpine) {
         ariaExpanded: 'false',
         triggerEl: null,
         contentEl: null,
-        selfId: null,
 
         init() {
-            if (!this.$el.id) this.$el.id = crypto.randomUUID();
-            this.selfId = this.$el.id;
             this.triggerEl = this.$refs.trigger;
-            // REMOVED: this.contentEl = this.$refs.content; // Unreliable due to x-teleport
+            this.contentEl = this.$refs.content;
 
             this.$watch('open', (value) => {
                 this.ariaExpanded = value.toString();
                 if (value) {
-                    this.$nextTick(() => {
-                        // ADDED: Find contentEl by ID when opening
-                        this.contentEl = document.getElementById(`${this.selfId}-content`);
-                        if (!this.contentEl) return;
-                        this.updatePosition();
-                    });
-                } else {
-                    this.contentEl = null; // Clear reference on close
+                    this.$nextTick(() => this.updatePosition());
                 }
             });
         },
@@ -35,7 +25,7 @@ export default function(Alpine) {
             const anchor = this.$el.dataset.anchor || 'bottom';
             const mainOffset = parseInt(this.$el.dataset.offset) || 0;
             const crossAxisOffset = parseInt(this.$el.dataset.crossAxisOffset) || 0;
-            const alignmentAxisOffset = parseInt(this.$el.dataset.alignmentAxisOffset) || 0;
+            const alignmentAxisOffset = parseInt(this.$el.dataset.alignmentAxisOffset) || null;
             const strategy = this.$el.dataset.strategy || 'absolute';
             const enableFlip = this.$el.dataset.enableFlip !== 'false';
             const enableShift = this.$el.dataset.enableShift !== 'false';

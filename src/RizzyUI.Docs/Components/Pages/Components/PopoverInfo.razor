@@ -33,9 +33,9 @@
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-80">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-start min-h-80">
                         <RzPopover>
-                            <PopoverTrigger>
+                            <PopoverTrigger AsChild>
                                 <RzButton Variant="ButtonVariant.Primary">Open Popover</RzButton>
                             </PopoverTrigger>
                             <PopoverContent>
@@ -73,7 +73,7 @@
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzPopover&gt;
     &lt;PopoverTrigger&gt;
-        &lt;RzButton Variant="ButtonVariant.Primary"&gt;Open Popover&lt;/RzButton&gt;
+        &lt;RzButton Variant="ButtonVariant.Primary" AsChild&gt;Open Popover&lt;/RzButton&gt;
     &lt;/PopoverTrigger&gt;
     &lt;PopoverContent&gt;
         &lt;div class="grid gap-4"&gt;

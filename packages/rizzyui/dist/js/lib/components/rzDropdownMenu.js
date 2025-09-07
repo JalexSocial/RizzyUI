@@ -76,7 +76,8 @@ export default function(Alpine) {
         toggle() {
             if (this.open) {
                 this.open = false;
-                this.$nextTick(() => this.triggerEl?.focus());
+                let self = this;
+                this.$nextTick(() => self.triggerEl?.focus());
             } else {
                 this.open = true;
                 this.focusedIndex = -1;
@@ -86,7 +87,8 @@ export default function(Alpine) {
         handleOutsideClick() {
             if (!this.open) return;
             this.open = false;
-            this.$nextTick(() => this.triggerEl?.focus());
+            let self = this;
+            this.$nextTick(() => self.triggerEl?.focus());
         },
 
         handleTriggerKeydown(event) {
@@ -153,7 +155,8 @@ export default function(Alpine) {
                 return;
             }
             this.open = false;
-            this.$nextTick(() => this.triggerEl?.focus());
+            let self = this;
+            this.$nextTick(() => self.triggerEl?.focus());
         },
         
         handleItemMouseEnter(event) {
@@ -168,19 +171,22 @@ export default function(Alpine) {
         handleWindowEscape() {
             if (this.open) {
                 this.open = false;
-                this.$nextTick(() => this.triggerEl?.focus());
+                let self = this;
+                this.$nextTick(() => self.triggerEl?.focus());
             }
         },
 
         handleContentTabKey() {
             if (this.open) {
                 this.open = false;
-                this.$nextTick(() => this.triggerEl?.focus());
+                let self = this;
+                this.$nextTick(() => self.triggerEl?.focus());
             }
         },
         
         handleTriggerMouseover() {
-             this.$nextTick(() => this.$el.firstChild?.focus());
+            let self = this;
+            this.$nextTick(() => self.$el.firstElementChild?.focus());
         },
 
         closeAllSubmenus() {
@@ -217,8 +223,7 @@ export default function(Alpine) {
         init() {
             if (!this.$el.id) this.$el.id = crypto.randomUUID();
             this.selfId = this.$el.id;
-
-            // CHANGED: Find parent dropdown using the data-parent-id attribute
+            
             const parentId = this.$el.dataset.parentId;
             if (parentId) {
                 const parentEl = document.getElementById(parentId);
