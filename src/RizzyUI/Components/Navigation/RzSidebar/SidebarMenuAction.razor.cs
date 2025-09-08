@@ -32,7 +32,8 @@ public partial class SidebarMenuAction : RzAsChildComponent
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = RootClass()
+            ["class"] = RootClass(),
+            ["data-slot"] = "sidebar-menu-action"
         };
         return attributes;
     }

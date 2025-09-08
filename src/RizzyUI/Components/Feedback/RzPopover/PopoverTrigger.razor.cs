@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -56,7 +57,8 @@ public partial class PopoverTrigger : RzAsChildComponent
             ["x-on:click"] = "toggle",
             ["aria-haspopup"] = "dialog",
             ["aria-controls"] = ContentId,
-            ["x-bind:aria-expanded"] = "ariaExpanded"
+            ["x-bind:aria-expanded"] = "ariaExpanded",
+            ["data-slot"] = "popover-trigger"
         };
         return attributes;
     }

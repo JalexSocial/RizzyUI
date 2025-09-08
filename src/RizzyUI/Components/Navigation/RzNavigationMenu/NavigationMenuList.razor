@@ -3,11 +3,12 @@
 @inherits RzComponent
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="AdditionalAttributes"
+             @attributes="@AdditionalAttributes"
              id="@Id"
              class="@RootClass()"
              data-orientation="@ParentMenu?.Orientation.ToString().ToLowerInvariant()"
              dir="ltr"
-             x-ref="list">
+             x-ref="list"
+             data-slot="navigation-menu-list">
     @ChildContent
 </HtmlElement>

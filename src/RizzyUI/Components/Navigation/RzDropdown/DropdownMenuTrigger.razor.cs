@@ -63,7 +63,8 @@ public partial class DropdownMenuTrigger : RzAsChildComponent
             ["x-on:keydown.enter.prevent"] = "handleTriggerKeydown",
             ["x-on:keydown.space.prevent"] = "handleTriggerKeydown",
             ["x-on:keydown.down.prevent"] = "handleTriggerKeydown",
-            ["x-on:keydown.up.prevent"] = "handleTriggerKeydown"
+            ["x-on:keydown.up.prevent"] = "handleTriggerKeydown",
+            ["data-slot"] = "dropdown-menu-trigger"
         };
         return attributes;
     }

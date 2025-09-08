@@ -18,7 +18,8 @@
              x-on:mouseleave="handleTriggerMouseLeave"
              x-on:keydown.enter.prevent="handleTriggerKeydown"
              x-on:keydown.space.prevent="handleTriggerKeydown"
-             x-on:keydown.right.prevent="handleTriggerKeydown">
+             x-on:keydown.right.prevent="handleTriggerKeydown"
+             data-slot="dropdown-menu-sub-trigger">
     @if (Icon != null)
     {
         <span class="@Theme.RzDropdownMenu.MenuItemIcon"><Blazicon Svg="@Icon"/></span>

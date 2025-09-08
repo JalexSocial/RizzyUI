@@ -12,7 +12,8 @@
              x-on:click="handleItemClick"
              x-on:mouseenter="handleItemMouseEnter"
              aria-disabled="@(Disabled.ToString().ToLowerInvariant())"
-             disabled="@(Disabled ? "disabled" : null)">
+             disabled="@(Disabled ? "disabled" : null)"
+             data-slot="dropdown-menu-item">
     @if (Icon != null)
     {
         <span class="@Theme.RzDropdownMenu.MenuItemIcon"><Blazicon Svg="@Icon"/></span>

@@ -63,6 +63,8 @@ public partial class SidebarMenuButton : RzAsChildComponent
 
         // Set ARIA attributes based on component state.
         attributes["aria-current"] = IsActive ? "page" : null;
+        
+        attributes["data-slot"] = "sidebar-menu-button";
 
         return attributes;
     }

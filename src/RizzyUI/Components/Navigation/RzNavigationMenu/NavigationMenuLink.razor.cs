@@ -33,6 +33,7 @@ public partial class NavigationMenuLink : RzAsChildComponent
         attributes["id"] = Id;
         attributes["class"] = RootClass();
         attributes["href"] = Href;
+        attributes["data-slot"] = "navigation-menu-link";
 
         return attributes;
     }

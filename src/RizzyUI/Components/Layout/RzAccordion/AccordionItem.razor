@@ -5,9 +5,9 @@
 <div x-data="accordionItem" @attributes="@AdditionalAttributes" x-ref="@SectionId" data-is-open="@((!Collapsed).ToString().ToLowerInvariant())"
      data-section-id="@SectionId"
      data-expanded-class="@Theme.AccordionItem.ChevronIconExpanded"
-     class="@Theme.AccordionItem.Container">
+     class="@Theme.AccordionItem.Container" data-slot="accordion-item">
 	<button id="@ButtonId" type="button" class="@RootClass()" aria-controls="@ContentId"
-	        x-on:click="toggle" :aria-expanded="getAriaExpanded">
+	        x-on:click="toggle" :aria-expanded="getAriaExpanded" data-slot="accordion-trigger">
 		@if (AccordionTrigger != null)
 		{
 			@AccordionTrigger
@@ -24,7 +24,7 @@
 	</button>
 	<div id="@ContentId" role="region" aria-labelledby="@ButtonId"
 	     x-cloak x-show="open" x-collapse
-         class="@Theme.AccordionItem.ContentContainerWrapper">
+         class="@Theme.AccordionItem.ContentContainerWrapper" data-slot="accordion-content">
 		<div class="@Theme.AccordionItem.ContentContainer">
 			@AccordionContent
 		</div>

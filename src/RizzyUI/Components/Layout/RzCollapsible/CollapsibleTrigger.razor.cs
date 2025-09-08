@@ -46,7 +46,8 @@ public partial class CollapsibleTrigger : RzAsChildComponent
             ["x-on:click"] = "toggle",
             ["aria-controls"] = $"{ParentCollapsible?.Id}-content",
             ["x-bind:aria-expanded"] = "isOpen",
-            ["x-bind:data-state"] = "state"
+            ["x-bind:data-state"] = "state",
+            ["data-slot"] = "collapsible-trigger"
         };
         return attributes;
     }

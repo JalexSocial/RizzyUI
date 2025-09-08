@@ -8,6 +8,7 @@
              class="@RootClass()"
              x-show="isOpen"
              x-cloak
-             x-bind:data-state="state">
+             x-bind:data-state="state"
+             data-slot="collapsible-content">
     @ChildContent
 </HtmlElement>

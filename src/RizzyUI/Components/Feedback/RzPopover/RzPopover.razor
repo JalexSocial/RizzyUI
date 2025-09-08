@@ -1,3 +1,4 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
@@ -18,7 +19,8 @@
 	             data-shift-padding="@ShiftPadding"
 	             x-on:keydown.escape.window="handleWindowEscape"
 	             x-on:click.outside="handleOutsideClick"
-	             aria-label="@AriaLabel">
+	             aria-label="@AriaLabel"
+                 data-slot="popover">
 		@ChildContent
 	</HtmlElement>
 </CascadingValue>

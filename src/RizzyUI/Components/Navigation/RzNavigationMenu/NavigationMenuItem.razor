@@ -1,13 +1,15 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
 <CascadingValue Value="this" IsFixed="true">
 	<HtmlElement Element="@EffectiveElement"
-	             @attributes="AdditionalAttributes"
+	             @attributes="@AdditionalAttributes"
 	             id="@Id"
 	             class="@RootClass()"
 	             role="menuitem"
-	             x-on:mouseenter="handleItemEnter">
+	             x-on:mouseenter="handleItemEnter"
+                 data-slot="navigation-menu-item">
 		@ChildContent
 	</HtmlElement>
 </CascadingValue>

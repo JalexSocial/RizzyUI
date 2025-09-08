@@ -3,7 +3,7 @@
 @inherits RzComponent
 
 <CascadingValue Value="this" IsFixed="true">
-    <HtmlElement Element="@EffectiveElement" role="group" aria-labelledby="@LabelId" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
+    <HtmlElement Element="@EffectiveElement" role="group" aria-labelledby="@LabelId" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()" data-slot="sidebar-group">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

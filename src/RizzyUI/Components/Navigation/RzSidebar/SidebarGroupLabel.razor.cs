@@ -42,7 +42,8 @@ public partial class SidebarGroupLabel : RzAsChildComponent
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = ParentGroup?.LabelId,
-            ["class"] = RootClass()
+            ["class"] = RootClass(),
+            ["data-slot"] = "sidebar-group-label"
         };
         return attributes;
     }

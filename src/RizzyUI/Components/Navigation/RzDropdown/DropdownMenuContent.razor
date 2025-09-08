@@ -25,7 +25,8 @@
          x-on:keydown.home.prevent="focusFirstItem"
          x-on:keydown.end.prevent="focusLastItem"
          x-on:keydown.tab.prevent="handleContentTabKey"
-         class="@RootClass()">
+         class="@RootClass()"
+         data-slot="dropdown-menu-content">
         <div class="@Theme.RzDropdownMenu.ContentInnerContainer">
             @ChildContent
         </div>
