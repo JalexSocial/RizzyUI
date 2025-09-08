@@ -5,12 +5,16 @@ import focus from '@alpinejs/focus';
 import toast from "./lib/notify/toast";
 import { registerComponents, require } from './lib/components.js';
 import $data from './lib/alpineData.js';
+import registerMobileDirective from './lib/directives/mobile.js';
+import registerSyncDirective from './lib/directives/sync-prop.js'
 
 // Register Alpine.js extensions
 Alpine.plugin(collapse);
 Alpine.plugin(intersect);
 Alpine.plugin(focus)
 registerComponents(Alpine);
+registerMobileDirective(Alpine);
+registerSyncDirective(Alpine);
 
 const RizzyUI = {
     Alpine,

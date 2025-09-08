@@ -21,7 +21,7 @@ export default function(Alpine) {
             this.open = savedState !== null ? savedState === 'true' : defaultOpen;
 
             this.checkIfMobile();
-            window.addEventListener('resize', () => this.checkIfMobile());
+
             window.addEventListener('keydown', (e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === this.shortcut.toLowerCase()) {
                     e.preventDefault();
@@ -35,7 +35,7 @@ export default function(Alpine) {
                 }
             });
         },
-
+        
         checkIfMobile() {
             this.isMobile = window.innerWidth < this.mobileBreakpoint;
         },

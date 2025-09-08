@@ -4201,7 +4201,6 @@
         const defaultOpen = this.$el.dataset.defaultOpen === "true";
         this.open = savedState !== null ? savedState === "true" : defaultOpen;
         this.checkIfMobile();
-        window.addEventListener("resize", () => this.checkIfMobile());
         window.addEventListener("keydown", (e2) => {
           if ((e2.ctrlKey || e2.metaKey) && e2.key.toLowerCase() === this.shortcut.toLowerCase()) {
             e2.preventDefault();
@@ -4294,10 +4293,153 @@
     registerRzTabs(Alpine2);
     registerRzSidebar(Alpine2);
   }
+  function registerMobileDirective(Alpine2) {
+    Alpine2.directive("mobile", (el, { modifiers, expression }, { cleanup }) => {
+      const bpMod = modifiers.find((m2) => m2.startsWith("bp-"));
+      const BREAKPOINT = bpMod ? parseInt(bpMod.slice(3), 10) : 768;
+      const ASSIGN_PROP = !!(expression && expression.length > 0);
+      if (typeof window === "undefined" || !window.matchMedia) {
+        el.dataset.mobile = "false";
+        el.dataset.screen = "desktop";
+        return;
+      }
+      const isMobileNow = () => window.innerWidth < BREAKPOINT;
+      const reflect = (val) => {
+        el.dataset.mobile = val ? "true" : "false";
+        el.dataset.screen = val ? "mobile" : "desktop";
+      };
+      const getComponentData = () => {
+        if (typeof Alpine2.$data === "function") return Alpine2.$data(el);
+        return el.__x ? el.__x.$data : null;
+      };
+      const setProp = (val) => {
+        if (!ASSIGN_PROP) return;
+        const data = getComponentData();
+        if (data) data[expression] = val;
+      };
+      const dispatch = (val) => {
+        el.dispatchEvent(
+          new CustomEvent("screen:change", {
+            bubbles: true,
+            detail: { isMobile: val, width: window.innerWidth, breakpoint: BREAKPOINT }
+          })
+        );
+      };
+      const mql = window.matchMedia(`(max-width: ${BREAKPOINT - 1}px)`);
+      const update = () => {
+        const val = isMobileNow();
+        reflect(val);
+        setProp(val);
+        dispatch(val);
+      };
+      update();
+      const onChange = () => update();
+      const onResize = () => update();
+      mql.addEventListener("change", onChange);
+      window.addEventListener("resize", onResize, { passive: true });
+      cleanup(() => {
+        mql.removeEventListener("change", onChange);
+        window.removeEventListener("resize", onResize);
+      });
+    });
+  }
+  function registerSyncDirective(Alpine2) {
+    const handler = (el, { expression, modifiers }, { cleanup, effect }) => {
+      if (!expression || typeof expression !== "string") return;
+      const setAtPath = (obj, path, value) => {
+        const norm = path.replace(/\[(\d+)\]/g, ".$1");
+        const keys = norm.split(".");
+        const last = keys.pop();
+        let cur = obj;
+        for (const k of keys) {
+          if (cur[k] == null || typeof cur[k] !== "object") cur[k] = isFinite(+k) ? [] : {};
+          cur = cur[k];
+        }
+        cur[last] = value;
+      };
+      const stack = Alpine2.closestDataStack(el) || [];
+      const childData = stack[0] || null;
+      const parentData = stack[1] || null;
+      if (!childData || !parentData) {
+        if (void 0) {
+          console.warn("[x-sync] Could not find direct parent/child x-data. Ensure x-sync is used one level inside a parent component.");
+        }
+        return;
+      }
+      const pairs = expression.split(",").map((s2) => s2.trim()).filter(Boolean).map((s2) => {
+        const m2 = s2.split("->").map((x) => x.trim());
+        if (m2.length !== 2) {
+          console.warn('[x-sync] Invalid mapping (expected "parent.path -> child.path"): ', s2);
+          return null;
+        }
+        return { parentPath: m2[0], childPath: m2[1] };
+      }).filter(Boolean);
+      const initChildWins = modifiers.includes("init-child") || modifiers.includes("child") || modifiers.includes("childWins");
+      const guard = pairs.map(() => ({
+        fromParent: false,
+        fromChild: false,
+        skipChildOnce: initChildWins
+        // avoid redundant first child->parent write
+      }));
+      const stops = [];
+      pairs.forEach((pair, idx) => {
+        const g = guard[idx];
+        if (initChildWins) {
+          const childVal = Alpine2.evaluate(el, pair.childPath, { scope: childData });
+          g.fromChild = true;
+          setAtPath(parentData, pair.parentPath, childVal);
+          queueMicrotask(() => {
+            g.fromChild = false;
+          });
+        } else {
+          const parentVal = Alpine2.evaluate(el, pair.parentPath, { scope: parentData });
+          g.fromParent = true;
+          setAtPath(childData, pair.childPath, parentVal);
+          queueMicrotask(() => {
+            g.fromParent = false;
+          });
+        }
+        const stop1 = effect(() => {
+          const parentVal = Alpine2.evaluate(el, pair.parentPath, { scope: parentData });
+          if (g.fromChild) return;
+          g.fromParent = true;
+          setAtPath(childData, pair.childPath, parentVal);
+          queueMicrotask(() => {
+            g.fromParent = false;
+          });
+        });
+        const stop2 = effect(() => {
+          const childVal = Alpine2.evaluate(el, pair.childPath, { scope: childData });
+          if (g.fromParent) return;
+          if (g.skipChildOnce) {
+            g.skipChildOnce = false;
+            return;
+          }
+          g.fromChild = true;
+          setAtPath(parentData, pair.parentPath, childVal);
+          queueMicrotask(() => {
+            g.fromChild = false;
+          });
+        });
+        stops.push(stop1, stop2);
+      });
+      cleanup(() => {
+        for (const stop of stops) {
+          try {
+            stop && stop();
+          } catch {
+          }
+        }
+      });
+    };
+    Alpine2.directive("sync", handler);
+  }
   Alpine$1.plugin(module_default$2);
   Alpine$1.plugin(module_default$1);
   Alpine$1.plugin(module_default);
   registerComponents(Alpine$1);
+  registerMobileDirective(Alpine$1);
+  registerSyncDirective(Alpine$1);
   const RizzyUI = {
     Alpine: Alpine$1,
     require: rizzyRequire,
