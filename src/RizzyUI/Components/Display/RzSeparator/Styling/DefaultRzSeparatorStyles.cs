@@ -69,7 +69,7 @@ public sealed class DefaultRzSeparatorStyles : RzStylesBase.RzSeparatorStylesBas
     {
         if (orientation == Orientation.Vertical)
         {
-            var baseVertical = "mx-4 border-r border-border self-stretch";
+            var baseVertical = "mx-4 border-r border-border h-full";
             return style switch
             {
                 SeparatorStyle.Solid => $"{baseVertical} border-solid",
