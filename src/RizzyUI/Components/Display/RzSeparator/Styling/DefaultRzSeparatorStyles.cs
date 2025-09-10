@@ -93,6 +93,9 @@ public sealed class DefaultRzSeparatorStyles : RzStylesBase.RzSeparatorStylesBas
     /// <inheritdoc />
     public override string GetAlignmentCss(Align alignment, SeparatorStyle style, Orientation orientation)
     {
+        // Used for Tailwind class discovery
+        const string twDiscovery = "after:border-solid after:border-dashed after:border-dotted before:border-solid before:border-dashed before:border-dotted";
+        
         var lineStyle = style switch
         {
             SeparatorStyle.Solid => "border-solid",
@@ -100,16 +103,15 @@ public sealed class DefaultRzSeparatorStyles : RzStylesBase.RzSeparatorStylesBas
             SeparatorStyle.Dotted => "border-dotted",
             _ => "border-solid"
         };
-        const string color = "border-border";
 
         if (orientation == Orientation.Vertical)
         {
             return alignment switch
             {
-                Align.Start => $"after:flex-1 after:w-px after:border-r after:{lineStyle} after:{color} after:mt-2",
-                Align.Center => $"before:flex-1 before:w-px before:border-r before:{lineStyle} before:{color} before:mb-2 " +
-                                $"after:flex-1 after:w-px after:border-r after:{lineStyle} after:{color} after:mt-2",
-                Align.End => $"before:flex-1 before:w-px before:border-r before:{lineStyle} before:{color} before:mb-2",
+                Align.Start => $"after:flex-1 after:w-px after:border-r after:{lineStyle} after:border-border after:mt-2",
+                Align.Center => $"before:flex-1 before:w-px before:border-r before:{lineStyle} before:border-border before:mb-2 " +
+                                $"after:flex-1 after:w-px after:border-r after:{lineStyle} after:border-border after:mt-2",
+                Align.End => $"before:flex-1 before:w-px before:border-r before:{lineStyle} before:border-border before:mb-2",
                 _ => string.Empty
             };
         }
@@ -117,10 +119,10 @@ public sealed class DefaultRzSeparatorStyles : RzStylesBase.RzSeparatorStylesBas
         // Horizontal
         return alignment switch
         {
-            Align.Start => $"after:flex-1 after:border-t after:{lineStyle} after:{color} after:ms-6",
-            Align.Center => $"before:flex-1 before:border-t before:{lineStyle} before:{color} before:me-6 " +
-                            $"after:flex-1 after:border-t after:{lineStyle} after:{color} after:ms-6",
-            Align.End => $"before:flex-1 before:border-t before:{lineStyle} before:{color} before:me-6",
+            Align.Start => $"after:flex-1 after:border-t after:{lineStyle} after:border-border after:ms-6",
+            Align.Center => $"before:flex-1 before:border-t before:{lineStyle} before:border-border before:me-6 " +
+                            $"after:flex-1 after:border-t after:{lineStyle} after:border-border after:ms-6",
+            Align.End => $"before:flex-1 before:border-t before:{lineStyle} before:border-border before:me-6",
             _ => string.Empty
         };
     }

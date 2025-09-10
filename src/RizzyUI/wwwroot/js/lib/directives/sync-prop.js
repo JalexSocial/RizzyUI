@@ -51,13 +51,6 @@
 // - Nested paths supported (dot + bracket notation), e.g. a.b[0].c.
 // - Designed for Alpine v3+. Works with Vite (ESM).
 //
-// Registration (e.g., main.js):
-//   import Alpine from 'alpinejs'
-//   import registerSyncDirective from './sync-prop.js'
-//   registerSyncDirective(Alpine)         // registers x-sync (and a deprecated x-map alias)
-//   window.Alpine = Alpine
-//   Alpine.start()
-//
 // ──────────────────────────────────────────────────────────────────────────────
 // LIMITATIONS
 // ──────────────────────────────────────────────────────────────────────────────
