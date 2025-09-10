@@ -3577,6 +3577,12 @@
       border-style: solid;
     }
   }
+  .before\:border-border {
+    &::before {
+      content: var(--tw-content);
+      border-color: var(--border);
+    }
+  }
   .before\:bg-background {
     &::before {
       content: var(--tw-content);
@@ -3876,6 +3882,12 @@
       content: var(--tw-content);
       --tw-border-style: solid;
       border-style: solid;
+    }
+  }
+  .after\:border-border {
+    &::after {
+      content: var(--tw-content);
+      border-color: var(--border);
     }
   }
   .after\:bg-accent {
