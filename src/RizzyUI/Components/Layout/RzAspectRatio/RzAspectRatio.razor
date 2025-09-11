@@ -1,0 +1,17 @@
+
+@namespace RizzyUI
+@using System.Globalization
+@inherits RzComponent
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             class="@RootClass()"
+             @attributes="@AdditionalAttributes"
+             data-slot="aspect-ratio-wrapper"
+             x-data="rzAspectRatio"
+             data-alpine-root="@Id"
+             data-ratio="@Ratio.ToString(CultureInfo.InvariantCulture)">
+    <div class="@Theme.RzAspectRatio.Inner" data-slot="aspect-ratio-inner">
+        @ChildContent
+    </div>
+</HtmlElement>

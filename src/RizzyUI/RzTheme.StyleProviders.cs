@@ -27,6 +27,11 @@ public partial class RzTheme
     public virtual RzStylesBase.RzArticleStylesBase RzArticle { get; }
 
     /// <summary>
+    /// Gets the style definitions for the <see cref="RzAspectRatio" /> component.
+    /// </summary>
+    public virtual RzStylesBase.RzAspectRatioStylesBase RzAspectRatio { get; }
+    
+    /// <summary>
     /// Gets the style definitions for the <see cref="Avatar" /> component.
     /// </summary>
     public virtual RzStylesBase.RzAvatarStylesBase RzAvatar { get; }

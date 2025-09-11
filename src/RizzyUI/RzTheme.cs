@@ -29,6 +29,7 @@ public partial class RzTheme
         AlertTitle = new DefaultAlertTitleStyles(this);
         AlertDescription = new DefaultAlertDescriptionStyles(this);
         RzArticle = new DefaultRzArticleStyles(this);
+        RzAspectRatio = new DefaultRzAspectRatioStyles(this);
         RzAvatar = new DefaultRzAvatarStyles(this);
         AvatarImage = new DefaultAvatarImageStyles(this);
         AvatarFallback = new DefaultAvatarFallbackStyles(this);

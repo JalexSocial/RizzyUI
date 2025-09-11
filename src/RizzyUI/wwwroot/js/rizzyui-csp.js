@@ -5011,6 +5011,19 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       };
     });
   }
+  function registerRzAspectRatio(Alpine2) {
+    Alpine2.data("rzAspectRatio", () => ({
+      init() {
+        const ratio = parseFloat(this.$el.dataset.ratio);
+        if (!isNaN(ratio) && ratio > 0) {
+          const paddingBottom = 100 / ratio + "%";
+          this.$el.style.paddingBottom = paddingBottom;
+        } else {
+          this.$el.style.paddingBottom = "100%";
+        }
+      }
+    }));
+  }
   function registerRzBrowser(Alpine2) {
     Alpine2.data("rzBrowser", () => {
       return {
@@ -7578,6 +7591,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
     registerRzAccordion(Alpine2);
     registerAccordionItem(Alpine2);
     registerRzAlert(Alpine2);
+    registerRzAspectRatio(Alpine2);
     registerRzBrowser(Alpine2);
     registerRzCheckboxGroupItem(Alpine2);
     registerRzCodeViewer(Alpine2, rizzyRequire);

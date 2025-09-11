@@ -6,6 +6,7 @@ import $data from './alpineData.js';
 import registerRzAccordion from './components/rzAccordion.js';
 import registerAccordionItem from './components/accordionItem.js';
 import registerRzAlert from './components/rzAlert.js';
+import registerRzAspectRatio from './components/rzAspectRatio.js';
 import registerRzBrowser from './components/rzBrowser.js';
 import registerRzCheckboxGroupItem from './components/rzCheckboxGroupItem.js';
 import registerRzCodeViewer from './components/rzCodeViewer.js';
@@ -69,6 +70,7 @@ function registerComponents(Alpine) {
     registerRzAccordion(Alpine);
     registerAccordionItem(Alpine);
     registerRzAlert(Alpine);
+    registerRzAspectRatio(Alpine);
     registerRzBrowser(Alpine);
     registerRzCheckboxGroupItem(Alpine);
     registerRzCodeViewer(Alpine, rizzyRequire);
