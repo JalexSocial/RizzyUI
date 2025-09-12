@@ -1,0 +1,21 @@
+@namespace RizzyUI
+@inherits RzComponent
+
+<CascadingValue Value="this" IsFixed="true">
+	<HtmlElement Element="@EffectiveElement"
+	             @attributes="AdditionalAttributes"
+	             id="@Id"
+	             class="@RootClass()"
+	             role="region"
+	             aria-roledescription="carousel"
+	             aria-label="@AriaLabel">
+		<div x-data="rzCarousel"
+		     data-options="@_serializedOptions"
+		     data-alpine-root="@Id"
+		     data-assets="@_assets"
+		     data-nonce="@Nonce"
+		     class="@Theme.RzCarousel.Wrapper">
+			@ChildContent
+		</div>
+	</HtmlElement>
+</CascadingValue>

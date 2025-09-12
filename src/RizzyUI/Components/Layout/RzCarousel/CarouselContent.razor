@@ -1,0 +1,13 @@
+
+@namespace RizzyUI
+@inherits RzComponent
+
+<div class="@Theme.RzCarousel.Viewport" x-ref="viewport">
+    <HtmlElement Element="@EffectiveElement"
+                 @attributes="AdditionalAttributes"
+                 id="@Id"
+                 class="@RootClass()"
+                 x-ref="container">
+        @ChildContent
+    </HtmlElement>
+</div>

@@ -84,6 +84,9 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="CardTitle" /> component. </summary>
     public virtual RzStylesBase.CardTitleStylesBase CardTitle { get; }
 
+    /// <summary> Gets the style definitions for the <see cref="RzCarousel" /> component family. </summary>
+    public virtual RzStylesBase.RzCarouselStylesBase RzCarousel { get; }
+    
     /// <summary> Gets or sets the style definitions for the <see cref="RzCheckboxGroup{TValue}" /> component. </summary>
     public virtual RzStylesBase.RzCheckboxGroupStylesBase RzCheckboxGroup { get; }
 

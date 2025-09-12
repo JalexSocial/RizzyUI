@@ -45,6 +45,7 @@ public partial class RzTheme
         CardHeader = new DefaultCardHeaderStyles(this);
         CardDescription = new DefaultCardDescriptionStyles(this);
         CardTitle = new DefaultCardTitleStyles(this);
+        RzCarousel = new DefaultRzCarouselStyles(this);
         RzCheckboxGroup = new DefaultRzCheckboxGroupStyles(this);
         RzCheckboxGroupField = new DefaultRzCheckboxGroupFieldStyles(this);
         RzCheckboxGroupItem = new DefaultRzCheckboxGroupItemStyles(this);

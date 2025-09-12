@@ -325,4 +325,16 @@
       <value>Toggle Sidebar</value>
       <comment>Default ARIA label for the SidebarRail component</comment>
     </data>  
+    <data name="RzCarousel.DefaultAriaLabel" xml:space="preserve">
+      <value>Carousel</value>
+      <comment>Default ARIA label for the carousel region</comment>
+    </data>
+        <data name="RzCarousel.PreviousButtonAriaLabel" xml:space="preserve">
+        <value>Previous slide</value>
+        <comment>ARIA label for the previous slide button</comment>
+    </data>
+    <data name="RzCarousel.NextButtonAriaLabel" xml:space="preserve">
+        <value>Next slide</value>
+        <comment>ARIA label for the next slide button</comment>
+    </data>  
 </root>

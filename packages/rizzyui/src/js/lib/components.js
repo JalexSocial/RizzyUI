@@ -8,6 +8,7 @@ import registerAccordionItem from './components/accordionItem.js';
 import registerRzAlert from './components/rzAlert.js';
 import registerRzAspectRatio from './components/rzAspectRatio.js';
 import registerRzBrowser from './components/rzBrowser.js';
+import registerRzCarousel from './components/rzCarousel.js';
 import registerRzCheckboxGroupItem from './components/rzCheckboxGroupItem.js';
 import registerRzCodeViewer from './components/rzCodeViewer.js';
 import registerRzCollapsible from './components/rzCollapsible.js';
@@ -72,6 +73,7 @@ function registerComponents(Alpine) {
     registerRzAlert(Alpine);
     registerRzAspectRatio(Alpine);
     registerRzBrowser(Alpine);
+    registerRzCarousel(Alpine, rizzyRequire);
     registerRzCheckboxGroupItem(Alpine);
     registerRzCodeViewer(Alpine, rizzyRequire);
     registerRzCollapsible(Alpine);
