@@ -489,6 +489,9 @@
   .top-full {
     top: 100%;
   }
+  .-right-12 {
+    right: calc(var(--spacing) * -12);
+  }
   .right-0 {
     right: calc(var(--spacing) * 0);
   }
@@ -509,6 +512,9 @@
   }
   .bottom-full {
     bottom: 100%;
+  }
+  .-left-12 {
+    left: calc(var(--spacing) * -12);
   }
   .left-0 {
     left: calc(var(--spacing) * 0);
@@ -2356,6 +2362,9 @@
   }
   .p-8 {
     padding: calc(var(--spacing) * 8);
+  }
+  .p-10 {
+    padding: calc(var(--spacing) * 10);
   }
   .p-\[3px\] {
     padding: 3px;
