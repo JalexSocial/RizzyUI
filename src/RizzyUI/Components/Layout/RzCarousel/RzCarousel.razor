@@ -10,7 +10,7 @@
 	             aria-roledescription="carousel"
 	             aria-label="@AriaLabel">
 		<script type="application/json" id="@Id-options">
-			@_serializedOptions
+			@((MarkupString)_serializedOptions)
 		</script>
 		<div x-data="rzCarousel"
 		     data-options="@Id-options"

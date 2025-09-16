@@ -246,7 +246,7 @@
                     <div class="mx-auto p-8 mb-5 flex justify-center items-center">
                         <script src="https://cdn.jsdelivr.net/npm/embla-carousel-autoplay@8.1.7/embla-carousel-autoplay.umd.js" nonce="@Nonce"></script>
                         
-                        <RzCarousel class="w-full max-w-xs">
+                        <RzCarousel Options="@(new CarouselOptions { Loop = true })" class="w-full max-w-xs">
                             <CarouselContent>
                                 @for (int i = 1; i <= 5; i++)
                                 {

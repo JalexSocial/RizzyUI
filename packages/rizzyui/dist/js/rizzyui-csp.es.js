@@ -5053,6 +5053,34 @@ function registerRzBrowser(Alpine2) {
   });
 }
 function registerRzCarousel(Alpine2, require2) {
+  function parseJsonFromScriptId(id) {
+    if (!id) return {};
+    const el = document.getElementById(id);
+    if (!el) {
+      console.warn(`[rzCarousel] JSON script element #${id} not found.`);
+      return {};
+    }
+    try {
+      return JSON.parse(el.textContent || "{}");
+    } catch (e2) {
+      console.error(`[rzCarousel] Failed to parse JSON from #${id}:`, e2);
+      return {};
+    }
+  }
+  function resolveOptions(dataset) {
+    const raw2 = dataset.options || "";
+    if (!raw2) return {};
+    const trimmed = raw2.trim();
+    if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
+      try {
+        return JSON.parse(trimmed);
+      } catch (e2) {
+        console.error("[rzCarousel] Failed to parse inline options JSON:", e2);
+        return {};
+      }
+    }
+    return parseJsonFromScriptId(raw2);
+  }
   Alpine2.data("rzCarousel", () => ({
     emblaApi: null,
     canScrollPrev: false,
@@ -5060,35 +5088,46 @@ function registerRzCarousel(Alpine2, require2) {
     selectedIndex: 0,
     scrollSnaps: [],
     init() {
-      const assetsToLoad = JSON.parse(this.$el.dataset.assets || "[]");
+      const assetsToLoad = (() => {
+        try {
+          return JSON.parse(this.$el.dataset.assets || "[]");
+        } catch (e2) {
+          console.error("[rzCarousel] Bad assets JSON:", e2);
+          return [];
+        }
+      })();
       const nonce = this.$el.dataset.nonce || "";
-      const options = JSON.parse(this.$el.dataset.options || "{}");
+      const options = resolveOptions(this.$el.dataset);
       const self = this;
       if (assetsToLoad.length > 0 && typeof require2 === "function") {
-        require2(assetsToLoad, {
-          success: function() {
-            if (window.EmblaCarousel) {
-              self.initializeEmbla(options);
-            } else {
-              console.error("EmblaCarousel not found on window object after loading assets.");
+        require2(
+          assetsToLoad,
+          {
+            success() {
+              if (window.EmblaCarousel) {
+                self.initializeEmbla(options);
+              } else {
+                console.error("[rzCarousel] EmblaCarousel not found on window after loading assets.");
+              }
+            },
+            error(err) {
+              console.error("[rzCarousel] Failed to load EmblaCarousel assets.", err);
             }
           },
-          error: function(err) {
-            console.error("Failed to load EmblaCarousel assets.", err);
-          }
-        }, nonce);
+          nonce
+        );
       } else {
         if (window.EmblaCarousel) {
           this.initializeEmbla(options);
         } else {
-          console.error("EmblaCarousel not found and no assets specified for loading.");
+          console.error("[rzCarousel] EmblaCarousel not found and no assets specified for loading.");
         }
       }
     },
     initializeEmbla(options) {
       const viewport = this.$el.querySelector('[x-ref="viewport"]');
       if (!viewport) {
-        console.error('Carousel viewport with x-ref="viewport" not found.');
+        console.error('[rzCarousel] Carousel viewport with x-ref="viewport" not found.');
         return;
       }
       this.emblaApi = window.EmblaCarousel(viewport, options);
@@ -5097,9 +5136,7 @@ function registerRzCarousel(Alpine2, require2) {
       this.onSelect();
     },
     destroy() {
-      if (this.emblaApi) {
-        this.emblaApi.destroy();
-      }
+      if (this.emblaApi) this.emblaApi.destroy();
     },
     onSelect() {
       if (!this.emblaApi) return;

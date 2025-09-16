@@ -1,3 +1,4 @@
+using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Components.Layout.RzCarousel.Models;
@@ -17,6 +18,7 @@ public partial class RzCarousel : RzComponent
 {
     private static readonly JsonSerializerOptions _serializerOptions = new()
     {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
     private string _serializedOptions = "{}";
