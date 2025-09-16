@@ -9,8 +9,11 @@
 	             role="region"
 	             aria-roledescription="carousel"
 	             aria-label="@AriaLabel">
+		<script type="application/json" id="@Id-options">
+			@_serializedOptions
+		</script>
 		<div x-data="rzCarousel"
-		     data-options="@_serializedOptions"
+		     data-options="@Id-options"
 		     data-alpine-root="@Id"
 		     data-assets="@_assets"
 		     data-nonce="@Nonce"

@@ -3,6 +3,7 @@ using Rizzy.Utility;
 using RizzyUI.Components.Layout.RzCarousel.Models;
 using RizzyUI.Extensions;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace RizzyUI;
 
@@ -14,6 +15,10 @@ namespace RizzyUI;
 /// </remarks>
 public partial class RzCarousel : RzComponent
 {
+    private static readonly JsonSerializerOptions _serializerOptions = new()
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
     private string _serializedOptions = "{}";
     private string _assets = "[]";
 
@@ -56,7 +61,7 @@ public partial class RzCarousel : RzComponent
         base.OnInitialized();
         AriaLabel ??= Localizer["RzCarousel.DefaultAriaLabel"];
         _assets = JsonSerializer.Serialize(ComponentAssets ?? DefaultAssets);
-        _serializedOptions = Options.SerializeAsAlpineData(true);
+        _serializedOptions = JsonSerializer.Serialize(Options, _serializerOptions);
     }
 
     /// <inheritdoc/>
@@ -65,7 +70,7 @@ public partial class RzCarousel : RzComponent
         base.OnParametersSet();
         AriaLabel ??= Localizer["RzCarousel.DefaultAriaLabel"];
         _assets = JsonSerializer.Serialize(ComponentAssets ?? DefaultAssets);
-        _serializedOptions = Options.SerializeAsAlpineData(true);
+        _serializedOptions = JsonSerializer.Serialize(Options, _serializerOptions);
     }
 
     /// <inheritdoc/>
