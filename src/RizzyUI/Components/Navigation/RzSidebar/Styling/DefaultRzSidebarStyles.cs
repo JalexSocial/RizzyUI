@@ -113,7 +113,7 @@ public class DefaultSidebarMenuActionStyles : RzStylesBase.SidebarMenuActionStyl
 public class DefaultSidebarMenuSubStyles : RzStylesBase.SidebarMenuSubStylesBase
 {
     public DefaultSidebarMenuSubStyles(RzTheme theme) : base(theme) { }
-    public override string SubMenu => "border-sidebar-border flex min-w-0 translate-x-px flex-col gap-1 border-l mx-3.5 px-2.5 py-0.5 w-full";
+    public override string SubMenu => "border-sidebar-border flex min-w-0 flex-col gap-1 border-l ml-3.5 pl-2.5 py-0.5 w-auto";
 }
 
 public class DefaultSidebarMenuBadgeStyles : RzStylesBase.SidebarMenuBadgeStylesBase

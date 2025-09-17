@@ -33,7 +33,7 @@
                     A basic sidebar layout with a header for actions like version switching and search, and a content area with grouped navigation links. The main content area is inset next to the sidebar.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md">
                         <RzSidebarProvider>
                             <Sidebar>
                                 <SidebarHeader>
@@ -230,7 +230,7 @@
                     This example demonstrates collapsible sidebar groups using the <code>RzCollapsible</code> component, allowing users to expand and collapse navigation sections.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md">
                         <RzSidebarProvider>
                             <Sidebar>
                                 <SidebarContent class="gap-0">
@@ -327,7 +327,7 @@
                     This example showcases a sidebar with nested sub-menus for a hierarchical navigation structure.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md">
                         <RzSidebarProvider>
                             <Sidebar>
                                 <SidebarHeader>
@@ -454,7 +454,7 @@
                     A floating sidebar with a margin from the viewport edges, achieved by setting <code>Variant="SidebarVariant.Floating"</code>.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md">
                         <RzSidebarProvider Width="19rem">
                             <Sidebar Variant="SidebarVariant.Floating">
                                 <SidebarHeader>
@@ -533,7 +533,7 @@
                     This example uses <code>RzCollapsible</code> with custom icons to indicate the open/closed state of each navigation group.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md">
                         <RzSidebarProvider>
                             <Sidebar>
                                 <SidebarHeader>
@@ -626,7 +626,7 @@
                     This sidebar uses dropdown menus for each main navigation item, providing a compact way to access sub-links. The footer contains a newsletter sign-up form within a card.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md">
                         <RzSidebarProvider>
                             <Sidebar>
                                 <SidebarHeader>
@@ -764,7 +764,7 @@
                     This sidebar collapses to an icon-only view, providing a compact navigation experience. Set <code>Collapsible="SidebarCollapsible.Icon"</code> on the <code>RzSidebarProvider</code>.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md">
                         <RzSidebarProvider Collapsible="SidebarCollapsible.Icon">
                             <Sidebar>
                                 <SidebarHeader>
@@ -876,7 +876,7 @@
                     An inset sidebar is surrounded by a margin and appears to be "inset" within the main content area. This is achieved by setting <code>Variant="SidebarVariant.Inset"</code> on the <code>Sidebar</code> component.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md">
                         <RzSidebarProvider>
                             <Sidebar Variant="SidebarVariant.Inset">
                                 <!-- Same content as sidebar-07 -->
@@ -1079,7 +1079,7 @@
                     A sidebar styled as a file explorer, using nested collapsible sections to represent directories and files.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md">
                         <RzSidebarProvider>
                             <Sidebar>
                                 <SidebarContent>
@@ -1143,7 +1143,7 @@
                     This example demonstrates embedding a non-collapsible sidebar within an <code>RzModal</code> component to create a settings dialog.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border p-8">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md p-8">
                         <RzButton onclick="window.dispatchEvent(new CustomEvent('show-settings-modal'))">Open Settings</RzButton>
                         <RzModal EventTriggerName="show-settings-modal" Size="ModalSize.FourXL" class="p-0 overflow-hidden">
                             <ChildContent>
@@ -1203,7 +1203,7 @@
                     A sidebar aligned to the right side of the viewport by setting <code>Side="SidebarSide.Right"</code> on the <code>Sidebar</code> component.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative h-[600px] w-full overflow-hidden rounded-md border">
+                    <div class="relative h-[600px] w-full overflow-hidden rounded-md">
                         <RzSidebarProvider>
                             <SidebarInset>
                                 <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
