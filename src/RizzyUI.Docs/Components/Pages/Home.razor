@@ -6,7 +6,7 @@
     <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent><RzQuickReference/></SideContent>
         <MainContent>
-	        <img src="/images/rizzy-logo-wb.svg" alt="RizzyUI" class="w-1/2 mb-5"/>
+	        <img src="/images/rizzy-logo-wb.svg" alt="RizzyUI" class="mb-5 w-1/2"/>
 	        
             <RzHeading Level="HeadingLevel.H1"
                      TextColor="SemanticColor.Foreground"
@@ -16,7 +16,7 @@
             </RzHeading>
 			
             <RzParagraph>
-                RizzyUI is a specialized HTMX-compatible component library crafted for ASP.NET developers who want to use a component model in their server-side rendered (SSR) applications. By seamlessly integrating Razor components from Blazor, leveraging Tailwind CSS for styling, and utilizing Alpine.js for interactivity, RizzyUI provides a UI kit for building robust and maintainable web applications within the ASP.NET ecosystem.
+                RizzyUI is a specialized HTMX-compatible component library crafted for ASP.NET developers who want to use a component model in their server-side rendered (SSR) applications. By integrating Razor components from Blazor, leveraging Tailwind CSS for styling, and utilizing Alpine.js for interactivity, RizzyUI provides a UI kit for building robust and maintainable web applications within the ASP.NET ecosystem.
                 
                 <RzAlert Variant="AlertVariant.Information" class="my-5">
 	                <AlertDescription>This <strong>entire</strong> site is built using RizzyUI components.</AlertDescription>
@@ -68,7 +68,7 @@
 		            To introduce interactivity within server-rendered components, RizzyUI leverages Alpine.js, a lightweight JavaScript framework. RizzyUI enhances Alpine.js integration in several key ways:
 	            </RzParagraph>
 
-                <ul class="list-disc list-outside ml-4 mb-4 space-y-4 ps-10 text-foreground ">
+                <ul class="text-foreground mb-4 ml-4 list-outside list-disc space-y-4 ps-10">
 		            <li><strong>Separate JavaScript Logic (No inline javascript code)</strong>: All code and logic powering RizzyUI components reside in separate JavaScript files. This separation enables the use of Content Security Policies (CSP) by avoiding inline scripts, thereby enhancing the security posture of applications.</li>
 		            <li><strong>On-Demand Dependency Loading</strong>: RizzyUI intelligently loads necessary dependencies for components only when they are required. This lazy-loading mechanism minimizes the initial download size, improving load times by avoiding the loading of third-party JavaScript dependencies for unused components.</li>
 		            <li><strong>CSP Compatibility with Nonce Values</strong>: RizzyUI supports the use of nonce values for inline scripts and styles. This feature allows developers to implement strong CSPs while still utilizing RizzyUI, as nonces can be applied to permit the execution of necessary scripts and styles without compromising security.</li>
