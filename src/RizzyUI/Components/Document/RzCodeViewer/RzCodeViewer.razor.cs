@@ -1,10 +1,10 @@
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
 using System.Text.Json;
 using System.Web;
-// For HttpUtility
 
 namespace RizzyUI;
 
@@ -14,24 +14,18 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzCodeViewer : RzComponent
 {
-    /// <summary> Default assets loaded for RzCodeViewer (Highlight.js core and Razor plugin). </summary>
-    public static string[] DefaultAssets =
-    [
-        Constants.ContentUrl("vendor/highlightjs/highlight.js"),
-        Constants.ContentUrl("js/lib/highlightjs-plugin/cshtml-razor.min.js")
-    ];
-
     private string _assets = string.Empty;
-    // Theme is inherited from RzComponent
-
     private string CodeId { get; } = IdGenerator.UniqueId("rzcode");
     private string CodeContent { get; set; } = string.Empty;
 
+    [Inject]
+    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
+
     /// <summary>
-    ///     Optional array of asset URLs (JS/CSS) to load, primarily for Highlight.js and themes. Defaults to
-    ///     <see cref="DefaultAssets" />.
+    ///     Optional array of asset keys (from <see cref="RizzyUIConfig.AssetUrls"/>) to load, primarily for Highlight.js and themes.
+    ///     Defaults to keys for Highlight.js core and the Razor plugin.
     /// </summary>
-    [Parameter] public string[] ComponentAssets { get; set; } = DefaultAssets;
+    [Parameter] public string[] ComponentAssetKeys { get; set; } = ["HighlightJsCore", "HighlightJsRazor"];
 
     /// <summary>
     ///     The language alias for Highlight.js syntax highlighting (e.g., "csharp", "html", "css"). See
@@ -60,18 +54,27 @@ public partial class RzCodeViewer : RzComponent
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        // Base class handles Theme initialization
         base.OnInitialized();
-        _assets = JsonSerializer.Serialize(ComponentAssets);
         ViewerTitle ??= Localizer["RzCodeViewer.DefaultViewerTitle"];
+        UpdateAssets();
     }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        ViewerTitle ??= Localizer["RzCodeViewer.DefaultViewerTitle"]; // Ensure default if becomes null
+        ViewerTitle ??= Localizer["RzCodeViewer.DefaultViewerTitle"];
         SetCodeContent();
+        UpdateAssets();
+    }
+
+    private void UpdateAssets()
+    {
+        var assetUrls = ComponentAssetKeys
+            .Select(key => RizzyUIConfig.Value.AssetUrls.TryGetValue(key, out var url) ? url : null)
+            .Where(url => !string.IsNullOrEmpty(url))
+            .ToList();
+        _assets = JsonSerializer.Serialize(assetUrls);
     }
 
     private void SetCodeContent()
@@ -83,15 +86,15 @@ public partial class RzCodeViewer : RzComponent
         }
         else if (ChildContent != null)
         {
-            rawContent = ChildContent.AsMarkupString(); // Assumes AsMarkupString extension exists
-            rawContent = HttpUtility.HtmlDecode(rawContent); // Decode entities
+            rawContent = ChildContent.AsMarkupString();
+            rawContent = HttpUtility.HtmlDecode(rawContent);
         }
         else
         {
             rawContent = string.Empty;
         }
 
-        CodeContent = rawContent.TrimEmptyLines().Outdent(); // Trim and outdent
+        CodeContent = rawContent.TrimEmptyLines().Outdent();
     }
 
     /// <inheritdoc />

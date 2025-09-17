@@ -1,6 +1,6 @@
-﻿# RizzyUI LLM-Authoring Guide
+﻿﻿# RizzyUI LLM-Authoring Guide
 
-**Fully expanded specification for code-generation models — May 2025, rev 2.5**
+**Fully expanded specification for code-generation models — May 2025, rev 3.0**
 
 ---
 
@@ -9,13 +9,13 @@
 This guide is a **contract for any large-language model**—ChatGPT, Claude, Gemini, Azure OpenAI, etc.—that emits source code destined for the **RizzyUI** repository.
 If the model follows every rule, a maintainer can:
 
-1. Paste the generated files into `src/RizzyUI/…`.
-2. Apply the indicated cross-file edits (see § 14).
-3. Run `dotnet build`.
+1.  Paste the generated files into `src/RizzyUI/…`.
+2.  Apply the indicated cross-file edits (see § 14).
+3.  Run `dotnet build`.
 
 The solution should compile, pass unit tests, and conform to RizzyUI’s conventions **without manual tweaks**.
 
-SPECIAL NOTE: @* *@ comments in this document are used to provide LLM guidance only. They are **not** to be included in the generated code. 
+SPECIAL NOTE: @* *@ comments in this document are used to provide LLM guidance only. They are **not** to be included in the generated code.
 
 ---
 
@@ -41,9 +41,9 @@ When the user requests code, wrap each file in a single **`output` block** so au
 ```
 ````
 
-* Never nest `<files>` elements.
-* Always close every `<file>` tag.
-* If no new files are needed, **omit** the `output` block entirely.
+*   Never nest `<files>` elements.
+*   Always close every `<file>` tag.
+*   If no new files are needed, **omit** the `output` block entirely.
 
 ---
 
@@ -58,16 +58,16 @@ When the user requests code, wrap each file in a single **`output` block** so au
 </HtmlElement>
 ```
 
-* `Element="@EffectiveElement"` keeps the tag overridable (default "div" in `RzComponent`).
-* `@Id` is required for HTMX, Alpine, and tests.
-* `@RootClass()` is supplied by `RootClass()` in code-behind.
-* **Always** write `@attributes="@AdditionalAttributes"` (note the leading `@`).
-* **Never** use @* *@ comments inside Razor markup for elements that will be rendered.
-* To change the `Element` type, override `OnInitialized()` in the code-behind. Set Element to the new type only if Element is empty or null.
-```csharp
-        if (string.IsNullOrEmpty(Element))
-            Element = "nav";
-``` 
+*   `Element="@EffectiveElement"` keeps the tag overridable (default "div" in `RzComponent`).
+*   `@Id` is required for HTMX, Alpine, and tests.
+*   `@RootClass()` is supplied by `RootClass()` in code-behind.
+*   **Always** write `@attributes="@AdditionalAttributes"` (note the leading `@`).
+*   **Never** use @* *@ comments inside Razor markup for elements that will be rendered.
+*   To change the `Element` type, override `OnInitialized()` in the code-behind. Set Element to the new type only if Element is empty or null.
+    ```csharp
+            if (string.IsNullOrEmpty(Element))
+                Element = "nav";
+    ```
 
 ---
 
@@ -96,8 +96,10 @@ When the user requests code, wrap each file in a single **`output` block** so au
 ```csharp
 // src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor.cs
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
 using Blazicons;
+using System.Text.Json;
 // Add other necessary using statements
 
 namespace RizzyUI;
@@ -110,6 +112,11 @@ namespace RizzyUI;
 /// </remarks>
 public partial class RzFancyThing : RzComponent
 {
+    private string _assets = "[]";
+
+    [Inject]
+    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
+
     /// <summary>
     /// Gets or sets the content to be rendered inside the component.
     /// </summary>
@@ -136,21 +143,36 @@ public partial class RzFancyThing : RzComponent
     /// </summary>
     [Parameter] public string? AriaLabel { get; set; }
 
+    /// <summary>
+    /// Gets or sets an array of logical asset keys that this component requires.
+    /// These keys are used to look up asset URLs from the central <see cref="RizzyUIConfig.AssetUrls"/> dictionary.
+    /// </summary>
+    [Parameter] public string[] ComponentAssetKeys { get; set; } = ["FancyThingCoreScript"];
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
         // Set Element = "button"; or other specific tag if not a div
-        // Initialize AriaLabel with localized default if not provided by user (see §9)
-        // Example: AriaLabel ??= Localizer["RzFancyThing.DefaultAriaLabel"];
+        AriaLabel ??= Localizer["RzFancyThing.DefaultAriaLabel"];
+        UpdateAssets();
     }
 
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        // Re-apply default localized AriaLabel if AriaLabel parameter becomes null
-        // Example: AriaLabel ??= Localizer["RzFancyThing.DefaultAriaLabel"];
+        AriaLabel ??= Localizer["RzFancyThing.DefaultAriaLabel"];
+        UpdateAssets();
+    }
+
+    private void UpdateAssets()
+    {
+        var assetUrls = ComponentAssetKeys
+            .Select(key => RizzyUIConfig.Value.AssetUrls.TryGetValue(key, out var url) ? url : null)
+            .Where(url => !string.IsNullOrEmpty(url))
+            .ToList();
+        _assets = JsonSerializer.Serialize(assetUrls);
     }
 
     /// <inheritdoc/>
@@ -165,13 +187,6 @@ public partial class RzFancyThing : RzComponent
         );
     }
 
-    /// <summary>Assets that must load before the Alpine module (if any) boots.</summary>
-    public static readonly string[] DefaultAssets =
-    {
-        // Example: Constants.ContentUrl("js/rzfancything.js")
-        // If no JS, make this an empty array: = Array.Empty<string>();
-    };
-
     // Other component logic, event callbacks, etc.
 }
 ```
@@ -183,7 +198,7 @@ Important for the LLM:
 *   Icons are passed as `SvgIcon?`; render with `<Blazicon Svg="@LeadingIcon" … />`.
 *   Use `TwMerge.Merge(...)`; never concatenate class strings manually in `RootClass()`.
 *   Default `Element` to "div" unless overridden in `OnInitialized()`.
-*   If `DefaultAssets` are not needed, initialize as `public static readonly string[] DefaultAssets = Array.Empty<string>();`.
+*   **Do not** use a static `DefaultAssets` array. Instead, use the `ComponentAssetKeys` parameter and the `UpdateAssets` method pattern.
 *   Include an `AriaLabel` parameter and initialize it with a localized default if not set by the user (see §9).
 *   Ensure the component name follows the `Rz` prefix convention as described in §3.
 
@@ -201,10 +216,10 @@ Important for the LLM:
 }
 ```
 
-* Accept icons as `SvgIcon?`.
-* Parameter names must be `LeadingIcon` or `TrailingIcon` as appropriate.
-* Style the `<Blazicon>` using direct theme access in its `class` attribute.
-* Add `aria-hidden="true"` if the icon is purely decorative and its meaning is conveyed by adjacent text or the component's `aria-label`.
+*   Accept icons as `SvgIcon?`.
+*   Parameter names must be `LeadingIcon` or `TrailingIcon` as appropriate.
+*   Style the `<Blazicon>` using direct theme access in its `class` attribute.
+*   Add `aria-hidden="true"` if the icon is purely decorative and its meaning is conveyed by adjacent text or the component's `aria-label`.
 
 ---
 
@@ -601,8 +616,7 @@ Alpine.data('counter', () => ({
             this.count++
         },
     },
-}))
-```
+}))```
 
 **Key Takeaways for LLMs:**
 *   **Always use `Alpine.data`** for `x-data` definitions. Never inline `x-data` objects.
@@ -622,41 +636,49 @@ If a RizzyUI component uses Alpine.js, its root `<HtmlElement>` in the `.razor` 
         @* Alpine-interactive content, x-ref, x-on:, :class, etc. goes here *@
     </div>
 </HtmlElement>
-```
-*   `data-alpine-root="@Id"`: This attribute is **essential**. It MUST exactly match the Blazor component's `@Id`. It's used by the `Rizzy.$data()` helper to locate the Alpine component's scope.
+```*   `data-alpine-root="@Id"`: This attribute is **essential**. It MUST exactly match the Blazor component's `@Id`. It's used by the `Rizzy.$data()` helper to locate the Alpine component's scope.
 *   `x-data="rzComponentName"`: Specifies the name of the Alpine.js component to initialize on this `div`. The name should follow the `rzComponentName` convention, where `rz` corresponds to `Rz` prefixed Blazor components.
 *   `data-assets="@_assets"`: A JSON stringified array of asset URLs (JavaScript/CSS) that this specific Alpine component instance needs. This is populated from the C# code-behind.
 *   `data-nonce="@Nonce"`: The CSP nonce value, passed from the C# `RzComponent` base. This is used by the `require` utility to load assets in a CSP-compliant manner.
 
-### 10.3 Asset Declaration (in `.razor.cs` file)
+### 10.3 Asset Declaration and Loading (Centralized)
 
-*   Each Blazor component that uses an Alpine module should define a `public static readonly string[] DefaultAssets` array. This array lists the URLs of JavaScript or CSS files required by its Alpine counterpart.
-*   Use `Constants.ContentUrl("path/to/asset.js")` for assets internal to the RizzyUI library.
-    ```csharp
-    // In RzFancyThing.razor.cs
-    public static readonly string[] DefaultAssets =
-    {
-        Constants.ContentUrl("js/lib/some-dependency.js"), // Example third-party lib
-        // If the Alpine module itself is in a separate file (less common now):
-        // Constants.ContentUrl("js/rzfancymodule.js")
-    };
-    // If no external assets are needed by the Alpine component:
-    // public static readonly string[] DefaultAssets = Array.Empty<string>();
-    ```
-*   In the `OnInitialized()` or `OnParametersSet()` method of the Blazor component, serialize this `DefaultAssets` array (or a dynamically determined `ComponentAssets` parameter) into a private string field (e.g., `_assets`). This `_assets` field is then bound to the `data-assets` attribute in the Razor markup.
-    ```csharp
-    // In RzFancyThing.razor.cs
-    private string _assets = string.Empty; // Backing field for data-assets
+Components **do not** hardcode asset URLs. Instead, they declare their dependencies using logical keys, which are resolved to URLs from a central configuration.
 
-    [Parameter] public string[] ComponentAssets { get; set; } // Allow overriding default assets
+1.  **Define Asset Keys (`.razor.cs`):**
+    *   The component defines a `ComponentAssetKeys` parameter, which is a `string[]`. This parameter should have a default value containing the logical keys for its required assets.
+    *   Example:
+        ```csharp
+        // In RzFancyThing.razor.cs
+        [Parameter]
+        public string[] ComponentAssetKeys { get; set; } = ["FancyThingCoreScript", "SomeOtherDependency"];
+        ```
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        // Serialize assets for the Alpine component
-        _assets = System.Text.Json.JsonSerializer.Serialize(ComponentAssets ?? DefaultAssets);
-    }
-    ```
+2.  **Inject Configuration (`.razor.cs`):**
+    *   The component injects `IOptions<RizzyUIConfig>` to access the central asset URL mapping.
+        ```csharp
+        // In RzFancyThing.razor.cs
+        [Inject]
+        private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
+        ```
+
+3.  **Resolve and Serialize URLs (`.razor.cs`):**
+    *   A private method (e.g., `UpdateAssets`) is called in `OnInitialized` and `OnParametersSet`.
+    *   This method looks up the URLs for each key in `ComponentAssetKeys` from `RizzyUIConfig.Value.AssetUrls`.
+    *   The resolved URLs are serialized into a JSON string and stored in a private field (e.g., `_assets`), which is then bound to the `data-assets` attribute in the Razor markup.
+        ```csharp
+        // In RzFancyThing.razor.cs
+        private string _assets = "[]";
+
+        private void UpdateAssets()
+        {
+            var assetUrls = ComponentAssetKeys
+                .Select(key => RizzyUIConfig.Value.AssetUrls.TryGetValue(key, out var url) ? url : null)
+                .Where(url => !string.IsNullOrEmpty(url))
+                .ToList();
+            _assets = System.Text.Json.JsonSerializer.Serialize(assetUrls);
+        }
+        ```
 
 ### 10.4 Alpine Component Definition (Individual JavaScript File)
 
@@ -739,8 +761,7 @@ export default function(Alpine, require) { // 'require' is optional here
 *   The newly created component registration function (e.g., `registerRzFancyThing` which is the default export from `rzFancyThing.js`) MUST be imported into `packages/rizzyui/src/js/lib/components.js`.
 *   It must then be called within the `registerComponents(Alpine)` function in `components.js`. Pass the `Alpine` instance. If the component's registration function (e.g., `export default function(Alpine, require)`) expects the `require` utility, pass `rizzyRequire` (which is `loadjs` aliased as `require` in this file) as the second argument.
 
-**Example: Modifying `packages/rizzyui/src/js/lib/components.js`**
-```javascript
+**Example: Modifying `packages/rizzyui/src/js/lib/components.js`**```javascript
 // packages/rizzyui/src/js/lib/components.js
 import loadjs from "./loadjs/loadjs.js"; // Underlying asset loader
 
@@ -816,7 +837,7 @@ When unit tests are specifically requested for a new or modified component, they
         *   If the component uses Alpine.js:
             *   Assert the presence of the Alpine child-container (`div[data-alpine-root='@Id']`).
             *   Assert `x-data` attribute matches the component's Alpine module name.
-            *   Assert `data-assets` attribute is present and contains the JSON serialized `DefaultAssets` from the component's `.razor.cs`.
+            *   Assert `data-assets` attribute is present and contains the JSON serialized URLs resolved from the default `ComponentAssetKeys`.
             *   Assert `data-nonce` attribute is present.
 
     2.  **Parameter Variation Tests:**
@@ -854,41 +875,6 @@ When unit tests are specifically requested for a new or modified component, they
     *   Use `element.ClassList` for asserting CSS classes.
     *   Use `element.GetAttribute("attribute-name")` for asserting attribute values.
     *   Use `cut.Instance` to access the component instance's properties and methods if needed (e.g., to check the `_assets` field).
-
-*   **Example Test Snippet (Default Render with Alpine):**
-    ```csharp
-    [Fact]
-    public void DefaultRender_ShouldRenderCorrectAlpineAttributesAndBaseClasses()
-    {
-        // Arrange
-        var expectedId = "fancy-default-alpine";
-        var expectedDefaultLabel = Localizer["RzFancyThing.DefaultAriaLabel"].Value; // Get localized default
-
-        // Act
-        var cut = RenderComponent<RzFancyThing>(parameters => parameters
-            .Add(p => p.Id, expectedId)
-        );
-
-        // Assert - Root Element
-        var rootElement = cut.Find($"div#{expectedId}"); // Assuming default Element is "div"
-        Assert.NotNull(rootElement);
-        Assert.Equal(expectedDefaultLabel, rootElement.GetAttribute("aria-label"));
-        // Example: Assert base class from theme (actual class depends on RzFancyThingStyles.Container)
-        // Assert.Contains("fancy-thing-base-class", rootElement.ClassList);
-
-        // Assert - Alpine Child Container
-        var alpineRoot = cut.Find($"div[data-alpine-root='{expectedId}']");
-        Assert.NotNull(alpineRoot);
-        Assert.Equal("rzFancyThing", alpineRoot.GetAttribute("x-data")); // Matches Alpine component name
-        
-        // Assert data-assets
-        var expectedAssetsJson = System.Text.Json.JsonSerializer.Serialize(RzFancyThing.DefaultAssets);
-        Assert.Equal(expectedAssetsJson, alpineRoot.GetAttribute("data-assets"));
-        
-        // Assert data-nonce (presence is usually enough, value is dynamic)
-        Assert.NotNull(alpineRoot.GetAttribute("data-nonce"));
-    }
-    ```
 
 *   **Output Format:**
     *   When tests are requested, the generated `.cs` test file(s) should be included within the `<files>` block of the ````output ... ```` section, just like component files.
@@ -943,18 +929,18 @@ When asked to generate *RzFancyThing*, your response **must** contain an `output
 
 ## 13. What **not** to place in the `output` block
 
-Changes to **global theme scaffolding** (`RzTheme.cs`, `RzTheme.StyleProviders.cs`, `RzStylesBase.cs` additions to the *partial class itself*) and **localization resource files** (`RizzyLocalization.resx`) go in a **separate, preface section** that appears *before* the `output` block.
+Changes to **global theme scaffolding** (`RzTheme.cs`, `RzTheme.StyleProviders.cs`, `RzStylesBase.cs` additions to the *partial class itself*), **configuration** (`RizzyUIConfig.cs`, `ServiceCollectionExtensions.cs`), and **localization resource files** (`RizzyLocalization.resx`) go in a **separate, preface section** that appears *before* the `output` block.
 That section must identify each existing file and show the lines/entries to insert, either as a diff or as verbatim code snippets/tables.
 Never embed these edits in `<file>` tags because CI merges them manually.
 
 ---
 
-## 14. Theme integration & Localization (cross-file edits the LLM must describe)
+## 14. Theme, Localization, and Asset Integration (cross-file edits the LLM must describe)
 
-Whenever a new style provider (e.g., `RzFancyThingStylesBase` and its default implementation) is introduced, or new localizable strings are needed, or a new JavaScript Alpine component is created, instruct the user accordingly:
+Whenever a new style provider, localizable string, JavaScript component, or asset dependency is introduced, instruct the user accordingly:
 
 ````markdown
-**Manual Edits Required for Theme, Localization, and JavaScript Integration:**
+**Manual Edits Required for Integration:**
 
 **Theme Integration:**
 
@@ -1002,21 +988,24 @@ Please add the following English (default culture) entries to `src/RizzyUI/Resou
 | Name                               | Value                         | Comment (Optional)                  |
 |------------------------------------|-------------------------------|-------------------------------------|
 | `RzFancyThing.DefaultAriaLabel`    | `Fancy interactive element`   | `Default ARIA label for RzFancyThing` |
-| `RzFancyThing.DefaultPlaceholder`  | `Enter fancy text here...`    | `Placeholder for RzFancyThing input`  |
 
-Alternatively, in raw .resx XML format:
-```xml
-<data name="RzFancyThing.DefaultAriaLabel" xml:space="preserve">
-  <value>Fancy interactive element</value>
-  <comment>Default ARIA label for RzFancyThing</comment>
-</data>
-<data name="RzFancyThing.DefaultPlaceholder" xml:space="preserve">
-  <value>Enter fancy text here...</value>
-  <comment>Placeholder for RzFancyThing input</comment>
-</data>
+**Asset Management Integration:**
+
+Please add the following default asset URLs to the `PostConfigure` action in `src/RizzyUI/Extensions/ServiceCollectionExtensions.cs`:
+
+| Key (`string`)           | URL (`string`)                                       |
+|--------------------------|------------------------------------------------------|
+| `"FancyThingCoreScript"` | `"https://cdn.jsdelivr.net/npm/fancylib@1.2.3/dist/fancy.min.js"` |
+| `"SomeOtherDependency"`  | `Constants.ContentUrl("js/vendor/other-lib.js")`     |
+
+Example addition:
+```csharp
+// In ServiceCollectionExtensions.cs -> AddRizzyUIInternal -> services.PostConfigure<RizzyUIConfig>
+config.AssetUrls.TryAdd("FancyThingCoreScript", "https://cdn.jsdelivr.net/npm/fancylib@1.2.3/dist/fancy.min.js");
+config.AssetUrls.TryAdd("SomeOtherDependency", Constants.ContentUrl("js/vendor/other-lib.js"));
 ```
 
-**JavaScript Integration (if new Alpine component `rzFancyThing` was created in `packages/rizzyui/src/js/lib/components/rzFancyThing.js`):**
+**JavaScript Integration (if new Alpine component `rzFancyThing` was created):**
 
 1.  **Modify `packages/rizzyui/src/js/lib/components.js`**:
     *   Add an import statement for your new component module at the top of the file:
@@ -1028,13 +1017,7 @@ Alternatively, in raw .resx XML format:
         ```javascript
         function registerComponents(Alpine) {
             // ... other existing component registrations ...
-            
-            // Register the new RzFancyThing component.
-            // Pass 'rizzyRequire' as the second argument if your 
-            // rzFancyThing.js's exported function expects 'require'.
             registerRzFancyThing(Alpine, rizzyRequire); 
-            // If rzFancyThing.js does not use 'require', call it as:
-            // registerRzFancyThing(Alpine); 
         }
         ```
 ````
@@ -1045,11 +1028,16 @@ Alternatively, in raw .resx XML format:
 
 *   CRITICAL - Only generate or modify code directly related to the task requested. You are not permitted to modify code outside the scope of the request.
 *   **Component Naming:** Ensure only root-level components are prefixed with `Rz`. Nested components must omit the `Rz` prefix.
-*   Prepend the cross-file edit instructions for theme and localization if needed (§14).
+*   Prepend the cross-file edit instructions for theme, localization, and asset management if needed (§14).
 *   Provide an `output` block for new or replaced component-specific files only (§1, §12).
 *   Use the root element pattern (§2) and Alpine child-container convention if Alpine is used (§10.2).
 *   `.razor` files: Use direct `@Theme...` access for internal element styling (§3, §5). Implement accessibility attributes (§8).
-*   `.razor.cs` files: Start with `/// <summary>...</summary>` for the class, ensure public members have `<summary>`, use `TwMerge` in `RootClass()`, define `DefaultAssets`, serialize assets to `_assets` string, set `Element` if not "div", and handle default localized strings for parameters like `AriaLabel` (§4, §9).
+*   `.razor.cs` files:
+    *   Start with `/// <summary>...</summary>` for the class, ensure public members have `<summary>`.
+    *   Use `TwMerge` in `RootClass()`.
+    *   **Use the centralized asset management pattern:** `ComponentAssetKeys` parameter, `IOptions<RizzyUIConfig>` injection, and URL lookup via `UpdateAssets()`. **Do not** use a static `DefaultAssets` array with hardcoded URLs.
+    *   Set `Element` if not "div".
+    *   Handle default localized strings for parameters like `AriaLabel` (§4, §9).
 *   Styling providers:
     *   `RzStylesBase.cs` should be an empty abstract partial class.
     *   Abstract style definitions for components should be in separate files named `RzStylesBase.RzComponentName.cs`, nested inside `RzStylesBase` as partial classes.

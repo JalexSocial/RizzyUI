@@ -78,6 +78,10 @@ public static class ServiceCollectionExtensions
             config.AssetUrls.TryAdd("EmblaClassNames", "https://cdn.jsdelivr.net/npm/embla-carousel-class-names@8.1.7/embla-carousel-class-names.umd.js");
             config.AssetUrls.TryAdd("EmblaFade", "https://cdn.jsdelivr.net/npm/embla-carousel-fade@8.1.7/embla-carousel-fade.umd.js");
             config.AssetUrls.TryAdd("EmblaWheelGestures", "https://cdn.jsdelivr.net/npm/embla-carousel-wheel-gestures@8.1.7/embla-carousel-wheel-gestures.umd.js");
+
+            config.AssetUrls.TryAdd("HighlightJsCore", Constants.ContentUrl("vendor/highlightjs/highlight.js"));
+            config.AssetUrls.TryAdd("HighlightJsRazor", Constants.ContentUrl("js/lib/highlightjs-plugin/cshtml-razor.min.js"));
+            config.AssetUrls.TryAdd("FlatpickrCore", "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js");
         });
         
         // --- Localization Setup ---
