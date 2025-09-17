@@ -1,7 +1,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace RizzyUI.Components.Layout.RzCarousel.Models;
+namespace RizzyUI;
 
 /// <summary>
 /// Represents the configuration options for the Embla Carousel instance.

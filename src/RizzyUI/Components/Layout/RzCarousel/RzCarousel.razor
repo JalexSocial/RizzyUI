@@ -1,3 +1,4 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
@@ -9,11 +10,11 @@
 	             role="region"
 	             aria-roledescription="carousel"
 	             aria-label="@AriaLabel">
-		<script type="application/json" id="@Id-options">
-			@((MarkupString)_serializedOptions)
+		<script type="application/json" id="@Id-config">
+			@((MarkupString)_serializedConfig)
 		</script>
 		<div x-data="rzCarousel"
-		     data-options="@Id-options"
+		     data-config="@Id-config"
 		     data-alpine-root="@Id"
 		     data-assets="@_assets"
 		     data-nonce="@Nonce"
