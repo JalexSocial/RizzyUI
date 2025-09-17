@@ -69,6 +69,15 @@ public static class ServiceCollectionExtensions
             }
             
             config.AvailableThemes.Add(RzTheme.VercelTheme);
+
+            // Add default asset URLs, allowing users to override them.
+            config.AssetUrls.TryAdd("EmblaCore", "https://cdn.jsdelivr.net/npm/embla-carousel@8.1.7/embla-carousel.umd.js");
+            config.AssetUrls.TryAdd("EmblaAutoplay", "https://cdn.jsdelivr.net/npm/embla-carousel-autoplay@8.1.7/embla-carousel-autoplay.umd.js");
+            config.AssetUrls.TryAdd("EmblaAutoScroll", "https://cdn.jsdelivr.net/npm/embla-carousel-auto-scroll@8.1.7/embla-carousel-auto-scroll.umd.js");
+            config.AssetUrls.TryAdd("EmblaAutoHeight", "https://cdn.jsdelivr.net/npm/embla-carousel-auto-height@8.1.7/embla-carousel-auto-height.umd.js");
+            config.AssetUrls.TryAdd("EmblaClassNames", "https://cdn.jsdelivr.net/npm/embla-carousel-class-names@8.1.7/embla-carousel-class-names.umd.js");
+            config.AssetUrls.TryAdd("EmblaFade", "https://cdn.jsdelivr.net/npm/embla-carousel-fade@8.1.7/embla-carousel-fade.umd.js");
+            config.AssetUrls.TryAdd("EmblaWheelGestures", "https://cdn.jsdelivr.net/npm/embla-carousel-wheel-gestures@8.1.7/embla-carousel-wheel-gestures.umd.js");
         });
         
         // --- Localization Setup ---

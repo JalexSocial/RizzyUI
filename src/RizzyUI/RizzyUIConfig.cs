@@ -7,6 +7,12 @@ namespace RizzyUI;
 public sealed class RizzyUIConfig
 {
     /// <summary>
+    /// Gets or sets a dictionary of logical asset names to their CDN or local URLs.
+    /// This allows for central management and user overrides of component dependencies.
+    /// </summary>
+    public Dictionary<string, string> AssetUrls { get; set; } = new();
+
+    /// <summary>
     /// Gets or sets the default theme to be used by RizzyUI components if no theme is
     /// explicitly provided via <see cref="RzThemeProvider"/>.
     /// Defaults to <see cref="RzTheme.ArcticTheme"/>.
