@@ -1,0 +1,20 @@
+
+    @attribute [DiscoverCollocatedJS]
+    @using System.Text.Json
+    @using RizzyUI.Docs.Models
+
+    <RzAlpineModule For="this" Name="userCard" />
+
+    <div x-data="userCard"
+         x-rz-init='@JsonSerializer.Serialize(User, new JsonSerializerOptions(JsonSerializerDefaults.Web))'
+         class="border p-4 rounded-lg shadow-sm w-64">
+        
+        <h3 class="font-bold" x-text="user.name"></h3>
+        <p class="text-sm text-muted-foreground" x-text="user.email"></p>
+        <RzButton class="mt-2" @click="showAlert">Show Alert</RzButton>
+    </div>
+
+    @code {
+        [Parameter, EditorRequired]
+        public UserData User { get; set; } = default!;
+    }
