@@ -1,0 +1,14 @@
+
+    <Project Sdk="Microsoft.NET.Sdk">
+      <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>Latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <RootNamespace>RizzyUI.Tasks</RootNamespace>
+        <AssemblyName>RizzyUI.Tasks</AssemblyName>
+      </PropertyGroup>
+      <ItemGroup>
+        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.10.4" PrivateAssets="all" ExcludeAssets="Runtime" />
+      </ItemGroup>
+    </Project>

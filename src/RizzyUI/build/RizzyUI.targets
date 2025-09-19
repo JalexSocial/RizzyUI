@@ -1,0 +1,29 @@
+
+    <Project>
+      <PropertyGroup>
+        <_RizzyUITasksAssemblyPath Condition="'$(_RizzyUITasksAssemblyPath)' == ''">$(MSBuildThisFileDirectory)..\tasks\netstandard2.0\RizzyUI.Tasks.dll</_RizzyUITasksAssemblyPath>
+      </PropertyGroup>
+
+      <UsingTask
+        TaskName="RizzyUI.Tasks.GenerateCollocatedModuleMapTask"
+        AssemblyFile="$(_RizzyUITasksAssemblyPath)" />
+
+      <Target Name="GenerateRizzyUIModuleMap" BeforeTargets="CoreCompile">
+        <ItemGroup>
+          <_RazorFiles Include="**\*.razor" />
+        </ItemGroup>
+
+        <GenerateCollocatedModuleMapTask
+          RazorFiles="@(_RazorFiles)"
+          ProjectDirectory="$(ProjectDir)"
+          RootNamespace="$(RootNamespace)"
+          IntermediateOutputPath="$(IntermediateOutputPath)"
+          StaticWebAssetBasePath="$(_StaticWebAssetBasePath)">
+          <Output TaskParameter="GeneratedSourceFile" PropertyName="RizzyUIGeneratedSource" />
+        </GenerateCollocatedModuleMapTask>
+
+        <ItemGroup>
+          <Compile Include="$(RizzyUIGeneratedSource)" Condition="Exists('$(RizzyUIGeneratedSource)')" />
+        </ItemGroup>
+      </Target>
+    </Project>
