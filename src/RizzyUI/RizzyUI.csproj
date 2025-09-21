@@ -32,9 +32,8 @@
         <Version>0.8.6-alpha</Version>
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
-        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Blazicons.Ionicons" Version="3.1.22" />
@@ -43,7 +42,7 @@
         <PackageReference Include="Rizzy" Version="5.1.7" />
         <PackageReference Include="Blazicons" Version="2.2.39" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.2.26" />
-        <PackageReference Include="Scrutor" Version="6.0.1" />        
+        <PackageReference Include="Scrutor" Version="6.0.1" />
         <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
     </ItemGroup>
@@ -51,14 +50,14 @@
     <ItemGroup>
         <SupportedPlatform Include="browser" />
     </ItemGroup>
-    
+
     <PropertyGroup>
         <!-- Define the directory path once -->
         <ClientPackageDir>$(MSBuildProjectDirectory)/../../packages</ClientPackageDir>
         <!-- Define a stamp file to track installation -->
         <NodeModulesStampFile>/node_modules/.install-stamp</NodeModulesStampFile>
 
-        <_RunOnce Condition="'$(IsCrossTargetingBuild)' == 'true' or '$(TargetFrameworks)' == ''">true</_RunOnce>        
+        <_RunOnce Condition="'$(IsCrossTargetingBuild)' == 'true' or '$(TargetFrameworks)' == ''">true</_RunOnce>
     </PropertyGroup>
 
     <Target Name="InstallClientPackages"
@@ -90,7 +89,7 @@
             AfterTargets="Build">
         <Exec Command="npm run llm" />
     </Target>
-    
+
     <ItemGroup>
         <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
         <None Include="..\..\README.md" Pack="true" PackagePath="\" />
@@ -103,12 +102,36 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\css\" />
+        <Folder Include="wwwroot\css\" />
     </ItemGroup>
 
     <ItemGroup>
-      <Content Remove="Themes\vercel.json" />
-      <EmbeddedResource Include="Themes\vercel.json" />
+        <Content Remove="Themes\vercel.json" />
+        <EmbeddedResource Include="Themes\vercel.json" />
     </ItemGroup>
-    
+
+    <!-- =================================================================== -->
+    <!-- START: CRITICAL FIX FOR MSBUILD TASK FILE LOCKING                 -->
+    <!-- =================================================================== -->
+    <ItemGroup>
+        <!--
+          This ProjectReference ensures that RizzyUI.Tasks is built before RizzyUI.
+          - ReferenceOutputAssembly="false": Tells MSBuild that RizzyUI.dll does NOT have a runtime dependency on RizzyUI.Tasks.dll. This is the key to preventing the file lock.
+          - OutputItemType="Content": Prevents the reference from being treated as a typical assembly reference.
+          - CopyToOutputDirectory="Never": Ensures the tasks DLL is not copied to RizzyUI's output directory during the build.
+        -->
+        <ProjectReference Include="..\RizzyUI.Tasks\RizzyUI.Tasks.csproj" ReferenceOutputAssembly="false" OutputItemType="Content" CopyToOutputDirectory="Never" />
+
+        <!--
+          This 'None' item is for NuGet PACKAGING only. It tells `dotnet pack` to find the
+          tasks DLL from the build output and place it in the correct `tasks/` folder inside the .nupkg.
+          It has no effect on the local build process itself.
+        -->
+        <None Include="..\RizzyUI.Tasks\bin\$(Configuration)\netstandard2.0\RizzyUI.Tasks.dll" Pack="true" PackagePath="tasks\netstandard2.0" Visible="false" />
+        <None Include="build\RizzyUI.targets" Pack="true" PackagePath="build" />
+    </ItemGroup>
+    <!-- =================================================================== -->
+    <!-- END: CRITICAL FIX                                                   -->
+    <!-- =================================================================== -->
+
 </Project>

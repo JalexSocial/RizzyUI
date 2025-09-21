@@ -38,4 +38,6 @@
         <Exec Command="npm run build:css" />
     </Target>
 
+    <Import Project="..\RizzyUI\build\RizzyUI.targets" />
+  
 </Project>

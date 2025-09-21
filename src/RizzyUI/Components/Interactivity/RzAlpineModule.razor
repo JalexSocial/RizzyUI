@@ -1,0 +1,13 @@
+
+    @namespace RizzyUI
+    @inherits RzComponent
+
+    @if (!string.IsNullOrEmpty(_modulePath))
+    {
+        <script nonce="@Nonce">
+        (function(n,p){
+          const run = () => window.RizzyUI && window.RizzyUI.registerModuleOnce && window.RizzyUI.registerModuleOnce(n,p);
+          if (window.Alpine) run(); else document.addEventListener('alpine:init', run, { once:true });
+        })('@Name','@_modulePath');
+        </script>
+    }

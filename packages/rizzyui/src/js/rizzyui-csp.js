@@ -10,7 +10,7 @@
     import registerMobileDirective from './lib/directives/mobile.js';
     import registerSyncDirective from './lib/directives/sync-prop.js'
 
-    // Register Alpine.js extensions
+    // Register Alpine.js extensions and our custom directives
     Alpine.plugin(collapse);
     Alpine.plugin(intersect);
     Alpine.plugin(focus);
