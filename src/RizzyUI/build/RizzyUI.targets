@@ -1,47 +1,46 @@
+<Project>
+  <PropertyGroup>
+    <!-- 
+      Define the default path to the task assembly for NuGet consumption.
+      The Condition ensures this is ONLY used if the property hasn't already been set 
+      by a consuming project (like RizzyUI.Docs.csproj for local development).
+    -->
+    <_RizzyUITasksAssemblyPath Condition="'$(_RizzyUITasksAssemblyPath)' == ''">$(MSBuildThisFileDirectory)..\tasks\netstandard2.0\RizzyUI.Tasks.dll</_RizzyUITasksAssemblyPath>
+  </PropertyGroup>
 
-    <Project>
-      <PropertyGroup>
-        <!-- Path for local development (when imported from a project reference) -->
-        <_RizzyUITasksAssemblyPathLocal>$(MSBuildThisFileDirectory)..\..\RizzyUI.Tasks\bin\$(Configuration)\netstandard2.0\RizzyUI.Tasks.dll</_RizzyUITasksAssemblyPathLocal>
+  <!-- Load the task using the correct path and task name -->
+  <UsingTask
+          TaskName="RizzyUI.Tasks.ComputeCallerFileNamePrefix"
+          AssemblyFile="$(_RizzyUITasksAssemblyPath)" />
 
-        <!-- Path for NuGet package consumption -->
-        <_RizzyUITasksAssemblyPathPackage>$(MSBuildThisFileDirectory)..\tasks\netstandard2.0\RizzyUI.Tasks.dll</_RizzyUITasksAssemblyPathPackage>
+  <!-- This target computes the path prefix. -->
+  <Target
+          Name="_RizzyUI_ComputeCallerFileNamePrefix"
+          DependsOnTargets="InitializeSourceRootMappedPaths"
+          Condition="'$(SourceControlInformationFeatureSupported)' == 'true'">
+    <ComputeCallerFileNamePrefix SourceRoot="@(SourceRoot)" ProjectDir="$(ProjectDir)">
+      <Output TaskParameter="CallerFileNamePrefix" PropertyName="_RizzyUI_CallerFileNamePrefix" />
+    </ComputeCallerFileNamePrefix>
+  </Target>
 
-        <!-- Choose the path that exists -->
-        <_RizzyUITasksAssemblyPath Condition="Exists('$(_RizzyUITasksAssemblyPathLocal)')">$(_RizzyUITasksAssemblyPathLocal)</_RizzyUITasksAssemblyPath>
-        <_RizzyUITasksAssemblyPath Condition="Exists('$(_RizzyUITasksAssemblyPathPackage)')">$(_RizzyUITasksAssemblyPathPackage)</_RizzyUITasksAssemblyPath>
-      </PropertyGroup>
-
-      <UsingTask
-              TaskName="RizzyUI.Tasks.ComputeCallerFileNamePrefix"
-              AssemblyFile="$(_RizzyUITasksAssemblyPath)" />
-
-      <Target
-        Name="_RizzyUI_ComputeCallerFileNamePrefix"
-        DependsOnTargets="InitializeSourceRootMappedPaths"
-        Condition="'$(SourceControlInformationFeatureSupported)' == 'true'">
-
-        <ComputeCallerFileNamePrefix SourceRoot="@(SourceRoot)" ProjectDir="$(ProjectDir)">
-          <Output TaskParameter="CallerFileNamePrefix" PropertyName="_RizzyUI_CallerFileNamePrefix" />
-        </ComputeCallerFileNamePrefix>
-      </Target>
-
-      <Target
-        Name="_RizzyUI_EmbedAssemblyStaticAssetInfo"
-        BeforeTargets="CoreGenerateAssemblyInfo"
-        DependsOnTargets="_RizzyUI_ComputeCallerFileNamePrefix;ResolveStaticWebAssetsConfiguration">
-
-        <PropertyGroup>
-          <_RizzyUI_StaticWebAssetBasePath Condition="'$(StaticWebAssetBasePath)' != '' and !$(StaticWebAssetBasePath.EndsWith('/'))">$(StaticWebAssetBasePath)/</_RizzyUI_StaticWebAssetBasePath>
-          <_RizzyUI_StaticWebAssetBasePath Condition="'$(StaticWebAssetBasePath)' != '' and $(StaticWebAssetBasePath.EndsWith('/'))">$(StaticWebAssetBasePath)</_RizzyUI_StaticWebAssetBasePath>
-          <_RizzyUI_CallerFileNamePrefix Condition="'$(_RizzyUI_CallerFileNamePrefix)' == ''">$(ProjectDir)</_RizzyUI_CallerFileNamePrefix>
-        </PropertyGroup>
-
-        <ItemGroup>
-          <AssemblyAttribute Include="RizzyUI.AssemblyCollocatedJSAttribute">
-            <_Parameter1>$(_RizzyUI_CallerFileNamePrefix)</_Parameter1>
-            <_Parameter2>$(_RizzyUI_StaticWebAssetBasePath)</_Parameter2>
-          </AssemblyAttribute>
-        </ItemGroup>
-      </Target>
-    </Project>
+  <!-- 
+    This target runs before the main build and injects the [AssemblyCollocatedJS] attribute
+    into the compilation process.
+  -->
+  <Target
+          Name="_RizzyUI_EmbedAssemblyStaticAssetInfo"
+          BeforeTargets="CoreGenerateAssemblyInfo"
+          DependsOnTargets="_RizzyUI_ComputeCallerFileNamePrefix;ResolveStaticWebAssetsConfiguration">
+    <PropertyGroup>
+      <_RizzyUI_StaticWebAssetBasePath Condition="'$(StaticWebAssetBasePath)' != '' and !$(StaticWebAssetBasePath.EndsWith('/'))">$(StaticWebAssetBasePath)/</_RizzyUI_StaticWebAssetBasePath>
+      <_RizzyUI_StaticWebAssetBasePath Condition="'$(StaticWebAssetBasePath)' != '' and $(StaticWebAssetBasePath.EndsWith('/'))">$(StaticWebAssetBasePath)</_RizzyUI_StaticWebAssetBasePath>
+      <_RizzyUI_CallerFileNamePrefix Condition="'$(_RizzyUI_CallerFileNamePrefix)' == ''">$(ProjectDir)</_RizzyUI_CallerFileNamePrefix>
+    </PropertyGroup>
+    <ItemGroup>
+      <AssemblyAttribute Include="RizzyUI.AssemblyCollocatedJSAttribute">
+        <_Parameter1>$(_RizzyUI_CallerFileNamePrefix)</_Parameter1>
+        <_Parameter2>$(_RizzyUI_StaticWebAssetBasePath)</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
+</Project>
