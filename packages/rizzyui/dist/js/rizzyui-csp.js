@@ -7751,41 +7751,49 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
       });
     });
   }
-  window.RizzyUI.registerModuleOnce = async (name, path) => {
+  window.RizzyUI.registerModuleOnce = (name, path) => {
     if (window.RizzyUI.registeredModules.has(name)) return;
     window.RizzyUI.registeredModules.add(name);
-    try {
-      const url = new URL(path, document.baseURI).toString();
-      const module2 = await import(url);
-      const userFactory = module2 && module2.default;
-      if (typeof userFactory !== "function") {
-        console.error(`[RizzyUI] '${path}' did not export a default function.`);
-        return;
-      }
-      const shimFactory = (argsFromXData) => {
-        if (argsFromXData !== void 0) {
-          return userFactory(argsFromXData);
-        }
-        return {
-          __inited: false,
-          __initData(payload) {
-            if (this.__inited) return;
-            const userObj = userFactory(payload ?? {});
-            Object.assign(this, userObj);
-            if (typeof userObj.init === "function") {
-              queueMicrotask(() => userObj.init.call(this));
-            }
-            this.__inited = true;
-          },
-          init() {
-            this.$el.__rzComponent = this;
+    Alpine.data(name, () => ({
+      __isShim: true,
+      __rzInitRan: false,
+      // Flag to ensure init logic runs only once
+      // The init() method of the shim is called by Alpine when it finds an element with x-data="name" on the page.
+      async init() {
+        const self2 = this;
+        self2.$el.__rzComponent = self2;
+        try {
+          const module2 = await import(path);
+          const userFactory = module2 && module2.default;
+          if (typeof userFactory !== "function") {
+            console.error(`[RizzyUI] '${path}' did not export a default function.`);
+            return;
           }
-        };
-      };
-      Alpine.data(name, shimFactory);
-    } catch (e2) {
-      console.error(`[RizzyUI] Failed to load/register '${name}' from '${path}'.`, e2);
-    }
+          self2.__initData = (payload) => {
+            if (self2.__rzInitRan) return;
+            const userObj = userFactory(payload ?? {});
+            Object.assign(self2, userObj);
+            delete self2.__isShim;
+            if (typeof userObj.init === "function") {
+              queueMicrotask(() => userObj.init.call(self2));
+            }
+            self2.__rzInitRan = true;
+          };
+          if (self2.$el.hasAttribute("x-rz-init")) {
+            const initAttr = self2.$el.getAttribute("x-rz-init");
+            let data2 = {};
+            try {
+              data2 = JSON.parse(initAttr || "{}");
+            } catch (e2) {
+              console.warn("[RizzyUI] x-rz-init JSON parse failed during hydration.", e2, self2.$el);
+            }
+            self2.__initData(data2);
+          }
+        } catch (e2) {
+          console.error(`[RizzyUI] Failed to load/register '${name}' from '${path}'.`, e2);
+        }
+      }
+    }));
   };
   function registerMobileDirective(Alpine2) {
     Alpine2.directive("mobile", (el, { modifiers, expression }, { cleanup: cleanup2 }) => {

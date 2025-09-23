@@ -1,13 +1,24 @@
+using System;
+using System.ComponentModel;
 
-    using System;
-    using System.ComponentModel;
+namespace RizzyUI;
 
-    namespace RizzyUI;
+[AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
+[EditorBrowsable(EditorBrowsableState.Never)]
+public sealed class AssemblyCollocatedJSAttribute : Attribute
+{
+	public string CallerFileNamePathPrefix { get; }
+	public string StaticWebAssetBasePath { get; }
 
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public sealed class AssemblyCollocatedJSAttribute(string callerFileNamePathPrefix, string staticWebAssetBasePath) : Attribute
-    {
-        public string CallerFileNamePathPrefix { get; } = callerFileNamePathPrefix;
-        public string StaticWebAssetBasePath { get; } = staticWebAssetBasePath;
-    }
+	public AssemblyCollocatedJSAttribute(string callerFileNamePathPrefix, string staticWebAssetBasePath)
+	{
+		CallerFileNamePathPrefix = callerFileNamePathPrefix;
+		StaticWebAssetBasePath = staticWebAssetBasePath;
+	}
+
+	// Add this overloaded constructor
+	public AssemblyCollocatedJSAttribute(string callerFileNamePathPrefix)
+		: this(callerFileNamePathPrefix, string.Empty)
+	{
+	}
+}

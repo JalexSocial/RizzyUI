@@ -5,9 +5,14 @@
     @if (!string.IsNullOrEmpty(_modulePath))
     {
         <script nonce="@Nonce">
-        (function(n,p){
-          const run = () => window.RizzyUI && window.RizzyUI.registerModuleOnce && window.RizzyUI.registerModuleOnce(n,p);
-          if (window.Alpine) run(); else document.addEventListener('alpine:init', run, { once:true });
-        })('@Name','@_modulePath');
+        (function(){
+	        const run = () => {
+		        if (window.RizzyUI?.registerModuleOnce) {
+			        window.RizzyUI.registerModuleOnce('@Name','@_modulePath');
+		        }
+	        };
+	        if (window.Alpine) run();
+	        else document.addEventListener('alpine:init', run, { once: true });
+        })();		
         </script>
     }

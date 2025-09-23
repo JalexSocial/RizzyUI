@@ -32,6 +32,7 @@
         <Version>0.8.6-alpha</Version>
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
+        <StaticWebAssetBasePath>_content/RizzyUI</StaticWebAssetBasePath>
     </PropertyGroup>
 
     <ItemGroup>
