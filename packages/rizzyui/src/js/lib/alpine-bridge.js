@@ -8,48 +8,40 @@
  */
 
 // Ensure the global RizzyUI namespace and module registry exist.
-// This prevents re-initialization and allows multiple bundles to coexist.
 window.RizzyUI = window.RizzyUI || {};
 window.RizzyUI.registeredModules = window.RizzyUI.registeredModules || new Set();
 
 /**
  * Registers custom RizzyUI directives with Alpine.js.
- * This function is intended to be called once during Alpine's initialization.
  * @param {import('alpinejs').Alpine} Alpine The global Alpine instance.
  */
 function registerRizzyDirectives(Alpine) {
     /**
      * @directive x-rz-init
-     * @description An Alpine.js directive that facilitates passing initial data from a
-     * server-rendered Blazor component to its co-located Alpine.js module.
-     * The directive's value is a JSON string. It locates the Alpine component instance
-     * on its element and calls the `__initData` method with the parsed JSON payload.
-     * This process is deferred with `queueMicrotask` to ensure the Alpine component
-     * has fully initialized.
+     * @description An Alpine.js directive that passes initial data from a server-rendered
+     * Blazor component to its co-located Alpine.js module. It calls the `__initData`
+     * method on the Alpine component instance with the parsed JSON payload.
      */
     Alpine.directive('rz-init', (el) => {
+        // The directive's logic is deferred to a microtask to ensure the Alpine
+        // component's `init()` has had a chance to run first.
         queueMicrotask(() => {
-            // Prevent multiple executions on the same element.
             if (el.__rzInitRan) return;
 
-            // The Alpine component instance is expected to be stored on the element.
             const comp = el.__rzComponent;
             if (!comp || typeof comp.__initData !== 'function') {
-                // This can happen if the module fails to load or if the directive is misplaced.
-                // A warning is logged by the module loader in case of failure.
+                // This is an expected condition if the module is still loading.
+                // The component's init() will handle retrieving the data later.
                 return;
             }
 
             let data = {};
             try {
-                // Safely parse the JSON payload from the attribute.
                 data = JSON.parse(el.getAttribute('x-rz-init') || '{}');
-            }
-            catch (e) {
+            } catch (e) {
                 console.warn('[RizzyUI] x-rz-init: JSON parse failed. Initializing with empty data.', { error: e, element: el });
             }
 
-            // Pass the data to the Alpine component's hydration function.
             comp.__initData(data);
             el.__rzInitRan = true;
         });
@@ -65,20 +57,35 @@ function registerRizzyDirectives(Alpine) {
  * @param {string} path The root-relative URL path to the JavaScript module.
  */
 window.RizzyUI.registerModuleOnce = (name, path) => {
-    // Prevent re-registration of the same module.
     if (window.RizzyUI.registeredModules.has(name)) return;
     window.RizzyUI.registeredModules.add(name);
 
     // 1. SYNCHRONOUS REGISTRATION:
-    // Register a lightweight "shim" component immediately. This ensures that when Alpine
-    // scans the DOM, it finds a registered component for `x-data="name"` and does not
-    // throw an error. The actual module loading is deferred until this component is
-    // initialized by Alpine on an element.
+    // Register a lightweight "shim" component immediately. This ensures Alpine
+    // recognizes the component name during its initial scan.
     Alpine.data(name, () => ({
-        /** @private Indicates this is a temporary shim object. */
-        __isShim: true,
-        /** @private Prevents re-running initialization logic. */
-        __rzInitRan: false,
+        /** @private A promise that resolves with the payload from x-rz-init. */
+        _initDataPromise: null,
+        /** @private A function to resolve the init data promise. */
+        _resolveInitData: null,
+
+        /**
+         * @private
+         * A placeholder `__initData` function is defined synchronously on the shim.
+         * The `x-rz-init` directive can call this at any time. It captures the payload
+         * and resolves the promise that the main `init()` method is awaiting.
+         * @param {object} payload The data from the server.
+         */
+        __initData(payload) {
+            // If the promise resolver is available, resolve it.
+            // Otherwise, store the payload to be used when the promise is created.
+            if (this._resolveInitData) {
+                this._resolveInitData(payload);
+            } else {
+                // The directive ran before init(), so we create a pre-resolved promise.
+                this._initDataPromise = Promise.resolve(payload);
+            }
+        },
 
         /**
          * The `init` method of the shim, called by Alpine when it encounters
@@ -86,13 +93,37 @@ window.RizzyUI.registerModuleOnce = (name, path) => {
          * @this {import('alpinejs').AlpineComponent}
          */
         async init() {
-            const self = this; // `this` is the Alpine component instance (the shim).
-            self.$el.__rzComponent = self; // Associate instance with the DOM element for the directive.
+            const self = this;
+            self.$el.__rzComponent = self;
 
             try {
-                // 2. ASYNCHRONOUS HYDRATION (Part 1 - Loading):
-                // Dynamically import the actual component module. The `import()` function
-                // natively handles root-relative paths.
+                let payload;
+
+                // 2. WAIT FOR DATA:
+                // Check if the directive has already run and provided the data.
+                if (self._initDataPromise) {
+                    // The directive ran first, the promise is already created (and likely resolved).
+                    payload = await self._initDataPromise;
+                } else {
+                    // The directive has not run yet. Create a pending promise and store its resolver.
+                    // The `__initData` function will use this resolver when the directive executes.
+                    self._initDataPromise = new Promise(resolve => {
+                        self._resolveInitData = resolve;
+                    });
+
+                    // If x-rz-init is not on the element at all, we must resolve the promise
+                    // ourselves to prevent an infinite wait.
+                    queueMicrotask(() => {
+                        if (!self.$el.hasAttribute('x-rz-init')) {
+                            self._resolveInitData({});
+                        }
+                    });
+
+                    payload = await self._initDataPromise;
+                }
+
+                // 3. ASYNCHRONOUS HYDRATION:
+                // Now that we have the payload, we can load the module.
                 const module = await import(path);
                 const userFactory = module && module.default;
 
@@ -101,46 +132,23 @@ window.RizzyUI.registerModuleOnce = (name, path) => {
                     return;
                 }
 
-                /**
-                 * @private
-                 * Defines the hydration function on the shim instance. This function will be called
-                 * either by the `x-rz-init` directive or by the logic below if the directive is absent.
-                 * It creates the real component logic and merges it into the shim.
-                 * @param {object} payload The data payload from the `x-rz-init` directive.
-                 */
-                self.__initData = (payload) => {
-                    if (self.__rzInitRan) return;
+                // Create the real component object using the factory and the resolved payload.
+                const userObj = userFactory(payload ?? {});
 
-                    // Create the real component object using the factory from the imported module.
-                    const userObj = userFactory(payload ?? {});
+                // 4. HYDRATE:
+                // Merge the real component's properties and methods onto this shim instance.
+                Object.assign(self, userObj);
 
-                    // 3. HYDRATION:
-                    // Merge the real component's properties and methods onto this shim instance,
-                    // effectively replacing the shim with the fully-featured component.
-                    Object.assign(self, userObj);
-                    delete self.__isShim; // The component is no longer a shim.
+                // The original __initData and promise helpers are no longer needed.
+                delete self._initDataPromise;
+                delete self._resolveInitData;
 
-                    // If the user's component has its own `init` function, call it.
-                    // This is deferred to ensure the DOM is fully patched and ready.
-                    if (typeof userObj.init === 'function') {
-                        queueMicrotask(() => userObj.init.call(self));
-                    }
-
-                    self.__rzInitRan = true;
-                };
-
-                // 4. TRIGGER HYDRATION:
-                // Check if the `x-rz-init` directive is present. We use a microtask to ensure
-                // this check runs after Alpine has had a chance to initialize its directives.
-                queueMicrotask(() => {
-                    if (!self.$el.hasAttribute('x-rz-init')) {
-                        // If the directive is NOT present, we must manually trigger hydration
-                        // with an empty payload to complete the component's setup.
-                        self.__initData({});
-                    }
-                    // If the directive IS present, we do nothing here; the directive itself
-                    // is responsible for calling `__initData`.
-                });
+                // If the user's component has its own `init` function, call it.
+                if (typeof userObj.init === 'function') {
+                    // The main `init` has already completed, so we don't need to queue this.
+                    // It can be called directly, but queueMicrotask is safer for DOM readiness.
+                    queueMicrotask(() => userObj.init.call(self));
+                }
 
             } catch (e) {
                 console.error(`[RizzyUI] Failed to load or initialize module '${name}' from '${path}'.`, e);

@@ -7735,12 +7735,14 @@ function registerRizzyDirectives(Alpine2) {
     queueMicrotask(() => {
       if (el.__rzInitRan) return;
       const comp = el.__rzComponent;
-      if (!comp || typeof comp.__initData !== "function") return;
+      if (!comp || typeof comp.__initData !== "function") {
+        return;
+      }
       let data2 = {};
       try {
         data2 = JSON.parse(el.getAttribute("x-rz-init") || "{}");
       } catch (e2) {
-        console.warn("[RizzyUI] x-rz-init JSON parse failed.", e2, el);
+        console.warn("[RizzyUI] x-rz-init: JSON parse failed. Initializing with empty data.", { error: e2, element: el });
       }
       comp.__initData(data2);
       el.__rzInitRan = true;
@@ -7751,35 +7753,62 @@ window.RizzyUI.registerModuleOnce = (name, path) => {
   if (window.RizzyUI.registeredModules.has(name)) return;
   window.RizzyUI.registeredModules.add(name);
   Alpine.data(name, () => ({
-    __isShim: true,
-    __rzInitRan: false,
+    /** @private A promise that resolves with the payload from x-rz-init. */
+    _initDataPromise: null,
+    /** @private A function to resolve the init data promise. */
+    _resolveInitData: null,
+    /**
+     * @private
+     * A placeholder `__initData` function is defined synchronously on the shim.
+     * The `x-rz-init` directive can call this at any time. It captures the payload
+     * and resolves the promise that the main `init()` method is awaiting.
+     * @param {object} payload The data from the server.
+     */
+    __initData(payload) {
+      if (this._resolveInitData) {
+        this._resolveInitData(payload);
+      } else {
+        this._initDataPromise = Promise.resolve(payload);
+      }
+    },
+    /**
+     * The `init` method of the shim, called by Alpine when it encounters
+     * an element with `x-data` matching this component's `name`.
+     * @this {import('alpinejs').AlpineComponent}
+     */
     async init() {
       const self = this;
       self.$el.__rzComponent = self;
       try {
+        let payload;
+        if (self._initDataPromise) {
+          payload = await self._initDataPromise;
+        } else {
+          self._initDataPromise = new Promise((resolve) => {
+            self._resolveInitData = resolve;
+          });
+          queueMicrotask(() => {
+            if (!self.$el.hasAttribute("x-rz-init")) {
+              self._resolveInitData({});
+            }
+          });
+          payload = await self._initDataPromise;
+        }
         const module = await import(path);
         const userFactory = module && module.default;
         if (typeof userFactory !== "function") {
-          console.error(`[RizzyUI] '${path}' did not export a default function.`);
+          console.error(`[RizzyUI] Module at '${path}' for component '${name}' did not export a default function.`);
           return;
         }
-        self.__initData = (payload) => {
-          if (self.__rzInitRan) return;
-          const userObj = userFactory(payload ?? {});
-          Object.assign(self, userObj);
-          delete self.__isShim;
-          if (typeof userObj.init === "function") {
-            queueMicrotask(() => userObj.init.call(self));
-          }
-          self.__rzInitRan = true;
-        };
-        queueMicrotask(() => {
-          if (!self.$el.hasAttribute("x-rz-init")) {
-            self.__initData({});
-          }
-        });
+        const userObj = userFactory(payload ?? {});
+        Object.assign(self, userObj);
+        delete self._initDataPromise;
+        delete self._resolveInitData;
+        if (typeof userObj.init === "function") {
+          queueMicrotask(() => userObj.init.call(self));
+        }
       } catch (e2) {
-        console.error(`[RizzyUI] Failed to load/register '${name}' from '${path}'.`, e2);
+        console.error(`[RizzyUI] Failed to load or initialize module '${name}' from '${path}'.`, e2);
       }
     }
   }));

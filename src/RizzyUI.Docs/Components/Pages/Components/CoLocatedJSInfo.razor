@@ -39,7 +39,7 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
 					<RzAlpineModule For="this" Name="coLocatedJsPage" />
 
-                    <div class="mx-auto mb-5 flex min-h-40 flex-col items-center justify-center gap-4 p-8" x-data="coLocatedJsPage">
+                    <div class="mx-auto mb-5 flex min-h-40 flex-col items-center justify-center gap-4 p-8" x-data="coLocatedJsPage" x-rz-init="@("{\"initialMessage\":\"Hello from C#!\"}")">
 
                         <p>Message from Alpine: <strong x-ref="messageOutput"></strong></p>
                         <RzButton x-on:click="updateMessage">Update Message from JS</RzButton>

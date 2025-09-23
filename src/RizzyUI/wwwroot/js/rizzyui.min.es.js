@@ -105,7 +105,7 @@ function _e(e) {
     s.push(ze(e[n + r] || ""));
   return s = s.filter((r) => r !== void 0), s.length ? s.join(" ").trim() : i;
 }
-var Me = De, ne = ["input", "select", "textarea", "a[href]", "button", "[tabindex]:not(slot)", "audio[controls]", "video[controls]", '[contenteditable]:not([contenteditable="false"])', "details>summary:first-of-type", "details"], pt = /* @__PURE__ */ ne.join(","), se = typeof Element > "u", J = se ? function() {
+var Pe = De, ne = ["input", "select", "textarea", "a[href]", "button", "[tabindex]:not(slot)", "audio[controls]", "video[controls]", '[contenteditable]:not([contenteditable="false"])', "details>summary:first-of-type", "details"], pt = /* @__PURE__ */ ne.join(","), se = typeof Element > "u", J = se ? function() {
 } : Element.prototype.matches || Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector, At = !se && Element.prototype.getRootNode ? function(e) {
   return e.getRootNode();
 } : function(e) {
@@ -140,7 +140,7 @@ var Me = De, ne = ["input", "select", "textarea", "a[href]", "button", "[tabinde
   return s;
 }, ae = function(t, i) {
   return t.tabIndex < 0 && (i || /^(AUDIO|VIDEO|DETAILS)$/.test(t.tagName) || t.isContentEditable) && isNaN(parseInt(t.getAttribute("tabindex"), 10)) ? 0 : t.tabIndex;
-}, Pe = function(t, i) {
+}, Me = function(t, i) {
   return t.tabIndex === i.tabIndex ? t.documentOrder - i.documentOrder : t.tabIndex - i.tabIndex;
 }, le = function(t) {
   return t.tagName === "INPUT";
@@ -234,7 +234,7 @@ var Me = De, ne = ["input", "select", "textarea", "a[href]", "button", "[tabinde
       isScope: o,
       content: c
     });
-  }), n.sort(Pe).reduce(function(s, r) {
+  }), n.sort(Me).reduce(function(s, r) {
     return r.isScope ? s.push.apply(s, r.content) : s.push(r.content), s;
   }, []).concat(i);
 }, Je = function(t, i) {
@@ -1431,7 +1431,7 @@ function Ri(e, t) {
     }
   }));
 }
-const Ft = Math.min, X = Math.max, bt = Math.round, P = (e) => ({
+const Ft = Math.min, X = Math.max, bt = Math.round, M = (e) => ({
   x: e,
   y: e
 }), Li = {
@@ -1493,7 +1493,7 @@ function _i(e, t, i) {
       return [];
   }
 }
-function Mi(e, t, i, n) {
+function Pi(e, t, i, n) {
   const s = Tt(e);
   let r = _i(K(e), i === "start", n);
   return s && (r = r.map((o) => o + "-" + s), t && (r = r.concat(r.map(zt)))), r;
@@ -1501,7 +1501,7 @@ function Mi(e, t, i, n) {
 function vt(e) {
   return e.replace(/left|right|bottom|top/g, (t) => Li[t]);
 }
-function Pi(e) {
+function Mi(e) {
   return {
     top: 0,
     right: 0,
@@ -1511,7 +1511,7 @@ function Pi(e) {
   };
 }
 function Bi(e) {
-  return typeof e != "number" ? Pi(e) : {
+  return typeof e != "number" ? Mi(e) : {
     top: e,
     right: e,
     bottom: e,
@@ -1715,7 +1715,7 @@ const Vi = function(e) {
       if ((i = r.arrow) != null && i.alignmentOffset)
         return {};
       const g = K(s), S = Z(a), O = K(a) === a, C = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), w = h || (O || !b ? [vt(a)] : zi(a)), f = v !== "none";
-      !h && f && w.push(...Mi(a, b, v, C));
+      !h && f && w.push(...Pi(a, b, v, C));
       const p = [a, ...w], x = await xe(t, y), T = [];
       let I = ((n = r.flip) == null ? void 0 : n.overflows) || [];
       if (d && T.push(x[g]), u) {
@@ -1730,8 +1730,8 @@ const Vi = function(e) {
         const R = (((k = r.flip) == null ? void 0 : k.index) || 0) + 1, G = p[R];
         if (G) {
           var $;
-          const L = u === "alignment" ? S !== Z(G) : !1, M = (($ = I[0]) == null ? void 0 : $.overflows[0]) > 0;
-          if (!L || M)
+          const L = u === "alignment" ? S !== Z(G) : !1, P = (($ = I[0]) == null ? void 0 : $.overflows[0]) > 0;
+          if (!L || P)
             return {
               data: {
                 index: R,
@@ -1742,20 +1742,20 @@ const Vi = function(e) {
               }
             };
         }
-        let D = (N = I.filter((L) => L.overflows[0] <= 0).sort((L, M) => L.overflows[1] - M.overflows[1])[0]) == null ? void 0 : N.placement;
+        let D = (N = I.filter((L) => L.overflows[0] <= 0).sort((L, P) => L.overflows[1] - P.overflows[1])[0]) == null ? void 0 : N.placement;
         if (!D)
           switch (m) {
             case "bestFit": {
               var _;
-              const L = (_ = I.filter((M) => {
+              const L = (_ = I.filter((P) => {
                 if (f) {
-                  const Y = Z(M.placement);
+                  const Y = Z(P.placement);
                   return Y === S || // Create a bias to the `y` side axis due to horizontal
                   // reading directions favoring greater width.
                   Y === "y";
                 }
                 return !0;
-              }).map((M) => [M.placement, M.overflows.filter((Y) => Y > 0).reduce((Y, Ae) => Y + Ae, 0)]).sort((M, Y) => M[1] - Y[1])[0]) == null ? void 0 : _[0];
+              }).map((P) => [P.placement, P.overflows.filter((Y) => Y > 0).reduce((Y, Ae) => Y + Ae, 0)]).sort((P, Y) => P[1] - Y[1])[0]) == null ? void 0 : _[0];
               L && (D = L);
               break;
             }
@@ -1927,14 +1927,14 @@ function Ot(e) {
     }
   });
 }
-function Mt(e) {
-  const t = Pt(), i = F(e) ? z(e) : e;
+function Pt(e) {
+  const t = Mt(), i = F(e) ? z(e) : e;
   return ["transform", "translate", "scale", "rotate", "perspective"].some((n) => i[n] ? i[n] !== "none" : !1) || (i.containerType ? i.containerType !== "normal" : !1) || !t && (i.backdropFilter ? i.backdropFilter !== "none" : !1) || !t && (i.filter ? i.filter !== "none" : !1) || ["transform", "translate", "scale", "rotate", "perspective", "filter"].some((n) => (i.willChange || "").includes(n)) || ["paint", "layout", "strict", "content"].some((n) => (i.contain || "").includes(n));
 }
 function Ui(e) {
   let t = U(e);
   for (; B(t) && !tt(t); ) {
-    if (Mt(t))
+    if (Pt(t))
       return t;
     if (Ot(t))
       return null;
@@ -1942,7 +1942,7 @@ function Ui(e) {
   }
   return null;
 }
-function Pt() {
+function Mt() {
   return typeof CSS > "u" || !CSS.supports ? !1 : CSS.supports("-webkit-backdrop-filter", "none");
 }
 function tt(e) {
@@ -2001,7 +2001,7 @@ function Ce(e) {
 function Q(e) {
   const t = Ce(e);
   if (!B(t))
-    return P(1);
+    return M(1);
   const i = t.getBoundingClientRect(), {
     width: n,
     height: s,
@@ -2013,10 +2013,10 @@ function Q(e) {
     y: a
   };
 }
-const Gi = /* @__PURE__ */ P(0);
+const Gi = /* @__PURE__ */ M(0);
 function Oe(e) {
   const t = A(e);
-  return !Pt() || !t.visualViewport ? Gi : {
+  return !Mt() || !t.visualViewport ? Gi : {
     x: t.visualViewport.offsetLeft,
     y: t.visualViewport.offsetTop
   };
@@ -2027,9 +2027,9 @@ function Zi(e, t, i) {
 function ct(e, t, i, n) {
   t === void 0 && (t = !1), i === void 0 && (i = !1);
   const s = e.getBoundingClientRect(), r = Ce(e);
-  let o = P(1);
+  let o = M(1);
   t && (n ? F(n) && (o = Q(n)) : o = Q(e));
-  const a = Zi(r, i, n) ? Oe(r) : P(0);
+  const a = Zi(r, i, n) ? Oe(r) : M(0);
   let l = (s.left + a.x) / o.x, c = (s.top + a.y) / o.y, d = s.width / o.x, u = s.height / o.y;
   if (r) {
     const h = A(r), m = n && F(n) ? A(n) : n;
@@ -2074,13 +2074,13 @@ function Ji(e) {
   let l = {
     scrollLeft: 0,
     scrollTop: 0
-  }, c = P(1);
-  const d = P(0), u = B(n);
+  }, c = M(1);
+  const d = M(0), u = B(n);
   if ((u || !u && !r) && ((et(n) !== "body" || ut(o)) && (l = kt(n)), B(n))) {
     const m = ct(n);
     c = Q(n), d.x = m.x + n.clientLeft, d.y = m.y + n.clientTop;
   }
-  const h = o && !u && !r ? ke(o, l, !0) : P(0);
+  const h = o && !u && !r ? ke(o, l, !0) : M(0);
   return {
     width: i.width * c.x,
     height: i.height * c.y,
@@ -2107,7 +2107,7 @@ function Qi(e, t) {
   let r = n.clientWidth, o = n.clientHeight, a = 0, l = 0;
   if (s) {
     r = s.width, o = s.height;
-    const c = Pt();
+    const c = Mt();
     (!c || c && t === "fixed") && (a = s.offsetLeft, l = s.offsetTop);
   }
   return {
@@ -2118,7 +2118,7 @@ function Qi(e, t) {
   };
 }
 function tn(e, t) {
-  const i = ct(e, !0, t === "fixed"), n = i.top + e.clientTop, s = i.left + e.clientLeft, r = B(e) ? Q(e) : P(1), o = e.clientWidth * r.x, a = e.clientHeight * r.y, l = s * r.x, c = n * r.y;
+  const i = ct(e, !0, t === "fixed"), n = i.top + e.clientTop, s = i.left + e.clientLeft, r = B(e) ? Q(e) : M(1), o = e.clientWidth * r.x, a = e.clientHeight * r.y, l = s * r.x, c = n * r.y;
   return {
     width: o,
     height: a,
@@ -2157,7 +2157,7 @@ function en(e, t) {
   const r = z(e).position === "fixed";
   let o = r ? U(e) : e;
   for (; F(o) && !tt(o); ) {
-    const a = z(o), l = Mt(o);
+    const a = z(o), l = Pt(o);
     !l && a.position === "fixed" && (s = null), (r ? !l && !s : !l && a.position === "static" && !!s && ["absolute", "fixed"].includes(s.position) || ut(o) && !l && Ne(e, o)) ? n = n.filter((d) => d !== o) : s = a, o = U(o);
   }
   return t.set(e, n), n;
@@ -2196,7 +2196,7 @@ function rn(e, t, i) {
     scrollLeft: 0,
     scrollTop: 0
   };
-  const l = P(0);
+  const l = M(0);
   function c() {
     l.x = Bt(s);
   }
@@ -2206,7 +2206,7 @@ function rn(e, t, i) {
       l.x = m.x + t.clientLeft, l.y = m.y + t.clientTop;
     } else s && c();
   r && !n && s && c();
-  const d = s && !n && !r ? ke(s, a) : P(0), u = o.left + a.scrollLeft - l.x - d.x, h = o.top + a.scrollTop - l.y - d.y;
+  const d = s && !n && !r ? ke(s, a) : M(0), u = o.left + a.scrollLeft - l.x - d.x, h = o.top + a.scrollTop - l.y - d.y;
   return {
     x: u,
     y: h,
@@ -2241,7 +2241,7 @@ function $e(e, t) {
   let n = ie(e, t);
   for (; n && qi(n) && $t(n); )
     n = ie(n, t);
-  return n && tt(n) && $t(n) && !Mt(n) ? i : n || Ui(e) || i;
+  return n && tt(n) && $t(n) && !Pt(n) ? i : n || Ui(e) || i;
 }
 const on = async function(e) {
   const t = this.getOffsetParent || $e, i = this.getDimensions, n = await i(e.floating);
@@ -3135,12 +3135,13 @@ function On(e) {
     queueMicrotask(() => {
       if (t.__rzInitRan) return;
       const i = t.__rzComponent;
-      if (!i || typeof i.__initData != "function") return;
+      if (!i || typeof i.__initData != "function")
+        return;
       let n = {};
       try {
         n = JSON.parse(t.getAttribute("x-rz-init") || "{}");
       } catch (s) {
-        console.warn("[RizzyUI] x-rz-init JSON parse failed.", s, t);
+        console.warn("[RizzyUI] x-rz-init: JSON parse failed. Initializing with empty data.", { error: s, element: t });
       }
       i.__initData(n), t.__rzInitRan = !0;
     });
@@ -3148,26 +3149,44 @@ function On(e) {
 }
 window.RizzyUI.registerModuleOnce = (e, t) => {
   window.RizzyUI.registeredModules.has(e) || (window.RizzyUI.registeredModules.add(e), Alpine.data(e, () => ({
-    __isShim: !0,
-    __rzInitRan: !1,
+    /** @private A promise that resolves with the payload from x-rz-init. */
+    _initDataPromise: null,
+    /** @private A function to resolve the init data promise. */
+    _resolveInitData: null,
+    /**
+     * @private
+     * A placeholder `__initData` function is defined synchronously on the shim.
+     * The `x-rz-init` directive can call this at any time. It captures the payload
+     * and resolves the promise that the main `init()` method is awaiting.
+     * @param {object} payload The data from the server.
+     */
+    __initData(i) {
+      this._resolveInitData ? this._resolveInitData(i) : this._initDataPromise = Promise.resolve(i);
+    },
+    /**
+     * The `init` method of the shim, called by Alpine when it encounters
+     * an element with `x-data` matching this component's `name`.
+     * @this {import('alpinejs').AlpineComponent}
+     */
     async init() {
       const i = this;
       i.$el.__rzComponent = i;
       try {
-        const n = await import(t), s = n && n.default;
-        if (typeof s != "function") {
-          console.error(`[RizzyUI] '${t}' did not export a default function.`);
+        let n;
+        i._initDataPromise ? n = await i._initDataPromise : (i._initDataPromise = new Promise((a) => {
+          i._resolveInitData = a;
+        }), queueMicrotask(() => {
+          i.$el.hasAttribute("x-rz-init") || i._resolveInitData({});
+        }), n = await i._initDataPromise);
+        const s = await import(t), r = s && s.default;
+        if (typeof r != "function") {
+          console.error(`[RizzyUI] Module at '${t}' for component '${e}' did not export a default function.`);
           return;
         }
-        i.__initData = (r) => {
-          if (i.__rzInitRan) return;
-          const o = s(r ?? {});
-          Object.assign(i, o), delete i.__isShim, typeof o.init == "function" && queueMicrotask(() => o.init.call(i)), i.__rzInitRan = !0;
-        }, queueMicrotask(() => {
-          i.$el.hasAttribute("x-rz-init") || i.__initData({});
-        });
+        const o = r(n ?? {});
+        Object.assign(i, o), delete i._initDataPromise, delete i._resolveInitData, typeof o.init == "function" && queueMicrotask(() => o.init.call(i));
       } catch (n) {
-        console.error(`[RizzyUI] Failed to load/register '${e}' from '${t}'.`, n);
+        console.error(`[RizzyUI] Failed to load or initialize module '${e}' from '${t}'.`, n);
       }
     }
   })));
@@ -3268,7 +3287,7 @@ function Nn(e) {
   e.directive("sync", t);
 }
 W.plugin(Le);
-W.plugin(Me);
+W.plugin(Pe);
 W.plugin(ri);
 Cn(W);
 On(W);

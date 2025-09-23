@@ -377,15 +377,15 @@ function mn(e, t, n) {
 function Ci(e) {
   return Array.from(e).map(Ni()).filter((t) => !Ri(t));
 }
-var Vt = !1, Pe = /* @__PURE__ */ new Map(), Ti = Symbol();
+var Vt = !1, Fe = /* @__PURE__ */ new Map(), Ti = Symbol();
 function ys(e) {
   Vt = !0;
   let t = Symbol();
-  Ti = t, Pe.set(t, []);
+  Ti = t, Fe.set(t, []);
   let n = () => {
-    for (; Pe.get(t).length; )
-      Pe.get(t).shift()();
-    Pe.delete(t);
+    for (; Fe.get(t).length; )
+      Fe.get(t).shift()();
+    Fe.delete(t);
   }, i = () => {
     Vt = !1, n();
   };
@@ -406,7 +406,7 @@ function ws(e, t) {
   }, i = lt[t.type] || n, [r, s] = Oi(e);
   gi(e, t.original, s);
   let o = () => {
-    e._x_ignore || e._x_ignoreSelf || (i.inline && i.inline(e, t, r), i = i.bind(i, e, t, r), Vt ? Pe.get(Ti).push(i) : i());
+    e._x_ignore || e._x_ignoreSelf || (i.inline && i.inline(e, t, r), i = i.bind(i, e, t, r), Vt ? Fe.get(Ti).push(i) : i());
   };
   return o.runCleanups = s, o;
 }
@@ -482,16 +482,16 @@ function me(e, t) {
   for (; i; )
     me(i, t), i = i.nextElementSibling;
 }
-function P(e, ...t) {
+function F(e, ...t) {
   console.warn(`Alpine Warning: ${e}`, ...t);
 }
 var Ln = !1;
 function Es() {
-  Ln && P("Alpine has already been initialized on this page. Calling Alpine.start() more than once can cause problems."), Ln = !0, document.body || P("Unable to initialize. Trying to load Alpine before `<body>` is available. Did you forget to add `defer` in Alpine's `<script>` tag?"), Be(document, "alpine:init"), Be(document, "alpine:initializing"), fn(), rs((t) => J(t, me)), cn((t) => Ae(t)), pi((t, n) => {
+  Ln && F("Alpine has already been initialized on this page. Calling Alpine.start() more than once can cause problems."), Ln = !0, document.body || F("Unable to initialize. Trying to load Alpine before `<body>` is available. Did you forget to add `defer` in Alpine's `<script>` tag?"), Be(document, "alpine:init"), Be(document, "alpine:initializing"), fn(), rs((t) => J(t, me)), cn((t) => Ae(t)), pi((t, n) => {
     mn(t, n).forEach((i) => i());
   });
   let e = (t) => !wt(t.parentElement, !0);
-  Array.from(document.querySelectorAll(Fi().join(","))).filter(e).forEach((t) => {
+  Array.from(document.querySelectorAll(Pi().join(","))).filter(e).forEach((t) => {
     J(t);
   }), Be(document, "alpine:initialized"), setTimeout(() => {
     Ts();
@@ -501,10 +501,10 @@ var vn = [], Mi = [];
 function Di() {
   return vn.map((e) => e());
 }
-function Fi() {
+function Pi() {
   return vn.concat(Mi).map((e) => e());
 }
-function Pi(e) {
+function Fi(e) {
   vn.push(e);
 }
 function zi(e) {
@@ -512,7 +512,7 @@ function zi(e) {
 }
 function wt(e, t = !1) {
   return Oe(e, (n) => {
-    if ((t ? Fi() : Di()).some((r) => n.matches(r)))
+    if ((t ? Pi() : Di()).some((r) => n.matches(r)))
       return !0;
   });
 }
@@ -553,7 +553,7 @@ function Ts() {
   ].forEach(([t, n, i]) => {
     vs(n) || i.some((r) => {
       if (document.querySelector(r))
-        return P(`found "${r}", but missing ${t} plugin`), !0;
+        return F(`found "${r}", but missing ${t} plugin`), !0;
     });
   });
 }
@@ -819,7 +819,7 @@ var Hi = [];
 function _t(e) {
   Hi.push(e);
 }
-function Fs(e, t) {
+function Ps(e, t) {
   Hi.forEach((n) => n(e, t)), ie = !0, Vi(() => {
     J(t, (n, i) => {
       i(n, () => {
@@ -828,7 +828,7 @@ function Fs(e, t) {
   }), ie = !1;
 }
 var Jt = !1;
-function Ps(e, t) {
+function Fs(e, t) {
   t._x_dataStack || (t._x_dataStack = e._x_dataStack), ie = !0, Jt = !0, Vi(() => {
     zs(t);
   }), ie = !1, Jt = !1;
@@ -1011,9 +1011,9 @@ function Rt(e) {
 function Xs(e) {
   (Array.isArray(e) ? e : [e]).forEach((n) => n(Ke));
 }
-var le = {}, Fn = !1;
+var le = {}, Pn = !1;
 function Qs(e, t) {
-  if (Fn || (le = Ie(le), Fn = !0), t === void 0)
+  if (Pn || (le = Ie(le), Pn = !0), t === void 0)
     return le[e];
   le[e] = t, yi(le[e]), typeof t == "object" && t !== null && t.hasOwnProperty("init") && typeof t.init == "function" && le[e].init();
 }
@@ -1089,7 +1089,7 @@ var so = {
   closestDataStack: ge,
   skipDuringClone: oe,
   onlyDuringClone: Ds,
-  addRootSelector: Pi,
+  addRootSelector: Fi,
   addInitSelector: zi,
   interceptClone: _t,
   addScopeToNode: Ye,
@@ -1124,9 +1124,9 @@ var so = {
   magic: H,
   store: Qs,
   start: Es,
-  clone: Ps,
+  clone: Fs,
   // INTERNAL
-  cloneNode: Fs,
+  cloneNode: Ps,
   // INTERNAL
   bound: Js,
   $data: vi,
@@ -1277,7 +1277,7 @@ function re(e, t, n, i, r, s) {
   };
   a.forEach(c);
 }
-var So = /* @__PURE__ */ uo("__proto__,__v_isRef,__isVue"), ar = new Set(Object.getOwnPropertyNames(Symbol).map((e) => Symbol[e]).filter(En)), Co = /* @__PURE__ */ lr(), To = /* @__PURE__ */ lr(!0), Pn = /* @__PURE__ */ Oo();
+var So = /* @__PURE__ */ uo("__proto__,__v_isRef,__isVue"), ar = new Set(Object.getOwnPropertyNames(Symbol).map((e) => Symbol[e]).filter(En)), Co = /* @__PURE__ */ lr(), To = /* @__PURE__ */ lr(!0), Fn = /* @__PURE__ */ Oo();
 function Oo() {
   const e = {};
   return ["includes", "indexOf", "lastIndexOf"].forEach((t) => {
@@ -1305,8 +1305,8 @@ function lr(e = !1, t = !1) {
     if (r === "__v_raw" && s === (e ? t ? Wo : fr : t ? jo : dr).get(i))
       return i;
     const o = fe(i);
-    if (!e && o && Et(Pn, r))
-      return Reflect.get(Pn, r, s);
+    if (!e && o && Et(Fn, r))
+      return Reflect.get(Fn, r, s);
     const a = Reflect.get(i, r, s);
     return (En(r) ? ar.has(r) : So(r)) || (e || B(i, "get", r), t) ? a : Qt(a) ? !o || !In(r) ? a.value : a : It(a) ? e ? hr(a) : An(a) : a;
   };
@@ -1514,9 +1514,9 @@ function Do() {
     i
   ];
 }
-var [Fo, Po, ac, lc] = /* @__PURE__ */ Do();
+var [Po, Fo, ac, lc] = /* @__PURE__ */ Do();
 function cr(e, t) {
-  const n = e ? Po : Fo;
+  const n = e ? Fo : Po;
   return (i, r, s) => r === "__v_isReactive" ? !e : r === "__v_isReadonly" ? e : r === "__v_raw" ? i : Reflect.get(Et(n, r) && r in i ? n : i, r, s);
 }
 var zo = {
@@ -1629,7 +1629,7 @@ H("el", (e) => e);
 mr("Focus", "focus", "focus");
 mr("Persist", "persist", "persist");
 function mr(e, t, n) {
-  H(t, (i) => P(`You can't use [$${t}] without first installing the "${e}" plugin here: https://alpinejs.dev/plugins/${n}`, i));
+  H(t, (i) => F(`You can't use [$${t}] without first installing the "${e}" plugin here: https://alpinejs.dev/plugins/${n}`, i));
 }
 N("modelable", (e, { expression: t }, { effect: n, evaluateLater: i, cleanup: r }) => {
   let s = i(t), o = () => {
@@ -1663,7 +1663,7 @@ N("modelable", (e, { expression: t }, { effect: n, evaluateLater: i, cleanup: r 
   });
 });
 N("teleport", (e, { modifiers: t, expression: n }, { cleanup: i }) => {
-  e.tagName.toLowerCase() !== "template" && P("x-teleport can only be used on a <template> tag", e);
+  e.tagName.toLowerCase() !== "template" && F("x-teleport can only be used on a <template> tag", e);
   let r = Hn(n), s = e.content.cloneNode(!0).firstElementChild;
   e._x_teleport = s, s._x_teleportBack = e, e.setAttribute("data-teleport-template", !0), s.setAttribute("data-teleport-target", !0), e._x_forwardEvents && e._x_forwardEvents.forEach((a) => {
     s.addEventListener(a, (l) => {
@@ -1691,7 +1691,7 @@ N("teleport", (e, { modifiers: t, expression: n }, { cleanup: i }) => {
 var Go = document.createElement("div");
 function Hn(e) {
   let t = oe(() => document.querySelector(e), () => Go)();
-  return t || P(`Cannot find x-teleport element for selector: "${e}"`), t;
+  return t || F(`Cannot find x-teleport element for selector: "${e}"`), t;
 }
 var br = () => {
 };
@@ -1926,7 +1926,7 @@ N("bind", yr);
 function ia(e, t) {
   e._x_keyExpression = t;
 }
-Pi(() => `[${Te("data")}]`);
+Fi(() => `[${Te("data")}]`);
 N("data", (e, { expression: t }, { cleanup: n }) => {
   if (ra(e))
     return;
@@ -1998,14 +1998,14 @@ function sa(e, t, n, i) {
       o = Object.entries(o).map(([h, g]) => {
         let x = Un(t, g, h, o);
         i((E) => {
-          u.includes(E) && P("Duplicate key on x-for", e), u.push(E);
+          u.includes(E) && F("Duplicate key on x-for", e), u.push(E);
         }, { scope: { index: h, ...x } }), c.push(x);
       });
     else
       for (let h = 0; h < o.length; h++) {
         let g = Un(t, o[h], h, o);
         i((x) => {
-          u.includes(x) && P("Duplicate key on x-for", e), u.push(x);
+          u.includes(x) && F("Duplicate key on x-for", e), u.push(x);
         }, { scope: { index: h, ...g } }), c.push(g);
       }
     let d = [], f = [], m = [], y = [];
@@ -2035,7 +2035,7 @@ function sa(e, t, n, i) {
     for (let h = 0; h < f.length; h++) {
       let [g, x] = f[h], E = a[g], I = a[x], w = document.createElement("div");
       A(() => {
-        I || P('x-for ":key" is undefined or invalid', s, x, a), I.after(w), E.after(I), I._x_currentIfEl && I.after(I._x_currentIfEl), w.before(E), E._x_currentIfEl && E.after(E._x_currentIfEl), w.remove();
+        I || F('x-for ":key" is undefined or invalid', s, x, a), I.after(w), E.after(I), I._x_currentIfEl && I.after(I._x_currentIfEl), w.before(E), E._x_currentIfEl && E.after(E._x_currentIfEl), w.remove();
       }), I._x_refreshXForScope(c[u.indexOf(x)]);
     }
     for (let h = 0; h < d.length; h++) {
@@ -2048,7 +2048,7 @@ function sa(e, t, n, i) {
         });
       }, A(() => {
         E.after(p), oe(() => J(p))();
-      }), typeof w == "object" && P("x-for key cannot be an object, it must be a string or an integer", s), a[w] = p;
+      }), typeof w == "object" && F("x-for key cannot be an object, it must be a string or an integer", s), a[w] = p;
     }
     for (let h = 0; h < y.length; h++)
       a[y[h]]._x_refreshXForScope(c[u.indexOf(y[h])]);
@@ -2083,7 +2083,7 @@ wr.inline = (e, { expression: t }, { cleanup: n }) => {
 };
 N("ref", wr);
 N("if", (e, { expression: t }, { effect: n, cleanup: i }) => {
-  e.tagName.toLowerCase() !== "template" && P("x-if can only be used on a <template> tag", e);
+  e.tagName.toLowerCase() !== "template" && F("x-if can only be used on a <template> tag", e);
   let r = k(e, t), s = () => {
     if (e._x_currentIfEl)
       return e._x_currentIfEl;
@@ -2124,7 +2124,7 @@ Ct("Intersect", "intersect", "intersect");
 Ct("Focus", "trap", "focus");
 Ct("Mask", "mask", "mask");
 function Ct(e, t, n) {
-  N(t, (i) => P(`You can't use [x-${t}] without first installing the "${e}" plugin here: https://alpinejs.dev/plugins/${n}`, i));
+  N(t, (i) => F(`You can't use [x-${t}] without first installing the "${e}" plugin here: https://alpinejs.dev/plugins/${n}`, i));
 }
 Ke.setEvaluator(oo);
 Ke.setReactivityEngine({ reactive: An, effect: yo, release: wo, raw: O });
@@ -2617,8 +2617,8 @@ var Zn = /* @__PURE__ */ function() {
         p.shiftKey ? _ = s.tabbableGroups[s.tabbableGroups.length - 1].lastTabbableNode : _ = s.tabbableGroups[0].firstTabbableNode;
       else if (p.shiftKey) {
         var $ = Qn(s.tabbableGroups, function(z) {
-          var F = z.firstTabbableNode;
-          return b === F;
+          var P = z.firstTabbableNode;
+          return b === P;
         });
         if ($ < 0 && (S.container === b || st(b, r.tabbableOptions) && !tt(b, r.tabbableOptions) && !S.nextTabbableNode(b, !1)) && ($ = C), $ >= 0) {
           var R = $ === 0 ? s.tabbableGroups.length - 1 : $ - 1, L = s.tabbableGroups[R];
@@ -2626,8 +2626,8 @@ var Zn = /* @__PURE__ */ function() {
         }
       } else {
         var V = Qn(s.tabbableGroups, function(z) {
-          var F = z.lastTabbableNode;
-          return b === F;
+          var P = z.lastTabbableNode;
+          return b === P;
         });
         if (V < 0 && (S.container === b || st(b, r.tabbableOptions) && !tt(b, r.tabbableOptions) && !S.nextTabbableNode(b)) && (V = C), V >= 0) {
           var D = V === s.tabbableGroups.length - 1 ? 0 : V + 1, ae = s.tabbableGroups[D];
@@ -2879,18 +2879,18 @@ focus-trap/dist/focus-trap.esm.js:
   * @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
   *)
 */
-function Fa(e, t) {
+function Pa(e, t) {
   if (!(e instanceof t))
     throw new TypeError("Cannot call a class as a function");
 }
-function Pa(e, t) {
+function Fa(e, t) {
   for (var n = 0; n < t.length; n++) {
     var i = t[n];
     i.enumerable = i.enumerable || !1, i.configurable = !0, "value" in i && (i.writable = !0), Object.defineProperty(e, i.key, i);
   }
 }
 function za(e, t, n) {
-  return t && Pa(e.prototype, t), e;
+  return t && Fa(e.prototype, t), e;
 }
 var Ba = Object.defineProperty, Z = function(e, t) {
   return Ba(e, "name", { value: t, configurable: !0 });
@@ -2914,7 +2914,7 @@ var Ba = Object.defineProperty, Z = function(e, t) {
 }, "stringToHTML"), Me = Z(function(e) {
   var t = new DOMParser().parseFromString(e, "application/xml");
   return document.importNode(t.documentElement, !0).outerHTML;
-}, "getSvgNode"), T = { CONTAINER: "sn-notifications-container", NOTIFY: "sn-notify", NOTIFY_CONTENT: "sn-notify-content", NOTIFY_ICON: "sn-notify-icon", NOTIFY_CLOSE: "sn-notify-close", NOTIFY_TITLE: "sn-notify-title", NOTIFY_TEXT: "sn-notify-text", IS_X_CENTER: "sn-is-x-center", IS_Y_CENTER: "sn-is-y-center", IS_CENTER: "sn-is-center", IS_LEFT: "sn-is-left", IS_RIGHT: "sn-is-right", IS_TOP: "sn-is-top", IS_BOTTOM: "sn-is-bottom", NOTIFY_OUTLINE: "sn-notify-outline", NOTIFY_FILLED: "sn-notify-filled", NOTIFY_ERROR: "sn-notify-error", NOTIFY_WARNING: "sn-notify-warning", NOTIFY_SUCCESS: "sn-notify-success", NOTIFY_INFO: "sn-notify-info", NOTIFY_FADE: "sn-notify-fade", NOTIFY_FADE_IN: "sn-notify-fade-in", NOTIFY_SLIDE: "sn-notify-slide", NOTIFY_SLIDE_IN: "sn-notify-slide-in", NOTIFY_AUTOCLOSE: "sn-notify-autoclose" }, te = { ERROR: "error", WARNING: "warning", SUCCESS: "success", INFO: "info" }, ti = { OUTLINE: "outline", FILLED: "filled" }, Ft = { FADE: "fade", SLIDE: "slide" }, De = { CLOSE: Me(ja), SUCCESS: Me(Va), ERROR: Me(Wa), WARNING: Me(qa), INFO: Me(Ha) }, ni = Z(function(e) {
+}, "getSvgNode"), T = { CONTAINER: "sn-notifications-container", NOTIFY: "sn-notify", NOTIFY_CONTENT: "sn-notify-content", NOTIFY_ICON: "sn-notify-icon", NOTIFY_CLOSE: "sn-notify-close", NOTIFY_TITLE: "sn-notify-title", NOTIFY_TEXT: "sn-notify-text", IS_X_CENTER: "sn-is-x-center", IS_Y_CENTER: "sn-is-y-center", IS_CENTER: "sn-is-center", IS_LEFT: "sn-is-left", IS_RIGHT: "sn-is-right", IS_TOP: "sn-is-top", IS_BOTTOM: "sn-is-bottom", NOTIFY_OUTLINE: "sn-notify-outline", NOTIFY_FILLED: "sn-notify-filled", NOTIFY_ERROR: "sn-notify-error", NOTIFY_WARNING: "sn-notify-warning", NOTIFY_SUCCESS: "sn-notify-success", NOTIFY_INFO: "sn-notify-info", NOTIFY_FADE: "sn-notify-fade", NOTIFY_FADE_IN: "sn-notify-fade-in", NOTIFY_SLIDE: "sn-notify-slide", NOTIFY_SLIDE_IN: "sn-notify-slide-in", NOTIFY_AUTOCLOSE: "sn-notify-autoclose" }, te = { ERROR: "error", WARNING: "warning", SUCCESS: "success", INFO: "info" }, ti = { OUTLINE: "outline", FILLED: "filled" }, Pt = { FADE: "fade", SLIDE: "slide" }, De = { CLOSE: Me(ja), SUCCESS: Me(Va), ERROR: Me(Wa), WARNING: Me(qa), INFO: Me(Ha) }, ni = Z(function(e) {
   e.wrapper.classList.add(T.NOTIFY_FADE), setTimeout(function() {
     e.wrapper.classList.add(T.NOTIFY_FADE_IN);
   }, 100);
@@ -2933,10 +2933,10 @@ var Ba = Object.defineProperty, Z = function(e, t) {
 }, "slideOut"), Ar = function() {
   function e(t) {
     var n = this;
-    Fa(this, e), this.notifyOut = Z(function(z) {
+    Pa(this, e), this.notifyOut = Z(function(z) {
       z(n);
     }, "notifyOut");
-    var i = t.notificationsGap, r = i === void 0 ? 20 : i, s = t.notificationsPadding, o = s === void 0 ? 20 : s, a = t.status, l = a === void 0 ? "success" : a, c = t.effect, u = c === void 0 ? Ft.FADE : c, d = t.type, f = d === void 0 ? "outline" : d, m = t.title, y = t.text, v = t.showIcon, h = v === void 0 ? !0 : v, g = t.customIcon, x = g === void 0 ? "" : g, E = t.customClass, I = E === void 0 ? "" : E, w = t.speed, p = w === void 0 ? 500 : w, b = t.showCloseButton, _ = b === void 0 ? !0 : b, C = t.autoclose, S = C === void 0 ? !0 : C, $ = t.autotimeout, R = $ === void 0 ? 3e3 : $, L = t.position, V = L === void 0 ? "right top" : L, D = t.customWrapper, ae = D === void 0 ? "" : D;
+    var i = t.notificationsGap, r = i === void 0 ? 20 : i, s = t.notificationsPadding, o = s === void 0 ? 20 : s, a = t.status, l = a === void 0 ? "success" : a, c = t.effect, u = c === void 0 ? Pt.FADE : c, d = t.type, f = d === void 0 ? "outline" : d, m = t.title, y = t.text, v = t.showIcon, h = v === void 0 ? !0 : v, g = t.customIcon, x = g === void 0 ? "" : g, E = t.customClass, I = E === void 0 ? "" : E, w = t.speed, p = w === void 0 ? 500 : w, b = t.showCloseButton, _ = b === void 0 ? !0 : b, C = t.autoclose, S = C === void 0 ? !0 : C, $ = t.autotimeout, R = $ === void 0 ? 3e3 : $, L = t.position, V = L === void 0 ? "right top" : L, D = t.customWrapper, ae = D === void 0 ? "" : D;
     if (this.customWrapper = ae, this.status = l, this.title = m, this.text = y, this.showIcon = h, this.customIcon = x, this.customClass = I, this.speed = p, this.effect = u, this.showCloseButton = _, this.autoclose = S, this.autotimeout = R, this.notificationsGap = r, this.notificationsPadding = o, this.type = f, this.position = V, !this.checkRequirements()) {
       console.error("You must specify 'title' or 'text' at least.");
       return;
@@ -3022,10 +3022,10 @@ var Ba = Object.defineProperty, Z = function(e, t) {
     this.notifyOut(this.selectedNotifyOutEffect);
   } }, { key: "setEffect", value: function() {
     switch (this.effect) {
-      case Ft.FADE:
+      case Pt.FADE:
         this.selectedNotifyInEffect = ni, this.selectedNotifyOutEffect = ii;
         break;
-      case Ft.SLIDE:
+      case Pt.SLIDE:
         this.selectedNotifyInEffect = Ya, this.selectedNotifyOutEffect = Ka;
         break;
       default:
@@ -3075,7 +3075,7 @@ const Nr = ["success", "error", "warning", "info"], kr = [
   autotimeout: 4e3,
   position: "right top"
 };
-function Fe(e = {}) {
+function Pe(e = {}) {
   const t = {
     ...Rr,
     ...e
@@ -3083,9 +3083,9 @@ function Fe(e = {}) {
   Nr.includes(t.status) || (console.warn(`Invalid status '${t.status}' passed to Toast. Defaulting to 'info'.`), t.status = "info"), kr.includes(t.position) || (console.warn(`Invalid position '${t.position}' passed to Toast. Defaulting to 'right top'.`), t.position = "right top"), new $r(t);
 }
 const Ga = {
-  custom: Fe,
+  custom: Pe,
   success(e, t = "Success", n = {}) {
-    Fe({
+    Pe({
       status: "success",
       title: t,
       text: e,
@@ -3093,7 +3093,7 @@ const Ga = {
     });
   },
   error(e, t = "Error", n = {}) {
-    Fe({
+    Pe({
       status: "error",
       title: t,
       text: e,
@@ -3101,7 +3101,7 @@ const Ga = {
     });
   },
   warning(e, t = "Warning", n = {}) {
-    Fe({
+    Pe({
       status: "warning",
       title: t,
       text: e,
@@ -3109,7 +3109,7 @@ const Ga = {
     });
   },
   info(e, t = "Info", n = {}) {
-    Fe({
+    Pe({
       status: "info",
       title: t,
       text: e,
@@ -3588,18 +3588,18 @@ function Ot(e) {
 function Dr(e) {
   return e === "x" ? "y" : "x";
 }
-function Fr(e) {
+function Pr(e) {
   return e === "y" ? "height" : "width";
 }
 function pe(e) {
   return ["top", "bottom"].includes(ve(e)) ? "y" : "x";
 }
-function Pr(e) {
+function Fr(e) {
   return Dr(pe(e));
 }
 function fl(e, t, n) {
   n === void 0 && (n = !1);
-  const i = Ot(e), r = Pr(e), s = Fr(r);
+  const i = Ot(e), r = Fr(e), s = Pr(r);
   let o = r === "x" ? i === (n ? "end" : "start") ? "right" : "left" : i === "start" ? "bottom" : "top";
   return t.reference[s] > t.floating[s] && (o = pt(o)), [o, pt(o)];
 }
@@ -3671,7 +3671,7 @@ function si(e, t, n) {
     reference: i,
     floating: r
   } = e;
-  const s = pe(t), o = Pr(t), a = Fr(o), l = ve(t), c = s === "y", u = i.x + i.width / 2 - r.width / 2, d = i.y + i.height / 2 - r.height / 2, f = i[a] / 2 - r[a] / 2;
+  const s = pe(t), o = Fr(t), a = Pr(o), l = ve(t), c = s === "y", u = i.x + i.width / 2 - r.width / 2, d = i.y + i.height / 2 - r.height / 2, f = i[a] / 2 - r[a] / 2;
   let m;
   switch (l) {
     case "top":
@@ -3860,8 +3860,8 @@ const yl = function(e) {
         const D = ((($ = s.flip) == null ? void 0 : $.index) || 0) + 1, ae = b[D];
         if (ae) {
           var L;
-          const F = d === "alignment" ? x !== pe(ae) : !1, q = ((L = S[0]) == null ? void 0 : L.overflows[0]) > 0;
-          if (!F || q)
+          const P = d === "alignment" ? x !== pe(ae) : !1, q = ((L = S[0]) == null ? void 0 : L.overflows[0]) > 0;
+          if (!P || q)
             return {
               data: {
                 index: D,
@@ -3872,12 +3872,12 @@ const yl = function(e) {
               }
             };
         }
-        let z = (R = S.filter((F) => F.overflows[0] <= 0).sort((F, q) => F.overflows[1] - q.overflows[1])[0]) == null ? void 0 : R.placement;
+        let z = (R = S.filter((P) => P.overflows[0] <= 0).sort((P, q) => P.overflows[1] - q.overflows[1])[0]) == null ? void 0 : R.placement;
         if (!z)
           switch (m) {
             case "bestFit": {
               var V;
-              const F = (V = S.filter((q) => {
+              const P = (V = S.filter((q) => {
                 if (p) {
                   const Q = pe(q.placement);
                   return Q === x || // Create a bias to the `y` side axis due to horizontal
@@ -3886,7 +3886,7 @@ const yl = function(e) {
                 }
                 return !0;
               }).map((q) => [q.placement, q.overflows.filter((Q) => Q > 0).reduce((Q, Gr) => Q + Gr, 0)]).sort((q, Q) => q[1] - Q[1])[0]) == null ? void 0 : V[0];
-              F && (z = F);
+              P && (z = P);
               break;
             }
             case "initialPlacement":
@@ -4344,7 +4344,7 @@ function Ml(e, t, n) {
     height: o.height
   };
 }
-function Pt(e) {
+function Ft(e) {
   return W(e).position === "static";
 }
 function li(e, t) {
@@ -4362,16 +4362,16 @@ function Kr(e, t) {
   if (!K(e)) {
     let r = se(e);
     for (; r && !Ee(r); ) {
-      if (j(r) && !Pt(r))
+      if (j(r) && !Ft(r))
         return r;
       r = se(r);
     }
     return n;
   }
   let i = li(e, t);
-  for (; i && El(i) && Pt(i); )
+  for (; i && El(i) && Ft(i); )
     i = li(i, t);
-  return i && Ee(i) && Pt(i) && !$n(i) ? n : i || Il(e) || n;
+  return i && Ee(i) && Ft(i) && !$n(i) ? n : i || Il(e) || n;
 }
 const Dl = async function(e) {
   const t = this.getOffsetParent || Kr, n = this.getDimensions, i = await n(e.floating);
@@ -4385,10 +4385,10 @@ const Dl = async function(e) {
     }
   };
 };
-function Fl(e) {
+function Pl(e) {
   return W(e).direction === "rtl";
 }
-const Pl = {
+const Fl = {
   convertOffsetParentRelativeRectToViewportRelativeRect: Tl,
   getDocumentElement: X,
   getClippingRect: Rl,
@@ -4398,10 +4398,10 @@ const Pl = {
   getDimensions: Ll,
   getScale: xe,
   isElement: j,
-  isRTL: Fl
+  isRTL: Pl
 }, mt = xl, bt = _l, vt = yl, yt = (e, t, n) => {
   const i = /* @__PURE__ */ new Map(), r = {
-    platform: Pl,
+    platform: Fl,
     ...n
   }, s = {
     ...r.platform,
@@ -5265,12 +5265,13 @@ function ic(e) {
     queueMicrotask(() => {
       if (t.__rzInitRan) return;
       const n = t.__rzComponent;
-      if (!n || typeof n.__initData != "function") return;
+      if (!n || typeof n.__initData != "function")
+        return;
       let i = {};
       try {
         i = JSON.parse(t.getAttribute("x-rz-init") || "{}");
       } catch (r) {
-        console.warn("[RizzyUI] x-rz-init JSON parse failed.", r, t);
+        console.warn("[RizzyUI] x-rz-init: JSON parse failed. Initializing with empty data.", { error: r, element: t });
       }
       n.__initData(i), t.__rzInitRan = !0;
     });
@@ -5278,26 +5279,44 @@ function ic(e) {
 }
 window.RizzyUI.registerModuleOnce = (e, t) => {
   window.RizzyUI.registeredModules.has(e) || (window.RizzyUI.registeredModules.add(e), Alpine.data(e, () => ({
-    __isShim: !0,
-    __rzInitRan: !1,
+    /** @private A promise that resolves with the payload from x-rz-init. */
+    _initDataPromise: null,
+    /** @private A function to resolve the init data promise. */
+    _resolveInitData: null,
+    /**
+     * @private
+     * A placeholder `__initData` function is defined synchronously on the shim.
+     * The `x-rz-init` directive can call this at any time. It captures the payload
+     * and resolves the promise that the main `init()` method is awaiting.
+     * @param {object} payload The data from the server.
+     */
+    __initData(n) {
+      this._resolveInitData ? this._resolveInitData(n) : this._initDataPromise = Promise.resolve(n);
+    },
+    /**
+     * The `init` method of the shim, called by Alpine when it encounters
+     * an element with `x-data` matching this component's `name`.
+     * @this {import('alpinejs').AlpineComponent}
+     */
     async init() {
       const n = this;
       n.$el.__rzComponent = n;
       try {
-        const i = await import(t), r = i && i.default;
-        if (typeof r != "function") {
-          console.error(`[RizzyUI] '${t}' did not export a default function.`);
+        let i;
+        n._initDataPromise ? i = await n._initDataPromise : (n._initDataPromise = new Promise((a) => {
+          n._resolveInitData = a;
+        }), queueMicrotask(() => {
+          n.$el.hasAttribute("x-rz-init") || n._resolveInitData({});
+        }), i = await n._initDataPromise);
+        const r = await import(t), s = r && r.default;
+        if (typeof s != "function") {
+          console.error(`[RizzyUI] Module at '${t}' for component '${e}' did not export a default function.`);
           return;
         }
-        n.__initData = (s) => {
-          if (n.__rzInitRan) return;
-          const o = r(s ?? {});
-          Object.assign(n, o), delete n.__isShim, typeof o.init == "function" && queueMicrotask(() => o.init.call(n)), n.__rzInitRan = !0;
-        }, queueMicrotask(() => {
-          n.$el.hasAttribute("x-rz-init") || n.__initData({});
-        });
+        const o = s(i ?? {});
+        Object.assign(n, o), delete n._initDataPromise, delete n._resolveInitData, typeof o.init == "function" && queueMicrotask(() => o.init.call(n));
       } catch (i) {
-        console.error(`[RizzyUI] Failed to load/register '${e}' from '${t}'.`, i);
+        console.error(`[RizzyUI] Failed to load or initialize module '${e}' from '${t}'.`, i);
       }
     }
   })));
