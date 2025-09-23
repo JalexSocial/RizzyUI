@@ -7757,8 +7757,6 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
     Alpine.data(name, () => ({
       __isShim: true,
       __rzInitRan: false,
-      // Flag to ensure init logic runs only once
-      // The init() method of the shim is called by Alpine when it finds an element with x-data="name" on the page.
       async init() {
         const self2 = this;
         self2.$el.__rzComponent = self2;
@@ -7779,16 +7777,11 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
             }
             self2.__rzInitRan = true;
           };
-          if (self2.$el.hasAttribute("x-rz-init")) {
-            const initAttr = self2.$el.getAttribute("x-rz-init");
-            let data2 = {};
-            try {
-              data2 = JSON.parse(initAttr || "{}");
-            } catch (e2) {
-              console.warn("[RizzyUI] x-rz-init JSON parse failed during hydration.", e2, self2.$el);
+          queueMicrotask(() => {
+            if (!self2.$el.hasAttribute("x-rz-init")) {
+              self2.__initData({});
             }
-            self2.__initData(data2);
-          }
+          });
         } catch (e2) {
           console.error(`[RizzyUI] Failed to load/register '${name}' from '${path}'.`, e2);
         }

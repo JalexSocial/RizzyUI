@@ -4447,8 +4447,6 @@ window.RizzyUI.registerModuleOnce = (name, path) => {
   Alpine.data(name, () => ({
     __isShim: true,
     __rzInitRan: false,
-    // Flag to ensure init logic runs only once
-    // The init() method of the shim is called by Alpine when it finds an element with x-data="name" on the page.
     async init() {
       const self = this;
       self.$el.__rzComponent = self;
@@ -4469,16 +4467,11 @@ window.RizzyUI.registerModuleOnce = (name, path) => {
           }
           self.__rzInitRan = true;
         };
-        if (self.$el.hasAttribute("x-rz-init")) {
-          const initAttr = self.$el.getAttribute("x-rz-init");
-          let data = {};
-          try {
-            data = JSON.parse(initAttr || "{}");
-          } catch (e2) {
-            console.warn("[RizzyUI] x-rz-init JSON parse failed during hydration.", e2, self.$el);
+        queueMicrotask(() => {
+          if (!self.$el.hasAttribute("x-rz-init")) {
+            self.__initData({});
           }
-          self.__initData(data);
-        }
+        });
       } catch (e2) {
         console.error(`[RizzyUI] Failed to load/register '${name}' from '${path}'.`, e2);
       }
