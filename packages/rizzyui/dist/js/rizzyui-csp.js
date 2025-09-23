@@ -5071,20 +5071,6 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
         return {};
       }
     }
-    function resolveOptions(dataset) {
-      const raw2 = dataset.options || "";
-      if (!raw2) return {};
-      const trimmed = raw2.trim();
-      if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
-        try {
-          return JSON.parse(trimmed);
-        } catch (e2) {
-          console.error("[rzCarousel] Failed to parse inline options JSON:", e2);
-          return {};
-        }
-      }
-      return parseJsonFromScriptId(raw2);
-    }
     Alpine2.data("rzCarousel", () => ({
       emblaApi: null,
       canScrollPrev: false,
@@ -5101,7 +5087,9 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           }
         })();
         const nonce = this.$el.dataset.nonce || "";
-        const options = resolveOptions(this.$el.dataset);
+        const config = parseJsonFromScriptId(this.$el.dataset.config);
+        const options = config.Options || {};
+        const pluginsConfig = config.Plugins || [];
         const self2 = this;
         if (assetsToLoad.length > 0 && typeof require === "function") {
           require(
@@ -5109,7 +5097,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
             {
               success() {
                 if (window.EmblaCarousel) {
-                  self2.initializeEmbla(options);
+                  self2.initializeEmbla(options, pluginsConfig);
                 } else {
                   console.error("[rzCarousel] EmblaCarousel not found on window after loading assets.");
                 }
@@ -5122,22 +5110,41 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
           );
         } else {
           if (window.EmblaCarousel) {
-            this.initializeEmbla(options);
+            this.initializeEmbla(options, pluginsConfig);
           } else {
             console.error("[rzCarousel] EmblaCarousel not found and no assets specified for loading.");
           }
         }
       },
-      initializeEmbla(options) {
+      initializeEmbla(options, pluginsConfig) {
         const viewport = this.$el.querySelector('[x-ref="viewport"]');
         if (!viewport) {
           console.error('[rzCarousel] Carousel viewport with x-ref="viewport" not found.');
           return;
         }
-        this.emblaApi = window.EmblaCarousel(viewport, options);
+        const instantiatedPlugins = this.instantiatePlugins(pluginsConfig);
+        this.emblaApi = window.EmblaCarousel(viewport, options, instantiatedPlugins);
         this.emblaApi.on("select", this.onSelect.bind(this));
         this.emblaApi.on("reInit", this.onSelect.bind(this));
         this.onSelect();
+      },
+      instantiatePlugins(pluginsConfig) {
+        if (!Array.isArray(pluginsConfig) || pluginsConfig.length === 0) {
+          return [];
+        }
+        return pluginsConfig.map((pluginInfo) => {
+          const constructor = window[pluginInfo.Name];
+          if (typeof constructor !== "function") {
+            console.error(`[rzCarousel] Plugin constructor '${pluginInfo.Name}' not found on window object.`);
+            return null;
+          }
+          try {
+            return constructor(pluginInfo.Options || {});
+          } catch (e2) {
+            console.error(`[rzCarousel] Error instantiating plugin '${pluginInfo.Name}':`, e2);
+            return null;
+          }
+        }).filter(Boolean);
       },
       destroy() {
         if (this.emblaApi) this.emblaApi.destroy();
@@ -7725,6 +7732,61 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
     registerRzTabs(Alpine2);
     registerRzSidebar(Alpine2);
   }
+  window.RizzyUI = window.RizzyUI || {};
+  window.RizzyUI.registeredModules = window.RizzyUI.registeredModules || /* @__PURE__ */ new Set();
+  function registerRizzyDirectives(Alpine2) {
+    Alpine2.directive("rz-init", (el) => {
+      queueMicrotask(() => {
+        if (el.__rzInitRan) return;
+        const comp = el.__rzComponent;
+        if (!comp || typeof comp.__initData !== "function") return;
+        let data2 = {};
+        try {
+          data2 = JSON.parse(el.getAttribute("x-rz-init") || "{}");
+        } catch (e2) {
+          console.warn("[RizzyUI] x-rz-init JSON parse failed.", e2, el);
+        }
+        comp.__initData(data2);
+        el.__rzInitRan = true;
+      });
+    });
+  }
+  window.RizzyUI.registerModuleOnce = async (name, path) => {
+    if (window.RizzyUI.registeredModules.has(name)) return;
+    window.RizzyUI.registeredModules.add(name);
+    try {
+      const url = new URL(path, document.baseURI).toString();
+      const module2 = await import(url);
+      const userFactory = module2 && module2.default;
+      if (typeof userFactory !== "function") {
+        console.error(`[RizzyUI] '${path}' did not export a default function.`);
+        return;
+      }
+      const shimFactory = (argsFromXData) => {
+        if (argsFromXData !== void 0) {
+          return userFactory(argsFromXData);
+        }
+        return {
+          __inited: false,
+          __initData(payload) {
+            if (this.__inited) return;
+            const userObj = userFactory(payload ?? {});
+            Object.assign(this, userObj);
+            if (typeof userObj.init === "function") {
+              queueMicrotask(() => userObj.init.call(this));
+            }
+            this.__inited = true;
+          },
+          init() {
+            this.$el.__rzComponent = this;
+          }
+        };
+      };
+      Alpine.data(name, shimFactory);
+    } catch (e2) {
+      console.error(`[RizzyUI] Failed to load/register '${name}' from '${path}'.`, e2);
+    }
+  };
   function registerMobileDirective(Alpine2) {
     Alpine2.directive("mobile", (el, { modifiers, expression }, { cleanup: cleanup2 }) => {
       const bpMod = modifiers.find((m2) => m2.startsWith("bp-"));
@@ -7870,6 +7932,7 @@ Read more about the Alpine's CSP-friendly build restrictions here: https://alpin
   module_default$3.plugin(module_default$1);
   module_default$3.plugin(module_default);
   registerComponents(module_default$3);
+  registerRizzyDirectives(module_default$3);
   registerMobileDirective(module_default$3);
   registerSyncDirective(module_default$3);
   const RizzyUI = {

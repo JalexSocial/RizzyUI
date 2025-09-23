@@ -61,6 +61,6 @@
             // Ensure consistent forward slashes for web paths
             var webPath = jsPath.Replace(Path.DirectorySeparatorChar, '/');
 
-            return $"./{assemblyAttr.StaticWebAssetBasePath}{webPath}".Replace("//", "/");
+            return $"/{assemblyAttr.StaticWebAssetBasePath}{webPath}".Replace("//", "/");
         }
     }
