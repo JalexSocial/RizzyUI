@@ -89,11 +89,10 @@ updateMessage() {
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 flex flex-wrap items-center justify-center gap-4 p-8">
-						<RzAlpineModule For="this" Name="coLocatedJsPage" />
 
                         @foreach (var user in _users)
                         {
-                            <Demo._UserCard User="user" />
+                            <UserCard User="user" />
                         }
                     </div>
                 </RzBrowser>
@@ -102,7 +101,7 @@ updateMessage() {
 &lt;div class="flex flex-wrap gap-4"&gt;
 @@foreach (var user in _users)
 {
-    &lt;Demo._UserCard User="user" /&gt;
+    &lt;UserCard User="user" /&gt;
 }
 &lt;/div&gt;
 
@@ -115,10 +114,11 @@ private List&lt;UserData&gt; _users = new()
 };
 }
                 </RzCodeViewer>
-                <RzCodeViewer Language="razor" ViewerTitle="Demo/_UserCard.razor" class="mb-4">
+                <RzCodeViewer Language="razor" ViewerTitle="UserCard.razor" class="mb-4">
 @@attribute [DiscoverCollocatedJS]
 @using System.Text.Json
 @using RizzyUI.Docs.Models
+@using RizzyUI.Docs.Components.Pages.Components.Demo
 
 &lt;RzAlpineModule For="this" Name="userCard" /&gt;
 
@@ -136,7 +136,7 @@ private List&lt;UserData&gt; _users = new()
 public UserData User { get; set; } = default!;
 }
                 </RzCodeViewer>
-                <RzCodeViewer Language="javascript" ViewerTitle="Demo/_UserCard.razor.js" class="mb-10">
+                <RzCodeViewer Language="javascript" ViewerTitle="UserCard.razor.js" class="mb-10">
 export default (initialData) => ({
 user: initialData,
 
