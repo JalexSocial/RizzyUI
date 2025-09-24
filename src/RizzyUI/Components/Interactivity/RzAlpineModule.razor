@@ -1,18 +1,46 @@
+@namespace RizzyUI
+@inherits RzComponent
 
-    @namespace RizzyUI
-    @inherits RzComponent
+@{
+    /*
+    This component bridges a server-rendered Blazor component with its co-located JavaScript module.
+    It renders a small, inline script that safely registers the module with AsyncAlpine,
+    correctly handling the race condition between this script's execution and the main
+    deferred `rizzyui.js` script that loads Alpine.
 
-    @if (!string.IsNullOrEmpty(_modulePath))
-    {
-        <script nonce="@Nonce">
-        (function(){
-	        const run = () => {
-		        if (window.RizzyUI?.registerModuleOnce) {
-			        window.RizzyUI.registerModuleOnce('@Name','@_modulePath');
-		        }
-	        };
-	        if (window.Alpine) run();
-	        else document.addEventListener('alpine:init', run, { once: true });
-        })();		
-        </script>
-    }
+    The logic is as follows:
+    1. Define a function, `registerModule`, that contains the call to `Alpine.asyncData`.
+    2. Check if `window.Alpine` and `Alpine.asyncData` already exist. This handles the case
+       where the main scripts have already loaded and initialized. If they exist, call `registerModule` immediately.
+    3. If they don't exist, add a one-time event listener for the `alpine:init` event. This is the
+       official event dispatched by Alpine.js when it is ready. The listener will then call `registerModule`.
+
+    This ensures the registration happens at the correct time, regardless of script loading order.
+    */
+}
+@if (!string.IsNullOrEmpty(_modulePath))
+{
+    <script nonce="@Nonce">
+        (function() {
+            // Defines the registration logic for this specific module.
+            const registerModule = () => {
+                // Final check to ensure Alpine and the plugin are available.
+                if (window.Alpine && typeof window.Alpine.asyncData === 'function') {
+                    window.Alpine.asyncData('@Name', () => import('@_modulePath'));
+                } else {
+                    console.error(`[RizzyUI] Could not register async component '@Name'. Alpine.js or the AsyncAlpine plugin was not available when 'alpine:init' fired.`);
+                }
+            };
+
+            // Check if Alpine is already initialized (e.g., if rizzyui.js was not deferred or loaded first).
+            if (window.Alpine && typeof window.Alpine.asyncData === 'function') {
+                // If so, register the module immediately.
+                registerModule();
+            } else {
+                // Otherwise, wait for Alpine's official initialization event.
+                // The `{ once: true }` option ensures the listener is automatically removed after firing, preventing memory leaks.
+                document.addEventListener('alpine:init', registerModule, { once: true });
+            }
+        })();
+    </script>
+}

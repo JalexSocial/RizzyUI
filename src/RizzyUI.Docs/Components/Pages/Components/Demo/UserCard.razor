@@ -5,7 +5,9 @@
 
     <RzAlpineModule For="this" Name="userCard" />
 
-    <div x-data="userCard"
+    <div x-load="visible"
+         x-load-src="/Components/Pages/Components/Demo/UserCard.razor.js"
+         x-data="userCard"
          x-rz-init='@JsonSerializer.Serialize(User, new JsonSerializerOptions(JsonSerializerDefaults.Web))'
          class="border p-4 rounded-lg shadow-sm w-64">
         

@@ -1,3 +1,4 @@
+
 {
   "name": "@jalexsocial/rizzyui",
   "version": "0.6.2",
@@ -87,6 +88,7 @@
     "@floating-ui/dom": "^1.7.0",
     "@tailwindcss/forms": "^0.5.10",
     "alpinejs": "^3.14.9",
+    "async-alpine": "^2.0.3",
     "htmx.org": "^2.0.4",
     "shadcn-prose": "^1.0.8",
     "simple-notify": "^1.0.6",

@@ -2,6 +2,292 @@
   typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory(require("alpinejs")) : typeof define === "function" && define.amd ? define(["alpinejs"], factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, global.RizzyUI = factory(global.Alpine));
 })(this, function(Alpine$1) {
   "use strict";
+  function eager() {
+    return true;
+  }
+  function event({ component, argument }) {
+    return new Promise((resolve) => {
+      if (argument) {
+        window.addEventListener(
+          argument,
+          () => resolve(),
+          { once: true }
+        );
+      } else {
+        const cb = (e2) => {
+          if (e2.detail.id !== component.id) return;
+          window.removeEventListener("async-alpine:load", cb);
+          resolve();
+        };
+        window.addEventListener("async-alpine:load", cb);
+      }
+    });
+  }
+  function idle() {
+    return new Promise((resolve) => {
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(resolve);
+      } else {
+        setTimeout(resolve, 200);
+      }
+    });
+  }
+  function media({ argument }) {
+    return new Promise((resolve) => {
+      if (!argument) {
+        console.log("Async Alpine: media strategy requires a media query. Treating as 'eager'");
+        return resolve();
+      }
+      const mediaQuery = window.matchMedia(`(${argument})`);
+      if (mediaQuery.matches) {
+        resolve();
+      } else {
+        mediaQuery.addEventListener("change", resolve, { once: true });
+      }
+    });
+  }
+  function visible({ component, argument }) {
+    return new Promise((resolve) => {
+      const rootMargin = argument || "0px 0px 0px 0px";
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          observer.disconnect();
+          resolve();
+        }
+      }, { rootMargin });
+      observer.observe(component.el);
+    });
+  }
+  var strategies_default = {
+    eager,
+    event,
+    idle,
+    media,
+    visible
+  };
+  async function awaitRequirements(component) {
+    const requirements = parseRequirements(component.strategy);
+    await generateRequirements(component, requirements);
+  }
+  async function generateRequirements(component, requirements) {
+    if (requirements.type === "expression") {
+      if (requirements.operator === "&&") {
+        return Promise.all(
+          requirements.parameters.map((param) => generateRequirements(component, param))
+        );
+      }
+      if (requirements.operator === "||") {
+        return Promise.any(
+          requirements.parameters.map((param) => generateRequirements(component, param))
+        );
+      }
+    }
+    if (!strategies_default[requirements.method]) return false;
+    return strategies_default[requirements.method]({
+      component,
+      argument: requirements.argument
+    });
+  }
+  function parseRequirements(expression) {
+    const tokens = tokenize(expression);
+    let ast = parseExpression(tokens);
+    if (ast.type === "method") {
+      return {
+        type: "expression",
+        operator: "&&",
+        parameters: [ast]
+      };
+    }
+    return ast;
+  }
+  function tokenize(expression) {
+    const regex = /\s*([()])\s*|\s*(\|\||&&|\|)\s*|\s*((?:[^()&|]+\([^()]+\))|[^()&|]+)\s*/g;
+    const tokens = [];
+    let match;
+    while ((match = regex.exec(expression)) !== null) {
+      const [_, parenthesis, operator, token] = match;
+      if (parenthesis !== void 0) {
+        tokens.push({ type: "parenthesis", value: parenthesis });
+      } else if (operator !== void 0) {
+        tokens.push({
+          type: "operator",
+          // we do the below to make operators backwards-compatible with previous
+          // versions of Async Alpine, where '|' is equivalent to &&
+          value: operator === "|" ? "&&" : operator
+        });
+      } else {
+        const tokenObj = {
+          type: "method",
+          method: token.trim()
+        };
+        if (token.includes("(")) {
+          tokenObj.method = token.substring(0, token.indexOf("(")).trim();
+          tokenObj.argument = token.substring(
+            token.indexOf("(") + 1,
+            token.indexOf(")")
+          );
+        }
+        if (token.method === "immediate") {
+          token.method = "eager";
+        }
+        tokens.push(tokenObj);
+      }
+    }
+    return tokens;
+  }
+  function parseExpression(tokens) {
+    let ast = parseTerm(tokens);
+    while (tokens.length > 0 && (tokens[0].value === "&&" || tokens[0].value === "|" || tokens[0].value === "||")) {
+      const operator = tokens.shift().value;
+      const right = parseTerm(tokens);
+      if (ast.type === "expression" && ast.operator === operator) {
+        ast.parameters.push(right);
+      } else {
+        ast = {
+          type: "expression",
+          operator,
+          parameters: [ast, right]
+        };
+      }
+    }
+    return ast;
+  }
+  function parseTerm(tokens) {
+    if (tokens[0].value === "(") {
+      tokens.shift();
+      const ast = parseExpression(tokens);
+      if (tokens[0].value === ")") {
+        tokens.shift();
+      }
+      return ast;
+    } else {
+      return tokens.shift();
+    }
+  }
+  function async_alpine_default(Alpine2) {
+    const directive = "load";
+    const srcAttr = Alpine2.prefixed("load-src");
+    const ignoreAttr = Alpine2.prefixed("ignore");
+    let options = {
+      defaultStrategy: "eager",
+      keepRelativeURLs: false
+    };
+    let alias = false;
+    let data = {};
+    let realIndex = 0;
+    function index() {
+      return realIndex++;
+    }
+    Alpine2.asyncOptions = (opts) => {
+      options = {
+        ...options,
+        ...opts
+      };
+    };
+    Alpine2.asyncData = (name, download2 = false) => {
+      data[name] = {
+        loaded: false,
+        download: download2
+      };
+    };
+    Alpine2.asyncUrl = (name, url) => {
+      if (!name || !url || data[name]) return;
+      data[name] = {
+        loaded: false,
+        download: () => import(
+          /* @vite-ignore */
+          /* webpackIgnore: true */
+          parseUrl(url)
+        )
+      };
+    };
+    Alpine2.asyncAlias = (path) => {
+      alias = path;
+    };
+    const syncHandler = (el) => {
+      Alpine2.skipDuringClone(() => {
+        if (el._x_async) return;
+        el._x_async = "init";
+        el._x_ignore = true;
+        el.setAttribute(ignoreAttr, "");
+      })();
+    };
+    const handler = async (el) => {
+      Alpine2.skipDuringClone(async () => {
+        if (el._x_async !== "init") return;
+        el._x_async = "await";
+        const { name, strategy } = elementPrep(el);
+        await awaitRequirements({
+          name,
+          strategy,
+          el,
+          id: el.id || index()
+        });
+        if (!el.isConnected) return;
+        await download(name);
+        if (!el.isConnected) return;
+        activate(el);
+        el._x_async = "loaded";
+      })();
+    };
+    handler.inline = syncHandler;
+    Alpine2.directive(directive, handler).before("ignore");
+    function elementPrep(el) {
+      const name = parseName(el.getAttribute(Alpine2.prefixed("data")));
+      const strategy = el.getAttribute(Alpine2.prefixed(directive)) || options.defaultStrategy;
+      const urlAttributeValue = el.getAttribute(srcAttr);
+      if (urlAttributeValue) {
+        Alpine2.asyncUrl(name, urlAttributeValue);
+      }
+      return {
+        name,
+        strategy
+      };
+    }
+    async function download(name) {
+      if (name.startsWith("_x_async_")) return;
+      handleAlias(name);
+      if (!data[name] || data[name].loaded) return;
+      const module2 = await getModule(name);
+      Alpine2.data(name, module2);
+      data[name].loaded = true;
+    }
+    async function getModule(name) {
+      if (!data[name]) return;
+      const module2 = await data[name].download(name);
+      if (typeof module2 === "function") return module2;
+      let whichExport = module2[name] || module2.default || Object.values(module2)[0] || false;
+      return whichExport;
+    }
+    function activate(el) {
+      Alpine2.destroyTree(el);
+      el._x_ignore = false;
+      el.removeAttribute(ignoreAttr);
+      if (el.closest(`[${ignoreAttr}]`)) return;
+      Alpine2.initTree(el);
+    }
+    function handleAlias(name) {
+      if (!alias || data[name]) return;
+      if (typeof alias === "function") {
+        Alpine2.asyncData(name, alias);
+        return;
+      }
+      Alpine2.asyncUrl(name, alias.replaceAll("[name]", name));
+    }
+    function parseName(attribute) {
+      const parsedName = (attribute || "").trim().split(/[({]/g)[0];
+      const ourName = parsedName || `_x_async_${index()}`;
+      return ourName;
+    }
+    function parseUrl(url) {
+      if (options.keepRelativeURLs) return url;
+      const absoluteReg = new RegExp("^(?:[a-z+]+:)?//", "i");
+      if (!absoluteReg.test(url)) {
+        return new URL(url, document.baseURI).href;
+      }
+      return url;
+    }
+  }
   function src_default$2(Alpine2) {
     Alpine2.directive("collapse", collapse);
     collapse.inline = (el, { modifiers }) => {
@@ -512,8 +798,8 @@
     }
     return typeof value === "function" ? value.apply(void 0, params) : value;
   };
-  var getActualTarget = function getActualTarget2(event) {
-    return event.target.shadowRoot && typeof event.composedPath === "function" ? event.composedPath()[0] : event.target;
+  var getActualTarget = function getActualTarget2(event2) {
+    return event2.target.shadowRoot && typeof event2.composedPath === "function" ? event2.composedPath()[0] : event2.target;
   };
   var createFocusTrap = function createFocusTrap2(elements, userOptions) {
     var doc = (userOptions === null || userOptions === void 0 ? void 0 : userOptions.document) || document;
@@ -3235,12 +3521,12 @@
         let self2 = this;
         this.$nextTick(() => self2.triggerEl?.focus());
       },
-      handleTriggerKeydown(event) {
-        if (["Enter", " ", "ArrowDown", "ArrowUp"].includes(event.key)) {
-          event.preventDefault();
+      handleTriggerKeydown(event2) {
+        if (["Enter", " ", "ArrowDown", "ArrowUp"].includes(event2.key)) {
+          event2.preventDefault();
           this.open = true;
           this.$nextTick(() => {
-            if (event.key === "ArrowUp") this.focusLastItem();
+            if (event2.key === "ArrowUp") this.focusLastItem();
             else this.focusFirstItem();
           });
         }
@@ -3284,8 +3570,8 @@
           item.focus();
         }
       },
-      handleItemClick(event) {
-        const item = event.currentTarget;
+      handleItemClick(event2) {
+        const item = event2.currentTarget;
         if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
         if (item.getAttribute("aria-haspopup") === "menu") {
           Alpine2.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
@@ -3295,8 +3581,8 @@
         let self2 = this;
         this.$nextTick(() => self2.triggerEl?.focus());
       },
-      handleItemMouseEnter(event) {
-        const item = event.currentTarget;
+      handleItemMouseEnter(event2) {
+        const item = event2.currentTarget;
         this.focusSelectedItem(item);
         if (item.getAttribute("aria-haspopup") !== "menu") {
           this.closeAllSubmenus();
@@ -3487,8 +3773,8 @@
           this.menuItems[this.focusedIndex].focus();
         }
       },
-      handleItemClick(event) {
-        const item = event.currentTarget;
+      handleItemClick(event2) {
+        const item = event2.currentTarget;
         if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
         if (item.getAttribute("aria-haspopup") === "menu") {
           Alpine2.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
@@ -3497,8 +3783,8 @@
         this.parentDropdown.open = false;
         this.$nextTick(() => this.parentDropdown.triggerEl?.focus());
       },
-      handleItemMouseEnter(event) {
-        const item = event.currentTarget;
+      handleItemMouseEnter(event2) {
+        const item = event2.currentTarget;
         if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
         const index = this.menuItems.indexOf(item);
         if (index !== -1) {
@@ -3608,8 +3894,8 @@
             });
             resizeObserver.observe(this.iframe);
             const iframe = this.iframe;
-            this.onDarkModeToggle = (event) => {
-              iframe.contentWindow.postMessage(event.detail, "*");
+            this.onDarkModeToggle = (event2) => {
+              iframe.contentWindow.postMessage(event2.detail, "*");
             };
             window.addEventListener("darkModeToggle", this.onDarkModeToggle);
           } catch (error) {
@@ -3762,7 +4048,7 @@
           };
           window.addEventListener(this.eventTriggerName, this._openListener);
         }
-        this._closeEventListener = (event) => {
+        this._closeEventListener = (event2) => {
           if (this.modalOpen) {
             this.closeModalInternally("event");
           }
@@ -3815,9 +4101,9 @@
         document.body.classList.remove("overflow-hidden");
         document.body.style.setProperty("--page-scrollbar-width", `0px`);
       },
-      openModal(event = null) {
+      openModal(event2 = null) {
         const beforeOpenEvent = new CustomEvent("rz:modal-before-open", {
-          detail: { modalId: this.modalId, originalEvent: event },
+          detail: { modalId: this.modalId, originalEvent: event2 },
           bubbles: true,
           cancelable: true
         });
@@ -4288,23 +4574,23 @@
         handleResize() {
           this.tabRepositionMarker(this.tabButton);
         },
-        handleKeyDown(event) {
-          const key = event.key;
+        handleKeyDown(event2) {
+          const key = event2.key;
           const tabButtons = Array.from(this.buttonRef.querySelectorAll("[role='tab']"));
           const currentIndex = tabButtons.findIndex((button) => this.tabSelected === button.dataset.name);
           let newIndex = currentIndex;
           if (key === "ArrowRight") {
             newIndex = (currentIndex + 1) % tabButtons.length;
-            event.preventDefault();
+            event2.preventDefault();
           } else if (key === "ArrowLeft") {
             newIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
-            event.preventDefault();
+            event2.preventDefault();
           } else if (key === "Home") {
             newIndex = 0;
-            event.preventDefault();
+            event2.preventDefault();
           } else if (key === "End") {
             newIndex = tabButtons.length - 1;
-            event.preventDefault();
+            event2.preventDefault();
           }
           if (newIndex !== currentIndex) {
             this.tabButtonClicked(tabButtons[newIndex]);
@@ -4425,91 +4711,6 @@
     registerRzTabs(Alpine2);
     registerRzSidebar(Alpine2);
   }
-  window.RizzyUI = window.RizzyUI || {};
-  window.RizzyUI.registeredModules = window.RizzyUI.registeredModules || /* @__PURE__ */ new Set();
-  function registerRizzyDirectives(Alpine2) {
-    Alpine2.directive("rz-init", (el) => {
-      queueMicrotask(() => {
-        if (el.__rzInitRan) return;
-        const comp = el.__rzComponent;
-        if (!comp || typeof comp.__initData !== "function") {
-          return;
-        }
-        let data = {};
-        try {
-          data = JSON.parse(el.getAttribute("x-rz-init") || "{}");
-        } catch (e2) {
-          console.warn("[RizzyUI] x-rz-init: JSON parse failed. Initializing with empty data.", { error: e2, element: el });
-        }
-        comp.__initData(data);
-        el.__rzInitRan = true;
-      });
-    });
-  }
-  window.RizzyUI.registerModuleOnce = (name, path) => {
-    if (window.RizzyUI.registeredModules.has(name)) return;
-    window.RizzyUI.registeredModules.add(name);
-    Alpine.data(name, () => ({
-      /** @private A promise that resolves with the payload from x-rz-init. */
-      _initDataPromise: null,
-      /** @private A function to resolve the init data promise. */
-      _resolveInitData: null,
-      /**
-       * @private
-       * A placeholder `__initData` function is defined synchronously on the shim.
-       * The `x-rz-init` directive can call this at any time. It captures the payload
-       * and resolves the promise that the main `init()` method is awaiting.
-       * @param {object} payload The data from the server.
-       */
-      __initData(payload) {
-        if (this._resolveInitData) {
-          this._resolveInitData(payload);
-        } else {
-          this._initDataPromise = Promise.resolve(payload);
-        }
-      },
-      /**
-       * The `init` method of the shim, called by Alpine when it encounters
-       * an element with `x-data` matching this component's `name`.
-       * @this {import('alpinejs').AlpineComponent}
-       */
-      async init() {
-        const self2 = this;
-        self2.$el.__rzComponent = self2;
-        try {
-          let payload;
-          if (self2._initDataPromise) {
-            payload = await self2._initDataPromise;
-          } else {
-            self2._initDataPromise = new Promise((resolve) => {
-              self2._resolveInitData = resolve;
-            });
-            queueMicrotask(() => {
-              if (!self2.$el.hasAttribute("x-rz-init")) {
-                self2._resolveInitData({});
-              }
-            });
-            payload = await self2._initDataPromise;
-          }
-          const module2 = await import(path);
-          const userFactory = module2 && module2.default;
-          if (typeof userFactory !== "function") {
-            console.error(`[RizzyUI] Module at '${path}' for component '${name}' did not export a default function.`);
-            return;
-          }
-          const userObj = userFactory(payload ?? {});
-          Object.assign(self2, userObj);
-          delete self2._initDataPromise;
-          delete self2._resolveInitData;
-          if (typeof userObj.init === "function") {
-            queueMicrotask(() => userObj.init.call(self2));
-          }
-        } catch (e2) {
-          console.error(`[RizzyUI] Failed to load or initialize module '${name}' from '${path}'.`, e2);
-        }
-      }
-    }));
-  };
   function registerMobileDirective(Alpine2) {
     Alpine2.directive("mobile", (el, { modifiers, expression }, { cleanup }) => {
       const bpMod = modifiers.find((m2) => m2.startsWith("bp-"));
@@ -4654,8 +4855,8 @@
   Alpine$1.plugin(module_default$2);
   Alpine$1.plugin(module_default$1);
   Alpine$1.plugin(module_default);
+  Alpine$1.plugin(async_alpine_default);
   registerComponents(Alpine$1);
-  registerRizzyDirectives(Alpine$1);
   registerMobileDirective(Alpine$1);
   registerSyncDirective(Alpine$1);
   const RizzyUI = {
