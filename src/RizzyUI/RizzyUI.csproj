@@ -104,6 +104,7 @@
 
     <ItemGroup>
         <Folder Include="Attributes\" />
+        <Folder Include="Components\Interactivity\" />
         <Folder Include="wwwroot\css\" />
     </ItemGroup>
 

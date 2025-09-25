@@ -24,7 +24,7 @@
             <RzAlert Variant="AlertVariant.Information" class="my-5">
                 <AlertTitle>The Core Idea</AlertTitle>
                 <AlertDescription>
-                    You write your component's JavaScript in a <code>.razor.js</code> file right next to your <code>.razor</code> file. A special <code>&lt;RzAlpineModule&gt;</code> component handles loading this script and registering it as an Alpine.js component, making it available to your markup via <code>x-data</code>.
+                    You write your component's JavaScript in a <code>.razor.js</code> file right next to your <code>.razor</code> file. A special <code>&lt;RzAlpineComponent&gt;</code> component handles loading this script, registering it as an Alpine.js component, and passing initial data.
                 </AlertDescription>
             </RzAlert>
 
@@ -34,16 +34,15 @@
                     Basic Example
                 </RzHeading>
                 <RzParagraph>
-                    This example shows a simple Alpine module that updates a text element. The <code>[RzAlpineCodeBehind]</code> attribute enables the feature, and <code>&lt;RzAlpineModule&gt;</code> loads the script. Data is passed from C# to the JS module using the <code>x-rz-init</code> directive.
+                    This example shows a simple Alpine module that updates a text element. The <code>[RzAlpineCodeBehind]</code> attribute enables the feature, and <code>&lt;RzAlpineComponent&gt;</code> loads the script and passes data from C# to the JS module via the <code>Props</code> parameter.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-					<RzAlpineModule For="this" Name="coLocatedJsPage" />
-
-                    <div class="mx-auto mb-5 flex min-h-40 flex-col items-center justify-center gap-4 p-8" x-load x-data="coLocatedJsPage" x-rz-init="@("{\"initialMessage\":\"Hello from C#!\"}")">
-
-                        <p>Message from Alpine: <strong x-ref="messageOutput"></strong></p>
-                        <RzButton x-on:click="updateMessage">Update Message from JS</RzButton>
+                    <div class="mx-auto mb-5 flex min-h-40 flex-col items-center justify-center gap-4 p-8">
+                        <RzAlpineComponent For="this" Name="coLocatedJsPage" Props="@(new { initialMessage = "Hello from C#!" })">
+                            <p>Message from Alpine: <strong x-ref="messageOutput"></strong></p>
+                            <RzButton x-on:click="updateMessage">Update Message from JS</RzButton>
+                        </RzAlpineComponent>
                     </div>
                 </RzBrowser>
 
@@ -51,30 +50,27 @@
 &lt;!-- Add this attribute to your component --&gt;
 @@attribute [RzAlpineCodeBehind]
 
-&lt;!-- This component loads and registers the co-located JS module --&gt;
-&lt;RzAlpineModule For="this" Name="coLocatedJsPage" /&gt;
-
-&lt;div x-load x-data="coLocatedJsPage" x-rz-init='@@("{\"initialMessage\":\"Hello from C#!\"}")'&gt;
-&lt;p&gt;Message from Alpine: &lt;strong x-ref="messageOutput"&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;RzButton x-on:click="updateMessage"&gt;Update Message from JS&lt;/RzButton&gt;
-&lt;/div&gt;
+&lt;RzAlpineComponent For="this" Name="coLocatedJsPage" Props="@@(new { initialMessage = "Hello from C#!" })"&gt;
+    &lt;p&gt;Message from Alpine: &lt;strong x-ref="messageOutput"&gt;&lt;/strong&gt;&lt;/p&gt;
+    &lt;RzButton x-on:click="updateMessage"&gt;Update Message from JS&lt;/RzButton&gt;
+&lt;/RzAlpineComponent&gt;
                 </RzCodeViewer>
                 <RzCodeViewer Language="javascript" ViewerTitle="CoLocatedJSInfo.razor.js" class="mb-10">
 // The exported function is a factory for your Alpine.js data object.
-// It receives the data passed from the `x-rz-init` directive.
-export default (args) => ({
-message: '',
+// It receives the data passed from the `Props` parameter.
+export default (initialData) => ({
+    message: '',
 
-// Alpine's `init()` is called after the component is ready.
-init() {
-    this.message = args.initialMessage;
-    this.$refs.messageOutput.innerText = this.message;
-},
+    // Alpine's `init()` is called after the component is ready.
+    init() {
+        this.message = initialData.initialMessage;
+        this.$refs.messageOutput.innerText = this.message;
+    },
 
-updateMessage() {
-    this.message = 'The message was updated by our co-located Alpine module!';
-    this.$refs.messageOutput.innerText = this.message;
-}
+    updateMessage() {
+        this.message = 'The message was updated by our co-located Alpine module!';
+        this.$refs.messageOutput.innerText = this.message;
+    }
 });
                 </RzCodeViewer>
             </section>
@@ -90,7 +86,6 @@ updateMessage() {
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 flex flex-wrap items-center justify-center gap-4 p-8">
-
                         @foreach (var user in _users)
                         {
                             <UserCard User="user" />
@@ -121,16 +116,13 @@ private List&lt;UserData&gt; _users = new()
 @using RizzyUI.Docs.Models
 @using RizzyUI.Docs.Components.Pages.Components.Demo
 
-&lt;RzAlpineModule For="this" Name="userCard" /&gt;
-
-&lt;div x-data="userCard"
-    x-rz-init='@@JsonSerializer.Serialize(User, new JsonSerializerOptions(JsonSerializerDefaults.Web))'
-    class="border p-4 rounded-lg shadow-sm w-64"&gt;
-    
-&lt;h3 class="font-bold" x-text="user.name"&gt;&lt;/h3&gt;
-&lt;p class="text-sm text-muted-foreground" x-text="user.email"&gt;&lt;/p&gt;
-&lt;RzButton class="mt-2" x-on:click="showAlert"&gt;Show Alert&lt;/RzButton&gt;
-&lt;/div&gt;
+&lt;RzAlpineComponent For="this" Name="userCard" Props="@@User" LoadStrategy="visible" AsChild&gt;
+    &lt;div class="border p-4 rounded-lg shadow-sm w-64"&gt;
+        &lt;h3 class="font-bold" x-text="user.name"&gt;&lt;/h3&gt;
+        &lt;p class="text-sm text-muted-foreground" x-text="user.email"&gt;&lt;/p&gt;
+        &lt;RzButton class="mt-2" x-on:click="showAlert"&gt;Show Alert&lt;/RzButton&gt;
+    &lt;/div&gt;
+&lt;/RzAlpineComponent&gt;
 
 @@code {
 [Parameter, EditorRequired]
@@ -162,30 +154,30 @@ showAlert() {
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-					<RzAlpineModule For="this" Name="coLocatedJsPage" />
+                    <div class="mx-auto mb-5 flex min-h-40 items-center justify-center p-8">
+                        <RzAlpineComponent For="this" Name="coLocatedJsPage">
+                            <RzButton x-on:click="openConfirmationModal">Show Confirmation</RzButton>
 
-                    <div class="mx-auto mb-5 flex min-h-40 items-center justify-center p-8" x-load x-data="coLocatedJsPage">
-                        <RzButton x-on:click="openConfirmationModal">Show Confirmation</RzButton>
-
-                        <RzModal Title="Confirm Action" x-ref="confirmModal">
-                            <ChildContent>
-                                <p>Are you sure you want to proceed? This action is controlled by the page's Alpine module.</p>
-                            </ChildContent>
-                            <FooterContent>
-                                <RzButton x-on:click="$data.closeModal()">Close</RzButton>
-                            </FooterContent>
-                        </RzModal>
+                            <RzModal Title="Confirm Action" x-ref="confirmModal">
+                                <ChildContent>
+                                    <p>Are you sure you want to proceed? This action is controlled by the page's Alpine module.</p>
+                                </ChildContent>
+                                <FooterContent>
+                                    <RzButton x-on:click="$data.closeModal()">Close</RzButton>
+                                </FooterContent>
+                            </RzModal>
+                        </RzAlpineComponent>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="razor" ViewerTitle="CoLocatedJSInfo.razor (Orchestration)" class="mb-4">
-&lt;div x-data="coLocatedJsPage"&gt;
-&lt;RzButton x-on:click="openConfirmationModal"&gt;Show Confirmation&lt;/RzButton&gt;
+&lt;RzAlpineComponent For="this" Name="coLocatedJsPage"&gt;
+    &lt;RzButton x-on:click="openConfirmationModal"&gt;Show Confirmation&lt;/RzButton&gt;
 
-&lt;RzModal Title="Confirm Action" x-ref="confirmModal"&gt;
-    &lt;!-- Modal Content --&gt;
-&lt;/RzModal&gt;
-&lt;/div&gt;
+    &lt;RzModal Title="Confirm Action" x-ref="confirmModal"&gt;
+        &lt;!-- Modal Content --&gt;
+    &lt;/RzModal&gt;
+&lt;/RzAlpineComponent&gt;
                 </RzCodeViewer>
                 <RzCodeViewer Language="javascript" ViewerTitle="CoLocatedJSInfo.razor.js (Orchestration)" class="mb-10">
 // ... inside the export default (args) => ({ ... })
