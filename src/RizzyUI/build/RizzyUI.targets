@@ -1,3 +1,4 @@
+
 <Project>
     <PropertyGroup>
         <_RizzyUITasksAssemblyPath Condition="'$(_RizzyUITasksAssemblyPath)' == ''">$(MSBuildThisFileDirectory)..\tasks\netstandard2.0\RizzyUI.Tasks.dll</_RizzyUITasksAssemblyPath>
@@ -31,7 +32,7 @@
 
         <!-- ALWAYS emit the two-parameter attribute. _RizzyUI_StaticWebAssetBasePath will be empty for the app project, which is correct. -->
         <ItemGroup>
-            <AssemblyAttribute Include="RizzyUI.AssemblyCollocatedJSAttribute">
+            <AssemblyAttribute Include="RizzyUI.AssemblyRzAlpineCodeBehindAttribute">
                 <_Parameter1>$(_RizzyUI_CallerFileNamePrefix)</_Parameter1>
                 <_Parameter2>$(_RizzyUI_StaticWebAssetBasePath)</_Parameter2>
             </AssemblyAttribute>

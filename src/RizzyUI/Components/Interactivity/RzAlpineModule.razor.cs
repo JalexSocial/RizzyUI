@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using System.Collections.Concurrent;
 using System.Reflection;
@@ -24,14 +25,14 @@ public partial class RzAlpineModule : RzComponent
         var assembly = componentType.Assembly;
 
         // Root the attribute type to avoid trimming
-        _ = typeof(AssemblyCollocatedJSAttribute);
+        _ = typeof(AssemblyRzAlpineCodeBehindAttribute);
 
-        var assemblyAttr = assembly.GetCustomAttribute<AssemblyCollocatedJSAttribute>()
+        var assemblyAttr = assembly.GetCustomAttribute<AssemblyRzAlpineCodeBehindAttribute>()
             ?? throw new InvalidOperationException(
-                $"[AssemblyCollocatedJSAttribute] missing on '{assembly.FullName}'. " +
+                $"[AssemblyRzAlpineCodeBehindAttribute] missing on '{assembly.FullName}'. " +
                 "Ensure build/RizzyUI.targets is imported and tasks ran.");
 
-        var componentAttr = componentType.GetCustomAttribute<DiscoverCollocatedJSAttribute>();
+        var componentAttr = componentType.GetCustomAttribute<RzAlpineCodeBehindAttribute>();
         if (componentAttr?.RazorFilePath is null) return null;
 
         var razorFilePath = componentAttr.RazorFilePath;

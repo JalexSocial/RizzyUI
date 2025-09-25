@@ -103,6 +103,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Attributes\" />
         <Folder Include="wwwroot\css\" />
     </ItemGroup>
 

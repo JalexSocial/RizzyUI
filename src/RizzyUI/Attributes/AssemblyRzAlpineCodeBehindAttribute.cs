@@ -1,3 +1,4 @@
+
 using System;
 using System.ComponentModel;
 
@@ -5,19 +6,19 @@ namespace RizzyUI;
 
 [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
 [EditorBrowsable(EditorBrowsableState.Never)]
-public sealed class AssemblyCollocatedJSAttribute : Attribute
+public sealed class AssemblyRzAlpineCodeBehindAttribute : Attribute
 {
 	public string CallerFileNamePathPrefix { get; }
 	public string StaticWebAssetBasePath { get; }
 
-	public AssemblyCollocatedJSAttribute(string callerFileNamePathPrefix, string staticWebAssetBasePath)
+	public AssemblyRzAlpineCodeBehindAttribute(string callerFileNamePathPrefix, string staticWebAssetBasePath)
 	{
 		CallerFileNamePathPrefix = callerFileNamePathPrefix;
 		StaticWebAssetBasePath = staticWebAssetBasePath;
 	}
 
 	// Add this overloaded constructor
-	public AssemblyCollocatedJSAttribute(string callerFileNamePathPrefix)
+	public AssemblyRzAlpineCodeBehindAttribute(string callerFileNamePathPrefix)
 		: this(callerFileNamePathPrefix, string.Empty)
 	{
 	}
