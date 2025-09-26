@@ -57,13 +57,13 @@
                 </RzCodeViewer>
                 <RzCodeViewer Language="javascript" ViewerTitle="CoLocatedJSInfo.razor.js" class="mb-10">
 // The exported function is a factory for your Alpine.js data object.
-// It receives the data passed from the `Props` parameter.
-export default (initialData) => ({
+export default () => ({
     message: '',
 
     // Alpine's `init()` is called after the component is ready.
     init() {
-        this.message = initialData.initialMessage;
+        const props = Rizzy.props(this.$el);
+        this.message = props.initialMessage || 'Default message';
         this.$refs.messageOutput.innerText = this.message;
     },
 
@@ -130,16 +130,17 @@ public UserData User { get; set; } = default!;
 }
                 </RzCodeViewer>
                 <RzCodeViewer Language="javascript" ViewerTitle="UserCard.razor.js" class="mb-10">
-export default (initialData) => ({
-user: initialData,
+export default () => ({
+    user: {},
 
-init() {
-    console.log('UserCard initialized for:', this.user.name);
-},
+    init() {
+        this.user = Rizzy.props(this.$el);
+        console.log('UserCard initialized for:', this.user.name);
+    },
 
-showAlert() {
-    alert(`You clicked on ${this.user.name}'s card!`);
-}
+    showAlert() {
+        alert(`You clicked on ${this.user.name}'s card!`);
+    }
 });
                 </RzCodeViewer>
             </section>
@@ -180,22 +181,19 @@ showAlert() {
 &lt;/RzAlpineComponent&gt;
                 </RzCodeViewer>
                 <RzCodeViewer Language="javascript" ViewerTitle="CoLocatedJSInfo.razor.js (Orchestration)" class="mb-10">
-// ... inside the export default (args) => ({ ... })
-export default (args) => ({
-// ... other properties ...
-confirmModal: null,
+export default () => ({
+    confirmModal: null,
 
-init() {
-    // ... other init logic ...
-    // Get the Alpine instance for the RzModal component
-    this.confirmModal = Rizzy.$data(this.$refs.confirmModal);
-},
+    init() {
+        // Get the Alpine instance for the RzModal component
+        this.confirmModal = Rizzy.$data(this.$refs.confirmModal);
+    },
 
-openConfirmationModal() {
-    if (this.confirmModal) {
-        this.confirmModal.openModal();
+    openConfirmationModal() {
+        if (this.confirmModal) {
+            this.confirmModal.openModal();
+        }
     }
-}
 });
                 </RzCodeViewer>
             </section>

@@ -1514,7 +1514,7 @@ function Bo() {
     i
   ];
 }
-var [jo, Wo, yc, wc] = /* @__PURE__ */ Bo();
+var [jo, Wo, wc, xc] = /* @__PURE__ */ Bo();
 function fr(e, t) {
   const n = e ? Wo : jo;
   return (i, r, s) => r === "__v_isReactive" ? !e : r === "__v_isReadonly" ? e : r === "__v_raw" ? i : Reflect.get(Et(n, r) && r in i ? n : i, r, s);
@@ -5467,6 +5467,21 @@ function gc(e) {
   hl(e), pl(e), gl(e), ml(e), bl(e), vl(e, ze), yl(e), wl(e, ze), xl(e), _l(e, ze), Xl(e), Ql(e), ec(e), tc(e), nc(e), ic(e), rc(e, ze), oc(e), sc(e), ac(e), lc(e), cc(e), uc(e), dc(e), fc(e), hc(e);
 }
 function mc(e) {
+  if (!(e instanceof Element))
+    return console.warn("[Rizzy.props] Invalid input. Expected an Alpine.js root element (this.$el)."), {};
+  const t = e.dataset.propsId;
+  if (!t)
+    return {};
+  const n = document.getElementById(t);
+  if (!n)
+    return console.warn(`[Rizzy.props] Could not find the props script tag with ID '${t}'.`), {};
+  try {
+    return JSON.parse(n.textContent || "{}");
+  } catch (i) {
+    return console.error(`[Rizzy.props] Failed to parse JSON from script tag #${t}.`, i), {};
+  }
+}
+function bc(e) {
   e.directive("mobile", (t, { modifiers: n, expression: i }, { cleanup: r }) => {
     const s = n.find((m) => m.startsWith("bp-")), o = s ? parseInt(s.slice(3), 10) : 768, a = !!(i && i.length > 0);
     if (typeof window > "u" || !window.matchMedia) {
@@ -5497,7 +5512,7 @@ function mc(e) {
     });
   });
 }
-function bc(e) {
+function vc(e) {
   const t = (n, { expression: i, modifiers: r }, { cleanup: s, effect: o }) => {
     if (!i || typeof i != "string") return;
     const a = (w, p, m) => {
@@ -5566,17 +5581,18 @@ G.plugin(Oa);
 G.plugin(Ga);
 G.plugin(xa);
 gc(G);
-mc(G);
 bc(G);
-const vc = {
+vc(G);
+const yc = {
   Alpine: G,
   require: ze,
   toast: ll,
-  $data: fl
+  $data: fl,
+  props: mc
 };
 window.Alpine = G;
-window.Rizzy = { ...window.Rizzy || {}, ...vc };
+window.Rizzy = { ...window.Rizzy || {}, ...yc };
 G.start();
 export {
-  vc as default
+  yc as default
 };

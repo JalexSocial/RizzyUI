@@ -7,7 +7,7 @@
  *
  * The module exports a factory function that creates an Alpine.js data object.
  */
-export default (initialData) => ({
+export default () => ({
     // --- State ---
 
     /**
@@ -15,22 +15,29 @@ export default (initialData) => ({
      * @type {string}
      */
     message: '',
+    confirmModal: null,
 
     // --- Lifecycle Hooks ---
 
     /**
      * The `init` method is called by Alpine.js when the component is initialized on the page.
-     * It is responsible for reading the initial data from the `data-props-id` attribute,
-     * which points to a script tag containing the JSON data.
+     * It is responsible for reading the initial data using the Rizzy.props() helper.
      * @this {import('alpinejs').AlpineComponent}
      */
     init() {
-        let payload = initialData;
+        const props = Rizzy.props(this.$el);
 
         // Update the DOM with the initial message. `this.$refs` provides access to elements
         // marked with `x-ref` within this component's scope.
-        this.message = payload.initialMessage || 'Hello from the co-located module!';
-        this.$refs.messageOutput.innerText = this.message;
+        this.message = props.initialMessage || 'Hello from the co-located module!';
+        if (this.$refs.messageOutput) {
+            this.$refs.messageOutput.innerText = this.message;
+        }
+
+        // Get the Alpine instance for the RzModal component if it exists
+        if (this.$refs.confirmModal) {
+            this.confirmModal = Rizzy.$data(this.$refs.confirmModal);
+        }
     },
 
     // --- Methods ---
@@ -43,5 +50,11 @@ export default (initialData) => ({
     updateMessage() {
         this.message = 'The message was updated by our co-located Alpine module!';
         this.$refs.messageOutput.innerText = this.message;
+    },
+
+    openConfirmationModal() {
+        if (this.confirmModal) {
+            this.confirmModal.openModal();
+        }
     }
 });

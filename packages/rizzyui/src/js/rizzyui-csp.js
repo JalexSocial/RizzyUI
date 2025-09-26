@@ -1,3 +1,4 @@
+
 /**
  * @file RizzyUI CSP-Compliant Entry Point
  * @module rizzyui-csp
@@ -14,6 +15,7 @@ import focus from '@alpinejs/focus';
 import toast from "./lib/notify/toast";
 import { registerComponents, require } from './lib/components.js';
 import $data from './lib/alpineData.js';
+import props from './lib/alpineProps.js';
 import registerMobileDirective from './lib/directives/mobile.js';
 import registerSyncDirective from './lib/directives/sync-prop.js'
 
@@ -39,7 +41,8 @@ const RizzyUI = {
     Alpine,
     require,
     toast,
-    $data
+    $data,
+    props
 };
 
 // Expose Alpine and RizzyUI utilities globally for debugging and advanced integration.

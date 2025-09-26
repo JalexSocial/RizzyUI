@@ -8014,6 +8014,27 @@ function registerComponents(Alpine2) {
   registerRzTabs(Alpine2);
   registerRzSidebar(Alpine2);
 }
+function props(alpineRootElement) {
+  if (!(alpineRootElement instanceof Element)) {
+    console.warn("[Rizzy.props] Invalid input. Expected an Alpine.js root element (this.$el).");
+    return {};
+  }
+  const propsScriptId = alpineRootElement.dataset.propsId;
+  if (!propsScriptId) {
+    return {};
+  }
+  const propsScriptEl = document.getElementById(propsScriptId);
+  if (!propsScriptEl) {
+    console.warn(`[Rizzy.props] Could not find the props script tag with ID '${propsScriptId}'.`);
+    return {};
+  }
+  try {
+    return JSON.parse(propsScriptEl.textContent || "{}");
+  } catch (e2) {
+    console.error(`[Rizzy.props] Failed to parse JSON from script tag #${propsScriptId}.`, e2);
+    return {};
+  }
+}
 function registerMobileDirective(Alpine2) {
   Alpine2.directive("mobile", (el, { modifiers, expression }, { cleanup: cleanup2 }) => {
     const bpMod = modifiers.find((m2) => m2.startsWith("bp-"));
@@ -8166,7 +8187,8 @@ const RizzyUI = {
   Alpine: module_default$3,
   require: rizzyRequire,
   toast: Toast,
-  $data
+  $data,
+  props
 };
 window.Alpine = module_default$3;
 window.Rizzy = { ...window.Rizzy || {}, ...RizzyUI };
