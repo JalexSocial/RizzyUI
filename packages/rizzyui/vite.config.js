@@ -28,9 +28,9 @@ export default defineConfig({
         },
 
         rollupOptions: {
-            external: ['alpinejs', 'htmx.org'],
+            external: ['htmx.org'],
             output: {
-                globals: { alpinejs: 'Alpine', 'htmx.org': 'htmx' }
+                globals: { 'htmx.org': 'htmx' }
             },
             plugins: [
                 copy({

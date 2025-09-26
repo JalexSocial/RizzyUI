@@ -81,13 +81,13 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@alpinejs/collapse": "^3.14.9",
-    "@alpinejs/csp": "^3.14.9",
-    "@alpinejs/focus": "^3.14.9",
-    "@alpinejs/intersect": "^3.14.9",
+    "@alpinejs/collapse": "^3.15.0",
+    "@alpinejs/csp": "^3.15.0",
+    "@alpinejs/focus": "^3.15.0",
+    "@alpinejs/intersect": "^3.15.0",
     "@floating-ui/dom": "^1.7.0",
     "@tailwindcss/forms": "^0.5.10",
-    "alpinejs": "^3.14.9",
+    "alpinejs": "^3.15.0",
     "async-alpine": "^2.0.3",
     "htmx.org": "^2.0.4",
     "shadcn-prose": "^1.0.8",

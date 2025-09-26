@@ -1,3 +1,4 @@
+
 @inherits LayoutComponentBase
 @using System.Reflection
 @using RizzyUI
@@ -33,6 +34,22 @@
                         <SidebarMenuButton AsChild>
                             <a href="/themes" class="font-medium">Themes</a>
                         </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Interactivity</a>
+                        </SidebarMenuButton>
+                        <SidebarMenuSub>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/introduction"><span>Introduction</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/alpine-fundamentals"><span>Alpine.js Fundamentals</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/alpine-code-behind"><span>Your First Code-Behind</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/state-reactivity"><span>State and Reactivity</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/lifecycle"><span>Lifecycle and Initialization</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/lazy-loading"><span>Optimizing with Lazy Loading</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/plugins"><span>Plugins & Directives</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/orchestration"><span>Advanced: Orchestration</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/debugging"><span>Debugging and Best Practices</span></a></SidebarMenuButton></SidebarMenuItem>
+                        </SidebarMenuSub>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
@@ -131,7 +148,7 @@
             </div>
         </header>
 
-        <main class="flex flex-1 flex-col gap-4 p-4 mt-16">
+        <main class="flex flex-1 flex-col gap-4 p-4">
             @Body
         </main>
     </SidebarInset>

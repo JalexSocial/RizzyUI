@@ -988,6 +988,9 @@
   .min-h-28 {
     min-height: calc(var(--spacing) * 28);
   }
+  .min-h-32 {
+    min-height: calc(var(--spacing) * 32);
+  }
   .min-h-40 {
     min-height: calc(var(--spacing) * 40);
   }
@@ -2476,6 +2479,9 @@
   }
   .pl-5 {
     padding-left: calc(var(--spacing) * 5);
+  }
+  .pl-6 {
+    padding-left: calc(var(--spacing) * 6);
   }
   .pl-8 {
     padding-left: calc(var(--spacing) * 8);
