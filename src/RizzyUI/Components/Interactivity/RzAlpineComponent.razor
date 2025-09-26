@@ -3,6 +3,17 @@
 @inherits RzAsChildComponent
 @using System.Text.Json
 
+@if (AsChild)
+{
+    @RenderAsChild()
+}
+else
+{
+    <HtmlElement Element="@EffectiveElement" @attributes="GetComponentAttributes()">
+        @ChildContent
+    </HtmlElement>
+}
+
 @if (Props is not null)
 {
     <script type="application/json" id="@_propsScriptId" nonce="@Nonce">
@@ -13,40 +24,6 @@
 @if (!string.IsNullOrEmpty(_modulePath))
 {
     <script nonce="@Nonce">
-        (function() {
-            const registerModule = () => {
-                if (window.Alpine && typeof window.Alpine.asyncData === 'function') {
-                    window.Alpine.asyncData('@Name', () => 
-                        import('@_modulePath').catch(error => {
-                            console.error(`[RizzyUI] Failed to load Alpine module '@Name' from '@_modulePath'.`, error);
-                            // Return a dummy module to prevent Alpine from breaking on an undefined component.
-                            return () => ({ 
-                                _error: true, 
-                                _errorMessage: `Module '@Name' failed to load.` 
-                            });
-                        })
-                    );
-                } else {
-                    console.error(`[RizzyUI] Could not register async component '@Name'. Alpine.js or the AsyncAlpine plugin was not available.`);
-                }
-            };
-
-            if (window.Alpine && typeof window.Alpine.asyncData === 'function') {
-                registerModule();
-            } else {
-                document.addEventListener('alpine:init', registerModule, { once: true });
-            }
-        })();
+        window.Rizzy.registerAsyncComponent('@Name', '@_modulePath');
     </script>
-}
-
-@if (AsChild)
-{
-    @RenderAsChild()
-}
-else
-{
-    <HtmlElement Element="@EffectiveElement" @attributes="GetComponentAttributes()">
-        @ChildContent
-    </HtmlElement>
 }

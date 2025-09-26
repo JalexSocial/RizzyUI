@@ -16,6 +16,7 @@ import toast from "./lib/notify/toast";
 import { registerComponents, require } from './lib/components.js';
 import $data from './lib/alpineData.js';
 import props from './lib/alpineProps.js';
+import registerAsyncComponent from './lib/alpineModuleRegistrar.js';
 import registerMobileDirective from './lib/directives/mobile.js';
 import registerSyncDirective from './lib/directives/sync-prop.js'
 
@@ -42,7 +43,8 @@ const RizzyUI = {
     require,
     toast,
     $data,
-    props
+    props,
+    registerAsyncComponent
 };
 
 // Expose Alpine and RizzyUI utilities globally for debugging and advanced integration.
