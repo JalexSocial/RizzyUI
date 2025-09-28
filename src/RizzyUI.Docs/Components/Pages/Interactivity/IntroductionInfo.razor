@@ -16,7 +16,7 @@
             </RzHeading>
 
             <RzParagraph class="lead">
-                RizzyUI is built on a <strong>server-side rendering (SSR) first</strong> philosophy. Most of your UI comes directly from Blazor components rendered on the server, which keeps your application fast, secure, and simple. But sometimes, you need a touch of client-side magic—like toggling a dropdown, animating a modal, or responding instantly to a user's click without a full trip back to the server.
+                RizzyUI is built on a <strong>server-side rendering (SSR) first</strong> philosophy. Most of your UI comes directly from Blazor components rendered on the server, which keeps your application fast, secure, and simple. But sometimes, you need a touch of additional client-side magic—like toggling a dropdown, animating a modal, or responding instantly to a user's click without a full trip back to the server. 
             </RzParagraph>
 
             <RzSeparator />
@@ -26,11 +26,11 @@
                     Why Alpine.js?
                 </RzHeading>
                 <RzParagraph>
-                    For that client-side layer, RizzyUI uses <strong>Alpine.js</strong>. Think of it as a rugged, lightweight JavaScript framework that “lives right in your HTML.” It’s declarative, has a tiny footprint, and pairs perfectly with Blazor’s component model. Instead of wrestling with a heavy client-side framework, you sprinkle in just enough JavaScript to handle interactivity precisely where it’s needed.
+                    For that client-side layer, RizzyUI uses <strong>Alpine.js</strong> with every component. Think of it as a rugged, lightweight JavaScript framework that “lives right in your HTML.” It’s declarative, has a tiny footprint, and pairs perfectly with Blazor’s component model. Instead of wrestling with a heavy client-side framework, you sprinkle in just enough JavaScript to handle interactivity between components precisely where it’s needed.
                 </RzParagraph>
 
                 <RzAlert Variant="AlertVariant.Information" class="my-5">
-                    <AlertTitle>💡 Tip: Tailwind for JavaScript</AlertTitle>
+                    <AlertTitle>Tip: Tailwind for JavaScript</AlertTitle>
                     <AlertDescription>
                         Alpine is often described as “the Tailwind CSS of JavaScript.” If you’re comfortable adding utility classes to your markup, you’ll feel right at home adding Alpine directives like <code>x-data</code> and <code>x-on:click</code>.
                     </AlertDescription>
@@ -78,7 +78,7 @@
                 </RzCodeViewer>
 
                 <RzAlert Variant="AlertVariant.Warning" class="mt-6">
-                    <AlertTitle>⚠️ A Note on CSP and Interactivity Styles</AlertTitle>
+                    <AlertTitle>A Note on CSP and Interactivity Styles</AlertTitle>
                     <AlertDescription>
                         RizzyUI ships with two client-side scripts: <code>rizzyui.js</code> (the standard build) and <code>rizzyui-csp.js</code> (for strict Content Security Policy environments).
                         The simple example above works perfectly with the standard build.
