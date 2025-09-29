@@ -1,0 +1,178 @@
+
+@page "/docs/interactivity/alpine-code-behind"
+@attribute [RzAlpineCodeBehind]
+@namespace RizzyUI.Docs.Components.Pages.Interactivity
+
+@using RizzyUI
+@using RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+<PageTitle>Your First Alpine Code-Behind</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Your First Alpine Code-Behind">
+                Your First Alpine Code-Behind with <em>RzAlpineComponent</em>
+            </RzHeading>
+
+            <RzParagraph class="lead">
+                While inline <code>x-data</code> is fine for prototypes, production components need predictable structure, maintainability, and often, Content Security Policy (CSP) compliance. RizzyUI’s <strong>Alpine Code-Behind</strong> pattern formalizes this by connecting your Blazor component to a dedicated JavaScript file.
+            </RzParagraph>
+            <RzParagraph>
+                This is the official, recommended way to build interactive components. It keeps your C# and JavaScript logic separate but co-located, making your projects easier to manage and secure. In this guide, we'll build the classic counter component to demonstrate the end-to-end workflow.
+            </RzParagraph>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="The Core Pattern">
+                    The Core Pattern: Blazor Component + JS Module
+                </RzHeading>
+                <RzParagraph>
+                    The Alpine Code-Behind pattern connects your <code>.razor</code> component with a <code>.razor.js</code> file. Your Blazor code-behind (<code>.razor.cs</code>) continues to handle server-side logic as usual; nothing changes there.
+                </RzParagraph>
+                <ol class="list-decimal space-y-2 pl-6 my-6 text-foreground">
+                    <li><strong>The Blazor Component (<code>.razor</code>):</strong> Your markup. This is where you'll use the <code>&lt;RzAlpineComponent&gt;</code> to wire everything up.</li>
+                    <li><strong>The Alpine Code-Behind (<code>.razor.js</code>):</strong> A new JavaScript file where your client-side state and methods will live.</li>
+                </ol>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Step 1: The Blazor Component">
+                    Step 1: The Blazor Component
+                </RzHeading>
+                <RzParagraph>
+                    First, we define our Blazor component and tell RizzyUI that it has an associated JavaScript file using two key pieces.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6" QuickReferenceTitle="The [RzAlpineCodeBehind] Attribute">The <em>[RzAlpineCodeBehind]</em> Attribute</RzHeading>
+                <RzParagraph>
+                    To enable this pattern, you must add the <code>[RzAlpineCodeBehind]</code> attribute to the top of your <code>.razor</code> file. This is the "magic" that tells the system to look for a corresponding <code>.razor.js</code> file during the build process.
+                </RzParagraph>
+                <RzAlert Variant="AlertVariant.Information" class="my-4">
+                    <AlertTitle>💡 A Note on Syntax</AlertTitle>
+                    <AlertDescription>
+                        In your <code>.razor</code> file, you'll declare this as <code>@@attribute [RzAlpineCodeBehind]</code>. In a C# (<code>.razor.cs</code>) file, it would appear as a standard <code>[RzAlpineCodeBehind]</code> attribute on the class.
+                    </AlertDescription>
+                </RzAlert>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6" QuickReferenceTitle="The RzAlpineComponent">The <em>&lt;RzAlpineComponent&gt;</em></RzHeading>
+                <RzParagraph>
+                    This component is the bridge between Blazor and Alpine. It handles loading your JavaScript module and setting up the Alpine <code>x-data</code> context on its child element.
+                </RzParagraph>
+                <ul class="list-disc space-y-2 pl-6 my-6 text-foreground">
+                    <li><code>For="this"</code>: Links the module loader to the current Blazor component instance.</li>
+                    <li><code>Name="counter"</code>: The name you will use to reference your Alpine component in <code>x-data</code>.</li>
+                    <li><code>AsChild</code>: A powerful property that merges the Alpine attributes directly onto its child element, avoiding an unnecessary wrapper <code>&lt;div&gt;</code>.</li>
+                </ul>
+                <RzParagraph>
+                    Here’s the complete Razor markup for our counter example:
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Counter.razor" class="mt-4">
+@@attribute [RzAlpineCodeBehind]
+
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;counter&quot; AsChild&gt;
+  &lt;div class=&quot;flex items-center gap-4&quot;&gt;
+    &lt;RzButton x-on:click=&quot;decrement&quot;&gt;-&lt;/RzButton&gt;
+    &lt;span x-text=&quot;count&quot; class=&quot;font-mono text-lg&quot;&gt;&lt;/span&gt;
+    &lt;RzButton x-on:click=&quot;increment&quot;&gt;+&lt;/RzButton&gt;
+  &lt;/div&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Step 2: The JavaScript Module">
+                    Step 2: The JavaScript Module
+                </RzHeading>
+                <RzParagraph>
+                    Next, we create the <code>.razor.js</code> file. This file must export a factory function that returns our Alpine data object. This pattern ensures that your methods are declared once, not inline, making your component reusable and CSP-safe.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="Counter.razor.js" class="mt-4">
+// This function is a factory that creates the Alpine data object.
+export default () =&gt; ({
+  // 1. State: These are our reactive properties.
+  count: 0,
+
+  // 2. Methods: These are the functions we can call from our HTML.
+  increment() {
+    this.count++;
+  },
+
+  decrement() {
+    this.count--;
+  }
+});
+                </RzCodeViewer>
+                <RzParagraph>
+                    <strong>How It Works:</strong> The flow is simple and powerful: Blazor renders <code>&lt;RzAlpineComponent&gt;</code> → Async Alpine loads <code>Counter.razor.js</code> → Alpine.js registers the module as "counter" → The <code>&lt;div&gt;</code> is initialized with <code>x-data="counter"</code> → Your methods run when called.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Step 3: Passing Initial Data">
+                    Step 3: Passing Initial Data from Blazor
+                </RzHeading>
+                <RzParagraph>
+                    What if you want to initialize the counter's state from the server? The <code>Props</code> parameter on <code>&lt;RzAlpineComponent&gt;</code> is designed for this. You can pass any JSON-serializable C# object (including anonymous types).
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex items-center justify-center gap-4 p-8 min-h-20">
+                        <CounterWithProps />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="CounterWithProps.razor" class="mt-4">
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;counter&quot; AsChild
+                   Props=&quot;@@(new { initialCount = 10, step = 2 })&quot;&gt;
+  &lt;div class=&quot;flex items-center gap-4&quot;&gt;
+    &lt;RzButton x-on:click=&quot;decrement&quot;&gt;-&lt;/RzButton&gt;
+    &lt;span x-text=&quot;count&quot; class=&quot;font-mono text-lg&quot;&gt;&lt;/span&gt;
+    &lt;RzButton x-on:click=&quot;increment&quot;&gt;+&lt;/RzButton&gt;
+  &lt;/div&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+                <RzHeading Level="HeadingLevel.H3" class="mt-6" QuickReferenceTitle="The Rizzy.props() Helper">The <em>Rizzy.props()</em> Helper</RzHeading>
+                <RzParagraph>
+                    Inside your JavaScript module, you use the <code>Rizzy.props(this.$el)</code> helper to safely access this initial data. The <code>init()</code> method is the perfect place to do this, as it runs once when Alpine finishes setting up the component.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="CounterWithProps.razor.js" class="mt-4">
+export default () =&gt; ({
+  count: 0,
+  step: 1,
+
+  // init() runs when the component is initialized.
+  init() {
+    // Read the data passed from Blazor.
+    const props = Rizzy.props(this.$el);
+    this.count = props.initialCount || 0; // Use a fallback
+    this.step = props.step || 1;
+  },
+
+  increment() {
+    this.count += this.step;
+  },
+
+  decrement() {
+    this.count -= this.step;
+  }
+});
+                </RzCodeViewer>
+            </section>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Next Steps">
+                    Next Steps
+                </RzHeading>
+                <RzParagraph>
+                    You've now built your first fully interactive, server-driven component! You understand the core pattern for adding client-side logic the RizzyUI way. Now that you’ve seen how to wire up state and props, the next page will dive deeper into reactivity with <code>$watch</code>, <code>$refs</code>, and Alpine stores in <RzLink Href="/docs/interactivity/state-reactivity">Working with State and Reactivity</RzLink>.
+                </RzParagraph>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
