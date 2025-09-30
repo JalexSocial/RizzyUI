@@ -5576,6 +5576,9 @@ const mc = {
 };
 window.Alpine = G;
 window.Rizzy = { ...window.Rizzy || {}, ...mc };
+document.dispatchEvent(new CustomEvent("rz:init", {
+  detail: { Rizzy: window.Rizzy }
+}));
 G.start();
 export {
   mc as default

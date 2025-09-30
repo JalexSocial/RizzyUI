@@ -51,6 +51,11 @@ const RizzyUI = {
 window.Alpine = Alpine
 window.Rizzy = { ...(window.Rizzy || {}), ...RizzyUI };
 
+// Alert async components that RizzyUI is ready to use (before Alpine)
+document.dispatchEvent(new CustomEvent("rz:init", {
+    detail: { Rizzy: window.Rizzy }
+}));
+
 // Start the main Alpine.js initialization process.
 // Alpine will now automatically handle the async components registered via `Alpine.asyncData`.
 Alpine.start();

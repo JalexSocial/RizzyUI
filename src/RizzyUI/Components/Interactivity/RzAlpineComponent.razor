@@ -24,6 +24,9 @@ else
 @if (!string.IsNullOrEmpty(_modulePath))
 {
     <script nonce="@Nonce">
-        window.Rizzy.registerAsyncComponent('@Name', '@_modulePath');
+        if (window.Rizzy) 
+            window.Rizzy.registerAsyncComponent('@Name', '@_modulePath');
+        else 
+            document.addEventListener("rz:init", e => e.detail.Rizzy.registerAsyncComponent('@Name', '@_modulePath'), { once: true });
     </script>
 }

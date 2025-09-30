@@ -8966,6 +8966,9 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
   };
   window.Alpine = module_default$3;
   window.Rizzy = { ...window.Rizzy || {}, ...RizzyUI };
+  document.dispatchEvent(new CustomEvent("rz:init", {
+    detail: { Rizzy: window.Rizzy }
+  }));
   module_default$3.start();
   return RizzyUI;
 });

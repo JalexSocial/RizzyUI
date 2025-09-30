@@ -6181,6 +6181,9 @@ const Ic = {
 };
 window.Alpine = Z;
 window.Rizzy = { ...window.Rizzy || {}, ...Ic };
+document.dispatchEvent(new CustomEvent("rz:init", {
+  detail: { Rizzy: window.Rizzy }
+}));
 Z.start();
 export {
   Ic as default
