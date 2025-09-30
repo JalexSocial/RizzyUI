@@ -8781,27 +8781,82 @@ function props(alpineRootElement) {
     return {};
   }
 }
-function registerAsyncComponent(name, path) {
-  const register = () => {
-    if (window.Alpine && typeof window.Alpine.asyncData === "function") {
-      window.Alpine.asyncData(
-        name,
-        () => import(path).catch((error2) => {
-          console.error(`[RizzyUI] Failed to load Alpine module '${name}' from '${path}'.`, error2);
-          return () => ({
-            _error: true,
-            _errorMessage: `Module '${name}' failed to load.`
-          });
-        })
+const _registered = /* @__PURE__ */ new Map();
+const _importCache = /* @__PURE__ */ new Map();
+let _onAlpineInitAttached = false;
+function onceImport(path) {
+  if (!_importCache.has(path)) {
+    _importCache.set(
+      path,
+      import(path).catch((err) => {
+        _importCache.delete(path);
+        throw err;
+      })
+    );
+  }
+  return _importCache.get(path);
+}
+function setAsyncLoader(name, path) {
+  const Alpine2 = globalThis.Alpine;
+  if (!(Alpine2 && typeof Alpine2.asyncData === "function")) {
+    console.error(
+      `[RizzyUI] Could not register async component '${name}'. AsyncAlpine not available.`
+    );
+    return false;
+  }
+  Alpine2.asyncData(
+    name,
+    () => onceImport(path).catch((error2) => {
+      console.error(
+        `[RizzyUI] Failed to load Alpine module '${name}' from '${path}'.`,
+        error2
       );
-    } else {
-      console.error(`[RizzyUI] Could not register async component '${name}'. Alpine.js or the AsyncAlpine plugin was not available when 'alpine:init' fired.`);
+      return () => ({
+        _error: true,
+        _errorMessage: `Module '${name}' failed to load.`
+      });
+    })
+  );
+  return true;
+}
+function registerAsyncComponent(name, path) {
+  if (!name || !path) {
+    console.error("[RizzyUI] registerAsyncComponent requires both name and path.");
+    return;
+  }
+  const prev = _registered.get(name);
+  if (prev && prev.path !== path) {
+    console.warn(
+      `[RizzyUI] Re-registering '${name}' with a different path.
+  Previous: ${prev.path}
+  New:      ${path}`
+    );
+  }
+  const Alpine2 = globalThis.Alpine;
+  if (Alpine2 && Alpine2.version) {
+    const changedPath = !prev || prev.path !== path;
+    const alreadySet = prev && prev.loaderSet && !changedPath;
+    if (!alreadySet) {
+      const ok = setAsyncLoader(name, path);
+      _registered.set(name, { path, loaderSet: ok });
     }
-  };
-  if (window.Alpine && window.Alpine.version) {
-    register();
-  } else {
-    document.addEventListener("alpine:init", register, { once: true });
+    return;
+  }
+  _registered.set(name, { path, loaderSet: false });
+  if (!_onAlpineInitAttached) {
+    _onAlpineInitAttached = true;
+    document.addEventListener(
+      "alpine:init",
+      () => {
+        for (const [n2, info] of _registered) {
+          if (!info.loaderSet) {
+            const ok = setAsyncLoader(n2, info.path);
+            info.loaderSet = ok;
+          }
+        }
+      },
+      { once: true }
+    );
   }
 }
 function registerMobileDirective(Alpine2) {

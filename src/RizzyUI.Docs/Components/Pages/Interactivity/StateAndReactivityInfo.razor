@@ -1,0 +1,237 @@
+
+@page "/docs/interactivity/state-reactivity"
+@namespace RizzyUI.Docs.Components.Pages.Interactivity
+
+@using RizzyUI
+@using RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+<PageTitle>State and Reactivity</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="State and Reactivity">
+                Working with State and Reactivity
+            </RzHeading>
+
+            <RzParagraph class="lead">
+                You've learned how to create a component with <code>x-data</code> and pass initial props. Now, let's explore how to make your components more dynamic. This page introduces three core reactive tools: watching state with <em>$watch</em>, reacting automatically with <em>x-effect</em>, and sharing global state with <em>Alpine.store()</em>.
+            </RzParagraph>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="$watch: Responding to State Changes">
+                    <em>$watch</em>: Responding to State Changes
+                </RzHeading>
+                <RzParagraph>
+                    Sometimes, you need to perform an action whenever a piece of your component's state changes. The <code>$watch</code> magic property is perfect for this. It lets you "watch" a property and run a function whenever its value is updated. Common use cases include validating user input as they type or auto-saving draft content.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Example: A Character Counter</RzHeading>
+                <RzParagraph>
+                    Let's create a textarea with a character counter that updates in real-time. Note that since <code>RzTextEdit</code> is a form component, it must be placed within an <code>EditForm</code>.
+                </RzParagraph>
+                
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex flex-col items-center justify-center gap-2 p-8 w-full max-w-md">
+                        <CharacterCounter />
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="CharacterCounter.razor" class="mt-4">
+@@attribute [RzAlpineCodeBehind]
+@@using RizzyUI.Docs.Models
+
+&lt;EditForm Model=&quot;@@_model&quot;&gt;
+    &lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;charCounter&quot; AsChild&gt;
+      &lt;div class=&quot;w-full&quot;&gt;
+        &lt;RzTextEdit For=&quot;@@(() =&gt; _model.Message)&quot; class=&quot;w-full min-h-24&quot; x-model=&quot;message&quot; /&gt;
+        &lt;p class=&quot;text-sm text-muted-foreground mt-2 text-right&quot;&gt;
+          Character count: &lt;span x-text=&quot;count&quot;&gt;&lt;/span&gt;
+        &lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/RzAlpineComponent&gt;
+&lt;/EditForm&gt;
+
+@@code {
+    private class CharacterCounterModel
+    {
+        public string Message { get; set; } = string.Empty;
+    }
+
+    private CharacterCounterModel _model = new();
+}
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="CharacterCounter.razor.js" class="mt-4">
+export default () =&gt; ({
+  message: '',
+  count: 0,
+
+  init() {
+    // Watch the 'message' property for changes.
+    this.$watch('message', (newValue) =&gt; {
+      this.count = newValue.length;
+    });
+  }
+});
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="$refs: Accessing DOM Elements">
+                    <em>$refs</em>: Accessing DOM Elements
+                </RzHeading>
+                <RzParagraph>
+                    While reactive data binding is preferred, you sometimes need a direct handle to a DOM element. The <code>$refs</code> magic property allows you to access any element within your component that has an <code>x-ref</code> attribute.
+                </RzParagraph>
+                <RzParagraph>
+                    In RizzyUI, <code>$refs</code> is the gateway to <strong>component orchestration</strong>. By placing an <code>x-ref</code> on another RizzyUI component (like <code>&lt;RzModal&gt;</code>), you can get its root element and then use the <code>Rizzy.$data()</code> helper to access its Alpine instance and API. This bridges the gap between your Razor components and Alpine, letting you call Alpine APIs on other RizzyUI components.
+                </RzParagraph>
+                
+                <RzAlert Variant="AlertVariant.Information" class="my-4">
+                    <AlertTitle>Preview of Orchestration</AlertTitle>
+                    <AlertDescription>
+                        We cover this pattern in detail on the <RzLink Href="/docs/interactivity/orchestration">Advanced: Orchestration</RzLink> page, but here’s a quick look at the pattern.
+                    </AlertDescription>
+                </RzAlert>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="ModalController.razor" class="mt-4">
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;modalController&quot;&gt;
+  &lt;RzButton x-on:click=&quot;openModal&quot;&gt;Open Modal&lt;/RzButton&gt;
+  &lt;RzModal Title=&quot;My Modal&quot; x-ref=&quot;myModal&quot; /&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="ModalController.razor.js" class="mt-4">
+export default () =&gt; ({
+  modalInstance: null,
+
+  init() {
+    // Get the Alpine instance of the RzModal component
+    this.modalInstance = Rizzy.$data(this.$refs.myModal);
+  },
+
+  openModal() {
+    if (this.modalInstance) {
+      this.modalInstance.openModal();
+    }
+  }
+});
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="x-effect: Automatically Reacting to Changes">
+                    <em>x-effect</em>: Automatically Reacting to Changes
+                </RzHeading>
+                <RzParagraph>
+                    <code>x-effect</code> is like <code>$watch</code>, but it automatically tracks any reactive properties you use inside it. Whenever any of those dependencies change, the effect re-runs.
+                </RzParagraph>
+                <RzAlert Variant="AlertVariant.Information" class="my-4">
+                    <AlertTitle>When to use <code>$watch</code> vs. <code>x-effect</code></AlertTitle>
+                    <AlertDescription>
+                        Use <code>$watch</code> when you need to observe a <strong>specific property</strong> and react to its change. Use <code>x-effect</code> when you have a block of code that should re-run whenever <strong>any of its dependencies</strong> change automatically.
+                    </AlertDescription>
+                </RzAlert>
+                <RzParagraph>
+                    A great use case is persisting form data to <code>localStorage</code> as the user types, and showing a status message.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="FormSaver.razor.js" class="mt-4">
+export default () =&gt; ({
+  name: '',
+  email: '',
+  status: 'Ready',
+
+  init() {
+    // ... load saved data on initialization ...
+
+    // This effect will run whenever 'name' or 'email' changes
+    this.$effect(() =&gt; {
+      const dataToSave = { name: this.name, email: this.email };
+      localStorage.setItem('formData', JSON.stringify(dataToSave));
+      
+      this.status = 'Saving...';
+      setTimeout(() => { this.status = 'Saved!' }, 500);
+    });
+  }
+});
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Global State with Alpine.store()">
+                    Global State with <em>Alpine.store()</em>
+                </RzHeading>
+                <RzParagraph>
+                    Sometimes, you need to share state between components that are not parent and child. For this, Alpine provides <code>Alpine.store()</code>. A store is a global reactive object that any component on the page can access using the <code>$store</code> magic property.
+                </RzParagraph>
+                <RzParagraph>
+                    This is perfect for application-wide state like a shopping cart count, user authentication status, or the current theme. The <code>&lt;RzDarkModeToggle&gt;</code> component itself uses this pattern internally.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Example: A Global Notification Store</RzHeading>
+                <RzParagraph>
+                    Let's create a simple store to show and hide a site-wide notification banner.
+                </RzParagraph>
+                
+                <RzHeading Level="HeadingLevel.H4" class="mt-4">1. Register the Store</RzHeading>
+                <RzParagraph>
+                    This script typically lives in your global site bundle (e.g., <code>site.js</code>) so it runs once at startup.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="site.js" class="mt-4">
+document.addEventListener('alpine:init', () =&gt; {
+  Alpine.store('notifications', {
+    message: '',
+    visible: false,
+    show(newMessage) {
+      this.message = newMessage;
+      this.visible = true;
+    },
+    hide() {
+      this.visible = false;
+    }
+  });
+});
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H4" class="mt-4">2. Create the Notification Banner</RzHeading>
+                <RzParagraph>
+                    This component reads directly from the store. It can be placed in your main layout file.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="NotificationBanner.razor" class="mt-4">
+&lt;div x-data x-show=&quot;$store.notifications.visible&quot; x-transition class=&quot;...&quot;&gt;
+  &lt;p x-text=&quot;$store.notifications.message&quot;&gt;&lt;/p&gt;
+  &lt;RzButton x-on:click=&quot;$store.notifications.hide()&quot;&gt;Close&lt;/RzButton&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H4" class="mt-4">3. Trigger the Notification</RzHeading>
+                <RzParagraph>
+                    Any other component on the page can now trigger the notification.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="UpdateProfileForm.razor" class="mt-4">
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;updateProfile&quot;&gt;
+  &lt;RzButton x-on:click=&quot;$store.notifications.show('Your profile has been updated!')&quot;&gt;
+    Update Profile
+  &lt;/RzButton&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+            </section>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Next Steps">
+                    Next Steps
+                </RzHeading>
+                <RzParagraph>
+                    You now have the tools to manage both local and global state, react to changes, and interact with the DOM. Next, we'll look at the <RzLink Href="/docs/interactivity/lifecycle">Lifecycle and Initialization</RzLink> of Alpine components to understand exactly when and how your code runs.
+                </RzParagraph>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
