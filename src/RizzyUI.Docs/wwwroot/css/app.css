@@ -1509,6 +1509,13 @@
       margin-block-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-y-reverse)));
     }
   }
+  .space-y-3 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 3) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 3) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
   .space-y-4 {
     :where(& > :not(:last-child)) {
       --tw-space-y-reverse: 0;
@@ -2128,6 +2135,12 @@
     background-color: var(--secondary);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--secondary) 40%, transparent);
+    }
+  }
+  .bg-secondary\/50 {
+    background-color: var(--secondary);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--secondary) 50%, transparent);
     }
   }
   .bg-secondary\/75 {
@@ -3196,6 +3209,12 @@
     --tw-exit-scale: calc(95*1%);
     --tw-exit-scale: .95;
   }
+  .\[alpine\:init\] {
+    alpine: init;
+  }
+  .\[alpine\:initialized\] {
+    alpine: initialized;
+  }
   .fade-in {
     --tw-enter-opacity: 0;
   }
@@ -3213,6 +3232,9 @@
   }
   .running {
     animation-play-state: running;
+  }
+  .running\! {
+    animation-play-state: running !important;
   }
   .slide-in-from-left {
     --tw-enter-translate-x: -100%;

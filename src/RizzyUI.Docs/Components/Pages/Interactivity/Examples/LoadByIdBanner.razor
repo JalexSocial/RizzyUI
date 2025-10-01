@@ -1,0 +1,18 @@
+
+@attribute [RzAlpineCodeBehind]
+@namespace RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+@using RizzyUI
+
+<RzAlpineComponent For="this" Name="loadByIdBanner" LoadStrategy="event" Id="my-banner-component">
+    <RzAlert Variant="AlertVariant.Success" x-show="visible" x-transition>
+        <AlertTitle>Loaded by ID!</AlertTitle>
+        <AlertDescription>This component's script was loaded by dispatching the <code>async-alpine:load</code> event with its ID.</AlertDescription>
+    </RzAlert>
+</RzAlpineComponent>
+
+<div x-data class="mt-4">
+    <RzButton x-on:click="$dispatch('async-alpine:load', { id: 'my-banner-component' })">
+        Load Component by ID
+    </RzButton>
+</div>

@@ -1,0 +1,202 @@
+
+@page "/docs/interactivity/lazy-loading"
+@namespace RizzyUI.Docs.Components.Pages.Interactivity
+
+@using RizzyUI
+@using RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+<PageTitle>Optimizing with Lazy Loading</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Optimizing with Lazy Loading">
+                Optimizing with Lazy Loading
+            </RzHeading>
+
+            <RzParagraph class="lead">
+                In a server-side rendered application, one of the biggest performance wins is minimizing the amount of JavaScript sent to the browser on initial page load. RizzyUI integrates <strong>async-alpine</strong> behind the scenes, so you don’t have to manually manage IntersectionObservers or media-query watchers—you just declare when a component should load.
+            </RzParagraph>
+            <RzParagraph>
+                This can shave off tens or even hundreds of kilobytes of initial JavaScript, especially on pages with many offscreen widgets, leading to a much faster initial experience for your users.
+            </RzParagraph>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="The LoadStrategy Parameter">
+                    The <em>LoadStrategy</em> Parameter
+                </RzHeading>
+                <RzParagraph>
+                    RizzyUI makes lazy loading simple through the <code>LoadStrategy</code> parameter on the <code>&lt;RzAlpineComponent&gt;</code>. This parameter tells <code>async-alpine</code> <em>when</em> to download and initialize your component's <code>.razor.js</code> module.
+                </RzParagraph>
+                <RzParagraph>
+                    If you don't provide a <code>LoadStrategy</code>, the component defaults to **eager** loading, meaning its JavaScript is fetched as soon as possible. This is the right choice for critical, "above-the-fold" components like a main navigation menu.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Eager Loading (Default)" class="mt-4">
+&lt;!-- No LoadStrategy means this loads immediately --&gt;
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;navMenu&quot;&gt;
+  &lt;RzNavbar /&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Supported Strategies">
+                    Supported Load Strategies
+                </RzHeading>
+                <RzParagraph>
+                    The <code>LoadStrategy</code> parameter accepts several values that correspond to <code>async-alpine</code>'s loading strategies.
+                </RzParagraph>
+                <ul class="list-disc space-y-3 pl-6 my-6 text-foreground">
+                    <li><code>eager</code>: The default mode. Loads the component as soon as possible.</li>
+                    <li><code>idle</code>: Loads the component when the browser is idle (via <code>requestIdleCallback</code>).</li>
+                    <li><code>visible</code>: Uses <code>IntersectionObserver</code> to load the component only when it is about to enter the viewport.</li>
+                    <li><code>media(&lt;media-query&gt;)</code>: Loads only when a CSS media query matches (e.g., <code>media('(min-width: 1024px)')</code>).</li>
+                    <li><code>event(&lt;eventName&gt;)</code> or <code>event</code>: Loads the component in response to a specific event.</li>
+                    <li><strong>Combining strategies:</strong> You can combine multiple strategies with a space (e.g., <code>visible idle</code>) or with boolean logic (e.g., <code>visible && media(...)</code>).</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Examples">
+                    Examples of Lazy Loading Strategies
+                </RzHeading>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Strategy: <em>visible</em></RzHeading>
+                <RzParagraph>
+                    This is the most common strategy. The JavaScript module will only be downloaded when the component is about to enter the viewport. It's perfect for any component that isn't visible on initial page load, like a heavy chart, an image gallery, or any third-party library.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex flex-col items-center justify-center gap-2 p-8 w-full max-w-lg">
+                        <LazyChart />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="LazyChart.razor" class="mt-4">
+@@attribute [RzAlpineCodeBehind]
+
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;lazyChart&quot; LoadStrategy=&quot;visible&quot; AsChild&gt;
+  &lt;div class=&quot;chart-container w-full&quot;&gt;
+    &lt;canvas&gt;&lt;/canvas&gt;
+  &lt;/div&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-8">Strategy: <em>idle</em></RzHeading>
+                <RzParagraph>
+                    This strategy loads the component's script when the browser has finished higher-priority tasks. It's great for components like a search modal that aren't immediately needed but should be ready for the first user interaction.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mt-4">
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;searchModal&quot; LoadStrategy=&quot;idle&quot;&gt;
+  &lt;!-- This ensures the modal's JS is ready after page load, without blocking first paint. --&gt;
+  &lt;RzModal Title=&quot;Search&quot; ... /&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-8">Strategy: <em>event</em></RzHeading>
+                <RzParagraph>
+                    This strategy defers loading until a specific event is dispatched. There are two ways to use it:
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H4" class="mt-4">Method 1: Using a Named Event</RzHeading>
+                <RzParagraph>
+                    Provide the event name in parentheses: <code>LoadStrategy="event(my-custom-event)"</code>. The component will load when that event is dispatched on the <code>window</code>.
+                </RzParagraph>
+                <RzAlert Variant="AlertVariant.Warning" class="my-4">
+                    <AlertTitle><code>window.dispatchEvent</code> vs. <code>$dispatch</code></AlertTitle>
+                    <AlertDescription>
+                        Alpine's <code>$dispatch</code> creates a bubbling DOM event, ideal for communication between Alpine components. However, <code>async-alpine</code>'s named <code>event()</code> strategy listens on the global <code>window</code> object. Therefore, you **must** use plain JavaScript's <code>window.dispatchEvent(new Event('...'))</code> to trigger it.
+                    </AlertDescription>
+                </RzAlert>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex flex-col items-center justify-center gap-4 p-8 min-h-32">
+                        <EventTriggeredBanner />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="EventTriggeredBanner.razor" class="mt-4">
+@@attribute [RzAlpineCodeBehind]
+
+&lt;!-- The promo banner's JS loads only when the 'loadPromo' event fires --&gt;
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;promoBanner&quot; LoadStrategy=&quot;event(loadPromo)&quot;&gt;
+    &lt;RzAlert Title=&quot;Special Offer!&quot; x-show=&quot;visible&quot; x-transition /&gt;
+&lt;/RzAlpineComponent&gt;
+
+&lt;!-- A simple button to trigger the event --&gt;
+&lt;RzButton x-data x-on:click=&quot;window.dispatchEvent(new Event('loadPromo'))&quot;&gt;
+    Show Promo
+&lt;/RzButton&gt;
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H4" class="mt-6">Method 2: Using the Generic `async-alpine:load` Event</RzHeading>
+                <RzParagraph>
+                    Use <code>LoadStrategy="event"</code> and dispatch the <code>async-alpine:load</code> event with an object containing the ID of your component. This special event *does* work with Alpine's <code>$dispatch</code>.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex flex-col items-center justify-center gap-4 p-8 min-h-32">
+                        <LoadByIdBanner />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="LoadByIdBanner.razor" class="mt-4">
+@@attribute [RzAlpineCodeBehind]
+
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;loadByIdBanner&quot; LoadStrategy=&quot;event&quot; Id=&quot;my-banner-component&quot;&gt;
+    &lt;RzAlert Variant=&quot;AlertVariant.Success&quot; Title=&quot;Loaded by ID!&quot; x-show=&quot;visible&quot; x-transition /&gt;
+&lt;/RzAlpineComponent&gt;
+
+&lt;div x-data class=&quot;mt-4&quot;&gt;
+    &lt;RzButton x-on:click=&quot;$dispatch('async-alpine:load', { id: 'my-banner-component' })&quot;&gt;
+        Load Component by ID
+    &lt;/RzButton&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Advanced Combining">
+                    Advanced Combining Strategies
+                </RzHeading>
+                <RzParagraph>
+                    Async Alpine supports boolean expressions with <code>&&</code>, <code>||</code>, and parentheses, allowing for complex loading conditions.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mt-4">
+&lt;!-- Loads when visible AND (either a 'triggerWidget' event fires OR the screen is wide) --&gt;
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;complexWidget&quot;
+                   LoadStrategy=&quot;visible && (event(triggerWidget) || media('(min-width: 1024px)'))&quot;&gt;
+    &lt;div&gt; ... &lt;/div&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Best Practices">
+                    Best Practices for Lazy Loading
+                </RzHeading>
+                <ul class="list-disc space-y-3 pl-6 my-6 text-foreground">
+                    <li><strong>Be Aggressive with `visible`:</strong> When in doubt, use <code>LoadStrategy="visible"</code>. If a component is not critical for the initial view, lazy-loading it is almost always the right choice.</li>
+                    <li><strong>Avoid Lazy-Loading Critical UI:</strong> Interactive components that are immediately visible and essential (like a main navigation menu) should be loaded eagerly.</li>
+                    <li><strong>Provide a Good User Experience:</strong> For components that might take a moment to become interactive, provide a visual cue like a skeleton loader or a placeholder.</li>
+                    <li><strong>Be Mindful of Observer Costs:</strong> If you have hundreds of small widgets on one page, avoid assigning <code>visible</code> to each one. Instead, consider grouping them in a parent container or using <code>idle</code> to reduce `IntersectionObserver` overhead.</li>
+                    <li><strong>Ensure Events Will Fire:</strong> When using the <code>event</code> strategy, make sure the event will actually be dispatched. If the event never fires, the component's JavaScript will never load.</li>
+                </ul>
+            </section>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Next Steps">
+                    Next Steps
+                </RzHeading>
+                <RzParagraph>
+                    Remember, the <code>init()</code> method only runs once the module loads. With lazy loading, you control both when the script downloads and when the component’s lifecycle begins.
+                </RzParagraph>
+                <RzParagraph>
+                    Next, we'll look at the pre-packaged interactivity that RizzyUI provides with its built-in <RzLink Href="/docs/interactivity/plugins">Plugins & Directives</RzLink>.
+                </RzParagraph>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
