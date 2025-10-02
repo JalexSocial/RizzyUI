@@ -66,7 +66,7 @@
                     Examples of Lazy Loading Strategies
                 </RzHeading>
 
-                <RzHeading Level="HeadingLevel.H3" class="mt-6">Strategy: <em>visible</em></RzHeading>
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Strategy: visible" class="mt-6">Strategy: <em>visible</em></RzHeading>
                 <RzParagraph>
                     This is the most common strategy. The JavaScript module will only be downloaded when the component is about to enter the viewport. It's perfect for any component that isn't visible on initial page load, like a heavy chart, an image gallery, or any third-party library.
                 </RzParagraph>
@@ -85,7 +85,7 @@
 &lt;/RzAlpineComponent&gt;
                 </RzCodeViewer>
 
-                <RzHeading Level="HeadingLevel.H3" class="mt-8">Strategy: <em>idle</em></RzHeading>
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Strategy: idle" class="mt-8">Strategy: <em>idle</em></RzHeading>
                 <RzParagraph>
                     This strategy loads the component's script when the browser has finished higher-priority tasks. It's great for components like a search modal that aren't immediately needed but should be ready for the first user interaction.
                 </RzParagraph>
@@ -96,12 +96,12 @@
 &lt;/RzAlpineComponent&gt;
                 </RzCodeViewer>
 
-                <RzHeading Level="HeadingLevel.H3" class="mt-8">Strategy: <em>event</em></RzHeading>
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Strategy: event" class="mt-8">Strategy: <em>event</em></RzHeading>
                 <RzParagraph>
                     This strategy defers loading until a specific event is dispatched. There are two ways to use it:
                 </RzParagraph>
 
-                <RzHeading Level="HeadingLevel.H4" class="mt-4">Method 1: Using a Named Event</RzHeading>
+                <RzHeading Level="HeadingLevel.H4" QuickReferenceTitle="Named Events" class="mt-4">Method 1: Using a Named Event</RzHeading>
                 <RzParagraph>
                     Provide the event name in parentheses: <code>LoadStrategy="event(my-custom-event)"</code>. The component will load when that event is dispatched on the <code>window</code>.
                 </RzParagraph>
@@ -125,12 +125,12 @@
 &lt;/RzAlpineComponent&gt;
 
 &lt;!-- A simple button to trigger the event --&gt;
-&lt;RzButton x-data x-on:click=&quot;window.dispatchEvent(new Event('loadPromo'))&quot;&gt;
+&lt;RzButton x-data onclick=&quot;window.dispatchEvent(new Event('loadPromo'))&quot;&gt;
     Show Promo
 &lt;/RzButton&gt;
                 </RzCodeViewer>
 
-                <RzHeading Level="HeadingLevel.H4" class="mt-6">Method 2: Using the Generic `async-alpine:load` Event</RzHeading>
+                <RzHeading Level="HeadingLevel.H4" QuickReferenceTitle="Generic async-alpine:load Event" class="mt-6">Method 2: Using the Generic `async-alpine:load` Event</RzHeading>
                 <RzParagraph>
                     Use <code>LoadStrategy="event"</code> and dispatch the <code>async-alpine:load</code> event with an object containing the ID of your component. This special event *does* work with Alpine's <code>$dispatch</code>.
                 </RzParagraph>

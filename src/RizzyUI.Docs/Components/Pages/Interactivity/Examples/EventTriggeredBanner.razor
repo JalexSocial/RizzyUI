@@ -13,7 +13,7 @@
     </RzAlpineComponent>
 
     <div class="mt-4">
-        <RzButton x-on:click="window.dispatchEvent(new Event('loadPromo'))">
+        <RzButton onclick="window.dispatchEvent(new Event('loadPromo')); console.log('Show Promo clicked!')">
             Show Promo
         </RzButton>
     </div>
