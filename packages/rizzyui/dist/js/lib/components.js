@@ -30,11 +30,15 @@ import registerRzSheet from './components/rzSheet.js';
 import registerRzTabs from './components/rzTabs.js';
 import registerRzSidebar from './components/rzSidebar.js';
 
-// --------------------------------------------------------------------------------
-// Utility: Generate a unique bundle ID based on an array of script paths.
-// It sorts the paths, joins them with a separator, and computes a SHA-256 hash.
-// The resulting hash (in hexadecimal) is used as the bundle ID.
-// --------------------------------------------------------------------------------
+/**
+ * generateBundleId(paths)
+ * - Sorts the given array of script paths so the same set produces a consistent ID.
+ * - Joins the paths into a single string and computes a SHA-256 hash.
+ * - Returns the hash as a lowercase hexadecimal string, which can be used as a bundle ID.
+ *
+ * @param {string[]} paths - Array of script or asset paths
+ * @returns {Promise<string>} Promise that resolves to a unique, deterministic bundle ID
+ */
 async function generateBundleId(paths) {
     // Sort paths to allow generating the same bundle id if all assets are identical
     paths = [...paths].sort();
@@ -48,23 +52,55 @@ async function generateBundleId(paths) {
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-// --------------------------------------------------------------------------------
-// Utility: Dynamically load scripts with loadjs by their paths.
-// It first generates a unique bundle ID, then loads the scripts if not already defined.
-// Finally, it executes the callback function when the scripts are ready.
-// --------------------------------------------------------------------------------
-function rizzyRequire(paths, callbackFn, nonce) {
-    generateBundleId(paths).then(bundleId => {
-        if (!loadjs.isDefined(bundleId)) {
-            loadjs(paths, bundleId,
-                {
-                    async: false,
-                    inlineScriptNonce: nonce,
-                    inlineStyleNonce: nonce
-                });
-        }
-        loadjs.ready([bundleId], callbackFn);
+/**
+ * rizzyRequire(paths, [callbackOrNonce], [nonce])
+ * - If a function is passed as 2nd arg, it behaves like your current callback API.
+ * - If no callback is provided, it RETURNS A PROMISE that resolves when the bundle is ready.
+ * - The CSP nonce can be provided as the 2nd arg (string) or 3rd arg when using a callback.
+ *
+ * @param {string|string[]} paths
+ * @param {Function|string} [callbackOrNonce] - callback OR nonce (when using Promise style)
+ * @param {string} [nonce] - CSP nonce (when using callback style)
+ * @returns {Promise<{bundleId:string}>} Promise is always returned; you can ignore it in callback style.
+ */
+async function rizzyRequire(paths, callbackOrNonce, nonce) {
+    // Support overload: (paths, nonce) => Promise
+    let callbackFn = typeof callbackOrNonce === 'function' ? callbackOrNonce : undefined;
+    const cspNonce = (typeof callbackOrNonce === 'string' && !nonce) ? callbackOrNonce : nonce;
+
+    // Create a deterministic bundle id for this set of paths
+    const bundleId = await generateBundleId(paths);
+
+    // If not yet requested, kick off the load (publish happens inside loadjs)
+    if (!loadjs.isDefined(bundleId)) {
+        loadjs(paths, bundleId, {
+            async: false,
+            inlineScriptNonce: cspNonce,
+            inlineStyleNonce:  cspNonce
+            // Note: We DO NOT rely on loadjs's returnPromise here because
+            // the bundle may already be in-flight. We unify everything through ready().
+        });
+    }
+
+    // Wait for the bundle using loadjs.ready (works whether already loading or already done)
+    const p = new Promise((resolve, reject) => {
+        loadjs.ready([bundleId], {
+            success: () => resolve({ bundleId }),
+            error:   (depsNotFound) =>
+                reject(new Error(`rizzyRequire: failed to load: ${depsNotFound.join(', ')}`))
+        });
     });
+
+    // If a callback was provided, also call it (and surface errors to console)
+    if (callbackFn) {
+        p.then(() => callbackFn()).catch(err => {
+            // Don't swallow errors in callback mode; log them.
+            console.error(err);
+        });
+    }
+
+    // Always return the Promise (back-compat callers can ignore it)
+    return p;
 }
 
 function registerComponents(Alpine) {

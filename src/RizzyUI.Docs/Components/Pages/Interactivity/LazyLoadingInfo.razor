@@ -76,15 +76,65 @@
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="LazyChart.razor" class="mt-4">
-@@attribute [RzAlpineCodeBehind]
+@attribute [RzAlpineCodeBehind]
 
-&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;lazyChart&quot; LoadStrategy=&quot;visible&quot; AsChild&gt;
-  &lt;div class=&quot;chart-container w-full&quot;&gt;
-    &lt;canvas&gt;&lt;/canvas&gt;
-  &lt;/div&gt;
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;lazyChart&quot; LoadStrategy=&quot;visible&quot; AsChild
+                   Props=&quot;@@(new { ChartData = new { labels = new[] { &quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot; }, data = new[] { 12, 19, 3 } } })&quot;&gt;
+    &lt;div class=&quot;chart-container w-full bg-background p-4 border rounded-lg shadow-sm&quot;&gt;
+        &lt;canvas&gt;&lt;/canvas&gt;
+    &lt;/div&gt;
 &lt;/RzAlpineComponent&gt;
                 </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="LazyChart.razor.js" class="mt-4">
 
+// This example assumes a charting library like Chart.js is available globally
+// or can be imported. For a real app, you would add Chart.js to your asset bundling.
+
+export default () =&gt; ({
+  chartInstance: null,
+
+  async init() {
+    // This init() function will only run when the component becomes visible
+    // because of `LoadStrategy=&quot;visible&quot;`.
+    console.log('LazyChart is now visible and its script is running!');
+
+    await Rizzy.require(&quot;https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.0/chart.umd.js&quot;)
+          .then(({ bundleId }) =&gt; {
+              console.log(`Bundle ${bundleId} loaded successfully!`);
+
+              const props = Rizzy.props(this.$el);
+              const canvas = this.$el.querySelector('canvas');
+
+              if (canvas &amp;&amp; props.chartData) {
+
+                  this.chartInstance = new Chart(canvas, {
+                      type: 'bar',
+                      data: {
+                          labels: props.chartData.labels,
+                          datasets: [{
+                              label: '# of Votes',
+                              data: props.chartData.data,
+                              borderWidth: 1
+                          }]
+                      }
+                  });
+              }
+
+          })
+          .catch(err =&gt; {
+              console.error(&quot;Failed to load bundle:&quot;, err.message);
+          });
+  },
+
+  destroy() {
+    // If you created a chart instance, you would destroy it here
+    if (this.chartInstance) {
+       this.chartInstance.destroy();
+    }
+  }
+});
+                </RzCodeViewer>
+                
                 <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Strategy: idle" class="mt-8">Strategy: <em>idle</em></RzHeading>
                 <RzParagraph>
                     This strategy loads the component's script when the browser has finished higher-priority tasks. It's great for components like a search modal that aren't immediately needed but should be ready for the first user interaction.

@@ -6026,18 +6026,25 @@ async function _c(e) {
   const t = e.join("|"), i = new TextEncoder().encode(t), r = await crypto.subtle.digest("SHA-256", i);
   return Array.from(new Uint8Array(r)).map((o) => o.toString(16).padStart(2, "0")).join("");
 }
-function Ue(e, t, n) {
-  _c(e).then((i) => {
-    ie.isDefined(i) || ie(
-      e,
-      i,
-      {
-        async: !1,
-        inlineScriptNonce: n,
-        inlineStyleNonce: n
-      }
-    ), ie.ready([i], t);
+async function Ue(e, t, n) {
+  let i = typeof t == "function" ? t : void 0;
+  const r = typeof t == "string" && !n ? t : n, s = await _c(e);
+  ie.isDefined(s) || ie(e, s, {
+    async: !1,
+    inlineScriptNonce: r,
+    inlineStyleNonce: r
+    // Note: We DO NOT rely on loadjs's returnPromise here because
+    // the bundle may already be in-flight. We unify everything through ready().
   });
+  const o = new Promise((a, l) => {
+    ie.ready([s], {
+      success: () => a({ bundleId: s }),
+      error: (c) => l(new Error(`rizzyRequire: failed to load: ${c.join(", ")}`))
+    });
+  });
+  return i && o.then(() => i()).catch((a) => {
+    console.error(a);
+  }), o;
 }
 function Ec(e) {
   xl(e), _l(e), El(e), Il(e), Tl(e), Ol(e, Ue), Sl(e), Cl(e, Ue), Al(e), Nl(e, Ue), oc(e), ac(e), lc(e), cc(e), uc(e), fc(e), dc(e, Ue), pc(e), hc(e), gc(e), mc(e), vc(e), bc(e), yc(e), wc(e), xc(e);
