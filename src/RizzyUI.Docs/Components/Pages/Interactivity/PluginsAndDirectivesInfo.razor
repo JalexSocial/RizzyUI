@@ -1,4 +1,3 @@
-
 @page "/docs/interactivity/plugins"
 @namespace RizzyUI.Docs.Components.Pages.Interactivity
 
@@ -34,7 +33,7 @@
                     Official Alpine.js Plugins
                 </RzHeading>
 
-                <RzHeading Level="HeadingLevel.H3" class="mt-6">Collapse (<em>x-collapse</em>)</RzHeading>
+                <RzHeading Level="HeadingLevel.H3" class="mt-6" QuickReferenceTitle="Collapse (x-collapse)">Collapse (<em>x-collapse</em>)</RzHeading>
                 <RzParagraph>
                     This plugin smoothly animates an element's height from <code>0</code> to its full height. It's the magic behind components like <code>&lt;RzAccordion&gt;</code> and <code>&lt;RzCollapsible&gt;</code>.
                 </RzParagraph>
@@ -53,7 +52,7 @@
                     Note: <code>x-collapse</code> only animates height. For a fade-and-slide effect, combine it with <code>x-transition</code>.
                 </RzParagraph>
 
-                <RzHeading Level="HeadingLevel.H3" class="mt-8">Intersect (<em>x-intersect</em>)</RzHeading>
+                <RzHeading Level="HeadingLevel.H3" class="mt-8" QuickReferenceTitle="Intersect (x-intersect)">Intersect (<em>x-intersect</em>)</RzHeading>
                 <RzParagraph>
                     This plugin detects when an element enters or leaves the viewport. It's perfect for triggering animations, lazy-loading images, or firing analytics events. Use modifiers like <code>.once</code> to control how often it fires.
                 </RzParagraph>
@@ -68,7 +67,7 @@
 &lt;/div&gt;
                 </RzCodeViewer>
 
-                <RzHeading Level="HeadingLevel.H3" class="mt-8">Focus (<em>x-trap</em>)</RzHeading>
+                <RzHeading Level="HeadingLevel.H3" class="mt-8" QuickReferenceTitle="Focus (x-trap)">Focus (<em>x-trap</em>)</RzHeading>
                 <RzParagraph>
                     This is a critical plugin for accessibility. It "traps" the user's focus within an element, such as a modal dialog. This prevents users from accidentally tabbing to elements in the background.
                 </RzParagraph>
@@ -99,7 +98,7 @@
                     RizzyUI Custom Directives
                 </RzHeading>
 
-                <RzHeading Level="HeadingLevel.H3" class="mt-6"><em>x-mobile</em>: Simple Responsive Logic</RzHeading>
+                <RzHeading Level="HeadingLevel.H3" class="mt-6" QuickReferenceTitle="x-mobile: Responsive Logic"><em>x-mobile</em>: Simple Responsive Logic</RzHeading>
                 <RzParagraph>
                     The <code>x-mobile</code> directive detects if the viewport is below a breakpoint (default: <code>768px</code>) and updates automatically on resize. It provides two ways to react:
                 </RzParagraph>
@@ -120,7 +119,7 @@
 &lt;/div&gt;
                 </RzCodeViewer>
 
-                <RzHeading Level="HeadingLevel.H3" class="mt-8"><em>x-sync</em>: Two-Way State Synchronization</RzHeading>
+                <RzHeading Level="HeadingLevel.H3" class="mt-8" QuickReferenceTitle="x-sync: Two-Way State Synchronization"><em>x-sync</em>: Two-Way State Synchronization</RzHeading>
                 <RzParagraph>
                     The <code>x-sync</code> directive creates a two-way binding between a property in a parent Alpine component and a property in a **direct child** component.
                 </RzParagraph>
@@ -147,7 +146,7 @@
   &lt;/div&gt;
 &lt;/div&gt;
                 </RzCodeViewer>
-                <RzHeading Level="HeadingLevel.H4" class="mt-6">Controlling Initial Sync Direction</RzHeading>
+                <RzHeading Level="HeadingLevel.H4" class="mt-6" QuickReferenceTitle="Initial Sync Direction">Controlling Initial Sync Direction</RzHeading>
                 <RzParagraph>
                     By default, the parent's value overwrites the child's. You can reverse this by adding the <code>.init-child</code> modifier.
                 </RzParagraph>

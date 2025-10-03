@@ -1,0 +1,9 @@
+﻿@attribute [RzAlpineCodeBehind]
+@namespace RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+@using RizzyUI
+
+<RzAlpineComponent For="this" Name="modalController">
+	<RzButton x-on:click="openModal">Open Modal</RzButton>
+	<RzModal Title="My Modal" x-ref="myModal" />
+</RzAlpineComponent>

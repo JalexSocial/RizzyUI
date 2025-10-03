@@ -1,0 +1,210 @@
+@page "/docs/interactivity/orchestration"
+@namespace RizzyUI.Docs.Components.Pages.Interactivity
+
+@using RizzyUI
+@using RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+<PageTitle>Advanced: Orchestration</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Advanced: Orchestration">
+                Advanced: Orchestrating Components
+            </RzHeading>
+
+            <RzParagraph class="lead">
+                So far, we've built self-contained components. But in a real application, components need to work together. A button in a table row might need to open a modal. A search input in the header might need to update a list in the main content area.
+            </RzParagraph>
+            <RzParagraph>
+                This is <strong>orchestration</strong>: making separate components communicate and control each other. In RizzyUI, this is achieved with a simple and powerful pattern that combines Alpine's <code>x-ref</code> attribute with a special RizzyUI helper, <code>Rizzy.$data()</code>.
+            </RzParagraph>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="The Core Tools">
+                    The Core Tools for Orchestration
+                </RzHeading>
+                <RzParagraph>
+                    To make components talk, you only need two things:
+                </RzParagraph>
+                <ol class="list-decimal space-y-2 pl-6 my-6 text-foreground">
+                    <li><strong><code>x-ref</code>:</strong> An Alpine directive that gives you a named "handle" to a DOM element.</li>
+                    <li><strong><code>Rizzy.$data()</code>:</strong> A global helper function provided by RizzyUI. It takes a DOM element as an argument and returns the Alpine component instance (<code>x-data</code> object) associated with it.</li>
+                </ol>
+                <RzParagraph>
+                    By combining these two, you can get direct access to the methods and properties of any other RizzyUI component on the page.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Examples">
+                    Orchestration Examples
+                </RzHeading>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Example 1: A Delete Confirmation Modal</RzHeading>
+                <RzParagraph>
+                    A button in one component opens and passes data to a separate <code>&lt;RzModal&gt;</code> component.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex flex-col items-center justify-center gap-4 p-8 min-h-60">
+                        <OrchestrationModalExample />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="ItemManager.razor" class="mt-4">
+@@attribute [RzAlpineCodeBehind]
+
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;itemManager&quot;&gt;
+  &lt;div&gt;
+    &lt;p&gt;Item to delete: &lt;strong x-text=&quot;itemToDelete.name || 'None'&quot;&gt;&lt;/strong&gt;&lt;/p&gt;
+    &lt;RzButton Variant=&quot;ButtonVariant.Destructive&quot; x-on:click=&quot;confirmDelete({ id: 1, name: 'First Item' })&quot;&gt;
+      Delete Item
+    &lt;/RzButton&gt;
+  &lt;/div&gt;
+
+  &lt;RzModal Title=&quot;Confirm Deletion&quot; x-ref=&quot;confirmModal&quot;&gt;
+    &lt;ChildContent&gt;
+      &lt;p&gt;Are you sure you want to delete &lt;strong x-text=&quot;itemToDelete.name&quot;&gt;&lt;/strong&gt;?&lt;/p&gt;
+    &lt;/ChildContent&gt;
+    &lt;FooterContent&gt;
+      &lt;RzButton x-on:click=&quot;modal.closeModal()&quot;&gt;Cancel&lt;/RzButton&gt;
+      &lt;RzButton Variant=&quot;ButtonVariant.Destructive&quot;&gt;Confirm Delete&lt;/RzButton&gt;
+    &lt;/FooterContent&gt;
+  &lt;/RzModal&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="ItemManager.razor.js" class="mt-4">
+export default () =&gt; ({
+  itemToDelete: {},
+  modal: null,
+
+  init() {
+    this.modal = Rizzy.$data(this.$refs.confirmModal);
+  },
+
+  confirmDelete(item) {
+    this.itemToDelete = item;
+    if (this.modal?.openModal) { // Defensive check
+      this.modal.openModal();
+    }
+  }
+});
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Communication Patterns">
+                    Communication Patterns: When to Use Orchestration
+                </RzHeading>
+                <RzParagraph>
+                    Orchestration is powerful, but it's not the only way for components to communicate. Choosing the right pattern is key to building maintainable applications.
+                </RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr>
+                                <th class="p-4">Pattern</th>
+                                <th class="p-4">Use When…</th>
+                                <th class="p-4">Example</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top">
+                                <td class="p-4 font-medium"><strong>Orchestration</strong></td>
+                                <td class="p-4">One component must control another’s <strong>action</strong></td>
+                                <td class="p-4">Open a modal, trigger a toast</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4 font-medium"><strong>Global Store</strong></td>
+                                <td class="p-4">Multiple components need to <strong>share state</strong></td>
+                                <td class="p-4">Dark mode toggle, cart count</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4 font-medium"><strong>Events</strong></td>
+                                <td class="p-4">You need <strong>loosely coupled</strong> signals</td>
+                                <td class="p-4">Analytics pings, global alerts</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Best Practices">
+                    Best Practices for Orchestration
+                </RzHeading>
+                <ul class="list-disc space-y-3 pl-6 my-6 text-foreground">
+                    <li><strong>Use for Imperative Actions:</strong> Orchestration is best for *telling* a component to *do something* (e.g., <code>open()</code>, <code>close()</code>). For sharing data, prefer <code>Props</code> for initial data and global stores for ongoing reactive state.</li>
+                    <li><strong>Keep APIs Minimal:</strong> When designing a controllable component, expose a small, predictable API. This reduces coupling and makes your components easier to reason about.</li>
+                    <li><strong>Avoid Circular Orchestration:</strong> Avoid patterns where Component A controls Component B, and Component B also controls Component A. This can lead to infinite loops.</li>
+                    <li><strong>Re-acquire References After HTMX Swaps:</strong> If a target component might be replaced by an HTMX swap, re-acquire the reference just before you use it to avoid stale references.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Troubleshooting">
+                    Advanced Scenarios & Troubleshooting
+                </RzHeading>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Lifecycle: The Target Component Isn't Ready</RzHeading>
+                <RzParagraph>
+                    <strong>Problem:</strong> <code>Rizzy.$data()</code> returns <code>null</code> or <code>undefined</code> inside your <code>init()</code> method.
+                </RzParagraph>
+                <RzParagraph>
+                    <strong>Cause:</strong> You're likely trying to access the component before it has been initialized by Alpine. This is common if the target is rendered conditionally or further down the DOM.
+                </RzParagraph>
+                <RzParagraph>
+                    <strong>Fix:</strong> Wrap your orchestration setup in <code>this.$nextTick(() => { ... })</code>. This ensures your code runs after Alpine has completed its initial DOM updates.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mt-4">
+init() {
+  this.$nextTick(() =&gt; {
+    this.sidebar = Rizzy.$data(this.$refs.sidebar);
+  });
+}
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-8">HTMX: Handling Stale References</RzHeading>
+                <RzParagraph>
+                    <strong>Problem:</strong> Orchestration works once, but fails after an HTMX partial update.
+                </RzParagraph>
+                <RzParagraph>
+                    <strong>Cause:</strong> The original DOM element you referenced was replaced by the HTMX swap, making your stored Alpine instance stale.
+                </RzParagraph>
+                <RzParagraph>
+                    <strong>Fix:</strong> Re-acquire the reference inside the method that performs the action, ensuring you always have the latest instance.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mt-4">
+// Good practice for HTMX environments
+confirmDelete(item) {
+  this.itemToDelete = item;
+  // Re-acquire the reference every time
+  const modal = Rizzy.$data(this.$refs.confirmModal);
+  if (modal?.openModal) {
+    modal.openModal();
+  }
+}
+                </RzCodeViewer>
+            </section>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Next Steps">
+                    Next Steps
+                </RzHeading>
+                <RzParagraph>
+                    You now have the complete toolkit for building complex, interactive UIs with RizzyUI. The final piece of the puzzle is knowing what to do when things go wrong.
+                </RzParagraph>
+                <RzParagraph>
+                    The next page covers essential tips and tools for <RzLink Href="/docs/interactivity/debugging">Debugging and Best Practices</RzLink>.
+                </RzParagraph>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

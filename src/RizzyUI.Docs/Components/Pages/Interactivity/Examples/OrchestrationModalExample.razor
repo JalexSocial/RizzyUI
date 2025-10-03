@@ -1,0 +1,26 @@
+﻿@attribute [RzAlpineCodeBehind]
+@namespace RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+@using RizzyUI
+
+<RzAlpineComponent For="this" Name="itemManager">
+	<div class="text-center">
+		<p class="text-foreground">Item to delete: <strong x-text="itemToDelete.name || 'None'"></strong></p>
+		<RzButton Variant="ButtonVariant.Destructive" x-on:click="confirmDelete({ id: 1, name: 'First Item' })" class="mt-2">
+			Delete Item
+		</RzButton>
+	</div>
+
+	<!-- The Modal to be controlled -->
+	<RzModal Title="Confirm Deletion" x-ref="confirmModal">
+		<ChildContent>
+			<p>Are you sure you want to delete <strong x-text="itemToDelete.name"></strong>?</p>
+		</ChildContent>
+		<FooterContent>
+			<div class="flex justify-end gap-2">
+				<RzButton x-on:click="modal.closeModal()">Cancel</RzButton>
+				<RzButton Variant="ButtonVariant.Destructive">Confirm Delete</RzButton>
+			</div>
+		</FooterContent>
+	</RzModal>
+</RzAlpineComponent>

@@ -98,8 +98,15 @@ export default () =&gt; ({
                         We cover this pattern in detail on the <RzLink Href="/docs/interactivity/orchestration">Advanced: Orchestration</RzLink> page, but here’s a quick look at the pattern.
                     </AlertDescription>
                 </RzAlert>
+                
+                <div>
+                    <ModalController/>
+                </div>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="ModalController.razor" class="mt-4">
+@@attribute [RzAlpineCodeBehind]
+
+@@using RizzyUI
 &lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;modalController&quot;&gt;
   &lt;RzButton x-on:click=&quot;openModal&quot;&gt;Open Modal&lt;/RzButton&gt;
   &lt;RzModal Title=&quot;My Modal&quot; x-ref=&quot;myModal&quot; /&gt;
@@ -110,6 +117,9 @@ export default () =&gt; ({
   modalInstance: null,
 
   init() {
+    // Allow a tick for modal to transport to body (needed by RzModal)
+    await Alpine.nextTick();
+  
     // Get the Alpine instance of the RzModal component
     this.modalInstance = Rizzy.$data(this.$refs.myModal);
   },

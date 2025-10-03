@@ -5142,55 +5142,95 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
   function $data(idOrElement) {
     if (typeof Alpine === "undefined" || typeof Alpine.$data !== "function") {
       console.error(
-        "$data helper: Alpine.js context (Alpine.$data) is not available. Ensure Alpine is loaded and initialized globally before use."
+        "Rizzy.$data: Alpine.js context (Alpine.$data) is not available. Ensure Alpine is loaded and started before calling $data."
       );
       return void 0;
     }
-    let outerElement = null;
-    let componentId = null;
+    if (idOrElement instanceof Element) {
+      const target = resolveProxy(idOrElement) || idOrElement;
+      let alpineData = Alpine.$data(target);
+      if (alpineData === void 0) {
+        const nearest = target.closest?.("[x-data]");
+        if (nearest) {
+          alpineData = Alpine.$data(nearest);
+        }
+      }
+      if (alpineData === void 0) {
+        warnDataUndefined("element", target);
+      }
+      return alpineData;
+    }
     if (typeof idOrElement === "string") {
-      if (!idOrElement) {
+      const componentId = idOrElement.trim();
+      if (!componentId) {
         console.warn("Rizzy.$data: Invalid componentId provided (empty string).");
         return void 0;
       }
-      componentId = idOrElement;
-      outerElement = document.getElementById(componentId);
-      if (!outerElement) {
-        console.warn(`Rizzy.$data: Rizzy component with ID "${componentId}" not found in the DOM.`);
+      const selector = `[data-alpine-root="${cssEscapeSafe(componentId)}"]`;
+      let root = null;
+      const wrapper = document.getElementById(componentId);
+      if (wrapper) {
+        root = wrapper.matches(selector) ? wrapper : wrapper.querySelector(selector);
+      }
+      if (!root) {
+        root = findAlpineRootById(componentId);
+      }
+      if (!root) {
+        console.warn(
+          `Rizzy.$data: Could not locate an Alpine root using ${selector} locally or globally. Verify that the teleported root rendered and that 'data-alpine-root="${componentId}"' is present.`
+        );
         return void 0;
       }
-    } else if (idOrElement instanceof Element) {
-      outerElement = idOrElement;
-      if (!outerElement.id) {
-        console.warn("Rizzy.$data: Provided element does not have an ID attribute, which is required for locating the data-alpine-root.");
-        return void 0;
+      const alpineData = Alpine.$data(root);
+      if (alpineData === void 0) {
+        warnDataUndefined(`data-alpine-root="${componentId}"`, root);
       }
-      componentId = outerElement.id;
-    } else {
-      console.warn("Rizzy.$data: Invalid input provided. Expected a non-empty string ID or an Element object.");
-      return void 0;
+      return alpineData;
     }
-    const alpineRootSelector = `[data-alpine-root="${componentId}"]`;
-    let alpineRootElement = null;
-    if (outerElement.matches(alpineRootSelector)) {
-      alpineRootElement = outerElement;
-    } else {
-      alpineRootElement = outerElement.querySelector(alpineRootSelector);
+    console.warn("Rizzy.$data: Expected a non-empty string id or an Element.");
+    return void 0;
+  }
+  function resolveProxy(el) {
+    if (!(el instanceof Element)) return null;
+    const isProxyTag = el.tagName?.toLowerCase?.() === "rz-proxy";
+    const proxyFor = el.getAttribute?.("data-for");
+    if (isProxyTag || proxyFor) {
+      const id = proxyFor || "";
+      if (!id) return el;
+      const root = findAlpineRootById(id);
+      if (!root) {
+        console.warn(
+          `Rizzy.$data: Proxy element could not resolve Alpine root for id "${id}". Ensure the teleported root rendered with data-alpine-root="${id}".`
+        );
+        return null;
+      }
+      return root;
     }
-    if (!alpineRootElement) {
-      console.warn(
-        `Rizzy.$data: Could not locate the designated Alpine root element using selector "${alpineRootSelector}" on or inside the wrapper element (ID: #${componentId}). Verify the 'data-alpine-root' attribute placement.`
-      );
-      return void 0;
+    return el;
+  }
+  function findAlpineRootById(id) {
+    const sel = `[data-alpine-root="${cssEscapeSafe(id)}"]`;
+    const candidates = document.querySelectorAll(sel);
+    for (const n2 of candidates) {
+      if (n2.hasAttribute("x-data")) return n2;
     }
-    const alpineData = Alpine.$data(alpineRootElement);
-    if (alpineData === void 0) {
-      const targetDesc = `${alpineRootElement.tagName.toLowerCase()}${alpineRootElement.id ? "#" + alpineRootElement.id : ""}${alpineRootElement.classList.length ? "." + Array.from(alpineRootElement.classList).join(".") : ""}`;
-      console.warn(
-        `Rizzy.$data: Located designated Alpine root (${targetDesc}) via 'data-alpine-root="${componentId}"', but Alpine.$data returned undefined. Ensure 'x-data' is correctly defined and initialized on this element.`
-      );
+    if (candidates.length > 0) return candidates[0];
+    return document.getElementById(id) || null;
+  }
+  function cssEscapeSafe(s2) {
+    try {
+      if (window.CSS && typeof window.CSS.escape === "function") {
+        return window.CSS.escape(s2);
+      }
+    } catch (_) {
     }
-    return alpineData;
+    return String(s2).replace(/"/g, '\\"');
+  }
+  function warnDataUndefined(origin, target) {
+    const desc = `${target.tagName?.toLowerCase?.() || "node"}${target.id ? "#" + target.id : ""}${target.classList?.length ? "." + Array.from(target.classList).join(".") : ""}`;
+    console.warn(
+      `Rizzy.$data: Located target via ${origin} (${desc}), but Alpine.$data returned undefined. Ensure this element (or its nearest [x-data] ancestor) has an initialized Alpine component.`
+    );
   }
   function registerRzAccordion(Alpine2) {
     Alpine2.data("rzAccordion", () => ({

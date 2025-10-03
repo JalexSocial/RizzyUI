@@ -2,6 +2,14 @@
 @inherits RzComponent
 @using Blazicons
 
+@{
+    // If trying to use x-ref on a modal we'll drop in an inert placeholder to allow them to use
+    // Rizzy.$data() to get the actual Modal data
+    if (AdditionalAttributes?.TryGetValue("x-ref", out var attribute) is true)
+    {
+        <rz-proxy id="rz-ref-@Id" x-ref="@(attribute)" data-for="@Id"></rz-proxy>
+    }
+}
 <template x-teleport="body">
     <div x-data="rzModal"
          id="@Id"
