@@ -53,6 +53,7 @@ public partial class RzTheme
         RzCollapsible = new DefaultRzCollapsibleStyles(this);
         RzDarkmodeToggle = new DefaultRzDarkmodeToggleStyles(this);
         RzDateEdit = new DefaultRzDateEditStyles(this);
+        RzDialog = new DefaultRzDialogStyles(this);
         RzSeparator = new DefaultRzSeparatorStyles(this);
         RzDropdownMenu = new DefaultRzDropdownMenuStyles(this);
         RzEmbeddedPreview = new DefaultRzEmbeddedPreviewStyles(this);

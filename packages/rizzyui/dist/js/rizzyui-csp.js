@@ -6372,6 +6372,132 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       }
     }));
   }
+  function registerRzDialog(Alpine2) {
+    Alpine2.data("rzDialog", () => ({
+      modalOpen: false,
+      // Main state variable
+      eventTriggerName: "",
+      closeEventName: "rz:modal-close",
+      // Default value, corresponds to Constants.Events.ModalClose
+      closeOnEscape: true,
+      closeOnClickOutside: true,
+      modalId: "",
+      bodyId: "",
+      footerId: "",
+      nonce: "",
+      _escapeListener: null,
+      _openListener: null,
+      _closeEventListener: null,
+      init() {
+        this.modalId = this.$el.dataset.modalId || "";
+        this.bodyId = this.$el.dataset.bodyId || "";
+        this.footerId = this.$el.dataset.footerId || "";
+        this.nonce = this.$el.dataset.nonce || "";
+        this.eventTriggerName = this.$el.dataset.eventTriggerName || "";
+        this.closeEventName = this.$el.dataset.closeEventName || this.closeEventName;
+        this.closeOnEscape = this.$el.dataset.closeOnEscape !== "false";
+        this.closeOnClickOutside = this.$el.dataset.closeOnClickOutside !== "false";
+        this.$el.dispatchEvent(new CustomEvent("rz:modal-initialized", {
+          detail: { modalId: this.modalId, bodyId: this.bodyId, footerId: this.footerId },
+          bubbles: true
+        }));
+        if (this.eventTriggerName) {
+          this._openListener = (e2) => {
+            this.openModal(e2);
+          };
+          window.addEventListener(this.eventTriggerName, this._openListener);
+        }
+        this._closeEventListener = (event2) => {
+          if (this.modalOpen) {
+            this.closeModalInternally("event");
+          }
+        };
+        window.addEventListener(this.closeEventName, this._closeEventListener);
+        this._escapeListener = (e2) => {
+          if (this.modalOpen && this.closeOnEscape && e2.key === "Escape") {
+            this.closeModalInternally("escape");
+          }
+        };
+        window.addEventListener("keydown", this._escapeListener);
+        this.$watch("modalOpen", (value) => {
+          const currentWidth = document.body.offsetWidth;
+          document.body.classList.toggle("overflow-hidden", value);
+          const scrollBarWidth = document.body.offsetWidth - currentWidth;
+          document.body.style.setProperty("--page-scrollbar-width", `${scrollBarWidth}px`);
+          if (value) {
+            this.$nextTick(() => {
+              const dialogElement = this.$el.querySelector('[role="document"]');
+              const focusable2 = dialogElement?.querySelector(`button, [href], input:not([type='hidden']), select, textarea, [tabindex]:not([tabindex="-1"])`);
+              focusable2?.focus();
+              this.$el.dispatchEvent(new CustomEvent("rz:modal-after-open", {
+                detail: { modalId: this.modalId },
+                bubbles: true
+              }));
+            });
+          } else {
+            this.$nextTick(() => {
+              this.$el.dispatchEvent(new CustomEvent("rz:modal-after-close", {
+                detail: { modalId: this.modalId },
+                bubbles: true
+              }));
+            });
+          }
+        });
+      },
+      notModalOpen() {
+        return !this.modalOpen;
+      },
+      destroy() {
+        if (this._openListener && this.eventTriggerName) {
+          window.removeEventListener(this.eventTriggerName, this._openListener);
+        }
+        if (this._closeEventListener) {
+          window.removeEventListener(this.closeEventName, this._closeEventListener);
+        }
+        if (this._escapeListener) {
+          window.removeEventListener("keydown", this._escapeListener);
+        }
+        document.body.classList.remove("overflow-hidden");
+        document.body.style.setProperty("--page-scrollbar-width", `0px`);
+      },
+      openModal(event2 = null) {
+        const beforeOpenEvent = new CustomEvent("rz:modal-before-open", {
+          detail: { modalId: this.modalId, originalEvent: event2 },
+          bubbles: true,
+          cancelable: true
+        });
+        this.$el.dispatchEvent(beforeOpenEvent);
+        if (!beforeOpenEvent.defaultPrevented) {
+          this.modalOpen = true;
+        }
+      },
+      // Internal close function called by button, escape, backdrop, event
+      closeModalInternally(reason = "unknown") {
+        const beforeCloseEvent = new CustomEvent("rz:modal-before-close", {
+          detail: { modalId: this.modalId, reason },
+          bubbles: true,
+          cancelable: true
+        });
+        this.$el.dispatchEvent(beforeCloseEvent);
+        if (!beforeCloseEvent.defaultPrevented) {
+          document.activeElement?.blur && document.activeElement.blur();
+          this.modalOpen = false;
+          document.body.classList.remove("overflow-hidden");
+          document.body.style.setProperty("--page-scrollbar-width", `0px`);
+        }
+      },
+      // Called only by the explicit close button in the template
+      closeModal() {
+        this.closeModalInternally("button");
+      },
+      // Method called by x-on:click.outside on the dialog element
+      handleClickOutside() {
+        if (this.closeOnClickOutside) {
+          this.closeModalInternally("backdrop");
+        }
+      }
+    }));
+  }
   const min = Math.min;
   const max = Math.max;
   const round = Math.round;
@@ -8797,6 +8923,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     registerRzCodeViewer(Alpine2, rizzyRequire);
     registerRzCollapsible(Alpine2);
     registerRzDateEdit(Alpine2, rizzyRequire);
+    registerRzDialog(Alpine2);
     registerRzDropdownMenu(Alpine2);
     registerRzDarkModeToggle(Alpine2);
     registerRzEmbeddedPreview(Alpine2);

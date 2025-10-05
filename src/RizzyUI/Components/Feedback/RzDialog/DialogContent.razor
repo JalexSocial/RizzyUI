@@ -1,0 +1,45 @@
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent
+
+<template x-teleport="body">
+	<div class="contents">
+		<div x-cloak
+		     x-show="modalOpen"
+		     x-transition:enter="transition ease-out duration-200"
+		     x-transition:enter-start="opacity-0"
+		     x-transition:enter-end="opacity-100"
+		     x-transition:leave="transition ease-in duration-150"
+		     x-transition:leave-start="opacity-100"
+		     x-transition:leave-end="opacity-0"
+		     class="@Theme.RzDialog.Backdrop">
+		</div>
+
+		<HtmlElement Element="div" @attributes="AdditionalAttributes"
+		             x-cloak
+		             x-show="modalOpen"
+		             x-transition:enter="transition ease-out duration-200"
+		             x-transition:enter-start="opacity-0 scale-95"
+		             x-transition:enter-end="opacity-100 scale-100"
+		             x-transition:leave="transition ease-in duration-150"
+		             x-transition:leave-start="opacity-100 scale-100"
+		             x-transition:leave-end="opacity-0 scale-95"
+		             x-trap.inert="modalOpen"
+		             x-on:click.outside="handleClickOutside"
+		             role="document"
+		             class="@RootClass()">
+
+			@ChildContent
+
+			@if (ShowCloseButton)
+			{
+				<button x-on:click="closeModal"
+				        type="button"
+				        aria-label="@Localizer["RzDialog.CloseButtonAriaLabel"]"
+				        class="@Theme.RzDialog.CloseButton">
+					<Blazicon Svg="Lucide.X" class="@Theme.RzDialog.CloseButtonIcon"/>
+				</button>
+			}
+		</HtmlElement>
+	</div>
+</template>
