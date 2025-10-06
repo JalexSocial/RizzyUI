@@ -24,7 +24,10 @@ export default () => ({
      * It is responsible for reading the initial data using the Rizzy.props() helper.
      * @this {import('alpinejs').AlpineComponent}
      */
-    init() {
+    async init() {
+        // Allow a tick for modal to transport to body (needed by RzDialog)
+        await Alpine.nextTick();
+        
         const props = Rizzy.props(this.$el);
 
         // Update the DOM with the initial message. `this.$refs` provides access to elements

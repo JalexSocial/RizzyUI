@@ -1,4 +1,5 @@
-﻿@attribute [RzAlpineCodeBehind]
+
+@attribute [RzAlpineCodeBehind]
 @namespace RizzyUI.Docs.Components.Pages.Interactivity.Examples
 
 @using RizzyUI
@@ -12,15 +13,20 @@
 	</div>
 
 	<!-- The Modal to be controlled -->
-	<RzDialog Title="Confirm Deletion" x-ref="confirmModal">
-		<ChildContent>
-			<p>Are you sure you want to delete <strong x-text="itemToDelete.name"></strong>?</p>
-		</ChildContent>
-		<FooterContent>
-			<div class="flex justify-end gap-2">
-				<RzButton x-on:click="modal.closeModal()">Cancel</RzButton>
+	<RzDialog x-ref="confirmModal">
+        <DialogContent>
+            <DialogHeader>
+		        <DialogTitle>Confirm Deletion</DialogTitle>
+            </DialogHeader>
+            <div class="p-6">
+			    <p>Are you sure you want to delete <strong x-text="itemToDelete.name"></strong>?</p>
+            </div>
+            <DialogFooter>
+                <DialogClose AsChild>
+				    <RzButton>Cancel</RzButton>
+                </DialogClose>
 				<RzButton Variant="ButtonVariant.Destructive">Confirm Delete</RzButton>
-			</div>
-		</FooterContent>
+            </DialogFooter>
+        </DialogContent>
 	</RzDialog>
 </RzAlpineComponent>

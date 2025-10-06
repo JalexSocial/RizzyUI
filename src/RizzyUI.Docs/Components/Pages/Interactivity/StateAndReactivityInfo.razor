@@ -116,7 +116,7 @@ export default () =&gt; ({
 export default () =&gt; ({
   modalInstance: null,
 
-  init() {
+  async init() {
     // Allow a tick for modal to transport to body (needed by RzDialog)
     await Alpine.nextTick();
   

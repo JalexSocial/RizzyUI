@@ -1,3 +1,4 @@
+
 @page "/docs/interactivity/orchestration"
 @namespace RizzyUI.Docs.Components.Pages.Interactivity
 
@@ -59,21 +60,29 @@
 @@attribute [RzAlpineCodeBehind]
 
 &lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;itemManager&quot;&gt;
-  &lt;div&gt;
-    &lt;p&gt;Item to delete: &lt;strong x-text=&quot;itemToDelete.name || 'None'&quot;&gt;&lt;/strong&gt;&lt;/p&gt;
-    &lt;RzButton Variant=&quot;ButtonVariant.Destructive&quot; x-on:click=&quot;confirmDelete({ id: 1, name: 'First Item' })&quot;&gt;
+  &lt;div class="text-center"&gt;
+    &lt;p class="text-foreground"&gt;Item to delete: &lt;strong x-text=&quot;itemToDelete.name || 'None'&quot;&gt;&lt;/strong&gt;&lt;/p&gt;
+    &lt;RzButton Variant=&quot;ButtonVariant.Destructive&quot; x-on:click=&quot;confirmDelete({ id: 1, name: 'First Item' })&quot; class="mt-2"&gt;
       Delete Item
     &lt;/RzButton&gt;
   &lt;/div&gt;
 
-  &lt;RzDialog Title=&quot;Confirm Deletion&quot; x-ref=&quot;confirmModal&quot;&gt;
-    &lt;ChildContent&gt;
-      &lt;p&gt;Are you sure you want to delete &lt;strong x-text=&quot;itemToDelete.name&quot;&gt;&lt;/strong&gt;?&lt;/p&gt;
-    &lt;/ChildContent&gt;
-    &lt;FooterContent&gt;
-      &lt;RzButton x-on:click=&quot;modal.closeModal()&quot;&gt;Cancel&lt;/RzButton&gt;
-      &lt;RzButton Variant=&quot;ButtonVariant.Destructive&quot;&gt;Confirm Delete&lt;/RzButton&gt;
-    &lt;/FooterContent&gt;
+  &lt;!-- The Modal to be controlled --&gt;
+  &lt;RzDialog x-ref=&quot;confirmModal&quot;&gt;
+    &lt;DialogContent&gt;
+        &lt;DialogHeader&gt;
+            &lt;DialogTitle&gt;Confirm Deletion&lt;/DialogTitle&gt;
+        &lt;/DialogHeader&gt;
+        &lt;div class="p-6"&gt;
+            &lt;p&gt;Are you sure you want to delete &lt;strong x-text=&quot;itemToDelete.name&quot;&gt;&lt;/strong&gt;?&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;DialogFooter&gt;
+            &lt;DialogClose AsChild&gt;
+                &lt;RzButton&gt;Cancel&lt;/RzButton&gt;
+            &lt;/DialogClose&gt;
+            &lt;RzButton Variant=&quot;ButtonVariant.Destructive&quot;&gt;Confirm Delete&lt;/RzButton&gt;
+        &lt;/DialogFooter&gt;
+    &lt;/DialogContent&gt;
   &lt;/RzDialog&gt;
 &lt;/RzAlpineComponent&gt;
                 </RzCodeViewer>
@@ -83,13 +92,26 @@ export default () =&gt; ({
   modal: null,
 
   init() {
-    this.modal = Rizzy.$data(this.$refs.confirmModal);
+    // It's safer to get the reference inside a $nextTick to ensure the modal has been initialized by Alpine
+    this.$nextTick(() =&gt; {
+      this.modal = Rizzy.$data(this.$refs.confirmModal);
+    });
   },
 
   confirmDelete(item) {
     this.itemToDelete = item;
-    if (this.modal?.openModal) { // Defensive check
-      this.modal.openModal();
+
+    // Defensive check: re-acquire the reference in case of HTMX swaps
+    const modal = Rizzy.$data(this.$refs.confirmModal);
+    if (modal?.openModal) {
+      modal.openModal();
+    } else {
+      // Fallback or error handling if the modal isn't ready yet
+      console.warn("Modal instance not available yet. Retrying in a moment.");
+      this.$nextTick(() =&gt; {
+        const modalRetry = Rizzy.$data(this.$refs.confirmModal);
+        modalRetry?.openModal();
+      });
     }
   }
 });

@@ -160,12 +160,12 @@ export default () => ({
                             <RzButton x-on:click="openConfirmationModal">Show Confirmation</RzButton>
 
                             <RzDialog Title="Confirm Action" x-ref="confirmModal">
-                                <ChildContent>
+                                <DialogContent>
                                     <p>Are you sure you want to proceed? This action is controlled by the page's Alpine module.</p>
-                                </ChildContent>
-                                <FooterContent>
-                                    <RzButton x-on:click="$data.closeModal()">Close</RzButton>
-                                </FooterContent>
+                                    <DialogFooter>
+                                        <RzButton x-on:click="$data.closeModal()">Close</RzButton>
+                                    </DialogFooter>
+                                </DialogContent>
                             </RzDialog>
                         </RzAlpineComponent>
                     </div>
@@ -184,7 +184,10 @@ export default () => ({
 export default () => ({
     confirmModal: null,
 
-    init() {
+    async init() {
+        // Allow a tick for modal to transport to body (needed by RzDialog)
+        await Alpine.nextTick();
+        
         // Get the Alpine instance for the RzDialog component
         this.confirmModal = Rizzy.$data(this.$refs.confirmModal);
     },
