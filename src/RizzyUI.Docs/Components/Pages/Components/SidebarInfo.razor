@@ -1140,12 +1140,12 @@
                     Sidebar in a Modal
                 </RzHeading>
                 <RzParagraph>
-                    This example demonstrates embedding a non-collapsible sidebar within an <code>RzModal</code> component to create a settings dialog.
+                    This example demonstrates embedding a non-collapsible sidebar within an <code>RzDialog</code> component to create a settings dialog.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="relative h-[600px] w-full overflow-hidden rounded-md p-8">
                         <RzButton onclick="window.dispatchEvent(new CustomEvent('show-settings-modal'))">Open Settings</RzButton>
-                        <RzModal EventTriggerName="show-settings-modal" Size="ModalSize.FourXL" class="p-0 overflow-hidden">
+                        <RzDialog EventTriggerName="show-settings-modal" Size="ModalSize.FourXL" class="p-0 overflow-hidden">
                             <ChildContent>
                                 <RzSidebarProvider class="items-start">
                                     <Sidebar Collapsible="SidebarCollapsible.None" class="hidden md:flex">
@@ -1189,7 +1189,7 @@
                                     </main>
                                 </RzSidebarProvider>
                             </ChildContent>
-                        </RzModal>
+                        </RzDialog>
                     </div>
                 </RzBrowser>
             </section>

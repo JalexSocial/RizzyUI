@@ -48,7 +48,7 @@
 
                 <RzHeading Level="HeadingLevel.H3" class="mt-6">Example 1: A Delete Confirmation Modal</RzHeading>
                 <RzParagraph>
-                    A button in one component opens and passes data to a separate <code>&lt;RzModal&gt;</code> component.
+                    A button in one component opens and passes data to a separate <code>&lt;RzDialog&gt;</code> component.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex flex-col items-center justify-center gap-4 p-8 min-h-60">
@@ -66,7 +66,7 @@
     &lt;/RzButton&gt;
   &lt;/div&gt;
 
-  &lt;RzModal Title=&quot;Confirm Deletion&quot; x-ref=&quot;confirmModal&quot;&gt;
+  &lt;RzDialog Title=&quot;Confirm Deletion&quot; x-ref=&quot;confirmModal&quot;&gt;
     &lt;ChildContent&gt;
       &lt;p&gt;Are you sure you want to delete &lt;strong x-text=&quot;itemToDelete.name&quot;&gt;&lt;/strong&gt;?&lt;/p&gt;
     &lt;/ChildContent&gt;
@@ -74,7 +74,7 @@
       &lt;RzButton x-on:click=&quot;modal.closeModal()&quot;&gt;Cancel&lt;/RzButton&gt;
       &lt;RzButton Variant=&quot;ButtonVariant.Destructive&quot;&gt;Confirm Delete&lt;/RzButton&gt;
     &lt;/FooterContent&gt;
-  &lt;/RzModal&gt;
+  &lt;/RzDialog&gt;
 &lt;/RzAlpineComponent&gt;
                 </RzCodeViewer>
                 <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="ItemManager.razor.js" class="mt-4">

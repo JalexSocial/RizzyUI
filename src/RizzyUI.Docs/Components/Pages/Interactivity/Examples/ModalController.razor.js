@@ -3,10 +3,10 @@
 
     async init() {
         
-        // Allow a tick for modal to transport to body (needed by RzModal)
+        // Allow a tick for modal to transport to body (needed by RzDialog)
         await Alpine.nextTick();
 
-        // Get the Alpine instance of the RzModal component
+        // Get the Alpine instance of the RzDialog component
         this.modalInstance = Rizzy.$data(this.$refs.myModal);
     },
 

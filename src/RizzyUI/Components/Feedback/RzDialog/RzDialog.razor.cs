@@ -42,10 +42,10 @@ public partial class RzDialog : RzComponent
 
     /// <summary>
     /// Gets or sets the name of the window event that will trigger this dialog to close.
-    /// Defaults to the value defined in <see cref="Constants.Events.ModalClose"/>.
+    /// Defaults to the value defined in <see cref="Constants.Events.DialogClose"/>.
     /// </summary>
     [Parameter]
-    public string CloseEventName { get; set; } = Constants.Events.ModalClose;
+    public string CloseEventName { get; set; } = Constants.Events.DialogClose;
 
     /// <summary>
     /// Gets or sets whether the dialog should close when the Escape key is pressed.

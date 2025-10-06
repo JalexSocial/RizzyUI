@@ -39,45 +39,45 @@ public static class Constants
         public const string Initialize = "rz:init";
         
         /// <summary>
-        /// The default event name that the RzModal component listens for to trigger closing via external sources (e.g., HTMX HX-Trigger header).
-        /// Can be overridden via the `CloseEventName` parameter on RzModal.
+        /// The default event name that the RzDialog component listens for to trigger closing via external sources (e.g., HTMX HX-Trigger header).
+        /// Can be overridden via the `CloseEventName` parameter on RzDialog.
         /// </summary>
         /// <remarks>Value: "rz:modal-close"</remarks>
-        public const string ModalClose = "rz:modal-close";
+        public const string DialogClose = "rz:dialog-close";
 
         /// <summary>
-        /// Fired by the RzModal Alpine component once during initialization, after its properties are set but before listeners are attached.
+        /// Fired by the RzDialog Alpine component once during initialization, after its properties are set but before listeners are attached.
         /// Detail: `{ modalId: string, bodyId: string, footerId: string }`
         /// </summary>
         /// <remarks>Value: "rz:modal-initialized"</remarks>
-        public const string ModalInitialized = "rz:modal-initialized";
+        public const string DialogInitialized = "rz:dialog-initialized";
 
         /// <summary>
-        /// Fired by the RzModal Alpine component just before the modal's `modalOpen` state is set to `true`. This event is cancelable.
+        /// Fired by the RzDialog Alpine component just before the modal's `modalOpen` state is set to `true`. This event is cancelable.
         /// Detail: `{ modalId: string, originalEvent: Event | null }`
         /// </summary>
         /// <remarks>Value: "rz:modal-before-open"</remarks>
-        public const string ModalBeforeOpen = "rz:modal-before-open";
+        public const string DialogBeforeOpen = "rz:dialog-before-open";
 
         /// <summary>
-        /// Fired by the RzModal Alpine component after the modal's `modalOpen` state is set to `true` and opening transitions are likely complete.
+        /// Fired by the RzDialog Alpine component after the modal's `modalOpen` state is set to `true` and opening transitions are likely complete.
         /// Detail: `{ modalId: string }`
         /// </summary>
         /// <remarks>Value: "rz:modal-after-open"</remarks>
-        public const string ModalAfterOpen = "rz:modal-after-open";
+        public const string DialogAfterOpen = "rz:dialog-after-open";
 
         /// <summary>
-        /// Fired by the RzModal Alpine component just before the modal's `modalOpen` state is set to `false`. This event is cancelable.
+        /// Fired by the RzDialog Alpine component just before the modal's `modalOpen` state is set to `false`. This event is cancelable.
         /// Detail: `{ modalId: string, reason: 'escape' | 'backdrop' | 'button' | 'event' }`
         /// </summary>
         /// <remarks>Value: "rz:modal-before-close"</remarks>
-        public const string ModalBeforeClose = "rz:modal-before-close";
+        public const string DialogBeforeClose = "rz:dialog-before-close";
 
         /// <summary>
-        /// Fired by the RzModal Alpine component after the modal's `modalOpen` state is set to `false` and closing transitions are likely complete.
+        /// Fired by the RzDialog Alpine component after the modal's `modalOpen` state is set to `false` and closing transitions are likely complete.
         /// Detail: `{ modalId: string }`
         /// </summary>
         /// <remarks>Value: "rz:modal-after-close"</remarks>
-        public const string ModalAfterClose = "rz:modal-after-close";
+        public const string DialogAfterClose = "rz:dialog-after-close";
     }
 }

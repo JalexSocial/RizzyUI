@@ -15,7 +15,7 @@ import registerRzEmbeddedPreview from './components/rzEmbeddedPreview.js';
 import registerRzEmpty from './components/rzEmpty.js';
 import registerRzHeading from './components/rzHeading.js';
 import registerRzMarkdown from './components/rzMarkdown.js';
-import registerRzModal from './components/rzModal.js';
+import registerRzDialog from './components/rzModal.js';
 import registerRzPrependInput from './components/rzPrependInput.js';
 import registerRzProgress from './components/rzProgress.js';
 import registerRzQuickReferenceContainer from './components/rzQuickReferenceContainer.js';
@@ -74,7 +74,7 @@ function registerComponents(Alpine) {
     registerRzEmpty(Alpine);
     registerRzHeading(Alpine);
     registerRzMarkdown(Alpine, rizzyRequire);
-    registerRzModal(Alpine);
+    registerRzDialog(Alpine);
     registerRzPrependInput(Alpine);
     registerRzProgress(Alpine);
     registerRzQuickReferenceContainer(Alpine);

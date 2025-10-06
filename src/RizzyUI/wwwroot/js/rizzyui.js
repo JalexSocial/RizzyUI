@@ -7450,7 +7450,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       };
     });
   }
-  function registerRzModal(Alpine2) {
+  function registerRzDialog(Alpine2) {
     Alpine2.data("rzModal", () => ({
       modalOpen: false,
       // Main state variable
@@ -8150,7 +8150,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     registerRzIndicator(Alpine2);
     registerRzMarkdown(Alpine2, rizzyRequire);
     registerRzNavigationMenu(Alpine2);
-    registerRzModal(Alpine2);
+    registerRzDialog(Alpine2);
     registerRzPopover(Alpine2);
     registerRzPrependInput(Alpine2);
     registerRzProgress(Alpine2);

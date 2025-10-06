@@ -34,7 +34,7 @@ export default () => ({
             this.$refs.messageOutput.innerText = this.message;
         }
 
-        // Get the Alpine instance for the RzModal component if it exists
+        // Get the Alpine instance for the RzDialog component if it exists
         if (this.$refs.confirmModal) {
             this.confirmModal = Rizzy.$data(this.$refs.confirmModal);
         }

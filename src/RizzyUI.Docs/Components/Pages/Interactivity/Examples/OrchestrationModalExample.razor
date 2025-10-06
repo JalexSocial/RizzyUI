@@ -12,7 +12,7 @@
 	</div>
 
 	<!-- The Modal to be controlled -->
-	<RzModal Title="Confirm Deletion" x-ref="confirmModal">
+	<RzDialog Title="Confirm Deletion" x-ref="confirmModal">
 		<ChildContent>
 			<p>Are you sure you want to delete <strong x-text="itemToDelete.name"></strong>?</p>
 		</ChildContent>
@@ -22,5 +22,5 @@
 				<RzButton Variant="ButtonVariant.Destructive">Confirm Delete</RzButton>
 			</div>
 		</FooterContent>
-	</RzModal>
+	</RzDialog>
 </RzAlpineComponent>

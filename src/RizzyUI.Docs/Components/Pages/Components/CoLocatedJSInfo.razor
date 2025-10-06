@@ -159,14 +159,14 @@ export default () => ({
                         <RzAlpineComponent For="this" Name="coLocatedJsPage">
                             <RzButton x-on:click="openConfirmationModal">Show Confirmation</RzButton>
 
-                            <RzModal Title="Confirm Action" x-ref="confirmModal">
+                            <RzDialog Title="Confirm Action" x-ref="confirmModal">
                                 <ChildContent>
                                     <p>Are you sure you want to proceed? This action is controlled by the page's Alpine module.</p>
                                 </ChildContent>
                                 <FooterContent>
                                     <RzButton x-on:click="$data.closeModal()">Close</RzButton>
                                 </FooterContent>
-                            </RzModal>
+                            </RzDialog>
                         </RzAlpineComponent>
                     </div>
                 </RzBrowser>
@@ -175,9 +175,9 @@ export default () => ({
 &lt;RzAlpineComponent For="this" Name="coLocatedJsPage"&gt;
     &lt;RzButton x-on:click="openConfirmationModal"&gt;Show Confirmation&lt;/RzButton&gt;
 
-    &lt;RzModal Title="Confirm Action" x-ref="confirmModal"&gt;
+    &lt;RzDialog Title="Confirm Action" x-ref="confirmModal"&gt;
         &lt;!-- Modal Content --&gt;
-    &lt;/RzModal&gt;
+    &lt;/RzDialog&gt;
 &lt;/RzAlpineComponent&gt;
                 </RzCodeViewer>
                 <RzCodeViewer Language="javascript" ViewerTitle="CoLocatedJSInfo.razor.js (Orchestration)" class="mb-10">
@@ -185,7 +185,7 @@ export default () => ({
     confirmModal: null,
 
     init() {
-        // Get the Alpine instance for the RzModal component
+        // Get the Alpine instance for the RzDialog component
         this.confirmModal = Rizzy.$data(this.$refs.confirmModal);
     },
 
