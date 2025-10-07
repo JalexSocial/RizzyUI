@@ -117,7 +117,10 @@ export default () =&gt; ({
   modalInstance: null,
 
   async init() {
-    // Allow a tick for modal to transport to body (needed by RzDialog)
+    // !IMPORTANT! Allow a tick for modal to transport to body (needed by RzDialog)
+    // If we don't wait the tick then Rizzy.$data() won't be able to resolve the dialog. Note that waiting a tick
+    // is only needed to resolve data for components that move themselves in the DOM from template 
+    // (like modals, popovers, etc).
     await Alpine.nextTick();
   
     // Get the Alpine instance of the RzDialog component
