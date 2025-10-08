@@ -5598,12 +5598,12 @@ function Sc(e) {
       _[E] = m;
     }, l = e.closestDataStack(n) || [], c = l[0] || null, u = l[1] || null;
     if (!c || !u) {
-      import.meta?.env?.DEV && console.warn("[x-sync] Could not find direct parent/child x-data. Ensure x-sync is used one level inside a parent component.");
+      import.meta?.env?.DEV && console.warn("[x-syncprop] Could not find direct parent/child x-data. Ensure x-syncprop is used one level inside a parent component.");
       return;
     }
     const d = i.split(",").map((w) => w.trim()).filter(Boolean).map((w) => {
       const p = w.split("->").map((m) => m.trim());
-      return p.length !== 2 ? (console.warn('[x-sync] Invalid mapping (expected "parent.path -> child.path"): ', w), null) : { parentPath: p[0], childPath: p[1] };
+      return p.length !== 2 ? (console.warn('[x-syncprop] Invalid mapping (expected "parent.path -> child.path"): ', w), null) : { parentPath: p[0], childPath: p[1] };
     }).filter(Boolean), h = r.includes("init-child") || r.includes("child") || r.includes("childWins"), b = d.map(() => ({
       fromParent: !1,
       fromChild: !1,
@@ -5649,7 +5649,7 @@ function Sc(e) {
         }
     });
   };
-  e.directive("sync", t);
+  e.directive("syncprop", t);
 }
 G.plugin(Ca);
 G.plugin(Na);

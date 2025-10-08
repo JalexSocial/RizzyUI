@@ -52,8 +52,8 @@
                 <RzParagraph>
                     To enable this pattern, you must add the <code>[RzAlpineCodeBehind]</code> attribute to the top of your <code>.razor</code> file. This is the "magic" that tells the system to look for a corresponding <code>.razor.js</code> file during the build process.
                 </RzParagraph>
-                <RzAlert Variant="AlertVariant.Information" class="my-4">
-                    <AlertTitle>💡 A Note on Syntax</AlertTitle>
+                <RzAlert Variant="AlertVariant.Information" Icon=@MdiIcon.LightbulbOnOutline class="my-4">
+                    <AlertTitle>A Note on Syntax</AlertTitle>
                     <AlertDescription>
                         In your <code>.razor</code> file, you'll declare this as <code>@@attribute [RzAlpineCodeBehind]</code>. In a C# (<code>.razor.cs</code>) file, it would appear as a standard <code>[RzAlpineCodeBehind]</code> attribute on the class.
                     </AlertDescription>

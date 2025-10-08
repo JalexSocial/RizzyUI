@@ -8224,14 +8224,14 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       const parentData = stack[1] || null;
       if (!childData || !parentData) {
         if (void 0) {
-          console.warn("[x-sync] Could not find direct parent/child x-data. Ensure x-sync is used one level inside a parent component.");
+          console.warn("[x-syncprop] Could not find direct parent/child x-data. Ensure x-syncprop is used one level inside a parent component.");
         }
         return;
       }
       const pairs = expression.split(",").map((s2) => s2.trim()).filter(Boolean).map((s2) => {
         const m2 = s2.split("->").map((x) => x.trim());
         if (m2.length !== 2) {
-          console.warn('[x-sync] Invalid mapping (expected "parent.path -> child.path"): ', s2);
+          console.warn('[x-syncprop] Invalid mapping (expected "parent.path -> child.path"): ', s2);
           return null;
         }
         return { parentPath: m2[0], childPath: m2[1] };
@@ -8294,7 +8294,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         }
       });
     };
-    Alpine2.directive("sync", handler4);
+    Alpine2.directive("syncprop", handler4);
   }
   module_default$3.plugin(module_default$2);
   module_default$3.plugin(module_default$1);

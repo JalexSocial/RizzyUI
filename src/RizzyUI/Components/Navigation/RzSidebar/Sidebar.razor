@@ -18,7 +18,7 @@ else
 	     data-slot="sidebar">
 
 		<div class="md:hidden">
-			<RzSheet x-sync="openMobile -> open">
+			<RzSheet x-syncprop="openMobile -> open">
 				<SheetContent Side="@(Side == SidebarSide.Left ? SheetSide.Left : SheetSide.Right)"
 				              class="w-[var(--sidebar-mobile-width)] p-0 [&>button]:hidden"
 				              x-bind:open="openMobile"

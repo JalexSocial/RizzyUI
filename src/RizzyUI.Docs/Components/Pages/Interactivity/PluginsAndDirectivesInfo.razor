@@ -119,24 +119,24 @@
 &lt;/div&gt;
                 </RzCodeViewer>
 
-                <RzHeading Level="HeadingLevel.H3" class="mt-8" QuickReferenceTitle="x-sync: Two-Way State Synchronization"><em>x-sync</em>: Two-Way State Synchronization</RzHeading>
+                <RzHeading Level="HeadingLevel.H3" class="mt-8" QuickReferenceTitle="x-syncprop: Two-Way State Synchronization"><em>x-syncprop</em>: Two-Way State Synchronization</RzHeading>
                 <RzParagraph>
-                    The <code>x-sync</code> directive creates a two-way binding between a property in a parent Alpine component and a property in a **direct child** component.
+                    The <code>x-syncprop</code> directive creates a two-way binding between a property in a parent Alpine component and a property in a **direct child** component.
                 </RzParagraph>
                 <RzAlert Variant="AlertVariant.Information" class="my-4">
-                    <AlertTitle>What Problem Does <code>x-sync</code> Solve?</AlertTitle>
+                    <AlertTitle>What Problem Does <code>x-syncprop</code> Solve?</AlertTitle>
                     <AlertDescription>
-                        Alpine's built-in <code>x-modelable</code> is for single-property binding and is **not compatible with CSP builds**. <code>x-sync</code> fills this gap by allowing you to declaratively sync **multiple, arbitrary properties** between components in a way that is both powerful and fully CSP-compliant.
+                        Alpine's built-in <code>x-modelable</code> is for single-property binding and is **not compatible with CSP builds**. <code>x-syncprop</code> fills this gap by allowing you to declaratively sync **multiple, arbitrary properties** between components in a way that is both powerful and fully CSP-compliant.
                     </AlertDescription>
                 </RzAlert>
                 <RzParagraph>
-                    The syntax is <code>x-sync="parent.property -> child.property"</code>. You can sync multiple properties by separating them with a comma.
+                    The syntax is <code>x-syncprop="parent.property -> child.property"</code>. You can sync multiple properties by separating them with a comma.
                 </RzParagraph>
                 <RzCodeViewer Language="@CodeLanguage.Html" ViewerTitle="Syncing Multiple Properties" class="mt-4">
 &lt;div x-data=&quot;{ form: { name: 'Alice', email: 'alice@example.com' } }&quot;&gt;
   &lt;!-- Child component that syncs with the parent form object --&gt;
   &lt;div x-data=&quot;{ localName: '', localEmail: '' }&quot;
-       x-sync=&quot;form.name -&gt; localName, form.email -&gt; localEmail&quot;&gt;
+       x-syncprop=&quot;form.name -&gt; localName, form.email -&gt; localEmail&quot;&gt;
     
     &lt;label&gt;Name:&lt;/label&gt;
     &lt;input type=&quot;text&quot; x-model=&quot;localName&quot; class=&quot;input&quot; /&gt;
@@ -154,7 +154,7 @@
 &lt;div x-data=&quot;{ form: { age: 30 } }&quot;&gt;
   &lt;!-- Here, the child's initial value of 99 will overwrite the parent's value of 30 --&gt;
   &lt;div x-data=&quot;{ fields: { ageCopy: 99 } }&quot;
-       x-sync.init-child=&quot;form.age -&gt; fields.ageCopy&quot;&gt;
+       x-syncprop.init-child=&quot;form.age -&gt; fields.ageCopy&quot;&gt;
   &lt;/div&gt;
 &lt;/div&gt;
                 </RzCodeViewer>
@@ -169,7 +169,7 @@
                     <li><strong><code>x-intersect</code>:</strong> Prefer using the <code>.once</code> modifier for animations that should only happen once to avoid re-triggering on scroll bounce.</li>
                     <li><strong><code>x-trap</code>:</strong> When building custom modals, always pair <code>x-trap</code> with <code>role="dialog"</code> and <code>aria-modal="true"</code> for proper accessibility.</li>
                     <li><strong><code>x-mobile</code>:</strong> The directive listens for `resize` events. Avoid putting expensive DOM updates in a watcher that observes the synced boolean to prevent performance issues.</li>
-                    <li><strong><code>x-sync</code>:</strong> Only sync the properties you need. Avoid syncing large, deeply nested objects unnecessarily to keep reactivity efficient.</li>
+                    <li><strong><code>x-syncprop</code>:</strong> Only sync the properties you need. Avoid syncing large, deeply nested objects unnecessarily to keep reactivity efficient.</li>
                 </ul>
             </section>
 

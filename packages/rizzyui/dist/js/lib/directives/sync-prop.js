@@ -1,6 +1,6 @@
 ﻿// sync-prop.js
 //
-// Alpine directive: x-sync="parent.path -> child.path[, parent.other -> child.other]"
+// Alpine directive: x-syncprop="parent.path -> child.path[, parent.other -> child.other]"
 //
 // Two-way synchronization between a DIRECT parent component property and any
 // property in the current (child) component. Designed to cover the common need
@@ -12,7 +12,7 @@
 // Alpine provides `x-model` and `x-modelable` for single-value bindings, but
 // synchronizing multiple arbitrary keys (and nested paths) between parent and
 // child in a declarative, maintainable way is non-trivial.
-// `x-sync` solves this by letting you declare one or more parent↔child mappings.
+// `x-syncprop` solves this by letting you declare one or more parent↔child mappings.
 //
 // ──────────────────────────────────────────────────────────────────────────────
 // USAGE
@@ -21,7 +21,7 @@
 // Single mapping:
 // <div x-data="{ parent: { age: 30 } }">
 //   <div x-data="{ fields: { ageCopy: 0 } }"
-//        x-sync="parent.age -> fields.ageCopy">
+//        x-syncprop="parent.age -> fields.ageCopy">
 //     <input type="number" x-model="fields.ageCopy">
 //   </div>
 // </div>
@@ -29,19 +29,19 @@
 // Multiple mappings (comma-separated):
 // <div x-data="{ form: { name: 'Alice', age: 30 } }">
 //   <div x-data="{ fields: { nameCopy: '', ageCopy: 0 } }"
-//        x-sync="form.name -> fields.nameCopy, form.age -> fields.ageCopy">
+//        x-syncprop="form.name -> fields.nameCopy, form.age -> fields.ageCopy">
 //     <input x-model="fields.nameCopy">
 //     <input type="number" x-model="fields.ageCopy">
 //   </div>
 // </div>
 //
 // Initial sync strategy (default: parent wins):
-// - Parent wins (default):   x-sync="..."            or x-sync.init-parent="..."
-// - Child wins (override):   x-sync.init-child="..."
+// - Parent wins (default):   x-syncprop="..."            or x-syncprop.init-parent="..."
+// - Child wins (override):   x-syncprop.init-child="..."
 // Example:
 // <div x-data="{ form: { age: 30 } }">
 //   <div x-data="{ fields: { ageCopy: 99 } }"
-//        x-sync.init-child="form.age -> fields.ageCopy"></div>
+//        x-syncprop.init-child="form.age -> fields.ageCopy"></div>
 // <!-- After mount: form.age becomes 99 -->
 //
 // Notes:
@@ -86,7 +86,7 @@ export default function registerSyncDirective(Alpine) {
 
         if (!childData || !parentData) {
             if (import.meta?.env?.DEV) {
-                console.warn('[x-sync] Could not find direct parent/child x-data. Ensure x-sync is used one level inside a parent component.');
+                console.warn('[x-syncprop] Could not find direct parent/child x-data. Ensure x-syncprop is used one level inside a parent component.');
             }
             return;
         }
@@ -99,7 +99,7 @@ export default function registerSyncDirective(Alpine) {
             .map(s => {
                 const m = s.split('->').map(x => x.trim());
                 if (m.length !== 2) {
-                    console.warn('[x-sync] Invalid mapping (expected "parent.path -> child.path"): ', s);
+                    console.warn('[x-syncprop] Invalid mapping (expected "parent.path -> child.path"): ', s);
                     return null;
                 }
                 return { parentPath: m[0], childPath: m[1] };
@@ -170,5 +170,5 @@ export default function registerSyncDirective(Alpine) {
     };
 
     // Register the primary name…
-    Alpine.directive('sync', handler);
+    Alpine.directive('syncprop', handler);
 }
