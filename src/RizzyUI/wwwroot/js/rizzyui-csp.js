@@ -8760,31 +8760,55 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
   }
-  async function rizzyRequire(paths, callbackOrNonce, nonce) {
-    let callbackFn = typeof callbackOrNonce === "function" ? callbackOrNonce : void 0;
-    const cspNonce = typeof callbackOrNonce === "string" && !nonce ? callbackOrNonce : nonce;
-    const bundleId = await generateBundleId(paths);
-    if (!loadjs.isDefined(bundleId)) {
-      loadjs(paths, bundleId, {
-        async: false,
-        inlineScriptNonce: cspNonce,
-        inlineStyleNonce: cspNonce
-        // Note: We DO NOT rely on loadjs's returnPromise here because
-        // the bundle may already be in-flight. We unify everything through ready().
-      });
+  function rizzyRequire(paths, callbackOrNonce, nonce) {
+    let cbObj = void 0;
+    let csp = void 0;
+    if (typeof callbackOrNonce === "function") {
+      cbObj = { success: callbackOrNonce };
+    } else if (callbackOrNonce && typeof callbackOrNonce === "object") {
+      cbObj = callbackOrNonce;
+    } else if (typeof callbackOrNonce === "string") {
+      csp = callbackOrNonce;
     }
-    const p2 = new Promise((resolve, reject) => {
-      loadjs.ready([bundleId], {
-        success: () => resolve({ bundleId }),
-        error: (depsNotFound) => reject(new Error(`rizzyRequire: failed to load: ${depsNotFound.join(", ")}`))
+    if (!csp && typeof nonce === "string") csp = nonce;
+    const files = Array.isArray(paths) ? paths : [paths];
+    return generateBundleId(files).then((bundleId) => {
+      if (!loadjs.isDefined(bundleId)) {
+        loadjs(files, bundleId, {
+          // keep scripts ordered unless you explicitly change this later
+          async: false,
+          // pass CSP nonce to both script and style tags as your loader expects
+          inlineScriptNonce: csp,
+          inlineStyleNonce: csp
+        });
+      }
+      return new Promise((resolve, reject) => {
+        loadjs.ready(bundleId, {
+          success: () => {
+            try {
+              if (cbObj && typeof cbObj.success === "function") cbObj.success();
+            } catch (e2) {
+              console.error("[rizzyRequire] success callback threw:", e2);
+            }
+            resolve({ bundleId });
+          },
+          error: (depsNotFound) => {
+            try {
+              if (cbObj && typeof cbObj.error === "function") {
+                cbObj.error(depsNotFound);
+              }
+            } catch (e2) {
+              console.error("[rizzyRequire] error callback threw:", e2);
+            }
+            reject(
+              new Error(
+                `[rizzyRequire] Failed to load bundle ${bundleId} (missing: ${Array.isArray(depsNotFound) ? depsNotFound.join(", ") : String(depsNotFound)})`
+              )
+            );
+          }
+        });
       });
     });
-    if (callbackFn) {
-      p2.then(() => callbackFn()).catch((err) => {
-        console.error(err);
-      });
-    }
-    return p2;
   }
   function registerComponents(Alpine2) {
     registerRzAccordion(Alpine2);

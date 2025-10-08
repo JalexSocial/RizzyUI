@@ -41,22 +41,87 @@ async function generateBundleId(paths) {
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-// --------------------------------------------------------------------------------
-// Utility: Dynamically load scripts with loadjs by their paths.
-// It first generates a unique bundle ID, then loads the scripts if not already defined.
-// Finally, it executes the callback function when the scripts are ready.
-// --------------------------------------------------------------------------------
-function rizzyRequire(paths, callbackFn, nonce) {
-    generateBundleId(paths).then(bundleId => {
+/**
+ * rizzyRequire(paths, [callbackOrNonce], [nonce])
+ *
+ * Supports both classic callback style and modern Promise style:
+ *
+ * - If a function is passed as 2nd arg, it's treated as a success callback.
+ * - If an object is passed as 2nd arg, it may contain { success, error }.
+ * - If a string is passed as 2nd arg, it's treated as the CSP nonce.
+ * - The CSP nonce can also be passed as the 3rd arg.
+ *
+ * Always returns a Promise<{ bundleId: string }>.
+ * In callback style the Promise is still returned (you can ignore it).
+ *
+ * The success/error lifecycles are powered by `loadjs.ready(bundleId, args)`,
+ * so we *mirror* those into the Promise resolve/reject and also invoke any
+ * provided callbacks exactly once.
+ *
+ * @param {string|string[]} paths
+ * @param {Function|{success?:Function,error?:Function}|string} [callbackOrNonce]
+ * @param {string} [nonce]
+ * @returns {Promise<{bundleId: string}>}
+ */
+function rizzyRequire(paths, callbackOrNonce, nonce) {
+    // Normalize inputs
+    let cbObj = undefined; // { success?, error? } OR function (success-only)
+    let csp = undefined;
+
+    if (typeof callbackOrNonce === 'function') {
+        cbObj = { success: callbackOrNonce };
+    } else if (callbackOrNonce && typeof callbackOrNonce === 'object') {
+        cbObj = callbackOrNonce; // may have success/error
+    } else if (typeof callbackOrNonce === 'string') {
+        csp = callbackOrNonce;
+    }
+
+    if (!csp && typeof nonce === 'string') csp = nonce;
+
+    const files = Array.isArray(paths) ? paths : [paths];
+
+    return generateBundleId(files).then((bundleId) => {
+        // Only kick off a load the first time this bundleId is seen
         if (!loadjs.isDefined(bundleId)) {
-            loadjs(paths, bundleId,
-                {
-                    async: false,
-                    inlineScriptNonce: nonce,
-                    inlineStyleNonce: nonce
-                });
+            loadjs(files, bundleId, {
+                // keep scripts ordered unless you explicitly change this later
+                async: false,
+                // pass CSP nonce to both script and style tags as your loader expects
+                inlineScriptNonce: csp,
+                inlineStyleNonce: csp,
+            });
         }
-        loadjs.ready([bundleId], callbackFn);
+
+        // Bridge loadjs.ready into both Promise and optional callbacks
+        return new Promise((resolve, reject) => {
+            loadjs.ready(bundleId, {
+                success: () => {
+                    // invoke user success callback if present
+                    try {
+                        if (cbObj && typeof cbObj.success === 'function') cbObj.success();
+                    } catch (e) {
+                        // don't swallow; surface dev-time issues but still resolve
+                        console.error('[rizzyRequire] success callback threw:', e);
+                    }
+                    resolve({ bundleId });
+                },
+                error: (depsNotFound) => {
+                    // depsNotFound is an array of bundleIds that failed (here, just this one)
+                    try {
+                        if (cbObj && typeof cbObj.error === 'function') {
+                            cbObj.error(depsNotFound);
+                        }
+                    } catch (e) {
+                        console.error('[rizzyRequire] error callback threw:', e);
+                    }
+                    reject(
+                        new Error(
+                            `[rizzyRequire] Failed to load bundle ${bundleId} (missing: ${Array.isArray(depsNotFound) ? depsNotFound.join(', ') : String(depsNotFound)})`
+                        )
+                    );
+                },
+            });
+        });
     });
 }
 

@@ -54,53 +54,86 @@ async function generateBundleId(paths) {
 
 /**
  * rizzyRequire(paths, [callbackOrNonce], [nonce])
- * - If a function is passed as 2nd arg, it behaves like your current callback API.
- * - If no callback is provided, it RETURNS A PROMISE that resolves when the bundle is ready.
- * - The CSP nonce can be provided as the 2nd arg (string) or 3rd arg when using a callback.
+ *
+ * Supports both classic callback style and modern Promise style:
+ *
+ * - If a function is passed as 2nd arg, it's treated as a success callback.
+ * - If an object is passed as 2nd arg, it may contain { success, error }.
+ * - If a string is passed as 2nd arg, it's treated as the CSP nonce.
+ * - The CSP nonce can also be passed as the 3rd arg.
+ *
+ * Always returns a Promise<{ bundleId: string }>.
+ * In callback style the Promise is still returned (you can ignore it).
+ *
+ * The success/error lifecycles are powered by `loadjs.ready(bundleId, args)`,
+ * so we *mirror* those into the Promise resolve/reject and also invoke any
+ * provided callbacks exactly once.
  *
  * @param {string|string[]} paths
- * @param {Function|string} [callbackOrNonce] - callback OR nonce (when using Promise style)
- * @param {string} [nonce] - CSP nonce (when using callback style)
- * @returns {Promise<{bundleId:string}>} Promise is always returned; you can ignore it in callback style.
+ * @param {Function|{success?:Function,error?:Function}|string} [callbackOrNonce]
+ * @param {string} [nonce]
+ * @returns {Promise<{bundleId: string}>}
  */
-async function rizzyRequire(paths, callbackOrNonce, nonce) {
-    // Support overload: (paths, nonce) => Promise
-    let callbackFn = typeof callbackOrNonce === 'function' ? callbackOrNonce : undefined;
-    const cspNonce = (typeof callbackOrNonce === 'string' && !nonce) ? callbackOrNonce : nonce;
+function rizzyRequire(paths, callbackOrNonce, nonce) {
+    // Normalize inputs
+    let cbObj = undefined; // { success?, error? } OR function (success-only)
+    let csp = undefined;
 
-    // Create a deterministic bundle id for this set of paths
-    const bundleId = await generateBundleId(paths);
-
-    // If not yet requested, kick off the load (publish happens inside loadjs)
-    if (!loadjs.isDefined(bundleId)) {
-        loadjs(paths, bundleId, {
-            async: false,
-            inlineScriptNonce: cspNonce,
-            inlineStyleNonce:  cspNonce
-            // Note: We DO NOT rely on loadjs's returnPromise here because
-            // the bundle may already be in-flight. We unify everything through ready().
-        });
+    if (typeof callbackOrNonce === 'function') {
+        cbObj = { success: callbackOrNonce };
+    } else if (callbackOrNonce && typeof callbackOrNonce === 'object') {
+        cbObj = callbackOrNonce; // may have success/error
+    } else if (typeof callbackOrNonce === 'string') {
+        csp = callbackOrNonce;
     }
 
-    // Wait for the bundle using loadjs.ready (works whether already loading or already done)
-    const p = new Promise((resolve, reject) => {
-        loadjs.ready([bundleId], {
-            success: () => resolve({ bundleId }),
-            error:   (depsNotFound) =>
-                reject(new Error(`rizzyRequire: failed to load: ${depsNotFound.join(', ')}`))
+    if (!csp && typeof nonce === 'string') csp = nonce;
+
+    const files = Array.isArray(paths) ? paths : [paths];
+
+    return generateBundleId(files).then((bundleId) => {
+        // Only kick off a load the first time this bundleId is seen
+        if (!loadjs.isDefined(bundleId)) {
+            loadjs(files, bundleId, {
+                // keep scripts ordered unless you explicitly change this later
+                async: false,
+                // pass CSP nonce to both script and style tags as your loader expects
+                inlineScriptNonce: csp,
+                inlineStyleNonce: csp,
+            });
+        }
+
+        // Bridge loadjs.ready into both Promise and optional callbacks
+        return new Promise((resolve, reject) => {
+            loadjs.ready(bundleId, {
+                success: () => {
+                    // invoke user success callback if present
+                    try {
+                        if (cbObj && typeof cbObj.success === 'function') cbObj.success();
+                    } catch (e) {
+                        // don't swallow; surface dev-time issues but still resolve
+                        console.error('[rizzyRequire] success callback threw:', e);
+                    }
+                    resolve({ bundleId });
+                },
+                error: (depsNotFound) => {
+                    // depsNotFound is an array of bundleIds that failed (here, just this one)
+                    try {
+                        if (cbObj && typeof cbObj.error === 'function') {
+                            cbObj.error(depsNotFound);
+                        }
+                    } catch (e) {
+                        console.error('[rizzyRequire] error callback threw:', e);
+                    }
+                    reject(
+                        new Error(
+                            `[rizzyRequire] Failed to load bundle ${bundleId} (missing: ${Array.isArray(depsNotFound) ? depsNotFound.join(', ') : String(depsNotFound)})`
+                        )
+                    );
+                },
+            });
         });
     });
-
-    // If a callback was provided, also call it (and surface errors to console)
-    if (callbackFn) {
-        p.then(() => callbackFn()).catch(err => {
-            // Don't swallow errors in callback mode; log them.
-            console.error(err);
-        });
-    }
-
-    // Always return the Promise (back-compat callers can ignore it)
-    return p;
 }
 
 function registerComponents(Alpine) {
