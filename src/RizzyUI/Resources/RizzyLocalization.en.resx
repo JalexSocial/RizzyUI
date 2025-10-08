@@ -345,4 +345,8 @@
         <value>Dialog</value>
         <comment>Default ARIA label for the dialog.</comment>
     </data>      
+    <data name="RzEmpty.DefaultAriaLabel" xml:space="preserve">
+        <value>Empty state</value>
+        <comment>Default ARIA label for RzEmpty</comment>
+    </data>  
 </root>

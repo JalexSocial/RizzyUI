@@ -124,6 +124,11 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzEmbeddedPreview" /> component. </summary>
     public virtual RzStylesBase.RzEmbeddedPreviewStylesBase RzEmbeddedPreview { get; }
 
+    /// <summary>
+    /// Gets the style definitions for the <see cref="RzEmpty" /> component family.
+    /// </summary>
+    public virtual RzStylesBase.RzEmptyStylesBase RzEmpty { get; }
+    
     /// <summary> Gets or sets the style definitions for the <see cref="RzField" /> component. </summary>
     public virtual RzStylesBase.RzFieldStylesBase RzField { get; }
 
@@ -144,6 +149,33 @@ public partial class RzTheme
     /// </summary>
     public virtual RzStylesBase.RzIndicatorStylesBase RzIndicator { get; }
     
+    /// <summary> Gets the style definitions for the <see cref="RzItemGroup" /> component. </summary>
+    public virtual RzStylesBase.RzItemGroupStylesBase RzItemGroup { get; }
+    /// <summary> Gets the style definitions for the <see cref="RzItemSeparator" /> component. </summary>
+    public virtual RzStylesBase.RzItemSeparatorStylesBase RzItemSeparator { get; }
+    /// <summary> Gets the style definitions for the <see cref="RzItem" /> component. </summary>
+    public virtual RzStylesBase.RzItemStylesBase RzItem { get; }
+    /// <summary> Gets the style definitions for the <see cref="ItemMedia" /> component. </summary>
+    public virtual RzStylesBase.ItemMediaStylesBase ItemMedia { get; }
+    /// <summary> Gets the style definitions for the <see cref="ItemContent" /> component. </summary>
+    public virtual RzStylesBase.ItemContentStylesBase ItemContent { get; }
+    /// <summary> Gets the style definitions for the <see cref="ItemTitle" /> component. </summary>
+    public virtual RzStylesBase.ItemTitleStylesBase ItemTitle { get; }
+    /// <summary> Gets the style definitions for the <see cref="ItemDescription" /> component. </summary>
+    public virtual RzStylesBase.ItemDescriptionStylesBase ItemDescription { get; }
+    /// <summary> Gets the style definitions for the <see cref="ItemActions" /> component. </summary>
+    public virtual RzStylesBase.ItemActionsStylesBase ItemActions { get; }
+    /// <summary> Gets the style definitions for the <see cref="ItemHeader" /> component. </summary>
+    public virtual RzStylesBase.ItemHeaderStylesBase ItemHeader { get; }
+    /// <summary> Gets the style definitions for the <see cref="ItemFooter" /> component. </summary>
+    public virtual RzStylesBase.ItemFooterStylesBase ItemFooter { get; }
+    
+    /// <summary> Gets the style definitions for the <see cref="RzKbd" /> component. </summary>
+    public virtual RzStylesBase.RzKbdStylesBase RzKbd { get; }
+    
+    /// <summary> Gets the style definitions for the <see cref="RzKbdGroup" /> component. </summary>
+    public virtual RzStylesBase.RzKbdGroupStylesBase RzKbdGroup { get; }
+
     /// <summary> Gets or sets the style definitions for the <see cref="RzLink" /> component. </summary>
     public virtual RzStylesBase.RzLinkStylesBase RzLink { get; }
 

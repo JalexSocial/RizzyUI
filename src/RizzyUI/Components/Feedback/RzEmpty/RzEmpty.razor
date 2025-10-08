@@ -1,0 +1,12 @@
+
+@namespace RizzyUI
+@inherits RzComponent
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
+             id="@Id"
+             class="@RootClass()"
+             data-slot="empty"
+             aria-label="@AriaLabel">
+    @ChildContent
+</HtmlElement>

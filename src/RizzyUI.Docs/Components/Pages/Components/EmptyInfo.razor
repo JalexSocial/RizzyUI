@@ -1,0 +1,201 @@
+@page "/components/empty"
+@using RizzyUI
+@using Blazicons
+
+<PageTitle>Empty</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Empty" class="scroll-mt-20">Empty</RzHeading>
+            <RzParagraph class="text-muted-foreground text-[1.05rem] text-balance sm:text-base">
+                Use the Empty component to display a empty state.
+            </RzParagraph>
+
+            <RzBrowser Layout="typeof(PreviewLayout)" class="mt-4 mb-12">
+                <div class="flex h-[450px] w-full justify-center p-10 items-center">
+                    <RzEmpty>
+                        <EmptyHeader>
+                            <EmptyMedia Variant="EmptyMediaVariant.Icon">
+                                <Blazicon Svg="@Lucide.FolderCode" />
+                            </EmptyMedia>
+                            <EmptyTitle>No Projects Yet</EmptyTitle>
+                            <EmptyDescription>
+                                You haven't created any projects yet. Get started by creating your first project.
+                            </EmptyDescription>
+                        </EmptyHeader>
+                        <EmptyContent>
+                            <div class="flex gap-2">
+                                <RzButton Variant="ButtonVariant.Primary">Create Project</RzButton>
+                                <RzButton Variant="ButtonVariant.Primary" Outline="true">Import Project</RzButton>
+                            </div>
+                        </EmptyContent>
+                        <RzLink Href="#" class="text-muted-foreground h-8 rounded-md gap-1.5 px-3 mt-6">
+                            Learn More <Blazicon Svg="Lucide.ArrowUpRight" class="text-xl inline-block" />
+                        </RzLink>
+                    </RzEmpty>
+                </div>
+            </RzBrowser>
+
+            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Usage" class="scroll-mt-20">Usage</RzHeading>
+            <RzCodeViewer Language="@CodeLanguage.Razor" class="mt-6">
+&lt;RzEmpty&gt;
+  &lt;EmptyHeader&gt;
+    &lt;EmptyMedia Variant="EmptyMediaVariant.Icon"&gt;
+      &lt;Blazicon Svg="Lucide.Folder" /&gt;
+    &lt;/EmptyMedia&gt;
+    &lt;EmptyTitle&gt;No data&lt;/EmptyTitle&gt;
+    &lt;EmptyDescription&gt;No data found&lt;/EmptyDescription&gt;
+  &lt;/EmptyHeader&gt;
+  &lt;EmptyContent&gt;
+    &lt;RzButton&gt;Add data&lt;/RzButton&gt;
+  &lt;/EmptyContent&gt;
+&lt;/RzEmpty&gt;
+            </RzCodeViewer>
+
+            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Examples" class="scroll-mt-20">Examples</RzHeading>
+
+            <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Outline" class="mt-12">Outline</RzHeading>
+            <RzParagraph>Use the <code class="bg-muted relative rounded-md px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem] break-words outline-none">border</code> utility class to create a outline empty state.</RzParagraph>
+            <RzBrowser Layout="typeof(PreviewLayout)" class="mt-4 mb-12">
+                <div class="flex h-[450px] w-full justify-center p-10 items-center">
+                    <RzEmpty class="border border-dashed">
+                        <EmptyHeader>
+                            <EmptyMedia Variant="EmptyMediaVariant.Icon">
+                                <Blazicon Svg="Lucide.Cloud" />
+                            </EmptyMedia>
+                            <EmptyTitle>Cloud Storage Empty</EmptyTitle>
+                            <EmptyDescription>
+                                Upload files to your cloud storage to access them anywhere.
+                            </EmptyDescription>
+                        </EmptyHeader>
+                        <EmptyContent>
+                            <RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small">Upload Files</RzButton>
+                        </EmptyContent>
+                    </RzEmpty>
+                </div>
+            </RzBrowser>
+
+            <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Background" class="mt-12">Background</RzHeading>
+            <RzParagraph>Use the <code class="bg-muted relative rounded-md px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem] break-words outline-none">bg-*</code> and <code class="bg-muted relative rounded-md px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem] break-words outline-none">bg-gradient-*</code> utilities to add a background to the empty state.</RzParagraph>
+            <RzBrowser Layout="typeof(PreviewLayout)" class="mt-4 mb-12">
+                <div class="flex h-[450px] w-full justify-center p-10 items-center">
+                    <RzEmpty class="from-muted/50 to-background h-full bg-gradient-to-b from-30%">
+                        <EmptyHeader>
+                            <EmptyMedia Variant="EmptyMediaVariant.Icon">
+                                <Blazicon Svg="Lucide.Bell" />
+                            </EmptyMedia>
+                            <EmptyTitle>No Notifications</EmptyTitle>
+                            <EmptyDescription>
+                                You're all caught up. New notifications will appear here.
+                            </EmptyDescription>
+                        </EmptyHeader>
+                        <EmptyContent>
+                            <RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small">
+                                <Blazicon Svg="Lucide.RefreshCw" />
+                                Refresh
+                            </RzButton>
+                        </EmptyContent>
+                    </RzEmpty>
+                </div>
+            </RzBrowser>
+
+            <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Avatar" class="mt-12">Avatar</RzHeading>
+            <RzParagraph>Use the <code class="bg-muted relative rounded-md px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem] break-words outline-none">EmptyMedia</code> component to display an avatar in the empty state.</RzParagraph>
+            <RzBrowser Layout="typeof(PreviewLayout)" class="mt-4 mb-12">
+                <div class="flex h-[450px] w-full justify-center p-10 items-center">
+                    <RzEmpty>
+                        <EmptyHeader>
+                            <EmptyMedia>
+                                <RzAvatar Size="Size.ExtraLarge" class="size-12">
+                                    <AvatarImage ImageSource="https://github.com/shadcn.png" class="grayscale" />
+                                </RzAvatar>
+                            </EmptyMedia>
+                            <EmptyTitle>User Offline</EmptyTitle>
+                            <EmptyDescription>
+                                This user is currently offline. You can leave a message to notify them or try again later.
+                            </EmptyDescription>
+                        </EmptyHeader>
+                        <EmptyContent>
+                            <RzButton Size="Size.Small">Leave Message</RzButton>
+                        </EmptyContent>
+                    </RzEmpty>
+                </div>
+            </RzBrowser>
+
+            <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Avatar Group" class="mt-12">Avatar Group</RzHeading>
+            <RzParagraph>Use the <code class="bg-muted relative rounded-md px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem] break-words outline-none">EmptyMedia</code> component to display an avatar group in the empty state.</RzParagraph>
+            <RzBrowser Layout="typeof(PreviewLayout)" class="mt-4 mb-12">
+                <div class="flex h-[450px] w-full justify-center p-10 items-center">
+                    <RzEmpty>
+                        <EmptyHeader>
+                            <EmptyMedia>
+                                <div class="flex -space-x-2 *:ring-background *:size-12 *:ring-2 *:grayscale">
+                                    <RzAvatar Size="Size.Large"><AvatarImage ImageSource="https://github.com/shadcn.png" /></RzAvatar>
+                                    <RzAvatar Size="Size.Large"><AvatarImage ImageSource="https://github.com/maxleiter.png" /></RzAvatar>
+                                    <RzAvatar Size="Size.Large"><AvatarImage ImageSource="https://github.com/evilrabbit.png" /></RzAvatar>
+                                </div>
+                            </EmptyMedia>
+                            <EmptyTitle>No Team Members</EmptyTitle>
+                            <EmptyDescription>
+                                Invite your team to collaborate on this project.
+                            </EmptyDescription>
+                        </EmptyHeader>
+                        <EmptyContent>
+                            <RzButton Size="Size.Small">
+                                <Blazicon Svg="Lucide.Plus" />
+                                Invite Members
+                            </RzButton>
+                        </EmptyContent>
+                    </RzEmpty>
+                </div>
+            </RzBrowser>
+
+            <!-- API Reference -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
+                </RzHeading>
+                <RzParagraph>
+                    The following tables summarize the parameters for each component in the Empty State suite.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzEmpty</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="bg-muted/50 text-left font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4"><code>null</code></td><td class="p-4">The content of the empty state, typically including <code>EmptyHeader</code> and <code>EmptyContent</code>.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>AriaLabel</code></td><td class="p-4"><code>string?</code></td><td class="p-4">Localized "Empty state"</td><td class="p-4">Accessible label for the empty state container.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">EmptyMedia</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="bg-muted/50 text-left font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4"><code>null</code></td><td class="p-4">The media content, such as an icon or image.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Variant</code></td><td class="p-4"><code>EmptyMediaVariant</code></td><td class="p-4"><code>Default</code></td><td class="p-4">The visual variant of the media container.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent</RzHeading>
+                <RzParagraph>These components primarily accept <code>ChildContent</code> and pass through any additional attributes. They have no unique parameters beyond standard HTML attributes.</RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private string _searchValue = string.Empty;
+}
