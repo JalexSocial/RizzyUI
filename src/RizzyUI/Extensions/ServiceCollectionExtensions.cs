@@ -1,3 +1,4 @@
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
@@ -5,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
 using RizzyUI.Localization;
 using TailwindMerge.Extensions;
+using TailwindVariants.NET; // Add this using statement
 
 namespace RizzyUI;
 
@@ -53,6 +55,7 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddRizzyUIInternal(this IServiceCollection services)
     {
         // Register core dependencies used by RizzyUI.
+        services.AddTailwindVariants(); // Add TailwindVariants.NET service
         services.AddTailwindMerge();
         services.AddHttpContextAccessor();
         services.TryAddScoped<IRizzyNonceProvider, RizzyNonceProvider>();

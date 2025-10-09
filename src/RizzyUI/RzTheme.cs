@@ -22,6 +22,11 @@ public partial class RzTheme
         Name = name;
         ThemeCode = themeCode;
 
+        // BEGIN DELETE ME
+        RzButtonStyles = new DefaultRzButtonStyles(this); // DELETE ME
+        RzBreadcrumbStyles = new DefaultRzBreadcrumbStyles(this); // DELETE ME
+        // END DELETE ME
+        
         // Instantiate default styles for all components
         RzAccordion = new DefaultRzAccordionStyles(this);
         AccordionItem = new DefaultAccordionItemStyles(this); // Corrected name
@@ -34,9 +39,15 @@ public partial class RzTheme
         AvatarImage = new DefaultAvatarImageStyles(this);
         AvatarFallback = new DefaultAvatarFallbackStyles(this);
         RzBadge = new DefaultRzBadgeStyles(this);
-        RzBreadcrumb = new DefaultRzBreadcrumbStyles(this);
+        RzBreadcrumb = RizzyUI.RzBreadcrumb.DefaultDescriptor;
+        BreadcrumbList = RizzyUI.BreadcrumbList.DefaultDescriptor;
+        BreadcrumbItem = RizzyUI.BreadcrumbItem.DefaultDescriptor;
+        BreadcrumbLink = RizzyUI.BreadcrumbLink.DefaultDescriptor;
+        BreadcrumbPage = RizzyUI.BreadcrumbPage.DefaultDescriptor;
+        BreadcrumbSeparator = RizzyUI.BreadcrumbSeparator.DefaultDescriptor;
+        BreadcrumbEllipsis = RizzyUI.BreadcrumbEllipsis.DefaultDescriptor;        
         RzBrowser = new DefaultRzBrowserStyles(this);
-        RzButton = new DefaultRzButtonStyles(this);
+        RzButton = RizzyUI.RzButton.DefaultDescriptor;
         RzButtonGroup = new DefaultRzButtonGroupStyles(this);
         RzCard = new DefaultRzCardStyles(this);
         CardContent = new DefaultCardContentStyles(this);

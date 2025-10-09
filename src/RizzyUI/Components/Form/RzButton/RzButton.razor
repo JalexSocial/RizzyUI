@@ -1,15 +1,13 @@
-
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzButton.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" aria-label="@EffectiveAssistiveLabel">
-
-    @if (ChildContent != null)
-    {
-        @ChildContent
-    }
-    else
-    {
-        @Label
-    }
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@_slots.GetBase()" aria-label="@EffectiveAssistiveLabel">
+	@if (ChildContent != null)
+	{
+		@ChildContent
+	}
+	else
+	{
+		@Label
+	}
 </HtmlElement>

@@ -1,13 +1,14 @@
 
 @namespace RizzyUI
 @using Blazicons
-@inherits RzComponent
+@inherits RzComponent<BreadcrumbSeparator.Slots>
 
 <HtmlElement Element="@EffectiveElement"
              role="presentation"
              aria-hidden="true"
              @attributes="@AdditionalAttributes"
              id="@Id"
+             class="@_slots.GetBase()"
              data-slot="breadcrumb-separator">
     @if (ChildContent != null)
     {
@@ -15,6 +16,6 @@
     }
     else
     {
-        <Blazicon Svg="MdiIcon.ChevronRight" class="@Theme.RzBreadcrumb.Separator" />
+        <Blazicon Svg="MdiIcon.ChevronRight" class="@_slots.GetIcon()" />
     }
 </HtmlElement>

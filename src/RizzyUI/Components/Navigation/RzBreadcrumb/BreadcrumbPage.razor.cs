@@ -1,14 +1,22 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// A `<span>` element representing the current page in a breadcrumb trail. It is not interactive.
 /// </summary>
-public partial class BreadcrumbPage : RzComponent
+public partial class BreadcrumbPage : RzComponent<BreadcrumbPage.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the BreadcrumbPage component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "font-normal text-foreground"
+    );
+
     /// <summary>
     /// Gets or sets the text content for the current page.
     /// </summary>
@@ -23,9 +31,17 @@ public partial class BreadcrumbPage : RzComponent
             Element = "span";
     }
 
-    /// <inheritdoc/>
-    protected override string? RootClass()
+    /// <inheritdoc />
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.BreadcrumbPage;
+
+    /// <summary>
+    /// Defines the slots available for styling in the BreadcrumbPage component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzBreadcrumb.Page);
+        /// <summary>
+        /// The base slot, representing the root `span` element.
+        /// </summary>
+        public string? Base { get; set; }
     }
 }

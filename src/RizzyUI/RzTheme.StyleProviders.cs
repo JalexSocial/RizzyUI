@@ -1,4 +1,6 @@
 
+using TailwindVariants.NET;
+
 namespace RizzyUI;
 
 /// <summary>
@@ -6,6 +8,14 @@ namespace RizzyUI;
 /// </summary>
 public partial class RzTheme
 {
+    // DELETE ME
+    public virtual RzStylesBase.RzButtonStylesBase RzButtonStyles { get; }
+   
+    /// <summary> Gets or sets the style definitions for the <see cref="RzBreadcrumb" /> component. </summary>
+    public virtual RzStylesBase.RzBreadcrumbStylesBase RzBreadcrumbStyles { get; }
+    
+    // END DELETE ME
+    
     // --- Component Style Properties ---
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzAccordion" /> component. </summary>
@@ -49,8 +59,13 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzBadge" /> component. </summary>
     public virtual RzStylesBase.RzBadgeStylesBase RzBadge { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzBreadcrumb" /> component. </summary>
-    public virtual RzStylesBase.RzBreadcrumbStylesBase RzBreadcrumb { get; }
+    public virtual TvDescriptor<RzComponent<RzBreadcrumb.Slots>, RzBreadcrumb.Slots> RzBreadcrumb { get; set; }
+    public virtual TvDescriptor<RzComponent<BreadcrumbList.Slots>, BreadcrumbList.Slots> BreadcrumbList { get; set; }
+    public virtual TvDescriptor<RzComponent<BreadcrumbItem.Slots>, BreadcrumbItem.Slots> BreadcrumbItem { get; set; }
+    public virtual TvDescriptor<RzComponent<BreadcrumbLink.Slots>, BreadcrumbLink.Slots> BreadcrumbLink { get; set; }
+    public virtual TvDescriptor<RzComponent<BreadcrumbPage.Slots>, BreadcrumbPage.Slots> BreadcrumbPage { get; set; }
+    public virtual TvDescriptor<RzComponent<BreadcrumbSeparator.Slots>, BreadcrumbSeparator.Slots> BreadcrumbSeparator { get; set; }
+    public virtual TvDescriptor<RzComponent<BreadcrumbEllipsis.Slots>, BreadcrumbEllipsis.Slots> BreadcrumbEllipsis { get; set; }
 
     /// <summary>
     /// Gets or sets the style definitions for the <see cref="RzBrowser" /> component.
@@ -58,7 +73,7 @@ public partial class RzTheme
     public virtual RzStylesBase.RzBrowserStylesBase RzBrowser { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzButton" /> component. </summary>
-    public virtual RzStylesBase.RzButtonStylesBase RzButton { get; }
+    public virtual TvDescriptor<RzComponent<RzButton.Slots>, RzButton.Slots> RzButton { get; set; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzButtonGroup" /> component. </summary>
     public virtual RzStylesBase.RzButtonGroupStylesBase RzButtonGroup { get; }

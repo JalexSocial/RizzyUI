@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -8,8 +9,15 @@ namespace RizzyUI;
 /// An ordered list (`<ol>`) that contains the breadcrumb items. This component should be
 /// a direct child of <see cref="RzBreadcrumb"/>.
 /// </summary>
-public partial class BreadcrumbList : RzComponent
+public partial class BreadcrumbList : RzComponent<BreadcrumbList.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the BreadcrumbList component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5 text-muted-foreground"
+    );
+
     /// <summary>
     /// Gets or sets the content of the list, which should be a sequence of
     /// <see cref="BreadcrumbItem"/> and <see cref="BreadcrumbSeparator"/> components.
@@ -25,9 +33,17 @@ public partial class BreadcrumbList : RzComponent
             Element = "ol";
     }
 
-    /// <inheritdoc/>
-    protected override string? RootClass()
+    /// <inheritdoc />
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.BreadcrumbList;
+
+    /// <summary>
+    /// Defines the slots available for styling in the BreadcrumbList component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzBreadcrumb.List);
+        /// <summary>
+        /// The base slot, representing the root `ol` element.
+        /// </summary>
+        public string? Base { get; set; }
     }
 }

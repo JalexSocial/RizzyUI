@@ -1,11 +1,11 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzBreadcrumb.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="@AdditionalAttributes"
+             @attributes="AdditionalAttributes"
              id="@Id"
-             class="@RootClass()"
+             class="@_slots.GetBase()"
              aria-label="@AriaLabel"
              data-slot="breadcrumb">
     @ChildContent
