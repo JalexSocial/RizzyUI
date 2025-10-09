@@ -1,13 +1,22 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// The content panel of a <see cref="RzPopover"/> that appears when the trigger is activated.
 /// </summary>
-public partial class PopoverContent : RzComponent
+public partial class PopoverContent : RzComponent<PopoverContent.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the PopoverContent component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "absolute z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none"
+    );
+
     /// <summary>
     /// Gets the parent <see cref="RzPopover"/> component.
     /// </summary>
@@ -40,9 +49,14 @@ public partial class PopoverContent : RzComponent
         }
     }
 
-    /// <inheritdoc/>
-    protected override string? RootClass()
+    /// <inheritdoc />
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.PopoverContent;
+
+    /// <summary>
+    /// Defines the slots available for styling in the PopoverContent component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.PopoverContent.ContentContainer);
+        public string? Base { get; set; }
     }
 }

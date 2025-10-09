@@ -1,7 +1,7 @@
 
 @namespace RizzyUI
 @using Blazicons
-@inherits RzComponent
+@inherits RzComponent<RzAlert.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
 	<HtmlElement Element="@EffectiveElement"
@@ -9,8 +9,8 @@
 	             aria-live="assertive"
                  @attributes="@AdditionalAttributes"
                  id="@Id"
-                 class="@RootClass()">
-	    <div class="@Theme.RzAlert.GetVariantCss(Variant)" aria-atomic="true"
+                 class="@_slots.GetBase()">
+	    <div aria-atomic="true"
 	         x-cloak
 	         x-data="rzAlert" x-show="showAlert"
 	         x-transition:enter="transition ease-out duration-200 motion-reduce:transition-none"
@@ -20,18 +20,18 @@
 	         x-transition:leave-start="opacity-100"
 	         x-transition:leave-end="opacity-0"
 	         data-alpine-root="@Id">
-	         <div class="@Theme.RzAlert.InnerContainer @(_bgLight)">
+	         <div class="@_slots.GetInnerContainer()">
 		         @if (Icon != null)
 		         {
-			         <div class="@Theme.RzAlert.IconContainer @(_iconColor)" aria-hidden="true">
+			         <div class="@_slots.GetIconContainer()" aria-hidden="true">
 				         @if (Pulse)
 				         {
-					         <div class="@Theme.RzAlert.IconPulse @_bgLighter"></div>
+					         <div class="@_slots.GetIconPulse()"></div>
 				         }
 				         <Blazicon Svg="Icon"></Blazicon>
 			         </div>
 		         }
-		         <div class="@Theme.RzAlert.ContentContainer">
+		         <div class="@_slots.GetContentContainer()">
 			         @ChildContent
 		         </div>
 
@@ -41,15 +41,14 @@
 				         type="button"
 				         x-on:click="dismiss"
 				         aria-label="@Localizer["RzAlert.CloseButtonAriaLabel"]"
-				         class="@Theme.RzAlert.CloseButton">
+				         class="@_slots.GetCloseButton()">
 				         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor"
-				              fill="none" stroke-width="2.5" class="@Theme.RzAlert.CloseButtonIcon">
+				              fill="none" stroke-width="2.5" class="@_slots.GetCloseButtonIcon()">
 					         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
 				         </svg>
 			         </button>
 		         }
 	         </div>
-             
          </div>        
     </HtmlElement>
 </CascadingValue>

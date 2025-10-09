@@ -1,5 +1,7 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -7,8 +9,15 @@ namespace RizzyUI;
 /// A component that displays a pop-up box of content when a trigger element is activated.
 /// Positioning is handled by floating-ui and interactivity by Alpine.js.
 /// </summary>
-public partial class RzPopover : RzComponent
+public partial class RzPopover : RzComponent<RzPopover.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzPopover component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "relative inline-block text-left"
+    );
+
     /// <summary>
     /// Gets or sets the content of the popover, which should include a <see cref="PopoverTrigger"/>
     /// and a <see cref="PopoverContent"/>. Required.
@@ -93,9 +102,14 @@ public partial class RzPopover : RzComponent
         AriaLabel ??= Localizer["RzPopover.DefaultAriaLabel"];
     }
 
-    /// <inheritdoc/>
-    protected override string? RootClass()
+    /// <inheritdoc />
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzPopover;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzPopover component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzPopover.Container);
+        public string? Base { get; set; }
     }
 }

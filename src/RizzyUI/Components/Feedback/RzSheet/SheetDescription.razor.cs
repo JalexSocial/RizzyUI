@@ -1,15 +1,22 @@
 
-// src/RizzyUI/Components/Feedback/RzSheet/SheetDescription.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// A component for displaying descriptive text within a <see cref="SheetHeader"/>.
 /// </summary>
-public partial class SheetDescription : RzComponent
+public partial class SheetDescription : RzComponent<SheetDescription.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the SheetDescription component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "text-sm text-muted-foreground"
+    );
+
     /// <summary>
     /// Gets or sets the content to be rendered as the description.
     /// </summary>
@@ -23,9 +30,14 @@ public partial class SheetDescription : RzComponent
         Element = "p";
     }
 
-    /// <inheritdoc/>
-    protected override string? RootClass()
+    /// <inheritdoc />
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SheetDescription;
+
+    /// <summary>
+    /// Defines the slots available for styling in the SheetDescription component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzSheet.Description);
+        public string? Base { get; set; }
     }
 }

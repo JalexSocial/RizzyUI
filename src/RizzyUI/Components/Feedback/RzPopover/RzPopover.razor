@@ -1,11 +1,11 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzPopover.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
 	<HtmlElement Element="@EffectiveElement"
 	             id="@Id"
-	             class="@RootClass()"
+	             class="@_slots.GetBase()"
 	             @attributes="@AdditionalAttributes"
 	             x-data="rzPopover"
 	             data-alpine-root="@Id"

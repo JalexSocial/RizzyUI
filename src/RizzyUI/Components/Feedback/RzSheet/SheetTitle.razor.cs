@@ -1,15 +1,22 @@
 
-// src/RizzyUI/Components/Feedback/RzSheet/SheetTitle.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// A component for displaying the title within a <see cref="SheetHeader"/>.
 /// </summary>
-public partial class SheetTitle : RzComponent
+public partial class SheetTitle : RzComponent<SheetTitle.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the SheetTitle component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "text-lg font-semibold text-foreground"
+    );
+
     /// <summary>
     /// Gets or sets the content to be rendered as the title.
     /// </summary>
@@ -23,9 +30,14 @@ public partial class SheetTitle : RzComponent
         Element = "h2";
     }
 
-    /// <inheritdoc/>
-    protected override string? RootClass()
+    /// <inheritdoc />
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SheetTitle;
+
+    /// <summary>
+    /// Defines the slots available for styling in the SheetTitle component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzSheet.Title);
+        public string? Base { get; set; }
     }
 }

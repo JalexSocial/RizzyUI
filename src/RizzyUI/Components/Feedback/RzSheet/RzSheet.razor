@@ -1,12 +1,12 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzSheet.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
     <HtmlElement Element="@EffectiveElement" 
                  @attributes="AdditionalAttributes" 
                  id="@Id" 
-                 class="@RootClass()"
+                 class="@_slots.GetBase()"
                  data-slot="sheet"
                  x-data="rzSheet"
                  data-alpine-root="@Id"

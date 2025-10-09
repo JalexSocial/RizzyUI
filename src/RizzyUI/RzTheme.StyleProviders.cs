@@ -24,14 +24,16 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="AccordionItem" /> component. </summary>
     public virtual RzStylesBase.AccordionItemStylesBase AccordionItem { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzAlert" /> component. </summary>
-    public virtual RzStylesBase.RzAlertStylesBase RzAlert { get; }
-
-    /// <summary> Gets or sets the style definitions for the <see cref="AlertTitle" /> component. </summary>
-    public virtual RzStylesBase.AlertTitleStylesBase AlertTitle { get; }
-
-    /// <summary> Gets or sets the style definitions for the <see cref="AlertDescription" /> component. </summary>
-    public virtual RzStylesBase.AlertDescriptionStylesBase AlertDescription { get; }
+    // RzAlert Family
+    public virtual TvDescriptor<RzComponent<RzAlert.Slots>, RzAlert.Slots> RzAlert { get; set; }
+    public virtual TvDescriptor<RzComponent<AlertTitle.Slots>, AlertTitle.Slots> AlertTitle { get; set; }
+    public virtual TvDescriptor<RzComponent<AlertDescription.Slots>, AlertDescription.Slots> AlertDescription { get; set; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.RzAlertStylesBase RzAlertStyles { get; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.AlertTitleStylesBase AlertTitleStyles { get; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.AlertDescriptionStylesBase AlertDescriptionStyles { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzArticle" /> component. </summary>
     public virtual RzStylesBase.RzArticleStylesBase RzArticle { get; }
@@ -123,11 +125,18 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzDateEdit" /> component. </summary>
     public virtual RzStylesBase.RzDateEditStylesBase RzDateEdit { get; }
 
-    /// <summary>
-    /// Gets the style definitions for the <see cref="RzDialog" /> component family.
-    /// </summary>
-    public virtual RzStylesBase.RzDialogStylesBase RzDialog { get; }
-    
+    // RzDialog Family
+    public virtual TvDescriptor<RzComponent<RzDialog.Slots>, RzDialog.Slots> RzDialog { get; set; }
+    public virtual TvDescriptor<RzComponent<DialogContent.Slots>, DialogContent.Slots> DialogContent { get; set; }
+    public virtual TvDescriptor<RzComponent<DialogHeader.Slots>, DialogHeader.Slots> DialogHeader { get; set; }
+    public virtual TvDescriptor<RzComponent<DialogFooter.Slots>, DialogFooter.Slots> DialogFooter { get; set; }
+    public virtual TvDescriptor<RzAsChildComponent<DialogTrigger.Slots>, DialogTrigger.Slots> DialogTrigger { get; set; }
+    public virtual TvDescriptor<RzAsChildComponent<DialogClose.Slots>, DialogClose.Slots> DialogClose { get; set; }
+    public virtual TvDescriptor<RzComponent<DialogTitle.Slots>, DialogTitle.Slots> DialogTitle { get; set; }
+    public virtual TvDescriptor<RzComponent<DialogDescription.Slots>, DialogDescription.Slots> DialogDescription { get; set; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.RzDialogStylesBase RzDialogStyles { get; }
+
     /// <summary> Gets or sets the style definitions for the <see cref="RzSeparator" /> component. </summary>
     public virtual RzStylesBase.RzSeparatorStylesBase RzSeparator { get; }
 
@@ -139,10 +148,15 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzEmbeddedPreview" /> component. </summary>
     public virtual RzStylesBase.RzEmbeddedPreviewStylesBase RzEmbeddedPreview { get; }
 
-    /// <summary>
-    /// Gets the style definitions for the <see cref="RzEmpty" /> component family.
-    /// </summary>
-    public virtual RzStylesBase.RzEmptyStylesBase RzEmpty { get; }
+    // RzEmpty Family
+    public virtual TvDescriptor<RzComponent<RzEmpty.Slots>, RzEmpty.Slots> RzEmpty { get; set; }
+    public virtual TvDescriptor<RzComponent<EmptyHeader.Slots>, EmptyHeader.Slots> EmptyHeader { get; set; }
+    public virtual TvDescriptor<RzComponent<EmptyMedia.Slots>, EmptyMedia.Slots> EmptyMedia { get; set; }
+    public virtual TvDescriptor<RzComponent<EmptyTitle.Slots>, EmptyTitle.Slots> EmptyTitle { get; set; }
+    public virtual TvDescriptor<RzComponent<EmptyDescription.Slots>, EmptyDescription.Slots> EmptyDescription { get; set; }
+    public virtual TvDescriptor<RzComponent<EmptyContent.Slots>, EmptyContent.Slots> EmptyContent { get; set; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.RzEmptyStylesBase RzEmptyStyles { get; }
     
     /// <summary> Gets or sets the style definitions for the <see cref="RzField" /> component. </summary>
     public virtual RzStylesBase.RzFieldStylesBase RzField { get; }
@@ -211,25 +225,37 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzParagraph" /> component. </summary>
     public virtual RzStylesBase.RzParagraphStylesBase RzParagraph { get; }
     
-    /// <summary>
-    /// Gets the style definitions for the <see cref="RzPopover" /> component.
-    /// </summary>
-    public virtual RzStylesBase.RzPopoverStylesBase RzPopover { get; }
+    // RzPopover Family
+    public virtual TvDescriptor<RzComponent<RzPopover.Slots>, RzPopover.Slots> RzPopover { get; set; }
+    public virtual TvDescriptor<RzAsChildComponent<PopoverTrigger.Slots>, PopoverTrigger.Slots> PopoverTrigger { get; set; }
+    public virtual TvDescriptor<RzComponent<PopoverContent.Slots>, PopoverContent.Slots> PopoverContent { get; set; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.RzPopoverStylesBase RzPopoverStyles { get; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.PopoverTriggerStylesBase PopoverTriggerStyles { get; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.PopoverContentStylesBase PopoverContentStyles { get; }
 
-    /// <summary> Gets the style definitions for the <see cref="PopoverTrigger" /> component. </summary>
-    public virtual RzStylesBase.PopoverTriggerStylesBase PopoverTrigger { get; }
-
-    /// <summary> Gets the style definitions for the <see cref="PopoverContent" /> component. </summary>
-    public virtual RzStylesBase.PopoverContentStylesBase PopoverContent { get; }
     
     /// <summary> Gets or sets the style definitions for the <see cref="RzProgress" /> component. </summary>
     public virtual RzStylesBase.RzProgressStylesBase RzProgress { get; }
 
-    /// <summary> Gets the style definitions for the <see cref="RzSheet" /> component family. </summary>
-    public virtual RzStylesBase.RzSheetStylesBase RzSheet { get; }
+    // RzSheet Family
+    public virtual TvDescriptor<RzComponent<RzSheet.Slots>, RzSheet.Slots> RzSheet { get; set; }
+    public virtual TvDescriptor<RzComponent<SheetContent.Slots>, SheetContent.Slots> SheetContent { get; set; }
+    public virtual TvDescriptor<RzComponent<SheetHeader.Slots>, SheetHeader.Slots> SheetHeader { get; set; }
+    public virtual TvDescriptor<RzComponent<SheetFooter.Slots>, SheetFooter.Slots> SheetFooter { get; set; }
+    public virtual TvDescriptor<RzComponent<SheetTitle.Slots>, SheetTitle.Slots> SheetTitle { get; set; }
+    public virtual TvDescriptor<RzComponent<SheetDescription.Slots>, SheetDescription.Slots> SheetDescription { get; set; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.RzSheetStylesBase RzSheetStyles { get; }
+    public virtual TvDescriptor<RzAsChildComponent<SheetTrigger.Slots>, SheetTrigger.Slots> SheetTrigger { get; set; }
+    public virtual TvDescriptor<RzAsChildComponent<SheetClose.Slots>, SheetClose.Slots> SheetClose { get; set; }
     
-    /// <summary> Gets or sets the style definitions for the <see cref="RzSpinner" /> component. </summary>
-    public virtual RzStylesBase.RzSpinnerStylesBase RzSpinner { get; }
+    // RzSpinner
+    public virtual TvDescriptor<RzComponent<RzSpinner.Slots>, RzSpinner.Slots> RzSpinner { get; set; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.RzSpinnerStylesBase RzSpinnerStyles { get; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzQuickReferenceContainer" /> component. </summary>
     public virtual RzStylesBase.RzQuickReferenceContainerStylesBase RzQuickReferenceContainer { get; }

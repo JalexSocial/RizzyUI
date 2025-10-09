@@ -1,7 +1,7 @@
 
-// src/RizzyUI/Components/Feedback/RzSheet/SheetClose.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,8 +9,15 @@ namespace RizzyUI;
 /// An interactive element that closes its parent <see cref="RzSheet"/>.
 /// It can be rendered as a button or merge its behavior into a child element.
 /// </summary>
-public partial class SheetClose : RzAsChildComponent
+public partial class SheetClose : RzAsChildComponent<SheetClose.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the SheetClose component.
+    /// </summary>
+    public static readonly TvDescriptor<RzAsChildComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "inline-flex"
+    );
+
     /// <summary>
     /// Gets the parent <see cref="RzSheet"/> component.
     /// </summary>
@@ -43,16 +50,21 @@ public partial class SheetClose : RzAsChildComponent
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = RootClass(),
+            ["class"] = _slots.GetBase(),
             ["x-on:click"] = "close",
             ["data-slot"] = "sheet-close"
         };
         return attributes;
     }
 
-    /// <inheritdoc/>
-    protected override string? RootClass()
+    /// <inheritdoc />
+    protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.SheetClose;
+
+    /// <summary>
+    /// Defines the slots available for styling in the SheetClose component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes);
+        public string? Base { get; set; }
     }
 }

@@ -1,6 +1,6 @@
-
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,23 +9,34 @@ namespace RizzyUI;
 ///     Provides supplementary information to the <see cref="AlertTitle" />.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class AlertDescription : RzComponent
+public partial class AlertDescription : RzComponent<AlertDescription.Slots>
 {
-    /// <summary> The descriptive content to be rendered. </summary>
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+	/// <summary>
+	/// Defines the default styling for the AlertDescription component.
+	/// </summary>
+	public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+		@base: "text-sm text-foreground [&_p]:leading-relaxed [&_ul]:list-inside [&_ul]:list-disc"
+	);
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
+	/// <summary> The descriptive content to be rendered. </summary>
+	[Parameter] public RenderFragment? ChildContent { get; set; }
 
-        if (string.IsNullOrEmpty(Element))
-            Element = "p"; // Default to paragraph element
-    }
+	/// <inheritdoc />
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		if (string.IsNullOrEmpty(Element))
+			Element = "p";
+	}
 
-    /// <inheritdoc />
-    protected override string? RootClass()
-    {
-        return TwMerge.Merge(AdditionalAttributes, Theme.AlertDescription.Description);
-    }
+	/// <inheritdoc />
+	protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.AlertDescription;
+
+	/// <summary>
+	/// Defines the slots available for styling in the AlertDescription component.
+	/// </summary>
+	public sealed partial class Slots : ISlots
+	{
+		public string? Base { get; set; }
+	}
 }

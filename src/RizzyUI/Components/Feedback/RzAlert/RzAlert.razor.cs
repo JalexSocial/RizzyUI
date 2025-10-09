@@ -1,7 +1,7 @@
-
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -10,11 +10,34 @@ namespace RizzyUI;
 ///     Styling is handled by the active theme. Content within the alert is implicitly announced by assistive technologies
 ///     due to the `role="alert"` attribute on the container.
 /// </xmldoc>
-public partial class RzAlert : RzComponent
+public partial class RzAlert : RzComponent<RzAlert.Slots>
 {
-    private string _bgLight = string.Empty;
-    private string _bgLighter = string.Empty;
-    private string _iconColor = string.Empty;
+    /// <summary>
+    /// Defines the default styling for the RzAlert component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "not-prose relative w-full overflow-hidden rounded-lg border text-sm bg-card text-card-foreground",
+        slots: new()
+        {
+            [s => s.InnerContainer] = "flex w-full items-start gap-x-3 px-4 py-3",
+            [s => s.IconContainer] = "relative flex size-6 shrink-0 text-2xl translate-y-0.5",
+            [s => s.IconPulse] = "absolute animate-ping motion-reduce:animate-none size-6 aspect-square rounded-full",
+            [s => s.ContentContainer] = "flex flex-col flex-1 gap-y-0.5 translate-y-0.5",
+            [s => s.CloseButton] = "ml-auto self-start p-1 rounded-full opacity-70 hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring dark:focus-visible:ring-offset-background transition-opacity text-foreground",
+            [s => s.CloseButtonIcon] = "size-4 shrink-0"
+        },
+        variants: new()
+        {
+            [b => ((RzAlert)b).Variant] = new Variant<AlertVariant, Slots>
+            {
+                [AlertVariant.Alternate] = new() { [s => s.Base] = "border-outline" },
+                [AlertVariant.Information] = new() { [s => s.Base] = "border-info bg-info/10 text-info-foreground dark:bg-info/15", [s => s.IconContainer] = "text-info", [s => s.IconPulse] = "bg-info/15" },
+                [AlertVariant.Success] = new() { [s => s.Base] = "border-success bg-success/10 text-success-foreground dark:bg-success/15", [s => s.IconContainer] = "text-success", [s => s.IconPulse] = "bg-success/15" },
+                [AlertVariant.Warning] = new() { [s => s.Base] = "border-warning bg-warning/10 text-warning-foreground dark:bg-warning/15", [s => s.IconContainer] = "text-warning", [s => s.IconPulse] = "bg-warning/15" },
+                [AlertVariant.Destructive] = new() { [s => s.Base] = "border-destructive bg-destructive/10 text-destructive dark:bg-destructive/15", [s => s.IconContainer] = "text-destructive", [s => s.IconPulse] = "bg-destructive/15" }
+            }
+        }
+    );
 
     /// <summary> Gets or sets the variant of the alert. </summary>
     [Parameter]
@@ -32,7 +55,7 @@ public partial class RzAlert : RzComponent
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary> Gets or sets whether to display a pulsing animation behind the icon for emphasis. Requires `Pulse` to be true in the theme. </summary>
+    /// <summary> Gets or sets whether to display a pulsing animation behind the icon for emphasis. </summary>
     [Parameter]
     public bool Pulse { get; set; }
 
@@ -40,47 +63,43 @@ public partial class RzAlert : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        SetVariantStyles(); // Set styles after Theme is confirmed
-        SetDefaultIcon(); // Set default icon after variant styles are known
+        SetDefaultIcon();
     }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
-        // Re-apply styles if parameters change AFTER initialization
-        if (Theme != null) // Ensure theme is available
-        {
-            SetVariantStyles();
-            SetDefaultIcon(); // Re-evaluate default icon if variant changed and Icon is null
-        }
         base.OnParametersSet();
-    }
-
-    private void SetVariantStyles()
-    {
-        var styles = Theme.RzAlert;
-        _bgLight = styles.GetVariantBackgroundLightCss(Variant);
-        _bgLighter = styles.GetVariantBackgroundLighterCss(Variant);
-        _iconColor = styles.GetVariantIconColorCss(Variant);
+        SetDefaultIcon();
     }
 
     private void SetDefaultIcon()
     {
-        if (Icon == null) // Only set if user hasn't provided one
+        if (Icon == null)
             Icon = Variant switch
             {
                 AlertVariant.Information => MdiIcon.InformationSlabCircle,
                 AlertVariant.Success => MdiIcon.CheckCircle,
                 AlertVariant.Warning => MdiIcon.AlertCircle,
                 AlertVariant.Destructive => MdiIcon.CloseCircle,
-                AlertVariant.Alternate => null, // No default for alternate
-                _ => MdiIcon.InformationSlabCircle
+                _ => null
             };
     }
 
     /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzAlert;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzAlert component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzAlert.Container);
+        public string? Base { get; set; }
+        public string? InnerContainer { get; set; }
+        public string? IconContainer { get; set; }
+        public string? IconPulse { get; set; }
+        public string? ContentContainer { get; set; }
+        public string? CloseButton { get; set; }
+        public string? CloseButtonIcon { get; set; }
     }
 }

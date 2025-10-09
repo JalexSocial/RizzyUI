@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -8,8 +9,15 @@ namespace RizzyUI;
 /// The interactive element that triggers the opening of a <see cref="RzPopover"/>.
 /// It can be rendered as a button or merge its behavior into a child element using the AsChild pattern.
 /// </summary>
-public partial class PopoverTrigger : RzAsChildComponent
+public partial class PopoverTrigger : RzAsChildComponent<PopoverTrigger.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the PopoverTrigger component.
+    /// </summary>
+    public static readonly TvDescriptor<RzAsChildComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "inline-flex"
+    );
+
     /// <summary>
     /// Gets the parent <see cref="RzPopover"/> component.
     /// </summary>
@@ -52,7 +60,7 @@ public partial class PopoverTrigger : RzAsChildComponent
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = TriggerId,
-            ["class"] = RootClass(),
+            ["class"] = _slots.GetBase(),
             ["x-ref"] = "trigger",
             ["x-on:click"] = "toggle",
             ["aria-haspopup"] = "dialog",
@@ -63,9 +71,14 @@ public partial class PopoverTrigger : RzAsChildComponent
         return attributes;
     }
 
-    /// <inheritdoc/>
-    protected override string? RootClass()
+    /// <inheritdoc />
+    protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.PopoverTrigger;
+
+    /// <summary>
+    /// Defines the slots available for styling in the PopoverTrigger component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.PopoverTrigger.TriggerWrapper);
+        public string? Base { get; set; }
     }
 }

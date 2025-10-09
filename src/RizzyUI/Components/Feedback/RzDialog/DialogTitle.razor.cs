@@ -1,14 +1,22 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// A component for displaying the title within a <see cref="DialogHeader"/>.
 /// </summary>
-public partial class DialogTitle : RzComponent
+public partial class DialogTitle : RzComponent<DialogTitle.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the DialogTitle component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "text-lg leading-none font-semibold"
+    );
+
     [CascadingParameter]
     protected RzDialog? ParentDialog { get; set; }
 
@@ -25,9 +33,14 @@ public partial class DialogTitle : RzComponent
         Element = "h2";
     }
 
-    /// <inheritdoc/>
-    protected override string? RootClass()
+    /// <inheritdoc />
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.DialogTitle;
+
+    /// <summary>
+    /// Defines the slots available for styling in the DialogTitle component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzDialog.Title);
+        public string? Base { get; set; }
     }
 }

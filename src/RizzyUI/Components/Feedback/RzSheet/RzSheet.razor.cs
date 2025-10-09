@@ -1,7 +1,7 @@
 
-// src/RizzyUI/Components/Feedback/RzSheet/RzSheet.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,11 +9,15 @@ namespace RizzyUI;
 /// A root component that manages the state for a sheet panel that slides in from the edge of the screen.
 /// It provides context for its child components like <see cref="SheetTrigger"/> and <see cref="SheetContent"/>.
 /// </summary>
-/// <remarks>
-/// As a root-level component, its name is prefixed with 'Rz'.
-/// </remarks>
-public partial class RzSheet : RzComponent
+public partial class RzSheet : RzComponent<RzSheet.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzSheet component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "contents"
+    );
+
     /// <summary>
     /// Gets or sets the content of the sheet, which should include a <see cref="SheetTrigger"/>
     /// and a <see cref="SheetContent"/>. Required.
@@ -28,9 +32,14 @@ public partial class RzSheet : RzComponent
     [Parameter]
     public bool DefaultOpen { get; set; }
 
-    /// <inheritdoc/>
-    protected override string? RootClass()
+    /// <inheritdoc />
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzSheet;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzSheet component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes);
+        public string? Base { get; set; }
     }
 }

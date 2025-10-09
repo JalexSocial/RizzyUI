@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,8 +10,13 @@ namespace RizzyUI;
 /// The root component for a dialog system. It provides context for its children,
 /// including trigger, content, and other parts. Interactivity is managed by an Alpine.js component.
 /// </summary>
-public partial class RzDialog : RzComponent
+public partial class RzDialog : RzComponent<RzDialog.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzDialog component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new();
+
     /// <summary>
     /// Gets the unique identifier for the `aria-labelledby` attribute, linking the dialog to its title.
     /// </summary>
@@ -69,5 +75,16 @@ public partial class RzDialog : RzComponent
         {
             EventTriggerName = $"show-dialog-{Id}";
         }
+    }
+
+    /// <inheritdoc />
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzDialog;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzDialog component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
+    {
+        public string? Base { get; set; }
     }
 }
