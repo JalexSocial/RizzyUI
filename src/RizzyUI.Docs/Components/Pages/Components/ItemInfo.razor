@@ -16,222 +16,238 @@
             </RzParagraph>
 
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Item" class="scroll-mt-20">
-                    Basic Item
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Variants" class="scroll-mt-20">
+                    Variants
                 </RzHeading>
                 <RzParagraph>
-                    A simple item with a title and description, grouped within an `RzItemGroup`.
+                    Items can have different visual styles using the `Variant` parameter.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-8 mb-5">
-                        <RzItemGroup class="max-w-lg">
-                            <RzItem>
-                                <ItemContent>
-                                    <ItemTitle>Apple</ItemTitle>
-                                    <ItemDescription>The king of fruits.</ItemDescription>
-                                </ItemContent>
-                            </RzItem>
-                            <RzItemSeparator />
-                            <RzItem>
-                                <ItemContent>
-                                    <ItemTitle>Banana</ItemTitle>
-                                    <ItemDescription>A long yellow fruit.</ItemDescription>
-                                </ItemContent>
-                            </RzItem>
-                             <RzItemSeparator />
-                            <RzItem>
-                                <ItemContent>
-                                    <ItemTitle>Strawberry</ItemTitle>
-                                    <ItemDescription>A sweet red fruit.</ItemDescription>
-                                </ItemContent>
-                            </RzItem>
-                        </RzItemGroup>
+                    <div class="mx-auto p-8 mb-5 flex w-full max-w-md flex-col gap-6">
+                        <RzItem>
+                            <ItemContent>
+                                <ItemTitle>Default Variant</ItemTitle>
+                                <ItemDescription>
+                                    Standard styling with subtle background and borders.
+                                </ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small">
+                                    Open
+                                </RzButton>
+                            </ItemActions>
+                        </RzItem>
+                        <RzItem Variant="ItemVariant.Outline">
+                            <ItemContent>
+                                <ItemTitle>Outline Variant</ItemTitle>
+                                <ItemDescription>
+                                    Outlined style with clear borders and transparent background.
+                                </ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small">
+                                    Open
+                                </RzButton>
+                            </ItemActions>
+                        </RzItem>
+                        <RzItem Variant="ItemVariant.Muted">
+                            <ItemContent>
+                                <ItemTitle>Muted Variant</ItemTitle>
+                                <ItemDescription>
+                                    Subdued appearance with muted colors for secondary content.
+                                </ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small">
+                                    Open
+                                </RzButton>
+                            </ItemActions>
+                        </RzItem>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzItemGroup class="max-w-lg"&gt;
+&lt;div class="flex flex-col gap-6"&gt;
     &lt;RzItem&gt;
         &lt;ItemContent&gt;
-            &lt;ItemTitle&gt;Apple&lt;/ItemTitle&gt;
-            &lt;ItemDescription&gt;The king of fruits.&lt;/ItemDescription&gt;
-        &lt;/ItemContent&gt;
-    &lt;/RzItem&gt;
-    &lt;RzItemSeparator /&gt;
-    &lt;RzItem&gt;
-        &lt;ItemContent&gt;
-            &lt;ItemTitle&gt;Banana&lt;/ItemTitle&gt;
-            &lt;ItemDescription&gt;A long yellow fruit.&lt;/ItemDescription&gt;
-        &lt;/ItemContent&gt;
-    &lt;/RzItem&gt;
-     &lt;RzItemSeparator /&gt;
-    &lt;RzItem&gt;
-        &lt;ItemContent&gt;
-            &lt;ItemTitle&gt;Strawberry&lt;/ItemTitle&gt;
-            &lt;ItemDescription&gt;A sweet red fruit.&lt;/ItemDescription&gt;
-        &lt;/ItemContent&gt;
-    &lt;/RzItem&gt;
-&lt;/RzItemGroup&gt;
-                </RzCodeViewer>
-            </section>
-
-            <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Item with Media" class="scroll-mt-20">
-                    Item with Media
-                </RzHeading>
-                <RzParagraph>
-                    An item that includes a media element, such as an `RzAvatar`, within an `ItemMedia` container.
-                </RzParagraph>
-
-                <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-8 mb-5">
-                        <RzItemGroup class="max-w-lg">
-                            <RzItem>
-                                <ItemMedia Variant="ItemMediaVariant.Image">
-                                    <RzAvatar Shape="AvatarShape.Square">
-                                        <AvatarImage ImageSource="/images/profile/51.jpg" AlternateText="Michael Tanczos" />
-                                        <AvatarFallback>MT</AvatarFallback>
-                                    </RzAvatar>
-                                </ItemMedia>
-                                <ItemContent>
-                                    <ItemTitle>Michael Tanczos</ItemTitle>
-                                    <ItemDescription>m@example.com</ItemDescription>
-                                </ItemContent>
-                            </RzItem>
-                        </RzItemGroup>
-                    </div>
-                </RzBrowser>
-
-                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzItemGroup class="max-w-lg"&gt;
-    &lt;RzItem&gt;
-        &lt;ItemMedia Variant="ItemMediaVariant.Image"&gt;
-            &lt;RzAvatar Shape="AvatarShape.Square"&gt;
-                &lt;AvatarImage ImageSource="/images/profile/51.jpg" AlternateText="Michael Tanczos" /&gt;
-                &lt;AvatarFallback&gt;MT&lt;/AvatarFallback&gt;
-            &lt;/RzAvatar&gt;
-        &lt;/ItemMedia&gt;
-        &lt;ItemContent&gt;
-            &lt;ItemTitle&gt;Michael Tanczos&lt;/ItemTitle&gt;
-            &lt;ItemDescription&gt;m@example.com&lt;/ItemDescription&gt;
-        &lt;/ItemContent&gt;
-    &lt;/RzItem&gt;
-&lt;/RzItemGroup&gt;
-                </RzCodeViewer>
-            </section>
-
-            <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Item with Actions" class="scroll-mt-20">
-                    Item with Actions
-                </RzHeading>
-                <RzParagraph>
-                    An item that includes action elements, like buttons and a dropdown menu, within an `ItemActions` container.
-                </RzParagraph>
-
-                <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-8 mb-5">
-                        <RzItemGroup class="max-w-lg">
-                            <RzItem>
-                                <ItemMedia Variant="ItemMediaVariant.Icon">
-                                    <Blazicon Svg="MdiIcon.FileDocument" />
-                                </ItemMedia>
-                                <ItemContent>
-                                    <ItemTitle>report.pdf</ItemTitle>
-                                    <ItemDescription>2.5 MB</ItemDescription>
-                                </ItemContent>
-                                <ItemActions>
-                                    <RzButton Variant="ButtonVariant.Ghost" Size="Size.ExtraSmall"><Blazicon Svg="MdiIcon.Download" /></RzButton>
-                                    <RzDropdownMenu>
-                                        <DropdownMenuTrigger AsChild>
-                                            <RzButton Variant="ButtonVariant.Ghost" Size="Size.ExtraSmall"><Blazicon Svg="MdiIcon.DotsVertical" /></RzButton>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent>
-                                            <DropdownMenuItem>View</DropdownMenuItem>
-                                            <DropdownMenuItem>Download</DropdownMenuItem>
-                                            <DropdownMenuItem>Delete</DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </RzDropdownMenu>
-                                </ItemActions>
-                            </RzItem>
-                        </RzItemGroup>
-                    </div>
-                </RzBrowser>
-
-                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzItemGroup class="max-w-lg"&gt;
-    &lt;RzItem&gt;
-        &lt;ItemMedia Variant="ItemMediaVariant.Icon"&gt;
-            &lt;Blazicon Svg="MdiIcon.FileDocument" /&gt;
-        &lt;/ItemMedia&gt;
-        &lt;ItemContent&gt;
-            &lt;ItemTitle&gt;report.pdf&lt;/ItemTitle&gt;
-            &lt;ItemDescription&gt;2.5 MB&lt;/ItemDescription&gt;
+            &lt;ItemTitle&gt;Default Variant&lt;/ItemTitle&gt;
+            &lt;ItemDescription&gt;Standard styling with subtle background and borders.&lt;/ItemDescription&gt;
         &lt;/ItemContent&gt;
         &lt;ItemActions&gt;
-            &lt;RzButton Variant="ButtonVariant.Ghost" Size="Size.ExtraSmall"&gt;&lt;Blazicon Svg="MdiIcon.Download" /&gt;&lt;/RzButton&gt;
-            &lt;RzDropdownMenu&gt;
-                &lt;DropdownMenuTrigger AsChild&gt;
-                    &lt;RzButton Variant="ButtonVariant.Ghost" Size="Size.ExtraSmall"&gt;&lt;Blazicon Svg="MdiIcon.DotsVertical" /&gt;&lt;/RzButton&gt;
-                &lt;/DropdownMenuTrigger&gt;
-                &lt;DropdownMenuContent&gt;
-                    &lt;DropdownMenuItem&gt;View&lt;/DropdownMenuItem&gt;
-                    &lt;DropdownMenuItem&gt;Download&lt;/DropdownMenuItem&gt;
-                    &lt;DropdownMenuItem&gt;Delete&lt;/DropdownMenuItem&gt;
-                &lt;/DropdownMenuContent&gt;
-            &lt;/RzDropdownMenu&gt;
+            &lt;RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small"&gt;Open&lt;/RzButton&gt;
         &lt;/ItemActions&gt;
     &lt;/RzItem&gt;
-&lt;/RzItemGroup&gt;
-                </RzCodeViewer>
-            </section>
-
-            <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Complex Item" class="scroll-mt-20">
-                    Complex Item
-                </RzHeading>
-                <RzParagraph>
-                    A more complex item layout combining media, multiple content sections, and a toggle switch.
-                </RzParagraph>
-
-                <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-8 mb-5">
-                        <RzItemGroup class="max-w-lg">
-                            <RzItem Variant="ItemVariant.Outline">
-                                <ItemMedia Variant="ItemMediaVariant.Icon">
-                                    <Blazicon Svg="MdiIcon.Wifi" />
-                                </ItemMedia>
-                                <ItemContent>
-                                    <ItemTitle>Wi-Fi</ItemTitle>
-                                    <ItemDescription>Connected to "Home Network"</ItemDescription>
-                                </ItemContent>
-                                <ItemActions>
-                                    <RzToggle For="@(() => _wifiEnabled)" />
-                                </ItemActions>
-                            </RzItem>
-                        </RzItemGroup>
-                    </div>
-                </RzBrowser>
-
-                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzItemGroup class="max-w-lg"&gt;
     &lt;RzItem Variant="ItemVariant.Outline"&gt;
-        &lt;ItemMedia Variant="ItemMediaVariant.Icon"&gt;
-            &lt;Blazicon Svg="MdiIcon.Wifi" /&gt;
-        &lt;/ItemMedia&gt;
         &lt;ItemContent&gt;
-            &lt;ItemTitle&gt;Wi-Fi&lt;/ItemTitle&gt;
-            &lt;ItemDescription&gt;Connected to "Home Network"&lt;/ItemDescription&gt;
+            &lt;ItemTitle&gt;Outline Variant&lt;/ItemTitle&gt;
+            &lt;ItemDescription&gt;Outlined style with clear borders and transparent background.&lt;/ItemDescription&gt;
         &lt;/ItemContent&gt;
         &lt;ItemActions&gt;
-            &lt;RzToggle For="@@(() => _wifiEnabled)" /&gt;
+            &lt;RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small"&gt;Open&lt;/RzButton&gt;
         &lt;/ItemActions&gt;
     &lt;/RzItem&gt;
-&lt;/RzItemGroup&gt;
+    &lt;RzItem Variant="ItemVariant.Muted"&gt;
+        &lt;ItemContent&gt;
+            &lt;ItemTitle&gt;Muted Variant&lt;/ItemTitle&gt;
+            &lt;ItemDescription&gt;Subdued appearance with muted colors for secondary content.&lt;/ItemDescription&gt;
+        &lt;/ItemContent&gt;
+        &lt;ItemActions&gt;
+            &lt;RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small"&gt;Open&lt;/RzButton&gt;
+        &lt;/ItemActions&gt;
+    &lt;/RzItem&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
 
-@@code {
-    private bool _wifiEnabled = true;
-}
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Sizes" class="scroll-mt-20">
+                    Sizes
+                </RzHeading>
+                <RzParagraph>
+                    The `Item` component has different sizes. Use `Size="Size.Small"` for a compact item or `Size="Size.Medium"` (the default) for a standard item.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex w-full max-w-md flex-col gap-6">
+                        <RzItem Variant="ItemVariant.Outline">
+                            <ItemContent>
+                                <ItemTitle>Default Size Item</ItemTitle>
+                                <ItemDescription>A simple item with title and description.</ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small">Action</RzButton>
+                            </ItemActions>
+                        </RzItem>
+                        <RzItem Variant="ItemVariant.Outline" Size="Size.Small" AsChild="true">
+                            <a href="#">
+                                <ItemMedia>
+                                    <Blazicon Svg="MdiIcon.CheckDecagram" class="text-xl" />
+                                </ItemMedia>
+                                <ItemContent>
+                                    <ItemTitle>Your profile has been verified.</ItemTitle>
+                                </ItemContent>
+                                <ItemActions>
+                                    <Blazicon Svg="MdiIcon.ChevronRight" class="text-lg" />
+                                </ItemActions>
+                            </a>
+                        </RzItem>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class="flex w-full max-w-md flex-col gap-6"&gt;
+    &lt;RzItem Variant="ItemVariant.Outline"&gt;
+        &lt;ItemContent&gt;
+            &lt;ItemTitle&gt;Default Size Item&lt;/ItemTitle&gt;
+            &lt;ItemDescription&gt;A simple item with title and description.&lt;/ItemDescription&gt;
+        &lt;/ItemContent&gt;
+        &lt;ItemActions&gt;
+            &lt;RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small"&gt;Action&lt;/RzButton&gt;
+        &lt;/ItemActions&gt;
+    &lt;/RzItem&gt;
+    &lt;RzItem Variant="ItemVariant.Outline" Size="Size.Small" AsChild="true"&gt;
+        &lt;a href="#"&gt;
+            &lt;ItemMedia&gt;
+                &lt;Blazicon Svg="MdiIcon.CheckDecagram" class="text-xl" /&gt;
+            &lt;/ItemMedia&gt;
+            &lt;ItemContent&gt;
+                &lt;ItemTitle&gt;Your profile has been verified.&lt;/ItemTitle&gt;
+            &lt;/ItemContent&gt;
+            &lt;ItemActions&gt;
+                &lt;Blazicon Svg="MdiIcon.ChevronRight" class="text-lg" /&gt;
+            &lt;/ItemActions&gt;
+        &lt;/a&gt;
+    &lt;/RzItem&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="With Icon" class="scroll-mt-20">
+                    With Icon
+                </RzHeading>
+                <RzParagraph>
+                    Use the `ItemMedia` component with `Variant="ItemMediaVariant.Icon"` to display an icon.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex w-full max-w-lg flex-col gap-6">
+                        <RzItem Variant="ItemVariant.Outline">
+                            <ItemMedia Variant="ItemMediaVariant.Icon">
+                                <Blazicon Svg="MdiIcon.ShieldAlert" class="text-lg"/>
+                            </ItemMedia>
+                            <ItemContent>
+                                <ItemTitle>Security Alert</ItemTitle>
+                                <ItemDescription>New login detected from unknown device.</ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <RzButton Size="Size.Small" Variant="ButtonVariant.Primary" Outline="true">Review</RzButton>
+                            </ItemActions>
+                        </RzItem>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzItem Variant="ItemVariant.Outline"&gt;
+    &lt;ItemMedia Variant="ItemMediaVariant.Icon"&gt;
+        &lt;Blazicon Svg="MdiIcon.ShieldAlert" class="text-lg"/&gt;
+    &lt;/ItemMedia&gt;
+    &lt;ItemContent&gt;
+        &lt;ItemTitle&gt;Security Alert&lt;/ItemTitle&gt;
+        &lt;ItemDescription&gt;New login detected from unknown device.&lt;/ItemDescription&gt;
+    &lt;/ItemContent&gt;
+    &lt;ItemActions&gt;
+        &lt;RzButton Size="Size.Small" Variant="ButtonVariant.Primary" Outline="true"&gt;Review&lt;/RzButton&gt;
+    &lt;/ItemActions&gt;
+&lt;/RzItem&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="With Avatar" class="scroll-mt-20">
+                    With Avatar
+                </RzHeading>
+                <RzParagraph>
+                    Display an `RzAvatar` inside the `ItemMedia` component.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex w-full max-w-lg flex-col gap-6">
+                        <RzItem Variant="ItemVariant.Outline">
+                            <ItemMedia>
+                                <RzAvatar Size="Size.Medium">
+                                    <AvatarImage ImageSource="https://github.com/evilrabbit.png" />
+                                    <AvatarFallback>ER</AvatarFallback>
+                                </RzAvatar>
+                            </ItemMedia>
+                            <ItemContent>
+                                <ItemTitle>Evil Rabbit</ItemTitle>
+                                <ItemDescription>Last seen 5 months ago</ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <RzButton Size="Size.Small" class="rounded-full size-10"><Blazicon Svg="MdiIcon.Plus" class="text-xl"/></RzButton>
+                            </ItemActions>
+                        </RzItem>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzItem Variant="ItemVariant.Outline"&gt;
+    &lt;ItemMedia&gt;
+        &lt;RzAvatar Size="Size.Medium"&gt;
+            &lt;AvatarImage ImageSource="https://github.com/evilrabbit.png" /&gt;
+            &lt;AvatarFallback&gt;ER&lt;/AvatarFallback&gt;
+        &lt;/RzAvatar&gt;
+    &lt;/ItemMedia&gt;
+    &lt;ItemContent&gt;
+        &lt;ItemTitle&gt;Evil Rabbit&lt;/ItemTitle&gt;
+        &lt;ItemDescription&gt;Last seen 5 months ago&lt;/ItemDescription&gt;
+    &lt;/ItemContent&gt;
+    &lt;ItemActions&gt;
+        &lt;RzButton Size="Size.Small" class="rounded-full size-10"&gt;&lt;Blazicon Svg="MdiIcon.Plus" class="text-xl"/&gt;&lt;/RzButton&gt;
+    &lt;/ItemActions&gt;
+&lt;/RzItem&gt;
                 </RzCodeViewer>
             </section>
 
@@ -285,7 +301,3 @@
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>
-
-@code {
-    private bool _wifiEnabled = true;
-}
