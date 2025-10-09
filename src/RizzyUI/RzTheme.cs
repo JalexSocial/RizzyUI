@@ -21,15 +21,10 @@ public partial class RzTheme
     {
         Name = name;
         ThemeCode = themeCode;
-
-        // BEGIN DELETE ME
-        RzButtonStyles = new DefaultRzButtonStyles(this); // DELETE ME
-        RzBreadcrumbStyles = new DefaultRzBreadcrumbStyles(this); // DELETE ME
-        // END DELETE ME
         
         // Instantiate default styles for all components
         RzAccordion = new DefaultRzAccordionStyles(this);
-        AccordionItem = new DefaultAccordionItemStyles(this); // Corrected name
+        AccordionItem = new DefaultAccordionItemStyles(this);
 
         // RzAlert Family
         RzAlert = RizzyUI.RzAlert.DefaultDescriptor;
@@ -81,8 +76,6 @@ public partial class RzTheme
         DialogClose = RizzyUI.DialogClose.DefaultDescriptor;        
         DialogDescription = RizzyUI.DialogDescription.DefaultDescriptor;
         RzDialogStyles = new DefaultRzDialogStyles(this);        
-        DialogTrigger = RizzyUI.DialogTrigger.DefaultDescriptor;
-        DialogClose = RizzyUI.DialogClose.DefaultDescriptor;        
         
         RzSeparator = new DefaultRzSeparatorStyles(this);
         RzDropdownMenu = new DefaultRzDropdownMenuStyles(this);
@@ -101,7 +94,6 @@ public partial class RzTheme
         RzFieldHelp = new DefaultRzFieldHelpStyles(this);
         RzFieldLabel = new DefaultRzFieldLabelStyles(this);
         RzFormSection = new DefaultRzFormSectionStyles(this);
-        RzHeading = new DefaultRzHeadingStyles(this);
         RzIndicator = new DefaultRzIndicatorStyles(this);
         RzItemGroup = new DefaultRzItemGroupStyles(this);
         RzItemSeparator = new DefaultRzItemSeparatorStyles(this);
@@ -113,14 +105,11 @@ public partial class RzTheme
         ItemActions = new DefaultItemActionsStyles(this);
         ItemHeader = new DefaultItemHeaderStyles(this);
         ItemFooter = new DefaultItemFooterStyles(this);
-        RzKbd = new DefaultRzKbdStyles(this);
-        RzKbdGroup = new DefaultRzKbdGroupStyles(this);
         RzLink = new DefaultRzLinkStyles(this);
         RzMarkdown = new DefaultRzMarkdownStyles(this);
         RzNavigationMenu = new DefaultRzNavigationMenuStyles(this);
         RzNumberEdit = new DefaultRzNumberEditStyles(this);
         RzNumberField = new DefaultRzNumberFieldStyles(this);
-        RzParagraph = new DefaultRzParagraphStyles(this);
 
         // RzPopover Family
         RzPopover = RizzyUI.RzPopover.DefaultDescriptor;
@@ -187,7 +176,17 @@ public partial class RzTheme
         RzTextField = new DefaultRzTextFieldStyles(this);
         RzToggle = new DefaultRzToggleStyles(this);
         RzToggleField = new DefaultRzToggleFieldStyles(this);
-        RzTypography = new DefaultRzTypographyStyles(this);
+
+        // Refactored Typography
+        RzKbd = RizzyUI.RzKbd.DefaultDescriptor;
+        RzKbdGroup = RizzyUI.RzKbdGroup.DefaultDescriptor;
+        RzHeading = RizzyUI.RzHeading.DefaultDescriptor;
+        RzParagraph = RizzyUI.RzParagraph.DefaultDescriptor;
+        RzKbdStyles = new DefaultRzKbdStyles(this);
+        RzKbdGroupStyles = new DefaultRzKbdGroupStyles(this);
+        RzHeadingStyles = new DefaultRzHeadingStyles(this);
+        RzParagraphStyles = new DefaultRzParagraphStyles(this);
+        RzTypographyStyles = new DefaultRzTypographyStyles(this);
     }
 
     /// <summary>

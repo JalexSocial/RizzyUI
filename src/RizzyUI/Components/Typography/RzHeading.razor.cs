@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -11,8 +12,73 @@ namespace RizzyUI;
 ///     Inherits common text styling options from <see cref="RzTypographyBase" />. Can register itself with an
 ///     <see cref="RzQuickReferenceContainer" />.
 /// </xmldoc>
-public partial class RzHeading : RzTypographyBase
+public partial class RzHeading : RzTypographyBase<RzHeading.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzHeading component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "scroll-m-20 tracking-tight",
+        variants: new()
+        {
+            [c => ((RzHeading)c).Level] = new Variant<HeadingLevel, Slots>
+            {
+                [HeadingLevel.H1] = "text-4xl font-extrabold lg:text-5xl",
+                [HeadingLevel.H2] = "border-b pb-2 text-3xl font-semibold first:mt-0",
+                [HeadingLevel.H3] = "text-2xl font-semibold",
+                [HeadingLevel.H4] = "text-xl font-semibold"
+            },
+            [c => ((RzHeading)c).TextColor] = new Variant<SemanticColor?, Slots>
+            {
+                [SemanticColor.Primary] = "text-primary",
+                [SemanticColor.Secondary] = "text-secondary",
+                [SemanticColor.Muted] = "text-muted-foreground",
+                [SemanticColor.Foreground] = "text-foreground",
+            },
+            [c => ((RzHeading)c).Weight] = new Variant<TextWeight?, Slots>
+            {
+                [TextWeight.Thin] = "font-thin",
+                [TextWeight.Normal] = "font-normal",
+                [TextWeight.Bold] = "font-bold",
+                [TextWeight.ExtraBold] = "font-extrabold"
+            },
+            [c => ((RzHeading)c).Size] = new Variant<TextSize?, Slots>
+            {
+                [TextSize.Small] = "text-sm",
+                [TextSize.Medium] = "text-base",
+                [TextSize.Large] = "text-lg",
+                [TextSize.ExtraLarge] = "text-xl",
+                [TextSize.TwoXL] = "text-2xl",
+                [TextSize.ThreeXL] = "text-3xl",
+                [TextSize.FourXL] = "text-4xl",
+                [TextSize.FiveXL] = "text-5xl"
+            },
+            [c => ((RzHeading)c).LineHeight] = new Variant<Leading?, Slots>
+            {
+                [Leading.None] = "leading-none",
+                [Leading.Tight] = "leading-tight",
+                [Leading.Snug] = "leading-snug",
+                [Leading.Normal] = "leading-normal",
+                [Leading.Relaxed] = "leading-relaxed",
+                [Leading.Loose] = "leading-loose"
+            },
+            [c => ((RzHeading)c).Decoration] = new Variant<TextDecoration?, Slots>
+            {
+                [TextDecoration.None] = "no-underline",
+                [TextDecoration.Underline] = "underline",
+                [TextDecoration.Overline] = "overline",
+                [TextDecoration.LineThrough] = "line-through"
+            },
+            [c => ((RzHeading)c).Transform] = new Variant<TextTransform?, Slots>
+            {
+                [TextTransform.None] = "normal-case",
+                [TextTransform.Uppercase] = "uppercase",
+                [TextTransform.Lowercase] = "lowercase",
+                [TextTransform.Capitalize] = "capitalize"
+            }
+        }
+    );
+
     private bool _registered;
 
     /// <summary> Represents the heading level (H1-H4), determining the HTML tag and base styles. Required. </summary>
@@ -38,23 +104,20 @@ public partial class RzHeading : RzTypographyBase
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
-        // Initialize base (gets theme) before using it
         base.OnParametersSet();
 
-        Element = Level switch // Set the HTML tag based on Level
+        Element = Level switch
         {
             HeadingLevel.H1 => "h1",
             HeadingLevel.H2 => "h2",
             HeadingLevel.H3 => "h3",
             HeadingLevel.H4 => "h4",
-            _ => "h1" // Default to h1
+            _ => "h1"
         };
 
-        // Apply default text colors based on level if not explicitly set
         if (TextColor is null)
             TextColor = SemanticColor.Foreground;
 
-        // Register with Quick Reference if applicable
         if (!_registered && QuickReferenceContainer != null)
         {
             if (string.IsNullOrEmpty(QuickReferenceTitle))
@@ -67,13 +130,13 @@ public partial class RzHeading : RzTypographyBase
     }
 
     /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzHeading;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzHeading component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        var headingStyles = Theme.RzHeading;
-        // Merge base typography styles with level-specific styles
-        return TwMerge.Merge(AdditionalAttributes,
-            GetTypographyBaseCss(), // From RzTypographyBase
-            headingStyles.GetLevelCss(Level) // From RzHeadingStyles
-        );
+        public string? Base { get; set; }
     }
 }

@@ -8,14 +8,6 @@ namespace RizzyUI;
 /// </summary>
 public partial class RzTheme
 {
-    // DELETE ME
-    public virtual RzStylesBase.RzButtonStylesBase RzButtonStyles { get; }
-   
-    /// <summary> Gets or sets the style definitions for the <see cref="RzBreadcrumb" /> component. </summary>
-    public virtual RzStylesBase.RzBreadcrumbStylesBase RzBreadcrumbStyles { get; }
-    
-    // END DELETE ME
-    
     // --- Component Style Properties ---
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzAccordion" /> component. </summary>
@@ -44,7 +36,7 @@ public partial class RzTheme
     public virtual RzStylesBase.RzAspectRatioStylesBase RzAspectRatio { get; }
     
     /// <summary>
-    /// Gets the style definitions for the <see cref="Avatar" /> component.
+    /// Gets the style definitions for the <see cref="RzAvatar" /> component.
     /// </summary>
     public virtual RzStylesBase.RzAvatarStylesBase RzAvatar { get; }
     
@@ -147,7 +139,7 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzEmbeddedPreview" /> component. </summary>
     public virtual RzStylesBase.RzEmbeddedPreviewStylesBase RzEmbeddedPreview { get; }
-
+    
     // RzEmpty Family
     public virtual TvDescriptor<RzComponent<RzEmpty.Slots>, RzEmpty.Slots> RzEmpty { get; set; }
     public virtual TvDescriptor<RzComponent<EmptyHeader.Slots>, EmptyHeader.Slots> EmptyHeader { get; set; }
@@ -170,12 +162,7 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzFormSection" /> component. </summary>
     public virtual RzStylesBase.RzFormSectionStylesBase RzFormSection { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzHeading" /> component. </summary>
-    public virtual RzStylesBase.RzHeadingStylesBase RzHeading { get; }
-
-    /// <summary>
-    /// Gets the style definitions for the <see cref="RzIndicator" /> component.
-    /// </summary>
+    /// <summary> Gets or sets the style definitions for the <see cref="RzIndicator" /> component. </summary>
     public virtual RzStylesBase.RzIndicatorStylesBase RzIndicator { get; }
     
     /// <summary> Gets the style definitions for the <see cref="RzItemGroup" /> component. </summary>
@@ -199,12 +186,6 @@ public partial class RzTheme
     /// <summary> Gets the style definitions for the <see cref="ItemFooter" /> component. </summary>
     public virtual RzStylesBase.ItemFooterStylesBase ItemFooter { get; }
     
-    /// <summary> Gets the style definitions for the <see cref="RzKbd" /> component. </summary>
-    public virtual RzStylesBase.RzKbdStylesBase RzKbd { get; }
-    
-    /// <summary> Gets the style definitions for the <see cref="RzKbdGroup" /> component. </summary>
-    public virtual RzStylesBase.RzKbdGroupStylesBase RzKbdGroup { get; }
-
     /// <summary> Gets or sets the style definitions for the <see cref="RzLink" /> component. </summary>
     public virtual RzStylesBase.RzLinkStylesBase RzLink { get; }
 
@@ -221,9 +202,6 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RzNumberField{TValue}" /> component. </summary>
     public virtual RzStylesBase.RzNumberFieldStylesBase RzNumberField { get; }
-
-    /// <summary> Gets or sets the style definitions for the <see cref="RzParagraph" /> component. </summary>
-    public virtual RzStylesBase.RzParagraphStylesBase RzParagraph { get; }
     
     // RzPopover Family
     public virtual TvDescriptor<RzComponent<RzPopover.Slots>, RzPopover.Slots> RzPopover { get; set; }
@@ -374,6 +352,22 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzToggleField" /> component. </summary>
     public virtual RzStylesBase.RzToggleFieldStylesBase RzToggleField { get; }
 
-    /// <summary> Gets or sets the style definitions for base typography used by multiple components. </summary>
-    public virtual RzStylesBase.RzTypographyStylesBase RzTypography { get; }
+    // Typography
+    public virtual TvDescriptor<RzComponent<RzKbd.Slots>, RzKbd.Slots> RzKbd { get; set; }
+    public virtual TvDescriptor<RzComponent<RzKbdGroup.Slots>, RzKbdGroup.Slots> RzKbdGroup { get; set; }
+    public virtual TvDescriptor<RzComponent<RzHeading.Slots>, RzHeading.Slots> RzHeading { get; set; }
+    public virtual TvDescriptor<RzComponent<RzParagraph.Slots>, RzParagraph.Slots> RzParagraph { get; set; }
+
+
+    // Obsolete old properties
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.RzKbdStylesBase RzKbdStyles { get; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.RzKbdGroupStylesBase RzKbdGroupStyles { get; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.RzHeadingStylesBase RzHeadingStyles { get; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.RzParagraphStylesBase RzParagraphStyles { get; }
+    [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
+    public virtual RzStylesBase.RzTypographyStylesBase RzTypographyStyles { get; }
 }
