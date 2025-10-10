@@ -1,14 +1,26 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// A button to navigate to the previous slide in the carousel.
 /// </summary>
-public partial class CarouselPrevious : RzAsChildComponent
+public partial class CarouselPrevious : RzAsChildComponent<CarouselPrevious.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the CarouselPrevious component.
+    /// </summary>
+    public static readonly TvDescriptor<RzAsChildComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "absolute size-8 rounded-full top-1/2 -translate-y-1/2 left-0 inline-flex items-center justify-center border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
+        slots: new()
+        {
+            [s => s.ButtonIcon] = "h-4 w-4"
+        }
+    );
+
     /// <summary>
     /// Gets or sets the content of the button. If not provided, a default icon is used.
     /// This is also the content that will be merged when AsChild is true.
@@ -47,7 +59,7 @@ public partial class CarouselPrevious : RzAsChildComponent
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = RootClass(),
+            ["class"] = _slots.GetBase(),
             ["aria-label"] = AriaLabel,
             ["x-on:click"] = "scrollPrev",
             [":disabled"] = "cannotScrollPrev"
@@ -56,8 +68,14 @@ public partial class CarouselPrevious : RzAsChildComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.CarouselPrevious;
+
+    /// <summary>
+    /// Defines the slots available for styling in the CarouselPrevious component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzCarousel.PreviousButton);
+        public string? Base { get; set; }
+        public string? ButtonIcon { get; set; }
     }
 }

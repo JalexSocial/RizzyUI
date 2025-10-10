@@ -1,12 +1,12 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzCarousel.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
 	<HtmlElement Element="@EffectiveElement"
-	             @attributes="AdditionalAttributes"
+	             @attributes="@AdditionalAttributes"
 	             id="@Id"
-	             class="@RootClass()"
+	             class="@_slots.GetBase()"
 	             role="region"
 	             aria-roledescription="carousel"
 	             aria-label="@AriaLabel">
@@ -18,7 +18,7 @@
 		     data-alpine-root="@Id"
 		     data-assets="@_assets"
 		     data-nonce="@Nonce"
-		     class="@Theme.RzCarousel.Wrapper">
+		     class="@_slots.GetWrapper()">
 			@ChildContent
 		</div>
 	</HtmlElement>

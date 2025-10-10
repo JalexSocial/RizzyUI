@@ -1,11 +1,11 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<CarouselItem.Slots>
 
 <HtmlElement Element="@EffectiveElement"
-             @attributes="AdditionalAttributes"
+             @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@RootClass()"
+             class="@_slots.GetBase()"
              role="group"
              aria-roledescription="slide">
     @ChildContent

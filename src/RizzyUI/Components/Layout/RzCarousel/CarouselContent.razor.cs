@@ -1,14 +1,26 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// A container for the carousel items. This component is the scrollable area managed by Embla Carousel.
 /// </summary>
-public partial class CarouselContent : RzComponent
+public partial class CarouselContent : RzComponent<CarouselContent.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the CarouselContent component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "flex",
+        slots: new()
+        {
+            [s => s.Viewport] = "overflow-hidden"
+        }
+    );
+
     /// <summary>
     /// Gets the parent <see cref="RzCarousel"/> component.
     /// </summary>
@@ -33,8 +45,14 @@ public partial class CarouselContent : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.CarouselContent;
+
+    /// <summary>
+    /// Defines the slots available for styling in the CarouselContent component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzCarousel.Content);
+        public string? Base { get; set; }
+        public string? Viewport { get; set; }
     }
 }

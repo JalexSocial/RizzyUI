@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -8,8 +9,15 @@ namespace RizzyUI;
 ///     Represents the main content area of an <see cref="RzCard" />.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class CardContent : RzComponent
+public partial class CardContent : RzComponent<CardContent.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the CardContent component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "px-6"
+    );
+
     /// <summary> The content to be rendered inside the card body. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -22,8 +30,13 @@ public partial class CardContent : RzComponent
     }
 
     /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.CardContent;
+
+    /// <summary>
+    /// Defines the slots available for styling in the CardContent component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.CardContent.Body);
+        public string? Base { get; set; }
     }
 }

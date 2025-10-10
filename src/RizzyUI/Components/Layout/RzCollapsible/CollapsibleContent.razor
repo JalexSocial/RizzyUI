@@ -1,13 +1,14 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<CollapsibleContent.Slots>
 
 <HtmlElement Element="@EffectiveElement" 
              @attributes="AdditionalAttributes" 
              id="@($"{ParentCollapsible?.Id}-content")" 
-             class="@RootClass()"
+             class="@_slots.GetBase()"
              x-show="isOpen"
              x-cloak
+             x-collapse
              x-bind:data-state="state"
              data-slot="collapsible-content">
     @ChildContent

@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -8,8 +9,13 @@ namespace RizzyUI;
 /// An interactive element that toggles the visibility of its associated <see cref="CollapsibleContent"/>.
 /// It must be a child of an <see cref="RzCollapsible"/> component.
 /// </summary>
-public partial class CollapsibleTrigger : RzAsChildComponent
+public partial class CollapsibleTrigger : RzAsChildComponent<CollapsibleTrigger.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the CollapsibleTrigger component.
+    /// </summary>
+    public static readonly TvDescriptor<RzAsChildComponent<Slots>, Slots> DefaultDescriptor = new();
+
     /// <summary>
     /// Gets the parent <see cref="RzCollapsible"/> component.
     /// </summary>
@@ -42,7 +48,7 @@ public partial class CollapsibleTrigger : RzAsChildComponent
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = $"{ParentCollapsible?.Id}-trigger",
-            ["class"] = RootClass(),
+            ["class"] = _slots.GetBase(),
             ["x-on:click"] = "toggle",
             ["aria-controls"] = $"{ParentCollapsible?.Id}-content",
             ["x-bind:aria-expanded"] = "isOpen",
@@ -53,8 +59,13 @@ public partial class CollapsibleTrigger : RzAsChildComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.CollapsibleTrigger;
+
+    /// <summary>
+    /// Defines the slots available for styling in the CollapsibleTrigger component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzCollapsible.Trigger);
+        public string? Base { get; set; }
     }
 }

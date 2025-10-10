@@ -1,12 +1,12 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<AccordionItem.Slots>
 
 <div x-data="accordionItem" @attributes="@AdditionalAttributes" x-ref="@SectionId" data-is-open="@((!Collapsed).ToString().ToLowerInvariant())"
      data-section-id="@SectionId"
-     data-expanded-class="@Theme.AccordionItem.ChevronIconExpanded"
-     class="@Theme.AccordionItem.Container" data-slot="accordion-item">
-	<button id="@ButtonId" type="button" class="@RootClass()" aria-controls="@ContentId"
+     data-expanded-class="@_slots.GetChevronIconExpanded()"
+     class="@_slots.GetBase()" data-slot="accordion-item">
+	<button id="@ButtonId" type="button" class="@_slots.GetButton()" aria-controls="@ContentId"
 	        x-on:click="toggle" :aria-expanded="getAriaExpanded" data-slot="accordion-trigger">
 		@if (AccordionTrigger != null)
 		{
@@ -17,15 +17,15 @@
 			@Title
 		}
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
-		     stroke="currentColor" class="@Theme.AccordionItem.ChevronIcon motion-safe:transition-transform" aria-hidden="true"
+		     stroke="currentColor" class="@_slots.GetChevronIcon() motion-safe:transition-transform" aria-hidden="true"
 		     :class="getExpandedCss">
 			<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
 		</svg>
 	</button>
 	<div id="@ContentId" role="region" aria-labelledby="@ButtonId"
 	     x-cloak x-show="open" x-collapse
-         class="@Theme.AccordionItem.ContentContainerWrapper" data-slot="accordion-content">
-		<div class="@Theme.AccordionItem.ContentContainer">
+         class="@_slots.GetContentContainerWrapper()" data-slot="accordion-content">
+		<div class="@_slots.GetContentContainer()">
 			@AccordionContent
 		</div>
 	</div>

@@ -1,6 +1,6 @@
-
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,8 +9,45 @@ namespace RizzyUI;
 ///     and a side navigation or information panel (<see cref="RzQuickReference" />).
 ///     Styling and layout details are determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzArticle : RzComponent
+public partial class RzArticle : RzComponent<RzArticle.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzArticle component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "flex w-full justify-between pr-0 text-foreground dark:text-foreground",
+        slots: new()
+        {
+            [s => s.InnerContainer] = "mx-auto flex max-w-7xl grow flex-col overflow-x-auto overflow-y-hidden",
+            [s => s.Article] = "prose",
+            [s => s.Aside] = "hidden shrink-0 flex-col gap-2 overflow-y-auto p-8 pl-0 text-sm xl:flex"
+        },
+        variants: new()
+        {
+            [a => ((RzArticle)a).ProseWidth] = new Variant<ProseWidth, Slots>
+            {
+                [ProseWidth.Compact] = new() { [s => s.Article] = "prose-compact" },
+                [ProseWidth.Comfortable] = new() { [s => s.Article] = "prose-comfortable" },
+                [ProseWidth.Relaxed] = new() { [s => s.Article] = "prose-relaxed" },
+                [ProseWidth.Wide] = new() { [s => s.Article] = "prose-wide" },
+                [ProseWidth.UltraWide] = new() { [s => s.Article] = "prose-ultrawide" },
+                [ProseWidth.Full] = new() { [s => s.Article] = "prose-full" }
+            },
+            [a => ((RzArticle)a).ColumnWidth] = new Variant<Size, Slots>
+            {
+                [Size.ExtraSmall] = new() { [s => s.Base] = "xl:pr-48", [s => s.Aside] = "w-48" },
+                [Size.Small] = new() { [s => s.Base] = "xl:pr-56", [s => s.Aside] = "w-56" },
+                [Size.Medium] = new() { [s => s.Base] = "xl:pr-64", [s => s.Aside] = "w-64" },
+                [Size.Large] = new() { [s => s.Base] = "xl:pr-72", [s => s.Aside] = "w-72" },
+                [Size.ExtraLarge] = new() { [s => s.Base] = "xl:pr-80", [s => s.Aside] = "w-80" }
+            },
+            [a => ((RzArticle)a).IsSideFixed] = new Variant<bool, Slots>
+            {
+                [true] = new() { [s => s.Aside] = "h-fill fixed right-0 top-16 z-0" }
+            }
+        }
+    );
+
     /// <summary> Gets or sets the maximum character width of the main article content area. Defaults to Full. </summary>
     [Parameter]
     public ProseWidth ProseWidth { get; set; } = ProseWidth.Full;
@@ -55,14 +92,20 @@ public partial class RzArticle : RzComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        // Ensure default is applied if parameter becomes null after initialization
         AsideAriaLabel ??= Localizer["RzArticle.DefaultAsideAriaLabel"];
     }
 
     /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzArticle;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzArticle component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzArticle.Container,
-            Theme.RzArticle.GetContainerPaddingCss(ColumnWidth));
+        public string? Base { get; set; }
+        public string? InnerContainer { get; set; }
+        public string? Article { get; set; }
+        public string? Aside { get; set; }
     }
 }

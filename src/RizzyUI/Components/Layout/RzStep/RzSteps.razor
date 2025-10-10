@@ -1,8 +1,8 @@
 @namespace RizzyUI
 @using Blazicons
-@inherits RzComponent
+@inherits RzComponent<RzSteps.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" aria-label="@AriaLabel">
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@_slots.GetBase()" aria-label="@AriaLabel">
 
 	<CascadingValue Value="this" IsFixed="true">
 		@ChildContent
@@ -17,39 +17,39 @@
 		var effectiveAriaLabel = string.IsNullOrEmpty(step.AriaLabel) ? step.Label : step.AriaLabel;
         var isCurrent = step.Status == StepStatus.Current;
 
-		<li class="@GetStepItemCss(isFirst) @(Orientation == Orientation.Vertical && !isLast ? Theme.RzSteps.GetConnectorCss(Orientation, step.Status, ActiveColor) : "")" 
+		<li class="@GetStepItemCss(isFirst, isLast, step.Status)" 
             aria-label="@effectiveAriaLabel" 
             aria-current="@(isCurrent ? "step" : null)">
 
 			@if (Orientation == Orientation.Horizontal && !isFirst && prevStep != null)
 			{
-				<span class="@Theme.RzSteps.GetConnectorCss(Orientation, prevStep.Status, ActiveColor)" aria-hidden="true"></span>
+				<span class="@GetConnectorCss(prevStep.Status)" aria-hidden="true"></span>
 			}
 
-			<div class="@Theme.RzSteps.StepContentContainer">
+			<div class="@_slots.GetStepContentContainer()">
 				@if (step.Status == StepStatus.Completed)
 				{
-					<span class="@Theme.RzSteps.CircleCompletedBase @Theme.RzSteps.GetCircleCompletedCss(ActiveColor)">
+					<span class="@GetCircleCompletedCss()">
 						@if (step.Icon is not null)
 						{
-							<Blazicon Svg="step.Icon" class="@Theme.RzSteps.CircleCompletedIcon" aria-hidden="true"/>
+							<Blazicon Svg="step.Icon" class="@_slots.GetCircleCompletedIcon()" aria-hidden="true"/>
 						}
 						else
 						{
-							<svg class="@Theme.RzSteps.CircleCompletedIcon" xmlns="http://www.w3.org/2000/svg" fill="none"
+							<svg class="@_slots.GetCircleCompletedIcon()" xmlns="http://www.w3.org/2000/svg" fill="none"
 							     viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" aria-hidden="true">
 								<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
 							</svg>
 						}
-                        <span class="@Theme.RzSteps.CircleCompletedSrText">@Localizer["RzSteps.CompletedStepSrText"]</span>
+                        <span class="@_slots.GetCircleCompletedSrText()">@Localizer["RzSteps.CompletedStepSrText"]</span>
 					</span>
 				}
 				else
 				{
-					<span class="@Theme.RzSteps.CircleDefaultBase @Theme.RzSteps.GetCircleDefaultCss(step.Status, ActiveColor)">
+					<span class="@GetCircleDefaultCss(step.Status)">
 						@if (step.Icon is not null)
 						{
-							<Blazicon Svg="step.Icon" class="@Theme.RzSteps.CircleDefaultIcon" aria-hidden="true"/>
+							<Blazicon Svg="step.Icon" class="@_slots.GetCircleDefaultIcon()" aria-hidden="true"/>
 						}
 						else
 						{
@@ -60,11 +60,11 @@
 				<div>
 					@if (ShowLabels && !string.IsNullOrEmpty(step.Label))
 					{
-						<p class="@Theme.RzSteps.LabelBase @Theme.RzSteps.GetLabelStatusCss(step.Status, ActiveColor)">@step.Label</p>
+						<p class="@GetLabelCss(step.Status)">@step.Label</p>
 					}
 					@if (!string.IsNullOrEmpty(step.Caption))
 					{
-						<p class="@Theme.RzSteps.Caption">@step.Caption</p>
+						<p class="@_slots.GetCaption()">@step.Caption</p>
 					}
 				</div>
 			</div>

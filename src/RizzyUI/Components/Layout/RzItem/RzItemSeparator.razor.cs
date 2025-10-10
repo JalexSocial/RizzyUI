@@ -1,17 +1,29 @@
 
-// src/RizzyUI/Components/Layout/RzItem/RzItemSeparator.razor.cs
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// A visual separator for use within an <see cref="RzItemGroup"/>.
 /// </summary>
-public partial class RzItemSeparator : RzComponent
+public partial class RzItemSeparator : RzComponent<RzItemSeparator.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzItemSeparator component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "my-0"
+    );
+
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzItemSeparator;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzItemSeparator component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzItemSeparator.Separator);
+        public string? Base { get; set; }
     }
 }

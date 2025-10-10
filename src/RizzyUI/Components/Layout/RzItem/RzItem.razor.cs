@@ -1,15 +1,36 @@
 
-// src/RizzyUI/Components/Layout/RzItem/RzItem.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// A flexible container for displaying content in a list item format, with support for various styles and sizes.
 /// </summary>
-public partial class RzItem : RzAsChildComponent
+public partial class RzItem : RzAsChildComponent<RzItem.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzItem component.
+    /// </summary>
+    public static readonly TvDescriptor<RzAsChildComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "group/item flex items-center border border-transparent text-sm rounded-md transition-colors [a]:hover:bg-accent/50 [a]:transition-colors duration-100 flex-wrap outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+        variants: new()
+        {
+            [i => ((RzItem)i).Variant] = new Variant<ItemVariant, Slots>
+            {
+                [ItemVariant.Outline] = "border-border",
+                [ItemVariant.Muted] = "bg-muted/50",
+                [ItemVariant.Default] = "bg-transparent"
+            },
+            [i => ((RzItem)i).Size] = new Variant<Size, Slots>
+            {
+                [Size.Small] = "py-3 px-4 gap-2.5",
+                [Size.Medium] = "p-4 gap-4"
+            }
+        }
+    );
+
     /// <summary>
     /// Gets or sets the content to be rendered inside the item.
     /// </summary>
@@ -25,7 +46,7 @@ public partial class RzItem : RzAsChildComponent
 
     /// <summary>
     /// Gets or sets the size of the item, affecting padding and gap.
-    /// Defaults to <see cref="Size.Medium"/> (which maps to 'default' in styling).
+    /// Defaults to <see cref="Size.Medium"/>.
     /// </summary>
     [Parameter]
     public Size Size { get; set; } = Size.Medium;
@@ -39,7 +60,7 @@ public partial class RzItem : RzAsChildComponent
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = RootClass(),
+            ["class"] = _slots.GetBase(),
             ["data-slot"] = "item",
             ["data-variant"] = Variant.ToString().ToLowerInvariant(),
             ["data-size"] = Size == Size.Small ? "sm" : "default"
@@ -48,14 +69,13 @@ public partial class RzItem : RzAsChildComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.RzItem;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzItem component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        var styles = Theme.RzItem;
-        return TwMerge.Merge(
-            AdditionalAttributes,
-            styles.ItemBase,
-            styles.GetVariantCss(Variant),
-            styles.GetSizeCss(Size)
-        );
+        public string? Base { get; set; }
     }
 }

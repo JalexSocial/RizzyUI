@@ -1,4 +1,3 @@
-
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 namespace RizzyUI;
@@ -23,21 +22,19 @@ public partial class RzTheme
         ThemeCode = themeCode;
         
         // Instantiate default styles for all components
-        RzAccordion = new DefaultRzAccordionStyles(this);
-        AccordionItem = new DefaultAccordionItemStyles(this);
 
         // RzAlert Family
         RzAlert = RizzyUI.RzAlert.DefaultDescriptor;
         AlertTitle = RizzyUI.AlertTitle.DefaultDescriptor;
         AlertDescription = RizzyUI.AlertDescription.DefaultDescriptor;
-        RzAlertStyles = new DefaultRzAlertStyles(this);
-        AlertTitleStyles = new DefaultAlertTitleStyles(this);
-        AlertDescriptionStyles = new DefaultAlertDescriptionStyles(this);        
         
-        RzArticle = new DefaultRzArticleStyles(this);
-        RzAspectRatio = new DefaultRzAspectRatioStyles(this);
-        AvatarImage = new DefaultAvatarImageStyles(this);
-        AvatarFallback = new DefaultAvatarFallbackStyles(this);
+        // RzAvatar Family
+        RzAvatar = RizzyUI.RzAvatar.DefaultDescriptor;
+
+        // RzBadge
+        RzBadge = RizzyUI.RzBadge.DefaultDescriptor;
+
+        // RzBreadcrumb Family
         RzBreadcrumb = RizzyUI.RzBreadcrumb.DefaultDescriptor;
         BreadcrumbList = RizzyUI.BreadcrumbList.DefaultDescriptor;
         BreadcrumbItem = RizzyUI.BreadcrumbItem.DefaultDescriptor;
@@ -45,24 +42,9 @@ public partial class RzTheme
         BreadcrumbPage = RizzyUI.BreadcrumbPage.DefaultDescriptor;
         BreadcrumbSeparator = RizzyUI.BreadcrumbSeparator.DefaultDescriptor;
         BreadcrumbEllipsis = RizzyUI.BreadcrumbEllipsis.DefaultDescriptor;        
-        RzBrowser = new DefaultRzBrowserStyles(this);
+        
+        // RzButton
         RzButton = RizzyUI.RzButton.DefaultDescriptor;
-        RzButtonGroup = new DefaultRzButtonGroupStyles(this);
-        RzCard = new DefaultRzCardStyles(this);
-        CardContent = new DefaultCardContentStyles(this);
-        CardAction = new DefaultCardActionStyles(this);
-        CardFooter = new DefaultCardFooterStyles(this);
-        CardHeader = new DefaultCardHeaderStyles(this);
-        CardDescription = new DefaultCardDescriptionStyles(this);
-        CardTitle = new DefaultCardTitleStyles(this);
-        RzCarousel = new DefaultRzCarouselStyles(this);
-        RzCheckboxGroup = new DefaultRzCheckboxGroupStyles(this);
-        RzCheckboxGroupField = new DefaultRzCheckboxGroupFieldStyles(this);
-        RzCheckboxGroupItem = new DefaultRzCheckboxGroupItemStyles(this);
-        RzCodeViewer = new DefaultRzCodeViewerStyles(this);
-        RzCollapsible = new DefaultRzCollapsibleStyles(this);
-        RzDarkmodeToggle = new DefaultRzDarkmodeToggleStyles(this);
-        RzDateEdit = new DefaultRzDateEditStyles(this);
 
         // RzDialog Family
         RzDialog = RizzyUI.RzDialog.DefaultDescriptor;
@@ -73,10 +55,6 @@ public partial class RzTheme
         DialogTrigger = RizzyUI.DialogTrigger.DefaultDescriptor;
         DialogClose = RizzyUI.DialogClose.DefaultDescriptor;        
         DialogDescription = RizzyUI.DialogDescription.DefaultDescriptor;
-        RzDialogStyles = new DefaultRzDialogStyles(this);        
-        
-        RzDropdownMenu = new DefaultRzDropdownMenuStyles(this);
-        RzEmbeddedPreview = new DefaultRzEmbeddedPreviewStyles(this);
         
         // RzEmpty Family
         RzEmpty = RizzyUI.RzEmpty.DefaultDescriptor;
@@ -85,42 +63,98 @@ public partial class RzTheme
         EmptyTitle = RizzyUI.EmptyTitle.DefaultDescriptor;
         EmptyDescription = RizzyUI.EmptyDescription.DefaultDescriptor;
         EmptyContent = RizzyUI.EmptyContent.DefaultDescriptor;
-        RzEmptyStyles = new DefaultRzEmptyStyles(this);        
         
-        RzField = new DefaultRzFieldStyles(this);
-        RzFieldHelp = new DefaultRzFieldHelpStyles(this);
-        RzFieldLabel = new DefaultRzFieldLabelStyles(this);
-        RzFormSection = new DefaultRzFormSectionStyles(this);
-        RzItemGroup = new DefaultRzItemGroupStyles(this);
-        RzItemSeparator = new DefaultRzItemSeparatorStyles(this);
-        RzItem = new DefaultRzItemStyles(this);
-        ItemMedia = new DefaultItemMediaStyles(this);
-        ItemContent = new DefaultItemContentStyles(this);
-        ItemTitle = new DefaultItemTitleStyles(this);
-        ItemDescription = new DefaultItemDescriptionStyles(this);
-        ItemActions = new DefaultItemActionsStyles(this);
-        ItemHeader = new DefaultItemHeaderStyles(this);
-        ItemFooter = new DefaultItemFooterStyles(this);
-        RzLink = new DefaultRzLinkStyles(this);
-        RzMarkdown = new DefaultRzMarkdownStyles(this);
-        RzNavigationMenu = new DefaultRzNavigationMenuStyles(this);
-        RzNumberEdit = new DefaultRzNumberEditStyles(this);
-        RzNumberField = new DefaultRzNumberFieldStyles(this);
+        // RzIndicator
+        RzIndicator = RizzyUI.RzIndicator.DefaultDescriptor;
 
         // RzPopover Family
         RzPopover = RizzyUI.RzPopover.DefaultDescriptor;
         PopoverTrigger = RizzyUI.PopoverTrigger.DefaultDescriptor;
         PopoverContent = RizzyUI.PopoverContent.DefaultDescriptor;
-        RzPopoverStyles = new DefaultRzPopoverStyles(this);
-        PopoverTriggerStyles = new DefaultPopoverTriggerStyles(this);
-        PopoverContentStyles = new DefaultPopoverContentStyles(this);
         
+        // RzProgress
+        RzProgress = RizzyUI.RzProgress.DefaultDescriptor;
+
+        // RzSeparator
+        RzSeparator = RizzyUI.RzSeparator.DefaultDescriptor;
+
+        // RzSheet Family
+        RzSheet = RizzyUI.RzSheet.DefaultDescriptor;
+        SheetContent = RizzyUI.SheetContent.DefaultDescriptor;
+        SheetHeader = RizzyUI.SheetHeader.DefaultDescriptor;
+        SheetFooter = RizzyUI.SheetFooter.DefaultDescriptor;
+        SheetTitle = RizzyUI.SheetTitle.DefaultDescriptor;
+        SheetDescription = RizzyUI.SheetDescription.DefaultDescriptor;
+        SheetTrigger = RizzyUI.SheetTrigger.DefaultDescriptor;
+        SheetClose = RizzyUI.SheetClose.DefaultDescriptor;
+        
+        // RzSpinner
+        RzSpinner = RizzyUI.RzSpinner.DefaultDescriptor;
+        
+        // Typography Family
+        RzKbd = RizzyUI.RzKbd.DefaultDescriptor;
+        RzKbdGroup = RizzyUI.RzKbdGroup.DefaultDescriptor;
+        RzHeading = RizzyUI.RzHeading.DefaultDescriptor;
+        RzParagraph = RizzyUI.RzParagraph.DefaultDescriptor;
+        
+        // Layout Components (Migrated)
+        RzAccordion = RizzyUI.RzAccordion.DefaultDescriptor;
+        AccordionItem = RizzyUI.AccordionItem.DefaultDescriptor;
+        RzArticle = RizzyUI.RzArticle.DefaultDescriptor;
+        RzAspectRatio = RizzyUI.RzAspectRatio.DefaultDescriptor;
+        RzCard = RizzyUI.RzCard.DefaultDescriptor;
+        CardContent = RizzyUI.CardContent.DefaultDescriptor;
+        CardAction = RizzyUI.CardAction.DefaultDescriptor;
+        CardFooter = RizzyUI.CardFooter.DefaultDescriptor;
+        CardHeader = RizzyUI.CardHeader.DefaultDescriptor;
+        CardDescription = RizzyUI.CardDescription.DefaultDescriptor;
+        CardTitle = RizzyUI.CardTitle.DefaultDescriptor;
+        RzCarousel = RizzyUI.RzCarousel.DefaultDescriptor;
+        CarouselNext = RizzyUI.CarouselNext.DefaultDescriptor;
+        CarouselPrevious = RizzyUI.CarouselPrevious.DefaultDescriptor;
+        CarouselContent = RizzyUI.CarouselContent.DefaultDescriptor;
+        CarouselItem = RizzyUI.CarouselItem.DefaultDescriptor;
+        RzCollapsible = RizzyUI.RzCollapsible.DefaultDescriptor;
+        CollapsibleTrigger = RizzyUI.CollapsibleTrigger.DefaultDescriptor;
+        CollapsibleContent = RizzyUI.CollapsibleContent.DefaultDescriptor;
+        RzItemGroup = RizzyUI.RzItemGroup.DefaultDescriptor;
+        RzItemSeparator = RizzyUI.RzItemSeparator.DefaultDescriptor;
+        RzItem = RizzyUI.RzItem.DefaultDescriptor;
+        ItemMedia = RizzyUI.ItemMedia.DefaultDescriptor;
+        ItemContent = RizzyUI.ItemContent.DefaultDescriptor;
+        ItemTitle = RizzyUI.ItemTitle.DefaultDescriptor;
+        ItemDescription = RizzyUI.ItemDescription.DefaultDescriptor;
+        ItemActions = RizzyUI.ItemActions.DefaultDescriptor;
+        ItemHeader = RizzyUI.ItemHeader.DefaultDescriptor;
+        ItemFooter = RizzyUI.ItemFooter.DefaultDescriptor;
+        RzSearchButton = RizzyUI.RzSearchButton.DefaultDescriptor;
+        RzSteps = RizzyUI.RzSteps.DefaultDescriptor;
+        RzBrowser = RizzyUI.RzBrowser.DefaultDescriptor;
+
+        // Unmigrated Components
+        RzButtonGroup = new DefaultRzButtonGroupStyles(this);
+        RzCheckboxGroup = new DefaultRzCheckboxGroupStyles(this);
+        RzCheckboxGroupField = new DefaultRzCheckboxGroupFieldStyles(this);
+        RzCheckboxGroupItem = new DefaultRzCheckboxGroupItemStyles(this);
+        RzCodeViewer = new DefaultRzCodeViewerStyles(this);
+        RzDarkmodeToggle = new DefaultRzDarkmodeToggleStyles(this);
+        RzDateEdit = new DefaultRzDateEditStyles(this);
+        RzDropdownMenu = new DefaultRzDropdownMenuStyles(this);
+        RzEmbeddedPreview = new DefaultRzEmbeddedPreviewStyles(this);
+        RzField = new DefaultRzFieldStyles(this);
+        RzFieldHelp = new DefaultRzFieldHelpStyles(this);
+        RzFieldLabel = new DefaultRzFieldLabelStyles(this);
+        RzFormSection = new DefaultRzFormSectionStyles(this);
+        RzLink = new DefaultRzLinkStyles(this);
+        RzMarkdown = new DefaultRzMarkdownStyles(this);
+        RzNavigationMenu = new DefaultRzNavigationMenuStyles(this);
+        RzNumberEdit = new DefaultRzNumberEditStyles(this);
+        RzNumberField = new DefaultRzNumberFieldStyles(this);
         RzQuickReferenceContainer = new DefaultRzQuickReferenceContainerStyles(this);
         RzQuickReference = new DefaultRzQuickReferenceStyles(this);
         RzRadioGroup = new DefaultRzRadioGroupStyles(this);
         RzRadioGroupField = new DefaultRzRadioGroupFieldStyles(this);
         RzRadioGroupItem = new DefaultRzRadioGroupItemStyles(this);
-        RzSearchButton = new DefaultRzSearchButtonStyles(this);
         RzSidebarProvider = new DefaultRzSidebarProviderStyles(this);
         Sidebar = new DefaultSidebarStyles(this);
         SidebarTrigger = new DefaultSidebarTriggerStyles(this);
@@ -139,30 +173,12 @@ public partial class RzTheme
         SidebarRail = new DefaultSidebarRailStyles(this);
         SidebarSeparator = new DefaultSidebarSeparatorStyles(this);
         SidebarInset = new DefaultSidebarInsetStyles(this);
-
-        // RzSpinner
-        RzSpinner = RizzyUI.RzSpinner.DefaultDescriptor;
-        RzSpinnerStyles = new DefaultRzSpinnerStyles(this);        
-        
-        RzSteps = new DefaultRzStepsStyles(this);
         RzTable = new DefaultRzTableStyles(this);
         RzTableHeaderCell = new DefaultRzTableHeaderCellStyles(this);
         RzTableBody = new DefaultRzTableBodyStyles(this);
         RzTableRow = new DefaultRzTableRowStyles(this);
         RzTableCell = new DefaultRzTableCellStyles(this);
         RzPagination = new DefaultRzPaginationStyles(this);
-
-        // RzSheet Family
-        RzSheet = RizzyUI.RzSheet.DefaultDescriptor;
-        SheetContent = RizzyUI.SheetContent.DefaultDescriptor;
-        SheetHeader = RizzyUI.SheetHeader.DefaultDescriptor;
-        SheetFooter = RizzyUI.SheetFooter.DefaultDescriptor;
-        SheetTitle = RizzyUI.SheetTitle.DefaultDescriptor;
-        SheetDescription = RizzyUI.SheetDescription.DefaultDescriptor;
-        RzSheetStyles = new DefaultRzSheetStyles(this);        
-        SheetTrigger = RizzyUI.SheetTrigger.DefaultDescriptor;
-        SheetClose = RizzyUI.SheetClose.DefaultDescriptor;
-        
         RzTabs = new DefaultRzTabsStyles(this);
         RzTab = new DefaultRzTabStyles(this);
         RzTabPanel = new DefaultRzTabPanelStyles(this);
@@ -171,23 +187,6 @@ public partial class RzTheme
         RzTextField = new DefaultRzTextFieldStyles(this);
         RzToggle = new DefaultRzToggleStyles(this);
         RzToggleField = new DefaultRzToggleFieldStyles(this);
-
-        // Refactored Typography
-        RzKbd = RizzyUI.RzKbd.DefaultDescriptor;
-        RzKbdGroup = RizzyUI.RzKbdGroup.DefaultDescriptor;
-        RzHeading = RizzyUI.RzHeading.DefaultDescriptor;
-        RzParagraph = RizzyUI.RzParagraph.DefaultDescriptor;
-        RzKbdStyles = new DefaultRzKbdStyles(this);
-        RzKbdGroupStyles = new DefaultRzKbdGroupStyles(this);
-        RzHeadingStyles = new DefaultRzHeadingStyles(this);
-        RzParagraphStyles = new DefaultRzParagraphStyles(this);
-        RzTypographyStyles = new DefaultRzTypographyStyles(this);
-        
-        RzAvatar = RizzyUI.RzAvatar.DefaultDescriptor;
-        RzBadge = RizzyUI.RzBadge.DefaultDescriptor;
-        RzIndicator = RizzyUI.RzIndicator.DefaultDescriptor;
-        RzProgress = RizzyUI.RzProgress.DefaultDescriptor;
-        RzSeparator = RizzyUI.RzSeparator.DefaultDescriptor;        
     }
 
     /// <summary>

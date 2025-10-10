@@ -1,9 +1,9 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzItemSeparator.Slots>
 
 <RzSeparator data-slot="item-separator"
              Orientation="Orientation.Horizontal"
              @attributes="AdditionalAttributes"
              id="@Id"
-             class="@RootClass()" />
+             class="@_slots.GetBase()" />

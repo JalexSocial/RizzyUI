@@ -1,7 +1,7 @@
 
 @namespace RizzyUI
 @using Blazicons
-@inherits RzAsChildComponent
+@inherits RzAsChildComponent<CarouselNext.Slots>
 
 @if (AsChild)
 {
@@ -16,7 +16,7 @@ else
         }
         else
         {
-            <Blazicon Svg="Lucide.ArrowRight" class="@Theme.RzCarousel.ButtonIcon" />
+            <Blazicon Svg="Lucide.ArrowRight" class="@_slots.GetButtonIcon()" />
             <span class="sr-only">@AriaLabel</span>
         }
     </HtmlElement>

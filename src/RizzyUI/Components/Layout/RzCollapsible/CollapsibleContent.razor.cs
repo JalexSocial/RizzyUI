@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -8,8 +9,15 @@ namespace RizzyUI;
 /// The container for content that can be shown or hidden by a <see cref="CollapsibleTrigger"/>.
 /// It must be a child of an <see cref="RzCollapsible"/> component.
 /// </summary>
-public partial class CollapsibleContent : RzComponent
+public partial class CollapsibleContent : RzComponent<CollapsibleContent.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the CollapsibleContent component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down"
+    );
+
     /// <summary>
     /// Gets the parent <see cref="RzCollapsible"/> component.
     /// </summary>
@@ -33,8 +41,13 @@ public partial class CollapsibleContent : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.CollapsibleContent;
+
+    /// <summary>
+    /// Defines the slots available for styling in the CollapsibleContent component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzCollapsible.Content);
+        public string? Base { get; set; }
     }
 }

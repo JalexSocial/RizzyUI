@@ -1,12 +1,12 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzCollapsible.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
     <HtmlElement Element="@EffectiveElement" 
-                 @attributes="AdditionalAttributes" 
+                 @attributes="@AdditionalAttributes" 
                  id="@Id" 
-                 class="@RootClass()"
+                 class="@_slots.GetBase()"
                  x-data="rzCollapsible"
                  data-alpine-root="@Id"
                  data-default-open="@DefaultOpen.ToString().ToLowerInvariant()"

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System.Globalization;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -11,8 +12,19 @@ namespace RizzyUI;
 /// <remarks>
 /// As a root-level component, its name is prefixed with 'Rz'.
 /// </remarks>
-public partial class RzAspectRatio : RzComponent
+public partial class RzAspectRatio : RzComponent<RzAspectRatio.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzAspectRatio component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "relative w-full",
+        slots: new()
+        {
+            [s => s.Inner] = "absolute inset-0"
+        }
+    );
+
     /// <summary>
     /// Gets or sets the content to be rendered inside the aspect ratio container.
     /// </summary>
@@ -25,8 +37,14 @@ public partial class RzAspectRatio : RzComponent
     [Parameter] public double Ratio { get; set; } = 1;
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzAspectRatio;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzAspectRatio component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzAspectRatio.Wrapper);
+        public string? Base { get; set; }
+        public string? Inner { get; set; }
     }
 }

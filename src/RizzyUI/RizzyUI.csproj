@@ -46,7 +46,7 @@
         <PackageReference Include="Scrutor" Version="6.0.1" />
         <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
-        <PackageReference Include="TailwindVariants.NET" Version="0.0.2" />
+        <PackageReference Include="TailwindVariants.NET" Version="0.0.3" />
     </ItemGroup>
 
     <ItemGroup>

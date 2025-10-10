@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -8,8 +9,15 @@ namespace RizzyUI;
 ///     A container specifically for placing buttons within an <see cref="CardHeader" /> or <see cref="CardFooter" />.
 ///     Provides appropriate layout styling based on the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class CardAction : RzComponent
+public partial class CardAction : RzComponent<CardAction.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the CardAction component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "col-start-2 row-span-2 row-start-1 self-start justify-self-end"
+    );
+
     /// <summary> The buttons or other action elements to be rendered within this container. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -22,8 +30,13 @@ public partial class CardAction : RzComponent
     }
 
     /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.CardAction;
+
+    /// <summary>
+    /// Defines the slots available for styling in the CardAction component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.CardAction.ActionsContainer);
+        public string? Base { get; set; }
     }
 }

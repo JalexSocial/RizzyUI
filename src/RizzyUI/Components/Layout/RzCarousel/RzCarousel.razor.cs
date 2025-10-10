@@ -6,6 +6,7 @@ using Rizzy.Utility;
 using RizzyUI.Extensions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -15,8 +16,19 @@ namespace RizzyUI;
 /// <remarks>
 /// As a root-level component, its name is prefixed with 'Rz'. Interactivity is powered by Embla Carousel via an Alpine.js component.
 /// </remarks>
-public partial class RzCarousel : RzComponent
+public partial class RzCarousel : RzComponent<RzCarousel.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzCarousel component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "relative",
+        slots: new()
+        {
+            [s => s.Wrapper] = "relative"
+        }
+    );
+
     private static readonly JsonSerializerOptions _serializerOptions = new()
     {
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
@@ -86,26 +98,16 @@ public partial class RzCarousel : RzComponent
         var assetUrls = new HashSet<string>();
         var configAssets = RizzyUIConfig.Value.AssetUrls;
 
-        // Add core Embla asset
         if (configAssets.TryGetValue("EmblaCore", out var coreUrl))
         {
             assetUrls.Add(coreUrl);
         }
-        else
-        {
-            // Log or handle missing core asset
-        }
 
-        // Add assets for each configured plugin
         foreach (var plugin in Plugins)
         {
             if (!string.IsNullOrEmpty(plugin.AssetKey) && configAssets.TryGetValue(plugin.AssetKey, out var pluginUrl))
             {
                 assetUrls.Add(pluginUrl);
-            }
-            else
-            {
-                // Log or handle missing plugin asset
             }
         }
 
@@ -113,8 +115,14 @@ public partial class RzCarousel : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzCarousel;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzCarousel component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzCarousel.Container);
+        public string? Base { get; set; }
+        public string? Wrapper { get; set; }
     }
 }
