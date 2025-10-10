@@ -1,10 +1,10 @@
 
 @namespace RizzyUI
 @using Blazicons
-@inherits RzComponent
+@inherits RzComponent<RzBadge.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
-    <span class="@Theme.RzBadge.InnerSpan">
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@_slots.GetBase()">
+    <span class="@_slots.GetInnerSpan()">
 	    <span class="flex items-center gap-1"> 
 		    @if (Icon != null)
 		    {

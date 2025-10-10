@@ -35,10 +35,6 @@ public partial class RzTheme
     /// </summary>
     public virtual RzStylesBase.RzAspectRatioStylesBase RzAspectRatio { get; }
     
-    /// <summary>
-    /// Gets the style definitions for the <see cref="RzAvatar" /> component.
-    /// </summary>
-    public virtual RzStylesBase.RzAvatarStylesBase RzAvatar { get; }
     
     /// <summary>
     /// Gets the style definitions for the <see cref="AvatarImage" /> component.
@@ -49,9 +45,6 @@ public partial class RzTheme
     /// Gets the style definitions for the <see cref="AvatarFallback" /> component.
     /// </summary>
     public virtual RzStylesBase.AvatarFallbackStylesBase AvatarFallback { get; }
-
-    /// <summary> Gets or sets the style definitions for the <see cref="RzBadge" /> component. </summary>
-    public virtual RzStylesBase.RzBadgeStylesBase RzBadge { get; }
 
     public virtual TvDescriptor<RzComponent<RzBreadcrumb.Slots>, RzBreadcrumb.Slots> RzBreadcrumb { get; set; }
     public virtual TvDescriptor<RzComponent<BreadcrumbList.Slots>, BreadcrumbList.Slots> BreadcrumbList { get; set; }
@@ -129,9 +122,6 @@ public partial class RzTheme
     [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
     public virtual RzStylesBase.RzDialogStylesBase RzDialogStyles { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzSeparator" /> component. </summary>
-    public virtual RzStylesBase.RzSeparatorStylesBase RzSeparator { get; }
-
     /// <summary>
     /// Gets the style definitions for the <see cref="RzDropdownMenu" /> component and its children.
     /// </summary>
@@ -162,8 +152,6 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RzFormSection" /> component. </summary>
     public virtual RzStylesBase.RzFormSectionStylesBase RzFormSection { get; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RzIndicator" /> component. </summary>
-    public virtual RzStylesBase.RzIndicatorStylesBase RzIndicator { get; }
     
     /// <summary> Gets the style definitions for the <see cref="RzItemGroup" /> component. </summary>
     public virtual RzStylesBase.RzItemGroupStylesBase RzItemGroup { get; }
@@ -213,10 +201,6 @@ public partial class RzTheme
     public virtual RzStylesBase.PopoverTriggerStylesBase PopoverTriggerStyles { get; }
     [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
     public virtual RzStylesBase.PopoverContentStylesBase PopoverContentStyles { get; }
-
-    
-    /// <summary> Gets or sets the style definitions for the <see cref="RzProgress" /> component. </summary>
-    public virtual RzStylesBase.RzProgressStylesBase RzProgress { get; }
 
     // RzSheet Family
     public virtual TvDescriptor<RzComponent<RzSheet.Slots>, RzSheet.Slots> RzSheet { get; set; }
@@ -370,4 +354,19 @@ public partial class RzTheme
     public virtual RzStylesBase.RzParagraphStylesBase RzParagraphStyles { get; }
     [Obsolete("This property is obsolete. Use the TvDescriptor-based properties for theming.")]
     public virtual RzStylesBase.RzTypographyStylesBase RzTypographyStyles { get; }
+    
+// RzAvatar Family
+    public virtual TvDescriptor<RzComponent<RzAvatar.Slots>, RzAvatar.Slots> RzAvatar { get; set; }
+
+// RzBadge
+    public virtual TvDescriptor<RzComponent<RzBadge.Slots>, RzBadge.Slots> RzBadge { get; set; }
+
+// RzIndicator
+    public virtual TvDescriptor<RzComponent<RzIndicator.Slots>, RzIndicator.Slots> RzIndicator { get; set; }
+
+// RzProgress
+    public virtual TvDescriptor<RzComponent<RzProgress.Slots>, RzProgress.Slots> RzProgress { get; set; }
+
+// RzSeparator
+    public virtual TvDescriptor<RzComponent<RzSeparator.Slots>, RzSeparator.Slots> RzSeparator { get; set; }    
 }

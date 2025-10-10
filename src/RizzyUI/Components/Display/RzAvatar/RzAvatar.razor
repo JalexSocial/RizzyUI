@@ -1,5 +1,6 @@
+
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzAvatar.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
 	<HtmlElement Element="@EffectiveElement"
@@ -7,7 +8,7 @@
 	             aria-label="@EffectiveAriaLabel"
 	             @attributes="@AdditionalAttributes"
                  id="@Id"
-                 class="@RootClass()">
+                 class="@_slots.GetBase()">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

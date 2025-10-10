@@ -112,9 +112,6 @@ private List&lt;UserData&gt; _users = new()
                 </RzCodeViewer>
                 <RzCodeViewer Language="razor" ViewerTitle="UserCard.razor" class="mb-4">
 @@attribute [RzAlpineCodeBehind]
-@using System.Text.Json
-@using RizzyUI.Docs.Models
-@using RizzyUI.Docs.Components.Pages.Components.Demo
 
 &lt;RzAlpineComponent For="this" Name="userCard" Props="@@User" LoadStrategy="visible" AsChild&gt;
     &lt;div class="border p-4 rounded-lg shadow-sm w-64"&gt;

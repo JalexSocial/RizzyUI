@@ -1,5 +1,4 @@
 
-// src/RizzyUI/Components/Display/RzAvatar/AvatarImage.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 
@@ -52,22 +51,5 @@ public partial class AvatarImage : RzComponent
         base.OnParametersSet();
         _renderImage = !string.IsNullOrWhiteSpace(ImageSource);
         ParentAvatar?.SetImageStatus(_renderImage);
-    }
-
-    /// <inheritdoc/>
-    protected override string? RootClass()
-    {
-        if (!_renderImage || ParentAvatar == null) return null;
-
-        var s = Theme.AvatarImage; // RzStylesBase.AvatarImageStylesBase
-        // Get shape and size classes from parent RzAvatar's theme provider
-        var parentAvatarStyles = Theme.RzAvatar; // RzStylesBase.RzAvatarStylesBase
-        
-        return TwMerge.Merge(
-            AdditionalAttributes,
-            s.Image,
-            parentAvatarStyles.GetSizeCss(ParentAvatar.Size),
-            parentAvatarStyles.GetShapeCss(ParentAvatar.Shape)
-        );
     }
 }

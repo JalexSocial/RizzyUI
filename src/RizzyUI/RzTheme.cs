@@ -36,10 +36,8 @@ public partial class RzTheme
         
         RzArticle = new DefaultRzArticleStyles(this);
         RzAspectRatio = new DefaultRzAspectRatioStyles(this);
-        RzAvatar = new DefaultRzAvatarStyles(this);
         AvatarImage = new DefaultAvatarImageStyles(this);
         AvatarFallback = new DefaultAvatarFallbackStyles(this);
-        RzBadge = new DefaultRzBadgeStyles(this);
         RzBreadcrumb = RizzyUI.RzBreadcrumb.DefaultDescriptor;
         BreadcrumbList = RizzyUI.BreadcrumbList.DefaultDescriptor;
         BreadcrumbItem = RizzyUI.BreadcrumbItem.DefaultDescriptor;
@@ -77,7 +75,6 @@ public partial class RzTheme
         DialogDescription = RizzyUI.DialogDescription.DefaultDescriptor;
         RzDialogStyles = new DefaultRzDialogStyles(this);        
         
-        RzSeparator = new DefaultRzSeparatorStyles(this);
         RzDropdownMenu = new DefaultRzDropdownMenuStyles(this);
         RzEmbeddedPreview = new DefaultRzEmbeddedPreviewStyles(this);
         
@@ -94,7 +91,6 @@ public partial class RzTheme
         RzFieldHelp = new DefaultRzFieldHelpStyles(this);
         RzFieldLabel = new DefaultRzFieldLabelStyles(this);
         RzFormSection = new DefaultRzFormSectionStyles(this);
-        RzIndicator = new DefaultRzIndicatorStyles(this);
         RzItemGroup = new DefaultRzItemGroupStyles(this);
         RzItemSeparator = new DefaultRzItemSeparatorStyles(this);
         RzItem = new DefaultRzItemStyles(this);
@@ -119,7 +115,6 @@ public partial class RzTheme
         PopoverTriggerStyles = new DefaultPopoverTriggerStyles(this);
         PopoverContentStyles = new DefaultPopoverContentStyles(this);
         
-        RzProgress = new DefaultRzProgressStyles(this);
         RzQuickReferenceContainer = new DefaultRzQuickReferenceContainerStyles(this);
         RzQuickReference = new DefaultRzQuickReferenceStyles(this);
         RzRadioGroup = new DefaultRzRadioGroupStyles(this);
@@ -187,6 +182,12 @@ public partial class RzTheme
         RzHeadingStyles = new DefaultRzHeadingStyles(this);
         RzParagraphStyles = new DefaultRzParagraphStyles(this);
         RzTypographyStyles = new DefaultRzTypographyStyles(this);
+        
+        RzAvatar = RizzyUI.RzAvatar.DefaultDescriptor;
+        RzBadge = RizzyUI.RzBadge.DefaultDescriptor;
+        RzIndicator = RizzyUI.RzIndicator.DefaultDescriptor;
+        RzProgress = RizzyUI.RzProgress.DefaultDescriptor;
+        RzSeparator = RizzyUI.RzSeparator.DefaultDescriptor;        
     }
 
     /// <summary>

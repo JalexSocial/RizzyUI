@@ -1,12 +1,11 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzProgress.Slots>
 
 <HtmlElement Element="div"
              @attributes="AdditionalAttributes"
              id="@Id"
-             class="@RootClass()"
-             >
+             class="@_slots.GetBase()">
 
 	             <div x-data="rzProgress"
 	                  data-alpine-root="@Id"
@@ -23,17 +22,17 @@
 		             
 		             @if (LabelPosition == ProgressLabelPosition.Outside && !string.IsNullOrEmpty(Label))
 		             {
-			             <div class="@Theme.RzProgress.OutsideLabelContainer">
+			             <div class="@_slots.GetOutsideLabelContainer()">
 				             <div class="grow"></div>
-				             <div class="@Theme.RzProgress.OutsideLabelText"><span x-text="buildLabel"></span></div>
+				             <div class="@_slots.GetOutsideLabelText()"><span x-text="buildLabel"></span></div>
 			             </div>
 		             }
-		             <div class="@Theme.RzProgress.OuterBar @Theme.RzProgress.GetOuterBarHeightCss(LabelPosition)">
-			             <div class="@InnerBarClass" x-ref="progressBar" nonce="@Nonce">
+		             <div class="@_slots.GetOuterBar()">
+			             <div class="@_slots.GetInnerBar()" x-ref="progressBar" nonce="@Nonce">
 				             @if (LabelPosition == ProgressLabelPosition.Inside && !string.IsNullOrEmpty(Label))
 				             {
-					             <div class="@Theme.RzProgress.InsideLabelContainer" x-ref="progressBarLabel" :class="getLabelCss">
-						             <span class="@Theme.RzProgress.InsideLabelText" x-ref="innerLabel"></span>
+					             <div class="@_slots.GetInsideLabelContainer()" x-ref="progressBarLabel" :class="getLabelCss">
+						             <span class="@_slots.GetInsideLabelText()" x-ref="innerLabel"></span>
 					             </div>
 				             }
 			             </div>

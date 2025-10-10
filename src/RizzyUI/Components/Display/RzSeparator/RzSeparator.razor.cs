@@ -1,18 +1,58 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
-/// <xmldoc>
+/// <summary>
 ///     A component that renders a horizontal or vertical divider line, optionally with centered or aligned text/content.
 ///     Styling is determined by the active <see cref="RzTheme" />.
-/// </xmldoc>
-public partial class RzSeparator : RzComponent
+/// </summary>
+public partial class RzSeparator : RzComponent<RzSeparator.Slots>
 {
-    // Used for Tailwind class discovery
-#pragma warning disable CS0414 // Field is assigned but its value is never used
-    private static readonly string TwDiscovery = "after:border-solid after:border-dashed after:border-dotted before:border-solid before:border-dashed before:border-dotted";
-#pragma warning restore CS0414 // Field is assigned but its value is never used
+    /// <summary>
+    /// Defines the default styling for the RzSeparator component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "flex items-center text-sm text-outline",
+        variants: new()
+        {
+            [s => ((RzSeparator)s).HasContent] = new Variant<bool, Slots>(),
+            [s => ((RzSeparator)s).Orientation] = new Variant<Orientation, Slots>
+            {
+                [Orientation.Horizontal] = "w-full",
+                [Orientation.Vertical] = "inline-flex flex-col h-full"
+            },
+            [s => ((RzSeparator)s).Style] = new Variant<SeparatorStyle, Slots>
+            {
+                [SeparatorStyle.Solid] = "before:border-solid after:border-solid",
+                [SeparatorStyle.Dashed] = "before:border-dashed after:border-dashed",
+                [SeparatorStyle.Dotted] = "before:border-dotted after:border-dotted"
+            },
+            [s => ((RzSeparator)s).LabelAlignment] = new Variant<Align, Slots>()
+        },
+        compoundVariants: new()
+        {
+            // No Content Variants
+            new(s => !((RzSeparator)s).HasContent && ((RzSeparator)s).Orientation == Orientation.Horizontal && ((RzSeparator)s).Style == SeparatorStyle.Solid) { Class = "my-4 border-t border-border w-full border-solid" },
+            new(s => !((RzSeparator)s).HasContent && ((RzSeparator)s).Orientation == Orientation.Horizontal && ((RzSeparator)s).Style == SeparatorStyle.Dashed) { Class = "my-4 border-t border-border w-full border-dashed" },
+            new(s => !((RzSeparator)s).HasContent && ((RzSeparator)s).Orientation == Orientation.Horizontal && ((RzSeparator)s).Style == SeparatorStyle.Dotted) { Class = "my-4 border-t border-border w-full border-dotted" },
+            new(s => !((RzSeparator)s).HasContent && ((RzSeparator)s).Orientation == Orientation.Vertical && ((RzSeparator)s).Style == SeparatorStyle.Solid) { Class = "mx-4 border-r border-border h-full border-solid" },
+            new(s => !((RzSeparator)s).HasContent && ((RzSeparator)s).Orientation == Orientation.Vertical && ((RzSeparator)s).Style == SeparatorStyle.Dashed) { Class = "mx-4 border-r border-border h-full border-dashed" },
+            new(s => !((RzSeparator)s).HasContent && ((RzSeparator)s).Orientation == Orientation.Vertical && ((RzSeparator)s).Style == SeparatorStyle.Dotted) { Class = "mx-4 border-r border-border h-full border-dotted" },
+
+            // With Content Variants - Horizontal
+            new(s => ((RzSeparator)s).HasContent && ((RzSeparator)s).Orientation == Orientation.Horizontal && ((RzSeparator)s).LabelAlignment == Align.Start) { Class = "after:flex-1 after:border-t after:border-border after:ms-6" },
+            new(s => ((RzSeparator)s).HasContent && ((RzSeparator)s).Orientation == Orientation.Horizontal && ((RzSeparator)s).LabelAlignment == Align.Center) { Class = "before:flex-1 before:border-t before:border-border before:me-6 after:flex-1 after:border-t after:border-border after:ms-6" },
+            new(s => ((RzSeparator)s).HasContent && ((RzSeparator)s).Orientation == Orientation.Horizontal && ((RzSeparator)s).LabelAlignment == Align.End) { Class = "before:flex-1 before:border-t before:border-border before:me-6" },
+
+            // With Content Variants - Vertical
+            new(s => ((RzSeparator)s).HasContent && ((RzSeparator)s).Orientation == Orientation.Vertical && ((RzSeparator)s).LabelAlignment == Align.Start) { Class = "after:flex-1 after:w-px after:border-r after:border-border after:mt-2" },
+            new(s => ((RzSeparator)s).HasContent && ((RzSeparator)s).Orientation == Orientation.Vertical && ((RzSeparator)s).LabelAlignment == Align.Center) { Class = "before:flex-1 before:w-px before:border-r before:border-border before:mb-2 after:flex-1 after:w-px after:border-r after:border-border after:mt-2" },
+            new(s => ((RzSeparator)s).HasContent && ((RzSeparator)s).Orientation == Orientation.Vertical && ((RzSeparator)s).LabelAlignment == Align.End) { Class = "before:flex-1 before:w-px before:border-r before:border-border before:mb-2" }
+        }
+    );
 
     /// <summary> The style of the dividing line (Solid, Dashed, Dotted). Defaults to Solid. </summary>
     [Parameter] public SeparatorStyle Style { get; set; } = SeparatorStyle.Solid;
@@ -35,28 +75,26 @@ public partial class RzSeparator : RzComponent
     /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// A protected property to expose the presence of ChildContent to the TvDescriptor.
+    /// </summary>
+    protected bool HasContent => ChildContent != null;
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
         Element = "div";
     }
 
     /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzSeparator;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzSeparator component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        var styles = Theme.RzSeparator;
-        if (ChildContent is null)
-        {
-            return TwMerge.Merge(AdditionalAttributes, styles.GetStyleCss(Style, Orientation));
-        }
-        else
-        {
-            return TwMerge.Merge(AdditionalAttributes,
-                styles.GetDividerLayoutCss(Orientation),
-                styles.GetAlignmentCss(LabelAlignment, Style, Orientation)
-            );
-        }
+        public string? Base { get; set; }
     }
 }
