@@ -120,27 +120,28 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzSearchButton.Slots>, RzSearchButton.Slots> RzSearchButton { get; set; }
     public virtual TvDescriptor<RzComponent<RzSteps.Slots>, RzSteps.Slots> RzSteps { get; set; }
 
+    public virtual TvDescriptor<RzComponent<RzCodeViewer.Slots>, RzCodeViewer.Slots> RzCodeViewer { get; set; }
+    public virtual TvDescriptor<RzComponent<RzEmbeddedPreview.Slots>, RzEmbeddedPreview.Slots> RzEmbeddedPreview { get; set; }
+    public virtual TvDescriptor<RzComponent<RzMarkdown.Slots>, RzMarkdown.Slots> RzMarkdown { get; set; }
+    public virtual TvDescriptor<RzComponent<RzQuickReference.Slots>, RzQuickReference.Slots> RzQuickReference { get; set; }
+    public virtual TvDescriptor<RzComponent<RzQuickReferenceContainer.Slots>, RzQuickReferenceContainer.Slots> RzQuickReferenceContainer { get; set; }
+    
     // --- Unmigrated Components (Legacy RzStylesBase) ---
     public virtual RzStylesBase.RzButtonGroupStylesBase RzButtonGroup { get; }
     public virtual RzStylesBase.RzCheckboxGroupStylesBase RzCheckboxGroup { get; }
     public virtual RzStylesBase.RzCheckboxGroupFieldStylesBase RzCheckboxGroupField { get; }
     public virtual RzStylesBase.RzCheckboxGroupItemStylesBase RzCheckboxGroupItem { get; }
-    public virtual RzStylesBase.RzCodeViewerStylesBase RzCodeViewer { get; }
     public virtual RzStylesBase.RzDarkmodeToggleStylesBase RzDarkmodeToggle { get; }
     public virtual RzStylesBase.RzDateEditStylesBase RzDateEdit { get; }
     public virtual RzStylesBase.RzDropdownMenuStylesBase RzDropdownMenu { get; }
-    public virtual RzStylesBase.RzEmbeddedPreviewStylesBase RzEmbeddedPreview { get; }
     public virtual RzStylesBase.RzFieldStylesBase RzField { get; }
     public virtual RzStylesBase.RzFieldHelpStylesBase RzFieldHelp { get; }
     public virtual RzStylesBase.RzFieldLabelStylesBase RzFieldLabel { get; }
     public virtual RzStylesBase.RzFormSectionStylesBase RzFormSection { get; }
     public virtual RzStylesBase.RzLinkStylesBase RzLink { get; }
-    public virtual RzStylesBase.RzMarkdownStylesBase RzMarkdown { get; }
     public virtual RzStylesBase.RzNavigationMenuStylesBase RzNavigationMenu { get; }
     public virtual RzStylesBase.RzNumberEditStylesBase RzNumberEdit { get; }
     public virtual RzStylesBase.RzNumberFieldStylesBase RzNumberField { get; }
-    public virtual RzStylesBase.RzQuickReferenceContainerStylesBase RzQuickReferenceContainer { get; }
-    public virtual RzStylesBase.RzQuickReferenceStylesBase RzQuickReference { get; }
     public virtual RzStylesBase.RzRadioGroupStylesBase RzRadioGroup { get; }
     public virtual RzStylesBase.RzRadioGroupFieldStylesBase RzRadioGroupField { get; }
     public virtual RzStylesBase.RzRadioGroupItemStylesBase RzRadioGroupItem { get; }

@@ -1,8 +1,8 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzQuickReferenceContainer.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@_slots.GetBase()">
 	<div data-alpine-root="@Id" data-headings="@_headingItemsSerialized"
 	     data-currentheadingid="@(_currentHeadingId)"
 	     x-data="rzQuickReferenceContainer">

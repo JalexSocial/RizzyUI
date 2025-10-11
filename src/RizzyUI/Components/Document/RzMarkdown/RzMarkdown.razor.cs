@@ -10,6 +10,7 @@ using RizzyUI.Extensions;
 using System.Text;
 using System.Text.Json;
 using System.Web;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -18,8 +19,27 @@ namespace RizzyUI;
 ///     It supports GitHub Flavored Markdown extensions and integrates with Highlight.js for syntax highlighting.
 ///     Styling is determined by the active <see cref="RzTheme" /> and Tailwind Typography plugin.
 /// </xmldoc>
-public partial class RzMarkdown : RzComponent
+public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzMarkdown component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "prose dark:prose-invert text-foreground max-w-none",
+        variants: new()
+        {
+            [m => ((RzMarkdown)m).ProseWidth] = new Variant<ProseWidth, Slots>
+            {
+                [ProseWidth.Compact] = "prose-compact",
+                [ProseWidth.Comfortable] = "prose-comfortable",
+                [ProseWidth.Relaxed] = "prose-relaxed",
+                [ProseWidth.Wide] = "prose-wide",
+                [ProseWidth.UltraWide] = "prose-ultrawide",
+                [ProseWidth.Full] = "prose-full"
+            }
+        }
+    );
+
     private string _assets = string.Empty;
 
     [Inject]
@@ -64,9 +84,7 @@ public partial class RzMarkdown : RzComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (OutputHtml is null)
-            RenderMarkdownContent();
-        
+        RenderMarkdownContent();
         UpdateAssets();
     }
 
@@ -101,11 +119,8 @@ public partial class RzMarkdown : RzComponent
         OutputHtml = new MarkupString(html);
     }
 
-    protected override string? RootClass()
-    {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzMarkdown.Container,
-            Theme.RzMarkdown.GetProseWidthCss(ProseWidth));
-    }
+    /// <inheritdoc />
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzMarkdown;
 
     private string RenderOutput(string markdownText)
     {
@@ -145,5 +160,13 @@ public partial class RzMarkdown : RzComponent
             else if (child is ContainerInline container) sb.Append(ExtractPlainText(container));
 
         return sb.ToString().Trim();
+    }
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzMarkdown component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
+    {
+        public string? Base { get; set; }
     }
 }

@@ -131,27 +131,28 @@ public partial class RzTheme
         RzSteps = RizzyUI.RzSteps.DefaultDescriptor;
         RzBrowser = RizzyUI.RzBrowser.DefaultDescriptor;
 
+        RzCodeViewer = RizzyUI.RzCodeViewer.DefaultDescriptor;
+        RzEmbeddedPreview = RizzyUI.RzEmbeddedPreview.DefaultDescriptor;
+        RzMarkdown = RizzyUI.RzMarkdown.DefaultDescriptor;
+        RzQuickReference = RizzyUI.RzQuickReference.DefaultDescriptor;
+        RzQuickReferenceContainer = RizzyUI.RzQuickReferenceContainer.DefaultDescriptor;
+        
         // Unmigrated Components
         RzButtonGroup = new DefaultRzButtonGroupStyles(this);
         RzCheckboxGroup = new DefaultRzCheckboxGroupStyles(this);
         RzCheckboxGroupField = new DefaultRzCheckboxGroupFieldStyles(this);
         RzCheckboxGroupItem = new DefaultRzCheckboxGroupItemStyles(this);
-        RzCodeViewer = new DefaultRzCodeViewerStyles(this);
         RzDarkmodeToggle = new DefaultRzDarkmodeToggleStyles(this);
         RzDateEdit = new DefaultRzDateEditStyles(this);
         RzDropdownMenu = new DefaultRzDropdownMenuStyles(this);
-        RzEmbeddedPreview = new DefaultRzEmbeddedPreviewStyles(this);
         RzField = new DefaultRzFieldStyles(this);
         RzFieldHelp = new DefaultRzFieldHelpStyles(this);
         RzFieldLabel = new DefaultRzFieldLabelStyles(this);
         RzFormSection = new DefaultRzFormSectionStyles(this);
         RzLink = new DefaultRzLinkStyles(this);
-        RzMarkdown = new DefaultRzMarkdownStyles(this);
         RzNavigationMenu = new DefaultRzNavigationMenuStyles(this);
         RzNumberEdit = new DefaultRzNumberEditStyles(this);
         RzNumberField = new DefaultRzNumberFieldStyles(this);
-        RzQuickReferenceContainer = new DefaultRzQuickReferenceContainerStyles(this);
-        RzQuickReference = new DefaultRzQuickReferenceStyles(this);
         RzRadioGroup = new DefaultRzRadioGroupStyles(this);
         RzRadioGroupField = new DefaultRzRadioGroupFieldStyles(this);
         RzRadioGroupItem = new DefaultRzRadioGroupItemStyles(this);

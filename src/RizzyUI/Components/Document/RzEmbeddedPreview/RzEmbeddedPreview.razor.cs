@@ -1,7 +1,8 @@
+
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
-
-// For Task
+using System.Threading.Tasks;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -11,8 +12,19 @@ namespace RizzyUI;
 ///     for dynamic iframe resizing and dark mode synchronization.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzEmbeddedPreview : RzComponent
+public partial class RzEmbeddedPreview : RzComponent<RzEmbeddedPreview.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzEmbeddedPreview component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "w-full",
+        slots: new()
+        {
+            [s => s.IFrame] = "w-full transition-all min-h-28"
+        }
+    );
+
     private string? _content;
 
     /// <summary> ServiceProvider reference needed to render components to string correctly. </summary>
@@ -34,8 +46,6 @@ public partial class RzEmbeddedPreview : RzComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        // Set default localized value if parameter is not provided
         IFrameTitle ??= Localizer["RzEmbeddedPreview.DefaultIFrameTitle"];
     }
 
@@ -43,16 +53,14 @@ public partial class RzEmbeddedPreview : RzComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        // Ensure default is applied if parameter becomes null after initialization
         IFrameTitle ??= Localizer["RzEmbeddedPreview.DefaultIFrameTitle"];
     }
 
     /// <inheritdoc />
-    protected override async Task OnParametersSetAsync() // Use async version for RenderHtmlAsync
+    protected override async Task OnParametersSetAsync()
     {
-        await base.OnParametersSetAsync(); // Ensure base class logic runs
+        await base.OnParametersSetAsync();
 
-        // Wrap the ChildContent inside the Layout if specified
         RenderFragment fragment = builder =>
         {
             if (Layout != null)
@@ -67,9 +75,18 @@ public partial class RzEmbeddedPreview : RzComponent
             }
         };
 
-        // Use the async RenderHtml extension method to render the fragment
-        // Be mindful of potential deadlocks if not done correctly in all scenarios.
-        // Consider making this truly async if rendering becomes complex.
         _content = await fragment.RenderHtmlAsync(ServiceProvider);
+    }
+
+    /// <inheritdoc />
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzEmbeddedPreview;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzEmbeddedPreview component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
+    {
+        public string? Base { get; set; }
+        public string? IFrame { get; set; }
     }
 }

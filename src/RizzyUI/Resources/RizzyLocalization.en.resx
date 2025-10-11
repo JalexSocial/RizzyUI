@@ -349,4 +349,8 @@
         <value>Empty state</value>
         <comment>Default ARIA label for RzEmpty</comment>
     </data>  
+  <data name="RzBrowser.PreviewIFrameTitle" xml:space="preserve">
+        <value>Component Preview</value>
+        <comment>Default title for the iframe in RzBrowser</comment>
+    </data>    
 </root>

@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -10,8 +11,22 @@ namespace RizzyUI;
 ///     to highlight the currently visible heading and set `aria-current`.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzQuickReference : RzComponent
+public partial class RzQuickReference : RzComponent<RzQuickReference.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzQuickReference component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "text-foreground",
+        slots: new()
+        {
+            [s => s.Title] = "mb-4 font-bold",
+            [s => s.List] = "flex flex-col gap-2",
+            [s => s.ListItem] = "",
+            [s => s.Link] = ""
+        }
+    );
+
     private IReadOnlyList<HeadingItem> _headings = new List<HeadingItem>().AsReadOnly();
 
     /// <summary> Gets the parent container which holds the heading data. </summary>
@@ -37,39 +52,46 @@ public partial class RzQuickReference : RzComponent
             throw new InvalidOperationException(
                 $"{GetType()} must be placed within an {nameof(RzQuickReferenceContainer)}.");
 
-        // Get initial headings
         _headings = QuickReferenceContainer.GetHeadingItems();
-
-        // Set default localized values if parameters are null
         Title ??= Localizer["RzQuickReference.DefaultTitle"];
         AriaLabel ??= Localizer["RzQuickReference.DefaultAriaLabel"];
-
     }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        // Update headings if the container might have changed (less common, but possible)
         if (QuickReferenceContainer != null) _headings = QuickReferenceContainer.GetHeadingItems();
-
-        // Ensure defaults are applied if parameters become null after initialization
         Title ??= Localizer["RzQuickReference.DefaultTitle"];
         AriaLabel ??= Localizer["RzQuickReference.DefaultAriaLabel"];
     }
 
     /// <inheritdoc />
-    protected override string? RootClass()
-    {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzQuickReference.Container);
-    }
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzQuickReference;
 
     /// <summary> Gets the CSS class for indentation based on the heading level. </summary>
-    /// <param name="level">The heading level.</param>
-    /// <returns>A string containing the Tailwind CSS class for margin-left.</returns>
     protected string GetIndentationClass(HeadingLevel level)
     {
-        return Theme.RzQuickReference.GetIndentationCss(level, QuickReferenceContainer!.MinimumHeadingLevel);
-        // Use parent's min level
+        var relativeLevel = (int)level - (int)(QuickReferenceContainer?.MinimumHeadingLevel ?? HeadingLevel.H2);
+        return relativeLevel switch
+        {
+            0 => "ml-0",
+            1 => "ml-4",
+            2 => "ml-8",
+            3 => "ml-12",
+            _ => "ml-0"
+        };
+    }
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzQuickReference component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
+    {
+        public string? Base { get; set; }
+        public string? Title { get; set; }
+        public string? List { get; set; }
+        public string? ListItem { get; set; }
+        public string? Link { get; set; }
     }
 }
