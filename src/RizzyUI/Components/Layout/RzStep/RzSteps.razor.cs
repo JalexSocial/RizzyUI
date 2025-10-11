@@ -103,8 +103,8 @@ public partial class RzSteps : RzComponent<RzSteps.Slots>
             classes.Add("flex-1");
             if (!isLast)
             {
-                var connectorColor = stepStatus == StepStatus.Completed ? GetActiveBackgroundClass(ActiveColor) : "bg-border";
-                classes.Add($"after:content-[''] after:absolute after:left-3 after:-bottom-11 after:h-full after:w-0.5 {connectorColor}");
+                var connectorColorClass = stepStatus == StepStatus.Completed ? GetActiveBackgroundClass(ActiveColor) : "bg-border";
+                classes.Add($"after:content-[''] after:absolute after:left-3 after:-bottom-11 after:h-full after:w-0.5 after:{connectorColorClass}");
             }
         }
         else if (!isFirst)
@@ -167,7 +167,6 @@ public partial class RzSteps : RzComponent<RzSteps.Slots>
     {
         public string? Base { get; set; }
         public string? StepItem { get; set; }
-        public string? Connector { get; set; }
         public string? StepContentContainer { get; set; }
         public string? CircleCompleted { get; set; }
         public string? CircleCompletedIcon { get; set; }

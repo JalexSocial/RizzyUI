@@ -23,7 +23,7 @@ public partial class RzProgress : RzComponent<RzProgress.Slots>
             [s => s.OuterBar] = "relative flex w-full overflow-hidden rounded-md bg-outline",
             [s => s.InnerBar] = "p-0.5 text-center text-xs font-semibold leading-none transition-all",
             [s => s.InsideLabelContainer] = "absolute",
-            [s => s.InsideLabelText] = ""
+            [s => s.InsideLabelText] = null
         },
         variants: new()
         {
