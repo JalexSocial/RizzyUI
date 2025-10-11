@@ -1,7 +1,7 @@
 
-// src/RizzyUI/Components/Navigation/RzDropdown/DropdownMenuShortcut.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,8 +9,15 @@ namespace RizzyUI;
 /// Represents a styled text element typically used to display keyboard shortcuts
 /// alongside a <see cref="DropdownMenuItem"/>.
 /// </summary>
-public partial class DropdownMenuShortcut : RzComponent
+public partial class DropdownMenuShortcut : RzComponent<DropdownMenuShortcut.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the DropdownMenuShortcut component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "ml-auto text-xs tracking-widest text-muted-foreground"
+    );
+
     /// <summary>
     /// Gets or sets the content of the shortcut, e.g., "⌘S". Required.
     /// </summary>
@@ -28,8 +35,13 @@ public partial class DropdownMenuShortcut : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.DropdownMenuShortcut;
+
+    /// <summary>
+    /// Defines the slots available for styling in the DropdownMenuShortcut component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdownMenu.MenuItemShortcut);
+        public string? Base { get; set; }
     }
 }

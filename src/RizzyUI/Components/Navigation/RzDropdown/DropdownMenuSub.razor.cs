@@ -1,7 +1,7 @@
 
-// src/RizzyUI/Components/Navigation/RzDropdown/DropdownMenuSub.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -10,8 +10,15 @@ namespace RizzyUI;
 /// It requires a <see cref="DropdownMenuSubTrigger"/> and <see cref="DropdownMenuSubContent"/> as children.
 /// Interactivity is managed by the 'rzDropdownSubmenu' Alpine.js component.
 /// </summary>
-public partial class DropdownMenuSub : RzComponent
+public partial class DropdownMenuSub : RzComponent<DropdownMenuSub.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the DropdownMenuSub component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "relative"
+    );
+
     /// <summary>
     /// Gets the parent <see cref="RzDropdownMenu"/> component.
     /// </summary>
@@ -50,8 +57,13 @@ public partial class DropdownMenuSub : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.DropdownMenuSub;
+
+    /// <summary>
+    /// Defines the slots available for styling in the DropdownMenuSub component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdownMenu.SubContainer);
+        public string? Base { get; set; }
     }
 }

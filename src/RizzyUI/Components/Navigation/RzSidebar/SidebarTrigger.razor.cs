@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -8,8 +9,15 @@ namespace RizzyUI;
 /// An interactive element, typically a button, that toggles the open/closed state of the sidebar.
 /// It must be placed within an <see cref="RzSidebarProvider"/>.
 /// </summary>
-public partial class SidebarTrigger : RzComponent
+public partial class SidebarTrigger : RzComponent<SidebarTrigger.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the SidebarTrigger component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "inline-flex items-center justify-center rounded-md p-2 text-sidebar-foreground hover:bg-sidebar-accent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sidebar-ring"
+    );
+
     /// <summary>
     /// Gets the parent <see cref="RzSidebarProvider"/> which manages the state.
     /// </summary>
@@ -50,8 +58,13 @@ public partial class SidebarTrigger : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarTrigger;
+
+    /// <summary>
+    /// Defines the slots available for styling in the SidebarTrigger component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.SidebarTrigger.Trigger);
+        public string? Base { get; set; }
     }
 }

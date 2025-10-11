@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,8 +10,15 @@ namespace RizzyUI;
 /// and cascades this information to all child sidebar components. It also hosts the Alpine.js component
 /// responsible for client-side interactivity.
 /// </summary>
-public partial class RzSidebarProvider : RzComponent
+public partial class RzSidebarProvider : RzComponent<RzSidebarProvider.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzSidebarProvider component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full"
+    );
+
     /// <summary>
     /// Gets or sets the content of the sidebar provider, which should include a <see cref="Sidebar"/>
     /// and a <see cref="SidebarTrigger"/>. Required.
@@ -68,8 +76,13 @@ public partial class RzSidebarProvider : RzComponent
     public string IconWidth { get; set; } = "3rem";
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzSidebarProvider;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzSidebarProvider component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzSidebarProvider.Provider);
+        public string? Base { get; set; }
     }
 }

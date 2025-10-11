@@ -1,11 +1,11 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<DropdownMenuGroup.Slots>
 
 <HtmlElement Element="@EffectiveElement"
              @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@RootClass()"
+             class="@_slots.GetBase()"
              role="group"
              data-slot="dropdown-menu-group">
     @ChildContent

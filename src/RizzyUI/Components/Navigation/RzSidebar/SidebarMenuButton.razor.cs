@@ -1,7 +1,7 @@
 
-// src/RizzyUI/Components/Navigation/RzSidebar/SidebarMenuButton.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,8 +9,29 @@ namespace RizzyUI;
 /// The primary interactive element within a <see cref="SidebarMenuItem"/>. It can be rendered as a button
 /// or, using the `AsChild` pattern, as another element like an anchor tag.
 /// </summary>
-public partial class SidebarMenuButton : RzAsChildComponent
+public partial class SidebarMenuButton : RzAsChildComponent<SidebarMenuButton.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the SidebarMenuButton component.
+    /// </summary>
+    public static readonly TvDescriptor<RzAsChildComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&[aria-current=page]]:bg-sidebar-accent [&[aria-current=page]]:font-medium [&[aria-current=page]]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 group-data-[state=collapsed]/sidebar:w-8 group-data-[state=collapsed]/sidebar:justify-center group-data-[state=collapsed]/sidebar:[&>span:last-child]:hidden",
+        variants: new()
+        {
+            [b => ((SidebarMenuButton)b).Variant] = new Variant<SidebarMenuButtonVariant, Slots>
+            {
+                [SidebarMenuButtonVariant.Default] = "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                [SidebarMenuButtonVariant.Outline] = "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]"
+            },
+            [b => ((SidebarMenuButton)b).Size] = new Variant<Size, Slots>
+            {
+                [Size.Small] = "h-7 text-xs",
+                [Size.Medium] = "h-8 text-sm",
+                [Size.Large] = "h-12 text-sm group-data-[collapsible=icon]:p-0"
+            }
+        }
+    );
+
     /// <summary>
     /// Gets or sets the content of the button, typically an icon and a text label. Required.
     /// </summary>
@@ -51,33 +72,24 @@ public partial class SidebarMenuButton : RzAsChildComponent
     /// <inheritdoc/>
     protected override Dictionary<string, object?> GetComponentAttributes()
     {
-        // Start with a copy of the user-provided attributes.
-        var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase);
-
-        // Add or overwrite with the component's essential attributes.
-        // The `Id` from the component's parameter takes precedence.
-        attributes["id"] = Id;
-
-        // The `class` is merged by RootClass(), which already considers AdditionalAttributes.
-        attributes["class"] = RootClass();
-
-        // Set ARIA attributes based on component state.
-        attributes["aria-current"] = IsActive ? "page" : null;
-        
-        attributes["data-slot"] = "sidebar-menu-button";
-
+        var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
+        {
+            ["id"] = Id,
+            ["class"] = _slots.GetBase(),
+            ["aria-current"] = IsActive ? "page" : null,
+            ["data-slot"] = "sidebar-menu-button"
+        };
         return attributes;
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarMenuButton;
+
+    /// <summary>
+    /// Defines the slots available for styling in the SidebarMenuButton component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        var styles = Theme.SidebarMenuButton;
-        return TwMerge.Merge(
-            AdditionalAttributes,
-            styles.ButtonBase,
-            styles.GetVariantCss(Variant),
-            styles.GetSizeCss(Size)
-        );
+        public string? Base { get; set; }
     }
 }

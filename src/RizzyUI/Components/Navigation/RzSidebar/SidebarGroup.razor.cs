@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,8 +10,15 @@ namespace RizzyUI;
 /// A structural component for grouping related items within a <see cref="SidebarContent"/>.
 /// It provides an accessible grouping by associating its content with a <see cref="SidebarGroupLabel"/>.
 /// </summary>
-public partial class SidebarGroup : RzComponent
+public partial class SidebarGroup : RzComponent<SidebarGroup.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the SidebarGroup component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "relative flex w-full min-w-0 flex-col p-2"
+    );
+
     /// <summary>
     /// Gets the unique ID for the label associated with this group, used for `aria-labelledby`.
     /// </summary>
@@ -24,8 +32,13 @@ public partial class SidebarGroup : RzComponent
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarGroup;
+
+    /// <summary>
+    /// Defines the slots available for styling in the SidebarGroup component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.SidebarGroup.Group);
+        public string? Base { get; set; }
     }
 }

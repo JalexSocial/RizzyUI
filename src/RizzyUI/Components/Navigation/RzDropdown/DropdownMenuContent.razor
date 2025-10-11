@@ -1,6 +1,6 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<DropdownMenuContent.Slots>
 
 <template x-teleport="body">
     <div @attributes="AdditionalAttributes"
@@ -25,9 +25,9 @@
          x-on:keydown.home.prevent="focusFirstItem"
          x-on:keydown.end.prevent="focusLastItem"
          x-on:keydown.tab.prevent="handleContentTabKey"
-         class="@RootClass()"
+         class="@_slots.GetBase()"
          data-slot="dropdown-menu-content">
-        <div class="@Theme.RzDropdownMenu.ContentInnerContainer">
+        <div class="@_slots.GetInnerContainer()">
             @ChildContent
         </div>
     </div>

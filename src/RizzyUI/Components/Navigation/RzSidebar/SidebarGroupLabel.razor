@@ -1,6 +1,6 @@
 
 @namespace RizzyUI
-@inherits RzAsChildComponent
+@inherits RzAsChildComponent<SidebarGroupLabel.Slots>
 
 @if (AsChild)
 {
@@ -8,7 +8,7 @@
 }
 else
 {
-    <HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@ParentGroup?.LabelId" class="@RootClass()">
+    <HtmlElement Element="@EffectiveElement" @attributes="GetComponentAttributes()">
         @ChildContent
     </HtmlElement>
 }

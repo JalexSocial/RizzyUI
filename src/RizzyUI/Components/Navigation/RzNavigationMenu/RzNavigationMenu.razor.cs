@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System.Collections.Generic;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -11,8 +12,15 @@ namespace RizzyUI;
 /// <remarks>
 /// As a root-level component, its name is prefixed with 'Rz'.
 /// </remarks>
-public partial class RzNavigationMenu : RzComponent
+public partial class RzNavigationMenu : RzComponent<RzNavigationMenu.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzNavigationMenu component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "group/navigation-menu relative flex max-w-max flex-1 items-center justify-center"
+    );
+
     internal readonly List<NavigationMenuItem> Items = new();
 
     /// <summary>
@@ -52,7 +60,7 @@ public partial class RzNavigationMenu : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass() => TwMerge.Merge(AdditionalAttributes, Theme.RzNavigationMenu.Container);
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzNavigationMenu;
 
     internal void AddItem(NavigationMenuItem item)
     {
@@ -60,5 +68,13 @@ public partial class RzNavigationMenu : RzComponent
         {
             Items.Add(item);
         }
+    }
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzNavigationMenu component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
+    {
+        public string? Base { get; set; }
     }
 }

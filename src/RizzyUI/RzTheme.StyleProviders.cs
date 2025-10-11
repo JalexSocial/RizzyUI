@@ -126,6 +126,50 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzQuickReference.Slots>, RzQuickReference.Slots> RzQuickReference { get; set; }
     public virtual TvDescriptor<RzComponent<RzQuickReferenceContainer.Slots>, RzQuickReferenceContainer.Slots> RzQuickReferenceContainer { get; set; }
     
+    // RzDropdownMenu Family
+    public virtual TvDescriptor<RzComponent<RzDropdownMenu.Slots>, RzDropdownMenu.Slots> RzDropdownMenu { get; set; }
+    public virtual TvDescriptor<RzComponent<DropdownMenuContent.Slots>, DropdownMenuContent.Slots> DropdownMenuContent { get; set; }
+    public virtual TvDescriptor<RzComponent<DropdownMenuGroup.Slots>, DropdownMenuGroup.Slots> DropdownMenuGroup { get; set; }
+    public virtual TvDescriptor<RzComponent<DropdownMenuItem.Slots>, DropdownMenuItem.Slots> DropdownMenuItem { get; set; }
+    public virtual TvDescriptor<RzComponent<DropdownMenuLabel.Slots>, DropdownMenuLabel.Slots> DropdownMenuLabel { get; set; }
+    public virtual TvDescriptor<RzComponent<DropdownMenuSeparator.Slots>, DropdownMenuSeparator.Slots> DropdownMenuSeparator { get; set; }
+    public virtual TvDescriptor<RzComponent<DropdownMenuShortcut.Slots>, DropdownMenuShortcut.Slots> DropdownMenuShortcut { get; set; }
+    public virtual TvDescriptor<RzComponent<DropdownMenuSub.Slots>, DropdownMenuSub.Slots> DropdownMenuSub { get; set; }
+    public virtual TvDescriptor<RzComponent<DropdownMenuSubContent.Slots>, DropdownMenuSubContent.Slots> DropdownMenuSubContent { get; set; }
+    public virtual TvDescriptor<RzComponent<DropdownMenuSubTrigger.Slots>, DropdownMenuSubTrigger.Slots> DropdownMenuSubTrigger { get; set; }
+    public virtual TvDescriptor<RzAsChildComponent<DropdownMenuTrigger.Slots>, DropdownMenuTrigger.Slots> DropdownMenuTrigger { get; set; }
+
+    // RzLink
+    public virtual TvDescriptor<RzComponent<RzLink.Slots>, RzLink.Slots> RzLink { get; set; }
+
+    // RzNavigationMenu Family
+    public virtual TvDescriptor<RzComponent<RzNavigationMenu.Slots>, RzNavigationMenu.Slots> RzNavigationMenu { get; set; }
+    public virtual TvDescriptor<RzComponent<NavigationMenuContent.Slots>, NavigationMenuContent.Slots> NavigationMenuContent { get; set; }
+    public virtual TvDescriptor<RzComponent<NavigationMenuItem.Slots>, NavigationMenuItem.Slots> NavigationMenuItem { get; set; }
+    public virtual TvDescriptor<RzAsChildComponent<NavigationMenuLink.Slots>, NavigationMenuLink.Slots> NavigationMenuLink { get; set; }
+    public virtual TvDescriptor<RzComponent<NavigationMenuList.Slots>, NavigationMenuList.Slots> NavigationMenuList { get; set; }
+    public virtual TvDescriptor<RzComponent<NavigationMenuTrigger.Slots>, NavigationMenuTrigger.Slots> NavigationMenuTrigger { get; set; }
+
+    // RzSidebar Family
+    public virtual TvDescriptor<RzComponent<RzSidebarProvider.Slots>, RzSidebarProvider.Slots> RzSidebarProvider { get; set; }
+    public virtual TvDescriptor<RzComponent<Sidebar.Slots>, Sidebar.Slots> Sidebar { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarContent.Slots>, SidebarContent.Slots> SidebarContent { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarFooter.Slots>, SidebarFooter.Slots> SidebarFooter { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarGroup.Slots>, SidebarGroup.Slots> SidebarGroup { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarGroupContent.Slots>, SidebarGroupContent.Slots> SidebarGroupContent { get; set; }
+    public virtual TvDescriptor<RzAsChildComponent<SidebarGroupLabel.Slots>, SidebarGroupLabel.Slots> SidebarGroupLabel { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarHeader.Slots>, SidebarHeader.Slots> SidebarHeader { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarInset.Slots>, SidebarInset.Slots> SidebarInset { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarMenu.Slots>, SidebarMenu.Slots> SidebarMenu { get; set; }
+    public virtual TvDescriptor<RzAsChildComponent<SidebarMenuAction.Slots>, SidebarMenuAction.Slots> SidebarMenuAction { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarMenuBadge.Slots>, SidebarMenuBadge.Slots> SidebarMenuBadge { get; set; }
+    public virtual TvDescriptor<RzAsChildComponent<SidebarMenuButton.Slots>, SidebarMenuButton.Slots> SidebarMenuButton { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarMenuItem.Slots>, SidebarMenuItem.Slots> SidebarMenuItem { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarMenuSub.Slots>, SidebarMenuSub.Slots> SidebarMenuSub { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarRail.Slots>, SidebarRail.Slots> SidebarRail { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarSeparator.Slots>, SidebarSeparator.Slots> SidebarSeparator { get; set; }
+    public virtual TvDescriptor<RzComponent<SidebarTrigger.Slots>, SidebarTrigger.Slots> SidebarTrigger { get; set; }
+
     // --- Unmigrated Components (Legacy RzStylesBase) ---
     public virtual RzStylesBase.RzButtonGroupStylesBase RzButtonGroup { get; }
     public virtual RzStylesBase.RzCheckboxGroupStylesBase RzCheckboxGroup { get; }
@@ -133,36 +177,15 @@ public partial class RzTheme
     public virtual RzStylesBase.RzCheckboxGroupItemStylesBase RzCheckboxGroupItem { get; }
     public virtual RzStylesBase.RzDarkmodeToggleStylesBase RzDarkmodeToggle { get; }
     public virtual RzStylesBase.RzDateEditStylesBase RzDateEdit { get; }
-    public virtual RzStylesBase.RzDropdownMenuStylesBase RzDropdownMenu { get; }
     public virtual RzStylesBase.RzFieldStylesBase RzField { get; }
     public virtual RzStylesBase.RzFieldHelpStylesBase RzFieldHelp { get; }
     public virtual RzStylesBase.RzFieldLabelStylesBase RzFieldLabel { get; }
     public virtual RzStylesBase.RzFormSectionStylesBase RzFormSection { get; }
-    public virtual RzStylesBase.RzLinkStylesBase RzLink { get; }
-    public virtual RzStylesBase.RzNavigationMenuStylesBase RzNavigationMenu { get; }
     public virtual RzStylesBase.RzNumberEditStylesBase RzNumberEdit { get; }
     public virtual RzStylesBase.RzNumberFieldStylesBase RzNumberField { get; }
     public virtual RzStylesBase.RzRadioGroupStylesBase RzRadioGroup { get; }
     public virtual RzStylesBase.RzRadioGroupFieldStylesBase RzRadioGroupField { get; }
     public virtual RzStylesBase.RzRadioGroupItemStylesBase RzRadioGroupItem { get; }
-    public virtual RzStylesBase.RzSidebarProviderStylesBase RzSidebarProvider { get; }
-    public virtual RzStylesBase.SidebarStylesBase Sidebar { get; }
-    public virtual RzStylesBase.SidebarTriggerStylesBase SidebarTrigger { get; }
-    public virtual RzStylesBase.SidebarHeaderStylesBase SidebarHeader { get; }
-    public virtual RzStylesBase.SidebarContentStylesBase SidebarContent { get; }
-    public virtual RzStylesBase.SidebarFooterStylesBase SidebarFooter { get; }
-    public virtual RzStylesBase.SidebarGroupStylesBase SidebarGroup { get; }
-    public virtual RzStylesBase.SidebarGroupLabelStylesBase SidebarGroupLabel { get; }
-    public virtual RzStylesBase.SidebarGroupContentStylesBase SidebarGroupContent { get; }
-    public virtual RzStylesBase.SidebarMenuStylesBase SidebarMenu { get; }
-    public virtual RzStylesBase.SidebarMenuItemStylesBase SidebarMenuItem { get; }
-    public virtual RzStylesBase.SidebarMenuButtonStylesBase SidebarMenuButton { get; }
-    public virtual RzStylesBase.SidebarMenuActionStylesBase SidebarMenuAction { get; }
-    public virtual RzStylesBase.SidebarMenuSubStylesBase SidebarMenuSub { get; }
-    public virtual RzStylesBase.SidebarMenuBadgeStylesBase SidebarMenuBadge { get; }
-    public virtual RzStylesBase.SidebarRailStylesBase SidebarRail { get; }
-    public virtual RzStylesBase.SidebarSeparatorStylesBase SidebarSeparator { get; }
-    public virtual RzStylesBase.SidebarInsetStylesBase SidebarInset { get; }
     public virtual RzStylesBase.RzTableStylesBase RzTable { get; }
     public virtual RzStylesBase.RzTableHeaderCellStylesBase RzTableHeaderCell { get; }
     public virtual RzStylesBase.RzTableBodyStylesBase RzTableBody { get; }

@@ -1,16 +1,27 @@
 
-// src/RizzyUI/Components/Navigation/RzDropdown/DropdownMenuItem.razor.cs
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// Represents an individual interactive item within a <see cref="DropdownMenuGroup"/> or <see cref="DropdownMenuContent"/>.
 /// </summary>
-public partial class DropdownMenuItem : RzComponent
+public partial class DropdownMenuItem : RzComponent<DropdownMenuItem.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the DropdownMenuItem component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "relative flex cursor-default select-none w-full items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 hover:bg-accent hover:text-accent-foreground",
+        slots: new()
+        {
+            [s => s.Icon] = "mr-2 size-4 text-xl"
+        }
+    );
+
     /// <summary>
     /// Gets or sets the content of the menu item, typically text. Required.
     /// </summary>
@@ -43,9 +54,8 @@ public partial class DropdownMenuItem : RzComponent
         base.OnInitialized();
         if (string.IsNullOrEmpty(Element))
         {
-            Element = "button"; // Default to button for better accessibility with role="menuitem"
+            Element = "button";
         }
-        // Ensure type="button" if it's a button to prevent form submission
         if (Element.Equals("button", StringComparison.OrdinalIgnoreCase) &&
             (AdditionalAttributes == null || !AdditionalAttributes.ContainsKey("type")))
         {
@@ -55,8 +65,14 @@ public partial class DropdownMenuItem : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.DropdownMenuItem;
+
+    /// <summary>
+    /// Defines the slots available for styling in the DropdownMenuItem component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdownMenu.MenuItem);
+        public string? Base { get; set; }
+        public string? Icon { get; set; }
     }
 }

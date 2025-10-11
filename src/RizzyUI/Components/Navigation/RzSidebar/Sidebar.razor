@@ -1,16 +1,16 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<Sidebar.Slots>
 
 @if (ParentProvider?.Collapsible == SidebarCollapsible.None)
 {
-	<div data-slot="sidebar" class="@RootClass()" @attributes="AdditionalAttributes">
+	<div data-slot="sidebar" class="@_slots.GetBase()" @attributes="AdditionalAttributes">
 		@ChildContent
 	</div>
 }
 else
 {
-	<div class="@RootClass()"
+	<div class="@_slots.GetBase()"
 	     x-bind:data-state="desktopState"
 	     x-bind:data-collapsible="getCollapsibleAttribute"
 	     data-variant="@Variant.ToString().ToLowerInvariant()"
@@ -31,9 +31,9 @@ else
 		</div>
 
 		<div class="hidden md:block">
-			<div data-slot="sidebar-gap" class="@Theme.Sidebar.GetGapCss(Variant, Side)"></div>
-			<div data-slot="sidebar-container" class="@Theme.Sidebar.GetDesktopContainerCss(Variant, Side)">
-				<div data-sidebar="sidebar" data-slot="sidebar-inner" class="@Theme.Sidebar.GetDesktopInnerCss(Variant)">
+			<div data-slot="sidebar-gap" class="@_slots.GetGap()"></div>
+			<div data-slot="sidebar-container" class="@_slots.GetDesktopContainer()">
+				<div data-sidebar="sidebar" data-slot="sidebar-inner" class="@_slots.GetDesktopInner()">
 					@ChildContent
 				</div>
 			</div>

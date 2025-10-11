@@ -1,12 +1,12 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<NavigationMenuItem.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
 	<HtmlElement Element="@EffectiveElement"
 	             @attributes="@AdditionalAttributes"
 	             id="@Id"
-	             class="@RootClass()"
+	             class="@_slots.GetBase()"
 	             role="menuitem"
 	             x-on:mouseenter="handleItemEnter"
                  data-slot="navigation-menu-item">

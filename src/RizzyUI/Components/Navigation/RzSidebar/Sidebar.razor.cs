@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -8,8 +9,57 @@ namespace RizzyUI;
 /// The main container for the sidebar, which renders as an <c><aside></c> element.
 /// It consumes state from a parent <see cref="RzSidebarProvider"/> to manage its appearance and behavior.
 /// </summary>
-public partial class Sidebar : RzComponent
+public partial class Sidebar : RzComponent<Sidebar.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the Sidebar component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "group peer text-sidebar-foreground hidden md:block",
+        slots: new()
+        {
+            [s => s.Gap] = "relative w-[var(--sidebar-width)] bg-transparent transition-[width] duration-200 ease-linear group-data-[collapsible=offcanvas]:w-0",
+            [s => s.DesktopContainer] = "fixed inset-y-0 z-10 hidden h-svh w-[var(--sidebar-width)] transition-[left,right,width] duration-200 ease-linear md:flex",
+            [s => s.DesktopInner] = "bg-sidebar flex h-full w-full flex-col"
+        },
+        variants: new()
+        {
+            [s => ((Sidebar)s).Variant] = new Variant<SidebarVariant, Slots>
+            {
+                [SidebarVariant.Floating] = new()
+                {
+                    [s => s.Gap] = "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1rem)]",
+                    [s => s.DesktopContainer] = "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1rem+2px)]",
+                    [s => s.DesktopInner] = "border-sidebar-border rounded-lg border shadow-sm"
+                },
+                [SidebarVariant.Inset] = new()
+                {
+                    [s => s.Gap] = "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1rem)]",
+                    [s => s.DesktopContainer] = "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1rem+2px)]"
+                },
+                [SidebarVariant.Sidebar] = new()
+                {
+                    [s => s.Gap] = "group-data-[collapsible=icon]:w-[var(--sidebar-width-icon)]",
+                    [s => s.DesktopContainer] = "group-data-[collapsible=icon]:w-[var(--sidebar-width-icon)]"
+                }
+            },
+            [s => ((Sidebar)s).Side] = new Variant<SidebarSide, Slots>
+            {
+                [SidebarSide.Left] = new()
+                {
+                    [s => s.DesktopContainer] = "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]",
+                    [s => s.DesktopInner] = "group-data-[variant=sidebar]:border-r"
+                },
+                [SidebarSide.Right] = new()
+                {
+                    [s => s.Gap] = "order-last",
+                    [s => s.DesktopContainer] = "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
+                    [s => s.DesktopInner] = "group-data-[variant=sidebar]:border-l"
+                }
+            }
+        }
+    );
+
     /// <summary>
     /// Gets the parent <see cref="RzSidebarProvider"/> which manages the state for this sidebar.
     /// </summary>
@@ -51,7 +101,7 @@ public partial class Sidebar : RzComponent
         {
             throw new InvalidOperationException($"{nameof(Sidebar)} must be used within an {nameof(RzSidebarProvider)}.");
         }
-        Element = "div"; // Use div as the root to act as a peer
+        Element = "div";
         AriaLabel ??= Localizer["RzSidebar.DefaultAriaLabel"];
     }
 
@@ -63,18 +113,16 @@ public partial class Sidebar : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
-    {
-        var styles = Theme.Sidebar;
-        
-        if (ParentProvider?.Collapsible == SidebarCollapsible.None)
-        {
-            return TwMerge.Merge(AdditionalAttributes, styles.NonCollapsibleContainer);
-        }
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.Sidebar;
 
-        return TwMerge.Merge(
-            AdditionalAttributes,
-            styles.SidebarBase
-        );
+    /// <summary>
+    /// Defines the slots available for styling in the Sidebar component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
+    {
+        public string? Base { get; set; }
+        public string? Gap { get; set; }
+        public string? DesktopContainer { get; set; }
+        public string? DesktopInner { get; set; }
     }
 }

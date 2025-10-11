@@ -1,21 +1,26 @@
 
-// src/RizzyUI/Components/Navigation/RzDropdown/DropdownMenuSubContent.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// Represents the content area of a <see cref="DropdownMenuSub"/> that appears when its trigger is activated.
 /// </summary>
-public partial class DropdownMenuSubContent : RzComponent
+public partial class DropdownMenuSubContent : RzComponent<DropdownMenuSubContent.Slots>
 {
     /// <summary>
-    /// Gets the parent <see cref="RzDropdownMenu"/> component.
+    /// Defines the default styling for the DropdownMenuSubContent component.
     /// </summary>
-    [CascadingParameter]
-    protected RzDropdownMenu? ParentDropdownMenu { get; set; }
-    
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg animate-in data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        slots: new()
+        {
+            [s => s.InnerContainer] = ""
+        }
+    );
+
     /// <summary>
     /// Gets the parent <see cref="DropdownMenuSub"/> component.
     /// </summary>
@@ -49,8 +54,14 @@ public partial class DropdownMenuSubContent : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.DropdownMenuSubContent;
+
+    /// <summary>
+    /// Defines the slots available for styling in the DropdownMenuSubContent component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdownMenu.SubContentContainer);
+        public string? Base { get; set; }
+        public string? InnerContainer { get; set; }
     }
 }

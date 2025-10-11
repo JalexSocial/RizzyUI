@@ -1,12 +1,12 @@
 
 @namespace RizzyUI
 @using Blazicons
-@inherits RzComponent
+@inherits RzComponent<NavigationMenuTrigger.Slots>
 
 <HtmlElement Element="@EffectiveElement"
              @attributes="@AdditionalAttributes"
              id="@TriggerId"
-             class="@RootClass()"
+             class="@_slots.GetBase()"
              x-ref="@TriggerXRef"
              aria-haspopup="true"
              aria-expanded="false"

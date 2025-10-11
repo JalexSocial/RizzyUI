@@ -1,11 +1,11 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<DropdownMenuLabel.Slots>
 
 <HtmlElement Element="@EffectiveElement"
              @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@RootClass()"
+             class="@_slots.GetBase()"
              role="heading"
              aria-level="3"
              data-slot="dropdown-menu-label">

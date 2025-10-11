@@ -1,11 +1,11 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<NavigationMenuList.Slots>
 
 <HtmlElement Element="@EffectiveElement"
              @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@RootClass()"
+             class="@_slots.GetBase()"
              data-orientation="@ParentMenu?.Orientation.ToString().ToLowerInvariant()"
              dir="ltr"
              x-ref="list"

@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -8,8 +9,15 @@ namespace RizzyUI;
 /// An optional, secondary action button within a <see cref="SidebarMenuItem"/>,
 /// typically used for icon-only actions like "add" or "more options".
 /// </summary>
-public partial class SidebarMenuAction : RzAsChildComponent
+public partial class SidebarMenuAction : RzAsChildComponent<SidebarMenuAction.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the SidebarMenuAction component.
+    /// </summary>
+    public static readonly TvDescriptor<RzAsChildComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "absolute right-2 top-1/2 -translate-y-1/2 opacity-0 transition-opacity group-hover/menu-item:opacity-100"
+    );
+
     /// <summary>
     /// Gets or sets the content of the action button, usually an icon.
     /// </summary>
@@ -32,15 +40,20 @@ public partial class SidebarMenuAction : RzAsChildComponent
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = RootClass(),
+            ["class"] = _slots.GetBase(),
             ["data-slot"] = "sidebar-menu-action"
         };
         return attributes;
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarMenuAction;
+
+    /// <summary>
+    /// Defines the slots available for styling in the SidebarMenuAction component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.SidebarMenuAction.Action);
+        public string? Base { get; set; }
     }
 }

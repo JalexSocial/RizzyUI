@@ -1,12 +1,12 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzNavigationMenu.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
     <HtmlElement Element="@EffectiveElement"
                  @attributes="@AdditionalAttributes"
                  id="@Id" 
-                 class="@RootClass()"
+                 class="@_slots.GetBase()"
                  aria-label="@AriaLabel"
                  data-orientation="@Orientation.ToString().ToLowerInvariant()"
                  dir="ltr"

@@ -1,6 +1,6 @@
 
 @namespace RizzyUI
-@inherits RzAsChildComponent
+@inherits RzAsChildComponent<NavigationMenuLink.Slots>
 
 @if (AsChild)
 {
@@ -10,7 +10,7 @@ else
 {
 	<HtmlElement Element="@EffectiveElement"
 	             id="@Id"
-	             class="@RootClass()"
+	             class="@_slots.GetBase()"
 	             @attributes="@AdditionalAttributes">
 		@ChildContent
 	</HtmlElement>	

@@ -1,7 +1,7 @@
 
-// src/RizzyUI/Components/Navigation/RzDropdown/RzDropdownMenu.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -10,8 +10,15 @@ namespace RizzyUI;
 /// including trigger, content, items, groups, and sub-menus.
 /// Interactivity is managed by the 'rzDropdownMenu' Alpine.js component.
 /// </summary>
-public partial class RzDropdownMenu : RzComponent
+public partial class RzDropdownMenu : RzComponent<RzDropdownMenu.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzDropdownMenu component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "contents" // Use 'contents' to make the wrapper layout-agnostic
+    );
+
     /// <summary>
     /// Gets or sets the content of the dropdown menu, typically including a <see cref="DropdownMenuTrigger"/>
     /// and a <see cref="DropdownMenuContent"/>. Required.
@@ -41,8 +48,13 @@ public partial class RzDropdownMenu : RzComponent
     public bool IsModal { get; set; } = false;
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzDropdownMenu;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzDropdownMenu component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdownMenu.Container, Theme.RzDropdownMenu.RelativeWrapper);
+        public string? Base { get; set; }
     }
 }

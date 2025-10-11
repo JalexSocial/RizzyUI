@@ -1,7 +1,7 @@
 
-// src/RizzyUI/Components/Navigation/RzDropdown/DropdownMenuTrigger.razor.cs
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,8 +9,15 @@ namespace RizzyUI;
 /// Represents the trigger element for an <see cref="RzDropdownMenu"/>.
 /// This component wraps the content that users will click or interact with to open the dropdown.
 /// </summary>
-public partial class DropdownMenuTrigger : RzAsChildComponent
+public partial class DropdownMenuTrigger : RzAsChildComponent<DropdownMenuTrigger.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the DropdownMenuTrigger component.
+    /// </summary>
+    public static readonly TvDescriptor<RzAsChildComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "inline-flex"
+    );
+
     /// <summary>
     /// Gets the parent <see cref="RzDropdownMenu"/> component.
     /// </summary>
@@ -53,7 +60,7 @@ public partial class DropdownMenuTrigger : RzAsChildComponent
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = TriggerId,
-            ["class"] = RootClass(),
+            ["class"] = _slots.GetBase(),
             ["x-ref"] = "trigger",
             ["aria-haspopup"] = "menu",
             ["aria-controls"] = ContentId,
@@ -70,8 +77,13 @@ public partial class DropdownMenuTrigger : RzAsChildComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.DropdownMenuTrigger;
+
+    /// <summary>
+    /// Defines the slots available for styling in the DropdownMenuTrigger component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdownMenu.TriggerWrapper);
+        public string? Base { get; set; }
     }
 }

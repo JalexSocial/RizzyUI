@@ -1,14 +1,22 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// A list container for <see cref="SidebarMenuItem"/> components.
 /// </summary>
-public partial class SidebarMenu : RzComponent
+public partial class SidebarMenu : RzComponent<SidebarMenu.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the SidebarMenu component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "flex w-full min-w-0 flex-col gap-1"
+    );
+
     /// <summary>
     /// Gets or sets the content of the menu, which should be a list of <see cref="SidebarMenuItem"/>.
     /// </summary>
@@ -23,8 +31,13 @@ public partial class SidebarMenu : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarMenu;
+
+    /// <summary>
+    /// Defines the slots available for styling in the SidebarMenu component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.SidebarMenu.Menu);
+        public string? Base { get; set; }
     }
 }

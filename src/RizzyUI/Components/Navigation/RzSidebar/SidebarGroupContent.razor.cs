@@ -1,14 +1,22 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// A container for the content within a <see cref="SidebarGroup"/>, typically a <see cref="SidebarMenu"/>.
 /// </summary>
-public partial class SidebarGroupContent : RzComponent
+public partial class SidebarGroupContent : RzComponent<SidebarGroupContent.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the SidebarGroupContent component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "w-full text-sm"
+    );
+
     /// <summary>
     /// Gets or sets the content to be rendered, usually a <see cref="SidebarMenu"/>.
     /// </summary>
@@ -16,8 +24,13 @@ public partial class SidebarGroupContent : RzComponent
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarGroupContent;
+
+    /// <summary>
+    /// Defines the slots available for styling in the SidebarGroupContent component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.SidebarGroupContent.Content);
+        public string? Base { get; set; }
     }
 }

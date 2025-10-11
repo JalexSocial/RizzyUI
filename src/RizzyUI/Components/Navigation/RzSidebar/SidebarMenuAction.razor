@@ -1,7 +1,7 @@
 
 @namespace RizzyUI
-@inherits RzAsChildComponent
+@inherits RzAsChildComponent<SidebarMenuAction.Slots>
 
-<HtmlElement Element="@EffectiveElement" type="button" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
+<HtmlElement Element="@EffectiveElement" type="button" @attributes="GetComponentAttributes()">
     @ChildContent
 </HtmlElement>

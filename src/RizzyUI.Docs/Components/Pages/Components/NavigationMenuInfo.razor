@@ -1,4 +1,3 @@
-
 @page "/components/navigation-menu"
 @namespace RizzyUI.Pages
 @using RizzyUI
@@ -64,7 +63,7 @@
 
                                 <NavigationMenuItem>
                                     <NavigationMenuLink AsChild Href="/docs">
-                                        <RzLink Color="SemanticColor.Foreground" Underline="false" class="@Theme.RzNavigationMenu.Trigger">
+                                        <RzLink Color="SemanticColor.Foreground" Underline="false" class="@(Theme.NavigationMenuTrigger.Base!)">
                                             Docs
                                         </RzLink>
                                     </NavigationMenuLink>
@@ -166,7 +165,7 @@
 
                                 &lt;NavigationMenuItem&gt;
                                     &lt;NavigationMenuLink AsChild Href=&quot;/docs&quot;&gt;
-                                        &lt;RzLink Color=&quot;SemanticColor.Foreground&quot; Underline=&quot;false&quot; class=&quot;@Theme.RzNavigationMenu.Trigger&quot;&gt;
+                                        &lt;RzLink Color=&quot;SemanticColor.Foreground&quot; Underline=&quot;false&quot; class=&quot;@@((string)Theme.NavigationMenuTrigger.Base!)&quot;&gt;
                                             Docs
                                         &lt;/RzLink&gt;
                                     &lt;/NavigationMenuLink&gt;
@@ -260,7 +259,9 @@
     private RenderFragment IconListItem(SvgIcon icon, string title, RenderFragment childContent) =&gt; @@&lt;li&gt;
         &lt;NavigationMenuLink&gt;
             &lt;RzLink Href=&quot;#&quot; class=&quot;flex items-start space-x-3 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground&quot;&gt;
-                &lt;Blazicon Svg=&quot;@@icon&quot; class=&quot;size-5 mt-px text-muted-foreground&quot; aria-hidden=&quot;true&quot; /&gt;
+                &lt;span class=&quot;size-5 text-2xl mt-px text-muted-foreground&quot; aria-hidden=&quot;true&quot;&gt;
+                    &lt;Blazicon Svg=&quot;@@icon&quot;/&gt;
+                &lt;/span&gt;
                 &lt;div class=&quot;space-y-1&quot;&gt;
                     &lt;div class=&quot;text-sm font-medium leading-none&quot;&gt;@@title&lt;/div&gt;
                     &lt;p class=&quot;line-clamp-2 text-sm leading-snug text-muted-foreground&quot;&gt;
@@ -349,7 +350,7 @@
 </RzQuickReferenceContainer>
 
 @code {
-    private readonly (string Title, string Href, string Description)[] _components =
+    private readonly (string Title, string Href, string Description)[] _components = 
     {
         ("Alert", "/components/alert", "A modal dialog that interrupts the user with important content."),
         ("Accordion", "/components/accordion", "A vertically stacked set of interactive headings that each reveal a section of content."),
@@ -359,32 +360,30 @@
         ("Dropdown Menu", "/components/dropdown", "Displays a menu to the user — such as a set of actions or functions — triggered by a button.")
     };
 
-    private RenderFragment ListItem(string title, string href, RenderFragment childContent) =>
-        @<li>
-            <NavigationMenuLink>
-                <RzLink Href="@href" class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+    private RenderFragment ListItem(string title, string href, RenderFragment childContent) => @<li>
+        <NavigationMenuLink>
+            <RzLink Href="@href" class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                <div class="text-sm font-medium leading-none">@title</div>
+                <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    @childContent
+                </p>
+            </RzLink>
+        </NavigationMenuLink>
+    </li>;
+    
+    private RenderFragment IconListItem(SvgIcon icon, string title, RenderFragment childContent) => @<li>
+        <NavigationMenuLink>
+            <RzLink Href="#" class="flex items-start space-x-3 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                <span class="size-5 text-2xl mt-px text-muted-foreground" aria-hidden="true">
+                    <Blazicon Svg="@icon"/>
+                </span>
+                <div class="space-y-1">
                     <div class="text-sm font-medium leading-none">@title</div>
                     <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         @childContent
                     </p>
-                </RzLink>
-            </NavigationMenuLink>
-        </li>;
-
-    private RenderFragment IconListItem(SvgIcon icon, string title, RenderFragment childContent) =>
-        @<li>
-            <NavigationMenuLink>
-                <RzLink Href="#" class="flex items-start space-x-3 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                    <span class="size-5 text-2xl mt-px text-muted-foreground" aria-hidden="true">
-                        <Blazicon Svg="@icon"/>
-                    </span>
-                    <div class="space-y-1">
-                        <div class="text-sm font-medium leading-none">@title</div>
-                        <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            @childContent
-                        </p>
-                    </div>
-                </RzLink>
-            </NavigationMenuLink>
-        </li>;
+                </div>
+            </RzLink>
+        </NavigationMenuLink>
+    </li>;
 }

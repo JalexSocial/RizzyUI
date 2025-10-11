@@ -1,14 +1,22 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// The trigger that opens the content of a <see cref="NavigationMenuItem"/>. This is a nested component.
 /// </summary>
-public partial class NavigationMenuTrigger : RzComponent
+public partial class NavigationMenuTrigger : RzComponent<NavigationMenuTrigger.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the NavigationMenuTrigger component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=open]:bg-accent/50"
+    );
+
     /// <summary>
     /// The parent NavigationMenuItem component.
     /// </summary>
@@ -51,5 +59,13 @@ public partial class NavigationMenuTrigger : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass() => TwMerge.Merge(AdditionalAttributes, Theme.RzNavigationMenu.Trigger);
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.NavigationMenuTrigger;
+
+    /// <summary>
+    /// Defines the slots available for styling in the NavigationMenuTrigger component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
+    {
+        public string? Base { get; set; }
+    }
 }

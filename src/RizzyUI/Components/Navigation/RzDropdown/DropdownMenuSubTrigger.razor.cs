@@ -1,8 +1,8 @@
 
-// src/RizzyUI/Components/Navigation/RzDropdown/DropdownMenuSubTrigger.razor.cs
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -10,8 +10,20 @@ namespace RizzyUI;
 /// Represents the trigger element for a <see cref="DropdownMenuSub"/>, which opens a nested sub-menu.
 /// It is typically styled like a <see cref="DropdownMenuItem"/> but includes a chevron icon.
 /// </summary>
-public partial class DropdownMenuSubTrigger : RzComponent
+public partial class DropdownMenuSubTrigger : RzComponent<DropdownMenuSubTrigger.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the DropdownMenuSubTrigger component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "flex cursor-default select-none w-full items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent hover:bg-accent hover:text-accent-foreground",
+        slots: new()
+        {
+            [s => s.Icon] = "mr-2 size-4 text-xl",
+            [s => s.Chevron] = "ml-auto size-4"
+        }
+    );
+
     /// <summary>
     /// Gets the parent <see cref="DropdownMenuSub"/> component.
     /// </summary>
@@ -50,7 +62,7 @@ public partial class DropdownMenuSubTrigger : RzComponent
         }
         if (string.IsNullOrEmpty(Element))
         {
-            Element = "button"; // Default to button for accessibility
+            Element = "button";
         }
         if (Element.Equals("button", StringComparison.OrdinalIgnoreCase) &&
             (AdditionalAttributes == null || !AdditionalAttributes.ContainsKey("type")))
@@ -61,8 +73,15 @@ public partial class DropdownMenuSubTrigger : RzComponent
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.DropdownMenuSubTrigger;
+
+    /// <summary>
+    /// Defines the slots available for styling in the DropdownMenuSubTrigger component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzDropdownMenu.SubTrigger);
+        public string? Base { get; set; }
+        public string? Icon { get; set; }
+        public string? Chevron { get; set; }
     }
 }

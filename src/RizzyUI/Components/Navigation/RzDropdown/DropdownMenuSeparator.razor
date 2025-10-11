@@ -1,11 +1,11 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<DropdownMenuSeparator.Slots>
 
 <HtmlElement Element="@EffectiveElement"
              role="separator"
              aria-orientation="horizontal"
              @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@RootClass()"
+             class="@_slots.GetBase()"
              data-slot="dropdown-menu-separator"/>
