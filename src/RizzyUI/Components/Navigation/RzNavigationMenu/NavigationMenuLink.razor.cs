@@ -37,7 +37,7 @@ public partial class NavigationMenuLink : RzAsChildComponent<NavigationMenuLink.
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = _slots.GetBase(),
+            ["class"] = SlotClasses.GetBase(),
             ["href"] = Href,
             ["data-slot"] = "navigation-menu-link"
         };

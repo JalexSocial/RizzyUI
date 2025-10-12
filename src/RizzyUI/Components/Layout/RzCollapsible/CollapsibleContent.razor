@@ -5,7 +5,7 @@
 <HtmlElement Element="@EffectiveElement" 
              @attributes="AdditionalAttributes" 
              id="@($"{ParentCollapsible?.Id}-content")" 
-             class="@_slots.GetBase()"
+             class="@SlotClasses.GetBase()"
              x-show="isOpen"
              x-cloak
              x-collapse

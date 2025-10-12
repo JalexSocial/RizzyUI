@@ -5,7 +5,7 @@
 <HtmlElement Element="div"
              @attributes="AdditionalAttributes"
              id="@Id"
-             class="@_slots.GetBase()">
+             class="@SlotClasses.GetBase()">
 
 	             <div x-data="rzProgress"
 	                  data-alpine-root="@Id"
@@ -22,17 +22,17 @@
 		             
 		             @if (LabelPosition == ProgressLabelPosition.Outside && !string.IsNullOrEmpty(Label))
 		             {
-			             <div class="@_slots.GetOutsideLabelContainer()">
+			             <div class="@SlotClasses.GetOutsideLabelContainer()">
 				             <div class="grow"></div>
-				             <div class="@_slots.GetOutsideLabelText()"><span x-text="buildLabel"></span></div>
+				             <div class="@SlotClasses.GetOutsideLabelText()"><span x-text="buildLabel"></span></div>
 			             </div>
 		             }
-		             <div class="@_slots.GetOuterBar()">
-			             <div class="@_slots.GetInnerBar()" x-ref="progressBar" nonce="@Nonce">
+		             <div class="@SlotClasses.GetOuterBar()">
+			             <div class="@SlotClasses.GetInnerBar()" x-ref="progressBar" nonce="@Nonce">
 				             @if (LabelPosition == ProgressLabelPosition.Inside && !string.IsNullOrEmpty(Label))
 				             {
-					             <div class="@_slots.GetInsideLabelContainer()" x-ref="progressBarLabel" :class="getLabelCss">
-						             <span class="@_slots.GetInsideLabelText()" x-ref="innerLabel"></span>
+					             <div class="@SlotClasses.GetInsideLabelContainer()" x-ref="progressBarLabel" :class="getLabelCss">
+						             <span class="@SlotClasses.GetInsideLabelText()" x-ref="innerLabel"></span>
 					             </div>
 				             }
 			             </div>

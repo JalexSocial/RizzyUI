@@ -6,7 +6,7 @@
 <HtmlElement Element="@EffectiveElement"
              @attributes="@AdditionalAttributes"
              id="@TriggerId"
-             class="@_slots.GetBase()"
+             class="@SlotClasses.GetBase()"
              role="menuitem"
              tabindex="-1"
              aria-haspopup="menu"
@@ -22,8 +22,8 @@
              data-slot="dropdown-menu-sub-trigger">
     @if (Icon != null)
     {
-        <span class="@_slots.GetIcon()"><Blazicon Svg="@Icon"/></span>
+        <span class="@SlotClasses.GetIcon()"><Blazicon Svg="@Icon"/></span>
     }
     @ChildContent
-    <Blazicon Svg="MdiIcon.ChevronRight" class="@_slots.GetChevron()" aria-hidden="true"/>
+    <Blazicon Svg="MdiIcon.ChevronRight" class="@SlotClasses.GetChevron()" aria-hidden="true"/>
 </HtmlElement>

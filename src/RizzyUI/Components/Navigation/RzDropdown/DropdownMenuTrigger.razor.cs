@@ -60,7 +60,7 @@ public partial class DropdownMenuTrigger : RzAsChildComponent<DropdownMenuTrigge
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = TriggerId,
-            ["class"] = _slots.GetBase(),
+            ["class"] = SlotClasses.GetBase(),
             ["x-ref"] = "trigger",
             ["aria-haspopup"] = "menu",
             ["aria-controls"] = ContentId,

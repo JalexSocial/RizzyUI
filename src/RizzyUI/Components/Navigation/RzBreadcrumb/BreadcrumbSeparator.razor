@@ -8,7 +8,7 @@
              aria-hidden="true"
              @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@_slots.GetBase()"
+             class="@SlotClasses.GetBase()"
              data-slot="breadcrumb-separator">
     @if (ChildContent != null)
     {
@@ -16,6 +16,6 @@
     }
     else
     {
-        <Blazicon Svg="MdiIcon.ChevronRight" class="@_slots.GetIcon()" />
+        <Blazicon Svg="MdiIcon.ChevronRight" class="@SlotClasses.GetIcon()" />
     }
 </HtmlElement>

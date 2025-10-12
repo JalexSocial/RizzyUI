@@ -50,7 +50,7 @@ public partial class SheetClose : RzAsChildComponent<SheetClose.Slots>
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = _slots.GetBase(),
+            ["class"] = SlotClasses.GetBase(),
             ["x-on:click"] = "close",
             ["data-slot"] = "sheet-close"
         };

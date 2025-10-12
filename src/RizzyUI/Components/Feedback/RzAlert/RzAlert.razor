@@ -9,7 +9,7 @@
 	             aria-live="assertive"
                  @attributes="@AdditionalAttributes"
                  id="@Id"
-                 class="@_slots.GetBase()">
+                 class="@SlotClasses.GetBase()">
 	    <div aria-atomic="true"
 	         x-cloak
 	         x-data="rzAlert" x-show="showAlert"
@@ -20,18 +20,18 @@
 	         x-transition:leave-start="opacity-100"
 	         x-transition:leave-end="opacity-0"
 	         data-alpine-root="@Id">
-	         <div class="@_slots.GetInnerContainer()">
+	         <div class="@SlotClasses.GetInnerContainer()">
 		         @if (Icon != null)
 		         {
-			         <div class="@_slots.GetIconContainer()" aria-hidden="true">
+			         <div class="@SlotClasses.GetIconContainer()" aria-hidden="true">
 				         @if (Pulse)
 				         {
-					         <div class="@_slots.GetIconPulse()"></div>
+					         <div class="@SlotClasses.GetIconPulse()"></div>
 				         }
 				         <Blazicon Svg="Icon"></Blazicon>
 			         </div>
 		         }
-		         <div class="@_slots.GetContentContainer()">
+		         <div class="@SlotClasses.GetContentContainer()">
 			         @ChildContent
 		         </div>
 
@@ -41,9 +41,9 @@
 				         type="button"
 				         x-on:click="dismiss"
 				         aria-label="@Localizer["RzAlert.CloseButtonAriaLabel"]"
-				         class="@_slots.GetCloseButton()">
+				         class="@SlotClasses.GetCloseButton()">
 				         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor"
-				              fill="none" stroke-width="2.5" class="@_slots.GetCloseButtonIcon()">
+				              fill="none" stroke-width="2.5" class="@SlotClasses.GetCloseButtonIcon()">
 					         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
 				         </svg>
 			         </button>

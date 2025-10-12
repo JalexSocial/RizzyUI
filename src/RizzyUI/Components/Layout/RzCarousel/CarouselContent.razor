@@ -2,11 +2,11 @@
 @namespace RizzyUI
 @inherits RzComponent<CarouselContent.Slots>
 
-<div class="@_slots.GetViewport()" x-ref="viewport">
+<div class="@SlotClasses.GetViewport()" x-ref="viewport">
     <HtmlElement Element="@EffectiveElement"
                  @attributes="AdditionalAttributes"
                  id="@Id"
-                 class="@_slots.GetBase()"
+                 class="@SlotClasses.GetBase()"
                  x-ref="container">
         @ChildContent
     </HtmlElement>

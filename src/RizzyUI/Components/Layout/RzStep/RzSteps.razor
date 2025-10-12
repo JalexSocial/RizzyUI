@@ -2,7 +2,7 @@
 @using Blazicons
 @inherits RzComponent<RzSteps.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@_slots.GetBase()" aria-label="@AriaLabel">
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" aria-label="@AriaLabel">
 
 	<CascadingValue Value="this" IsFixed="true">
 		@ChildContent
@@ -26,22 +26,22 @@
 				<span class="@GetConnectorCss(prevStep.Status)" aria-hidden="true"></span>
 			}
 
-			<div class="@_slots.GetStepContentContainer()">
+			<div class="@SlotClasses.GetStepContentContainer()">
 				@if (step.Status == StepStatus.Completed)
 				{
 					<span class="@GetCircleCompletedCss()">
 						@if (step.Icon is not null)
 						{
-							<Blazicon Svg="step.Icon" class="@_slots.GetCircleCompletedIcon()" aria-hidden="true"/>
+							<Blazicon Svg="step.Icon" class="@SlotClasses.GetCircleCompletedIcon()" aria-hidden="true"/>
 						}
 						else
 						{
-							<svg class="@_slots.GetCircleCompletedIcon()" xmlns="http://www.w3.org/2000/svg" fill="none"
+							<svg class="@SlotClasses.GetCircleCompletedIcon()" xmlns="http://www.w3.org/2000/svg" fill="none"
 							     viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" aria-hidden="true">
 								<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
 							</svg>
 						}
-                        <span class="@_slots.GetCircleCompletedSrText()">@Localizer["RzSteps.CompletedStepSrText"]</span>
+                        <span class="@SlotClasses.GetCircleCompletedSrText()">@Localizer["RzSteps.CompletedStepSrText"]</span>
 					</span>
 				}
 				else
@@ -49,7 +49,7 @@
 					<span class="@GetCircleDefaultCss(step.Status)">
 						@if (step.Icon is not null)
 						{
-							<Blazicon Svg="step.Icon" class="@_slots.GetCircleDefaultIcon()" aria-hidden="true"/>
+							<Blazicon Svg="step.Icon" class="@SlotClasses.GetCircleDefaultIcon()" aria-hidden="true"/>
 						}
 						else
 						{
@@ -64,7 +64,7 @@
 					}
 					@if (!string.IsNullOrEmpty(step.Caption))
 					{
-						<p class="@_slots.GetCaption()">@step.Caption</p>
+						<p class="@SlotClasses.GetCaption()">@step.Caption</p>
 					}
 				</div>
 			</div>

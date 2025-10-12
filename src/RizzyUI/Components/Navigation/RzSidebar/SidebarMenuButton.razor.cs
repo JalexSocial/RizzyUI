@@ -75,7 +75,7 @@ public partial class SidebarMenuButton : RzAsChildComponent<SidebarMenuButton.Sl
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = _slots.GetBase(),
+            ["class"] = SlotClasses.GetBase(),
             ["aria-current"] = IsActive ? "page" : null,
             ["data-slot"] = "sidebar-menu-button"
         };

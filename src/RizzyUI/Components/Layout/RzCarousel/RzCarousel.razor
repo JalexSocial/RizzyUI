@@ -6,7 +6,7 @@
 	<HtmlElement Element="@EffectiveElement"
 	             @attributes="@AdditionalAttributes"
 	             id="@Id"
-	             class="@_slots.GetBase()"
+	             class="@SlotClasses.GetBase()"
 	             role="region"
 	             aria-roledescription="carousel"
 	             aria-label="@AriaLabel">
@@ -18,7 +18,7 @@
 		     data-alpine-root="@Id"
 		     data-assets="@_assets"
 		     data-nonce="@Nonce"
-		     class="@_slots.GetWrapper()">
+		     class="@SlotClasses.GetWrapper()">
 			@ChildContent
 		</div>
 	</HtmlElement>

@@ -2,6 +2,6 @@
 @namespace RizzyUI
 @inherits RzComponent<DialogTitle.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@ParentDialog?.AriaLabelId" class="@_slots.GetBase()" data-slot="dialog-title">
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@ParentDialog?.AriaLabelId" class="@SlotClasses.GetBase()" data-slot="dialog-title">
     @ChildContent
 </HtmlElement>

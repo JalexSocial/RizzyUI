@@ -48,7 +48,7 @@ public partial class CollapsibleTrigger : RzAsChildComponent<CollapsibleTrigger.
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = $"{ParentCollapsible?.Id}-trigger",
-            ["class"] = _slots.GetBase(),
+            ["class"] = SlotClasses.GetBase(),
             ["x-on:click"] = "toggle",
             ["aria-controls"] = $"{ParentCollapsible?.Id}-content",
             ["x-bind:aria-expanded"] = "isOpen",

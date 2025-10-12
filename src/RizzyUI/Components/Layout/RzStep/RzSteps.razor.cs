@@ -96,7 +96,7 @@ public partial class RzSteps : RzComponent<RzSteps.Slots>
 
     private string GetStepItemCss(bool isFirst, bool isLast, StepStatus stepStatus)
     {
-        var classes = new List<string> { _slots.GetStepItem() ?? "" };
+        var classes = new List<string> { SlotClasses.GetStepItem() ?? "" };
 
         if (Orientation == Orientation.Vertical)
         {
@@ -122,11 +122,11 @@ public partial class RzSteps : RzComponent<RzSteps.Slots>
     }
 
     private string GetCircleCompletedCss() =>
-        $"{_slots.GetCircleCompleted()} {GetActiveBorderClass(ActiveColor)} {GetActiveBackgroundClass(ActiveColor)} {GetActiveTextClass(ActiveColor)}";
+        $"{SlotClasses.GetCircleCompleted()} {GetActiveBorderClass(ActiveColor)} {GetActiveBackgroundClass(ActiveColor)} {GetActiveTextClass(ActiveColor)}";
 
     private string GetCircleDefaultCss(StepStatus status)
     {
-        var baseClass = _slots.GetCircleDefault();
+        var baseClass = SlotClasses.GetCircleDefault();
         return status switch
         {
             StepStatus.Current => $"{baseClass} border {GetActiveBorderClass(ActiveColor)} {GetActiveBackgroundClass(ActiveColor)} font-bold {GetActiveTextClass(ActiveColor)} focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 {GetFocusRingClass(ActiveColor)} dark:focus-visible:ring-offset-background",
@@ -136,7 +136,7 @@ public partial class RzSteps : RzComponent<RzSteps.Slots>
 
     private string GetLabelCss(StepStatus status)
     {
-        var baseClass = _slots.GetLabel();
+        var baseClass = SlotClasses.GetLabel();
         return status switch
         {
             StepStatus.Completed => $"{baseClass} {GetActiveTextColorClass(ActiveColor)}",

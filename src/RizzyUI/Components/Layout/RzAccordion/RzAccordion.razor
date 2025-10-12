@@ -4,7 +4,7 @@
 
 <HtmlElement Element="div"
              @attributes="@AdditionalAttributes"
-             class="@_slots.GetBase()">
+             class="@SlotClasses.GetBase()">
 	<div x-data="rzAccordion" data-alpine-root="@Id" data-multiple="@(Type == AccordionType.Multiple ? "true" : "false")" data-slot="accordion">
 		@ChildContent
 	</div>

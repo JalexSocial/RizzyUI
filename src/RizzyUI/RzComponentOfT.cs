@@ -19,7 +19,7 @@ public abstract class RzComponent<TSlots> : RzComponent, ISlotted<TSlots>
     /// Holds the computed class strings for all slots of the component.
     /// This is populated by Tv.Invoke in OnParametersSet.
     /// </summary>
-    protected SlotsMap<TSlots> _slots = new();
+    private SlotsMap<TSlots> _slots = new();
 
     /// <summary>
     /// Publicly exposes the computed slot classes for use by child components.

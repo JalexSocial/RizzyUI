@@ -40,7 +40,7 @@ public partial class SidebarMenuAction : RzAsChildComponent<SidebarMenuAction.Sl
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = _slots.GetBase(),
+            ["class"] = SlotClasses.GetBase(),
             ["data-slot"] = "sidebar-menu-action"
         };
         return attributes;

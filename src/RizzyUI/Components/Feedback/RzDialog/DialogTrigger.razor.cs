@@ -50,7 +50,7 @@ public partial class DialogTrigger : RzAsChildComponent<DialogTrigger.Slots>
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = _slots.GetBase(),
+            ["class"] = SlotClasses.GetBase(),
             ["onclick"] = $"window.dispatchEvent(new CustomEvent('{ParentDialog?.EventTriggerName}'))",
             ["data-slot"] = "dialog-trigger"
         };

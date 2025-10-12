@@ -50,7 +50,7 @@ public partial class DialogClose : RzAsChildComponent<DialogClose.Slots>
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = _slots.GetBase(),
+            ["class"] = SlotClasses.GetBase(),
             ["x-on:click"] = "closeModal",
             ["data-slot"] = "dialog-close"
         };

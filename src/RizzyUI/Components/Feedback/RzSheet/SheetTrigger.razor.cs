@@ -50,7 +50,7 @@ public partial class SheetTrigger : RzAsChildComponent<SheetTrigger.Slots>
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = _slots.GetBase(),
+            ["class"] = SlotClasses.GetBase(),
             ["x-on:click"] = "show",
             ["data-slot"] = "sheet-trigger"
         };

@@ -4,13 +4,13 @@
 
 @if (ParentProvider?.Collapsible == SidebarCollapsible.None)
 {
-	<div data-slot="sidebar" class="@_slots.GetBase()" @attributes="AdditionalAttributes">
+	<div data-slot="sidebar" class="@SlotClasses.GetBase()" @attributes="AdditionalAttributes">
 		@ChildContent
 	</div>
 }
 else
 {
-	<div class="@_slots.GetBase()"
+	<div class="@SlotClasses.GetBase()"
 	     x-bind:data-state="desktopState"
 	     x-bind:data-collapsible="getCollapsibleAttribute"
 	     data-variant="@Variant.ToString().ToLowerInvariant()"
@@ -31,9 +31,9 @@ else
 		</div>
 
 		<div class="hidden md:block">
-			<div data-slot="sidebar-gap" class="@_slots.GetGap()"></div>
-			<div data-slot="sidebar-container" class="@_slots.GetDesktopContainer()">
-				<div data-sidebar="sidebar" data-slot="sidebar-inner" class="@_slots.GetDesktopInner()">
+			<div data-slot="sidebar-gap" class="@SlotClasses.GetGap()"></div>
+			<div data-slot="sidebar-container" class="@SlotClasses.GetDesktopContainer()">
+				<div data-sidebar="sidebar" data-slot="sidebar-inner" class="@SlotClasses.GetDesktopInner()">
 					@ChildContent
 				</div>
 			</div>

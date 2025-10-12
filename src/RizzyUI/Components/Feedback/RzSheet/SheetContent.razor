@@ -5,7 +5,7 @@
 
 <template x-teleport="body">
 	<div x-show="open" x-cloak>
-		<div class="@_slots.GetOverlay()" 
+		<div class="@SlotClasses.GetOverlay()" 
              x-on:click="close" 
              x-bind:data-state="state"
 		     x-transition:enter="ease-in-out duration-500"
@@ -16,15 +16,15 @@
 		     x-transition:leave-end="opacity-0"></div>
 		<div @attributes="AdditionalAttributes"
 		     id="@Id"
-		     class="@_slots.GetBase()"
+		     class="@SlotClasses.GetBase()"
 		     data-slot="sheet-content"
 		     x-trap.inert="open"
 		     x-bind:data-state="state"
              x-transition:enter="transition ease-in-out duration-500"
              x-transition:leave="transition ease-in-out duration-300">
 			@ChildContent
-			<button type="button" class="@_slots.GetCloseButton()" x-on:click="close">
-				<Blazicon Svg="Lucide.X" class="@_slots.GetCloseButtonIcon()" />
+			<button type="button" class="@SlotClasses.GetCloseButton()" x-on:click="close">
+				<Blazicon Svg="Lucide.X" class="@SlotClasses.GetCloseButtonIcon()" />
 				<span class="sr-only">@Localizer["RzSheet.CloseButtonText"]</span>
 			</button>
 		</div>

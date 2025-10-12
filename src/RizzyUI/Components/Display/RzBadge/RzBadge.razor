@@ -3,8 +3,8 @@
 @using Blazicons
 @inherits RzComponent<RzBadge.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@_slots.GetBase()">
-    <span class="@_slots.GetInnerSpan()">
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()">
+    <span class="@SlotClasses.GetInnerSpan()">
 	    <span class="flex items-center gap-1"> 
 		    @if (Icon != null)
 		    {

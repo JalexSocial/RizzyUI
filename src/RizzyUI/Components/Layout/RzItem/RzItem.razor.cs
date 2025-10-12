@@ -60,7 +60,7 @@ public partial class RzItem : RzAsChildComponent<RzItem.Slots>
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = _slots.GetBase(),
+            ["class"] = SlotClasses.GetBase(),
             ["data-slot"] = "item",
             ["data-variant"] = Variant.ToString().ToLowerInvariant(),
             ["data-size"] = Size == Size.Small ? "sm" : "default"

@@ -60,7 +60,7 @@ public partial class PopoverTrigger : RzAsChildComponent<PopoverTrigger.Slots>
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = TriggerId,
-            ["class"] = _slots.GetBase(),
+            ["class"] = SlotClasses.GetBase(),
             ["x-ref"] = "trigger",
             ["x-on:click"] = "toggle",
             ["aria-haspopup"] = "dialog",

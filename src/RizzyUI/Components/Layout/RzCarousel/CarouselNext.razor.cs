@@ -59,7 +59,7 @@ public partial class CarouselNext : RzAsChildComponent<CarouselNext.Slots>
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = _slots.GetBase(),
+            ["class"] = SlotClasses.GetBase(),
             ["aria-label"] = AriaLabel,
             ["x-on:click"] = "scrollNext",
             [":disabled"] = "cannotScrollNext"
