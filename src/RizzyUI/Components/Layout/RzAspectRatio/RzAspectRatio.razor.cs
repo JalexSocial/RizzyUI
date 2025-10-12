@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System.Globalization;
-using TailwindVariants.NET;
+using RizzyUI.TailwindVariants;
 
 namespace RizzyUI;
 

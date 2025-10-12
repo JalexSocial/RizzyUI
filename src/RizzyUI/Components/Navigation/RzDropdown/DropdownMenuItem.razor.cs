@@ -2,7 +2,7 @@
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
-using TailwindVariants.NET;
+using RizzyUI.TailwindVariants;
 
 namespace RizzyUI;
 

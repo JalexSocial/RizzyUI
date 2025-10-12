@@ -1,6 +1,6 @@
 
 using RizzyUI.Extensions;
-using TailwindVariants.NET;
+using RizzyUI.TailwindVariants;
 
 namespace RizzyUI;
 

@@ -46,7 +46,6 @@
         <PackageReference Include="Scrutor" Version="6.0.1" />
         <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
-        <PackageReference Include="TailwindVariants.NET" Version="0.0.6" />
     </ItemGroup>
 
     <ItemGroup>
@@ -124,6 +123,8 @@
           - OutputItemType="Content": Prevents the reference from being treated as a typical assembly reference.
           - CopyToOutputDirectory="Never": Ensures the tasks DLL is not copied to RizzyUI's output directory during the build.
         -->
+        <ProjectReference Include="..\RizzyUI.TailwindVariants.SourceGenerators\RizzyUI.TailwindVariants.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\RizzyUI.TailwindVariants\RizzyUI.TailwindVariants.csproj" />
         <ProjectReference Include="..\RizzyUI.Tasks\RizzyUI.Tasks.csproj" ReferenceOutputAssembly="false" OutputItemType="Content" CopyToOutputDirectory="Never" />
 
         <!--

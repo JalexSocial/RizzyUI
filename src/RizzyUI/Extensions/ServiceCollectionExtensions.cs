@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
 using RizzyUI.Localization;
 using TailwindMerge.Extensions;
-using TailwindVariants.NET; // Add this using statement
+using RizzyUI.TailwindVariants; // Add this using statement
 
 namespace RizzyUI;
 

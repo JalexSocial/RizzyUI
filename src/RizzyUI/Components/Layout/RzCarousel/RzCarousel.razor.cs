@@ -6,7 +6,7 @@ using Rizzy.Utility;
 using RizzyUI.Extensions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using TailwindVariants.NET;
+using RizzyUI.TailwindVariants;
 
 namespace RizzyUI;
 

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
-using TailwindVariants.NET;
+using RizzyUI.TailwindVariants;
 
 namespace RizzyUI;
 
@@ -65,6 +65,7 @@ public partial class AlertTitle : RzComponent<AlertTitle.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        [Slot("alert-title")]
         public string? Base { get; set; }
     }
 }

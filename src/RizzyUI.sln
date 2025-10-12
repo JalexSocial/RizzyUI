@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RizzyUI.Tests", "RizzyUI.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RizzyUI.Tasks", "RizzyUI.Tasks\RizzyUI.Tasks.csproj", "{51A7441C-674E-02A5-0FCF-5C96C12D0DF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RizzyUI.TailwindVariants", "RizzyUI.TailwindVariants\RizzyUI.TailwindVariants.csproj", "{2837C7C3-901D-4B6B-8662-2E9693C7968E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RizzyUI.TailwindVariants.SourceGenerators", "RizzyUI.TailwindVariants.SourceGenerators\RizzyUI.TailwindVariants.SourceGenerators.csproj", "{50AEE0D0-43EE-486C-9A2E-3BD38CA38E44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RizzyUI.TailwindVariants.Tests", "RizzyUI.TailwindVariants.Tests\RizzyUI.TailwindVariants.Tests.csproj", "{1BABC120-D886-46F5-9465-11DC03C88554}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +39,18 @@ Global
 		{51A7441C-674E-02A5-0FCF-5C96C12D0DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51A7441C-674E-02A5-0FCF-5C96C12D0DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51A7441C-674E-02A5-0FCF-5C96C12D0DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2837C7C3-901D-4B6B-8662-2E9693C7968E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2837C7C3-901D-4B6B-8662-2E9693C7968E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2837C7C3-901D-4B6B-8662-2E9693C7968E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2837C7C3-901D-4B6B-8662-2E9693C7968E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50AEE0D0-43EE-486C-9A2E-3BD38CA38E44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50AEE0D0-43EE-486C-9A2E-3BD38CA38E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50AEE0D0-43EE-486C-9A2E-3BD38CA38E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50AEE0D0-43EE-486C-9A2E-3BD38CA38E44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BABC120-D886-46F5-9465-11DC03C88554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BABC120-D886-46F5-9465-11DC03C88554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BABC120-D886-46F5-9465-11DC03C88554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BABC120-D886-46F5-9465-11DC03C88554}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
