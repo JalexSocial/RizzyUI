@@ -4,7 +4,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System.Collections.Immutable;
 using System.Text;
-using RizzyUI.TailwindVariants.SourceGenerators.Helpers;
 
 namespace RizzyUI.TailwindVariants.SourceGenerators;
 
@@ -16,10 +15,6 @@ public class SlotsAccessorGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        context.RegisterPostInitializationOutput(ctx => ctx.AddSource(
-            "SlotAttribute.g.cs",
-            SourceText.From(SourceGenerationHelper.Attribute, Encoding.UTF8)));
-
         var sharedStateProvider = context.CompilationProvider.Select((comp, _) =>
         {
             var iSlotsSymbol = comp.GetTypeByMetadataName(ISlotsInterfaceName);
