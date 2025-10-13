@@ -117,14 +117,16 @@
     [Fact]
     public void EnumerateOverrides_Yields_PerInstanceClasses()
     {
-        var instance = new Button
-        {
-            Classes = new Button.Slots { Base = "rounded-xl", Icon = "size-5" }
-        };
+        // ARRANGE: Instantiate the Slots class directly, not the component.
+        // This avoids the BL0005 warning and makes the test more focused.
+        var slots = new Button.Slots { Base = "rounded-xl", Icon = "size-5" };
 
-        var overrides = instance.Classes!.EnumerateOverrides().ToList();
+        // ACT
+        var overrides = slots.EnumerateOverrides().ToList();
 
-        overrides.ShouldContain(t => t.Slot == nameof(Button.Slots.Base) && t.Value == "rounded-xl");
-        overrides.ShouldContain(t => t.Slot == nameof(Button.Slots.Icon) && t.Value == "size-5");
+        // ASSERT
+        // The GetName method is static on the Slots class, so we can call it directly.
+        overrides.ShouldContain(t => t.Slot == Button.Slots.GetName(nameof(Button.Slots.Base)) && t.Value == "rounded-xl");
+        overrides.ShouldContain(t => t.Slot == Button.Slots.GetName(nameof(Button.Slots.Icon)) && t.Value == "size-5");
     }
 }

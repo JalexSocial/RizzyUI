@@ -16,23 +16,27 @@ public class SlotsAccessorGeneratorTests
     private const string CommonRuntimeTypes = """
         namespace RizzyUI.TailwindVariants
         {
-            public interface ISlots { string? Base { get; } }
+            public interface ISlots { 
+                string? Base { get; } 
+                System.Collections.Generic.IEnumerable<(string Slot, string Value)> EnumerateOverrides();
+                static abstract string GetName(string slot);
+            }
             public class SlotsMap<T>
             {
-                public System.Collections.Generic.Dictionary<string, string?> Map { get; } = new();
+                public string? this[string key] => null;
             }
         }
         """;
 
     [Fact]
-    public void Generates_EnumerateOverrides_Enum_Names_And_Extensions_For_Simple_Slots()
+    public void Generates_Nested_Enum_Names_And_TopLevel_Extensions_For_Simple_Slots()
     {
         var input = """
             namespace Demo.Components
             {
                 public partial class MyComponent
                 {
-                    public partial class Slots : RizzyUI.TailwindVariants.ISlots
+                    public sealed partial class Slots : RizzyUI.TailwindVariants.ISlots
                     {
                         public string? Base { get; set; }
                         public string? Header { get; set; }
@@ -44,18 +48,19 @@ public class SlotsAccessorGeneratorTests
         var (generated, diags) = RunGenerator(input);
 
         diags.ShouldNotContain(d => d.Severity == DiagnosticSeverity.Error);
-        generated.Length.ShouldBeGreaterThan(0);
+        generated.Length.ShouldBe(2); // Attribute + Component file
 
         var combined = string.Join("\n---GEN---\n", generated.Select(gs => gs.SourceText.ToString()));
 
-        combined.ShouldContain("EnumerateOverrides()");
-        combined.ShouldContain("public enum MyComponentSlotsTypes");
-        combined.ShouldContain("public static class MyComponentSlotsNames");
-        combined.ShouldContain("public static string? GetHeader");
+        combined.ShouldContain("partial class MyComponent");
+        combined.ShouldContain("public enum SlotsTypes");
+        combined.ShouldContain("public static class SlotNames");
+        combined.ShouldContain("public static class MyComponentSlotsExtensions");
+        combined.ShouldContain("public static string? GetHeader(this SlotsMap<Demo.Components.MyComponent.Slots> slots)");
     }
 
     [Fact]
-    public void Handles_Nested_Types_Correctly()
+    public void Handles_Nested_Component_Types_Correctly()
     {
         var input = """
             namespace Demo.NestedSample
@@ -64,7 +69,7 @@ public class SlotsAccessorGeneratorTests
                 {
                     public partial class Inner
                     {
-                        public partial class Slots : RizzyUI.TailwindVariants.ISlots
+                        public sealed partial class Slots : RizzyUI.TailwindVariants.ISlots
                         {
                             public string? Base { get; set; }
                             public string? Footer { get; set; }
@@ -77,12 +82,13 @@ public class SlotsAccessorGeneratorTests
         var (generated, diags) = RunGenerator(input);
 
         diags.ShouldNotContain(d => d.Severity == DiagnosticSeverity.Error);
-        generated.Length.ShouldBeGreaterThan(0);
+        generated.Length.ShouldBe(2);
 
         var combined = string.Join("\n---GEN---\n", generated.Select(gs => gs.SourceText.ToString()));
         combined.ShouldContain("partial class Outer");
         combined.ShouldContain("partial class Inner");
-        combined.ShouldContain("GetFooter");
+        combined.ShouldContain("public static class InnerSlotsExtensions");
+        combined.ShouldContain("GetFooter(this SlotsMap<Demo.NestedSample.Outer.Inner.Slots> slots)");
     }
 
     [Fact]
@@ -93,7 +99,7 @@ public class SlotsAccessorGeneratorTests
             {
                 public partial class MyComponent
                 {
-                    public partial class Slots : RizzyUI.TailwindVariants.ISlots
+                    public sealed partial class Slots : RizzyUI.TailwindVariants.ISlots
                     {
                         public string? Base { get; set; }
                         public int Count { get; set; }
@@ -104,7 +110,7 @@ public class SlotsAccessorGeneratorTests
 
         var (generated, diags) = RunGenerator(input);
 
-        generated.Length.ShouldBeGreaterThan(0);
+        generated.Length.ShouldBe(2);
         var combined = string.Join("\n---GEN---\n", generated.Select(gs => gs.SourceText.ToString()));
 
         combined.ShouldContain("GetBase");
@@ -119,8 +125,9 @@ public class SlotsAccessorGeneratorTests
             {
                 public partial class MyComponent
                 {
-                    public partial class Slots : RizzyUI.TailwindVariants.ISlots
+                    public sealed partial class Slots : RizzyUI.TailwindVariants.ISlots
                     {
+                        public string? Base => null; // Satisfy interface, but not a valid property for generation
                     }
                 }
             }
@@ -128,8 +135,8 @@ public class SlotsAccessorGeneratorTests
 
         var (generated, diags) = RunGenerator(input);
 
-        generated.Length.ShouldBe(1);
-        diags.ShouldContain(d => d.Severity == DiagnosticSeverity.Info);
+        generated.Length.ShouldBe(1); // Only attribute gets generated
+        diags.ShouldContain(d => d.Id == "TVSG001" && d.Severity == DiagnosticSeverity.Info);
     }
 
     [Fact]
@@ -138,9 +145,10 @@ public class SlotsAccessorGeneratorTests
         var input = """
             namespace Demo.Components
             {
-                public class MyComponent
+                public partial class MyComponent
                 {
-                    public class Slots : RizzyUI.TailwindVariants.ISlots
+                    // This class is not partial, which should be an error.
+                    public sealed class Slots : RizzyUI.TailwindVariants.ISlots
                     {
                         public string? Base { get; set; }
                     }
@@ -150,10 +158,13 @@ public class SlotsAccessorGeneratorTests
 
         var (generated, diags) = RunGenerator(input);
 
-        generated.Length.ShouldBe(1);
-        diags.Any(d => d.Severity == DiagnosticSeverity.Error &&
-            d.GetMessage().Contains("partial", StringComparison.OrdinalIgnoreCase))
-            .ShouldBeTrue("Expected diagnostic about missing 'partial' keyword");
+        generated.Length.ShouldBe(1); // Only attribute gets generated
+
+        // CORRECTED: Call GetMessage(null) to explicitly provide the optional argument,
+        // satisfying the expression tree compiler.
+        diags.ShouldContain(d => d.Severity == DiagnosticSeverity.Error &&
+            d.Id == "TVSG002" &&
+            d.GetMessage(null).Contains("The type 'Slots' must be declared 'partial'"));
     }
 
     private static (ImmutableArray<GeneratedSourceResult> Generated, ImmutableArray<Diagnostic> Diagnostics) RunGenerator(params string[] sources)
