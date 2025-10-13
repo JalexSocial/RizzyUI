@@ -15,7 +15,7 @@ public class SlotCollection<TSlots>()
     /// <summary>
     /// Create a slot collection whose base slot contains the provided classes.
     /// </summary>
-    internal SlotCollection(string? classes) : this() => _slots[s => s.Base] = classes;
+    private SlotCollection(string? classes) : this() => _slots[s => s.Base] = classes;
 
     /// <summary>
     /// Indexer (slot accessor) => class value.

@@ -46,7 +46,7 @@ internal static class DiagnosticHelper
     public static readonly DiagnosticDescriptor ContainingTypeMustBeClassOrStruct = new(
         id: "TVSG004",
         title: "Containing type must be a class or struct",
-        messageFormat: "The containing type '{0}' must be a 'class' or a 'struct'. Interfaces and other type kinds are not supported",
+        messageFormat: "The containing type '{0}' must be a 'class' or a 'struct', interfaces and other type kinds are not supported",
         category: "TailwindVariants",
         DiagnosticSeverity.Error,
         isEnabledByDefault: true);
