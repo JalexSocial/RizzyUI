@@ -117,19 +117,43 @@ public class SlotsAccessorGenerator : IIncrementalGenerator
 
     #region Helpers
 
+    /// <summary>
+    /// Collects all public, instance, string properties from a slots type and its base types.
+    /// </summary>
+    /// <remarks>
+    /// This method is hardened to correctly handle property inheritance, including overriding virtual
+    /// properties and hiding base members with the 'new' keyword. It de-duplicates properties by name,
+    /// always preferring the one from the most-derived type in the hierarchy.
+    /// </remarks>
+    /// <returns>A tuple containing an array of property names and an array of final slot names.</returns>
     private static (ImmutableArray<string> properties, ImmutableArray<string> slotNames) CollectSlotProperties(INamedTypeSymbol type, INamedTypeSymbol slotAttributeSymbol)
     {
-        var properties = type.GetMembers()
+        var allProperties = type.GetMembers()
             .OfType<IPropertySymbol>()
-            .Where(p => !p.IsStatic && p.DeclaredAccessibility == Accessibility.Public && p.Type.SpecialType == SpecialType.System_String && p.SetMethod is not null)
+            .Where(p => !p.IsStatic && p.DeclaredAccessibility == Accessibility.Public && p.Type.SpecialType == SpecialType.System_String && p.SetMethod is not null);
+
+        // HARDENED: De-duplicate properties by name, selecting the one from the most-derived class.
+        // This correctly handles members hidden with the 'new' keyword.
+        var uniqueProperties = allProperties
+            .GroupBy(p => p.Name)
+            .Select(g =>
+            {
+                // If there's only one property with this name, use it.
+                if (g.Count() == 1) return g.First();
+                
+                // If there are multiple (due to 'new' keyword), find the one on the most-derived type.
+                // We do this by finding the property whose containing type is 'type' itself, or a base of it.
+                // The 'type' parameter is the most-derived type we are analyzing.
+                return g.OrderBy(p => IsSameOrBaseType(type, p.ContainingType) ? 0 : 1).First();
+            })
             .OrderBy(p => p.Locations.FirstOrDefault()?.SourceSpan.Start ?? int.MaxValue)
             .ThenBy(p => p.Name, StringComparer.Ordinal)
             .ToList();
 
-        var propertyNamesBuilder = ImmutableArray.CreateBuilder<string>(properties.Count);
-        var slotNamesBuilder = ImmutableArray.CreateBuilder<string>(properties.Count);
+        var propertyNamesBuilder = ImmutableArray.CreateBuilder<string>(uniqueProperties.Count);
+        var slotNamesBuilder = ImmutableArray.CreateBuilder<string>(uniqueProperties.Count);
 
-        foreach (var p in properties)
+        foreach (var p in uniqueProperties)
         {
             propertyNamesBuilder.Add(p.Name);
             string slotName = p.Name;
@@ -142,6 +166,23 @@ public class SlotsAccessorGenerator : IIncrementalGenerator
             slotNamesBuilder.Add(slotName);
         }
         return (propertyNamesBuilder.ToImmutable(), slotNamesBuilder.ToImmutable());
+    }
+    
+    /// <summary>
+    /// Helper to determine if a type is the same as or a base type of another.
+    /// </summary>
+    private static bool IsSameOrBaseType(INamedTypeSymbol startingType, INamedTypeSymbol typeToFind)
+    {
+        var current = startingType;
+        while (current != null)
+        {
+            if (SymbolEqualityComparer.Default.Equals(current, typeToFind))
+            {
+                return true;
+            }
+            current = current.BaseType;
+        }
+        return false;
     }
 
     private static string GetTypeDeclaration(INamedTypeSymbol typeSymbol)
