@@ -249,8 +249,10 @@ using System.Linq;
             var component = new ImageCard { Compact = true };
             var result = _tv.Invoke(component, simpleImageCard);
 
+            var body = result[s => s.Body];
+
             // The parent's 'p-2' should be applied
-            Assert.Equal("p-2", result[s => s.Body]);
+            Assert.Equal("p-2", body);
         }
 
         [Fact]
