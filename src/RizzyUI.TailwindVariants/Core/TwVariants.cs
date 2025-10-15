@@ -1,4 +1,3 @@
-
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -26,9 +25,9 @@
         /// <typeparam name="TOwner">The type that owns the slots and variants.</typeparam>
         /// <typeparam name="TSlots">The type representing the slots, which must implement <see cref="ISlots"/>.</typeparam>
         /// <param name="owner">The instance providing slot and variant values.</param>
-        /// <param name="descriptor">The pre-computed configuration descriptor for base slots, variants, and compound variants.</param>
+        /// <param name="descriptor">The pre-computed, strongly-typed configuration descriptor.</param>
         /// <returns>A <see cref="SlotsMap{TSlots}"/> mapping slot names to their final computed CSS class strings.</returns>
-        public SlotsMap<TSlots> Invoke<TOwner, TSlots>(TOwner owner, ITvDescriptor descriptor)
+        public SlotsMap<TSlots> Invoke<TOwner, TSlots>(TOwner owner, TvDescriptor<TOwner, TSlots> descriptor)
             where TSlots : ISlots, new()
             where TOwner : ISlotted<TSlots>
         {

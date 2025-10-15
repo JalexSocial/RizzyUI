@@ -5,6 +5,8 @@
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <CompilerGeneratedFilesOutputPath Condition="'$(CompilerGeneratedFilesOutputPath)' == ''">$(BaseIntermediateOutputPath)tv</CompilerGeneratedFilesOutputPath>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
 	<ItemGroup>
@@ -21,7 +23,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
 	</ItemGroup>
 	
@@ -32,7 +33,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\RizzyUI.TailwindVariants\RizzyUI.TailwindVariants.csproj" />
-		<ProjectReference Include="..\RizzyUI.TailwindVariants.SourceGenerators\RizzyUI.TailwindVariants.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+		<ProjectReference Include="..\RizzyUI.TailwindVariants.SourceGenerators\RizzyUI.TailwindVariants.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 </Project>

@@ -16,6 +16,8 @@
 
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
+            //System.Diagnostics.Debugger.Launch(); 
+
             var sharedStateProvider = context.CompilationProvider.Select((comp, _) =>
             {
                 var iSlotsSymbol = comp.GetTypeByMetadataName(ISlotsInterfaceName);
@@ -25,21 +27,8 @@
 
             var syntaxProvider = context.SyntaxProvider
                 .CreateSyntaxProvider(
-                    predicate: static (node, _) =>
-                    {
-                        if (node is not TypeDeclarationSyntax tds) return false;
-                        if (!tds.Modifiers.Any(SyntaxKind.PartialKeyword)) return false;
-                        if (tds.BaseList is not { Types.Count: > 0 }) return false;
-
-                        var nameLooksLikeSlots = tds.Identifier.Text.Contains("Slots");
-                        var baseLooksLikeSlots = tds.BaseList.Types.Any(t => t.ToString().Contains("Slots"));
-                        if (!(nameLooksLikeSlots || baseLooksLikeSlots)) return false;
-
-                        var hasPublicStringProp = tds.Members.OfType<PropertyDeclarationSyntax>()
-                            .Any(p => (p.Type is PredefinedTypeSyntax pts && pts.Keyword.IsKind(SyntaxKind.StringKeyword) || p.Type.ToString() == "string")
-                                   && p.Modifiers.Any(SyntaxKind.PublicKeyword));
-                        return hasPublicStringProp;
-                    },
+                    predicate: static (node, _) => node is TypeDeclarationSyntax { Modifiers: var modifiers, BaseList: not null } && 
+                                                   modifiers.Any(SyntaxKind.PartialKeyword),
                     transform: static (ctx, _) => (TypeDeclarationSyntax)ctx.Node
                 );
 
@@ -73,14 +62,7 @@
                 return;
             }
 
-            var componentFullName = accessor.ComponentFullName;
-            var slotsFullName = accessor.FullName;
-            var slotsMapName = $"SlotsMap<{slotsFullName}>";
-            var extClassName = SymbolHelper.MakeSafeIdentifier($"{accessor.TypeName}SlotsExtensions");
-            var filename = SymbolHelper.MakeSafeFileName($"{componentFullName}.g.cs");
-
-            var bt = accessor.SlotsSymbol.BaseType;
-            var inheritanceInfo = (bt is null || bt.SpecialType == SpecialType.System_Object)
+            var inheritanceInfo = accessor.SlotsSymbol.BaseType is null
                 ? new InheritanceInfo(false)
                 : AnalyzeInheritance(accessor.SlotsSymbol, accessor.SharedState.Compilation);
 
@@ -91,10 +73,11 @@
             WriteEnum(sb, "SlotsTypes", accessor.Properties);
             WriteNamesHelper(sb, "SlotNames", "SlotsTypes", accessor.Properties, accessor.Slots);
             WriteNestedClosings(sb, accessor.ComponentSymbol);
-            WriteExtensions(sb, extClassName, $"{componentFullName}.SlotsTypes", $"{componentFullName}.SlotNames", slotsMapName, slotsFullName, accessor.Properties);
+            WriteExtensions(sb, accessor.TypeName, accessor.ComponentFullName, accessor.FullName, accessor.Properties);
             WritePragmaClosing(sb);
 
-            spc.AddSource(filename, SourceText.From(sb.ToString(), Encoding.UTF8));
+            var hintName = $"{accessor.ComponentSymbol.Name}.{SymbolHelper.Hash(accessor.ComponentFullName)}.g.cs";
+            spc.AddSource(hintName, SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
         private static SlotsAccessorToGenerate? GetSemanticTargetForGeneration(TypeDeclarationSyntax typeDeclaration, SharedGeneratorState state, CancellationToken ct)
@@ -112,12 +95,12 @@
 
             return new SlotsAccessorToGenerate(
                 Name: symbol.Name,
-                FullName: symbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                FullName: symbol.ToDisplayString(SymbolHelper.FullyQualifiedFormat),
                 TypeName: componentType.Name,
                 NamespaceName: symbol.ContainingNamespace?.ToDisplayString() ?? string.Empty,
                 Properties: properties,
                 Slots: slotNames,
-                ComponentFullName: componentType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                ComponentFullName: componentType.ToDisplayString(SymbolHelper.FullyQualifiedFormat),
                 SlotsSymbol: symbol,
                 ComponentSymbol: componentType,
                 SharedState: state)
@@ -161,13 +144,18 @@
 
         private static (ImmutableArray<string> properties, ImmutableArray<string> slotNames) CollectSlotProperties(INamedTypeSymbol type, INamedTypeSymbol slotAttributeSymbol)
         {
-            var allProperties = type.GetMembers()
-                .OfType<IPropertySymbol>()
-                .Where(p => !p.IsStatic && p.DeclaredAccessibility == Accessibility.Public && p.Type.SpecialType == SpecialType.System_String && p.GetMethod is not null);
+            var allProperties = new List<IPropertySymbol>();
+            var currentType = type;
+            while (currentType != null && currentType.SpecialType != SpecialType.System_Object)
+            {
+                allProperties.AddRange(currentType.GetMembers().OfType<IPropertySymbol>()
+                    .Where(p => !p.IsStatic && p.DeclaredAccessibility == Accessibility.Public && p.Type.SpecialType == SpecialType.System_String && p.GetMethod is not null));
+                currentType = currentType.BaseType;
+            }
 
             var uniqueProperties = allProperties
                 .GroupBy(p => p.Name)
-                .Select(g => g.Count() == 1 ? g.First() : g.OrderBy(p => IsSameOrBaseType(type, p.ContainingType) ? 0 : 1).First())
+                .Select(g => g.First())
                 .OrderBy(p => p.DeclaringSyntaxReferences.FirstOrDefault()?.Span.Start ?? int.MaxValue)
                 .ThenBy(p => p.Name, StringComparer.Ordinal)
                 .ToList();
@@ -206,7 +194,7 @@
             var decl = PreferRichestDecl(typeSymbol);
             if (decl is null)
             {
-                return typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat).Replace(typeSymbol.Name, "partial " + typeSymbol.Name);
+                return typeSymbol.ToDisplayString(SymbolHelper.FullDeclarationFormat).Replace(typeSymbol.Name, "partial " + typeSymbol.Name);
             }
 
             var hasPartial = decl.Modifiers.Any(m => m.IsKind(SyntaxKind.PartialKeyword));
@@ -288,14 +276,19 @@
             sb.AppendLine();
         }
 
-        private static void WriteExtensions(Indenter sb, string extClassName, string enumFullName, string namesClassFullName, string slotsMapName, string slotsName, ImmutableArray<string> properties)
+        private static void WriteExtensions(Indenter sb, string typeName, string componentFullName, string slotsFullName, ImmutableArray<string> properties)
         {
-            sb.AppendMultiline($"/// <summary>Provides extension methods for strongly-typed access to <see cref=\"{slotsName}\"/> via a <see cref=\"SlotsMap{{T}}\"/>.</summary>");
+            var extClassName = SymbolHelper.MakeSafeIdentifier($"{typeName}SlotsExtensions");
+            var enumFullName = $"{componentFullName}.SlotsTypes";
+            var namesClassFullName = $"{componentFullName}.SlotNames";
+            var slotsMapName = $"SlotsMap<{slotsFullName}>";
+
+            sb.AppendMultiline($"/// <summary>Provides extension methods for strongly-typed access to <see cref=\"{slotsFullName}\"/> via a <see cref=\"SlotsMap{{T}}\"/>.</summary>");
             sb.AppendLine($"public static class {extClassName}");
             sb.AppendLine("{");
             sb.Indent();
             sb.AppendMultiline($"/// <summary>Gets the final slot name for the specified <see cref=\"{enumFullName}\"/> key.</summary>");
-            sb.AppendLine($"public static string GetName(this {slotsMapName} slots, {enumFullName} key) => {slotsName}.GetName({namesClassFullName}.NameOf(key));");
+            sb.AppendLine($"public static string GetName(this {slotsMapName} slots, {enumFullName} key) => {slotsFullName}.GetName({namesClassFullName}.NameOf(key));");
             sb.AppendLine();
             sb.AppendMultiline($"/// <summary>Gets the value of the slot identified by the specified <see cref=\"{enumFullName}\"/> key.</summary>");
             sb.AppendLine($"public static string? Get(this {slotsMapName} slots, {enumFullName} key) => slots[{namesClassFullName}.NameOf(key)];");
@@ -316,7 +309,11 @@
             sb.AppendLine("{");
             sb.Indent();
 
-            const string methodModifier = "public";
+            string methodModifier = inheritanceInfo.HasConcreteBaseMethod ? "public override" : "public virtual";
+            if (slotsSymbol.IsSealed)
+            {
+                methodModifier = inheritanceInfo.HasConcreteBaseMethod ? "public override" : "public";
+            }
 
             sb.AppendLine("/// <inheritdoc/>");
             sb.AppendLine($"{methodModifier} {SlotTupleType} EnumerateOverrides()");
@@ -325,31 +322,39 @@
 
             if (inheritanceInfo.HasConcreteBaseMethod)
             {
-                sb.AppendLine("if (GetType().BaseType?.GetMethod(nameof(EnumerateOverrides)) != null)");
+                sb.AppendLine("foreach (var item in base.EnumerateOverrides())");
                 sb.AppendLine("{");
                 sb.Indent();
-                sb.AppendLine("foreach (var item in base.EnumerateOverrides()) yield return item;");
+                sb.AppendLine("yield return item;");
                 sb.Dedent();
                 sb.AppendLine("}");
                 sb.AppendLine();
             }
 
+            var declaredProperties = slotsSymbol.GetMembers()
+                .OfType<IPropertySymbol>()
+                .Select(p => p.Name)
+                .ToImmutableHashSet();
+
             foreach (var property in properties)
             {
-                sb.AppendLine($"var __v_{property} = {property};");
-                sb.AppendLine($"if (!string.IsNullOrWhiteSpace(__v_{property}))");
-                sb.AppendLine("{");
-                sb.Indent();
-                sb.AppendLine($"yield return (GetName(nameof({property})), __v_{property});");
-                sb.Dedent();
-                sb.AppendLine("}");
+                if (declaredProperties.Contains(property))
+                {
+                    sb.AppendLine($"var __v_{property} = {property};");
+                    sb.AppendLine($"if (!string.IsNullOrWhiteSpace(__v_{property}))");
+                    sb.AppendLine("{");
+                    sb.Indent();
+                    sb.AppendLine($"yield return (GetName(nameof({property})), __v_{property});");
+                    sb.Dedent();
+                    sb.AppendLine("}");
+                }
             }
 
             sb.Dedent();
             sb.AppendLine("}");
             sb.AppendLine();
             sb.AppendLine("/// <inheritdoc/>");
-            sb.AppendLine("public static string GetName(string propertyName)");
+            sb.AppendLine("public static new string GetName(string propertyName)");
             sb.AppendLine("{");
             sb.Indent();
             sb.AppendLine("return propertyName switch");
