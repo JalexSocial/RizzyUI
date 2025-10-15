@@ -1,4 +1,4 @@
-    using System;
+using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -14,6 +14,11 @@
     {
         private readonly Tw _merge;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TwVariants"/> class.
+        /// </summary>
+        /// <param name="merge">The <see cref="TailwindMerge.TwMerge"/> instance to use for merging CSS classes.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="merge"/> is null.</exception>
         public TwVariants(Tw merge)
         {
             _merge = merge ?? throw new ArgumentNullException(nameof(merge));

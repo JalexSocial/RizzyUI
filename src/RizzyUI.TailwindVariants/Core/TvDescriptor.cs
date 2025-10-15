@@ -1,5 +1,4 @@
-
-    using System;
+using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
@@ -36,6 +35,26 @@
         /// These are additive and are evaluated in order from ancestor to child.
         /// </summary>
         IReadOnlyList<CompiledCompoundVariant> CompiledCompoundVariants { get; }
+
+        /// <summary>
+        /// Gets the local, non-compiled base class value for this specific descriptor.
+        /// </summary>
+        ClassValue? GetBaseClassValue();
+
+        /// <summary>
+        /// Gets the local, non-compiled slot collection for this specific descriptor.
+        /// </summary>
+        ISlotCollection? GetSlotCollection();
+
+        /// <summary>
+        /// Gets the local, pre-compiled variants for this specific descriptor.
+        /// </summary>
+        IReadOnlyList<CompiledVariant> GetLocalCompiledVariants();
+
+        /// <summary>
+        /// Gets the local, pre-compiled compound variants for this specific descriptor.
+        /// </summary>
+        IReadOnlyList<CompiledCompoundVariant> GetLocalCompiledCompoundVariants();
     }
 
     /// <summary>
@@ -48,6 +67,11 @@
         where TSlots : ISlots, new()
         where TOwner : ISlotted<TSlots>
     {
+        private readonly ClassValue? _base;
+        private readonly SlotCollection<TSlots>? _slots;
+        private readonly IReadOnlyList<CompiledVariant> _localCompiledVariants;
+        private readonly IReadOnlyList<CompiledCompoundVariant> _localCompiledCompoundVariants;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TvDescriptor{TOwner, TSlots}"/> class, performing a one-time
         /// pre-computation of the entire inheritance chain.
@@ -65,10 +89,11 @@
             CompoundVariantCollection<TOwner, TSlots>? compoundVariants = null)
         {
             Extends = extends;
-            this.@base = @base;
-            this.slots = slots;
-            this.variants = variants;
-            this.compoundVariants = compoundVariants;
+            _base = @base;
+            _slots = slots;
+
+            _localCompiledVariants = PreComputeLocalVariants(variants);
+            _localCompiledCompoundVariants = compoundVariants?.Select(cv => cv.Compile()).ToList() ?? (IReadOnlyList<CompiledCompoundVariant>)Array.Empty<CompiledCompoundVariant>();
 
             var descriptorChain = new List<ITvDescriptor>();
             var seen = new HashSet<ITvDescriptor>(ReferenceEqualityComparer.Instance);
@@ -89,58 +114,72 @@
         private static IReadOnlyDictionary<string, string> PreComputeSlots(List<ITvDescriptor> descriptorChain)
         {
             var finalSlots = new Dictionary<string, StringBuilder>();
+            var baseSlotName = GetSlot<TSlots>(s => s.Base);
+
             foreach (var descriptor in descriptorChain)
             {
-                var localSlots = new Dictionary<string, string>();
-                if (descriptor is TvDescriptor<TOwner, TSlots> genericDescriptor)
+                var baseValue = descriptor.GetBaseClassValue();
+                if (baseValue is not null)
                 {
-                    if (genericDescriptor.@base is not null)
+                    var classValue = baseValue.ToString().Trim();
+                    if (!string.IsNullOrEmpty(classValue))
                     {
-                        localSlots[GetSlot<TSlots>(s => s.Base)] = genericDescriptor.@base.ToString();
-                    }
-                    if (genericDescriptor.slots is not null)
-                    {
-                        foreach (var (key, value) in genericDescriptor.slots)
+                        if (!finalSlots.TryGetValue(baseSlotName, out var builder))
                         {
-                            localSlots[GetSlot(key)] = value.ToString();
+                            builder = new StringBuilder();
+                            finalSlots[baseSlotName] = builder;
                         }
+                        if (builder.Length > 0) builder.Append(' ');
+                        builder.Append(classValue);
                     }
                 }
 
-                foreach (var (slotName, classValue) in localSlots)
+                var slotCollection = descriptor.GetSlotCollection();
+                if (slotCollection is not null)
                 {
-                    if (!finalSlots.TryGetValue(slotName, out var builder))
+                    foreach (var (slotName, classValueContainer) in slotCollection.AsPairs())
                     {
-                        builder = new StringBuilder();
-                        finalSlots[slotName] = builder;
+                        var classValue = classValueContainer.ToString().Trim();
+                        if (string.IsNullOrEmpty(classValue)) continue;
+
+                        if (!finalSlots.TryGetValue(slotName, out var builder))
+                        {
+                            builder = new StringBuilder();
+                            finalSlots[slotName] = builder;
+                        }
+                        if (builder.Length > 0) builder.Append(' ');
+                        builder.Append(classValue);
                     }
-                    if (builder.Length > 0) builder.Append(' ');
-                    builder.Append(classValue.Trim());
                 }
             }
             return finalSlots.ToDictionary(kv => kv.Key, kv => kv.Value.ToString());
         }
 
-        private static IReadOnlyList<CompiledVariant> PreComputeVariants(List<ITvDescriptor> descriptorChain)
+        private static IReadOnlyList<CompiledVariant> PreComputeLocalVariants(VariantCollection<TOwner, TSlots>? variants)
         {
-            var finalVariants = new Dictionary<string, (Expression<VariantAccessor<TOwner>> Accessor, IVariant<TSlots> Variant)>();
-            foreach (var descriptor in descriptorChain)
-            {
-                if (descriptor is not TvDescriptor<TOwner, TSlots> genericDescriptor || genericDescriptor.variants is null) continue;
-                foreach (var (key, value) in genericDescriptor.variants)
-                {
-                    var variantKey = GetVariant(key);
-                    finalVariants[variantKey] = (key, value);
-                }
-            }
+            if (variants is null) return Array.Empty<CompiledVariant>();
 
-            return finalVariants.Select(kv =>
+            return variants.Select(kv =>
             {
-                var (accessor, variant) = kv.Value;
+                var (accessor, variant) = (kv.Key, kv.Value);
+                var variantKey = GetVariant(accessor);
                 var compiled = accessor.Compile();
                 Func<object, object?> compiledAccessor = owner => owner is TOwner typedOwner ? compiled(typedOwner) : null;
-                return new CompiledVariant(kv.Key, compiledAccessor, variant);
+                return new CompiledVariant(variantKey, compiledAccessor, variant);
             }).ToList();
+        }
+
+        private static IReadOnlyList<CompiledVariant> PreComputeVariants(List<ITvDescriptor> descriptorChain)
+        {
+            var finalVariants = new Dictionary<string, CompiledVariant>();
+            foreach (var descriptor in descriptorChain)
+            {
+                foreach (var localVariant in descriptor.GetLocalCompiledVariants())
+                {
+                    finalVariants[localVariant.VariantKey] = localVariant;
+                }
+            }
+            return finalVariants.Values.ToList();
         }
 
         private static IReadOnlyList<CompiledCompoundVariant> PreComputeCompoundVariants(List<ITvDescriptor> descriptorChain)
@@ -148,8 +187,7 @@
             var finalCompoundVariants = new List<CompiledCompoundVariant>();
             foreach (var descriptor in descriptorChain)
             {
-                if (descriptor is not TvDescriptor<TOwner, TSlots> genericDescriptor || genericDescriptor.compoundVariants is null) continue;
-                finalCompoundVariants.AddRange(genericDescriptor.compoundVariants.Select(cv => cv.Compile()));
+                finalCompoundVariants.AddRange(descriptor.GetLocalCompiledCompoundVariants());
             }
             return finalCompoundVariants;
         }
@@ -157,15 +195,19 @@
         /// <inheritdoc />
         public ITvDescriptor? Extends { get; }
 
-        private readonly ClassValue? @base;
-        private readonly SlotCollection<TSlots>? slots;
-        private readonly VariantCollection<TOwner, TSlots>? variants;
-        private readonly CompoundVariantCollection<TOwner, TSlots>? compoundVariants;
-
         /// <inheritdoc />
         public IReadOnlyDictionary<string, string> CompiledSlots { get; }
         /// <inheritdoc />
         public IReadOnlyList<CompiledVariant> CompiledVariants { get; }
         /// <inheritdoc />
         public IReadOnlyList<CompiledCompoundVariant> CompiledCompoundVariants { get; }
+
+        /// <inheritdoc />
+        public ClassValue? GetBaseClassValue() => _base;
+        /// <inheritdoc />
+        public ISlotCollection? GetSlotCollection() => _slots;
+        /// <inheritdoc />
+        public IReadOnlyList<CompiledVariant> GetLocalCompiledVariants() => _localCompiledVariants;
+        /// <inheritdoc />
+        public IReadOnlyList<CompiledCompoundVariant> GetLocalCompiledCompoundVariants() => _localCompiledCompoundVariants;
     }

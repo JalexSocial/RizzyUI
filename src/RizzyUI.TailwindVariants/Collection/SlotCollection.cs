@@ -1,5 +1,4 @@
-
-    using System;
+using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq.Expressions;
@@ -28,6 +27,9 @@
         private readonly Dictionary<string, ClassValue> _slots = new(StringComparer.Ordinal);
         private static string BaseName => TSlots.GetName(nameof(ISlots.Base));
 
+        /// <summary>
+        /// Initializes a new, empty slot collection.
+        /// </summary>
         public SlotCollection() { }
 
         /// <summary>

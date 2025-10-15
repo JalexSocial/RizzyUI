@@ -1,4 +1,5 @@
-﻿    using System.Linq;
+
+using System.Linq;
     using Tw = TailwindMerge.TwMerge;
 
     namespace RizzyUI.TailwindVariants.Tests;
@@ -69,6 +70,42 @@
         public sealed partial class ImageCardSlots : BaseCard.BaseCardSlots
         {
             public string? Image { get; set; }
+        }
+    }
+
+    // --- New Models for Multi-level Inheritance Tests ---
+
+    public partial class GrandParentCard : ISlotted<GrandParentCard.Slots>
+    {
+        public GrandParentCard.Slots? Classes { get; set; }
+        public string? Class { get; set; }
+
+        public partial class Slots : ISlots
+        {
+            public virtual string? GrandParentSlot { get; set; }
+            public virtual string? Base { get; set; }
+        }
+    }
+
+    public partial class ParentCard : ISlotted<ParentCard.Slots>
+    {
+        public ParentCard.Slots? Classes { get; set; }
+        public string? Class { get; set; }
+
+        public partial class Slots : GrandParentCard.Slots
+        {
+            public virtual string? ParentSlot { get; set; }
+        }
+    }
+
+    public partial class ChildCard : ISlotted<ChildCard.Slots>
+    {
+        public ChildCard.Slots? Classes { get; set; }
+        public string? Class { get; set; }
+
+        public sealed partial class Slots : ParentCard.Slots
+        {
+            public string? ChildSlot { get; set; }
         }
     }
 
@@ -176,8 +213,10 @@
             var component = new ImageCard();
             var result = _tv.Invoke(component, _imageCardDescriptor);
 
+            var @base = result.GetBase();
+
             // Should contain "rounded-lg shadow" from base and "overflow-hidden" from child
-            Assert.Equal("rounded-lg shadow overflow-hidden", result.GetBase());
+            Assert.Equal("rounded-lg shadow overflow-hidden", @base);
         }
 
         [Fact]
@@ -241,6 +280,27 @@
             Assert.Contains((ImageCard.ImageCardSlots.GetName(nameof(slots.Base)), "base-override"), overrides);
             Assert.Contains((ImageCard.ImageCardSlots.GetName(nameof(slots.Image)), "image-override"), overrides);
             Assert.Equal(2, overrides.Count);
+        }
+
+        [Fact]
+        public void EnumerateOverrides_HandlesMultiLevelInheritedSlots()
+        {
+            // Arrange
+            var slots = new ChildCard.Slots
+            {
+                GrandParentSlot = "gp-override",
+                ParentSlot = "p-override",
+                ChildSlot = "c-override"
+            };
+
+            // Act
+            var overrides = slots.EnumerateOverrides().ToList();
+
+            // Assert
+            Assert.Contains((ChildCard.Slots.GetName(nameof(slots.GrandParentSlot)), "gp-override"), overrides);
+            Assert.Contains((ChildCard.Slots.GetName(nameof(slots.ParentSlot)), "p-override"), overrides);
+            Assert.Contains((ChildCard.Slots.GetName(nameof(slots.ChildSlot)), "c-override"), overrides);
+            Assert.Equal(3, overrides.Count);
         }
 
         #endregion

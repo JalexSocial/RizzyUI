@@ -1,4 +1,4 @@
-    using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Text;
@@ -113,30 +113,24 @@
 
         private static InheritanceInfo AnalyzeInheritance(INamedTypeSymbol symbol, Compilation compilation)
         {
-            var ienumDef = compilation.GetSpecialType(SpecialType.System_Collections_Generic_IEnumerable_T);
-            var str = compilation.GetSpecialType(SpecialType.System_String);
-            var vtupleDef = compilation.GetTypeByMetadataName("System.ValueTuple`2");
-
-            if (ienumDef is null || str is null || vtupleDef is null)
+            var iSlotsSymbol = compilation.GetTypeByMetadataName(ISlotsInterfaceName);
+            if (iSlotsSymbol is null)
             {
+                // This should not happen if the generator is correctly configured and the ISlots interface is available.
                 return new InheritanceInfo(false);
             }
 
-            var tupleOfStrings = vtupleDef.Construct(str, str);
-            var ienumTuple = ienumDef.Construct(tupleOfStrings);
-
-            for (var baseType = symbol.BaseType; baseType is not null; baseType = baseType.BaseType)
+            // We need to determine if a base class already has a virtual `EnumerateOverrides` method that we need to override.
+            // We cannot reliably inspect for the method symbol itself, because the base type's implementation might also be
+            // source-generated in the same compilation pass and not yet available in the symbol tree.
+            // Instead, we check if any base type also implements ISlots. If it does, we can infer that the source
+            // generator will have created a virtual `EnumerateOverrides` method for it, which we must then override.
+            for (var baseType = symbol.BaseType; baseType is not null && baseType.SpecialType != SpecialType.System_Object; baseType = baseType.BaseType)
             {
-                var match = baseType.GetMembers("EnumerateOverrides")
-                    .OfType<IMethodSymbol>()
-                    .FirstOrDefault(m =>
-                        !m.IsStatic &&
-                        m.Parameters.Length == 0 &&
-                        (m.IsVirtual || m.IsAbstract || m.IsOverride) &&
-                        SymbolEqualityComparer.Default.Equals(m.ReturnType, ienumTuple));
-
-                if (match is not null)
+                if (baseType.AllInterfaces.Contains(iSlotsSymbol, SymbolEqualityComparer.Default))
+                {
                     return new InheritanceInfo(true);
+                }
             }
 
             return new InheritanceInfo(false);
@@ -353,8 +347,10 @@
             sb.Dedent();
             sb.AppendLine("}");
             sb.AppendLine();
+
+            string getNameModifier = inheritanceInfo.HasConcreteBaseMethod ? "public static new" : "public static";
             sb.AppendLine("/// <inheritdoc/>");
-            sb.AppendLine("public static new string GetName(string propertyName)");
+            sb.AppendLine($"{getNameModifier} string GetName(string propertyName)");
             sb.AppendLine("{");
             sb.Indent();
             sb.AppendLine("return propertyName switch");
