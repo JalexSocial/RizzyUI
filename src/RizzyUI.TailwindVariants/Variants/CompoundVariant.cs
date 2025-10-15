@@ -1,50 +1,64 @@
-﻿using System.Collections;
-using System.Linq.Expressions;
 
-namespace RizzyUI.TailwindVariants;
+    using System;
+    using System.Collections;
+    using System.Linq.Expressions;
 
-/// <summary>
-/// A compound variant: a predicate on owner + slot classes to apply when the predicate matches.
-/// </summary>
-/// <remarks>
-/// Create a compound variant that applies when <paramref name="predicate"/> returns true.
-/// </remarks>
-public class CompoundVariant<TOwner, TSlots>(Predicate<TOwner> predicate) : IEnumerable<KeyValuePair<Expression<SlotAccessor<TSlots>>, ClassValue>>
-    where TSlots : ISlots, new()
-    where TOwner : ISlotted<TSlots>
-{
-    private Dictionary<Expression<SlotAccessor<TSlots>>, ClassValue>? _values;
+    namespace RizzyUI.TailwindVariants;
 
     /// <summary>
-    /// An optional global class to apply when the predicate matches.
+    /// A compound variant that applies classes when a predicate on the owner component returns true.
     /// </summary>
-    public string? Class { get; set; }
-
-    /// <summary>
-    /// The predicate determining when this compound variant applies.
-    /// </summary>
-    internal Predicate<TOwner> Predicate { get; } = predicate ?? throw new ArgumentNullException(nameof(predicate));
-
-    /// <summary>
-    /// Indexer to get or set a slot-specific set of classes.
-    /// </summary>
-    public ClassValue this[Expression<SlotAccessor<TSlots>> key]
+    public class CompoundVariant<TOwner, TSlots> : IEnumerable<KeyValuePair<Expression<SlotAccessor<TSlots>>, ClassValue>>
+        where TSlots : ISlots, new()
+        where TOwner : ISlotted<TSlots>
     {
-        get => _values?[key] ?? throw new InvalidOperationException("Requested slot is not present in compound variant.");
-        set => (_values ??= [])[key] = value;
+        private readonly Predicate<TOwner> _predicate;
+        private readonly SlotCollection<TSlots> _slots = [];
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CompoundVariant{TOwner, TSlots}"/> class.
+        /// </summary>
+        /// <param name="predicate">The predicate to evaluate against the owner component.</param>
+        public CompoundVariant(Predicate<TOwner> predicate)
+        {
+            _predicate = predicate ?? throw new ArgumentNullException(nameof(predicate));
+        }
+
+        /// <summary>
+        /// Gets or sets a global class string to apply to the `Base` slot when the predicate matches.
+        /// </summary>
+        public string? Class
+        {
+            get => _slots[s => s.Base]?.ToString();
+            set => _slots[s => s.Base] = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the class value for a specific slot.
+        /// </summary>
+        public ClassValue this[Expression<SlotAccessor<TSlots>> key]
+        {
+            get => _slots[key] ?? throw new InvalidOperationException("Requested slot is not present in compound variant.");
+            set => _slots[key] = value;
+        }
+
+        /// <summary>
+        /// Adds a class value for a specific slot.
+        /// </summary>
+        public void Add(Expression<SlotAccessor<TSlots>> key, ClassValue value) => _slots.Add(key, value);
+
+        /// <summary>
+        /// Compiles this generic compound variant into a non-generic, optimized version for runtime execution.
+        /// </summary>
+        /// <returns>A compiled, non-generic compound variant record.</returns>
+        public CompiledCompoundVariant Compile()
+        {
+            Predicate<object> predicate = owner => owner is TOwner typedOwner && _predicate(typedOwner);
+            return new CompiledCompoundVariant(predicate, _slots);
+        }
+
+        /// <inheritdoc/>
+        public IEnumerator<KeyValuePair<Expression<SlotAccessor<TSlots>>, ClassValue>> GetEnumerator() => _slots.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
-
-    /// <summary>
-    /// Add per-slot classes for this compound variant.
-    /// </summary>
-    public void Add(Expression<SlotAccessor<TSlots>> key, ClassValue value)
-    {
-        (_values ??= []).Add(key, value);
-    }
-
-    /// <inheritdoc/>
-    public IEnumerator<KeyValuePair<Expression<SlotAccessor<TSlots>>, ClassValue>> GetEnumerator()
-        => (_values ?? []).GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-}

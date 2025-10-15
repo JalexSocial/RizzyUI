@@ -1,165 +1,96 @@
-﻿using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Text;
-using static RizzyUI.TailwindVariants.TvHelpers;
-using Tw = TailwindMerge.TwMerge;
 
-namespace RizzyUI.TailwindVariants;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using static RizzyUI.TailwindVariants.TvHelpers;
+    using Tw = TailwindMerge.TwMerge;
 
-/// <summary>
-/// Core function factory that builds a Tailwind-variants-like function.
-/// </summary>
-public class TwVariants(Tw merge)
-{
+    namespace RizzyUI.TailwindVariants;
+
     /// <summary>
-    /// Creates a slot map containing the final computed CSS class strings for each slot, based on the provided owner and options.
+    /// Core function factory that builds a Tailwind-variants-like function.
     /// </summary>
-    /// <typeparam name="TOwner">The type that owns the slots and variants.</typeparam>
-    /// <typeparam name="TSlots">The type representing the slots, which must implement <see cref="ISlots"/>.</typeparam>
-    /// <param name="owner">The instance providing slot and variant values.</param>
-    /// <param name="definition">The configuration options for base slots, variants, and compound variants.</param>
-    /// <returns>
-    /// A <see cref="SlotsMap{TSlots}"/> mapping slot names to their final computed CSS class strings.
-    /// </returns>
-    /// <remarks>
-    /// The returned function is safe to call multiple times; per-call overrides do not mutate precomputed definitions.
-    /// </remarks>
-    public SlotsMap<TSlots> Invoke<TOwner, TSlots>(TOwner owner, TvDescriptor<TOwner, TSlots> definition)
-        where TSlots : ISlots, new()
-        where TOwner : ISlotted<TSlots>
+    public class TwVariants
     {
-        // 1. Start with base slots
-        var builders = definition.BaseSlots.ToDictionary(
-            kv => kv.Key,
-            kv => new StringBuilder(kv.Value));
+        private readonly Tw _merge;
 
-        // 2. Apply variants
-        builders = ApplyVariants(owner, builders, definition.BaseVariants);
-
-        // 3. Apply compound variants
-        builders = ApplyCompoundVariants(definition, owner, builders);
-
-        // 4. Apply per-instance slot overrides (Classes property)
-        if (owner.Classes is not null)
+        public TwVariants(Tw merge)
         {
-            foreach (var (slot, value) in owner.Classes.EnumerateOverrides())
+            _merge = merge ?? throw new ArgumentNullException(nameof(merge));
+        }
+
+        /// <summary>
+        /// Creates a slot map containing the final computed CSS class strings for each slot, based on the provided owner and descriptor.
+        /// </summary>
+        /// <typeparam name="TOwner">The type that owns the slots and variants.</typeparam>
+        /// <typeparam name="TSlots">The type representing the slots, which must implement <see cref="ISlots"/>.</typeparam>
+        /// <param name="owner">The instance providing slot and variant values.</param>
+        /// <param name="descriptor">The pre-computed configuration descriptor for base slots, variants, and compound variants.</param>
+        /// <returns>A <see cref="SlotsMap{TSlots}"/> mapping slot names to their final computed CSS class strings.</returns>
+        public SlotsMap<TSlots> Invoke<TOwner, TSlots>(TOwner owner, ITvDescriptor descriptor)
+            where TSlots : ISlots, new()
+            where TOwner : ISlotted<TSlots>
+        {
+            var builders = descriptor.CompiledSlots.ToDictionary(
+                kv => kv.Key,
+                kv => new StringBuilder(kv.Value, kv.Value.Length + 64));
+
+            foreach (var compiledVariant in descriptor.CompiledVariants)
             {
-                if (!builders.TryGetValue(slot, out var builder))
+                var selectedValue = compiledVariant.Accessor(owner);
+                if (selectedValue is null) continue;
+
+                if (compiledVariant.Variant.TryGetSlots(selectedValue, out var slots) && slots is not null)
                 {
-                    builder = new StringBuilder();
-                    builders[slot] = builder;
-                }
-                builder.Append(' ');
-                builder.Append(value);
-            }
-        }
-
-        // 5. Build final map
-        return builders.ToDictionary(
-            kv => kv.Key,
-            kv => merge.Merge(kv.Value.ToString()));
-    }
-
-    #region Helpers
-
-    private static void AddSlotClass<TSlots>(
-        Dictionary<string, StringBuilder> builders,
-        Expression<SlotAccessor<TSlots>> accessor,
-        string classes) where TSlots : ISlots, new()
-    {
-        var name = GetSlot(accessor);
-        if (!builders.TryGetValue(name, out var builder))
-        {
-            builder = new StringBuilder();
-            builders[name] = builder;
-        }
-        builder.Append(' ');
-        builder.Append(classes);
-    }
-
-    private static Dictionary<string, StringBuilder> ApplyCompoundVariants<TOwner, TSlots>(
-        TvDescriptor<TOwner, TSlots>? options,
-        TOwner owner,
-        Dictionary<string, StringBuilder> builders)
-        where TSlots : ISlots, new()
-        where TOwner : ISlotted<TSlots>
-    {
-        if (options?.CompoundVariants is null)
-        {
-            return builders;
-        }
-
-        foreach (var cv in options.CompoundVariants)
-        {
-            try
-            {
-                if (!cv.Predicate(owner))
-                {
-                    continue;
-                }
-
-                if (!string.IsNullOrEmpty(cv.Class))
-                {
-                    AddSlotClass<TSlots>(builders, s => s.Base, cv.Class);
-                }
-
-                foreach (var pairs in cv)
-                {
-                    var slot = pairs.Key;
-
-                    if (slot is null)
+                    foreach (var (slotName, classValue) in slots.AsPairs())
                     {
-                        continue;
-                    }
-
-                    AddSlotClass(builders, slot, pairs.Value.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                // keep robust but log for debugging
-                Debug.WriteLine($"Compound variant predicate or processing failed: {ex.Message}");
-            }
-        }
-
-        return builders;
-    }
-
-    private static Dictionary<string, StringBuilder> ApplyVariants<TOwner, TSlots>(
-        TOwner owner,
-        Dictionary<string, StringBuilder> builders,
-        IReadOnlyDictionary<string, CompiledVariant<TOwner, TSlots>> baseVariants)
-        where TSlots : ISlots, new()
-        where TOwner : ISlotted<TSlots>
-    {
-        foreach (var compiled in baseVariants.Values)
-        {
-            try
-            {
-                var selected = compiled.Accessor(owner);
-                if (selected is null) continue;
-
-                if (compiled.Entry.TryGetSlots(selected, out var slots) && slots is not null)
-                {
-                    foreach (var kv in slots)
-                    {
-                        AddSlotClass(builders, kv.Key, kv.Value.ToString());
+                        AddClass(builders, slotName, classValue?.ToString());
                     }
                 }
             }
-            catch (Exception ex)
+
+            foreach (var compiledCv in descriptor.CompiledCompoundVariants)
             {
-                Debug.WriteLine($"Variant evaluation failed for '{compiled.Expr}': {ex.Message}");
+                if (compiledCv.Predicate(owner))
+                {
+                    foreach (var (slotName, classValue) in compiledCv.Slots.AsPairs())
+                    {
+                        AddClass(builders, slotName, classValue?.ToString());
+                    }
+                }
             }
+
+            if (owner.Classes is not null)
+            {
+                foreach (var (slot, value) in owner.Classes.EnumerateOverrides())
+                {
+                    AddClass(builders, slot, value);
+                }
+            }
+            
+            if (!string.IsNullOrEmpty(owner.Class))
+            {
+                AddClass(builders, GetSlot<TSlots>(s => s.Base), owner.Class);
+            }
+
+            return builders.ToDictionary(
+                kv => kv.Key,
+                kv => _merge.Merge(kv.Value.ToString()));
         }
 
-        if (!string.IsNullOrEmpty(owner.Class))
+        private static void AddClass(Dictionary<string, StringBuilder> builders, string slotName, string? classes)
         {
-            AddSlotClass<TSlots>(builders, s => s.Base, owner.Class);
+            classes = classes?.Trim();
+            if (string.IsNullOrEmpty(classes)) return;
+
+            if (!builders.TryGetValue(slotName, out var builder))
+            {
+                builder = new StringBuilder();
+                builders[slotName] = builder;
+            }
+
+            if (builder.Length > 0) builder.Append(' ');
+            builder.Append(classes);
         }
-
-        return builders;
     }
-
-    #endregion Helpers
-}

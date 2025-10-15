@@ -1,15 +1,28 @@
-﻿using System.Diagnostics.CodeAnalysis;
 
-namespace RizzyUI.TailwindVariants;
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq.Expressions;
 
-/// <summary>
-/// Generic variant storage interface used by VariantCollection.
-/// </summary>
-public interface IVariant<TSlots>
-    where TSlots : ISlots, new()
-{
+    namespace RizzyUI.TailwindVariants;
+
     /// <summary>
-    /// Try to get the SlotCollection for the given key.
+    /// A non-generic interface for a variant definition, used for type erasure in compiled collections.
     /// </summary>
-    bool TryGetSlots<TKey>(TKey key, [MaybeNullWhen(false)] out SlotCollection<TSlots> slots);
-}
+    public interface IVariant
+    {
+        /// <summary>
+        /// Attempts to get the slot collection for the specified variant key.
+        /// </summary>
+        /// <param name="key">The key to look up.</param>
+        /// <param name="slots">When this method returns, contains the slot collection associated with the key, if found; otherwise, <c>null</c>.</param>
+        /// <returns><c>true</c> if the slot collection was found; otherwise, <c>false</c>.</returns>
+        bool TryGetSlots(object? key, [MaybeNullWhen(false)] out ISlotCollection slots);
+    }
+
+    /// <summary>
+    /// A generic variant storage interface used by VariantCollection.
+    /// </summary>
+    public interface IVariant<TSlots> : IVariant
+        where TSlots : ISlots, new()
+    {
+    }
