@@ -1,5 +1,6 @@
 
-    using System;
+using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
 
@@ -25,4 +26,15 @@
     public interface IVariant<TSlots> : IVariant
         where TSlots : ISlots, new()
     {
+    }
+
+    /// <summary>
+    /// A non-generic interface for a variant collection, used for type erasure in compiled collections.
+    /// </summary>
+    public interface IVariantCollection
+    {
+        /// <summary>
+        /// Gets the variants as a collection of non-generic lambda expressions and variant definitions.
+        /// </summary>
+        IEnumerable<KeyValuePair<LambdaExpression, IVariant>> GetVariants();
     }

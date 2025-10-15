@@ -1,3 +1,4 @@
+
 using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -6,56 +7,6 @@ using System;
     using static RizzyUI.TailwindVariants.TvHelpers;
 
     namespace RizzyUI.TailwindVariants;
-
-    /// <summary>
-    /// A non-generic interface for a compiled TailwindVariants descriptor, allowing for descriptor inheritance.
-    /// </summary>
-    public interface ITvDescriptor
-    {
-        /// <summary>
-        /// Gets the parent descriptor from which this descriptor inherits configuration.
-        /// </summary>
-        ITvDescriptor? Extends { get; }
-
-        /// <summary>
-        /// Gets the fully compiled, flattened dictionary of slot names to their base class strings.
-        /// This represents the merged result of all `slots` and `base` properties in the inheritance chain.
-        /// </summary>
-        IReadOnlyDictionary<string, string> CompiledSlots { get; }
-
-        /// <summary>
-        /// Gets the fully compiled, flattened list of variants.
-        /// Note: When a child overrides a variant key, the child’s value replaces the parent’s value.
-        /// The enumeration order is stable by first insertion; overriding does not change a variant's position in the evaluation order.
-        /// </summary>
-        IReadOnlyList<CompiledVariant> CompiledVariants { get; }
-
-        /// <summary>
-        /// Gets the fully compiled, flattened list of compound variants.
-        /// These are additive and are evaluated in order from ancestor to child.
-        /// </summary>
-        IReadOnlyList<CompiledCompoundVariant> CompiledCompoundVariants { get; }
-
-        /// <summary>
-        /// Gets the local, non-compiled base class value for this specific descriptor.
-        /// </summary>
-        ClassValue? GetBaseClassValue();
-
-        /// <summary>
-        /// Gets the local, non-compiled slot collection for this specific descriptor.
-        /// </summary>
-        ISlotCollection? GetSlotCollection();
-
-        /// <summary>
-        /// Gets the local, pre-compiled variants for this specific descriptor.
-        /// </summary>
-        IReadOnlyList<CompiledVariant> GetLocalCompiledVariants();
-
-        /// <summary>
-        /// Gets the local, pre-compiled compound variants for this specific descriptor.
-        /// </summary>
-        IReadOnlyList<CompiledCompoundVariant> GetLocalCompiledCompoundVariants();
-    }
 
     /// <summary>
     /// Represents the configuration options for TailwindVariants, including base classes, slots, variants, and compound variants.
@@ -69,7 +20,7 @@ using System;
     {
         private readonly ClassValue? _base;
         private readonly SlotCollection<TSlots>? _slots;
-        private readonly IReadOnlyList<CompiledVariant> _localCompiledVariants;
+        private readonly VariantCollection<TOwner, TSlots>? _variants;
         private readonly IReadOnlyList<CompiledCompoundVariant> _localCompiledCompoundVariants;
 
         /// <summary>
@@ -91,8 +42,8 @@ using System;
             Extends = extends;
             _base = @base;
             _slots = slots;
+            _variants = variants;
 
-            _localCompiledVariants = PreComputeLocalVariants(variants);
             _localCompiledCompoundVariants = compoundVariants?.Select(cv => cv.Compile()).ToList() ?? (IReadOnlyList<CompiledCompoundVariant>)Array.Empty<CompiledCompoundVariant>();
 
             var descriptorChain = new List<ITvDescriptor>();
@@ -107,7 +58,7 @@ using System;
             }
 
             CompiledSlots = PreComputeSlots(descriptorChain);
-            CompiledVariants = PreComputeVariants(descriptorChain);
+            CompiledVariants = PreComputeVariants(descriptorChain, typeof(TOwner));
             CompiledCompoundVariants = PreComputeCompoundVariants(descriptorChain);
         }
 
@@ -155,30 +106,59 @@ using System;
             return finalSlots.ToDictionary(kv => kv.Key, kv => kv.Value.ToString());
         }
 
-        private static IReadOnlyList<CompiledVariant> PreComputeLocalVariants(VariantCollection<TOwner, TSlots>? variants)
-        {
-            if (variants is null) return Array.Empty<CompiledVariant>();
-
-            return variants.Select(kv =>
-            {
-                var (accessor, variant) = (kv.Key, kv.Value);
-                var variantKey = GetVariant(accessor);
-                var compiled = accessor.Compile();
-                Func<object, object?> compiledAccessor = owner => owner is TOwner typedOwner ? compiled(typedOwner) : null;
-                return new CompiledVariant(variantKey, compiledAccessor, variant);
-            }).ToList();
-        }
-
-        private static IReadOnlyList<CompiledVariant> PreComputeVariants(List<ITvDescriptor> descriptorChain)
+        private static IReadOnlyList<CompiledVariant> PreComputeVariants(List<ITvDescriptor> descriptorChain, Type finalOwnerType)
         {
             var finalVariants = new Dictionary<string, CompiledVariant>();
+
             foreach (var descriptor in descriptorChain)
             {
-                foreach (var localVariant in descriptor.GetLocalCompiledVariants())
+                var variantCollection = descriptor.GetVariantCollection();
+                if (variantCollection is null) continue;
+
+                foreach (var (accessorExpression, variant) in variantCollection.GetVariants())
                 {
-                    finalVariants[localVariant.VariantKey] = localVariant;
+                    var memberBody = accessorExpression.Body as MemberExpression;
+                    if (memberBody is null && accessorExpression.Body is UnaryExpression unary && unary.Operand is MemberExpression member)
+                    {
+                        memberBody = member;
+                    }
+
+                    if (memberBody is null)
+                    {
+                        // This should not be possible given the constraints on variant accessors,
+                        // but we'll skip it to be safe.
+                        continue;
+                    }
+
+                    var propertyName = memberBody.Member.Name;
+                    var variantKey = propertyName;
+
+                    var finalOwnerProperty = finalOwnerType.GetProperty(propertyName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+                    if (finalOwnerProperty is null)
+                    {
+                        // The property for this variant does not exist on the final component type.
+                        // This means the variant cannot be applied. If a variant with the same key
+                        // was defined by a previous descriptor, we remove it.
+                        finalVariants.Remove(variantKey);
+                        continue;
+                    }
+
+                    // Build and compile a new accessor expression that is strongly typed to the final owner type.
+                    var ownerParam = Expression.Parameter(typeof(object), "owner");
+                    var body = Expression.Property(
+                        Expression.Convert(ownerParam, finalOwnerType),
+                        finalOwnerProperty
+                    );
+
+                    var convertedBody = Expression.Convert(body, typeof(object));
+                    var lambda = Expression.Lambda<Func<object, object?>>(convertedBody, ownerParam);
+                    var compiledAccessor = lambda.Compile();
+
+                    finalVariants[variantKey] = new CompiledVariant(variantKey, compiledAccessor, variant);
                 }
             }
+
             return finalVariants.Values.ToList();
         }
 
@@ -207,7 +187,7 @@ using System;
         /// <inheritdoc />
         public ISlotCollection? GetSlotCollection() => _slots;
         /// <inheritdoc />
-        public IReadOnlyList<CompiledVariant> GetLocalCompiledVariants() => _localCompiledVariants;
+        public IVariantCollection? GetVariantCollection() => _variants;
         /// <inheritdoc />
         public IReadOnlyList<CompiledCompoundVariant> GetLocalCompiledCompoundVariants() => _localCompiledCompoundVariants;
     }

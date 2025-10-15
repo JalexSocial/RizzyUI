@@ -1,4 +1,7 @@
-﻿using System.Collections;
+
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace RizzyUI.TailwindVariants;
@@ -6,7 +9,7 @@ namespace RizzyUI.TailwindVariants;
 /// <summary>
 /// Collection of variant definitions keyed by an accessor expression.
 /// </summary>
-public class VariantCollection<TOwner, TSlots> : IEnumerable<KeyValuePair<Expression<VariantAccessor<TOwner>>, IVariant<TSlots>>>
+public class VariantCollection<TOwner, TSlots> : IEnumerable<KeyValuePair<Expression<VariantAccessor<TOwner>>, IVariant<TSlots>>>, IVariantCollection
     where TSlots : ISlots, new()
     where TOwner : ISlotted<TSlots>
 {
@@ -35,6 +38,12 @@ public class VariantCollection<TOwner, TSlots> : IEnumerable<KeyValuePair<Expres
     /// </summary>
     /// <returns>An enumerator for the variant collection.</returns>
     public IEnumerator<KeyValuePair<Expression<VariantAccessor<TOwner>>, IVariant<TSlots>>> GetEnumerator() => _variants.GetEnumerator();
+
+    /// <inheritdoc/>
+    public IEnumerable<KeyValuePair<LambdaExpression, IVariant>> GetVariants()
+    {
+        return _variants.Select(kvp => new KeyValuePair<LambdaExpression, IVariant>(kvp.Key, kvp.Value));
+    }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
