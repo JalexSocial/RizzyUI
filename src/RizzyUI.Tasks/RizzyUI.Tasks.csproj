@@ -1,15 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <Project Sdk="Microsoft.NET.Sdk">
-      <PropertyGroup>
+    <PropertyGroup>
+        <!-- Task assembly TFM: netstandard2.0 is broadly compatible with MSBuild 16/17 -->
         <TargetFramework>netstandard2.0</TargetFramework>
+
+        <!-- Build & packaging hygiene -->
         <LangVersion>Latest</LangVersion>
         <Nullable>enable</Nullable>
+        <Deterministic>true</Deterministic>
+        <DebugType>embedded</DebugType>
+
+        <!-- Ensure all transitive package deps are copied next to the task DLL,
+         so they're included in the nupkg under tasks/<tfm>/ -->
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+
+        <!-- We will pack files explicitly; don't put build output under lib/ by default -->
+        <IsPackable>true</IsPackable>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+
+        <!-- Assembly identity -->
         <RootNamespace>RizzyUI.Tasks</RootNamespace>
         <AssemblyName>RizzyUI.Tasks</AssemblyName>
-      </PropertyGroup>
-      <ItemGroup>
-        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.10.4" PrivateAssets="all" ExcludeAssets="Runtime" />
+
+        <!-- NuGet metadata -->
+        <PackageId>RizzyUI.Tasks</PackageId>
+        <Company>Michael Tanczos</Company>
+        <Authors>Michael Tanczos</Authors>
+        <Title>RizzyUI.Tasks - MSBuild tasks for RizzyUI</Title>
+        <Description>MSBuild tasks used by RizzyUI to compute source prefixes and embed static asset configuration.</Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>msbuild;build;razor;blazor;htmx</PackageTags>
+        <Copyright>Michael Tanczos</Copyright>
+        <PackageIcon>rizzy.png</PackageIcon>
+        <PackageProjectUrl>https://github.com/jalexsocial/Rizzy</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/jalexsocial/RizzyUI</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+        <!-- Version: align with your main package or manage independently -->
+        <Version>1.2</Version>
+
+        <!-- Validation -->
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- DO NOT exclude Runtime assets; the task needs these at runtime.
+         Keep PrivateAssets=all so these references don't flow transitively. -->
+        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.14.28" PrivateAssets="all" />
         <PackageReference Include="Microsoft.CodeAnalysis" Version="4.10.0" PrivateAssets="all" />
-      </ItemGroup>
-    </Project>
+    </ItemGroup>
+
+    <!-- Pack ALL build outputs (dll + deps) under tasks/<tfm>/ so <UsingTask>
+       can reference $(MSBuildThisFileDirectory)tasks\<tfm>\RizzyUI.Tasks.dll -->
+    <ItemGroup>
+        <None Include="$(OutputPath)**\*" Pack="true" PackagePath="tasks\$(TargetFramework)\" />
+    </ItemGroup>
+
+
+    <!-- Ship repo assets in the package root -->
+    <ItemGroup>
+        <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+</Project>

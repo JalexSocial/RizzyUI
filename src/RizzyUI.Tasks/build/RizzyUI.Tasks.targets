@@ -1,0 +1,12 @@
+<Project>
+    <!-- Always load the MSBuild task from this package's installed folder -->
+    <PropertyGroup>
+        <_RizzyUITasksAssemblyPath>
+            $(MSBuildThisFileDirectory)tasks\netstandard2.0\RizzyUI.Tasks.dll
+        </_RizzyUITasksAssemblyPath>
+    </PropertyGroup>
+
+    <UsingTask
+        TaskName="RizzyUI.Tasks.ComputeCallerFileNamePrefix"
+        AssemblyFile="$(_RizzyUITasksAssemblyPath)" />
+</Project>

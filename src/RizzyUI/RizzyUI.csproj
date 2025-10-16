@@ -38,15 +38,22 @@
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Blazicons.Ionicons" Version="3.1.22" />
-        <PackageReference Include="Blazicons.Lucide" Version="1.10.28" />
-        <PackageReference Include="Markdig" Version="0.40.0" />
+        <PackageReference Include="Blazicons.Lucide" Version="1.12.33" />
+        <PackageReference Include="Markdig" Version="0.42.0" />
         <PackageReference Include="Rizzy" Version="5.1.8" />
         <PackageReference Include="Blazicons" Version="2.2.39" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.2.26" />
-        <PackageReference Include="Scrutor" Version="6.0.1" />
+        <PackageReference Include="Scrutor" Version="6.1.0" />
         <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
         <PackageReference Include="TailwindVariants.NET" Version="0.2.4" />
+
+        <PackageReference Include="RizzyUI.Tasks" Version="1.2.0">
+            <!-- Only build-related assets flow to consumers -->
+            <IncludeAssets>build;buildTransitive</IncludeAssets>
+            <!-- Prevent runtime/compile/native/content files from flowing -->
+            <ExcludeAssets>runtime; compile; native; contentfiles; analyzers; buildMultitargeting</ExcludeAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
@@ -60,7 +67,6 @@
     </PropertyGroup>
 
     <Target Name="InstallClientPackages" Condition="'$(_RunOnce)' == 'true'" BeforeTargets="DispatchToInnerBuilds" Inputs="$(ClientPackageDir)/rizzyui/package.json;$(ClientPackageDir)/rizzyui/package-lock.json" Outputs="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)">
-
         <Message Text="Ensuring npm packages are installed in $(ClientPackageDir)..." Importance="high" />
         <Exec Command="npm install" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
         <Touch Files="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)" AlwaysCreate="true" />
@@ -97,22 +103,6 @@
         <EmbeddedResource Include="Themes\vercel.json" />
     </ItemGroup>
 
-    <!-- =================================================================== -->
-    <!-- START: CRITICAL FIX FOR MSBUILD TASK FILE LOCKING                    -->
-    <!-- =================================================================== -->
-    <ItemGroup>
-        <!-- Build analyzers & libraries as usual -->
-
-        <!-- Build-order only; never a runtime/transitive ref (prevents locking) -->
-        <ProjectReference Include="..\RizzyUI.Tasks\RizzyUI.Tasks.csproj" ReferenceOutputAssembly="false" PrivateAssets="all" OutputItemType="Content" CopyToOutputDirectory="Never" />
-
-        <!-- Pack the *stable* artifacts that consumers (and you) will load -->
-        <None Include="build\RizzyUI.targets" Pack="true" PackagePath="build\RizzyUI.targets" />
-
-        <None Include="..\RizzyUI.Tasks\bin\$(Configuration)\netstandard2.0\RizzyUI.Tasks.dll" Pack="true" PackagePath="tasks\netstandard2.0\RizzyUI.Tasks.dll" Visible="false" />
-    </ItemGroup>
-    <!-- =================================================================== -->
-    <!-- END: CRITICAL FIX                                                   -->
-    <!-- =================================================================== -->
+    <!-- Ship your own targets (no local DLLs) -->
 
 </Project>

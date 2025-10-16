@@ -15,13 +15,8 @@
     <Folder Include="wwwroot\css\" />
   </ItemGroup>
 
-  <!-- ADD THIS PROPERTY GROUP with the CORRECT path -->
-  <PropertyGroup>
-    <_RizzyUITasksAssemblyPath>$(MSBuildThisFileDirectory)..\RizzyUI.Tasks\bin\$(Configuration)\netstandard2.0\RizzyUI.Tasks.dll</_RizzyUITasksAssemblyPath>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="AspNetStatic" Version="0.26.4" />
+    <PackageReference Include="AspNetStatic" Version="0.26.6" />
     <PackageReference Include="Blazicons.FluentUI" Version="2.19.115" />
     <PackageReference Include="Rizzy" Version="5.1.8" />
     <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.2.26" />
@@ -29,14 +24,11 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.9" />
+    <PackageReference Include="RizzyUI.Tasks" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RizzyUI\RizzyUI.csproj" />
-    <!-- It's generally good practice to keep this ProjectReference for Visual Studio's dependency analysis,
-         even though the RizzyUI.csproj's ProjectReference with ReferenceOutputAssembly="false"
-         is the one that prevents file locking and controls the build order. -->
-    <ProjectReference Include="..\RizzyUI.Tasks\RizzyUI.Tasks.csproj" />
   </ItemGroup>
 
   <Target Name="EnsureNodeModules" BeforeTargets="Build">
@@ -46,8 +38,5 @@
   <Target Name="Tailwind" BeforeTargets="Build">
     <Exec Command="npm run build:css" />
   </Target>
-
-  <!-- Your existing targets import is correct and should be kept at the end -->
-  <Import Project="..\RizzyUI\build\RizzyUI.targets" />
 
 </Project>
