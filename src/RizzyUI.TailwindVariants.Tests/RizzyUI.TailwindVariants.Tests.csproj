@@ -31,9 +31,4 @@
 		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" PrivateAssets="all" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\RizzyUI.TailwindVariants\RizzyUI.TailwindVariants.csproj" />
-		<ProjectReference Include="..\RizzyUI.TailwindVariants.SourceGenerators\RizzyUI.TailwindVariants.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-	</ItemGroup>
-
 </Project>

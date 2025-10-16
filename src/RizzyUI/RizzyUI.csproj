@@ -46,6 +46,7 @@
         <PackageReference Include="Scrutor" Version="6.0.1" />
         <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
+        <PackageReference Include="TailwindVariants.NET" Version="0.2.4" />
     </ItemGroup>
 
     <ItemGroup>
@@ -58,28 +59,19 @@
         <_RunOnce Condition="'$(IsCrossTargetingBuild)' == 'true' or '$(TargetFrameworks)' == ''">true</_RunOnce>
     </PropertyGroup>
 
-    <Target Name="InstallClientPackages"
-            Condition="'$(_RunOnce)' == 'true'"
-            BeforeTargets="DispatchToInnerBuilds"
-            Inputs="$(ClientPackageDir)/rizzyui/package.json;$(ClientPackageDir)/rizzyui/package-lock.json"
-            Outputs="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)">
+    <Target Name="InstallClientPackages" Condition="'$(_RunOnce)' == 'true'" BeforeTargets="DispatchToInnerBuilds" Inputs="$(ClientPackageDir)/rizzyui/package.json;$(ClientPackageDir)/rizzyui/package-lock.json" Outputs="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)">
 
         <Message Text="Ensuring npm packages are installed in $(ClientPackageDir)..." Importance="high" />
         <Exec Command="npm install" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
         <Touch Files="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)" AlwaysCreate="true" />
     </Target>
 
-    <Target Name="BuildClientAssets"
-            Condition="'$(_RunOnce)' == 'true'"
-            DependsOnTargets="InstallClientPackages"
-            BeforeTargets="DispatchToInnerBuilds">
+    <Target Name="BuildClientAssets" Condition="'$(_RunOnce)' == 'true'" DependsOnTargets="InstallClientPackages" BeforeTargets="DispatchToInnerBuilds">
         <Message Text="Building client assets in $(ClientPackageDir)/rizzyui..." Importance="high" />
         <Exec Command="npm run build" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
     </Target>
 
-    <Target Name="LLM"
-            Condition="'$(_RunOnce)' == 'true'"
-            AfterTargets="Build">
+    <Target Name="LLM" Condition="'$(_RunOnce)' == 'true'" AfterTargets="Build">
         <Exec Command="npm run llm" />
     </Target>
 
@@ -110,28 +102,14 @@
     <!-- =================================================================== -->
     <ItemGroup>
         <!-- Build analyzers & libraries as usual -->
-        <ProjectReference Include="..\RizzyUI.TailwindVariants.SourceGenerators\RizzyUI.TailwindVariants.SourceGenerators.csproj"
-                          OutputItemType="Analyzer"
-                          ReferenceOutputAssembly="false" />
-
-        <ProjectReference Include="..\RizzyUI.TailwindVariants\RizzyUI.TailwindVariants.csproj" />
 
         <!-- Build-order only; never a runtime/transitive ref (prevents locking) -->
-        <ProjectReference Include="..\RizzyUI.Tasks\RizzyUI.Tasks.csproj"
-                          ReferenceOutputAssembly="false"
-                          PrivateAssets="all"
-                          OutputItemType="Content"
-                          CopyToOutputDirectory="Never" />
+        <ProjectReference Include="..\RizzyUI.Tasks\RizzyUI.Tasks.csproj" ReferenceOutputAssembly="false" PrivateAssets="all" OutputItemType="Content" CopyToOutputDirectory="Never" />
 
         <!-- Pack the *stable* artifacts that consumers (and you) will load -->
-        <None Include="build\RizzyUI.targets"
-              Pack="true"
-              PackagePath="build\RizzyUI.targets" />
+        <None Include="build\RizzyUI.targets" Pack="true" PackagePath="build\RizzyUI.targets" />
 
-        <None Include="..\RizzyUI.Tasks\bin\$(Configuration)\netstandard2.0\RizzyUI.Tasks.dll"
-              Pack="true"
-              PackagePath="tasks\netstandard2.0\RizzyUI.Tasks.dll"
-              Visible="false" />
+        <None Include="..\RizzyUI.Tasks\bin\$(Configuration)\netstandard2.0\RizzyUI.Tasks.dll" Pack="true" PackagePath="tasks\netstandard2.0\RizzyUI.Tasks.dll" Visible="false" />
     </ItemGroup>
     <!-- =================================================================== -->
     <!-- END: CRITICAL FIX                                                   -->

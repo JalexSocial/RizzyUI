@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.0.11012.119 d18.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36603.0 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RizzyUI", "RizzyUI\RizzyUI.csproj", "{1E0ED398-4752-48B0-9DF4-D105F18EE450}"
 EndProject
@@ -10,12 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RizzyUI.Tests", "RizzyUI.Tests\RizzyUI.Tests.csproj", "{67359486-3939-4D94-B5F5-0C709FA1842A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RizzyUI.Tasks", "RizzyUI.Tasks\RizzyUI.Tasks.csproj", "{51A7441C-674E-02A5-0FCF-5C96C12D0DF6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RizzyUI.TailwindVariants", "RizzyUI.TailwindVariants\RizzyUI.TailwindVariants.csproj", "{2837C7C3-901D-4B6B-8662-2E9693C7968E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RizzyUI.TailwindVariants.SourceGenerators", "RizzyUI.TailwindVariants.SourceGenerators\RizzyUI.TailwindVariants.SourceGenerators.csproj", "{50AEE0D0-43EE-486C-9A2E-3BD38CA38E44}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RizzyUI.TailwindVariants.Tests", "RizzyUI.TailwindVariants.Tests\RizzyUI.TailwindVariants.Tests.csproj", "{1BABC120-D886-46F5-9465-11DC03C88554}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,18 +33,6 @@ Global
 		{51A7441C-674E-02A5-0FCF-5C96C12D0DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51A7441C-674E-02A5-0FCF-5C96C12D0DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51A7441C-674E-02A5-0FCF-5C96C12D0DF6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2837C7C3-901D-4B6B-8662-2E9693C7968E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2837C7C3-901D-4B6B-8662-2E9693C7968E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2837C7C3-901D-4B6B-8662-2E9693C7968E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2837C7C3-901D-4B6B-8662-2E9693C7968E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50AEE0D0-43EE-486C-9A2E-3BD38CA38E44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50AEE0D0-43EE-486C-9A2E-3BD38CA38E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50AEE0D0-43EE-486C-9A2E-3BD38CA38E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50AEE0D0-43EE-486C-9A2E-3BD38CA38E44}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1BABC120-D886-46F5-9465-11DC03C88554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BABC120-D886-46F5-9465-11DC03C88554}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BABC120-D886-46F5-9465-11DC03C88554}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1BABC120-D886-46F5-9465-11DC03C88554}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

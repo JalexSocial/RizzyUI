@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
-using RizzyUI.TailwindVariants;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
