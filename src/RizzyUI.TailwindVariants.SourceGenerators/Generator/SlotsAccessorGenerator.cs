@@ -1,4 +1,5 @@
-using Microsoft.CodeAnalysis;
+
+    using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Text;
@@ -7,6 +8,15 @@ using Microsoft.CodeAnalysis;
 
     namespace RizzyUI.TailwindVariants.SourceGenerators;
 
+    /// <summary>
+    /// An incremental source generator that creates strongly-typed accessors for ISlots implementations.
+    /// It automatically generates:
+    /// 1. An implementation of `EnumerateOverrides` with correct `virtual`/`override` modifiers.
+    /// 2. A static `GetName` method for mapping C# property names to final slot names.
+    /// 3. A `SlotsTypes` enum for compile-time safe access to slots.
+    /// 4. A `SlotNames` helper class with constants for final slot names and enumeration helpers.
+    /// 5. Extension methods (e.g., `GetBase()`, `GetIcon()`) for convenient access to slot values from a SlotsMap.
+    /// </summary>
     [Generator]
     public class SlotsAccessorGenerator : IIncrementalGenerator
     {
@@ -16,24 +26,26 @@ using Microsoft.CodeAnalysis;
 
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            //System.Diagnostics.Debugger.Launch(); 
-
+            // Set up a shared provider for compilation-level symbols that will be used across multiple steps.
+            // We rely on the single public SlotAttribute from the runtime package to avoid type identity splits.
             var sharedStateProvider = context.CompilationProvider.Select((comp, _) =>
             {
                 var iSlotsSymbol = comp.GetTypeByMetadataName(ISlotsInterfaceName);
-                var slotAttributeSymbol = comp.GetTypeByMetadataName(SlotAttributeName);
+                var slotAttributeSymbol = comp.GetTypeByMetadataName(SlotAttributeName); // This may be null if the runtime library is not referenced.
                 return new SharedGeneratorState(iSlotsSymbol, slotAttributeSymbol, comp);
             });
 
+            // Find all partial type declarations with a base list, as these are potential candidates for generation.
             var syntaxProvider = context.SyntaxProvider
                 .CreateSyntaxProvider(
-                    predicate: static (node, _) => node is TypeDeclarationSyntax { Modifiers: var modifiers, BaseList: not null } && 
+                    predicate: static (node, _) => node is TypeDeclarationSyntax { Modifiers: var modifiers, BaseList: not null } &&
                                                    modifiers.Any(SyntaxKind.PartialKeyword),
                     transform: static (ctx, _) => (TypeDeclarationSyntax)ctx.Node
                 );
 
             var combinedProvider = syntaxProvider.Combine(sharedStateProvider);
 
+            // Filter down to only valid semantic targets: ISlots implementations nested within another type.
             var candidates = combinedProvider.Select((tuple, ct) =>
                 {
                     var (typeDeclaration, state) = tuple;
@@ -41,18 +53,34 @@ using Microsoft.CodeAnalysis;
                 })
                 .Where(static s => s is not null);
 
+            // Register the final source output step.
             context.RegisterSourceOutput(candidates, GenerateForSlotsType);
         }
 
+        /// <summary>
+        /// The main generation logic for a valid ISlots implementation.
+        /// </summary>
         private static void GenerateForSlotsType(SourceProductionContext spc, SlotsAccessorToGenerate? gen)
         {
-            if (gen is not SlotsAccessorToGenerate accessor) return;
+            if (gen is not { } accessor) return;
 
+            // Validate that the entire containing type hierarchy (for both the component and the slots class)
+            // is 'partial' and consists of supported kinds (class/struct).
             var validationDiagnostics = ValidateHierarchy(accessor.ComponentSymbol);
             validationDiagnostics.AddRange(ValidateHierarchy(accessor.SlotsSymbol));
             if (validationDiagnostics.Count > 0)
             {
-                foreach(var diagnostic in validationDiagnostics) spc.ReportDiagnostic(diagnostic);
+                foreach (var diagnostic in validationDiagnostics) spc.ReportDiagnostic(diagnostic);
+                return;
+            }
+
+            // Disallow struct Slots: the generator relies on class inheritance (virtual/override), which structs do not support.
+            if (accessor.SlotsSymbol.TypeKind != TypeKind.Class)
+            {
+                spc.ReportDiagnostic(Diagnostic.Create(
+                    DiagnosticHelper.SlotsMustBeClass,
+                    accessor.SlotsSymbol.Locations.FirstOrDefault(),
+                    accessor.SlotsSymbol.Name));
                 return;
             }
 
@@ -62,36 +90,41 @@ using Microsoft.CodeAnalysis;
                 return;
             }
 
-            var inheritanceInfo = accessor.SlotsSymbol.BaseType is null
-                ? new InheritanceInfo(false)
-                : AnalyzeInheritance(accessor.SlotsSymbol, accessor.SharedState.Compilation);
+            // Analyze the inheritance of the Slots class to determine if we need 'virtual' or 'override'.
+            var inheritanceInfo = AnalyzeInheritance(accessor.SlotsSymbol, accessor.SharedState.Compilation);
 
             var sb = new Indenter();
             WritePreamble(sb, accessor.NamespaceName);
             WriteNestedOpenings(sb, accessor.ComponentSymbol);
-            WriteISlotsClass(sb, accessor.SlotsSymbol, accessor.Properties, accessor.Slots, inheritanceInfo);
+            WriteISlotsClass(sb, accessor.SlotsSymbol, accessor.Properties, inheritanceInfo);
             WriteEnum(sb, "SlotsTypes", accessor.Properties);
-            WriteNamesHelper(sb, "SlotNames", "SlotsTypes", accessor.Properties, accessor.Slots);
+            WriteNamesHelper(sb, "SlotNames", "SlotsTypes", accessor.Properties, slotsTypeSimple: accessor.SlotsSymbol.Name);
             WriteNestedClosings(sb, accessor.ComponentSymbol);
             WriteExtensions(sb, accessor.TypeName, accessor.ComponentFullName, accessor.FullName, accessor.Properties);
             WritePragmaClosing(sb);
 
+            // Use a hash of the fully qualified name to ensure a unique filename and avoid path length issues.
             var hintName = $"{accessor.ComponentSymbol.Name}.{SymbolHelper.Hash(accessor.ComponentFullName)}.g.cs";
             spc.AddSource(hintName, SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
+        /// <summary>
+        /// Performs semantic analysis to determine if a syntax node is a valid target for code generation.
+        /// </summary>
+        /// <returns>A data record for generation if valid, otherwise null.</returns>
         private static SlotsAccessorToGenerate? GetSemanticTargetForGeneration(TypeDeclarationSyntax typeDeclaration, SharedGeneratorState state, CancellationToken ct)
         {
-            if (state.ISlotsSymbol is null || state.SlotAttributeSymbol is null) return null;
+            if (state.ISlotsSymbol is null) return null;
 
             var semanticModel = state.Compilation.GetSemanticModel(typeDeclaration.SyntaxTree);
             if (semanticModel.GetDeclaredSymbol(typeDeclaration, ct) is not INamedTypeSymbol symbol) return null;
 
+            // Generation is only triggered for ISlots implementations that are nested within a component class.
             bool implementsISlots = symbol.AllInterfaces.Contains(state.ISlotsSymbol, SymbolEqualityComparer.Default);
             if (!implementsISlots || symbol.ContainingType is null) return null;
 
             var componentType = symbol.ContainingType;
-            var (properties, slotNames) = CollectSlotProperties(symbol, state.SlotAttributeSymbol);
+            var properties = CollectSlotProperties(symbol, state.SlotAttributeSymbol);
 
             return new SlotsAccessorToGenerate(
                 Name: symbol.Name,
@@ -99,7 +132,6 @@ using Microsoft.CodeAnalysis;
                 TypeName: componentType.Name,
                 NamespaceName: symbol.ContainingNamespace?.ToDisplayString() ?? string.Empty,
                 Properties: properties,
-                Slots: slotNames,
                 ComponentFullName: componentType.ToDisplayString(SymbolHelper.FullyQualifiedFormat),
                 SlotsSymbol: symbol,
                 ComponentSymbol: componentType,
@@ -111,20 +143,18 @@ using Microsoft.CodeAnalysis;
 
         #region Helpers
 
+        /// <summary>
+        /// Analyzes the inheritance of an ISlots implementation to determine if it overrides a base method.
+        /// </summary>
+        /// <returns>InheritanceInfo indicating if `EnumerateOverrides` should be an override.</returns>
         private static InheritanceInfo AnalyzeInheritance(INamedTypeSymbol symbol, Compilation compilation)
         {
             var iSlotsSymbol = compilation.GetTypeByMetadataName(ISlotsInterfaceName);
-            if (iSlotsSymbol is null)
-            {
-                // This should not happen if the generator is correctly configured and the ISlots interface is available.
-                return new InheritanceInfo(false);
-            }
+            if (iSlotsSymbol is null) return new InheritanceInfo(false);
 
-            // We need to determine if a base class already has a virtual `EnumerateOverrides` method that we need to override.
-            // We cannot reliably inspect for the method symbol itself, because the base type's implementation might also be
-            // source-generated in the same compilation pass and not yet available in the symbol tree.
-            // Instead, we check if any base type also implements ISlots. If it does, we can infer that the source
-            // generator will have created a virtual `EnumerateOverrides` method for it, which we must then override.
+            // To determine if `EnumerateOverrides` should be `override`, we check if any base type
+            // also implements ISlots. If so, we can infer that the source generator will have created a
+            // virtual `EnumerateOverrides` method on that base type, which we must then override.
             for (var baseType = symbol.BaseType; baseType is not null && baseType.SpecialType != SpecialType.System_Object; baseType = baseType.BaseType)
             {
                 if (baseType.AllInterfaces.Contains(iSlotsSymbol, SymbolEqualityComparer.Default))
@@ -136,58 +166,82 @@ using Microsoft.CodeAnalysis;
             return new InheritanceInfo(false);
         }
 
-        private static (ImmutableArray<string> properties, ImmutableArray<string> slotNames) CollectSlotProperties(INamedTypeSymbol type, INamedTypeSymbol slotAttributeSymbol)
+        /// <summary>
+        /// Collects all public, instance, string properties from the given type and its base types,
+        /// resolving the final slot name for each. If the attribute is absent, property names are used.
+        /// The order is guaranteed to be stable: base class properties first, then derived, with declaration
+        /// order preserved within each type.
+        /// </summary>
+        /// <returns>An equatable array of (PropertyName, SlotName) tuples.</returns>
+        private static EquatableArray<(string, string)> CollectSlotProperties(INamedTypeSymbol type, INamedTypeSymbol? slotAttributeSymbol)
         {
-            var allProperties = new List<IPropertySymbol>();
-            var currentType = type;
-            while (currentType != null && currentType.SpecialType != SpecialType.System_Object)
+            // Build inheritance chain base->derived
+            var chain = new Stack<INamedTypeSymbol>();
+            for (var t = type; t is not null && t.SpecialType != SpecialType.System_Object; t = t.BaseType)
+                chain.Push(t);
+
+            // Use a dictionary to handle overrides: derived properties replace base properties.
+            // The final list will be ordered by the stable chain.
+            var finalProperties = new Dictionary<string, IPropertySymbol>(StringComparer.Ordinal);
+            var order = new List<string>();
+
+            while (chain.Count > 0)
             {
-                allProperties.AddRange(currentType.GetMembers().OfType<IPropertySymbol>()
-                    .Where(p => !p.IsStatic && p.DeclaredAccessibility == Accessibility.Public && p.Type.SpecialType == SpecialType.System_String && p.GetMethod is not null));
-                currentType = currentType.BaseType;
+                var t = chain.Pop();
+                var propsInDeclOrder = t.GetMembers()
+                    .OfType<IPropertySymbol>()
+                    .Where(p =>
+                        !p.IsStatic &&
+                        p.DeclaredAccessibility == Accessibility.Public &&
+                        p.Type.SpecialType == SpecialType.System_String &&
+                        p.GetMethod is not null)
+                    .OrderBy(p => p.DeclaringSyntaxReferences.FirstOrDefault()?.Span.Start ?? int.MaxValue)
+                    .ToList();
+
+                foreach (var p in propsInDeclOrder)
+                {
+                    if (!finalProperties.ContainsKey(p.Name))
+                    {
+                        order.Add(p.Name);
+                    }
+                    finalProperties[p.Name] = p; // Derived overrides base
+                }
             }
 
-            var uniqueProperties = allProperties
-                .GroupBy(p => p.Name)
-                .Select(g => g.First())
-                .OrderBy(p => p.DeclaringSyntaxReferences.FirstOrDefault()?.Span.Start ?? int.MaxValue)
-                .ThenBy(p => p.Name, StringComparer.Ordinal)
-                .ToList();
-
-            var propertyNamesBuilder = ImmutableArray.CreateBuilder<string>(uniqueProperties.Count);
-            var slotNamesBuilder = ImmutableArray.CreateBuilder<string>(uniqueProperties.Count);
-
-            foreach (var p in uniqueProperties)
+            var builder = ImmutableArray.CreateBuilder<(string, string)>(order.Count);
+            foreach (var propertyName in order)
             {
-                propertyNamesBuilder.Add(p.Name);
-                string slotName = p.Name;
+                var p = finalProperties[propertyName];
+                string slotName = propertyName; // Default slot name
 
-                var attr = p.GetAttributes().FirstOrDefault(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, slotAttributeSymbol));
+                // Check for [Slot("...")] attribute to override the slot name.
+                var attr = slotAttributeSymbol is null ? null
+                    : p.GetAttributes().FirstOrDefault(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, slotAttributeSymbol));
+
                 if (attr?.ConstructorArguments.Length > 0 && attr.ConstructorArguments[0].Value is string s && !string.IsNullOrEmpty(s))
                 {
                     slotName = s;
                 }
-                slotNamesBuilder.Add(slotName);
+                builder.Add((propertyName, slotName));
             }
-            return (propertyNamesBuilder.ToImmutable(), slotNamesBuilder.ToImmutable());
-        }
-        
-        private static bool IsSameOrBaseType(INamedTypeSymbol startingType, INamedTypeSymbol typeToFind)
-        {
-            var current = startingType;
-            while (current != null)
-            {
-                if (SymbolEqualityComparer.Default.Equals(current, typeToFind)) return true;
-                current = current.BaseType;
-            }
-            return false;
+            return new EquatableArray<(string, string)>(builder.ToImmutable());
         }
 
+        /// <summary>
+        /// Generates the full text of a type declaration (e.g., "public partial class MyClass<T> where T : new()").
+        /// </summary>
         private static string GetTypeDeclaration(INamedTypeSymbol typeSymbol)
         {
-            var decl = PreferRichestDecl(typeSymbol);
+            // We find the syntax declaration with the most information (modifiers, constraints) to create the most accurate signature.
+            var decl = typeSymbol.DeclaringSyntaxReferences
+                .Select(r => r.GetSyntax())
+                .OfType<TypeDeclarationSyntax>()
+                .OrderByDescending(t => t.Modifiers.Count + t.ConstraintClauses.Count)
+                .FirstOrDefault();
+
             if (decl is null)
             {
+                // Fallback for types without a rich declaration in the current compilation.
                 return typeSymbol.ToDisplayString(SymbolHelper.FullDeclarationFormat).Replace(typeSymbol.Name, "partial " + typeSymbol.Name);
             }
 
@@ -212,35 +266,46 @@ using Microsoft.CodeAnalysis;
             return $"{modsText}{decl.Keyword.Text} {identifier}{typeParams}{constraints}".TrimEnd();
         }
 
-        private static TypeDeclarationSyntax? PreferRichestDecl(INamedTypeSymbol typeSymbol)
-        {
-            return typeSymbol.DeclaringSyntaxReferences
-                .Select(r => r.GetSyntax())
-                .OfType<TypeDeclarationSyntax>()
-                .OrderByDescending(t => t.Modifiers.Count + t.ConstraintClauses.Count)
-                .FirstOrDefault();
-        }
-
-        private static bool IsPartial(INamedTypeSymbol typeSymbol) =>
-            typeSymbol.DeclaringSyntaxReferences.Any(r => r.GetSyntax() is TypeDeclarationSyntax tds && tds.Modifiers.Any(SyntaxKind.PartialKeyword));
-
+        /// <summary>
+        /// Validates that a type and all its containing types are declared as 'partial' and are of a supported kind.
+        /// </summary>
         private static List<Diagnostic> ValidateHierarchy(INamedTypeSymbol typeSymbol)
         {
             var diagnostics = new List<Diagnostic>();
             var current = typeSymbol;
             while (current != null)
             {
-                if (current.TypeKind != TypeKind.Class && current.TypeKind != TypeKind.Struct)
+                bool isPartial = current.DeclaringSyntaxReferences.Any(r => r.GetSyntax() is TypeDeclarationSyntax tds && tds.Modifiers.Any(SyntaxKind.PartialKeyword));
+
+                if (!isPartial)
                 {
-                    diagnostics.Add(Diagnostic.Create(DiagnosticHelper.ContainingTypeMustBeClassOrStruct, current.Locations.FirstOrDefault(), current.Name));
+                    if (current.Equals(typeSymbol, SymbolEqualityComparer.Default))
+                    {
+                        // TVSG002: "{0}" = the type that must be partial
+                        diagnostics.Add(Diagnostic.Create(
+                            DiagnosticHelper.MustBePartial,
+                            current.Locations.FirstOrDefault(),
+                            current.Name));
+                    }
+                    else
+                    {
+                        // TVSG003: "{0}" = containing type, "{1}" = component/slots type
+                        diagnostics.Add(Diagnostic.Create(
+                            DiagnosticHelper.ContainingTypeMustBePartial,
+                            current.Locations.FirstOrDefault(),
+                            current.Name,
+                            typeSymbol.Name));
+                    }
                 }
 
-                if (!IsPartial(current))
+                // Guard against unsupported kind (interfaces, etc.)
+                if (current.TypeKind is not (TypeKind.Class or TypeKind.Struct))
                 {
-                    var diagnosticDescriptor = current.Equals(typeSymbol, SymbolEqualityComparer.Default)
-                        ? DiagnosticHelper.MustBePartial
-                        : DiagnosticHelper.ContainingTypeMustBePartial;
-                    diagnostics.Add(Diagnostic.Create(diagnosticDescriptor, current.Locations.FirstOrDefault(), current.Name, typeSymbol.Name));
+                    diagnostics.Add(Diagnostic.Create(
+                        DiagnosticHelper.ContainingTypeMustBeClassOrStruct,
+                        current.Locations.FirstOrDefault(),
+                        current.Name,
+                        typeSymbol.Name));
                 }
                 current = current.ContainingType;
             }
@@ -251,26 +316,26 @@ using Microsoft.CodeAnalysis;
 
         #region Code Writing
 
-        private static void WriteEnum(Indenter sb, string enumName, ImmutableArray<string> properties)
+        private static void WriteEnum(Indenter sb, string enumName, EquatableArray<(string, string)> properties)
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine("/// Provides a strongly-typed enumeration of all available slots.");
-            sb.AppendLine("/// Note: The order of these members is determined by their order in the source code.");
+            sb.AppendLine("/// Note: The order is stable (base class slots first, then derived, preserving declaration order).");
             sb.AppendLine("/// </summary>");
             sb.AppendLine($"public enum {enumName}");
             sb.AppendLine("{");
             sb.Indent();
-            foreach (var property in properties)
+            foreach (var (propertyName, _) in properties)
             {
-                sb.AppendLine($"/// <summary>The slot corresponding to the <c>{property}</c> property.</summary>");
-                sb.AppendLine($"{SymbolHelper.MakeSafeIdentifier(property)},");
+                sb.AppendLine($"/// <summary>The slot corresponding to the <c>{propertyName}</c> property.</summary>");
+                sb.AppendLine($"{SymbolHelper.MakeSafeIdentifier(propertyName)},");
             }
             sb.Dedent();
             sb.AppendLine("}");
             sb.AppendLine();
         }
 
-        private static void WriteExtensions(Indenter sb, string typeName, string componentFullName, string slotsFullName, ImmutableArray<string> properties)
+        private static void WriteExtensions(Indenter sb, string typeName, string componentFullName, string slotsFullName, EquatableArray<(string, string)> properties)
         {
             var extClassName = SymbolHelper.MakeSafeIdentifier($"{typeName}SlotsExtensions");
             var enumFullName = $"{componentFullName}.SlotsTypes";
@@ -286,27 +351,30 @@ using Microsoft.CodeAnalysis;
             sb.AppendLine();
             sb.AppendMultiline($"/// <summary>Gets the value of the slot identified by the specified <see cref=\"{enumFullName}\"/> key.</summary>");
             sb.AppendLine($"public static string? Get(this {slotsMapName} slots, {enumFullName} key) => slots[{namesClassFullName}.NameOf(key)];");
-            foreach (var property in properties)
+            foreach (var (propertyName, _) in properties)
             {
-                var safe = SymbolHelper.MakeSafeIdentifier(property);
+                var safe = SymbolHelper.MakeSafeIdentifier(propertyName);
                 sb.AppendLine();
-                sb.AppendMultiline($"/// <summary>Gets the value of the <c>{property}</c> slot.</summary>");
+                sb.AppendMultiline($"/// <summary>Gets the value of the <c>{propertyName}</c> slot.</summary>");
                 sb.AppendLine($"public static string? Get{safe}(this {slotsMapName} slots) => slots.Get({enumFullName}.{safe});");
             }
             sb.Dedent();
             sb.AppendLine("}");
         }
 
-        private static void WriteISlotsClass(Indenter sb, INamedTypeSymbol slotsSymbol, ImmutableArray<string> properties, ImmutableArray<string> slots, InheritanceInfo inheritanceInfo)
+        private static void WriteISlotsClass(Indenter sb, INamedTypeSymbol slotsSymbol, EquatableArray<(string, string)> properties, InheritanceInfo inheritanceInfo)
         {
             sb.AppendLine(GetTypeDeclaration(slotsSymbol));
             sb.AppendLine("{");
             sb.Indent();
 
-            string methodModifier = inheritanceInfo.HasConcreteBaseMethod ? "public override" : "public virtual";
+            // Determine the correct modifier for the EnumerateOverrides method.
+            // If the base class implements ISlots, we must override its (virtual) method.
+            // If this is the first in the chain, we make it virtual unless the class is sealed.
+            string methodModifier = inheritanceInfo.HasBaseISlotsImplementation ? "public override" : "public virtual";
             if (slotsSymbol.IsSealed)
             {
-                methodModifier = inheritanceInfo.HasConcreteBaseMethod ? "public override" : "public";
+                methodModifier = inheritanceInfo.HasBaseISlotsImplementation ? "public override" : "public";
             }
 
             sb.AppendLine("/// <inheritdoc/>");
@@ -314,7 +382,8 @@ using Microsoft.CodeAnalysis;
             sb.AppendLine("{");
             sb.Indent();
 
-            if (inheritanceInfo.HasConcreteBaseMethod)
+            // If overriding, chain up to the base implementation first to include its properties.
+            if (inheritanceInfo.HasBaseISlotsImplementation)
             {
                 sb.AppendLine("foreach (var item in base.EnumerateOverrides())");
                 sb.AppendLine("{");
@@ -325,20 +394,27 @@ using Microsoft.CodeAnalysis;
                 sb.AppendLine();
             }
 
+            // Get the set of properties declared *only* on the current type, ensuring they match our collection criteria.
             var declaredProperties = slotsSymbol.GetMembers()
                 .OfType<IPropertySymbol>()
+                .Where(p =>
+                    !p.IsStatic &&
+                    p.DeclaredAccessibility == Accessibility.Public &&
+                    p.Type.SpecialType == SpecialType.System_String &&
+                    p.GetMethod is not null)
                 .Select(p => p.Name)
                 .ToImmutableHashSet();
 
-            foreach (var property in properties)
+            foreach (var (propertyName, _) in properties)
             {
-                if (declaredProperties.Contains(property))
+                // Only yield properties declared on this specific class to avoid duplicating base class properties.
+                if (declaredProperties.Contains(propertyName))
                 {
-                    sb.AppendLine($"var __v_{property} = {property};");
-                    sb.AppendLine($"if (!string.IsNullOrWhiteSpace(__v_{property}))");
+                    sb.AppendLine($"var __v_{propertyName} = {propertyName};");
+                    sb.AppendLine($"if (!string.IsNullOrWhiteSpace(__v_{propertyName}))");
                     sb.AppendLine("{");
                     sb.Indent();
-                    sb.AppendLine($"yield return (GetName(nameof({property})), __v_{property});");
+                    sb.AppendLine($"yield return (GetName(nameof({propertyName})), __v_{propertyName});");
                     sb.Dedent();
                     sb.AppendLine("}");
                 }
@@ -348,7 +424,8 @@ using Microsoft.CodeAnalysis;
             sb.AppendLine("}");
             sb.AppendLine();
 
-            string getNameModifier = inheritanceInfo.HasConcreteBaseMethod ? "public static new" : "public static";
+            // The GetName method is always static. If a base class has one, we hide it with `new`.
+            string getNameModifier = inheritanceInfo.HasBaseISlotsImplementation ? "public static new" : "public static";
             sb.AppendLine("/// <inheritdoc/>");
             sb.AppendLine($"{getNameModifier} string GetName(string propertyName)");
             sb.AppendLine("{");
@@ -356,7 +433,7 @@ using Microsoft.CodeAnalysis;
             sb.AppendLine("return propertyName switch");
             sb.AppendLine("{");
             sb.Indent();
-            foreach (var (property, slot) in properties.Zip(slots, (p, s) => (p, s))) sb.AppendLine($"nameof({property}) => {SymbolHelper.QuoteLiteral(slot)},");
+            foreach (var (propertyName, slotName) in properties) sb.AppendLine($"nameof({propertyName}) => {SymbolHelper.QuoteLiteral(slotName)},");
             sb.AppendLine("_ => propertyName");
             sb.Dedent();
             sb.AppendLine("};");
@@ -367,7 +444,7 @@ using Microsoft.CodeAnalysis;
             sb.AppendLine();
         }
 
-        private static void WriteNamesHelper(Indenter sb, string namesClass, string enumName, ImmutableArray<string> properties, ImmutableArray<string> slots)
+        private static void WriteNamesHelper(Indenter sb, string namesClass, string enumName, EquatableArray<(string, string)> properties, string slotsTypeSimple = "Slots")
         {
             sb.AppendLine("/// <summary>");
             sb.AppendLine("/// Provides compile-time constants and helper methods for slot names.");
@@ -375,30 +452,52 @@ using Microsoft.CodeAnalysis;
             sb.AppendLine($"public static class {namesClass}");
             sb.AppendLine("{");
             sb.Indent();
-            foreach (var (property, slot) in properties.Zip(slots, (p, s) => (p, s)))
+            foreach (var (propertyName, slotName) in properties)
             {
-                sb.AppendLine($"/// <summary>The final slot name for the <c>{property}</c> property: \"{slot}\".</summary>");
-                sb.AppendLine($"public const string {SymbolHelper.MakeSafeIdentifier(property)} = {SymbolHelper.QuoteLiteral(slot)};");
+                sb.AppendLine($"/// <summary>The final slot name for the <c>{propertyName}</c> property: \"{slotName}\".</summary>");
+                sb.AppendLine($"public const string {SymbolHelper.MakeSafeIdentifier(propertyName)} = {SymbolHelper.QuoteLiteral(slotName)};");
                 sb.AppendLine();
             }
+
+            // Property-name array (C# identifiers), in declaration order
             sb.AppendLine("/// <summary>An array of C# property names for all slots, in declaration order.</summary>");
-            sb.AppendLine("private static readonly string[] _names = new[] { " + string.Join(", ", properties.Select(p => $"nameof({p})")) + " };");
+            var propertyNames = string.Join(", ", properties.Select(p => $"nameof({slotsTypeSimple}.{p.Item1})"));
+            sb.AppendLine($"private static readonly string[] _names = new[] {{ {propertyNames} }};");
             sb.AppendLine();
             sb.AppendLine("/// <summary>Gets a read-only list of all C# property names for the slots.</summary>");
             sb.AppendLine("public static global::System.Collections.Generic.IReadOnlyList<string> AllNames => global::System.Array.AsReadOnly(_names);");
             sb.AppendLine();
-            sb.AppendLine("/// <summary>An array of the final slot names, in declaration order.</summary>");
-            sb.AppendLine("private static readonly string[] _slotNames = new[] { " + string.Join(", ", slots.Select(SymbolHelper.QuoteLiteral)) + " };");
+            sb.AppendLine($"/// <summary>Returns the C# property name corresponding to the given <see cref=\"{enumName}\"/> key.</summary>");
+            sb.AppendLine($"public static string NameOf({enumName} key) => _names[(int)key];");
+            sb.AppendLine();
+
+            // Final slot-name array (after [Slot] renames), in the same order
+            var slotNames = string.Join(", ", properties.Select(p => SymbolHelper.QuoteLiteral(p.Item2)));
+            sb.AppendLine("/// <summary>An array of final slot names (after [Slot] mapping), in declaration order.</summary>");
+            sb.AppendLine($"private static readonly string[] _slotNames = new[] {{ {slotNames} }};");
             sb.AppendLine();
             sb.AppendLine("/// <summary>Gets a read-only list of all final slot names.</summary>");
             sb.AppendLine("public static global::System.Collections.Generic.IReadOnlyList<string> AllSlotNames => global::System.Array.AsReadOnly(_slotNames);");
             sb.AppendLine();
-            sb.AppendLine("/// <summary>Gets an enumeration of all (PropertyName, SlotName) pairs.</summary>");
-            sb.AppendLine("/// <remarks>Duplicate slot names may appear if multiple properties share the same [Slot] attribute value.</remarks>");
-            sb.AppendLine("public static global::System.Collections.Generic.IEnumerable<(string PropertyName, string SlotName)> AllPairs => _names.Zip(_slotNames, (p, s) => (p, s));");
-            sb.AppendLine();
-            sb.AppendLine($"/// <summary>Returns the C# property name corresponding to the given <see cref=\"{enumName}\"/> key.</summary>");
-            sb.AppendLine($"public static string NameOf({enumName} key) => _names[(int)key];");
+
+            // Pairs view (property -> slot)
+            sb.AppendLine("/// <summary>Pairs of (C# property name, final slot name), in declaration order.</summary>");
+            sb.AppendLine("public static global::System.Collections.Generic.IEnumerable<(string Property, string Slot)> AllPairs");
+            sb.AppendLine("{");
+            sb.Indent();
+            sb.AppendLine("get");
+            sb.AppendLine("{");
+            sb.Indent();
+            sb.AppendLine("for (int i = 0; i < _names.Length; i++)");
+            sb.AppendLine("{");
+            sb.Indent();
+            sb.AppendLine("yield return (_names[i], _slotNames[i]);");
+            sb.Dedent();
+            sb.AppendLine("}");
+            sb.Dedent();
+            sb.AppendLine("}");
+            sb.Dedent();
+            sb.AppendLine("}");
             sb.Dedent();
             sb.AppendLine("}");
             sb.AppendLine();
@@ -453,7 +552,7 @@ using Microsoft.CodeAnalysis;
 
         #endregion
 
-        private readonly record struct InheritanceInfo(bool HasConcreteBaseMethod);
+        private readonly record struct InheritanceInfo(bool HasBaseISlotsImplementation);
 
         private readonly record struct SharedGeneratorState(INamedTypeSymbol? ISlotsSymbol, INamedTypeSymbol? SlotAttributeSymbol, Compilation Compilation);
 
@@ -462,8 +561,7 @@ using Microsoft.CodeAnalysis;
             string FullName,
             string TypeName,
             string NamespaceName,
-            EquatableArray<string> Properties,
-            EquatableArray<string> Slots,
+            EquatableArray<(string, string)> Properties,
             string ComponentFullName,
             INamedTypeSymbol SlotsSymbol,
             INamedTypeSymbol ComponentSymbol,
