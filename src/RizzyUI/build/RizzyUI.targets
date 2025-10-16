@@ -1,12 +1,15 @@
 
 <Project>
     <PropertyGroup>
-        <_RizzyUITasksAssemblyPath Condition="'$(_RizzyUITasksAssemblyPath)' == ''">$(MSBuildThisFileDirectory)..\tasks\netstandard2.0\RizzyUI.Tasks.dll</_RizzyUITasksAssemblyPath>
+        <!-- Always load the task from the package's stable location -->
+        <_RizzyUITasksAssemblyPath Condition="'$(_RizzyUITasksAssemblyPath)' == ''">
+            $(MSBuildThisFileDirectory)tasks\netstandard2.0\RizzyUI.Tasks.dll
+        </_RizzyUITasksAssemblyPath>
     </PropertyGroup>
 
     <UsingTask
-            TaskName="RizzyUI.Tasks.ComputeCallerFileNamePrefix"
-            AssemblyFile="$(_RizzyUITasksAssemblyPath)" />
+        TaskName="RizzyUI.Tasks.ComputeCallerFileNamePrefix"
+        AssemblyFile="$(_RizzyUITasksAssemblyPath)" />
 
     <Target
             Name="_RizzyUI_ComputeCallerFileNamePrefix"

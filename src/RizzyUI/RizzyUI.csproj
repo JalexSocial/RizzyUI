@@ -53,11 +53,8 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <!-- Define the directory path once -->
         <ClientPackageDir>$(MSBuildProjectDirectory)/../../packages</ClientPackageDir>
-        <!-- Define a stamp file to track installation -->
         <NodeModulesStampFile>/node_modules/.install-stamp</NodeModulesStampFile>
-
         <_RunOnce Condition="'$(IsCrossTargetingBuild)' == 'true' or '$(TargetFrameworks)' == ''">true</_RunOnce>
     </PropertyGroup>
 
@@ -68,20 +65,15 @@
             Outputs="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)">
 
         <Message Text="Ensuring npm packages are installed in $(ClientPackageDir)..." Importance="high" />
-        <!-- WorkingDirectory uses the property defined above -->
         <Exec Command="npm install" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
-        <!-- Create or update the stamp file after install succeeds -->
         <Touch Files="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)" AlwaysCreate="true" />
-
     </Target>
 
     <Target Name="BuildClientAssets"
             Condition="'$(_RunOnce)' == 'true'"
             DependsOnTargets="InstallClientPackages"
             BeforeTargets="DispatchToInnerBuilds">
-        <!-- This target now implicitly depends on InstallClientPackages running first if needed -->
         <Message Text="Building client assets in $(ClientPackageDir)/rizzyui..." Importance="high" />
-
         <Exec Command="npm run build" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
     </Target>
 
@@ -114,26 +106,32 @@
     </ItemGroup>
 
     <!-- =================================================================== -->
-    <!-- START: CRITICAL FIX FOR MSBUILD TASK FILE LOCKING                 -->
+    <!-- START: CRITICAL FIX FOR MSBUILD TASK FILE LOCKING                    -->
     <!-- =================================================================== -->
     <ItemGroup>
-        <!--
-          This ProjectReference ensures that RizzyUI.Tasks is built before RizzyUI.
-          - ReferenceOutputAssembly="false": Tells MSBuild that RizzyUI.dll does NOT have a runtime dependency on RizzyUI.Tasks.dll. This is the key to preventing the file lock.
-          - OutputItemType="Content": Prevents the reference from being treated as a typical assembly reference.
-          - CopyToOutputDirectory="Never": Ensures the tasks DLL is not copied to RizzyUI's output directory during the build.
-        -->
-        <ProjectReference Include="..\RizzyUI.TailwindVariants.SourceGenerators\RizzyUI.TailwindVariants.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
-        <ProjectReference Include="..\RizzyUI.TailwindVariants\RizzyUI.TailwindVariants.csproj" />
-        <ProjectReference Include="..\RizzyUI.Tasks\RizzyUI.Tasks.csproj" ReferenceOutputAssembly="false" OutputItemType="Content" CopyToOutputDirectory="Never" />
+        <!-- Build analyzers & libraries as usual -->
+        <ProjectReference Include="..\RizzyUI.TailwindVariants.SourceGenerators\RizzyUI.TailwindVariants.SourceGenerators.csproj"
+                          OutputItemType="Analyzer"
+                          ReferenceOutputAssembly="false" />
 
-        <!--
-          This 'None' item is for NuGet PACKAGING only. It tells `dotnet pack` to find the
-          tasks DLL from the build output and place it in the correct `tasks/` folder inside the .nupkg.
-          It has no effect on the local build process itself.
-        -->
-        <None Include="..\RizzyUI.Tasks\bin\$(Configuration)\netstandard2.0\RizzyUI.Tasks.dll" Pack="true" PackagePath="tasks\netstandard2.0" Visible="false" />
-        <None Include="build\RizzyUI.targets" Pack="true" PackagePath="build" />
+        <ProjectReference Include="..\RizzyUI.TailwindVariants\RizzyUI.TailwindVariants.csproj" />
+
+        <!-- Build-order only; never a runtime/transitive ref (prevents locking) -->
+        <ProjectReference Include="..\RizzyUI.Tasks\RizzyUI.Tasks.csproj"
+                          ReferenceOutputAssembly="false"
+                          PrivateAssets="all"
+                          OutputItemType="Content"
+                          CopyToOutputDirectory="Never" />
+
+        <!-- Pack the *stable* artifacts that consumers (and you) will load -->
+        <None Include="build\RizzyUI.targets"
+              Pack="true"
+              PackagePath="build\RizzyUI.targets" />
+
+        <None Include="..\RizzyUI.Tasks\bin\$(Configuration)\netstandard2.0\RizzyUI.Tasks.dll"
+              Pack="true"
+              PackagePath="tasks\netstandard2.0\RizzyUI.Tasks.dll"
+              Visible="false" />
     </ItemGroup>
     <!-- =================================================================== -->
     <!-- END: CRITICAL FIX                                                   -->
