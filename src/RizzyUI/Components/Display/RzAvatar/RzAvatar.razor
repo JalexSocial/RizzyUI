@@ -1,5 +1,5 @@
-
 @namespace RizzyUI
+@using TailwindVariants.NET
 @inherits RzComponent<RzAvatar.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
@@ -8,7 +8,7 @@
 	             aria-label="@EffectiveAriaLabel"
 	             @attributes="@AdditionalAttributes"
                  id="@Id"
-                 class="@SlotClasses.GetBase()">
+                 class="@(SlotClasses.GetBase())">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

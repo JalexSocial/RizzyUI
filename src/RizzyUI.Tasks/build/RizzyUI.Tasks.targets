@@ -1,12 +1,12 @@
 <Project>
-    <!-- Always load the MSBuild task from this package's installed folder -->
     <PropertyGroup>
-        <_RizzyUITasksAssemblyPath>
-            $(MSBuildThisFileDirectory)tasks\netstandard2.0\RizzyUI.Tasks.dll
-        </_RizzyUITasksAssemblyPath>
+        <!-- From /build or /buildTransitive, the tasks folder is one level up -->
+        <_RizzyUITasksAssemblyPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\tasks\netstandard2.0\RizzyUI.Tasks.dll'))</_RizzyUITasksAssemblyPath>
     </PropertyGroup>
 
+    <!-- Only register if the file actually exists -->
     <UsingTask
+        Condition="Exists('$(_RizzyUI_TasksAssemblyPath)')"
         TaskName="RizzyUI.Tasks.ComputeCallerFileNamePrefix"
-        AssemblyFile="$(_RizzyUITasksAssemblyPath)" />
+        AssemblyFile="$(_RizzyUI_TasksAssemblyPath)" />
 </Project>

@@ -4,6 +4,9 @@ using System.ComponentModel;
 
 namespace RizzyUI;
 
+/// <summary>
+/// 
+/// </summary>
 [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
 [EditorBrowsable(EditorBrowsableState.Never)]
 public sealed class AssemblyRzAlpineCodeBehindAttribute : Attribute

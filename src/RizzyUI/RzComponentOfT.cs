@@ -24,8 +24,8 @@ public abstract class RzComponent<TSlots> : RzComponent, ISlotted<TSlots>
     /// <summary>
     /// Publicly exposes the computed slot classes for use by child components.
     /// </summary>
-    public SlotsMap<TSlots> SlotClasses => _slots;
-    
+    public SlotsMap<TSlots> SlotClasses { get; } = new();
+
     /// <summary>
     /// Allows for per-instance overrides of slot classes.
     /// </summary>
