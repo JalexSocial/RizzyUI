@@ -9,7 +9,7 @@ namespace RizzyUI;
 /// It handles the boilerplate of injecting services, managing slot maps, and invoking the Tv function.
 /// </summary>
 /// <typeparam name="TSlots">The component-specific class that implements ISlots.</typeparam>
-public abstract class RzComponent<TSlots> : RzComponent, ISlotted<TSlots>
+public abstract class RzComponent<TSlots> : RzComponent, ISlottable<TSlots>
     where TSlots : ISlots, new()
 {
     [Inject]
@@ -24,7 +24,7 @@ public abstract class RzComponent<TSlots> : RzComponent, ISlotted<TSlots>
     /// <summary>
     /// Publicly exposes the computed slot classes for use by child components.
     /// </summary>
-    public SlotsMap<TSlots> SlotClasses { get; } = new();
+    public SlotsMap<TSlots> SlotClasses => _slots;
 
     /// <summary>
     /// Allows for per-instance overrides of slot classes.

@@ -8,7 +8,7 @@ namespace RizzyUI;
 /// It handles the boilerplate of injecting services, managing slot maps, and invoking the Tv function, while also providing the logic for merging attributes onto a child element.
 /// </summary>
 /// <typeparam name="TSlots">The component-specific class that implements ISlots.</typeparam>
-public abstract class RzAsChildComponent<TSlots> : RzAsChildComponent, ISlotted<TSlots>
+public abstract class RzAsChildComponent<TSlots> : RzAsChildComponent, ISlottable<TSlots>
     where TSlots : ISlots, new()
 {
     [Inject]
