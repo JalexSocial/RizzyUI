@@ -1,12 +1,24 @@
 <Project>
     <PropertyGroup>
-        <!-- From /build or /buildTransitive, the tasks folder is one level up -->
-        <_RizzyUITasksAssemblyPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\tasks\netstandard2.0\RizzyUI.Tasks.dll'))</_RizzyUITasksAssemblyPath>
+        <RizzyUI_TasksTFM Condition="'$(RizzyUI_TasksTFM)'==''">netstandard2.0</RizzyUI_TasksTFM>
+        <_RizzyUI_TasksAssemblyPath>
+            $([System.IO.Path]::Combine('$(MSBuildThisFileDirectory)','..','tasks','$(RizzyUI_TasksTFM)','RizzyUI.Tasks.dll'))
+        </_RizzyUI_TasksAssemblyPath>
     </PropertyGroup>
 
-    <!-- Only register if the file actually exists -->
     <UsingTask
-        Condition="Exists('$(_RizzyUI_TasksAssemblyPath)')"
-        TaskName="RizzyUI.Tasks.ComputeCallerFileNamePrefix"
-        AssemblyFile="$(_RizzyUI_TasksAssemblyPath)" />
+            Condition="Exists('$(_RizzyUI_TasksAssemblyPath)')"
+            TaskName="RizzyUI.Tasks.ComputeCallerFileNamePrefix"
+            AssemblyFile="$(_RizzyUI_TasksAssemblyPath)" />
+
+    <!-- Logs once per build, before compilation -->
+    <Target Name="_RizzyUI_LogTaskRegistration"
+            BeforeTargets="CoreCompile"
+            Condition="'$(DesignTimeBuild)' != 'true'">
+        <Message Text="RizzyUI.Tasks probing: $(_RizzyUI_TasksAssemblyPath)" Importance="Low" />
+        <Message Text="RizzyUI.Tasks loaded." Importance="Low"
+                 Condition="Exists('$(_RizzyUI_TasksAssemblyPath)')" />
+        <Warning Text="RizzyUI.Tasks.dll NOT found at $(_RizzyUI_TasksAssemblyPath). Targets using custom tasks may fail (MSB4036)."
+                 Condition="!Exists('$(_RizzyUI_TasksAssemblyPath)')" />
+    </Target>
 </Project>

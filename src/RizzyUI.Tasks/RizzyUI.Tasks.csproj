@@ -1,74 +1,76 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <!-- Task assembly TFM: netstandard2.0 is broadly compatible with MSBuild 16/17 -->
+        <!-- Task DLL -->
         <TargetFramework>netstandard2.0</TargetFramework>
 
-        <!-- Build & packaging hygiene -->
+        <!-- Build hygiene -->
         <LangVersion>Latest</LangVersion>
         <Nullable>enable</Nullable>
         <Deterministic>true</Deterministic>
         <DebugType>embedded</DebugType>
 
-        <!-- Ensure all transitive package deps are copied next to the task DLL,
-         so they're included in the nupkg under tasks/<tfm>/ -->
+        <!-- Copy transitive deps next to the task DLL so we can pack them under tasks/<tfm>/ -->
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 
-        <!-- We will pack files explicitly; don't put build output under lib/ by default -->
+        <!-- We pack explicitly (no lib/) -->
         <IsPackable>true</IsPackable>
         <IncludeBuildOutput>false</IncludeBuildOutput>
 
-        <!-- Assembly identity -->
-        <RootNamespace>RizzyUI.Tasks</RootNamespace>
-        <AssemblyName>RizzyUI.Tasks</AssemblyName>
-
         <!-- NuGet metadata -->
         <PackageId>RizzyUI.Tasks</PackageId>
-        <Company>Michael Tanczos</Company>
-        <Authors>Michael Tanczos</Authors>
+        <Version>1.3.2</Version>
         <Title>RizzyUI.Tasks - MSBuild tasks for RizzyUI</Title>
         <Description>MSBuild tasks used by RizzyUI to compute source prefixes and embed static asset configuration.</Description>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>msbuild;build;razor;blazor;htmx</PackageTags>
-        <Copyright>Michael Tanczos</Copyright>
-        <PackageIcon>rizzy.png</PackageIcon>
+        <Authors>Michael Tanczos</Authors>
+        <Company>Michael Tanczos</Company>
         <PackageProjectUrl>https://github.com/jalexsocial/Rizzy</PackageProjectUrl>
         <RepositoryUrl>https://github.com/jalexsocial/RizzyUI</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>rizzy.png</PackageIcon>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
-        <Version>1.3.1</Version>
-
         <!-- Validation -->
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
+
+        <!-- Optional: suppress “no lib assets” warning when packing a pure build/targets package -->
+        <NoWarn>$(NoWarn);NU5128</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
-        <!-- DO NOT exclude Runtime assets; the task needs these at runtime.
-         Keep PrivateAssets=all so these references don't flow transitively. -->
+        <!-- MSBuild bits -->
         <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.14.28" PrivateAssets="all" />
+        <!-- Often not needed for simple tasks; keep only if your task uses Roslyn APIs -->
         <PackageReference Include="Microsoft.CodeAnalysis" Version="4.10.0" PrivateAssets="all" />
+        <!-- Explicit framework (usually transitively provided by Utilities.Core, but harmless/clear) -->
+        <PackageReference Include="Microsoft.Build.Framework" Version="17.14.28" PrivateAssets="all" />
     </ItemGroup>
 
-    <!-- Pack ALL build outputs (dll + deps) under tasks/<tfm>/ so <UsingTask>
-       can reference $(MSBuildThisFileDirectory)tasks\<tfm>\RizzyUI.Tasks.dll -->
-    <ItemGroup>
-        <None Include="$(OutputPath)**\*" Pack="true" PackagePath="tasks\$(TargetFramework)\" />
-    </ItemGroup>
-
+    <!-- Put targets into both build/ and buildTransitive/ -->
     <ItemGroup>
         <None Include="build\RizzyUI.Tasks.targets" Pack="true" PackagePath="build\RizzyUI.Tasks.targets" />
         <None Include="build\RizzyUI.Tasks.targets" Pack="true" PackagePath="buildTransitive\RizzyUI.Tasks.targets" />
     </ItemGroup>
 
-    <!-- Ship repo assets in the package root -->
+    <!-- Repo assets -->
     <ItemGroup>
         <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
         <None Include="..\..\README.md" Pack="true" PackagePath="\" />
         <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
     </ItemGroup>
+
+    <!-- Ensure task DLL + deps are added AFTER build, so they exist at pack time -->
+    <Target Name="_RizzyUI_AddTaskOutputsToPackage"
+            AfterTargets="Build"
+            BeforeTargets="GenerateNuspec">
+        <ItemGroup>
+            <_TaskOutput Include="$(TargetDir)**\*" />
+            <None Include="@(_TaskOutput)" Pack="true" PackagePath="tasks\$(TargetFramework)\" />
+        </ItemGroup>
+    </Target>
 
 </Project>
