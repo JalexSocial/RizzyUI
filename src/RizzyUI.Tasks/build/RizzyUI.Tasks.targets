@@ -1,24 +1,22 @@
 <Project>
     <PropertyGroup>
         <RizzyUI_TasksTFM Condition="'$(RizzyUI_TasksTFM)'==''">netstandard2.0</RizzyUI_TasksTFM>
-        <_RizzyUI_TasksAssemblyPath>
-            $([System.IO.Path]::Combine('$(MSBuildThisFileDirectory)','..','tasks','$(RizzyUI_TasksTFM)','RizzyUI.Tasks.dll'))
-        </_RizzyUI_TasksAssemblyPath>
+        <!-- Corrected Path Construction -->
+        <_RizzyUI_TasksAssemblyPath>$(MSBuildThisFileDirectory)..\tasks\$(RizzyUI_TasksTFM)\RizzyUI.Tasks.dll</_RizzyUI_TasksAssemblyPath>
     </PropertyGroup>
 
     <UsingTask
-            Condition="Exists('$(_RizzyUI_TasksAssemblyPath)')"
             TaskName="RizzyUI.Tasks.ComputeCallerFileNamePrefix"
             AssemblyFile="$(_RizzyUI_TasksAssemblyPath)" />
 
-    <!-- Logs once per build, before compilation -->
+    <!-- This logging target is very helpful for debugging -->
     <Target Name="_RizzyUI_LogTaskRegistration"
             BeforeTargets="CoreCompile"
             Condition="'$(DesignTimeBuild)' != 'true'">
-        <Message Text="RizzyUI.Tasks probing: $(_RizzyUI_TasksAssemblyPath)" Importance="Low" />
-        <Message Text="RizzyUI.Tasks loaded." Importance="Low"
+        <Message Text="RizzyUI.Tasks probing for assembly at: $(_RizzyUI_TasksAssemblyPath)" Importance="high" />
+        <Message Text="RizzyUI.Tasks assembly found and loaded." Importance="high"
                  Condition="Exists('$(_RizzyUI_TasksAssemblyPath)')" />
-        <Warning Text="RizzyUI.Tasks.dll NOT found at $(_RizzyUI_TasksAssemblyPath). Targets using custom tasks may fail (MSB4036)."
-                 Condition="!Exists('$(_RizzyUI_TasksAssemblyPath)')" />
+        <Error Text="RizzyUI.Tasks.dll NOT found at $(_RizzyUI_TasksAssemblyPath). The task cannot be loaded."
+               Condition="!Exists('$(_RizzyUI_TasksAssemblyPath)')" />
     </Target>
 </Project>
