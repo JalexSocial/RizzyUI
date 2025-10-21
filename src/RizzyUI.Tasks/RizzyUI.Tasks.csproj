@@ -19,7 +19,7 @@
 
         <!-- NuGet metadata -->
         <PackageId>RizzyUI.Tasks</PackageId>
-        <Version>1.3.2</Version>
+        <Version>1.3.3</Version>
         <Title>RizzyUI.Tasks - MSBuild tasks for RizzyUI</Title>
         <Description>MSBuild tasks used by RizzyUI to compute source prefixes and embed static asset configuration.</Description>
         <Authors>Michael Tanczos</Authors>
@@ -63,14 +63,8 @@
         <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
     </ItemGroup>
 
-    <!-- Ensure task DLL + deps are added AFTER build, so they exist at pack time -->
-    <Target Name="_RizzyUI_AddTaskOutputsToPackage"
-            AfterTargets="Build"
-            BeforeTargets="GenerateNuspec">
-        <ItemGroup>
-            <_TaskOutput Include="$(TargetDir)**\*" />
-            <None Include="@(_TaskOutput)" Pack="true" PackagePath="tasks\$(TargetFramework)\" />
-        </ItemGroup>
-    </Target>
+    <ItemGroup>
+        <None Include="$(OutputPath)**\*" Pack="true" PackagePath="tasks\$(TargetFramework)\" />
+    </ItemGroup>
 
 </Project>
