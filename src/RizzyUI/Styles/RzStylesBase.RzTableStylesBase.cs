@@ -1,10 +1,8 @@
+
 using Blazicons;
 
 namespace RizzyUI;
 
-/// <summary>
-/// Serves as the foundational abstract class for defining style structures and behaviors specific to various UI components within the RizzyUI framework.
-/// </summary>
 public abstract partial class RzStylesBase
 {
     #region RzTable Component Family Styles
@@ -50,7 +48,7 @@ public abstract partial class RzStylesBase
     }
 
     /// <summary>
-    /// Defines the abstract structure for styling the <see cref="RzTableHeaderCell{TItem}"/> component.
+    /// Defines the abstract structure for styling the <see cref="TableHeaderCell{TItem}"/> component.
     /// </summary>
     public abstract class RzTableHeaderCellStylesBase
     {
@@ -95,7 +93,7 @@ public abstract partial class RzStylesBase
     }
 
     /// <summary>
-    /// Defines the abstract structure for styling the <see cref="RzTableBody{TItem}"/> component.
+    /// Defines the abstract structure for styling the <see cref="TableBody{TItem}"/> component.
     /// </summary>
     public abstract class RzTableBodyStylesBase
     {
@@ -124,7 +122,7 @@ public abstract partial class RzStylesBase
     }
 
     /// <summary>
-    /// Defines the abstract structure for styling the <see cref="RzTableCell{TItem}"/> component.
+    /// Defines the abstract structure for styling the <see cref="TableCell{TItem}"/> component.
     /// </summary>
     public abstract class RzTableCellStylesBase
     {
@@ -150,7 +148,7 @@ public abstract partial class RzStylesBase
     }
 
     /// <summary>
-    /// Defines the abstract structure for styling the <see cref="RzPagination{TItem}"/> component.
+    /// Defines the abstract structure for styling the <see cref="TablePagination{TItem}"/> component.
     /// </summary>
     public abstract class RzPaginationStylesBase
     {

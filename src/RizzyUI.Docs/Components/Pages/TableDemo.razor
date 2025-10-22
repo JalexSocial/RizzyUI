@@ -41,25 +41,25 @@
          hx-boost="true"> 
 
     <Header>
-        <RzTableRow>
-            <RzTableHeaderCell For="p => p.Id" Sortable="true">ID</RzTableHeaderCell>
-            <RzTableHeaderCell For="p => p.Name" Sortable="true">Product Name</RzTableHeaderCell>
-            <RzTableHeaderCell For="p => p.Category" Sortable="true">Category</RzTableHeaderCell>
-            <RzTableHeaderCell For="p => p.Price" Sortable="true" InitialSortDirection="SortDirection.Descending">Price</RzTableHeaderCell>
-            <RzTableHeaderCell For="p => p.StockQuantity">Stock</RzTableHeaderCell>
-            <RzTableHeaderCell ColumnKey="actions">Actions</RzTableHeaderCell>
-        </RzTableRow>
+        <TableRow>
+            <TableHeaderCell For="p => p.Id" Sortable="true">ID</TableHeaderCell>
+            <TableHeaderCell For="p => p.Name" Sortable="true">Product Name</TableHeaderCell>
+            <TableHeaderCell For="p => p.Category" Sortable="true">Category</TableHeaderCell>
+            <TableHeaderCell For="p => p.Price" Sortable="true" InitialSortDirection="SortDirection.Descending">Price</TableHeaderCell>
+            <TableHeaderCell For="p => p.StockQuantity">Stock</TableHeaderCell>
+            <TableHeaderCell ColumnKey="actions">Actions</TableHeaderCell>
+        </TableRow>
     </Header>
 
     <Body>
-        <RzTableBody Id="@TableBodyId">
+        <TableBody Id="@TableBodyId">
             <RowTemplate Context="product">
-                <RzTableRow>
-                    <RzTableCell>@product.Id</RzTableCell>
-                    <RzTableCell>@product.Name</RzTableCell>
-                    <RzTableCell>@product.Category</RzTableCell>
-                    <RzTableCell>@product.Price.ToString("C")</RzTableCell>
-                    <RzTableCell>
+                <TableRow>
+                    <TableCell>@product.Id</TableCell>
+                    <TableCell>@product.Name</TableCell>
+                    <TableCell>@product.Category</TableCell>
+                    <TableCell>@product.Price.ToString("C")</TableCell>
+                    <TableCell>
                         @if (product.StockQuantity > 0)
                         {
                             <RzBadge Color="SemanticColor.Success" Soft="true" class="px-2 py-1">@product.StockQuantity</RzBadge>
@@ -68,8 +68,8 @@
                         {
                             <RzBadge Color="SemanticColor.Destructive" Soft="true" class="px-2 py-1">Out of Stock</RzBadge>
                         }
-                    </RzTableCell>
-                    <RzTableCell ColumnKey="actions">
+                    </TableCell>
+                    <TableCell ColumnKey="actions">
                         <RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small"
                                   hx-get="@($"/products/view-details/{product.Id}")"
                                   hx-target="#detail-modal-content"
@@ -84,8 +84,8 @@
                                   class="ml-2">
                             Delete
                         </RzButton>
-                    </RzTableCell>
-                </RzTableRow>
+                    </TableCell>
+                </TableRow>
             </RowTemplate>
             <EmptyTemplate>
                 <div class="text-center py-10">
@@ -98,12 +98,12 @@
                     </p>
                 </div>
             </EmptyTemplate>
-        </RzTableBody>
+        </TableBody>
     </Body>
 
     <Footer Context="table">
-        <RzTableRow>
-            <RzTableCell Colspan="@table.ColumnCount">
+        <TableRow>
+            <TableCell Colspan="@table.ColumnCount">
                 <div class="flex flex-col sm:flex-row justify-between items-center p-3 gap-3">
                     <div class="text-sm text-muted-foreground">
                         @if (CurrentPagingState.TotalItems > 0)
@@ -118,10 +118,10 @@
                             <span>No entries found</span>
                         }
                     </div>
-                    <RzPagination MaxVisiblePageLinks="5"/>
+                    <TablePagination MaxVisiblePageLinks="5"/>
                 </div>
-            </RzTableCell>
-        </RzTableRow>
+            </TableCell>
+        </TableRow>
     </Footer>
 </RzTable>
 

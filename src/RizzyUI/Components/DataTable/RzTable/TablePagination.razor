@@ -1,17 +1,17 @@
 
 @namespace RizzyUI
 @typeparam TItem
-@inherits RzComponent
+@inherits RzComponent<TablePaginationSlots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()" aria-label="@NavigationAriaLabel">
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" aria-label="@NavigationAriaLabel">
     @if (EffectivePaginationState.TotalPages > 1) 
     {
-        <ul class="@Theme.RzPagination.List">
+        <ul class="@SlotClasses.GetList()">
             <li>
                 @if (CanGoPrevious)
                 {
                     <button type="button"
-                            class="@Theme.RzPagination.Link"
+                            class="@SlotClasses.GetLink()"
                             aria-label="@PreviousButtonLabel"
                             @attributes="GetPageLinkHxAttributes(EffectivePaginationState.CurrentPage - 1)">
                         @PreviousButtonLabel
@@ -19,7 +19,7 @@
                 }
                 else
                 {
-                    <span class="@Theme.RzPagination.LinkDisabled" aria-disabled="true">
+                    <span class="@SlotClasses.GetLinkDisabled()" aria-disabled="true">
                         @PreviousButtonLabel
                     </span>
                 }
@@ -30,12 +30,12 @@
                 <li>
                     @if (link.IsEllipsis)
                     {
-                        <span class="@Theme.RzPagination.Ellipsis">@link.Text</span>
+                        <span class="@SlotClasses.GetEllipsis()">@link.Text</span>
                     }
                     else
                     {
                         <button type="button"
-                                class="@(link.IsCurrent ? Theme.RzPagination.LinkCurrent : Theme.RzPagination.Link)"
+                                class="@(link.IsCurrent ? SlotClasses.GetLinkCurrent() : SlotClasses.GetLink())"
                                 aria-current="@(link.IsCurrent ? "page" : null)"
                                 aria-label="@($"Go to page {link.PageNumber}")"
                                 disabled="@link.IsCurrent" 
@@ -50,7 +50,7 @@
                 @if (CanGoNext)
                 {
                     <button type="button"
-                            class="@Theme.RzPagination.Link"
+                            class="@SlotClasses.GetLink()"
                             aria-label="@NextButtonLabel"
                             @attributes="GetPageLinkHxAttributes(EffectivePaginationState.CurrentPage + 1)">
                         @NextButtonLabel
@@ -58,7 +58,7 @@
                 }
                 else
                 {
-                    <span class="@Theme.RzPagination.LinkDisabled" aria-disabled="true">
+                    <span class="@SlotClasses.GetLinkDisabled()" aria-disabled="true">
                         @NextButtonLabel
                     </span>
                 }

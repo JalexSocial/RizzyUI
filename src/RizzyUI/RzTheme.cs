@@ -174,12 +174,19 @@ public partial class RzTheme
         SidebarSeparator = RizzyUI.SidebarSeparator.DefaultDescriptor;
         SidebarTrigger = RizzyUI.SidebarTrigger.DefaultDescriptor;
     
+        RzDarkModeToggle = RizzyUI.RzDarkModeToggle.DefaultDescriptor;
+        RzTable = RizzyUI.RzTableStyles.DefaultDescriptor;
+        TableBody = RizzyUI.TableBodyStyles.DefaultDescriptor;
+        TableCell = RizzyUI.TableCellStyles.DefaultDescriptor;
+        TableHeaderCell = RizzyUI.TableHeaderCellStyles.DefaultDescriptor;
+        TableRow = RizzyUI.TableRowStyles.DefaultDescriptor;
+        TablePagination = RizzyUI.TablePaginationStyles.DefaultDescriptor;
+        
         // Unmigrated Components
         RzButtonGroup = new DefaultRzButtonGroupStyles(this);
         RzCheckboxGroup = new DefaultRzCheckboxGroupStyles(this);
         RzCheckboxGroupField = new DefaultRzCheckboxGroupFieldStyles(this);
         RzCheckboxGroupItem = new DefaultRzCheckboxGroupItemStyles(this);
-        RzDarkmodeToggle = new DefaultRzDarkmodeToggleStyles(this);
         RzDateEdit = new DefaultRzDateEditStyles(this);
         RzField = new DefaultRzFieldStyles(this);
         RzFieldHelp = new DefaultRzFieldHelpStyles(this);
@@ -190,12 +197,6 @@ public partial class RzTheme
         RzRadioGroup = new DefaultRzRadioGroupStyles(this);
         RzRadioGroupField = new DefaultRzRadioGroupFieldStyles(this);
         RzRadioGroupItem = new DefaultRzRadioGroupItemStyles(this);
-        RzTable = new DefaultRzTableStyles(this);
-        RzTableHeaderCell = new DefaultRzTableHeaderCellStyles(this);
-        RzTableBody = new DefaultRzTableBodyStyles(this);
-        RzTableRow = new DefaultRzTableRowStyles(this);
-        RzTableCell = new DefaultRzTableCellStyles(this);
-        RzPagination = new DefaultRzPaginationStyles(this);
         RzTabs = new DefaultRzTabsStyles(this);
         RzTab = new DefaultRzTabStyles(this);
         RzTabPanel = new DefaultRzTabPanelStyles(this);

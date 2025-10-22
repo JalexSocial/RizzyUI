@@ -169,13 +169,20 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<SidebarRail.Slots>, SidebarRail.Slots> SidebarRail { get; set; }
     public virtual TvDescriptor<RzComponent<SidebarSeparator.Slots>, SidebarSeparator.Slots> SidebarSeparator { get; set; }
     public virtual TvDescriptor<RzComponent<SidebarTrigger.Slots>, SidebarTrigger.Slots> SidebarTrigger { get; set; }
-
+    
+    public virtual TvDescriptor<RzComponent<RzDarkModeToggle.Slots>, RzDarkModeToggle.Slots> RzDarkModeToggle { get; set; }
+    public virtual TvDescriptor<RzComponent<RzTableSlots>, RzTableSlots> RzTable { get; set; }
+    public virtual TvDescriptor<RzComponent<TableBodySlots>, TableBodySlots> TableBody { get; set; }
+    public virtual TvDescriptor<RzComponent<TableCellSlots>, TableCellSlots> TableCell { get; set; }
+    public virtual TvDescriptor<RzComponent<TableHeaderCellSlots>, TableHeaderCellSlots> TableHeaderCell { get; set; }
+    public virtual TvDescriptor<RzComponent<TableRowSlots>, TableRowSlots> TableRow { get; set; }
+    public virtual TvDescriptor<RzComponent<TablePaginationSlots>, TablePaginationSlots> TablePagination { get; set; }
+    
     // --- Unmigrated Components (Legacy RzStylesBase) ---
     public virtual RzStylesBase.RzButtonGroupStylesBase RzButtonGroup { get; }
     public virtual RzStylesBase.RzCheckboxGroupStylesBase RzCheckboxGroup { get; }
     public virtual RzStylesBase.RzCheckboxGroupFieldStylesBase RzCheckboxGroupField { get; }
     public virtual RzStylesBase.RzCheckboxGroupItemStylesBase RzCheckboxGroupItem { get; }
-    public virtual RzStylesBase.RzDarkmodeToggleStylesBase RzDarkmodeToggle { get; }
     public virtual RzStylesBase.RzDateEditStylesBase RzDateEdit { get; }
     public virtual RzStylesBase.RzFieldStylesBase RzField { get; }
     public virtual RzStylesBase.RzFieldHelpStylesBase RzFieldHelp { get; }
@@ -186,12 +193,6 @@ public partial class RzTheme
     public virtual RzStylesBase.RzRadioGroupStylesBase RzRadioGroup { get; }
     public virtual RzStylesBase.RzRadioGroupFieldStylesBase RzRadioGroupField { get; }
     public virtual RzStylesBase.RzRadioGroupItemStylesBase RzRadioGroupItem { get; }
-    public virtual RzStylesBase.RzTableStylesBase RzTable { get; }
-    public virtual RzStylesBase.RzTableHeaderCellStylesBase RzTableHeaderCell { get; }
-    public virtual RzStylesBase.RzTableBodyStylesBase RzTableBody { get; }
-    public virtual RzStylesBase.RzTableRowStylesBase RzTableRow { get; }
-    public virtual RzStylesBase.RzTableCellStylesBase RzTableCell { get; }
-    public virtual RzStylesBase.RzPaginationStylesBase RzPagination { get; }
     public virtual RzStylesBase.RzTabsStylesBase RzTabs { get; }
     public virtual RzStylesBase.RzTabStylesBase RzTab { get; }
     public virtual RzStylesBase.RzTabPanelStylesBase RzTabPanel { get; }

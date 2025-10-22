@@ -3,15 +3,31 @@ using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using RizzyUI.Extensions;
 using System.Linq.Expressions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
-/// Represents a header cell (&lt;th&gt;) in an RzTable.
-/// It can define a column, enable sorting via HTMX, display sort direction indicators,
-/// include ARIA attributes for accessibility, and conditionally render a border.
+/// Interface defining properties required for table header cell styling
 /// </summary>
-public partial class RzTableHeaderCell<TItem> : RzComponent
+public interface IHasTableHeaderCellStylingProperties
+{
+    /// <summary>
+    /// Gets whether the column is sortable
+    /// </summary>
+    public bool Sortable { get; }
+
+    /// <summary>
+    /// Gets the current sort direction of the column
+    /// </summary>
+    public SortDirection CurrentSortDirection { get; }
+}
+
+/// <summary>
+/// A component representing a header cell in a data table
+/// </summary>
+/// <typeparam name="TItem">The type of data item in the table</typeparam>
+public partial class TableHeaderCell<TItem> : RzComponent<TableHeaderCellSlots>, IHasTableHeaderCellStylingProperties
 {
     private string? _columnKeyInternal;
     private string? _effectiveHxGetUrl;
@@ -21,90 +37,79 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
     private string _sortButtonAriaLabel = string.Empty;
 
     /// <summary>
-    /// Cascaded parent RzTable instance.
+    /// Gets or sets the parent RzTable component that contains this header cell
     /// </summary>
     [CascadingParameter(Name = "ParentRzTable")]
     protected RzTable<TItem>? ParentRzTable { get; set; }
 
     /// <summary>
-    /// An expression that identifies the property of TItem this header cell is associated with.
-    /// Used to determine the column key for sorting if `ColumnKey` is not explicitly set.
-    /// For nested properties (e.g., `p => p.Category.Name`), provide the full path via the `ColumnKey` parameter
-    /// as automatic inference only supports direct members.
+    /// Gets or sets the expression used to bind the column to a property of TItem
     /// </summary>
     [Parameter] public Expression<Func<TItem, object?>>? For { get; set; }
 
     /// <summary>
-    /// Explicitly sets the key for this column (e.g., "Name", "Category.Name").
-    /// If not provided, it's inferred from the `For` expression (for direct members only).
-    /// This key is used in `TableRequestModel.SortBy`.
+    /// Gets or sets the unique key for the column
     /// </summary>
     [Parameter] public string? ColumnKey { get; set; }
 
     /// <summary>
-    /// If true, this column header will be interactive for sorting. Defaults to false.
+    /// Gets or sets whether the column can be sorted
     /// </summary>
     [Parameter] public bool Sortable { get; set; }
 
     /// <summary>
-    /// The initial sort direction for this column if it's the primary sort column on first load.
-    /// This is primarily for visual indication; actual sorting is driven by `ParentRzTable.CurrentTableRequest`.
+    /// Gets or sets the initial sort direction for the column
     /// </summary>
     [Parameter] public SortDirection InitialSortDirection { get; set; } = SortDirection.Unset;
 
     /// <summary>
-    /// The content to be rendered inside the header cell (e.g., column title).
+    /// Gets or sets the content to be displayed in the header cell
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment ChildContent { get; set; } = default!;
 
     /// <summary>
-    /// Optional dictionary of HTMX attributes to apply to the sortable button.
-    /// These will merge with or override the component's default HTMX attributes.
+    /// Gets or sets additional HTMX attributes for the header cell
     /// </summary>
     [Parameter] public Dictionary<string, object>? HxAttributes { get; set; }
 
     /// <summary>
-    /// Gets the effective column key, derived from `ColumnKey` or the `For` expression.
+    /// Gets the effective column key used for identification
     /// </summary>
     public string EffectiveColumnKey => _columnKeyInternal ?? "unknown_column";
 
     /// <summary>
-    /// Gets the current sort direction for this column.
-    /// This is determined based on the parent table's CurrentTableRequest.
+    /// Gets the current sort direction of the column
     /// </summary>
-    protected SortDirection CurrentSortDirection => _currentSortDirection;
+    public SortDirection CurrentSortDirection => _currentSortDirection;
 
     /// <summary>
-    /// Gets the next sort direction that would be applied when clicking the header.
-    /// The sequence typically cycles: Unset -> Ascending -> Descending -> Unset.
+    /// Gets the next sort direction that will be applied when the header is clicked
     /// </summary>
     protected SortDirection NextSortDirection => _nextSortDirection;
 
     /// <summary>
-    /// Gets the value for the aria-sort attribute, which helps screen readers announce the current sort state.
-    /// Values can be "none", "ascending", or "descending".
+    /// Gets the ARIA sort value for accessibility
     /// </summary>
     protected string AriaSortValue => _ariaSortValue;
 
     /// <summary>
-    /// Gets the aria-label for the sort button, which provides accessible description of the column and its current sort state.
+    /// Gets the ARIA label for the sort button
     /// </summary>
     protected string SortButtonAriaLabel => _sortButtonAriaLabel;
 
     /// <summary>
-    /// Gets the CSS class string for the sort direction indicator icon.
-    /// The styling changes based on current sort direction to provide visual cues.
+    /// Gets the appropriate sort indicator icon based on the current sort direction
     /// </summary>
-    protected string SortIndicatorClass => Theme.RzTableHeaderCell.GetSortIndicatorCss(_currentSortDirection);
+    protected SvgIcon? SortIndicatorIcon => _currentSortDirection switch
+    {
+        SortDirection.Ascending => MdiIcon.ArrowUp,
+        SortDirection.Descending => MdiIcon.ArrowDown,
+        SortDirection.Unset => MdiIcon.ArrowUpDownBoldOutline,
+        _ => null
+    };
 
     /// <summary>
-    /// Gets the appropriate icon to display based on the current sort direction.
-    /// Returns different icons for ascending, descending, and unsorted states.
-    /// </summary>
-    protected SvgIcon? SortIndicatorIcon => Theme.RzTableHeaderCell.GetSortIndicatorIcon(_currentSortDirection);
-
-    /// <summary>
-    /// Called when the component is initialized.
+    /// Initializes the component and validates its parent context
     /// </summary>
     protected override void OnInitialized()
     {
@@ -124,7 +129,7 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
     }
 
     /// <summary>
-    /// Called when component parameters are set.
+    /// Updates the component when parameters are set
     /// </summary>
     protected override void OnParametersSet()
     {
@@ -132,9 +137,6 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
         UpdateSortStateAndHxUrl();
     }
 
-    /// <summary>
-    /// Resolves the column key and registers the column definition with the parent table.
-    /// </summary>
     private void ResolveColumnKeyAndRegister()
     {
         string resolvedKey;
@@ -169,9 +171,6 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
         ));
     }
 
-    /// <summary>
-    /// Updates the sort state and the HTMX URL for sorting.
-    /// </summary>
     private void UpdateSortStateAndHxUrl()
     {
         if (ParentRzTable == null) return;
@@ -181,7 +180,6 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
         _nextSortDirection = Sortable ? (InitialSortDirection != SortDirection.Unset ? InitialSortDirection : SortDirection.Ascending) : SortDirection.Unset;
         _ariaSortValue = "none";
         _sortButtonAriaLabel = string.Format(Localizer["RzTable.SortButtonAriaLabelFormat"], ChildContent.AsMarkupString(), Localizer["RzTable.SortDirectionNone"]);
-
 
         if (Sortable && !string.IsNullOrWhiteSpace(_columnKeyInternal))
         {
@@ -234,9 +232,9 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
     }
 
     /// <summary>
-    /// Gets the effective HTMX attributes for the sortable button.
+    /// Gets the effective HTMX attributes for the header cell, including sorting functionality
     /// </summary>
-    /// <returns>A dictionary of HTMX attributes.</returns>
+    /// <returns>A dictionary containing the HTMX attributes</returns>
     protected Dictionary<string, object> GetEffectiveHxAttributes()
     {
         var defaultAttributes = new Dictionary<string, object>();
@@ -262,23 +260,8 @@ public partial class RzTableHeaderCell<TItem> : RzComponent
     }
 
     /// <summary>
-    /// Returns the CSS class for the root element of the header cell.
+    /// Gets the theme descriptor for the table header cell
     /// </summary>
-    /// <returns>The merged CSS class string.</returns>
-    protected override string? RootClass()
-    {
-        var styles = Theme.RzTableHeaderCell;
-        var classBuilder = new List<string> { styles.HeaderCellBase };
-
-        if (Sortable)
-        {
-            classBuilder.Add(styles.SortableHeaderCell);
-        }
-        if (ParentRzTable is { Border: true })
-        {
-            classBuilder.Add(styles.HeaderCellBordered);
-        }
-        return TwMerge.Merge(AdditionalAttributes, classBuilder.ToArray());
-    }
+    /// <returns>The theme descriptor for styling the component</returns>
+    protected override TvDescriptor<RzComponent<TableHeaderCellSlots>, TableHeaderCellSlots> GetDescriptor() => Theme.TableHeaderCell;
 }
-

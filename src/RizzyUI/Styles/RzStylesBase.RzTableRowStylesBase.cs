@@ -1,14 +1,10 @@
-﻿namespace RizzyUI;
 
-/// <summary>
-///     Abstract base class defining the structure for component style definitions.
-///     Concrete themes (<see cref="RzTheme" />) will provide instances derived from these nested abstract classes,
-///     allowing for customizable component styling across the application.
-/// </summary>
+namespace RizzyUI;
+
 public abstract partial class RzStylesBase
 {
     /// <summary>
-    /// Defines the abstract structure for styling the <see cref="RzTableRow{TItem}"/> component.
+    /// Defines the abstract structure for styling the <see cref="TableRow{TItem}"/> component.
     /// </summary>
     public abstract class RzTableRowStylesBase
     {
