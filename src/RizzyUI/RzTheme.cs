@@ -1,3 +1,4 @@
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 namespace RizzyUI;
@@ -174,6 +175,29 @@ public partial class RzTheme
         SidebarSeparator = RizzyUI.SidebarSeparator.DefaultDescriptor;
         SidebarTrigger = RizzyUI.SidebarTrigger.DefaultDescriptor;
     
+        // Newly Migrated Components
+        RzButtonGroup = RizzyUI.RzButtonGroup.DefaultDescriptor;
+        RzCheckboxGroup = RizzyUI.RzCheckboxGroupStyles.DefaultDescriptor;
+        RzCheckboxGroupField = RizzyUI.RzCheckboxGroupFieldStyles.DefaultDescriptor;
+        RzCheckboxGroupItem = RizzyUI.RzCheckboxGroupItemStyles.DefaultDescriptor;
+        RzDateEdit = RizzyUI.RzDateEdit.DefaultDescriptor;
+        RzField = RizzyUI.RzField.DefaultDescriptor;
+        RzFieldHelp = RizzyUI.RzFieldHelp.DefaultDescriptor;
+        RzFieldLabel = RizzyUI.RzFieldLabelStyles.DefaultDescriptor;
+        RzFormSection = RizzyUI.RzFormSection.DefaultDescriptor;
+        RzNumberEdit = RizzyUI.RzNumberEditStyles.DefaultDescriptor;
+        RzNumberField = RizzyUI.RzNumberFieldStyles.DefaultDescriptor;
+        RzRadioGroup = RizzyUI.RzRadioGroupStyles.DefaultDescriptor;
+        RzRadioGroupField = RizzyUI.RzRadioGroupFieldStyles.DefaultDescriptor;
+        RzRadioGroupItem = RizzyUI.RzRadioGroupItemStyles.DefaultDescriptor;
+        RzTabs = RizzyUI.RzTabs.DefaultDescriptor;
+        RzTab = RizzyUI.RzTab.DefaultDescriptor;
+        RzTabPanel = RizzyUI.RzTabPanel.DefaultDescriptor;
+        RzTabStrip = RizzyUI.RzTabStripStyles.DefaultDescriptor;
+        RzTextEdit = RizzyUI.RzTextEdit.DefaultDescriptor;
+        RzTextField = RizzyUI.RzTextField.DefaultDescriptor;
+        RzToggle = RizzyUI.RzToggle.DefaultDescriptor;
+        RzToggleField = RizzyUI.RzToggleField.DefaultDescriptor;
         RzDarkModeToggle = RizzyUI.RzDarkModeToggle.DefaultDescriptor;
         RzTable = RizzyUI.RzTableStyles.DefaultDescriptor;
         TableBody = RizzyUI.TableBodyStyles.DefaultDescriptor;
@@ -181,30 +205,6 @@ public partial class RzTheme
         TableHeaderCell = RizzyUI.TableHeaderCellStyles.DefaultDescriptor;
         TableRow = RizzyUI.TableRowStyles.DefaultDescriptor;
         TablePagination = RizzyUI.TablePaginationStyles.DefaultDescriptor;
-        
-        // Unmigrated Components
-        RzButtonGroup = new DefaultRzButtonGroupStyles(this);
-        RzCheckboxGroup = new DefaultRzCheckboxGroupStyles(this);
-        RzCheckboxGroupField = new DefaultRzCheckboxGroupFieldStyles(this);
-        RzCheckboxGroupItem = new DefaultRzCheckboxGroupItemStyles(this);
-        RzDateEdit = new DefaultRzDateEditStyles(this);
-        RzField = new DefaultRzFieldStyles(this);
-        RzFieldHelp = new DefaultRzFieldHelpStyles(this);
-        RzFieldLabel = new DefaultRzFieldLabelStyles(this);
-        RzFormSection = new DefaultRzFormSectionStyles(this);
-        RzNumberEdit = new DefaultRzNumberEditStyles(this);
-        RzNumberField = new DefaultRzNumberFieldStyles(this);
-        RzRadioGroup = new DefaultRzRadioGroupStyles(this);
-        RzRadioGroupField = new DefaultRzRadioGroupFieldStyles(this);
-        RzRadioGroupItem = new DefaultRzRadioGroupItemStyles(this);
-        RzTabs = new DefaultRzTabsStyles(this);
-        RzTab = new DefaultRzTabStyles(this);
-        RzTabPanel = new DefaultRzTabPanelStyles(this);
-        RzTabStrip = new DefaultRzTabStripStyles(this);
-        RzTextEdit = new DefaultRzTextEditStyles(this);
-        RzTextField = new DefaultRzTextFieldStyles(this);
-        RzToggle = new DefaultRzToggleStyles(this);
-        RzToggleField = new DefaultRzToggleFieldStyles(this);
     }
 
     /// <summary>
@@ -252,8 +252,6 @@ public partial class RzTheme
     /// Vercel theme instance, loaded from embedded resource.
     /// </summary>
     public static RzTheme VercelTheme => ThemeLoader.LoadFromEmbeddedResourceAsync(typeof(RzTheme).Assembly, "RizzyUI.Themes.vercel.json").GetAwaiter().GetResult()!;
-
-    // Other theme instances can be added here if needed
 }
 
 #pragma warning restore CS8618

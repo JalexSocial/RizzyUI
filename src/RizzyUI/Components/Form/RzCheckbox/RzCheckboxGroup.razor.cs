@@ -3,14 +3,20 @@ using Blazicons;
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using System.Linq.Expressions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
+
+public interface IHasCheckboxGroupStylingProperties
+{
+    public Orientation Orientation { get; }
+}
 
 /// <xmldoc>
 ///     Represents a group of checkbox items (<see cref="RzCheckboxGroupItem{TValue}" />) that support multiple selection.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzCheckboxGroup<TValue> : RzComponent
+public partial class RzCheckboxGroup<TValue> : RzComponent<RzCheckboxGroupSlots>, IHasCheckboxGroupStylingProperties
 {
     /// <summary> Gets or sets the selected values in the checkbox group. </summary>
     [Parameter]
@@ -65,7 +71,6 @@ public partial class RzCheckboxGroup<TValue> : RzComponent
         else
         {
             var existing = Values.FirstOrDefault(x => EqualityComparer<TValue>.Default.Equals(x, value));
-            // Ensure existing is not null before checking Contains and removing
             if (existing != null && Values.Contains(existing))
             {
                 var removed = Values.Remove(existing);
@@ -77,9 +82,5 @@ public partial class RzCheckboxGroup<TValue> : RzComponent
     }
 
     /// <inheritdoc />
-    protected override string? RootClass()
-    {
-        var styles = Theme.RzCheckboxGroup;
-        return TwMerge.Merge(AdditionalAttributes, styles.Container, styles.GetOrientationCss(Orientation));
-    }
+    protected override TvDescriptor<RzComponent<RzCheckboxGroupSlots>, RzCheckboxGroupSlots> GetDescriptor() => Theme.RzCheckboxGroup;
 }

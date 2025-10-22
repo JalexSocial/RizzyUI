@@ -1,10 +1,10 @@
 
 @namespace RizzyUI
 @typeparam TValue
-@inherits RzComponent
+@inherits RzComponent<RzCheckboxGroupSlots>
 
 <CascadingValue Value="this" IsFixed="true">
-	<HtmlElement Element="div" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
+	<HtmlElement Element="div" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()">
 		@ChildContent
 	</HtmlElement>
 </CascadingValue>

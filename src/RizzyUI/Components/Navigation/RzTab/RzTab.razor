@@ -1,5 +1,5 @@
 
-@inherits RzComponent
+@inherits RzComponent<RzTab.Slots>
 @namespace RizzyUI
 
 <button
@@ -14,7 +14,7 @@
     :aria-selected="getTabButtonAriaSelected"
     tabindex="0"
     aria-controls="@PanelId"
-    class="@RootClass()"
+    class="@SlotClasses.GetBase()"
     :class="getSelectedTabTextColorCss">
     @ChildContent
 </button>

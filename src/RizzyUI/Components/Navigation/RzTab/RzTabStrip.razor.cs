@@ -1,40 +1,40 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
-
-// For Count()
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
+public interface IHasTabStripStylingProperties
+{
+    public SemanticColor SelectedTabUnderlineColor { get; }
+    public Justify Justify { get; }
+    public Size SpaceBetween { get; }
+    public int TabCount { get; }
+}
+
 /// <xmldoc>
 ///     Represents the container for the clickable tab buttons within an <see cref="RzTabs" /> component.
-///     It manages the layout (grid columns, gap) and the visual selection marker.
+///     It manages the layout and the visual selection marker.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzTabStrip : RzComponent
+public partial class RzTabStrip : RzComponent<RzTabStripSlots>, IHasTabStripStylingProperties
 {
-    /// <summary> Gets the parent Tabs component context. </summary>
     [CascadingParameter]
     private RzTabs? Parent { get; set; }
 
-    /// <summary> Horizontal alignment of tab content within the strip. Defaults to Center. </summary>
     [Parameter]
     public Justify Justify { get; set; } = Justify.Center;
 
-    /// <summary> Gap spacing between tabs. Defaults to Medium. </summary>
     [Parameter]
     public Size SpaceBetween { get; set; } = Size.Medium;
 
-    /// <summary> The child content, expected to be <see cref="RzTab" /> components. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary> Gets the computed CSS classes for the marker's ::after background color. </summary>
-    protected string MarkerAfterBackgroundClass => Parent != null
-        ? Theme.RzTabStrip.GetMarkerAfterBackgroundCss(Parent.SelectedTabUnderlineColor)
-        : "";
+    public SemanticColor SelectedTabUnderlineColor => Parent?.SelectedTabUnderlineColor ?? SemanticColor.Primary;
+    public int TabCount => Parent?._tabs.Count ?? 0;
 
-    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -43,15 +43,5 @@ public partial class RzTabStrip : RzComponent
             throw new InvalidOperationException($"{GetType()} must exist within an RzTabs component.");
     }
 
-    /// <inheritdoc />
-    protected override string? RootClass()
-    {
-        var styles = Theme.RzTabStrip;
-        return TwMerge.Merge(AdditionalAttributes,
-            styles.Strip,
-            Parent?._tabs != null ? styles.GetColumnsCss(Parent._tabs.Count) : "grid-cols-1", // Handle null case
-            styles.GetGapCss(SpaceBetween),
-            Parent?.TabTextColor.ToTextClass() ?? "" // Inherit text color from Tabs
-        );
-    }
+    protected override TvDescriptor<RzComponent<RzTabStripSlots>, RzTabStripSlots> GetDescriptor() => Theme.RzTabStrip;
 }

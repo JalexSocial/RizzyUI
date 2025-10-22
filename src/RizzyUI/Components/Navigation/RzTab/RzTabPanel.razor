@@ -1,5 +1,5 @@
 
-@inherits RzComponent
+@inherits RzComponent<RzTabPanel.Slots>
 @namespace RizzyUI
 
 <div
@@ -9,10 +9,10 @@
     role="tabpanel"
     aria-labelledby="@TabId"
     tabindex="0"
-    class="@Theme.RzTabPanel.OuterContainer"
+    class="@SlotClasses.GetBase()"
     x-cloak
 >
-    <div @attributes="AdditionalAttributes" class="@RootClass()">
+    <div @attributes="AdditionalAttributes" class="@SlotClasses.GetInnerContainer()">
         @ChildContent
     </div>
 </div>

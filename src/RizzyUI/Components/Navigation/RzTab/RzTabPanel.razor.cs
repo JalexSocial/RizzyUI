@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,38 +10,25 @@ namespace RizzyUI;
 ///     It becomes visible when its corresponding tab is selected. Controlled via Alpine.js.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzTabPanel : RzComponent
+public partial class RzTabPanel : RzComponent<RzTabPanel.Slots>
 {
-    /// <summary> Gets the parent Tabs component context. </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "flex-1 outline-none"
+    );
+
     [CascadingParameter]
     private RzTabs? Parent { get; set; }
 
-    /// <summary>
-    ///     The unique name identifier for this panel. Must match the Name of the corresponding <see cref="RzTab" />.
-    ///     Required.
-    /// </summary>
-    [Parameter]
-    [EditorRequired]
+    [Parameter, EditorRequired]
     public string Name { get; set; } = default!;
 
-    /// <summary> The content to be displayed inside the tab panel when active. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary> Gets the lowercase name used for data attributes and IDs. </summary>
     protected string NameLower => Name?.ToLowerInvariant() ?? string.Empty;
-
-    /// <summary> Gets the ID for the corresponding tab button element. </summary>
     protected string TabId => $"{NameLower}-tab";
-
-    /// <summary> Gets the ID for this panel element. </summary>
     protected string PanelId => $"{NameLower}-panel";
 
-    /// <summary> Gets the computed CSS classes for the text color, inheriting from the parent Tabs component. </summary>
-    protected string TextColorClass =>
-        Theme.RzTabPanel.GetTextColorCss(Parent?.TabTextColor ?? SemanticColor.Foreground);
-
-    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -49,10 +37,11 @@ public partial class RzTabPanel : RzComponent
             throw new InvalidOperationException($"{GetType()} must exist within an RzTabs component.");
     }
 
-    /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzTabPanel;
+
+    public sealed partial class Slots : ISlots
     {
-        // RootClass is now applied to the inner div via the markup
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzTabPanel.InnerContainer, TextColorClass);
+        public string? Base { get; set; }
+        public string? InnerContainer { get; set; }
     }
 }

@@ -3,26 +3,26 @@
 @namespace RizzyUI
 @using Blazicons
 @using Rizzy
-@inherits InputBase<TValue>
+@inherits RzComponent<RzNumberEditSlots>
 
-<HtmlElement Element="@EffectiveElement" id="@Id" class="@Theme.RzNumberEdit.InputWrapper">
-	<div x-data="rzPrependInput" alpine-data-root="@Id">
+<HtmlElement Element="@EffectiveElement" id="@Id" class="@SlotClasses.GetInputWrapper()">
+	<div x-data="rzPrependInput" data-alpine-root="@Id">
 		@if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
 		{
-			<div x-ref="prependContainer" class="@Theme.RzNumberEdit.PrependElement">
+			<div x-ref="prependContainer" class="@SlotClasses.GetPrependElement()">
 				@if (!string.IsNullOrEmpty(PrependText))
 				{
 					@PrependText
 				}
 				else if (PrependIcon != null)
 				{
-					<div class="@Theme.RzNumberEdit.PrependIconContainer">
+					<div class="@SlotClasses.GetPrependIconContainer()">
 						<Blazicon Svg="PrependIcon"/>
 					</div>
 				}
 			</div>
 		}
 		<RzInputNumber x-ref="textInput" TValue="TValue" @ref="_elem" Value="@_value" ValueExpression="For"
-		               placeholder="@_placeholder" @attributes="AdditionalAttributes" class="@Theme.RzNumberEdit.Input"/>
+		               placeholder="@_placeholder" @attributes="AdditionalAttributes" class="@SlotClasses.GetInput()"/>
 	</div>
 </HtmlElement>

@@ -2,16 +2,16 @@
 @namespace RizzyUI
 @typeparam TValue
 @using Rizzy
-@inherits RzComponent
+@inherits RzComponent<RzCheckboxGroupFieldSlots>
 
-<RzField @attributes="AdditionalAttributes" Id="@Id" class="@RootClass()">
+<RzField @attributes="AdditionalAttributes" Id="@Id" class="@SlotClasses.GetBase()">
 	<RzFieldLabel DisplayName="@DisplayName" For="@For"/>
 	@if (FieldHelp != null)
 	{
 		<RzFieldHelp>@FieldHelp</RzFieldHelp>
 	}
-	<RzCheckboxGroup TValue="TValue" For="@For" @Values="CurrentValues" Orientation="@Orientation"
-	                 class="@Theme.RzCheckboxGroupField.GroupWithinField">
+	<RzCheckboxGroup TValue="TValue" For="@For" @bind-Values="CurrentValues" Orientation="@Orientation"
+	                 class="@SlotClasses.GetGroupWithinField()">
 		@CheckboxGroupContent
 	</RzCheckboxGroup>
 	<RzValidationMessage For="@For"/>

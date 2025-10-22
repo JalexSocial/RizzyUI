@@ -169,7 +169,30 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<SidebarRail.Slots>, SidebarRail.Slots> SidebarRail { get; set; }
     public virtual TvDescriptor<RzComponent<SidebarSeparator.Slots>, SidebarSeparator.Slots> SidebarSeparator { get; set; }
     public virtual TvDescriptor<RzComponent<SidebarTrigger.Slots>, SidebarTrigger.Slots> SidebarTrigger { get; set; }
-    
+
+    // --- Newly Migrated Components ---
+    public virtual TvDescriptor<RzComponent<RzButtonGroup.Slots>, RzButtonGroup.Slots> RzButtonGroup { get; set; }
+    public virtual TvDescriptor<RzComponent<RzCheckboxGroupSlots>, RzCheckboxGroupSlots> RzCheckboxGroup { get; set; }
+    public virtual TvDescriptor<RzComponent<RzCheckboxGroupFieldSlots>, RzCheckboxGroupFieldSlots> RzCheckboxGroupField { get; set; }
+    public virtual TvDescriptor<RzComponent<RzCheckboxGroupItemSlots>, RzCheckboxGroupItemSlots> RzCheckboxGroupItem { get; set; }
+    public virtual TvDescriptor<RzComponent<RzDateEdit.Slots>, RzDateEdit.Slots> RzDateEdit { get; set; }
+    public virtual TvDescriptor<RzComponent<RzField.Slots>, RzField.Slots> RzField { get; set; }
+    public virtual TvDescriptor<RzComponent<RzFieldHelp.Slots>, RzFieldHelp.Slots> RzFieldHelp { get; set; }
+    public virtual TvDescriptor<RzComponent<RzFieldLabelSlots>, RzFieldLabelSlots> RzFieldLabel { get; set; }
+    public virtual TvDescriptor<RzComponent<RzFormSection.Slots>, RzFormSection.Slots> RzFormSection { get; set; }
+    public virtual TvDescriptor<RzComponent<RzNumberEditSlots>, RzNumberEditSlots> RzNumberEdit { get; set; }
+    public virtual TvDescriptor<RzComponent<RzNumberFieldSlots>, RzNumberFieldSlots> RzNumberField { get; set; }
+    public virtual TvDescriptor<RzComponent<RzRadioGroupSlots>, RzRadioGroupSlots> RzRadioGroup { get; set; }
+    public virtual TvDescriptor<RzComponent<RzRadioGroupFieldSlots>, RzRadioGroupFieldSlots> RzRadioGroupField { get; set; }
+    public virtual TvDescriptor<RzComponent<RzRadioGroupItemSlots>, RzRadioGroupItemSlots> RzRadioGroupItem { get; set; }
+    public virtual TvDescriptor<RzComponent<RzTabs.Slots>, RzTabs.Slots> RzTabs { get; set; }
+    public virtual TvDescriptor<RzComponent<RzTab.Slots>, RzTab.Slots> RzTab { get; set; }
+    public virtual TvDescriptor<RzComponent<RzTabPanel.Slots>, RzTabPanel.Slots> RzTabPanel { get; set; }
+    public virtual TvDescriptor<RzComponent<RzTabStripSlots>, RzTabStripSlots> RzTabStrip { get; set; }
+    public virtual TvDescriptor<RzComponent<RzTextEdit.Slots>, RzTextEdit.Slots> RzTextEdit { get; set; }
+    public virtual TvDescriptor<RzComponent<RzTextField.Slots>, RzTextField.Slots> RzTextField { get; set; }
+    public virtual TvDescriptor<RzComponent<RzToggle.Slots>, RzToggle.Slots> RzToggle { get; set; }
+    public virtual TvDescriptor<RzComponent<RzToggleField.Slots>, RzToggleField.Slots> RzToggleField { get; set; }
     public virtual TvDescriptor<RzComponent<RzDarkModeToggle.Slots>, RzDarkModeToggle.Slots> RzDarkModeToggle { get; set; }
     public virtual TvDescriptor<RzComponent<RzTableSlots>, RzTableSlots> RzTable { get; set; }
     public virtual TvDescriptor<RzComponent<TableBodySlots>, TableBodySlots> TableBody { get; set; }
@@ -177,28 +200,4 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<TableHeaderCellSlots>, TableHeaderCellSlots> TableHeaderCell { get; set; }
     public virtual TvDescriptor<RzComponent<TableRowSlots>, TableRowSlots> TableRow { get; set; }
     public virtual TvDescriptor<RzComponent<TablePaginationSlots>, TablePaginationSlots> TablePagination { get; set; }
-    
-    // --- Unmigrated Components (Legacy RzStylesBase) ---
-    public virtual RzStylesBase.RzButtonGroupStylesBase RzButtonGroup { get; }
-    public virtual RzStylesBase.RzCheckboxGroupStylesBase RzCheckboxGroup { get; }
-    public virtual RzStylesBase.RzCheckboxGroupFieldStylesBase RzCheckboxGroupField { get; }
-    public virtual RzStylesBase.RzCheckboxGroupItemStylesBase RzCheckboxGroupItem { get; }
-    public virtual RzStylesBase.RzDateEditStylesBase RzDateEdit { get; }
-    public virtual RzStylesBase.RzFieldStylesBase RzField { get; }
-    public virtual RzStylesBase.RzFieldHelpStylesBase RzFieldHelp { get; }
-    public virtual RzStylesBase.RzFieldLabelStylesBase RzFieldLabel { get; }
-    public virtual RzStylesBase.RzFormSectionStylesBase RzFormSection { get; }
-    public virtual RzStylesBase.RzNumberEditStylesBase RzNumberEdit { get; }
-    public virtual RzStylesBase.RzNumberFieldStylesBase RzNumberField { get; }
-    public virtual RzStylesBase.RzRadioGroupStylesBase RzRadioGroup { get; }
-    public virtual RzStylesBase.RzRadioGroupFieldStylesBase RzRadioGroupField { get; }
-    public virtual RzStylesBase.RzRadioGroupItemStylesBase RzRadioGroupItem { get; }
-    public virtual RzStylesBase.RzTabsStylesBase RzTabs { get; }
-    public virtual RzStylesBase.RzTabStylesBase RzTab { get; }
-    public virtual RzStylesBase.RzTabPanelStylesBase RzTabPanel { get; }
-    public virtual RzStylesBase.RzTabStripStylesBase RzTabStrip { get; }
-    public virtual RzStylesBase.RzTextEditStylesBase RzTextEdit { get; }
-    public virtual RzStylesBase.RzTextFieldStylesBase RzTextField { get; }
-    public virtual RzStylesBase.RzToggleStylesBase RzToggle { get; }
-    public virtual RzStylesBase.RzToggleFieldStylesBase RzToggleField { get; }
 }

@@ -1,7 +1,7 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzFieldHelp.Slots>
 
-<p @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
+<p @attributes="AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()">
     @ChildContent
 </p>

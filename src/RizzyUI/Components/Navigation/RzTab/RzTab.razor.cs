@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,42 +10,30 @@ namespace RizzyUI;
 ///     Interacts with the parent <see cref="RzTabs" /> component and Alpine.js to manage selection state.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzTab : RzComponent
+public partial class RzTab : RzComponent<RzTab.Slots>
 {
-    /// <summary> Gets the parent Tabs component context. </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+    );
+
     [CascadingParameter]
     private RzTabs? Parent { get; set; }
 
-    /// <summary> Gets the parent TabStrip component context. </summary>
     [CascadingParameter]
     private RzTabStrip? TabStrip { get; set; }
 
-    /// <summary>
-    ///     The unique name identifier for this tab. Must match the Name of the corresponding <see cref="RzTabPanel" />.
-    ///     Required.
-    /// </summary>
-    [Parameter]
-    [EditorRequired]
+    [Parameter, EditorRequired]
     public required string Name { get; set; } = default!;
 
-    /// <summary> The content to be displayed inside the tab button (e.g., text, icon). </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary> Gets the lowercase name used for data attributes and IDs. </summary>
     protected string NameLower => Name?.ToLowerInvariant() ?? string.Empty;
-
-    /// <summary> Gets the ID for the tab button element. </summary>
     protected string TabId => $"{NameLower}-tab";
-
-    /// <summary> Gets the ID for the corresponding tab panel element. </summary>
     protected string PanelId => $"{NameLower}-panel";
-
-    /// <summary> Gets the CSS class for the selected text color from the parent Tabs. </summary>
     protected string SelectedTextColorClass =>
         Parent?.SelectedTabTextColor.ToTextClass() ?? Theme.Light.Primary.ToCssClassString("text");
 
-    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -55,18 +44,13 @@ public partial class RzTab : RzComponent
         if (TabStrip == null)
             throw new InvalidOperationException($"{GetType()} must exist within an RzTabStrip component.");
 
-        Parent.AddTab(this); // Register with Tabs
+        Parent.AddTab(this);
     }
 
-    /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzTab;
+
+    public sealed partial class Slots : ISlots
     {
-        var styles = Theme.RzTab;
-        return TwMerge.Merge(AdditionalAttributes,
-            styles.Button,
-            styles.GetBackgroundColorCss(Parent?.TabBackgroundColor ?? SemanticColor.Background), // Use parent's BG color
-            styles.GetTextColorCss(Parent?.TabTextColor ?? SemanticColor.Foreground), // Use parent's default text color
-            styles.GetJustifyCss(TabStrip?.Justify ?? Justify.Center) // Use strip's justify
-        );
+        public string? Base { get; set; }
     }
 }

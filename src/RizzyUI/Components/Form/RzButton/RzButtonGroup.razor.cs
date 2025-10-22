@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -9,8 +10,15 @@ namespace RizzyUI;
 ///     often with adjusted styling for adjacent borders and corners.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzButtonGroup : RzComponent
+public partial class RzButtonGroup : RzComponent<RzButtonGroup.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzButtonGroup component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "inline-flex rounded-md shadow-sm"
+    );
+
     /// <summary> Internal list that holds the buttons added to the group. </summary>
     private readonly List<RzButton> _buttons = new();
 
@@ -24,12 +32,6 @@ public partial class RzButtonGroup : RzComponent
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <inheritdoc />
-    protected override string? RootClass()
-    {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzButtonGroup.Container);
-    }
-
     /// <summary>
     ///     Adds an <see cref="RzButton" /> to the button group if it is not already present.
     ///     Called internally by child buttons.
@@ -38,6 +40,16 @@ public partial class RzButtonGroup : RzComponent
     internal void AddButton(RzButton button)
     {
         if (!_buttons.Contains(button)) _buttons.Add(button);
-        // No need to call StateHasChanged here as the button rendering itself will handle its classes based on index
+    }
+
+    /// <inheritdoc />
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzButtonGroup;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzButtonGroup component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
+    {
+        public string? Base { get; set; }
     }
 }

@@ -1,16 +1,16 @@
 
-@inherits RzComponent
+@inherits RzComponent<RzTabStripSlots>
 @namespace RizzyUI
 
 <CascadingValue Value="this" IsFixed="true">
     <div role="tablist"
          @attributes="AdditionalAttributes"
          id="@Parent?.ButtonRefId"
-         class="@RootClass()">
+         class="@SlotClasses.GetBase()">
         @ChildContent
 
-        <div x-ref="tabMarker" class="@Theme.RzTabStrip.Marker @MarkerAfterBackgroundClass" x-cloak>
-            <div class="@Theme.RzTabStrip.MarkerInner"></div>
+        <div x-ref="tabMarker" class="@SlotClasses.GetMarker()" x-cloak>
+            <div class="@SlotClasses.GetMarkerInner()"></div>
         </div>
     </div>
 </CascadingValue>

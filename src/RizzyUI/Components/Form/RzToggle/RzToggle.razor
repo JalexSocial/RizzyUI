@@ -1,12 +1,11 @@
 
 @namespace RizzyUI
 @using Rizzy
-@inherits RzComponent
+@inherits RzComponent<RzToggle.Slots>
 
-<RzInputCheckbox ValueExpression="@For"
-                 Value="CurrentValue"
+<RzInputCheckbox @bind-Value="CurrentValue"
                  @attributes="AdditionalAttributes"
-                 class="@RootClass()"
+                 class="@SlotClasses.GetBase()"
                  role="switch"
                  tabindex="0"
                  aria-checked="@AriaCheckedValue"/>

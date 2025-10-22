@@ -3,17 +3,17 @@
 @typeparam TValue
 @using Blazicons
 @using Rizzy
-@inherits RzComponent
+@inherits RzComponent<RzCheckboxGroupItemSlots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id">
-	<div x-data="rzCheckboxGroupItem" data-alpine-root="@Id" class="@Theme.RzCheckboxGroupItem.Label">
-		<div class="@Theme.RzCheckboxGroupItem.CheckboxWrapper">
-			<RzInputCheckbox @bind-Value="IsChecked" class="@Theme.RzCheckboxGroupItem.CheckboxInput" x-on:change="toggleCheckbox" x-ref="chk"/>
-			<div class="@Theme.RzCheckboxGroupItem.IconContainer" :class="getIconCss">
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()">
+	<div x-data="rzCheckboxGroupItem" data-alpine-root="@Id">
+		<div class="@SlotClasses.GetCheckboxWrapper()">
+			<RzInputCheckbox @bind-Value="IsChecked" class="@SlotClasses.GetCheckboxInput()" x-on:change="toggleCheckbox" x-ref="chk"/>
+			<div class="@SlotClasses.GetIconContainer()" :class="getIconCss">
 				<Blazicon Svg="EffectiveCheckedIcon"/>
 			</div>
 		</div>
-		<span class="@Theme.RzCheckboxGroupItem.TitleSpan">@Title</span>
+		<span class="@SlotClasses.GetTitleSpan()">@Title</span>
 		@ChildContent
 	</div>
 </HtmlElement>

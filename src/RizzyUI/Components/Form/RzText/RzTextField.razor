@@ -1,10 +1,9 @@
 
 @namespace RizzyUI
 @using Rizzy
-@inherits RzComponent
+@inherits RzComponent<RzTextField.Slots>
 
-
-<RzField class="@RootClass()" Id="@Id">
+<RzField class="@SlotClasses.GetBase()" Id="@Id">
 	<RzFieldLabel DisplayName="@DisplayName" For="@For" Required="Required"/>
 
 	<RzTextEdit For="@For"

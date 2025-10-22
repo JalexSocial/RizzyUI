@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using RizzyUI.Extensions;
 using System.Linq.Expressions;
-
-// For RzInputCheckbox
-
-// For EditContext
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -14,30 +11,27 @@ namespace RizzyUI;
 ///     Renders a toggle switch (styled checkbox) component.
 ///     Styling is determined by the active <see cref="RzTheme" />. It should be used within an EditForm context.
 /// </xmldoc>
-public partial class RzToggle : RzComponent
+public partial class RzToggle : RzComponent<RzToggle.Slots>
 {
-    private bool _currentValue;
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "appearance-none focus-visible:border-ring focus-visible:ring-ring/50 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 bg-input dark:bg-input/80 checked:bg-primary dark:checked:bg-primary before:content-[''] before:pointer-events-none before:block before:size-4 before:rounded-full before:ring-0 before:transition-all before:bg-background dark:before:bg-foreground dark:checked:before:bg-primary-foreground checked:before:ms-3.5"
+    );
 
+    private bool _currentValue;
     private FieldIdentifier _fieldIdentifier;
 
-    /// <summary> Gets the current edit context. </summary>
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
 
-    /// <summary> Gets or sets the current boolean value of the toggle. </summary>
     [Parameter]
     public bool? Value { get; set; }
 
-    /// <summary> Event callback for when the value changes. </summary>
     [Parameter]
     public EventCallback<bool> ValueChanged { get; set; }
 
-    /// <summary> Specifies the field the toggle is bound to. Required. </summary>
-    [Parameter]
-    [EditorRequired]
+    [Parameter, EditorRequired]
     public Expression<Func<bool>>? For { get; set; }
 
-    /// <summary> Internal property for two-way binding with RzInputCheckbox. </summary>
     protected bool CurrentValue
     {
         get => _currentValue;
@@ -46,21 +40,18 @@ public partial class RzToggle : RzComponent
             if (_currentValue != value)
             {
                 _currentValue = value;
-                // Update the original parameter and invoke the callback
                 InvokeAsync(async () =>
                 {
-                    Value = _currentValue; // Update the parameter bound property
+                    Value = _currentValue;
                     await ValueChanged.InvokeAsync(_currentValue);
-                    EditContext?.NotifyFieldChanged(_fieldIdentifier); // Notify EditContext
+                    EditContext?.NotifyFieldChanged(_fieldIdentifier);
                 });
             }
         }
     }
 
-    /// <summary> Gets the string representation for the aria-checked attribute. </summary>
     protected string AriaCheckedValue => CurrentValue ? "true" : "false";
 
-    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -71,22 +62,20 @@ public partial class RzToggle : RzComponent
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 
         _fieldIdentifier = FieldIdentifier.Create(For);
-        // Initialize _currentValue from Value parameter or model
         _currentValue = Value ?? For.Compile().Invoke();
     }
 
-    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        // Update internal value if the parameter changes externally
         var newValue = Value ?? For?.Compile().Invoke() ?? false;
         if (_currentValue != newValue) _currentValue = newValue;
     }
 
-    /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzToggle;
+
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzToggle.Toggle);
+        public string? Base { get; set; }
     }
 }

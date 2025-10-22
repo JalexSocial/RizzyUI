@@ -1,11 +1,11 @@
 
-@inherits RzComponent
+@inherits RzComponent<RzTabs.Slots>
 @namespace RizzyUI
 
 <CascadingValue Value="this" IsFixed="true">
 	<div @attributes="AdditionalAttributes"
 	     id="@Id"
-         class="@RootClass()">
+         class="@SlotClasses.GetBase()">
 	    <div
 		    data-tabselected="@ActiveTabNameLower"
 		    data-buttonref="@ButtonRefId"
@@ -14,7 +14,7 @@
 		    x-on:resize.window="handleResize">
 		    @Menu
 
-		    <div class="@Theme.RzTabs.PanelsContainer">
+		    <div class="@SlotClasses.GetPanelsContainer()">
 			    @TabPanels
 		    </div>
 	    </div>        
