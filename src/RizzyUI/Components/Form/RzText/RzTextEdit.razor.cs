@@ -14,6 +14,9 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzTextEdit : RzComponent<RzTextEdit.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzTextEdit component.
+    /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
         slots: new()
         {
@@ -29,26 +32,48 @@ public partial class RzTextEdit : RzComponent<RzTextEdit.Slots>
     private string _role = "text";
     private string _value = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the cascading EditContext.
+    /// </summary>
     [CascadingParameter]
     public EditContext? EditContext { get; set; }
 
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. This is a required parameter.
+    /// </summary>
     [Parameter, EditorRequired]
     public required Expression<Func<string>> For { get; set; }
 
+    /// <summary>
+    /// Gets or sets the semantic role of the text input (e.g., Text, Password, Email).
+    /// </summary>
     [Parameter]
     public TextRole Role { get; set; } = TextRole.Text;
 
+    /// <summary>
+    /// Gets or sets the placeholder text for the input field.
+    /// </summary>
     [Parameter]
     public string Placeholder { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets optional text to prepend inside the input field's visual container.
+    /// </summary>
     [Parameter]
     public string? PrependText { get; set; }
 
+    /// <summary>
+    /// Gets or sets an optional Blazicon SVG icon to prepend inside the input field's visual container.
+    /// </summary>
     [Parameter]
     public SvgIcon? PrependIcon { get; set; }
 
+    /// <summary>
+    /// Gets a reference to the underlying RzInputText component.
+    /// </summary>
     public RzInputText InputTextRef => _elem ?? throw new InvalidOperationException("RzInputText reference is not set.");
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -60,6 +85,7 @@ public partial class RzTextEdit : RzComponent<RzTextEdit.Slots>
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -73,14 +99,33 @@ public partial class RzTextEdit : RzComponent<RzTextEdit.Slots>
                 $"{nameof(PrependText)} and {nameof(PrependIcon)} cannot both be set at the same time.");
     }
 
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzTextEdit;
 
+    /// <summary>
+    /// Defines the slots available for styling in the RzTextEdit component.
+    /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the wrapper around the input and prepend element.
+        /// </summary>
         public string? InputWrapper { get; set; }
+        /// <summary>
+        /// The slot for the prepend element container.
+        /// </summary>
         public string? PrependElement { get; set; }
+        /// <summary>
+        /// The slot for the icon within the prepend element.
+        /// </summary>
         public string? PrependIconContainer { get; set; }
+        /// <summary>
+        /// The slot for the `<input>` element.
+        /// </summary>
         public string? Input { get; set; }
     }
 }

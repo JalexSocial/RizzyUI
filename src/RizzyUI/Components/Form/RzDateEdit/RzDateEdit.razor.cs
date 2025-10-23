@@ -20,6 +20,9 @@ namespace RizzyUI;
 /// </xmldoc>
 public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzDateEdit component.
+    /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
         @base: "w-full",
         slots: new()
@@ -45,11 +48,34 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
 
     private string _uidInputId => $"{_uid}-input";
 
-    [Parameter][EditorRequired] public Expression<Func<DateTime?>>? For { get; set; }
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. This is a required parameter.
+    /// </summary>
+    [Parameter, EditorRequired] public Expression<Func<DateTime?>>? For { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the configuration options for the Flatpickr instance.
+    /// </summary>
     [Parameter] public FlatpickrOptions Options { get; set; } = new() { Locale = "en" };
+    
+    /// <summary>
+    /// Gets or sets the placeholder text for the input field.
+    /// </summary>
     [Parameter] public string Placeholder { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Gets or sets optional text to prepend inside the input field's visual container.
+    /// </summary>
     [Parameter] public string? PrependText { get; set; }
+    
+    /// <summary>
+    /// Gets or sets an optional Blazicon SVG icon to prepend inside the input field's visual container.
+    /// </summary>
     [Parameter] public SvgIcon? PrependIcon { get; set; }
+    
+    /// <summary>
+    /// Gets or sets an array of logical asset keys for required JavaScript/CSS files. Defaults to ["FlatpickrCore"].
+    /// </summary>
     [Parameter] public string[] ComponentAssetKeys { get; set; } = ["FlatpickrCore"];
 
     private string CurrentValue
@@ -67,6 +93,7 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         }
     }
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -79,6 +106,7 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         SerializeConfigAndAssets();
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -123,14 +151,33 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         _assets = JsonSerializer.Serialize(assetUrls);
     }
 
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzDateEdit;
 
+    /// <summary>
+    /// Defines the slots available for styling in the RzDateEdit component.
+    /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the wrapper around the input and prepend element.
+        /// </summary>
         public string? InputWrapper { get; set; }
+        /// <summary>
+        /// The slot for the prepend element container.
+        /// </summary>
         public string? PrependElement { get; set; }
+        /// <summary>
+        /// The slot for the icon within the prepend element.
+        /// </summary>
         public string? PrependIconContainer { get; set; }
+        /// <summary>
+        /// The slot for the `<input>` element.
+        /// </summary>
         public string? Input { get; set; }
     }
 }

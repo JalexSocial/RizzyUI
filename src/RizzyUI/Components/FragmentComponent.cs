@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace RizzyUI;
@@ -17,7 +18,7 @@ public class FragmentComponent : ComponentBase
     /// <summary>
     ///     Construct a component from a fragment
     /// </summary>
-    /// <param name="builder"></param>
+    /// <param name="builder">The <see cref="RenderTreeBuilder"/> to use for rendering.</param>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         if (Fragment != null) builder.AddContent(0, Fragment);

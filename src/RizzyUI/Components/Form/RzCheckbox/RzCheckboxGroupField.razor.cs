@@ -7,6 +7,9 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Defines styling properties for a CheckboxGroupField component.
+/// </summary>
 public interface IHasCheckboxGroupFieldStylingProperties { }
 
 /// <xmldoc>
@@ -23,27 +26,51 @@ public partial class RzCheckboxGroupField<TValue> : RzComponent<RzCheckboxGroupF
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
 
+    /// <summary>
+    /// Gets or sets the display name for the field label. If not set, it's inferred from the `For` expression.
+    /// </summary>
     [Parameter]
     public string? DisplayName { get; set; }
 
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. This is a required parameter.
+    /// </summary>
     [Parameter, EditorRequired]
     public Expression<Func<IList<TValue>>>? For { get; set; }
 
+    /// <summary>
+    /// Gets or sets the list of selected values in the checkbox group.
+    /// </summary>
     [Parameter]
     public IList<TValue>? Values { get; set; }
 
+    /// <summary>
+    /// Gets or sets an event callback that is invoked when the selected values change.
+    /// </summary>
     [Parameter]
     public EventCallback<IList<TValue>> ValuesChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets the orientation of the checkbox group (Vertical or Horizontal). Defaults to Vertical.
+    /// </summary>
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
+    /// <summary>
+    /// Gets or sets the content containing the <see cref="RzCheckboxGroupItem{TValue}"/> components.
+    /// </summary>
     [Parameter]
     public RenderFragment? CheckboxGroupContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets optional content displayed below the group to provide help or context.
+    /// </summary>
     [Parameter]
     public RenderFragment? FieldHelp { get; set; }
 
+    /// <summary>
+    /// Gets or sets the current selected values, managing state and notifying changes.
+    /// </summary>
     protected IList<TValue> CurrentValues
     {
         get => _currentValues;
@@ -58,6 +85,7 @@ public partial class RzCheckboxGroupField<TValue> : RzComponent<RzCheckboxGroupF
         }
     }
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -75,6 +103,7 @@ public partial class RzCheckboxGroupField<TValue> : RzComponent<RzCheckboxGroupF
                              ?.GetValue(_fieldIdentifier.Model) as IList<TValue> ?? new List<TValue>();
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -82,5 +111,6 @@ public partial class RzCheckboxGroupField<TValue> : RzComponent<RzCheckboxGroupF
             _currentValues = new List<TValue>(Values);
     }
 
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<RzCheckboxGroupFieldSlots>, RzCheckboxGroupFieldSlots> GetDescriptor() => Theme.RzCheckboxGroupField;
 }

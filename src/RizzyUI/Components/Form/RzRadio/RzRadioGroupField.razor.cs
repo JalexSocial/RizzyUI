@@ -8,6 +8,9 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Defines styling properties for a RadioGroupField component.
+/// </summary>
 public interface IHasRadioGroupFieldStylingProperties { }
 
 /// <xmldoc>
@@ -23,36 +26,69 @@ public partial class RzRadioGroupField<TValue> : RzComponent<RzRadioGroupFieldSl
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
 
+    /// <summary>
+    /// Gets or sets the display name for the field label. If not set, it's inferred from the `For` expression.
+    /// </summary>
     [Parameter]
     public string? DisplayName { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the orientation of the radio group (Vertical or Horizontal). Defaults to Vertical.
+    /// </summary>
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
+    /// <summary>
+    /// Gets or sets the icon displayed inside the selected radio button.
+    /// </summary>
     [Parameter]
     public SvgIcon CheckboxIcon { get; set; } = MdiIcon.CheckboxMarkedCircle;
 
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. This is a required parameter.
+    /// </summary>
     [Parameter, EditorRequired]
     public required Expression<Func<TValue>>? For { get; set; }
 
+    /// <summary>
+    /// Gets or sets the currently selected value of the radio group.
+    /// </summary>
     [Parameter]
     public TValue? Value { get; set; }
 
+    /// <summary>
+    /// Gets or sets an event callback that is invoked when the selected value changes.
+    /// </summary>
     [Parameter]
     public EventCallback<TValue> ValueChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets the name attribute shared by all radio buttons in the group.
+    /// </summary>
     [Parameter]
     public string Name { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the content containing the <see cref="RzRadioGroupItem{TValue}"/> components.
+    /// </summary>
     [Parameter]
     public RenderFragment? RadioGroupContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets optional content displayed below the group to provide help or context.
+    /// </summary>
     [Parameter]
     public RenderFragment? FieldHelp { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the field is required.
+    /// </summary>
     [Parameter]
     public bool Required { get; set; }
 
+    /// <summary>
+    /// Gets or sets the current selected value, managing state and notifying changes.
+    /// </summary>
     protected TValue? CurrentValue
     {
         get => _currentValue;
@@ -71,8 +107,12 @@ public partial class RzRadioGroupField<TValue> : RzComponent<RzRadioGroupFieldSl
         }
     }
 
+    /// <summary>
+    /// Gets the resolved name for the radio group, falling back to the field name if not provided.
+    /// </summary>
     protected string ResolvedName { get; private set; } = string.Empty;
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -88,6 +128,7 @@ public partial class RzRadioGroupField<TValue> : RzComponent<RzRadioGroupFieldSl
         ResolvedName = string.IsNullOrEmpty(Name) ? _fieldIdentifier.FieldName : Name;
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -106,5 +147,6 @@ public partial class RzRadioGroupField<TValue> : RzComponent<RzRadioGroupFieldSl
         }
     }
 
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<RzRadioGroupFieldSlots>, RzRadioGroupFieldSlots> GetDescriptor() => Theme.RzRadioGroupField;
 }

@@ -44,7 +44,13 @@ public partial class RzAspectRatio : RzComponent<RzAspectRatio.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the main container.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the inner content wrapper.
+        /// </summary>
         public string? Inner { get; set; }
     }
 }

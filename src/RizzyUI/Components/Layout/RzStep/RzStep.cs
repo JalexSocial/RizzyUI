@@ -13,10 +13,10 @@ namespace RizzyUI;
 public class RzStep : ComponentBase // Doesn't need RzComponent base as it renders nothing itself
 {
     /// <summary> Gets or sets the main text label describing the step. Required. </summary>
-    [Parameter][EditorRequired] public string Label { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string Label { get; set; } = string.Empty;
 
     /// <summary> Gets or sets the current status of the step (Completed, Current, or Upcoming). Required. </summary>
-    [Parameter][EditorRequired] public StepStatus Status { get; set; } = StepStatus.Upcoming;
+    [Parameter, EditorRequired] public StepStatus Status { get; set; } = StepStatus.Upcoming;
 
     /// <summary>
     ///     Gets or sets an optional ARIA label for the step, providing more context for accessibility. If not provided,

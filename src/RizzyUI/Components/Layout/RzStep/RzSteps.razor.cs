@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using TailwindVariants.NET;
@@ -85,6 +86,7 @@ public partial class RzSteps : RzComponent<RzSteps.Slots>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzSteps;
 
     /// <summary> Registers step data. Called by child <see cref="RzStep" /> components. </summary>
+    /// <param name="data">The step data to register.</param>
     internal void RegisterStep(StepData data)
     {
         if (!Items.Exists(i => i.Label == data.Label && i.Caption == data.Caption))
@@ -165,15 +167,45 @@ public partial class RzSteps : RzComponent<RzSteps.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the main container element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for each step item (`<li>`).
+        /// </summary>
         public string? StepItem { get; set; }
+        /// <summary>
+        /// The slot for the container of a step's content.
+        /// </summary>
         public string? StepContentContainer { get; set; }
+        /// <summary>
+        /// The slot for the circle of a completed step.
+        /// </summary>
         public string? CircleCompleted { get; set; }
+        /// <summary>
+        /// The slot for the icon inside a completed step's circle.
+        /// </summary>
         public string? CircleCompletedIcon { get; set; }
+        /// <summary>
+        /// The slot for the screen-reader-only text for a completed step.
+        /// </summary>
         public string? CircleCompletedSrText { get; set; }
+        /// <summary>
+        /// The slot for the circle of a default (current or upcoming) step.
+        /// </summary>
         public string? CircleDefault { get; set; }
+        /// <summary>
+        /// The slot for the icon inside a default step's circle.
+        /// </summary>
         public string? CircleDefaultIcon { get; set; }
+        /// <summary>
+        /// The slot for the step's label.
+        /// </summary>
         public string? Label { get; set; }
+        /// <summary>
+        /// The slot for the step's caption.
+        /// </summary>
         public string? Caption { get; set; }
     }
 }

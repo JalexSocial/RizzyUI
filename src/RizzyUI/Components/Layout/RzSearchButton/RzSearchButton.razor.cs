@@ -55,8 +55,17 @@ public partial class RzSearchButton : RzComponent<RzSearchButton.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the inner container that holds the icon and label.
+        /// </summary>
         public string? InnerContainer { get; set; }
+        /// <summary>
+        /// The slot for the span wrapping the search icon.
+        /// </summary>
         public string? IconSpan { get; set; }
     }
 }

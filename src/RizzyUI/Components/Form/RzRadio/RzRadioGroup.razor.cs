@@ -8,9 +8,18 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Defines styling properties for a RadioGroup component.
+/// </summary>
 public interface IHasRadioGroupStylingProperties
 {
+    /// <summary>
+    /// Gets the orientation of the radio group.
+    /// </summary>
     public Orientation Orientation { get; }
+    /// <summary>
+    /// Gets the number of items in the radio group.
+    /// </summary>
     public int ItemCount { get; }
 }
 
@@ -29,32 +38,62 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
 
+    /// <summary>
+    /// Gets or sets the display name for the radio group.
+    /// </summary>
     [Parameter]
     public string? DisplayName { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the orientation of the radio group (Vertical or Horizontal). Defaults to Vertical.
+    /// </summary>
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. This is a required parameter.
+    /// </summary>
     [Parameter, EditorRequired]
     public Expression<Func<TValue>>? For { get; set; }
 
+    /// <summary>
+    /// Gets or sets the name attribute shared by all radio buttons in the group.
+    /// </summary>
     [Parameter]
     public string Name { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the icon displayed inside the selected radio button.
+    /// </summary>
     [Parameter]
     public SvgIcon CheckboxIcon { get; set; } = MdiIcon.CheckboxMarkedCircle;
 
+    /// <summary>
+    /// Gets or sets the currently selected value of the radio group.
+    /// </summary>
     [Parameter]
     public TValue? Value { get; set; } = default!;
 
+    /// <summary>
+    /// Gets or sets an event callback that is invoked when the selected value changes.
+    /// </summary>
     [Parameter]
     public EventCallback<TValue> ValueChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets the child content, which should contain the <see cref="RzRadioGroupItem{TValue}"/> components.
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Gets the number of items in the radio group.
+    /// </summary>
     public int ItemCount => _items.Count;
 
+    /// <summary>
+    /// Gets or sets the current selected value, managing state and notifying changes.
+    /// </summary>
     protected TValue? CurrentValue
     {
         get => _currentValue;
@@ -72,6 +111,7 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
         }
     }
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -88,6 +128,7 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
         if (string.IsNullOrEmpty(Name)) Name = _fieldIdentifier.FieldName;
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -106,6 +147,10 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
         _fieldIdentifier = newFieldIdentifier;
     }
 
+    /// <summary>
+    /// Adds a radio item to the group.
+    /// </summary>
+    /// <param name="item">The radio item to add.</param>
     public void AddRadioItem(RzRadioGroupItem<TValue> item)
     {
         if (!_items.Contains(item))
@@ -115,5 +160,6 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
         }
     }
 
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<RzRadioGroupSlots>, RzRadioGroupSlots> GetDescriptor() => Theme.RzRadioGroup;
 }

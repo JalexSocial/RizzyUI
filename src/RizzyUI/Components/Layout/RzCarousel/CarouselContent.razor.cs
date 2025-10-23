@@ -52,7 +52,13 @@ public partial class CarouselContent : RzComponent<CarouselContent.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the main content container.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the viewport wrapper.
+        /// </summary>
         public string? Viewport { get; set; }
     }
 }

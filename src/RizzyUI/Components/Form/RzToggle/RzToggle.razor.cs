@@ -13,6 +13,9 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzToggle : RzComponent<RzToggle.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzToggle component.
+    /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
         @base: "appearance-none focus-visible:border-ring focus-visible:ring-ring/50 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 bg-input dark:bg-input/80 checked:bg-primary dark:checked:bg-primary before:content-[''] before:pointer-events-none before:block before:size-4 before:rounded-full before:ring-0 before:transition-all before:bg-background dark:before:bg-foreground dark:checked:before:bg-primary-foreground checked:before:ms-3.5"
     );
@@ -23,15 +26,27 @@ public partial class RzToggle : RzComponent<RzToggle.Slots>
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
 
+    /// <summary>
+    /// Gets or sets the current value of the toggle.
+    /// </summary>
     [Parameter]
     public bool? Value { get; set; }
 
+    /// <summary>
+    /// Gets or sets an event callback that is invoked when the value changes.
+    /// </summary>
     [Parameter]
     public EventCallback<bool> ValueChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. This is a required parameter.
+    /// </summary>
     [Parameter, EditorRequired]
     public Expression<Func<bool>>? For { get; set; }
 
+    /// <summary>
+    /// Gets or sets the current value of the toggle, managing state and notifying changes.
+    /// </summary>
     protected bool CurrentValue
     {
         get => _currentValue;
@@ -50,8 +65,12 @@ public partial class RzToggle : RzComponent<RzToggle.Slots>
         }
     }
 
+    /// <summary>
+    /// Gets the string representation of the `aria-checked` attribute value.
+    /// </summary>
     protected string AriaCheckedValue => CurrentValue ? "true" : "false";
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -65,6 +84,7 @@ public partial class RzToggle : RzComponent<RzToggle.Slots>
         _currentValue = Value ?? For.Compile().Invoke();
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -72,10 +92,17 @@ public partial class RzToggle : RzComponent<RzToggle.Slots>
         if (_currentValue != newValue) _currentValue = newValue;
     }
 
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzToggle;
 
+    /// <summary>
+    /// Defines the slots available for styling in the RzToggle component.
+    /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
     }
 }

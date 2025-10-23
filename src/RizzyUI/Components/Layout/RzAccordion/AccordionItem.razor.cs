@@ -60,11 +60,29 @@ public partial class AccordionItem : RzComponent<AccordionItem.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the trigger button.
+        /// </summary>
         public string? Button { get; set; }
+        /// <summary>
+        /// The slot for the wrapper around the content container.
+        /// </summary>
         public string? ContentContainerWrapper { get; set; }
+        /// <summary>
+        /// The slot for the main content container.
+        /// </summary>
         public string? ContentContainer { get; set; }
+        /// <summary>
+        /// The slot for the chevron icon.
+        /// </summary>
         public string? ChevronIcon { get; set; }
+        /// <summary>
+        /// The slot for the expanded state of the chevron icon.
+        /// </summary>
         public string? ChevronIconExpanded { get; set; }
     }
 }

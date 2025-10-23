@@ -6,6 +6,9 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Defines styling properties for a CheckboxGroupItem component.
+/// </summary>
 public interface IHasCheckboxGroupItemStylingProperties { }
 
 /// <xmldoc>
@@ -14,21 +17,39 @@ public interface IHasCheckboxGroupItemStylingProperties { }
 /// </xmldoc>
 public partial class RzCheckboxGroupItem<TValue> : RzComponent<RzCheckboxGroupItemSlots>, IHasCheckboxGroupItemStylingProperties
 {
+    /// <summary>
+    /// Gets or sets the parent <see cref="RzCheckboxGroup{TValue}"/> component.
+    /// </summary>
     [CascadingParameter]
     public RzCheckboxGroup<TValue>? Parent { get; set; }
 
+    /// <summary>
+    /// Gets or sets the value associated with this checkbox item. This is a required parameter.
+    /// </summary>
     [Parameter, EditorRequired]
     public TValue? Value { get; set; }
 
+    /// <summary>
+    /// Gets or sets the display title for this checkbox item. This is a required parameter.
+    /// </summary>
     [Parameter, EditorRequired]
     public string Title { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets optional child content displayed alongside the title.
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets a custom Blazicon SVG icon to display when checked, overriding the parent group's icon if set.
+    /// </summary>
     [Parameter]
     public SvgIcon? CheckedIcon { get; set; }
 
+    /// <summary>
+    /// Gets the effective icon to be displayed when the checkbox is checked.
+    /// </summary>
     protected SvgIcon EffectiveCheckedIcon { get; private set; } = default!;
 
     private bool IsChecked
@@ -41,6 +62,7 @@ public partial class RzCheckboxGroupItem<TValue> : RzComponent<RzCheckboxGroupIt
         }
     }
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -54,6 +76,7 @@ public partial class RzCheckboxGroupItem<TValue> : RzComponent<RzCheckboxGroupIt
         SetEffectiveIcon();
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -66,5 +89,6 @@ public partial class RzCheckboxGroupItem<TValue> : RzComponent<RzCheckboxGroupIt
         EffectiveCheckedIcon = CheckedIcon ?? Parent?.CheckedIcon ?? MdiIcon.CheckBold;
     }
 
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<RzCheckboxGroupItemSlots>, RzCheckboxGroupItemSlots> GetDescriptor() => Theme.RzCheckboxGroupItem;
 }

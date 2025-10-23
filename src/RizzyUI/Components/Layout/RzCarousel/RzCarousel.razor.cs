@@ -122,7 +122,13 @@ public partial class RzCarousel : RzComponent<RzCarousel.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the main carousel container.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the inner wrapper managed by Alpine.js.
+        /// </summary>
         public string? Wrapper { get; set; }
     }
 }

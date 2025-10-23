@@ -3,17 +3,41 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Defines the slots available for styling in the RzNumberEdit component.
+/// </summary>
 public sealed partial class RzNumberEditSlots : ISlots
 {
+    /// <summary>
+    /// The base slot for the component's root element.
+    /// </summary>
     public string? Base { get; set; }
+    /// <summary>
+    /// The slot for the wrapper around the input and prepend element.
+    /// </summary>
     public string? InputWrapper { get; set; }
+    /// <summary>
+    /// The slot for the prepend element container.
+    /// </summary>
     public string? PrependElement { get; set; }
+    /// <summary>
+    /// The slot for the icon within the prepend element.
+    /// </summary>
     public string? PrependIconContainer { get; set; }
+    /// <summary>
+    /// The slot for the `<input>` element.
+    /// </summary>
     public string? Input { get; set; }
 }
 
+/// <summary>
+/// Provides the default styling descriptor for the RzNumberEdit component.
+/// </summary>
 public static class RzNumberEditStyles
 {
+    /// <summary>
+    /// The default TvDescriptor for the RzNumberEdit component.
+    /// </summary>
     public static readonly TvDescriptor<RzComponent<RzNumberEditSlots>, RzNumberEditSlots> DefaultDescriptor = new(
         slots: new()
         {

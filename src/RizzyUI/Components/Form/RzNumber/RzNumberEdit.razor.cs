@@ -8,9 +8,18 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Defines styling properties for a NumberEdit component.
+/// </summary>
 public interface IHasNumberEditStylingProperties
 {
+    /// <summary>
+    /// Gets the text to prepend to the input.
+    /// </summary>
     public string? PrependText { get; }
+    /// <summary>
+    /// Gets the icon to prepend to the input.
+    /// </summary>
     public SvgIcon? PrependIcon { get; }
 }
 
@@ -25,23 +34,42 @@ public partial class RzNumberEdit<TValue> : RzComponent<RzNumberEditSlots>, IHas
     private string _placeholder = string.Empty;
     private TValue _value = default!;
 
+    /// <summary>
+    /// Gets or sets the cascading EditContext.
+    /// </summary>
     [CascadingParameter]
     public EditContext? EditContext { get; set; }
 
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. This is a required parameter.
+    /// </summary>
     [Parameter, EditorRequired]
     public required Expression<Func<TValue>> For { get; set; }
 
+    /// <summary>
+    /// Gets or sets the placeholder text for the input field.
+    /// </summary>
     [Parameter]
     public string Placeholder { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets optional text to prepend inside the input field's visual container.
+    /// </summary>
     [Parameter]
     public string? PrependText { get; set; }
 
+    /// <summary>
+    /// Gets or sets an optional Blazicon SVG icon to prepend inside the input field's visual container.
+    /// </summary>
     [Parameter]
     public SvgIcon? PrependIcon { get; set; }
 
+    /// <summary>
+    /// Gets a reference to the underlying RzInputNumber component.
+    /// </summary>
     public RzInputNumber<TValue> InputNumberRef => _elem ?? throw new InvalidOperationException("RzInputNumber reference is not set.");
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -52,6 +80,7 @@ public partial class RzNumberEdit<TValue> : RzComponent<RzNumberEditSlots>, IHas
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -67,5 +96,6 @@ public partial class RzNumberEdit<TValue> : RzComponent<RzNumberEditSlots>, IHas
                 $"{nameof(PrependText)} and {nameof(PrependIcon)} cannot both be set at the same time.");
     }
 
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<RzNumberEditSlots>, RzNumberEditSlots> GetDescriptor() => Theme.RzNumberEdit;
 }

@@ -26,15 +26,25 @@ public partial class RzFieldLabel<TValue> : RzComponent<RzFieldLabelSlots>
     [CascadingParameter] private HttpContext? HttpContext { get; set; }
     [CascadingParameter] private EditContext? EditContext { get; set; }
 
+    /// <summary>
+    /// Gets or sets the child content to be rendered inside the label.
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value, used to determine the `for` attribute.
+    /// </summary>
     [Parameter]
     public Expression<Func<TValue>>? For { get; set; }
 
+    /// <summary>
+    /// Gets or sets the display name for the label. If not set, it's inferred from the `For` expression.
+    /// </summary>
     [Parameter]
     public string? DisplayName { get; set; }
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -43,6 +53,7 @@ public partial class RzFieldLabel<TValue> : RzComponent<RzFieldLabelSlots>
             throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         if (EditContext is null) return;
@@ -97,5 +108,6 @@ public partial class RzFieldLabel<TValue> : RzComponent<RzFieldLabelSlots>
             }
     }
 
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<RzFieldLabelSlots>, RzFieldLabelSlots> GetDescriptor() => Theme.RzFieldLabel;
 }

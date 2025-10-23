@@ -14,6 +14,9 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzToggleField : RzComponent<RzToggleField.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzToggleField component.
+    /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
         slots: new()
         {
@@ -30,21 +33,39 @@ public partial class RzToggleField : RzComponent<RzToggleField.Slots>
     [CascadingParameter]
     private EditContext? EditContext { get; set; }
 
+    /// <summary>
+    /// Gets or sets the display name for the field label. If not set, it's inferred from the `For` expression.
+    /// </summary>
     [Parameter]
     public string? DisplayName { get; set; }
 
+    /// <summary>
+    /// Gets or sets optional descriptive content displayed below the label.
+    /// </summary>
     [Parameter]
     public RenderFragment? Description { get; set; }
 
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. This is a required parameter.
+    /// </summary>
     [Parameter, EditorRequired]
     public Expression<Func<bool>>? For { get; set; }
 
+    /// <summary>
+    /// Gets or sets the current value of the toggle.
+    /// </summary>
     [Parameter]
     public bool? Value { get; set; }
 
+    /// <summary>
+    /// Gets or sets an event callback that is invoked when the value changes.
+    /// </summary>
     [Parameter]
     public EventCallback<bool> ValueChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets the current value of the toggle, managing state and notifying changes.
+    /// </summary>
     protected bool CurrentValue
     {
         get => _currentValue;
@@ -63,6 +84,7 @@ public partial class RzToggleField : RzComponent<RzToggleField.Slots>
         }
     }
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -77,6 +99,7 @@ public partial class RzToggleField : RzComponent<RzToggleField.Slots>
         _currentValue = Value ?? For.Compile().Invoke();
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -84,15 +107,37 @@ public partial class RzToggleField : RzComponent<RzToggleField.Slots>
         if (_currentValue != newValue) _currentValue = newValue;
     }
 
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzToggleField;
 
+    /// <summary>
+    /// Defines the slots available for styling in the RzToggleField component.
+    /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the main field container.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the wrapper around the content (label, description, toggle).
+        /// </summary>
         public string? ContentWrapper { get; set; }
+        /// <summary>
+        /// The slot for the inner wrapper around the label and description.
+        /// </summary>
         public string? InnerWrapper { get; set; }
+        /// <summary>
+        /// The slot for the label within the field.
+        /// </summary>
         public string? LabelInField { get; set; }
+        /// <summary>
+        /// The slot for the toggle component within the field.
+        /// </summary>
         public string? ToggleInField { get; set; }
+        /// <summary>
+        /// The slot for the description text within the label.
+        /// </summary>
         public string? DescriptionInLabel { get; set; }
     }
 }

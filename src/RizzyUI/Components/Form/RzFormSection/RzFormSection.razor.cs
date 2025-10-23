@@ -11,6 +11,9 @@ namespace RizzyUI;
 /// </xmldoc>
 public partial class RzFormSection : RzComponent<RzFormSection.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzFormSection component.
+    /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
         slots: new()
         {
@@ -56,12 +59,30 @@ public partial class RzFormSection : RzComponent<RzFormSection.Slots>
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzFormSection;
 
+    /// <summary>
+    /// Defines the slots available for styling in the RzFormSection component.
+    /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the main section container.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the container of the title and description.
+        /// </summary>
         public string? DescriptionContainer { get; set; }
+        /// <summary>
+        /// The slot for the title element.
+        /// </summary>
         public string? Title { get; set; }
+        /// <summary>
+        /// The slot for the description element.
+        /// </summary>
         public string? Description { get; set; }
+        /// <summary>
+        /// The slot for the main content container.
+        /// </summary>
         public string? ContentContainer { get; set; }
     }
 }
