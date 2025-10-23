@@ -1,4 +1,5 @@
-﻿namespace RizzyUI;
+
+namespace RizzyUI;
 
 /// <summary>
 ///     Represents a scale of colors with various lightness levels.

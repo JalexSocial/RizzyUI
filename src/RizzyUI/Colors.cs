@@ -1,4 +1,5 @@
-﻿namespace RizzyUI;
+
+namespace RizzyUI;
 
 /// <summary>
 ///     Provides static readonly properties to access each Tailwind color palette.
