@@ -22,8 +22,8 @@ public static class ColorUtil
     /// <summary>
     ///     Converts an AccentColor to a background class string
     /// </summary>
-    /// <param name="accentColor"></param>
-    /// <returns></returns>
+    /// <param name="accentColor">The accent color.</param>
+    /// <returns>The Tailwind CSS background class.</returns>
     public static string ToLightBackgroundClass(this AccentColor accentColor)
     {
         return accentColor switch
@@ -46,8 +46,8 @@ public static class ColorUtil
     /// <summary>
     ///     Converts an AccentColor to a background class string
     /// </summary>
-    /// <param name="accentColor"></param>
-    /// <returns></returns>
+    /// <param name="accentColor">The accent color.</param>
+    /// <returns>The Tailwind CSS background class.</returns>
     public static string ToDarkBackgroundClass(this AccentColor accentColor)
     {
         return accentColor switch
@@ -71,8 +71,8 @@ public static class ColorUtil
     /// <summary>
     ///     Converts an AccentColor to a text class string
     /// </summary>
-    /// <param name="accentColor"></param>
-    /// <returns></returns>
+    /// <param name="accentColor">The accent color.</param>
+    /// <returns>The Tailwind CSS text class.</returns>
     public static string ToTextClass(AccentColor accentColor)
     {
         return accentColor switch

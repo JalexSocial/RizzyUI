@@ -1,8 +1,12 @@
-﻿using System.Globalization;
+
+using System.Globalization;
 using System.Text;
 
 namespace RizzyUI.Extensions;
 
+/// <summary>
+/// Provides extension methods for string manipulation.
+/// </summary>
 internal static class StringExtensions
 {
     private static readonly Random _random = new(Environment.TickCount);
@@ -89,8 +93,8 @@ internal static class StringExtensions
     /// <summary>
     ///     Shuffle the characters in a string
     /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
+    /// <param name="input">The input string.</param>
+    /// <returns>A new string with the characters shuffled.</returns>
     public static string Shuffle(this string input)
     {
         return new string(input.ToCharArray()
@@ -98,6 +102,11 @@ internal static class StringExtensions
             .ToArray());
     }
 
+    /// <summary>
+    /// Trims empty lines from the beginning and end of a multi-line string.
+    /// </summary>
+    /// <param name="input">The input string.</param>
+    /// <returns>A new string with leading and trailing empty lines removed.</returns>
     public static string TrimEmptyLines(this string input)
     {
         if (string.IsNullOrWhiteSpace(input)) return string.Empty;

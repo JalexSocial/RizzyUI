@@ -61,7 +61,13 @@ public partial class DropdownMenuSubContent : RzComponent<DropdownMenuSubContent
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the main content panel.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the inner container of the content.
+        /// </summary>
         public string? InnerContainer { get; set; }
     }
 }

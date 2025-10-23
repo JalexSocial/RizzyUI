@@ -1,20 +1,45 @@
-﻿using System.Text;
+
+using System.Text;
 using TailwindMerge;
 
 namespace RizzyUI.Utility.Parser;
 
+/// <summary>
+/// Provides utility methods for parsing and manipulating HTML.
+/// </summary>
 internal static class HtmlUtils
 {
+    /// <summary>
+    /// Defines the policy for resolving attribute conflicts during merging.
+    /// </summary>
     public enum AttrConflictPolicy
     {
+        /// <summary>
+        /// Replace the existing attribute value with the new one.
+        /// </summary>
         Replace,
+        /// <summary>
+        /// Append the new attribute value to the existing one, separated by a space.
+        /// </summary>
         AppendSpaceSeparated,
+        /// <summary>
+        /// Prepend the new attribute value to the existing one, separated by a space.
+        /// </summary>
         PrependSpaceSeparated
     }
 
+    /// <summary>
+    /// Defines options for the attribute merging process.
+    /// </summary>
     public sealed class MergeOptions
     {
+        /// <summary>
+        /// Gets or sets the comparer for attribute names. Defaults to OrdinalIgnoreCase.
+        /// </summary>
         public StringComparer Comparer { get; init; } = StringComparer.OrdinalIgnoreCase;
+        /// <summary>
+        /// Gets or sets a value indicating whether to preserve unquoted attributes when replacing values.
+        /// </summary>
         public bool PreserveUnquotedOnReplace { get; init; } = true;
 
         /// <summary>
@@ -25,6 +50,14 @@ internal static class HtmlUtils
 
     private enum QuoteKind : byte { None, Single, Double }
 
+    /// <summary>
+    /// Merges a dictionary of attributes into the root element of an HTML fragment.
+    /// </summary>
+    /// <param name="merge">The TwMerge instance for merging CSS classes.</param>
+    /// <param name="htmlFragment">The HTML fragment to modify.</param>
+    /// <param name="parameters">The attributes to merge.</param>
+    /// <param name="options">Options for the merge process.</param>
+    /// <returns>The modified HTML fragment string.</returns>
     public static string MergeRootElementAttributes(
         TwMerge merge,
         string htmlFragment,

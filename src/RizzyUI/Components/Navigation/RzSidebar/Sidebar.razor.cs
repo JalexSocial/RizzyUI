@@ -120,9 +120,21 @@ public partial class Sidebar : RzComponent<Sidebar.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the main sidebar container.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the gap element that pushes content when the sidebar is open.
+        /// </summary>
         public string? Gap { get; set; }
+        /// <summary>
+        /// The slot for the desktop container of the sidebar.
+        /// </summary>
         public string? DesktopContainer { get; set; }
+        /// <summary>
+        /// The slot for the inner content wrapper of the desktop sidebar.
+        /// </summary>
         public string? DesktopInner { get; set; }
     }
 }

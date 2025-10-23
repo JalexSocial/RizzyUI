@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using RizzyUI.Extensions;
 
@@ -13,6 +14,10 @@ public class RzThemeConverter : JsonConverter<RzTheme>
     /// <summary>
     /// Reads and converts the JSON to type <see cref="RzTheme"/>.
     /// </summary>
+    /// <param name="reader">The JSON reader.</param>
+    /// <param name="typeToConvert">The type to convert.</param>
+    /// <param name="options">The serializer options.</param>
+    /// <returns>The deserialized <see cref="RzTheme"/> object, or null if deserialization fails.</returns>
     public override RzTheme? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var dto = JsonSerializer.Deserialize<ShadcnThemeDto>(ref reader, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
@@ -136,6 +141,10 @@ public class RzThemeConverter : JsonConverter<RzTheme>
     /// <summary>
     /// Writes a specified value as JSON. This method is not implemented.
     /// </summary>
+    /// <param name="writer">The JSON writer.</param>
+    /// <param name="value">The value to write.</param>
+    /// <param name="options">The serializer options.</param>
+    /// <exception cref="NotImplementedException">Thrown because serialization of RzTheme is not supported.</exception>
     public override void Write(Utf8JsonWriter writer, RzTheme value, JsonSerializerOptions options)
     {
         throw new NotImplementedException("Serialization of RzTheme to shadcn/ui format is not supported.");
@@ -147,9 +156,15 @@ public class RzThemeConverter : JsonConverter<RzTheme>
 /// </summary>
 internal record ShadcnThemeDto
 {
+    /// <summary>
+    /// Gets or sets the name of the theme.
+    /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; init; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the CSS variables for the theme.
+    /// </summary>
     [JsonPropertyName("cssVars")]
     public CssVarsDto CssVars { get; init; } = new();
 }
@@ -160,12 +175,21 @@ internal record ShadcnThemeDto
 /// </summary>
 internal record CssVarsDto
 {
+    /// <summary>
+    /// Gets or sets the global theme variables.
+    /// </summary>
     [JsonPropertyName("theme")]
     public Dictionary<string, string> Theme { get; init; } = new();
 
+    /// <summary>
+    /// Gets or sets the light mode theme variables.
+    /// </summary>
     [JsonPropertyName("light")]
     public Dictionary<string, string> Light { get; init; } = new();
 
+    /// <summary>
+    /// Gets or sets the dark mode theme variables.
+    /// </summary>
     [JsonPropertyName("dark")]
     public Dictionary<string, string> Dark { get; init; } = new();
 }

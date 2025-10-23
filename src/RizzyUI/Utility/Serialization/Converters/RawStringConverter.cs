@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace RizzyUI.Utility.Serialization.Converters;
@@ -12,10 +13,10 @@ public class RawStringConverter : JsonConverter<string>
     /// <summary>
     ///     Deserialization of json objects with raw values not supported
     /// </summary>
-    /// <param name="reader"></param>
-    /// <param name="typeToConvert"></param>
-    /// <param name="options"></param>
-    /// <returns></returns>
+    /// <param name="reader">The JSON reader.</param>
+    /// <param name="typeToConvert">The type to convert.</param>
+    /// <param name="options">The serializer options.</param>
+    /// <returns>An empty string, as deserialization is not supported.</returns>
     public override string Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         return string.Empty;
@@ -24,9 +25,9 @@ public class RawStringConverter : JsonConverter<string>
     /// <summary>
     ///     Writes the raw value, bypassing JSON escaping and quotation marks
     /// </summary>
-    /// <param name="writer"></param>
-    /// <param name="value"></param>
-    /// <param name="options"></param>
+    /// <param name="writer">The JSON writer.</param>
+    /// <param name="value">The value to write.</param>
+    /// <param name="options">The serializer options.</param>
     public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
     {
         writer.WriteRawValue(value, true);

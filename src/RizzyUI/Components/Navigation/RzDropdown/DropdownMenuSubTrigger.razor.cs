@@ -80,8 +80,17 @@ public partial class DropdownMenuSubTrigger : RzComponent<DropdownMenuSubTrigger
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the icon element.
+        /// </summary>
         public string? Icon { get; set; }
+        /// <summary>
+        /// The slot for the chevron icon.
+        /// </summary>
         public string? Chevron { get; set; }
     }
 }

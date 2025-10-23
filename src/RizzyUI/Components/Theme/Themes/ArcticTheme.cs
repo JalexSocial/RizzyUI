@@ -1,3 +1,4 @@
+
 namespace RizzyUI;
 
 /// <summary>
@@ -7,7 +8,7 @@ namespace RizzyUI;
 public class ArcticTheme : RzTheme
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="RzTheme" /> class with predefined values.
+    ///     Initializes a new instance of the <see cref="ArcticTheme" /> class with predefined values.
     /// </summary>
     public ArcticTheme() : base("Arctic", "arctic")
     {

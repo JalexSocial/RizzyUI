@@ -1,4 +1,5 @@
-﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 namespace RizzyUI;
 
@@ -10,18 +11,18 @@ public class RizzyCodeTheme
     /// <summary>
     ///     Initialize theme
     /// </summary>
-    /// <param name="background"></param>
-    /// <param name="color"></param>
-    /// <param name="comment"></param>
-    /// <param name="keyword"></param>
-    /// <param name="attribute"></param>
-    /// <param name="symbol"></param>
-    /// <param name="nameSpace"></param>
-    /// <param name="variable"></param>
-    /// <param name="literal"></param>
-    /// <param name="punctuation"></param>
-    /// <param name="deletion"></param>
-    /// <param name="addition"></param>
+    /// <param name="background">The background color.</param>
+    /// <param name="color">The default text color.</param>
+    /// <param name="comment">The color for comments.</param>
+    /// <param name="keyword">The color for keywords.</param>
+    /// <param name="attribute">The color for attributes.</param>
+    /// <param name="symbol">The color for symbols.</param>
+    /// <param name="nameSpace">The color for namespaces.</param>
+    /// <param name="variable">The color for variables.</param>
+    /// <param name="literal">The color for literals.</param>
+    /// <param name="punctuation">The color for punctuation.</param>
+    /// <param name="deletion">The color for deletions in diffs.</param>
+    /// <param name="addition">The color for additions in diffs.</param>
     public RizzyCodeTheme(
         string background,
         string color,
