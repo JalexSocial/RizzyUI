@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -44,7 +43,7 @@ public partial class RzLink : RzComponent<RzLink.Slots>
     /// Gets or sets the color of the link. Defaults to <see cref="SemanticColor.Primary" />.
     /// </summary>
     [Parameter]
-    public SemanticColor Color { get; set; } = SemanticColor.Primary; 
+    public SemanticColor Color { get; set; } = SemanticColor.Primary;
 
     /// <summary> Gets or sets whether the link should be underlined on hover and focus. Defaults to true. </summary>
     [Parameter]

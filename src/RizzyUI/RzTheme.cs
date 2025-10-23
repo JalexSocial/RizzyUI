@@ -21,14 +21,14 @@ public partial class RzTheme
     {
         Name = name;
         ThemeCode = themeCode;
-        
+
         // Instantiate default styles for all components
 
         // RzAlert Family
         RzAlert = RizzyUI.RzAlert.DefaultDescriptor;
         AlertTitle = RizzyUI.AlertTitle.DefaultDescriptor;
         AlertDescription = RizzyUI.AlertDescription.DefaultDescriptor;
-        
+
         // RzAvatar Family
         RzAvatar = RizzyUI.RzAvatar.DefaultDescriptor;
 
@@ -42,8 +42,8 @@ public partial class RzTheme
         BreadcrumbLink = RizzyUI.BreadcrumbLink.DefaultDescriptor;
         BreadcrumbPage = RizzyUI.BreadcrumbPage.DefaultDescriptor;
         BreadcrumbSeparator = RizzyUI.BreadcrumbSeparator.DefaultDescriptor;
-        BreadcrumbEllipsis = RizzyUI.BreadcrumbEllipsis.DefaultDescriptor;        
-        
+        BreadcrumbEllipsis = RizzyUI.BreadcrumbEllipsis.DefaultDescriptor;
+
         // RzButton
         RzButton = RizzyUI.RzButton.DefaultDescriptor;
 
@@ -54,9 +54,9 @@ public partial class RzTheme
         DialogFooter = RizzyUI.DialogFooter.DefaultDescriptor;
         DialogTitle = RizzyUI.DialogTitle.DefaultDescriptor;
         DialogTrigger = RizzyUI.DialogTrigger.DefaultDescriptor;
-        DialogClose = RizzyUI.DialogClose.DefaultDescriptor;        
+        DialogClose = RizzyUI.DialogClose.DefaultDescriptor;
         DialogDescription = RizzyUI.DialogDescription.DefaultDescriptor;
-        
+
         // RzEmpty Family
         RzEmpty = RizzyUI.RzEmpty.DefaultDescriptor;
         EmptyHeader = RizzyUI.EmptyHeader.DefaultDescriptor;
@@ -64,7 +64,7 @@ public partial class RzTheme
         EmptyTitle = RizzyUI.EmptyTitle.DefaultDescriptor;
         EmptyDescription = RizzyUI.EmptyDescription.DefaultDescriptor;
         EmptyContent = RizzyUI.EmptyContent.DefaultDescriptor;
-        
+
         // RzIndicator
         RzIndicator = RizzyUI.RzIndicator.DefaultDescriptor;
 
@@ -72,7 +72,7 @@ public partial class RzTheme
         RzPopover = RizzyUI.RzPopover.DefaultDescriptor;
         PopoverTrigger = RizzyUI.PopoverTrigger.DefaultDescriptor;
         PopoverContent = RizzyUI.PopoverContent.DefaultDescriptor;
-        
+
         // RzProgress
         RzProgress = RizzyUI.RzProgress.DefaultDescriptor;
 
@@ -88,16 +88,16 @@ public partial class RzTheme
         SheetDescription = RizzyUI.SheetDescription.DefaultDescriptor;
         SheetTrigger = RizzyUI.SheetTrigger.DefaultDescriptor;
         SheetClose = RizzyUI.SheetClose.DefaultDescriptor;
-        
+
         // RzSpinner
         RzSpinner = RizzyUI.RzSpinner.DefaultDescriptor;
-        
+
         // Typography Family
         RzKbd = RizzyUI.RzKbd.DefaultDescriptor;
         RzKbdGroup = RizzyUI.RzKbdGroup.DefaultDescriptor;
         RzHeading = RizzyUI.RzHeading.DefaultDescriptor;
         RzParagraph = RizzyUI.RzParagraph.DefaultDescriptor;
-        
+
         // Layout Components (Migrated)
         RzAccordion = RizzyUI.RzAccordion.DefaultDescriptor;
         AccordionItem = RizzyUI.AccordionItem.DefaultDescriptor;
@@ -137,7 +137,7 @@ public partial class RzTheme
         RzMarkdown = RizzyUI.RzMarkdown.DefaultDescriptor;
         RzQuickReference = RizzyUI.RzQuickReference.DefaultDescriptor;
         RzQuickReferenceContainer = RizzyUI.RzQuickReferenceContainer.DefaultDescriptor;
-        
+
         RzDropdownMenu = RizzyUI.RzDropdownMenu.DefaultDescriptor;
         DropdownMenuContent = RizzyUI.DropdownMenuContent.DefaultDescriptor;
         DropdownMenuGroup = RizzyUI.DropdownMenuGroup.DefaultDescriptor;
@@ -174,7 +174,7 @@ public partial class RzTheme
         SidebarRail = RizzyUI.SidebarRail.DefaultDescriptor;
         SidebarSeparator = RizzyUI.SidebarSeparator.DefaultDescriptor;
         SidebarTrigger = RizzyUI.SidebarTrigger.DefaultDescriptor;
-    
+
         // Newly Migrated Components
         RzButtonGroup = RizzyUI.RzButtonGroup.DefaultDescriptor;
         RzCheckboxGroup = RizzyUI.RzCheckboxGroupStyles.DefaultDescriptor;
@@ -227,17 +227,17 @@ public partial class RzTheme
     ///     Gets or sets the color scheme definitions for the dark mode variant of the theme.
     /// </summary>
     public RzThemeVariant Dark { get; set; } = new();
-    
+
     /// <summary>
     ///     Gets the default border radius value used across components (e.g., "6px", "0.5rem").
     /// </summary>
     public string Radius { get; init; }
-   
+
     /// <summary>
     /// Any additional variables that should be applied to elements using this theme
     /// </summary>
-    public Dictionary<string,string>? AdditionalProperties { get; init; }
-    
+    public Dictionary<string, string>? AdditionalProperties { get; init; }
+
     /// <summary>
     ///     Gets the default Arctic theme instance.
     /// </summary>
@@ -247,7 +247,7 @@ public partial class RzTheme
     ///     Gets a new instance of the Arctic theme.
     /// </summary>
     public static RzTheme ArcticTheme => new ArcticTheme();
-    
+
     /// <summary>
     /// Vercel theme instance, loaded from embedded resource.
     /// </summary>

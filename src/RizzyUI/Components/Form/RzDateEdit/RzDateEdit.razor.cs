@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Options;
 using Rizzy.Utility;
-using RizzyUI.Extensions;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Text.Json;
@@ -52,27 +51,27 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
     /// Gets or sets the expression that identifies the bound value. This is a required parameter.
     /// </summary>
     [Parameter, EditorRequired] public Expression<Func<DateTime?>>? For { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the configuration options for the Flatpickr instance.
     /// </summary>
     [Parameter] public FlatpickrOptions Options { get; set; } = new() { Locale = "en" };
-    
+
     /// <summary>
     /// Gets or sets the placeholder text for the input field.
     /// </summary>
     [Parameter] public string Placeholder { get; set; } = string.Empty;
-    
+
     /// <summary>
     /// Gets or sets optional text to prepend inside the input field's visual container.
     /// </summary>
     [Parameter] public string? PrependText { get; set; }
-    
+
     /// <summary>
     /// Gets or sets an optional Blazicon SVG icon to prepend inside the input field's visual container.
     /// </summary>
     [Parameter] public SvgIcon? PrependIcon { get; set; }
-    
+
     /// <summary>
     /// Gets or sets an array of logical asset keys for required JavaScript/CSS files. Defaults to ["FlatpickrCore"].
     /// </summary>
@@ -88,7 +87,7 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
             _inputValue = value;
             if (DateTime.TryParseExact(value, GetFlatpickrFormat(), CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDate))
                 UpdateValue(parsedDate);
-            else if (string.IsNullOrEmpty(value)) 
+            else if (string.IsNullOrEmpty(value))
                 UpdateValue(null);
         }
     }

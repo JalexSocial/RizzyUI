@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
 using RizzyUI.Localization;
 using TailwindMerge.Extensions;
-using TailwindVariants.NET; // Add this using statement
 
 namespace RizzyUI;
 
@@ -25,7 +24,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRizzyUI(this IServiceCollection services, Action<RizzyUIConfig> configure)
     {
         ArgumentNullException.ThrowIfNull(configure);
-       
+
         // Register IOptions<RizzyUIConfig> and apply the user's configuration.
         services.Configure(configure);
         // Call the internal method that performs the actual service registration.
@@ -41,7 +40,7 @@ public static class ServiceCollectionExtensions
     {
         // Ensure IOptions infrastructure is registered even if no specific configuration is provided.
         services.Configure<RizzyUIConfig>(config => { });
-        
+
         return services.AddRizzyUIInternal();
     }
 
@@ -70,7 +69,7 @@ public static class ServiceCollectionExtensions
                 // Add the default theme to the beginning of the list if it's not already there.
                 config.AvailableThemes.Insert(0, config.DefaultTheme);
             }
-            
+
             config.AvailableThemes.Add(RzTheme.VercelTheme);
 
             // Add default asset URLs, allowing users to override them.
@@ -86,7 +85,7 @@ public static class ServiceCollectionExtensions
             config.AssetUrls.TryAdd("HighlightJsRazor", Constants.ContentUrl("js/lib/highlightjs-plugin/cshtml-razor.min.js"));
             config.AssetUrls.TryAdd("FlatpickrCore", "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js");
         });
-        
+
         // --- Localization Setup ---
 
         bool localizationFactoryRegistered = services.Any(d => d.ServiceType == typeof(IStringLocalizerFactory));

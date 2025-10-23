@@ -230,12 +230,12 @@ public enum AnchorPoint
     /// Anchor to left middle
     /// </summary>
     Left,
-    
+
     /// <summary>
     /// Anchor to left end
     /// </summary>
     LeftEnd,
-    
+
     /// <summary>
     ///     Anchor to right start
     /// </summary>
@@ -245,7 +245,7 @@ public enum AnchorPoint
     /// Anchor to right middle
     /// </summary>
     Right,
-    
+
     /// <summary>
     /// Anchor to right end
     /// </summary>
@@ -380,58 +380,58 @@ public enum SemanticColor
 
     /// <summary>General page background color (maps to --background in kitchen sink).</summary>
     Background,
-    
+
     /// <summary>General page foreground/text color (maps to --foreground).</summary>
     Foreground,
 
     /// <summary>Background color for card components (maps to --card).</summary>
     Card,
-    
+
     /// <summary>Foreground/text color for content on card components (maps to --card-foreground).</summary>
     CardForeground,
 
     /// <summary>Background color for popover components (maps to --popover).</summary>
     Popover,
-    
+
     /// <summary>Foreground/text color for content on popover components (maps to --popover-foreground).</summary>
     PopoverForeground,
 
     /// <summary>Primary accent color, typically for interactive elements (maps to --primary).</summary>
     Primary,
-    
+
     /// <summary>Foreground/text color for content on primary-colored elements (maps to --primary-foreground).</summary>
     PrimaryForeground,
 
     /// <summary>Secondary accent color (maps to --secondary).</summary>
     Secondary,
-    
+
     /// <summary>Foreground/text color for content on secondary-colored elements (maps to --secondary-foreground).</summary>
     SecondaryForeground,
 
     /// <summary>Color for muted surfaces or backgrounds (maps to --muted).</summary>
     Muted,
-    
+
     /// <summary>Foreground/text color for content on muted surfaces (maps to --muted-foreground).</summary>
     MutedForeground,
 
     /// <summary>Color for accented surfaces or backgrounds (maps to --accent).</summary>
     Accent,
-    
+
     /// <summary>Foreground/text color for content on accented surfaces (maps to --accent-foreground).</summary>
     AccentForeground,
 
     /// <summary>Color for destructive actions or elements, indicating errors or critical operations (maps to --destructive).</summary>
     Destructive,
-    
+
     /// <summary>Foreground/text color for content on destructive-colored elements (maps to an implied --destructive-foreground).</summary>
     DestructiveForeground,
 
     /// <summary>Color for borders (maps to --border).</summary>
     Border,
-    
+
     /// <summary>Color for input backgrounds or borders (maps to --input).</summary>
     Input,
-    
+
     /// <summary>Color for focus rings (maps to --ring).</summary>
     Ring,
 

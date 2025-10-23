@@ -1,5 +1,3 @@
-
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;

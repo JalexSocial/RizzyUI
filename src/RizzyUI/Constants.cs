@@ -38,7 +38,7 @@ public static class Constants
         /// Fired by RizzyUI immediately before Alpine initializes.
         /// </summary>
         public const string Initialize = "rz:init";
-        
+
         /// <summary>
         /// The default event name that the RzDialog component listens for to trigger closing via external sources (e.g., HTMX HX-Trigger header).
         /// Can be overridden via the `CloseEventName` parameter on RzDialog.

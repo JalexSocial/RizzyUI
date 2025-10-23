@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -39,7 +38,7 @@ public partial class SidebarRail : RzComponent<SidebarRail.Slots>
         {
             throw new InvalidOperationException($"{nameof(SidebarRail)} must be used within an {nameof(RzSidebarProvider)}.");
         }
-        
+
         if (string.IsNullOrEmpty(Element))
             Element = "button";
 

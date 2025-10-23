@@ -74,9 +74,9 @@ internal static class HtmlUtils
 
         // Build index map + arrays for bitmap tracking
         var indexMap = new Dictionary<string, int>(parameters.Count, options.Comparer);
-        var keys   = new string[parameters.Count];
+        var keys = new string[parameters.Count];
         var values = new string?[parameters.Count];
-        var used   = new bool[parameters.Count];
+        var used = new bool[parameters.Count];
 
         {
             int idx = 0;
@@ -201,7 +201,7 @@ internal static class HtmlUtils
                 if (IsClassAttr(attrName, options.Comparer))
                 {
                     var existing = valueSpan.IsEmpty ? string.Empty : valueSpan.ToString();
-                    string merged = merge.Merge( [existing, newValue]) ?? string.Empty;
+                    string merged = merge.Merge([existing, newValue]) ?? string.Empty;
                     EmitAttr(sb, "class", merged, quoteKind, options.PreserveUnquotedOnReplace);
                 }
                 else
@@ -215,20 +215,20 @@ internal static class HtmlUtils
                             break;
 
                         case AttrConflictPolicy.AppendSpaceSeparated:
-                        {
-                            var existing = valueSpan.IsEmpty ? string.Empty : valueSpan.ToString();
-                            var merged = existing.Length == 0 ? newValue : existing + " " + newValue;
-                            EmitAttr(sb, attrName, merged, quoteKind, options.PreserveUnquotedOnReplace);
-                            break;
-                        }
+                            {
+                                var existing = valueSpan.IsEmpty ? string.Empty : valueSpan.ToString();
+                                var merged = existing.Length == 0 ? newValue : existing + " " + newValue;
+                                EmitAttr(sb, attrName, merged, quoteKind, options.PreserveUnquotedOnReplace);
+                                break;
+                            }
 
                         case AttrConflictPolicy.PrependSpaceSeparated:
-                        {
-                            var existing = valueSpan.IsEmpty ? string.Empty : valueSpan.ToString();
-                            var merged = existing.Length == 0 ? newValue : newValue + " " + existing;
-                            EmitAttr(sb, attrName, merged, quoteKind, options.PreserveUnquotedOnReplace);
-                            break;
-                        }
+                            {
+                                var existing = valueSpan.IsEmpty ? string.Empty : valueSpan.ToString();
+                                var merged = existing.Length == 0 ? newValue : newValue + " " + existing;
+                                EmitAttr(sb, attrName, merged, quoteKind, options.PreserveUnquotedOnReplace);
+                                break;
+                            }
                     }
                 }
             }

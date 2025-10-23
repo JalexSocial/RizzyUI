@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using System.Text.Json;
 using TailwindVariants.NET;
 

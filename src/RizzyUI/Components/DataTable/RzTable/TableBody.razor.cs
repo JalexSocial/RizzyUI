@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -21,12 +20,12 @@ public partial class TableBody<TItem> : RzComponent<TableBodySlots>
     /// Gets or sets the collection of items to render. If not provided, it falls back to the items from the parent <see cref="RzTable{TItem}"/>.
     /// </summary>
     [Parameter] public IEnumerable<TItem>? Items { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the template for rendering each row. This is a required parameter.
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment<TItem> RowTemplate { get; set; } = default!;
-    
+
     /// <summary>
     /// Gets or sets the template to display when there are no items to render.
     /// </summary>
@@ -36,12 +35,12 @@ public partial class TableBody<TItem> : RzComponent<TableBodySlots>
     /// Gets the effective collection of items to be rendered.
     /// </summary>
     protected IEnumerable<TItem> EffectiveItems => Items ?? ParentRzTable?.Items ?? Enumerable.Empty<TItem>();
-    
+
     /// <summary>
     /// Gets the number of columns in the table, used for colspan in the empty template.
     /// </summary>
     protected int ColumnCount => ParentRzTable?.ColumnCount ?? 1;
-    
+
     /// <summary>
     /// Gets the unique ID for the loading spinner element.
     /// </summary>

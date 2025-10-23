@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -49,7 +48,7 @@ public partial class SidebarTrigger : RzComponent<SidebarTrigger.Slots>
         Element = "button";
         AriaLabel ??= Localizer["RzSidebarTrigger.DefaultAriaLabel"];
     }
-    
+
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {

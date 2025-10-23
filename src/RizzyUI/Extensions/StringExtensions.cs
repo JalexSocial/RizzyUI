@@ -125,7 +125,7 @@ internal static class StringExtensions
         // Join the lines back together, trimming the empty ones
         return string.Join(Environment.NewLine, lines[start..(end + 1)]);
     }
-    
+
     /// <summary>
     /// Converts any delimited string (hyphens, underscores, spaces, etc.)
     /// into a space-separated Title Case string.
@@ -152,8 +152,8 @@ internal static class StringExtensions
             source
                 .Split(delimiters, StringSplitOptions.RemoveEmptyEntries)
                 .Select(w => textInfo.ToTitleCase(w.Trim())));
-    }    
-    
+    }
+
     /// <summary>
     /// Converts a string to kebab-case, with words separated by hyphens.
     /// </summary>
@@ -213,5 +213,5 @@ internal static class StringExtensions
         // Return the kebab-case representation of the input string
         return result.ToString();
     }
-    
+
 }

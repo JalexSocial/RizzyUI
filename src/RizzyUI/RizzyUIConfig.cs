@@ -23,8 +23,8 @@ public sealed class RizzyUIConfig
     /// Gets or sets the list of available themes that can be used within the application.
     /// This list can be populated during startup using the <see cref="ThemeLoader"/> or by adding themes manually.
     /// </summary>
-    public List<RzTheme> AvailableThemes { get; set; } = new ();
-    
+    public List<RzTheme> AvailableThemes { get; set; } = new();
+
     /// <summary>
     /// Gets or sets the marker <see cref="Type"/> used by the consuming application to identify
     /// its resource files (.resx) intended for overriding or augmenting RizzyUI's default translations.

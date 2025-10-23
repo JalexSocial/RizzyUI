@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
 
 namespace RizzyUI;
 
@@ -64,9 +63,9 @@ public abstract partial class RzAsChildComponent : RzComponent
     /// </returns>
     protected RenderFragment RenderAsChild() => builder =>
     {
-        if (!AsChild) 
+        if (!AsChild)
             throw new InvalidOperationException($"{GetType().Name}: RenderAsChild should not be called when AsChild is false.");
-       
+
         var asChildContent = GetAsChildContent();
         if (asChildContent != null)
         {
@@ -116,7 +115,7 @@ public abstract partial class RzAsChildComponent : RzComponent
     /// </code>
     /// </example>
     protected abstract RenderFragment? GetAsChildContent();
-    
+
     /// <summary>
     /// When overridden in a derived class, returns the attributes that should be applied to either
     /// the component's root element (when <see cref="AsChild"/> is <c>false</c>) or merged onto

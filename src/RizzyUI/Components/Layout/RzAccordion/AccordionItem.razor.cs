@@ -1,7 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -47,7 +46,7 @@ public partial class AccordionItem : RzComponent<AccordionItem.Slots>
     /// <summary> The content to be displayed inside the accordion (overrides Title if set). </summary>
     [Parameter]
     public RenderFragment? AccordionTrigger { get; set; }
-    
+
     /// <summary> The content to be displayed inside the section when it is expanded. </summary>
     [Parameter]
     public RenderFragment? AccordionContent { get; set; }

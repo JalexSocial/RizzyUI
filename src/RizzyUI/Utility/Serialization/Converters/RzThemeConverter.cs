@@ -1,7 +1,7 @@
 
+using RizzyUI.Extensions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using RizzyUI.Extensions;
 
 namespace RizzyUI.Utility.Serialization.Converters;
 
@@ -30,7 +30,7 @@ public class RzThemeConverter : JsonConverter<RzTheme>
         var lightVariant = MapVariant(dto.CssVars.Light, dto.CssVars.Theme, isDark: false);
         var darkVariant = MapVariant(dto.CssVars.Dark, dto.CssVars.Theme, isDark: true);
         var radius = dto.CssVars.Theme.GetValueOrDefault("radius", "0.5rem");
-        
+
         dto.CssVars.Theme.Remove("radius");
 
         var theme = new RzTheme(themeName, themeCode)

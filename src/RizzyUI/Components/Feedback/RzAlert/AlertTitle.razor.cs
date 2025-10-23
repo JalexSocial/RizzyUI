@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -29,7 +28,7 @@ public partial class AlertTitle : RzComponent<AlertTitle.Slots>
     );
 
     /// <summary> Gets the parent <see cref="RzAlert" /> component to determine the variant. </summary>
-    [CascadingParameter] 
+    [CascadingParameter]
     public RzAlert? AlertParent { get; set; }
 
     /// <summary> 
@@ -40,7 +39,7 @@ public partial class AlertTitle : RzComponent<AlertTitle.Slots>
     public AlertVariant? Variant { get; set; }
 
     /// <summary> The content to be rendered inside the alert title (typically text). </summary>
-    [Parameter] 
+    [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>

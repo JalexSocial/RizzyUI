@@ -171,9 +171,9 @@ public class RzThemeVariant
 
     /// <summary>The extra-extra-large box shadow value (maps to --shadow-2xl).</summary>
     public string Shadow2Xl { get; init; }
-    
+
     /// <summary>
     /// Any additional variables that should be applied to elements using this theme variant.
     /// </summary>
-    public Dictionary<string,string>? AdditionalProperties { get; init; } 
+    public Dictionary<string, string>? AdditionalProperties { get; init; }
 }

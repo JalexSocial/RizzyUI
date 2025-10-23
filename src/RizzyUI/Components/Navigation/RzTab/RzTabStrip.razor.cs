@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -60,7 +59,7 @@ public partial class RzTabStrip : RzComponent<RzTabStripSlots>, IHasTabStripStyl
     /// Gets the color of the underline for the selected tab.
     /// </summary>
     public SemanticColor SelectedTabUnderlineColor => Parent?.SelectedTabUnderlineColor ?? SemanticColor.Primary;
-    
+
     /// <summary>
     /// Gets the total number of tabs in the strip.
     /// </summary>

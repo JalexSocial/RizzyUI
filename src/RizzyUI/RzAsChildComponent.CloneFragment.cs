@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.RenderTree;
 using RizzyUI.Utility.Parser;
@@ -73,11 +69,11 @@ public abstract partial class RzAsChildComponent : RzComponent
         }
 
         var frames = range.Array;
-        var root   = frames[0];
+        var root = frames[0];
 
-        bool rootIsElement   = root.FrameType == RenderTreeFrameType.Element;
+        bool rootIsElement = root.FrameType == RenderTreeFrameType.Element;
         bool rootIsComponent = root.FrameType == RenderTreeFrameType.Component;
-        bool rootIsMarkup    = root.FrameType == RenderTreeFrameType.Markup;
+        bool rootIsMarkup = root.FrameType == RenderTreeFrameType.Markup;
 
         if (!rootIsElement && !rootIsComponent && !rootIsMarkup)
         {
@@ -126,12 +122,12 @@ public abstract partial class RzAsChildComponent : RzComponent
                 if (key.Length == 0) { baseAttrs.Remove(key); continue; }
 
                 if (!char.IsUpper(key[0])) continue;
-                
+
                 if (key is "Id" or "Href")
                 {
-                    baseAttrs.Add(key.ToLowerInvariant(), baseAttrs[key]);    
+                    baseAttrs.Add(key.ToLowerInvariant(), baseAttrs[key]);
                 }
-                    
+
                 baseAttrs.Remove(key);
             }
         }
@@ -198,12 +194,12 @@ public abstract partial class RzAsChildComponent : RzComponent
         {
             var attr = frames[i];
             var name = attr.AttributeName;
-            var val  = attr.AttributeValue;
+            var val = attr.AttributeValue;
 
             if (string.Equals(name, "class", StringComparison.OrdinalIgnoreCase))
             {
                 baseAttrs.TryGetValue("class", out var baseClassObj);
-                var baseClass    = baseClassObj?.ToString();
+                var baseClass = baseClassObj?.ToString();
                 var originalClas = val?.ToString();
                 // Assuming TwMerge is available in the project context
                 // val = TwMerge.Merge(baseClass, originalClas);
@@ -257,8 +253,8 @@ public abstract partial class RzAsChildComponent : RzComponent
                 case RenderTreeFrameType.Element:
                     {
                         // Remember where this element’s frame sits
-                        int elementIndex    = i;
-                        int subtreeLength   = f.ElementSubtreeLength;
+                        int elementIndex = i;
+                        int subtreeLength = f.ElementSubtreeLength;
 
                         // Open it
                         b.OpenElement(f.Sequence, f.ElementName);
@@ -285,8 +281,8 @@ public abstract partial class RzAsChildComponent : RzComponent
 
                 case RenderTreeFrameType.Component:
                     {
-                        int componentIndex  = i;
-                        int subtreeLength   = f.ComponentSubtreeLength;
+                        int componentIndex = i;
+                        int subtreeLength = f.ComponentSubtreeLength;
 
                         b.OpenComponent(f.Sequence, f.ComponentType);
                         if (f.ComponentKey != null) b.SetKey(f.ComponentKey);
@@ -303,8 +299,8 @@ public abstract partial class RzAsChildComponent : RzComponent
                 case RenderTreeFrameType.Region:
                     {
                         // Regions never have attributes, so a simple pattern works
-                        int regionIndex     = i;
-                        int subtreeLength   = f.RegionSubtreeLength;
+                        int regionIndex = i;
+                        int subtreeLength = f.RegionSubtreeLength;
 
                         // Recurse into its children
                         ReplayChildren(b, frames, i + 1, subtreeLength - 1);
@@ -344,9 +340,9 @@ public abstract partial class RzAsChildComponent : RzComponent
 
     private static int GetSubtreeLength(in RenderTreeFrame frame) => frame.FrameType switch
     {
-        RenderTreeFrameType.Element   => frame.ElementSubtreeLength,
+        RenderTreeFrameType.Element => frame.ElementSubtreeLength,
         RenderTreeFrameType.Component => frame.ComponentSubtreeLength,
-        RenderTreeFrameType.Region    => frame.RegionSubtreeLength,
-        _                             => 1
+        RenderTreeFrameType.Region => frame.RegionSubtreeLength,
+        _ => 1
     };
 }

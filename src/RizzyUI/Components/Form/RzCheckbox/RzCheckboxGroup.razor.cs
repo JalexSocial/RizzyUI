@@ -1,7 +1,6 @@
 
 using Blazicons;
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using System.Linq.Expressions;
 using TailwindVariants.NET;
 

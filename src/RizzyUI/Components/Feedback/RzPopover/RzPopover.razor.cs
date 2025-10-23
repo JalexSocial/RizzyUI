@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -80,7 +79,7 @@ public partial class RzPopover : RzComponent<RzPopover.Slots>
     /// </summary>
     [Parameter]
     public int ShiftPadding { get; set; } = 8;
-    
+
     /// <summary>
     /// Gets or sets the ARIA label for the popover container, providing an accessible name.
     /// If not set, a default localized label will be applied.

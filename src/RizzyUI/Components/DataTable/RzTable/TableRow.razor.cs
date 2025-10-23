@@ -1,7 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -44,7 +43,7 @@ public partial class TableRow<TItem> : RzComponent<TableRowSlots>, IHasTableRowS
     /// Gets or sets the data item associated with this row.
     /// </summary>
     [Parameter] public TItem? Item { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the content of the row, typically a series of <see cref="TableCell{TItem}"/> components.
     /// </summary>
@@ -54,7 +53,7 @@ public partial class TableRow<TItem> : RzComponent<TableRowSlots>, IHasTableRowS
     /// Gets a value indicating whether the row is even, for applying striped styling.
     /// </summary>
     public bool IsEven => ParentRzTable?.Striped == true && RowIndex.HasValue && RowIndex.Value % 2 != 0;
-    
+
     /// <summary>
     /// Gets a value indicating whether the row should have a hover effect.
     /// </summary>

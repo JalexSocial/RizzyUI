@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -67,7 +66,7 @@ public partial class RzSidebarProvider : RzComponent<RzSidebarProvider.Slots>
     /// </summary>
     [Parameter]
     public string MobileWidth { get; set; } = "18rem";
-    
+
     /// <summary>
     /// Gets or sets the width of the sidebar when collapsed to icon-only mode.
     /// Must be a valid CSS value. Defaults to "3rem".

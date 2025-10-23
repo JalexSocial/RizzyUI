@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -23,47 +22,47 @@ public partial class TablePagination<TItem> : RzComponent<TablePaginationSlots>
     /// Gets or sets the pagination state. If not provided, it's inherited from the parent <see cref="RzTable{TItem}"/>.
     /// </summary>
     [Parameter] public PaginationState? PaginationState { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the base URL for HTMX requests. If not provided, it's inherited from the parent <see cref="RzTable{TItem}"/>.
     /// </summary>
     [Parameter] public string? HxControllerUrl { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the CSS selector for the HTMX target. If not provided, it's inherited from the parent <see cref="RzTable{TItem}"/>.
     /// </summary>
     [Parameter] public string? HxTargetSelector { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the HTMX swap mode. If not provided, it's inherited from the parent <see cref="RzTable{TItem}"/>.
     /// </summary>
     [Parameter] public string? HxSwapMode { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the CSS selector for the HTMX loading indicator. If not provided, it's inherited from the parent <see cref="RzTable{TItem}"/>.
     /// </summary>
     [Parameter] public string? HxIndicatorSelector { get; set; }
-    
+
     /// <summary>
     /// Gets or sets additional HTMX attributes to apply to each page link.
     /// </summary>
     [Parameter] public Dictionary<string, object>? HxPageLinkAttributes { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the maximum number of visible page links to display. Defaults to 7.
     /// </summary>
     [Parameter] public int MaxVisiblePageLinks { get; set; } = 7;
-    
+
     /// <summary>
     /// Gets or sets the label for the 'Previous' button. Defaults to a localized value.
     /// </summary>
     [Parameter] public string? PreviousButtonLabel { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the label for the 'Next' button. Defaults to a localized value.
     /// </summary>
     [Parameter] public string? NextButtonLabel { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the ARIA label for the pagination navigation container. Defaults to a localized value.
     /// </summary>
@@ -73,37 +72,37 @@ public partial class TablePagination<TItem> : RzComponent<TablePaginationSlots>
     /// Gets the effective pagination state, falling back to the parent table's state if not directly provided.
     /// </summary>
     protected PaginationState EffectivePaginationState => PaginationState ?? ParentRzTable?.CurrentPaginationState ?? new PaginationState(1, 0, 10, 0);
-    
+
     /// <summary>
     /// Gets the current table request model from the parent table.
     /// </summary>
     protected TableRequestModel CurrentTableRequest => ParentRzTable?.CurrentTableRequest ?? new TableRequestModel();
-    
+
     /// <summary>
     /// Gets the effective controller URL for HTMX requests.
     /// </summary>
     protected string EffectiveHxControllerUrl => HxControllerUrl ?? ParentRzTable?.HxControllerUrl ?? string.Empty;
-    
+
     /// <summary>
     /// Gets the effective CSS selector for the HTMX target.
     /// </summary>
     protected string EffectiveHxTargetSelector => HxTargetSelector ?? ParentRzTable?.EffectiveHxTargetSelector ?? $"#{(ParentRzTable?.TableBodyIdInternal ?? ParentRzTable?.Id + "-tbody-default")}";
-    
+
     /// <summary>
     /// Gets the effective HTMX swap mode.
     /// </summary>
     protected string EffectiveHxSwapMode => HxSwapMode ?? ParentRzTable?.HxSwapMode ?? "innerHTML";
-    
+
     /// <summary>
     /// Gets the effective CSS selector for the HTMX loading indicator.
     /// </summary>
     protected string? EffectiveHxIndicatorSelector => HxIndicatorSelector ?? ParentRzTable?.HxIndicatorSelector ?? $"#{(ParentRzTable?.TableBodyIdInternal ?? ParentRzTable?.Id + "-tbody-default")}-spinner";
-    
+
     /// <summary>
     /// Gets a value indicating whether it's possible to navigate to a previous page.
     /// </summary>
     protected bool CanGoPrevious => EffectivePaginationState.CurrentPage > 1;
-    
+
     /// <summary>
     /// Gets a value indicating whether it's possible to navigate to a next page.
     /// </summary>

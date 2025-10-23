@@ -28,7 +28,7 @@ public class RzAspectRatioTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.NotNull(wrapper);
         Assert.Contains("relative", wrapper.ClassList);
         Assert.Contains("w-full", wrapper.ClassList);
-        
+
         // Verify Alpine attributes for CSP compliance
         Assert.Equal("rzAspectRatio", wrapper.GetAttribute("x-data"));
         Assert.Equal(expectedId, wrapper.GetAttribute("data-alpine-root"));

@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -27,12 +26,12 @@ public partial class TableCell<TItem> : RzComponent<TableCellSlots>
     /// Gets or sets the content to be rendered inside the cell.
     /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the number of columns this cell should span.
     /// </summary>
     [Parameter] public int? Colspan { get; set; }
-    
+
     /// <summary>
     /// Gets or sets a unique key for the column, used for identification.
     /// </summary>

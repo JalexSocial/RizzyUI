@@ -1,8 +1,6 @@
 using Alba;
 using Bunit;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection; // For RenderFragment
-using RizzyUI; // To access AvatarImage and AvatarFallback directly if needed for setup
 
 namespace RizzyUI.Tests.Components.Display;
 
@@ -164,7 +162,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Empty(cut.FindAll("img"));
         Assert.False(cut.Instance.HasImage);
     }
-    
+
     [Fact]
     public void AvatarImage_AlternateText_FallsBackToParentAriaLabelThenDefault()
     {
@@ -250,7 +248,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         // Assert
         var fallbackElement = cut.Find("div"); // The root of AvatarFallback
         Assert.Contains(initials, fallbackElement.TextContent);
-        
+
         // Check styling (InitialsContainer and dynamic classes from parent RzAvatar)
         var theme = Services.GetRequiredService<RzTheme>();
         Assert.Contains(theme.AvatarFallback.InitialsContainer.Split(' ').First(), fallbackElement.ClassList); // Base class
@@ -273,7 +271,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var placeholderDiv = cut.Find("div > div"); // The div containing the SVG
         var svg = placeholderDiv.QuerySelector("svg");
         Assert.NotNull(svg);
-        
+
         // Check styling (PlaceholderContainer, PlaceholderIcon, and dynamic classes)
         var theme = Services.GetRequiredService<RzTheme>();
         Assert.Contains(theme.AvatarFallback.PlaceholderContainer.Split(' ').First(), placeholderDiv.ClassList); // Base placeholder container class
@@ -287,7 +285,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     #endregion
 
     #region RzIndicator (as child) Test
-    
+
     [Fact]
     public void RzAvatar_CanHostRzIndicatorAsChild()
     {

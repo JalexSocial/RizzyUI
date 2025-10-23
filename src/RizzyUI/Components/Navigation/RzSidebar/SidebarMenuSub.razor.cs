@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -30,7 +29,7 @@ public partial class SidebarMenuSub : RzComponent<SidebarMenuSub.Slots>
         base.OnInitialized();
         Element = "ul";
     }
-    
+
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarMenuSub;
 

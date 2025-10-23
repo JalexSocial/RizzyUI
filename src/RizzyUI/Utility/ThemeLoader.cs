@@ -1,11 +1,7 @@
-
-using System.IO;
-using System.Net.Http;
+using RizzyUI.Utility.Serialization.Converters;
 using System.Reflection;
 using System.Security;
 using System.Text.Json;
-using System.Threading.Tasks;
-using RizzyUI.Utility.Serialization.Converters;
 
 namespace RizzyUI;
 
@@ -82,7 +78,7 @@ public static class ThemeLoader
         {
             throw new FileNotFoundException($"The embedded resource '{resourceName}' was not found in assembly '{assembly.FullName}'. Ensure the resource name is correct and the file's 'Build Action' is set to 'Embedded resource'.");
         }
-        
+
         return await LoadFromStreamAsync(stream);
     }
 

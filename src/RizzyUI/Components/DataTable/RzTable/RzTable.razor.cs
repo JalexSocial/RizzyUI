@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -48,87 +47,87 @@ public partial class RzTable<TItem> : RzComponent<RzTableSlots>, IHasTableStylin
     /// Gets or sets the collection of items to be displayed in the table. This is a required parameter.
     /// </summary>
     [Parameter, EditorRequired] public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
-    
+
     /// <summary>
     /// Gets or sets the base URL for HTMX requests (e.g., sorting, pagination). This is a required parameter.
     /// </summary>
     [Parameter, EditorRequired] public string HxControllerUrl { get; set; } = string.Empty;
-    
+
     /// <summary>
     /// Gets or sets the current state of the table request, including sorting, filtering, and pagination info.
     /// </summary>
     [Parameter] public TableRequestModel CurrentTableRequest { get; set; } = new();
-    
+
     /// <summary>
     /// Gets or sets the current pagination state of the table, including total items and page count.
     /// </summary>
     [Parameter] public PaginationState CurrentPaginationState { get; set; } = new(1, 0, 10, 0);
-    
+
     /// <summary>
     /// Gets or sets a specific CSS selector for the `hx-target` attribute, overriding the default behavior.
     /// </summary>
     [Parameter] public string? HxTargetSelector { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the HTMX swap mode (e.g., "innerHTML", "outerHTML"). Defaults to "innerHTML".
     /// </summary>
     [Parameter] public string HxSwapMode { get; set; } = "innerHTML";
-    
+
     /// <summary>
     /// Gets or sets the CSS selector for an element to be shown as a loading indicator during HTMX requests.
     /// </summary>
     [Parameter] public string? HxIndicatorSelector { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the render fragment for the table's header section (`<thead>`). This is a required parameter.
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment<RzTable<TItem>>? Header { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the render fragment for the table's body section (`<tbody>`). This is a required parameter.
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment<RzTable<TItem>>? Body { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the render fragment for the table's footer section (`<tfoot>`).
     /// </summary>
     [Parameter] public RenderFragment<RzTable<TItem>>? Footer { get; set; }
-    
+
     /// <summary>
     /// Gets or sets a value indicating whether to apply striped styling to table rows. Defaults to false.
     /// </summary>
     [Parameter] public bool Striped { get; set; } = false;
-    
+
     /// <summary>
     /// Gets or sets a value indicating whether rows should have a hover effect. Defaults to true.
     /// </summary>
     [Parameter] public bool Hoverable { get; set; } = true;
-    
+
     /// <summary>
     /// Gets or sets a value indicating whether the table should have a border. Defaults to false.
     /// </summary>
     [Parameter] public bool Border { get; set; } = false;
-    
+
     /// <summary>
     /// Gets or sets the row selection mode for the table. Defaults to <see cref="TableSelectionMode.None"/>.
     /// </summary>
     [Parameter] public TableSelectionMode SelectionMode { get; set; } = TableSelectionMode.None;
-    
+
     /// <summary>
     /// Gets or sets an event callback that is invoked when the selected items change.
     /// </summary>
     [Parameter] public EventCallback<List<TItem>> SelectedItemsChanged { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the list of currently selected items in the table.
     /// </summary>
     [Parameter] public List<TItem> SelectedItems { get; set; } = new();
-    
+
     /// <summary>
     /// Gets or sets a value indicating whether the table header should remain fixed while scrolling. Defaults to false.
     /// </summary>
     [Parameter] public bool FixedHeader { get; set; } = false;
-    
+
     /// <summary>
     /// Gets or sets the CSS height class for the table body when <see cref="FixedHeader"/> is true. Defaults to "h-96".
     /// </summary>
@@ -138,12 +137,12 @@ public partial class RzTable<TItem> : RzComponent<RzTableSlots>, IHasTableStylin
     /// Gets the unique ID for the inner `<table>` element.
     /// </summary>
     public string TableId => $"{Id}-table";
-    
+
     /// <summary>
     /// Gets the unique ID for the `<thead>` element.
     /// </summary>
     public string TableHeaderId => $"{Id}-table-head";
-    
+
     /// <summary>
     /// Gets the unique ID for the `<tfoot>` element.
     /// </summary>

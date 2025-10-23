@@ -96,7 +96,7 @@ public class RzThemeProvider : ComponentBase
         sb.AppendLine(":root {");
         // Radius from the root theme
         sb.AppendLine($"  --radius: {theme.Radius};");
-        
+
         // Global theme properties
         if (theme.AdditionalProperties != null)
         {

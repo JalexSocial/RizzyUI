@@ -1,41 +1,41 @@
 
-    using Microsoft.Build.Framework;
-    using Microsoft.Build.Utilities;
-    using Microsoft.CodeAnalysis;
-    using System.Collections.Generic;
-    using System.Collections.Immutable;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
+using Microsoft.CodeAnalysis;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
-    namespace RizzyUI.Tasks;
+namespace RizzyUI.Tasks;
 
-    public sealed class ComputeCallerFileNamePrefix : Task
+public sealed class ComputeCallerFileNamePrefix : Task
+{
+    [Required]
+    public ITaskItem[] SourceRoot { get; set; } = default!;
+
+    [Required]
+    public string ProjectDir { get; set; } = default!;
+
+    [Output]
+    public string? CallerFileNamePrefix { get; set; }
+
+    public override bool Execute()
     {
-        [Required]
-        public ITaskItem[] SourceRoot { get; set; } = default!;
+        var pathMapBuilder = ImmutableArray.CreateBuilder<KeyValuePair<string, string>>();
 
-        [Required]
-        public string ProjectDir { get; set; } = default!;
-
-        [Output]
-        public string? CallerFileNamePrefix { get; set; }
-
-        public override bool Execute()
+        foreach (var sourceRoot in SourceRoot)
         {
-            var pathMapBuilder = ImmutableArray.CreateBuilder<KeyValuePair<string, string>>();
+            var root = sourceRoot.ItemSpec;
+            var mappedPath = sourceRoot.GetMetadata("MappedPath");
 
-            foreach (var sourceRoot in SourceRoot)
+            if (!string.IsNullOrEmpty(root) && !string.IsNullOrEmpty(mappedPath))
             {
-                var root = sourceRoot.ItemSpec;
-                var mappedPath = sourceRoot.GetMetadata("MappedPath");
-
-                if (!string.IsNullOrEmpty(root) && !string.IsNullOrEmpty(mappedPath))
-                {
-                    pathMapBuilder.Add(new(root, mappedPath));
-                }
+                pathMapBuilder.Add(new(root, mappedPath));
             }
-
-            var pathMap = pathMapBuilder.ToImmutable();
-            var resolver = new SourceFileResolver(ImmutableArray<string>.Empty, null, pathMap);
-            CallerFileNamePrefix = resolver.NormalizePath(ProjectDir, baseFilePath: null);
-            return true;
         }
+
+        var pathMap = pathMapBuilder.ToImmutable();
+        var resolver = new SourceFileResolver(ImmutableArray<string>.Empty, null, pathMap);
+        CallerFileNamePrefix = resolver.NormalizePath(ProjectDir, baseFilePath: null);
+        return true;
     }
+}
