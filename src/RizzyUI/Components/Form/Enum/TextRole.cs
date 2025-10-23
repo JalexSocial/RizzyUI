@@ -1,4 +1,5 @@
-﻿namespace RizzyUI;
+
+namespace RizzyUI;
 
 /// <summary>
 ///     Specifies the semantic role of a text input field within a form. This enumeration determines the behavior and

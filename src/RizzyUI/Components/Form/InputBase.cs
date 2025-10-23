@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+
+using Microsoft.AspNetCore.Components;
 using System.Linq.Expressions;
 
 namespace RizzyUI;

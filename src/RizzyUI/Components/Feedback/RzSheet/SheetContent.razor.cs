@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using RizzyUI.Extensions;
 using TailwindVariants.NET;
@@ -70,9 +71,21 @@ public partial class SheetContent : RzComponent<SheetContent.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the main sheet panel.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the backdrop overlay.
+        /// </summary>
         public string? Overlay { get; set; }
+        /// <summary>
+        /// The slot for the close button.
+        /// </summary>
         public string? CloseButton { get; set; }
+        /// <summary>
+        /// The slot for the icon inside the close button.
+        /// </summary>
         public string? CloseButtonIcon { get; set; }
     }
 }

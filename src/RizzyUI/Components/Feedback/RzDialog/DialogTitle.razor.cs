@@ -17,6 +17,9 @@ public partial class DialogTitle : RzComponent<DialogTitle.Slots>
         @base: "text-lg leading-none font-semibold"
     );
 
+    /// <summary>
+    /// Gets or sets the parent <see cref="RzDialog"/> component.
+    /// </summary>
     [CascadingParameter]
     protected RzDialog? ParentDialog { get; set; }
 
@@ -41,6 +44,9 @@ public partial class DialogTitle : RzComponent<DialogTitle.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
     }
 }

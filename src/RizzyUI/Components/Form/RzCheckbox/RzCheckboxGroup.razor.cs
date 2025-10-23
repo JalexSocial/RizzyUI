@@ -7,8 +7,14 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Defines styling properties for a CheckboxGroup component.
+/// </summary>
 public interface IHasCheckboxGroupStylingProperties
 {
+    /// <summary>
+    /// Gets the orientation of the checkbox group.
+    /// </summary>
     public Orientation Orientation { get; }
 }
 

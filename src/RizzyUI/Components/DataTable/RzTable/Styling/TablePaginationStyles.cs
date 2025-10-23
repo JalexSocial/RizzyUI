@@ -3,18 +3,45 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Defines the slots available for styling in the TablePagination component.
+/// </summary>
 public sealed partial class TablePaginationSlots : ISlots
 {
+    /// <summary>
+    /// The base slot for the main pagination container.
+    /// </summary>
     public string? Base { get; set; }
+    /// <summary>
+    /// The slot for the `<ul>` element containing pagination links.
+    /// </summary>
     public string? List { get; set; }
+    /// <summary>
+    /// The slot for a standard pagination link/button.
+    /// </summary>
     public string? Link { get; set; }
+    /// <summary>
+    /// The slot for the current page link/button.
+    /// </summary>
     public string? LinkCurrent { get; set; }
+    /// <summary>
+    /// The slot for a disabled pagination link/button.
+    /// </summary>
     public string? LinkDisabled { get; set; }
+    /// <summary>
+    /// The slot for the ellipsis (...) element.
+    /// </summary>
     public string? Ellipsis { get; set; }
 }
 
+/// <summary>
+/// Provides the default styling descriptor for the TablePagination component.
+/// </summary>
 public static class TablePaginationStyles
 {
+    /// <summary>
+    /// The default TvDescriptor for the TablePagination component.
+    /// </summary>
     public static readonly TvDescriptor<RzComponent<TablePaginationSlots>, TablePaginationSlots> DefaultDescriptor = new(
         @base: "flex justify-center items-center",
         slots: new()

@@ -1,3 +1,4 @@
+
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
@@ -73,12 +74,12 @@ public partial class TableHeaderCell<TItem> : RzComponent<TableHeaderCellSlots>,
     [Parameter] public Dictionary<string, object>? HxAttributes { get; set; }
 
     /// <summary>
-    /// Gets the effective column key used for identification
+    /// Gets the effective column key used for identification.
     /// </summary>
     public string EffectiveColumnKey => _columnKeyInternal ?? "unknown_column";
 
     /// <summary>
-    /// Gets the current sort direction of the column
+    /// Gets the current sort direction of the column.
     /// </summary>
     public SortDirection CurrentSortDirection => _currentSortDirection;
 

@@ -1,4 +1,5 @@
-﻿namespace RizzyUI;
+
+namespace RizzyUI;
 
 /// <summary>
 ///     Specifies the layout orientation for components or form fields.

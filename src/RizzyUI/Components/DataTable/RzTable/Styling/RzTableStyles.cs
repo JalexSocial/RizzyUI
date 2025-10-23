@@ -3,21 +3,48 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Defines styling properties for an RzTable component.
+/// </summary>
 public interface IHasTableStylingProperties
 {
+    /// <summary>
+    /// Gets a value indicating whether the table header should be fixed.
+    /// </summary>
     public bool FixedHeader { get; }
 }
 
+/// <summary>
+/// Defines the slots available for styling in the RzTable component.
+/// </summary>
 public sealed partial class RzTableSlots : ISlots
 {
+    /// <summary>
+    /// The base slot for the main table container.
+    /// </summary>
     public string? Base { get; set; }
+    /// <summary>
+    /// The slot for the `<table>` element itself.
+    /// </summary>
     public string? Table { get; set; }
+    /// <summary>
+    /// The slot for the `<thead>` element.
+    /// </summary>
     public string? Thead { get; set; }
+    /// <summary>
+    /// The slot for the `<tfoot>` element.
+    /// </summary>
     public string? Tfoot { get; set; }
 }
 
+/// <summary>
+/// Provides the default styling descriptor for the RzTable component.
+/// </summary>
 public static class RzTableStyles
 {
+    /// <summary>
+    /// The default TvDescriptor for the RzTable component.
+    /// </summary>
     public static readonly TvDescriptor<RzComponent<RzTableSlots>, RzTableSlots> DefaultDescriptor = new(
         @base: "relative w-full overflow-x-auto rounded-lg border",
         slots: new()

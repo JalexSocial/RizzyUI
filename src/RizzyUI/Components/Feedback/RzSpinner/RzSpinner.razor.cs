@@ -7,7 +7,7 @@ namespace RizzyUI;
 
 /// <xmldoc>
 /// Renders an SVG spinning animation to indicate loading or processing.
-/// Styling (size and color) is determined by parameters and the active <see cref="RzTheme"/>.
+/// Styling (size and color) is determined by parameters and the active <see cref="RzTheme" />.
 /// </xmldoc>
 public partial class RzSpinner : RzComponent<RzSpinner.Slots>
 {
@@ -83,6 +83,9 @@ public partial class RzSpinner : RzComponent<RzSpinner.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
     }
 }
