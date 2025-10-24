@@ -205,6 +205,17 @@ public partial class RzTheme
         TableHeaderCell = RizzyUI.TableHeaderCellStyles.DefaultDescriptor;
         TableRow = RizzyUI.TableRowStyles.DefaultDescriptor;
         TablePagination = RizzyUI.TablePaginationStyles.DefaultDescriptor;
+        
+        RzFieldSet = RizzyUI.RzFieldSet.DefaultDescriptor;
+        FieldLegend = RizzyUI.FieldLegend.DefaultDescriptor;
+        FieldGroup = RizzyUI.FieldGroup.DefaultDescriptor;
+        Field = RizzyUI.FieldStyles.DefaultDescriptor;
+        FieldContent = RizzyUI.FieldContent.DefaultDescriptor;
+        FieldLabel = RizzyUI.FieldLabel.DefaultDescriptor;
+        FieldTitle = RizzyUI.FieldTitle.DefaultDescriptor;
+        FieldDescription = RizzyUI.FieldDescription.DefaultDescriptor;
+        FieldSeparator = RizzyUI.FieldSeparator.DefaultDescriptor;
+        FieldError = RizzyUI.FieldError.DefaultDescriptor;        
     }
 
     /// <summary>

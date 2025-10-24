@@ -164,6 +164,27 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzToggleField"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzToggleField.Slots>, RzToggleField.Slots> RzToggleField { get; set; }
 
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzFieldSet"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzFieldSet.Slots>, RzFieldSet.Slots> RzFieldSet { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldLegend"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<FieldLegend.Slots>, FieldLegend.Slots> FieldLegend { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldGroup"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<FieldGroup.Slots>, FieldGroup.Slots> FieldGroup { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.Field"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<FieldSlots>, FieldSlots> Field { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldContent"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<FieldContent.Slots>, FieldContent.Slots> FieldContent { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldLabel"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<FieldLabel.Slots>, FieldLabel.Slots> FieldLabel { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldTitle"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<FieldTitle.Slots>, FieldTitle.Slots> FieldTitle { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldDescription"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<FieldDescription.Slots>, FieldDescription.Slots> FieldDescription { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldSeparator"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<FieldSeparator.Slots>, FieldSeparator.Slots> FieldSeparator { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldError"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<FieldError.Slots>, FieldError.Slots> FieldError { get; set; }
+
     #endregion
 
     #region Layout Components

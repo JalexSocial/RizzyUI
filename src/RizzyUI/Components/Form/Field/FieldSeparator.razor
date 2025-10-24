@@ -1,0 +1,18 @@
+
+@namespace RizzyUI
+@inherits RzComponent<FieldSeparator.Slots>
+
+<HtmlElement Element="@EffectiveElement" 
+             @attributes="AdditionalAttributes" 
+             id="@Id" 
+             class="@SlotClasses.GetBase()" 
+             data-slot="field-separator"
+             data-content="@(ChildContent != null)">
+    <RzSeparator class="@SlotClasses.GetSeparator()" />
+    @if (ChildContent != null)
+    {
+        <span class="@SlotClasses.GetContent()" data-slot="field-separator-content">
+            @ChildContent
+        </span>
+    }
+</HtmlElement>
