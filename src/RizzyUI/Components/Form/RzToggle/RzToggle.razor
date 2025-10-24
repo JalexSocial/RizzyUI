@@ -3,7 +3,7 @@
 @using Rizzy
 @inherits RzComponent<RzToggle.Slots>
 
-<RzInputCheckbox @bind-Value="CurrentValue"
+<RzInputCheckbox ValueExpression="For"
                  @attributes="AdditionalAttributes"
                  class="@SlotClasses.GetBase()"
                  role="switch"

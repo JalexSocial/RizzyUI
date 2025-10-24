@@ -5,7 +5,7 @@
 @inherits RzComponent<RzRadioGroupSlots>
 
 <CascadingValue Value="this" IsFixed="true">
-    <RzInputRadioGroup TValue="TValue" @bind-Value="CurrentValue" Id="@Id" Name="@Name">
+    <RzInputRadioGroup TValue="TValue" ValueExpression="@For" Id="@Id" Name="@Name">
         <div @attributes="AdditionalAttributes" class="@SlotClasses.GetBase()">
             @ChildContent
         </div>
