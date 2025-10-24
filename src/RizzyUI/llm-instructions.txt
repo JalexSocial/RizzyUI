@@ -1,12 +1,4 @@
-﻿You are absolutely right. My apologies. The previous guide was incomplete without explicit instructions on the mandatory `data-slot` attribute, which is a critical part of the `shadcn/ui` pattern and our theming strategy. Your detailed explanation of how to derive the slot name using the source-generated helpers is perfectly correct and essential for the guide's completeness.
-
-I have now integrated this crucial information into a new, final version of the guide. This version, 3.3, is fully standalone, removes all placeholder text, and includes a comprehensive addendum on the `data-slot` pattern, complete with examples and an updated sign-off checklist.
-
-Here is the complete and definitive `llm-instructions.txt`.
-
----
-
-### **The Definitive Guide to Authoring a RizzyUI Component (Version 3.3 - `data-slot` and TailwindVariants.NET Pattern)**
+﻿### **The Definitive Guide to Authoring a RizzyUI Component (Version 3.3 - `data-slot` and TailwindVariants.NET Pattern)**
 
 **Fully expanded specification for code-generation models — May 2025, rev 3.3**
 
@@ -90,7 +82,9 @@ When the user requests code, wrap each file in a single **`output` block** so au
     *   The `class` attribute MUST use the source-generated `SlotClasses.Get...()` accessor (e.g., `class="@SlotClasses.GetIcon()"`).
     *   The `data-slot` attribute's value MUST be retrieved using the source-generated `SlotNames.NameOf(...)` helper. The syntax depends on whether the component is generic.
         *   **Non-Generic Components** (nested `Slots` class): `data-slot="@RzComponentName.SlotNames.NameOf(SlotTypes.SlotPropertyName)"`
+            *   Example: `data-slot="@RzFancyThing.SlotNames.NameOf(SlotTypes.Icon)"`
         *   **Generic Components** (external `Slots` class): `data-slot="@ComponentNameSlotNames.NameOf(ComponentNameSlotTypes.SlotPropertyName)"`
+            *   Example: `data-slot="@TableHeaderCellSlotNames.NameOf(TableHeaderCellSlotTypes.SortIndicator)"`
 *   **Alpine Integration:** See §10 for the Alpine child-container convention if Alpine is used.
 *   **Accessibility:** Refer to §8 for accessibility guidelines.
 *   **Localization:** Refer to §9 for localization guidelines.
@@ -180,6 +174,7 @@ Important for the LLM:
 *   Inherit from `RzComponent<TSlots>` or `RzAsChildComponent<TSlots>`.
 *   Define a `public sealed partial class Slots : ISlots` inside the component class for non-generic components.
 *   **All properties in the `Slots` class MUST be decorated with the `[Slot("kebab-case-name")]` attribute.** The name should match `shadcn/ui` conventions where applicable.
+*   For components inheriting from `RzAsChildComponent`, the `Base` slot's classes are merged onto the child element. The `[Slot(...)]` attribute is still required on the `Base` property in the `Slots` class.
 *   Define a `public static readonly TvDescriptor<...>` with all base, slot, and variant styles.
 *   Implement `protected override TvDescriptor<...> GetDescriptor() => Theme.ComponentName;`.
 *   Handle default localized strings for parameters like `AriaLabel` (§9).
@@ -196,7 +191,8 @@ Important for the LLM:
               class="@SlotClasses.GetIcon()"
               data-slot="@RzFancyThing.SlotNames.NameOf(SlotTypes.Icon)"
               aria-hidden="true" />
-}```
+}
+```
 
 *   Accept icons as `SvgIcon?`.
 *   Style the `<Blazicon>` using the source-generated `SlotClasses.Get...()` accessor.
@@ -522,7 +518,8 @@ The CSP build supports accessing nested properties (property accessors) using th
 <div x-data="counter">
     <button @click="foo.increment">Increment</button>
     <span x-text="foo.count"></span>
-</div>```
+</div>
+```
 
 ```javascript
 Alpine.data('counter', () => ({
@@ -532,7 +529,8 @@ Alpine.data('counter', () => ({
             this.count++
         },
     },
-}))```
+}))
+```
 
 **Key Takeaways for LLMs:**
 *   **Always use `Alpine.data`** for `x-data` definitions. Never inline `x-data` objects.
@@ -552,7 +550,9 @@ If a RizzyUI component uses Alpine.js, its root `<HtmlElement>` in the `.razor` 
         @* Alpine-interactive content, x-ref, x-on:, :class, etc. goes here *@
     </div>
 </HtmlElement>
-```*   `data-alpine-root="@Id"`: This attribute is **essential**. It MUST exactly match the Blazor component's `@Id`. It's used by the `Rizzy.$data()` helper to locate the Alpine component's scope.
+```
+
+*   `data-alpine-root="@Id"`: This attribute is **essential**. It MUST exactly match the Blazor component's `@Id`. It's used by the `Rizzy.$data()` helper to locate the Alpine component's scope.
 *   `x-data="rzComponentName"`: Specifies the name of the Alpine.js component to initialize on this `div`. The name should follow the `rzComponentName` convention, where `rz` corresponds to `Rz` prefixed Blazor components.
 *   `data-assets="@_assets"`: A JSON stringified array of asset URLs (JavaScript/CSS) that this specific Alpine component instance needs. This is populated from the C# code-behind.
 *   `data-nonce="@Nonce"`: The CSP nonce value, passed from the C# `RzComponent` base. This is used by the `require` utility to load assets in a CSP-compliant manner.
@@ -611,7 +611,9 @@ Components **do not** hardcode asset URLs. Instead, they declare their dependenc
     4.  Place any Alpine initialization logic that *depends* on these external assets (e.g., initializing a third-party library like Flatpickr or Highlight.js) inside the `success` callback of `require`.
     5.  Other initialization logic (e.g., setting up internal state, watchers) can be placed directly in `init()` or in a separate method called from `init()` (either before or after `require`, or within its callbacks, as appropriate).
 
-**Example: `packages/rizzyui/src/js/lib/components/rzFancyThing.js`**```javascript
+**Example: `packages/rizzyui/src/js/lib/components/rzFancyThing.js`**
+
+```javascript
 // This component demonstrates conditional asset loading.
 // If data-assets is empty or 'require' is not provided, it proceeds without loading.
 export default function(Alpine, require) { // 'require' is optional here
@@ -676,7 +678,9 @@ export default function(Alpine, require) { // 'require' is optional here
 *   The newly created component registration function (e.g., `registerRzFancyThing` which is the default export from `rzFancyThing.js`) MUST be imported into `packages/rizzyui/src/js/lib/components.js`.
 *   It must then be called within the `registerComponents(Alpine)` function in `components.js`. Pass the `Alpine` instance. If the component's registration function (e.g., `export default function(Alpine, require)`) expects the `require` utility, pass `rizzyRequire` (which is `loadjs` aliased as `require` in this file) as the second argument.
 
-**Example: Modifying `packages/rizzyui/src/js/lib/components.js`**```javascript
+**Example: Modifying `packages/rizzyui/src/js/lib/components.js`**
+
+```javascript
 // packages/rizzyui/src/js/lib/components.js
 import loadjs from "./loadjs/loadjs.js"; // Underlying asset loader
 
@@ -835,7 +839,6 @@ Never embed these edits in `<file>` tags because CI merges them manually.
 
 Whenever a new component is introduced, instruct the user accordingly:
 
-````markdown
 **Manual Edits Required for Integration:**
 
 **Theme Integration:**
@@ -888,7 +891,7 @@ Please add the following default asset URLs to the `PostConfigure` action in `sr
             registerRzFancyThing(Alpine, rizzyRequire); 
         }
         ```
-````
+
 
 ---
 
