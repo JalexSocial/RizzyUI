@@ -40,7 +40,7 @@
         <div class="@SlotClasses.GetCodeContainer()">
 
             <div class="@SlotClasses.GetPreWrapper()" :class="getExpandCss">
-                <pre x-ref="codeBlock" class="@SlotClasses.GetPreElement()" tabindex="0">
+                <pre x-ref="codeBlock" class="@SlotClasses.GetPreElement()" data-slot="@RzCodeViewer.SlotNames.NameOf(SlotTypes.PreElement)" tabindex="0">
                     <code class="@LanguageClass" id="@CodeId">@CodeContent</code>
                 </pre>
             </div>

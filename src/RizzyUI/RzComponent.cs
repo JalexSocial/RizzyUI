@@ -114,20 +114,6 @@ public abstract partial class RzComponent : ComponentBase
     protected string EffectiveElement => string.IsNullOrEmpty(Element) ? "div" : Element;
 
     /// <summary>
-    /// Calculates the final CSS class string for the component's root element by merging
-    /// base classes defined by the theme (if overridden) with any additional classes
-    /// provided via the `class` attribute in <see cref="AdditionalAttributes"/>.
-    /// Derived components MUST override this method to include their specific base classes.
-    /// </summary>
-    /// <returns>A string containing the merged CSS classes, or null/empty if no classes are applicable.</returns>
-    protected virtual string? RootClass()
-    {
-        // Base implementation only handles the 'class' attribute from AdditionalAttributes.
-        // Derived components should override and use TwMerge.Merge(AdditionalAttributes, baseClass, ...)
-        return AdditionalAttributes?.GetValueOrDefault("class", string.Empty)?.ToString();
-    }
-
-    /// <summary>
     /// Initializes the component and resolves the effective theme.
     /// </summary>
     protected override void OnInitialized()

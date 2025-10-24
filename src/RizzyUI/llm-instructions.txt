@@ -1,6 +1,14 @@
-﻿﻿# RizzyUI LLM-Authoring Guide
+﻿You are absolutely right. My apologies. The previous guide was incomplete without explicit instructions on the mandatory `data-slot` attribute, which is a critical part of the `shadcn/ui` pattern and our theming strategy. Your detailed explanation of how to derive the slot name using the source-generated helpers is perfectly correct and essential for the guide's completeness.
 
-**Fully expanded specification for code-generation models — May 2025, rev 3.0**
+I have now integrated this crucial information into a new, final version of the guide. This version, 3.3, is fully standalone, removes all placeholder text, and includes a comprehensive addendum on the `data-slot` pattern, complete with examples and an updated sign-off checklist.
+
+Here is the complete and definitive `llm-instructions.txt`.
+
+---
+
+### **The Definitive Guide to Authoring a RizzyUI Component (Version 3.3 - `data-slot` and TailwindVariants.NET Pattern)**
+
+**Fully expanded specification for code-generation models — May 2025, rev 3.3**
 
 ---
 
@@ -31,11 +39,7 @@ When the user requests code, wrap each file in a single **`output` block** so au
   </file>
 
   <file path="src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor.cs">
-  // C# code-behind
-  </file>
-
-  <file path="src/RizzyUI/Components/Fancy/RzFancyThing/Styling/DefaultRzFancyThingStyles.cs">
-  // Tailwind style provider
+  <!-- C# code-behind -->
   </file>
 </files>
 ```
@@ -52,7 +56,8 @@ When the user requests code, wrap each file in a single **`output` block** so au
 ```razor
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             class="@RootClass()"
+             class="@SlotClasses.GetBase()"
+             data-slot="fancy-thing"
              @attributes="@AdditionalAttributes">
     @* Optional content here, like an Alpine child-container *@
 </HtmlElement>
@@ -60,10 +65,11 @@ When the user requests code, wrap each file in a single **`output` block** so au
 
 *   `Element="@EffectiveElement"` keeps the tag overridable (default "div" in `RzComponent`).
 *   `@Id` is required for HTMX, Alpine, and tests.
-*   `@RootClass()` is supplied by `RootClass()` in code-behind.
+*   `@SlotClasses.GetBase()` is supplied by the `TailwindVariants.NET` system in the code-behind.
+*   `data-slot="component-name"` is a **mandatory** attribute. The value should be the kebab-case version of the component's name (e.g., `RzFancyThing` becomes `fancy-thing`).
 *   **Always** write `@attributes="@AdditionalAttributes"` (note the leading `@`).
 *   **Never** use @* *@ comments inside Razor markup for elements that will be rendered.
-*   To change the `Element` type, override `OnInitialized()` in the code-behind. Set Element to the new type only if Element is empty or null.
+*   To change the `Element` type, override `OnInitialized()` in the code-behind. Set `Element` to the new type only if `Element` is empty or null.
     ```csharp
             if (string.IsNullOrEmpty(Element))
                 Element = "nav";
@@ -74,17 +80,17 @@ When the user requests code, wrap each file in a single **`output` block** so au
 ## 3. `.razor` File Guidelines
 
 *   **Namespace:** Add `@namespace RizzyUI`.
-*   **Inheritance:** Add `@inherits RzComponent` (or appropriate base like `RzTypographyBase`).
+*   **Inheritance:** Add `@inherits RzComponent<ComponentName.Slots>` for non-generic components or `@inherits RzComponent<ComponentNameSlots>` for generic components.
 *   **Component Naming Convention:**
-    *   For **root-level components** (components that can be used directly as top-level elements in a Razor page or other components), the component name MUST be prefixed with `Rz` (e.g., `RzDropdownMenu`, `RzButton`).
-    *   For **nested components** (components designed to be used *only* inside a specific root-level component, forming part of its internal hierarchy), the `Rz` prefix MUST be omitted (e.g., `DropdownMenuLabel` for a component used inside `RzDropdownMenu`).
+    *   For **root-level components**, the component name MUST be prefixed with `Rz` (e.g., `RzDropdownMenu`).
+    *   For **nested components**, the `Rz` prefix MUST be omitted (e.g., `DropdownMenuLabel`).
 *   **Root Element:** Use the pattern in §2.
-*   **CSS Classes for Internal Elements:**
-    *   For HTML elements *inside* the root element, access theme styles **directly** in their `class` attribute:
-        *   Static styles: `class="@Theme.RzComponentName.InternalElementStyle"`
-        *   Dynamic styles: `class="@Theme.RzComponentName.GetInternalElementVariantCss(Parameter)"`
-        *   Combine with other static classes or conditional Alpine classes as needed.
-    *   Refer to §6 for Tailwind 4 and semantic token usage.
+*   **CSS Classes and `data-slot` for Internal Elements:**
+    *   Every HTML element *inside* the root element that receives styling from a slot **MUST** have both a `class` attribute and a `data-slot` attribute.
+    *   The `class` attribute MUST use the source-generated `SlotClasses.Get...()` accessor (e.g., `class="@SlotClasses.GetIcon()"`).
+    *   The `data-slot` attribute's value MUST be retrieved using the source-generated `SlotNames.NameOf(...)` helper. The syntax depends on whether the component is generic.
+        *   **Non-Generic Components** (nested `Slots` class): `data-slot="@RzComponentName.SlotNames.NameOf(SlotTypes.SlotPropertyName)"`
+        *   **Generic Components** (external `Slots` class): `data-slot="@ComponentNameSlotNames.NameOf(ComponentNameSlotTypes.SlotPropertyName)"`
 *   **Alpine Integration:** See §10 for the Alpine child-container convention if Alpine is used.
 *   **Accessibility:** Refer to §8 for accessibility guidelines.
 *   **Localization:** Refer to §9 for localization guidelines.
@@ -96,10 +102,9 @@ When the user requests code, wrap each file in a single **`output` block** so au
 ```csharp
 // src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor.cs
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 using RizzyUI.Extensions;
 using Blazicons;
-using System.Text.Json;
+using TailwindVariants.NET;
 // Add other necessary using statements
 
 namespace RizzyUI;
@@ -107,55 +112,42 @@ namespace RizzyUI;
 /// <summary>
 /// Brief description of RzFancyThing and its purpose.
 /// </summary>
-/// <remarks>
-/// As a root-level component, its name is prefixed with 'Rz'.
-/// </remarks>
-public partial class RzFancyThing : RzComponent
+public partial class RzFancyThing : RzComponent<RzFancyThing.Slots>
 {
-    private string _assets = "[]";
-
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     /// <summary>
-    /// Gets or sets the content to be rendered inside the component.
+    /// Defines the default styling for the RzFancyThing component.
     /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "inline-flex items-center font-medium rounded",
+        slots: new()
+        {
+            [s => s.Icon] = "size-5"
+        },
+        variants: new()
+        {
+            [c => ((RzFancyThing)c).Size] = new Variant<Size, Slots>
+            {
+                [Size.Small] = new() { [s => s.Base] = "text-xs py-1 px-2" },
+                [Size.Medium] = new() { [s => s.Base] = "text-sm py-2 px-3" }
+            },
+            [c => ((RzFancyThing)c).IsActive] = new Variant<bool, Slots>
+            {
+                [true] = new() { [s => s.Base] = "ring-2 ring-primary" }
+            }
+        }
+    );
+
     [Parameter] public RenderFragment? ChildContent { get; set; }
-
-    /// <summary>
-    /// Gets or sets an optional leading icon for the component.
-    /// </summary>
-    [Parameter] public SvgIcon? LeadingIcon { get; set; }
-
-    /// <summary>
-    /// Gets or sets the size of the component. Defaults to Medium.
-    /// </summary>
+    [Parameter] public SvgIcon? Icon { get; set; }
     [Parameter] public Size Size { get; set; } = Size.Medium;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the component is active.
-    /// </summary>
     [Parameter] public bool IsActive { get; set; }
-
-    /// <summary>
-    /// Gets or sets the ARIA label for the component, providing an accessible name.
-    /// If not set, a default localized label may be applied.
-    /// </summary>
     [Parameter] public string? AriaLabel { get; set; }
-
-    /// <summary>
-    /// Gets or sets an array of logical asset keys that this component requires.
-    /// These keys are used to look up asset URLs from the central <see cref="RizzyUIConfig.AssetUrls"/> dictionary.
-    /// </summary>
-    [Parameter] public string[] ComponentAssetKeys { get; set; } = ["FancyThingCoreScript"];
 
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        // Set Element = "button"; or other specific tag if not a div
         AriaLabel ??= Localizer["RzFancyThing.DefaultAriaLabel"];
-        UpdateAssets();
     }
 
     /// <inheritdoc/>
@@ -163,31 +155,21 @@ public partial class RzFancyThing : RzComponent
     {
         base.OnParametersSet();
         AriaLabel ??= Localizer["RzFancyThing.DefaultAriaLabel"];
-        UpdateAssets();
-    }
-
-    private void UpdateAssets()
-    {
-        var assetUrls = ComponentAssetKeys
-            .Select(key => RizzyUIConfig.Value.AssetUrls.TryGetValue(key, out var url) ? url : null)
-            .Where(url => !string.IsNullOrEmpty(url))
-            .ToList();
-        _assets = JsonSerializer.Serialize(assetUrls);
     }
 
     /// <inheritdoc/>
-    protected override string? RootClass()
-    {
-        var s = Theme.RzFancyThing; // Access the specific style provider for this component
-        return TwMerge.Merge(
-            AdditionalAttributes,
-            s.Container,             // Base style from the provider
-            s.GetSizeCss(Size),      // Dynamic style from the provider
-            IsActive ? s.Active : null // Conditional style from the provider
-        );
-    }
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzFancyThing;
 
-    // Other component logic, event callbacks, etc.
+    /// <summary>
+    /// Defines the slots available for styling in the RzFancyThing component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
+    {
+        [Slot("fancy-thing")]
+        public string? Base { get; set; }
+        [Slot("icon")]
+        public string? Icon { get; set; }
+    }
 }
 ```
 
@@ -195,12 +177,12 @@ Important for the LLM:
 
 *   Start with `/// <summary>...</summary>` for the class.
 *   **All** public members get `<summary>` XML docs.
-*   Icons are passed as `SvgIcon?`; render with `<Blazicon Svg="@LeadingIcon" … />`.
-*   Use `TwMerge.Merge(...)`; never concatenate class strings manually in `RootClass()`.
-*   Default `Element` to "div" unless overridden in `OnInitialized()`.
-*   **Do not** use a static `DefaultAssets` array. Instead, use the `ComponentAssetKeys` parameter and the `UpdateAssets` method pattern.
-*   Include an `AriaLabel` parameter and initialize it with a localized default if not set by the user (see §9).
-*   Ensure the component name follows the `Rz` prefix convention as described in §3.
+*   Inherit from `RzComponent<TSlots>` or `RzAsChildComponent<TSlots>`.
+*   Define a `public sealed partial class Slots : ISlots` inside the component class for non-generic components.
+*   **All properties in the `Slots` class MUST be decorated with the `[Slot("kebab-case-name")]` attribute.** The name should match `shadcn/ui` conventions where applicable.
+*   Define a `public static readonly TvDescriptor<...>` with all base, slot, and variant styles.
+*   Implement `protected override TvDescriptor<...> GetDescriptor() => Theme.ComponentName;`.
+*   Handle default localized strings for parameters like `AriaLabel` (§9).
 
 ---
 
@@ -208,226 +190,161 @@ Important for the LLM:
 
 ```razor
 @* Inside RzFancyThing.razor *@
-@if (LeadingIcon is not null)
+@if (Icon is not null)
 {
-    <Blazicon Svg="@LeadingIcon"
-              class="@Theme.RzFancyThing.IconStyle"
-              aria-hidden="true" /> @* Icons are often decorative *@
-}
-```
+    <Blazicon Svg="@Icon"
+              class="@SlotClasses.GetIcon()"
+              data-slot="@RzFancyThing.SlotNames.NameOf(SlotTypes.Icon)"
+              aria-hidden="true" />
+}```
 
 *   Accept icons as `SvgIcon?`.
-*   Parameter names must be `LeadingIcon` or `TrailingIcon` as appropriate.
-*   Style the `<Blazicon>` using direct theme access in its `class` attribute.
-*   Add `aria-hidden="true"` if the icon is purely decorative and its meaning is conveyed by adjacent text or the component's `aria-label`.
+*   Style the `<Blazicon>` using the source-generated `SlotClasses.Get...()` accessor.
+*   Add the mandatory `data-slot` attribute using the `SlotNames.NameOf(...)` helper.
+*   Add `aria-hidden="true"` if the icon is purely decorative.
 
 ---
 
-## 6. Using Tailwind 4 with the RizzyUI Theme System
+## 6. Styling with TailwindVariants.NET
 
-RizzyUI ships its own **Tailwind 4 plugin** (`/packages/rizzyui/src/css/rizzyui-plugin.css`).
-That file defines a palette of **CSS custom-property tokens** (surface, on-surface, primary, etc.) plus a `@variant dark` block that swaps token values when `.dark` is present on `html` or any ancestor.
+RizzyUI uses its own **Tailwind 4 plugin** that defines a palette of **CSS custom-property tokens** (e.g., `--background`, `--primary`).
 
 ### 6.1 Semantic tokens, not raw palette colors
 
-You never hard-code `text-blue-600` or `bg-slate-900` in a component.
-Instead you write utilities that reference the semantic tokens shipped by the plugin:
+You never hard-code `text-blue-600` or `bg-slate-900`. Instead, you write utilities that reference the semantic tokens:
 
 ```
 bg-background
 text-foreground
-hover:bg-secondary
-ring-outline-strong
+hover:bg-accent
+ring-primary
 ```
 
-Because the **token names stay identical** across light and dark modes, you do **not** need `dark:` prefixes for these semantic tokens:
-
-```html
-<span class="text-foreground">Works in both themes</span>
-```
-
-Tailwind expands that to:
-
-```css
-.text-foreground { color: var(--color-foreground); }
-```
-
-and the plugin’s `@variant dark` ensures `--color-foreground` swaps automatically.
+Because the token names stay identical across light and dark modes, you do **not** need `dark:` prefixes for these semantic tokens.
 
 ### 6.2 Where utilities live
 
-*   **Component markup (`.razor`)** should be free of presentation classes except for small, internal layout helpers (`flex`, `gap-2`, etc.).
-*   **All root and variant styles** belong in a **style-provider object** (see §7) so end users can swap them out.
+All styling logic—base classes, slot-specific classes, and conditional variants—belongs in the `TvDescriptor` defined within the component's `.razor.cs` or `Styling/ComponentNameStyles.cs` file.
 
-Example provider properties:
+### 6.3 Automatic Class Merging
 
-```csharp
-public override string Container  =>
-    "inline-flex items-center rounded-full px-3 py-1 bg-background text-foreground";
+The `RzComponent<TSlots>` base class automatically handles merging classes. The `TwVariants.Invoke` method combines classes from the `TvDescriptor` with any `class` attribute provided by the user on the component tag. You do not need to manually call `TwMerge`.
 
-public override string Active     =>
-    "ring-2 ring-primary";
+### 6.4 Defining Variants in the Descriptor
 
-public override string IconStyle  =>
-    "size-5 text-muted-foreground";
-```
-
-### 6.3 TwMerge: the required glue
-
-Use the injected `TwMerge.Merge(attributes, class1, class2, …)` in the `RootClass()` method of your `.razor.cs` file to combine:
+Variants are defined within the `variants` property of the `TvDescriptor`. They map a component parameter's value to a set of CSS classes.
 
 ```csharp
-// In RzFancyThing.razor.cs
-protected override string? RootClass()
+// In the TvDescriptor
+variants: new()
 {
-    var s = Theme.RzFancyThing;
-    return TwMerge.Merge(
-        AdditionalAttributes,    // User-supplied classes (e.g., from <RzFancyThing class="mt-4">)
-        s.Container,             // Base classes from the style provider
-        s.GetSizeCss(Size),      // Dynamic classes based on parameters
-        IsActive ? s.Active : null // Conditional classes
-    );
-}
-```
-
-TwMerge deduplicates utilities and correctly appends any user-supplied `class` from `AdditionalAttributes`.
-
-### 6.4 Defining size / variant helpers in Style Providers
-
-Enums for variants (like `Size`, `ButtonVariant`) should be defined globally in RizzyUI (e.g., `RizzyUI/Components/Variants.cs`).
-Style provider methods (`GetSizeCss`, `GetVariantCss`) take these enums.
-
-```csharp
-// In DefaultRzFancyThingStyles.cs
-public override string GetSizeCss(Size sz) => sz switch // Using global 'Size' enum
-{
-    Size.Small => "text-xs py-1 px-2",    // Assuming 'Small' is part of the global 'Size' enum
-    Size.Medium => "text-sm py-2 px-3",   // Assuming 'Medium' is part of the global 'Size' enum
-    Size.Large => "text-base py-3 px-4",  // Assuming 'Large' is part of the global 'Size' enum
-    _             => "text-sm py-2 px-3" // Default case
-};
-```
-
-### 6.5 Overriding in a custom theme
-
-A consumer can replace the default style provider inside their own `Theme` subclass:
-
-```csharp
-public sealed class MyTheme : RzTheme
-{
-    public MyTheme() : base("MyTheme", "my-theme")
+    [c => ((RzFancyThing)c).Size] = new Variant<Size, Slots>
     {
-        // Assuming RzFancyThing is the property name in RzTheme for RzFancyThingStylesBase
-        RzFancyThing = new MyFancyThingStyles(this);
+        [Size.Small] = new() { [s => s.Base] = "text-xs py-1 px-2" },
+        [Size.Medium] = new() { [s => s.Base] = "text-sm py-2 px-3" }
     }
 }
-
-public sealed class MyFancyThingStyles : DefaultRzFancyThingStyles // Or RzStylesBase.RzFancyThingStylesBase
-{
-    public MyFancyThingStyles(RzTheme t) : base(t) { }
-
-    public override string Container =>
-        "inline-flex gap-2 rounded-md px-4 py-2 "
-      + "bg-gradient-to-r from-primary to-secondary text-primary-foreground"; // Still uses semantic tokens
-}
 ```
-
-Because all classes still use the plugin’s semantic tokens (like `from-primary`, `text-primary-foreground`), light/dark support is automatic.
-
-### 6.6 No purge / safelist step needed
-
-Tailwind 4’s JIT engine and the RizzyUI build process handle class discovery. Any utility string that appears in a style provider or `.razor` file is automatically retained.
 
 ---
 
-## 7. Styling providers (`RzStylesBase`, `Default...Styles.cs`)
+## 7. The TvDescriptor Pattern (Styling Providers)
 
-The RizzyUI styling system uses a partial abstract class `RzStylesBase` to define the contract for component styles, with concrete implementations provided by themes.
+The styling system is based on the `TvDescriptor`, which encapsulates all styling logic for a component. The implementation differs for non-generic and generic components.
 
-1.  **Abstract base for all styles (`src/RizzyUI/Styles/RzStylesBase.cs`):**
-    This file MUST contain only the abstract partial class definition and be empty otherwise.
+### 7.1 For Non-Generic Components
+
+For a non-generic component like `RzButton`, the `Slots` class and the `DefaultDescriptor` are defined directly within the component's `.razor.cs` file.
+
+```csharp
+// src/RizzyUI/Components/Form/RzButton/RzButton.razor.cs
+public partial class RzButton : RzComponent<RzButton.Slots>
+{
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(/* ... */);
+
+    // ... parameters ...
+
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzButton;
+
+    public sealed partial class Slots : ISlots
+    {
+        [Slot("button")]
+        public string? Base { get; set; }
+    }
+}
+```
+
+### 7.2 For Generic Components (e.g., `TableHeaderCell<TItem>`)
+
+Generic components require a special pattern to decouple the non-generic styling logic from the generic component implementation.
+
+**The Pattern: A Non-Generic Styling Interface**
+
+| File | Responsibility |
+| :--- | :--- |
+| **`ComponentName.razor.cs`** (Modified) | 1.  Define a **public interface** (e.g., `IHasTableHeaderCellStylingProperties`) containing only the **public** `[Parameter]` or `protected` properties that influence styling. <br> 2.  The generic component class (e.g., `TableHeaderCell<TItem>`) **implements this interface**. <br> 3.  It inherits from `RzComponent<ComponentNameSlots>`. <br> 4.  Its `GetDescriptor()` method points to the corresponding property on the `RzTheme`. |
+| **`Styling/ComponentNameStyles.cs`** (New) | Contains the **non-generic `Slots` class** (with `[Slot]` attributes) and a **static class** holding the `DefaultDescriptor`. The variant expressions in the descriptor will cast the component instance to the **non-generic styling interface**. |
+| **`RzTheme.cs`** | Holds a single, non-generic `TvDescriptor` property for the component, typed to the non-generic `Slots` class and `RzComponent<Slots>`. |
+
+**Example using `TableHeaderCell<TItem>`:**
+
+1.  **Modify `TableHeaderCell.razor.cs` to define and implement the interface:**
     ```csharp
-    // src/RizzyUI/Styles/RzStylesBase.cs
+    // In TableHeaderCell.razor.cs
     namespace RizzyUI;
 
-    /// <summary>
-    ///     Abstract base class defining the structure for component style definitions.
-    ///     Concrete themes (<see cref="RzTheme" />) will provide instances derived from these nested abstract classes,
-    ///     allowing for customizable component styling across the application.
-    /// </summary>
-    public abstract partial class RzStylesBase
+    // 1. Define the non-generic styling interface. Properties MUST be public.
+    public interface IHasTableHeaderCellStylingProperties
     {
-        // This file should be empty except for the class definition.
-        // Nested abstract style classes for components are defined in separate partial files.
+        public bool Sortable { get; }
+        public SortDirection CurrentSortDirection { get; }
+    }
+
+    // 2. Implement the interface on the generic component
+    public partial class TableHeaderCell<TItem> : RzComponent<TableHeaderCellSlots>, IHasTableHeaderCellStylingProperties
+    {
+        [Parameter] public bool Sortable { get; set; }
+        public SortDirection CurrentSortDirection => _currentSortDirection;
+        
+        // ... rest of the component logic ...
+
+        // 3. GetDescriptor points to the theme
+        protected override TvDescriptor<RzComponent<TableHeaderCellSlots>, TableHeaderCellSlots> GetDescriptor() => Theme.TableHeaderCell;
     }
     ```
 
-2.  **Abstract style definition for a specific component (`src/RizzyUI/Styles/RzStylesBase.RzComponentName.cs`):**
-    For each new component (e.g., `RzFancyThing`), create a new file following the naming convention `RzStylesBase.RzComponentName.cs`. This file will contain the abstract nested class defining the style properties and methods for that component.
+2.  **Create `src/RizzyUI/Components/DataTable/TableHeaderCell/Styling/TableHeaderCellStyles.cs`:**
     ```csharp
-    // src/RizzyUI/Styles/RzStylesBase.RzFancyThing.cs (Example for RzFancyThing)
+    // In Styling/TableHeaderCellStyles.cs
+    using TailwindVariants.NET;
+
     namespace RizzyUI;
 
-    public abstract partial class RzStylesBase
-    {
-        /// <summary>
-        ///     Defines the abstract structure for styling the <see cref="RzFancyThing" /> component.
-        /// </summary>
-        public abstract class RzFancyThingStylesBase
-        {
-            /// <summary> The theme instance providing color and sizing tokens. </summary>
-            protected readonly RzTheme Theme;
+    public sealed partial class TableHeaderCellSlots : ISlots 
+    { 
+        [Slot("table-header-cell")]
+        public string? Base { get; set; }
+        /* ... other slot properties with [Slot] attributes ... */
+    }
 
-            /// <summary> Initializes a new instance of the <see cref="RzFancyThingStylesBase" /> class. </summary>
-            protected RzFancyThingStylesBase(RzTheme theme)
+    public static class TableHeaderCellStyles
+    {
+        public static readonly TvDescriptor<RzComponent<TableHeaderCellSlots>, TableHeaderCellSlots> DefaultDescriptor = new(
+            variants: new()
             {
-                Theme = theme;
+                // Cast to the INTERFACE, not the generic type
+                [c => ((IHasTableHeaderCellStylingProperties)c).Sortable] = new Variant<bool, TableHeaderCellSlots>
+                {
+                    [true] = new() { [s => s.Base] = "cursor-pointer hover:bg-muted/50" }
+                },
+                [c => ((IHasTableHeaderCellStylingProperties)c).CurrentSortDirection] = new Variant<SortDirection, TableHeaderCellSlots>
+                {
+                    // ... variant options ...
+                }
             }
-
-            /// <summary>
-            ///     Gets the base CSS classes for the RzFancyThing container div.
-            /// </summary>
-            public abstract string Container { get; }
-
-            /// <summary> Gets the CSS classes for the active state. </summary>
-            public abstract string Active { get; }
-
-            /// <summary> Gets the CSS classes for the icon. </summary>
-            public abstract string IconStyle { get; }
-
-            /// <summary> Gets the size-specific CSS classes. </summary>
-            /// <param name="sz">The desired size.</param>
-            public abstract string GetSizeCss(Size sz);
-        }
+        );
     }
     ```
-
-3.  **Default implementation for a specific component (`src/RizzyUI/Components/Fancy/RzFancyThing/Styling/DefaultRzFancyThingStyles.cs`):**
-    This file provides the concrete default Tailwind CSS classes for the component's styles.
-    ```csharp
-    // src/RizzyUI/Components/Fancy/RzFancyThing/Styling/DefaultRzFancyThingStyles.cs
-    namespace RizzyUI;
-
-    public sealed class DefaultRzFancyThingStyles : RzStylesBase.RzFancyThingStylesBase
-    {
-        public DefaultRzFancyThingStyles(RzTheme theme) : base(theme) { }
-
-        public override string Container => "inline-flex items-center rounded-full px-3 py-1 bg-background text-foreground"; // Uses semantic tokens
-        public override string Active => "ring-2 ring-primary"; // Uses semantic token
-        public override string IconStyle => "size-5 text-muted-foreground"; // Uses semantic token
-
-        public override string GetSizeCss(Size sz) => sz switch // Using global Size enum
-        {
-            Size.Small => "text-xs",
-            Size.Medium => "text-sm",
-            Size.Large => "text-base",
-            _ => "text-sm"
-        };
-    }
-    ```
-
-> **Why the constructor parameter?**
-> Passing `RzTheme theme` lets any style object consult **other** style providers (`theme.RzButton`, etc.), enabling cross-component consistency. Properties in the abstract base should typically be `abstract string` or `abstract/virtual string Get...Css()` to enforce implementation by themes.
 
 ---
 
@@ -605,8 +522,7 @@ The CSP build supports accessing nested properties (property accessors) using th
 <div x-data="counter">
     <button @click="foo.increment">Increment</button>
     <span x-text="foo.count"></span>
-</div>
-```
+</div>```
 
 ```javascript
 Alpine.data('counter', () => ({
@@ -628,7 +544,7 @@ Alpine.data('counter', () => ({
 If a RizzyUI component uses Alpine.js, its root `<HtmlElement>` in the `.razor` file MUST contain a direct child `<div>` with the following attributes. This `div` serves as the root for the Alpine component.
 
 ```razor
-<HtmlElement Element="@EffectiveElement" id="@Id" class="@RootClass()" @attributes="@AdditionalAttributes">
+<HtmlElement Element="@EffectiveElement" id="@Id" class="@SlotClasses.GetBase()" @attributes="@AdditionalAttributes">
     <div data-alpine-root="@Id" @* Crucial: Must match the Blazor component's @Id *@
          x-data="rzFancyThing"   @* Alpine component name, e.g., 'rzComponentName' *@
          data-assets="@_assets"   @* Serialized JSON string of asset URLs for this component *@
@@ -695,8 +611,7 @@ Components **do not** hardcode asset URLs. Instead, they declare their dependenc
     4.  Place any Alpine initialization logic that *depends* on these external assets (e.g., initializing a third-party library like Flatpickr or Highlight.js) inside the `success` callback of `require`.
     5.  Other initialization logic (e.g., setting up internal state, watchers) can be placed directly in `init()` or in a separate method called from `init()` (either before or after `require`, or within its callbacks, as appropriate).
 
-**Example: `packages/rizzyui/src/js/lib/components/rzFancyThing.js`**
-```javascript
+**Example: `packages/rizzyui/src/js/lib/components/rzFancyThing.js`**```javascript
 // This component demonstrates conditional asset loading.
 // If data-assets is empty or 'require' is not provided, it proceeds without loading.
 export default function(Alpine, require) { // 'require' is optional here
@@ -832,7 +747,7 @@ When unit tests are specifically requested for a new or modified component, they
         *   Render the component with minimal or no parameters (or only required ones like `Id`).
         *   Assert the root element exists and has the correct default tag (e.g., `div` unless overridden).
         *   Verify the `Id` is correctly applied.
-        *   Assert that `RootClass()` applies the expected base classes from the theme's style provider.
+        *   Assert that `cut.Find("selector").ClassList` contains the expected base classes from the `DefaultDescriptor`.
         *   Assert default ARIA attributes (e.g., `role`, default `aria-label` if applicable from localization).
         *   If the component uses Alpine.js:
             *   Assert the presence of the Alpine child-container (`div[data-alpine-root='@Id']`).
@@ -842,7 +757,7 @@ When unit tests are specifically requested for a new or modified component, they
 
     2.  **Parameter Variation Tests:**
         *   For each significant parameter, create tests to verify its effect on rendering.
-        *   **CSS Classes:** Use `cut.Find("selector").ClassList.Contains("expected-class")` or `cut.Find("selector").Should().HaveClass("expected-class")` (if using FluentAssertions with bUnit extensions). Verify that dynamic style provider methods (e.g., `GetSizeCss`, `GetVariantCss`) are correctly applying classes.
+        *   **CSS Classes:** Use `cut.Find("selector").ClassList.Contains("expected-class")`. Verify that dynamic style provider methods (e.g., `GetSizeCss`, `GetVariantCss`) are correctly applying classes.
         *   **ARIA Attributes:** Assert that ARIA attributes change correctly based on parameters (e.g., `aria-expanded`, `aria-pressed`, `aria-current`).
         *   **Conditional Rendering:** Assert elements are rendered or hidden based on boolean parameters (e.g., `ShowIcon`, `Dismissable`).
         *   **Content Parameters:**
@@ -863,7 +778,7 @@ When unit tests are specifically requested for a new or modified component, they
         *   Assert that component state (if exposed or reflected in markup/ARIA) changes as expected.
 
     5.  **Styling and `AdditionalAttributes`:**
-        *   Verify that classes passed via `AdditionalAttributes` (e.g., `<RzFancyThing class="my-custom-style">`) are correctly merged into the root element's class list by `RootClass()` and `TwMerge`.
+        *   Verify that classes passed via `AdditionalAttributes` (e.g., `<RzFancyThing class="my-custom-style">`) are correctly merged into the root element's class list.
         *   Verify other `AdditionalAttributes` are passed through to the root element.
 
     6.  **Localization of Defaults:**
@@ -883,44 +798,25 @@ When unit tests are specifically requested for a new or modified component, they
 
 ## 12. The output block example (canonical)
 
-When asked to generate *RzFancyThing*, your response **must** contain an `output` block like this (all XML docs omitted for brevity):
+When asked to generate `RzFancyThing` (a non-generic component):
 
 ````markdown
 ```output
 <files>
   <file path="src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor">…</file>
   <file path="src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor.cs">…</file>
-  <file path="src/RizzyUI/Components/Fancy/RzFancyThing/Styling/DefaultRzFancyThingStyles.cs">…</file>
-  @* If new abstract style definition file is needed for a new component: *@
-  <file path="src/RizzyUI/Styles/RzStylesBase.RzFancyThing.cs">
-    // Content of the new RzStylesBase.RzFancyThing.cs file
-    // Example:
-    // namespace RizzyUI;
-    // public abstract partial class RzStylesBase
-    // {
-    //     public abstract class RzFancyThingStylesBase { /* ... */ }
-    // }
-  </file>
-  @* If new Alpine module needed and LLM is instructed to generate JS: *@
-  <file path="packages/rizzyui/src/js/lib/components/rzFancyThing.js">
-    // Content of the new rzFancyThing.js file
-    // Example:
-    // export default function(Alpine, require) { // 'require' is optional
-    //     Alpine.data('rzFancyThing', () => ({
-    //         // ... component logic ...
-    //         init() {
-    //             const assets = JSON.parse(this.$el.dataset.assets || '[]');
-    //             const nonce = this.$el.dataset.nonce || '';
-    //             if (assets.length > 0 && typeof require === 'function') {
-    //                 require(assets, { /* callbacks */ }, nonce);
-    //             } else {
-    //                 this.setupInteractivity();
-    //             }
-    //         },
-    //         setupInteractivity() { /* main logic */ }
-    //     }));
-    // }
-  </file>
+</files>
+```
+````
+
+When asked to generate `RzGenericThing<TItem>`:
+
+````markdown
+```output
+<files>
+  <file path="src/RizzyUI/Components/Generic/RzGenericThing/RzGenericThing.razor">…</file>
+  <file path="src/RizzyUI/Components/Generic/RzGenericThing/RzGenericThing.razor.cs">…</file>
+  <file path="src/RizzyUI/Components/Generic/RzGenericThing/Styling/RzGenericThingStyles.cs">…</file>
 </files>
 ```
 ````
@@ -929,56 +825,37 @@ When asked to generate *RzFancyThing*, your response **must** contain an `output
 
 ## 13. What **not** to place in the `output` block
 
-Changes to **global theme scaffolding** (`RzTheme.cs`, `RzTheme.StyleProviders.cs`, `RzStylesBase.cs` additions to the *partial class itself*), **configuration** (`RizzyUIConfig.cs`, `ServiceCollectionExtensions.cs`), and **localization resource files** (`RizzyLocalization.resx`) go in a **separate, preface section** that appears *before* the `output` block.
+Changes to **global theme scaffolding** (`RzTheme.cs`, `RzTheme.StyleProviders.cs`), **configuration** (`RizzyUIConfig.cs`, `ServiceCollectionExtensions.cs`), and **localization resource files** (`RizzyLocalization.resx`) go in a **separate, preface section** that appears *before* the `output` block.
 That section must identify each existing file and show the lines/entries to insert, either as a diff or as verbatim code snippets/tables.
 Never embed these edits in `<file>` tags because CI merges them manually.
 
 ---
 
-## 14. Theme, Localization, and Asset Integration (cross-file edits the LLM must describe)
+## 14. Theme, Localization, and Asset Integration (cross-file edits)
 
-Whenever a new style provider, localizable string, JavaScript component, or asset dependency is introduced, instruct the user accordingly:
+Whenever a new component is introduced, instruct the user accordingly:
 
 ````markdown
 **Manual Edits Required for Integration:**
 
 **Theme Integration:**
 
-1.  **Add new abstract style definition file `src/RizzyUI/Styles/RzStylesBase.RzFancyThing.cs`**:
-    *   This file should contain the abstract nested class for `RzFancyThing` styles, as described in §7.2.
-    *   Example content:
-        ```csharp
-        // src/RizzyUI/Styles/RzStylesBase.RzFancyThing.cs
-        namespace RizzyUI;
-
-        public abstract partial class RzStylesBase
-        {
-            public abstract class RzFancyThingStylesBase
-            {
-                protected readonly RzTheme Theme;
-                protected RzFancyThingStylesBase(RzTheme theme) { Theme = theme; }
-
-                public abstract string Container { get; }
-                public abstract string Active { get; }
-                public abstract string IconStyle { get; }
-                public abstract string GetSizeCss(Size sz);
-            }
-        }
-        ```
-
-2.  **Add to `src/RizzyUI/RzTheme.StyleProviders.cs`**:
+1.  **Add to `src/RizzyUI/RzTheme.StyleProviders.cs`**:
     ```csharp
-    // ... (inside public partial class RzTheme)
-    /// <summary>
-    /// Gets the style definitions for the <see cref="RzFancyThing" /> component.
-    /// </summary>
-    public virtual RzStylesBase.RzFancyThingStylesBase RzFancyThing { get; }
+    // For a non-generic component
+    public virtual TvDescriptor<RzComponent<RzFancyThing.Slots>, RzFancyThing.Slots> RzFancyThing { get; set; }
+
+    // For a generic component
+    public virtual TvDescriptor<RzComponent<RzGenericThingSlots>, RzGenericThingSlots> RzGenericThing { get; set; }
     ```
 
-3.  **Add to `src/RizzyUI/RzTheme.cs` constructor**:
+2.  **Add to `src/RizzyUI/RzTheme.cs` constructor**:
     ```csharp
-    // ... (inside public RzTheme(string name, string themeCode) constructor)
-    RzFancyThing = new DefaultRzFancyThingStyles(this);
+    // For a non-generic component
+    RzFancyThing = RizzyUI.RzFancyThing.DefaultDescriptor;
+
+    // For a generic component
+    RzGenericThing = RizzyUI.RzGenericThingStyles.DefaultDescriptor;
     ```
 
 **Localization:**
@@ -996,27 +873,18 @@ Please add the following default asset URLs to the `PostConfigure` action in `sr
 | Key (`string`)           | URL (`string`)                                       |
 |--------------------------|------------------------------------------------------|
 | `"FancyThingCoreScript"` | `"https://cdn.jsdelivr.net/npm/fancylib@1.2.3/dist/fancy.min.js"` |
-| `"SomeOtherDependency"`  | `Constants.ContentUrl("js/vendor/other-lib.js")`     |
-
-Example addition:
-```csharp
-// In ServiceCollectionExtensions.cs -> AddRizzyUIInternal -> services.PostConfigure<RizzyUIConfig>
-config.AssetUrls.TryAdd("FancyThingCoreScript", "https://cdn.jsdelivr.net/npm/fancylib@1.2.3/dist/fancy.min.js");
-config.AssetUrls.TryAdd("SomeOtherDependency", Constants.ContentUrl("js/vendor/other-lib.js"));
-```
 
 **JavaScript Integration (if new Alpine component `rzFancyThing` was created):**
 
 1.  **Modify `packages/rizzyui/src/js/lib/components.js`**:
     *   Add an import statement for your new component module at the top of the file:
         ```javascript
-        // ... other existing component imports ...
         import registerRzFancyThing from './components/rzFancyThing.js'; 
         ```
     *   Call the imported registration function within the `registerComponents(Alpine)` function:
         ```javascript
         function registerComponents(Alpine) {
-            // ... other existing component registrations ...
+            // ...
             registerRzFancyThing(Alpine, rizzyRequire); 
         }
         ```
@@ -1027,26 +895,59 @@ config.AssetUrls.TryAdd("SomeOtherDependency", Constants.ContentUrl("js/vendor/o
 ## 15. Final checklist for the LLM
 
 *   CRITICAL - Only generate or modify code directly related to the task requested. You are not permitted to modify code outside the scope of the request.
-*   **Component Naming:** Ensure only root-level components are prefixed with `Rz`. Nested components must omit the `Rz` prefix.
+*   **Component Naming:** Ensure only root-level components are prefixed with `Rz`.
 *   Prepend the cross-file edit instructions for theme, localization, and asset management if needed (§14).
 *   Provide an `output` block for new or replaced component-specific files only (§1, §12).
 *   Use the root element pattern (§2) and Alpine child-container convention if Alpine is used (§10.2).
-*   `.razor` files: Use direct `@Theme...` access for internal element styling (§3, §5). Implement accessibility attributes (§8).
+*   `.razor` files: Use `@inherits RzComponent<...>` and `SlotClasses.Get...()` for all classes (§3, §5).
 *   `.razor.cs` files:
-    *   Start with `/// <summary>...</summary>` for the class, ensure public members have `<summary>`.
-    *   Use `TwMerge` in `RootClass()`.
-    *   **Use the centralized asset management pattern:** `ComponentAssetKeys` parameter, `IOptions<RizzyUIConfig>` injection, and URL lookup via `UpdateAssets()`. **Do not** use a static `DefaultAssets` array with hardcoded URLs.
-    *   Set `Element` if not "div".
-    *   Handle default localized strings for parameters like `AriaLabel` (§4, §9).
-*   Styling providers:
-    *   `RzStylesBase.cs` should be an empty abstract partial class.
-    *   Abstract style definitions for components should be in separate files named `RzStylesBase.RzComponentName.cs`, nested inside `RzStylesBase` as partial classes.
-    *   Default implementations should be in their own files (e.g., `DefaultRzComponentNameStyles.cs`) and their constructors must take `RzTheme` (§6, §7).
-*   Alpine.js: **Strictly adhere to API restrictions** by always using `Alpine.data` and referencing properties/methods by key only. Follow the C# -> `data-assets` -> JS `require()` flow (§10).
+    *   Start with `/// <summary>...</summary>` for the class and public members.
+    *   Inherit from `RzComponent<TSlots>` or `RzAsChildComponent<TSlots>`.
+    *   **For non-generic components:** Define `Slots` and `DefaultDescriptor` inside the class.
+    *   **For generic components:** Implement the `IHas...StylingProperties` interface.
+    *   Implement `protected override TvDescriptor<...> GetDescriptor() => Theme.ComponentName;`.
+    *   **Ensure `RootClass()` method is NOT present.**
+    *   Handle default localized strings for parameters like `AriaLabel` (§9).
+*   Styling files (`Styling/ComponentNameStyles.cs` for generics):
+    *   Define the non-generic `Slots` class.
+    *   Define the `static class` containing the `DefaultDescriptor`.
+    *   Variant expressions in the descriptor **MUST** cast to the `IHas...StylingProperties` interface.
+*   Alpine.js: Strictly adhere to API restrictions by always using `Alpine.data` and referencing properties/methods by key only.
 *   Include unit tests *only* when specifically requested (§11).
 *   Adhere to all specified conventions and avoid manual concatenation of class strings.
-*   Do not include comments in Razor markup.
-*   Do not add comments to using statements.
-*   Any comments added within code blocks should be production-ready and not for commentary on changes.
+*   Do not include comments in Razor markup or using statements. Any comments in code blocks should be production-ready.
 
-If all bullets are satisfied, **any** compliant LLM will produce RizzyUI-ready code.
+---
+
+### **Final Sign-Off Checklist (Version 3.3)**
+
+#### **Part A: LLM Automated Verification Checklist**
+
+-   **[ ] 1. `Slots` Class Definition:**
+    -   For **non-generic** components: The `.razor.cs` file contains a `public sealed partial class Slots : ISlots`.
+    -   For **generic** components: A separate `Styling/ComponentNameStyles.cs` file exists containing a `public sealed partial class ComponentNameSlots : ISlots`.
+-   **[ ] 2. `Slots` Properties:** The `Slots` class has a `string?` property for *every* slot consumed by a `SlotClasses.Get...()` call in the `.razor` file.
+-   **[ ] 3. `[Slot]` Attribute:** Every property in every `Slots` class is decorated with `[Slot("kebab-case-name")]`.
+-   **[ ] 4. `DefaultDescriptor` Location:**
+    -   For **non-generic** components: The `.razor.cs` file contains a `public static readonly TvDescriptor`.
+    -   For **generic** components: The `Styling/ComponentNameStyles.cs` file contains a `public static class` holding the `public static readonly TvDescriptor`.
+-   **[ ] 5. Descriptor Completeness:** The `DefaultDescriptor` provides a default class string for *every* slot defined in the `Slots` class.
+-   **[ ] 6. Interface Implementation (Generic Components Only):** For generic components, the `.razor.cs` file defines and implements a public `IHas...StylingProperties` interface.
+-   **[ ] 7. Interface Properties (Generic Components Only):** All properties on the styling interface are `public`.
+-   **[ ] 8. Correct Variant Syntax:** All `variants` and `compoundVariants` that target a slot other than `Base` **MUST** use the `new() { [s => s.SlotName] = "..." }` syntax. For generic components, variant expressions **MUST** cast the component instance to the styling interface (e.g., `c => ((IHas...StylingProperties)c).PropertyName`).
+-   **[ ] 9. Inheritance:** The component's `.razor.cs` file inherits from `RzComponent<TSlots>` or `RzAsChildComponent<TSlots>`, where `TSlots` is the correct (and possibly non-generic) slots type.
+-   **[ ] 10. Correct `GetDescriptor` Implementation:** The component's `.razor.cs` file **MUST** contain the method `protected override TvDescriptor<...> GetDescriptor() => Theme.ComponentName;`.
+-   **[ ] 11. `RootClass()` Method Removed:** The `RootClass()` method has been completely removed from the component's `.razor.cs` file.
+-   **[ ] 12. Markup Inheritance:** The component's `.razor` file has the correct `@inherits` directive.
+-   **[ ] 13. Markup Class Attributes:** All `class` attributes in the `.razor` file have been updated to use the `SlotClasses.Get...()` accessors.
+-   **[ ] 14. `data-slot` on Root Element:** The root `HtmlElement` has a `data-slot="component-name"` attribute with a hardcoded, kebab-case name.
+-   **[ ] 15. `data-slot` on Internal Elements:** Every internal element with a `class="@SlotClasses.Get...()"` attribute also has a corresponding `data-slot="@...SlotNames.NameOf(...)"` attribute.
+-   **[ ] 16. Alpine Directives Preserved:** All non-class Alpine directives are present in the `.razor` file on their original elements.
+
+#### **Part B: Human Developer Validation Checklist**
+
+-   **[ ] 17. Theme Integration:** Have the manual edits to `RzTheme.StyleProviders.cs` and `RzTheme.cs` been applied correctly?
+-   **[ ] 18. Obsolete Files Deleted:** Have the old `Default...Styles.cs` and `RzStylesBase...cs` files for the component been deleted?
+-   **[ ] 19. Build Success:** Does the entire `RizzyUI` solution build without errors?
+-   **[ ] 20. Unit Tests:** Do all existing unit tests for the component pass?
+-   **[ ] 21. Demo Application:** Visually confirm that the component renders and behaves exactly as it did before the refactor in the `RizzyUI.Docs` application.

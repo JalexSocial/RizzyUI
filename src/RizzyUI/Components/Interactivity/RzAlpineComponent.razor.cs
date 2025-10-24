@@ -77,7 +77,7 @@ public partial class RzAlpineComponent : RzAsChildComponent
         var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase)
         {
             ["id"] = Id,
-            ["class"] = RootClass(),
+            ["class"] = AdditionalAttributes?.GetValueOrDefault("class", string.Empty)?.ToString(),
             ["data-alpine-root"] = Id,
             ["x-data"] = Name,
             ["x-load"] = string.IsNullOrWhiteSpace(LoadStrategy) ? string.Empty : LoadStrategy,

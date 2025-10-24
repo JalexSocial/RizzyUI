@@ -74,6 +74,7 @@ public partial class RzTextEdit : InputBase<string, RzTextEdit.Slots>
 
     public sealed partial class Slots : ISlots
     {
+        [Slot("base")]
         public string? Base { get; set; }
         public string? InputWrapper { get; set; }
         public string? PrependElement { get; set; }
