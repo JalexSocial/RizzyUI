@@ -87,7 +87,13 @@ public partial class RzBadge : RzComponent<RzBadge.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the inner span that wraps the content.
+        /// </summary>
         public string? InnerSpan { get; set; }
     }
 }

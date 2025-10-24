@@ -6,10 +6,10 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <xmldoc>
-///     A container component that collects heading information from child components (like <see cref="RzHeading" />)
-///     and makes it available to <see cref="RzQuickReference" /> for building an "on this page" navigation.
+///     A container component that collects heading information from child components (like &lt;see cref="RzHeading" /&gt;)
+///     and makes it available to &lt;see cref="RzQuickReference" /&gt; for building an "on this page" navigation.
 ///     Interacts with Alpine.js to manage the currently highlighted heading.
-///     Styling is determined by the active <see cref="RzTheme" />.
+///     Styling is determined by the active &lt;see cref="RzTheme" /&gt;.
 /// </xmldoc>
 public partial class RzQuickReferenceContainer : RzComponent<RzQuickReferenceContainer.Slots>
 {
@@ -34,12 +34,12 @@ public partial class RzQuickReferenceContainer : RzComponent<RzQuickReferenceCon
 
     /// <summary>
     ///     The child content of the container, which should include headings and potentially an
-    ///     <see cref="RzQuickReference" /> component.
+    ///     &lt;see cref="RzQuickReference" /&gt; component.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary> Registers a heading with this container. Called by child <see cref="RzHeading" /> components. </summary>
+    /// <summary> Registers a heading with this container. Called by child &lt;see cref="RzHeading" /&gt; components. </summary>
     internal void RegisterHeading(HeadingLevel level, string title, string id)
     {
         if (level >= MinimumHeadingLevel && level <= MaximumHeadingLevel)
@@ -66,6 +66,9 @@ public partial class RzQuickReferenceContainer : RzComponent<RzQuickReferenceCon
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
     }
 }

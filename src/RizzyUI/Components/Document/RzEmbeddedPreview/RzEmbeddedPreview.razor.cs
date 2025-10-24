@@ -9,7 +9,7 @@ namespace RizzyUI;
 ///     Renders child content within an isolated iframe, optionally applying a specified Blazor layout component.
 ///     Useful for previewing components or content in a sandboxed environment. Includes Alpine.js logic
 ///     for dynamic iframe resizing and dark mode synchronization.
-///     Styling is determined by the active <see cref="RzTheme" />.
+///     Styling is determined by the active &lt;see cref="RzTheme" /&gt;.
 /// </xmldoc>
 public partial class RzEmbeddedPreview : RzComponent<RzEmbeddedPreview.Slots>
 {
@@ -85,7 +85,13 @@ public partial class RzEmbeddedPreview : RzComponent<RzEmbeddedPreview.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the `&lt;iframe&gt;` element.
+        /// </summary>
         public string? IFrame { get; set; }
     }
 }

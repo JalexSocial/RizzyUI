@@ -13,7 +13,7 @@ public sealed partial class RzRadioGroupItemSlots : ISlots
     /// </summary>
     public string? Base { get; set; }
     /// <summary>
-    /// The slot for the radio `<input>` element.
+    /// The slot for the radio `&lt;input&gt;` element.
     /// </summary>
     public string? RadioInput { get; set; }
     /// <summary>

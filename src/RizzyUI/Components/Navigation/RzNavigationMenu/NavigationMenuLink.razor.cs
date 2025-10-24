@@ -16,7 +16,7 @@ public partial class NavigationMenuLink : RzAsChildComponent<NavigationMenuLink.
     public static readonly TvDescriptor<RzAsChildComponent<Slots>, Slots> DefaultDescriptor = new();
 
     /// <summary>
-    /// The content to display within the link, typically an `&nbsp;a>` or `&nbsp;RzLink>` component.
+    /// The content to display within the link, typically an `&lt;a&gt;` or `&lt;RzLink&gt;` component.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

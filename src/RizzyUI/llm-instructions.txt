@@ -34,8 +34,7 @@ When the user requests code, wrap each file in a single **`output` block** so au
   <!-- C# code-behind -->
   </file>
 </files>
-```
-````
+```````
 
 *   Never nest `<files>` elements.
 *   Always close every `<file>` tag.
@@ -242,13 +241,29 @@ variants: new()
 }
 ```
 
+### 6.5 Handling Nullable Enum Parameters in Variants
+
+When a component `[Parameter]` is a **nullable enum** (e.g., `public SemanticColor? TextColor { get; set; }`), the corresponding `Variant` definition in the `TvDescriptor` **MUST** use the **non-nullable** enum type for its generic parameter. The library automatically handles `null` values by not applying a variant class.
+
+**❌ WRONG:** The generic type `Variant<SemanticColor?, Slots>` is nullable.
+```csharp
+// This is incorrect and will cause issues.
+[c => ((RzHeading)c).TextColor] = new Variant<SemanticColor?, Slots> { ... }
+```
+
+**✅ CORRECT:** The generic type `Variant<SemanticColor, Slots>` is non-nullable.
+```csharp
+// This is the correct pattern.
+[c => ((RzHeading)c).TextColor] = new Variant<SemanticColor, Slots> { ... }
+```
+
 ---
 
 ## 7. The TvDescriptor Pattern (Styling Providers)
 
-The styling system is based on the `TvDescriptor`, which encapsulates all styling logic for a component. The implementation differs for non-generic and generic components.
+The styling system is based on the `TvDescriptor`, which encapsulates all styling logic for a component. The implementation pattern differs depending on whether the component is generic.
 
-### 7.1 For Non-Generic Components
+### 7.1 For Non-Generic Components (Self-Contained Pattern)
 
 For a non-generic component like `RzButton`, the `Slots` class and the `DefaultDescriptor` are defined directly within the component's `.razor.cs` file.
 
@@ -270,77 +285,65 @@ public partial class RzButton : RzComponent<RzButton.Slots>
 }
 ```
 
-### 7.2 For Generic Components (e.g., `TableHeaderCell<TItem>`)
+### 7.2 For Generic Components (External Styling Pattern)
 
-Generic components require a special pattern to decouple the non-generic styling logic from the generic component implementation.
+If a component is generic (e.g., `TableHeaderCell<TItem>`) or requires decoupled styling, you **MUST** NOT define the `Slots` or `TvDescriptor` in the main `.razor.cs` file. Instead, use the External Styling Pattern.
 
-**The Pattern: A Non-Generic Styling Interface**
+**1. Create the Styles File:**
+Create a file named `Styling/{ComponentName}Styles.cs` within the component's directory.
 
-| File | Responsibility |
-| :--- | :--- |
-| **`ComponentName.razor.cs`** (Modified) | 1.  Define a **public interface** (e.g., `IHasTableHeaderCellStylingProperties`) containing only the **public** `[Parameter]` or `protected` properties that influence styling. <br> 2.  The generic component class (e.g., `TableHeaderCell<TItem>`) **implements this interface**. <br> 3.  It inherits from `RzComponent<ComponentNameSlots>`. <br> 4.  Its `GetDescriptor()` method points to the corresponding property on the `RzTheme`. |
-| **`Styling/ComponentNameStyles.cs`** (New) | Contains the **non-generic `Slots` class** (with `[Slot]` attributes) and a **static class** holding the `DefaultDescriptor`. The variant expressions in the descriptor will cast the component instance to the **non-generic styling interface**. |
-| **`RzTheme.cs`** | Holds a single, non-generic `TvDescriptor` property for the component, typed to the non-generic `Slots` class and `RzComponent<Slots>`. |
+**2. Define Three Types in the Styles File:**
+This file MUST contain exactly these three types:
+*   **A Styling Interface:** `public interface IHas{ComponentName}StylingProperties` containing only the properties needed for variants.
+*   **The Slots Class:** `public sealed partial class {ComponentName}Slots : ISlots` with all `[Slot]` decorated properties.
+*   **A Static Styles Class:** `public static class {ComponentName}Styles` containing the `DefaultDescriptor`.
 
-**Example using `TableHeaderCell<TItem>`:**
+**Example: `Styling/TableHeaderCellStyles.cs`**
 
-1.  **Modify `TableHeaderCell.razor.cs` to define and implement the interface:**
-    ```csharp
-    // In TableHeaderCell.razor.cs
-    namespace RizzyUI;
+```csharp
+using TailwindVariants.NET;
 
-    // 1. Define the non-generic styling interface. Properties MUST be public.
-    public interface IHasTableHeaderCellStylingProperties
-    {
-        public bool Sortable { get; }
-        public SortDirection CurrentSortDirection { get; }
-    }
+namespace RizzyUI;
 
-    // 2. Implement the interface on the generic component
-    public partial class TableHeaderCell<TItem> : RzComponent<TableHeaderCellSlots>, IHasTableHeaderCellStylingProperties
-    {
-        [Parameter] public bool Sortable { get; set; }
-        public SortDirection CurrentSortDirection => _currentSortDirection;
-        
-        // ... rest of the component logic ...
+// 1. Styling Interface
+public interface IHasTableHeaderCellStylingProperties
+{
+    public bool Sortable { get; }
+    public SortDirection CurrentSortDirection { get; }
+}
 
-        // 3. GetDescriptor points to the theme
-        protected override TvDescriptor<RzComponent<TableHeaderCellSlots>, TableHeaderCellSlots> GetDescriptor() => Theme.TableHeaderCell;
-    }
-    ```
+// 2. Slots Class
+public sealed partial class TableHeaderCellSlots : ISlots
+{
+    [Slot("table-header-cell")]
+    public string? Base { get; set; }
+    [Slot("sort-indicator")]
+    public string? SortIndicator { get; set; }
+}
 
-2.  **Create `src/RizzyUI/Components/DataTable/TableHeaderCell/Styling/TableHeaderCellStyles.cs`:**
-    ```csharp
-    // In Styling/TableHeaderCellStyles.cs
-    using TailwindVariants.NET;
+// 3. Static Styles Class
+public static class TableHeaderCellStyles
+{
+    public static readonly TvDescriptor<RzComponent<TableHeaderCellSlots>, TableHeaderCellSlots> DefaultDescriptor = new(
+        @base: "...",
+        variants: new()
+        {
+            // Cast to the interface in variant expressions
+            [c => ((IHasTableHeaderCellStylingProperties)c).Sortable] = new Variant<bool, TableHeaderCellSlots> { ... }
+        }
+    );
+}```
 
-    namespace RizzyUI;
+**3. Update the Component (`.razor.cs`):**
+The component must then inherit from `RzComponent<{ComponentName}Slots>` and implement the styling interface.
 
-    public sealed partial class TableHeaderCellSlots : ISlots 
-    { 
-        [Slot("table-header-cell")]
-        public string? Base { get; set; }
-        /* ... other slot properties with [Slot] attributes ... */
-    }
-
-    public static class TableHeaderCellStyles
-    {
-        public static readonly TvDescriptor<RzComponent<TableHeaderCellSlots>, TableHeaderCellSlots> DefaultDescriptor = new(
-            variants: new()
-            {
-                // Cast to the INTERFACE, not the generic type
-                [c => ((IHasTableHeaderCellStylingProperties)c).Sortable] = new Variant<bool, TableHeaderCellSlots>
-                {
-                    [true] = new() { [s => s.Base] = "cursor-pointer hover:bg-muted/50" }
-                },
-                [c => ((IHasTableHeaderCellStylingProperties)c).CurrentSortDirection] = new Variant<SortDirection, TableHeaderCellSlots>
-                {
-                    // ... variant options ...
-                }
-            }
-        );
-    }
-    ```
+```csharp
+public partial class TableHeaderCell<TItem> : RzComponent<TableHeaderCellSlots>, IHasTableHeaderCellStylingProperties
+{
+    // ... implementation ...
+    protected override TvDescriptor<RzComponent<TableHeaderCellSlots>, TableHeaderCellSlots> GetDescriptor() => Theme.TableHeaderCell;
+}
+```
 
 ---
 
@@ -804,18 +807,15 @@ When unit tests are specifically requested for a new or modified component, they
 
 When asked to generate `RzFancyThing` (a non-generic component):
 
-````markdown
 ```output
 <files>
   <file path="src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor">…</file>
   <file path="src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor.cs">…</file>
 </files>
 ```
-````
 
 When asked to generate `RzGenericThing<TItem>`:
 
-````markdown
 ```output
 <files>
   <file path="src/RizzyUI/Components/Generic/RzGenericThing/RzGenericThing.razor">…</file>
@@ -823,7 +823,6 @@ When asked to generate `RzGenericThing<TItem>`:
   <file path="src/RizzyUI/Components/Generic/RzGenericThing/Styling/RzGenericThingStyles.cs">…</file>
 </files>
 ```
-````
 
 ---
 
@@ -892,7 +891,6 @@ Please add the following default asset URLs to the `PostConfigure` action in `sr
         }
         ```
 
-
 ---
 
 ## 15. Final checklist for the LLM
@@ -928,29 +926,30 @@ Please add the following default asset URLs to the `PostConfigure` action in `sr
 
 -   **[ ] 1. `Slots` Class Definition:**
     -   For **non-generic** components: The `.razor.cs` file contains a `public sealed partial class Slots : ISlots`.
-    -   For **generic** components: A separate `Styling/ComponentNameStyles.cs` file exists containing a `public sealed partial class ComponentNameSlots : ISlots`.
+    -   For **generic** components: The `Styling/{ComponentName}Styles.cs` file contains a `public sealed partial class {ComponentName}Slots : ISlots`.
 -   **[ ] 2. `Slots` Properties:** The `Slots` class has a `string?` property for *every* slot consumed by a `SlotClasses.Get...()` call in the `.razor` file.
 -   **[ ] 3. `[Slot]` Attribute:** Every property in every `Slots` class is decorated with `[Slot("kebab-case-name")]`.
 -   **[ ] 4. `DefaultDescriptor` Location:**
     -   For **non-generic** components: The `.razor.cs` file contains a `public static readonly TvDescriptor`.
-    -   For **generic** components: The `Styling/ComponentNameStyles.cs` file contains a `public static class` holding the `public static readonly TvDescriptor`.
+    -   For **generic** components: The `Styling/{ComponentName}Styles.cs` file contains a `public static class {ComponentName}Styles` holding the `public static readonly TvDescriptor`.
 -   **[ ] 5. Descriptor Completeness:** The `DefaultDescriptor` provides a default class string for *every* slot defined in the `Slots` class.
--   **[ ] 6. Interface Implementation (Generic Components Only):** For generic components, the `.razor.cs` file defines and implements a public `IHas...StylingProperties` interface.
--   **[ ] 7. Interface Properties (Generic Components Only):** All properties on the styling interface are `public`.
+-   **[ ] 6. Interface Implementation (Generic Components Only):** For generic components, the component's `.razor.cs` file **implements** the `IHas...StylingProperties` interface.
+-   **[ ] 7. Styling File Structure (Generic Components Only):** The `Styling/{ComponentName}Styles.cs` file exists and contains the styling interface, the slots class, and the static styles class.
 -   **[ ] 8. Correct Variant Syntax:** All `variants` and `compoundVariants` that target a slot other than `Base` **MUST** use the `new() { [s => s.SlotName] = "..." }` syntax. For generic components, variant expressions **MUST** cast the component instance to the styling interface (e.g., `c => ((IHas...StylingProperties)c).PropertyName`).
--   **[ ] 9. Inheritance:** The component's `.razor.cs` file inherits from `RzComponent<TSlots>` or `RzAsChildComponent<TSlots>`, where `TSlots` is the correct (and possibly non-generic) slots type.
--   **[ ] 10. Correct `GetDescriptor` Implementation:** The component's `.razor.cs` file **MUST** contain the method `protected override TvDescriptor<...> GetDescriptor() => Theme.ComponentName;`.
--   **[ ] 11. `RootClass()` Method Removed:** The `RootClass()` method has been completely removed from the component's `.razor.cs` file.
--   **[ ] 12. Markup Inheritance:** The component's `.razor` file has the correct `@inherits` directive.
--   **[ ] 13. Markup Class Attributes:** All `class` attributes in the `.razor` file have been updated to use the `SlotClasses.Get...()` accessors.
--   **[ ] 14. `data-slot` on Root Element:** The root `HtmlElement` has a `data-slot="component-name"` attribute with a hardcoded, kebab-case name.
--   **[ ] 15. `data-slot` on Internal Elements:** Every internal element with a `class="@SlotClasses.Get...()"` attribute also has a corresponding `data-slot="@...SlotNames.NameOf(...)"` attribute.
--   **[ ] 16. Alpine Directives Preserved:** All non-class Alpine directives are present in the `.razor` file on their original elements.
+-   **[ ] 9. Nullable Enum Variant Type:** For nullable enum `[Parameter]`s used in variants, the `Variant<T, TSlots>` definition uses the **non-nullable** enum type for `T`.
+-   **[ ] 10. Inheritance:** The component's `.razor.cs` file inherits from `RzComponent<TSlots>` or `RzAsChildComponent<TSlots>`, where `TSlots` is the correct (and possibly non-generic) slots type.
+-   **[ ] 11. Correct `GetDescriptor` Implementation:** The component's `.razor.cs` file **MUST** contain the method `protected override TvDescriptor<...> GetDescriptor() => Theme.ComponentName;`.
+-   **[ ] 12. `RootClass()` Method Removed:** The `RootClass()` method has been completely removed from the component's `.razor.cs` file.
+-   **[ ] 13. Markup Inheritance:** The component's `.razor` file has the correct `@inherits` directive.
+-   **[ ] 14. Markup Class Attributes:** All `class` attributes in the `.razor` file have been updated to use the `SlotClasses.Get...()` accessors.
+-   **[ ] 15. `data-slot` on Root Element:** The root `HtmlElement` has a `data-slot="component-name"` attribute with a hardcoded, kebab-case name.
+-   **[ ] 16. `data-slot` on Internal Elements:** Every internal element with a `class="@SlotClasses.Get...()"` attribute also has a corresponding `data-slot="@...SlotNames.NameOf(...)"` attribute.
+-   **[ ] 17. Alpine Directives Preserved:** All non-class Alpine directives are present in the `.razor` file on their original elements.
 
 #### **Part B: Human Developer Validation Checklist**
 
--   **[ ] 17. Theme Integration:** Have the manual edits to `RzTheme.StyleProviders.cs` and `RzTheme.cs` been applied correctly?
--   **[ ] 18. Obsolete Files Deleted:** Have the old `Default...Styles.cs` and `RzStylesBase...cs` files for the component been deleted?
--   **[ ] 19. Build Success:** Does the entire `RizzyUI` solution build without errors?
--   **[ ] 20. Unit Tests:** Do all existing unit tests for the component pass?
--   **[ ] 21. Demo Application:** Visually confirm that the component renders and behaves exactly as it did before the refactor in the `RizzyUI.Docs` application.
+-   **[ ] 18. Theme Integration:** Have the manual edits to `RzTheme.StyleProviders.cs` and `RzTheme.cs` been applied correctly?
+-   **[ ] 19. Obsolete Files Deleted:** Have the old `Default...Styles.cs` and `RzStylesBase...cs` files for the component been deleted?
+-   **[ ] 20. Build Success:** Does the entire `RizzyUI` solution build without errors?
+-   **[ ] 21. Unit Tests:** Do all existing unit tests for the component pass?
+-   **[ ] 22. Demo Application:** Visually confirm that the component renders and behaves exactly as it did before the refactor in the `RizzyUI.Docs` application.

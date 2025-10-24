@@ -21,7 +21,7 @@ public interface IHasTableRowStylingProperties
 }
 
 /// <summary>
-/// Represents a single row (`<tr>`) within an <see cref="RzTable{TItem}"/>.
+/// Represents a single row (`&lt;tr&gt;`) within an <see cref="RzTable{TItem}"/>.
 /// </summary>
 /// <typeparam name="TItem">The type of data item for the row.</typeparam>
 [CascadingTypeParameter(nameof(TItem))]

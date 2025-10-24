@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using TailwindVariants.NET;
 
@@ -79,12 +80,33 @@ public partial class RzProgress : RzComponent<RzProgress.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the container of the label when positioned outside.
+        /// </summary>
         public string? OutsideLabelContainer { get; set; }
+        /// <summary>
+        /// The slot for the text of the label when positioned outside.
+        /// </summary>
         public string? OutsideLabelText { get; set; }
+        /// <summary>
+        /// The slot for the outer bar of the progress indicator.
+        /// </summary>
         public string? OuterBar { get; set; }
+        /// <summary>
+        /// The slot for the inner bar that represents the progress.
+        /// </summary>
         public string? InnerBar { get; set; }
+        /// <summary>
+        /// The slot for the container of the label when positioned inside.
+        /// </summary>
         public string? InsideLabelContainer { get; set; }
+        /// <summary>
+        /// The slot for the text of the label when positioned inside.
+        /// </summary>
         public string? InsideLabelText { get; set; }
     }
 }

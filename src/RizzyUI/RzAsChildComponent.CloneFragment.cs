@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.RenderTree;
 using RizzyUI.Utility.Parser;
@@ -14,34 +15,34 @@ namespace RizzyUI;
 public abstract partial class RzAsChildComponent : RzComponent
 {
     /// <summary>
-    /// Clones a <paramref name="fragment"/> that is expected to have <b>exactly one</b>
+    /// Clones a <paramref name="fragment"/> that is expected to have &lt;b&gt;exactly one&lt;/b&gt;
     /// root (either a DOM element or a component) and returns a new <see cref="RenderFragment"/>
     /// in which the root node is patched with the supplied <paramref name="attributes"/>.
     /// <list type="bullet">
     /// <item>
     ///     <description>
-    ///     Attributes already defined in the incoming fragment <b>win</b> over the supplied
-    ///     <paramref name="attributes"/>—mirroring <c>React.cloneElement</c> semantics in shadcn/ui.
+    ///     Attributes already defined in the incoming fragment &lt;b&gt;win&lt;/b&gt; over the supplied
+    ///     <paramref name="attributes"/>—mirroring &lt;c&gt;React.cloneElement&lt;/c&gt; semantics in shadcn/ui.
     ///     </description>
     /// </item>
     /// <item>
     ///     <description>
     ///     When the root is a DOM element, only attributes whose names begin with a lower‑case
     ///     letter are considered. (Upper‑case names are assumed to be Blazor component
-    ///     parameters and are ignored.)  The exception is the <c>Id</c> attribute, which is passed through
-    ///     to the child Element as <c>id</c> (lower‑case).
+    ///     parameters and are ignored.)  The exception is the &lt;c&gt;Id&lt;/c&gt; attribute, which is passed through
+    ///     to the child Element as &lt;c&gt;id&lt;/c&gt; (lower‑case).
     ///     </description>
     /// </item>
     /// <item>
     ///     <description>
-    ///     If both the fragment and <paramref name="attributes"/> specify the <c>class</c>
+    ///     If both the fragment and <paramref name="attributes"/> specify the &lt;c&gt;class&lt;/c&gt;
     ///     attribute, they are merged using <see cref="TailwindMerge.TwMerge.Merge(string?, string?)"/>,
     ///     so that utilities in the fragment take precedence while conflicts are resolved.
     ///     </description>
     /// </item>
     /// <item>
     ///     <description>
-    ///     If the fragment contains <i>no</i> frames, an empty fragment is returned.
+    ///     If the fragment contains &lt;i&gt;no&lt;/i&gt; frames, an empty fragment is returned.
     ///     If it contains multiple top‑level roots, an <see cref="InvalidOperationException"/>
     ///     is thrown, instructing the developer to wrap siblings in a container.
     ///     </description>
@@ -49,7 +50,7 @@ public abstract partial class RzAsChildComponent : RzComponent
     /// </list>
     /// </summary>
     /// <param name="fragment">The original <see cref="RenderFragment"/> to clone.</param>
-    /// <param name="attributes">Base attributes that will be applied <i>unless</i> the fragment already defines them.</param>
+    /// <param name="attributes">Base attributes that will be applied &lt;i&gt;unless&lt;/i&gt; the fragment already defines them.</param>
     /// <returns>A cloned <see cref="RenderFragment"/> with merged attributes.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the supplied fragment has more than one root or its root is neither an element nor a component.</exception>
     protected RenderFragment CloneFragment(RenderFragment fragment, IDictionary<string, object?>? attributes = null)
@@ -181,7 +182,7 @@ public abstract partial class RzAsChildComponent : RzComponent
     /// Copies attribute frames from <paramref name="frames"/> into <paramref name="b"/>, letting
     /// those original attributes override any matching keys in <paramref name="baseAttrs"/>. After
     /// originals are copied, remaining <paramref name="baseAttrs"/> entries are appended. For the
-    /// <c>class</c> attribute, <see cref="TwMerge.Merge(string?, string?)"/> is used to merge
+    /// &lt;c&gt;class&lt;/c&gt; attribute, <see cref="TailwindMerge.TwMerge.Merge(string?, string?)"/> is used to merge
     /// Tailwind class lists, with the original (fragment) classes taking precedence.
     /// </summary>
     private void CopyAttributesWithPrecedence(RenderTreeBuilder b, RenderTreeFrame[] frames, ref int idx, IDictionary<string, object?> baseAttrs)

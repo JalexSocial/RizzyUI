@@ -6,8 +6,8 @@ namespace RizzyUI;
 
 /// <xmldoc>
 ///     A component that displays a sequence of steps, visually indicating progress through a process.
-///     Child <see cref="RzStep" /> components automatically register their data.
-///     Styling is determined by the active <see cref="RzTheme" />.
+///     Child &lt;see cref="RzStep" /&gt; components automatically register their data.
+///     Styling is determined by the active &lt;see cref="RzTheme" /&gt;.
 /// </xmldoc>
 public partial class RzSteps : RzComponent<RzSteps.Slots>
 {
@@ -60,7 +60,7 @@ public partial class RzSteps : RzComponent<RzSteps.Slots>
     [Parameter]
     public StatusColor ActiveColor { get; set; } = StatusColor.Primary;
 
-    /// <summary> The child content, expected to be <see cref="RzStep" /> components. </summary>
+    /// <summary> The child content, expected to be &lt;see cref="RzStep" /&gt; components. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -84,7 +84,7 @@ public partial class RzSteps : RzComponent<RzSteps.Slots>
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzSteps;
 
-    /// <summary> Registers step data. Called by child <see cref="RzStep" /> components. </summary>
+    /// <summary> Registers step data. Called by child &lt;see cref="RzStep" /&gt; components. </summary>
     /// <param name="data">The step data to register.</param>
     internal void RegisterStep(StepData data)
     {
@@ -171,7 +171,7 @@ public partial class RzSteps : RzComponent<RzSteps.Slots>
         /// </summary>
         public string? Base { get; set; }
         /// <summary>
-        /// The slot for each step item (`<li>`).
+        /// The slot for each step item (`&lt;li&gt;`).
         /// </summary>
         public string? StepItem { get; set; }
         /// <summary>

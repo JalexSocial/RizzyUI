@@ -7,9 +7,9 @@ namespace RizzyUI;
 
 /// <xmldoc>
 ///     Renders an HTML heading element (h1-h4) with appropriate typography styling based on the level and active
-///     <see cref="RzTheme" />.
-///     Inherits common text styling options from <see cref="RzTypographyBase" />. Can register itself with an
-///     <see cref="RzQuickReferenceContainer" />.
+///     &lt;see cref="RzTheme" /&gt;.
+///     Inherits common text styling options from &lt;see cref="RzTypographyBase" /&gt;. Can register itself with an
+///     &lt;see cref="RzQuickReferenceContainer" /&gt;.
 /// </xmldoc>
 public partial class RzHeading : RzTypographyBase<RzHeading.Slots>
 {
@@ -90,13 +90,13 @@ public partial class RzHeading : RzTypographyBase<RzHeading.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    ///     The title text to use when registering this heading with an <see cref="RzQuickReferenceContainer" />. If null
+    ///     The title text to use when registering this heading with an &lt;see cref="RzQuickReferenceContainer" /&gt;. If null
     ///     or empty, the heading will not be registered.
     /// </summary>
     [Parameter]
     public string? QuickReferenceTitle { get; set; }
 
-    /// <summary> Gets the parent <see cref="RzQuickReferenceContainer" /> if this heading is nested within one. </summary>
+    /// <summary> Gets the parent &lt;see cref="RzQuickReferenceContainer" /&gt; if this heading is nested within one. </summary>
     [CascadingParameter]
     private RzQuickReferenceContainer? QuickReferenceContainer { get; set; }
 

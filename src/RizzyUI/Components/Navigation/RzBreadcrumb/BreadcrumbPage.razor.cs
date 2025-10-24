@@ -5,7 +5,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// A `<span>` element representing the current page in a breadcrumb trail. It is not interactive.
+/// A `&lt;span&gt;` element representing the current page in a breadcrumb trail. It is not interactive.
 /// </summary>
 public partial class BreadcrumbPage : RzComponent<BreadcrumbPage.Slots>
 {

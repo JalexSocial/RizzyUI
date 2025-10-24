@@ -13,7 +13,7 @@ public sealed partial class TablePaginationSlots : ISlots
     /// </summary>
     public string? Base { get; set; }
     /// <summary>
-    /// The slot for the `<ul>` element containing pagination links.
+    /// The slot for the `&lt;ul&gt;` element containing pagination links.
     /// </summary>
     public string? List { get; set; }
     /// <summary>

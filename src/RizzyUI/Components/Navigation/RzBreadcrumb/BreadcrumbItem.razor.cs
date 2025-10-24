@@ -5,7 +5,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// A list item (`<li>`) that wraps a breadcrumb link, page, or separator.
+/// A list item (`&lt;li&gt;`) that wraps a breadcrumb link, page, or separator.
 /// This component should be a child of <see cref="BreadcrumbList"/>.
 /// </summary>
 public partial class BreadcrumbItem : RzComponent<BreadcrumbItem.Slots>

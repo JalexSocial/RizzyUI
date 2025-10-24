@@ -4,12 +4,28 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
+/// Defines styling properties for a TableHeaderCell component.
+/// </summary>
+public interface IHasTableHeaderCellStylingProperties
+{
+    /// <summary>
+    /// Gets whether the column is sortable.
+    /// </summary>
+    public bool Sortable { get; }
+
+    /// <summary>
+    /// Gets the current sort direction of the column.
+    /// </summary>
+    public SortDirection CurrentSortDirection { get; }
+}
+
+/// <summary>
 /// Defines the slots available for styling in the TableHeaderCell component.
 /// </summary>
 public sealed partial class TableHeaderCellSlots : ISlots
 {
     /// <summary>
-    /// The base slot for the `<th>` element.
+    /// The base slot for the `&lt;th&gt;` element.
     /// </summary>
     public string? Base { get; set; }
     /// <summary>

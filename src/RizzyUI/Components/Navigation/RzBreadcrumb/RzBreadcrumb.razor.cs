@@ -5,7 +5,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// A root container for a breadcrumb navigation trail. It renders as a <c><nav></c> element
+/// A root container for a breadcrumb navigation trail. It renders as a <c>&lt;nav&gt;</c> element
 /// and should contain a <see cref="BreadcrumbList"/> component.
 /// </summary>
 public partial class RzBreadcrumb : RzComponent<RzBreadcrumb.Slots>

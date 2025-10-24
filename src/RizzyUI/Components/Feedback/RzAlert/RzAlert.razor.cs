@@ -1,3 +1,4 @@
+
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using TailwindVariants.NET;
@@ -93,12 +94,33 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the inner container that holds the icon and content.
+        /// </summary>
         public string? InnerContainer { get; set; }
+        /// <summary>
+        /// The slot for the icon container.
+        /// </summary>
         public string? IconContainer { get; set; }
+        /// <summary>
+        /// The slot for the pulsing animation element behind the icon.
+        /// </summary>
         public string? IconPulse { get; set; }
+        /// <summary>
+        /// The slot for the main content container (title and description).
+        /// </summary>
         public string? ContentContainer { get; set; }
+        /// <summary>
+        /// The slot for the close button.
+        /// </summary>
         public string? CloseButton { get; set; }
+        /// <summary>
+        /// The slot for the icon inside the close button.
+        /// </summary>
         public string? CloseButtonIcon { get; set; }
     }
 }

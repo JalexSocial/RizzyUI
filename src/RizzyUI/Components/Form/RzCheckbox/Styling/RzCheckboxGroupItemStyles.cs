@@ -17,7 +17,7 @@ public sealed partial class RzCheckboxGroupItemSlots : ISlots
     /// </summary>
     public string? CheckboxWrapper { get; set; }
     /// <summary>
-    /// The slot for the checkbox `<input>` element.
+    /// The slot for the checkbox `&lt;input&gt;` element.
     /// </summary>
     public string? CheckboxInput { get; set; }
     /// <summary>
@@ -25,7 +25,7 @@ public sealed partial class RzCheckboxGroupItemSlots : ISlots
     /// </summary>
     public string? IconContainer { get; set; }
     /// <summary>
-    /// The slot for the title `<span>` element.
+    /// The slot for the title `&lt;span&gt;` element.
     /// </summary>
     public string? TitleSpan { get; set; }
 }

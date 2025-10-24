@@ -79,17 +79,17 @@ public partial class RzTable<TItem> : RzComponent<RzTableSlots>, IHasTableStylin
     [Parameter] public string? HxIndicatorSelector { get; set; }
 
     /// <summary>
-    /// Gets or sets the render fragment for the table's header section (`<thead>`). This is a required parameter.
+    /// Gets or sets the render fragment for the table's header section (`&lt;thead&gt;`). This is a required parameter.
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment<RzTable<TItem>>? Header { get; set; }
 
     /// <summary>
-    /// Gets or sets the render fragment for the table's body section (`<tbody>`). This is a required parameter.
+    /// Gets or sets the render fragment for the table's body section (`&lt;tbody&gt;`). This is a required parameter.
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment<RzTable<TItem>>? Body { get; set; }
 
     /// <summary>
-    /// Gets or sets the render fragment for the table's footer section (`<tfoot>`).
+    /// Gets or sets the render fragment for the table's footer section (`&lt;tfoot&gt;`).
     /// </summary>
     [Parameter] public RenderFragment<RzTable<TItem>>? Footer { get; set; }
 
@@ -134,17 +134,17 @@ public partial class RzTable<TItem> : RzComponent<RzTableSlots>, IHasTableStylin
     [Parameter] public string TableBodyHeightClass { get; set; } = "h-96";
 
     /// <summary>
-    /// Gets the unique ID for the inner `<table>` element.
+    /// Gets the unique ID for the inner `&lt;table&gt;` element.
     /// </summary>
     public string TableId => $"{Id}-table";
 
     /// <summary>
-    /// Gets the unique ID for the `<thead>` element.
+    /// Gets the unique ID for the `&lt;thead&gt;` element.
     /// </summary>
     public string TableHeaderId => $"{Id}-table-head";
 
     /// <summary>
-    /// Gets the unique ID for the `<tfoot>` element.
+    /// Gets the unique ID for the `&lt;tfoot&gt;` element.
     /// </summary>
     public string TableFooterId => $"{Id}-table-foot";
 

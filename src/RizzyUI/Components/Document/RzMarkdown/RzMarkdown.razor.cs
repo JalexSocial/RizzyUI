@@ -17,7 +17,7 @@ namespace RizzyUI;
 /// <xmldoc>
 ///     A component that converts Markdown text (provided as ChildContent or Content parameter) into HTML using Markdig.
 ///     It supports GitHub Flavored Markdown extensions and integrates with Highlight.js for syntax highlighting.
-///     Styling is determined by the active <see cref="RzTheme" /> and Tailwind Typography plugin.
+///     Styling is determined by the active &lt;see cref="RzTheme" /&gt; and Tailwind Typography plugin.
 /// </xmldoc>
 public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
 {
@@ -48,15 +48,27 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
     [CascadingParameter]
     private RzQuickReferenceContainer? QuickReferenceContainer { get; set; }
 
+    /// <summary>
+    /// Gets or sets the Markdig pipeline to use for rendering. If null, a default pipeline with advanced extensions is used.
+    /// </summary>
     [Parameter]
     public MarkdownPipeline? Pipeline { get; set; }
 
+    /// <summary>
+    /// Gets or sets the Markdown content as a RenderFragment. This is used if the `Content` parameter is not set.
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets the Markdown content as a string. This takes precedence over `ChildContent`.
+    /// </summary>
     [Parameter]
     public string? Content { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the maximum width of the rendered prose content.
+    /// </summary>
     [Parameter]
     public ProseWidth ProseWidth { get; set; } = ProseWidth.Comfortable;
 
@@ -67,8 +79,12 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
     [Parameter]
     public string[] ComponentAssetKeys { get; set; } = ["HighlightJsCore", "HighlightJsRazor"];
 
+    /// <summary>
+    /// Gets the rendered HTML output as a MarkupString.
+    /// </summary>
     protected MarkupString? OutputHtml { get; private set; }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -81,6 +97,7 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
         UpdateAssets();
     }
 
+    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -167,6 +184,9 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
     }
 }

@@ -1,10 +1,11 @@
+
 using Microsoft.AspNetCore.Components;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <xmldoc>
-///     Represents the title section (defaults to <c>h3</c>) for an <see cref="RzAlert" /> component.
+///     Represents the title section (defaults to &lt;c&gt;h3&lt;/c&gt;) for an <see cref="RzAlert" /> component.
 ///     Its text color is determined by the parent alert's variant and the active <see cref="RzTheme" />.
 /// </xmldoc>
 public partial class AlertTitle : RzComponent<AlertTitle.Slots>
@@ -64,6 +65,9 @@ public partial class AlertTitle : RzComponent<AlertTitle.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         [Slot("alert-title")]
         public string? Base { get; set; }
     }

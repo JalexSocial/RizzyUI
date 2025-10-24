@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using TailwindVariants.NET;
 
@@ -66,16 +67,49 @@ public partial class RzBrowser : RzComponent<RzBrowser.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the top bar of the browser window.
+        /// </summary>
         public string? TopBar { get; set; }
+        /// <summary>
+        /// The slot for the container of the traffic light buttons.
+        /// </summary>
         public string? TrafficLightsContainer { get; set; }
+        /// <summary>
+        /// The slot for the red traffic light button.
+        /// </summary>
         public string? TrafficLightRed { get; set; }
+        /// <summary>
+        /// The slot for the yellow traffic light button.
+        /// </summary>
         public string? TrafficLightYellow { get; set; }
+        /// <summary>
+        /// The slot for the green traffic light button.
+        /// </summary>
         public string? TrafficLightGreen { get; set; }
+        /// <summary>
+        /// The slot for the container of the screen size control buttons.
+        /// </summary>
         public string? ScreenSizeControlsContainer { get; set; }
+        /// <summary>
+        /// The slot for the button group of screen size controls.
+        /// </summary>
         public string? ScreenSizeButtonGroup { get; set; }
+        /// <summary>
+        /// The slot for an individual screen size control button.
+        /// </summary>
         public string? ScreenSizeButton { get; set; }
+        /// <summary>
+        /// The slot for the main content area of the browser.
+        /// </summary>
         public string? ContentArea { get; set; }
+        /// <summary>
+        /// The slot for the container of the preview content.
+        /// </summary>
         public string? PreviewContainer { get; set; }
     }
 }

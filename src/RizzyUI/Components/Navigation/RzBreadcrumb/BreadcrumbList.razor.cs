@@ -5,7 +5,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// An ordered list (`<ol>`) that contains the breadcrumb items. This component should be
+/// An ordered list (`&lt;ol&gt;`) that contains the breadcrumb items. This component should be
 /// a direct child of <see cref="RzBreadcrumb"/>.
 /// </summary>
 public partial class BreadcrumbList : RzComponent<BreadcrumbList.Slots>

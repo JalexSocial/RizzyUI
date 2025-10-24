@@ -15,8 +15,8 @@ namespace RizzyUI;
 /// button, anchor, or any other element).
 /// </para>
 /// <para>
-/// When <see cref="AsChild"/> is <c>false</c> (default), the component renders normally using its
-/// .razor template. When <see cref="AsChild"/> is <c>true</c>, the component extracts its child content,
+/// When <see cref="AsChild"/> is &lt;c&gt;false&lt;/c&gt; (default), the component renders normally using its
+/// .razor template. When <see cref="AsChild"/> is &lt;c&gt;true&lt;/c&gt;, the component extracts its child content,
 /// merges its attributes/behavior onto that child, and renders the child directly.
 /// </para>
 /// <para>
@@ -26,15 +26,15 @@ namespace RizzyUI;
 /// </para>
 /// </remarks>
 /// <example>
-/// <code>
+/// &lt;code&gt;
 /// // Normal usage - renders as button
-/// &lt;MyButton OnClick="@HandleClick"&gt;Click me&lt;/MyButton&gt;
+/// &amp;lt;MyButton OnClick="@HandleClick"&amp;gt;Click me&amp;lt;/MyButton&amp;gt;
 /// 
 /// // AsChild usage - renders as anchor with button behavior
-/// &lt;MyButton AsChild="true" OnClick="@HandleClick"&gt;
-///     &lt;a href="/home"&gt;Go Home&lt;/a&gt;
-/// &lt;/MyButton&gt;
-/// </code>
+/// &amp;lt;MyButton AsChild="true" OnClick="@HandleClick"&amp;gt;
+///     &amp;lt;a href="/home"&amp;gt;Go Home&amp;lt;/a&amp;gt;
+/// &amp;lt;/MyButton&amp;gt;
+/// &lt;/code&gt;
 /// </example>
 public abstract partial class RzAsChildComponent : RzComponent
 {
@@ -43,12 +43,12 @@ public abstract partial class RzAsChildComponent : RzComponent
     /// instead of wrapping it in the component's default element.
     /// </summary>
     /// <value>
-    /// <c>true</c> to render the child element directly with merged component attributes;
-    /// <c>false</c> to render the component normally with its own wrapper element.
-    /// Default is <c>false</c>.
+    /// &lt;c&gt;true&lt;/c&gt; to render the child element directly with merged component attributes;
+    /// &lt;c&gt;false&lt;/c&gt; to render the component normally with its own wrapper element.
+    /// Default is &lt;c&gt;false&lt;/c&gt;.
     /// </value>
     /// <remarks>
-    /// When set to <c>true</c>, the content returned by <see cref="GetAsChildContent"/> must contain
+    /// When set to &lt;c&gt;true&lt;/c&gt;, the content returned by <see cref="GetAsChildContent"/> must contain
     /// exactly one root element or component. Multiple root elements will cause the component to throw
     /// an <see cref="InvalidOperationException"/> during rendering.
     /// </remarks>
@@ -56,10 +56,10 @@ public abstract partial class RzAsChildComponent : RzComponent
 
     /// <summary>
     /// Renders the component in asChild mode by cloning the specified child content and merging component attributes onto it.
-    /// Throws an <see cref="InvalidOperationException"/> if <see cref="AsChild"/> is <c>false</c> or if the required content is missing.
+    /// Throws an <see cref="InvalidOperationException"/> if <see cref="AsChild"/> is &lt;c&gt;false&lt;/c&gt; or if the required content is missing.
     /// </summary>
     /// <returns>
-    /// A <see cref="RenderFragment"/> that renders the child element with merged attributes when <see cref="AsChild"/> is <c>true</c>.
+    /// A <see cref="RenderFragment"/> that renders the child element with merged attributes when <see cref="AsChild"/> is &lt;c&gt;true&lt;/c&gt;.
     /// </returns>
     protected RenderFragment RenderAsChild() => builder =>
     {
@@ -92,8 +92,8 @@ public abstract partial class RzAsChildComponent : RzComponent
     /// </summary>
     /// <returns>
     /// The <see cref="RenderFragment"/> to be cloned and enhanced with component attributes when
-    /// <see cref="AsChild"/> is <c>true</c>. Typically returns a component's main content parameter
-    /// (e.g., ChildContent). May return <c>null</c> if no appropriate content is available.
+    /// <see cref="AsChild"/> is &lt;c&gt;true&lt;/c&gt;. Typically returns a component's main content parameter
+    /// (e.g., ChildContent). May return &lt;c&gt;null&lt;/c&gt; if no appropriate content is available.
     /// </returns>
     /// <remarks>
     /// <para>
@@ -101,28 +101,28 @@ public abstract partial class RzAsChildComponent : RzComponent
     /// RenderFragment parameters (e.g., Header, Body, Footer), this typically returns the "main" content fragment.
     /// </para>
     /// <para>
-    /// The returned RenderFragment must contain exactly one root element when <see cref="AsChild"/> is <c>true</c>.
+    /// The returned RenderFragment must contain exactly one root element when <see cref="AsChild"/> is &lt;c&gt;true&lt;/c&gt;.
     /// Multiple root elements will cause an <see cref="InvalidOperationException"/> during rendering.
     /// </para>
     /// </remarks>
     /// <example>
-    /// <code>
+    /// &lt;code&gt;
     /// // Simple implementation for a component with single content
-    /// protected override RenderFragment? GetAsChildContent() => ChildContent;
+    /// protected override RenderFragment? GetAsChildContent() =&gt; ChildContent;
     /// 
     /// // For a component with multiple fragments
-    /// protected override RenderFragment? GetAsChildContent() => Body ?? ChildContent;
-    /// </code>
+    /// protected override RenderFragment? GetAsChildContent() =&gt; Body ?? ChildContent;
+    /// &lt;/code&gt;
     /// </example>
     protected abstract RenderFragment? GetAsChildContent();
 
     /// <summary>
     /// When overridden in a derived class, returns the attributes that should be applied to either
-    /// the component's root element (when <see cref="AsChild"/> is <c>false</c>) or merged onto
-    /// the child element (when <see cref="AsChild"/> is <c>true</c>).
+    /// the component's root element (when <see cref="AsChild"/> is &lt;c&gt;false&lt;/c&gt;) or merged onto
+    /// the child element (when <see cref="AsChild"/> is &lt;c&gt;true&lt;/c&gt;).
     /// </summary>
     /// <returns>
-    /// A dictionary of attribute names and values to be applied. Values may be <c>null</c>, in which
+    /// A dictionary of attribute names and values to be applied. Values may be &lt;c&gt;null&lt;/c&gt;, in which
     /// case they will be omitted from the rendered output. The dictionary should use case-insensitive
     /// key comparison for consistency with HTML attributes.
     /// </returns>
@@ -142,10 +142,10 @@ public abstract partial class RzAsChildComponent : RzComponent
     /// </para>
     /// </remarks>
     /// <example>
-    /// <code>
-    /// protected override Dictionary&lt;string, object?&gt; GetComponentAttributes()
+    /// &lt;code&gt;
+    /// protected override Dictionary&amp;lt;string, object?&amp;gt; GetComponentAttributes()
     /// {
-    ///     return new Dictionary&lt;string, object?&gt;(StringComparer.OrdinalIgnoreCase)
+    ///     return new Dictionary&amp;lt;string, object?&amp;gt;(StringComparer.OrdinalIgnoreCase)
     ///     {
     ///         ["class"] = TwMerge.Merge("btn btn-primary", AdditionalAttributes?.GetValueOrDefault("class")?.ToString()),
     ///         ["disabled"] = IsDisabled ? true : null,
@@ -153,7 +153,7 @@ public abstract partial class RzAsChildComponent : RzComponent
     ///         ["aria-pressed"] = IsPressed.ToString().ToLowerInvariant()
     ///     };
     /// }
-    /// </code>
+    /// &lt;/code&gt;
     /// </example>
     protected abstract Dictionary<string, object?> GetComponentAttributes();
 }

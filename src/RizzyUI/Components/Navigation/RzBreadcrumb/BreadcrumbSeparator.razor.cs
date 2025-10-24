@@ -5,7 +5,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// A list item (`<li>`) that renders a separator between breadcrumb items.
+/// A list item (`&lt;li&gt;`) that renders a separator between breadcrumb items.
 /// It defaults to a chevron icon but can be customized with child content.
 /// </summary>
 public partial class BreadcrumbSeparator : RzComponent<BreadcrumbSeparator.Slots>

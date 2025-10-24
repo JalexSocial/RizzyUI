@@ -5,7 +5,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// The main container for the sidebar, which renders as an <c><aside></c> element.
+/// The main container for the sidebar, which renders as an &lt;c&gt;&lt;aside&gt;&lt;/c&gt; element.
 /// It consumes state from a parent <see cref="RzSidebarProvider"/> to manage its appearance and behavior.
 /// </summary>
 public partial class Sidebar : RzComponent<Sidebar.Slots>

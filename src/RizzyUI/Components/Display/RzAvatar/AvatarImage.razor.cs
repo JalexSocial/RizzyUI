@@ -5,7 +5,7 @@ namespace RizzyUI;
 
 /// <summary>
 /// Represents the image part of an <see cref="RzAvatar"/>. 
-/// It renders an `<img>` tag if <see cref="ImageSource"/> is provided and valid.
+/// It renders an `&lt;img&gt;` tag if <see cref="ImageSource"/> is provided and valid.
 /// This component must be a child of <see cref="RzAvatar"/>.
 /// </summary>
 public partial class AvatarImage : RzComponent

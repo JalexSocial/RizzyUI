@@ -11,7 +11,7 @@ namespace RizzyUI;
 
 /// <xmldoc>
 ///     Displays code snippets with syntax highlighting (using Highlight.js), copy-to-clipboard functionality,
-///     and an expand/collapse feature. Styling is determined by the active <see cref="RzTheme" />.
+///     and an expand/collapse feature. Styling is determined by the active &lt;see cref="RzTheme" /&gt;.
 /// </xmldoc>
 public partial class RzCodeViewer : RzComponent<RzCodeViewer.Slots>
 {
@@ -127,17 +127,53 @@ public partial class RzCodeViewer : RzComponent<RzCodeViewer.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the header section.
+        /// </summary>
         public string? Header { get; set; }
+        /// <summary>
+        /// The slot for the title in the header.
+        /// </summary>
         public string? HeaderTitle { get; set; }
+        /// <summary>
+        /// The slot for the container of the code block.
+        /// </summary>
         public string? CodeContainer { get; set; }
+        /// <summary>
+        /// The slot for the container of the copy button.
+        /// </summary>
         public string? CopyButtonContainer { get; set; }
+        /// <summary>
+        /// The slot for the copy button.
+        /// </summary>
         public string? CopyButton { get; set; }
+        /// <summary>
+        /// The slot for the default copy icon.
+        /// </summary>
         public string? CopyIconDefault { get; set; }
+        /// <summary>
+        /// The slot for the "copied" state icon.
+        /// </summary>
         public string? CopyIconCopied { get; set; }
+        /// <summary>
+        /// The slot for the wrapper around the `pre` element.
+        /// </summary>
         public string? PreWrapper { get; set; }
+        /// <summary>
+        /// The slot for the `pre` element itself.
+        /// </summary>
         public string? PreElement { get; set; }
+        /// <summary>
+        /// The slot for the expand/collapse button.
+        /// </summary>
         public string? ExpandButton { get; set; }
+        /// <summary>
+        /// The slot for the icon inside the expand/collapse button.
+        /// </summary>
         public string? ExpandIcon { get; set; }
     }
 }

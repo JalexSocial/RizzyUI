@@ -5,7 +5,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// An anchor link (`<a>`) for a breadcrumb item that is not the current page.
+/// An anchor link (`&lt;a&gt;`) for a breadcrumb item that is not the current page.
 /// It can contain simple text or more complex components like <see cref="RzLink"/>.
 /// </summary>
 public partial class BreadcrumbLink : RzComponent<BreadcrumbLink.Slots>

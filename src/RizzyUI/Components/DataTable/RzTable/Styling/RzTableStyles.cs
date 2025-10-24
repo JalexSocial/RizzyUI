@@ -24,15 +24,15 @@ public sealed partial class RzTableSlots : ISlots
     /// </summary>
     public string? Base { get; set; }
     /// <summary>
-    /// The slot for the `<table>` element itself.
+    /// The slot for the `&lt;table&gt;` element itself.
     /// </summary>
     public string? Table { get; set; }
     /// <summary>
-    /// The slot for the `<thead>` element.
+    /// The slot for the `&lt;thead&gt;` element.
     /// </summary>
     public string? Thead { get; set; }
     /// <summary>
-    /// The slot for the `<tfoot>` element.
+    /// The slot for the `&lt;tfoot&gt;` element.
     /// </summary>
     public string? Tfoot { get; set; }
 }

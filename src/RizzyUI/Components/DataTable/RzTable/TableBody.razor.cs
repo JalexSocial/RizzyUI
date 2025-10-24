@@ -5,7 +5,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// Represents the body (`<tbody>`) of an <see cref="RzTable{TItem}"/>, responsible for rendering rows of data.
+/// Represents the body (`&lt;tbody&gt;`) of an <see cref="RzTable{TItem}"/>, responsible for rendering rows of data.
 /// </summary>
 /// <typeparam name="TItem">The type of data item for each row.</typeparam>
 public partial class TableBody<TItem> : RzComponent<TableBodySlots>

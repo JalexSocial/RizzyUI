@@ -9,7 +9,7 @@ namespace RizzyUI;
 public sealed partial class TableRowSlots : ISlots
 {
     /// <summary>
-    /// The base slot for the `<tr>` element.
+    /// The base slot for the `&lt;tr&gt;` element.
     /// </summary>
     public string? Base { get; set; }
 }

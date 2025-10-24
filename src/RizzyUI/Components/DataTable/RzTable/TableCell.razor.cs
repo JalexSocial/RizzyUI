@@ -5,7 +5,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// Represents a single cell (`<td>`) within a <see cref="TableRow{TItem}"/>.
+/// Represents a single cell (`&lt;td&gt;`) within a <see cref="TableRow{TItem}"/>.
 /// </summary>
 /// <typeparam name="TItem">The type of data item for the row.</typeparam>
 public partial class TableCell<TItem> : RzComponent<TableCellSlots>

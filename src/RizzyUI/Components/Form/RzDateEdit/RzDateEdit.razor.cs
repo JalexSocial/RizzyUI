@@ -14,8 +14,8 @@ namespace RizzyUI;
 
 /// <xmldoc>
 ///     A date input component enhanced with the Flatpickr JavaScript library for a calendar popup.
-///     Supports binding to nullable DateTime and configuration via <see cref="FlatpickrOptions" />.
-///     Styling is determined by the active <see cref="RzTheme" />. Should be used within an EditForm.
+///     Supports binding to nullable DateTime and configuration via &lt;see cref="FlatpickrOptions" /&gt;.
+///     Styling is determined by the active &lt;see cref="RzTheme" /&gt;. Should be used within an EditForm.
 /// </xmldoc>
 public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
 {
@@ -175,7 +175,7 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         /// </summary>
         public string? PrependIconContainer { get; set; }
         /// <summary>
-        /// The slot for the `<input>` element.
+        /// The slot for the `&lt;input&gt;` element.
         /// </summary>
         public string? Input { get; set; }
     }

@@ -8,22 +8,6 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// Interface defining properties required for table header cell styling
-/// </summary>
-public interface IHasTableHeaderCellStylingProperties
-{
-    /// <summary>
-    /// Gets whether the column is sortable
-    /// </summary>
-    public bool Sortable { get; }
-
-    /// <summary>
-    /// Gets the current sort direction of the column
-    /// </summary>
-    public SortDirection CurrentSortDirection { get; }
-}
-
-/// <summary>
 /// A component representing a header cell in a data table
 /// </summary>
 /// <typeparam name="TItem">The type of data item in the table</typeparam>

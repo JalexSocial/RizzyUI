@@ -1,10 +1,11 @@
+
 using Microsoft.AspNetCore.Components;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <xmldoc>
-///     Represents the descriptive content (<c>p</c> tag by default) within an <see cref="RzAlert" /> component.
+///     Represents the descriptive content (&lt;c&gt;p&lt;/c&gt; tag by default) within an <see cref="RzAlert" /> component.
 ///     Provides supplementary information to the <see cref="AlertTitle" />.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
@@ -36,6 +37,9 @@ public partial class AlertDescription : RzComponent<AlertDescription.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
     }
 }

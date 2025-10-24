@@ -9,7 +9,7 @@ namespace RizzyUI;
 public sealed partial class RzFieldLabelSlots : ISlots
 {
     /// <summary>
-    /// The base slot for the `<label>` element.
+    /// The base slot for the `&lt;label&gt;` element.
     /// </summary>
     public string? Base { get; set; }
 }

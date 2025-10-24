@@ -6,9 +6,9 @@ namespace RizzyUI;
 
 /// <xmldoc>
 ///     Renders an "on this page" style navigation outline based on headings registered
-///     with the parent <see cref="RzQuickReferenceContainer" />. Interacts with Alpine.js
+///     with the parent &lt;see cref="RzQuickReferenceContainer" /&gt;. Interacts with Alpine.js
 ///     to highlight the currently visible heading and set `aria-current`.
-///     Styling is determined by the active <see cref="RzTheme" />.
+///     Styling is determined by the active &lt;see cref="RzTheme" /&gt;.
 /// </xmldoc>
 public partial class RzQuickReference : RzComponent<RzQuickReference.Slots>
 {
@@ -87,10 +87,25 @@ public partial class RzQuickReference : RzComponent<RzQuickReference.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the title element.
+        /// </summary>
         public string? Title { get; set; }
+        /// <summary>
+        /// The slot for the list (`&lt;ul&gt;`) element.
+        /// </summary>
         public string? List { get; set; }
+        /// <summary>
+        /// The slot for each list item (`&lt;li&gt;`) element.
+        /// </summary>
         public string? ListItem { get; set; }
+        /// <summary>
+        /// The slot for each link (`&lt;a&gt;`) element.
+        /// </summary>
         public string? Link { get; set; }
     }
 }

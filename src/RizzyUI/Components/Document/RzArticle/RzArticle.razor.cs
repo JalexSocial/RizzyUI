@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using TailwindVariants.NET;
 
@@ -5,8 +6,8 @@ namespace RizzyUI;
 
 /// <xmldoc>
 ///     A layout component rendering a responsive two-column layout, typically for main article content
-///     and a side navigation or information panel (<see cref="RzQuickReference" />).
-///     Styling and layout details are determined by the active <see cref="RzTheme" />.
+///     and a side navigation or information panel (&lt;see cref="RzQuickReference" /&gt;).
+///     Styling and layout details are determined by the active &lt;see cref="RzTheme" /&gt;.
 /// </xmldoc>
 public partial class RzArticle : RzComponent<RzArticle.Slots>
 {
@@ -102,9 +103,21 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
     /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the inner container that holds the article and aside.
+        /// </summary>
         public string? InnerContainer { get; set; }
+        /// <summary>
+        /// The slot for the main article content.
+        /// </summary>
         public string? Article { get; set; }
+        /// <summary>
+        /// The slot for the aside (side content).
+        /// </summary>
         public string? Aside { get; set; }
     }
 }

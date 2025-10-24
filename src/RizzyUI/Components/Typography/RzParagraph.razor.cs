@@ -5,9 +5,9 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <xmldoc>
-///     Renders a paragraph (<c>p</c>) element with standard typography styling.
-///     Inherits text styling options from <see cref="RzTypographyBase" />.
-///     Styling, including prose width, is determined by the active <see cref="RzTheme" />.
+///     Renders a paragraph (&lt;c&gt;p&lt;/c&gt;) element with standard typography styling.
+///     Inherits text styling options from &lt;see cref="RzTypographyBase" /&gt;.
+///     Styling, including prose width, is determined by the active &lt;see cref="RzTheme" /&gt;.
 /// </xmldoc>
 public partial class RzParagraph : RzTypographyBase<RzParagraph.Slots>
 {
