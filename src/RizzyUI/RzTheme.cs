@@ -215,7 +215,9 @@ public partial class RzTheme
         FieldTitle = RizzyUI.FieldTitle.DefaultDescriptor;
         FieldDescription = RizzyUI.FieldDescription.DefaultDescriptor;
         FieldSeparator = RizzyUI.FieldSeparator.DefaultDescriptor;
-        FieldError = RizzyUI.FieldError.DefaultDescriptor;        
+        FieldError = RizzyUI.FieldError.DefaultDescriptor;
+        Label = RizzyUI.Label.DefaultDescriptor;
+        
     }
 
     /// <summary>

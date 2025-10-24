@@ -185,6 +185,9 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldError"/> component. </summary>
     public virtual TvDescriptor<RzComponent<FieldError.Slots>, FieldError.Slots> FieldError { get; set; }
 
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.Label"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<Label.Slots>, Label.Slots> Label { get; set; }
+
     #endregion
 
     #region Layout Components

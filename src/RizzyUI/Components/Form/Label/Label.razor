@@ -1,0 +1,12 @@
+
+@namespace RizzyUI
+@inherits RzComponent<Label.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             for="@For"
+             class="@SlotClasses.GetBase()"
+             data-slot="label"
+             @attributes="@AdditionalAttributes">
+    @ChildContent
+</HtmlElement>
