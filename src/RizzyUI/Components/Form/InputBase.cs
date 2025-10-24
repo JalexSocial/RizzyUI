@@ -1,14 +1,17 @@
 
 using Microsoft.AspNetCore.Components;
 using System.Linq.Expressions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
-///     Base class for input components, handling value binding and additional attributes.
+/// Base class for input components, handling value binding, additional attributes, and integration with the TailwindVariants.NET styling system.
 /// </summary>
-/// <typeparam name="TValue">Type of the bound value.</typeparam>
-public class InputBase<TValue> : RzComponent
+/// <typeparam name="TValue">The type of the bound value for the input component.</typeparam>
+/// <typeparam name="TSlots">The type of the slots class that defines the styleable parts of the component, implementing <see cref="ISlots"/>.</typeparam>
+public abstract class InputBase<TValue, TSlots> : RzComponent<TSlots>
+    where TSlots : ISlots, new()
 {
     /// <summary>
     ///     Expression identifying the model property to bind.
@@ -23,13 +26,13 @@ public class InputBase<TValue> : RzComponent
     /// <param name="parameterName">The attribute key.</param>
     /// <param name="defaultValue">Default value if not found or type mismatch.</param>
     /// <returns>
-    ///     The attribute value cast to <typeparamref name="TValue" />, or <paramref name="defaultValue" />.
+    ///     The attribute value cast to <typeparamref name="T" />, or <paramref name="defaultValue" />.
     /// </returns>
-    protected TValue GetParameterValue(string parameterName, TValue defaultValue)
+    protected T GetParameterValue<T>(string parameterName, T defaultValue)
     {
         if (AdditionalAttributes is not null &&
             AdditionalAttributes.TryGetValue(parameterName, out var attributeValue) &&
-            attributeValue is TValue typedValue)
+            attributeValue is T typedValue)
             return typedValue;
 
         return defaultValue;

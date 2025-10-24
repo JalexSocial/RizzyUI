@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @using Blazicons
 @using Rizzy
-@inherits RzComponent<RzTextEdit.Slots>
+@inherits InputBase<string, RzTextEdit.Slots>
 
 <div class="@SlotClasses.GetInputWrapper()" id="@Id">
     <div x-data="rzPrependInput" data-alpine-root="@Id">
