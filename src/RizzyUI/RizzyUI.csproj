@@ -46,7 +46,7 @@
         <PackageReference Include="Scrutor" Version="6.1.0" />
         <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
-        <PackageReference Include="TailwindVariants.NET" Version="0.2.7-preview.1" />
+        <PackageReference Include="TailwindVariants.NET" Version="0.2.7-preview.4" />
 
         <PackageReference Include="RizzyUI.Tasks" Version="1.3.5" />
     </ItemGroup>

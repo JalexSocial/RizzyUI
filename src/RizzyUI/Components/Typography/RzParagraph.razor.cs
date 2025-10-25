@@ -27,21 +27,21 @@ public partial class RzParagraph : RzTypographyBase<RzParagraph.Slots>
                 [ProseWidth.UltraWide] = "max-w-screen-lg",
                 [ProseWidth.Full] = "max-w-none"
             },
-            [c => ((RzParagraph)c).TextColor] = new Variant<SemanticColor?, Slots>
+            [c => ((RzParagraph)c).TextColor] = new Variant<SemanticColor, Slots>
             {
                 [SemanticColor.Primary] = "text-primary",
                 [SemanticColor.Secondary] = "text-secondary",
                 [SemanticColor.Muted] = "text-muted-foreground",
                 [SemanticColor.Foreground] = "text-foreground",
             },
-            [c => ((RzParagraph)c).Weight] = new Variant<TextWeight?, Slots>
+            [c => ((RzParagraph)c).Weight] = new Variant<TextWeight, Slots>
             {
                 [TextWeight.Thin] = "font-thin",
                 [TextWeight.Normal] = "font-normal",
                 [TextWeight.Bold] = "font-bold",
                 [TextWeight.ExtraBold] = "font-extrabold"
             },
-            [c => ((RzParagraph)c).Size] = new Variant<TextSize?, Slots>
+            [c => ((RzParagraph)c).Size] = new Variant<TextSize, Slots>
             {
                 [TextSize.Small] = "text-sm",
                 [TextSize.Medium] = "text-base",
@@ -52,7 +52,7 @@ public partial class RzParagraph : RzTypographyBase<RzParagraph.Slots>
                 [TextSize.FourXL] = "text-4xl",
                 [TextSize.FiveXL] = "text-5xl"
             },
-            [c => ((RzParagraph)c).LineHeight] = new Variant<Leading?, Slots>
+            [c => ((RzParagraph)c).LineHeight] = new Variant<Leading, Slots>
             {
                 [Leading.None] = "leading-none",
                 [Leading.Tight] = "leading-tight",
@@ -61,14 +61,14 @@ public partial class RzParagraph : RzTypographyBase<RzParagraph.Slots>
                 [Leading.Relaxed] = "leading-relaxed",
                 [Leading.Loose] = "leading-loose"
             },
-            [c => ((RzParagraph)c).Decoration] = new Variant<TextDecoration?, Slots>
+            [c => ((RzParagraph)c).Decoration] = new Variant<TextDecoration, Slots>
             {
                 [TextDecoration.None] = "no-underline",
                 [TextDecoration.Underline] = "underline",
                 [TextDecoration.Overline] = "overline",
                 [TextDecoration.LineThrough] = "line-through"
             },
-            [c => ((RzParagraph)c).Transform] = new Variant<TextTransform?, Slots>
+            [c => ((RzParagraph)c).Transform] = new Variant<TextTransform, Slots>
             {
                 [TextTransform.None] = "normal-case",
                 [TextTransform.Uppercase] = "uppercase",

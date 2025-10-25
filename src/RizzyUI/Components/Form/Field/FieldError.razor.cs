@@ -70,8 +70,8 @@ public partial class FieldError : RzComponent<FieldError.Slots>
                 builder.AddAttribute(1, "class", "ml-4 flex list-disc flex-col gap-1");
                 for (int i = 0; i < uniqueErrors.Count; i++)
                 {
-                    builder.OpenElement(i + 2, "li");
-                    builder.AddContent(i + 3, uniqueErrors[i]);
+                    builder.OpenElement(2, "li");
+                    builder.AddContent(3, uniqueErrors[i]);
                     builder.CloseElement();
                 }
                 builder.CloseElement();
