@@ -1,0 +1,15 @@
+
+@namespace RizzyUI
+@inherits RzComponent<InputGroupAddonSlots>
+
+<HtmlElement Element="@EffectiveElement" 
+             @attributes="AdditionalAttributes" 
+             id="@Id" 
+             class="@SlotClasses.GetBase()" 
+             data-slot="input-group-addon"
+             role="group"
+             data-align="@Align.ToString().ToLowerInvariant()"
+             x-data="rzInputGroupAddon"
+             x-on:click="handleClick">
+    @ChildContent
+</HtmlElement>

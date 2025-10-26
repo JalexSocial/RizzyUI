@@ -218,6 +218,12 @@ public partial class RzTheme
         FieldError = RizzyUI.FieldError.DefaultDescriptor;
         Label = RizzyUI.Label.DefaultDescriptor;
         
+        RzInputGroup = RizzyUI.RzInputGroup.DefaultDescriptor;
+        InputGroupAddon = RizzyUI.InputGroupAddonStyles.DefaultDescriptor;
+        InputGroupButton = RizzyUI.InputGroupButtonStyles.DefaultDescriptor;
+        InputGroupText = RizzyUI.InputGroupText.DefaultDescriptor;
+        InputGroupInput = RizzyUI.InputGroupInput.DefaultDescriptor;
+        InputGroupTextarea = RizzyUI.InputGroupTextarea.DefaultDescriptor;        
     }
 
     /// <summary>

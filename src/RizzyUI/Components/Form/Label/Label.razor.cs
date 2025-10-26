@@ -5,7 +5,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// A component that renders a <label> element with styling for form inputs, enhancing accessibility and consistency.
+/// A component that renders a &lt;label> element with styling for form inputs, enhancing accessibility and consistency.
 /// </summary>
 public partial class Label : RzComponent<Label.Slots>
 {
