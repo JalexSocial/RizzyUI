@@ -1,4 +1,5 @@
 
+// packages/rizzyui/src/js/lib/components.js
 import loadjs from "./loadjs/loadjs.js";
 import $data from './alpineData.js';
 
@@ -30,6 +31,10 @@ import registerRzQuickReferenceContainer from './components/rzQuickReferenceCont
 import registerRzSheet from './components/rzSheet.js';
 import registerRzTabs from './components/rzTabs.js';
 import registerRzSidebar from './components/rzSidebar.js';
+import registerRzCommand from './components/rzCommand.js';
+import registerRzCommandItem from './components/rzCommandItem.js';
+import registerRzCommandList from './components/rzCommandList.js';
+import registerRzCommandGroup from './components/rzCommandGroup.js';
 
 /**
  * generateBundleId(paths)
@@ -165,6 +170,10 @@ function registerComponents(Alpine) {
     registerRzSheet(Alpine);
     registerRzTabs(Alpine);
     registerRzSidebar(Alpine);
+    registerRzCommand(Alpine);
+    registerRzCommandItem(Alpine);
+    registerRzCommandList(Alpine);
+    registerRzCommandGroup(Alpine);
 }
 
 export { registerComponents, rizzyRequire as require };

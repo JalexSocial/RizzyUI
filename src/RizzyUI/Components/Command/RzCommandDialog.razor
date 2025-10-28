@@ -1,0 +1,18 @@
+
+@namespace RizzyUI
+@inherits RzComponent<RzCommandDialog.Slots>
+
+<RzDialog @bind-Open="Open">
+    <DialogContent class="@SlotClasses.GetBase()" ShowCloseButton="@ShowCloseButton">
+        <DialogHeader class="sr-only">
+            <DialogTitle>@Title</DialogTitle>
+            <DialogDescription>@Description</DialogDescription>
+        </DialogHeader>
+        <RzCommand class="@SlotClasses.GetCommand()"
+                   ShouldFilter="@ShouldFilter"
+                   Loop="@Loop"
+                   SelectedValue="@SelectedValue">
+            @ChildContent
+        </RzCommand>
+    </DialogContent>
+</RzDialog>

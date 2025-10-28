@@ -223,7 +223,17 @@ public partial class RzTheme
         InputGroupButton = RizzyUI.InputGroupButtonStyles.DefaultDescriptor;
         InputGroupText = RizzyUI.InputGroupText.DefaultDescriptor;
         InputGroupInput = RizzyUI.InputGroupInput.DefaultDescriptor;
-        InputGroupTextarea = RizzyUI.InputGroupTextarea.DefaultDescriptor;        
+        InputGroupTextarea = RizzyUI.InputGroupTextarea.DefaultDescriptor;     
+        
+        RzCommand = RizzyUI.RzCommand.DefaultDescriptor;
+        RzCommandDialog = RizzyUI.RzCommandDialog.DefaultDescriptor;
+        RzCommandInput = RizzyUI.RzCommandInput.DefaultDescriptor;
+        RzCommandList = RizzyUI.RzCommandList.DefaultDescriptor;
+        RzCommandEmpty = RizzyUI.RzCommandEmpty.DefaultDescriptor;
+        RzCommandGroup = RizzyUI.RzCommandGroup.DefaultDescriptor;
+        RzCommandItem = RizzyUI.RzCommandItem.DefaultDescriptor;
+        RzCommandSeparator = RizzyUI.RzCommandSeparator.DefaultDescriptor;
+        RzCommandShortcut = RizzyUI.RzCommandShortcut.DefaultDescriptor;        
     }
 
     /// <summary>

@@ -1,0 +1,20 @@
+
+@namespace RizzyUI
+@inherits RzComponent<RzCommandItem.Slots>
+
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="hidden"
+     x-data="rzCommandItem"
+     data-alpine-root="@Id"
+     data-value="@Value"
+     data-keywords="@_serializedKeywords"
+     data-group="@ParentGroup?.Heading"
+     data-disabled="@(Disabled.ToString().ToLowerInvariant())"
+     data-force-mount="@(ForceMount.ToString().ToLowerInvariant())">
+    <template x-ref="template" id="@($"{Id}-template")">
+        <div class="@SlotClasses.GetBase()" data-slot="command-item" aria-disabled="@(Disabled.ToString().ToLowerInvariant())">
+            @ChildContent
+        </div>
+    </template>
+</div>

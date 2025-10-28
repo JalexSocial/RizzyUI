@@ -353,4 +353,16 @@
         <value>Component Preview</value>
         <comment>Default title for the iframe in RzBrowser</comment>
     </data>    
+  <data name="RzCommand.DefaultAriaLabel" xml:space="preserve">
+    <value>Command Menu</value>
+    <comment>Default ARIA label for the RzCommand container.</comment>
+  </data>
+  <data name="RzCommandDialog.DefaultTitle" xml:space="preserve">
+    <value>Command Palette</value>
+    <comment>Default title for the RzCommandDialog header.</comment>
+  </data>
+  <data name="RzCommandDialog.DefaultDescription" xml:space="preserve">
+    <value>Search for a command to run...</value>
+    <comment>Default description for the RzCommandDialog header.</comment>
+  </data>  
 </root>
