@@ -125,7 +125,8 @@
                 </RzParagraph>
 
                 <div class="mx-auto p-8 mb-5 flex flex-col justify-center items-center min-h-80"
-                     x-on:keydown.window.cmd.k.prevent="$dispatch('show-command-dialog')">
+                     x-on:keydown.window.cmd.k.prevent="$dispatch('show-command-dialog')"
+                     x-on:keydown.window.ctrl.k.prevent="$dispatch('show-command-dialog')">
                     <p class="text-muted-foreground text-sm">
                         Press
                         <RzKbdGroup>
@@ -175,7 +176,7 @@
                 </div>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;div x-on:keydown.window.cmd.k.prevent="$dispatch('show-command-dialog')"&gt;
+&lt;div x-on:keydown.window.cmd.k.prevent="$dispatch('show-command-dialog') x-on:keydown.window.ctrl.k.prevent="$dispatch('show-command-dialog')"&gt;
     &lt;p class="text-muted-foreground text-sm"&gt;
         Press
         &lt;RzKbdGroup&gt;
