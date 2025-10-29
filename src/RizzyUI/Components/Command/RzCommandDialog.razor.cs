@@ -4,8 +4,14 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
+/// <summary>
+/// A composite component that renders an <see cref="RzCommand"/> menu inside a modal <see cref="RzDialog"/>.
+/// </summary>
 public partial class RzCommandDialog : RzComponent<RzCommandDialog.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzCommandDialog component.
+    /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
         @base: "overflow-hidden p-0",
         slots: new()
@@ -14,33 +20,61 @@ public partial class RzCommandDialog : RzComponent<RzCommandDialog.Slots>
         }
     );
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the dialog is open.
+    /// </summary>
     [Parameter]
     public bool Open { get; set; }
 
+    /// <summary>
+    /// An event callback that is invoked when the dialog's open state changes.
+    /// </summary>
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets the title for the dialog, used for accessibility.
+    /// </summary>
     [Parameter]
     public string? Title { get; set; }
 
+    /// <summary>
+    /// Gets or sets the description for the dialog, used for accessibility.
+    /// </summary>
     [Parameter]
     public string? Description { get; set; }
 
+    /// <summary>
+    /// Gets or sets the child content of the command menu.
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to show the default close button on the dialog.
+    /// </summary>
     [Parameter]
     public bool ShowCloseButton { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the command menu should filter items.
+    /// </summary>
     [Parameter]
     public bool ShouldFilter { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether keyboard navigation should loop.
+    /// </summary>
     [Parameter]
     public bool Loop { get; set; }
 
+    /// <summary>
+    /// Gets or sets the currently selected value in the command menu.
+    /// </summary>
     [Parameter]
     public string? SelectedValue { get; set; }
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -48,6 +82,7 @@ public partial class RzCommandDialog : RzComponent<RzCommandDialog.Slots>
         Description ??= Localizer["RzCommandDialog.DefaultDescription"];
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -55,11 +90,23 @@ public partial class RzCommandDialog : RzComponent<RzCommandDialog.Slots>
         Description ??= Localizer["RzCommandDialog.DefaultDescription"];
     }
 
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzCommandDialog;
 
+    /// <summary>
+    /// Defines the slots available for styling in the RzCommandDialog component.
+    /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary>
+        /// The base slot for the dialog content panel.
+        /// </summary>
+        [Slot("dialog-content")]
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the nested RzCommand component.
+        /// </summary>
+        [Slot("command")]
         public string? Command { get; set; }
     }
 }

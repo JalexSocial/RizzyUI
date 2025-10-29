@@ -18,7 +18,7 @@ export default function(Alpine) {
         shouldFilter: true,
 
         // --- COMPUTED ---
-        showEmpty() {
+        get showEmpty() {
             return this.isEmpty && this.search;
         },
 

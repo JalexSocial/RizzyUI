@@ -389,11 +389,12 @@ public partial class RzTheme
     
     public virtual TvDescriptor<RzComponent<RzCommand.Slots>, RzCommand.Slots> RzCommand { get; set; }
     public virtual TvDescriptor<RzComponent<RzCommandDialog.Slots>, RzCommandDialog.Slots> RzCommandDialog { get; set; }
-    public virtual TvDescriptor<RzComponent<RzCommandInput.Slots>, RzCommandInput.Slots> RzCommandInput { get; set; }
-    public virtual TvDescriptor<RzComponent<RzCommandList.Slots>, RzCommandList.Slots> RzCommandList { get; set; }
-    public virtual TvDescriptor<RzComponent<RzCommandEmpty.Slots>, RzCommandEmpty.Slots> RzCommandEmpty { get; set; }
-    public virtual TvDescriptor<RzComponent<RzCommandGroup.Slots>, RzCommandGroup.Slots> RzCommandGroup { get; set; }
-    public virtual TvDescriptor<RzComponent<RzCommandItem.Slots>, RzCommandItem.Slots> RzCommandItem { get; set; }
-    public virtual TvDescriptor<RzComponent<RzCommandSeparator.Slots>, RzCommandSeparator.Slots> RzCommandSeparator { get; set; }
-    public virtual TvDescriptor<RzComponent<RzCommandShortcut.Slots>, RzCommandShortcut.Slots> RzCommandShortcut { get; set; }    
+    public virtual TvDescriptor<RzComponent<CommandInput.Slots>, CommandInput.Slots> CommandInput { get; set; }
+    public virtual TvDescriptor<RzComponent<CommandList.Slots>, CommandList.Slots> CommandList { get; set; }
+    public virtual TvDescriptor<RzComponent<CommandEmpty.Slots>, CommandEmpty.Slots> CommandEmpty { get; set; }
+    public virtual TvDescriptor<RzComponent<CommandGroup.Slots>, CommandGroup.Slots> CommandGroup { get; set; }
+    public virtual TvDescriptor<RzComponent<CommandItem.Slots>, CommandItem.Slots> CommandItem { get; set; }
+    public virtual TvDescriptor<RzComponent<CommandSeparator.Slots>, CommandSeparator.Slots> CommandSeparator { get; set; }
+    public virtual TvDescriptor<RzComponent<CommandShortcut.Slots>, CommandShortcut.Slots> CommandShortcut { get; set; }
+    
 }

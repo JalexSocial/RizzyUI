@@ -27,21 +27,21 @@ public partial class RzHeading : RzTypographyBase<RzHeading.Slots>
                 [HeadingLevel.H3] = "text-2xl font-semibold",
                 [HeadingLevel.H4] = "text-xl font-semibold"
             },
-            [c => ((RzHeading)c).TextColor] = new Variant<SemanticColor?, Slots>
+            [c => ((RzHeading)c).TextColor] = new Variant<SemanticColor, Slots>
             {
                 [SemanticColor.Primary] = "text-primary",
                 [SemanticColor.Secondary] = "text-secondary",
                 [SemanticColor.Muted] = "text-muted-foreground",
                 [SemanticColor.Foreground] = "text-foreground",
             },
-            [c => ((RzHeading)c).Weight] = new Variant<TextWeight?, Slots>
+            [c => ((RzHeading)c).Weight] = new Variant<TextWeight, Slots>
             {
                 [TextWeight.Thin] = "font-thin",
                 [TextWeight.Normal] = "font-normal",
                 [TextWeight.Bold] = "font-bold",
                 [TextWeight.ExtraBold] = "font-extrabold"
             },
-            [c => ((RzHeading)c).Size] = new Variant<TextSize?, Slots>
+            [c => ((RzHeading)c).Size] = new Variant<TextSize, Slots>
             {
                 [TextSize.Small] = "text-sm",
                 [TextSize.Medium] = "text-base",
@@ -52,7 +52,7 @@ public partial class RzHeading : RzTypographyBase<RzHeading.Slots>
                 [TextSize.FourXL] = "text-4xl",
                 [TextSize.FiveXL] = "text-5xl"
             },
-            [c => ((RzHeading)c).LineHeight] = new Variant<Leading?, Slots>
+            [c => ((RzHeading)c).LineHeight] = new Variant<Leading, Slots>
             {
                 [Leading.None] = "leading-none",
                 [Leading.Tight] = "leading-tight",
@@ -61,14 +61,14 @@ public partial class RzHeading : RzTypographyBase<RzHeading.Slots>
                 [Leading.Relaxed] = "leading-relaxed",
                 [Leading.Loose] = "leading-loose"
             },
-            [c => ((RzHeading)c).Decoration] = new Variant<TextDecoration?, Slots>
+            [c => ((RzHeading)c).Decoration] = new Variant<TextDecoration, Slots>
             {
                 [TextDecoration.None] = "no-underline",
                 [TextDecoration.Underline] = "underline",
                 [TextDecoration.Overline] = "overline",
                 [TextDecoration.LineThrough] = "line-through"
             },
-            [c => ((RzHeading)c).Transform] = new Variant<TextTransform?, Slots>
+            [c => ((RzHeading)c).Transform] = new Variant<TextTransform, Slots>
             {
                 [TextTransform.None] = "normal-case",
                 [TextTransform.Uppercase] = "uppercase",

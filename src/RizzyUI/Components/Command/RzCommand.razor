@@ -13,12 +13,6 @@
                  data-loop="@(Loop.ToString().ToLowerInvariant())"
                  data-should-filter="@(ShouldFilter.ToString().ToLowerInvariant())"
                  data-selected-value="@SelectedValue"
-                 data-active-item-class="@ActiveItemClass"
-                 data-group-heading-class="@GroupHeadingClass"
-                 x-on:rz:command:select.window="
-                    if ($event.target.id === '@Id') {
-                        // This event is for two-way binding from Alpine to Blazor
-                    }"
                  aria-label="@AriaLabel">
         @ChildContent
     </HtmlElement>

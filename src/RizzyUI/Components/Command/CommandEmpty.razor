@@ -1,12 +1,12 @@
 
 @namespace RizzyUI
-@inherits RzComponent<RzCommandEmpty.Slots>
+@inherits RzComponent<CommandEmpty.Slots>
 
 <div @attributes="AdditionalAttributes"
      id="@Id"
      class="@SlotClasses.GetBase()"
      data-slot="command-empty"
-     x-show="isEmpty && search"
+     x-show="showEmpty"
      x-cloak>
     @ChildContent
 </div>

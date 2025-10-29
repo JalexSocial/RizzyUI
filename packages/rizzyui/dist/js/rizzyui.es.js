@@ -7428,6 +7428,20 @@ function registerRzIndicator(Alpine2) {
     }
   }));
 }
+function registerRzInputGroupAddon(Alpine2) {
+  Alpine2.data("rzInputGroupAddon", () => ({
+    handleClick(event2) {
+      if (event2.target.closest("button")) {
+        return;
+      }
+      const parent = this.$el.parentElement;
+      if (parent) {
+        const input = parent.querySelector("input, textarea");
+        input?.focus();
+      }
+    }
+  }));
+}
 function registerRzMarkdown(Alpine2, require2) {
   Alpine2.data("rzMarkdown", () => {
     return {
@@ -7965,6 +7979,357 @@ function registerRzSidebar(Alpine2) {
     }
   }));
 }
+function registerRzCommand(Alpine2) {
+  Alpine2.data("rzCommand", () => ({
+    // --- STATE ---
+    search: "",
+    selectedValue: null,
+    selectedIndex: -1,
+    items: [],
+    filteredItems: [],
+    groupTemplates: /* @__PURE__ */ new Map(),
+    activeDescendantId: null,
+    isOpen: false,
+    isEmpty: true,
+    // --- CONFIG ---
+    loop: false,
+    shouldFilter: true,
+    // --- COMPUTED ---
+    get showEmpty() {
+      return this.isEmpty && this.search;
+    },
+    // --- LIFECYCLE ---
+    init() {
+      this.loop = this.$el.dataset.loop === "true";
+      this.shouldFilter = this.$el.dataset.shouldFilter !== "false";
+      this.selectedValue = this.$el.dataset.selectedValue || null;
+      this.$watch("search", () => this.filterAndSortItems());
+      this.$watch("selectedIndex", (index) => {
+        if (index > -1 && this.filteredItems[index]) {
+          const selectedItem = this.filteredItems[index];
+          this.activeDescendantId = selectedItem.id;
+          const el = this.$root.querySelector(`[data-command-item-id="${selectedItem.id}"]`);
+          el?.scrollIntoView({ block: "nearest" });
+          const newValue = selectedItem.value;
+          if (this.selectedValue !== newValue) {
+            this.selectedValue = newValue;
+            this.$dispatch("rz:command:select", { value: newValue });
+          }
+        } else {
+          this.activeDescendantId = null;
+          this.selectedValue = null;
+        }
+      });
+      this.$watch("selectedValue", (newValue) => {
+        const index = this.filteredItems.findIndex((item) => item.value === newValue);
+        if (this.selectedIndex !== index) {
+          this.selectedIndex = index;
+        }
+      });
+      this.$watch("filteredItems", (items) => {
+        this.isOpen = items.length > 0;
+        this.isEmpty = items.length === 0;
+        this.$dispatch("rz:command:list-changed", { items: this.filteredItems, groups: this.groupTemplates, commandId: this.$el.id });
+      });
+      this.$el.addEventListener("rz:command:item-click", (e2) => {
+        const index = e2.detail?.index ?? -1;
+        if (index > -1) {
+          const item = this.filteredItems[index];
+          if (item && !item.disabled) {
+            this.selectedIndex = index;
+            this.$dispatch("rz:command:execute", { value: item.value });
+          }
+        }
+      });
+    },
+    // --- METHODS ---
+    registerItem(item) {
+      item._order = this.items.length;
+      this.items.push(item);
+      this.filterAndSortItems();
+    },
+    unregisterItem(itemId) {
+      this.items = this.items.filter((i2) => i2.id !== itemId);
+      this.filterAndSortItems();
+    },
+    registerGroupTemplate(name, templateId) {
+      if (!this.groupTemplates.has(name)) {
+        this.groupTemplates.set(name, templateId);
+      }
+    },
+    filterAndSortItems() {
+      let items;
+      if (!this.shouldFilter || !this.search) {
+        items = this.items.map((item) => ({ ...item, score: 1 }));
+      } else {
+        items = this.items.map((item) => ({
+          ...item,
+          score: item.forceMount ? 0 : this.commandScore(item.value, this.search, item.keywords)
+        })).filter((item) => item.score > 0 || item.forceMount).sort((a2, b) => {
+          if (a2.forceMount && !b.forceMount) return 1;
+          if (!a2.forceMount && b.forceMount) return -1;
+          if (b.score !== a2.score) return b.score - a2.score;
+          return (a2._order || 0) - (b._order || 0);
+        });
+      }
+      this.filteredItems = items;
+      if (this.selectedValue) {
+        const newIndex = this.filteredItems.findIndex((item) => item.value === this.selectedValue);
+        this.selectedIndex = newIndex > -1 ? newIndex : this.filteredItems.length > 0 ? 0 : -1;
+      } else {
+        this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
+      }
+    },
+    // --- KEYBOARD NAVIGATION ---
+    handleKeydown(e2) {
+      switch (e2.key) {
+        case "ArrowDown":
+          e2.preventDefault();
+          this.selectNext();
+          break;
+        case "ArrowUp":
+          e2.preventDefault();
+          this.selectPrev();
+          break;
+        case "Home":
+          e2.preventDefault();
+          this.selectFirst();
+          break;
+        case "End":
+          e2.preventDefault();
+          this.selectLast();
+          break;
+        case "Enter":
+          e2.preventDefault();
+          const item = this.filteredItems[this.selectedIndex];
+          if (item && !item.disabled) {
+            this.$dispatch("rz:command:execute", { value: item.value });
+          }
+          break;
+      }
+    },
+    selectNext() {
+      if (this.filteredItems.length === 0) return;
+      let i2 = this.selectedIndex, count = 0;
+      do {
+        i2 = i2 + 1 >= this.filteredItems.length ? this.loop ? 0 : this.filteredItems.length - 1 : i2 + 1;
+        count++;
+        if (!this.filteredItems[i2]?.disabled) {
+          this.selectedIndex = i2;
+          return;
+        }
+        if (!this.loop && i2 === this.filteredItems.length - 1) return;
+      } while (count <= this.filteredItems.length);
+    },
+    selectPrev() {
+      if (this.filteredItems.length === 0) return;
+      let i2 = this.selectedIndex, count = 0;
+      do {
+        i2 = i2 - 1 < 0 ? this.loop ? this.filteredItems.length - 1 : 0 : i2 - 1;
+        count++;
+        if (!this.filteredItems[i2]?.disabled) {
+          this.selectedIndex = i2;
+          return;
+        }
+        if (!this.loop && i2 === 0) return;
+      } while (count <= this.filteredItems.length);
+    },
+    selectFirst() {
+      if (this.filteredItems.length > 0) {
+        const firstEnabledIndex = this.filteredItems.findIndex((item) => !item.disabled);
+        if (firstEnabledIndex > -1) this.selectedIndex = firstEnabledIndex;
+      }
+    },
+    selectLast() {
+      if (this.filteredItems.length > 0) {
+        const lastEnabledIndex = this.filteredItems.map((item) => item.disabled).lastIndexOf(false);
+        if (lastEnabledIndex > -1) this.selectedIndex = lastEnabledIndex;
+      }
+    },
+    // --- SCORING ALGORITHM (Adapted from cmdk) ---
+    commandScore(string, search, keywords = []) {
+      const SCORE_CONTINUE_MATCH = 1;
+      const SCORE_SPACE_WORD_JUMP = 0.9;
+      const SCORE_NON_SPACE_WORD_JUMP = 0.8;
+      const SCORE_CHARACTER_JUMP = 0.17;
+      const PENALTY_SKIPPED = 0.999;
+      const PENALTY_CASE_MISMATCH = 0.9999;
+      const PENALTY_NOT_COMPLETE = 0.99;
+      const IS_GAP_REGEXP = /[\\/_+.#"@[\(\{&]/;
+      const IS_SPACE_REGEXP = /[\s-]/;
+      const fullString = `${string} ${keywords.join(" ")}`;
+      function formatInput(str) {
+        return str.toLowerCase().replace(/[\s-]/g, " ");
+      }
+      function commandScoreInner(str, abbr, lowerStr, lowerAbbr, strIndex, abbrIndex, memo) {
+        if (abbrIndex === abbr.length) {
+          return strIndex === str.length ? SCORE_CONTINUE_MATCH : PENALTY_NOT_COMPLETE;
+        }
+        const memoKey = `${strIndex},${abbrIndex}`;
+        if (memo[memoKey] !== void 0) return memo[memoKey];
+        const abbrChar = lowerAbbr.charAt(abbrIndex);
+        let index = lowerStr.indexOf(abbrChar, strIndex);
+        let highScore = 0;
+        while (index >= 0) {
+          let score = commandScoreInner(str, abbr, lowerStr, lowerAbbr, index + 1, abbrIndex + 1, memo);
+          if (score > highScore) {
+            if (index === strIndex) {
+              score *= SCORE_CONTINUE_MATCH;
+            } else if (IS_GAP_REGEXP.test(str.charAt(index - 1))) {
+              score *= SCORE_NON_SPACE_WORD_JUMP;
+            } else if (IS_SPACE_REGEXP.test(str.charAt(index - 1))) {
+              score *= SCORE_SPACE_WORD_JUMP;
+            } else {
+              score *= SCORE_CHARACTER_JUMP;
+              if (strIndex > 0) {
+                score *= Math.pow(PENALTY_SKIPPED, index - strIndex);
+              }
+            }
+            if (str.charAt(index) !== abbr.charAt(abbrIndex)) {
+              score *= PENALTY_CASE_MISMATCH;
+            }
+          }
+          if (score > highScore) {
+            highScore = score;
+          }
+          index = lowerStr.indexOf(abbrChar, index + 1);
+        }
+        memo[memoKey] = highScore;
+        return highScore;
+      }
+      return commandScoreInner(fullString, search, formatInput(fullString), formatInput(search), 0, 0, {});
+    }
+  }));
+}
+function registerRzCommandItem(Alpine2) {
+  Alpine2.data("rzCommandItem", () => ({
+    parent: null,
+    itemData: {},
+    init() {
+      const parentEl = this.$el.closest('[x-data="rzCommand"]');
+      if (!parentEl) {
+        console.error("CommandItem must be a child of RzCommand.");
+        return;
+      }
+      this.parent = Alpine2.$data(parentEl);
+      this.itemData = {
+        id: this.$el.id,
+        value: this.$el.dataset.value || this.$el.textContent.trim(),
+        keywords: JSON.parse(this.$el.dataset.keywords || "[]"),
+        group: this.$el.dataset.group || null,
+        templateId: this.$el.id + "-template",
+        disabled: this.$el.dataset.disabled === "true",
+        forceMount: this.$el.dataset.forceMount === "true"
+      };
+      this.parent.registerItem(this.itemData);
+    },
+    destroy() {
+      if (this.parent) {
+        this.parent.unregisterItem(this.itemData.id);
+      }
+    }
+  }));
+}
+function registerRzCommandList(Alpine2) {
+  Alpine2.data("rzCommandList", () => ({
+    parent: null,
+    init() {
+      const parentEl = this.$el.closest('[x-data="rzCommand"]');
+      if (!parentEl) {
+        console.error("CommandList must be a child of RzCommand.");
+        return;
+      }
+      this.parent = Alpine2.$data(parentEl);
+    },
+    renderList(event2) {
+      if (event2.detail.commandId !== this.parent.$el.id) return;
+      const items = event2.detail.items || [];
+      const groups = event2.detail.groups || /* @__PURE__ */ new Map();
+      const container = this.$el;
+      while (container.firstChild && container.firstChild.tagName !== "TEMPLATE") {
+        container.removeChild(container.firstChild);
+      }
+      const groupedItems = /* @__PURE__ */ new Map([["__ungrouped__", []]]);
+      items.forEach((item) => {
+        const groupName = item.group || "__ungrouped__";
+        if (!groupedItems.has(groupName)) {
+          groupedItems.set(groupName, []);
+        }
+        groupedItems.get(groupName).push(item);
+      });
+      groupedItems.forEach((groupItems, groupName) => {
+        if (groupItems.length === 0) return;
+        const groupContainer = document.createElement("div");
+        groupContainer.setAttribute("role", "group");
+        if (groupName !== "__ungrouped__") {
+          const headingTemplateId = groups.get(groupName);
+          if (headingTemplateId) {
+            const headingTemplate = document.getElementById(headingTemplateId);
+            if (headingTemplate && headingTemplate.content) {
+              const headingClone = headingTemplate.content.cloneNode(true);
+              const headingEl = headingClone.firstElementChild;
+              if (headingEl) {
+                groupContainer.setAttribute("aria-labelledby", headingEl.id);
+                groupContainer.appendChild(headingClone);
+              }
+            }
+          }
+        }
+        groupItems.forEach((item) => {
+          const itemIndex = this.parent.filteredItems.indexOf(item);
+          const host = document.createElement("div");
+          host.id = item.id;
+          host.setAttribute("role", "option");
+          host.setAttribute("aria-selected", this.parent.selectedIndex === itemIndex);
+          if (item.disabled) {
+            host.setAttribute("aria-disabled", "true");
+          }
+          host.dataset.commandItemId = item.id;
+          host.dataset.index = itemIndex;
+          if (this.parent.selectedIndex === itemIndex) {
+            host.setAttribute("data-active", "true");
+          }
+          const template = document.getElementById(item.templateId);
+          if (template && template.content) {
+            const clone2 = template.content.cloneNode(true);
+            host.appendChild(clone2);
+            Alpine2.initTree(host);
+          }
+          groupContainer.appendChild(host);
+        });
+        container.appendChild(groupContainer);
+      });
+    },
+    handleItemClick(event2) {
+      const host = event2.target.closest("[data-command-item-id]");
+      if (!host) return;
+      const index = parseInt(host.dataset.index, 10);
+      if (!isNaN(index)) {
+        this.$dispatch("rz:command:item-click", { index });
+      }
+    }
+  }));
+}
+function registerRzCommandGroup(Alpine2) {
+  Alpine2.data("rzCommandGroup", () => ({
+    parent: null,
+    heading: "",
+    templateId: "",
+    init() {
+      const parentEl = this.$el.closest('[x-data="rzCommand"]');
+      if (!parentEl) {
+        console.error("CommandGroup must be a child of RzCommand.");
+        return;
+      }
+      this.parent = Alpine2.$data(parentEl);
+      this.heading = this.$el.dataset.heading;
+      this.templateId = this.$el.dataset.templateId;
+      if (this.heading && this.templateId) {
+        this.parent.registerGroupTemplate(this.heading, this.templateId);
+      }
+    }
+  }));
+}
 async function generateBundleId(paths) {
   paths = [...paths].sort();
   const joinedPaths = paths.join("|");
@@ -8042,6 +8407,7 @@ function registerComponents(Alpine2) {
   registerRzEmpty(Alpine2);
   registerRzHeading(Alpine2);
   registerRzIndicator(Alpine2);
+  registerRzInputGroupAddon(Alpine2);
   registerRzMarkdown(Alpine2, rizzyRequire);
   registerRzNavigationMenu(Alpine2);
   registerRzPopover(Alpine2);
@@ -8051,6 +8417,10 @@ function registerComponents(Alpine2) {
   registerRzSheet(Alpine2);
   registerRzTabs(Alpine2);
   registerRzSidebar(Alpine2);
+  registerRzCommand(Alpine2);
+  registerRzCommandItem(Alpine2);
+  registerRzCommandList(Alpine2);
+  registerRzCommandGroup(Alpine2);
 }
 function props(alpineRootElement) {
   if (!(alpineRootElement instanceof Element)) {

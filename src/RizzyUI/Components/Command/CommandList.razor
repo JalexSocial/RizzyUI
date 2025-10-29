@@ -1,6 +1,6 @@
 
 @namespace RizzyUI
-@inherits RzComponent<RzCommandList.Slots>
+@inherits RzComponent<CommandList.Slots>
 
 <div @attributes="AdditionalAttributes"
      id="rz-command-list-@ParentCommand?.Id"
@@ -8,8 +8,8 @@
      data-slot="command-list"
      role="listbox"
      x-data="rzCommandList"
-     x-on:rz:command:list-changed.window="if ($event.target.id === '@ParentCommand?.Id') renderList($event)"
-     x-on:click="handleItemClick">
+     x-on:rz:command:list-changed.window="renderList"
+     x-on:click.capture="handleItemClick">
     
     @ChildContent
 
