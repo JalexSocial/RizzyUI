@@ -32,48 +32,47 @@
                     Here is a basic example of the command component with a few groups and items.
                 </RzParagraph>
 
-                <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-8 mb-5 flex justify-center">
-                        <RzCommand class="rounded-lg border shadow-md md:min-w-[450px]">
-                            <CommandInput Placeholder="Type a command or search..." />
-                            <CommandList>
-                                <CommandEmpty>No results found.</CommandEmpty>
-                                <CommandGroup Heading="Suggestions">
-                                    <CommandItem Value="Calendar">
-                                        <Blazicon Svg="Lucide.Calendar" class="mr-2 size-4" />
-                                        <span>Calendar</span>
-                                    </CommandItem>
-                                    <CommandItem Value="Search Emoji">
-                                        <Blazicon Svg="Lucide.Smile" class="mr-2 size-4" />
-                                        <span>Search Emoji</span>
-                                    </CommandItem>
-                                    <CommandItem Value="Calculator" Disabled="true">
-                                        <Blazicon Svg="Lucide.Calculator" class="mr-2 size-4" />
-                                        <span>Calculator</span>
-                                    </CommandItem>
-                                </CommandGroup>
-                                <CommandSeparator />
-                                <CommandGroup Heading="Settings">
-                                    <CommandItem Value="Profile">
-                                        <Blazicon Svg="Lucide.User" class="mr-2 size-4" />
-                                        <span>Profile</span>
-                                        <CommandShortcut>⌘P</CommandShortcut>
-                                    </CommandItem>
-                                    <CommandItem Value="Billing">
-                                        <Blazicon Svg="Lucide.CreditCard" class="mr-2 size-4" />
-                                        <span>Billing</span>
-                                        <CommandShortcut>⌘B</CommandShortcut>
-                                    </CommandItem>
-                                    <CommandItem Value="Settings">
-                                        <Blazicon Svg="Lucide.Settings" class="mr-2 size-4" />
-                                        <span>Settings</span>
-                                        <CommandShortcut>⌘S</CommandShortcut>
-                                    </CommandItem>
-                                </CommandGroup>
-                            </CommandList>
-                        </RzCommand>
-                    </div>
-                </RzBrowser>
+                <div class="mx-auto p-8 mb-5 flex justify-center">
+                    <RzCommand class="rounded-lg border shadow-md md:min-w-[450px]">
+                        <CommandInput Placeholder="Type a command or search..." />
+                        <CommandList>
+                            <CommandEmpty>No results found.</CommandEmpty>
+                            <CommandGroup Heading="Suggestions">
+                                <CommandItem Value="Calendar">
+                                    <Blazicon Svg="Lucide.Calendar" class="mr-2 size-4" />
+                                    <span>Calendar</span>
+                                </CommandItem>
+                                <CommandItem Value="Search Emoji">
+                                    <Blazicon Svg="Lucide.Smile" class="mr-2 size-4" />
+                                    <span>Search Emoji</span>
+                                </CommandItem>
+                                <CommandItem Value="Calculator" Disabled="true">
+                                    <Blazicon Svg="Lucide.Calculator" class="mr-2 size-4" />
+                                    <span>Calculator</span>
+                                </CommandItem>
+                            </CommandGroup>
+                            <CommandSeparator />
+                            <CommandGroup Heading="Settings">
+                                <CommandItem Value="Profile">
+                                    <Blazicon Svg="Lucide.User" class="mr-2 size-4" />
+                                    <span>Profile</span>
+                                    <CommandShortcut>⌘P</CommandShortcut>
+                                </CommandItem>
+                                <CommandItem Value="Billing">
+                                    <Blazicon Svg="Lucide.CreditCard" class="mr-2 size-4" />
+                                    <span>Billing</span>
+                                    <CommandShortcut>⌘B</CommandShortcut>
+                                </CommandItem>
+                                <CommandItem Value="Settings">
+                                    <Blazicon Svg="Lucide.Settings" class="mr-2 size-4" />
+                                    <span>Settings</span>
+                                    <CommandShortcut>⌘S</CommandShortcut>
+                                </CommandItem>
+                            </CommandGroup>
+                        </CommandList>
+                    </RzCommand>
+                </div>
+
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCommand class="rounded-lg border shadow-md md:min-w-[450px]"&gt;
@@ -125,57 +124,55 @@
                     To show the command menu in a dialog, use the <code>RzCommandDialog</code> component. You can control its visibility by binding to the <code>Open</code> parameter or by dispatching a window event matching its <code>EventTriggerName</code>.
                 </RzParagraph>
 
-                <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-8 mb-5 flex flex-col justify-center items-center min-h-80"
-                         x-on:keydown.window.cmd.k.prevent="$dispatch('show-command-dialog')">
-                        <p class="text-muted-foreground text-sm">
-                            Press
-                            <RzKbdGroup>
-                                <RzKbd>⌘</RzKbd>
-                                <RzKbd>K</RzKbd>
-                            </RzKbdGroup>
-                        </p>
+                <div class="mx-auto p-8 mb-5 flex flex-col justify-center items-center min-h-80"
+                     x-on:keydown.window.cmd.k.prevent="$dispatch('show-command-dialog')">
+                    <p class="text-muted-foreground text-sm">
+                        Press
+                        <RzKbdGroup>
+                            <RzKbd>⌘</RzKbd>
+                            <RzKbd>K</RzKbd>
+                        </RzKbdGroup>
+                    </p>
 
-                        <RzCommandDialog EventTriggerName="show-command-dialog">
-                            <CommandInput Placeholder="Type a command or search..." />
-                            <CommandList>
-                                <CommandEmpty>No results found.</CommandEmpty>
-                                <CommandGroup Heading="Suggestions">
-                                    <CommandItem Value="Calendar">
-                                        <Blazicon Svg="Lucide.Calendar" class="mr-2 size-4" />
-                                        <span>Calendar</span>
-                                    </CommandItem>
-                                    <CommandItem Value="Search Emoji">
-                                        <Blazicon Svg="Lucide.Smile" class="mr-2 size-4" />
-                                        <span>Search Emoji</span>
-                                    </CommandItem>
-                                    <CommandItem Value="Calculator">
-                                        <Blazicon Svg="Lucide.Calculator" class="mr-2 size-4" />
-                                        <span>Calculator</span>
-                                    </CommandItem>
-                                </CommandGroup>
-                                <CommandSeparator />
-                                <CommandGroup Heading="Settings">
-                                    <CommandItem Value="Profile">
-                                        <Blazicon Svg="Lucide.User" class="mr-2 size-4" />
-                                        <span>Profile</span>
-                                        <CommandShortcut>⌘P</CommandShortcut>
-                                    </CommandItem>
-                                    <CommandItem Value="Billing">
-                                        <Blazicon Svg="Lucide.CreditCard" class="mr-2 size-4" />
-                                        <span>Billing</span>
-                                        <CommandShortcut>⌘B</CommandShortcut>
-                                    </CommandItem>
-                                    <CommandItem Value="Settings">
-                                        <Blazicon Svg="Lucide.Settings" class="mr-2 size-4" />
-                                        <span>Settings</span>
-                                        <CommandShortcut>⌘S</CommandShortcut>
-                                    </CommandItem>
-                                </CommandGroup>
-                            </CommandList>
-                        </RzCommandDialog>
-                    </div>
-                </RzBrowser>
+                    <RzCommandDialog EventTriggerName="show-command-dialog">
+                        <CommandInput Placeholder="Type a command or search..." />
+                        <CommandList>
+                            <CommandEmpty>No results found.</CommandEmpty>
+                            <CommandGroup Heading="Suggestions">
+                                <CommandItem Value="Calendar">
+                                    <Blazicon Svg="Lucide.Calendar" class="mr-2 size-4" />
+                                    <span>Calendar</span>
+                                </CommandItem>
+                                <CommandItem Value="Search Emoji">
+                                    <Blazicon Svg="Lucide.Smile" class="mr-2 size-4" />
+                                    <span>Search Emoji</span>
+                                </CommandItem>
+                                <CommandItem Value="Calculator">
+                                    <Blazicon Svg="Lucide.Calculator" class="mr-2 size-4" />
+                                    <span>Calculator</span>
+                                </CommandItem>
+                            </CommandGroup>
+                            <CommandSeparator />
+                            <CommandGroup Heading="Settings">
+                                <CommandItem Value="Profile">
+                                    <Blazicon Svg="Lucide.User" class="mr-2 size-4" />
+                                    <span>Profile</span>
+                                    <CommandShortcut>⌘P</CommandShortcut>
+                                </CommandItem>
+                                <CommandItem Value="Billing">
+                                    <Blazicon Svg="Lucide.CreditCard" class="mr-2 size-4" />
+                                    <span>Billing</span>
+                                    <CommandShortcut>⌘B</CommandShortcut>
+                                </CommandItem>
+                                <CommandItem Value="Settings">
+                                    <Blazicon Svg="Lucide.Settings" class="mr-2 size-4" />
+                                    <span>Settings</span>
+                                    <CommandShortcut>⌘S</CommandShortcut>
+                                </CommandItem>
+                            </CommandGroup>
+                        </CommandList>
+                    </RzCommandDialog>
+                </div>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;div x-on:keydown.window.cmd.k.prevent="$dispatch('show-command-dialog')"&gt;

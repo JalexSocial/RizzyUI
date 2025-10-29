@@ -27,12 +27,6 @@ public partial class RzCommandDialog : RzComponent<RzCommandDialog.Slots>
     public bool Open { get; set; }
 
     /// <summary>
-    /// An event callback that is invoked when the dialog's open state changes.
-    /// </summary>
-    [Parameter]
-    public EventCallback<bool> OpenChanged { get; set; }
-
-    /// <summary>
     /// Gets or sets the title for the dialog, used for accessibility.
     /// </summary>
     [Parameter]
@@ -74,12 +68,24 @@ public partial class RzCommandDialog : RzComponent<RzCommandDialog.Slots>
     [Parameter]
     public string? SelectedValue { get; set; }
 
+    /// <summary>
+    /// Gets or sets the name of the window event that will trigger this dialog to open.
+    /// If empty, a unique name will be generated.
+    /// </summary>
+    [Parameter]
+    public string EventTriggerName { get; set; } = string.Empty;
+    
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
         Title ??= Localizer["RzCommandDialog.DefaultTitle"];
         Description ??= Localizer["RzCommandDialog.DefaultDescription"];
+        
+        if (string.IsNullOrEmpty(EventTriggerName))
+        {
+            EventTriggerName = $"show-command-dialog-{Id}";
+        }        
     }
 
     /// <inheritdoc/>

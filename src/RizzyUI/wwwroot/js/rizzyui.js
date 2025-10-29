@@ -7999,7 +7999,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       loop: false,
       shouldFilter: true,
       // --- COMPUTED ---
-      get showEmpty() {
+      showEmpty() {
         return this.isEmpty && this.search;
       },
       // --- LIFECYCLE ---
@@ -8033,7 +8033,13 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this.$watch("filteredItems", (items) => {
           this.isOpen = items.length > 0;
           this.isEmpty = items.length === 0;
-          this.$dispatch("rz:command:list-changed", { items: this.filteredItems, groups: this.groupTemplates, commandId: this.$el.id });
+          window.dispatchEvent(new CustomEvent("rz:command:list-changed", {
+            detail: {
+              items: this.filteredItems,
+              groups: this.groupTemplates,
+              commandId: this.$el.id
+            }
+          }));
         });
         this.$el.addEventListener("rz:command:item-click", (e2) => {
           const index = e2.detail?.index ?? -1;
@@ -8250,9 +8256,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         const items = event2.detail.items || [];
         const groups = event2.detail.groups || /* @__PURE__ */ new Map();
         const container = this.$el;
-        while (container.firstChild && container.firstChild.tagName !== "TEMPLATE") {
-          container.removeChild(container.firstChild);
-        }
+        container.querySelectorAll("[data-dynamic-item]").forEach((el) => el.remove());
         const groupedItems = /* @__PURE__ */ new Map([["__ungrouped__", []]]);
         items.forEach((item) => {
           const groupName = item.group || "__ungrouped__";
@@ -8265,6 +8269,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           if (groupItems.length === 0) return;
           const groupContainer = document.createElement("div");
           groupContainer.setAttribute("role", "group");
+          groupContainer.setAttribute("data-dynamic-item", "true");
           if (groupName !== "__ungrouped__") {
             const headingTemplateId = groups.get(groupName);
             if (headingTemplateId) {

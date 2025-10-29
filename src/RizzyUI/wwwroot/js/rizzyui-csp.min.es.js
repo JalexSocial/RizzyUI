@@ -6072,7 +6072,7 @@ function Tc(e) {
     loop: !1,
     shouldFilter: !0,
     // --- COMPUTED ---
-    get showEmpty() {
+    showEmpty() {
       return this.isEmpty && this.search;
     },
     // --- LIFECYCLE ---
@@ -6089,7 +6089,13 @@ function Tc(e) {
         const n = this.filteredItems.findIndex((i) => i.value === t);
         this.selectedIndex !== n && (this.selectedIndex = n);
       }), this.$watch("filteredItems", (t) => {
-        this.isOpen = t.length > 0, this.isEmpty = t.length === 0, this.$dispatch("rz:command:list-changed", { items: this.filteredItems, groups: this.groupTemplates, commandId: this.$el.id });
+        this.isOpen = t.length > 0, this.isEmpty = t.length === 0, window.dispatchEvent(new CustomEvent("rz:command:list-changed", {
+          detail: {
+            items: this.filteredItems,
+            groups: this.groupTemplates,
+            commandId: this.$el.id
+          }
+        }));
       }), this.$el.addEventListener("rz:command:item-click", (t) => {
         const n = t.detail?.index ?? -1;
         if (n > -1) {
@@ -6237,8 +6243,7 @@ function Oc(e) {
     renderList(t) {
       if (t.detail.commandId !== this.parent.$el.id) return;
       const n = t.detail.items || [], i = t.detail.groups || /* @__PURE__ */ new Map(), r = this.$el;
-      for (; r.firstChild && r.firstChild.tagName !== "TEMPLATE"; )
-        r.removeChild(r.firstChild);
+      r.querySelectorAll("[data-dynamic-item]").forEach((o) => o.remove());
       const s = /* @__PURE__ */ new Map([["__ungrouped__", []]]);
       n.forEach((o) => {
         const a = o.group || "__ungrouped__";
@@ -6246,7 +6251,7 @@ function Oc(e) {
       }), s.forEach((o, a) => {
         if (o.length === 0) return;
         const l = document.createElement("div");
-        if (l.setAttribute("role", "group"), a !== "__ungrouped__") {
+        if (l.setAttribute("role", "group"), l.setAttribute("data-dynamic-item", "true"), a !== "__ungrouped__") {
           const c = i.get(a);
           if (c) {
             const u = document.getElementById(c);

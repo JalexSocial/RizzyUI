@@ -18,7 +18,7 @@ export default function(Alpine) {
         shouldFilter: true,
 
         // --- COMPUTED ---
-        get showEmpty() {
+        showEmpty() {
             return this.isEmpty && this.search;
         },
 
@@ -59,7 +59,14 @@ export default function(Alpine) {
             this.$watch('filteredItems', (items) => {
                 this.isOpen = items.length > 0;
                 this.isEmpty = items.length === 0;
-                this.$dispatch('rz:command:list-changed', { items: this.filteredItems, groups: this.groupTemplates, commandId: this.$el.id });
+
+                window.dispatchEvent(new CustomEvent('rz:command:list-changed', {
+                    detail: {
+                        items: this.filteredItems,
+                        groups: this.groupTemplates,
+                        commandId: this.$el.id
+                    }
+                }));
             });
 
             this.$el.addEventListener('rz:command:item-click', (e) => {

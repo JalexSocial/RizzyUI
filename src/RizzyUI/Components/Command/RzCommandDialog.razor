@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent<RzCommandDialog.Slots>
 
-<RzDialog @bind-Open="Open">
+<RzDialog @bind-Open="Open" EventTriggerName="@EventTriggerName">
     <DialogContent class="@SlotClasses.GetBase()" ShowCloseButton="@ShowCloseButton">
         <DialogHeader class="sr-only">
             <DialogTitle>@Title</DialogTitle>
