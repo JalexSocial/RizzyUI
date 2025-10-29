@@ -7995,6 +7995,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       activeDescendantId: null,
       isOpen: false,
       isEmpty: true,
+      firstRender: true,
       // --- CONFIG ---
       loop: false,
       shouldFilter: true,
@@ -8007,7 +8008,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this.loop = this.$el.dataset.loop === "true";
         this.shouldFilter = this.$el.dataset.shouldFilter !== "false";
         this.selectedValue = this.$el.dataset.selectedValue || null;
-        this.$watch("search", () => this.filterAndSortItems());
+        this.$watch("search", () => {
+          this.firstRender = false;
+          this.filterAndSortItems();
+        });
         this.$watch("selectedIndex", (index) => {
           if (index > -1 && this.filteredItems[index]) {
             const selectedItem = this.filteredItems[index];
@@ -8068,6 +8072,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         }
       },
       filterAndSortItems() {
+        if (this.firstRender) return;
         let items;
         if (!this.shouldFilter || !this.search) {
           items = this.items.map((item) => ({ ...item, score: 1 }));

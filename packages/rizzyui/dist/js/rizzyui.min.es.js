@@ -5463,6 +5463,7 @@ function yc(e) {
     activeDescendantId: null,
     isOpen: !1,
     isEmpty: !0,
+    firstRender: !0,
     // --- CONFIG ---
     loop: !1,
     shouldFilter: !0,
@@ -5472,7 +5473,9 @@ function yc(e) {
     },
     // --- LIFECYCLE ---
     init() {
-      this.loop = this.$el.dataset.loop === "true", this.shouldFilter = this.$el.dataset.shouldFilter !== "false", this.selectedValue = this.$el.dataset.selectedValue || null, this.$watch("search", () => this.filterAndSortItems()), this.$watch("selectedIndex", (t) => {
+      this.loop = this.$el.dataset.loop === "true", this.shouldFilter = this.$el.dataset.shouldFilter !== "false", this.selectedValue = this.$el.dataset.selectedValue || null, this.$watch("search", () => {
+        this.firstRender = !1, this.filterAndSortItems();
+      }), this.$watch("selectedIndex", (t) => {
         if (t > -1 && this.filteredItems[t]) {
           const n = this.filteredItems[t];
           this.activeDescendantId = n.id, this.$root.querySelector(`[data-command-item-id="${n.id}"]`)?.scrollIntoView({ block: "nearest" });
@@ -5510,6 +5513,7 @@ function yc(e) {
       this.groupTemplates.has(t) || this.groupTemplates.set(t, n);
     },
     filterAndSortItems() {
+      if (this.firstRender) return;
       let t;
       if (!this.shouldFilter || !this.search ? t = this.items.map((n) => ({ ...n, score: 1 })) : t = this.items.map((n) => ({
         ...n,
