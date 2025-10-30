@@ -34,13 +34,28 @@ export default function(Alpine) {
                 this.filterAndSortItems();
             });
 
-            this.$watch('selectedIndex', (index) => {
-                if (index > -1 && this.filteredItems[index]) {
-                    const selectedItem = this.filteredItems[index];
+            this.$watch('selectedIndex', (newIndex, oldIndex) => {
+                if (oldIndex > -1) {
+                    const oldItem = this.filteredItems[oldIndex];
+                    if (oldItem) {
+                        const oldEl = this.$el.querySelector(`[data-command-item-id="${oldItem.id}"]`);
+                        if (oldEl) {
+                            oldEl.removeAttribute('data-selected');
+                            oldEl.setAttribute('aria-selected', 'false');
+                        }
+                    }
+                }
+
+                if (newIndex > -1 && this.filteredItems[newIndex]) {
+                    const selectedItem = this.filteredItems[newIndex];
                     this.activeDescendantId = selectedItem.id;
                     
-                    const el = this.$root.querySelector(`[data-command-item-id="${selectedItem.id}"]`);
-                    el?.scrollIntoView({ block: 'nearest' });
+                    const el = this.$el.querySelector(`[data-command-item-id="${selectedItem.id}"]`);
+                    if (el) {
+                        el.setAttribute('data-selected', 'true');
+                        el.setAttribute('aria-selected', 'true');
+                        el.scrollIntoView({ block: 'nearest' });
+                    }
 
                     const newValue = selectedItem.value;
                     if (this.selectedValue !== newValue) {
@@ -64,23 +79,15 @@ export default function(Alpine) {
                 this.isOpen = items.length > 0;
                 this.isEmpty = items.length === 0;
 
-                window.dispatchEvent(new CustomEvent('rz:command:list-changed', {
-                    detail: {
-                        items: this.filteredItems,
-                        groups: this.groupTemplates,
-                        commandId: this.$el.id
-                    }
-                }));
-            });
-
-            this.$el.addEventListener('rz:command:item-click', (e) => {
-                const index = e.detail?.index ?? -1;
-                if (index > -1) {
-                    const item = this.filteredItems[index];
-                    if (item && !item.disabled) {
-                        this.selectedIndex = index;
-                        this.$dispatch('rz:command:execute', { value: item.value });
-                    }
+                if (!this.firstRender)
+                {
+                    window.dispatchEvent(new CustomEvent('rz:command:list-changed', {
+                        detail: {
+                            items: this.filteredItems,
+                            groups: this.groupTemplates,
+                            commandId: this.$el.id
+                        }
+                    }));
                 }
             });
         },
@@ -89,6 +96,10 @@ export default function(Alpine) {
         registerItem(item) {
             item._order = this.items.length;
             this.items.push(item);
+            
+            if (this.selectedIndex === -1)
+                this.selectedIndex = 0;
+            
             this.filterAndSortItems();
         },
 
@@ -104,8 +115,6 @@ export default function(Alpine) {
         },
 
         filterAndSortItems() {
-            
-            if (this.firstRender) return;
             
             let items;
             if (!this.shouldFilter || !this.search) {
@@ -131,6 +140,40 @@ export default function(Alpine) {
                 this.selectedIndex = newIndex > -1 ? newIndex : (this.filteredItems.length > 0 ? 0 : -1);
             } else {
                 this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
+            }
+        },
+
+        // --- EVENT HANDLERS ---
+        handleItemClick(event) {
+            const host = event.target.closest('[data-command-item-id]');
+            if (!host) return;
+
+            const itemId = host.dataset.commandItemId;
+            const index = this.filteredItems.findIndex(item => item.id === itemId);
+
+            if (index > -1) {
+                const item = this.filteredItems[index];
+                if (item && !item.disabled) {
+                    this.selectedIndex = index;
+                    this.$dispatch('rz:command:execute', { value: item.value });
+                }
+            }
+        },
+
+        handleItemHover(event) {
+            const host = event.target.closest('[data-command-item-id]');
+            if (!host) return;
+
+            const itemId = host.dataset.commandItemId;
+            const index = this.filteredItems.findIndex(item => item.id === itemId);
+
+            if (index > -1) {
+                const item = this.filteredItems[index];
+                if (item && !item.disabled) {
+                    if (this.selectedIndex !== index) {
+                        this.selectedIndex = index;
+                    }
+                }
             }
         },
 

@@ -10,24 +10,6 @@ export default function(Alpine) {
                 return;
             }
             this.parent = Alpine.$data(parentEl);
-
-            // Watch for keyboard navigation changes and update selection
-            this.$watch('parent.selectedIndex', (newValue, oldValue) => {
-                if (oldValue > -1) {
-                    const oldEl = this.$el.querySelector(`[data-index="${oldValue}"]`);
-                    if (oldEl) {
-                        oldEl.removeAttribute('data-selected');
-                        oldEl.setAttribute('aria-selected', 'false');
-                    }
-                }
-                if (newValue > -1) {
-                    const newEl = this.$el.querySelector(`[data-index="${newValue}"]`);
-                    if (newEl) {
-                        newEl.setAttribute('data-selected', 'true');
-                        newEl.setAttribute('aria-selected', 'true');
-                    }
-                }
-            });
         },
 
         renderList(event) {
@@ -54,6 +36,7 @@ export default function(Alpine) {
                 const groupContainer = document.createElement('div');
                 groupContainer.setAttribute('role', 'group');
                 groupContainer.setAttribute('data-dynamic-item', 'true');
+                groupContainer.setAttribute('data-slot', 'command-group');
 
                 if (groupName !== '__ungrouped__') {
                     const headingTemplateId = groups.get(groupName);
@@ -84,7 +67,6 @@ export default function(Alpine) {
                             if (item.disabled) {
                                 itemEl.setAttribute('aria-disabled', 'true');
                             }
-                            itemEl.dataset.index = itemIndex;
 
                             if (this.parent.selectedIndex === itemIndex) {
                                 itemEl.setAttribute('data-selected', 'true');
@@ -98,31 +80,6 @@ export default function(Alpine) {
 
                 container.appendChild(groupContainer);
             });
-        },
-
-        handleItemClick(event) {
-            const host = event.target.closest('[data-command-item-id]');
-            if (!host) return;
-
-            const index = parseInt(host.dataset.index, 10);
-            if (!isNaN(index)) {
-                this.$dispatch('rz:command:item-click', { index });
-            }
-        },
-
-        handleItemMouseover(event) {
-            const host = event.target.closest('[data-command-item-id]');
-            if (!host) return;
-
-            const index = parseInt(host.dataset.index, 10);
-            if (!isNaN(index)) {
-                const item = this.parent.filteredItems[index];
-                if (item && !item.disabled) {
-                    if (this.parent.selectedIndex !== index) {
-                        this.parent.selectedIndex = index;
-                    }
-                }
-            }
         }
     }));
 }

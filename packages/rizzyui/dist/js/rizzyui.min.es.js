@@ -5475,36 +5475,39 @@ function yc(e) {
     init() {
       this.loop = this.$el.dataset.loop === "true", this.shouldFilter = this.$el.dataset.shouldFilter !== "false", this.selectedValue = this.$el.dataset.selectedValue || null, this.$watch("search", () => {
         this.firstRender = !1, this.filterAndSortItems();
-      }), this.$watch("selectedIndex", (t) => {
+      }), this.$watch("selectedIndex", (t, n) => {
+        if (n > -1) {
+          const i = this.filteredItems[n];
+          if (i) {
+            const r = this.$el.querySelector(`[data-command-item-id="${i.id}"]`);
+            r && (r.removeAttribute("data-selected"), r.setAttribute("aria-selected", "false"));
+          }
+        }
         if (t > -1 && this.filteredItems[t]) {
-          const n = this.filteredItems[t];
-          this.activeDescendantId = n.id, this.$root.querySelector(`[data-command-item-id="${n.id}"]`)?.scrollIntoView({ block: "nearest" });
-          const r = n.value;
-          this.selectedValue !== r && (this.selectedValue = r, this.$dispatch("rz:command:select", { value: r }));
+          const i = this.filteredItems[t];
+          this.activeDescendantId = i.id;
+          const r = this.$el.querySelector(`[data-command-item-id="${i.id}"]`);
+          r && (r.setAttribute("data-selected", "true"), r.setAttribute("aria-selected", "true"), r.scrollIntoView({ block: "nearest" }));
+          const s = i.value;
+          this.selectedValue !== s && (this.selectedValue = s, this.$dispatch("rz:command:select", { value: s }));
         } else
           this.activeDescendantId = null, this.selectedValue = null;
       }), this.$watch("selectedValue", (t) => {
         const n = this.filteredItems.findIndex((i) => i.value === t);
         this.selectedIndex !== n && (this.selectedIndex = n);
       }), this.$watch("filteredItems", (t) => {
-        this.isOpen = t.length > 0, this.isEmpty = t.length === 0, window.dispatchEvent(new CustomEvent("rz:command:list-changed", {
+        this.isOpen = t.length > 0, this.isEmpty = t.length === 0, this.firstRender || window.dispatchEvent(new CustomEvent("rz:command:list-changed", {
           detail: {
             items: this.filteredItems,
             groups: this.groupTemplates,
             commandId: this.$el.id
           }
         }));
-      }), this.$el.addEventListener("rz:command:item-click", (t) => {
-        const n = t.detail?.index ?? -1;
-        if (n > -1) {
-          const i = this.filteredItems[n];
-          i && !i.disabled && (this.selectedIndex = n, this.$dispatch("rz:command:execute", { value: i.value }));
-        }
       });
     },
     // --- METHODS ---
     registerItem(t) {
-      t._order = this.items.length, this.items.push(t), this.filterAndSortItems();
+      t._order = this.items.length, this.items.push(t), this.selectedIndex === -1 && (this.selectedIndex = 0), this.filterAndSortItems();
     },
     unregisterItem(t) {
       this.items = this.items.filter((n) => n.id !== t), this.filterAndSortItems();
@@ -5513,7 +5516,6 @@ function yc(e) {
       this.groupTemplates.has(t) || this.groupTemplates.set(t, n);
     },
     filterAndSortItems() {
-      if (this.firstRender) return;
       let t;
       if (!this.shouldFilter || !this.search ? t = this.items.map((n) => ({ ...n, score: 1 })) : t = this.items.map((n) => ({
         ...n,
@@ -5523,6 +5525,25 @@ function yc(e) {
         this.selectedIndex = n > -1 ? n : this.filteredItems.length > 0 ? 0 : -1;
       } else
         this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
+    },
+    // --- EVENT HANDLERS ---
+    handleItemClick(t) {
+      const n = t.target.closest("[data-command-item-id]");
+      if (!n) return;
+      const i = n.dataset.commandItemId, r = this.filteredItems.findIndex((s) => s.id === i);
+      if (r > -1) {
+        const s = this.filteredItems[r];
+        s && !s.disabled && (this.selectedIndex = r, this.$dispatch("rz:command:execute", { value: s.value }));
+      }
+    },
+    handleItemHover(t) {
+      const n = t.target.closest("[data-command-item-id]");
+      if (!n) return;
+      const i = n.dataset.commandItemId, r = this.filteredItems.findIndex((s) => s.id === i);
+      if (r > -1) {
+        const s = this.filteredItems[r];
+        s && !s.disabled && this.selectedIndex !== r && (this.selectedIndex = r);
+      }
     },
     // --- KEYBOARD NAVIGATION ---
     handleKeydown(t) {
@@ -5637,16 +5658,7 @@ function xc(e) {
         console.error("CommandList must be a child of RzCommand.");
         return;
       }
-      this.parent = e.$data(t), this.$watch("parent.selectedIndex", (n, i) => {
-        if (i > -1) {
-          const r = this.$el.querySelector(`[data-index="${i}"]`);
-          r && (r.removeAttribute("data-selected"), r.setAttribute("aria-selected", "false"));
-        }
-        if (n > -1) {
-          const r = this.$el.querySelector(`[data-index="${n}"]`);
-          r && (r.setAttribute("data-selected", "true"), r.setAttribute("aria-selected", "true"));
-        }
-      });
+      this.parent = e.$data(t);
     },
     renderList(t) {
       if (t.detail.commandId !== this.parent.$el.id) return;
@@ -5659,7 +5671,7 @@ function xc(e) {
       }), s.forEach((o, a) => {
         if (o.length === 0) return;
         const l = document.createElement("div");
-        if (l.setAttribute("role", "group"), l.setAttribute("data-dynamic-item", "true"), a !== "__ungrouped__") {
+        if (l.setAttribute("role", "group"), l.setAttribute("data-dynamic-item", "true"), l.setAttribute("data-slot", "command-group"), a !== "__ungrouped__") {
           const c = i.get(a);
           if (c) {
             const u = document.getElementById(c);
@@ -5673,25 +5685,10 @@ function xc(e) {
           const u = this.parent.filteredItems.indexOf(c), d = document.getElementById(c.templateId);
           if (d && d.content) {
             const g = d.content.cloneNode(!0).querySelector(`[data-command-item-id="${c.id}"]`);
-            g && (g.id = c.id, g.setAttribute("role", "option"), g.setAttribute("aria-selected", this.parent.selectedIndex === u), c.disabled && g.setAttribute("aria-disabled", "true"), g.dataset.index = u, this.parent.selectedIndex === u && g.setAttribute("data-selected", "true"), l.appendChild(g), e.initTree(g));
+            g && (g.id = c.id, g.setAttribute("role", "option"), g.setAttribute("aria-selected", this.parent.selectedIndex === u), c.disabled && g.setAttribute("aria-disabled", "true"), this.parent.selectedIndex === u && g.setAttribute("data-selected", "true"), l.appendChild(g), e.initTree(g));
           }
         }), r.appendChild(l);
       });
-    },
-    handleItemClick(t) {
-      const n = t.target.closest("[data-command-item-id]");
-      if (!n) return;
-      const i = parseInt(n.dataset.index, 10);
-      isNaN(i) || this.$dispatch("rz:command:item-click", { index: i });
-    },
-    handleItemMouseover(t) {
-      const n = t.target.closest("[data-command-item-id]");
-      if (!n) return;
-      const i = parseInt(n.dataset.index, 10);
-      if (!isNaN(i)) {
-        const r = this.parent.filteredItems[i];
-        r && !r.disabled && this.parent.selectedIndex !== i && (this.parent.selectedIndex = i);
-      }
     }
   }));
 }

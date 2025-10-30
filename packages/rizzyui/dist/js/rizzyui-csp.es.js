@@ -8790,12 +8790,26 @@ function registerRzCommand(Alpine2) {
         this.firstRender = false;
         this.filterAndSortItems();
       });
-      this.$watch("selectedIndex", (index) => {
-        if (index > -1 && this.filteredItems[index]) {
-          const selectedItem = this.filteredItems[index];
+      this.$watch("selectedIndex", (newIndex, oldIndex) => {
+        if (oldIndex > -1) {
+          const oldItem = this.filteredItems[oldIndex];
+          if (oldItem) {
+            const oldEl = this.$el.querySelector(`[data-command-item-id="${oldItem.id}"]`);
+            if (oldEl) {
+              oldEl.removeAttribute("data-selected");
+              oldEl.setAttribute("aria-selected", "false");
+            }
+          }
+        }
+        if (newIndex > -1 && this.filteredItems[newIndex]) {
+          const selectedItem = this.filteredItems[newIndex];
           this.activeDescendantId = selectedItem.id;
-          const el = this.$root.querySelector(`[data-command-item-id="${selectedItem.id}"]`);
-          el?.scrollIntoView({ block: "nearest" });
+          const el = this.$el.querySelector(`[data-command-item-id="${selectedItem.id}"]`);
+          if (el) {
+            el.setAttribute("data-selected", "true");
+            el.setAttribute("aria-selected", "true");
+            el.scrollIntoView({ block: "nearest" });
+          }
           const newValue = selectedItem.value;
           if (this.selectedValue !== newValue) {
             this.selectedValue = newValue;
@@ -8815,22 +8829,14 @@ function registerRzCommand(Alpine2) {
       this.$watch("filteredItems", (items) => {
         this.isOpen = items.length > 0;
         this.isEmpty = items.length === 0;
-        window.dispatchEvent(new CustomEvent("rz:command:list-changed", {
-          detail: {
-            items: this.filteredItems,
-            groups: this.groupTemplates,
-            commandId: this.$el.id
-          }
-        }));
-      });
-      this.$el.addEventListener("rz:command:item-click", (e2) => {
-        const index = e2.detail?.index ?? -1;
-        if (index > -1) {
-          const item = this.filteredItems[index];
-          if (item && !item.disabled) {
-            this.selectedIndex = index;
-            this.$dispatch("rz:command:execute", { value: item.value });
-          }
+        if (!this.firstRender) {
+          window.dispatchEvent(new CustomEvent("rz:command:list-changed", {
+            detail: {
+              items: this.filteredItems,
+              groups: this.groupTemplates,
+              commandId: this.$el.id
+            }
+          }));
         }
       });
     },
@@ -8838,6 +8844,8 @@ function registerRzCommand(Alpine2) {
     registerItem(item) {
       item._order = this.items.length;
       this.items.push(item);
+      if (this.selectedIndex === -1)
+        this.selectedIndex = 0;
       this.filterAndSortItems();
     },
     unregisterItem(itemId) {
@@ -8850,7 +8858,6 @@ function registerRzCommand(Alpine2) {
       }
     },
     filterAndSortItems() {
-      if (this.firstRender) return;
       let items;
       if (!this.shouldFilter || !this.search) {
         items = this.items.map((item) => ({ ...item, score: 1 }));
@@ -8871,6 +8878,34 @@ function registerRzCommand(Alpine2) {
         this.selectedIndex = newIndex > -1 ? newIndex : this.filteredItems.length > 0 ? 0 : -1;
       } else {
         this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
+      }
+    },
+    // --- EVENT HANDLERS ---
+    handleItemClick(event2) {
+      const host = event2.target.closest("[data-command-item-id]");
+      if (!host) return;
+      const itemId = host.dataset.commandItemId;
+      const index = this.filteredItems.findIndex((item) => item.id === itemId);
+      if (index > -1) {
+        const item = this.filteredItems[index];
+        if (item && !item.disabled) {
+          this.selectedIndex = index;
+          this.$dispatch("rz:command:execute", { value: item.value });
+        }
+      }
+    },
+    handleItemHover(event2) {
+      const host = event2.target.closest("[data-command-item-id]");
+      if (!host) return;
+      const itemId = host.dataset.commandItemId;
+      const index = this.filteredItems.findIndex((item) => item.id === itemId);
+      if (index > -1) {
+        const item = this.filteredItems[index];
+        if (item && !item.disabled) {
+          if (this.selectedIndex !== index) {
+            this.selectedIndex = index;
+          }
+        }
       }
     },
     // --- KEYBOARD NAVIGATION ---
@@ -9033,22 +9068,6 @@ function registerRzCommandList(Alpine2) {
         return;
       }
       this.parent = Alpine2.$data(parentEl);
-      this.$watch("parent.selectedIndex", (newValue, oldValue) => {
-        if (oldValue > -1) {
-          const oldEl = this.$el.querySelector(`[data-index="${oldValue}"]`);
-          if (oldEl) {
-            oldEl.removeAttribute("data-selected");
-            oldEl.setAttribute("aria-selected", "false");
-          }
-        }
-        if (newValue > -1) {
-          const newEl = this.$el.querySelector(`[data-index="${newValue}"]`);
-          if (newEl) {
-            newEl.setAttribute("data-selected", "true");
-            newEl.setAttribute("aria-selected", "true");
-          }
-        }
-      });
     },
     renderList(event2) {
       if (event2.detail.commandId !== this.parent.$el.id) return;
@@ -9069,6 +9088,7 @@ function registerRzCommandList(Alpine2) {
         const groupContainer = document.createElement("div");
         groupContainer.setAttribute("role", "group");
         groupContainer.setAttribute("data-dynamic-item", "true");
+        groupContainer.setAttribute("data-slot", "command-group");
         if (groupName !== "__ungrouped__") {
           const headingTemplateId = groups.get(groupName);
           if (headingTemplateId) {
@@ -9096,7 +9116,6 @@ function registerRzCommandList(Alpine2) {
               if (item.disabled) {
                 itemEl.setAttribute("aria-disabled", "true");
               }
-              itemEl.dataset.index = itemIndex;
               if (this.parent.selectedIndex === itemIndex) {
                 itemEl.setAttribute("data-selected", "true");
               }
@@ -9107,27 +9126,6 @@ function registerRzCommandList(Alpine2) {
         });
         container.appendChild(groupContainer);
       });
-    },
-    handleItemClick(event2) {
-      const host = event2.target.closest("[data-command-item-id]");
-      if (!host) return;
-      const index = parseInt(host.dataset.index, 10);
-      if (!isNaN(index)) {
-        this.$dispatch("rz:command:item-click", { index });
-      }
-    },
-    handleItemMouseover(event2) {
-      const host = event2.target.closest("[data-command-item-id]");
-      if (!host) return;
-      const index = parseInt(host.dataset.index, 10);
-      if (!isNaN(index)) {
-        const item = this.parent.filteredItems[index];
-        if (item && !item.disabled) {
-          if (this.parent.selectedIndex !== index) {
-            this.parent.selectedIndex = index;
-          }
-        }
-      }
     }
   }));
 }
