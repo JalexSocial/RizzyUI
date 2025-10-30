@@ -34,11 +34,13 @@ When the user requests code, wrap each file in a single **`output` block** so au
   <!-- C# code-behind -->
   </file>
 </files>
-```````
+```
+````
 
 *   Never nest `<files>` elements.
 *   Always close every `<file>` tag.
 *   If no new files are needed, **omit** the `output` block entirely.
+*   Wrap the entire files response in a single markdown `output` block when generating multiple files.
 
 ---
 
