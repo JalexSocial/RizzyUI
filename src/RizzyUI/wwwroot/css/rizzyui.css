@@ -5505,6 +5505,16 @@
       --tw-exit-opacity: 0;
     }
   }
+  .data-\[selected\=true\]\:bg-accent {
+    &[data-selected="true"] {
+      background-color: var(--accent);
+    }
+  }
+  .data-\[selected\=true\]\:text-accent-foreground {
+    &[data-selected="true"] {
+      color: var(--accent-foreground);
+    }
+  }
   .data-\[side\=bottom\]\:slide-in-from-top-2 {
     &[data-side="bottom"] {
       --tw-enter-translate-y: calc(2*var(--spacing)*-1);

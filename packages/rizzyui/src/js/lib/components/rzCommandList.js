@@ -2,7 +2,6 @@
 export default function(Alpine) {
     Alpine.data('rzCommandList', () => ({
         parent: null,
-        _previousIndex: -1,
 
         init() {
             const parentEl = this.$el.closest('[x-data="rzCommand"]');
@@ -12,26 +11,22 @@ export default function(Alpine) {
             }
             this.parent = Alpine.$data(parentEl);
 
-            this.$watch('parent.selectedIndex', (newIndex) => {
-                // Deselect previous item
-                if (this._previousIndex > -1) {
-                    const prevItemEl = this.$el.querySelector(`[data-index="${this._previousIndex}"]`);
-                    if (prevItemEl) {
-                        prevItemEl.setAttribute('aria-selected', 'false');
-                        prevItemEl.removeAttribute('data-selected');
+            // Watch for keyboard navigation changes and update selection
+            this.$watch('parent.selectedIndex', (newValue, oldValue) => {
+                if (oldValue > -1) {
+                    const oldEl = this.$el.querySelector(`[data-index="${oldValue}"]`);
+                    if (oldEl) {
+                        oldEl.removeAttribute('data-selected');
+                        oldEl.setAttribute('aria-selected', 'false');
                     }
                 }
-
-                // Select new item
-                if (newIndex > -1) {
-                    const newItemEl = this.$el.querySelector(`[data-index="${newIndex}"]`);
-                    if (newItemEl) {
-                        newItemEl.setAttribute('aria-selected', 'true');
-                        newItemEl.setAttribute('data-selected', 'true');
+                if (newValue > -1) {
+                    const newEl = this.$el.querySelector(`[data-index="${newValue}"]`);
+                    if (newEl) {
+                        newEl.setAttribute('data-selected', 'true');
+                        newEl.setAttribute('aria-selected', 'true');
                     }
                 }
-                
-                this._previousIndex = newIndex;
             });
         },
 
@@ -77,34 +72,32 @@ export default function(Alpine) {
 
                 groupItems.forEach(item => {
                     const itemIndex = this.parent.filteredItems.indexOf(item);
-                    const host = document.createElement('div');
-                    host.id = item.id;
-                    host.setAttribute('role', 'option');
-                    host.setAttribute('aria-selected', this.parent.selectedIndex === itemIndex);
-                    if (item.disabled) {
-                        host.setAttribute('aria-disabled', 'true');
-                    }
-                    host.dataset.commandItemId = item.id;
-                    host.dataset.index = itemIndex;
-
-                    if (this.parent.selectedIndex === itemIndex) {
-                        host.setAttribute('data-selected', 'true');
-                    }
-
                     const template = document.getElementById(item.templateId);
                     if (template && template.content) {
                         const clone = template.content.cloneNode(true);
-                        host.appendChild(clone);
-                        Alpine.initTree(host);
-                    }
+                        const itemEl = clone.querySelector(`[data-command-item-id="${item.id}"]`);
+                        
+                        if (itemEl) {
+                            itemEl.id = item.id;
+                            itemEl.setAttribute('role', 'option');
+                            itemEl.setAttribute('aria-selected', this.parent.selectedIndex === itemIndex);
+                            if (item.disabled) {
+                                itemEl.setAttribute('aria-disabled', 'true');
+                            }
+                            itemEl.dataset.index = itemIndex;
 
-                    groupContainer.appendChild(host);
+                            if (this.parent.selectedIndex === itemIndex) {
+                                itemEl.setAttribute('data-selected', 'true');
+                            }
+                            
+                            groupContainer.appendChild(itemEl);
+                            Alpine.initTree(itemEl);
+                        }
+                    }
                 });
 
                 container.appendChild(groupContainer);
             });
-            
-            this._previousIndex = this.parent.selectedIndex;
         },
 
         handleItemClick(event) {
