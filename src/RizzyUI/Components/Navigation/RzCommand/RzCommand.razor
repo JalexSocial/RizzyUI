@@ -4,7 +4,7 @@
 
 <CascadingValue Value="this" IsFixed="true">
     <HtmlElement Element="@EffectiveElement" 
-                 @attributes="AdditionalAttributes" 
+                 @attributes="@AdditionalAttributes" 
                  id="@Id" 
                  class="@SlotClasses.GetBase()"
                  data-slot="command"
@@ -13,7 +13,20 @@
                  data-loop="@(Loop.ToString().ToLowerInvariant())"
                  data-should-filter="@(ShouldFilter.ToString().ToLowerInvariant())"
                  data-selected-value="@SelectedValue"
+                 data-items-id="@DataScriptId"
+                 data-items-url="@ItemsUrl"
+                 data-fetch-trigger="@FetchTrigger.ToString().ToLowerInvariant()"
+                 data-server-filtering="@(ServerFiltering.ToString().ToLowerInvariant())"
+                 data-template-id="@DataItemTemplateId"
                  aria-label="@AriaLabel">
+        
+        @if (string.IsNullOrEmpty(ItemsUrl) && Items.Any())
+        {
+            <script type="application/json" id="@DataScriptId">
+                @((MarkupString)_serializedItems)
+            </script>
+        }
+
         @ChildContent
     </HtmlElement>
 </CascadingValue>

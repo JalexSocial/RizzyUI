@@ -2,6 +2,7 @@
 export default function(Alpine) {
     Alpine.data('rzCommandList', () => ({
         parent: null,
+        dataItemTemplate: null,
 
         init() {
             const parentEl = this.$el.closest('[x-data="rzCommand"]');
@@ -10,6 +11,9 @@ export default function(Alpine) {
                 return;
             }
             this.parent = Alpine.$data(parentEl);
+            if (this.parent.dataItemTemplateId) {
+                this.dataItemTemplate = document.getElementById(this.parent.dataItemTemplateId);
+            }
         },
 
         renderList(event) {
@@ -55,26 +59,47 @@ export default function(Alpine) {
 
                 groupItems.forEach(item => {
                     const itemIndex = this.parent.filteredItems.indexOf(item);
-                    const template = document.getElementById(item.templateId);
-                    if (template && template.content) {
-                        const clone = template.content.cloneNode(true);
-                        const itemEl = clone.querySelector(`[data-command-item-id="${item.id}"]`);
-                        
-                        if (itemEl) {
-                            itemEl.id = item.id;
-                            itemEl.setAttribute('role', 'option');
-                            itemEl.setAttribute('aria-selected', this.parent.selectedIndex === itemIndex);
-                            if (item.disabled) {
-                                itemEl.setAttribute('aria-disabled', 'true');
-                            }
+                    let itemEl;
 
-                            if (this.parent.selectedIndex === itemIndex) {
-                                itemEl.setAttribute('data-selected', 'true');
-                            }
-                            
-                            groupContainer.appendChild(itemEl);
-                            Alpine.initTree(itemEl);
+                    if (item.isDataItem) {
+                        if (!this.dataItemTemplate) {
+                            // This check is now also performed in rzCommand.js, but we keep it here as a safeguard.
+                            return;
                         }
+                        const clone = this.dataItemTemplate.content.cloneNode(true);
+                        itemEl = clone.firstElementChild;
+                        // Add a reactive scope for this item, making `item.property` available in the template
+                        Alpine.addScopeToNode(itemEl, { item: item });
+                    } else {
+                        const template = document.getElementById(item.templateId);
+                        if (template && template.content) {
+                            const clone = template.content.cloneNode(true);
+                            itemEl = clone.querySelector(`[data-command-item-id="${item.id}"]`);
+                        }
+                    }
+                    
+                    if (itemEl) {
+                        // Dynamically set attributes from the item data
+                        itemEl.setAttribute('data-command-item-id', item.id);
+                        itemEl.setAttribute('data-value', item.value);
+                        if (item.keywords) itemEl.setAttribute('data-keywords', JSON.stringify(item.keywords));
+                        if (item.group) itemEl.setAttribute('data-group', item.group);
+                        if (item.disabled) itemEl.setAttribute('data-disabled', 'true');
+                        if (item.forceMount) itemEl.setAttribute('data-force-mount', 'true');
+
+                        // Set accessibility and state attributes
+                        itemEl.setAttribute('role', 'option');
+                        itemEl.setAttribute('aria-selected', this.parent.selectedIndex === itemIndex);
+                        if (item.disabled) {
+                            itemEl.setAttribute('aria-disabled', 'true');
+                        }
+
+                        if (this.parent.selectedIndex === itemIndex) {
+                            itemEl.setAttribute('data-selected', 'true');
+                        }
+                        
+                        groupContainer.appendChild(itemEl);
+                        Alpine.initTree(itemEl);
                     }
                 });
 

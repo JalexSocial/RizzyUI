@@ -396,5 +396,6 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<CommandItem.Slots>, CommandItem.Slots> CommandItem { get; set; }
     public virtual TvDescriptor<RzComponent<CommandSeparator.Slots>, CommandSeparator.Slots> CommandSeparator { get; set; }
     public virtual TvDescriptor<RzComponent<CommandShortcut.Slots>, CommandShortcut.Slots> CommandShortcut { get; set; }
-    
+	public virtual TvDescriptor<RzComponent<CommandItemTemplate.Slots>, CommandItemTemplate.Slots> CommandItemTemplate { get; set; }
+ 
 }

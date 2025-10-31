@@ -233,7 +233,8 @@ public partial class RzTheme
         CommandGroup = RizzyUI.CommandGroup.DefaultDescriptor;
         CommandItem = RizzyUI.CommandItem.DefaultDescriptor;
         CommandSeparator = RizzyUI.CommandSeparator.DefaultDescriptor;
-        CommandShortcut = RizzyUI.CommandShortcut.DefaultDescriptor;    
+        CommandShortcut = RizzyUI.CommandShortcut.DefaultDescriptor;  
+        CommandItemTemplate = RizzyUI.CommandItemTemplate.DefaultDescriptor;
     }
 
     /// <summary>

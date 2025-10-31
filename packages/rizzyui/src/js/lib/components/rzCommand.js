@@ -13,25 +13,73 @@ export default function(Alpine) {
         isOpen: false,
         isEmpty: true,
         firstRender: true,
+        isLoading: false,
+        error: null,
         
         // --- CONFIG ---
         loop: false,
         shouldFilter: true,
+        itemsUrl: null,
+        fetchTrigger: 'immediate',
+        serverFiltering: false,
+        dataItemTemplateId: null,
+        _dataFetched: false,
+        _debounceTimer: null,
 
-        // --- COMPUTED ---
-        showEmpty() {
-            return this.isEmpty && this.search;
-        },
+        // --- COMPUTED (CSP-Compliant Methods) ---
+        showLoading() { return this.isLoading; },
+        hasError() { return this.error !== null; },
+        notHasError() { return this.error == null; },
+        shouldShowEmpty() { return this.isEmpty && this.search && !this.isLoading && !this.error; },
+        shouldShowEmptyOrError() { return (this.isEmpty && this.search && !this.isLoading) || this.error !== null; },
 
         // --- LIFECYCLE ---
         init() {
             this.loop = this.$el.dataset.loop === 'true';
             this.shouldFilter = this.$el.dataset.shouldFilter !== 'false';
             this.selectedValue = this.$el.dataset.selectedValue || null;
+            this.itemsUrl = this.$el.dataset.itemsUrl || null;
+            this.fetchTrigger = this.$el.dataset.fetchTrigger || 'immediate';
+            this.serverFiltering = this.$el.dataset.serverFiltering === 'true';
+            this.dataItemTemplateId = this.$el.dataset.templateId || null;
 
-            this.$watch('search', () => {
+            const itemsScriptId = this.$el.dataset.itemsId;
+            let staticItems = [];
+            if (itemsScriptId) {
+                const itemsScript = document.getElementById(itemsScriptId);
+                if (itemsScript) {
+                    try {
+                        staticItems = JSON.parse(itemsScript.textContent || '[]');
+                    } catch (e) {
+                        console.error(`RzCommand: Failed to parse JSON from script tag #${itemsScriptId}`, e);
+                    }
+                }
+            }
+
+            if (staticItems.length > 0 && !this.dataItemTemplateId) {
+                console.error('RzCommand: `Items` were provided, but no `<CommandItemTemplate>` was found to render them.');
+            }
+
+            staticItems.forEach(item => {
+                item.id = item.id || `static-item-${crypto.randomUUID()}`;
+                item.isDataItem = true; 
+                this.registerItem(item);
+            });
+
+            if (this.itemsUrl && this.fetchTrigger === 'immediate') {
+                this.fetchItems();
+            }
+
+            this.$watch('search', (newValue) => {
                 this.firstRender = false;
-                this.filterAndSortItems();
+                if (this.serverFiltering) {
+                    clearTimeout(this._debounceTimer);
+                    this._debounceTimer = setTimeout(() => {
+                        this.fetchItems(newValue);
+                    }, 300); // Debounce server requests
+                } else {
+                    this.filterAndSortItems();
+                }
             });
 
             this.$watch('selectedIndex', (newIndex, oldIndex) => {
@@ -76,7 +124,7 @@ export default function(Alpine) {
             });
 
             this.$watch('filteredItems', (items) => {
-                this.isOpen = items.length > 0;
+                this.isOpen = items.length > 0 || this.isLoading;
                 this.isEmpty = items.length === 0;
 
                 if (!this.firstRender)
@@ -93,14 +141,67 @@ export default function(Alpine) {
         },
 
         // --- METHODS ---
+        async fetchItems(query = '') {
+            if (!this.itemsUrl) return;
+            if (!this.dataItemTemplateId) {
+                console.error('RzCommand: `ItemsUrl` was provided, but no `<CommandItemTemplate>` was found to render the data.');
+                this.error = 'Configuration error: No data template found.';
+                return;
+            }
+
+            this.isLoading = true;
+            this.error = null;
+
+            try {
+                const url = new URL(this.itemsUrl, window.location.origin);
+                if (this.serverFiltering && query) {
+                    url.searchParams.append('q', query);
+                }
+                
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                const data = await response.json();
+
+                // On server filtering, we replace items. Otherwise, we merge.
+                if (this.serverFiltering) {
+                    this.items = this.items.filter(i => !i.isDataItem); // Keep declarative items
+                }
+
+                data.forEach(item => {
+                    item.id = item.id || `data-item-${crypto.randomUUID()}`;
+                    item.isDataItem = true;
+                    this.registerItem(item);
+                });
+                
+                this._dataFetched = true;
+            } catch (e) {
+                this.error = e.message || 'Failed to fetch command items.';
+                console.error('RzCommand:', this.error);
+            } finally {
+                this.isLoading = false;
+                this.filterAndSortItems();
+            }
+        },
+
+        handleInteraction() {
+            if (this.itemsUrl && this.fetchTrigger === 'onopen' && !this._dataFetched) {
+                this.fetchItems();
+            }
+        },
+
         registerItem(item) {
+            if (this.items.some(i => i.id === item.id)) return;
             item._order = this.items.length;
             this.items.push(item);
             
             if (this.selectedIndex === -1)
                 this.selectedIndex = 0;
             
-            this.filterAndSortItems();
+            if (!this.serverFiltering) {
+                this.filterAndSortItems();
+            }
         },
 
         unregisterItem(itemId) {
@@ -115,6 +216,11 @@ export default function(Alpine) {
         },
 
         filterAndSortItems() {
+            if (this.serverFiltering && this._dataFetched) {
+                this.filteredItems = this.items;
+                this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
+                return;
+            }
             
             let items;
             if (!this.shouldFilter || !this.search) {
@@ -123,7 +229,7 @@ export default function(Alpine) {
                 items = this.items
                     .map(item => ({
                         ...item,
-                        score: item.forceMount ? 0 : this.commandScore(item.value, this.search, item.keywords)
+                        score: item.forceMount ? 0 : this.commandScore(item.name, this.search, item.keywords)
                     }))
                     .filter(item => item.score > 0 || item.forceMount)
                     .sort((a, b) => {
@@ -255,7 +361,7 @@ export default function(Alpine) {
             const IS_GAP_REGEXP = /[\\/_+.#"@[\(\{&]/;
             const IS_SPACE_REGEXP = /[\s-]/;
 
-            const fullString = `${string} ${keywords.join(' ')}`;
+            const fullString = `${string} ${keywords ? keywords.join(' ') : ''}`;
 
             function formatInput(str) {
                 return str.toLowerCase().replace(/[\s-]/g, ' ');

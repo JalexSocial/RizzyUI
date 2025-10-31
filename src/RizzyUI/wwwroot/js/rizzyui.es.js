@@ -7992,21 +7992,75 @@ function registerRzCommand(Alpine2) {
     isOpen: false,
     isEmpty: true,
     firstRender: true,
+    isLoading: false,
+    error: null,
     // --- CONFIG ---
     loop: false,
     shouldFilter: true,
-    // --- COMPUTED ---
-    showEmpty() {
-      return this.isEmpty && this.search;
+    itemsUrl: null,
+    fetchTrigger: "immediate",
+    serverFiltering: false,
+    dataItemTemplateId: null,
+    _dataFetched: false,
+    _debounceTimer: null,
+    // --- COMPUTED (CSP-Compliant Methods) ---
+    showLoading() {
+      return this.isLoading;
+    },
+    hasError() {
+      return this.error !== null;
+    },
+    notHasError() {
+      return this.error == null;
+    },
+    shouldShowEmpty() {
+      return this.isEmpty && this.search && !this.isLoading && !this.error;
+    },
+    shouldShowEmptyOrError() {
+      return this.isEmpty && this.search && !this.isLoading || this.error !== null;
     },
     // --- LIFECYCLE ---
     init() {
       this.loop = this.$el.dataset.loop === "true";
       this.shouldFilter = this.$el.dataset.shouldFilter !== "false";
       this.selectedValue = this.$el.dataset.selectedValue || null;
-      this.$watch("search", () => {
+      this.itemsUrl = this.$el.dataset.itemsUrl || null;
+      this.fetchTrigger = this.$el.dataset.fetchTrigger || "immediate";
+      this.serverFiltering = this.$el.dataset.serverFiltering === "true";
+      this.dataItemTemplateId = this.$el.dataset.templateId || null;
+      const itemsScriptId = this.$el.dataset.itemsId;
+      let staticItems = [];
+      if (itemsScriptId) {
+        const itemsScript = document.getElementById(itemsScriptId);
+        if (itemsScript) {
+          try {
+            staticItems = JSON.parse(itemsScript.textContent || "[]");
+          } catch (e2) {
+            console.error(`RzCommand: Failed to parse JSON from script tag #${itemsScriptId}`, e2);
+          }
+        }
+      }
+      if (staticItems.length > 0 && !this.dataItemTemplateId) {
+        console.error("RzCommand: `Items` were provided, but no `<CommandItemTemplate>` was found to render them.");
+      }
+      staticItems.forEach((item) => {
+        item.id = item.id || `static-item-${crypto.randomUUID()}`;
+        item.isDataItem = true;
+        this.registerItem(item);
+      });
+      if (this.itemsUrl && this.fetchTrigger === "immediate") {
+        this.fetchItems();
+      }
+      this.$watch("search", (newValue) => {
         this.firstRender = false;
-        this.filterAndSortItems();
+        if (this.serverFiltering) {
+          clearTimeout(this._debounceTimer);
+          this._debounceTimer = setTimeout(() => {
+            this.fetchItems(newValue);
+          }, 300);
+        } else {
+          this.filterAndSortItems();
+        }
       });
       this.$watch("selectedIndex", (newIndex, oldIndex) => {
         if (oldIndex > -1) {
@@ -8045,7 +8099,7 @@ function registerRzCommand(Alpine2) {
         }
       });
       this.$watch("filteredItems", (items) => {
-        this.isOpen = items.length > 0;
+        this.isOpen = items.length > 0 || this.isLoading;
         this.isEmpty = items.length === 0;
         if (!this.firstRender) {
           window.dispatchEvent(new CustomEvent("rz:command:list-changed", {
@@ -8059,12 +8113,56 @@ function registerRzCommand(Alpine2) {
       });
     },
     // --- METHODS ---
+    async fetchItems(query = "") {
+      if (!this.itemsUrl) return;
+      if (!this.dataItemTemplateId) {
+        console.error("RzCommand: `ItemsUrl` was provided, but no `<CommandItemTemplate>` was found to render the data.");
+        this.error = "Configuration error: No data template found.";
+        return;
+      }
+      this.isLoading = true;
+      this.error = null;
+      try {
+        const url = new URL(this.itemsUrl, window.location.origin);
+        if (this.serverFiltering && query) {
+          url.searchParams.append("q", query);
+        }
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        const data2 = await response.json();
+        if (this.serverFiltering) {
+          this.items = this.items.filter((i2) => !i2.isDataItem);
+        }
+        data2.forEach((item) => {
+          item.id = item.id || `data-item-${crypto.randomUUID()}`;
+          item.isDataItem = true;
+          this.registerItem(item);
+        });
+        this._dataFetched = true;
+      } catch (e2) {
+        this.error = e2.message || "Failed to fetch command items.";
+        console.error("RzCommand:", this.error);
+      } finally {
+        this.isLoading = false;
+        this.filterAndSortItems();
+      }
+    },
+    handleInteraction() {
+      if (this.itemsUrl && this.fetchTrigger === "onopen" && !this._dataFetched) {
+        this.fetchItems();
+      }
+    },
     registerItem(item) {
+      if (this.items.some((i2) => i2.id === item.id)) return;
       item._order = this.items.length;
       this.items.push(item);
       if (this.selectedIndex === -1)
         this.selectedIndex = 0;
-      this.filterAndSortItems();
+      if (!this.serverFiltering) {
+        this.filterAndSortItems();
+      }
     },
     unregisterItem(itemId) {
       this.items = this.items.filter((i2) => i2.id !== itemId);
@@ -8076,13 +8174,18 @@ function registerRzCommand(Alpine2) {
       }
     },
     filterAndSortItems() {
+      if (this.serverFiltering && this._dataFetched) {
+        this.filteredItems = this.items;
+        this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
+        return;
+      }
       let items;
       if (!this.shouldFilter || !this.search) {
         items = this.items.map((item) => ({ ...item, score: 1 }));
       } else {
         items = this.items.map((item) => ({
           ...item,
-          score: item.forceMount ? 0 : this.commandScore(item.value, this.search, item.keywords)
+          score: item.forceMount ? 0 : this.commandScore(item.name, this.search, item.keywords)
         })).filter((item) => item.score > 0 || item.forceMount).sort((a2, b) => {
           if (a2.forceMount && !b.forceMount) return 1;
           if (!a2.forceMount && b.forceMount) return -1;
@@ -8203,7 +8306,7 @@ function registerRzCommand(Alpine2) {
       const PENALTY_NOT_COMPLETE = 0.99;
       const IS_GAP_REGEXP = /[\\/_+.#"@[\(\{&]/;
       const IS_SPACE_REGEXP = /[\s-]/;
-      const fullString = `${string} ${keywords.join(" ")}`;
+      const fullString = `${string} ${keywords ? keywords.join(" ") : ""}`;
       function formatInput(str) {
         return str.toLowerCase().replace(/[\s-]/g, " ");
       }
@@ -8279,6 +8382,7 @@ function registerRzCommandItem(Alpine2) {
 function registerRzCommandList(Alpine2) {
   Alpine2.data("rzCommandList", () => ({
     parent: null,
+    dataItemTemplate: null,
     init() {
       const parentEl = this.$el.closest('[x-data="rzCommand"]');
       if (!parentEl) {
@@ -8286,6 +8390,9 @@ function registerRzCommandList(Alpine2) {
         return;
       }
       this.parent = Alpine2.$data(parentEl);
+      if (this.parent.dataItemTemplateId) {
+        this.dataItemTemplate = document.getElementById(this.parent.dataItemTemplateId);
+      }
     },
     renderList(event2) {
       if (event2.detail.commandId !== this.parent.$el.id) return;
@@ -8323,23 +8430,38 @@ function registerRzCommandList(Alpine2) {
         }
         groupItems.forEach((item) => {
           const itemIndex = this.parent.filteredItems.indexOf(item);
-          const template = document.getElementById(item.templateId);
-          if (template && template.content) {
-            const clone2 = template.content.cloneNode(true);
-            const itemEl = clone2.querySelector(`[data-command-item-id="${item.id}"]`);
-            if (itemEl) {
-              itemEl.id = item.id;
-              itemEl.setAttribute("role", "option");
-              itemEl.setAttribute("aria-selected", this.parent.selectedIndex === itemIndex);
-              if (item.disabled) {
-                itemEl.setAttribute("aria-disabled", "true");
-              }
-              if (this.parent.selectedIndex === itemIndex) {
-                itemEl.setAttribute("data-selected", "true");
-              }
-              groupContainer.appendChild(itemEl);
-              Alpine2.initTree(itemEl);
+          let itemEl;
+          if (item.isDataItem) {
+            if (!this.dataItemTemplate) {
+              return;
             }
+            const clone2 = this.dataItemTemplate.content.cloneNode(true);
+            itemEl = clone2.firstElementChild;
+            Alpine2.addScopeToNode(itemEl, { item });
+          } else {
+            const template = document.getElementById(item.templateId);
+            if (template && template.content) {
+              const clone2 = template.content.cloneNode(true);
+              itemEl = clone2.querySelector(`[data-command-item-id="${item.id}"]`);
+            }
+          }
+          if (itemEl) {
+            itemEl.setAttribute("data-command-item-id", item.id);
+            itemEl.setAttribute("data-value", item.value);
+            if (item.keywords) itemEl.setAttribute("data-keywords", JSON.stringify(item.keywords));
+            if (item.group) itemEl.setAttribute("data-group", item.group);
+            if (item.disabled) itemEl.setAttribute("data-disabled", "true");
+            if (item.forceMount) itemEl.setAttribute("data-force-mount", "true");
+            itemEl.setAttribute("role", "option");
+            itemEl.setAttribute("aria-selected", this.parent.selectedIndex === itemIndex);
+            if (item.disabled) {
+              itemEl.setAttribute("aria-disabled", "true");
+            }
+            if (this.parent.selectedIndex === itemIndex) {
+              itemEl.setAttribute("data-selected", "true");
+            }
+            groupContainer.appendChild(itemEl);
+            Alpine2.initTree(itemEl);
           }
         });
         container.appendChild(groupContainer);

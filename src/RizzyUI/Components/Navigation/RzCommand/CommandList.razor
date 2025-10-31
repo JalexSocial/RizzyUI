@@ -1,5 +1,6 @@
 
 @namespace RizzyUI
+@using Blazicons
 @inherits RzComponent<CommandList.Slots>
 
 <div @attributes="AdditionalAttributes"
@@ -12,6 +13,10 @@
      x-on:click.capture="handleItemClick"
      x-on:mouseover.throttle.10ms="handleItemHover">
     
+    <div x-show="showLoading()" class="flex items-center justify-center p-4" data-dynamic-item x-cloak>
+        <RzSpinner Size="Size.Small" />
+    </div>
+
     @ChildContent
 
 </div>
