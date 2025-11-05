@@ -365,4 +365,8 @@
     <value>Search for a command to run...</value>
     <comment>Default description for the RzCommandDialog header.</comment>
   </data>  
+  <data name="RzTabs.DefaultAriaLabel" xml:space="preserve">
+    <value>Tabs</value>
+    <comment>Default ARIA label for the tabs container.</comment>
+  </data>    
 </root>

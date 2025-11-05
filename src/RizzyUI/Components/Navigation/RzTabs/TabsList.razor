@@ -1,0 +1,15 @@
+
+@namespace RizzyUI
+@inherits RzComponent<TabsList.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             data-slot="@TabsList.SlotNames.NameOf(SlotTypes.Base)"
+             role="tablist"
+             aria-label="@AriaLabel"
+             aria-orientation="@Orientation.ToString().ToLowerInvariant()"
+             x-on:keydown="onListKeydown">
+    @ChildContent
+</HtmlElement>

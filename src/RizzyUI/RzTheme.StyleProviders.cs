@@ -320,15 +320,14 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzNavigationMenu.Slots>, RzNavigationMenu.Slots> RzNavigationMenu { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzSidebarProvider"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzSidebarProvider.Slots>, RzSidebarProvider.Slots> RzSidebarProvider { get; set; }
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzTab"/> component. </summary>
-    public virtual TvDescriptor<RzComponent<RzTab.Slots>, RzTab.Slots> RzTab { get; set; }
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzTabPanel"/> component. </summary>
-    public virtual TvDescriptor<RzComponent<RzTabPanel.Slots>, RzTabPanel.Slots> RzTabPanel { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzTabs"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzTabs.Slots>, RzTabs.Slots> RzTabs { get; set; }
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzTabStrip"/> component. </summary>
-    public virtual TvDescriptor<RzComponent<RzTabStripSlots>, RzTabStripSlots> RzTabStrip { get; set; }
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.Sidebar"/> component. </summary>
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TabsList"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<TabsList.Slots>, TabsList.Slots> TabsList { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TabsTrigger"/> component. </summary>
+    public virtual TvDescriptor<RzAsChildComponent<TabsTrigger.Slots>, TabsTrigger.Slots> TabsTrigger { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TabsContent"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<TabsContent.Slots>, TabsContent.Slots> TabsContent { get; set; }    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.Sidebar"/> component. </summary>
     public virtual TvDescriptor<RzComponent<Sidebar.Slots>, Sidebar.Slots> Sidebar { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.SidebarContent"/> component. </summary>
     public virtual TvDescriptor<RzComponent<SidebarContent.Slots>, SidebarContent.Slots> SidebarContent { get; set; }

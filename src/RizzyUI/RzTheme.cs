@@ -191,9 +191,9 @@ public partial class RzTheme
         RzRadioGroupField = RizzyUI.RzRadioGroupFieldStyles.DefaultDescriptor;
         RzRadioGroupItem = RizzyUI.RzRadioGroupItemStyles.DefaultDescriptor;
         RzTabs = RizzyUI.RzTabs.DefaultDescriptor;
-        RzTab = RizzyUI.RzTab.DefaultDescriptor;
-        RzTabPanel = RizzyUI.RzTabPanel.DefaultDescriptor;
-        RzTabStrip = RizzyUI.RzTabStripStyles.DefaultDescriptor;
+        TabsList = RizzyUI.TabsList.DefaultDescriptor;
+        TabsTrigger = RizzyUI.TabsTrigger.DefaultDescriptor;
+        TabsContent = RizzyUI.TabsContent.DefaultDescriptor;        
         RzTextEdit = RizzyUI.RzTextEdit.DefaultDescriptor;
         RzTextField = RizzyUI.RzTextField.DefaultDescriptor;
         RzToggle = RizzyUI.RzToggle.DefaultDescriptor;

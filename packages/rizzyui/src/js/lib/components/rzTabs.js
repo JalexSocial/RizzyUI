@@ -1,84 +1,105 @@
 
-// --------------------------------------------------------------------------------
-// Alpine.js component: rzTabs
-// Implements tabbed navigation with keyboard support and marker repositioning.
-// --------------------------------------------------------------------------------
 export default function(Alpine) {
-    Alpine.data('rzTabs', () => {
-        return {
-            buttonRef: null,
-            tabSelected: '',
-            tabButton: null,
-            init() {
-                this.buttonRef = document.getElementById(this.$el.dataset.buttonref);
-                this.tabSelected = this.$el.dataset.tabselected;
-                this.tabButton = this.buttonRef.querySelector('[data-name=\'' + this.tabSelected + '\']');
-                this.tabRepositionMarker(this.tabButton);
-            },
-            tabButtonClicked(tabButton) {
-                if (tabButton instanceof Event)
-                    tabButton = tabButton.target;
-                this.tabSelected = tabButton.dataset.name;
-                this.tabRepositionMarker(tabButton);
-                tabButton.focus();
-            },
-            tabRepositionMarker(tabButton) {
-                this.tabButton = tabButton;
-                this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
-                this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
-                this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
-                setTimeout(() => {
-                    this.$refs.tabMarker.style.opacity = 1;
-                }, 150);
-            },
-            // Get the CSS classes for the tab content panel based on selection
-            getTabContentCss() {
-                return this.tabSelected === this.$el.dataset.name ? '' : 'hidden';
-            },
-            tabContentActive(tabContent) {
-                tabContent = tabContent ?? this.$el;
-                return this.tabSelected === tabContent.dataset.name;
-            },
-            tabButtonActive(tabButton) {
-                tabButton = tabButton ?? this.$el;
-                return this.tabSelected === tabButton.dataset.name;
-            },            
-            // Get the value for the aria-selected attribute
-            getTabButtonAriaSelected() {
-                return this.tabSelected === this.$el.dataset.name ? 'true' : 'false';
-            },
-            // Get the CSS classes for the tab button text color based on selection
-            getSelectedTabTextColorCss() {
-                const color = this.$el.dataset.selectedtextcolor ?? '';
-                return this.tabSelected === this.$el.dataset.name ? color : '';
-            },
-            handleResize() {
-                this.tabRepositionMarker(this.tabButton);
-            },
-            handleKeyDown(event) {
-                const key = event.key;
-                const tabButtons = Array.from(this.buttonRef.querySelectorAll('[role=\'tab\']'));
-                const currentIndex = tabButtons.findIndex(button => this.tabSelected === button.dataset.name);
-                let newIndex = currentIndex;
+    Alpine.data('rzTabs', () => ({
+        selectedTab: '',
+        _triggers: [],
+        _observer: null,
 
-                if (key === 'ArrowRight') {
-                    newIndex = (currentIndex + 1) % tabButtons.length;
-                    event.preventDefault();
-                } else if (key === 'ArrowLeft') {
-                    newIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
-                    event.preventDefault();
-                } else if (key === 'Home') {
-                    newIndex = 0;
-                    event.preventDefault();
-                } else if (key === 'End') {
-                    newIndex = tabButtons.length - 1;
-                    event.preventDefault();
+        init() {
+            const defaultValue = this.$el.dataset.defaultValue;
+            
+            this._observer = new MutationObserver(() => this.refreshTriggers());
+            this._observer.observe(this.$el, { childList: true, subtree: true });
+            
+            this.refreshTriggers();
+
+            if (defaultValue && this._triggers.some(t => t.dataset.value === defaultValue)) {
+                this.selectedTab = defaultValue;
+            } else if (this._triggers.length > 0) {
+                this.selectedTab = this._triggers[0].dataset.value;
+            }
+        },
+
+        destroy() {
+            if (this._observer) {
+                this._observer.disconnect();
+            }
+        },
+
+        refreshTriggers() {
+            this._triggers = Array.from(this.$el.querySelectorAll('[role="tab"]'));
+        },
+
+        onTriggerClick(e) {
+            const value = e.currentTarget?.dataset?.value;
+            if (!value || e.currentTarget.getAttribute('aria-disabled') === 'true') {
+                return;
+            }
+            this.selectedTab = value;
+            this.$dispatch('rz:tabs-change', { value: this.selectedTab });
+        },
+
+        isSelected(value) {
+            return this.selectedTab === value;
+        },
+
+        bindTrigger(el) {
+            const value = el.dataset.value;
+            const active = this.isSelected(value);
+            const disabled = el.getAttribute('aria-disabled') === 'true';
+            return {
+                'aria-selected': String(active),
+                'tabindex': active ? '0' : '-1',
+                'data-state': active ? 'active' : 'inactive',
+                ...(disabled && { 'disabled': true })
+            };
+        },
+
+        bindPanel(el) {
+            const active = this.isSelected(el.dataset.value);
+            return {
+                'aria-hidden': String(!active),
+                'hidden': !active,
+                'tabindex': active ? '0' : '-1'
+            };
+        },
+
+        onListKeydown(e) {
+            if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key)) {
+                e.preventDefault();
+                
+                const availableTriggers = this._triggers.filter(t => t.getAttribute('aria-disabled') !== 'true');
+                if (availableTriggers.length === 0) return;
+
+                const activeIndex = availableTriggers.findIndex(t => t.dataset.value === this.selectedTab);
+                if (activeIndex === -1) return;
+
+                const isVertical = e.currentTarget?.getAttribute('aria-orientation') === 'vertical';
+                const prevKey = isVertical ? 'ArrowUp' : 'ArrowLeft';
+                const nextKey = isVertical ? 'ArrowDown' : 'ArrowRight';
+                let newIndex = activeIndex;
+
+                switch (e.key) {
+                    case prevKey:
+                        newIndex = activeIndex - 1 < 0 ? availableTriggers.length - 1 : activeIndex - 1;
+                        break;
+                    case nextKey:
+                        newIndex = (activeIndex + 1) % availableTriggers.length;
+                        break;
+                    case 'Home':
+                        newIndex = 0;
+                        break;
+                    case 'End':
+                        newIndex = availableTriggers.length - 1;
+                        break;
                 }
 
-                if (newIndex !== currentIndex) {
-                    this.tabButtonClicked(tabButtons[newIndex]);
+                if (newIndex >= 0 && newIndex < availableTriggers.length) {
+                    const newTrigger = availableTriggers[newIndex];
+                    this.selectedTab = newTrigger.dataset.value;
+                    this.$nextTick(() => newTrigger.focus());
                 }
             }
-        };
-    });
+        }
+    }));
 }
