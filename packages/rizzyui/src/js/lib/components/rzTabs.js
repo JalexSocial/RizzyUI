@@ -43,10 +43,11 @@ export default function(Alpine) {
             return this.selectedTab === value;
         },
 
-        bindTrigger(el) {
-            const value = el.dataset.value;
+        bindTrigger() {
+            const current = this.selectedTab;
+            const value = this.$el.dataset.value;
             const active = this.isSelected(value);
-            const disabled = el.getAttribute('aria-disabled') === 'true';
+            const disabled = this.$el.getAttribute('aria-disabled') === 'true';
             return {
                 'aria-selected': String(active),
                 'tabindex': active ? '0' : '-1',
@@ -54,14 +55,29 @@ export default function(Alpine) {
                 ...(disabled && { 'disabled': true })
             };
         },
+        
+        _attrDisabled() {
+            return this.$el.getAttribute('aria-disabled') === 'true' ? 'true' : null;
+        },
+        
+        _attrAriaSelected() {
+            return String(this.$el.dataset.value === this.selectedTab);
+        },
 
-        bindPanel(el) {
-            const active = this.isSelected(el.dataset.value);
-            return {
-                'aria-hidden': String(!active),
-                'hidden': !active,
-                'tabindex': active ? '0' : '-1'
-            };
+        _attrHidden() {
+            return this.$el.dataset.value === this.selectedTab ? null : 'true';
+        },
+        
+        _attrAriaHidden() {
+            return String(this.selectedTab !== el.dataset.value);
+        },
+        
+        _attrDataState() {
+            return this.selectedTab === this.$el.dataset.value ? 'active' : 'inactive';
+        },
+        
+        _attrTabIndex() {
+            return this.selectedTab === this.$el.dataset.value ? '0' : '-1';
         },
 
         onListKeydown(e) {

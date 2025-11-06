@@ -4,6 +4,63 @@
 @using RizzyUI.Docs.Models
 @using RizzyUI.Docs.Components.Pages.Components.Demo
 
+<div class="mx-auto p-8 mb-5 flex w-full max-w-sm flex-col items-center justify-center gap-6">
+    <EditForm Model="_demoModel">
+        <RzTabs DefaultValue="account">
+            <TabsList>
+                <TabsTrigger Value="account">Account</TabsTrigger>
+                <TabsTrigger Value="password">Password</TabsTrigger>
+            </TabsList>
+            <TabsContent Value="account">
+                <RzCard>
+                    <CardHeader>
+                        <CardTitle>Account</CardTitle>
+                        <CardDescription>
+	                        Make changes to your account here. Click save when you're done.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent class="grid gap-6">
+                        <RzField>
+	                        <RzFieldLabel For="@(() => _demoModel.Name)">Name</RzFieldLabel>
+	                        <RzTextEdit For="@(() => _demoModel.Name)" />
+                        </RzField>
+                        <RzField>
+	                        <RzFieldLabel For="@(() => _demoModel.Username)">Username</RzFieldLabel>
+	                        <RzTextEdit For="@(() => _demoModel.Username)" />
+                        </RzField>
+                    </CardContent>
+                    <CardFooter>
+                        <RzButton>Save changes</RzButton>
+                    </CardFooter>
+                </RzCard>
+            </TabsContent>
+            <TabsContent Value="password">
+                <RzCard>
+                    <CardHeader>
+                        <CardTitle>Password</CardTitle>
+                        <CardDescription>
+	                        Change your password here. After saving, you'll be logged out.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent class="grid gap-6">
+                        <RzField>
+	                        <RzFieldLabel For="@(() => _demoModel.CurrentPassword)">Current password</RzFieldLabel>
+	                        <RzTextEdit For="@(() => _demoModel.CurrentPassword)" Role="TextRole.Password" />
+                        </RzField>
+                        <RzField>
+	                        <RzFieldLabel For="@(() => _demoModel.NewPassword)">New password</RzFieldLabel>
+	                        <RzTextEdit For="@(() => _demoModel.NewPassword)" Role="TextRole.Password" />
+                        </RzField>
+                    </CardContent>
+                    <CardFooter>
+                        <RzButton>Save password</RzButton>
+                    </CardFooter>
+                </RzCard>
+            </TabsContent>
+        </RzTabs>
+    </EditForm>
+</div>
+
 <div class="mx-auto mb-5 flex flex-wrap items-center justify-center gap-4 p-8">
 
 	@foreach (var user in _users)
@@ -19,4 +76,14 @@
 		new() { Id = 2, Name = "Bob", Email = "bob@example.com" },
 		new() { Id = 3, Name = "Charlie", Email = "charlie@example.com" }
 	};
+	
+	private class TabsDemoModel
+	{
+		public string Name { get; set; } = "Pedro Duarte";
+		public string Username { get; set; } = "@peduarte";
+		public string CurrentPassword { get; set; } = string.Empty;
+		public string NewPassword { get; set; } = string.Empty;
+	}
+
+	private TabsDemoModel _demoModel = new();	
 }
