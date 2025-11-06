@@ -67,9 +67,9 @@ export default function(Alpine) {
         _attrHidden() {
             return this.$el.dataset.value === this.selectedTab ? null : 'true';
         },
-        
+
         _attrAriaHidden() {
-            return String(this.selectedTab !== el.dataset.value);
+            return String(this.selectedTab !== this.$el.dataset.value);
         },
         
         _attrDataState() {
