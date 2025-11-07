@@ -1,11 +1,12 @@
 
 @namespace RizzyUI
-@inherits RzComponent<FieldLabel.Slots>
+@inherits RzComponent<FieldLabelSlots>
+@typeparam TValue
 
-<HtmlElement Element="@EffectiveElement" 
-             @attributes="AdditionalAttributes" 
-             id="@Id" 
-             class="@SlotClasses.GetBase()" 
-             data-slot="field-label">
+<label for="@_for" @attributes="AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="field-label">
+    @if (!string.IsNullOrEmpty(_effectiveDisplayName))
+    {
+        @_effectiveDisplayName
+    }
     @ChildContent
-</HtmlElement>
+</label>

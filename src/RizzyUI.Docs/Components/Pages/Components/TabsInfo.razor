@@ -1,7 +1,10 @@
+
 @page "/components/tabs"
+@using System.ComponentModel
 @using RizzyUI
 @using Rizzy.Components
 @using System.ComponentModel.DataAnnotations
+@using Rizzy
 
 <PageTitle>Tabs</PageTitle>
 
@@ -34,6 +37,8 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 w-full max-w-sm items-center justify-center gap-6">
                         <EditForm Model="_demoModel">
+                            <DataAnnotationsValidator />
+                            <RzInitialValidator />
 	                        <RzTabs DefaultValue="account">
 		                        <TabsList>
 			                        <TabsTrigger Value="account">Account</TabsTrigger>
@@ -47,15 +52,21 @@
 						                        Make changes to your account here. Click save when you're done.
 					                        </CardDescription>
 				                        </CardHeader>
-				                        <CardContent class="grid gap-6">
-					                        <RzField>
-						                        <RzFieldLabel For="@(() => _demoModel.Name)">Name</RzFieldLabel>
-						                        <RzTextEdit For="@(() => _demoModel.Name)" />
-					                        </RzField>
-					                        <RzField>
-						                        <RzFieldLabel For="@(() => _demoModel.Username)">Username</RzFieldLabel>
-						                        <RzTextEdit For="@(() => _demoModel.Username)" />
-					                        </RzField>
+				                        <CardContent>
+                                            <RzFieldSet>
+                                                <FieldGroup>
+                                                    <Field>
+                                                        <FieldLabel For="@(() => _demoModel.Name)" />
+                                                        <RzTextEdit For="@(() => _demoModel.Name)" />
+                                                        <FieldError><RzValidationMessage For="@(() => _demoModel.Name)" /></FieldError>
+                                                    </Field>
+                                                    <Field>
+                                                        <FieldLabel For="@(() => _demoModel.Username)" />
+                                                        <RzTextEdit For="@(() => _demoModel.Username)" />
+                                                        <FieldError><RzValidationMessage For="@(() => _demoModel.Username)" /></FieldError>
+                                                    </Field>
+                                                </FieldGroup>
+                                            </RzFieldSet>
 				                        </CardContent>
 				                        <CardFooter>
 					                        <RzButton>Save changes</RzButton>
@@ -70,15 +81,21 @@
 						                        Change your password here. After saving, you'll be logged out.
 					                        </CardDescription>
 				                        </CardHeader>
-				                        <CardContent class="grid gap-6">
-					                        <RzField>
-						                        <RzFieldLabel For="@(() => _demoModel.CurrentPassword)">Current password</RzFieldLabel>
-						                        <RzTextEdit For="@(() => _demoModel.CurrentPassword)" Role="TextRole.Password" />
-					                        </RzField>
-					                        <RzField>
-						                        <RzFieldLabel For="@(() => _demoModel.NewPassword)">New password</RzFieldLabel>
-						                        <RzTextEdit For="@(() => _demoModel.NewPassword)" Role="TextRole.Password" />
-					                        </RzField>
+				                        <CardContent>
+                                            <RzFieldSet>
+                                                <FieldGroup>
+                                                    <Field>
+                                                        <FieldLabel For="@(() => _demoModel.CurrentPassword)" />
+                                                        <RzTextEdit For="@(() => _demoModel.CurrentPassword)" Role="@TextRole.Password" />
+                                                        <FieldError><RzValidationMessage For="@(() => _demoModel.CurrentPassword)" /></FieldError>
+                                                    </Field>
+                                                    <Field>
+                                                        <FieldLabel For="@(() => _demoModel.NewPassword)" />
+                                                        <RzTextEdit For="@(() => _demoModel.NewPassword)" Role="@TextRole.Password" />
+                                                        <FieldError><RzValidationMessage For="@(() => _demoModel.NewPassword)" /></FieldError>
+                                                    </Field>
+                                                </FieldGroup>
+                                            </RzFieldSet>
 				                        </CardContent>
 				                        <CardFooter>
 					                        <RzButton>Save password</RzButton>
@@ -92,6 +109,8 @@
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;EditForm Model="_demoModel"&gt;
+    &lt;DataAnnotationsValidator /&gt;
+    &lt;RzInitialValidator /&gt;
     &lt;RzTabs DefaultValue="account"&gt;
         &lt;TabsList&gt;
             &lt;TabsTrigger Value="account"&gt;Account&lt;/TabsTrigger&gt;
@@ -105,15 +124,21 @@
                         Make changes to your account here. Click save when you're done.
                     &lt;/CardDescription&gt;
                 &lt;/CardHeader&gt;
-                &lt;CardContent class="grid gap-6"&gt;
-                    &lt;RzField&gt;
-                        &lt;RzFieldLabel For="@@(() => _demoModel.Name)"&gt;Name&lt;/RzFieldLabel&gt;
-                        &lt;RzTextEdit For="@@(() => _demoModel.Name)" /&gt;
-                    &lt;/RzField&gt;
-                    &lt;RzField&gt;
-                        &lt;RzFieldLabel For="@@(() => _demoModel.Username)"&gt;Username&lt;/RzFieldLabel&gt;
-                        &lt;RzTextEdit For="@@(() => _demoModel.Username)" /&gt;
-                    &lt;/RzField&gt;
+                &lt;CardContent&gt;
+                    &lt;RzFieldSet&gt;
+                        &lt;FieldGroup&gt;
+                            &lt;Field&gt;
+                                &lt;FieldLabel For="@@(() => _demoModel.Name)" /&gt;
+                                &lt;RzTextEdit For="@@(() => _demoModel.Name)" /&gt;
+                                &lt;RzValidationMessage For="@@(() => _demoModel.Name)" /&gt;
+                            &lt;/Field&gt;
+                            &lt;Field&gt;
+                                &lt;FieldLabel For="@@(() => _demoModel.Username)" /&gt;
+                                &lt;RzTextEdit For="@@(() => _demoModel.Username)" /&gt;
+                                &lt;RzValidationMessage For="@@(() => _demoModel.Username)" /&gt;
+                            &lt;/Field&gt;
+                        &lt;/FieldGroup&gt;
+                    &lt;/RzFieldSet&gt;
                 &lt;/CardContent&gt;
                 &lt;CardFooter&gt;
                     &lt;RzButton&gt;Save changes&lt;/RzButton&gt;
@@ -128,15 +153,21 @@
                         Change your password here. After saving, you'll be logged out.
                     &lt;/CardDescription&gt;
                 &lt;/CardHeader&gt;
-                &lt;CardContent class="grid gap-6"&gt;
-                    &lt;RzField&gt;
-                        &lt;RzFieldLabel For="@@(() => _demoModel.CurrentPassword)"&gt;Current password&lt;/RzFieldLabel&gt;
-                        &lt;RzTextEdit For="@@(() => _demoModel.CurrentPassword)" Role="TextRole.Password" /&gt;
-                    &lt;/RzField&gt;
-                    &lt;RzField&gt;
-                        &lt;RzFieldLabel For="@@(() => _demoModel.NewPassword)"&gt;New password&lt;/RzFieldLabel&gt;
-                        &lt;RzTextEdit For="@@(() => _demoModel.NewPassword)" Role="TextRole.Password" /&gt;
-                    &lt;/RzField&gt;
+                &lt;CardContent&gt;
+                    &lt;RzFieldSet&gt;
+                        &lt;FieldGroup&gt;
+                            &lt;Field&gt;
+                                &lt;FieldLabel For="@@(() => _demoModel.CurrentPassword)" /&gt;
+                                &lt;RzTextEdit For="@@(() => _demoModel.CurrentPassword)" Role="TextRole.Password" /&gt;
+                                &lt;RzValidationMessage For="@@(() => _demoModel.CurrentPassword)" /&gt;
+                            &lt;/Field&gt;
+                            &lt;Field&gt;
+                                &lt;FieldLabel For="@@(() => _demoModel.NewPassword)" /&gt;
+                                &lt;RzTextEdit For="@@(() => _demoModel.NewPassword)" Role="TextRole.Password" /&gt;
+                                &lt;RzValidationMessage For="@@(() => _demoModel.NewPassword)" /&gt;
+                            &lt;/Field&gt;
+                        &lt;/FieldGroup&gt;
+                    &lt;/RzFieldSet&gt;
                 &lt;/CardContent&gt;
                 &lt;CardFooter&gt;
                     &lt;RzButton&gt;Save password&lt;/RzButton&gt;
@@ -237,9 +268,13 @@
 @code {
     private class TabsDemoModel
     {
+        [Required]
         public string Name { get; set; } = "Pedro Duarte";
+        [Required]
         public string Username { get; set; } = "@peduarte";
+        [Required, Display(Name = "Current Password")]
         public string CurrentPassword { get; set; } = string.Empty;
+        [Required, Display("New Password")]
         public string NewPassword { get; set; } = string.Empty;
     }
 

@@ -1,26 +1,43 @@
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http;
+using Rizzy.Htmx;
+using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
+using System.Reflection;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
-/// A wrapper that functions as a label, often making its entire content, including a nested input, clickable.
+/// A component for displaying the label for a form field, with support for automatically inferring the text and `for` attribute from a model expression.
 /// </summary>
-public partial class FieldLabel : RzComponent<FieldLabel.Slots>
+public partial class FieldLabel<TValue> : RzComponent<FieldLabelSlots>, IHasFieldLabelStylingProperties
 {
-    /// <summary>
-    /// Defines the default styling for the FieldLabel component.
-    /// </summary>
-    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 has-data-[state=checked]:bg-primary/5 has-data-[state=checked]:border-primary dark:has-data-[state=checked]:bg-primary/10"
-    );
+    private string? _effectiveDisplayName;
+    private string _for = string.Empty;
+
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+    [CascadingParameter] private EditContext? EditContext { get; set; }
 
     /// <summary>
-    /// Gets or sets the content to be rendered inside the label, which could be text and an input control.
+    /// Gets or sets the content to be rendered inside the label. This is rendered in addition to any text inferred from `DisplayName` or `For`.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value, used to determine the `for` attribute and infer the display name.
+    /// </summary>
+    [Parameter]
+    public Expression<Func<TValue>>? For { get; set; }
+
+    /// <summary>
+    /// Gets or sets the display name for the label. If not set, it's inferred from the `For` expression's `DisplayAttribute` or property name.
+    /// </summary>
+    [Parameter]
+    public string? DisplayName { get; set; }
 
     /// <inheritdoc/>
     protected override void OnInitialized()
@@ -28,20 +45,64 @@ public partial class FieldLabel : RzComponent<FieldLabel.Slots>
         base.OnInitialized();
         if (string.IsNullOrEmpty(Element))
             Element = "label";
+
+        if (EditContext == null && For != null)
+            throw new InvalidOperationException($"{GetType()} must be used within an EditForm when using the 'For' parameter.");
+    }
+
+    /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        SetEffectiveDisplayName();
+        SetForAttribute();
+        base.OnParametersSet();
+    }
+
+    private void SetEffectiveDisplayName()
+    {
+        if (!string.IsNullOrEmpty(DisplayName))
+        {
+            _effectiveDisplayName = DisplayName;
+            return;
+        }
+
+        if (For == null)
+        {
+            _effectiveDisplayName = null;
+            return;
+        }
+
+        if (For.Body is MemberExpression memberExpression)
+        {
+            var displayAttribute = memberExpression.Member.GetCustomAttribute<DisplayAttribute>(true);
+            _effectiveDisplayName = displayAttribute?.GetName() ?? memberExpression.Member.Name;
+        }
+        else
+        {
+            _effectiveDisplayName = For.ToString();
+        }
+    }
+
+    private void SetForAttribute()
+    {
+        _for = string.Empty;
+        if (For != null && HttpContext != null && EditContext != null)
+        {
+            try
+            {
+                var field = FieldIdentifier.Create(For);
+                var fieldMap = HttpContext.GetOrAddFieldMapping(EditContext);
+
+                if (fieldMap != null && fieldMap.TryGetValue(field, out var map) && map != null)
+                    _for = map.Id;
+            }
+            catch (ArgumentException)
+            {
+                // Handle cases where For expression is not suitable for FieldIdentifier
+            }
+        }
     }
 
     /// <inheritdoc />
-    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.FieldLabel;
-
-    /// <summary>
-    /// Defines the slots available for styling in the FieldLabel component.
-    /// </summary>
-    public sealed partial class Slots : ISlots
-    {
-        /// <summary>
-        /// The base slot for the component's root element.
-        /// </summary>
-        [Slot("field-label")]
-        public string? Base { get; set; }
-    }
+    protected override TvDescriptor<RzComponent<FieldLabelSlots>, FieldLabelSlots> GetDescriptor() => Theme.FieldLabel;
 }
