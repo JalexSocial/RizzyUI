@@ -5,7 +5,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// A visual separator for use within a `FieldGroup`, which can optionally contain text.
+/// A visual separator for use within a `RzFieldGroup`, which can optionally contain text.
 /// </summary>
 public partial class FieldSeparator : RzComponent<FieldSeparator.Slots>
 {

@@ -7,10 +7,10 @@ namespace RizzyUI;
 /// <summary>
 /// A container for grouping multiple `Field` components together, providing consistent spacing.
 /// </summary>
-public partial class FieldGroup : RzComponent<FieldGroup.Slots>
+public partial class RzFieldGroup : RzComponent<RzFieldGroup.Slots>
 {
     /// <summary>
-    /// Defines the default styling for the FieldGroup component.
+    /// Defines the default styling for the RzFieldGroup component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
         @base: "group/field-group @container/field-group flex w-full flex-col gap-7 data-[slot=checkbox-group]:gap-3 [&>[data-slot=field-group]]:gap-4"
@@ -26,7 +26,7 @@ public partial class FieldGroup : RzComponent<FieldGroup.Slots>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.FieldGroup;
 
     /// <summary>
-    /// Defines the slots available for styling in the FieldGroup component.
+    /// Defines the slots available for styling in the RzFieldGroup component.
     /// </summary>
     public sealed partial class Slots : ISlots
     {

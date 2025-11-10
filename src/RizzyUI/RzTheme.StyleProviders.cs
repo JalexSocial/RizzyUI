@@ -168,8 +168,8 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzFieldSet.Slots>, RzFieldSet.Slots> RzFieldSet { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldLegend"/> component. </summary>
     public virtual TvDescriptor<RzComponent<FieldLegend.Slots>, FieldLegend.Slots> FieldLegend { get; set; }
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldGroup"/> component. </summary>
-    public virtual TvDescriptor<RzComponent<FieldGroup.Slots>, FieldGroup.Slots> FieldGroup { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RzFieldGroup"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzFieldGroup.Slots>, RzFieldGroup.Slots> FieldGroup { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.Field"/> component. </summary>
     public virtual TvDescriptor<RzComponent<FieldSlots>, FieldSlots> Field { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldContent"/> component. </summary>

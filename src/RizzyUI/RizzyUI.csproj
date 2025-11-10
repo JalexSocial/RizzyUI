@@ -40,7 +40,7 @@
         <PackageReference Include="Blazicons.Ionicons" Version="3.1.22" />
         <PackageReference Include="Blazicons.Lucide" Version="1.12.33" />
         <PackageReference Include="Markdig" Version="0.42.0" />
-        <PackageReference Include="Rizzy" Version="5.1.8" />
+        <PackageReference Include="Rizzy" Version="5.2.0" />
         <PackageReference Include="Blazicons" Version="2.2.39" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.2.26" />
         <PackageReference Include="Scrutor" Version="6.1.0" />

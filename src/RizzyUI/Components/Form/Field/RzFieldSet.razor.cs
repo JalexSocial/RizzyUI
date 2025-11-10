@@ -17,7 +17,7 @@ public partial class RzFieldSet : RzComponent<RzFieldSet.Slots>
     );
 
     /// <summary>
-    /// Gets or sets the content to be rendered inside the fieldset, which can include a `FieldLegend` and multiple `FieldGroup` or `Field` components.
+    /// Gets or sets the content to be rendered inside the fieldset, which can include a `FieldLegend` and multiple `RzFieldGroup` or `Field` components.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
