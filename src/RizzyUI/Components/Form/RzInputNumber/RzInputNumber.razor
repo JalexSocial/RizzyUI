@@ -1,9 +1,10 @@
 
 @typeparam TValue
 @namespace RizzyUI
+@using Rizzy
 @inherits InputBase<TValue, RzInputNumberSlots>
 
-<Rizzy.Components.Form.RzInputNumberBase TValue="TValue"
+<RzInputNumberBase TValue="TValue"
     @ref="_elem"
     ValueExpression="@For"
     Value="@Value"

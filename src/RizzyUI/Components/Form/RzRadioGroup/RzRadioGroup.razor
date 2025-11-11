@@ -1,15 +1,19 @@
 
 @typeparam TValue
 @namespace RizzyUI
+@using Rizzy
 @inherits RzComponent<RzRadioGroupSlots>
 
-<Rizzy.Components.Form.RzInputRadioGroupBase TValue="TValue"
-    ValueExpression="@For"
-    Value="@Value"
-    ValueChanged="@ValueChanged"
-    @attributes="AdditionalAttributes"
-    class="@SlotClasses.GetBase()"
-    id="@Id"
-    data-slot="@RzRadioGroupSlotNames.NameOf(RzRadioGroupSlotTypes.Base)">
-    @ChildContent
-</Rizzy.Components.Form.RzInputRadioGroupBase>
+<HtmlElement Element="@EffectiveElement" 
+             @attributes="AdditionalAttributes" 
+             id="@Id" 
+             class="@SlotClasses.GetBase()" 
+             data-slot="@RzRadioGroupSlotNames.NameOf(RzRadioGroupSlotTypes.Base)" 
+             tabindex="0">
+    <RzInputRadioGroupBase TValue="TValue"
+                           ValueExpression="@For"
+                           Value="CurrentValue"
+                           Name="@Name">
+        @ChildContent
+    </RzInputRadioGroupBase>
+</HtmlElement>

@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using System.Linq.Expressions;
 using TailwindVariants.NET;
 
@@ -7,10 +8,58 @@ namespace RizzyUI;
 
 public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHasRadioGroupStylingProperties
 {
+    private TValue? _currentValue;
+    private FieldIdentifier _fieldIdentifier;
+
+    [CascadingParameter] private EditContext? EditContext { get; set; }
+
     [Parameter, EditorRequired] public Expression<Func<TValue>> For { get; set; } = default!;
     [Parameter] public TValue? Value { get; set; }
     [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Name { get; set; } = string.Empty;
+
+    protected TValue? CurrentValue
+    {
+        get => _currentValue;
+        set
+        {
+            if (!EqualityComparer<TValue?>.Default.Equals(_currentValue, value))
+            {
+                _currentValue = value;
+                InvokeAsync(async () =>
+                {
+                    await ValueChanged.InvokeAsync(_currentValue);
+                    EditContext?.NotifyFieldChanged(_fieldIdentifier);
+                });
+            }
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (For == null) throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
+        if (EditContext == null) throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
+
+        _fieldIdentifier = FieldIdentifier.Create(For);
+        _currentValue = Value ?? For.Compile().Invoke();
+
+        if (string.IsNullOrEmpty(Name))
+        {
+            Name = _fieldIdentifier.FieldName;
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        var newValue = Value ?? For!.Compile().Invoke();
+        if (!EqualityComparer<TValue?>.Default.Equals(_currentValue, newValue)) 
+        {
+            _currentValue = newValue;
+        }
+    }
 
     protected override TvDescriptor<RzComponent<RzRadioGroupSlots>, RzRadioGroupSlots> GetDescriptor() => Theme.RzRadioGroup;
 }

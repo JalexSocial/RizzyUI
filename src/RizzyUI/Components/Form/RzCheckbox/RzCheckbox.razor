@@ -1,8 +1,9 @@
 
 @namespace RizzyUI
+@using Rizzy.Components.Form
 @inherits InputBase<bool, RzCheckbox.Slots>
 
-<Rizzy.Components.Form.RzInputCheckboxBase
+<RzInputCheckboxBase
     @ref="_elem"
     ValueExpression="@For"
     Value="@Value"

@@ -57,13 +57,13 @@
                                                 <RzFieldGroup>
                                                     <Field>
                                                         <FieldLabel For="@(() => _demoModel.Name)" />
-                                                        <RzTextEdit For="@(() => _demoModel.Name)" />
-                                                        <FieldError><RzValidationMessage For="@(() => _demoModel.Name)" /></FieldError>
+                                                        <RzInputText For="@(() => _demoModel.Name)" />
+                                                        <FieldError><RzValidationMessageBase For="@(() => _demoModel.Name)" /></FieldError>
                                                     </Field>
                                                     <Field>
                                                         <FieldLabel For="@(() => _demoModel.Username)" />
-                                                        <RzTextEdit For="@(() => _demoModel.Username)" />
-                                                        <FieldError><RzValidationMessage For="@(() => _demoModel.Username)" /></FieldError>
+                                                        <RzInputText For="@(() => _demoModel.Username)" />
+                                                        <FieldError><RzValidationMessageBase For="@(() => _demoModel.Username)" /></FieldError>
                                                     </Field>
                                                 </RzFieldGroup>
                                             </RzFieldSet>
@@ -86,13 +86,13 @@
                                                 <RzFieldGroup>
                                                     <Field>
                                                         <FieldLabel For="@(() => _demoModel.CurrentPassword)" />
-                                                        <RzTextEdit For="@(() => _demoModel.CurrentPassword)" Role="@TextRole.Password" />
-                                                        <FieldError><RzValidationMessage For="@(() => _demoModel.CurrentPassword)" /></FieldError>
+                                                        <RzInputText For="@(() => _demoModel.CurrentPassword)" Role="@TextRole.Password" />
+                                                        <FieldError><RzValidationMessageBase For="@(() => _demoModel.CurrentPassword)" /></FieldError>
                                                     </Field>
                                                     <Field>
                                                         <FieldLabel For="@(() => _demoModel.NewPassword)" />
-                                                        <RzTextEdit For="@(() => _demoModel.NewPassword)" Role="@TextRole.Password" />
-                                                        <FieldError><RzValidationMessage For="@(() => _demoModel.NewPassword)" /></FieldError>
+                                                        <RzInputText For="@(() => _demoModel.NewPassword)" Role="@TextRole.Password" />
+                                                        <FieldError><RzValidationMessageBase For="@(() => _demoModel.NewPassword)" /></FieldError>
                                                     </Field>
                                                 </RzFieldGroup>
                                             </RzFieldSet>
@@ -129,12 +129,12 @@
                                                 &lt;RzFieldGroup&gt;
                                                     &lt;Field&gt;
                                                         &lt;FieldLabel For=&quot;@@(() =&gt; _demoModel.Name)&quot; /&gt;
-                                                        &lt;RzTextEdit For=&quot;@@(() =&gt; _demoModel.Name)&quot; /&gt;
+                                                        &lt;RzInputText For=&quot;@@(() =&gt; _demoModel.Name)&quot; /&gt;
                                                         &lt;FieldError&gt;&lt;RzValidationMessage For=&quot;@@(() =&gt; _demoModel.Name)&quot; /&gt;&lt;/FieldError&gt;
                                                     &lt;/Field&gt;
                                                     &lt;Field&gt;
                                                         &lt;FieldLabel For=&quot;@@(() =&gt; _demoModel.Username)&quot; /&gt;
-                                                        &lt;RzTextEdit For=&quot;@@(() =&gt; _demoModel.Username)&quot; /&gt;
+                                                        &lt;RzInputText For=&quot;@@(() =&gt; _demoModel.Username)&quot; /&gt;
                                                         &lt;FieldError&gt;&lt;RzValidationMessage For=&quot;@@(() =&gt; _demoModel.Username)&quot; /&gt;&lt;/FieldError&gt;
                                                     &lt;/Field&gt;
                                                 &lt;/RzFieldGroup&gt;
@@ -158,12 +158,12 @@
                                                 &lt;RzFieldGroup&gt;
                                                     &lt;Field&gt;
                                                         &lt;FieldLabel For=&quot;@@(() =&gt; _demoModel.CurrentPassword)&quot; /&gt;
-                                                        &lt;RzTextEdit For=&quot;@@(() =&gt; _demoModel.CurrentPassword)&quot; Role=&quot;@TextRole.Password&quot; /&gt;
+                                                        &lt;RzInputText For=&quot;@@(() =&gt; _demoModel.CurrentPassword)&quot; Role=&quot;@TextRole.Password&quot; /&gt;
                                                         &lt;FieldError&gt;&lt;RzValidationMessage For=&quot;@@(() =&gt; _demoModel.CurrentPassword)&quot; /&gt;&lt;/FieldError&gt;
                                                     &lt;/Field&gt;
                                                     &lt;Field&gt;
                                                         &lt;FieldLabel For=&quot;@@(() =&gt; _demoModel.NewPassword)&quot; /&gt;
-                                                        &lt;RzTextEdit For=&quot;@@(() =&gt; _demoModel.NewPassword)&quot; Role=&quot;@TextRole.Password&quot; /&gt;
+                                                        &lt;RzInputText For=&quot;@@(() =&gt; _demoModel.NewPassword)&quot; Role=&quot;@TextRole.Password&quot; /&gt;
                                                         &lt;FieldError&gt;&lt;RzValidationMessage For=&quot;@@(() =&gt; _demoModel.NewPassword)&quot; /&gt;&lt;/FieldError&gt;
                                                     &lt;/Field&gt;
                                                 &lt;/RzFieldGroup&gt;
