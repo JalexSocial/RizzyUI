@@ -1,0 +1,16 @@
+
+@namespace RizzyUI
+@inherits InputBase<string, RzInputText.Slots>
+
+<Rizzy.Components.Form.RzInputTextBase
+    @ref="_elem"
+    ValueExpression="@For"
+    Value="@Value"
+    DisplayName="@DisplayName"
+    type="@Role.ToString().ToLowerInvariant()"
+    placeholder="@Placeholder"
+    @attributes="InputAttributes"
+    class="@SlotClasses.GetBase()"
+    id="@Id"
+    data-slot="@RzInputText.SlotNames.NameOf(SlotTypes.Base)"
+/>

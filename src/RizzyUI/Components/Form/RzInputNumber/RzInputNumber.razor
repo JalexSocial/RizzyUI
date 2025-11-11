@@ -1,0 +1,16 @@
+
+@typeparam TValue
+@namespace RizzyUI
+@inherits InputBase<TValue, RzInputNumberSlots>
+
+<Rizzy.Components.Form.RzInputNumberBase TValue="TValue"
+    @ref="_elem"
+    ValueExpression="@For"
+    Value="@Value"
+    DisplayName="@DisplayName"
+    placeholder="@Placeholder"
+    @attributes="InputAttributes"
+    class="@SlotClasses.GetBase()"
+    id="@Id"
+    data-slot="@RzInputNumberSlotNames.NameOf(RzInputNumberSlotTypes.Base)"
+/>

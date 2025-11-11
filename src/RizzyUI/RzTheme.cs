@@ -177,25 +177,19 @@ public partial class RzTheme
 
         // Newly Migrated Components
         RzButtonGroup = RizzyUI.RzButtonGroup.DefaultDescriptor;
-        RzCheckboxGroup = RizzyUI.RzCheckboxGroupStyles.DefaultDescriptor;
-        RzCheckboxGroupField = RizzyUI.RzCheckboxGroupFieldStyles.DefaultDescriptor;
-        RzCheckboxGroupItem = RizzyUI.RzCheckboxGroupItemStyles.DefaultDescriptor;
         RzDateEdit = RizzyUI.RzDateEdit.DefaultDescriptor;
-        RzField = RizzyUI.RzField.DefaultDescriptor;
-        RzFieldHelp = RizzyUI.RzFieldHelp.DefaultDescriptor;
-        RzFieldLabel = RizzyUI.RzFieldLabelStyles.DefaultDescriptor;
         RzFormSection = RizzyUI.RzFormSection.DefaultDescriptor;
-        RzNumberEdit = RizzyUI.RzNumberEditStyles.DefaultDescriptor;
-        RzNumberField = RizzyUI.RzNumberFieldStyles.DefaultDescriptor;
+        RzInput = RizzyUI.FormInputStyles.DefaultDescriptor;
+        RzInputText = RizzyUI.RzInputText.DefaultDescriptor;
+        RzInputTextArea = RizzyUI.RzInputTextArea.DefaultDescriptor;
+        RzCheckbox = RizzyUI.RzCheckbox.DefaultDescriptor;
+        RzInputNumber = RizzyUI.RzInputNumberStyles.DefaultDescriptor;
         RzRadioGroup = RizzyUI.RzRadioGroupStyles.DefaultDescriptor;
-        RzRadioGroupField = RizzyUI.RzRadioGroupFieldStyles.DefaultDescriptor;
-        RzRadioGroupItem = RizzyUI.RzRadioGroupItemStyles.DefaultDescriptor;
+        RadioGroupItem = RizzyUI.RadioGroupItemStyles.DefaultDescriptor;        
         RzTabs = RizzyUI.RzTabs.DefaultDescriptor;
         TabsList = RizzyUI.TabsList.DefaultDescriptor;
         TabsTrigger = RizzyUI.TabsTrigger.DefaultDescriptor;
         TabsContent = RizzyUI.TabsContent.DefaultDescriptor;        
-        RzTextEdit = RizzyUI.RzTextEdit.DefaultDescriptor;
-        RzTextField = RizzyUI.RzTextField.DefaultDescriptor;
         RzToggle = RizzyUI.RzToggle.DefaultDescriptor;
         RzToggleField = RizzyUI.RzToggleField.DefaultDescriptor;
         RzDarkModeToggle = RizzyUI.RzDarkModeToggle.DefaultDescriptor;
