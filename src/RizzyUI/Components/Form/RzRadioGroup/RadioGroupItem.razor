@@ -11,10 +11,5 @@
         class="@SlotClasses.GetInput()"
         data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Input)"
     />
-    <span class="@SlotClasses.GetIndicatorWrapper()" data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.IndicatorWrapper)">
-        <span class="@SlotClasses.GetIndicator()" data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Indicator)"></span>
-    </span>
-    <div class="@SlotClasses.GetLabel()">
-        @ChildContent
-    </div>
+    @ChildContent
 </label>

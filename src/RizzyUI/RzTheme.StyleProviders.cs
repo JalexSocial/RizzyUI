@@ -173,7 +173,10 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RadioGroupItem"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RadioGroupItemSlots>, RadioGroupItemSlots> RadioGroupItem { get; set; }
-    
+
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RadioGroupItemIndicator"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RadioGroupItemIndicator.Slots>, RadioGroupItemIndicator.Slots> RadioGroupItemIndicator { get; set; }
+
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldDescription"/> component. </summary>
     public virtual TvDescriptor<RzComponent<FieldDescription.Slots>, FieldDescription.Slots> FieldDescription { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldSeparator"/> component. </summary>
