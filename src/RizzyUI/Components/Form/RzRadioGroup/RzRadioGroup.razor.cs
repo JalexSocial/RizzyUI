@@ -21,6 +21,12 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string Name { get; set; } = string.Empty;
     [Parameter] public string? DisplayName { get; set; }
+    
+    /// <summary>
+    /// Gets or sets a value indicating whether to show the indicators for each radio item.
+    /// Defaults to true.
+    /// </summary>
+    [Parameter] public bool ShowIndicators { get; set; } = true;
 
     protected TValue? CurrentValue
     {

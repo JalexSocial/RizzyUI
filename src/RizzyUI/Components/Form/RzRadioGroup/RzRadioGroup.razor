@@ -12,11 +12,13 @@
              role="radiogroup"
              aria-labelledby="@_legendId">
     <legend id="@_legendId" class="sr-only">@DisplayName</legend>
-    <RzInputRadioGroupBase TValue="TValue"
-                           ValueExpression="@For"
-                           Value="CurrentValue"
-                           ValueChanged="CurrentValueChanged"
-                           Name="@Name">
-        @ChildContent
-    </RzInputRadioGroupBase>
+    <CascadingValue Value="ShowIndicators" Name="ShowIndicators">
+        <RzInputRadioGroupBase TValue="TValue"
+                               ValueExpression="@For"
+                               Value="CurrentValue"
+                               ValueChanged="CurrentValueChanged"
+                               Name="@Name">
+            @ChildContent
+        </RzInputRadioGroupBase>
+    </CascadingValue>
 </HtmlElement>

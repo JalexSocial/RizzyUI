@@ -2385,6 +2385,9 @@
   .fill-card-foreground {
     fill: var(--card-foreground);
   }
+  .fill-current {
+    fill: currentcolor;
+  }
   .fill-destructive {
     fill: var(--destructive);
   }

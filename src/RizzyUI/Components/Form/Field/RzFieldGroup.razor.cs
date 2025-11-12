@@ -13,7 +13,7 @@ public partial class RzFieldGroup : RzComponent<RzFieldGroup.Slots>
     /// Defines the default styling for the RzFieldGroup component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "group/field-group @container/field-group flex w-full flex-col gap-7 data-[slot=checkbox-group]:gap-3 [&>[data-slot=field-group]]:gap-4"
+        @base: "group/field-group @container/field-group flex w-full flex-col gap-7 data-[slot=radio-group]:gap-3 data-[slot=checkbox-group]:gap-3 [&>[data-slot=field-group]]:gap-4"
     );
 
     /// <summary>

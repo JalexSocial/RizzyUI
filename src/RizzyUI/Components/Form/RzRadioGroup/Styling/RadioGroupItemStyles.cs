@@ -3,7 +3,10 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
-public interface IHasRadioGroupItemStylingProperties { }
+public interface IHasRadioGroupItemStylingProperties 
+{
+    public bool Disabled { get; }
+}
 
 public sealed partial class RadioGroupItemSlots : ISlots
 {
@@ -21,6 +24,13 @@ public static class RadioGroupItemStyles
         slots: new()
         {
             [s => s.Input] = "peer sr-only"
+        },
+        variants: new()
+        {
+            [c => ((IHasRadioGroupItemStylingProperties)c).Disabled] = new Variant<bool, RadioGroupItemSlots>
+            {
+                [true] = new() { [s => s.Base] = "cursor-not-allowed opacity-50" }
+            }
         }
     );
 }
