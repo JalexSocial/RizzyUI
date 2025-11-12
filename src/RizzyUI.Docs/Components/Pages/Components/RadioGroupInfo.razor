@@ -67,12 +67,19 @@
                     By composing `RadioGroupItem` with the `Field` family of components, you can create large, clickable "choice cards". The `RadioGroupItem`'s `ChildContent` now contains the card structure.
                 </RzParagraph>
 
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="With Visible Radio Button" class="mt-6">
+                    With Visible Radio Button
+                </RzHeading>
+                <RzParagraph>
+                    This pattern provides a large clickable area while keeping the familiar radio button visible for clarity.
+                </RzParagraph>
+
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 w-full max-w-md">
                         <EditForm Model="@_model">
                             <RzRadioGroup For="@(() => _model.SubscriptionPlan)" DisplayName="Subscription Plan">
                                 <FieldGroup>
-                                    <RadioGroupItem TValue="string" Value="@("monthly")">
+                                    <RadioGroupItem TValue="string" Value="@("monthly")" Id="plan-monthly">
                                         <Field Orientation="FieldOrientation.Horizontal" class="border rounded-md p-4 peer-checked:border-primary">
                                             <FieldContent>
                                                 <FieldTitle>Monthly</FieldTitle>
@@ -80,7 +87,7 @@
                                             </FieldContent>
                                         </Field>
                                     </RadioGroupItem>
-                                    <RadioGroupItem TValue="string" Value="@("yearly")">
+                                    <RadioGroupItem TValue="string" Value="@("yearly")" Id="plan-yearly">
                                         <Field Orientation="FieldOrientation.Horizontal" class="border rounded-md p-4 peer-checked:border-primary">
                                             <FieldContent>
                                                 <FieldTitle>Yearly</FieldTitle>
@@ -97,7 +104,7 @@
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzRadioGroup For=&quot;@@(() =&gt; _model.SubscriptionPlan)&quot; DisplayName=&quot;Subscription Plan&quot;&gt;
     &lt;FieldGroup&gt;
-        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;monthly&quot;)&quot;&gt;
+        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;monthly&quot;)&quot; Id=&quot;plan-monthly&quot;&gt;
             &lt;Field Orientation=&quot;FieldOrientation.Horizontal&quot; class=&quot;border rounded-md p-4 peer-checked:border-primary&quot;&gt;
                 &lt;FieldContent&gt;
                     &lt;FieldTitle&gt;Monthly&lt;/FieldTitle&gt;
@@ -105,7 +112,7 @@
                 &lt;/FieldContent&gt;
             &lt;/Field&gt;
         &lt;/RadioGroupItem&gt;
-        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;yearly&quot;)&quot;&gt;
+        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;yearly&quot;)&quot; Id=&quot;plan-yearly&quot;&gt;
             &lt;Field Orientation=&quot;FieldOrientation.Horizontal&quot; class=&quot;border rounded-md p-4 peer-checked:border-primary&quot;&gt;
                 &lt;FieldContent&gt;
                     &lt;FieldTitle&gt;Yearly&lt;/FieldTitle&gt;

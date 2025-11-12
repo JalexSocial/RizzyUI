@@ -9,10 +9,13 @@
         @ref="_elem"
         Value="@Value"
         class="@SlotClasses.GetInput()"
+        id="@($"{Id}-input")"
         data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Input)"
     />
     <span class="@SlotClasses.GetIndicatorWrapper()" data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.IndicatorWrapper)">
         <span class="@SlotClasses.GetIndicator()" data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Indicator)"></span>
     </span>
-    @ChildContent
+    <span class="@SlotClasses.GetLabel()">
+        @ChildContent
+    </span>
 </label>
