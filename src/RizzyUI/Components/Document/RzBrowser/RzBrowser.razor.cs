@@ -24,7 +24,7 @@ public partial class RzBrowser : RzComponent<RzBrowser.Slots>
             [s => s.ScreenSizeControlsContainer] = "text-foreground hidden items-center justify-center gap-4 lg:flex",
             [s => s.ScreenSizeButtonGroup] = "bg-secondary border-outline flex items-center gap-1 rounded-full px-4",
             [s => s.ScreenSizeButton] = "rounded-full p-1 transition hover:bg-secondary/10 focus:outline-none focus-visible:bg-secondary/10 dark:hover-bg-background/10 dark:focus-visible-bg-background/10",
-            [s => s.ContentArea] = "grid-pattern bg-background",
+            [s => s.ContentArea] = "grid-pattern bg-background flex justify-center",
             [s => s.PreviewContainer] = "bg-background border-outline relative w-full overflow-hidden transition-all"
         }
     );

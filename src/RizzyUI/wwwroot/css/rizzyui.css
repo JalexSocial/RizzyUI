@@ -3199,6 +3199,16 @@
       }
     }
   }
+  .group-has-\[\.peer\:checked\]\:border-primary {
+    &:is(:where(.group):has(*:is(.peer:checked)) *) {
+      border-color: var(--primary);
+    }
+  }
+  .group-has-\[\.peer\:checked\]\:opacity-100 {
+    &:is(:where(.group):has(*:is(.peer:checked)) *) {
+      opacity: 100%;
+    }
+  }
   .group-has-\[\[data-orientation\=horizontal\]\]\/field\:text-balance {
     &:is(:where(.group\/field):has(*:is([data-orientation=horizontal])) *) {
       text-wrap: balance;

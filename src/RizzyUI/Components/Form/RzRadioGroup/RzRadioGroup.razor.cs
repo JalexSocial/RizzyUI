@@ -30,14 +30,18 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
             if (!EqualityComparer<TValue?>.Default.Equals(_currentValue, value))
             {
                 _currentValue = value;
-                InvokeAsync(async () =>
-                {
-                    await ValueChanged.InvokeAsync(_currentValue);
-                    EditContext?.NotifyFieldChanged(_fieldIdentifier);
-                });
+                // This property is only used for one-way binding from the child,
+                // the change notification is handled by CurrentValueChanged.
             }
         }
     }
+    
+    protected EventCallback<TValue> CurrentValueChanged => EventCallback.Factory.Create<TValue>(this, async (value) =>
+    {
+        CurrentValue = value;
+        await ValueChanged.InvokeAsync(value);
+        EditContext?.NotifyFieldChanged(_fieldIdentifier);
+    });
 
     protected override void OnInitialized()
     {

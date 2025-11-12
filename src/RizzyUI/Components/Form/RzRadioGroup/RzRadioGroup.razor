@@ -9,12 +9,12 @@
              id="@Id" 
              class="@SlotClasses.GetBase()" 
              data-slot="@RzRadioGroupSlotNames.NameOf(RzRadioGroupSlotTypes.Base)" 
-             role="radiogroup"
              aria-labelledby="@_legendId">
     <legend id="@_legendId" class="sr-only">@DisplayName</legend>
     <RzInputRadioGroupBase TValue="TValue"
                            ValueExpression="@For"
                            Value="CurrentValue"
+                           ValueChanged="CurrentValueChanged"
                            Name="@Name">
         @ChildContent
     </RzInputRadioGroupBase>

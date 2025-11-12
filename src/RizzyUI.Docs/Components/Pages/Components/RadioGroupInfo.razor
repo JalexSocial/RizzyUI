@@ -64,14 +64,7 @@
                     Choice Card Pattern
                 </RzHeading>
                 <RzParagraph>
-                    By composing `RadioGroupItem` with the `Field` family of components, you can create large, clickable "choice cards". The `RadioGroupItem`'s `ChildContent` now contains the card structure.
-                </RzParagraph>
-
-                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="With Visible Radio Button" class="mt-6">
-                    With Visible Radio Button
-                </RzHeading>
-                <RzParagraph>
-                    This pattern provides a large clickable area while keeping the familiar radio button visible for clarity.
+                    By composing `RadioGroupItem` with other components, you can create large, clickable "choice cards". The `RadioGroupItem`'s `ChildContent` contains the card structure, and the entire item is implicitly a label for its hidden radio input.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
@@ -79,21 +72,25 @@
                         <EditForm Model="@_model">
                             <RzRadioGroup For="@(() => _model.SubscriptionPlan)" DisplayName="Subscription Plan">
                                 <FieldGroup>
-                                    <RadioGroupItem TValue="string" Value="@("monthly")" Id="plan-monthly">
-                                        <Field Orientation="FieldOrientation.Horizontal" class="border rounded-md p-4 peer-checked:border-primary">
-                                            <FieldContent>
-                                                <FieldTitle>Monthly</FieldTitle>
-                                                <FieldDescription>$9.99/month</FieldDescription>
-                                            </FieldContent>
-                                        </Field>
+                                    <RadioGroupItem TValue="string" Value="@("monthly")">
+                                        <div class="relative flex cursor-pointer items-start space-x-3 rounded-lg border bg-background p-4 shadow-sm transition-colors hover:bg-accent peer-checked:border-primary">
+                                            <div class="grid gap-1.5 leading-none">
+                                                <span class="font-medium">Starter Plan</span>
+                                                <p class="text-muted-foreground text-sm">
+                                                    Perfect for individuals and small teams.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </RadioGroupItem>
-                                    <RadioGroupItem TValue="string" Value="@("yearly")" Id="plan-yearly">
-                                        <Field Orientation="FieldOrientation.Horizontal" class="border rounded-md p-4 peer-checked:border-primary">
-                                            <FieldContent>
-                                                <FieldTitle>Yearly</FieldTitle>
-                                                <FieldDescription>$99.99/year</FieldDescription>
-                                            </FieldContent>
-                                        </Field>
+                                    <RadioGroupItem TValue="string" Value="@("yearly")">
+                                        <div class="relative flex cursor-pointer items-start space-x-3 rounded-lg border bg-background p-4 shadow-sm transition-colors hover:bg-accent peer-checked:border-primary">
+                                            <div class="grid gap-1.5 leading-none">
+                                                <span class="font-medium">Professional Plan</span>
+                                                <p class="text-muted-foreground text-sm">
+                                                    Advanced features for growing businesses.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </RadioGroupItem>
                                 </FieldGroup>
                             </RzRadioGroup>
@@ -104,21 +101,25 @@
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzRadioGroup For=&quot;@@(() =&gt; _model.SubscriptionPlan)&quot; DisplayName=&quot;Subscription Plan&quot;&gt;
     &lt;FieldGroup&gt;
-        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;monthly&quot;)&quot; Id=&quot;plan-monthly&quot;&gt;
-            &lt;Field Orientation=&quot;FieldOrientation.Horizontal&quot; class=&quot;border rounded-md p-4 peer-checked:border-primary&quot;&gt;
-                &lt;FieldContent&gt;
-                    &lt;FieldTitle&gt;Monthly&lt;/FieldTitle&gt;
-                    &lt;FieldDescription&gt;$9.99/month&lt;/FieldDescription&gt;
-                &lt;/FieldContent&gt;
-            &lt;/Field&gt;
+        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;monthly&quot;)&quot;&gt;
+            &lt;div class=&quot;relative flex cursor-pointer items-start space-x-3 rounded-lg border bg-background p-4 shadow-sm transition-colors hover:bg-accent peer-checked:border-primary&quot;&gt;
+                &lt;div class=&quot;grid gap-1.5 leading-none&quot;&gt;
+                    &lt;span class=&quot;font-medium&quot;&gt;Starter Plan&lt;/span&gt;
+                    &lt;p class=&quot;text-muted-foreground text-sm&quot;&gt;
+                        Perfect for individuals and small teams.
+                    &lt;/p&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
         &lt;/RadioGroupItem&gt;
-        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;yearly&quot;)&quot; Id=&quot;plan-yearly&quot;&gt;
-            &lt;Field Orientation=&quot;FieldOrientation.Horizontal&quot; class=&quot;border rounded-md p-4 peer-checked:border-primary&quot;&gt;
-                &lt;FieldContent&gt;
-                    &lt;FieldTitle&gt;Yearly&lt;/FieldTitle&gt;
-                    &lt;FieldDescription&gt;$99.99/year&lt;/FieldDescription&gt;
-                &lt;/FieldContent&gt;
-            &lt;/Field&gt;
+        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;yearly&quot;)&quot;&gt;
+            &lt;div class=&quot;relative flex cursor-pointer items-start space-x-3 rounded-lg border bg-background p-4 shadow-sm transition-colors hover:bg-accent peer-checked:border-primary&quot;&gt;
+                &lt;div class=&quot;grid gap-1.5 leading-none&quot;&gt;
+                    &lt;span class=&quot;font-medium&quot;&gt;Professional Plan&lt;/span&gt;
+                    &lt;p class=&quot;text-muted-foreground text-sm&quot;&gt;
+                        Advanced features for growing businesses.
+                    &lt;/p&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
         &lt;/RadioGroupItem&gt;
     &lt;/FieldGroup&gt;
 &lt;/RzRadioGroup&gt;
@@ -157,7 +158,7 @@
                         </thead>
                         <tbody class="divide-y">
                             <tr class="align-top"><td class="p-4"><code>Value</code></td><td class="p-4"><code>TValue?</code></td><td class="p-4"><code>default</code></td><td class="p-4">The value associated with this radio item.</td></tr>
-                            <tr class="align-top"><td class="p-4"><code>Id</code></td><td class="p-4"><code>string</code></td><td class="p-4">Auto-generated</td><td class="p-4">The unique identifier for the radio input, used to associate with a <code>Label</code>.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Id</code></td><td class="p-4"><code>string</code></td><td class="p-4">Auto-generated</td><td class="p-4">The unique identifier for the radio input.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4"><code>null</code></td><td class="p-4">The visible content of the label for this radio item.</td></tr>
                         </tbody>
                     </table>
