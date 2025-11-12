@@ -1,14 +1,18 @@
 
 @typeparam TValue
 @namespace RizzyUI
-@using Rizzy
+@using Rizzy.Components.Form
 @inherits RzComponent<RadioGroupItemSlots>
 
-<RzInputRadioBase TValue="TValue"
-    @ref="_elem"
-    Value="@Value"
-    @attributes="AdditionalAttributes"
-    class="@SlotClasses.GetBase()"
-    id="@Id"
-    data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Base)"
-/>
+<label @attributes="AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Base)">
+    <RzInputRadioBase TValue="TValue"
+        @ref="_elem"
+        Value="@Value"
+        class="@SlotClasses.GetInput()"
+        data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Input)"
+    />
+    <span class="@SlotClasses.GetIndicatorWrapper()" data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.IndicatorWrapper)">
+        <span class="@SlotClasses.GetIndicator()" data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Indicator)"></span>
+    </span>
+    @ChildContent
+</label>

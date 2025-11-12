@@ -1,7 +1,7 @@
 
 @typeparam TValue
 @namespace RizzyUI
-@using Rizzy
+@using Rizzy.Components.Form
 @inherits RzComponent<RzRadioGroupSlots>
 
 <HtmlElement Element="@EffectiveElement" 
@@ -9,7 +9,9 @@
              id="@Id" 
              class="@SlotClasses.GetBase()" 
              data-slot="@RzRadioGroupSlotNames.NameOf(RzRadioGroupSlotTypes.Base)" 
-             tabindex="0">
+             role="radiogroup"
+             aria-labelledby="@_legendId">
+    <legend id="@_legendId" class="sr-only">@DisplayName</legend>
     <RzInputRadioGroupBase TValue="TValue"
                            ValueExpression="@For"
                            Value="CurrentValue"

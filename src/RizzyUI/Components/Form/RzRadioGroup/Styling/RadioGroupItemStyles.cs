@@ -9,11 +9,30 @@ public sealed partial class RadioGroupItemSlots : ISlots
 {
     [Slot("radio-group-item")]
     public string? Base { get; set; }
+
+    [Slot("input")]
+    public string? Input { get; set; }
+
+    [Slot("label")]
+    public string? Label { get; set; }
+
+    [Slot("indicator-wrapper")]
+    public string? IndicatorWrapper { get; set; }
+
+    [Slot("indicator")]
+    public string? Indicator { get; set; }
 }
 
 public static class RadioGroupItemStyles
 {
     public static readonly TvDescriptor<RzComponent<RadioGroupItemSlots>, RadioGroupItemSlots> DefaultDescriptor = new(
-        @base: "relative peer appearance-none border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:size-2 before:rounded-full before:bg-primary before:opacity-0 before:transition-opacity checked:border-primary checked:before:opacity-100 dark:checked:border-primary dark:checked:before:bg-primary checked:bg-transparent bg-transparent"
+        @base: "relative flex items-center gap-3 cursor-pointer",
+        slots: new()
+        {
+            [s => s.Input] = "peer sr-only",
+            [s => s.Label] = "text-sm font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
+            [s => s.IndicatorWrapper] = "relative flex size-4 shrink-0 items-center justify-center rounded-full border border-input bg-background peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2 peer-checked:border-primary",
+            [s => s.Indicator] = "pointer-events-none absolute size-2 rounded-full bg-primary opacity-0 transition-opacity peer-checked:opacity-100"
+        }
     );
 }

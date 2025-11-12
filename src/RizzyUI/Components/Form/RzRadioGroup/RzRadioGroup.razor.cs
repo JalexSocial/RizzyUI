@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Rizzy.Utility;
 using System.Linq.Expressions;
 using TailwindVariants.NET;
 
@@ -10,6 +11,7 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
 {
     private TValue? _currentValue;
     private FieldIdentifier _fieldIdentifier;
+    private readonly string _legendId = IdGenerator.UniqueId("rz-rg-legend-");
 
     [CascadingParameter] private EditContext? EditContext { get; set; }
 
@@ -18,6 +20,7 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
     [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string Name { get; set; } = string.Empty;
+    [Parameter] public string? DisplayName { get; set; }
 
     protected TValue? CurrentValue
     {
@@ -39,6 +42,7 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        Element = "fieldset";
         if (For == null) throw new InvalidOperationException($"{GetType()} requires a value for the 'For' parameter.");
         if (EditContext == null) throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 

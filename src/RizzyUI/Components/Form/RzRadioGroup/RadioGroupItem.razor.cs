@@ -10,6 +10,7 @@ public partial class RadioGroupItem<TValue> : RzComponent<RadioGroupItemSlots>, 
     private RzInputRadioBase<TValue>? _elem;
 
     [Parameter] public TValue? Value { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 
     protected override TvDescriptor<RzComponent<RadioGroupItemSlots>, RadioGroupItemSlots> GetDescriptor() => Theme.RadioGroupItem;
 }
