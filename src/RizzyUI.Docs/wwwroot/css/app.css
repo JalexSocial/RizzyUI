@@ -911,6 +911,9 @@
     width: 100%;
     height: 100%;
   }
+  .\!h-4 {
+    height: calc(var(--spacing) * 4) !important;
+  }
   .h-0\.5 {
     height: calc(var(--spacing) * 0.5);
   }

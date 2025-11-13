@@ -9,6 +9,8 @@ namespace RizzyUI;
 /// </summary>
 public partial class InputGroupAddon : RzComponent<InputGroupAddonSlots>, IHasInputGroupAddonStylingProperties
 {
+    private string _effectiveInpoutGroupAddonAlign = "inline-start";
+
     /// <summary>
     /// Gets or sets the content to be rendered inside the addon.
     /// </summary>

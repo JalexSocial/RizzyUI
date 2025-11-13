@@ -23,6 +23,12 @@ public partial class InputGroupButton : RzComponent<InputGroupButtonSlots>, IHas
     public ButtonVariant Variant { get; set; } = ButtonVariant.Ghost;
 
     /// <summary>
+    /// Gets or sets a value indicating whether the button should have an outline style. Defaults to false.
+    /// </summary>
+    [Parameter]
+    public bool Outline { get; set; }
+
+    /// <summary>
     /// Gets or sets the size of the button, specific to the input group context.
     /// Defaults to <see cref="InputGroupButtonSize.ExtraSmall"/>.
     /// </summary>

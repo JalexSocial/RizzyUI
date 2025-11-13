@@ -8,7 +8,7 @@
              class="@SlotClasses.GetBase()" 
              data-slot="input-group-addon"
              role="group"
-             data-align="@Align.ToString().ToLowerInvariant()"
+             data-align="@Align.ToString().ToKebabCase()"
              x-data="rzInputGroupAddon"
              x-on:click="handleClick">
     @ChildContent
