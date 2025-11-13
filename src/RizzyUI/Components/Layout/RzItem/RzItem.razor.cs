@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
+using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -61,7 +62,7 @@ public partial class RzItem : RzAsChildComponent<RzItem.Slots>
             ["id"] = Id,
             ["class"] = SlotClasses.GetBase(),
             ["data-slot"] = "item",
-            ["data-variant"] = Variant.ToString().ToLowerInvariant(),
+            ["data-variant"] = Variant.ToString().ToKebabCase(),
             ["data-size"] = Size == Size.Small ? "sm" : "default"
         };
         return attributes;

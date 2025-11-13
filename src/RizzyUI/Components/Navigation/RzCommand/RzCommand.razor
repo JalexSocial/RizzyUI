@@ -1,5 +1,6 @@
 
 @namespace RizzyUI
+@using RizzyUI.Extensions
 @inherits RzComponent<RzCommand.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
@@ -15,7 +16,7 @@
                  data-selected-value="@SelectedValue"
                  data-items-id="@DataScriptId"
                  data-items-url="@ItemsUrl"
-                 data-fetch-trigger="@FetchTrigger.ToString().ToLowerInvariant()"
+                 data-fetch-trigger="@FetchTrigger.ToString().ToKebabCase()"
                  data-server-filtering="@(ServerFiltering.ToString().ToLowerInvariant())"
                  data-template-id="@DataItemTemplateId"
                  aria-label="@AriaLabel">

@@ -60,6 +60,7 @@ When the user requests code, wrap each file in a single **`output` block** so au
 *   `@Id` is required for HTMX, Alpine, and tests.
 *   `@SlotClasses.GetBase()` is supplied by the `TailwindVariants.NET` system in the code-behind.
 *   `data-slot="component-name"` is a **mandatory** attribute. The value should be the kebab-case version of the component's name (e.g., `RzFancyThing` becomes `fancy-thing`).
+*   **Always** convert enum values used as data- attributes into kebab-case (e.g. MyEnumProperty.ToString().ToKebabCase()).
 *   **Always** write `@attributes="@AdditionalAttributes"` (note the leading `@`).
 *   **Never** use @* *@ comments inside Razor markup for elements that will be rendered.
 *   To change the `Element` type, override `OnInitialized()` in the code-behind. Set `Element` to the new type only if `Element` is empty or null.

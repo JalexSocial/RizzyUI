@@ -1,5 +1,6 @@
 
 @namespace RizzyUI
+@using RizzyUI.Extensions
 @inherits RzComponent<ItemMedia.Slots>
 
 <HtmlElement Element="@EffectiveElement"
@@ -7,6 +8,6 @@
              id="@Id"
              class="@SlotClasses.GetBase()"
              data-slot="item-media"
-             data-variant="@Variant.ToString().ToLowerInvariant()">
+             data-variant="@Variant.ToString().ToKebabCase()">
     @ChildContent
 </HtmlElement>

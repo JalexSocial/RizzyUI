@@ -186,7 +186,7 @@ export default function(Alpine) {
         },
 
         handleInteraction() {
-            if (this.itemsUrl && this.fetchTrigger === 'onopen' && !this._dataFetched) {
+            if (this.itemsUrl && this.fetchTrigger === 'on-open' && !this._dataFetched) {
                 this.fetchItems();
             }
         },
