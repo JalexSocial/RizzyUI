@@ -33,7 +33,8 @@
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
         <StaticWebAssetBasePath>_content/RizzyUI</StaticWebAssetBasePath>
-    </PropertyGroup>
+		<HotReloadAutoRestart>true</HotReloadAutoRestart>
+	</PropertyGroup>
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />

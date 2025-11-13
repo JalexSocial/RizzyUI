@@ -1,5 +1,4 @@
-﻿
-@page "/components/radiogroup"
+﻿@page "/components/radiogroup"
 @namespace RizzyUI.Docs.Components.Pages.Components
 
 @using System.ComponentModel.DataAnnotations
@@ -84,58 +83,54 @@
                     <div class="mx-auto mb-5 w-full max-w-md p-8">
                         <EditForm Model="@_model">
                             <RzRadioGroup For="@(() => _model.SubscriptionPlan)" DisplayName="Subscription Plan">
-                                <RzFieldGroup>
-                                    <RadioGroupItem TValue="string" Value="@("monthly")">
-                                        <div class="bg-background relative flex cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
-                                            <div class="grid gap-1.5 leading-none">
-                                                <span class="font-medium">Starter Plan</span>
-                                                <p class="text-muted-foreground text-sm">
-                                                    Perfect for individuals and small teams.
-                                                </p>
-                                            </div>
+                                <RadioGroupItem TValue="string" Value="@("monthly")">
+                                    <div class="bg-background relative flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
+                                        <div class="grid gap-1.5 leading-none">
+                                            <span class="font-medium">Starter Plan</span>
+                                            <p class="text-muted-foreground text-sm">
+                                                Perfect for individuals and small teams.
+                                            </p>
                                         </div>
-                                    </RadioGroupItem>
-                                    <RadioGroupItem TValue="string" Value="@("yearly")">
-                                        <div class="bg-background relative flex cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
-                                            <div class="grid gap-1.5 leading-none">
-                                                <span class="font-medium">Professional Plan</span>
-                                                <p class="text-muted-foreground text-sm">
-                                                    Advanced features for growing businesses.
-                                                </p>
-                                            </div>
+                                    </div>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("yearly")">
+                                    <div class="bg-background relative flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
+                                        <div class="grid gap-1.5 leading-none">
+                                            <span class="font-medium">Professional Plan</span>
+                                            <p class="text-muted-foreground text-sm">
+                                                Advanced features for growing businesses.
+                                            </p>
                                         </div>
-                                    </RadioGroupItem>
-                                </RzFieldGroup>
+                                    </div>
+                                </RadioGroupItem>
                             </RzRadioGroup>
                         </EditForm>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzRadioGroup For=&quot;@@(() =&gt; _model.SubscriptionPlan)&quot; DisplayName=&quot;Subscription Plan&quot;&gt;
-    &lt;RzFieldGroup&gt;
-        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;monthly&quot;)&quot;&gt;
-            &lt;div class=&quot;relative flex cursor-pointer items-start space-x-3 rounded-lg border bg-background p-4 shadow-sm transition-colors hover:bg-accent group-has-[.peer:checked]:border-primary&quot;&gt;
-                &lt;div class=&quot;grid gap-1.5 leading-none&quot;&gt;
-                    &lt;span class=&quot;font-medium&quot;&gt;Starter Plan&lt;/span&gt;
-                    &lt;p class=&quot;text-muted-foreground text-sm&quot;&gt;
-                        Perfect for individuals and small teams.
-                    &lt;/p&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;
-        &lt;/RadioGroupItem&gt;
-        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;yearly&quot;)&quot;&gt;
-            &lt;div class=&quot;relative flex cursor-pointer items-start space-x-3 rounded-lg border bg-background p-4 shadow-sm transition-colors hover:bg-accent group-has-[.peer:checked]:border-primary&quot;&gt;
-                &lt;div class=&quot;grid gap-1.5 leading-none&quot;&gt;
-                    &lt;span class=&quot;font-medium&quot;&gt;Professional Plan&lt;/span&gt;
-                    &lt;p class=&quot;text-muted-foreground text-sm&quot;&gt;
-                        Advanced features for growing businesses.
-                    &lt;/p&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;
-        &lt;/RadioGroupItem&gt;
-    &lt;/RzFieldGroup&gt;
-&lt;/RzRadioGroup&gt;
+                            &lt;RzRadioGroup For=&quot;@@(() =&gt; _model.SubscriptionPlan)&quot; DisplayName=&quot;Subscription Plan&quot;&gt;
+                                &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;monthly&quot;)&quot;&gt;
+                                    &lt;div class=&quot;bg-background relative flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent&quot;&gt;
+                                        &lt;div class=&quot;grid gap-1.5 leading-none&quot;&gt;
+                                            &lt;span class=&quot;font-medium&quot;&gt;Starter Plan&lt;/span&gt;
+                                            &lt;p class=&quot;text-muted-foreground text-sm&quot;&gt;
+                                                Perfect for individuals and small teams.
+                                            &lt;/p&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/RadioGroupItem&gt;
+                                &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;yearly&quot;)&quot;&gt;
+                                    &lt;div class=&quot;bg-background relative flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent&quot;&gt;
+                                        &lt;div class=&quot;grid gap-1.5 leading-none&quot;&gt;
+                                            &lt;span class=&quot;font-medium&quot;&gt;Professional Plan&lt;/span&gt;
+                                            &lt;p class=&quot;text-muted-foreground text-sm&quot;&gt;
+                                                Advanced features for growing businesses.
+                                            &lt;/p&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/RadioGroupItem&gt;
+                            &lt;/RzRadioGroup&gt;
                 </RzCodeViewer>
             </section>
             
@@ -150,7 +145,7 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 w-full max-w-md p-8">
                         <EditForm Model="@_model">
-                            <RzRadioGroup For="@(() => _model.LayoutPreference)" DisplayName="Layout Preference" Orientation="Orientation.Horizontal">
+                            <RzRadioGroup For="@(() => _model.LayoutPreference)" DisplayName="Layout Preference" Orientation="@Orientation.Horizontal">
                                 <RadioGroupItem TValue="string" Value="@("default")">
                                     <span class="text-sm font-medium">Default</span>
                                 </RadioGroupItem>
@@ -233,48 +228,56 @@
                     <div class="mx-auto mb-5 w-full max-w-md p-8">
                         <EditForm Model="@_model">
                             <RzRadioGroup For="@(() => _model.SubscriptionPlan)" DisplayName="Subscription Plan" ShowIndicators="false">
-                                <RzFieldGroup>
-                                    <RadioGroupItem TValue="string" Value="@("monthly")">
-                                        <div class="bg-background flex cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
-                                            <div class="grid gap-1.5 leading-none">
-                                                <span class="font-medium">Starter Plan</span>
-                                                <p class="text-muted-foreground text-sm">
-                                                    Perfect for individuals and small teams.
-                                                </p>
-                                            </div>
+                                <RadioGroupItem TValue="string" Value="@("monthly")">
+                                    <div class="bg-background flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
+                                        <div class="grid gap-1.5 leading-none">
+                                            <span class="font-medium">Starter Plan</span>
+                                            <p class="text-muted-foreground text-sm">
+                                                Perfect for individuals and small teams.
+                                            </p>
                                         </div>
-                                    </RadioGroupItem>
-                                    <RadioGroupItem TValue="string" Value="@("yearly")">
-                                        <div class="bg-background flex cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
-                                            <div class="grid gap-1.5 leading-none">
-                                                <span class="font-medium">Professional Plan</span>
-                                                <p class="text-muted-foreground text-sm">
-                                                    Advanced features for growing businesses.
-                                                </p>
-                                            </div>
+                                    </div>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("yearly")">
+                                    <div class="bg-background flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
+                                        <div class="grid gap-1.5 leading-none">
+                                            <span class="font-medium">Professional Plan</span>
+                                            <p class="text-muted-foreground text-sm">
+                                                Advanced features for growing businesses.
+                                            </p>
                                         </div>
-                                    </RadioGroupItem>
-                                </RzFieldGroup>
+                                    </div>
+                                </RadioGroupItem>
                             </RzRadioGroup>
                         </EditForm>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzRadioGroup For=&quot;@@(() =&gt; _model.SubscriptionPlan)&quot; DisplayName=&quot;Subscription Plan&quot; ShowIndicators=&quot;false&quot;&gt;
-    &lt;RzFieldGroup&gt;
-        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;monthly&quot;&gt;
-            &lt;div class=&quot;flex cursor-pointer items-start space-x-3 rounded-lg border bg-background p-4 shadow-sm transition-colors hover:bg-accent group-has-[.peer:checked]:border-primary&quot;&gt;
-                &lt;!-- Card content --&gt;
-            &lt;/div&gt;
-        &lt;/RadioGroupItem&gt;
-        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;yearly&quot;&gt;
-            &lt;div class=&quot;flex cursor-pointer items-start space-x-3 rounded-lg border bg-background p-4 shadow-sm transition-colors hover:bg-accent group-has-[.peer:checked]:border-primary&quot;&gt;
-                &lt;!-- Card content --&gt;
-            &lt;/div&gt;
-        &lt;/RadioGroupItem&gt;
-    &lt;/RzFieldGroup&gt;
-&lt;/RzRadioGroup&gt;
+                            &lt;RzRadioGroup For=&quot;@@(() =&gt; _model.SubscriptionPlan)&quot; DisplayName=&quot;Subscription Plan&quot; ShowIndicators=&quot;false&quot;&gt;
+                                &lt;RzFieldGroup&gt;
+                                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;monthly&quot;)&quot;&gt;
+                                        &lt;div class=&quot;bg-background flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent&quot;&gt;
+                                            &lt;div class=&quot;grid gap-1.5 leading-none&quot;&gt;
+                                                &lt;span class=&quot;font-medium&quot;&gt;Starter Plan&lt;/span&gt;
+                                                &lt;p class=&quot;text-muted-foreground text-sm&quot;&gt;
+                                                    Perfect for individuals and small teams.
+                                                &lt;/p&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/RadioGroupItem&gt;
+                                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;yearly&quot;)&quot;&gt;
+                                        &lt;div class=&quot;bg-background flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent&quot;&gt;
+                                            &lt;div class=&quot;grid gap-1.5 leading-none&quot;&gt;
+                                                &lt;span class=&quot;font-medium&quot;&gt;Professional Plan&lt;/span&gt;
+                                                &lt;p class=&quot;text-muted-foreground text-sm&quot;&gt;
+                                                    Advanced features for growing businesses.
+                                                &lt;/p&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/RadioGroupItem&gt;
+                                &lt;/RzFieldGroup&gt;
+                            &lt;/RzRadioGroup&gt;
                 </RzCodeViewer>
             </section>
 

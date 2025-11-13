@@ -11,16 +11,16 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
 {
     private TValue? _currentValue;
     private FieldIdentifier _fieldIdentifier;
-    private readonly string _legendId = IdGenerator.UniqueId("rz-rg-legend-");
+    private readonly string _legendId = IdGenerator.UniqueId("rz-rg-legend");
 
     [CascadingParameter] private EditContext? EditContext { get; set; }
 
     [Parameter, EditorRequired] public Expression<Func<TValue>> For { get; set; } = default!;
     [Parameter] public TValue? Value { get; set; }
-    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string Name { get; set; } = string.Empty;
     [Parameter] public string? DisplayName { get; set; }
+    [Parameter] public Orientation Orientation { get; set; } = Orientation.Vertical;
     
     /// <summary>
     /// Gets or sets a value indicating whether to show the indicators for each radio item.
@@ -39,13 +39,6 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
             }
         }
     }
-    
-    protected EventCallback<TValue> CurrentValueChanged => EventCallback.Factory.Create<TValue>(this, async (value) =>
-    {
-        _currentValue = value;
-        await ValueChanged.InvokeAsync(value);
-        EditContext?.NotifyFieldChanged(_fieldIdentifier);
-    });
 
     protected override void OnInitialized()
     {
