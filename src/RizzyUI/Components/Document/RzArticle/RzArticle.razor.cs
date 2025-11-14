@@ -43,7 +43,7 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
             },
             [a => ((RzArticle)a).IsSideFixed] = new Variant<bool, Slots>
             {
-                [true] = new() { [s => s.Aside] = "h-fill fixed right-0 top-16 z-0" }
+                [true] = new() { [s => s.Aside] = "h-fill fixed right-2 top-16 z-0" }
             }
         }
     );

@@ -1010,6 +1010,9 @@
   .h-px {
     height: 1px;
   }
+  .h-screen {
+    height: 100vh;
+  }
   .h-svh {
     height: 100svh;
   }
@@ -1695,6 +1698,9 @@
   }
   .overflow-hidden {
     overflow: hidden;
+  }
+  .overflow-scroll {
+    overflow: scroll;
   }
   .overflow-visible {
     overflow: visible;
@@ -3222,6 +3228,11 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .transition-\[opacity\] {
+    transition-property: opacity;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
   .transition-\[width\,height\,padding\] {
     transition-property: width,height,padding;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -3494,6 +3505,16 @@
   .group-has-\[\[data-slot\=item-description\]\]\/item\:self-start {
     &:is(:where(.group\/item):has(*:is([data-slot=item-description])) *) {
       align-self: flex-start;
+    }
+  }
+  .group-has-\[\[data-state\=collapsed\]\]\/sidebar-wrapper\:py-2 {
+    &:is(:where(.group\/sidebar-wrapper):has(*:is([data-state=collapsed])) *) {
+      padding-block: calc(var(--spacing) * 2);
+    }
+  }
+  .group-has-\[\[data-state\=collapsed\]\]\/sidebar-wrapper\:opacity-100 {
+    &:is(:where(.group\/sidebar-wrapper):has(*:is([data-state=collapsed])) *) {
+      opacity: 100%;
     }
   }
   .group-has-\[\>input\]\/input-group\:pt-2\.5 {
