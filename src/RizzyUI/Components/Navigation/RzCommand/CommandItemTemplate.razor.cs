@@ -32,7 +32,7 @@ public partial class CommandItemTemplate : RzComponent<CommandItemTemplate.Slots
         base.OnInitialized();
         if (ParentCommand == null)
             throw new InvalidOperationException($"{nameof(CommandItemTemplate)} must be used within an {nameof(RzCommand)}.");
-        
+
         // The Id of this component becomes the Id of the template element
         Id = $"{ParentCommand.Id}-data-item-template";
         ParentCommand.DataItemTemplateId = Id;

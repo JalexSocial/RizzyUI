@@ -3,7 +3,7 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
-public interface IHasRadioGroupItemStylingProperties 
+public interface IHasRadioGroupItemStylingProperties
 {
     public bool Disabled { get; }
 }

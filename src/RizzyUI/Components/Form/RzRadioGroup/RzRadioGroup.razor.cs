@@ -21,7 +21,7 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
     [Parameter] public string Name { get; set; } = string.Empty;
     [Parameter] public string? DisplayName { get; set; }
     [Parameter] public Orientation Orientation { get; set; } = Orientation.Vertical;
-    
+
     /// <summary>
     /// Gets or sets a value indicating whether to show the indicators for each radio item.
     /// Defaults to true.
@@ -60,7 +60,7 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
     {
         base.OnParametersSet();
         var newValue = Value ?? For!.Compile().Invoke();
-        if (!EqualityComparer<TValue?>.Default.Equals(_currentValue, newValue)) 
+        if (!EqualityComparer<TValue?>.Default.Equals(_currentValue, newValue))
         {
             _currentValue = newValue;
         }

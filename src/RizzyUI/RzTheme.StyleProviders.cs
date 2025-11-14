@@ -186,7 +186,7 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.Label"/> component. </summary>
     public virtual TvDescriptor<RzComponent<Label.Slots>, Label.Slots> Label { get; set; }
-    
+
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzInputGroup"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzInputGroup.Slots>, RzInputGroup.Slots> RzInputGroup { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.InputGroupAddon"/> component. </summary>
@@ -199,7 +199,7 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<InputGroupInput.Slots>, InputGroupInput.Slots> InputGroupInput { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.InputGroupTextarea"/> component. </summary>
     public virtual TvDescriptor<RzComponent<InputGroupTextarea.Slots>, InputGroupTextarea.Slots> InputGroupTextarea { get; set; }
-    
+
     #endregion
 
     #region Layout Components
@@ -384,7 +384,7 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzParagraph.Slots>, RzParagraph.Slots> RzParagraph { get; set; }
 
     #endregion
-    
+
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzCommand"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzCommand.Slots>, RzCommand.Slots> RzCommand { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzCommandDialog"/> component. </summary>
@@ -405,5 +405,5 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<CommandShortcut.Slots>, CommandShortcut.Slots> CommandShortcut { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.CommandItemTemplate"/> component. </summary>
 	public virtual TvDescriptor<RzComponent<CommandItemTemplate.Slots>, CommandItemTemplate.Slots> CommandItemTemplate { get; set; }
- 
+
 }

@@ -1,8 +1,5 @@
 ﻿#nullable enable
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -15,32 +12,32 @@ namespace RizzyUI;
 /// Defines the type of calendar to display.
 /// </summary>
 [JsonConverter(typeof(CamelCaseEnumValueConverter<CalendarType>))]
-public enum CalendarType 
+public enum CalendarType
 {
     /// <summary>Displays a single month view. This is the default calendar type.</summary>
-    Default, 
+    Default,
     /// <summary>Displays multiple months side-by-side, allowing for broader date selection.</summary>
-    Multiple, 
+    Multiple,
     /// <summary>Displays a view to select a month within a year, hiding the day-to-day view.</summary>
-    Month, 
+    Month,
     /// <summary>Displays a view to select a year from a range of years.</summary>
-    Year 
+    Year
 }
 
 /// <summary>
 /// Defines the date selection mode. Can be disabled to prevent date selection.
 /// </summary>
 [JsonConverter(typeof(SelectionDatesModeConverter))]
-public enum SelectionDatesMode 
-{ 
+public enum SelectionDatesMode
+{
     /// <summary>Date selection is disabled. Users cannot pick any dates.</summary>
-    Disabled, 
+    Disabled,
     /// <summary>Only a single date can be selected at a time.</summary>
-    Single, 
+    Single,
     /// <summary>Multiple, non-consecutive dates can be selected.</summary>
-    Multiple, 
+    Multiple,
     /// <summary>A range of dates can be selected by picking a start and end date.</summary>
-    MultipleRanged 
+    MultipleRanged
 }
 
 /// <summary>
@@ -75,28 +72,28 @@ public enum Position
 /// Defines the behavior for month or year selection.
 /// </summary>
 [JsonConverter(typeof(SelectionModeConverter))]
-public enum SelectionMode 
-{ 
+public enum SelectionMode
+{
     /// <summary>Selection is fully enabled (by clicking the title and using arrows).</summary>
-    Enabled, 
+    Enabled,
     /// <summary>Selection is completely disabled. The month/year cannot be changed.</summary>
-    Disabled, 
+    Disabled,
     /// <summary>Selection is only possible via the navigation arrows; clicking the title is disabled.</summary>
-    OnlyArrows 
+    OnlyArrows
 }
 
 /// <summary>
 /// Defines the time selection format.
 /// </summary>
 [JsonConverter(typeof(TimeModeConverter))]
-public enum TimeMode 
-{ 
+public enum TimeMode
+{
     /// <summary>Time selection is disabled.</summary>
-    Disabled, 
+    Disabled,
     /// <summary>Time is selected using a 12-hour format with AM/PM.</summary>
-    TwelveHour, 
+    TwelveHour,
     /// <summary>Time is selected using a 24-hour format.</summary>
-    TwentyFourHour 
+    TwentyFourHour
 }
 
 // --- Nested Configuration Records ---
@@ -348,7 +345,7 @@ public sealed class DayOfWeekListConverter : JsonConverter<IReadOnlyList<DayOfWe
         if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException("Expected an array of numbers for DayOfWeek list.");
         var intList = JsonSerializer.Deserialize<List<int>>(ref reader, options);
         if (intList == null) return new List<DayOfWeek>();
-        
+
         foreach (var i in intList)
         {
             if (i < 0 || i > 6) throw new JsonException($"Invalid weekday index: {i}. Expected 0..6.");
@@ -381,7 +378,7 @@ public sealed class DateOnlyRangeListConverter : JsonConverter<IReadOnlyList<Dat
     public override IReadOnlyList<DateOnly> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException("Expected an array of strings for DateOnly list.");
-        
+
         var stringList = JsonSerializer.Deserialize<List<string>>(ref reader, options);
         if (stringList == null) return new List<DateOnly>();
 
@@ -412,7 +409,7 @@ public sealed class DateOnlyRangeListConverter : JsonConverter<IReadOnlyList<Dat
                     continue;
                 }
             }
-            
+
             if (DateOnly.TryParseExact(entry.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var exactDate))
             {
                 results.Add(exactDate);
@@ -425,7 +422,7 @@ public sealed class DateOnlyRangeListConverter : JsonConverter<IReadOnlyList<Dat
     public override void Write(Utf8JsonWriter writer, IReadOnlyList<DateOnly> value, JsonSerializerOptions options)
     {
         var sortedDates = value.Distinct().OrderBy(d => d).ToList();
-        
+
         writer.WriteStartArray();
         for (int i = 0; i < sortedDates.Count; i++)
         {
@@ -500,7 +497,7 @@ public sealed class PositionConverter : JsonConverter<Position>
             case Position.Left: writer.WriteStringValue("left"); return;
             case Position.Center: writer.WriteStringValue("center"); return;
             case Position.Right: writer.WriteStringValue("right"); return;
-            
+
             case Position.TopLeft: writer.WriteStartArray(); writer.WriteStringValue("top"); writer.WriteStringValue("left"); writer.WriteEndArray(); return;
             case Position.TopCenter: writer.WriteStartArray(); writer.WriteStringValue("top"); writer.WriteStringValue("center"); writer.WriteEndArray(); return;
             case Position.TopRight: writer.WriteStartArray(); writer.WriteStringValue("top"); writer.WriteStringValue("right"); writer.WriteEndArray(); return;
@@ -685,7 +682,7 @@ public sealed class SelectionDatesModeConverter : JsonConverter<SelectionDatesMo
 /// Using this context improves performance and is required for AOT (Ahead-Of-Time) compilation scenarios like Blazor WebAssembly.
 /// </summary>
 [JsonSourceGenerationOptions(
-    WriteIndented = false, 
+    WriteIndented = false,
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
 )]

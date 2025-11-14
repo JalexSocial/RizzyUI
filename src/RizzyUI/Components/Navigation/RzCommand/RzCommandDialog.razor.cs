@@ -74,18 +74,18 @@ public partial class RzCommandDialog : RzComponent<RzCommandDialog.Slots>
     /// </summary>
     [Parameter]
     public string EventTriggerName { get; set; } = string.Empty;
-    
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
         Title ??= Localizer["RzCommandDialog.DefaultTitle"];
         Description ??= Localizer["RzCommandDialog.DefaultDescription"];
-        
+
         if (string.IsNullOrEmpty(EventTriggerName))
         {
             EventTriggerName = $"show-command-dialog-{Id}";
-        }        
+        }
     }
 
     /// <inheritdoc/>

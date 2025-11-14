@@ -190,7 +190,7 @@ public partial class RzTheme
         RzTabs = RizzyUI.RzTabs.DefaultDescriptor;
         TabsList = RizzyUI.TabsList.DefaultDescriptor;
         TabsTrigger = RizzyUI.TabsTrigger.DefaultDescriptor;
-        TabsContent = RizzyUI.TabsContent.DefaultDescriptor;        
+        TabsContent = RizzyUI.TabsContent.DefaultDescriptor;
         RzToggle = RizzyUI.RzToggle.DefaultDescriptor;
         RzToggleField = RizzyUI.RzToggleField.DefaultDescriptor;
         RzDarkModeToggle = RizzyUI.RzDarkModeToggle.DefaultDescriptor;
@@ -200,7 +200,7 @@ public partial class RzTheme
         TableHeaderCell = RizzyUI.TableHeaderCellStyles.DefaultDescriptor;
         TableRow = RizzyUI.TableRowStyles.DefaultDescriptor;
         TablePagination = RizzyUI.TablePaginationStyles.DefaultDescriptor;
-        
+
         RzFieldSet = RizzyUI.RzFieldSet.DefaultDescriptor;
         FieldLegend = RizzyUI.FieldLegend.DefaultDescriptor;
         FieldGroup = RizzyUI.RzFieldGroup.DefaultDescriptor;
@@ -212,14 +212,14 @@ public partial class RzTheme
         FieldSeparator = RizzyUI.FieldSeparator.DefaultDescriptor;
         FieldError = RizzyUI.FieldError.DefaultDescriptor;
         Label = RizzyUI.Label.DefaultDescriptor;
-        
+
         RzInputGroup = RizzyUI.RzInputGroup.DefaultDescriptor;
         InputGroupAddon = RizzyUI.InputGroupAddonStyles.DefaultDescriptor;
         InputGroupButton = RizzyUI.InputGroupButtonStyles.DefaultDescriptor;
         InputGroupText = RizzyUI.InputGroupText.DefaultDescriptor;
         InputGroupInput = RizzyUI.InputGroupInput.DefaultDescriptor;
-        InputGroupTextarea = RizzyUI.InputGroupTextarea.DefaultDescriptor;     
-        
+        InputGroupTextarea = RizzyUI.InputGroupTextarea.DefaultDescriptor;
+
         RzCommand = RizzyUI.RzCommand.DefaultDescriptor;
         RzCommandDialog = RizzyUI.RzCommandDialog.DefaultDescriptor;
         CommandInput = RizzyUI.CommandInput.DefaultDescriptor;
@@ -228,7 +228,7 @@ public partial class RzTheme
         CommandGroup = RizzyUI.CommandGroup.DefaultDescriptor;
         CommandItem = RizzyUI.CommandItem.DefaultDescriptor;
         CommandSeparator = RizzyUI.CommandSeparator.DefaultDescriptor;
-        CommandShortcut = RizzyUI.CommandShortcut.DefaultDescriptor;  
+        CommandShortcut = RizzyUI.CommandShortcut.DefaultDescriptor;
         CommandItemTemplate = RizzyUI.CommandItemTemplate.DefaultDescriptor;
     }
 

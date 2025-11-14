@@ -15,12 +15,12 @@ public interface ICommandItemData
     /// The name of the item, used for presentation.
     /// </summary>
     string Name { get; set; }
-    
+
     /// <summary>
     /// The shortcut of the item, used for presentation.
     /// </summary>
     string? Shortcut { get; set; }
-    
+
     /// <summary>
     /// A list of additional keywords to match against during search.
     /// </summary>

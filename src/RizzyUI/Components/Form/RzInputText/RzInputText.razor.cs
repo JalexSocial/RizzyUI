@@ -1,13 +1,12 @@
 
 using Microsoft.AspNetCore.Components;
-using Rizzy.Components.Form;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 public partial class RzInputText : InputBase<string, RzInputText.Slots>
 {
-    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = 
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor =
         new(extends: FormInputStyles.DefaultDescriptor);
 
     private RzInputTextBase? _elem;

@@ -3,7 +3,8 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
-public interface IHasRadioGroupStylingProperties { 
+public interface IHasRadioGroupStylingProperties
+{
     /// <summary>
     /// Orientation (horizontal or vertical) of radio group
     /// </summary>
