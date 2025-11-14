@@ -8,7 +8,7 @@
 <EditForm Model="@_model">
     <RzAlpineComponent For="this" Name="charCounter" AsChild>
       <div class="w-full">
-        <RzTextEdit For="@(() => _model.Message)" class="w-full min-h-24" x-model="message" />
+        <RzInputTextArea For="@(() => _model.Message)" class="w-full min-h-24" x-model="message" />
         <p class="text-sm text-muted-foreground mt-2 text-right">
           Character count: <span x-text="count"></span>
         </p>

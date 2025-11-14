@@ -1,4 +1,5 @@
-﻿@page "/test"
+
+@page "/test"
 @using Rizzy.Components
 @using Rizzy
 @using RizzyUI.Docs.Models
@@ -22,11 +23,11 @@
                     <CardContent class="grid gap-6">
                         <RzField>
 	                        <RzFieldLabel For="@(() => _demoModel.Name)">Name</RzFieldLabel>
-	                        <RzTextEdit For="@(() => _demoModel.Name)" />
+	                        <RzInputText For="@(() => _demoModel.Name)" />
                         </RzField>
                         <RzField>
 	                        <RzFieldLabel For="@(() => _demoModel.Username)">Username</RzFieldLabel>
-	                        <RzTextEdit For="@(() => _demoModel.Username)" />
+	                        <RzInputText For="@(() => _demoModel.Username)" />
                         </RzField>
                     </CardContent>
                     <CardFooter>
@@ -45,11 +46,11 @@
                     <CardContent class="grid gap-6">
                         <RzField>
 	                        <RzFieldLabel For="@(() => _demoModel.CurrentPassword)">Current password</RzFieldLabel>
-	                        <RzTextEdit For="@(() => _demoModel.CurrentPassword)" Role="TextRole.Password" />
+	                        <RzInputText For="@(() => _demoModel.CurrentPassword)" Role="TextRole.Password" />
                         </RzField>
                         <RzField>
 	                        <RzFieldLabel For="@(() => _demoModel.NewPassword)">New password</RzFieldLabel>
-	                        <RzTextEdit For="@(() => _demoModel.NewPassword)" Role="TextRole.Password" />
+	                        <RzInputText For="@(() => _demoModel.NewPassword)" Role="TextRole.Password" />
                         </RzField>
                     </CardContent>
                     <CardFooter>

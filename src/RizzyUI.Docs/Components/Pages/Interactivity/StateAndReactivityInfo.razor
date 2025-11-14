@@ -33,7 +33,7 @@
 
                 <RzHeading Level="HeadingLevel.H3" class="mt-6">Example: A Character Counter</RzHeading>
                 <RzParagraph>
-                    Let's create a textarea with a character counter that updates in real-time. Note that since <code>RzTextEdit</code> is a form component, it must be placed within an <code>EditForm</code>.
+                    Let's create a textarea with a character counter that updates in real-time. Note that since <code>RzInputTextArea</code> is a form component, it must be placed within an <code>EditForm</code>.
                 </RzParagraph>
                 
                 <RzBrowser Layout="typeof(PreviewLayout)">
@@ -49,7 +49,7 @@
 &lt;EditForm Model=&quot;@@_model&quot;&gt;
     &lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;charCounter&quot; AsChild&gt;
       &lt;div class=&quot;w-full&quot;&gt;
-        &lt;RzTextEdit For=&quot;@@(() =&gt; _model.Message)&quot; class=&quot;w-full min-h-24&quot; x-model=&quot;message&quot; /&gt;
+        &lt;RzInputTextArea For=&quot;@@(() =&gt; _model.Message)&quot; class=&quot;w-full min-h-24&quot; x-model=&quot;message&quot; /&gt;
         &lt;p class=&quot;text-sm text-muted-foreground mt-2 text-right&quot;&gt;
           Character count: &lt;span x-text=&quot;count&quot;&gt;&lt;/span&gt;
         &lt;/p&gt;
