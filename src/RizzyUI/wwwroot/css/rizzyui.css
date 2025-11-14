@@ -419,6 +419,10 @@
     --color-warning-foreground: var(--warning-foreground);
     --color-success: var(--success);
     --color-success-foreground: var(--success-foreground);
+    --scrollbar-track: var(--color-border);
+    --scrollbar-thumb: var(--color-muted-foreground);
+    --scrollbar-width: 8px;
+    --scrollbar-radius: 4px;
   }
 }
 @layer base {
@@ -663,6 +667,9 @@
   }
   .right-2 {
     right: calc(var(--spacing) * 2);
+  }
+  .right-3 {
+    right: calc(var(--spacing) * 3);
   }
   .right-4 {
     right: calc(var(--spacing) * 4);
@@ -9244,6 +9251,8 @@ pre:has(> code) {
   --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
   --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  --scrollbar-track: var(--color-border);
+  --scrollbar-thumb: var(--color-muted-foreground);
 }
 @layer base {
   * {
@@ -9263,7 +9272,7 @@ pre:has(> code) {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  .scrollbar {
+  body, .scrollbar {
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
     &::-webkit-scrollbar {

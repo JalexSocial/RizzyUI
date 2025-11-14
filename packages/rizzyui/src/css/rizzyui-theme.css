@@ -98,6 +98,9 @@
     --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
     --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
     --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+
+    --scrollbar-track: var(--color-border);
+    --scrollbar-thumb: var(--color-muted-foreground);    
 }
 
 @theme inline {
@@ -169,7 +172,12 @@
     --color-warning: var(--warning);
     --color-warning-foreground: var(--warning-foreground);
     --color-success: var(--success);
-    --color-success-foreground: var(--success-foreground);    
+    --color-success-foreground: var(--success-foreground);
+
+    --scrollbar-track: var(--color-border);
+    --scrollbar-thumb: var(--color-muted-foreground);
+    --scrollbar-width: 8px;
+    --scrollbar-radius: 4px;
 }
 
 @layer base {
@@ -182,7 +190,7 @@
     body {
         @apply bg-background text-foreground overscroll-none antialiased;
     }
-    .scrollbar {
+    body, .scrollbar {
         scrollbar-width: thin;
         scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 
