@@ -67,27 +67,31 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 grid w-full max-w-sm gap-6 p-8">
                         <EditForm Model="_model">
-                            <Field>
-                                <FieldLabel For="@(() => _model.Password)">Password</FieldLabel>
-                                <RzInputText For="@(() => _model.Password)" Role="TextRole.Password" Placeholder="Enter your password" />
-                            </Field>
-                            <Field>
-                                <FieldLabel For="@(() => _model.Search)">Search</FieldLabel>
-                                <RzInputText For="@(() => _model.Search)" Role="TextRole.Search" Placeholder="Search..." />
-                            </Field>
+                            <RzFieldSet>
+                                <Field>
+                                    <FieldLabel For="@(() => _model.Password)">Password</FieldLabel>
+                                    <RzInputText For="@(() => _model.Password)" Role="TextRole.Password" Placeholder="Enter your password" />
+                                </Field>
+                                <Field>
+                                    <FieldLabel For="@(() => _model.Search)">Search</FieldLabel>
+                                    <RzInputText For="@(() => _model.Search)" Role="TextRole.Search" Placeholder="Search..." />
+                                </Field>
+                            </RzFieldSet>
                         </EditForm>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;Field&gt;
-    &lt;FieldLabel For="@@(() => _model.Password)"&gt;Password&lt;/FieldLabel&gt;
-    &lt;RzInputText For="@@(() => _model.Password)" Role="TextRole.Password" Placeholder="Enter your password" /&gt;
-&lt;/Field&gt;
-&lt;Field&gt;
-    &lt;FieldLabel For="@@(() => _model.Search)"&gt;Search&lt;/FieldLabel&gt;
-    &lt;RzInputText For="@@(() => _model.Search)" Role="TextRole.Search" Placeholder="Search..." /&gt;
-&lt;/Field&gt;
+&lt;RzFieldSet&gt;
+    &lt;Field&gt;
+        &lt;FieldLabel For="@@(() => _model.Password)"&gt;Password&lt;/FieldLabel&gt;
+        &lt;RzInputText For="@@(() => _model.Password)" Role="TextRole.Password" Placeholder="Enter your password" /&gt;
+    &lt;/Field&gt;
+    &lt;Field&gt;
+        &lt;FieldLabel For="@@(() => _model.Search)"&gt;Search&lt;/FieldLabel&gt;
+        &lt;RzInputText For="@@(() => _model.Search)" Role="TextRole.Search" Placeholder="Search..." /&gt;
+    &lt;/Field&gt;
+&lt;/RzFieldSet&gt;
                 </RzCodeViewer>
             </section>
 
@@ -153,61 +157,65 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 grid w-full max-w-sm gap-6 p-8">
                         <EditForm Model="_model">
-                            <Field>
-                                <FieldLabel For="@(() => _model.Search)">Icon</FieldLabel>
-                                <RzInputGroup>
-                                    <InputGroupInput For="@(() => _model.Search)" Placeholder="Search..." />
-                                    <InputGroupAddon>
-                                        <Blazicon Svg="MdiIcon.Magnify" />
-                                    </InputGroupAddon>
-                                </RzInputGroup>
-                            </Field>
-                            <Field>
-                                <FieldLabel For="@(() => _model.Website)">Text Addon</FieldLabel>
-                                <RzInputGroup>
-                                    <InputGroupAddon>
-                                        <InputGroupText>https://</InputGroupText>
-                                    </InputGroupAddon>
-                                    <InputGroupInput For="@(() => _model.Website)" Placeholder="example.com" />
-                                </RzInputGroup>
-                            </Field>
-                            <Field>
-                                <FieldLabel For="@(() => _model.Coupon)">Button Addon</FieldLabel>
-                                <RzInputGroup>
-                                    <InputGroupInput For="@(() => _model.Coupon)" Placeholder="Enter coupon code" />
-                                    <InputGroupAddon>
-                                        <InputGroupButton Variant="ButtonVariant.Primary">Apply</InputGroupButton>
-                                    </InputGroupAddon>
-                                </RzInputGroup>
-                            </Field>
+                            <RzFieldSet>
+                                <Field>
+                                    <FieldLabel For="@(() => _model.Search)">Icon</FieldLabel>
+                                    <RzInputGroup>
+                                        <InputGroupInput For="@(() => _model.Search)" Placeholder="Search..." />
+                                        <InputGroupAddon>
+                                            <Blazicon Svg="MdiIcon.Magnify" />
+                                        </InputGroupAddon>
+                                    </RzInputGroup>
+                                </Field>
+                                <Field>
+                                    <FieldLabel For="@(() => _model.Website)">Text Addon</FieldLabel>
+                                    <RzInputGroup>
+                                        <InputGroupAddon>
+                                            <InputGroupText>https://</InputGroupText>
+                                        </InputGroupAddon>
+                                        <InputGroupInput For="@(() => _model.Website)" Placeholder="example.com" />
+                                    </RzInputGroup>
+                                </Field>
+                                <Field>
+                                    <FieldLabel For="@(() => _model.Coupon)">Button Addon</FieldLabel>
+                                    <RzInputGroup>
+                                        <InputGroupInput For="@(() => _model.Coupon)" Placeholder="Enter coupon code" />
+                                        <InputGroupAddon>
+                                            <InputGroupButton Variant="ButtonVariant.Primary">Apply</InputGroupButton>
+                                        </InputGroupAddon>
+                                    </RzInputGroup>
+                                </Field>
+                            </RzFieldSet>
                         </EditForm>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;!-- With Icon --&gt;
-&lt;RzInputGroup&gt;
-    &lt;InputGroupInput For="@@(() => _model.Search)" Placeholder="Search..." /&gt;
-    &lt;InputGroupAddon&gt;
-        &lt;Blazicon Svg="MdiIcon.Magnify" /&gt;
-    &lt;/InputGroupAddon&gt;
-&lt;/RzInputGroup&gt;
+&lt;RzFieldSet&gt;
+    &lt;!-- With Icon --&gt;
+    &lt;RzInputGroup&gt;
+        &lt;InputGroupInput For="@@(() => _model.Search)" Placeholder="Search..." /&gt;
+        &lt;InputGroupAddon&gt;
+            &lt;Blazicon Svg="MdiIcon.Magnify" /&gt;
+        &lt;/InputGroupAddon&gt;
+    &lt;/RzInputGroup&gt;
 
-&lt;!-- With Text Addon --&gt;
-&lt;RzInputGroup&gt;
-    &lt;InputGroupAddon&gt;
-        &lt;InputGroupText&gt;https://&lt;/InputGroupText&gt;
-    &lt;/InputGroupAddon&gt;
-    &lt;InputGroupInput For="@@(() => _model.Website)" Placeholder="example.com" /&gt;
-&lt;/RzInputGroup&gt;
+    &lt;!-- With Text Addon --&gt;
+    &lt;RzInputGroup&gt;
+        &lt;InputGroupAddon&gt;
+            &lt;InputGroupText&gt;https://&lt;/InputGroupText&gt;
+        &lt;/InputGroupAddon&gt;
+        &lt;InputGroupInput For="@@(() => _model.Website)" Placeholder="example.com" /&gt;
+    &lt;/RzInputGroup&gt;
 
-&lt;!-- With Button Addon --&gt;
-&lt;RzInputGroup&gt;
-    &lt;InputGroupInput For="@@(() => _model.Coupon)" Placeholder="Enter coupon code" /&gt;
-    &lt;InputGroupAddon&gt;
-        &lt;InputGroupButton Variant="ButtonVariant.Primary"&gt;Apply&lt;/InputGroupButton&gt;
-    &lt;/InputGroupAddon&gt;
-&lt;/RzInputGroup&gt;
+    &lt;!-- With Button Addon --&gt;
+    &lt;RzInputGroup&gt;
+        &lt;InputGroupInput For="@@(() => _model.Coupon)" Placeholder="Enter coupon code" /&gt;
+        &lt;InputGroupAddon&gt;
+            &lt;InputGroupButton Variant="ButtonVariant.Primary"&gt;Apply&lt;/InputGroupButton&gt;
+        &lt;/InputGroupAddon&gt;
+    &lt;/RzInputGroup&gt;
+&lt;/RzFieldSet&gt;
                 </RzCodeViewer>
             </section>
 

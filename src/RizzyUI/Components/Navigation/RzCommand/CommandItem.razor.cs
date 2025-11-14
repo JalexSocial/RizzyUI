@@ -33,10 +33,16 @@ public partial class CommandItem : RzComponent<CommandItem.Slots>
     protected CommandGroup? ParentGroup { get; set; }
 
     /// <summary>
-    /// Gets or sets the unique value for this item, used for selection and filtering. If not provided, it will be inferred from the text content.
+    /// Gets or sets the unique value for this item. If not provided, it will be inferred from the text content.
     /// </summary>
     [Parameter]
     public string? Value { get; set; }
+
+    /// <summary>
+    /// Gets or sets the searchable name for this item, used for selection and filtering. If not provided, it will be inferred from the text content.
+    /// </summary>
+    [Parameter]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Gets or sets a collection of keywords to assist with filtering.

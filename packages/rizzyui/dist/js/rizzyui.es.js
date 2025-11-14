@@ -8172,7 +8172,7 @@ function registerRzCommand(Alpine2) {
       }
     },
     handleInteraction() {
-      if (this.itemsUrl && this.fetchTrigger === "onopen" && !this._dataFetched) {
+      if (this.itemsUrl && this.fetchTrigger === "on-open" && !this._dataFetched) {
         this.fetchItems();
       }
     },
@@ -8386,6 +8386,7 @@ function registerRzCommandItem(Alpine2) {
       this.itemData = {
         id: this.$el.id,
         value: this.$el.dataset.value || this.$el.textContent.trim(),
+        name: this.$el.dataset.name || this.$el.dataset.value || this.$el.textContent.trim(),
         keywords: JSON.parse(this.$el.dataset.keywords || "[]"),
         group: this.$el.dataset.group || null,
         templateId: this.$el.id + "-template",

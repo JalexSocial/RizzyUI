@@ -6208,7 +6208,7 @@ function Ac(e) {
       }
     },
     handleInteraction() {
-      this.itemsUrl && this.fetchTrigger === "onopen" && !this._dataFetched && this.fetchItems();
+      this.itemsUrl && this.fetchTrigger === "on-open" && !this._dataFetched && this.fetchItems();
     },
     registerItem(t) {
       this.items.some((i) => i.id === t.id) || (t._order = this.items.length, this.items.push(t), this.selectedIndex === -1 && (this.selectedIndex = 0), this.serverFiltering || this.filterAndSortItems());
@@ -6345,6 +6345,7 @@ function Sc(e) {
       this.parent = e.$data(t), this.itemData = {
         id: this.$el.id,
         value: this.$el.dataset.value || this.$el.textContent.trim(),
+        name: this.$el.dataset.name || this.$el.dataset.value || this.$el.textContent.trim(),
         keywords: JSON.parse(this.$el.dataset.keywords || "[]"),
         group: this.$el.dataset.group || null,
         templateId: this.$el.id + "-template",

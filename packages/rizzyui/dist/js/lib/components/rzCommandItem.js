@@ -16,6 +16,7 @@ export default function(Alpine) {
             this.itemData = {
                 id: this.$el.id,
                 value: this.$el.dataset.value || this.$el.textContent.trim(),
+                name: this.$el.dataset.name || this.$el.dataset.value || this.$el.textContent.trim(),
                 keywords: JSON.parse(this.$el.dataset.keywords || '[]'),
                 group: this.$el.dataset.group || null,
                 templateId: this.$el.id + '-template',

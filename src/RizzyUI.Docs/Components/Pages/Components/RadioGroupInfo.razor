@@ -46,7 +46,7 @@
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;EditForm Model=&quot;@_model&quot;&gt;
+&lt;EditForm Model=&quot;@@_model&quot;&gt;
     &lt;RzRadioGroup For=&quot;@@(() =&gt; _model.LayoutPreference)&quot; DisplayName=&quot;Layout Preference&quot;&gt;
         &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;default&quot;)&quot;&gt;
             &lt;span class=&quot;text-sm font-medium&quot;&gt;Default&lt;/span&gt;
@@ -345,7 +345,6 @@
                         <tbody class="divide-y">
                             <tr class="align-top"><td class="p-4"><code>For</code></td><td class="p-4"><code>Expression&lt;Func&lt;TValue&gt;&gt;</code></td><td class="p-4">Required</td><td class="p-4">An expression that identifies the bound value.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Value</code></td><td class="p-4"><code>TValue?</code></td><td class="p-4"><code>default</code></td><td class="p-4">The currently selected value of the radio group.</td></tr>
-                            <tr class="align-top"><td class="p-4"><code>ValueChanged</code></td><td class="p-4"><code>EventCallback&lt;TValue&gt;</code></td><td class="p-4"><code>EventCallback.Empty</code></td><td class="p-4">A callback that fires when the selected value changes.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4"><code>null</code></td><td class="p-4">The content of the radio group, which should be a series of <code>RadioGroupItem</code> components.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>DisplayName</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">An accessible name for the fieldset, rendered as a screen-reader-only <code>&lt;legend&gt;</code>.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>ShowIndicators</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>true</code></td><td class="p-4">If false, all indicators within the group will be hidden.</td></tr>
