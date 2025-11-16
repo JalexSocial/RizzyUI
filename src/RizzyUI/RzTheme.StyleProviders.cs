@@ -162,10 +162,19 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzInputTextArea"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzInputTextArea.Slots>, RzInputTextArea.Slots> RzInputTextArea { get; set; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzCheckbox"/> component. </summary>
-    public virtual TvDescriptor<RzComponent<RzCheckbox.Slots>, RzCheckbox.Slots> RzCheckbox { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RzInputCheckbox"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzInputCheckbox.Slots>, RzInputCheckbox.Slots> RzCheckbox { get; set; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzInputNumber"/> component. </summary>
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzCheckboxGroup{TValue}"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzCheckboxGroupSlots>, RzCheckboxGroupSlots> RzCheckboxGroup { get; set; }
+    
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzCheckboxGroupItem{TValue}"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzCheckboxGroupItemSlots>, RzCheckboxGroupItemSlots> RzCheckboxGroupItem { get; set; }
+    
+	/// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.CheckboxGroupItemIndicator"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<CheckboxGroupItemIndicator.Slots>, CheckboxGroupItemIndicator.Slots> CheckboxGroupItemIndicator { get; set; }
+    
+	/// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzInputNumber"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzInputNumberSlots>, RzInputNumberSlots> RzInputNumber { get; set; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzRadioGroup"/> component. </summary>

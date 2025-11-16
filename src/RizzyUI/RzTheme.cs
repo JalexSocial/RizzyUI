@@ -182,7 +182,10 @@ public partial class RzTheme
         RzInput = RizzyUI.FormInputStyles.DefaultDescriptor;
         RzInputText = RizzyUI.RzInputText.DefaultDescriptor;
         RzInputTextArea = RizzyUI.RzInputTextArea.DefaultDescriptor;
-        RzCheckbox = RizzyUI.RzCheckbox.DefaultDescriptor;
+        RzCheckbox = RizzyUI.RzInputCheckbox.DefaultDescriptor;
+        RzCheckboxGroup = RizzyUI.RzCheckboxGroupStyles.DefaultDescriptor;
+        RzCheckboxGroupItem = RizzyUI.RzCheckboxGroupItemStyles.DefaultDescriptor;
+        CheckboxGroupItemIndicator = RizzyUI.CheckboxGroupItemIndicatorStyles.DefaultDescriptor;
         RzInputNumber = RizzyUI.RzInputNumberStyles.DefaultDescriptor;
         RzRadioGroup = RizzyUI.RzRadioGroupStyles.DefaultDescriptor;
         RadioGroupItem = RizzyUI.RadioGroupItemStyles.DefaultDescriptor;

@@ -1,15 +1,13 @@
 
-@page "/components/checkboxgroup"
-@using Rizzy
-@namespace RizzyUI
+@page "/components/checkbox"
+@namespace RizzyUI.Docs.Components.Pages.Components
 
-@using Rizzy.Components
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
 @using RizzyUI
-@using RizzyUI.Extensions
-@using Blazicons
-@using RizzyUI.Docs.Models
+@using Rizzy.Components
 
-<PageTitle>CheckboxGroup and RzCheckboxGroupField</PageTitle>
+<PageTitle>Checkbox & Checkbox Group</PageTitle>
 
 <RzQuickReferenceContainer>
     <RzArticle ProseWidth="ProseWidth.UltraWide">
@@ -17,333 +15,187 @@
             <RzQuickReference />
         </SideContent>
         <MainContent>
-            <!-- Page Title and Overview -->
-            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="CheckboxGroup and RzCheckboxGroupField" class="scroll-mt-20">
-                CheckboxGroup and RzCheckboxGroupField
-            </RzHeading>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Checkbox" class="scroll-mt-20">Checkbox & Checkbox Group</RzHeading>
             <RzParagraph>
-                The <code>CheckboxGroup</code> component enables users to select one or more options from a group of checkboxes, with support for model binding and validation. The <code>RzCheckboxGroupField</code> component extends this functionality by wrapping <code>CheckboxGroup</code> within a complete form field experience, including a label, help text, and validation messages.
+                Components for capturing boolean or multiple-choice selections from a user. Use `RzCheckbox` for a single true/false input and `RzCheckboxGroup` for selecting multiple options from a list.
             </RzParagraph>
 
-            <!-- Example 1: CheckboxGroup Usage -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CheckboxGroup Example" class="scroll-mt-20">
-                    CheckboxGroup Example
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Checkbox" class="scroll-mt-20">
+                    Basic Checkbox
                 </RzHeading>
                 <RzParagraph>
-                    In the example below, an <code>EditForm</code> is used with a <code>CheckboxGroup</code> to capture multiple interests from a user. The <code>Interests</code> property of the <code>Customer</code> model is utilized for binding.
+                    A standalone checkbox for a single boolean value, composed with `Field` and `FieldLabel` for proper form structure and accessibility.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-5">
-                        <EditForm Model="Model" class="form-children-spacing">
-                            <RzValidationSummary/>
-                            <RzCheckboxGroup TValue="string" For="@(() => Model.Interests)" Orientation="Orientation.Vertical">
-                                <RzCheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports" />
-                                <RzCheckboxGroupItem TValue="string" Value="@("Music")" Title="Music" />
-                                <RzCheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel" />
-                                <RzCheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology" />
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <Field Orientation="FieldOrientation.Horizontal">
+                                <RzCheckbox For="@(() => _model.AcceptTerms)" />
+                                <FieldLabel For="@(() => _model.AcceptTerms)" class="font-normal">Accept terms and conditions</FieldLabel>
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;EditForm Model=&quot;@@_model&quot;&gt;
+    &lt;Field Orientation=&quot;FieldOrientation.Horizontal&quot;&gt;
+        &lt;RzCheckbox For=&quot;@@(() =&gt; _model.AcceptTerms)&quot; /&gt;
+        &lt;FieldLabel For=&quot;@@(() =&gt; _model.AcceptTerms)&quot; class=&quot;font-normal&quot;&gt;Accept terms and conditions&lt;/FieldLabel&gt;
+    &lt;/Field&gt;
+&lt;/EditForm&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Checkbox with Description" class="scroll-mt-20">
+                    Checkbox with Description
+                </RzHeading>
+                <RzParagraph>
+                    Add a `FieldDescription` to provide more context for the checkbox.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <Field Orientation="FieldOrientation.Horizontal" class="items-start">
+                                <RzCheckbox For="@(() => _model.AcceptTerms)" />
+                                <FieldGroup>
+                                    <FieldLabel For="@(() => _model.AcceptTerms)" class="font-normal">Accept terms and conditions</FieldLabel>
+                                    <FieldDescription>
+                                        By clicking this checkbox, you agree to the terms and conditions.
+                                    </FieldDescription>
+                                </FieldGroup>
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;Field Orientation=&quot;FieldOrientation.Horizontal&quot; class=&quot;items-start&quot;&gt;
+    &lt;RzCheckbox For=&quot;@@(() =&gt; _model.AcceptTerms)&quot; /&gt;
+    &lt;FieldGroup&gt;
+        &lt;FieldLabel For=&quot;@@(() =&gt; _model.AcceptTerms)&quot; class=&quot;font-normal&quot;&gt;Accept terms and conditions&lt;/FieldLabel&gt;
+        &lt;FieldDescription&gt;
+            By clicking this checkbox, you agree to the terms and conditions.
+        &lt;/FieldDescription&gt;
+    &lt;/FieldGroup&gt;
+&lt;/Field&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Checkbox Group" class="scroll-mt-20">
+                    Checkbox Group
+                </RzHeading>
+                <RzParagraph>
+                    Use `RzCheckboxGroup` within an `Field` to bind multiple options to a collection. This example binds to the `TaskNotifications` list on the model.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <Field>
+                                <FieldLabel For="@(() => _model.TaskNotifications)">Tasks</FieldLabel>
+                                <FieldDescription>
+                                    Get notified when tasks you've created have updates.
+                                    <RzLink Href="#">Manage tasks</RzLink>
+                                </FieldDescription>
+                                <RzCheckboxGroup For="@(() => _model.TaskNotifications)" class="mt-2">
+                                    <RzCheckboxGroupItem TValue="string" Name="@("push")">
+                                        <span class="font-normal">Push notifications</span>
+                                    </RzCheckboxGroupItem>
+                                    <RzCheckboxGroupItem TValue="string" Name="@("email")">
+                                        <span class="font-normal">Email notifications</span>
+                                    </RzCheckboxGroupItem>
+                                </RzCheckboxGroup>
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;Field&gt;
+    &lt;FieldLabel For=&quot;@@(() =&gt; _model.TaskNotifications)&quot;&gt;Tasks&lt;/FieldLabel&gt;
+    &lt;FieldDescription&gt;
+        Get notified when tasks you&#39;ve created have updates.
+        &lt;RzLink Href=&quot;#&quot;&gt;Manage tasks&lt;/RzLink&gt;
+    &lt;/FieldDescription&gt;
+    &lt;RzCheckboxGroup For=&quot;@@(() =&gt; _model.TaskNotifications)&quot; class=&quot;mt-2&quot;&gt;
+        &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;push&quot;)&quot;&gt;
+            &lt;span class=&quot;font-normal&quot;&gt;Push notifications&lt;/span&gt;
+        &lt;/RzCheckboxGroupItem&gt;
+        &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;email&quot;)&quot;&gt;
+            &lt;span class=&quot;font-normal&quot;&gt;Email notifications&lt;/span&gt;
+        &lt;/RzCheckboxGroupItem&gt;
+    &lt;/RzCheckboxGroup&gt;
+&lt;/Field&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Choice Card Pattern" class="scroll-mt-20">
+                    Choice Card Pattern
+                </RzHeading>
+                <RzParagraph>
+                    Create large, clickable "choice cards" by placing rich content inside an `RzCheckboxGroupItem`. The entire item acts as a label for the checkbox.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <RzCheckboxGroup For="@(() => _model.NotificationPreferences)">
+                                <RzCheckboxGroupItem TValue="string" Value="@("enable-notifications")">
+                                    <div class="flex w-full cursor-pointer items-start gap-3 rounded-lg border p-3 has-[[aria-checked=true]]:border-primary has-[[aria-checked=true]]:bg-accent/50 hover:bg-accent/50">
+                                        <div class="grid gap-1.5 font-normal">
+                                            <p class="text-sm font-medium leading-none">
+                                                Enable notifications
+                                            </p>
+                                            <p class="text-sm text-muted-foreground">
+                                                You can enable or disable notifications at any time.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </RzCheckboxGroupItem>
                             </RzCheckboxGroup>
                         </EditForm>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;EditForm Model="Model" class="form-children-spacing"&gt;
-    &lt;RzValidationSummary /&gt;
-    &lt;RzCheckboxGroup TValue="string" For="@@(() =&gt; Model.Interests)" Orientation="@@Orientation.Vertical"&gt;
-        &lt;RzCheckboxGroupItem TValue="string" Value="@@("Sports")" Title="Sports" /&gt;
-        &lt;RzCheckboxGroupItem TValue="string" Value="@@("Music")" Title="Music" /&gt;
-        &lt;RzCheckboxGroupItem TValue="string" Value="@@("Travel")" Title="Travel" /&gt;
-        &lt;RzCheckboxGroupItem TValue="string" Value="@@("Technology")" Title="Technology" /&gt;
-    &lt;/RzCheckboxGroup&gt;
-&lt;/EditForm&gt;
+&lt;RzCheckboxGroup For=&quot;@@(() =&gt; _model.NotificationPreferences)&quot;&gt;
+    &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;enable-notifications&quot;)&quot;&gt;
+        &lt;div class=&quot;flex w-full cursor-pointer items-start gap-3 rounded-lg border p-3 has-[[aria-checked=true]]:border-primary has-[[aria-checked=true]]:bg-accent/50 hover:bg-accent/50&quot;&gt;
+            &lt;div class=&quot;grid gap-1.5 font-normal&quot;&gt;
+                &lt;p class=&quot;text-sm font-medium leading-none&quot;&gt;
+                    Enable notifications
+                &lt;/p&gt;
+                &lt;p class=&quot;text-sm text-muted-foreground&quot;&gt;
+                    You can enable or disable notifications at any time.
+                &lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/RzCheckboxGroupItem&gt;
+&lt;/RzCheckboxGroup&gt;
                 </RzCodeViewer>
-            </section>
-
-            <!-- Example 2: RzCheckboxGroupField Usage -->
-            <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzCheckboxGroupField Example" class="scroll-mt-20">
-                    RzCheckboxGroupField Example
-                </RzHeading>
-                <RzParagraph>
-                    The <code>RzCheckboxGroupField</code> component encapsulates a complete form field experience by combining a label, the checkbox group, help text, and validation messages. The example below demonstrates its usage with the <code>Interests</code> property of the <code>Customer</code> model.
-                </RzParagraph>
-
-                <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-5">
-                        <EditForm Model="Model" class="form-children-spacing">
-                            <RzValidationSummary/>
-                            <RzCheckboxGroupField TValue="string" For="@(() => Model.Interests)" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
-	                            <CheckboxGroupContent>
-		                            <RzCheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports"/>
-		                            <RzCheckboxGroupItem TValue="string" Value="@("Music")" Title="Music"/>
-		                            <RzCheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel"/>
-		                            <RzCheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology"/>
-	                            </CheckboxGroupContent>
-	                            <FieldHelp>Select all interests that apply.</FieldHelp>
-                            </RzCheckboxGroupField>
-                        </EditForm>
-                    </div>
-                </RzBrowser>
-
-                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-                            &lt;RzCheckboxGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.Interests)&quot; DisplayName=&quot;Select Your Interests&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;
-	                            &lt;CheckboxGroupContent&gt;
-		                            &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Sports&quot;)&quot; Title=&quot;Sports&quot;/&gt;
-		                            &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Music&quot;)&quot; Title=&quot;Music&quot;/&gt;
-		                            &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Travel&quot;)&quot; Title=&quot;Travel&quot;/&gt;
-		                            &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Technology&quot;)&quot; Title=&quot;Technology&quot;/&gt;
-	                            &lt;/CheckboxGroupContent&gt;
-	                            &lt;FieldHelp&gt;Select all interests that apply.&lt;/FieldHelp&gt;
-                            &lt;/RzCheckboxGroupField&gt;
-                </RzCodeViewer>
-            </section>
-
-            <!-- Customer Model Reference -->
-            <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Customer Model" class="scroll-mt-20">
-                    Customer Model Reference
-                </RzHeading>
-                <RzParagraph>
-                    The following code defines a sample <code>Customer</code> model that is used in these examples:
-                </RzParagraph>
-                <RzCodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
-&lt;!-- Customer.cs --&gt;
-&lt;summary&gt;
-Represents a customer with personal and contact information.
-&lt;/summary&gt;
-public class Customer
-{
-    &lt;summary&gt;
-    Gets or sets the unique identifier for the customer.
-    &lt;/summary&gt;
-    public int CustomerId { get; set; } = 1234;
-
-    &lt;summary&gt;
-    Gets or sets the full name of the customer.
-    &lt;/summary&gt;
-    [MaxLength(10)]
-    public string Name { get; set; } = "Jane Johnson";
-
-    &lt;summary&gt;
-    Gets or sets the email address of the customer.
-    &lt;/summary&gt;
-    public string Email { get; set; } = "johnsonj@gmail.com";
-
-    &lt;summary&gt;
-    Gets or sets the phone number of the customer.
-    &lt;/summary&gt;
-    public string PhoneNumber { get; set; } = "555-555-5555";
-
-    &lt;summary&gt;
-    Gets or sets the age of the customer.
-    &lt;/summary&gt;
-    public int Age { get; set; } = 29;
-
-    &lt;summary&gt;
-    Gets or sets a value indicating whether the customer is active.
-    &lt;/summary&gt;
-    public bool IsActive { get; set; } = true;
-
-    &lt;summary&gt;
-    Gets or sets the gender of the customer.
-    &lt;/summary&gt;
-    public string Gender { get; set; } = "female";
-
-    &lt;summary&gt;
-    Gets or sets the preferred method of contact for the customer.
-    &lt;/summary&gt;
-    public string PreferredContactMethod { get; set; } = "email";
-
-    &lt;summary&gt;
-    Gets or sets the birth date of the customer.
-    &lt;/summary&gt;
-    public DateTime BirthDate { get; set; } = DateTime.Now.AddYears(-29).AddMonths(3).AddDays(9);
-
-    &lt;summary&gt;
-    Gets or sets the interests of the customer.
-    This property is used to demonstrate the checkbox group components.
-    &lt;/summary&gt;
-    public List&lt;string&gt; Interests { get; set; } = new List&lt;string&gt; { "Sports" };
-}
-                </RzCodeViewer>
-            </section>
-
-            <!-- Parameters Table: CheckboxGroup -->
-            <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CheckboxGroup Parameters" class="scroll-mt-20">
-                    CheckboxGroup Component Parameters
-                </RzHeading>
-                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
-                    <table class="w-full text-sm">
-                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
-                            <tr>
-                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
-                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
-                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
-                                <th scope="col" class="px-4 py-3">Default</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Values</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>IList&lt;TValue&gt;</code> – Gets or sets the selected values in the checkbox group.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">IList&lt;TValue&gt;</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">new List&lt;TValue&gt;()</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ValuesChanged</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>EventCallback&lt;IList&lt;TValue&gt;&gt;</code> – Event callback when the selected values change.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">EventCallback&lt;IList&lt;TValue&gt;&gt;</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">EventCallback.Empty</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">For</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Expression&lt;Func&lt;IList&lt;TValue&gt;&gt;&gt;</code> – Expression for the bound value, used for validation.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Expression&lt;Func&lt;IList&lt;TValue&gt;&gt;&gt;</code></td>
-                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Orientation</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Orientation</code> – Orientation of the checkbox group (Vertical or Horizontal).</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Orientation</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Orientation.Vertical</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Child content, expected to be <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">RzCheckboxGroupItem&lt;TValue&gt;</code> components.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CheckedIcon</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SvgIcon</code> – Custom Blazicon SVG icon to display when a checkbox is checked.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SvgIcon</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">MdiIcon.CheckBold</code></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Parameters Table: RzCheckboxGroupField -->
-            <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzCheckboxGroupField Parameters" class="scroll-mt-20">
-                    RzCheckboxGroupField Component Parameters
-                </RzHeading>
-                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
-                    <table class="w-full text-sm">
-                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
-                            <tr>
-                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
-                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
-                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
-                                <th scope="col" class="px-4 py-3">Default</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">DisplayName</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – The display name for the field label. If not set, it's inferred from the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">For</code> expression.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">For</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Expression&lt;Func&lt;IList&lt;TValue&gt;&gt;&gt;</code> – Specifies the field the checkbox group is bound to.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Expression&lt;Func&lt;IList&lt;TValue&gt;&gt;&gt;</code></td>
-                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Values</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>IList&lt;TValue&gt;?</code> – Gets or sets the list of selected values in the checkbox group.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">IList&lt;TValue&gt;?</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ValuesChanged</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>EventCallback&lt;IList&lt;TValue&gt;&gt;</code> – Event callback invoked when the selected values change.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">EventCallback&lt;IList&lt;TValue&gt;&gt;</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">EventCallback.Empty</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Orientation</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Orientation</code> – Orientation of the checkbox group (Vertical or Horizontal).</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Orientation</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Orientation.Vertical</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CheckboxGroupContent</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Child content containing the <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">RzCheckboxGroupItem&lt;TValue&gt;</code> components.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">FieldHelp</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Optional content displayed below the group to provide help or context.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Parameters Table: RzCheckboxGroupItem -->
-            <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzCheckboxGroupItem Parameters" class="scroll-mt-20">
-                    RzCheckboxGroupItem Component Parameters
-                </RzHeading>
-                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
-                    <table class="w-full text-sm">
-                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
-                            <tr>
-                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
-                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
-                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
-                                <th scope="col" class="px-4 py-3">Default</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Value</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>TValue?</code> – The value associated with this checkbox item.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">TValue?</code></td>
-                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Title</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – The display title for this checkbox item.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
-                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Optional child content displayed alongside the title.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
-                            </tr>
-                            <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CheckedIcon</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SvgIcon?</code> – Custom Blazicon SVG icon to display when checked. Overrides the parent group's icon if set.</td>
-                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SvgIcon?</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </section>
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>
 
 @code {
-    private Customer Model = default!;
-
-    protected override void OnInitialized()
+    private class CheckboxDemoModel
     {
-        base.OnInitialized();
-        Model = new();
+        [Required(ErrorMessage = "You must accept the terms and conditions.")]
+        [Range(typeof(bool), "true", "true", ErrorMessage = "You must accept the terms and conditions.")]
+        public bool AcceptTerms { get; set; }
+
+        public List<string> Responses { get; set; } = new() { "push" };
+        public List<string> TaskNotifications { get; set; } = new();
+        public List<string> NotificationPreferences { get; set; } = new() { "enable-notifications" };
     }
+
+    private CheckboxDemoModel _model = new();
 }

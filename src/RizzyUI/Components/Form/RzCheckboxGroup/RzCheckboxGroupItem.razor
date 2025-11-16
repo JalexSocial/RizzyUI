@@ -1,0 +1,28 @@
+
+@namespace RizzyUI
+@using Rizzy
+@using Rizzy.Components.Form
+@inherits RzComponent<RzCheckboxGroupItemSlots>
+
+<label @attributes="AdditionalAttributes"
+       id="@Id"
+       class="@SlotClasses.GetBase()"
+       data-slot="@RzCheckboxGroupItemSlotNames.NameOf(RzCheckboxGroupItemSlotTypes.Base)"
+       aria-disabled=@Disabled>
+    <RzInputCheckbox Value="@Value"
+                     class="@SlotClasses.GetInput()"
+                     data-slot="@RzCheckboxGroupItemSlotNames.NameOf(RzCheckboxGroupItemSlotTypes.Input)"
+                     disabled="@Disabled" />
+    @if (!_hasExplicitIndicator)
+    {
+        if (ParentGroup is IHasCheckboxGroupIcon icon)
+        {
+            CheckedIcon ??= icon?.CheckedIcon;
+        }
+        
+        <CheckboxGroupItemIndicator CheckedIcon="@(CheckedIcon)" />
+    }
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</label>

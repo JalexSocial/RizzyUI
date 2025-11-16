@@ -1,0 +1,20 @@
+
+@typeparam TValue
+@namespace RizzyUI
+@using Rizzy.Components.Form
+@inherits RzComponent<RzCheckboxGroupSlots>
+
+<HtmlElement Element="@EffectiveElement" 
+             @attributes="AdditionalAttributes" 
+             id="@Id" 
+             class="@SlotClasses.GetBase()" 
+             data-slot="@RzCheckboxGroupSlotNames.NameOf(RzCheckboxGroupSlotTypes.Base)" 
+             role="group"
+             aria-labelledby="@_legendId">
+    <legend id="@_legendId" class="sr-only">@DisplayName</legend>
+    <CascadingValue Value="this" IsFixed="true">
+        <CascadingValue Value="ShowIndicators" Name="ShowIndicators">
+                @ChildContent
+        </CascadingValue>
+    </CascadingValue>
+</HtmlElement>
