@@ -6241,24 +6241,6 @@ function registerRzCarousel(Alpine2, require2) {
     }
   }));
 }
-function registerRzCheckboxGroupItem(Alpine2) {
-  Alpine2.data("rzCheckboxGroupItem", () => {
-    return {
-      checkbox: null,
-      isChecked: false,
-      init() {
-        this.checkbox = this.$refs.chk;
-        this.isChecked = this.checkbox.checked;
-      },
-      toggleCheckbox() {
-        this.isChecked = this.checkbox.checked;
-      },
-      getIconCss() {
-        return this.isChecked ? "" : "hidden";
-      }
-    };
-  });
-}
 function registerRzCodeViewer(Alpine2, require2) {
   Alpine2.data("rzCodeViewer", () => {
     return {
@@ -9360,7 +9342,6 @@ function registerComponents(Alpine2) {
   registerRzAspectRatio(Alpine2);
   registerRzBrowser(Alpine2);
   registerRzCarousel(Alpine2, rizzyRequire);
-  registerRzCheckboxGroupItem(Alpine2);
   registerRzCodeViewer(Alpine2, rizzyRequire);
   registerRzCollapsible(Alpine2);
   registerRzDateEdit(Alpine2, rizzyRequire);
