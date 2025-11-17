@@ -15,7 +15,7 @@
             <RzQuickReference />
         </SideContent>
         <MainContent>
-            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Checkbox" class="scroll-mt-20">Checkbox & Checkbox Group</RzHeading>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Checkbox" class="scroll-mt-20">Checkbox</RzHeading>
             <RzParagraph>
                 Components for capturing boolean or multiple-choice selections from a user. Use `RzCheckbox` for a single true/false input and `RzCheckboxGroup` for selecting multiple options from a list.
             </RzParagraph>
@@ -105,10 +105,10 @@
                                 </FieldDescription>
                                 <RzCheckboxGroup For="@(() => _model.TaskNotifications)" class="mt-2">
                                     <RzCheckboxGroupItem TValue="string" Name="@("push")">
-                                        <span class="font-normal">Push notifications</span>
+                                        <span class="text-sm">Push notifications</span>
                                     </RzCheckboxGroupItem>
                                     <RzCheckboxGroupItem TValue="string" Name="@("email")">
-                                        <span class="font-normal">Email notifications</span>
+                                        <span class="text-sm">Email notifications</span>
                                     </RzCheckboxGroupItem>
                                 </RzCheckboxGroup>
                             </Field>
@@ -125,10 +125,10 @@
     &lt;/FieldDescription&gt;
     &lt;RzCheckboxGroup For=&quot;@@(() =&gt; _model.TaskNotifications)&quot; class=&quot;mt-2&quot;&gt;
         &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;push&quot;)&quot;&gt;
-            &lt;span class=&quot;font-normal&quot;&gt;Push notifications&lt;/span&gt;
+            &lt;span class=&quot;text-sm&quot;&gt;Push notifications&lt;/span&gt;
         &lt;/RzCheckboxGroupItem&gt;
         &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;email&quot;)&quot;&gt;
-            &lt;span class=&quot;font-normal&quot;&gt;Email notifications&lt;/span&gt;
+            &lt;span class=&quot;text-sm&quot;&gt;Email notifications&lt;/span&gt;
         &lt;/RzCheckboxGroupItem&gt;
     &lt;/RzCheckboxGroup&gt;
 &lt;/Field&gt;

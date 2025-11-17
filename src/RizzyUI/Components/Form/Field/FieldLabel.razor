@@ -4,12 +4,12 @@
 @typeparam TValue
 
 <label for="@_for" @attributes="AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="field-label">
-    @if (!string.IsNullOrEmpty(_effectiveDisplayName))
-    {
-        @_effectiveDisplayName
-    }
-    else
+    @if (ChildContent != null)
     {
         @ChildContent
+    }
+    else if (!string.IsNullOrEmpty(_effectiveDisplayName))
+    {
+        @_effectiveDisplayName        
     }
 </label>

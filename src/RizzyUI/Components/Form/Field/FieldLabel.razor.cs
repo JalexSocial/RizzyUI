@@ -22,7 +22,7 @@ public partial class FieldLabel<TValue> : RzComponent<FieldLabelSlots>, IHasFiel
     [CascadingParameter] private EditContext? EditContext { get; set; }
 
     /// <summary>
-    /// Gets or sets the content to be rendered inside the label. This is rendered in addition to any text inferred from `DisplayName` or `For`.
+    /// Gets or sets the content to be rendered inside the label. If set, this will be rendered instead of any text inferred from `DisplayName` or `For`.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
