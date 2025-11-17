@@ -39,12 +39,10 @@ jobs:
         node-version: 22
         registry-url: https://registry.npmjs.org/
 
-    - name: Setup .NET SDK 8 & 9
+    - name: Setup .NET 10 SDK
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: |
-          8.0.x
-          9.0.x
+        dotnet-version: '10.0.x'
 
     # ────────── Dependency caches ──────────
     - name: Cache NuGet packages
@@ -123,9 +121,7 @@ jobs:
 
     - uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: |
-          8.0.x
-          9.0.x
+        dotnet-version: '10.0.x'
 
     # ────────── NuGet publish ──────────
     - name: Publish NuGet package
