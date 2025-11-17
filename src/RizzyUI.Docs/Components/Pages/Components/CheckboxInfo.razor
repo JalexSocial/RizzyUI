@@ -32,7 +32,7 @@
                     <div class="mx-auto mb-5 w-full max-w-sm p-8">
                         <EditForm Model="_model">
                             <Field Orientation="FieldOrientation.Horizontal">
-                                <RzCheckbox For="@(() => _model.AcceptTerms)" />
+                                <RzInputCheckbox For="@(() => _model.AcceptTerms)" />
                                 <FieldLabel For="@(() => _model.AcceptTerms)" class="font-normal">Accept terms and conditions</FieldLabel>
                             </Field>
                         </EditForm>
@@ -61,13 +61,13 @@
                     <div class="mx-auto mb-5 w-full max-w-sm p-8">
                         <EditForm Model="_model">
                             <Field Orientation="FieldOrientation.Horizontal" class="items-start">
-                                <RzCheckbox For="@(() => _model.AcceptTerms)" />
-                                <FieldGroup>
+                                <RzInputCheckbox For="@(() => _model.AcceptTerms)" />
+                                <RzFieldGroup>
                                     <FieldLabel For="@(() => _model.AcceptTerms)" class="font-normal">Accept terms and conditions</FieldLabel>
                                     <FieldDescription>
                                         By clicking this checkbox, you agree to the terms and conditions.
                                     </FieldDescription>
-                                </FieldGroup>
+                                </RzFieldGroup>
                             </Field>
                         </EditForm>
                     </div>
@@ -75,13 +75,13 @@
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;Field Orientation=&quot;FieldOrientation.Horizontal&quot; class=&quot;items-start&quot;&gt;
-    &lt;RzCheckbox For=&quot;@@(() =&gt; _model.AcceptTerms)&quot; /&gt;
-    &lt;FieldGroup&gt;
+    &lt;RzInputCheckbox For=&quot;@@(() =&gt; _model.AcceptTerms)&quot; /&gt;
+    &lt;RzFieldGroup&gt;
         &lt;FieldLabel For=&quot;@@(() =&gt; _model.AcceptTerms)&quot; class=&quot;font-normal&quot;&gt;Accept terms and conditions&lt;/FieldLabel&gt;
         &lt;FieldDescription&gt;
             By clicking this checkbox, you agree to the terms and conditions.
         &lt;/FieldDescription&gt;
-    &lt;/FieldGroup&gt;
+    &lt;/RzFieldGroup&gt;
 &lt;/Field&gt;
                 </RzCodeViewer>
             </section>

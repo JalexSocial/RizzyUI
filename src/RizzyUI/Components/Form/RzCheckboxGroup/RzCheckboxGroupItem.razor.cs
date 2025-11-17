@@ -1,4 +1,5 @@
 
+// src/RizzyUI/Components/Form/RzCheckboxGroup/RzCheckboxGroupItem.razor.cs
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using TailwindVariants.NET;
@@ -13,14 +14,14 @@ internal interface ICheckboxGroupItem
 /// <summary>
 /// Represents a single checkbox item within an <see cref="RzCheckboxGroup{TValue}"/>.
 /// </summary>
-public partial class RzCheckboxGroupItem : RzComponent<RzCheckboxGroupItemSlots>, IHasCheckboxGroupItemStylingProperties, ICheckboxGroupItem
+public partial class RzCheckboxGroupItem<TValue> : RzComponent<RzCheckboxGroupItemSlots>, IHasCheckboxGroupItemStylingProperties, ICheckboxGroupItem
 {
     private bool _hasExplicitIndicator = false;
 
-    [CascadingParameter] protected RzComponent? ParentGroup { get; set; }
+    [CascadingParameter] protected RzCheckboxGroup<TValue>? ParentGroup { get; set; }
 
     /// <summary> Gets or sets the value associated with this checkbox item. </summary>
-    [Parameter] public bool Value { get; set; }
+    [Parameter] public TValue? Value { get; set; }
 
     /// <summary> Gets or sets the content to be rendered inside the item's label. </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -47,7 +48,7 @@ public partial class RzCheckboxGroupItem : RzComponent<RzCheckboxGroupItemSlots>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (ParentGroup == null || !ParentGroup.GetType().IsGenericType || ParentGroup.GetType().GetGenericTypeDefinition() != typeof(RzCheckboxGroup<>))
+        if (ParentGroup is null)
             throw new InvalidOperationException($"{GetType()} must be used within an RzCheckboxGroup.");
     }
 

@@ -1,7 +1,6 @@
 
 @typeparam TValue
 @namespace RizzyUI
-@using Rizzy.Components.Form
 @inherits RzComponent<RzCheckboxGroupSlots>
 
 <HtmlElement Element="@EffectiveElement" 
@@ -14,7 +13,7 @@
     <legend id="@_legendId" class="sr-only">@DisplayName</legend>
     <CascadingValue Value="this" IsFixed="true">
         <CascadingValue Value="ShowIndicators" Name="ShowIndicators">
-                @ChildContent
+            @ChildContent
         </CascadingValue>
     </CascadingValue>
 </HtmlElement>

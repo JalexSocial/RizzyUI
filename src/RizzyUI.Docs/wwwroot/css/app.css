@@ -4605,6 +4605,16 @@
       }
     }
   }
+  .hover\:bg-accent\/50 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--accent);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--accent) 50%, transparent);
+        }
+      }
+    }
+  }
   .hover\:bg-accent\/80 {
     &:hover {
       @media (hover: hover) {
@@ -5500,6 +5510,19 @@
   .has-data-\[variant\=inset\]\:bg-sidebar {
     &:has(*[data-variant="inset"]) {
       background-color: var(--sidebar);
+    }
+  }
+  .has-\[\[aria-checked\=true\]\]\:border-primary {
+    &:has(*:is([aria-checked=true])) {
+      border-color: var(--primary);
+    }
+  }
+  .has-\[\[aria-checked\=true\]\]\:bg-accent\/50 {
+    &:has(*:is([aria-checked=true])) {
+      background-color: var(--accent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--accent) 50%, transparent);
+      }
     }
   }
   .has-\[\[data-slot\=input-group-control\]\:focus-visible\]\:border-ring {
