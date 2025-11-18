@@ -186,6 +186,7 @@ public partial class RzTheme
         RzCheckboxGroup = RizzyUI.RzCheckboxGroupStyles.DefaultDescriptor;
         RzCheckboxGroupItem = RizzyUI.RzCheckboxGroupItemStyles.DefaultDescriptor;
         CheckboxGroupItemIndicator = RizzyUI.CheckboxGroupItemIndicatorStyles.DefaultDescriptor;
+        RzNativeSelect = RizzyUI.RzNativeSelectStyles.DefaultDescriptor;
         RzInputNumber = RizzyUI.RzInputNumberStyles.DefaultDescriptor;
         RzRadioGroup = RizzyUI.RzRadioGroupStyles.DefaultDescriptor;
         RadioGroupItem = RizzyUI.RadioGroupItemStyles.DefaultDescriptor;

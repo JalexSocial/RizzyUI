@@ -512,6 +512,9 @@
   .right-3 {
     right: calc(var(--spacing) * 3);
   }
+  .right-3\.5 {
+    right: calc(var(--spacing) * 3.5);
+  }
   .right-4 {
     right: calc(var(--spacing) * 4);
   }
@@ -2348,6 +2351,9 @@
     --tw-gradient-position: to right in oklab;
     background-image: linear-gradient(var(--tw-gradient-stops));
   }
+  .bg-none {
+    background-image: none;
+  }
   .from-indigo-500 {
     --tw-gradient-from: var(--color-indigo-500);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
@@ -2602,6 +2608,9 @@
   }
   .pr-8 {
     padding-right: calc(var(--spacing) * 8);
+  }
+  .pr-9 {
+    padding-right: calc(var(--spacing) * 9);
   }
   .pb-1 {
     padding-bottom: calc(var(--spacing) * 1);
@@ -5584,6 +5593,11 @@
       }
     }
   }
+  .has-\[select\:disabled\]\:opacity-50 {
+    &:has(*:is(select:disabled)) {
+      opacity: 50%;
+    }
+  }
   .has-\[\>\[data-align\=block-end\]\]\:h-auto {
     &:has(>[data-align=block-end]) {
       height: auto;
@@ -7656,6 +7670,18 @@
           background-color: color-mix(in srgb, oklch(58.8% 0.158 241.966) 50%, transparent);
           @supports (color: color-mix(in lab, red, red)) {
             background-color: color-mix(in oklab, var(--info) 50%, transparent);
+          }
+        }
+      }
+    }
+  }
+  .dark\:hover\:bg-input\/50 {
+    &:is(.dark *) {
+      &:hover {
+        @media (hover: hover) {
+          background-color: var(--input);
+          @supports (color: color-mix(in lab, red, red)) {
+            background-color: color-mix(in oklab, var(--input) 50%, transparent);
           }
         }
       }

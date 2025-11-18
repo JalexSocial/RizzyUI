@@ -372,5 +372,9 @@
   <data name="RzSwitch.DefaultAriaLabel" xml:space="preserve">
   <value>Toggle switch</value>
     <comment>Default ARIA label for RzSwitch</comment>
-</data>  
+</data>
+  <data name="RzNativeSelect.DefaultAriaLabel" xml:space="preserve">
+  <value>Select option</value>
+    <comment>Default ARIA label for RzNativeSelect</comment>
+</data>
 </root>
