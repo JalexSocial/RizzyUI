@@ -54,19 +54,20 @@
                     Usage in a Field
                 </RzHeading>
                 <RzParagraph>
-                    For better form structure and accessibility, compose the `RzSwitch` within a `Field` component. This example shows a common settings pattern with a label, description, and the switch control aligned in a row.
+                    For better form structure and accessibility, compose the `RzSwitch` within a `Field` component. 
+                    Use `Orientation="FieldOrientation.Horizontal"` to layout the elements in a row.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 w-full max-w-md p-8">
                         <EditForm Model="_model">
-                            <Field class="flex flex-row items-center justify-between rounded-lg border p-4">
-                                <RzFieldGroup>
+                            <Field Orientation="FieldOrientation.Horizontal" class="justify-between rounded-lg border p-4">
+                                <div class="space-y-0.5">
                                     <FieldLabel For="@(() => _model.MarketingEmails)">Marketing emails</FieldLabel>
                                     <FieldDescription>
                                         Receive emails about new products, features, and more.
                                     </FieldDescription>
-                                </RzFieldGroup>
+                                </div>
                                 <RzSwitch For="@(() => _model.MarketingEmails)" />
                             </Field>
                         </EditForm>
@@ -75,13 +76,13 @@
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;EditForm Model=&quot;@@_model&quot;&gt;
-    &lt;Field class=&quot;flex flex-row items-center justify-between rounded-lg border p-4&quot;&gt;
-        &lt;RzFieldGroup&gt;
+    &lt;Field Orientation=&quot;FieldOrientation.Horizontal&quot; class=&quot;justify-between rounded-lg border p-4&quot;&gt;
+        &lt;div class=&quot;space-y-0.5&quot;&gt;
             &lt;FieldLabel For=&quot;@@(() =&gt; _model.MarketingEmails)&quot;&gt;Marketing emails&lt;/FieldLabel&gt;
             &lt;FieldDescription&gt;
                 Receive emails about new products, features, and more.
             &lt;/FieldDescription&gt;
-        &lt;/RzFieldGroup&gt;
+        &lt;/div&gt;
         &lt;RzSwitch For=&quot;@@(() =&gt; _model.MarketingEmails)&quot; /&gt;
     &lt;/Field&gt;
 &lt;/EditForm&gt;
