@@ -368,5 +368,9 @@
   <data name="RzTabs.DefaultAriaLabel" xml:space="preserve">
     <value>Tabs</value>
     <comment>Default ARIA label for the tabs container.</comment>
-  </data>    
+  </data>
+  <data name="RzSwitch.DefaultAriaLabel" xml:space="preserve">
+  <value>Toggle switch</value>
+    <comment>Default ARIA label for RzSwitch</comment>
+</data>  
 </root>

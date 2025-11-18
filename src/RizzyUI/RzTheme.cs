@@ -194,8 +194,7 @@ public partial class RzTheme
         TabsList = RizzyUI.TabsList.DefaultDescriptor;
         TabsTrigger = RizzyUI.TabsTrigger.DefaultDescriptor;
         TabsContent = RizzyUI.TabsContent.DefaultDescriptor;
-        RzToggle = RizzyUI.RzToggle.DefaultDescriptor;
-        RzToggleField = RizzyUI.RzToggleField.DefaultDescriptor;
+        RzSwitch = RizzyUI.RzSwitchStyles.DefaultDescriptor;
         RzDarkModeToggle = RizzyUI.RzDarkModeToggle.DefaultDescriptor;
         RzTable = RizzyUI.RzTableStyles.DefaultDescriptor;
         TableBody = RizzyUI.TableBodyStyles.DefaultDescriptor;

@@ -101,4 +101,9 @@
         <EmbeddedResource Include="Themes\vercel.json" />
     </ItemGroup>
 
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Components\Form\RzToggle\RzToggle.razor" />
+      <UpToDateCheckInput Remove="Components\Form\RzToggle\RzToggleField.razor" />
+    </ItemGroup>
+
 </Project>
