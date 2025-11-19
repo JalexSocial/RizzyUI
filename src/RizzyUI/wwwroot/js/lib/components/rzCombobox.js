@@ -33,7 +33,7 @@ export default function(Alpine, require) {
                 div.innerHTML = templateRef.innerHTML;
                 
                 if (Alpine && Alpine.addScopeToNode) {
-                    Alpine.addScopeToNode(div, { item: data });
+                    Alpine.addScopeToNode(div, data );
                 } else {
                     console.warn('RzCombobox: Alpine.addScopeToNode is not available.');
                 }
@@ -48,7 +48,7 @@ export default function(Alpine, require) {
                 render.item = (data, escape) => createAlpineRow(this.$refs.itemTemplate, data);
             }
 
-            config.dataAttr = "data-ts-item";
+            config.dataAttr = "data-item";
 
             this.tomSelect = new TomSelect(selectEl, {
                 ...config,

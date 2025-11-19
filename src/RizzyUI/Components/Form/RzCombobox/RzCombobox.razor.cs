@@ -125,7 +125,6 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
 
         if (Multiple)
         {
-            _effectiveOptions.MaxItems = null;
             _effectiveOptions.AddPlugin(new ComboboxRemoveButtonPlugin());
             _effectiveOptions.AddPlugin(new ComboboxCheckboxOptionsPlugin());
         }

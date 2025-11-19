@@ -6349,7 +6349,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           const div = document.createElement("div");
           div.innerHTML = templateRef.innerHTML;
           if (Alpine2 && Alpine2.addScopeToNode) {
-            Alpine2.addScopeToNode(div, { item: data2 });
+            Alpine2.addScopeToNode(div, data2);
           } else {
             console.warn("RzCombobox: Alpine.addScopeToNode is not available.");
           }
@@ -6361,7 +6361,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         if (this.$refs.itemTemplate) {
           render.item = (data2, escape) => createAlpineRow(this.$refs.itemTemplate, data2);
         }
-        config.dataAttr = "data-ts-item";
+        config.dataAttr = "data-item";
         this.tomSelect = new TomSelect(selectEl, {
           ...config,
           render,

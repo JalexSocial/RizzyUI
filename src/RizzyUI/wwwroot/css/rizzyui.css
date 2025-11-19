@@ -9003,7 +9003,11 @@ pre:has(> code) {
 }
 .ts-control {
   display: flex;
+  min-height: calc(var(--spacing) * 10);
   width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--spacing) * 1.5);
   border-radius: calc(var(--radius) - 2px);
   border-style: var(--tw-border-style);
   border-width: 1px;
@@ -9014,62 +9018,26 @@ pre:has(> code) {
   font-size: var(--text-sm);
   line-height: var(--tw-leading, var(--text-sm--line-height));
   --tw-ring-offset-color: var(--background);
-  &::placeholder {
-    color: var(--muted-foreground);
-  }
-  &:focus-visible {
-    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
-    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
-  &:focus-visible {
-    --tw-ring-color: var(--ring);
-  }
-  &:focus-visible {
-    --tw-ring-offset-width: 2px;
-    --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  }
-  &:focus-visible {
-    --tw-outline-style: none;
-    outline-style: none;
-  }
-  &:disabled {
-    cursor: not-allowed;
-  }
-  &:disabled {
-    opacity: 50%;
-  }
-  min-height: 2.5rem;
-  padding-right: 2rem;
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+  box-sizing: border-box;
   position: relative;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-}
-.ts-control > input {
-  margin: calc(var(--spacing) * 0);
-  flex: 1;
-  --tw-border-style: none;
-  border-style: none;
-  background-color: transparent;
-  padding: calc(var(--spacing) * 0);
-  --tw-outline-style: none;
-  outline-style: none;
-  &::placeholder {
-    color: var(--muted-foreground);
-  }
-  box-shadow: none;
-  min-width: 0.5rem;
+  z-index: 1;
 }
 .ts-wrapper.focus .ts-control {
-  border-color: var(--ring);
   --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   --tw-ring-color: var(--ring);
   --tw-ring-offset-width: 2px;
   --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-offset-color: var(--background);
   --tw-outline-style: none;
   outline-style: none;
+  border-color: transparent;
+}
+.ts-wrapper.disabled .ts-control, .ts-wrapper.disabled .ts-control * {
+  cursor: not-allowed;
+  opacity: 50%;
 }
 .ts-wrapper.invalid .ts-control, .ts-wrapper.is-invalid .ts-control {
   border-color: var(--destructive);
@@ -9078,104 +9046,46 @@ pre:has(> code) {
     --tw-ring-color: color-mix(in oklab, var(--destructive) 20%, transparent);
   }
 }
-.ts-dropdown {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(100% + 0.25rem);
-  z-index: 50;
-  min-width: 8rem;
-  animation: enter var(--tw-animation-duration,var(--tw-duration,.15s))var(--tw-ease,ease)var(--tw-animation-delay,0s)var(--tw-animation-iteration-count,1)var(--tw-animation-direction,normal)var(--tw-animation-fill-mode,none);
-  overflow: hidden;
-  border-radius: calc(var(--radius) - 2px);
-  border-style: var(--tw-border-style);
-  border-width: 1px;
-  border-color: var(--border);
-  background-color: var(--popover);
-  color: var(--popover-foreground);
-  --tw-shadow: var(--shadow-md);
+.ts-control > input {
+  display: inline-block;
+  --tw-border-style: none;
+  border-style: none;
+  background-color: transparent;
+  padding: calc(var(--spacing) * 0);
+  --tw-shadow: 0 0 #0000;
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  --tw-enter-opacity: calc(80/100);
-  --tw-enter-opacity: .8;
-}
-.ts-dropdown-content {
-  max-height: 300px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: calc(var(--spacing) * 1);
-}
-.ts-dropdown .option {
-  position: relative;
-  display: flex;
-  width: 100%;
-  cursor: default;
-  align-items: center;
-  border-radius: calc(var(--radius) - 4px);
-  padding-block: calc(var(--spacing) * 1.5);
-  padding-right: calc(var(--spacing) * 8);
-  padding-left: calc(var(--spacing) * 2);
-  font-size: var(--text-sm);
-  line-height: var(--tw-leading, var(--text-sm--line-height));
+  --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   --tw-outline-style: none;
   outline-style: none;
-  -webkit-user-select: none;
-  user-select: none;
-  &:focus {
-    background-color: var(--accent);
+  &::placeholder {
+    color: var(--muted-foreground);
   }
-  &:focus {
-    color: var(--accent-foreground);
-  }
-  &[data-disabled] {
-    pointer-events: none;
-  }
-  &[data-disabled] {
-    opacity: 50%;
-  }
+  flex: 1 1 auto;
+  min-width: 4px !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  text-indent: 0 !important;
+  line-height: inherit !important;
+  user-select: auto !important;
 }
-.ts-dropdown .option.active {
-  background-color: var(--accent);
-  color: var(--accent-foreground);
+.ts-wrapper.has-items .ts-control > input {
+  margin: 0 !important;
 }
-.ts-dropdown .option.selected {
-  --tw-font-weight: var(--font-weight-medium);
-  font-weight: var(--font-weight-medium);
-}
-.ts-dropdown .optgroup-header {
-  padding-block: calc(var(--spacing) * 1.5);
-  padding-right: calc(var(--spacing) * 2);
-  padding-left: calc(var(--spacing) * 2);
-  font-size: var(--text-sm);
-  line-height: var(--tw-leading, var(--text-sm--line-height));
-  --tw-font-weight: var(--font-weight-semibold);
-  font-weight: var(--font-weight-semibold);
-  color: var(--muted-foreground);
-}
-.ts-dropdown .no-results {
-  padding-block: calc(var(--spacing) * 2);
-  padding-right: calc(var(--spacing) * 2);
-  padding-left: calc(var(--spacing) * 2);
-  text-align: center;
-  font-size: var(--text-sm);
-  line-height: var(--tw-leading, var(--text-sm--line-height));
-  color: var(--muted-foreground);
-}
-.ts-control .item {
+.ts-control > div.item {
   display: inline-flex;
   align-items: center;
   border-radius: calc(var(--radius) - 4px);
-  border-style: var(--tw-border-style);
-  border-width: 1px;
-  border-color: transparent;
   background-color: var(--secondary);
-  padding-inline: calc(var(--spacing) * 1.5);
+  padding-inline: calc(var(--spacing) * 2);
   padding-block: calc(var(--spacing) * 0.5);
   font-size: var(--text-xs);
   line-height: var(--tw-leading, var(--text-xs--line-height));
   --tw-font-weight: var(--font-weight-medium);
   font-weight: var(--font-weight-medium);
   color: var(--secondary-foreground);
-  --tw-ring-offset-color: var(--background);
   transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
   transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
   transition-duration: var(--tw-duration, var(--default-transition-duration));
@@ -9187,44 +9097,157 @@ pre:has(> code) {
       }
     }
   }
-  &:focus {
-    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
-    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
-  &:focus {
-    --tw-ring-color: var(--ring);
-  }
-  &:focus {
-    --tw-ring-offset-width: 2px;
-    --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  }
-  &:focus {
-    --tw-outline-style: none;
-    outline-style: none;
-  }
+  vertical-align: baseline;
 }
-.ts-control .item .remove {
-  margin-left: calc(var(--spacing) * 1);
+.ts-control > div.item.active {
+  background-color: var(--ring);
+  color: var(--primary-foreground);
+}
+.ts-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: calc(var(--spacing) * 0);
+  z-index: 50;
+  width: 100%;
+  min-width: 8rem;
+  animation: enter var(--tw-animation-duration,var(--tw-duration,.15s))var(--tw-ease,ease)var(--tw-animation-delay,0s)var(--tw-animation-iteration-count,1)var(--tw-animation-direction,normal)var(--tw-animation-fill-mode,none);
+  overflow: hidden;
+  border-radius: calc(var(--radius) - 2px);
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+  border-color: var(--border);
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+  --tw-shadow: var(--shadow-md);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  --tw-enter-opacity: calc(0/100);
+  --tw-enter-opacity: 0;
+  --tw-enter-scale: calc(95*1%);
+  --tw-enter-scale: .95;
+  margin: 0;
+  box-sizing: border-box;
+}
+.ts-dropdown-content {
+  max-height: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: calc(var(--spacing) * 1);
+  scroll-behavior: smooth;
+}
+.ts-dropdown .option {
+  position: relative;
+  display: flex;
+  width: 100%;
+  cursor: default;
+  align-items: center;
+  border-radius: calc(var(--radius) - 4px);
+  padding-block: calc(var(--spacing) * 1.5);
+  padding-right: calc(var(--spacing) * 2);
+  padding-left: calc(var(--spacing) * 2);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  --tw-outline-style: none;
+  outline-style: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.ts-dropdown .option.active, .ts-dropdown .option:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+.ts-dropdown .option[data-selectable] {
   cursor: pointer;
+}
+.ts-dropdown .option.selected {
+  --tw-font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium);
+  color: var(--accent-foreground);
+}
+.ts-dropdown .option[data-disabled] {
+  pointer-events: none;
+  opacity: 50%;
+}
+.ts-dropdown [data-selectable] .highlight {
+  border-radius: var(--radius-xs);
+  background-color: var(--primary);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--primary) 20%, transparent);
+  }
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
+  color: var(--foreground);
+}
+.ts-dropdown .optgroup-header {
+  padding-inline: calc(var(--spacing) * 2);
+  padding-block: calc(var(--spacing) * 1.5);
+  font-size: var(--text-xs);
+  line-height: var(--tw-leading, var(--text-xs--line-height));
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
+  color: var(--muted-foreground);
+}
+.ts-dropdown .optgroup:not(:first-child) .optgroup-header {
+  margin-top: calc(var(--spacing) * 1);
+  border-top-style: var(--tw-border-style);
+  border-top-width: 1px;
+  border-color: var(--border);
+}
+.ts-dropdown .no-results {
+  padding-inline: calc(var(--spacing) * 2);
+  padding-block: calc(var(--spacing) * 4);
+  text-align: center;
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  color: var(--muted-foreground);
+}
+.ts-dropdown .create {
+  cursor: pointer;
+  padding-inline: calc(var(--spacing) * 2);
+  padding-block: calc(var(--spacing) * 1.5);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  color: var(--muted-foreground);
+}
+.ts-dropdown .create:hover, .ts-dropdown .create.active {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+.ts-wrapper.plugin-remove_button .item {
+  padding-right: calc(var(--spacing) * 1);
+}
+.ts-wrapper.plugin-remove_button .item .remove {
+  margin-left: calc(var(--spacing) * 1);
+  display: flex;
+  height: calc(var(--spacing) * 4);
+  width: calc(var(--spacing) * 4);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
   border-left-style: var(--tw-border-style);
   border-left-width: 1px;
-  border-color: var(--secondary-foreground);
+  border-left-color: var(--secondary-foreground);
   @supports (color: color-mix(in lab, red, red)) {
-    border-color: color-mix(in oklab, var(--secondary-foreground) 20%, transparent);
+    border-left-color: color-mix(in oklab, var(--secondary-foreground) 20%, transparent);
   }
   padding-left: calc(var(--spacing) * 1);
+  color: var(--muted-foreground);
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
   &:hover {
     @media (hover: hover) {
-      color: var(--destructive);
+      color: var(--foreground);
     }
   }
   font-size: 1em;
-  line-height: 1;
 }
-.ts-wrapper .clear-button {
+.plugin-clear_button {
+  --ts-pr-clear-button: 2.5rem;
+}
+.plugin-clear_button .clear-button {
   position: absolute;
   top: calc(1/2 * 100%);
-  right: calc(var(--spacing) * 8);
+  right: calc(var(--spacing) * 3);
   --tw-translate-y: calc(calc(1/2 * 100%) * -1);
   translate: var(--tw-translate-x) var(--tw-translate-y);
   cursor: pointer;
@@ -9238,11 +9261,123 @@ pre:has(> code) {
       color: var(--foreground);
     }
   }
+  background: transparent !important;
 }
-.ts-wrapper.has-items .clear-button {
+.plugin-clear_button.has-items .clear-button {
   opacity: 100%;
 }
+.ts-wrapper.plugin-drag_drop .ts-dragging {
+  opacity: 50%;
+}
+.plugin-checkbox_options .option input {
+  margin-right: calc(var(--spacing) * 2);
+  height: calc(var(--spacing) * 4);
+  width: calc(var(--spacing) * 4);
+  flex-shrink: 0;
+  border-radius: calc(var(--radius) - 4px);
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+  border-color: var(--primary);
+  color: var(--primary);
+  --tw-ring-offset-color: var(--background);
+  &:focus-visible {
+    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  &:focus-visible {
+    --tw-ring-color: var(--ring);
+  }
+  &:focus-visible {
+    --tw-ring-offset-width: 2px;
+    --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  }
+  &:focus-visible {
+    --tw-outline-style: none;
+    outline-style: none;
+  }
+}
+.ts-wrapper.plugin-dropdown_input .ts-dropdown .dropdown-input-wrap {
+  padding: calc(var(--spacing) * 2);
+}
+.ts-wrapper.plugin-dropdown_input .ts-dropdown .dropdown-input {
+  display: flex;
+  height: calc(var(--spacing) * 9);
+  width: 100%;
+  border-radius: calc(var(--radius) - 2px);
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+  border-color: var(--input);
+  background-color: var(--background);
+  padding-inline: calc(var(--spacing) * 3);
+  padding-block: calc(var(--spacing) * 1);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  --tw-shadow: var(--shadow-sm);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  --tw-ring-offset-color: var(--background);
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+  &::file-selector-button {
+    border-style: var(--tw-border-style);
+    border-width: 0px;
+  }
+  &::file-selector-button {
+    background-color: transparent;
+  }
+  &::file-selector-button {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
+  }
+  &::file-selector-button {
+    --tw-font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-medium);
+  }
+  &::placeholder {
+    color: var(--muted-foreground);
+  }
+  &:focus-visible {
+    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  &:focus-visible {
+    --tw-ring-color: var(--ring);
+  }
+  &:focus-visible {
+    --tw-outline-style: none;
+    outline-style: none;
+  }
+  &:disabled {
+    cursor: not-allowed;
+  }
+  &:disabled {
+    opacity: 50%;
+  }
+}
+.ts-wrapper.loading .ts-control::before {
+  position: absolute;
+  top: calc(1/2 * 100%);
+  right: calc(var(--spacing) * 3);
+  height: calc(var(--spacing) * 4);
+  width: calc(var(--spacing) * 4);
+  animation: var(--animate-spin);
+  border-radius: calc(infinity * 1px);
+  border-style: var(--tw-border-style);
+  border-width: 2px;
+  border-color: var(--primary);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--primary) 30%, transparent);
+  }
+  border-top-color: var(--primary);
+  --tw-content: '';
+  content: var(--tw-content);
+  z-index: 10;
+}
+.ts-wrapper.loading.plugin-clear_button .ts-control::before {
+  right: 2.25rem;
+}
 .ts-wrapper.single .ts-control::after {
+  pointer-events: none;
   position: absolute;
   top: calc(1/2 * 100%);
   right: calc(var(--spacing) * 3);
@@ -9252,42 +9387,21 @@ pre:has(> code) {
   translate: var(--tw-translate-x) var(--tw-translate-y);
   opacity: 50%;
   content: "";
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-chevron-down'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  pointer-events: none;
-}
-.ts-wrapper.loading .ts-control::before {
-  position: absolute;
-  top: calc(1/2 * 100%);
-  right: calc(var(--spacing) * 8);
-  height: calc(var(--spacing) * 4);
-  width: calc(var(--spacing) * 4);
-  --tw-translate-y: calc(calc(1/2 * 100%) * -1);
-  translate: var(--tw-translate-x) var(--tw-translate-y);
-  animation: var(--animate-spin);
-  border-radius: calc(infinity * 1px);
-  border-style: var(--tw-border-style);
-  border-width: 2px;
-  --tw-border-style: solid;
-  border-style: solid;
-  border-color: currentcolor;
-  border-right-color: transparent;
-  opacity: 50%;
-  content: "";
-  z-index: 1;
 }
 .ts-hidden-accessible {
-  border: 0;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  padding: 0;
   position: absolute;
   width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
+  border-width: 0;
 }
 @property --tw-animation-delay {
   syntax: "*";

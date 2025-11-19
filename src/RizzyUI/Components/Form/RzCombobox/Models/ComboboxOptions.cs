@@ -24,7 +24,7 @@ public class ComboboxOptions
     /// The maximum number of items the user can select. 1 for single select, null for unlimited.
     /// </summary>
     [JsonPropertyName("maxItems")]
-    public int? MaxItems { get; set; } = 1;
+    public int? MaxItems { get; set; } 
 
     /// <summary>
     /// If true, the dropdown will open when the control receives focus.

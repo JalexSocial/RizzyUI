@@ -1,113 +1,203 @@
-
 /* 
-   RizzyUI - Tom Select Shadcn/UI Theme 
-   Maps Tom Select classes to Tailwind/Shadcn CSS variables.
+   RizzyUI - Tom Select Shadcn/UI Theme (Tailwind v4)
+   COMPLETE implementation covering base states + common plugins.
 */
 
+/* --- Wrapper & Layout --- */
 .ts-wrapper {
     @apply relative w-full;
 }
 
+/* The main input container (looks like Shadcn Input) */
 .ts-control {
-    @apply flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
-    min-height: 2.5rem; /* h-10 */
-    padding-right: 2rem; 
+    @apply flex min-h-10 w-full flex-wrap items-center gap-1.5 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-colors;
+
+    /* Handle overflow for long items */
+    box-sizing: border-box;
     position: relative;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.25rem;
+    z-index: 1;
 }
 
-.ts-control > input {
-    @apply flex-1 bg-transparent outline-none border-none p-0 m-0 placeholder:text-muted-foreground;
-    box-shadow: none;
-    min-width: 0.5rem;
-}
-
+/* Focus State - Mimic Shadcn Input Focus */
 .ts-wrapper.focus .ts-control {
-    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background border-ring;
+    @apply outline-none ring-2 ring-ring ring-offset-2;
+    border-color: transparent; /* Optional: mimics standard shadcn input focus behavior */
 }
 
+/* Disabled State */
+.ts-wrapper.disabled .ts-control,
+.ts-wrapper.disabled .ts-control * {
+    @apply cursor-not-allowed opacity-50;
+}
+
+/* Error/Invalid State */
 .ts-wrapper.invalid .ts-control,
 .ts-wrapper.is-invalid .ts-control {
     @apply border-destructive ring-destructive/20;
 }
 
-.ts-dropdown {
-    position: absolute;
-    left: 0;
-    right: 0;                
-    top: calc(100% + 0.25rem);
-    z-index: 50;
+/* --- Input Field --- */
+.ts-control > input {
+    @apply placeholder:text-muted-foreground inline-block border-none bg-transparent p-0 shadow-none outline-none ring-0;
 
-    @apply min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80;
+    /* Essential resets for Tom Select calculation */
+    flex: 1 1 auto;
+    min-width: 4px !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    text-indent: 0 !important;
+    line-height: inherit !important;
+    user-select: auto !important;
+}
+
+/* Hide input when not focused in single select if needed, or manage placeholder visibility */
+.ts-wrapper.has-items .ts-control > input {
+    margin: 0 !important;
+}
+
+/* --- Selected Items (Multi-Select Badges) --- */
+.ts-control > div.item {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 inline-flex items-center rounded-sm px-2 py-0.5 text-xs font-medium transition-colors;
+
+    /* Ensure items don't break layout */
+    vertical-align: baseline;
+}
+
+/* Active state (when using left/right arrows to select an item tag) */
+.ts-control > div.item.active {
+    @apply bg-ring text-primary-foreground;
+}
+
+/* --- Dropdown Menu (Popover) --- */
+.ts-dropdown {
+    @apply text-popover-foreground bg-popover animate-in fade-in-0 zoom-in-95 absolute left-0 top-[calc(100%+4px)] z-50 w-full min-w-[8rem] overflow-hidden rounded-md border border-border shadow-md;
+
+    /* Reset Tom Select positioning */
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .ts-dropdown-content {
-    @apply p-1 max-h-[300px] overflow-y-auto overflow-x-hidden;
+    @apply max-h-[300px] overflow-y-auto overflow-x-hidden p-1;
+    scroll-behavior: smooth;
 }
 
+/* --- Dropdown Options --- */
 .ts-dropdown .option {
-    @apply relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50;
+    @apply relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-2 text-sm outline-none;
 }
 
-.ts-dropdown .option.active {
+/* Hover / Active / Selected States */
+.ts-dropdown .option.active,
+.ts-dropdown .option:hover {
     @apply bg-accent text-accent-foreground;
 }
 
+.ts-dropdown .option[data-selectable] {
+    @apply cursor-pointer;
+}
+
 .ts-dropdown .option.selected {
-    @apply font-medium;
+    @apply text-accent-foreground font-medium;
+    /* Optional: Add checkmark icon logic via pseudo-element if desired, 
+       but Tom Select standard behavior usually just bolds or highlights */
 }
 
+.ts-dropdown .option[data-disabled] {
+    @apply pointer-events-none opacity-50;
+}
+
+/* Search Highlight (matches found in text) */
+.ts-dropdown [data-selectable] .highlight {
+    @apply bg-primary/20 rounded-xs text-foreground font-semibold;
+}
+
+/* --- Grouping (Optgroups) --- */
 .ts-dropdown .optgroup-header {
-    @apply py-1.5 pl-2 pr-2 text-sm font-semibold text-muted-foreground;
+    @apply text-muted-foreground px-2 py-1.5 text-xs font-semibold;
+}
+.ts-dropdown .optgroup:not(:first-child) .optgroup-header {
+    @apply border-t border-border mt-1;
 }
 
+/* --- Special States: No Results & Create --- */
 .ts-dropdown .no-results {
-    @apply py-2 pl-2 pr-2 text-sm text-muted-foreground text-center;
+    @apply text-muted-foreground px-2 py-4 text-center text-sm;
 }
 
-.ts-control .item {
-    @apply inline-flex items-center rounded-sm border border-transparent bg-secondary text-secondary-foreground px-1.5 py-0.5 text-xs font-medium ring-offset-background transition-colors hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+.ts-dropdown .create {
+    @apply text-muted-foreground cursor-pointer px-2 py-1.5 text-sm;
+}
+.ts-dropdown .create:hover,
+.ts-dropdown .create.active {
+    @apply bg-accent text-accent-foreground;
 }
 
-.ts-control .item .remove {
-    @apply ml-1 hover:text-destructive border-l border-secondary-foreground/20 pl-1 cursor-pointer;
+/* --- Plugin: Remove Button (The 'x' on items) --- */
+.ts-wrapper.plugin-remove_button .item {
+    @apply pr-1; /* Adjust padding to accommodate the close button */
+}
+
+.ts-wrapper.plugin-remove_button .item .remove {
+    @apply text-muted-foreground hover:text-foreground border-l-secondary-foreground/20 ml-1 flex h-4 w-4 cursor-pointer items-center justify-center border-l pl-1 transition-colors;
     font-size: 1em;
-    line-height: 1;
 }
 
-.ts-wrapper .clear-button {
-    @apply absolute right-8 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer opacity-0 transition-opacity;
+/* --- Plugin: Clear Button (The 'x' on the main input) --- */
+.plugin-clear_button {
+    --ts-pr-clear-button: 2.5rem; /* Make room for the button */
 }
-.ts-wrapper.has-items .clear-button {
+
+.plugin-clear_button .clear-button {
+    @apply text-muted-foreground hover:text-foreground absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer opacity-0 transition-opacity;
+    background: transparent !important; /* Override inline styles */
+}
+
+.plugin-clear_button.has-items .clear-button {
     @apply opacity-100;
 }
 
+/* --- Plugin: Drag & Drop --- */
+.ts-wrapper.plugin-drag_drop .ts-dragging {
+    @apply opacity-50;
+}
+
+/* --- Plugin: Checkbox Options --- */
+.plugin-checkbox_options .option input {
+    @apply border-primary text-primary ring-offset-background focus-visible:ring-ring mr-2 h-4 w-4 shrink-0 rounded-sm border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+}
+
+/* --- Plugin: Dropdown Input (Search inside dropdown) --- */
+.ts-wrapper.plugin-dropdown_input .ts-dropdown .dropdown-input-wrap {
+    @apply p-2;
+}
+.ts-wrapper.plugin-dropdown_input .ts-dropdown .dropdown-input {
+    @apply border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+/* --- Loaders / Spinners --- */
+.ts-wrapper.loading .ts-control::before {
+    @apply border-primary/30 border-t-primary absolute right-3 top-1/2 h-4 w-4 animate-spin rounded-full border-2 content-[''];
+    z-index: 10;
+}
+/* If clear button is present, push spinner left */
+.ts-wrapper.loading.plugin-clear_button .ts-control::before {
+    right: 2.25rem;
+}
+
+/* --- Caret / Chevron (Single Select) --- */
 .ts-wrapper.single .ts-control::after {
-    @apply absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 opacity-50;
+    @apply pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-50;
     content: "";
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-chevron-down'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    pointer-events: none;
 }
 
-.ts-wrapper.loading .ts-control::before {
-    @apply absolute right-8 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent opacity-50;
-    content: "";
-    z-index: 1;
-}
-
+/* --- Accessibility Utility --- */
 .ts-hidden-accessible {
-    border: 0;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    height: 1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
+    @apply sr-only;
 }

@@ -248,6 +248,32 @@ private ComboboxOptions _clearButtonOptions = new()
                     Alpine.js syntax is used within the template, with access to the <code>item</code> object.
                 </RzParagraph>
 
+                <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">
+                    <EditForm Model="@_model">
+                        <Field>
+                            <Label>Select User</Label>
+                            <RzCombobox TItem="UserData" TValue="int?"
+                                        Items="@_users"
+                                        ValueSelector="@(u => u.Id.ToString())"
+                                        TextSelector="@(u => u.Name)"
+                                        @bind-Value="_model.AssigneeId"
+                                        For="@(() => _model.AssigneeId)"
+                                        Placeholder="Search users...">
+                                <OptionTemplate>
+                                    <div class="flex items-center gap-3 py-1">
+                                        <div class="flex items-center justify-center size-8 rounded-full bg-secondary text-secondary-foreground">
+                                            <span class="text-xs font-semibold"></span>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span class="font-medium text-sm" x-text="item.name"></span>
+                                            <span class="text-xs text-muted-foreground" x-text="item.email"></span>
+                                        </div>
+                                    </div>
+                                </OptionTemplate>
+                            </RzCombobox>
+                        </Field>
+                    </EditForm>
+                </div>                
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">
                         <EditForm Model="@_model">
@@ -263,7 +289,7 @@ private ComboboxOptions _clearButtonOptions = new()
                                     <OptionTemplate>
                                         <div class="flex items-center gap-3 py-1">
                                             <div class="flex items-center justify-center size-8 rounded-full bg-secondary text-secondary-foreground">
-                                                <span class="text-xs font-semibold" x-text="item.name.substring(0,2).toUpperCase()"></span>
+                                                <span class="text-xs font-semibold"></span>
                                             </div>
                                             <div class="flex flex-col">
                                                 <span class="font-medium text-sm" x-text="item.name"></span>
@@ -282,7 +308,7 @@ private ComboboxOptions _clearButtonOptions = new()
     &lt;OptionTemplate&gt;
         &lt;div class="flex items-center gap-3 py-1"&gt;
             &lt;div class="flex items-center justify-center size-8 rounded-full bg-secondary"&gt;
-                &lt;span class="text-xs font-semibold" x-text="item.name.substring(0,2).toUpperCase()"&gt;&lt;/span&gt;
+                &lt;span class="text-xs font-semibold"&gt;&lt;/span&gt;
             &lt;/div&gt;
             &lt;div class="flex flex-col"&gt;
                 &lt;span class="font-medium text-sm" x-text="item.name"&gt;&lt;/span&gt;

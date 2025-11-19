@@ -377,4 +377,8 @@
   <value>Select option</value>
     <comment>Default ARIA label for RzNativeSelect</comment>
 </data>
+  <data name="RzCombobox.DefaultPlaceholder" xml:space="preserve">
+  <value>Select option</value>
+    <comment>Default ARIA placeholder for RzCombobox</comment>
+</data>
 </root>
