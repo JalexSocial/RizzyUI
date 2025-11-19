@@ -7606,6 +7606,19 @@
       }
     }
   }
+  .\[\&_\.ts-control\]\:\!border-destructive {
+    & .ts-control {
+      border-color: var(--destructive) !important;
+    }
+  }
+  .\[\&_\.ts-control\]\:\!ring-destructive\/20 {
+    & .ts-control {
+      --tw-ring-color: var(--destructive) !important;
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-ring-color: color-mix(in oklab, var(--destructive) 20%, transparent) !important;
+      }
+    }
+  }
   .\[\&_\[data-slot\=command-group-heading\]\]\:px-2 {
     & [data-slot=command-group-heading] {
       padding-inline: calc(var(--spacing) * 2);
@@ -8983,6 +8996,295 @@ pre:has(> code) {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
+}
+.ts-control {
+  display: flex;
+  width: 100%;
+  border-radius: calc(var(--radius) - 2px);
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+  border-color: var(--input);
+  background-color: var(--background);
+  padding-inline: calc(var(--spacing) * 3);
+  padding-block: calc(var(--spacing) * 2);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  --tw-ring-offset-color: var(--background);
+  &::placeholder {
+    color: var(--muted-foreground);
+  }
+  &:focus-visible {
+    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  &:focus-visible {
+    --tw-ring-color: var(--ring);
+  }
+  &:focus-visible {
+    --tw-ring-offset-width: 2px;
+    --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  }
+  &:focus-visible {
+    --tw-outline-style: none;
+    outline-style: none;
+  }
+  &:disabled {
+    cursor: not-allowed;
+  }
+  &:disabled {
+    opacity: 50%;
+  }
+  min-height: 2.5rem;
+  padding-right: 2rem;
+  position: relative;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+.ts-control > input {
+  margin: calc(var(--spacing) * 0);
+  flex: 1;
+  --tw-border-style: none;
+  border-style: none;
+  background-color: transparent;
+  padding: calc(var(--spacing) * 0);
+  --tw-outline-style: none;
+  outline-style: none;
+  &::placeholder {
+    color: var(--muted-foreground);
+  }
+  box-shadow: none;
+  min-width: 0.5rem;
+}
+.ts-wrapper.focus .ts-control {
+  border-color: var(--ring);
+  --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  --tw-ring-color: var(--ring);
+  --tw-ring-offset-width: 2px;
+  --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-offset-color: var(--background);
+  --tw-outline-style: none;
+  outline-style: none;
+}
+.ts-wrapper.invalid .ts-control, .ts-wrapper.is-invalid .ts-control {
+  border-color: var(--destructive);
+  --tw-ring-color: var(--destructive);
+  @supports (color: color-mix(in lab, red, red)) {
+    --tw-ring-color: color-mix(in oklab, var(--destructive) 20%, transparent);
+  }
+}
+.ts-dropdown {
+  position: absolute;
+  top: calc(var(--spacing) * 1);
+  z-index: 50;
+  min-width: 8rem;
+  animation: enter var(--tw-animation-duration,var(--tw-duration,.15s))var(--tw-ease,ease)var(--tw-animation-delay,0s)var(--tw-animation-iteration-count,1)var(--tw-animation-direction,normal)var(--tw-animation-fill-mode,none);
+  overflow: hidden;
+  border-radius: calc(var(--radius) - 2px);
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+  border-color: var(--border);
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+  --tw-shadow: var(--shadow-md);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  --tw-enter-opacity: calc(80/100);
+  --tw-enter-opacity: .8;
+  margin-top: 4px;
+  width: 100%;
+  left: 0;
+}
+.ts-dropdown-content {
+  max-height: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: calc(var(--spacing) * 1);
+}
+.ts-dropdown .option {
+  position: relative;
+  display: flex;
+  width: 100%;
+  cursor: default;
+  align-items: center;
+  border-radius: calc(var(--radius) - 4px);
+  padding-block: calc(var(--spacing) * 1.5);
+  padding-right: calc(var(--spacing) * 8);
+  padding-left: calc(var(--spacing) * 2);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  --tw-outline-style: none;
+  outline-style: none;
+  -webkit-user-select: none;
+  user-select: none;
+  &:focus {
+    background-color: var(--accent);
+  }
+  &:focus {
+    color: var(--accent-foreground);
+  }
+  &[data-disabled] {
+    pointer-events: none;
+  }
+  &[data-disabled] {
+    opacity: 50%;
+  }
+}
+.ts-dropdown .option.active {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+.ts-dropdown .option.selected {
+  --tw-font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium);
+}
+.ts-dropdown .optgroup-header {
+  padding-block: calc(var(--spacing) * 1.5);
+  padding-right: calc(var(--spacing) * 2);
+  padding-left: calc(var(--spacing) * 2);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
+  color: var(--muted-foreground);
+}
+.ts-dropdown .no-results {
+  padding-block: calc(var(--spacing) * 2);
+  padding-right: calc(var(--spacing) * 2);
+  padding-left: calc(var(--spacing) * 2);
+  text-align: center;
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  color: var(--muted-foreground);
+}
+.ts-control .item {
+  display: inline-flex;
+  align-items: center;
+  border-radius: calc(var(--radius) - 4px);
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+  border-color: transparent;
+  background-color: var(--secondary);
+  padding-inline: calc(var(--spacing) * 1.5);
+  padding-block: calc(var(--spacing) * 0.5);
+  font-size: var(--text-xs);
+  line-height: var(--tw-leading, var(--text-xs--line-height));
+  --tw-font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium);
+  color: var(--secondary-foreground);
+  --tw-ring-offset-color: var(--background);
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--secondary);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--secondary) 80%, transparent);
+      }
+    }
+  }
+  &:focus {
+    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  &:focus {
+    --tw-ring-color: var(--ring);
+  }
+  &:focus {
+    --tw-ring-offset-width: 2px;
+    --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  }
+  &:focus {
+    --tw-outline-style: none;
+    outline-style: none;
+  }
+}
+.ts-control .item .remove {
+  margin-left: calc(var(--spacing) * 1);
+  cursor: pointer;
+  border-left-style: var(--tw-border-style);
+  border-left-width: 1px;
+  border-color: var(--secondary-foreground);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--secondary-foreground) 20%, transparent);
+  }
+  padding-left: calc(var(--spacing) * 1);
+  &:hover {
+    @media (hover: hover) {
+      color: var(--destructive);
+    }
+  }
+  font-size: 1em;
+  line-height: 1;
+}
+.ts-wrapper .clear-button {
+  position: absolute;
+  top: calc(1/2 * 100%);
+  right: calc(var(--spacing) * 8);
+  --tw-translate-y: calc(calc(1/2 * 100%) * -1);
+  translate: var(--tw-translate-x) var(--tw-translate-y);
+  cursor: pointer;
+  color: var(--muted-foreground);
+  opacity: 0%;
+  transition-property: opacity;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+  &:hover {
+    @media (hover: hover) {
+      color: var(--foreground);
+    }
+  }
+}
+.ts-wrapper.has-items .clear-button {
+  opacity: 100%;
+}
+.ts-wrapper.single .ts-control::after {
+  position: absolute;
+  top: calc(1/2 * 100%);
+  right: calc(var(--spacing) * 3);
+  height: calc(var(--spacing) * 4);
+  width: calc(var(--spacing) * 4);
+  --tw-translate-y: calc(calc(1/2 * 100%) * -1);
+  translate: var(--tw-translate-x) var(--tw-translate-y);
+  opacity: 50%;
+  content: "";
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+}
+.ts-wrapper.loading .ts-control::before {
+  position: absolute;
+  top: calc(1/2 * 100%);
+  right: calc(var(--spacing) * 8);
+  height: calc(var(--spacing) * 4);
+  width: calc(var(--spacing) * 4);
+  --tw-translate-y: calc(calc(1/2 * 100%) * -1);
+  translate: var(--tw-translate-x) var(--tw-translate-y);
+  animation: var(--animate-spin);
+  border-radius: calc(infinity * 1px);
+  border-style: var(--tw-border-style);
+  border-width: 2px;
+  --tw-border-style: solid;
+  border-style: solid;
+  border-color: currentcolor;
+  border-right-color: transparent;
+  opacity: 50%;
+  content: "";
+  z-index: 1;
+}
+.ts-hidden-accessible {
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
 }
 @property --tw-animation-delay {
   syntax: "*";

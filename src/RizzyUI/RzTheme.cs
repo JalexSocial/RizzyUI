@@ -191,6 +191,7 @@ public partial class RzTheme
         RzRadioGroup = RizzyUI.RzRadioGroupStyles.DefaultDescriptor;
         RadioGroupItem = RizzyUI.RadioGroupItemStyles.DefaultDescriptor;
         RadioGroupItemIndicator = RizzyUI.RadioGroupItemIndicator.DefaultDescriptor;
+        RzCombobox = RizzyUI.RzComboboxStyles.DefaultDescriptor;
         RzTabs = RizzyUI.RzTabs.DefaultDescriptor;
         TabsList = RizzyUI.TabsList.DefaultDescriptor;
         TabsTrigger = RizzyUI.TabsTrigger.DefaultDescriptor;

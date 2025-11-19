@@ -26,7 +26,7 @@ public partial class RzInputCheckbox : InputBase<bool, RzInputCheckbox.Slots>
     /// <summary>
     /// Defines the slots available for styling in the RzInputCheckbox component.
     /// </summary>
-    public new sealed partial class Slots : ISlots
+    public sealed partial class Slots : ISlots
     {
         /// <summary>
         /// The base slot for the checkbox input element.

@@ -12,6 +12,7 @@ import registerRzBrowser from './components/rzBrowser.js';
 import registerRzCarousel from './components/rzCarousel.js';
 import registerRzCodeViewer from './components/rzCodeViewer.js';
 import registerRzCollapsible from './components/rzCollapsible.js';
+import registerRzCombobox from './components/rzCombobox.js';
 import registerRzDateEdit from './components/rzDateEdit.js';
 import registerRzDialog from './components/rzDialog.js';
 import registerRzDropdownMenu from './components/rzDropdownMenu.js';
@@ -150,6 +151,7 @@ function registerComponents(Alpine) {
     registerRzCarousel(Alpine, rizzyRequire);
     registerRzCodeViewer(Alpine, rizzyRequire);
     registerRzCollapsible(Alpine);
+    registerRzCombobox(Alpine, rizzyRequire);
     registerRzDateEdit(Alpine, rizzyRequire);
     registerRzDialog(Alpine);
     registerRzDropdownMenu(Alpine);

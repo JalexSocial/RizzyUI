@@ -2,6 +2,7 @@
 @import "../js/lib/aspnet-client-validation/style.css";
 @import "../js/lib/highlightjs/highlightjs.css";
 @import "../js/lib/flatpickr/flatpickr.css";
+@import "../js/lib/tom-select/tom-select.rizzy.css";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));

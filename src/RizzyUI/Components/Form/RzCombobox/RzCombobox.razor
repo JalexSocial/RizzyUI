@@ -1,0 +1,105 @@
+
+@namespace RizzyUI
+@typeparam TItem
+@typeparam TValue
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using RizzyUI.Extensions
+@inherits InputBase<TValue, RzComboboxSlots>
+
+<HtmlElement Element="@EffectiveElement" 
+             id="@($"{Id}-wrapper")" 
+             class="@SlotClasses.GetBase()" 
+             data-slot="@RzComboboxSlotNames.NameOf(RzComboboxSlotTypes.Base)"
+             @attributes="@AdditionalAttributes">
+    
+    <div x-data="rzCombobox"
+         id="@Id"
+         data-alpine-root="@Id"
+         data-config-id="@ConfigScriptId"
+         data-assets="@_assets"
+         data-nonce="@Nonce">
+
+        <script type="application/json" id="@ConfigScriptId" nonce="@Nonce">
+            @((MarkupString)_serializedConfig)
+        </script>
+
+        @if (OptionTemplate != null)
+        {
+            <template x-ref="optionTemplate">
+                @OptionTemplate
+            </template>
+        }
+
+        @if (ItemTemplate != null)
+        {
+            <template x-ref="itemTemplate">
+                @ItemTemplate
+            </template>
+        }
+
+        <select x-ref="selectInput"
+                id="@SelectId"
+                name="@NameAttributeValue"
+                class="@SlotClasses.GetSelect()"
+                data-slot="@RzComboboxSlotNames.NameOf(RzComboboxSlotTypes.Select)"
+                multiple="@(Multiple ? "multiple" : null)"
+                disabled="@Disabled"
+                @attributes="InnerInputAttributes">
+             
+             @if (!Multiple && !string.IsNullOrEmpty(Placeholder))
+             {
+                 <option value="">@Placeholder</option>
+             }
+
+             @if (IsSelectListItem)
+             {
+                 var castItems = Items.Cast<SelectListItem>();
+                 var grouped = castItems.GroupBy(x => x.Group);
+
+                 foreach (var group in grouped)
+                 {
+                     if (group.Key != null && !string.IsNullOrEmpty(group.Key.Name))
+                     {
+                         <optgroup label="@group.Key.Name" disabled="@group.Key.Disabled">
+                             @foreach (var item in group)
+                             {
+                                 @RenderOption(item, (TItem)(object)item)
+                             }
+                         </optgroup>
+                     }
+                     else
+                     {
+                         foreach (var item in group)
+                         {
+                             @RenderOption(item, (TItem)(object)item)
+                         }
+                     }
+                 }
+             }
+             else if (Items != null)
+             {
+                 foreach (var item in Items)
+                 {
+                     @RenderOption(null, item)
+                 }
+             }
+        </select>
+    </div>
+</HtmlElement>
+
+@code {
+    private RenderFragment RenderOption(SelectListItem? sli, TItem item)
+    {
+        var val = GetValue(item);
+        var txt = GetText(item);
+        var isDisabled = sli?.Disabled ?? false;
+        
+        return @<option value="@val" 
+                        selected="@IsSelected(item, val)"
+                        disabled="@isDisabled"
+                        data-ts-item="@SerializeItem(item)">
+                    @txt
+               </option>;
+    }
+}

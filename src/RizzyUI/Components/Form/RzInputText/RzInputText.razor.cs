@@ -16,7 +16,7 @@ public partial class RzInputText : InputBase<string, RzInputText.Slots>
 
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzInputText;
 
-    public new sealed partial class Slots : ISlots
+    public sealed partial class Slots : ISlots
     {
         [Slot("input")]
         public string? Base { get; set; }

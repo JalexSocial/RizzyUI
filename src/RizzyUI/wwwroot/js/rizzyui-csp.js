@@ -6323,6 +6323,61 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       }
     }));
   }
+  function registerRzCombobox(Alpine2, require) {
+    Alpine2.data("rzCombobox", () => ({
+      tomSelect: null,
+      init() {
+        const assets = JSON.parse(this.$el.dataset.assets || "[]");
+        const nonce = this.$el.dataset.nonce;
+        if (assets.length > 0 && typeof require === "function") {
+          require(assets, {
+            success: () => this.initTomSelect(),
+            error: (err) => console.error("RzCombobox: Failed to load assets.", err)
+          }, nonce);
+        } else if (window.TomSelect) {
+          this.initTomSelect();
+        }
+      },
+      initTomSelect() {
+        const selectEl = this.$refs.selectInput;
+        if (!selectEl) return;
+        const configEl = document.getElementById(this.$el.dataset.configId);
+        const config = configEl ? JSON.parse(configEl.textContent) : {};
+        const render = {};
+        const createAlpineRow = (templateRef, data2) => {
+          if (!templateRef) return null;
+          const div = document.createElement("div");
+          div.innerHTML = templateRef.innerHTML;
+          if (Alpine2 && Alpine2.addScopeToNode) {
+            Alpine2.addScopeToNode(div, { item: data2 });
+          } else {
+            console.warn("RzCombobox: Alpine.addScopeToNode is not available.");
+          }
+          return div;
+        };
+        if (this.$refs.optionTemplate) {
+          render.option = (data2, escape) => createAlpineRow(this.$refs.optionTemplate, data2);
+        }
+        if (this.$refs.itemTemplate) {
+          render.item = (data2, escape) => createAlpineRow(this.$refs.itemTemplate, data2);
+        }
+        config.dataAttr = "data-ts-item";
+        this.tomSelect = new TomSelect(selectEl, {
+          ...config,
+          render,
+          onInitialize: function() {
+            this.sync();
+          }
+        });
+      },
+      destroy() {
+        if (this.tomSelect) {
+          this.tomSelect.destroy();
+          this.tomSelect = null;
+        }
+      }
+    }));
+  }
   function registerRzDateEdit(Alpine2, require) {
     Alpine2.data("rzDateEdit", () => ({
       options: {},
@@ -9348,6 +9403,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     registerRzCarousel(Alpine2, rizzyRequire);
     registerRzCodeViewer(Alpine2, rizzyRequire);
     registerRzCollapsible(Alpine2);
+    registerRzCombobox(Alpine2, rizzyRequire);
     registerRzDateEdit(Alpine2, rizzyRequire);
     registerRzDialog(Alpine2);
     registerRzDropdownMenu(Alpine2);

@@ -1,0 +1,106 @@
+
+/* 
+   RizzyUI - Tom Select Shadcn/UI Theme 
+   Maps Tom Select classes to Tailwind/Shadcn CSS variables.
+*/
+
+.ts-control {
+    @apply flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+    min-height: 2.5rem; /* h-10 */
+    padding-right: 2rem; 
+    position: relative;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.ts-control > input {
+    @apply flex-1 bg-transparent outline-none border-none p-0 m-0 placeholder:text-muted-foreground;
+    box-shadow: none;
+    min-width: 0.5rem;
+}
+
+.ts-wrapper.focus .ts-control {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background border-ring;
+}
+
+.ts-wrapper.invalid .ts-control,
+.ts-wrapper.is-invalid .ts-control {
+    @apply border-destructive ring-destructive/20;
+}
+
+.ts-dropdown {
+    @apply absolute top-1 z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80;
+    margin-top: 4px;
+    width: 100%;
+    left: 0;
+}
+
+.ts-dropdown-content {
+    @apply p-1 max-h-[300px] overflow-y-auto overflow-x-hidden;
+}
+
+.ts-dropdown .option {
+    @apply relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50;
+}
+
+.ts-dropdown .option.active {
+    @apply bg-accent text-accent-foreground;
+}
+
+.ts-dropdown .option.selected {
+    @apply font-medium;
+}
+
+.ts-dropdown .optgroup-header {
+    @apply py-1.5 pl-2 pr-2 text-sm font-semibold text-muted-foreground;
+}
+
+.ts-dropdown .no-results {
+    @apply py-2 pl-2 pr-2 text-sm text-muted-foreground text-center;
+}
+
+.ts-control .item {
+    @apply inline-flex items-center rounded-sm border border-transparent bg-secondary text-secondary-foreground px-1.5 py-0.5 text-xs font-medium ring-offset-background transition-colors hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+}
+
+.ts-control .item .remove {
+    @apply ml-1 hover:text-destructive border-l border-secondary-foreground/20 pl-1 cursor-pointer;
+    font-size: 1em;
+    line-height: 1;
+}
+
+.ts-wrapper .clear-button {
+    @apply absolute right-8 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer opacity-0 transition-opacity;
+}
+.ts-wrapper.has-items .clear-button {
+    @apply opacity-100;
+}
+
+.ts-wrapper.single .ts-control::after {
+    @apply absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 opacity-50;
+    content: "";
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    pointer-events: none;
+}
+
+.ts-wrapper.loading .ts-control::before {
+    @apply absolute right-8 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent opacity-50;
+    content: "";
+    z-index: 1;
+}
+
+.ts-hidden-accessible {
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+}
