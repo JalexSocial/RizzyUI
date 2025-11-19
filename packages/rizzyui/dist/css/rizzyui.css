@@ -8997,6 +8997,10 @@ pre:has(> code) {
     transform: translate3d(0, 0, 0);
   }
 }
+.ts-wrapper {
+  position: relative;
+  width: 100%;
+}
 .ts-control {
   display: flex;
   width: 100%;
@@ -9076,7 +9080,9 @@ pre:has(> code) {
 }
 .ts-dropdown {
   position: absolute;
-  top: calc(var(--spacing) * 1);
+  left: 0;
+  right: 0;
+  top: calc(100% + 0.25rem);
   z-index: 50;
   min-width: 8rem;
   animation: enter var(--tw-animation-duration,var(--tw-duration,.15s))var(--tw-ease,ease)var(--tw-animation-delay,0s)var(--tw-animation-iteration-count,1)var(--tw-animation-direction,normal)var(--tw-animation-fill-mode,none);
@@ -9091,9 +9097,6 @@ pre:has(> code) {
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   --tw-enter-opacity: calc(80/100);
   --tw-enter-opacity: .8;
-  margin-top: 4px;
-  width: 100%;
-  left: 0;
 }
 .ts-dropdown-content {
   max-height: 300px;

@@ -4,6 +4,10 @@
    Maps Tom Select classes to Tailwind/Shadcn CSS variables.
 */
 
+.ts-wrapper {
+    @apply relative w-full;
+}
+
 .ts-control {
     @apply flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
     min-height: 2.5rem; /* h-10 */
@@ -30,10 +34,13 @@
 }
 
 .ts-dropdown {
-    @apply absolute top-1 z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80;
-    margin-top: 4px;
-    width: 100%;
+    position: absolute;
     left: 0;
+    right: 0;                
+    top: calc(100% + 0.25rem);
+    z-index: 50;
+
+    @apply min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md animate-in fade-in-80;
 }
 
 .ts-dropdown-content {
