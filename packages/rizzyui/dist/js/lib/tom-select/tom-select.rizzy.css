@@ -116,7 +116,10 @@
 
 /* --- Grouping (Optgroups) --- */
 .ts-dropdown .optgroup-header {
-    @apply text-muted-foreground px-2 py-1.5 text-xs font-semibold;
+    @apply text-foreground px-2 py-1.5 text-xs font-bold;
+}
+.ts-dropdown .optgroup .option {
+    @apply pl-6;
 }
 .ts-dropdown .optgroup:not(:first-child) .optgroup-header {
     @apply border-t border-border mt-1;

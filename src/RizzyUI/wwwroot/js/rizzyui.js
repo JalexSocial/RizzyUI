@@ -5565,10 +5565,21 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         const createAlpineRow = (templateRef, data2) => {
           if (!templateRef) return null;
           const div = document.createElement("div");
-          if (Alpine2 && Alpine2.addScopeToNode) {
-            Alpine2.addScopeToNode(div, data2);
+          let parsedItem = data2.item;
+          if (typeof parsedItem === "string") {
+            try {
+              parsedItem = JSON.parse(parsedItem);
+            } catch (e2) {
+            }
+          }
+          const scope2 = {
+            ...data2,
+            item: parsedItem
+          };
+          if (Alpine2 && typeof Alpine2.addScopeToNode === "function") {
+            Alpine2.addScopeToNode(div, scope2);
           } else {
-            console.warn("RzCombobox: Alpine.addScopeToNode is not available.");
+            div._x_dataStack = [scope2];
           }
           div.innerHTML = templateRef.innerHTML;
           return div;

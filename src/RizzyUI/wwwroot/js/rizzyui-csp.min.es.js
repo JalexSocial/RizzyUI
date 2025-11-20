@@ -4348,7 +4348,17 @@ function Rl(e, t) {
       const n = document.getElementById(this.$el.dataset.configId), r = n ? JSON.parse(n.textContent) : {}, s = {}, o = (a, l) => {
         if (!a) return null;
         const c = document.createElement("div");
-        return e && e.addScopeToNode ? e.addScopeToNode(c, l) : console.warn("RzCombobox: Alpine.addScopeToNode is not available."), c.innerHTML = a.innerHTML, c;
+        let u = l.item;
+        if (typeof u == "string")
+          try {
+            u = JSON.parse(u);
+          } catch {
+          }
+        const d = {
+          ...l,
+          item: u
+        };
+        return e && typeof e.addScopeToNode == "function" ? e.addScopeToNode(c, d) : c._x_dataStack = [d], c.innerHTML = a.innerHTML, c;
       };
       this.$refs.optionTemplate && (s.option = (a, l) => o(this.$refs.optionTemplate, a)), this.$refs.itemTemplate && (s.item = (a, l) => o(this.$refs.itemTemplate, a)), r.dataAttr = "data-item", this.tomSelect = new TomSelect(i, {
         ...r,

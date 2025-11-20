@@ -30,11 +30,25 @@ export default function(Alpine, require) {
                 if (!templateRef) return null;
                 
                 const div = document.createElement('div');
-                
-                if (Alpine && Alpine.addScopeToNode) {
-                    Alpine.addScopeToNode(div, data );
+
+                let parsedItem = data.item;
+                if (typeof parsedItem === 'string') {
+                    try {
+                        parsedItem = JSON.parse(parsedItem);
+                    } catch (e) {
+                        // If parsing fails, leave parsedItem as the original string
+                    }
+                }
+
+                const scope = {
+                    ...data,
+                    item: parsedItem
+                };
+
+                if (Alpine && typeof Alpine.addScopeToNode === 'function') {
+                    Alpine.addScopeToNode(div, scope);
                 } else {
-                    console.warn('RzCombobox: Alpine.addScopeToNode is not available.');
+                    div._x_dataStack = [scope];
                 }
                 
                 div.innerHTML = templateRef.innerHTML;

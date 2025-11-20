@@ -48,7 +48,7 @@ public partial class AvatarImage : RzComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        _renderImage = !string.IsNullOrWhiteSpace(ImageSource);
+        _renderImage = !string.IsNullOrWhiteSpace(ImageSource) || AdditionalAttributes?.ContainsKey(":src") == true;
         ParentAvatar?.SetImageStatus(_renderImage);
     }
 }

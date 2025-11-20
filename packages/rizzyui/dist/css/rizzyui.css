@@ -9193,9 +9193,12 @@ pre:has(> code) {
   padding-block: calc(var(--spacing) * 1.5);
   font-size: var(--text-xs);
   line-height: var(--tw-leading, var(--text-xs--line-height));
-  --tw-font-weight: var(--font-weight-semibold);
-  font-weight: var(--font-weight-semibold);
-  color: var(--muted-foreground);
+  --tw-font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold);
+  color: var(--foreground);
+}
+.ts-dropdown .optgroup .option {
+  padding-left: calc(var(--spacing) * 6);
 }
 .ts-dropdown .optgroup:not(:first-child) .optgroup-header {
   margin-top: calc(var(--spacing) * 1);

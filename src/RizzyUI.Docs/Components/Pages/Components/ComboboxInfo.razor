@@ -262,7 +262,9 @@ private ComboboxOptions _clearButtonOptions = new()
                                 <OptionTemplate>
                                     <div class="flex items-center gap-3 py-1">
                                         <div class="flex items-center justify-center size-8 rounded-full bg-secondary text-secondary-foreground">
-                                            <span class="text-xs font-semibold"></span>
+                                            <RzAvatar Size="Size.Small">
+                                                <AvatarImage :src="item.photo"/>
+                                            </RzAvatar>
                                         </div>
                                         <div class="flex flex-col">
                                             <span class="font-medium text-sm" x-text="item.name"></span>
@@ -283,13 +285,15 @@ private ComboboxOptions _clearButtonOptions = new()
                                             Items="@_users"
                                             ValueSelector="@(u => u.Id.ToString())"
                                             TextSelector="@(u => u.Name)"
-                                            @bind-Value="_model.AssigneeId"
+                                            Value="_model.AssigneeId"
                                             For="@(() => _model.AssigneeId)"
                                             Placeholder="Search users...">
                                     <OptionTemplate>
                                         <div class="flex items-center gap-3 py-1">
                                             <div class="flex items-center justify-center size-8 rounded-full bg-secondary text-secondary-foreground">
-                                                <span class="text-xs font-semibold"></span>
+                                                <RzAvatar Size="Size.Small">
+                                                    <AvatarImage :src="item.photo"/>
+                                                </RzAvatar>
                                             </div>
                                             <div class="flex flex-col">
                                                 <span class="font-medium text-sm" x-text="item.name"></span>
@@ -304,19 +308,32 @@ private ComboboxOptions _clearButtonOptions = new()
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzCombobox ...&gt;
-    &lt;OptionTemplate&gt;
-        &lt;div class="flex items-center gap-3 py-1"&gt;
-            &lt;div class="flex items-center justify-center size-8 rounded-full bg-secondary"&gt;
-                &lt;span class="text-xs font-semibold"&gt;&lt;/span&gt;
-            &lt;/div&gt;
-            &lt;div class="flex flex-col"&gt;
-                &lt;span class="font-medium text-sm" x-text="item.name"&gt;&lt;/span&gt;
-                &lt;span class="text-xs text-muted-foreground" x-text="item.email"&gt;&lt;/span&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/OptionTemplate&gt;
-&lt;/RzCombobox&gt;
+                        &lt;EditForm Model=&quot;@_model&quot;&gt;
+                            &lt;Field&gt;
+                                &lt;Label&gt;Select User&lt;/Label&gt;
+                                &lt;RzCombobox TItem=&quot;UserData&quot; TValue=&quot;int?&quot;
+                                            Items=&quot;@_users&quot;
+                                            ValueSelector=&quot;@@(u =&gt; u.Id.ToString())&quot;
+                                            TextSelector=&quot;@@(u =&gt; u.Name)&quot;
+                                            Value=&quot;_model.AssigneeId&quot;
+                                            For=&quot;@@(() =&gt; _model.AssigneeId)&quot;
+                                            Placeholder=&quot;Search users...&quot;&gt;
+                                    &lt;OptionTemplate&gt;
+                                        &lt;div class=&quot;flex items-center gap-3 py-1&quot;&gt;
+                                            &lt;div class=&quot;flex items-center justify-center size-8 rounded-full bg-secondary text-secondary-foreground&quot;&gt;
+                                                &lt;RzAvatar Size=&quot;Size.Small&quot;&gt;
+                                                    &lt;AvatarImage :src=&quot;item.photo&quot;/&gt;
+                                                &lt;/RzAvatar&gt;
+                                            &lt;/div&gt;
+                                            &lt;div class=&quot;flex flex-col&quot;&gt;
+                                                &lt;span class=&quot;font-medium text-sm&quot; x-text=&quot;item.name&quot;&gt;&lt;/span&gt;
+                                                &lt;span class=&quot;text-xs text-muted-foreground&quot; x-text=&quot;item.email&quot;&gt;&lt;/span&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/OptionTemplate&gt;
+                                &lt;/RzCombobox&gt;
+                            &lt;/Field&gt;
+                        &lt;/EditForm&gt;
                 </RzCodeViewer>
             </section>
 
@@ -357,9 +374,9 @@ private ComboboxOptions _clearButtonOptions = new()
     private List<SelectListItem> _groupedItems = new();
     private List<UserData> _users = new()
     {
-        new() { Id = 1, Name = "Alice Johnson", Email = "alice@example.com" },
-        new() { Id = 2, Name = "Bob Smith", Email = "bob@example.com" },
-        new() { Id = 3, Name = "Charlie Brown", Email = "charlie@example.com" }
+        new() { Id = 1, Name = "Alice Johnson", Email = "alice@example.com", Photo = "/images/profile/68.jpg"},
+        new() { Id = 2, Name = "Bob Smith", Email = "bob@example.com", Photo = "/images/profile/91.jpg" },
+        new() { Id = 3, Name = "Charlie Brown", Email = "charlie@example.com", Photo = "/images/profile/94.jpg" }
     };
 
     private ComboboxOptions _clearButtonOptions = new()
