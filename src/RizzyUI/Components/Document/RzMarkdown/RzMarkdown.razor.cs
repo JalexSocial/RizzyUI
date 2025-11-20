@@ -116,6 +116,9 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
 
     private void RenderMarkdownContent()
     {
+        if (OutputHtml != null)
+            return;
+        
         string markdownText;
 
         if (!string.IsNullOrEmpty(Content))
