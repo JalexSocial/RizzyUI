@@ -3743,7 +3743,7 @@ function Sl(e, t) {
       const i = document.getElementById(this.$el.dataset.configId), r = i ? JSON.parse(i.textContent) : {}, s = {}, o = (a, l) => {
         if (!a) return null;
         const c = document.createElement("div");
-        return c.innerHTML = a.innerHTML, e && e.addScopeToNode ? e.addScopeToNode(c, l) : console.warn("RzCombobox: Alpine.addScopeToNode is not available."), c;
+        return e && e.addScopeToNode ? e.addScopeToNode(c, l) : console.warn("RzCombobox: Alpine.addScopeToNode is not available."), c.innerHTML = a.innerHTML, c;
       };
       this.$refs.optionTemplate && (s.option = (a, l) => o(this.$refs.optionTemplate, a)), this.$refs.itemTemplate && (s.item = (a, l) => o(this.$refs.itemTemplate, a)), r.dataAttr = "data-item", this.tomSelect = new TomSelect(n, {
         ...r,

@@ -30,13 +30,14 @@ export default function(Alpine, require) {
                 if (!templateRef) return null;
                 
                 const div = document.createElement('div');
-                div.innerHTML = templateRef.innerHTML;
                 
                 if (Alpine && Alpine.addScopeToNode) {
                     Alpine.addScopeToNode(div, data );
                 } else {
                     console.warn('RzCombobox: Alpine.addScopeToNode is not available.');
                 }
+                
+                div.innerHTML = templateRef.innerHTML;
                 
                 return div;
             };

@@ -6343,12 +6343,12 @@ function registerRzCombobox(Alpine2, require2) {
       const createAlpineRow = (templateRef, data2) => {
         if (!templateRef) return null;
         const div = document.createElement("div");
-        div.innerHTML = templateRef.innerHTML;
         if (Alpine2 && Alpine2.addScopeToNode) {
           Alpine2.addScopeToNode(div, data2);
         } else {
           console.warn("RzCombobox: Alpine.addScopeToNode is not available.");
         }
+        div.innerHTML = templateRef.innerHTML;
         return div;
       };
       if (this.$refs.optionTemplate) {

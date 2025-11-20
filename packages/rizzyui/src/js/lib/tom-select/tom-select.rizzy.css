@@ -1,3 +1,4 @@
+
 /* 
    RizzyUI - Tom Select Shadcn/UI Theme (Tailwind v4)
    COMPLETE implementation covering base states + common plugins.
@@ -10,7 +11,7 @@
 
 /* The main input container (looks like Shadcn Input) */
 .ts-control {
-    @apply flex min-h-10 w-full flex-wrap items-center gap-1.5 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-colors;
+    @apply flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-md border border-input bg-transparent dark:bg-input/30 px-3 py-2 text-sm ring-offset-background transition-colors shadow-xs;
 
     /* Handle overflow for long items */
     box-sizing: border-box;
@@ -20,8 +21,7 @@
 
 /* Focus State - Mimic Shadcn Input Focus */
 .ts-wrapper.focus .ts-control {
-    @apply outline-none ring-2 ring-ring ring-offset-2;
-    border-color: transparent; /* Optional: mimics standard shadcn input focus behavior */
+    @apply outline-none ring-[3px] ring-ring/50 border-ring;
 }
 
 /* Disabled State */
@@ -38,7 +38,7 @@
 
 /* --- Input Field --- */
 .ts-control > input {
-    @apply placeholder:text-muted-foreground inline-block border-none bg-transparent p-0 shadow-none outline-none ring-0;
+    @apply text-sm placeholder:text-muted-foreground inline-block border-none bg-transparent p-0 shadow-none outline-none ring-0;
 
     /* Essential resets for Tom Select calculation */
     flex: 1 1 auto;
@@ -116,7 +116,10 @@
 
 /* --- Grouping (Optgroups) --- */
 .ts-dropdown .optgroup-header {
-    @apply text-muted-foreground px-2 py-1.5 text-xs font-semibold;
+    @apply text-foreground px-2 py-1.5 text-xs font-bold;
+}
+.ts-dropdown .optgroup .option {
+    @apply pl-6;
 }
 .ts-dropdown .optgroup:not(:first-child) .optgroup-header {
     @apply border-t border-border mt-1;
