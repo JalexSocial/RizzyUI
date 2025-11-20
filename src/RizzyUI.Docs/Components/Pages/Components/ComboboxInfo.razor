@@ -248,34 +248,6 @@ private ComboboxOptions _clearButtonOptions = new()
                     Alpine.js syntax is used within the template, with access to the <code>item</code> object.
                 </RzParagraph>
 
-                <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">
-                    <EditForm Model="@_model">
-                        <Field>
-                            <Label>Select User</Label>
-                            <RzCombobox TItem="UserData" TValue="int?"
-                                        Items="@_users"
-                                        ValueSelector="@(u => u.Id.ToString())"
-                                        TextSelector="@(u => u.Name)"
-                                        @bind-Value="_model.AssigneeId"
-                                        For="@(() => _model.AssigneeId)"
-                                        Placeholder="Search users...">
-                                <OptionTemplate>
-                                    <div class="flex items-center gap-3 py-1">
-                                        <div class="flex items-center justify-center size-8 rounded-full bg-secondary text-secondary-foreground">
-                                            <RzAvatar Size="Size.Small">
-                                                <AvatarImage :src="item.photo"/>
-                                            </RzAvatar>
-                                        </div>
-                                        <div class="flex flex-col">
-                                            <span class="font-medium text-sm" x-text="item.name"></span>
-                                            <span class="text-xs text-muted-foreground" x-text="item.email"></span>
-                                        </div>
-                                    </div>
-                                </OptionTemplate>
-                            </RzCombobox>
-                        </Field>
-                    </EditForm>
-                </div>                
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">
                         <EditForm Model="@_model">
@@ -308,11 +280,11 @@ private ComboboxOptions _clearButtonOptions = new()
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-                        &lt;EditForm Model=&quot;@_model&quot;&gt;
+                        &lt;EditForm Model=&quot;@@_model&quot;&gt;
                             &lt;Field&gt;
                                 &lt;Label&gt;Select User&lt;/Label&gt;
                                 &lt;RzCombobox TItem=&quot;UserData&quot; TValue=&quot;int?&quot;
-                                            Items=&quot;@_users&quot;
+                                            Items=&quot;@@_users&quot;
                                             ValueSelector=&quot;@@(u =&gt; u.Id.ToString())&quot;
                                             TextSelector=&quot;@@(u =&gt; u.Name)&quot;
                                             Value=&quot;_model.AssigneeId&quot;
