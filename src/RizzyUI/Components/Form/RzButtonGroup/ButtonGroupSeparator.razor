@@ -1,0 +1,11 @@
+
+@namespace RizzyUI
+@using RizzyUI.Extensions
+@inherits RzComponent<ButtonGroupSeparator.Slots>
+
+<RzSeparator Orientation="@Orientation"
+             @attributes="AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             data-slot="button-group-separator"
+             data-orientation="@Orientation.ToString().ToKebabCase()" />

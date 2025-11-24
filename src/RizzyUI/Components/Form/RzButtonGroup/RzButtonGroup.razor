@@ -1,0 +1,14 @@
+
+@namespace RizzyUI
+@using RizzyUI.Extensions
+@inherits RzComponent<RzButtonGroup.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             role="group"
+             data-slot="button-group"
+             data-orientation="@Orientation.ToString().ToKebabCase()">
+    @ChildContent
+</HtmlElement>

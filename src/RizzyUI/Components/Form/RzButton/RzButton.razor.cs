@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using TailwindVariants.NET;
 
@@ -56,13 +57,6 @@ public partial class RzButton : RzComponent<RzButton.Slots>
     );
 
     /// <summary>
-    /// Gets or sets the parent <see cref="RzButtonGroup"/> this component belongs to, if any.
-    /// This is provided via a cascading parameter.
-    /// </summary>
-    [CascadingParameter]
-    public RzButtonGroup? Group { get; set; }
-
-    /// <summary>
     /// Gets or sets the accessible label for the button, used for screen readers.
     /// If not provided, it defaults to a localized value.
     /// </summary>
@@ -73,7 +67,7 @@ public partial class RzButton : RzComponent<RzButton.Slots>
     /// Gets or sets the visual style variant of the button. Defaults to <see cref="ButtonVariant.Primary"/>.
     /// </summary>
     [Parameter]
-    public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
+    public ButtonVariant Variant { get; set; } = ButtonVariant.Inverse;
 
     /// <summary>
     /// Gets or sets the size of the button. Defaults to <see cref="Size.Medium"/>.
@@ -119,13 +113,6 @@ public partial class RzButton : RzComponent<RzButton.Slots>
     }
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        Group?.AddButton(this);
-    }
-
-    /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzButton;
 
     /// <summary>
@@ -136,6 +123,7 @@ public partial class RzButton : RzComponent<RzButton.Slots>
         /// <summary>
         /// The base slot, representing the root element of the button.
         /// </summary>
+        [Slot("button")]
         public string? Base { get; set; }
     }
 }

@@ -1,0 +1,417 @@
+
+@page "/components/button-group"
+@namespace RizzyUI.Docs.Components.Pages.Components
+@using RizzyUI
+@using Blazicons
+@using Microsoft.AspNetCore.Components.Forms
+
+<PageTitle>Button Group</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Button Group" class="scroll-mt-20">Button Group</RzHeading>
+            <RzParagraph>
+                A container that groups related buttons together with consistent styling.
+            </RzParagraph>
+
+            <!-- Basic Usage -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">
+                    Basic Usage
+                </RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzButtonGroup>
+                            <RzButton Outline="true">Button 1</RzButton>
+                            <RzButton Outline="true">Button 2</RzButton>
+                        </RzButtonGroup>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzButtonGroup&gt;
+    &lt;RzButton Outline="true"&gt;Button 1&lt;/RzButton&gt;
+    &lt;RzButton Outline="true"&gt;Button 2&lt;/RzButton&gt;
+&lt;/RzButtonGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Orientation -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Orientation" class="scroll-mt-20">
+                    Orientation
+                </RzHeading>
+                <RzParagraph>
+                    Set the <code>Orientation</code> property to change the button group layout.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzButtonGroup Orientation="Orientation.Vertical">
+                            <RzButton Outline="true">Button 1</RzButton>
+                            <RzButton Outline="true">Button 2</RzButton>
+                        </RzButtonGroup>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzButtonGroup Orientation="Orientation.Vertical"&gt;
+    &lt;RzButton Outline="true"&gt;Button 1&lt;/RzButton&gt;
+    &lt;RzButton Outline="true"&gt;Button 2&lt;/RzButton&gt;
+&lt;/RzButtonGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Size -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Size" class="scroll-mt-20">
+                    Size
+                </RzHeading>
+                <RzParagraph>
+                    Control the size of buttons using the <code>Size</code> property on individual buttons.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzButtonGroup>
+                            <RzButton Outline="true" Size="Size.Small">Small</RzButton>
+                            <RzButton Outline="true" Size="Size.Small">Small</RzButton>
+                            <RzButton Outline="true" Size="Size.Small">Small</RzButton>
+                        </RzButtonGroup>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzButtonGroup&gt;
+    &lt;RzButton Outline="true" Size="Size.Small"&gt;Small&lt;/RzButton&gt;
+    &lt;RzButton Outline="true" Size="Size.Small"&gt;Small&lt;/RzButton&gt;
+    &lt;RzButton Outline="true" Size="Size.Small"&gt;Small&lt;/RzButton&gt;
+&lt;/RzButtonGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Nested -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Nested" class="scroll-mt-20">
+                    Nested
+                </RzHeading>
+                <RzParagraph>
+                    Nest <code>RzButtonGroup</code> components to create button groups with spacing.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzButtonGroup>
+                            <RzButtonGroup>
+                                <RzButton Outline="true">Copy</RzButton>
+                                <RzButton Outline="true">Paste</RzButton>
+                            </RzButtonGroup>
+                            <RzButtonGroup>
+                                <RzButton Outline="true">
+                                    <Blazicon Svg="MdiIcon.FormatBold" />
+                                </RzButton>
+                                <RzButton Outline="true">
+                                    <Blazicon Svg="MdiIcon.FormatItalic" />
+                                </RzButton>
+                                <RzButton Outline="true">
+                                    <Blazicon Svg="MdiIcon.FormatUnderline" />
+                                </RzButton>
+                            </RzButtonGroup>
+                        </RzButtonGroup>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzButtonGroup&gt;
+    &lt;RzButtonGroup&gt;
+        &lt;RzButton Outline="true"&gt;Copy&lt;/RzButton&gt;
+        &lt;RzButton Outline="true"&gt;Paste&lt;/RzButton&gt;
+    &lt;/RzButtonGroup&gt;
+    &lt;RzButtonGroup&gt;
+        &lt;RzButton Outline="true"&gt;
+            &lt;Blazicon Svg="MdiIcon.FormatBold" /&gt;
+        &lt;/RzButton&gt;
+        &lt;RzButton Outline="true"&gt;
+            &lt;Blazicon Svg="MdiIcon.FormatItalic" /&gt;
+        &lt;/RzButton&gt;
+        &lt;RzButton Outline="true"&gt;
+            &lt;Blazicon Svg="MdiIcon.FormatUnderline" /&gt;
+        &lt;/RzButton&gt;
+    &lt;/RzButtonGroup&gt;
+&lt;/RzButtonGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Separator -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Separator" class="scroll-mt-20">
+                    Separator
+                </RzHeading>
+                <RzParagraph>
+                    The <code>ButtonGroupSeparator</code> component visually divides buttons within a group. Useful for variants other than outline.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzButtonGroup>
+                            <RzButton Variant="ButtonVariant.Secondary">Item 1</RzButton>
+                            <ButtonGroupSeparator />
+                            <RzButton Variant="ButtonVariant.Secondary">Item 2</RzButton>
+                        </RzButtonGroup>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzButtonGroup&gt;
+    &lt;RzButton Variant="ButtonVariant.Secondary"&gt;Item 1&lt;/RzButton&gt;
+    &lt;ButtonGroupSeparator /&gt;
+    &lt;RzButton Variant="ButtonVariant.Secondary"&gt;Item 2&lt;/RzButton&gt;
+&lt;/RzButtonGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Split -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Split" class="scroll-mt-20">
+                    Split
+                </RzHeading>
+                <RzParagraph>
+                    Create a split button group by adding two buttons separated by a <code>ButtonGroupSeparator</code>.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzButtonGroup>
+                            <RzButton Variant="ButtonVariant.Primary">Action</RzButton>
+                            <ButtonGroupSeparator />
+                            <RzButton Variant="ButtonVariant.Primary" Size="Size.Small" class="w-9 px-0">
+                                <Blazicon Svg="MdiIcon.ChevronDown" />
+                            </RzButton>
+                        </RzButtonGroup>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzButtonGroup&gt;
+    &lt;RzButton Variant="ButtonVariant.Primary"&gt;Action&lt;/RzButton&gt;
+    &lt;ButtonGroupSeparator /&gt;
+    &lt;RzButton Variant="ButtonVariant.Primary" Size="Size.Small" class="w-9 px-0"&gt;
+        &lt;Blazicon Svg="MdiIcon.ChevronDown" /&gt;
+    &lt;/RzButton&gt;
+&lt;/RzButtonGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Input -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Input" class="scroll-mt-20">
+                    Input
+                </RzHeading>
+                <RzParagraph>
+                    Wrap an input component with buttons.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzButtonGroup>
+                            <RzButton Outline="true">Search</RzButton>
+                            <EditForm Model="@_formModel">
+                                <RzInputText For="@(() => _formModel.SearchValue)" Placeholder="Type something..." class="w-[200px]" />
+                            </EditForm>
+                            <RzButton Outline="true" Size="Size.Small" class="w-9 px-0">
+                                <Blazicon Svg="MdiIcon.ArrowRight" />
+                            </RzButton>
+                        </RzButtonGroup>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzButtonGroup&gt;
+    &lt;RzButton Outline="true"&gt;Search&lt;/RzButton&gt;
+    &lt;RzInputText For="@@(() => _formModel.SearchValue)" Placeholder="Type something..." class="w-[200px]" /&gt;
+    &lt;RzButton Outline="true" Size="Size.Small" class="w-9 px-0"&gt;
+        &lt;Blazicon Svg="MdiIcon.ArrowRight" /&gt;
+    &lt;/RzButton&gt;
+&lt;/RzButtonGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Input Group -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Input Group" class="scroll-mt-20">
+                    Input Group
+                </RzHeading>
+                <RzParagraph>
+                    Wrap an <code>RzInputGroup</code> component to create complex input layouts.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzButtonGroup>
+                            <RzButton Outline="true">
+                                <Blazicon Svg="MdiIcon.Magnify" />
+                            </RzButton>
+                            <EditForm Model="@_formModel">
+                                <RzInputGroup>
+                                    <InputGroupText>https://</InputGroupText>
+                                    <InputGroupInput For="@(() => _formModel.SearchValue)" Placeholder="google.com" class="w-[200px]" />
+                                </RzInputGroup>
+                            </EditForm>
+                            <RzButton Outline="true">Go</RzButton>
+                        </RzButtonGroup>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzButtonGroup&gt;
+    &lt;RzButton Outline="true"&gt;
+        &lt;Blazicon Svg="MdiIcon.Magnify" /&gt;
+    &lt;/RzButton&gt;
+    &lt;RzInputGroup&gt;
+        &lt;InputGroupText&gt;https://&lt;/InputGroupText&gt;
+        &lt;InputGroupInput For="@@(() => _formModel.SearchValue)" Placeholder="google.com" class="w-[200px]" /&gt;
+    &lt;/RzInputGroup&gt;
+    &lt;RzButton Outline="true"&gt;Go&lt;/RzButton&gt;
+&lt;/RzButtonGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+             <!-- Dropdown Menu -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Dropdown Menu" class="scroll-mt-20">
+                    Dropdown Menu
+                </RzHeading>
+                <RzParagraph>
+                    Create a split button group with a <code>RzDropdownMenu</code>.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-40">
+                        <RzButtonGroup>
+                            <RzButton Variant="ButtonVariant.Primary">Profile</RzButton>
+                            <ButtonGroupSeparator />
+                            <RzDropdownMenu>
+                                <DropdownMenuTrigger AsChild>
+                                    <RzButton Variant="ButtonVariant.Primary" class="w-9 px-0">
+                                        <Blazicon Svg="MdiIcon.ChevronDown" />
+                                    </RzButton>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                                    <DropdownMenuItem>Messages</DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>Logout</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </RzDropdownMenu>
+                        </RzButtonGroup>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzButtonGroup&gt;
+    &lt;RzButton Variant="ButtonVariant.Primary"&gt;Profile&lt;/RzButton&gt;
+    &lt;ButtonGroupSeparator /&gt;
+    &lt;RzDropdownMenu&gt;
+        &lt;DropdownMenuTrigger AsChild&gt;
+            &lt;RzButton Variant="ButtonVariant.Primary" Size="Size.Small" class="w-9 px-0"&gt;
+                &lt;Blazicon Svg="MdiIcon.ChevronDown" /&gt;
+            &lt;/RzButton&gt;
+        &lt;/DropdownMenuTrigger&gt;
+        &lt;DropdownMenuContent&gt;
+            &lt;DropdownMenuItem&gt;Settings&lt;/DropdownMenuItem&gt;
+            &lt;DropdownMenuItem&gt;Messages&lt;/DropdownMenuItem&gt;
+            &lt;DropdownMenuSeparator /&gt;
+            &lt;DropdownMenuItem&gt;Logout&lt;/DropdownMenuItem&gt;
+        &lt;/DropdownMenuContent&gt;
+    &lt;/RzDropdownMenu&gt;
+&lt;/RzButtonGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Select -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Select" class="scroll-mt-20">
+                    Select
+                </RzHeading>
+                <RzParagraph>
+                    Pair with a <code>RzNativeSelect</code> component.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                         <RzButtonGroup>
+                            <ButtonGroupText>Format</ButtonGroupText>
+                            <EditForm Model="@_formModel">
+                                <RzNativeSelect For="@(() => _formModel.SearchValue)" class="w-[150px]">
+                                    <option value="mp4">MP4</option>
+                                    <option value="mov">MOV</option>
+                                    <option value="avi">AVI</option>
+                                </RzNativeSelect>
+                            </EditForm>
+                        </RzButtonGroup>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzButtonGroup&gt;
+    &lt;ButtonGroupText&gt;Format&lt;/ButtonGroupText&gt;
+    &lt;RzNativeSelect For="@@(() => _formModel.SearchValue)" class="w-[150px]"&gt;
+        &lt;option value="mp4"&gt;MP4&lt;/option&gt;
+        &lt;option value="mov"&gt;MOV&lt;/option&gt;
+        &lt;option value="avi"&gt;AVI&lt;/option&gt;
+    &lt;/RzNativeSelect&gt;
+&lt;/RzButtonGroup&gt;
+                </RzCodeViewer>
+            </section>
+            
+             <!-- Popover -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Popover" class="scroll-mt-20">
+                    Popover
+                </RzHeading>
+                <RzParagraph>
+                    Use with a <code>RzPopover</code> component.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-40">
+                         <RzButtonGroup>
+                             <RzButton Variant="ButtonVariant.Secondary">Settings</RzButton>
+                             <ButtonGroupSeparator />
+                             <RzPopover>
+                                 <PopoverTrigger AsChild>
+                                     <RzButton Variant="ButtonVariant.Secondary" Size="Size.Small" class="w-9 px-0">
+                                        <Blazicon Svg="MdiIcon.Cog" />
+                                     </RzButton>
+                                 </PopoverTrigger>
+                                 <PopoverContent>
+                                     <div class="grid gap-4">
+                                         <div class="space-y-2">
+                                             <h4 class="font-medium leading-none">Dimensions</h4>
+                                             <p class="text-sm text-muted-foreground">Set the dimensions for the layer.</p>
+                                         </div>
+                                     </div>
+                                 </PopoverContent>
+                             </RzPopover>
+                         </RzButtonGroup>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzButtonGroup&gt;
+    &lt;RzButton Variant="ButtonVariant.Secondary"&gt;Settings&lt;/RzButton&gt;
+    &lt;ButtonGroupSeparator /&gt;
+    &lt;RzPopover&gt;
+        &lt;PopoverTrigger AsChild&gt;
+            &lt;RzButton Variant="ButtonVariant.Secondary" Size="Size.Small" class="w-9 px-0"&gt;
+               &lt;Blazicon Svg="MdiIcon.Cog" /&gt;
+            &lt;/RzButton&gt;
+        &lt;/PopoverTrigger&gt;
+        &lt;PopoverContent&gt;
+            &lt;div class="grid gap-4"&gt;
+                &lt;div class="space-y-2"&gt;
+                    &lt;h4 class="font-medium leading-none"&gt;Dimensions&lt;/h4&gt;
+                    &lt;p class="text-sm text-muted-foreground"&gt;Set the dimensions for the layer.&lt;/p&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/PopoverContent&gt;
+    &lt;/RzPopover&gt;
+&lt;/RzButtonGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private class ButtonGroupFormModel
+    {
+        public string SearchValue { get; set; } = "";
+    }
+
+    private ButtonGroupFormModel _formModel = new();
+}

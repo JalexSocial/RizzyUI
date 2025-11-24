@@ -46,7 +46,9 @@ public partial class RzTheme
 
         // RzButton
         RzButton = RizzyUI.RzButton.DefaultDescriptor;
-
+        ButtonGroupSeparator = RizzyUI.ButtonGroupSeparator.DefaultDescriptor;
+        ButtonGroupText = RizzyUI.ButtonGroupText.DefaultDescriptor;
+        
         // RzDialog Family
         RzDialog = RizzyUI.RzDialog.DefaultDescriptor;
         DialogContent = RizzyUI.DialogContent.DefaultDescriptor;

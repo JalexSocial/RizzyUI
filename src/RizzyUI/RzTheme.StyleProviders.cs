@@ -128,6 +128,10 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzButton.Slots>, RzButton.Slots> RzButton { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzButtonGroup"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzButtonGroup.Slots>, RzButtonGroup.Slots> RzButtonGroup { get; set; }
+	/// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.ButtonGroupSeparator"/> component. </summary>
+	public virtual TvDescriptor<RzComponent<ButtonGroupSeparator.Slots>, ButtonGroupSeparator.Slots> ButtonGroupSeparator { get; set; }
+	/// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.ButtonGroupText"/> component. </summary>
+	public virtual TvDescriptor<RzAsChildComponent<ButtonGroupText.Slots>, ButtonGroupText.Slots> ButtonGroupText { get; set; }    
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzDateEdit"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzDateEdit.Slots>, RzDateEdit.Slots> RzDateEdit { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzFormSection"/> component. </summary>
