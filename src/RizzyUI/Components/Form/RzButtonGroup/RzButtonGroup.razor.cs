@@ -14,7 +14,7 @@ public partial class RzButtonGroup : RzComponent<RzButtonGroup.Slots>
     /// Defines the default styling for the RzButtonGroup component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "flex w-fit items-stretch [&>*]:focus-visible:z-10 [&>*]:focus-visible:relative [&>[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-md has-[>[data-slot=button-group]]:gap-2",
+        @base: "flex w-fit items-stretch [&>*]:shadow-none [&>*]:focus-visible:z-10 [&>*]:focus-visible:relative [&>[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-md has-[>[data-slot=button-group]]:gap-2",
         variants: new()
         {
             [c => ((RzButtonGroup)c).Orientation] = new Variant<Orientation, Slots>
@@ -36,6 +36,13 @@ public partial class RzButtonGroup : RzComponent<RzButtonGroup.Slots>
     /// </summary>
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Horizontal;
+
+    /// <summary>
+    /// Gets or sets the theme variant to be cascaded to child buttons.
+    /// If set, child buttons with no explicit Variant will use this value.
+    /// </summary>
+    [Parameter]
+    public ThemeVariant? GroupVariant { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()
