@@ -17,7 +17,7 @@
             <RzParagraph>
                 A carousel component for cycling through elements, built on top of the powerful and lightweight Embla Carousel library. It provides a flexible and accessible way to display a series of items, with support for various options like looping, alignment, and orientation.
             </RzParagraph>
-            <RzAlert Variant="AlertVariant.Information" class="my-5">
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
                 <AlertTitle>Under the Hood</AlertTitle>
                 <AlertDescription>
                     The <code>RzCarousel</code> component suite uses an Alpine.js component (<code>x-data="rzCarousel"</code>) to manage its state and interactivity. This Alpine component acts as a bridge to the Embla Carousel JavaScript library, which is loaded on-demand along with any configured plugins. This means assets are only downloaded by the browser when an <code>RzCarousel</code> is actually used on a page, keeping your initial bundle size small.

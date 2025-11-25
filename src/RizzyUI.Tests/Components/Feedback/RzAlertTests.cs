@@ -97,12 +97,12 @@ namespace RizzyUI.Tests.Components.Feedback
         }
 
         [Theory]
-        [InlineData(AlertVariant.Information)]
-        [InlineData(AlertVariant.Success)]
-        [InlineData(AlertVariant.Warning)]
-        [InlineData(AlertVariant.Destructive)]
-        [InlineData(AlertVariant.Alternate)]
-        public void RzAlert_WithVariant_AppliesCorrectClasses(AlertVariant variant)
+        [InlineData(ThemeVariant.Information)]
+        [InlineData(ThemeVariant.Success)]
+        [InlineData(ThemeVariant.Warning)]
+        [InlineData(ThemeVariant.Destructive)]
+        [InlineData(ThemeVariant.Alternate)]
+        public void RzAlert_WithVariant_AppliesCorrectClasses(ThemeVariant variant)
         {
             // Arrange
             var expectedId = $"{variant.ToString().ToLower()}-alert";
@@ -121,11 +121,11 @@ namespace RizzyUI.Tests.Components.Feedback
             // Check for presence of variant-specific classes (based on DefaultRzAlertStyles)
             string expectedClass = variant switch
             {
-                AlertVariant.Alternate => "border-outline",
-                AlertVariant.Information => "border-info",
-                AlertVariant.Success => "border-success",
-                AlertVariant.Warning => "border-warning",
-                AlertVariant.Destructive => "border-destructive",
+                ThemeVariant.Alternate => "border-outline",
+                ThemeVariant.Information => "border-info",
+                ThemeVariant.Success => "border-success",
+                ThemeVariant.Warning => "border-warning",
+                ThemeVariant.Destructive => "border-destructive",
                 _ => "border-info"
             };
             Assert.Contains(expectedClass, alert.OuterHtml);
@@ -221,7 +221,7 @@ namespace RizzyUI.Tests.Components.Feedback
             var cut = RenderComponent<RzAlert>(parameters => parameters
                 .Add(p => p.Id, expectedId)
                 .Add(p => p.Icon, testIcon)
-                .Add(p => p.Variant, AlertVariant.Warning)
+                .Add(p => p.Variant, ThemeVariant.Warning)
                 .Add(p => p.Dismissable, true)
                 .Add(p => p.Pulse, true)
                 .AddChildContent(builder =>

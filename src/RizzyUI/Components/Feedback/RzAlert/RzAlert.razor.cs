@@ -28,20 +28,20 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
         },
         variants: new()
         {
-            [b => ((RzAlert)b).Variant] = new Variant<AlertVariant, Slots>
+            [b => ((RzAlert)b).Variant] = new Variant<ThemeVariant, Slots>
             {
-                [AlertVariant.Alternate] = new() { [s => s.Base] = "border-outline" },
-                [AlertVariant.Information] = new() { [s => s.Base] = "border-info bg-info/10 text-info-foreground dark:bg-info/15", [s => s.IconContainer] = "text-info", [s => s.IconPulse] = "bg-info/15" },
-                [AlertVariant.Success] = new() { [s => s.Base] = "border-success bg-success/10 text-success-foreground dark:bg-success/15", [s => s.IconContainer] = "text-success", [s => s.IconPulse] = "bg-success/15" },
-                [AlertVariant.Warning] = new() { [s => s.Base] = "border-warning bg-warning/10 text-warning-foreground dark:bg-warning/15", [s => s.IconContainer] = "text-warning", [s => s.IconPulse] = "bg-warning/15" },
-                [AlertVariant.Destructive] = new() { [s => s.Base] = "border-destructive bg-destructive/10 text-destructive dark:bg-destructive/15", [s => s.IconContainer] = "text-destructive", [s => s.IconPulse] = "bg-destructive/15" }
+                [ThemeVariant.Alternate] = new() { [s => s.Base] = "border-outline" },
+                [ThemeVariant.Information] = new() { [s => s.Base] = "border-info bg-info/10 text-info-foreground dark:bg-info/15", [s => s.IconContainer] = "text-info", [s => s.IconPulse] = "bg-info/15" },
+                [ThemeVariant.Success] = new() { [s => s.Base] = "border-success bg-success/10 text-success-foreground dark:bg-success/15", [s => s.IconContainer] = "text-success", [s => s.IconPulse] = "bg-success/15" },
+                [ThemeVariant.Warning] = new() { [s => s.Base] = "border-warning bg-warning/10 text-warning-foreground dark:bg-warning/15", [s => s.IconContainer] = "text-warning", [s => s.IconPulse] = "bg-warning/15" },
+                [ThemeVariant.Destructive] = new() { [s => s.Base] = "border-destructive bg-destructive/10 text-destructive dark:bg-destructive/15", [s => s.IconContainer] = "text-destructive", [s => s.IconPulse] = "bg-destructive/15" }
             }
         }
     );
 
     /// <summary> Gets or sets the variant of the alert. </summary>
     [Parameter]
-    public AlertVariant Variant { get; set; } = AlertVariant.Information;
+    public ThemeVariant Variant { get; set; } = ThemeVariant.Information;
 
     /// <summary> Gets or sets the icon displayed in the alert. If null, a default icon based on the variant may be shown. </summary>
     [Parameter]
@@ -78,10 +78,10 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
         if (Icon == null)
             Icon = Variant switch
             {
-                AlertVariant.Information => MdiIcon.InformationSlabCircle,
-                AlertVariant.Success => MdiIcon.CheckCircle,
-                AlertVariant.Warning => MdiIcon.AlertCircle,
-                AlertVariant.Destructive => MdiIcon.CloseCircle,
+                ThemeVariant.Information => MdiIcon.InformationSlabCircle,
+                ThemeVariant.Success => MdiIcon.CheckCircle,
+                ThemeVariant.Warning => MdiIcon.AlertCircle,
+                ThemeVariant.Destructive => MdiIcon.CloseCircle,
                 _ => null
             };
     }

@@ -70,13 +70,13 @@
                         }
                     </TableCell>
                     <TableCell ColumnKey="actions">
-                        <RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small"
+                        <RzButton Variant="ThemeVariant.Primary" Outline="true" Size="Size.Small"
                                   hx-get="@($"/products/view-details/{product.Id}")"
                                   hx-target="#detail-modal-content"
                                   hx-swap="innerHTML"> 
                             View
                         </RzButton>
-                        <RzButton Variant="ButtonVariant.Destructive" Outline="true" Size="Size.Small"
+                        <RzButton Variant="ThemeVariant.Destructive" Outline="true" Size="Size.Small"
                                   hx-delete="@($"/api/products/{product.Id}")"
                                   hx-confirm="@($"Are you sure you want to delete {product.Name}?")"
                                   hx-target="closest tr"

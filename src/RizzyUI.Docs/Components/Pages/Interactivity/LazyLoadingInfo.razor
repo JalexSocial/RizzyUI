@@ -155,7 +155,7 @@ export default () =&gt; ({
                 <RzParagraph>
                     Provide the event name in parentheses: <code>LoadStrategy="event(my-custom-event)"</code>. The component will load when that event is dispatched on the <code>window</code>.
                 </RzParagraph>
-                <RzAlert Variant="AlertVariant.Warning" class="my-4">
+                <RzAlert Variant="ThemeVariant.Warning" class="my-4">
                     <AlertTitle><code>window.dispatchEvent</code> vs. <code>$dispatch</code></AlertTitle>
                     <AlertDescription>
                         Alpine's <code>$dispatch</code> creates a bubbling DOM event, ideal for communication between Alpine components. However, <code>async-alpine</code>'s named <code>event()</code> strategy listens on the global <code>window</code> object. Therefore, you **must** use plain JavaScript's <code>window.dispatchEvent(new Event('...'))</code> to trigger it.
@@ -193,7 +193,7 @@ export default () =&gt; ({
 @@attribute [RzAlpineCodeBehind]
 
 &lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;loadByIdBanner&quot; LoadStrategy=&quot;event&quot; Id=&quot;my-banner-component&quot;&gt;
-    &lt;RzAlert Variant=&quot;AlertVariant.Success&quot; Title=&quot;Loaded by ID!&quot; x-show=&quot;visible&quot; x-transition /&gt;
+    &lt;RzAlert Variant=&quot;ThemeVariant.Success&quot; Title=&quot;Loaded by ID!&quot; x-show=&quot;visible&quot; x-transition /&gt;
 &lt;/RzAlpineComponent&gt;
 
 &lt;div x-data class=&quot;mt-4&quot;&gt;

@@ -19,7 +19,7 @@
                 A sheet is a panel that slides in from the edge of the screen. It's a versatile component for displaying supplementary content, forms, or navigation menus without leaving the current context.
             </RzParagraph>
 
-            <RzAlert Variant="AlertVariant.Information" class="my-5">
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
                 <AlertTitle>Under the Hood</AlertTitle>
                 <AlertDescription>
                     The RzSheet component family uses an Alpine.js component (`x-data="rzSheet"`) to manage its open/close state and user interactions. It leverages data attributes to control its appearance and animations, ensuring a clean separation of concerns and CSP compliance.
@@ -39,7 +39,7 @@
                     <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-80">
                         <RzSheet>
                             <SheetTrigger AsChild>
-                                <RzButton Variant="ButtonVariant.Primary">Open Sheet</RzButton>
+                                <RzButton Variant="ThemeVariant.Primary">Open Sheet</RzButton>
                             </SheetTrigger>
                             <SheetContent>
                                 <SheetHeader>
@@ -60,7 +60,7 @@
                                 </div>
                                 <SheetFooter>
                                     <SheetClose AsChild>
-                                        <RzButton Variant="ButtonVariant.Primary">Save changes</RzButton>
+                                        <RzButton Variant="ThemeVariant.Primary">Save changes</RzButton>
                                     </SheetClose>
                                 </SheetFooter>
                             </SheetContent>
@@ -71,7 +71,7 @@
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzSheet&gt;
     &lt;SheetTrigger AsChild&gt;
-        &lt;RzButton Variant="ButtonVariant.Primary"&gt;Open Sheet&lt;/RzButton&gt;
+        &lt;RzButton Variant="ThemeVariant.Primary"&gt;Open Sheet&lt;/RzButton&gt;
     &lt;/SheetTrigger&gt;
     &lt;SheetContent&gt;
         &lt;SheetHeader&gt;
@@ -92,7 +92,7 @@
         &lt;/div&gt;
         &lt;SheetFooter&gt;
             &lt;SheetClose AsChild&gt;
-                &lt;RzButton Variant="ButtonVariant.Primary"&gt;Save changes&lt;/RzButton&gt;
+                &lt;RzButton Variant="ThemeVariant.Primary"&gt;Save changes&lt;/RzButton&gt;
             &lt;/SheetClose&gt;
         &lt;/SheetFooter&gt;
     &lt;/SheetContent&gt;
@@ -115,7 +115,7 @@
                         {
                             <RzSheet>
                                 <SheetTrigger AsChild>
-                                    <RzButton Variant="ButtonVariant.Secondary">@side</RzButton>
+                                    <RzButton Variant="ThemeVariant.Secondary">@side</RzButton>
                                 </SheetTrigger>
                                 <SheetContent Side="side">
                                     <SheetHeader>
@@ -135,7 +135,7 @@
 {
     &lt;RzSheet&gt;
         &lt;SheetTrigger AsChild&gt;
-            &lt;RzButton Variant="ButtonVariant.Secondary"&gt;@@side&lt;/RzButton&gt;
+            &lt;RzButton Variant="ThemeVariant.Secondary"&gt;@@side&lt;/RzButton&gt;
         &lt;/SheetTrigger&gt;
         &lt;SheetContent Side="side"&gt;
             &lt;SheetHeader&gt;

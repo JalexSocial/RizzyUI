@@ -48,7 +48,7 @@
                     <li><strong>Component <code>init()</code>:</strong> For each component, Alpine loads its async module, creates the reactive state, and executes the <code>init()</code> method.</li>
                     <li><strong><code>alpine:initialized</code> Event:</strong> After all initial components are ready, Alpine fires this event.</li>
                 </ol>
-                <RzAlert Variant="AlertVariant.Warning">
+                <RzAlert Variant="ThemeVariant.Warning">
                     <AlertDescription>
                         If you try to register a store or directive after the <code>alpine:init</code> event has fired, Alpine won’t see it. Always register global helpers inside an <code>alpine:init</code> event listener.
                     </AlertDescription>
@@ -102,7 +102,7 @@ init() {
 }
                 </RzCodeViewer>
 
-                <RzAlert Variant="AlertVariant.Information" class="mt-6">
+                <RzAlert Variant="ThemeVariant.Information" class="mt-6">
                     <AlertTitle>Deferring DOM Access with <code>$nextTick</code></AlertTitle>
                     <AlertDescription>
                         The <code>init()</code> method runs before child elements inside conditionals (like <code>x-if</code>) are rendered. If you need to access a DOM element that might not exist yet, use <code>this.$nextTick()</code> to wait for Alpine's next DOM update.
@@ -125,7 +125,7 @@ init() {
                 <RzParagraph>
                     You may see <code>x-init</code> used in general Alpine.js documentation. In RizzyUI, you should always prefer the <code>init()</code> method in your code-behind for cleanliness, organization, and security.
                 </RzParagraph>
-                <RzAlert Variant="AlertVariant.Warning" class="my-4">
+                <RzAlert Variant="ThemeVariant.Warning" class="my-4">
                     <AlertTitle>CSP Violation Example</AlertTitle>
                     <AlertDescription>
                         Using <code>x-init</code> with inline expressions in CSP mode will trigger browser errors like: <em>"Refused to execute inline script because it violates the Content Security Policy directive."</em>

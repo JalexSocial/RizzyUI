@@ -17,17 +17,17 @@ public partial class RzButton : RzComponent<RzButton.Slots>
         @base: "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer rounded-md",
         variants: new()
         {
-            [b => ((RzButton)b).Variant] = new Variant<ButtonVariant, Slots>
+            [b => ((RzButton)b).Variant] = new Variant<ThemeVariant, Slots>
             {
-                [ButtonVariant.Primary] = "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
-                [ButtonVariant.Secondary] = "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/90",
-                [ButtonVariant.Destructive] = "bg-destructive text-white shadow-xs hover:bg-destructive/90",
-                [ButtonVariant.Ghost] = "shadow-none hover:bg-accent hover:text-accent-foreground",
-                [ButtonVariant.Accent] = "bg-accent text-accent-foreground shadow-xs hover:bg-accent/90",
-                [ButtonVariant.Inverse] = "bg-foreground text-background shadow-xs hover:bg-foreground/90",
-                [ButtonVariant.Information] = "bg-info text-info-foreground shadow-xs hover:bg-info/90",
-                [ButtonVariant.Warning] = "bg-warning text-warning-foreground shadow-xs hover:bg-warning/90",
-                [ButtonVariant.Success] = "bg-success text-success-foreground shadow-xs hover:bg-success/90"
+                [ThemeVariant.Primary] = "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+                [ThemeVariant.Secondary] = "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/90",
+                [ThemeVariant.Destructive] = "bg-destructive text-white shadow-xs hover:bg-destructive/90",
+                [ThemeVariant.Ghost] = "shadow-none hover:bg-accent hover:text-accent-foreground",
+                [ThemeVariant.Accent] = "bg-accent text-accent-foreground shadow-xs hover:bg-accent/90",
+                [ThemeVariant.Inverse] = "bg-foreground text-background shadow-xs hover:bg-foreground/90",
+                [ThemeVariant.Information] = "bg-info text-info-foreground shadow-xs hover:bg-info/90",
+                [ThemeVariant.Warning] = "bg-warning text-warning-foreground shadow-xs hover:bg-warning/90",
+                [ThemeVariant.Success] = "bg-success text-success-foreground shadow-xs hover:bg-success/90"
             },
             [b => ((RzButton)b).Size] = new Variant<Size, Slots>
             {
@@ -44,15 +44,15 @@ public partial class RzButton : RzComponent<RzButton.Slots>
         },
         compoundVariants: new()
         {
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ButtonVariant.Primary) { Class = "border border-primary text-primary bg-transparent hover:bg-primary/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ButtonVariant.Secondary) { Class = "border border-secondary text-foreground bg-transparent hover:bg-secondary/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ButtonVariant.Destructive) { Class = "border border-destructive text-destructive bg-transparent hover:bg-destructive/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ButtonVariant.Accent) { Class = "border border-accent text-foreground bg-transparent hover:bg-accent/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ButtonVariant.Inverse) { Class = "border border-foreground text-foreground bg-transparent hover:bg-foreground/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ButtonVariant.Information) { Class = "border border-info text-info bg-transparent hover:bg-info/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ButtonVariant.Warning) { Class = "border border-warning text-warning bg-transparent hover:bg-warning/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ButtonVariant.Success) { Class = "border border-success text-success bg-transparent hover:bg-success/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ButtonVariant.Ghost) { Class = "border border-transparent" }
+            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Primary) { Class = "border border-primary text-primary bg-transparent hover:bg-primary/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Secondary) { Class = "border border-secondary text-foreground bg-transparent hover:bg-secondary/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Destructive) { Class = "border border-destructive text-destructive bg-transparent hover:bg-destructive/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Accent) { Class = "border border-accent text-foreground bg-transparent hover:bg-accent/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Inverse) { Class = "border border-foreground text-foreground bg-transparent hover:bg-foreground/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Information) { Class = "border border-info text-info bg-transparent hover:bg-info/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Warning) { Class = "border border-warning text-warning bg-transparent hover:bg-warning/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Success) { Class = "border border-success text-success bg-transparent hover:bg-success/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Ghost) { Class = "border border-transparent" }
         }
     );
 
@@ -64,10 +64,10 @@ public partial class RzButton : RzComponent<RzButton.Slots>
     public string? AssistiveLabel { get; set; }
 
     /// <summary>
-    /// Gets or sets the visual style variant of the button. Defaults to <see cref="ButtonVariant.Primary"/>.
+    /// Gets or sets the visual style variant of the button. Defaults to <see cref="ThemeVariant.Primary"/>.
     /// </summary>
     [Parameter]
-    public ButtonVariant Variant { get; set; } = ButtonVariant.Inverse;
+    public ThemeVariant Variant { get; set; } = ThemeVariant.Inverse;
 
     /// <summary>
     /// Gets or sets the size of the button. Defaults to <see cref="Size.Medium"/>.

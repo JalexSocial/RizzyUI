@@ -19,7 +19,7 @@
                 RizzyUI isn't just a set of components; it's an interactive toolkit. We've pre-packaged some of the most useful official Alpine.js plugins and added our own custom directives to solve common UI challenges right out of the box.
             </RzParagraph>
             
-            <RzAlert Variant="AlertVariant.Information" class="my-5">
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
                 <AlertTitle>What "Pre-Packaged" Means</AlertTitle>
                 <AlertDescription>
                     RizzyUI bundles and registers these plugins automatically, so you can use their directives (<code>x-collapse</code>, <code>x-intersect</code>, <code>x-trap</code>) in your Razor markup without importing or configuring anything. They are always available.
@@ -123,7 +123,7 @@
                 <RzParagraph>
                     The <code>x-syncprop</code> directive creates a two-way binding between a property in a parent Alpine component and a property in a **direct child** component.
                 </RzParagraph>
-                <RzAlert Variant="AlertVariant.Information" class="my-4">
+                <RzAlert Variant="ThemeVariant.Information" class="my-4">
                     <AlertTitle>What Problem Does <code>x-syncprop</code> Solve?</AlertTitle>
                     <AlertDescription>
                         Alpine's built-in <code>x-modelable</code> is for single-property binding and is **not compatible with CSP builds**. <code>x-syncprop</code> fills this gap by allowing you to declaratively sync **multiple, arbitrary properties** between components in a way that is both powerful and fully CSP-compliant.

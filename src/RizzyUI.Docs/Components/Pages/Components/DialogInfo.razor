@@ -17,7 +17,7 @@
                 The RzDialog component suite provides a flexible way to display modal dialogs. It's a composable system built from components like <code>DialogTrigger</code>, <code>DialogContent</code>, <code>DialogHeader</code>, and more. It leverages Alpine.js for client-side state management, transitions, focus trapping, and standard closing mechanisms. Its internal body and footer areas have stable IDs, allowing HTMX to dynamically load or update content within the dialog after it's opened.
             </RzParagraph>
 
-            <RzAlert Variant="AlertVariant.Information" class="mb-6">
+            <RzAlert Variant="ThemeVariant.Information" class="mb-6">
                 <AlertTitle>Under the Hood</AlertTitle>
                 <AlertDescription>
                     This component uses an Alpine.js component (<code>x-data="rzDialog"</code>) to manage its state and interactions. It utilizes <code>&lt;template x-teleport="body"&gt;</code> to ensure the dialog is rendered at the end of the document body, avoiding potential z-index issues.
@@ -35,7 +35,7 @@
                 <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-40">
                     <RzDialog>
                         <DialogTrigger AsChild>
-                            <RzButton Variant="ButtonVariant.Primary">Open Basic Dialog</RzButton>
+                            <RzButton Variant="ThemeVariant.Primary">Open Basic Dialog</RzButton>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
@@ -49,9 +49,9 @@
                             </div>
                             <DialogFooter>
                                 <DialogClose AsChild>
-                                    <RzButton Variant="ButtonVariant.Accent">Close</RzButton>
+                                    <RzButton Variant="ThemeVariant.Accent">Close</RzButton>
                                 </DialogClose>
-                                <RzButton Variant="ButtonVariant.Primary">Okay</RzButton>
+                                <RzButton Variant="ThemeVariant.Primary">Okay</RzButton>
                             </DialogFooter>
                         </DialogContent>
                     </RzDialog>
@@ -60,7 +60,7 @@
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzDialog&gt;
     &lt;DialogTrigger AsChild&gt;
-        &lt;RzButton Variant=&quot;ButtonVariant.Primary&quot;&gt;Open Basic Dialog&lt;/RzButton&gt;
+        &lt;RzButton Variant=&quot;ThemeVariant.Primary&quot;&gt;Open Basic Dialog&lt;/RzButton&gt;
     &lt;/DialogTrigger&gt;
     &lt;DialogContent&gt;
         &lt;DialogHeader&gt;
@@ -74,9 +74,9 @@
         &lt;/div&gt;
         &lt;DialogFooter&gt;
             &lt;DialogClose AsChild&gt;
-                &lt;RzButton Variant=&quot;ButtonVariant.Accent&quot;&gt;Close&lt;/RzButton&gt;
+                &lt;RzButton Variant=&quot;ThemeVariant.Accent&quot;&gt;Close&lt;/RzButton&gt;
             &lt;/DialogClose&gt;
-            &lt;RzButton Variant=&quot;ButtonVariant.Primary&quot;&gt;Okay&lt;/RzButton&gt;
+            &lt;RzButton Variant=&quot;ThemeVariant.Primary&quot;&gt;Okay&lt;/RzButton&gt;
         &lt;/DialogFooter&gt;
     &lt;/DialogContent&gt;
 &lt;/RzDialog&gt;
@@ -101,7 +101,7 @@
                                 <p>This dialog has no header and the default close button is hidden.</p>
                                 <div class="mt-4 text-right">
                                     <DialogClose AsChild>
-                                        <RzButton Variant="ButtonVariant.Accent">Close Me</RzButton>
+                                        <RzButton Variant="ThemeVariant.Accent">Close Me</RzButton>
                                     </DialogClose>
                                 </div>
                             </div>
@@ -139,7 +139,7 @@
             &lt;p&gt;This dialog has no header and the default close button is hidden.&lt;/p&gt;
             &lt;div class=&quot;mt-4 text-right&quot;&gt;
                 &lt;DialogClose AsChild&gt;
-                    &lt;RzButton Variant=&quot;ButtonVariant.Accent&quot;&gt;Close Me&lt;/RzButton&gt;
+                    &lt;RzButton Variant=&quot;ThemeVariant.Accent&quot;&gt;Close Me&lt;/RzButton&gt;
                 &lt;/DialogClose&gt;
             &lt;/div&gt;
         &lt;/div&gt;
@@ -233,7 +233,7 @@
 @@using RizzyUI
 
 &lt;p&gt;This content was loaded dynamically via an HTMX request!&lt;/p&gt;
-&lt;RzAlert Variant=&quot;AlertVariant.Success&quot;&gt;
+&lt;RzAlert Variant=&quot;ThemeVariant.Success&quot;&gt;
     &lt;AlertTitle&gt;Success&lt;/AlertTitle&gt;
     &lt;AlertDescription&gt;Content loaded successfully.&lt;/AlertDescription&gt;
 &lt;/RzAlert&gt;
@@ -248,7 +248,7 @@
                     Dialogs can be closed from the server by returning an HTMX response header that triggers the event specified in the `CloseEventName` parameter (default: `rz:modal-close`). This example shows a form inside the dialog; upon successful submission, the server sends back the trigger header.
                 </RzParagraph>
 
-                <RzAlert Variant="AlertVariant.Warning" class="mb-6">
+                <RzAlert Variant="ThemeVariant.Warning" class="mb-6">
                    <AlertTitle>Static Documentation Limitation</AlertTitle>
                    <AlertDescription>
                        This specific "Close via HTMX Header" example requires server-side processing to send the `HX-Trigger` response header. Since this documentation is rendered as static HTML, clicking the "Submit & Close" button below will not actually close the dialog in this demo environment. It demonstrates the client-side setup and the expected server-side response.
@@ -270,7 +270,7 @@
                                       hx-swap="outerHTML">
                                     <p>Submit this form. The server response will include an HX-Trigger header to close this dialog (requires live server).</p>
                                     <div class="text-right mt-4">
-                                        <RzButton type="submit" Variant="ButtonVariant.Success">Submit & Close</RzButton>
+                                        <RzButton type="submit" Variant="ThemeVariant.Success">Submit & Close</RzButton>
                                     </div>
                                 </form>
                             </div>
@@ -293,7 +293,7 @@
                   hx-swap=&quot;outerHTML&quot;&gt;
                 &lt;p&gt;Submit this form. The server response will include an HX-Trigger header to close this dialog.&lt;/p&gt;
                 &lt;div class=&quot;text-right mt-4&quot;&gt;
-                    &lt;RzButton type=&quot;submit&quot; Variant=&quot;ButtonVariant.Success&quot;&gt;Submit &amp; Close&lt;/RzButton&gt;
+                    &lt;RzButton type=&quot;submit&quot; Variant=&quot;ThemeVariant.Success&quot;&gt;Submit &amp; Close&lt;/RzButton&gt;
                 &lt;/div&gt;
             &lt;/form&gt;
         &lt;/div&gt;

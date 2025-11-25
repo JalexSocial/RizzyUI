@@ -92,7 +92,7 @@ export default () =&gt; ({
                     In RizzyUI, <code>$refs</code> is the gateway to <strong>component orchestration</strong>. By placing an <code>x-ref</code> on another RizzyUI component (like <code>&lt;RzDialog&gt;</code>), you can get its root element and then use the <code>Rizzy.$data()</code> helper to access its Alpine instance and API. This bridges the gap between your Razor components and Alpine, letting you call Alpine APIs on other RizzyUI components.
                 </RzParagraph>
                 
-                <RzAlert Variant="AlertVariant.Information" class="my-4">
+                <RzAlert Variant="ThemeVariant.Information" class="my-4">
                     <AlertTitle>Preview of Orchestration</AlertTitle>
                     <AlertDescription>
                         We cover this pattern in detail on the <RzLink Href="/docs/interactivity/orchestration">Advanced: Orchestration</RzLink> page, but here’s a quick look at the pattern.
@@ -143,7 +143,7 @@ export default () =&gt; ({
                 <RzParagraph>
                     <code>x-effect</code> is like <code>$watch</code>, but it automatically tracks any reactive properties you use inside it. Whenever any of those dependencies change, the effect re-runs.
                 </RzParagraph>
-                <RzAlert Variant="AlertVariant.Information" class="my-4">
+                <RzAlert Variant="ThemeVariant.Information" class="my-4">
                     <AlertTitle>When to use <code>$watch</code> vs. <code>x-effect</code></AlertTitle>
                     <AlertDescription>
                         Use <code>$watch</code> when you need to observe a <strong>specific property</strong> and react to its change. Use <code>x-effect</code> when you have a block of code that should re-run whenever <strong>any of its dependencies</strong> change automatically.

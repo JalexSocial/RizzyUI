@@ -62,7 +62,7 @@
 &lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;itemManager&quot;&gt;
   &lt;div class="text-center"&gt;
     &lt;p class="text-foreground"&gt;Item to delete: &lt;strong x-text=&quot;itemToDelete.name || 'None'&quot;&gt;&lt;/strong&gt;&lt;/p&gt;
-    &lt;RzButton Variant=&quot;ButtonVariant.Destructive&quot; x-on:click=&quot;confirmDelete({ id: 1, name: 'First Item' })&quot; class="mt-2"&gt;
+    &lt;RzButton Variant=&quot;ThemeVariant.Destructive&quot; x-on:click=&quot;confirmDelete({ id: 1, name: 'First Item' })&quot; class="mt-2"&gt;
       Delete Item
     &lt;/RzButton&gt;
   &lt;/div&gt;
@@ -80,7 +80,7 @@
             &lt;DialogClose AsChild&gt;
                 &lt;RzButton&gt;Cancel&lt;/RzButton&gt;
             &lt;/DialogClose&gt;
-            &lt;RzButton Variant=&quot;ButtonVariant.Destructive&quot;&gt;Confirm Delete&lt;/RzButton&gt;
+            &lt;RzButton Variant=&quot;ThemeVariant.Destructive&quot;&gt;Confirm Delete&lt;/RzButton&gt;
         &lt;/DialogFooter&gt;
     &lt;/DialogContent&gt;
   &lt;/RzDialog&gt;

@@ -20,7 +20,7 @@
             <RzParagraph>
                 The <code>RzInputText</code> and <code>RzInputNumber</code> components are versatile inputs for capturing user data. They can be used standalone within a form or composed with <code>RzInputGroup</code> to include addons like icons, text, and buttons.
             </RzParagraph>
-            <RzAlert Variant="AlertVariant.Information" class="my-5">
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
                 <AlertTitle>Form Integration</AlertTitle>
                 <AlertDescription>
                     All input components must be placed within an <code>EditForm</code> and bound to a model property using the <code>For</code> parameter to enable validation and data binding.
@@ -181,7 +181,7 @@
                                     <RzInputGroup>
                                         <InputGroupInput For="@(() => _model.Coupon)" Placeholder="Enter coupon code" />
                                         <InputGroupAddon>
-                                            <InputGroupButton Variant="ButtonVariant.Primary">Apply</InputGroupButton>
+                                            <InputGroupButton Variant="ThemeVariant.Primary">Apply</InputGroupButton>
                                         </InputGroupAddon>
                                     </RzInputGroup>
                                 </Field>
@@ -212,7 +212,7 @@
     &lt;RzInputGroup&gt;
         &lt;InputGroupInput For="@@(() => _model.Coupon)" Placeholder="Enter coupon code" /&gt;
         &lt;InputGroupAddon&gt;
-            &lt;InputGroupButton Variant="ButtonVariant.Primary"&gt;Apply&lt;/InputGroupButton&gt;
+            &lt;InputGroupButton Variant="ThemeVariant.Primary"&gt;Apply&lt;/InputGroupButton&gt;
         &lt;/InputGroupAddon&gt;
     &lt;/RzInputGroup&gt;
 &lt;/RzFieldSet&gt;
@@ -233,12 +233,12 @@
                             <RzInputGroup>
                                 <InputGroupTextarea For="@(() => _model.Message)" Placeholder="Ask, Search or Chat..." />
                                 <InputGroupAddon Align="InputGroupAddonAlign.BlockEnd">
-                                    <InputGroupButton Variant="ButtonVariant.Primary" Outline class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall">
+                                    <InputGroupButton Variant="ThemeVariant.Primary" Outline class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall">
                                         <Blazicon Svg="MdiIcon.Plus" />
                                     </InputGroupButton>
                                     <RzDropdownMenu>
                                         <DropdownMenuTrigger AsChild>
-                                            <InputGroupButton Variant="ButtonVariant.Ghost">Auto</InputGroupButton>
+                                            <InputGroupButton Variant="ThemeVariant.Ghost">Auto</InputGroupButton>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent>
                                             <DropdownMenuItem>Auto</DropdownMenuItem>
@@ -248,7 +248,7 @@
                                     </RzDropdownMenu>
                                     <InputGroupText class="ml-auto">52% used</InputGroupText>
                                     <RzSeparator Orientation="Orientation.Vertical" class="!h-4" />
-                                    <InputGroupButton Variant="ButtonVariant.Primary" class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall" disabled>
+                                    <InputGroupButton Variant="ThemeVariant.Primary" class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall" disabled>
                                         <Blazicon Svg="MdiIcon.ArrowUp" />
                                         <span class="sr-only">Send</span>
                                     </InputGroupButton>
@@ -262,12 +262,12 @@
 &lt;RzInputGroup&gt;
     &lt;InputGroupTextarea For="@@(() => _model.Message)" Placeholder="Ask, Search or Chat..." /&gt;
     &lt;InputGroupAddon Align="InputGroupAddonAlign.BlockEnd"&gt;
-        &lt;InputGroupButton Variant="ButtonVariant.Primary" Outline class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall"&gt;
+        &lt;InputGroupButton Variant="ThemeVariant.Primary" Outline class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall"&gt;
             &lt;Blazicon Svg="MdiIcon.Plus" /&gt;
         &lt;/InputGroupButton&gt;
         &lt;RzDropdownMenu&gt;
             &lt;DropdownMenuTrigger AsChild&gt;
-                &lt;InputGroupButton Variant="ButtonVariant.Ghost"&gt;Auto&lt;/InputGroupButton&gt;
+                &lt;InputGroupButton Variant="ThemeVariant.Ghost"&gt;Auto&lt;/InputGroupButton&gt;
             &lt;/DropdownMenuTrigger&gt;
             &lt;DropdownMenuContent&gt;
                 &lt;DropdownMenuItem&gt;Auto&lt;/DropdownMenuItem&gt;
@@ -277,7 +277,7 @@
         &lt;/RzDropdownMenu&gt;
         &lt;InputGroupText class="ml-auto"&gt;52% used&lt;/InputGroupText&gt;
         &lt;RzSeparator Orientation="Orientation.Vertical" class="!h-4" /&gt;
-        &lt;InputGroupButton Variant="ButtonVariant.Primary" class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall" disabled&gt;
+        &lt;InputGroupButton Variant="ThemeVariant.Primary" class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall" disabled&gt;
             &lt;Blazicon Svg="MdiIcon.ArrowUp" /&gt;
             &lt;span class="sr-only"&gt;Send&lt;/span&gt;
         &lt;/InputGroupButton&gt;

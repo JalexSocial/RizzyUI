@@ -2,59 +2,9 @@
 namespace RizzyUI;
 
 /// <summary>
-///     Variants for alert components, defining their visual appearance.
+///     Variants for button, alert, and badge components, defining their appearance and purpose.
 /// </summary>
-public enum AlertVariant
-{
-    /// <summary>
-    ///     Alert using the alternate background color
-    /// </summary>
-    Alternate,
-
-    /// <summary>Informational alert, typically blue or neutral.</summary>
-    Information,
-
-    /// <summary>Success alert, often green to indicate positive feedback.</summary>
-    Success,
-
-    /// <summary>Warning alert, often yellow to indicate caution.</summary>
-    Warning,
-
-    /// <summary>Destructive alert, often red to indicate errors or critical issues.</summary>
-    Destructive
-}
-
-/// <summary>
-///     Variants for badge components, defining their style and context.
-/// </summary>
-public enum BadgeVariant
-{
-    /// <summary>Default badge styling.</summary>
-    Default,
-
-    /// <summary>Secondary badge, typically for less emphasized content.</summary>
-    Secondary,
-
-    /// <summary>Outlined badge for a minimal look.</summary>
-    Outline,
-
-    /// <summary>Success badge, often green for positive actions or states.</summary>
-    Success,
-
-    /// <summary>Informational badge, often blue or neutral.</summary>
-    Info,
-
-    /// <summary>Warning badge, often yellow for caution.</summary>
-    Warning,
-
-    /// <summary>Destructive badge, often red to indicate critical actions.</summary>
-    Destructive
-}
-
-/// <summary>
-///     Variants for button components, defining their appearance and purpose.
-/// </summary>
-public enum ButtonVariant
+public enum ThemeVariant
 {
     /// <summary>Default button styling.</summary>
     Default,
@@ -65,22 +15,22 @@ public enum ButtonVariant
     /// <summary>Secondary button for supporting actions.</summary>
     Secondary,
 
-    /// <summary>Alternate button styling for varied contexts.</summary>
+    /// <summary>Alternate styling for varied contexts.</summary>
     Accent,
 
-    /// <summary>Inverse button styling for dark backgrounds.</summary>
+    /// <summary>Inverse styling for dark backgrounds.</summary>
     Inverse,
 
-    /// <summary>Information button, typically blue for neutral actions.</summary>
+    /// <summary>Information styling, typically blue for neutral actions.</summary>
     Information,
 
-    /// <summary>Destructive button, often red for critical actions.</summary>
+    /// <summary>Destructive styling, often red for critical actions.</summary>
     Destructive,
 
-    /// <summary>Warning button, often yellow for cautionary actions.</summary>
+    /// <summary>Warning styling, often yellow for cautionary actions.</summary>
     Warning,
 
-    /// <summary>Success button, often green for positive actions.</summary>
+    /// <summary>Success styling, often green for positive actions.</summary>
     Success,
 
     /// <summary>Ghost button for minimal and subtle interactions.</summary>

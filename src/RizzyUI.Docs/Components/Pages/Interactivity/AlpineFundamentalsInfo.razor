@@ -48,7 +48,7 @@
                     Now that we have state, how do we change it? With browser events. Alpine uses the <code>x-on</code> directive to listen for events like clicks, input, and mouse movements.
                 </RzParagraph>
 
-                <RzAlert Variant="AlertVariant.Warning" class="my-5">
+                <RzAlert Variant="ThemeVariant.Warning" class="my-5">
                     <AlertTitle>Important RizzyUI Convention</AlertTitle>
                     <AlertDescription>
                         You might see Alpine examples using the <code>@@click</code> shorthand. <strong>In RizzyUI, you should always use the full <code>x-on:click</code> syntax.</strong> This is because Blazor uses the <code>@@</code> symbol for its own directives (like <code>@@onclick</code>), and using <code>@@click</code> can cause conflicts. Sticking with <code>x-on:</code> is the safe and recommended practice.
@@ -123,7 +123,7 @@
   &lt;RzButton x-on:click=&quot;updateMessage&quot;&gt;Update via $refs&lt;/RzButton&gt;
 &lt;/div&gt;
                 </RzCodeViewer>
-                <RzAlert Variant="AlertVariant.Information" class="mt-6">
+                <RzAlert Variant="ThemeVariant.Information" class="mt-6">
                     <AlertTitle>Tip</AlertTitle>
                     <AlertDescription>
                         Prefer changing state (e.g., <code>message = '...'</code>) and letting Alpine's reactive directives update the UI. Use <code>$refs</code> as an "escape hatch" for when you truly need to interact with a DOM element programmatically.
@@ -145,14 +145,14 @@
                         <RzButton
                             x-on:click="save"
                             :aria-busy="isSaved ? 'true' : 'false'"
-                            Variant="ButtonVariant.Primary"
+                            Variant="ThemeVariant.Primary"
                             class="transition-colors"
                             :class="{ 'bg-success hover:bg-success/90': isSaved }">
                             <span x-show="!isSaved">Save</span>
                             <span x-show="isSaved" x-cloak>Saved!</span>
                         </RzButton>
 
-                        <RzAlert x-show="isSaved" x-transition Variant="AlertVariant.Success" class="mt-4" role="status" aria-live="polite">
+                        <RzAlert x-show="isSaved" x-transition Variant="ThemeVariant.Success" class="mt-4" role="status" aria-live="polite">
                             <AlertTitle>Success!</AlertTitle>
                             <AlertDescription>Your changes have been saved.</AlertDescription>
                         </RzAlert>
@@ -165,14 +165,14 @@
   &lt;RzButton
     x-on:click=&quot;save&quot;
     :aria-busy=&quot;isSaved ? 'true' : 'false'&quot;
-    Variant=&quot;ButtonVariant.Primary&quot;
+    Variant=&quot;ThemeVariant.Primary&quot;
     class=&quot;transition-colors&quot;
     :class=&quot;{ 'bg-success hover:bg-success/90': isSaved }&quot;&gt;
     &lt;span x-show=&quot;!isSaved&quot;&gt;Save&lt;/span&gt;
     &lt;span x-show=&quot;isSaved&quot; x-cloak&gt;Saved!&lt;/span&gt;
   &lt;/RzButton&gt;
 
-  &lt;RzAlert x-show=&quot;isSaved&quot; x-transition Variant=&quot;AlertVariant.Success&quot; class=&quot;mt-4&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;
+  &lt;RzAlert x-show=&quot;isSaved&quot; x-transition Variant=&quot;ThemeVariant.Success&quot; class=&quot;mt-4&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;
     &lt;AlertTitle&gt;Success!&lt;/AlertTitle&gt;
     &lt;AlertDescription&gt;Your changes have been saved.&lt;/AlertDescription&gt;
   &lt;/RzAlert&gt;

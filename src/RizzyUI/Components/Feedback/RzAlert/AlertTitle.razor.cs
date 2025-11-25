@@ -17,13 +17,13 @@ public partial class AlertTitle : RzComponent<AlertTitle.Slots>
         @base: "font-medium tracking-tight line-clamp-1",
         variants: new()
         {
-            [c => ((AlertTitle)c).EffectiveVariant] = new Variant<AlertVariant, Slots>
+            [c => ((AlertTitle)c).EffectiveVariant] = new Variant<ThemeVariant, Slots>
             {
-                [AlertVariant.Alternate] = null, // Inherits base color
-                [AlertVariant.Information] = "text-info",
-                [AlertVariant.Success] = "text-success",
-                [AlertVariant.Warning] = "text-warning",
-                [AlertVariant.Destructive] = "text-destructive"
+                [ThemeVariant.Alternate] = null, // Inherits base color
+                [ThemeVariant.Information] = "text-info",
+                [ThemeVariant.Success] = "text-success",
+                [ThemeVariant.Warning] = "text-warning",
+                [ThemeVariant.Destructive] = "text-destructive"
             }
         }
     );
@@ -37,7 +37,7 @@ public partial class AlertTitle : RzComponent<AlertTitle.Slots>
     /// This allows for overriding the parent's variant for specific styling needs.
     /// </summary>
     [Parameter]
-    public AlertVariant? Variant { get; set; }
+    public ThemeVariant? Variant { get; set; }
 
     /// <summary> The content to be rendered inside the alert title (typically text). </summary>
     [Parameter]
@@ -47,7 +47,7 @@ public partial class AlertTitle : RzComponent<AlertTitle.Slots>
     /// Gets the effective variant for styling, prioritizing the local `Variant` parameter
     /// and falling back to the parent `RzAlert`'s variant.
     /// </summary>
-    protected AlertVariant EffectiveVariant => Variant ?? AlertParent?.Variant ?? AlertVariant.Alternate;
+    protected ThemeVariant EffectiveVariant => Variant ?? AlertParent?.Variant ?? ThemeVariant.Alternate;
 
     /// <inheritdoc />
     protected override void OnInitialized()

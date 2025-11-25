@@ -17,10 +17,10 @@ public partial class InputGroupButton : RzComponent<InputGroupButtonSlots>, IHas
 
     /// <summary>
     /// Gets or sets the visual style variant of the button.
-    /// Defaults to <see cref="ButtonVariant.Ghost"/>.
+    /// Defaults to <see cref="ThemeVariant.Ghost"/>.
     /// </summary>
     [Parameter]
-    public ButtonVariant Variant { get; set; } = ButtonVariant.Ghost;
+    public ThemeVariant Variant { get; set; } = ThemeVariant.Ghost;
 
     /// <summary>
     /// Gets or sets a value indicating whether the button should have an outline style. Defaults to false.

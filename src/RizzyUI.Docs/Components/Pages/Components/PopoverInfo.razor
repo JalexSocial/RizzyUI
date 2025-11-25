@@ -17,7 +17,7 @@
                 Under the hood, this component ties together <b>Alpine.js</b> (for state and interactivity) and <b>floating-ui</b> (for robust positioning), so you don’t need to wrangle the DOM or manage pixel math yourself.
             </RzParagraph>
 
-            <RzAlert Variant="AlertVariant.Information" class="my-5">
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
                 <AlertTitle>Under the Hood</AlertTitle>
                 <AlertDescription>
                     RzPopover uses an Alpine.js component (<code>x-data="rzPopover"</code>) for managing open/close state and user interactions. Placement is handled by <b>floating-ui</b>, which keeps the popover visible and anchored—even if the viewport or scroll position changes.
@@ -36,7 +36,7 @@
                     <div class="mx-auto p-8 mb-5 flex justify-center items-start min-h-80">
                         <RzPopover>
                             <PopoverTrigger AsChild>
-                                <RzButton Variant="ButtonVariant.Primary">Open Popover</RzButton>
+                                <RzButton Variant="ThemeVariant.Primary">Open Popover</RzButton>
                             </PopoverTrigger>
                             <PopoverContent>
                                 <div class="grid gap-4">
@@ -73,7 +73,7 @@
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzPopover&gt;
     &lt;PopoverTrigger&gt;
-        &lt;RzButton Variant="ButtonVariant.Primary" AsChild&gt;Open Popover&lt;/RzButton&gt;
+        &lt;RzButton Variant="ThemeVariant.Primary" AsChild&gt;Open Popover&lt;/RzButton&gt;
     &lt;/PopoverTrigger&gt;
     &lt;PopoverContent&gt;
         &lt;div class="grid gap-4"&gt;
