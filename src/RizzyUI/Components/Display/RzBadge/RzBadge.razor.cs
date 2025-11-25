@@ -22,35 +22,45 @@ public partial class RzBadge : RzComponent<RzBadge.Slots>
         },
         variants: new()
         {
-            [b => ((RzBadge)b).Color] = new Variant<SemanticColor, Slots>(), // Variants are handled by compound variants
+            [b => ((RzBadge)b).Variant] = new Variant<ThemeVariant, Slots>(), // Variants are handled by compound variants
             [b => ((RzBadge)b).Soft] = new Variant<bool, Slots>()
         },
         compoundVariants: new()
         {
-            // Solid Variants
-            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Color == SemanticColor.Primary) { Class = "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90" },
-            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Color == SemanticColor.Secondary) { Class = "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90" },
-            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Color == SemanticColor.Destructive) { Class = "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60" },
-            new(b => !((RzBadge)b).Soft && (((RzBadge)b).Color == SemanticColor.Muted || ((RzBadge)b).Color == SemanticColor.Foreground || ((RzBadge)b).Color == SemanticColor.Background || ((RzBadge)b).Color == SemanticColor.None)) { Class = "text-foreground border-border [a&]:hover:bg-accent [a&]:hover:text-accent-foreground" },
-            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Color == SemanticColor.Info) { Class = "border-blue-500 text-blue-700 bg-blue-100 dark:border-blue-700 dark:text-blue-300 dark:bg-blue-900/30" },
-            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Color == SemanticColor.Success) { Class = "border-green-500 text-green-700 bg-green-100 dark:border-green-700 dark:text-green-300 dark:bg-green-900/30" },
-            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Color == SemanticColor.Warning) { Class = "border-amber-500 text-amber-700 bg-amber-100 dark:border-amber-700 dark:text-amber-300 dark:bg-amber-900/30" },
+            // --- Solid Variants ---
+            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Primary) { Class = "border-transparent bg-primary text-primary-foreground hover:bg-primary/80" },
+            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Secondary) { Class = "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80" },
+            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Destructive) { Class = "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80" },
+            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Accent) { Class = "border-transparent bg-accent text-accent-foreground hover:bg-accent/80" },
+            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Information) { Class = "border-transparent bg-info text-info-foreground hover:bg-info/80" },
+            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Success) { Class = "border-transparent bg-success text-success-foreground hover:bg-success/80" },
+            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Warning) { Class = "border-transparent bg-warning text-warning-foreground hover:bg-warning/80" },
+            
+            // Inverse and Default map to the same style (High contrast usually)
+            new(b => !((RzBadge)b).Soft && (((RzBadge)b).Variant == ThemeVariant.Inverse || ((RzBadge)b).Variant == ThemeVariant.Default)) { Class = "border-transparent bg-foreground text-background hover:bg-foreground/80" },
+            
+            // Ghost
+            new(b => ((RzBadge)b).Variant == ThemeVariant.Ghost) { Class = "border-transparent bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground" },
 
-            // Soft Variants
-            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Color == SemanticColor.Primary) { Class = "border-primary/50 bg-primary/10 text-primary" },
-            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Color == SemanticColor.Secondary) { Class = "border-secondary/50 bg-secondary/10 text-secondary-foreground" },
-            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Color == SemanticColor.Destructive) { Class = "border-destructive/50 bg-destructive/10 text-destructive" },
-            new(b => ((RzBadge)b).Soft && (((RzBadge)b).Color == SemanticColor.Muted || ((RzBadge)b).Color == SemanticColor.None)) { Class = "border-border bg-muted/50 text-muted-foreground" },
-            new(b => ((RzBadge)b).Soft && (((RzBadge)b).Color == SemanticColor.Foreground || ((RzBadge)b).Color == SemanticColor.Background)) { Class = "border-border bg-accent/10 text-foreground" },
-            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Color == SemanticColor.Info) { Class = "border-blue-500/50 bg-blue-500/10 text-blue-700 dark:text-blue-300" },
-            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Color == SemanticColor.Success) { Class = "border-green-500/50 bg-green-500/10 text-green-700 dark:text-green-300" },
-            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Color == SemanticColor.Warning) { Class = "border-amber-500/50 bg-amber-500/10 text-amber-700 dark:text-amber-300" }
+            // --- Soft Variants ---
+            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Primary) { Class = "border-primary/20 bg-primary/10 text-primary hover:bg-primary/20" },
+            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Secondary) { Class = "border-secondary/20 bg-secondary/10 text-secondary-foreground hover:bg-secondary/20" },
+            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Destructive) { Class = "border-destructive/20 bg-destructive/10 text-destructive hover:bg-destructive/20" },
+            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Accent) { Class = "border-accent/20 bg-accent/10 text-accent-foreground hover:bg-accent/20" },
+            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Information) { Class = "border-info/20 bg-info/10 text-info hover:bg-info/20" },
+            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Success) { Class = "border-success/20 bg-success/10 text-success hover:bg-success/20" },
+            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Warning) { Class = "border-warning/20 bg-warning/10 text-warning hover:bg-warning/20" },
+            
+            // Inverse/Default Soft
+            new(b => ((RzBadge)b).Soft && (((RzBadge)b).Variant == ThemeVariant.Inverse || ((RzBadge)b).Variant == ThemeVariant.Default)) { Class = "border-foreground/10 bg-foreground/10 text-foreground hover:bg-foreground/20" },
         }
     );
 
-    /// <summary> The semantic color of the badge. Defaults to Muted. </summary>
+    /// <summary> 
+    /// The theme variant of the badge. Defaults to <see cref="ThemeVariant.Default"/>. 
+    /// </summary>
     [Parameter]
-    public SemanticColor Color { get; set; } = SemanticColor.Muted;
+    public ThemeVariant Variant { get; set; } = ThemeVariant.Default;
 
     /// <summary> When set to true, applies a softer styling to the badge. </summary>
     [Parameter]
@@ -90,10 +100,12 @@ public partial class RzBadge : RzComponent<RzBadge.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("badge")]
         public string? Base { get; set; }
         /// <summary>
         /// The slot for the inner span that wraps the content.
         /// </summary>
+        [Slot("inner-span")]
         public string? InnerSpan { get; set; }
     }
 }

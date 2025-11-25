@@ -1,3 +1,4 @@
+
 @page "/table-demo"
 @using RizzyUI
 @using RizzyUI.Docs.Models 
@@ -62,11 +63,11 @@
                     <TableCell>
                         @if (product.StockQuantity > 0)
                         {
-                            <RzBadge Color="SemanticColor.Success" Soft="true" class="px-2 py-1">@product.StockQuantity</RzBadge>
+                            <RzBadge Variant="ThemeVariant.Success" Soft="true" class="px-2 py-1">@product.StockQuantity</RzBadge>
                         }
                         else
                         {
-                            <RzBadge Color="SemanticColor.Destructive" Soft="true" class="px-2 py-1">Out of Stock</RzBadge>
+                            <RzBadge Variant="ThemeVariant.Destructive" Soft="true" class="px-2 py-1">Out of Stock</RzBadge>
                         }
                     </TableCell>
                     <TableCell ColumnKey="actions">

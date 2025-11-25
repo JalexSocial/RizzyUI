@@ -16,7 +16,7 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
     /// Defines the default styling for the RzAlert component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "not-prose relative w-full overflow-hidden rounded-lg border text-sm bg-card text-card-foreground",
+        @base: "not-prose relative w-full overflow-hidden rounded-lg border text-sm",
         slots: new()
         {
             [s => s.InnerContainer] = "flex w-full items-start gap-x-3 px-4 py-3",
@@ -30,11 +30,21 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
         {
             [b => ((RzAlert)b).Variant] = new Variant<ThemeVariant, Slots>
             {
-                [ThemeVariant.Alternate] = new() { [s => s.Base] = "border-outline" },
+                // Default / Inverse (using styling similar to Inverse/Solid)
+                [ThemeVariant.Default] = new() { [s => s.Base] = "bg-foreground text-background border-foreground", [s => s.IconContainer] = "text-background", [s => s.IconPulse] = "bg-background/15", [s => s.CloseButton] = "text-background hover:opacity-100 opacity-90" },
+                [ThemeVariant.Inverse] = new() { [s => s.Base] = "bg-foreground text-background border-foreground", [s => s.IconContainer] = "text-background", [s => s.IconPulse] = "bg-background/15", [s => s.CloseButton] = "text-background hover:opacity-100 opacity-90" },
+                
+                // Standard Variants
+                [ThemeVariant.Primary] = new() { [s => s.Base] = "border-primary/50 bg-primary/10 text-primary", [s => s.IconContainer] = "text-primary", [s => s.IconPulse] = "bg-primary/15" },
+                [ThemeVariant.Secondary] = new() { [s => s.Base] = "border-secondary/50 bg-secondary/10 text-secondary-foreground", [s => s.IconContainer] = "text-secondary-foreground", [s => s.IconPulse] = "bg-secondary/15" },
+                [ThemeVariant.Accent] = new() { [s => s.Base] = "border-accent/50 bg-accent/10 text-accent-foreground", [s => s.IconContainer] = "text-accent-foreground", [s => s.IconPulse] = "bg-accent/15" },
                 [ThemeVariant.Information] = new() { [s => s.Base] = "border-info bg-info/10 text-info-foreground dark:bg-info/15", [s => s.IconContainer] = "text-info", [s => s.IconPulse] = "bg-info/15" },
                 [ThemeVariant.Success] = new() { [s => s.Base] = "border-success bg-success/10 text-success-foreground dark:bg-success/15", [s => s.IconContainer] = "text-success", [s => s.IconPulse] = "bg-success/15" },
                 [ThemeVariant.Warning] = new() { [s => s.Base] = "border-warning bg-warning/10 text-warning-foreground dark:bg-warning/15", [s => s.IconContainer] = "text-warning", [s => s.IconPulse] = "bg-warning/15" },
-                [ThemeVariant.Destructive] = new() { [s => s.Base] = "border-destructive bg-destructive/10 text-destructive dark:bg-destructive/15", [s => s.IconContainer] = "text-destructive", [s => s.IconPulse] = "bg-destructive/15" }
+                [ThemeVariant.Destructive] = new() { [s => s.Base] = "border-destructive bg-destructive/10 text-destructive dark:bg-destructive/15", [s => s.IconContainer] = "text-destructive", [s => s.IconPulse] = "bg-destructive/15" },
+                
+                // Ghost
+                [ThemeVariant.Ghost] = new() { [s => s.Base] = "border-transparent bg-transparent text-foreground", [s => s.IconContainer] = "text-foreground", [s => s.IconPulse] = "bg-muted/50" }
             }
         }
     );
@@ -82,6 +92,13 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
                 ThemeVariant.Success => MdiIcon.CheckCircle,
                 ThemeVariant.Warning => MdiIcon.AlertCircle,
                 ThemeVariant.Destructive => MdiIcon.CloseCircle,
+                // Default icons for other variants if desired
+                ThemeVariant.Default => MdiIcon.InformationSlabCircle,
+                ThemeVariant.Inverse => MdiIcon.InformationSlabCircle,
+                ThemeVariant.Primary => MdiIcon.InformationSlabCircle,
+                ThemeVariant.Secondary => MdiIcon.InformationSlabCircle,
+                ThemeVariant.Accent => MdiIcon.InformationSlabCircle,
+                ThemeVariant.Ghost => null,
                 _ => null
             };
     }
@@ -97,30 +114,37 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("alert")]
         public string? Base { get; set; }
         /// <summary>
         /// The slot for the inner container that holds the icon and content.
         /// </summary>
+        [Slot("inner-container")]
         public string? InnerContainer { get; set; }
         /// <summary>
         /// The slot for the icon container.
         /// </summary>
+        [Slot("icon-container")]
         public string? IconContainer { get; set; }
         /// <summary>
         /// The slot for the pulsing animation element behind the icon.
         /// </summary>
+        [Slot("icon-pulse")]
         public string? IconPulse { get; set; }
         /// <summary>
         /// The slot for the main content container (title and description).
         /// </summary>
+        [Slot("content-container")]
         public string? ContentContainer { get; set; }
         /// <summary>
         /// The slot for the close button.
         /// </summary>
+        [Slot("close-button")]
         public string? CloseButton { get; set; }
         /// <summary>
         /// The slot for the icon inside the close button.
         /// </summary>
+        [Slot("close-button-icon")]
         public string? CloseButtonIcon { get; set; }
     }
 }

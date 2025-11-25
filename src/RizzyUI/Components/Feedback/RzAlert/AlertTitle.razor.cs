@@ -19,11 +19,16 @@ public partial class AlertTitle : RzComponent<AlertTitle.Slots>
         {
             [c => ((AlertTitle)c).EffectiveVariant] = new Variant<ThemeVariant, Slots>
             {
-                [ThemeVariant.Alternate] = null, // Inherits base color
+                [ThemeVariant.Default] = "text-inherit",
+                [ThemeVariant.Inverse] = "text-inherit",
+                [ThemeVariant.Accent] = "text-accent-foreground",
+                [ThemeVariant.Primary] = "text-primary",
+                [ThemeVariant.Secondary] = "text-secondary-foreground",
                 [ThemeVariant.Information] = "text-info",
                 [ThemeVariant.Success] = "text-success",
                 [ThemeVariant.Warning] = "text-warning",
-                [ThemeVariant.Destructive] = "text-destructive"
+                [ThemeVariant.Destructive] = "text-destructive",
+                [ThemeVariant.Ghost] = "text-foreground"
             }
         }
     );
@@ -47,7 +52,7 @@ public partial class AlertTitle : RzComponent<AlertTitle.Slots>
     /// Gets the effective variant for styling, prioritizing the local `Variant` parameter
     /// and falling back to the parent `RzAlert`'s variant.
     /// </summary>
-    protected ThemeVariant EffectiveVariant => Variant ?? AlertParent?.Variant ?? ThemeVariant.Alternate;
+    protected ThemeVariant EffectiveVariant => Variant ?? AlertParent?.Variant ?? ThemeVariant.Accent;
 
     /// <inheritdoc />
     protected override void OnInitialized()
