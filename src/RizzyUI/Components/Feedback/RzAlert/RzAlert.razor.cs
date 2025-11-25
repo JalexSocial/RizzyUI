@@ -5,11 +5,11 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
-/// <xmldoc>
+/// <summary>
 ///     Represents an alert component that displays a message with optional icon, variant, and dismiss functionality.
 ///     Styling is handled by the active theme. Content within the alert is implicitly announced by assistive technologies
 ///     due to the `role="alert"` attribute on the container.
-/// </xmldoc>
+/// </summary>
 public partial class RzAlert : RzComponent<RzAlert.Slots>
 {
     /// <summary>
@@ -30,8 +30,10 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
         {
             [b => ((RzAlert)b).Variant] = new Variant<ThemeVariant, Slots>
             {
-                // Default / Inverse (using styling similar to Inverse/Solid)
-                [ThemeVariant.Default] = new() { [s => s.Base] = "bg-foreground text-background border-foreground", [s => s.IconContainer] = "text-background", [s => s.IconPulse] = "bg-background/15", [s => s.CloseButton] = "text-background hover:opacity-100 opacity-90" },
+                // Default
+                [ThemeVariant.Default] = new() { [s => s.Base] = "bg-input text-foreground border-input", [s => s.IconContainer] = "text-foreground", [s => s.IconPulse] = "bg-foreground/15", [s => s.CloseButton] = "text-foreground/70 hover:text-foreground" },
+                
+                // Inverse
                 [ThemeVariant.Inverse] = new() { [s => s.Base] = "bg-foreground text-background border-foreground", [s => s.IconContainer] = "text-background", [s => s.IconPulse] = "bg-background/15", [s => s.CloseButton] = "text-background hover:opacity-100 opacity-90" },
                 
                 // Standard Variants
@@ -49,9 +51,9 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
         }
     );
 
-    /// <summary> Gets or sets the variant of the alert. </summary>
+    /// <summary> Gets or sets the variant of the alert. Defaults to <see cref="ThemeVariant.Default"/>. </summary>
     [Parameter]
-    public ThemeVariant Variant { get; set; } = ThemeVariant.Information;
+    public ThemeVariant Variant { get; set; } = ThemeVariant.Default;
 
     /// <summary> Gets or sets the icon displayed in the alert. If null, a default icon based on the variant may be shown. </summary>
     [Parameter]

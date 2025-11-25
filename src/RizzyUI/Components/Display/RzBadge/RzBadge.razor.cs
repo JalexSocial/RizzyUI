@@ -28,6 +28,7 @@ public partial class RzBadge : RzComponent<RzBadge.Slots>
         compoundVariants: new()
         {
             // --- Solid Variants ---
+            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Default) { Class = "border-input bg-input text-foreground hover:bg-input/80" },
             new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Primary) { Class = "border-transparent bg-primary text-primary-foreground hover:bg-primary/80" },
             new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Secondary) { Class = "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80" },
             new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Destructive) { Class = "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80" },
@@ -35,14 +36,11 @@ public partial class RzBadge : RzComponent<RzBadge.Slots>
             new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Information) { Class = "border-transparent bg-info text-info-foreground hover:bg-info/80" },
             new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Success) { Class = "border-transparent bg-success text-success-foreground hover:bg-success/80" },
             new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Warning) { Class = "border-transparent bg-warning text-warning-foreground hover:bg-warning/80" },
-            
-            // Inverse and Default map to the same style (High contrast usually)
-            new(b => !((RzBadge)b).Soft && (((RzBadge)b).Variant == ThemeVariant.Inverse || ((RzBadge)b).Variant == ThemeVariant.Default)) { Class = "border-transparent bg-foreground text-background hover:bg-foreground/80" },
-            
-            // Ghost
+            new(b => !((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Inverse) { Class = "border-transparent bg-foreground text-background hover:bg-foreground/80" },
             new(b => ((RzBadge)b).Variant == ThemeVariant.Ghost) { Class = "border-transparent bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground" },
 
             // --- Soft Variants ---
+            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Default) { Class = "border-input/50 bg-input/50 text-foreground hover:bg-input/80" },
             new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Primary) { Class = "border-primary/20 bg-primary/10 text-primary hover:bg-primary/20" },
             new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Secondary) { Class = "border-secondary/20 bg-secondary/10 text-secondary-foreground hover:bg-secondary/20" },
             new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Destructive) { Class = "border-destructive/20 bg-destructive/10 text-destructive hover:bg-destructive/20" },
@@ -50,9 +48,7 @@ public partial class RzBadge : RzComponent<RzBadge.Slots>
             new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Information) { Class = "border-info/20 bg-info/10 text-info hover:bg-info/20" },
             new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Success) { Class = "border-success/20 bg-success/10 text-success hover:bg-success/20" },
             new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Warning) { Class = "border-warning/20 bg-warning/10 text-warning hover:bg-warning/20" },
-            
-            // Inverse/Default Soft
-            new(b => ((RzBadge)b).Soft && (((RzBadge)b).Variant == ThemeVariant.Inverse || ((RzBadge)b).Variant == ThemeVariant.Default)) { Class = "border-foreground/10 bg-foreground/10 text-foreground hover:bg-foreground/20" },
+            new(b => ((RzBadge)b).Soft && ((RzBadge)b).Variant == ThemeVariant.Inverse) { Class = "border-foreground/10 bg-foreground/10 text-foreground hover:bg-foreground/20" },
         }
     );
 

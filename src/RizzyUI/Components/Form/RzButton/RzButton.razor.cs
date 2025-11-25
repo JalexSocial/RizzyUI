@@ -17,8 +17,9 @@ public partial class RzButton : RzComponent<RzButton.Slots>
         @base: "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer rounded-md",
         variants: new()
         {
-            [b => ((RzButton)b).Variant] = new Variant<ThemeVariant, Slots>
+            [b => ((RzButton)b).EffectiveVariant] = new Variant<ThemeVariant, Slots>
             {
+                [ThemeVariant.Default] = "bg-input text-foreground border border-input shadow-sm hover:bg-accent hover:text-accent-foreground",
                 [ThemeVariant.Primary] = "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
                 [ThemeVariant.Secondary] = "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/90",
                 [ThemeVariant.Destructive] = "bg-destructive text-white shadow-xs hover:bg-destructive/90",
@@ -44,17 +45,24 @@ public partial class RzButton : RzComponent<RzButton.Slots>
         },
         compoundVariants: new()
         {
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Primary) { Class = "border border-primary text-primary bg-transparent hover:bg-primary/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Secondary) { Class = "border border-secondary text-foreground bg-transparent hover:bg-secondary/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Destructive) { Class = "border border-destructive text-destructive bg-transparent hover:bg-destructive/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Accent) { Class = "border border-accent text-foreground bg-transparent hover:bg-accent/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Inverse) { Class = "border border-foreground text-foreground bg-transparent hover:bg-foreground/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Information) { Class = "border border-info text-info bg-transparent hover:bg-info/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Warning) { Class = "border border-warning text-warning bg-transparent hover:bg-warning/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Success) { Class = "border border-success text-success bg-transparent hover:bg-success/10" },
-            new(b => ((RzButton)b).Outline && ((RzButton)b).Variant == ThemeVariant.Ghost) { Class = "border border-transparent" }
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Default) { Class = "border border-input text-foreground bg-transparent hover:bg-accent hover:text-accent-foreground" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Primary) { Class = "border border-primary text-primary bg-transparent hover:bg-primary/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Secondary) { Class = "border border-secondary text-foreground bg-transparent hover:bg-secondary/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Destructive) { Class = "border border-destructive text-destructive bg-transparent hover:bg-destructive/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Accent) { Class = "border border-accent text-foreground bg-transparent hover:bg-accent/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Inverse) { Class = "border border-foreground text-foreground bg-transparent hover:bg-foreground/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Information) { Class = "border border-info text-info bg-transparent hover:bg-info/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Warning) { Class = "border border-warning text-warning bg-transparent hover:bg-warning/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Success) { Class = "border border-success text-success bg-transparent hover:bg-success/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Ghost) { Class = "border border-transparent" }
         }
     );
+
+    /// <summary>
+    /// Gets the variant cascaded from a parent RzButtonGroup, if any.
+    /// </summary>
+    [CascadingParameter(Name = "GroupVariant")]
+    protected ThemeVariant? GroupVariant { get; set; }
 
     /// <summary>
     /// Gets or sets the accessible label for the button, used for screen readers.
@@ -64,10 +72,11 @@ public partial class RzButton : RzComponent<RzButton.Slots>
     public string? AssistiveLabel { get; set; }
 
     /// <summary>
-    /// Gets or sets the visual style variant of the button. Defaults to <see cref="ThemeVariant.Primary"/>.
+    /// Gets or sets the visual style variant of the button.
+    /// If not set, it falls back to <see cref="GroupVariant"/> or <see cref="ThemeVariant.Default"/>.
     /// </summary>
     [Parameter]
-    public ThemeVariant Variant { get; set; } = ThemeVariant.Inverse;
+    public ThemeVariant? Variant { get; set; }
 
     /// <summary>
     /// Gets or sets the size of the button. Defaults to <see cref="Size.Medium"/>.
@@ -103,6 +112,11 @@ public partial class RzButton : RzComponent<RzButton.Slots>
     /// Gets the effective assistive label for the `aria-label` attribute.
     /// </summary>
     protected string EffectiveAssistiveLabel => AssistiveLabel ?? Localizer["RzButton.AssistiveLabelDefault"];
+
+    /// <summary>
+    /// Gets the effective variant, prioritizing the explicit Variant parameter, then the GroupVariant, and defaulting to Default.
+    /// </summary>
+    public ThemeVariant EffectiveVariant => Variant ?? GroupVariant ?? ThemeVariant.Default;
 
     /// <inheritdoc />
     protected override void OnInitialized()
