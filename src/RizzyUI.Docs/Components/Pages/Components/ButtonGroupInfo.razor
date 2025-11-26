@@ -26,15 +26,15 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
                         <RzButtonGroup>
-                            <RzButton Outline="true">Button 1</RzButton>
-                            <RzButton Outline="true">Button 2</RzButton>
+                            <RzButton Outline>Button 1</RzButton>
+                            <RzButton Outline>Button 2</RzButton>
                         </RzButtonGroup>
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzButtonGroup&gt;
-    &lt;RzButton Outline="true"&gt;Button 1&lt;/RzButton&gt;
-    &lt;RzButton Outline="true"&gt;Button 2&lt;/RzButton&gt;
+    &lt;RzButton Outline&gt;Button 1&lt;/RzButton&gt;
+    &lt;RzButton Outline&gt;Button 2&lt;/RzButton&gt;
 &lt;/RzButtonGroup&gt;
                 </RzCodeViewer>
             </section>
@@ -50,15 +50,15 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
                         <RzButtonGroup Orientation="Orientation.Vertical">
-                            <RzButton Outline="true">Button 1</RzButton>
-                            <RzButton Outline="true">Button 2</RzButton>
+                            <RzButton Outline>Button 1</RzButton>
+                            <RzButton Outline>Button 2</RzButton>
                         </RzButtonGroup>
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzButtonGroup Orientation="Orientation.Vertical"&gt;
-    &lt;RzButton Outline="true"&gt;Button 1&lt;/RzButton&gt;
-    &lt;RzButton Outline="true"&gt;Button 2&lt;/RzButton&gt;
+    &lt;RzButton Outline&gt;Button 1&lt;/RzButton&gt;
+    &lt;RzButton Outline&gt;Button 2&lt;/RzButton&gt;
 &lt;/RzButtonGroup&gt;
                 </RzCodeViewer>
             </section>
@@ -74,17 +74,17 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
                         <RzButtonGroup>
-                            <RzButton Outline="true" Size="Size.Small">Small</RzButton>
-                            <RzButton Outline="true" Size="Size.Small">Small</RzButton>
-                            <RzButton Outline="true" Size="Size.Small">Small</RzButton>
+                            <RzButton Outline Size="Size.Small">Small</RzButton>
+                            <RzButton Outline Size="Size.Small">Small</RzButton>
+                            <RzButton Outline Size="Size.Small">Small</RzButton>
                         </RzButtonGroup>
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzButtonGroup&gt;
-    &lt;RzButton Outline="true" Size="Size.Small"&gt;Small&lt;/RzButton&gt;
-    &lt;RzButton Outline="true" Size="Size.Small"&gt;Small&lt;/RzButton&gt;
-    &lt;RzButton Outline="true" Size="Size.Small"&gt;Small&lt;/RzButton&gt;
+    &lt;RzButton Outline Size="Size.Small"&gt;Small&lt;/RzButton&gt;
+    &lt;RzButton Outline Size="Size.Small"&gt;Small&lt;/RzButton&gt;
+    &lt;RzButton Outline Size="Size.Small"&gt;Small&lt;/RzButton&gt;
 &lt;/RzButtonGroup&gt;
                 </RzCodeViewer>
             </section>
@@ -101,17 +101,17 @@
                     <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
                         <RzButtonGroup>
                             <RzButtonGroup>
-                                <RzButton Outline="true">Copy</RzButton>
-                                <RzButton Outline="true">Paste</RzButton>
+                                <RzButton Outline>Copy</RzButton>
+                                <RzButton Outline>Paste</RzButton>
                             </RzButtonGroup>
                             <RzButtonGroup>
-                                <RzButton Outline="true">
+                                <RzButton Outline>
                                     <Blazicon Svg="MdiIcon.FormatBold" />
                                 </RzButton>
-                                <RzButton Outline="true">
+                                <RzButton Outline>
                                     <Blazicon Svg="MdiIcon.FormatItalic" />
                                 </RzButton>
-                                <RzButton Outline="true">
+                                <RzButton Outline>
                                     <Blazicon Svg="MdiIcon.FormatUnderline" />
                                 </RzButton>
                             </RzButtonGroup>
@@ -121,17 +121,17 @@
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzButtonGroup&gt;
     &lt;RzButtonGroup&gt;
-        &lt;RzButton Outline="true"&gt;Copy&lt;/RzButton&gt;
-        &lt;RzButton Outline="true"&gt;Paste&lt;/RzButton&gt;
+        &lt;RzButton Outline&gt;Copy&lt;/RzButton&gt;
+        &lt;RzButton Outline&gt;Paste&lt;/RzButton&gt;
     &lt;/RzButtonGroup&gt;
     &lt;RzButtonGroup&gt;
-        &lt;RzButton Outline="true"&gt;
+        &lt;RzButton Outline&gt;
             &lt;Blazicon Svg="MdiIcon.FormatBold" /&gt;
         &lt;/RzButton&gt;
-        &lt;RzButton Outline="true"&gt;
+        &lt;RzButton Outline&gt;
             &lt;Blazicon Svg="MdiIcon.FormatItalic" /&gt;
         &lt;/RzButton&gt;
-        &lt;RzButton Outline="true"&gt;
+        &lt;RzButton Outline&gt;
             &lt;Blazicon Svg="MdiIcon.FormatUnderline" /&gt;
         &lt;/RzButton&gt;
     &lt;/RzButtonGroup&gt;
@@ -239,7 +239,7 @@
                         <RzButtonGroup class="[--radius:9999rem]" x-data="{ voiceEnabled: false }">
     
                             <RzButtonGroup>
-                                <RzButton Variant="ThemeVariant.Default" Outline="true" class="size-9 px-0">
+                                <RzButton Variant="ThemeVariant.Default" Outline class="size-9 px-0">
                                     <Blazicon Svg="Lucide.Plus" />
                                 </RzButton>
                             </RzButtonGroup>
