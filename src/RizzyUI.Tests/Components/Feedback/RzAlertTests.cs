@@ -101,7 +101,7 @@ namespace RizzyUI.Tests.Components.Feedback
         [InlineData(ThemeVariant.Success)]
         [InlineData(ThemeVariant.Warning)]
         [InlineData(ThemeVariant.Destructive)]
-        [InlineData(ThemeVariant.Alternate)]
+        [InlineData(ThemeVariant.Accent)]
         public void RzAlert_WithVariant_AppliesCorrectClasses(ThemeVariant variant)
         {
             // Arrange
@@ -121,7 +121,7 @@ namespace RizzyUI.Tests.Components.Feedback
             // Check for presence of variant-specific classes (based on DefaultRzAlertStyles)
             string expectedClass = variant switch
             {
-                ThemeVariant.Alternate => "border-outline",
+                ThemeVariant.Accent => "border-outline",
                 ThemeVariant.Information => "border-info",
                 ThemeVariant.Success => "border-success",
                 ThemeVariant.Warning => "border-warning",

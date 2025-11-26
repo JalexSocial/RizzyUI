@@ -236,31 +236,80 @@
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
-                        <RzButtonGroup>
-                            <RzButton Outline="true">
-                                <Blazicon Svg="MdiIcon.Magnify" />
-                            </RzButton>
-                            <EditForm Model="@_formModel">
-                                <RzInputGroup>
-                                    <InputGroupText>https://</InputGroupText>
-                                    <InputGroupInput For="@(() => _formModel.SearchValue)" Placeholder="google.com" class="w-[200px]" />
-                                </RzInputGroup>
-                            </EditForm>
-                            <RzButton Outline="true">Go</RzButton>
+                        <RzButtonGroup class="[--radius:9999rem]" x-data="{ voiceEnabled: false }">
+    
+                            <RzButtonGroup>
+                                <RzButton Variant="ThemeVariant.Default" Outline="true" class="size-9 px-0">
+                                    <Blazicon Svg="Lucide.Plus" />
+                                </RzButton>
+                            </RzButtonGroup>
+    
+                            <RzButtonGroup>
+                                <EditForm Model="_chatModel">
+                                    <RzInputGroup>
+                                        <InputGroupInput For="@(() => _chatModel.Message)" 
+                                                         Placeholder="Send a message..."
+                                                         x-bind:placeholder="voiceEnabled ? 'Record and send audio...' : 'Send a message...'"
+                                                         x-bind:disabled="voiceEnabled" />
+                                 
+                                        <InputGroupAddon Align="InputGroupAddonAlign.InlineEnd">
+                                            <InputGroupButton Size="InputGroupButtonSize.IconExtraSmall"
+                                                              type="button"
+                                                              x-on:click="voiceEnabled = !voiceEnabled"
+                                                              x-bind:aria-pressed="voiceEnabled"
+                                                              x-bind:data-active="voiceEnabled"
+                                                              class="data-[active=true]:bg-orange-100 data-[active=true]:text-orange-700 dark:data-[active=true]:bg-orange-800 dark:data-[active=true]:text-orange-100 transition-colors">
+                                                <Blazicon Svg="@Lucide.AudioLines" />
+                                            </InputGroupButton>
+                                        </InputGroupAddon>
+                                    </RzInputGroup>
+                                </EditForm>
+                            </RzButtonGroup>
                         </RzButtonGroup>
+
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzButtonGroup&gt;
-    &lt;RzButton Outline="true"&gt;
-        &lt;Blazicon Svg="MdiIcon.Magnify" /&gt;
-    &lt;/RzButton&gt;
-    &lt;RzInputGroup&gt;
-        &lt;InputGroupText&gt;https://&lt;/InputGroupText&gt;
-        &lt;InputGroupInput For="@@(() => _formModel.SearchValue)" Placeholder="google.com" class="w-[200px]" /&gt;
-    &lt;/RzInputGroup&gt;
-    &lt;RzButton Outline="true"&gt;Go&lt;/RzButton&gt;
-&lt;/RzButtonGroup&gt;
+                        &lt;RzButtonGroup class=&quot;[--radius:9999rem]&quot; x-data=&quot;{ voiceEnabled: false }&quot;&gt;
+    
+                            &lt;RzButtonGroup&gt;
+                                &lt;RzButton Variant=&quot;ThemeVariant.Default&quot; Outline=&quot;true&quot; class=&quot;size-9 px-0&quot;&gt;
+                                    &lt;Blazicon Svg=&quot;Lucide.Plus&quot; /&gt;
+                                &lt;/RzButton&gt;
+                            &lt;/RzButtonGroup&gt;
+    
+                            &lt;RzButtonGroup&gt;
+                                &lt;EditForm Model=&quot;_chatModel&quot;&gt;
+                                    &lt;RzInputGroup&gt;
+                                        &lt;InputGroupInput For=&quot;@@(() =&gt; _chatModel.Message)&quot; 
+                                                         Placeholder=&quot;Send a message...&quot;
+                                                         x-bind:placeholder=&quot;voiceEnabled ? &#39;Record and send audio...&#39; : &#39;Send a message...&#39;&quot;
+                                                         x-bind:disabled=&quot;voiceEnabled&quot; /&gt;
+                                 
+                                        &lt;InputGroupAddon Align=&quot;InputGroupAddonAlign.InlineEnd&quot;&gt;
+                                            &lt;InputGroupButton Size=&quot;InputGroupButtonSize.IconExtraSmall&quot;
+                                                              type=&quot;button&quot;
+                                                              x-on:click=&quot;voiceEnabled = !voiceEnabled&quot;
+                                                              x-bind:aria-pressed=&quot;voiceEnabled&quot;
+                                                              x-bind:data-active=&quot;voiceEnabled&quot;
+                                                              class=&quot;data-[active=true]:bg-orange-100 data-[active=true]:text-orange-700 dark:data-[active=true]:bg-orange-800 dark:data-[active=true]:text-orange-100 transition-colors&quot;&gt;
+                                                &lt;Blazicon Svg=&quot;@@Lucide.AudioLines&quot; /&gt;
+                                            &lt;/InputGroupButton&gt;
+                                        &lt;/InputGroupAddon&gt;
+                                    &lt;/RzInputGroup&gt;
+                                &lt;/EditForm&gt;
+                            &lt;/RzButtonGroup&gt;
+                        &lt;/RzButtonGroup&gt;
+                
+                        @@code {
+                            private ChatModel _model = new();
+
+                            private class ChatModel
+                            {
+                                public string Message { get; set; } = "";
+                            }                        
+                        }
+                
                 </RzCodeViewer>
             </section>
 
@@ -363,7 +412,7 @@
                              <ButtonGroupSeparator />
                              <RzPopover>
                                  <PopoverTrigger AsChild>
-                                     <RzButton Variant="ThemeVariant.Secondary" Size="Size.Small" class="w-9 px-0">
+                                     <RzButton Variant="ThemeVariant.Secondary" class="w-9 px-0">
                                         <Blazicon Svg="MdiIcon.Cog" />
                                      </RzButton>
                                  </PopoverTrigger>
@@ -385,7 +434,7 @@
     &lt;ButtonGroupSeparator /&gt;
     &lt;RzPopover&gt;
         &lt;PopoverTrigger AsChild&gt;
-            &lt;RzButton Variant="ThemeVariant.Secondary" Size="Size.Small" class="w-9 px-0"&gt;
+            &lt;RzButton Variant="ThemeVariant.Secondary" class="w-9 px-0"&gt;
                &lt;Blazicon Svg="MdiIcon.Cog" /&gt;
             &lt;/RzButton&gt;
         &lt;/PopoverTrigger&gt;
@@ -407,10 +456,16 @@
 </RzQuickReferenceContainer>
 
 @code {
+    private class ChatModel
+    {
+        public string Message { get; set; } = "";
+    }
+    
     private class ButtonGroupFormModel
     {
         public string SearchValue { get; set; } = "";
     }
 
     private ButtonGroupFormModel _formModel = new();
+    private ChatModel _chatModel = new(); 
 }
