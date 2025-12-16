@@ -86,6 +86,8 @@ public static class ServiceCollectionExtensions
             config.AssetUrls.TryAdd("FlatpickrCore", "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js");
             config.AssetUrls.TryAdd("TomSelect", "https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/js/tom-select.complete.min.js");
             
+            config.AssetUrls.TryAdd("VanillaCalendarPro", "https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/index.js");
+            config.AssetUrls.TryAdd("VanillaCalendarCss", "https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/styles/index.css");            
         });
 
         // --- Localization Setup ---

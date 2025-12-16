@@ -81,4 +81,40 @@ public static class Constants
         /// <remarks>Value: "rz:modal-after-close"</remarks>
         public const string DialogAfterClose = "rz:dialog-after-close";
     }
+
+    /// <summary>
+    /// Events specific to the RzCalendar component, mirroring Vanilla Calendar Pro actions.
+    /// </summary>
+    public static class CalendarEvents
+    {
+        /// <summary>Fired when the calendar initializes.</summary>
+        public const string Init = "rz:calendar:init";
+
+        /// <summary>Fired when the calendar is destroyed.</summary>
+        public const string Destroy = "rz:calendar:destroy";
+
+        /// <summary>Fired when a day is clicked.</summary>
+        public const string ClickDay = "rz:calendar:clickDay";
+
+        /// <summary>Fired when a week number is clicked.</summary>
+        public const string ClickWeekNumber = "rz:calendar:clickWeekNumber";
+
+        /// <summary>Fired when a month is clicked in the header.</summary>
+        public const string ClickMonth = "rz:calendar:clickMonth";
+
+        /// <summary>Fired when a year is clicked in the header.</summary>
+        public const string ClickYear = "rz:calendar:clickYear";
+
+        /// <summary>Fired when navigation arrows are clicked.</summary>
+        public const string ClickArrow = "rz:calendar:clickArrow";
+
+        /// <summary>Fired when time is changed.</summary>
+        public const string ChangeTime = "rz:calendar:changeTime";
+
+        /// <summary>Fired when the view changes (e.g. month switch).</summary>
+        public const string ChangeView = "rz:calendar:changeView";
+
+        /// <summary>Fired when dates are selected/deselected.</summary>
+        public const string SelectDate = "rz:calendar:selectDate";
+    }
 }

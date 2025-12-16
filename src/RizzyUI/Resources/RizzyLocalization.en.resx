@@ -381,4 +381,8 @@
   <value>Select option</value>
     <comment>Default ARIA placeholder for RzCombobox</comment>
 </data>
+  <data name="RzCalendar.DefaultAriaLabel" xml:space="preserve">
+    <value>Calendar</value>
+    <comment>Default ARIA label for the calendar component.</comment>
+  </data>  
 </root>

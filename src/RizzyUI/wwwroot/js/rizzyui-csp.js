@@ -6128,6 +6128,74 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       };
     });
   }
+  function registerRzCalendar(Alpine2, require) {
+    Alpine2.data("rzCalendar", () => ({
+      calendar: null,
+      initialized: false,
+      init() {
+        const assets = JSON.parse(this.$el.dataset.assets || "[]");
+        const configId = this.$el.dataset.configId;
+        const nonce = this.$el.dataset.nonce;
+        if (assets.length === 0) {
+          console.warn("RzCalendar: No assets configured.");
+          return;
+        }
+        require(assets, {
+          success: () => {
+            this.initCalendar(configId);
+          },
+          error: (e2) => console.error("RzCalendar: Failed to load assets", e2)
+        }, nonce);
+      },
+      initCalendar(configId) {
+        const configElement = document.getElementById(configId);
+        if (!configElement) {
+          console.error(`RzCalendar: Config element #${configId} not found.`);
+          return;
+        }
+        let rawConfig = {};
+        try {
+          rawConfig = JSON.parse(configElement.textContent);
+        } catch (e2) {
+          console.error("RzCalendar: Failed to parse config JSON", e2);
+          return;
+        }
+        const actionHandlers = {
+          clickDay: (e2, self2) => this.dispatchCalendarEvent("clickDay", { event: e2, dates: self2.selectedDates }),
+          clickWeekNumber: (e2, number, days, year) => this.dispatchCalendarEvent("clickWeekNumber", { event: e2, number, days, year }),
+          clickMonth: (e2, month) => this.dispatchCalendarEvent("clickMonth", { event: e2, month }),
+          clickYear: (e2, year) => this.dispatchCalendarEvent("clickYear", { event: e2, year }),
+          clickArrow: (e2, year, month) => this.dispatchCalendarEvent("clickArrow", { event: e2, year, month }),
+          changeTime: (e2, time, hours, minutes, keeping) => this.dispatchCalendarEvent("changeTime", { event: e2, time, hours, minutes, keeping }),
+          changeView: (view) => this.dispatchCalendarEvent("changeView", { view }),
+          getDays: (day, date, HTMLElement2, HTMLButtonElement, self2) => {
+          }
+        };
+        const options = {
+          ...rawConfig.options,
+          CSSClasses: rawConfig.cssClasses,
+          actions: actionHandlers
+        };
+        if (window.VanillaCalendarPro) {
+          this.calendar = new VanillaCalendarPro.Calendar(this.$refs.calendarEl, options);
+          this.calendar.init();
+          this.initialized = true;
+          this.dispatchCalendarEvent("init", { instance: this.calendar });
+        } else {
+          console.error("RzCalendar: VanillaCalendar global not found.");
+        }
+      },
+      dispatchCalendarEvent(eventName, detail) {
+        this.$dispatch(`rz:calendar:${eventName}`, detail);
+      },
+      destroy() {
+        if (this.calendar) {
+          this.calendar.destroy();
+          this.dispatchCalendarEvent("destroy", {});
+        }
+      }
+    }));
+  }
   function registerRzCarousel(Alpine2, require) {
     function parseJsonFromScriptId(id) {
       if (!id) return {};
@@ -9411,6 +9479,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     registerRzAlert(Alpine2);
     registerRzAspectRatio(Alpine2);
     registerRzBrowser(Alpine2);
+    registerRzCalendar(Alpine2, rizzyRequire);
     registerRzCarousel(Alpine2, rizzyRequire);
     registerRzCodeViewer(Alpine2, rizzyRequire);
     registerRzCollapsible(Alpine2);

@@ -1,5 +1,9 @@
-﻿#nullable enable
+
+#nullable enable
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -30,7 +34,7 @@ public enum CalendarType
 [JsonConverter(typeof(SelectionDatesModeConverter))]
 public enum SelectionDatesMode
 {
-    /// <summary>Date selection is disabled. Users cannot pick any dates.</summary>
+    /// <summary>Date selection is disabled.</summary>
     Disabled,
     /// <summary>Only a single date can be selected at a time.</summary>
     Single,
@@ -96,6 +100,18 @@ public enum TimeMode
     TwentyFourHour
 }
 
+/// <summary>
+/// Defines the available controls for the time picker.
+/// </summary>
+[JsonConverter(typeof(CamelCaseEnumValueConverter<TimeControl>))]
+public enum TimeControl
+{
+    /// <summary>All controls (input fields and range sliders) are enabled.</summary>
+    All,
+    /// <summary>Only the range sliders are enabled for time selection.</summary>
+    Range
+}
+
 // --- Nested Configuration Records ---
 
 /// <summary>
@@ -118,11 +134,174 @@ public record Popup
     public string? Html { get; init; }
 }
 
+/// <summary>
+/// Defines the ARIA labels for calendar navigation arrows.
+/// </summary>
+public record ArrowLabels
+{
+    /// <summary>The ARIA label for the "next month" arrow.</summary>
+    [JsonPropertyName("month")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Month { get; init; }
+
+    /// <summary>The ARIA label for the "next year" arrow in the year view.</summary>
+    [JsonPropertyName("year")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Year { get; init; }
+}
+
+/// <summary>
+/// Defines all ARIA labels for accessibility.
+/// </summary>
+public record Labels
+{
+    /// <summary>The top-level application label.</summary>
+    [JsonPropertyName("application")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Application { get; init; }
+
+    /// <summary>The label for the main navigation toolbar.</summary>
+    [JsonPropertyName("navigation")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Navigation { get; init; }
+
+    /// <summary>Labels for the "next" navigation arrows.</summary>
+    [JsonPropertyName("arrowNext")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ArrowLabels? ArrowNext { get; init; }
+
+    /// <summary>Labels for the "previous" navigation arrows.</summary>
+    [JsonPropertyName("arrowPrev")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ArrowLabels? ArrowPrev { get; init; }
+
+    /// <summary>Label for the month selection button.</summary>
+    [JsonPropertyName("month")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Month { get; init; }
+
+    /// <summary>Label for the list of months view.</summary>
+    [JsonPropertyName("months")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Months { get; init; }
+
+    /// <summary>Label for the year selection button.</summary>
+    [JsonPropertyName("year")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Year { get; init; }
+
+    /// <summary>Label for the list of years view.</summary>
+    [JsonPropertyName("years")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Years { get; init; }
+
+    /// <summary>Label for the row of weekdays.</summary>
+    [JsonPropertyName("week")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Week { get; init; }
+
+    /// <summary>Label for the week numbers column.</summary>
+    [JsonPropertyName("weekNumber")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? WeekNumber { get; init; }
+
+    /// <summary>Label for the grid of dates.</summary>
+    [JsonPropertyName("dates")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Dates { get; init; }
+
+    /// <summary>Label for the time selection group.</summary>
+    [JsonPropertyName("selectingTime")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? SelectingTime { get; init; }
+
+    /// <summary>Label for the hour input field.</summary>
+    [JsonPropertyName("inputHour")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? InputHour { get; init; }
+
+    /// <summary>Label for the minute input field.</summary>
+    [JsonPropertyName("inputMinute")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? InputMinute { get; init; }
+
+    /// <summary>Label for the hour range slider.</summary>
+    [JsonPropertyName("rangeHour")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? RangeHour { get; init; }
+
+    /// <summary>Label for the minute range slider.</summary>
+    [JsonPropertyName("rangeMinute")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? RangeMinute { get; init; }
+
+    /// <summary>Label for the AM/PM toggle button.</summary>
+    [JsonPropertyName("btnKeeping")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BtnKeeping { get; init; }
+}
+
+/// <summary>
+/// Defines custom HTML layouts for different calendar views.
+/// </summary>
+public record Layouts
+{
+    /// <summary>The layout for the default single-month view.</summary>
+    [JsonPropertyName("default")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Default { get; init; }
+
+    /// <summary>The layout for the multiple-month view.</summary>
+    [JsonPropertyName("multiple")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Multiple { get; init; }
+
+    /// <summary>The layout for the month selection view.</summary>
+    [JsonPropertyName("month")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Month { get; init; }
+
+    /// <summary>The layout for the year selection view.</summary>
+    [JsonPropertyName("year")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Year { get; init; }
+}
+
+/// <summary>
+/// Provides overrides for the CSS classes used to style the calendar.
+/// </summary>
+public record Styles
+{
+    /// <summary>CSS class for the main calendar container.</summary>
+    [JsonPropertyName("calendar")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Calendar { get; init; }
+    
+    // Add other style properties as needed...
+}
+
+/// <summary>
+/// Represents a value that can be a specific date or the string "today".
+/// </summary>
+[JsonConverter(typeof(DateAnyConverter))]
+public readonly struct DateAny
+{
+    private readonly object _value;
+    private DateAny(object value) => _value = value;
+    
+    /// <summary>Represents the current date.</summary>
+    public static readonly DateAny Today = new("today");
+    
+    /// <summary>Creates a DateAny from a DateOnly value.</summary>
+    public static implicit operator DateAny(DateOnly date) => new(date);
+    /// <summary>Creates a DateAny from a DateTime value (time part is ignored).</summary>
+    public static implicit operator DateAny(DateTime date) => new(DateOnly.FromDateTime(date));
+}
+
 // --- Main Options Record ---
 
 /// <summary>
 /// Represents the complete set of options for initializing a Vanilla Calendar Pro instance.
-/// This record is designed to be serialized into a JSON object compatible with the library.
 /// </summary>
 public record VanillaCalendarOptions
 {
@@ -130,8 +309,7 @@ public record VanillaCalendarOptions
     private static readonly string[] TwentyFourAcceptFormats = { "HH:mm", "H:mm" };
 
     /// <summary>
-    /// The primary constructor used for deserialization. It correctly maps the incoming JSON string for `selectedTime`
-    /// to the strongly-typed `TimeOnly?` property based on the `selectionTimeMode`.
+    /// The primary constructor used for deserialization.
     /// </summary>
     [JsonConstructor]
     public VanillaCalendarOptions(
@@ -204,29 +382,110 @@ public record VanillaCalendarOptions
     public DayOfWeek FirstWeekday { get; init; } = DayOfWeek.Monday;
 
     /// <summary>
-    /// Sets the language localization of the calendar using a BCP 47 language tag (e.g., "en-US", "de-AT").
+    /// The number of months to jump when navigating with the arrows. Defaults to 1.
+    /// </summary>
+    [JsonPropertyName("monthsToSwitch")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int MonthsToSwitch { get; init; } = 1;
+
+    /// <summary>
+    /// A CSS selector for an element attribute that holds the theme name (e.g., "html[data-theme]"). Defaults to "html[data-theme]".
+    /// </summary>
+    [JsonPropertyName("themeAttrDetect")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public string ThemeAttrDetect { get; init; } = "html[data-theme]";
+
+    /// <summary>
+    /// Sets the language localization of the calendar using a BCP 47 language tag (e.g., "en-US", "de-AT"). Defaults to "en".
     /// </summary>
     [JsonPropertyName("locale")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Locale { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public string Locale { get; init; } = "en";
 
     /// <summary>
-    /// A list of dates that will be selected when the calendar is initialized.
-    /// Consecutive dates in the list will be automatically converted to a "YYYY-MM-DD:YYYY-MM-DD" range string.
+    /// Defines which day is considered "today". Can be a specific date or <see cref="DateAny.Today"/>. Defaults to <see cref="DateAny.Today"/>.
     /// </summary>
-    [JsonPropertyName("selectedDates")]
-    [JsonConverter(typeof(DateOnlyRangeListConverter))]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<DateOnly>? SelectedDates { get; init; }
+    [JsonPropertyName("dateToday")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public DateAny DateToday { get; init; } = DateAny.Today;
 
     /// <summary>
-    /// A list of dates that will be disabled and unavailable for selection.
-    /// Consecutive dates in the list will be automatically converted to a "YYYY-MM-DD:YYYY-MM-DD" range string.
+    /// The absolute minimum date the calendar can render. Defaults to 1970-01-01.
+    /// </summary>
+    [JsonPropertyName("dateMin")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public DateAny DateMin { get; init; } = new DateOnly(1970, 1, 1);
+
+    /// <summary>
+    /// The absolute maximum date the calendar can render. Defaults to 2470-12-31.
+    /// </summary>
+    [JsonPropertyName("dateMax")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public DateAny DateMax { get; init; } = new DateOnly(2470, 12, 31);
+
+    /// <summary>
+    /// The minimum date that can be selected by the user.
+    /// </summary>
+    [JsonPropertyName("displayDateMin")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public DateAny? DisplayDateMin { get; init; }
+
+    /// <summary>
+    /// The maximum date that can be selected by the user.
+    /// </summary>
+    [JsonPropertyName("displayDateMax")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public DateAny? DisplayDateMax { get; init; }
+
+    /// <summary>
+    /// If true, shows dates from the previous and next months in the current month's view. Defaults to true.
+    /// </summary>
+    [JsonPropertyName("displayDatesOutside")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisplayDatesOutside { get; init; } = true;
+
+    /// <summary>
+    /// If true, renders disabled dates within the calendar's absolute min/max range. Defaults to false.
+    /// </summary>
+    [JsonPropertyName("displayDisabledDates")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisplayDisabledDates { get; init; } = false;
+
+    /// <summary>
+    /// The number of months to display when `Type` is `Multiple`. Defaults to 2.
+    /// </summary>
+    [JsonPropertyName("displayMonthsCount")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int DisplayMonthsCount { get; init; } = 2;
+
+    /// <summary>
+    /// A list of dates to disable.
     /// </summary>
     [JsonPropertyName("disableDates")]
     [JsonConverter(typeof(DateOnlyRangeListConverter))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<DateOnly>? DisableDates { get; init; }
+
+    /// <summary>
+    /// If true, disables all dates, intended to be used with <see cref="EnableDates"/> to create an "allow-list". Defaults to false.
+    /// </summary>
+    [JsonPropertyName("disableAllDates")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableAllDates { get; init; } = false;
+
+    /// <summary>
+    /// If true, disables all dates in the past. Defaults to false.
+    /// </summary>
+    [JsonPropertyName("disableDatesPast")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableDatesPast { get; init; } = false;
+
+    /// <summary>
+    /// If true, prevents selecting a date range that includes a disabled date. Defaults to false.
+    /// </summary>
+    [JsonPropertyName("disableDatesGaps")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableDatesGaps { get; init; } = false;
 
     /// <summary>
     /// A list of weekdays to disable.
@@ -237,7 +496,57 @@ public record VanillaCalendarOptions
     public IReadOnlyList<DayOfWeek>? DisableWeekdays { get; init; }
 
     /// <summary>
-    /// Determines whether selecting one or multiple days is allowed, or if selection is disabled. Defaults to <see cref="SelectionDatesMode.Single"/>.
+    /// If true, removes the special styling for the "today" date. Defaults to false.
+    /// </summary>
+    [JsonPropertyName("disableToday")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisableToday { get; init; } = false;
+
+    /// <summary>
+    /// A list of dates to enable, typically used when <see cref="DisableAllDates"/> is true.
+    /// </summary>
+    [JsonPropertyName("enableDates")]
+    [JsonConverter(typeof(DateOnlyRangeListConverter))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<DateOnly>? EnableDates { get; init; }
+
+    /// <summary>
+    /// If true, when selecting a range, the `selectedDates` array will only contain the start and end dates. Defaults to true.
+    /// </summary>
+    [JsonPropertyName("enableEdgeDatesOnly")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool EnableEdgeDatesOnly { get; init; } = true;
+
+    /// <summary>
+    /// If true, clicking a selected date will deselect it. Defaults to true.
+    /// </summary>
+    [JsonPropertyName("enableDateToggle")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool EnableDateToggle { get; init; } = true;
+
+    /// <summary>
+    /// If true, displays the week number column. Defaults to false.
+    /// </summary>
+    [JsonPropertyName("enableWeekNumbers")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool EnableWeekNumbers { get; init; } = false;
+
+    /// <summary>
+    /// If true, clicking a date from an outside month will switch to that month. Defaults to true.
+    /// </summary>
+    [JsonPropertyName("enableMonthChangeOnDayClick")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool EnableMonthChangeOnDayClick { get; init; } = true;
+
+    /// <summary>
+    /// If true, the calendar will open to the month of the first selected date. Defaults to false.
+    /// </summary>
+    [JsonPropertyName("enableJumpToSelectedDate")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool EnableJumpToSelectedDate { get; init; } = false;
+
+    /// <summary>
+    /// Determines whether selecting one or multiple days is allowed. Defaults to <see cref="SelectionDatesMode.Single"/>.
     /// </summary>
     [JsonPropertyName("selectionDatesMode")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -265,12 +574,127 @@ public record VanillaCalendarOptions
     public TimeMode SelectionTimeMode { get; init; } = TimeMode.Disabled;
 
     /// <summary>
-    /// A dictionary of popups to display on hover for specific dates. The key is the date, and the value is the Popup configuration.
+    /// A list of dates that will be selected when the calendar is initialized.
+    /// </summary>
+    [JsonPropertyName("selectedDates")]
+    [JsonConverter(typeof(DateOnlyRangeListConverter))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<DateOnly>? SelectedDates { get; init; }
+
+    /// <summary>
+    /// The month to display on initialization (0-11). If not set, defaults to the current month or the month of a selected date.
+    /// </summary>
+    [JsonPropertyName("selectedMonth")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public int? SelectedMonth { get; init; }
+
+    /// <summary>
+    /// The year to display on initialization. If not set, defaults to the current year or the year of a selected date.
+    /// </summary>
+    [JsonPropertyName("selectedYear")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public int? SelectedYear { get; init; }
+
+    /// <summary>
+    /// A list of dates to style as holidays.
+    /// </summary>
+    [JsonPropertyName("selectedHolidays")]
+    [JsonConverter(typeof(DateOnlyRangeListConverter))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<DateOnly>? SelectedHolidays { get; init; }
+
+    /// <summary>
+    /// The days of the week to style as weekends. Defaults to Saturday and Sunday.
+    /// </summary>
+    [JsonPropertyName("selectedWeekends")]
+    [JsonConverter(typeof(DayOfWeekListConverter))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<DayOfWeek>? SelectedWeekends { get; init; }
+
+    /// <summary>
+    /// The theme to apply to the calendar. Can be "light", "dark", "system", or a custom theme name. Defaults to "system".
+    /// </summary>
+    [JsonPropertyName("selectedTheme")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public string SelectedTheme { get; init; } = "system";
+
+    /// <summary>
+    /// The minimum hour that can be selected (0-23). Defaults to 0.
+    /// </summary>
+    [JsonPropertyName("timeMinHour")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int TimeMinHour { get; init; } = 0;
+
+    /// <summary>
+    /// The maximum hour that can be selected (0-23). Defaults to 23.
+    /// </summary>
+    [JsonPropertyName("timeMaxHour")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int TimeMaxHour { get; init; } = 23;
+
+    /// <summary>
+    /// The minimum minute that can be selected (0-59). Defaults to 0.
+    /// </summary>
+    [JsonPropertyName("timeMinMinute")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int TimeMinMinute { get; init; } = 0;
+
+    /// <summary>
+    /// The maximum minute that can be selected (0-59). Defaults to 59.
+    /// </summary>
+    [JsonPropertyName("timeMaxMinute")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int TimeMaxMinute { get; init; } = 59;
+
+    /// <summary>
+    /// The type of controls to show for time selection. Defaults to <see cref="TimeControl.All"/>.
+    /// </summary>
+    [JsonPropertyName("timeControls")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public TimeControl TimeControls { get; init; } = TimeControl.All;
+
+    /// <summary>
+    /// The step increment for the hour slider. Defaults to 1.
+    /// </summary>
+    [JsonPropertyName("timeStepHour")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int TimeStepHour { get; init; } = 1;
+
+    /// <summary>
+    /// The step increment for the minute slider. Defaults to 1.
+    /// </summary>
+    [JsonPropertyName("timeStepMinute")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int TimeStepMinute { get; init; } = 1;
+
+    /// <summary>
+    /// A dictionary of popups to display on hover for specific dates.
     /// </summary>
     [JsonPropertyName("popups")]
     [JsonConverter(typeof(PopupsConverter))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyDictionary<DateOnly, Popup>? Popups { get; init; }
+
+    /// <summary>
+    /// Overrides for ARIA labels for accessibility.
+    /// </summary>
+    [JsonPropertyName("labels")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Labels? Labels { get; init; }
+
+    /// <summary>
+    /// Overrides for the HTML structure of the calendar views.
+    /// </summary>
+    [JsonPropertyName("layouts")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Layouts? Layouts { get; init; }
+
+    /// <summary>
+    /// Overrides for the CSS classes used to style the calendar components.
+    /// </summary>
+    [JsonPropertyName("styles")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Styles? Styles { get; init; }
 
     /// <summary>
     /// This property is used exclusively for JSON serialization. It formats the <see cref="SelectedTime"/>
@@ -290,6 +714,13 @@ public record VanillaCalendarOptions
             };
 
     /// <summary>
+    /// Settings object for deeper configuration.
+    /// </summary>
+    [JsonPropertyName("settings")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public object? Settings { get; init; }
+
+    /// <summary>
     /// Validates the options object, throwing an <see cref="InvalidOperationException"/> if any rules are violated.
     /// This should be called before serialization to catch configuration errors early.
     /// </summary>
@@ -302,8 +733,6 @@ public record VanillaCalendarOptions
 
         if (SelectionDatesMode == SelectionDatesMode.Single && (SelectedDates?.Count ?? 0) > 1)
         {
-            // This is a soft validation. The JS library might handle it, but it's a logical inconsistency.
-            // Depending on desired strictness, this could log a warning instead of throwing.
             throw new InvalidOperationException($"When {nameof(SelectionDatesMode)} is {nameof(SelectionDatesMode.Single)}, {nameof(SelectedDates)} should contain at most one date.");
         }
     }
@@ -345,7 +774,7 @@ public sealed class DayOfWeekListConverter : JsonConverter<IReadOnlyList<DayOfWe
         if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException("Expected an array of numbers for DayOfWeek list.");
         var intList = JsonSerializer.Deserialize<List<int>>(ref reader, options);
         if (intList == null) return new List<DayOfWeek>();
-
+        
         foreach (var i in intList)
         {
             if (i < 0 || i > 6) throw new JsonException($"Invalid weekday index: {i}. Expected 0..6.");
@@ -378,7 +807,7 @@ public sealed class DateOnlyRangeListConverter : JsonConverter<IReadOnlyList<Dat
     public override IReadOnlyList<DateOnly> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException("Expected an array of strings for DateOnly list.");
-
+        
         var stringList = JsonSerializer.Deserialize<List<string>>(ref reader, options);
         if (stringList == null) return new List<DateOnly>();
 
@@ -409,7 +838,7 @@ public sealed class DateOnlyRangeListConverter : JsonConverter<IReadOnlyList<Dat
                     continue;
                 }
             }
-
+            
             if (DateOnly.TryParseExact(entry.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var exactDate))
             {
                 results.Add(exactDate);
@@ -422,7 +851,7 @@ public sealed class DateOnlyRangeListConverter : JsonConverter<IReadOnlyList<Dat
     public override void Write(Utf8JsonWriter writer, IReadOnlyList<DateOnly> value, JsonSerializerOptions options)
     {
         var sortedDates = value.Distinct().OrderBy(d => d).ToList();
-
+        
         writer.WriteStartArray();
         for (int i = 0; i < sortedDates.Count; i++)
         {
@@ -497,7 +926,7 @@ public sealed class PositionConverter : JsonConverter<Position>
             case Position.Left: writer.WriteStringValue("left"); return;
             case Position.Center: writer.WriteStringValue("center"); return;
             case Position.Right: writer.WriteStringValue("right"); return;
-
+            
             case Position.TopLeft: writer.WriteStartArray(); writer.WriteStringValue("top"); writer.WriteStringValue("left"); writer.WriteEndArray(); return;
             case Position.TopCenter: writer.WriteStartArray(); writer.WriteStringValue("top"); writer.WriteStringValue("center"); writer.WriteEndArray(); return;
             case Position.TopRight: writer.WriteStartArray(); writer.WriteStringValue("top"); writer.WriteStringValue("right"); writer.WriteEndArray(); return;
@@ -675,14 +1104,39 @@ public sealed class SelectionDatesModeConverter : JsonConverter<SelectionDatesMo
     }
 }
 
+/// <summary>
+/// Converts a C# <see cref="DateAny"/> struct to the JSON string required by Vanilla Calendar.
+/// </summary>
+public sealed class DateAnyConverter : JsonConverter<DateAny>
+{
+    /// <inheritdoc />
+    public override DateAny Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var str = reader.GetString();
+        if (string.Equals(str, "today", StringComparison.OrdinalIgnoreCase)) return DateAny.Today;
+        if (DateOnly.TryParseExact(str, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date)) return date;
+        throw new JsonException($"Invalid value for DateAny: '{str}'. Expected 'today' or a 'yyyy-MM-dd' date string.");
+    }
+
+    /// <inheritdoc />
+    public override void Write(Utf8JsonWriter writer, DateAny value, JsonSerializerOptions options)
+    {
+        var val = typeof(DateAny).GetField("_value", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(value);
+        if (val is string s) writer.WriteStringValue(s);
+        else if (val is DateOnly d) writer.WriteStringValue(d.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+    }
+}
+
+
 #endregion
+
 
 /// <summary>
 /// Provides a source-generated JSON context for serializing <see cref="VanillaCalendarOptions"/>.
 /// Using this context improves performance and is required for AOT (Ahead-Of-Time) compilation scenarios like Blazor WebAssembly.
 /// </summary>
 [JsonSourceGenerationOptions(
-    WriteIndented = false,
+    WriteIndented = false, 
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
 )]

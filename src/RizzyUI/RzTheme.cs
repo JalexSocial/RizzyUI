@@ -236,6 +236,8 @@ public partial class RzTheme
         CommandSeparator = RizzyUI.CommandSeparator.DefaultDescriptor;
         CommandShortcut = RizzyUI.CommandShortcut.DefaultDescriptor;
         CommandItemTemplate = RizzyUI.CommandItemTemplate.DefaultDescriptor;
+        
+        RzCalendar = RizzyUI.RzCalendar.DefaultDescriptor;
     }
 
     /// <summary>
