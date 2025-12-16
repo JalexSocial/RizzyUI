@@ -379,7 +379,7 @@ public record VanillaCalendarOptions
     [JsonPropertyName("firstWeekday")]
     [JsonConverter(typeof(DayOfWeekNumberConverter))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public DayOfWeek FirstWeekday { get; init; } = DayOfWeek.Monday;
+    public DayOfWeek FirstWeekday { get; init; } = DayOfWeek.Sunday;
 
     /// <summary>
     /// The number of months to jump when navigating with the arrows. Defaults to 1.
@@ -452,11 +452,12 @@ public record VanillaCalendarOptions
     public bool DisplayDisabledDates { get; init; } = false;
 
     /// <summary>
-    /// The number of months to display when `Type` is `Multiple`. Defaults to 2.
+    /// The number of months to display. Defaults to 1 to match default CalendarType.Default.
+    /// Use values > 1 when Type is Multiple.
     /// </summary>
     [JsonPropertyName("displayMonthsCount")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public int DisplayMonthsCount { get; init; } = 2;
+    public int DisplayMonthsCount { get; init; } = 1;
 
     /// <summary>
     /// A list of dates to disable.

@@ -182,6 +182,18 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             config = config with { SelectedDates = selectedDates };
         }
 
+        // Ensure DisplayMonthsCount is valid for the selected Type
+        if (config.Type == CalendarType.Multiple)
+        {
+            if (config.DisplayMonthsCount < 2)
+                config = config with { DisplayMonthsCount = 2 };
+        }
+        else
+        {
+            if (config.DisplayMonthsCount > 1)
+                config = config with { DisplayMonthsCount = 1 };
+        }
+
         // Validate options before serialization
         config.Validate();
 
