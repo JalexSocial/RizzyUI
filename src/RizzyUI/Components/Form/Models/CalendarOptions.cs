@@ -378,7 +378,6 @@ public record VanillaCalendarOptions
     /// </summary>
     [JsonPropertyName("firstWeekday")]
     [JsonConverter(typeof(DayOfWeekNumberConverter))]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public DayOfWeek FirstWeekday { get; init; } = DayOfWeek.Sunday;
 
     /// <summary>
