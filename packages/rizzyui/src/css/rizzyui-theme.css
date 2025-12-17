@@ -369,6 +369,21 @@
     }
 }
 
+/* Calendar */
+@layer components {
+    .rizzy-vc-arrow::before {
+        content: "";
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+
+        background-color: var(--foreground);
+
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16c-.3 0-.5-.1-.7-.3l-6-6c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l5.3 5.3 5.3-5.3c.4-.4 1-.4 1.4 0s.4 1 0 1.4l-6 6c-.2.2-.4.3-.7.3'/%3E%3C/svg%3E") no-repeat center / contain;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16c-.3 0-.5-.1-.7-.3l-6-6c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l5.3 5.3 5.3-5.3c.4-.4 1-.4 1.4 0s.4 1 0 1.4l-6 6c-.2.2-.4.3-.7.3'/%3E%3C/svg%3E") no-repeat center / contain;
+    }
+}
+
 /* Card */
 @layer components {
     .card {

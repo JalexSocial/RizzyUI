@@ -14,8 +14,7 @@
 	     data-config-id="@ConfigScriptId"
 	     data-assets="@_assets"
 	     data-nonce="@Nonce"
-	     class="@SlotClasses.GetCalendarContainer()"
-	     style="@_cssVariables"> @* Inject CSS variable overrides here *@
+	     class="@SlotClasses.GetCalendarContainer()">
          
 		<script type="application/json" id="@ConfigScriptId" nonce="@Nonce">
             @((MarkupString)_serializedConfig)

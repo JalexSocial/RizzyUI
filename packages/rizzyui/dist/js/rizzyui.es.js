@@ -5387,7 +5387,8 @@ function registerRzCalendar(Alpine2, require2) {
       };
       const options = {
         ...rawConfig.options,
-        CSSClasses: rawConfig.cssClasses,
+        styles: rawConfig.styles,
+        // Correct property name for VCP
         actions: actionHandlers
       };
       if (window.VanillaCalendarPro) {

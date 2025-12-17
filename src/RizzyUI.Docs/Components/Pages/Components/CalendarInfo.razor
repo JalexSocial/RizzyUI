@@ -31,14 +31,14 @@
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                         <RzCalendar Mode="SelectionDatesMode.Single"
                                     @bind-Value="_selectedDate"
-                                    class="rounded-lg border" />
+                                    />
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
             @@bind-Value="_selectedDate"
-            class="rounded-lg border" /&gt;
+            /&gt;
 
 @@code {
     private DateOnly? _selectedDate = DateOnly.FromDateTime(DateTime.Now);
@@ -58,14 +58,14 @@
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                          <RzCalendar Mode="SelectionDatesMode.MultipleRanged"
                                     @bind-Range="_selectedRange"
-                                    class="rounded-lg border" />
+                                    />
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.MultipleRanged"
             @@bind-Range="_selectedRange"
-            class="rounded-lg border" /&gt;
+            /&gt;
 
 @@code {
     private CalendarDateRange? _selectedRange = new CalendarDateRange
@@ -91,7 +91,7 @@
                                     Type="CalendarType.Multiple"
                                     Options="@(new VanillaCalendarOptions { DisplayMonthsCount = 2 })"
                                     @bind-Value="_selectedDate"
-                                    class="rounded-lg border" />
+                                    />
                     </div>
                 </RzBrowser>
 
@@ -100,7 +100,7 @@
             Type="CalendarType.Multiple"
             Options="@@(new VanillaCalendarOptions { DisplayMonthsCount = 2 })"
             @@bind-Value="_selectedDate"
-            class="rounded-lg border" /&gt;
+            /&gt;
                 </RzCodeViewer>
             </section>
 
@@ -117,14 +117,14 @@
                         <RzCalendar Mode="SelectionDatesMode.Single"
                                     @bind-Value="_selectedDate"
                                     MinDate="@DateOnly.FromDateTime(DateTime.Now.AddDays(-5))"
-                                    class="rounded-lg border" />
+                                    />
                     </div>
                 </RzBrowser>
                  <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
             @@bind-Value="_selectedDate"
             MinDate="@@DateOnly.FromDateTime(DateTime.Now.AddDays(-5))"
-            class="rounded-lg border" /&gt;
+            /&gt;
                 </RzCodeViewer>
             </section>
 
@@ -141,14 +141,14 @@
                         <RzCalendar Mode="SelectionDatesMode.Single"
                                     @bind-Value="_selectedDate"
                                     Options="@(new VanillaCalendarOptions { DisableWeekdays = new[] { DayOfWeek.Saturday, DayOfWeek.Sunday } })"
-                                    class="rounded-lg border" />
+                                    />
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
             @@bind-Value="_selectedDate"
             Options="@@(new VanillaCalendarOptions { DisableWeekdays = new[] { DayOfWeek.Saturday, DayOfWeek.Sunday } })"
-            class="rounded-lg border" /&gt;
+            /&gt;
                 </RzCodeViewer>
             </section>
             
@@ -165,7 +165,7 @@
                         <RzCalendar Mode="SelectionDatesMode.Single"
                                     @bind-Value="_selectedDate"
                                     Options="@(new VanillaCalendarOptions { FirstWeekday = DayOfWeek.Monday })"
-                                    class="rounded-lg border" />
+                                    />
                     </div>
                 </RzBrowser>
 
@@ -173,7 +173,7 @@
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
             @@bind-Value="_selectedDate"
             Options="@@(new VanillaCalendarOptions { FirstWeekday = DayOfWeek.Monday })"
-            class="rounded-lg border" /&gt;
+            /&gt;
                 </RzCodeViewer>
             </section>
             
@@ -190,7 +190,7 @@
                         <RzCalendar Mode="SelectionDatesMode.Single"
                                     @bind-Value="_selectedDate"
                                     Options="@(new VanillaCalendarOptions { EnableWeekNumbers = true })"
-                                    class="rounded-lg border" />
+                                    />
                     </div>
                 </RzBrowser>
 
@@ -198,7 +198,7 @@
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
             @@bind-Value="_selectedDate"
             Options="@@(new VanillaCalendarOptions { EnableWeekNumbers = true })"
-            class="rounded-lg border" /&gt;
+            /&gt;
                 </RzCodeViewer>
             </section>
 
@@ -214,14 +214,14 @@
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                         <RzCalendar Mode="SelectionDatesMode.Multiple"
                                     @bind-Values="_selectedDates"
-                                    class="rounded-lg border" />
+                                    />
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Multiple"
             @@bind-Values="_selectedDates"
-            class="rounded-lg border" /&gt;
+            /&gt;
 
 @@code {
     private List&lt;DateOnly&gt; _selectedDates = new() { 
@@ -246,7 +246,7 @@
                          <RzCalendar Mode="SelectionDatesMode.Single"
                                     @bind-Value="_selectedDate"
                                     Options="@(new VanillaCalendarOptions { Locale = "es-ES" })"
-                                    class="rounded-lg border" />
+                                    />
                     </div>
                 </RzBrowser>
 
@@ -254,7 +254,7 @@
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
             @@bind-Value="_selectedDate"
             Options="@@(new VanillaCalendarOptions { Locale = "es-ES" })"
-            class="rounded-lg border" /&gt;
+            /&gt;
                 </RzCodeViewer>
             </section>
         </MainContent>

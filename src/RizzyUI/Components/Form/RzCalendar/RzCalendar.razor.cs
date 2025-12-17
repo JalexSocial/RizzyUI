@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Blazicons;
 using Rizzy.Utility;
 using TailwindVariants.NET;
 
@@ -32,8 +33,8 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             [s => s.Year] = "text-sm font-medium hover:bg-accent hover:text-accent-foreground rounded-md px-2 py-1 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             
             // Arrows (Absolute positioning to match Shadcn)
-            [s => s.ArrowPrev] = "absolute left-1 top-0 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 flex items-center justify-center rounded-md border border-input hover:bg-accent hover:text-accent-foreground transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-            [s => s.ArrowNext] = "absolute right-1 top-0 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 flex items-center justify-center rounded-md border border-input hover:bg-accent hover:text-accent-foreground transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            [s => s.ArrowPrev] = $"absolute left-1 top-0 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 flex items-center justify-center rounded-md border border-input hover:bg-accent hover:text-accent-foreground transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rizzy-vc-arrow",
+            [s => s.ArrowNext] = $"absolute right-1 top-0 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 flex items-center justify-center rounded-md border border-input hover:bg-accent hover:text-accent-foreground transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rizzy-vc-arrow",
             
             // Grid Layouts
             [s => s.Grid] = "w-full border-collapse space-y-1",
@@ -45,7 +46,7 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
 
             // Day Cell (Wrapper)
             // 'group' class allows the button to style itself based on this cell's attributes (e.g. data-vc-date-today)
-            [s => s.DayCell] = "group relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md",
+            [s => s.DayCell] = "group relative p-0 text-center text-sm focus-within:relative focus-within:z-20", // " [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md",
             
             // Day Button (Interactive)
             // We use group-data-* modifiers to target the attributes VCP applies to the parent DayCell or self
@@ -89,7 +90,6 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
 
     private string _serializedConfig = "{}";
     private string _assets = "[]";
-    private string _cssVariables = string.Empty;
     private readonly string _calendarId = IdGenerator.UniqueId("vc");
     
     protected string CalendarId => _calendarId;
@@ -110,18 +110,17 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
     [Parameter] public string[] ComponentAssetKeys { get; set; } = ["VanillaCalendarPro", "VanillaCalendarCss"];
     [Parameter] public string? AriaLabel { get; set; }
 
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         AriaLabel ??= Localizer["RzCalendar.DefaultAriaLabel"];
-        BuildCssVariables();
     }
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         AriaLabel ??= Localizer["RzCalendar.DefaultAriaLabel"];
-        BuildCssVariables();
 
         var config = new VanillaCalendarOptions
         {
@@ -244,30 +243,6 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             .Where(url => !string.IsNullOrEmpty(url))
             .ToList();
         _assets = JsonSerializer.Serialize(assetUrls);
-    }
-
-    private void BuildCssVariables()
-    {
-        // Inject CSS variables to override VCP defaults.
-        // We map VCP internal variables to RizzyUI/Shadcn theme variables.
-        _cssVariables = string.Join(";", new[]
-        {
-            "--vc-bg: var(--card)",
-            "--vc-color: var(--card-foreground)",
-            "--vc-shadow: var(--shadow)",
-            "--vc-weekday-color: var(--muted-foreground)",
-            "--vc-year-color: var(--primary)",
-            "--vc-month-color: var(--primary)",
-            "--vc-arrow-color: var(--primary)",
-            "--vc-time-range: var(--primary)",
-            "--vc-time-range-thumb: var(--primary)",
-            
-            // Legacy/Alternative variable names sometimes used in VCP themes
-            "--vanilla-calendar-bg: var(--card)",
-            "--vanilla-calendar-color: var(--card-foreground)",
-            "--vanilla-calendar-surface: var(--muted)",
-            "--vanilla-calendar-text: var(--foreground)"
-        });
     }
 
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzCalendar;

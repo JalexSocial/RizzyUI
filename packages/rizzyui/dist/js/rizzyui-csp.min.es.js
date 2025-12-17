@@ -4222,7 +4222,8 @@ function Nl(e, t) {
         }
       }, o = {
         ...r.options,
-        CSSClasses: r.cssClasses,
+        styles: r.styles,
+        // Correct property name for VCP
         actions: s
       };
       window.VanillaCalendarPro ? (this.calendar = new VanillaCalendarPro.Calendar(this.$refs.calendarEl, o), this.calendar.init(), this.initialized = !0, this.dispatchCalendarEvent("init", { instance: this.calendar })) : console.error("RzCalendar: VanillaCalendar global not found.");

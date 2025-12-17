@@ -5391,7 +5391,8 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         };
         const options = {
           ...rawConfig.options,
-          CSSClasses: rawConfig.cssClasses,
+          styles: rawConfig.styles,
+          // Correct property name for VCP
           actions: actionHandlers
         };
         if (window.VanillaCalendarPro) {

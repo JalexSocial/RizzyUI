@@ -1,4 +1,3 @@
-
 export default function(Alpine, require) {
     Alpine.data('rzCalendar', () => ({
         calendar: null,
@@ -8,7 +7,7 @@ export default function(Alpine, require) {
             const assets = JSON.parse(this.$el.dataset.assets || '[]');
             const configId = this.$el.dataset.configId;
             const nonce = this.$el.dataset.nonce;
-            
+
             if (assets.length === 0) {
                 console.warn('RzCalendar: No assets configured.');
                 return;
@@ -26,10 +25,10 @@ export default function(Alpine, require) {
         initCalendar(configId) {
             const configElement = document.getElementById(configId);
             if (!configElement) {
-                 console.error(`RzCalendar: Config element #${configId} not found.`);
-                 return;
+                console.error(`RzCalendar: Config element #${configId} not found.`);
+                return;
             }
-            
+
             let rawConfig = {};
             try {
                 rawConfig = JSON.parse(configElement.textContent);
@@ -37,9 +36,8 @@ export default function(Alpine, require) {
                 console.error("RzCalendar: Failed to parse config JSON", e);
                 return;
             }
-            
+
             // Define all supported VCP actions and map them to custom events
-            // We use the 'actions' config object in VCP to hook into events.
             const actionHandlers = {
                 clickDay: (e, self) => this.dispatchCalendarEvent('clickDay', { event: e, dates: self.selectedDates }),
                 clickWeekNumber: (e, number, days, year) => this.dispatchCalendarEvent('clickWeekNumber', { event: e, number, days, year }),
@@ -49,25 +47,23 @@ export default function(Alpine, require) {
                 changeTime: (e, time, hours, minutes, keeping) => this.dispatchCalendarEvent('changeTime', { event: e, time, hours, minutes, keeping }),
                 changeView: (view) => this.dispatchCalendarEvent('changeView', { view }),
                 getDays: (day, date, HTMLElement, HTMLButtonElement, self) => {
-                     // getDays is called during rendering, we can treat it as a hook but be careful about spamming events
-                     // Avoiding dispatch here for performance unless needed.
+                    // getDays is called during rendering, we can treat it as a hook but be careful about spamming events
                 }
             };
 
             // Merge specialized logic
             const options = {
                 ...rawConfig.options,
-                CSSClasses: rawConfig.cssClasses,
+                styles: rawConfig.styles, // Correct property name for VCP
                 actions: actionHandlers
             };
 
             // Initialize VCP
-            // Note: We use this.$refs.calendarEl as the target
             if (window.VanillaCalendarPro) {
                 this.calendar = new VanillaCalendarPro.Calendar(this.$refs.calendarEl, options);
                 this.calendar.init();
                 this.initialized = true;
-                
+
                 // Dispatch init event
                 this.dispatchCalendarEvent('init', { instance: this.calendar });
             } else {
@@ -77,7 +73,6 @@ export default function(Alpine, require) {
 
         dispatchCalendarEvent(eventName, detail) {
             // Dispatch with prefix 'rz:calendar:'
-            // Event name matches original VCP action name exactly as requested
             this.$dispatch(`rz:calendar:${eventName}`, detail);
         },
 
