@@ -3264,292 +3264,6 @@ alpine_default.setEvaluator(normalEvaluator);
 alpine_default.setReactivityEngine({ reactive: reactive2, effect: effect2, release: stop, raw: toRaw });
 var src_default$3 = alpine_default;
 var module_default$3 = src_default$3;
-function eager() {
-  return true;
-}
-function event({ component, argument }) {
-  return new Promise((resolve) => {
-    if (argument) {
-      window.addEventListener(
-        argument,
-        () => resolve(),
-        { once: true }
-      );
-    } else {
-      const cb = (e2) => {
-        if (e2.detail.id !== component.id) return;
-        window.removeEventListener("async-alpine:load", cb);
-        resolve();
-      };
-      window.addEventListener("async-alpine:load", cb);
-    }
-  });
-}
-function idle() {
-  return new Promise((resolve) => {
-    if ("requestIdleCallback" in window) {
-      window.requestIdleCallback(resolve);
-    } else {
-      setTimeout(resolve, 200);
-    }
-  });
-}
-function media({ argument }) {
-  return new Promise((resolve) => {
-    if (!argument) {
-      console.log("Async Alpine: media strategy requires a media query. Treating as 'eager'");
-      return resolve();
-    }
-    const mediaQuery = window.matchMedia(`(${argument})`);
-    if (mediaQuery.matches) {
-      resolve();
-    } else {
-      mediaQuery.addEventListener("change", resolve, { once: true });
-    }
-  });
-}
-function visible({ component, argument }) {
-  return new Promise((resolve) => {
-    const rootMargin = argument || "0px 0px 0px 0px";
-    const observer2 = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        observer2.disconnect();
-        resolve();
-      }
-    }, { rootMargin });
-    observer2.observe(component.el);
-  });
-}
-var strategies_default = {
-  eager,
-  event,
-  idle,
-  media,
-  visible
-};
-async function awaitRequirements(component) {
-  const requirements = parseRequirements(component.strategy);
-  await generateRequirements(component, requirements);
-}
-async function generateRequirements(component, requirements) {
-  if (requirements.type === "expression") {
-    if (requirements.operator === "&&") {
-      return Promise.all(
-        requirements.parameters.map((param) => generateRequirements(component, param))
-      );
-    }
-    if (requirements.operator === "||") {
-      return Promise.any(
-        requirements.parameters.map((param) => generateRequirements(component, param))
-      );
-    }
-  }
-  if (!strategies_default[requirements.method]) return false;
-  return strategies_default[requirements.method]({
-    component,
-    argument: requirements.argument
-  });
-}
-function parseRequirements(expression) {
-  const tokens = tokenize(expression);
-  let ast = parseExpression(tokens);
-  if (ast.type === "method") {
-    return {
-      type: "expression",
-      operator: "&&",
-      parameters: [ast]
-    };
-  }
-  return ast;
-}
-function tokenize(expression) {
-  const regex = /\s*([()])\s*|\s*(\|\||&&|\|)\s*|\s*((?:[^()&|]+\([^()]+\))|[^()&|]+)\s*/g;
-  const tokens = [];
-  let match;
-  while ((match = regex.exec(expression)) !== null) {
-    const [_, parenthesis, operator, token] = match;
-    if (parenthesis !== void 0) {
-      tokens.push({ type: "parenthesis", value: parenthesis });
-    } else if (operator !== void 0) {
-      tokens.push({
-        type: "operator",
-        // we do the below to make operators backwards-compatible with previous
-        // versions of Async Alpine, where '|' is equivalent to &&
-        value: operator === "|" ? "&&" : operator
-      });
-    } else {
-      const tokenObj = {
-        type: "method",
-        method: token.trim()
-      };
-      if (token.includes("(")) {
-        tokenObj.method = token.substring(0, token.indexOf("(")).trim();
-        tokenObj.argument = token.substring(
-          token.indexOf("(") + 1,
-          token.indexOf(")")
-        );
-      }
-      if (token.method === "immediate") {
-        token.method = "eager";
-      }
-      tokens.push(tokenObj);
-    }
-  }
-  return tokens;
-}
-function parseExpression(tokens) {
-  let ast = parseTerm(tokens);
-  while (tokens.length > 0 && (tokens[0].value === "&&" || tokens[0].value === "|" || tokens[0].value === "||")) {
-    const operator = tokens.shift().value;
-    const right = parseTerm(tokens);
-    if (ast.type === "expression" && ast.operator === operator) {
-      ast.parameters.push(right);
-    } else {
-      ast = {
-        type: "expression",
-        operator,
-        parameters: [ast, right]
-      };
-    }
-  }
-  return ast;
-}
-function parseTerm(tokens) {
-  if (tokens[0].value === "(") {
-    tokens.shift();
-    const ast = parseExpression(tokens);
-    if (tokens[0].value === ")") {
-      tokens.shift();
-    }
-    return ast;
-  } else {
-    return tokens.shift();
-  }
-}
-function async_alpine_default(Alpine2) {
-  const directive2 = "load";
-  const srcAttr = Alpine2.prefixed("load-src");
-  const ignoreAttr = Alpine2.prefixed("ignore");
-  let options = {
-    defaultStrategy: "eager",
-    keepRelativeURLs: false
-  };
-  let alias = false;
-  let data2 = {};
-  let realIndex = 0;
-  function index() {
-    return realIndex++;
-  }
-  Alpine2.asyncOptions = (opts) => {
-    options = {
-      ...options,
-      ...opts
-    };
-  };
-  Alpine2.asyncData = (name, download2 = false) => {
-    data2[name] = {
-      loaded: false,
-      download: download2
-    };
-  };
-  Alpine2.asyncUrl = (name, url) => {
-    if (!name || !url || data2[name]) return;
-    data2[name] = {
-      loaded: false,
-      download: () => import(
-        /* @vite-ignore */
-        /* webpackIgnore: true */
-        parseUrl(url)
-      )
-    };
-  };
-  Alpine2.asyncAlias = (path) => {
-    alias = path;
-  };
-  const syncHandler = (el) => {
-    Alpine2.skipDuringClone(() => {
-      if (el._x_async) return;
-      el._x_async = "init";
-      el._x_ignore = true;
-      el.setAttribute(ignoreAttr, "");
-    })();
-  };
-  const handler4 = async (el) => {
-    Alpine2.skipDuringClone(async () => {
-      if (el._x_async !== "init") return;
-      el._x_async = "await";
-      const { name, strategy } = elementPrep(el);
-      await awaitRequirements({
-        name,
-        strategy,
-        el,
-        id: el.id || index()
-      });
-      if (!el.isConnected) return;
-      await download(name);
-      if (!el.isConnected) return;
-      activate(el);
-      el._x_async = "loaded";
-    })();
-  };
-  handler4.inline = syncHandler;
-  Alpine2.directive(directive2, handler4).before("ignore");
-  function elementPrep(el) {
-    const name = parseName(el.getAttribute(Alpine2.prefixed("data")));
-    const strategy = el.getAttribute(Alpine2.prefixed(directive2)) || options.defaultStrategy;
-    const urlAttributeValue = el.getAttribute(srcAttr);
-    if (urlAttributeValue) {
-      Alpine2.asyncUrl(name, urlAttributeValue);
-    }
-    return {
-      name,
-      strategy
-    };
-  }
-  async function download(name) {
-    if (name.startsWith("_x_async_")) return;
-    handleAlias(name);
-    if (!data2[name] || data2[name].loaded) return;
-    const module = await getModule(name);
-    Alpine2.data(name, module);
-    data2[name].loaded = true;
-  }
-  async function getModule(name) {
-    if (!data2[name]) return;
-    const module = await data2[name].download(name);
-    if (typeof module === "function") return module;
-    let whichExport = module[name] || module.default || Object.values(module)[0] || false;
-    return whichExport;
-  }
-  function activate(el) {
-    Alpine2.destroyTree(el);
-    el._x_ignore = false;
-    el.removeAttribute(ignoreAttr);
-    if (el.closest(`[${ignoreAttr}]`)) return;
-    Alpine2.initTree(el);
-  }
-  function handleAlias(name) {
-    if (!alias || data2[name]) return;
-    if (typeof alias === "function") {
-      Alpine2.asyncData(name, alias);
-      return;
-    }
-    Alpine2.asyncUrl(name, alias.replaceAll("[name]", name));
-  }
-  function parseName(attribute) {
-    const parsedName = (attribute || "").trim().split(/[({]/g)[0];
-    const ourName = parsedName || `_x_async_${index()}`;
-    return ourName;
-  }
-  function parseUrl(url) {
-    if (options.keepRelativeURLs) return url;
-    const absoluteReg = new RegExp("^(?:[a-z+]+:)?//", "i");
-    if (!absoluteReg.test(url)) {
-      return new URL(url, document.baseURI).href;
-    }
-    return url;
-  }
-}
 function src_default$2(Alpine2) {
   Alpine2.directive("collapse", collapse);
   collapse.inline = (el, { modifiers }) => {
@@ -4714,6 +4428,292 @@ focus-trap/dist/focus-trap.esm.js:
   * @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
   *)
 */
+function eager() {
+  return true;
+}
+function event({ component, argument }) {
+  return new Promise((resolve) => {
+    if (argument) {
+      window.addEventListener(
+        argument,
+        () => resolve(),
+        { once: true }
+      );
+    } else {
+      const cb = (e2) => {
+        if (e2.detail.id !== component.id) return;
+        window.removeEventListener("async-alpine:load", cb);
+        resolve();
+      };
+      window.addEventListener("async-alpine:load", cb);
+    }
+  });
+}
+function idle() {
+  return new Promise((resolve) => {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(resolve);
+    } else {
+      setTimeout(resolve, 200);
+    }
+  });
+}
+function media({ argument }) {
+  return new Promise((resolve) => {
+    if (!argument) {
+      console.log("Async Alpine: media strategy requires a media query. Treating as 'eager'");
+      return resolve();
+    }
+    const mediaQuery = window.matchMedia(`(${argument})`);
+    if (mediaQuery.matches) {
+      resolve();
+    } else {
+      mediaQuery.addEventListener("change", resolve, { once: true });
+    }
+  });
+}
+function visible({ component, argument }) {
+  return new Promise((resolve) => {
+    const rootMargin = argument || "0px 0px 0px 0px";
+    const observer2 = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        observer2.disconnect();
+        resolve();
+      }
+    }, { rootMargin });
+    observer2.observe(component.el);
+  });
+}
+var strategies_default = {
+  eager,
+  event,
+  idle,
+  media,
+  visible
+};
+async function awaitRequirements(component) {
+  const requirements = parseRequirements(component.strategy);
+  await generateRequirements(component, requirements);
+}
+async function generateRequirements(component, requirements) {
+  if (requirements.type === "expression") {
+    if (requirements.operator === "&&") {
+      return Promise.all(
+        requirements.parameters.map((param) => generateRequirements(component, param))
+      );
+    }
+    if (requirements.operator === "||") {
+      return Promise.any(
+        requirements.parameters.map((param) => generateRequirements(component, param))
+      );
+    }
+  }
+  if (!strategies_default[requirements.method]) return false;
+  return strategies_default[requirements.method]({
+    component,
+    argument: requirements.argument
+  });
+}
+function parseRequirements(expression) {
+  const tokens = tokenize(expression);
+  let ast = parseExpression(tokens);
+  if (ast.type === "method") {
+    return {
+      type: "expression",
+      operator: "&&",
+      parameters: [ast]
+    };
+  }
+  return ast;
+}
+function tokenize(expression) {
+  const regex = /\s*([()])\s*|\s*(\|\||&&|\|)\s*|\s*((?:[^()&|]+\([^()]+\))|[^()&|]+)\s*/g;
+  const tokens = [];
+  let match;
+  while ((match = regex.exec(expression)) !== null) {
+    const [_, parenthesis, operator, token] = match;
+    if (parenthesis !== void 0) {
+      tokens.push({ type: "parenthesis", value: parenthesis });
+    } else if (operator !== void 0) {
+      tokens.push({
+        type: "operator",
+        // we do the below to make operators backwards-compatible with previous
+        // versions of Async Alpine, where '|' is equivalent to &&
+        value: operator === "|" ? "&&" : operator
+      });
+    } else {
+      const tokenObj = {
+        type: "method",
+        method: token.trim()
+      };
+      if (token.includes("(")) {
+        tokenObj.method = token.substring(0, token.indexOf("(")).trim();
+        tokenObj.argument = token.substring(
+          token.indexOf("(") + 1,
+          token.indexOf(")")
+        );
+      }
+      if (token.method === "immediate") {
+        token.method = "eager";
+      }
+      tokens.push(tokenObj);
+    }
+  }
+  return tokens;
+}
+function parseExpression(tokens) {
+  let ast = parseTerm(tokens);
+  while (tokens.length > 0 && (tokens[0].value === "&&" || tokens[0].value === "|" || tokens[0].value === "||")) {
+    const operator = tokens.shift().value;
+    const right = parseTerm(tokens);
+    if (ast.type === "expression" && ast.operator === operator) {
+      ast.parameters.push(right);
+    } else {
+      ast = {
+        type: "expression",
+        operator,
+        parameters: [ast, right]
+      };
+    }
+  }
+  return ast;
+}
+function parseTerm(tokens) {
+  if (tokens[0].value === "(") {
+    tokens.shift();
+    const ast = parseExpression(tokens);
+    if (tokens[0].value === ")") {
+      tokens.shift();
+    }
+    return ast;
+  } else {
+    return tokens.shift();
+  }
+}
+function async_alpine_default(Alpine2) {
+  const directive2 = "load";
+  const srcAttr = Alpine2.prefixed("load-src");
+  const ignoreAttr = Alpine2.prefixed("ignore");
+  let options = {
+    defaultStrategy: "eager",
+    keepRelativeURLs: false
+  };
+  let alias = false;
+  let data2 = {};
+  let realIndex = 0;
+  function index() {
+    return realIndex++;
+  }
+  Alpine2.asyncOptions = (opts) => {
+    options = {
+      ...options,
+      ...opts
+    };
+  };
+  Alpine2.asyncData = (name, download2 = false) => {
+    data2[name] = {
+      loaded: false,
+      download: download2
+    };
+  };
+  Alpine2.asyncUrl = (name, url) => {
+    if (!name || !url || data2[name]) return;
+    data2[name] = {
+      loaded: false,
+      download: () => import(
+        /* @vite-ignore */
+        /* webpackIgnore: true */
+        parseUrl(url)
+      )
+    };
+  };
+  Alpine2.asyncAlias = (path) => {
+    alias = path;
+  };
+  const syncHandler = (el) => {
+    Alpine2.skipDuringClone(() => {
+      if (el._x_async) return;
+      el._x_async = "init";
+      el._x_ignore = true;
+      el.setAttribute(ignoreAttr, "");
+    })();
+  };
+  const handler4 = async (el) => {
+    Alpine2.skipDuringClone(async () => {
+      if (el._x_async !== "init") return;
+      el._x_async = "await";
+      const { name, strategy } = elementPrep(el);
+      await awaitRequirements({
+        name,
+        strategy,
+        el,
+        id: el.id || index()
+      });
+      if (!el.isConnected) return;
+      await download(name);
+      if (!el.isConnected) return;
+      activate(el);
+      el._x_async = "loaded";
+    })();
+  };
+  handler4.inline = syncHandler;
+  Alpine2.directive(directive2, handler4).before("ignore");
+  function elementPrep(el) {
+    const name = parseName(el.getAttribute(Alpine2.prefixed("data")));
+    const strategy = el.getAttribute(Alpine2.prefixed(directive2)) || options.defaultStrategy;
+    const urlAttributeValue = el.getAttribute(srcAttr);
+    if (urlAttributeValue) {
+      Alpine2.asyncUrl(name, urlAttributeValue);
+    }
+    return {
+      name,
+      strategy
+    };
+  }
+  async function download(name) {
+    if (name.startsWith("_x_async_")) return;
+    handleAlias(name);
+    if (!data2[name] || data2[name].loaded) return;
+    const module = await getModule(name);
+    Alpine2.data(name, module);
+    data2[name].loaded = true;
+  }
+  async function getModule(name) {
+    if (!data2[name]) return;
+    const module = await data2[name].download(name);
+    if (typeof module === "function") return module;
+    let whichExport = module[name] || module.default || Object.values(module)[0] || false;
+    return whichExport;
+  }
+  function activate(el) {
+    Alpine2.destroyTree(el);
+    el._x_ignore = false;
+    el.removeAttribute(ignoreAttr);
+    if (el.closest(`[${ignoreAttr}]`)) return;
+    Alpine2.initTree(el);
+  }
+  function handleAlias(name) {
+    if (!alias || data2[name]) return;
+    if (typeof alias === "function") {
+      Alpine2.asyncData(name, alias);
+      return;
+    }
+    Alpine2.asyncUrl(name, alias.replaceAll("[name]", name));
+  }
+  function parseName(attribute) {
+    const parsedName = (attribute || "").trim().split(/[({]/g)[0];
+    const ourName = parsedName || `_x_async_${index()}`;
+    return ourName;
+  }
+  function parseUrl(url) {
+    if (options.keepRelativeURLs) return url;
+    const absoluteReg = new RegExp("^(?:[a-z+]+:)?//", "i");
+    if (!absoluteReg.test(url)) {
+      return new URL(url, document.baseURI).href;
+    }
+    return url;
+  }
+}
 function t(t2, e2) {
   if (!(t2 instanceof e2)) {
     throw new TypeError("Cannot call a class as a function");
@@ -7363,65 +7363,35 @@ function registerRzDropdownMenu(Alpine2) {
 }
 function registerRzDarkModeToggle(Alpine2) {
   Alpine2.data("rzDarkModeToggle", () => ({
-    mode: "light",
-    applyTheme: null,
-    init() {
-      const hasLocalStorage = typeof window !== "undefined" && "localStorage" in window;
-      const allowedModes = ["light", "dark", "auto"];
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      let storedMode = "auto";
-      if (hasLocalStorage) {
-        storedMode = localStorage.getItem("darkMode") ?? "auto";
-        if (!allowedModes.includes(storedMode)) {
-          storedMode = "light";
-        }
-      }
-      if (hasLocalStorage) {
-        localStorage.setItem("darkMode", storedMode);
-      }
-      this.applyTheme = () => {
-        document.documentElement.classList.toggle(
-          "dark",
-          storedMode === "dark" || storedMode === "auto" && prefersDark
-        );
-      };
-      this.applyTheme();
-      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", this.applyTheme);
+    // Proxy all properties to the reactive store
+    get mode() {
+      return this.$store.theme.mode;
     },
-    // Returns true if dark mode should be active
-    isDark() {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      localStorage.getItem("darkMode");
-      return this.mode === "dark" || this.mode === "auto" && prefersDark;
+    get prefersDark() {
+      return this.$store.theme.prefersDark;
     },
-    // Returns true if light mode should be active
-    isLight() {
-      return !this.isDark();
+    get effectiveDark() {
+      return this.$store.theme.effectiveDark;
     },
-    // Toggle the dark mode setting and dispatch a custom event
+    // Proxy properties from the store (isDark/isLight are getters on the store)
+    get isDark() {
+      return this.$store.theme.isDark;
+    },
+    get isLight() {
+      return this.$store.theme.isLight;
+    },
+    // Proxy methods
+    setLight() {
+      this.$store.theme.setLight();
+    },
+    setDark() {
+      this.$store.theme.setDark();
+    },
+    setAuto() {
+      this.$store.theme.setAuto();
+    },
     toggle() {
-      let storedMode = localStorage.getItem("darkMode");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      if (storedMode === "light")
-        storedMode = "dark";
-      else if (storedMode === "dark")
-        storedMode = "light";
-      else if (storedMode === "auto") {
-        storedMode = prefersDark ? "light" : "dark";
-      }
-      this.mode = storedMode;
-      localStorage.setItem("darkMode", storedMode);
-      const isDark = storedMode === "dark" || storedMode === "auto" && prefersDark;
-      document.documentElement.classList.toggle("dark", isDark);
-      const darkModeEvent = new CustomEvent("darkModeToggle", {
-        detail: { darkMode: isDark }
-      });
-      window.dispatchEvent(darkModeEvent);
-    },
-    destroy() {
-      if (this.applyTheme) {
-        window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", this.applyTheme);
-      }
+      this.$store.theme.toggle();
     }
   }));
 }
@@ -8962,26 +8932,238 @@ function registerSyncDirective(Alpine2) {
   };
   Alpine2.directive("syncprop", handler4);
 }
-module_default$3.plugin(module_default$2);
-module_default$3.plugin(module_default$1);
-module_default$3.plugin(module_default);
-module_default$3.plugin(async_alpine_default);
-registerComponents(module_default$3);
-registerMobileDirective(module_default$3);
-registerSyncDirective(module_default$3);
-const RizzyUI = {
-  Alpine: module_default$3,
-  require: rizzyRequire,
-  toast: Toast,
-  $data,
-  props,
-  registerAsyncComponent
-};
-window.Alpine = module_default$3;
-window.Rizzy = { ...window.Rizzy || {}, ...RizzyUI };
-document.dispatchEvent(new CustomEvent("rz:init", {
-  detail: { Rizzy: window.Rizzy }
-}));
+class ThemeController {
+  constructor() {
+    this.storageKey = "darkMode";
+    this.eventName = "rz:theme-change";
+    this.darkClass = "dark";
+    this._mode = "auto";
+    this._mq = null;
+    this._initialized = false;
+    this._onMqChange = null;
+    this._onStorage = null;
+    this._lastSnapshot = { mode: null, effectiveDark: null, prefersDark: null };
+  }
+  init() {
+    if (this._initialized) return;
+    if (typeof window === "undefined") return;
+    this._initialized = true;
+    this._mq = typeof window.matchMedia === "function" ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+    const raw2 = this._safeReadStorage(this.storageKey);
+    this._mode = this._normalizeMode(raw2 ?? "auto");
+    this._sync();
+    this._onMqChange = () => {
+      this._sync();
+    };
+    if (this._mq) {
+      if (typeof this._mq.addEventListener === "function") {
+        this._mq.addEventListener("change", this._onMqChange);
+      } else if (typeof this._mq.addListener === "function") {
+        this._mq.addListener(this._onMqChange);
+      }
+    }
+    this._onStorage = (e2) => {
+      if (e2.key !== this.storageKey) return;
+      const next = this._normalizeMode(e2.newValue ?? "auto");
+      if (next !== this._mode) {
+        this._mode = next;
+        this._sync();
+      }
+    };
+    window.addEventListener("storage", this._onStorage);
+  }
+  destroy() {
+    if (!this._initialized) return;
+    this._initialized = false;
+    if (this._mq && this._onMqChange) {
+      if (typeof this._mq.removeEventListener === "function") {
+        this._mq.removeEventListener("change", this._onMqChange);
+      } else if (typeof this._mq.removeListener === "function") {
+        this._mq.removeListener(this._onMqChange);
+      }
+    }
+    if (typeof window !== "undefined" && this._onStorage) {
+      window.removeEventListener("storage", this._onStorage);
+    }
+    this._onMqChange = null;
+    this._onStorage = null;
+    this._mq = null;
+    this._lastSnapshot = { mode: null, effectiveDark: null, prefersDark: null };
+  }
+  // ----- Public State Accessors -----
+  get mode() {
+    return this._mode;
+  }
+  get prefersDark() {
+    return !!this._mq?.matches;
+  }
+  get effectiveDark() {
+    return this._mode === "dark" || this._mode === "auto" && this.prefersDark;
+  }
+  // ----- Public API Surface -----
+  isDark() {
+    return this.effectiveDark;
+  }
+  isLight() {
+    return !this.effectiveDark;
+  }
+  setLight() {
+    this._setMode("light");
+  }
+  setDark() {
+    this._setMode("dark");
+  }
+  setAuto() {
+    this._setMode("auto");
+  }
+  toggle() {
+    const currentlyDark = this.effectiveDark;
+    this._setMode(currentlyDark ? "light" : "dark");
+  }
+  // ----- Internals -----
+  _setMode(value) {
+    this._mode = this._normalizeMode(value);
+    this._persist();
+    this._sync();
+  }
+  _normalizeMode(value) {
+    return value === "light" || value === "dark" || value === "auto" ? value : "auto";
+  }
+  _safeReadStorage(key) {
+    try {
+      return window?.localStorage?.getItem(key);
+    } catch (e2) {
+      return null;
+    }
+  }
+  _persist() {
+    try {
+      window?.localStorage?.setItem(this.storageKey, this._mode);
+    } catch (e2) {
+    }
+  }
+  _sync() {
+    const effectiveDark = this.effectiveDark;
+    const mode = this._mode;
+    const prefersDark = this.prefersDark;
+    const root = typeof document !== "undefined" ? document.documentElement : null;
+    const domMatchesState = root ? root.classList.contains(this.darkClass) === effectiveDark && root.style.colorScheme === (effectiveDark ? "dark" : "light") : true;
+    if (this._lastSnapshot.mode === mode && this._lastSnapshot.effectiveDark === effectiveDark && this._lastSnapshot.prefersDark === prefersDark && domMatchesState) {
+      return;
+    }
+    this._lastSnapshot = { mode, effectiveDark, prefersDark };
+    if (root) {
+      root.classList.toggle(this.darkClass, effectiveDark);
+      root.style.colorScheme = effectiveDark ? "dark" : "light";
+    }
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent(this.eventName, {
+          detail: {
+            mode,
+            darkMode: effectiveDark,
+            // External API uses 'darkMode' convention
+            prefersDark,
+            source: "RizzyUI"
+          }
+        })
+      );
+    }
+  }
+}
+const themeController = new ThemeController();
+function registerStores(Alpine2) {
+  themeController.init();
+  Alpine2.store("theme", {
+    // Reactive state mirrors
+    // We mirror ALL derived properties to ensure Alpine reactivity works 
+    // for bindings like x-show="prefersDark" or x-text="mode".
+    _mode: themeController.mode,
+    _prefersDark: themeController.prefersDark,
+    _effectiveDark: themeController.effectiveDark,
+    // Listener reference to prevent duplicate registration
+    _onThemeChange: null,
+    init() {
+      if (!this._onThemeChange) {
+        this._onThemeChange = () => this._refresh();
+        window.addEventListener(themeController.eventName, this._onThemeChange);
+      }
+      this._refresh();
+    },
+    _refresh() {
+      this._mode = themeController.mode;
+      this._prefersDark = themeController.prefersDark;
+      this._effectiveDark = themeController.effectiveDark;
+    },
+    // ----- Reactive Getters -----
+    // These return the reactive properties from the store, ensuring Alpine
+    // properly tracks dependencies.
+    get mode() {
+      return this._mode;
+    },
+    get effectiveDark() {
+      return this._effectiveDark;
+    },
+    get prefersDark() {
+      return this._prefersDark;
+    },
+    // Expose as getters (not methods) for consistency
+    get isDark() {
+      return this._effectiveDark;
+    },
+    get isLight() {
+      return !this._effectiveDark;
+    },
+    // ----- Proxy Methods -----
+    setLight() {
+      themeController.setLight();
+    },
+    setDark() {
+      themeController.setDark();
+    },
+    setAuto() {
+      themeController.setAuto();
+    },
+    toggle() {
+      themeController.toggle();
+    }
+  });
+}
+let cachedRizzyUI = null;
+function bootstrapRizzyUI(Alpine2) {
+  if (cachedRizzyUI) return cachedRizzyUI;
+  Alpine2.plugin(module_default$2);
+  Alpine2.plugin(module_default$1);
+  Alpine2.plugin(module_default);
+  Alpine2.plugin(async_alpine_default);
+  if (typeof document !== "undefined") {
+    document.addEventListener("alpine:init", () => {
+      registerStores(Alpine2);
+    });
+  }
+  registerComponents(Alpine2);
+  registerMobileDirective(Alpine2);
+  registerSyncDirective(Alpine2);
+  cachedRizzyUI = {
+    Alpine: Alpine2,
+    require: rizzyRequire,
+    toast: Toast,
+    $data,
+    props,
+    registerAsyncComponent,
+    theme: themeController
+  };
+  if (typeof window !== "undefined") {
+    themeController.init();
+    window.Alpine = Alpine2;
+    window.Rizzy = { ...window.Rizzy || {}, ...cachedRizzyUI };
+    document.dispatchEvent(new CustomEvent("rz:init", {
+      detail: { Rizzy: window.Rizzy }
+    }));
+  }
+  return cachedRizzyUI;
+}
+const RizzyUI = bootstrapRizzyUI(module_default$3);
 module_default$3.start();
 export {
   RizzyUI as default

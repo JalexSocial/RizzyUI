@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -6,7 +5,6 @@ using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
 using RizzyUI.Extensions;
 using System.Text;
-// Required for HeadContent
 
 namespace RizzyUI;
 
@@ -64,11 +62,28 @@ public class RzThemeProvider : ComponentBase
             headBuilder.AddMarkupContent(2, $"<style nonce=\"{nonce}\">{css}</style>");
 
             // Inject the initial dark mode script
-            headBuilder.AddMarkupContent(3, $@"<script nonce=""{nonce}"">
-                const storedMode = localStorage.getItem('darkMode') ?? 'auto';
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.classList.toggle('dark', storedMode === 'dark' || (storedMode === 'auto' && prefersDark));
-            </script>");
+            // Notes:
+            // - Normalizes localStorage to 'light'|'dark'|'auto'
+            // - Guards against localStorage access failures (privacy mode / blocked storage)
+            // - Sets both the root 'dark' class and color-scheme to avoid initial flashes
+            headBuilder.AddMarkupContent(3, $@"<script nonce=""{nonce}"">(()=>{{
+  try {{
+    const raw = localStorage.getItem('darkMode');
+    const mode = (raw === 'light' || raw === 'dark' || raw === 'auto') ? raw : 'auto';
+    const prefersDark = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const isDark = mode === 'dark' || (mode === 'auto' && prefersDark);
+
+    const root = document.documentElement;
+    root.classList.toggle('dark', isDark);
+    root.style.colorScheme = isDark ? 'dark' : 'light';
+  }} catch {{
+    // If storage is blocked/unavailable, fall back to OS preference only
+    const prefersDark = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const root = document.documentElement;
+    root.classList.toggle('dark', prefersDark);
+    root.style.colorScheme = prefersDark ? 'dark' : 'light';
+  }}
+}})();</script>");
         }));
         builder.CloseComponent(); // Close HeadContent
 
@@ -111,8 +126,18 @@ public class RzThemeProvider : ComponentBase
 
         // --- Dark Theme (.dark) ---
         sb.AppendLine();
-        sb.AppendLine(".dark {");
+        // Scope dark variables to the document root to prevent accidental variable overrides
+        // from nested elements that may use a "dark" class for other purposes.
+        sb.AppendLine(":root.dark {");
         AppendVariantVariables(sb, theme.Dark);
+        sb.AppendLine("}");
+
+        // Base page styling to ensure the earliest paint uses the tokenized background/foreground.
+        // This helps prevent a flash of white when the page is intended to start in dark mode.
+        sb.AppendLine();
+        sb.AppendLine("html, body {");
+        sb.AppendLine("  background-color: var(--background);");
+        sb.AppendLine("  color: var(--foreground);");
         sb.AppendLine("}");
 
         return sb.ToString();

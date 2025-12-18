@@ -2,62 +2,12 @@
 /**
  * @file RizzyUI Standard Entry Point
  * @module rizzyui
- * @description This is the main entry point for the standard (non-CSP) build of RizzyUI's client-side library.
- * It initializes Alpine.js, integrates the AsyncAlpine v2 plugin for dynamic component loading,
- * and registers all core RizzyUI components and directives.
  */
-
 import Alpine from 'alpinejs';
-import AsyncAlpine from 'async-alpine';
-import collapse from '@alpinejs/collapse';
-import intersect from '@alpinejs/intersect';
-import focus from '@alpinejs/focus';
-import toast from "./lib/notify/toast";
-import { registerComponents, require } from './lib/components.js';
-import $data from './lib/alpineData.js';
-import props from './lib/alpineProps.js';
-import registerAsyncComponent from './lib/alpineModuleRegistrar.js';
-import registerMobileDirective from './lib/directives/mobile.js';
-import registerSyncDirective from './lib/directives/sync-prop.js'
+import { bootstrapRizzyUI } from './lib/bootstrap.js';
 
-// Register standard Alpine.js plugins
-Alpine.plugin(collapse);
-Alpine.plugin(intersect);
-Alpine.plugin(focus);
+const RizzyUI = bootstrapRizzyUI(Alpine);
 
-// Register AsyncAlpine as a native Alpine plugin (v2 syntax)
-Alpine.plugin(AsyncAlpine);
-
-// Register all synchronous RizzyUI components and custom directives
-registerComponents(Alpine);
-registerMobileDirective(Alpine);
-registerSyncDirective(Alpine);
-
-/**
- * @global
- * @namespace Rizzy
- * @description The global namespace for RizzyUI utilities, exposed on the `window` object.
- */
-const RizzyUI = {
-    Alpine,
-    require,
-    toast,
-    $data,
-    props,
-    registerAsyncComponent
-};
-
-// Expose Alpine and RizzyUI utilities globally for debugging and advanced integration.
-window.Alpine = Alpine
-window.Rizzy = { ...(window.Rizzy || {}), ...RizzyUI };
-
-// Alert async components that RizzyUI is ready to use (before Alpine)
-document.dispatchEvent(new CustomEvent("rz:init", {
-    detail: { Rizzy: window.Rizzy }
-}));
-
-// Start the main Alpine.js initialization process.
-// Alpine will now automatically handle the async components registered via `Alpine.asyncData`.
 Alpine.start();
 
 export default RizzyUI;
