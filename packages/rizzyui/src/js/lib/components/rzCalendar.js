@@ -37,25 +37,60 @@ export default function(Alpine, require) {
                 return;
             }
 
-            // Define all supported VCP actions and map them to custom events
-            const actionHandlers = {
-                clickDay: (e, self) => this.dispatchCalendarEvent('clickDay', { event: e, dates: self.selectedDates }),
-                clickWeekNumber: (e, number, days, year) => this.dispatchCalendarEvent('clickWeekNumber', { event: e, number, days, year }),
-                clickMonth: (e, month) => this.dispatchCalendarEvent('clickMonth', { event: e, month }),
-                clickYear: (e, year) => this.dispatchCalendarEvent('clickYear', { event: e, year }),
-                clickArrow: (e, year, month) => this.dispatchCalendarEvent('clickArrow', { event: e, year, month }),
-                changeTime: (e, time, hours, minutes, keeping) => this.dispatchCalendarEvent('changeTime', { event: e, time, hours, minutes, keeping }),
-                changeView: (view) => this.dispatchCalendarEvent('changeView', { view }),
-                getDays: (day, date, HTMLElement, HTMLButtonElement, self) => {
-                    // getDays is called during rendering, we can treat it as a hook but be careful about spamming events
+            // Define VCP v3 compatible event handlers based on options.ts
+            // These must be at the root of the options object, not nested in 'actions'
+            const eventHandlers = {
+                onClickDate: (self, e) => {
+                    this.dispatchCalendarEvent('clickDay', {
+                        event: e,
+                        dates: self.context.selectedDates
+                    });
+                },
+                onClickWeekNumber: (self, number, year, dateEls, e) => {
+                    this.dispatchCalendarEvent('clickWeekNumber', {
+                        event: e,
+                        number: number,
+                        year: year,
+                        days: dateEls
+                    });
+                },
+                onClickMonth: (self, e) => {
+                    this.dispatchCalendarEvent('clickMonth', {
+                        event: e,
+                        month: self.context.selectedMonth
+                    });
+                },
+                onClickYear: (self, e) => {
+                    this.dispatchCalendarEvent('clickYear', {
+                        event: e,
+                        year: self.context.selectedYear
+                    });
+                },
+                onClickArrow: (self, e) => {
+                    this.dispatchCalendarEvent('clickArrow', {
+                        event: e,
+                        year: self.context.selectedYear,
+                        month: self.context.selectedMonth
+                    });
+                },
+                onChangeTime: (self, e, isError) => {
+                    this.dispatchCalendarEvent('changeTime', {
+                        event: e,
+                        time: self.context.selectedTime,
+                        hours: self.context.selectedHours,
+                        minutes: self.context.selectedMinutes,
+                        keeping: self.context.selectedKeeping,
+                        isError: isError
+                    });
                 }
             };
 
             // Merge specialized logic
+            // Note: VCP v3 expects styles and handlers at the root level of options
             const options = {
                 ...rawConfig.options,
-                styles: rawConfig.styles, // Correct property name for VCP
-                actions: actionHandlers
+                styles: rawConfig.styles,
+                ...eventHandlers
             };
 
             // Initialize VCP
