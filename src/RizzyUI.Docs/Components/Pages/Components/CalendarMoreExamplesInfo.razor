@@ -1,0 +1,418 @@
+
+@page "/components/calendar-more"
+@using RizzyUI
+@using RizzyUI.Docs
+@using Blazicons
+@inherits RzComponent
+
+<PageTitle>Calendar Examples</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="All Calendar Examples" class="scroll-mt-20">All Calendar Examples</RzHeading>
+            <RzParagraph>
+                A comprehensive gallery of calendar implementations, replicating the shadcn/ui examples using RizzyUI components.
+            </RzParagraph>
+
+            <!-- 1-3: Basic Selection Modes -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Selection" class="scroll-mt-20">Basic Selection</RzHeading>
+                
+                <div class="grid gap-6 xl:grid-cols-2">
+                    <!-- Calendar 01: Single -->
+                    <RzCard>
+                        <CardHeader><CardTitle>Single Date</CardTitle></CardHeader>
+                        <CardContent class="flex justify-center">
+                            <RzCalendar Mode="SelectionDatesMode.Single" @bind-Value="_date1" class="rounded-md border" />
+                        </CardContent>
+                    </RzCard>
+
+                    <!-- Calendar 02: Multiple Months -->
+                    <RzCard>
+                        <CardHeader><CardTitle>Multiple Months</CardTitle></CardHeader>
+                        <CardContent class="flex justify-center">
+                            <RzCalendar Mode="SelectionDatesMode.Single" 
+                                        Type="CalendarType.Multiple"
+                                        Options="@(new VanillaCalendarOptions { DisplayMonthsCount = 2 })" 
+                                        class="rounded-md border" />
+                        </CardContent>
+                    </RzCard>
+
+                    <!-- Calendar 03: Multiple Select -->
+                    <RzCard>
+                        <CardHeader><CardTitle>Multiple Selection</CardTitle></CardHeader>
+                        <CardContent class="flex justify-center">
+                            <RzCalendar Mode="SelectionDatesMode.Multiple" 
+                                        @bind-Values="_multiDates"
+                                        class="rounded-md border" />
+                        </CardContent>
+                    </RzCard>
+                </div>
+            </section>
+
+            <!-- 4-7: Range Selection -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Range Selection" class="scroll-mt-20">Range Selection</RzHeading>
+                
+                <div class="grid gap-6 xl:grid-cols-2">
+                    <!-- Calendar 04: Range -->
+                    <RzCard>
+                        <CardHeader><CardTitle>Date Range</CardTitle></CardHeader>
+                        <CardContent class="flex justify-center">
+                            <RzCalendar Mode="SelectionDatesMode.MultipleRanged" @bind-Range="_range1" class="rounded-md border" />
+                        </CardContent>
+                    </RzCard>
+
+                    <!-- Calendar 05: Range 2 Months -->
+                    <RzCard>
+                        <CardHeader><CardTitle>Range (2 Months)</CardTitle></CardHeader>
+                        <CardContent class="flex justify-center">
+                            <RzCalendar Mode="SelectionDatesMode.MultipleRanged" 
+                                        Type="CalendarType.Multiple"
+                                        Options="@(new VanillaCalendarOptions { DisplayMonthsCount = 2 })"
+                                        @bind-Range="_range1" 
+                                        class="rounded-md border" />
+                        </CardContent>
+                    </RzCard>
+
+                    <!-- Calendar 07: Range Limits -->
+                    <RzCard>
+                        <CardHeader><CardTitle>Range Limits (Min 2, Max 10 days)</CardTitle></CardHeader>
+                        <CardContent class="flex flex-col items-center gap-2">
+                            <RzCalendar Mode="SelectionDatesMode.MultipleRanged" 
+                                        @bind-Range="_range2" 
+                                        class="rounded-md border" />
+                            <p class="text-xs text-muted-foreground">Select between 2 and 10 days.</p>
+                        </CardContent>
+                    </RzCard>
+                </div>
+            </section>
+
+            <!-- 8-9: Disabled States -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Restrictions" class="scroll-mt-20">Restrictions</RzHeading>
+
+                <div class="grid gap-6 xl:grid-cols-2">
+                    <!-- Calendar 08: Disable Past -->
+                    <RzCard>
+                        <CardHeader><CardTitle>Disable Past Dates</CardTitle></CardHeader>
+                        <CardContent class="flex justify-center">
+                            <RzCalendar Mode="SelectionDatesMode.Single" 
+                                        MinDate="@DateOnly.FromDateTime(DateTime.Now)"
+                                        class="rounded-md border" />
+                        </CardContent>
+                    </RzCard>
+
+                    <!-- Calendar 09: Disable Weekends -->
+                    <RzCard>
+                        <CardHeader><CardTitle>Disable Weekends</CardTitle></CardHeader>
+                        <CardContent class="flex justify-center">
+                            <RzCalendar Mode="SelectionDatesMode.MultipleRanged" 
+                                        Options="@(new VanillaCalendarOptions { DisableWeekdays = new[] { DayOfWeek.Saturday, DayOfWeek.Sunday } })"
+                                        class="rounded-md border" />
+                        </CardContent>
+                    </RzCard>
+                </div>
+            </section>
+
+            <!-- 10: Custom Controller -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Controls" class="scroll-mt-20">Custom Controls</RzHeading>
+                <RzCard class="w-fit mx-auto">
+                    <CardHeader>
+                        <CardTitle>Appointment</CardTitle>
+                        <CardDescription>Find a date</CardDescription>
+                        <CardAction>
+                             <RzButton Variant="@ThemeVariant.Default" Outline Size="Size.Small" @onclick="@(() => _date1 = DateOnly.FromDateTime(DateTime.Now))">Today</RzButton>
+                        </CardAction>
+                    </CardHeader>
+                    <CardContent>
+                        <RzCalendar Mode="SelectionDatesMode.Single" @bind-Value="_date1" class="border-0 shadow-none p-0" />
+                    </CardContent>
+                </RzCard>
+            </section>
+
+            <!-- 12-15: Features -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Features" class="scroll-mt-20">Features</RzHeading>
+
+                <div class="grid gap-6 xl:grid-cols-2">
+                    <!-- Calendar 12: Localization -->
+                    <RzCard>
+                        <CardHeader><CardTitle>Localization (Spanish)</CardTitle></CardHeader>
+                        <CardContent class="flex justify-center">
+                             <RzCalendar Mode="SelectionDatesMode.Single" 
+                                         Options="@(new VanillaCalendarOptions { Locale = "es-ES" })"
+                                         class="rounded-md border" />
+                        </CardContent>
+                    </RzCard>
+
+                    <!-- Calendar 13: Dropdown Navigation -->
+                    <RzCard>
+                        <CardHeader><CardTitle>Dropdown Navigation</CardTitle></CardHeader>
+                        <CardContent class="flex justify-center">
+                            <RzCalendar Mode="SelectionDatesMode.Single" 
+                                        Options="@(new VanillaCalendarOptions { SelectionMonthsMode = SelectionMode.Enabled, SelectionYearsMode = SelectionMode.Enabled })"
+                                        class="rounded-md border" />
+                        </CardContent>
+                    </RzCard>
+
+                    <!-- Calendar 14: Modifiers (Booked) -->
+                    <RzCard>
+                        <CardHeader><CardTitle>Custom Modifiers (Booked)</CardTitle></CardHeader>
+                        <CardContent class="flex justify-center">
+                            <RzCalendar Mode="SelectionDatesMode.Single" Options="@_bookedOptions" class="rounded-md border" />
+                        </CardContent>
+                    </RzCard>
+
+                    <!-- Calendar 15: Week Numbers -->
+                    <RzCard>
+                        <CardHeader><CardTitle>Week Numbers</CardTitle></CardHeader>
+                        <CardContent class="flex justify-center">
+                            <RzCalendar Mode="SelectionDatesMode.Single" 
+                                        Options="@(new VanillaCalendarOptions { EnableWeekNumbers = true })"
+                                        class="rounded-md border" />
+                        </CardContent>
+                    </RzCard>
+                </div>
+            </section>
+
+            <!-- 16-20: Compositions -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Compositions" class="scroll-mt-20">Compositions</RzHeading>
+
+                <div class="flex flex-col gap-6">
+                    <!-- Calendar 19: Presets -->
+                    <RzCard class="w-fit mx-auto">
+                         <div class="flex flex-col lg:flex-row">
+                             <div class="flex flex-col gap-2 p-3 lg:border-r">
+                                <RzButton Variant="@ThemeVariant.Default" Outline Size="Size.Small" class="justify-start" @onclick="@(() => _date1 = DateOnly.FromDateTime(DateTime.Now))">Today</RzButton>
+                                <RzButton Variant="@ThemeVariant.Default" Outline Size="Size.Small" class="justify-start" @onclick="@(() => _date1 = DateOnly.FromDateTime(DateTime.Now.AddDays(1)))">Tomorrow</RzButton>
+                                <RzButton Variant="@ThemeVariant.Default" Outline Size="Size.Small" class="justify-start" @onclick="@(() => _date1 = DateOnly.FromDateTime(DateTime.Now.AddDays(3)))">In 3 days</RzButton>
+                                <RzButton Variant="@ThemeVariant.Default" Outline Size="Size.Small" class="justify-start" @onclick="@(() => _date1 = DateOnly.FromDateTime(DateTime.Now.AddDays(7)))">In a week</RzButton>
+                             </div>
+                             <div class="p-3">
+                                 <RzCalendar Mode="SelectionDatesMode.Single" @bind-Value="_date1" class="border-0 shadow-none p-0" />
+                             </div>
+                         </div>
+                    </RzCard>
+
+                    <!-- Calendar 20: Meeting Scheduler -->
+                    <RzCard class="w-full max-w-3xl mx-auto">
+                        <div class="flex flex-col md:flex-row">
+                            <div class="p-3">
+                                <RzCalendar Mode="SelectionDatesMode.Single" @bind-Value="_date1" class="border-0 shadow-none p-0" />
+                            </div>
+                            <div class="border-t md:border-l md:border-t-0 p-3 w-full md:w-auto flex flex-col gap-2 max-h-[300px] overflow-y-auto">
+                                <div class="text-sm font-medium mb-2">Available times</div>
+                                @foreach(var time in _times)
+                                {
+                                    <RzButton Variant="@ThemeVariant.Default" Outline Size="Size.Small" class="w-full">@time</RzButton>
+                                }
+                            </div>
+                        </div>
+                    </RzCard>
+
+                    <!-- Calendar 21: Custom Day Rendering (Prices) -->
+                    <RzCard class="w-fit mx-auto">
+                         <CardHeader><CardTitle>Custom Day Content (Prices)</CardTitle></CardHeader>
+                         <CardContent>
+                             <RzCalendar Mode="SelectionDatesMode.Single" Options="@_priceOptions" class="rounded-md border" />
+                         </CardContent>
+                    </RzCard>
+                </div>
+            </section>
+
+            <!-- 22-30: Popovers & Inputs -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Popovers & Inputs" class="scroll-mt-20">Popovers & Inputs</RzHeading>
+
+                <div class="flex flex-col gap-6 items-center">
+                    
+                    <!-- Calendar 22: Popover Single -->
+                    <div class="flex flex-col gap-2">
+                        <Label>Date of birth</Label>
+                        <RzPopover Anchor="AnchorPoint.BottomStart" Offset="8">
+                            <PopoverTrigger AsChild>
+                                <RzButton Variant="@ThemeVariant.Default" Outline class="w-[240px] justify-start text-left font-normal">
+                                    <Blazicon Svg="Lucide.Calendar" class="mr-2 size-4" />
+                                    @(_date1?.ToString("D") ?? "Pick a date")
+                                </RzButton>
+                            </PopoverTrigger>
+                            <PopoverContent class="w-auto p-0">
+                                <RzCalendar Mode="SelectionDatesMode.Single" @bind-Value="_date1" />
+                            </PopoverContent>
+                        </RzPopover>
+                    </div>
+
+                    <!-- Calendar 23: Popover Range -->
+                    <div class="flex flex-col gap-2">
+                        <Label>Select your stay</Label>
+                        <RzPopover Anchor="AnchorPoint.BottomStart" Offset="8">
+                            <PopoverTrigger AsChild>
+                                <RzButton Variant="@ThemeVariant.Default" Outline class="w-[300px] justify-start text-left font-normal">
+                                    <Blazicon Svg="Lucide.Calendar" class="mr-2 size-4" />
+                                    @FormatRange(_range1)
+                                </RzButton>
+                            </PopoverTrigger>
+                            <PopoverContent class="w-auto p-0">
+                                <RzCalendar Mode="SelectionDatesMode.MultipleRanged" @bind-Range="_range1" Options="@(new VanillaCalendarOptions { DisplayMonthsCount = 2 })" />
+                            </PopoverContent>
+                        </RzPopover>
+                    </div>
+
+                    <!-- Calendar 26: Double Popover (Check-in/Check-out) -->
+                    <div class="flex flex-row gap-4">
+                        <div class="flex flex-col gap-2">
+                            <Label>Check-in</Label>
+                            <RzPopover Anchor="AnchorPoint.BottomStart" Offset="8">
+                                <PopoverTrigger AsChild>
+                                    <RzButton Variant="@ThemeVariant.Default" Outline class="w-[180px] justify-start text-left font-normal">
+                                        <Blazicon Svg="Lucide.Calendar" class="mr-2 size-4" />
+                                        @(_date1?.ToString("d") ?? "Select date")
+                                    </RzButton>
+                                </PopoverTrigger>
+                                <PopoverContent class="w-auto p-0">
+                                    <RzCalendar Mode="SelectionDatesMode.Single" @bind-Value="_date1" />
+                                </PopoverContent>
+                            </RzPopover>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <Label>Check-out</Label>
+                            <RzPopover Anchor="AnchorPoint.BottomStart" Offset="8">
+                                <PopoverTrigger AsChild>
+                                    <RzButton Variant="@ThemeVariant.Default" Outline class="w-[180px] justify-start text-left font-normal">
+                                        <Blazicon Svg="Lucide.Calendar" class="mr-2 size-4" />
+                                        @(_date2?.ToString("d") ?? "Select date")
+                                    </RzButton>
+                                </PopoverTrigger>
+                                <PopoverContent class="w-auto p-0">
+                                    <RzCalendar Mode="SelectionDatesMode.Single" @bind-Value="_date2" />
+                                </PopoverContent>
+                            </RzPopover>
+                        </div>
+                    </div>
+
+                    <!-- Calendar 28: Input Integration -->
+                    <div class="flex flex-col gap-2 w-[240px]">
+                        <Label>Subscription Date</Label>
+                        <div class="relative">
+                            <input type="text" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" 
+                                   placeholder="Aug 04, 2024" 
+                                   value="@(_date1?.ToString("MMM dd, yyyy"))" />
+                            <div class="absolute right-0 top-0">
+                                <RzPopover Anchor="AnchorPoint.BottomEnd" Offset="8">
+                                    <PopoverTrigger AsChild>
+                                        <RzButton Variant="ThemeVariant.Ghost" Size="Size.Small" class="px-2 h-9">
+                                            <Blazicon Svg="Lucide.Calendar" class="size-4 opacity-50" />
+                                        </RzButton>
+                                    </PopoverTrigger>
+                                    <PopoverContent class="w-auto p-0">
+                                        <RzCalendar Mode="SelectionDatesMode.Single" @bind-Value="_date1" />
+                                    </PopoverContent>
+                                </RzPopover>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- 31: Event List -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Event List" class="scroll-mt-20">Event List</RzHeading>
+                <RzCard class="w-[300px] mx-auto">
+                    <CardContent class="p-0">
+                        <RzCalendar Mode="SelectionDatesMode.Single" @bind-Value="_date1" class="border-0 shadow-none" />
+                    </CardContent>
+                    <CardFooter class="flex flex-col gap-2 items-start border-t p-4">
+                         <div class="flex justify-between w-full items-center">
+                             <span class="font-medium text-sm">@(_date1?.ToString("MMMM dd, yyyy"))</span>
+                             <RzButton Variant="ThemeVariant.Ghost" Size="Size.ExtraSmall"><Blazicon Svg="Lucide.Plus" /></RzButton>
+                         </div>
+                         <div class="space-y-2 w-full">
+                             <div class="rounded-md bg-muted px-3 py-2 text-sm">
+                                 <div class="font-medium">Team Sync</div>
+                                 <div class="text-xs text-muted-foreground">9:00 AM - 10:00 AM</div>
+                             </div>
+                             <div class="rounded-md bg-muted px-3 py-2 text-sm">
+                                 <div class="font-medium">Design Review</div>
+                                 <div class="text-xs text-muted-foreground">1:00 PM - 2:30 PM</div>
+                             </div>
+                         </div>
+                    </CardFooter>
+                </RzCard>
+            </section>
+            
+            <!-- 32: Drawer (Simulated with Sheet) -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Drawer (Mobile)" class="scroll-mt-20">Drawer (Mobile)</RzHeading>
+                <div class="flex justify-center">
+                    <RzSheet>
+                        <SheetTrigger AsChild>
+                            <RzButton Variant="@ThemeVariant.Default" Outline>
+                                <Blazicon Svg="Lucide.Calendar" class="mr-2 size-4" />
+                                Open Calendar
+                            </RzButton>
+                        </SheetTrigger>
+                        <SheetContent Side="SheetSide.Bottom" class="h-auto">
+                            <SheetHeader>
+                                <SheetTitle>Select Date</SheetTitle>
+                                <SheetDescription>Select a date for your appointment.</SheetDescription>
+                            </SheetHeader>
+                            <div class="mx-auto mt-4">
+                                <RzCalendar Mode="SelectionDatesMode.Single" @bind-Value="_date1" class="border-0 shadow-none" />
+                            </div>
+                            <SheetFooter>
+                                <SheetClose AsChild><RzButton class="w-full">Confirm</RzButton></SheetClose>
+                            </SheetFooter>
+                        </SheetContent>
+                    </RzSheet>
+                </div>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private DateOnly? _date1 = DateOnly.FromDateTime(DateTime.Now);
+    private DateOnly? _date2;
+    private List<DateOnly> _multiDates = new() { DateOnly.FromDateTime(DateTime.Now), DateOnly.FromDateTime(DateTime.Now.AddDays(2)), DateOnly.FromDateTime(DateTime.Now.AddDays(5)) };
+    
+    private CalendarDateRange? _range1 = new() { From = DateTime.Now, To = DateTime.Now.AddDays(7) };
+    private CalendarDateRange? _range2 = new() { From = DateTime.Now, To = DateTime.Now.AddDays(5) };
+
+    private string[] _times = new[] { "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM" };
+
+    private VanillaCalendarOptions _bookedOptions = new()
+    {
+        Popups = new Dictionary<DateOnly, Popup>
+        {
+            [DateOnly.FromDateTime(DateTime.Now.AddDays(2))] = new Popup { Modifier = "line-through text-muted-foreground opacity-50 cursor-not-allowed pointer-events-none" },
+            [DateOnly.FromDateTime(DateTime.Now.AddDays(3))] = new Popup { Modifier = "line-through text-muted-foreground opacity-50 cursor-not-allowed pointer-events-none" },
+            [DateOnly.FromDateTime(DateTime.Now.AddDays(5))] = new Popup { Modifier = "bg-destructive/20 text-destructive font-bold rounded-md" }
+        }
+    };
+
+    private VanillaCalendarOptions _priceOptions = new()
+    {
+        Popups = new Dictionary<DateOnly, Popup>
+        {
+            [DateOnly.FromDateTime(DateTime.Now.AddDays(1))] = new Popup { Html = "<div class='text-[10px] text-muted-foreground mt-6'>$150</div>" },
+            [DateOnly.FromDateTime(DateTime.Now.AddDays(2))] = new Popup { Html = "<div class='text-[10px] text-muted-foreground mt-6'>$200</div>" },
+            [DateOnly.FromDateTime(DateTime.Now.AddDays(3))] = new Popup { Html = "<div class='text-[10px] text-muted-foreground mt-6'>$180</div>" },
+        }
+    };
+
+    private string FormatRange(CalendarDateRange? range)
+    {
+        if (range?.From == default) return "Pick a date";
+        if (range.To == null) return range.From.ToString("MMM dd, yyyy");
+        return $"{range.From:MMM dd, yyyy} - {range.To:MMM dd, yyyy}";
+    }
+}
