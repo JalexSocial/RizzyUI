@@ -134,6 +134,8 @@ public partial class RzTheme
 	public virtual TvDescriptor<RzAsChildComponent<ButtonGroupText.Slots>, ButtonGroupText.Slots> ButtonGroupText { get; set; }
 	/// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzCalendar"/> component. </summary>
 	public virtual TvDescriptor<RzComponent<RzCalendar.Slots>, RzCalendar.Slots> RzCalendar { get; set; }    	
+	/// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzCalendarProvider"/> component. </summary>
+	public virtual TvDescriptor<RzComponent<RzCalendarProvider.Slots>, RzCalendarProvider.Slots> RzCalendarProvider { get; set; }	
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzDateEdit"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzDateEdit.Slots>, RzDateEdit.Slots> RzDateEdit { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzFormSection"/> component. </summary>

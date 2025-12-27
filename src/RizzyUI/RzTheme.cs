@@ -238,6 +238,7 @@ public partial class RzTheme
         CommandItemTemplate = RizzyUI.CommandItemTemplate.DefaultDescriptor;
         
         RzCalendar = RizzyUI.RzCalendar.DefaultDescriptor;
+        RzCalendarProvider = RizzyUI.RzCalendarProvider.DefaultDescriptor;
     }
 
     /// <summary>

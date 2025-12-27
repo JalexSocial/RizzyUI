@@ -1,8 +1,8 @@
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Blazicons;
 using Rizzy.Utility;
 using TailwindVariants.NET;
 
@@ -10,8 +10,14 @@ namespace RizzyUI;
 
 /// <summary>
 /// A calendar component for selecting dates, ranges, and times.
-/// Replicates shadcn/ui visual style while using Vanilla Calendar Pro for logic.
+/// Replicates shadcn/ui visual style while using Vanilla Calendar Pro for client-side logic.
 /// </summary>
+/// <remarks>
+/// This component is designed for Server-Side Rendering (SSR). It initializes the calendar
+/// with the provided parameters but does not support interactive Blazor EventCallbacks
+/// (e.g., ValueChanged) as there is no active SignalR circuit to handle them.
+/// Interaction should be handled via client-side events or form submissions.
+/// </remarks>
 public partial class RzCalendar : RzComponent<RzCalendar.Slots>
 {
     /// <summary>
@@ -92,31 +98,82 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
     private string _assets = "[]";
     private readonly string _calendarId = IdGenerator.UniqueId("vc");
     
+    /// <summary>
+    /// Gets the unique DOM ID for the calendar instance.
+    /// </summary>
     protected string CalendarId => _calendarId;
+
+    /// <summary>
+    /// Gets the unique ID for the configuration script tag.
+    /// </summary>
     protected string ConfigScriptId => $"{Id}-config";
 
+    /// <summary>
+    /// Gets or sets the date selection mode (Single, Multiple, Range).
+    /// Defaults to <see cref="SelectionDatesMode.Single"/>.
+    /// </summary>
     [Parameter] public SelectionDatesMode Mode { get; set; } = SelectionDatesMode.Single;
+
+    /// <summary>
+    /// Gets or sets the initially selected date when <see cref="Mode"/> is Single.
+    /// </summary>
     [Parameter] public DateOnly? Value { get; set; }
-    [Parameter] public EventCallback<DateOnly?> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initially selected dates when <see cref="Mode"/> is Multiple.
+    /// </summary>
     [Parameter] public List<DateOnly>? Values { get; set; }
-    [Parameter] public EventCallback<List<DateOnly>> ValuesChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initially selected date range when <see cref="Mode"/> is MultipleRanged.
+    /// </summary>
     [Parameter] public CalendarDateRange? Range { get; set; }
-    [Parameter] public EventCallback<CalendarDateRange?> RangeChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether to display days from the previous and next months in the current view.
+    /// </summary>
     [Parameter] public bool? ShowOutsideDays { get; set; }
+
+    /// <summary>
+    /// Gets or sets the minimum selectable date. Dates before this will be disabled.
+    /// </summary>
     [Parameter] public DateOnly? MinDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the maximum selectable date. Dates after this will be disabled.
+    /// </summary>
     [Parameter] public DateOnly? MaxDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the type of calendar view (Default, Multiple, Month, Year).
+    /// </summary>
     [Parameter] public CalendarType Type { get; set; } = CalendarType.Default;
+
+    /// <summary>
+    /// Gets or sets advanced configuration options for Vanilla Calendar Pro.
+    /// These options allow fine-grained control over behavior and appearance.
+    /// </summary>
     [Parameter] public VanillaCalendarOptions? Options { get; set; }
+
+    /// <summary>
+    /// Gets or sets the keys for assets to load. Defaults to VanillaCalendarPro and its CSS.
+    /// </summary>
     [Parameter] public string[] ComponentAssetKeys { get; set; } = ["VanillaCalendarPro", "VanillaCalendarCss"];
+
+    /// <summary>
+    /// Gets or sets the accessible label for the calendar container.
+    /// If not provided, a default localized label is used.
+    /// </summary>
     [Parameter] public string? AriaLabel { get; set; }
 
-
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
         AriaLabel ??= Localizer["RzCalendar.DefaultAriaLabel"];
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -146,6 +203,13 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             if (Options.EnableWeekNumbers) config = config with { EnableWeekNumbers = Options.EnableWeekNumbers };
             if (!string.IsNullOrEmpty(Options.SelectedTheme)) config = config with { SelectedTheme = Options.SelectedTheme };
             if (!string.IsNullOrEmpty(Options.ThemeAttrDetect)) config = config with { ThemeAttrDetect = Options.ThemeAttrDetect };
+        }
+
+        // Auto-correct Type if DisplayMonthsCount > 1 and Type is not already Multiple.
+        // This prevents the JS error: "For the «multiple» calendar type, the «displayMonthsCount» parameter can have a value from 2 to 12..."
+        if (config.DisplayMonthsCount > 1 && config.Type != CalendarType.Multiple)
+        {
+            config = config with { Type = CalendarType.Multiple };
         }
 
         config = config with { SelectionDatesMode = Mode };
@@ -245,89 +309,119 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
         _assets = JsonSerializer.Serialize(assetUrls);
     }
 
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzCalendar;
 
+    /// <summary>
+    /// Defines the slots available for styling in the RzCalendar component.
+    /// </summary>
     public sealed partial class Slots : ISlots
     {
+        /// <summary> The base slot for the component's root element. </summary>
         [Slot("calendar")]
         public string? Base { get; set; }
 
+        /// <summary> The slot for the container wrapping the calendar logic. </summary>
         [Slot("calendar-container")]
         public string? CalendarContainer { get; set; }
 
         // --- VCP Mapped Slots ---
         
+        /// <summary> The slot for the root calendar element (mapped to VCP 'calendar'). </summary>
         [Slot("root")]
         public string? Root { get; set; }
 
+        /// <summary> The slot for the calendar header (mapped to VCP 'header'). </summary>
         [Slot("header")]
         public string? Header { get; set; }
 
+        /// <summary> The slot for the header content (mapped to VCP 'headerContent'). </summary>
         [Slot("header-content")]
         public string? HeaderContent { get; set; }
 
+        /// <summary> The slot for the month label (mapped to VCP 'month'). </summary>
         [Slot("month")]
         public string? Month { get; set; }
 
+        /// <summary> The slot for the year label (mapped to VCP 'year'). </summary>
         [Slot("year")]
         public string? Year { get; set; }
 
+        /// <summary> The slot for the previous arrow button (mapped to VCP 'arrowPrev'). </summary>
         [Slot("arrow-prev")]
         public string? ArrowPrev { get; set; }
 
+        /// <summary> The slot for the next arrow button (mapped to VCP 'arrowNext'). </summary>
         [Slot("arrow-next")]
         public string? ArrowNext { get; set; }
 
+        /// <summary> The slot for the main grid container (mapped to VCP 'grid'). </summary>
         [Slot("grid")]
         public string? Grid { get; set; }
 
+        /// <summary> The slot for the weekdays row (mapped to VCP 'weekdays'). </summary>
         [Slot("weekdays")]
         public string? Weekdays { get; set; }
 
+        /// <summary> The slot for an individual weekday cell (mapped to VCP 'weekday'). </summary>
         [Slot("weekday")]
         public string? Weekday { get; set; }
 
+        /// <summary> The slot for the days container (mapped to VCP 'dates'). </summary>
         [Slot("dates")]
-        public string? Dates { get; set; } // "vc-dates"
+        public string? Dates { get; set; } 
 
+        /// <summary> The slot for a day cell wrapper (mapped to VCP 'date'). </summary>
         [Slot("day-cell")]
-        public string? DayCell { get; set; } // "vc-date"
+        public string? DayCell { get; set; } 
 
+        /// <summary> The slot for the day button (mapped to VCP 'dateBtn'). </summary>
         [Slot("day-button")]
-        public string? DayButton { get; set; } // "vc-date__btn"
+        public string? DayButton { get; set; } 
 
+        /// <summary> The slot for the months selection grid (mapped to VCP 'months'). </summary>
         [Slot("months")]
         public string? Months { get; set; }
 
+        /// <summary> The slot for an individual month item (mapped to VCP 'monthsMonth'). </summary>
         [Slot("months-month")]
         public string? MonthsMonth { get; set; }
 
+        /// <summary> The slot for the years selection grid (mapped to VCP 'years'). </summary>
         [Slot("years")]
         public string? Years { get; set; }
 
+        /// <summary> The slot for an individual year item (mapped to VCP 'yearsYear'). </summary>
         [Slot("years-year")]
         public string? YearsYear { get; set; }
 
         // --- Time Picker ---
 
+        /// <summary> The slot for the time picker container (mapped to VCP 'time'). </summary>
         [Slot("time")]
         public string? Time { get; set; }
 
+        /// <summary> The slot for the time content wrapper (mapped to VCP 'timeContent'). </summary>
         [Slot("time-content")]
         public string? TimeContent { get; set; }
 
+        /// <summary> The slot for the hour input (mapped to VCP 'timeHour'). </summary>
         [Slot("time-hour")]
         public string? TimeHour { get; set; }
 
+        /// <summary> The slot for the minute input (mapped to VCP 'timeMinute'). </summary>
         [Slot("time-minute")]
         public string? TimeMinute { get; set; }
 
+        /// <summary> The slot for the AM/PM toggle (mapped to VCP 'timeKeeping'). </summary>
         [Slot("time-keeping")]
         public string? TimeKeeping { get; set; }
 
+        /// <summary> The slot for the time ranges slider container (mapped to VCP 'timeRanges'). </summary>
         [Slot("time-ranges")]
         public string? TimeRanges { get; set; }
 
+        /// <summary> The slot for an individual time range slider (mapped to VCP 'timeRange'). </summary>
         [Slot("time-range")]
         public string? TimeRange { get; set; }
     }

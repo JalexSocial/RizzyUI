@@ -38,16 +38,16 @@ export default function(Alpine, require) {
             }
 
             // Define VCP v3 compatible event handlers based on options.ts
-            // These must be at the root of the options object, not nested in 'actions'
+            // These map VCP callbacks to RizzyUI standardized kebab-case DOM events
             const eventHandlers = {
                 onClickDate: (self, e) => {
-                    this.dispatchCalendarEvent('clickDay', {
+                    this.dispatchCalendarEvent('click-day', {
                         event: e,
                         dates: self.context.selectedDates
                     });
                 },
                 onClickWeekNumber: (self, number, year, dateEls, e) => {
-                    this.dispatchCalendarEvent('clickWeekNumber', {
+                    this.dispatchCalendarEvent('click-week-number', {
                         event: e,
                         number: number,
                         year: year,
@@ -55,26 +55,26 @@ export default function(Alpine, require) {
                     });
                 },
                 onClickMonth: (self, e) => {
-                    this.dispatchCalendarEvent('clickMonth', {
+                    this.dispatchCalendarEvent('click-month', {
                         event: e,
                         month: self.context.selectedMonth
                     });
                 },
                 onClickYear: (self, e) => {
-                    this.dispatchCalendarEvent('clickYear', {
+                    this.dispatchCalendarEvent('click-year', {
                         event: e,
                         year: self.context.selectedYear
                     });
                 },
                 onClickArrow: (self, e) => {
-                    this.dispatchCalendarEvent('clickArrow', {
+                    this.dispatchCalendarEvent('click-arrow', {
                         event: e,
                         year: self.context.selectedYear,
                         month: self.context.selectedMonth
                     });
                 },
                 onChangeTime: (self, e, isError) => {
-                    this.dispatchCalendarEvent('changeTime', {
+                    this.dispatchCalendarEvent('change-time', {
                         event: e,
                         time: self.context.selectedTime,
                         hours: self.context.selectedHours,
@@ -108,6 +108,7 @@ export default function(Alpine, require) {
 
         dispatchCalendarEvent(eventName, detail) {
             // Dispatch with prefix 'rz:calendar:'
+            // Resulting events: 'rz:calendar:click-day', 'rz:calendar:change-time', etc.
             this.$dispatch(`rz:calendar:${eventName}`, detail);
         },
 

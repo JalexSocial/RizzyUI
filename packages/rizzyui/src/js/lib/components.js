@@ -10,6 +10,7 @@ import registerRzAlert from './components/rzAlert.js';
 import registerRzAspectRatio from './components/rzAspectRatio.js';
 import registerRzBrowser from './components/rzBrowser.js';
 import registerRzCalendar from './components/rzCalendar.js';
+import registerRzCalendarProvider from './components/rzCalendarProvider.js';
 import registerRzCarousel from './components/rzCarousel.js';
 import registerRzCodeViewer from './components/rzCodeViewer.js';
 import registerRzCollapsible from './components/rzCollapsible.js';
@@ -150,6 +151,7 @@ function registerComponents(Alpine) {
     registerRzAspectRatio(Alpine);
     registerRzBrowser(Alpine);
     registerRzCalendar(Alpine, rizzyRequire);
+    registerRzCalendarProvider(Alpine);
     registerRzCarousel(Alpine, rizzyRequire);
     registerRzCodeViewer(Alpine, rizzyRequire);
     registerRzCollapsible(Alpine);

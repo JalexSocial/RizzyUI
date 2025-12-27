@@ -16,7 +16,9 @@
         <MainContent>
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Calendar" class="scroll-mt-20">Calendar</RzHeading>
             <RzParagraph>
-                A date field component that allows users to enter and edit date.
+                A highly configurable calendar component based on Vanilla Calendar Pro. 
+                In RizzyUI's SSR architecture, this component renders the initial state passed from the server. 
+                Client-side interactions (clicks) dispatch DOM events that can be captured by Alpine.js or HTMX.
             </RzParagraph>
             
             <section class="my-8 py-2">
@@ -30,14 +32,14 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                         <RzCalendar Mode="SelectionDatesMode.Single"
-                                    @bind-Value="_selectedDate"
+                                    Value="_selectedDate"
                                     />
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
-            @@bind-Value="_selectedDate"
+            Value="_selectedDate"
             /&gt;
 
 @@code {
@@ -51,27 +53,27 @@
                     Range Calendar
                 </RzHeading>
                 <RzParagraph>
-                    A calendar showing the current date and range selection.
+                    A calendar displaying a pre-selected date range.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                          <RzCalendar Mode="SelectionDatesMode.MultipleRanged"
-                                    @bind-Range="_selectedRange"
+                                    Range="_selectedRange"
                                     />
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.MultipleRanged"
-            @@bind-Range="_selectedRange"
+            Range="_selectedRange"
             /&gt;
 
 @@code {
     private CalendarDateRange? _selectedRange = new CalendarDateRange
     {
-        From = DateOnly.FromDateTime(DateTime.Now),
-        To = DateOnly.FromDateTime(DateTime.Now.AddDays(7))
+        From = DateTime.Now,
+        To = DateTime.Now.AddDays(7)
     };
 }
                 </RzCodeViewer>
@@ -90,7 +92,7 @@
                          <RzCalendar Mode="SelectionDatesMode.Single"
                                     Type="CalendarType.Multiple"
                                     Options="@(new VanillaCalendarOptions { DisplayMonthsCount = 2 })"
-                                    @bind-Value="_selectedDate"
+                                    Value="_selectedDate"
                                     />
                     </div>
                 </RzBrowser>
@@ -99,7 +101,7 @@
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
             Type="CalendarType.Multiple"
             Options="@@(new VanillaCalendarOptions { DisplayMonthsCount = 2 })"
-            @@bind-Value="_selectedDate"
+            Value="_selectedDate"
             /&gt;
                 </RzCodeViewer>
             </section>
@@ -109,20 +111,20 @@
                     Disabled Dates
                 </RzHeading>
                 <RzParagraph>
-                    A calendar with specific dates disabled.
+                    A calendar with specific dates disabled (min/max).
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                         <RzCalendar Mode="SelectionDatesMode.Single"
-                                    @bind-Value="_selectedDate"
+                                    Value="_selectedDate"
                                     MinDate="@DateOnly.FromDateTime(DateTime.Now.AddDays(-5))"
                                     />
                     </div>
                 </RzBrowser>
                  <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
-            @@bind-Value="_selectedDate"
+            Value="_selectedDate"
             MinDate="@@DateOnly.FromDateTime(DateTime.Now.AddDays(-5))"
             /&gt;
                 </RzCodeViewer>
@@ -133,20 +135,20 @@
                     Disabled Weekends
                 </RzHeading>
                 <RzParagraph>
-                    A calendar with weekends disabled.
+                    A calendar with weekends disabled via Options.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                         <RzCalendar Mode="SelectionDatesMode.Single"
-                                    @bind-Value="_selectedDate"
+                                    Value="_selectedDate"
                                     Options="@(new VanillaCalendarOptions { DisableWeekdays = new[] { DayOfWeek.Saturday, DayOfWeek.Sunday } })"
                                     />
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
-            @@bind-Value="_selectedDate"
+            Value="_selectedDate"
             Options="@@(new VanillaCalendarOptions { DisableWeekdays = new[] { DayOfWeek.Saturday, DayOfWeek.Sunday } })"
             /&gt;
                 </RzCodeViewer>
@@ -163,7 +165,7 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                         <RzCalendar Mode="SelectionDatesMode.Single"
-                                    @bind-Value="_selectedDate"
+                                    Value="_selectedDate"
                                     Options="@(new VanillaCalendarOptions { FirstWeekday = DayOfWeek.Monday })"
                                     />
                     </div>
@@ -171,7 +173,7 @@
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
-            @@bind-Value="_selectedDate"
+            Value="_selectedDate"
             Options="@@(new VanillaCalendarOptions { FirstWeekday = DayOfWeek.Monday })"
             /&gt;
                 </RzCodeViewer>
@@ -188,7 +190,7 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                         <RzCalendar Mode="SelectionDatesMode.Single"
-                                    @bind-Value="_selectedDate"
+                                    Value="_selectedDate"
                                     Options="@(new VanillaCalendarOptions { EnableWeekNumbers = true })"
                                     />
                     </div>
@@ -196,7 +198,7 @@
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
-            @@bind-Value="_selectedDate"
+            Value="_selectedDate"
             Options="@@(new VanillaCalendarOptions { EnableWeekNumbers = true })"
             /&gt;
                 </RzCodeViewer>
@@ -213,14 +215,14 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                         <RzCalendar Mode="SelectionDatesMode.Multiple"
-                                    @bind-Values="_selectedDates"
+                                    Values="_selectedDates"
                                     />
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Multiple"
-            @@bind-Values="_selectedDates"
+            Values="_selectedDates"
             /&gt;
 
 @@code {
@@ -238,13 +240,13 @@
                     Localization
                 </RzHeading>
                 <RzParagraph>
-                    A calendar localized to a different language (e.g., Spanish). Note: Vanilla Calendar supports BCP 47 language tags.
+                    A calendar localized to a different language (e.g., Spanish).
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                          <RzCalendar Mode="SelectionDatesMode.Single"
-                                    @bind-Value="_selectedDate"
+                                    Value="_selectedDate"
                                     Options="@(new VanillaCalendarOptions { Locale = "es-ES" })"
                                     />
                     </div>
@@ -252,7 +254,7 @@
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
-            @@bind-Value="_selectedDate"
+            Value="_selectedDate"
             Options="@@(new VanillaCalendarOptions { Locale = "es-ES" })"
             /&gt;
                 </RzCodeViewer>
