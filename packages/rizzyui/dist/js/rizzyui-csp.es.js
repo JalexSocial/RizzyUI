@@ -6156,22 +6156,55 @@ function registerRzCalendar(Alpine2, require2) {
         console.error("RzCalendar: Failed to parse config JSON", e2);
         return;
       }
-      const actionHandlers = {
-        clickDay: (e2, self) => this.dispatchCalendarEvent("clickDay", { event: e2, dates: self.selectedDates }),
-        clickWeekNumber: (e2, number, days, year) => this.dispatchCalendarEvent("clickWeekNumber", { event: e2, number, days, year }),
-        clickMonth: (e2, month) => this.dispatchCalendarEvent("clickMonth", { event: e2, month }),
-        clickYear: (e2, year) => this.dispatchCalendarEvent("clickYear", { event: e2, year }),
-        clickArrow: (e2, year, month) => this.dispatchCalendarEvent("clickArrow", { event: e2, year, month }),
-        changeTime: (e2, time, hours, minutes, keeping) => this.dispatchCalendarEvent("changeTime", { event: e2, time, hours, minutes, keeping }),
-        changeView: (view) => this.dispatchCalendarEvent("changeView", { view }),
-        getDays: (day, date, HTMLElement2, HTMLButtonElement, self) => {
+      const eventHandlers = {
+        onClickDate: (self, e2) => {
+          this.dispatchCalendarEvent("click-day", {
+            event: e2,
+            dates: self.context.selectedDates
+          });
+        },
+        onClickWeekNumber: (self, number, year, dateEls, e2) => {
+          this.dispatchCalendarEvent("click-week-number", {
+            event: e2,
+            number,
+            year,
+            days: dateEls
+          });
+        },
+        onClickMonth: (self, e2) => {
+          this.dispatchCalendarEvent("click-month", {
+            event: e2,
+            month: self.context.selectedMonth
+          });
+        },
+        onClickYear: (self, e2) => {
+          this.dispatchCalendarEvent("click-year", {
+            event: e2,
+            year: self.context.selectedYear
+          });
+        },
+        onClickArrow: (self, e2) => {
+          this.dispatchCalendarEvent("click-arrow", {
+            event: e2,
+            year: self.context.selectedYear,
+            month: self.context.selectedMonth
+          });
+        },
+        onChangeTime: (self, e2, isError) => {
+          this.dispatchCalendarEvent("change-time", {
+            event: e2,
+            time: self.context.selectedTime,
+            hours: self.context.selectedHours,
+            minutes: self.context.selectedMinutes,
+            keeping: self.context.selectedKeeping,
+            isError
+          });
         }
       };
       const options = {
         ...rawConfig.options,
         styles: rawConfig.styles,
-        // Correct property name for VCP
-        actions: actionHandlers
+        ...eventHandlers
       };
       if (window.VanillaCalendarPro) {
         this.calendar = new VanillaCalendarPro.Calendar(this.$refs.calendarEl, options);
@@ -6190,6 +6223,192 @@ function registerRzCalendar(Alpine2, require2) {
         this.calendar.destroy();
         this.dispatchCalendarEvent("destroy", {});
       }
+    }
+  }));
+}
+function registerRzCalendarProvider(Alpine2) {
+  Alpine2.data("rzCalendarProvider", () => ({
+    // --- Public State ---
+    mode: "single",
+    dates: [],
+    // Canonical state: Flat array of ISO strings ['YYYY-MM-DD', ...], always sorted/unique
+    // --- Internal ---
+    calendarApi: null,
+    _isUpdatingFromCalendar: false,
+    _lastAppliedState: null,
+    _handlers: [],
+    // Store handlers for cleanup
+    // --- Computed Helpers ---
+    get date() {
+      return this.dates[0] || "";
+    },
+    set date(val) {
+      this.setDate(val);
+    },
+    get startDate() {
+      return this.dates[0] || "";
+    },
+    get endDate() {
+      return this.dates[this.dates.length - 1] || "";
+    },
+    get isRangeComplete() {
+      return this.mode === "multiple-ranged" && this.dates.length >= 2;
+    },
+    // --- Lifecycle ---
+    init() {
+      this.mode = this.$el.dataset.mode || "single";
+      try {
+        const rawDates = JSON.parse(this.$el.dataset.initialDates || "[]");
+        this.dates = this._normalize(rawDates);
+      } catch (e2) {
+        this.dates = [];
+      }
+      const initHandler = (e2) => {
+        this.calendarApi = e2.detail.instance;
+        this.syncToCalendar();
+      };
+      this.$el.addEventListener("rz:calendar:init", initHandler);
+      this._handlers.push({ type: "rz:calendar:init", fn: initHandler });
+      const destroyHandler = () => {
+        this.calendarApi = null;
+        this._lastAppliedState = null;
+      };
+      this.$el.addEventListener("rz:calendar:destroy", destroyHandler);
+      this._handlers.push({ type: "rz:calendar:destroy", fn: destroyHandler });
+      const clickHandler = (e2) => {
+        this._isUpdatingFromCalendar = true;
+        const wasComplete = this.isRangeComplete;
+        this.dates = this._normalize(e2.detail.dates || []);
+        if (!wasComplete && this.isRangeComplete) {
+          this.$el.dispatchEvent(new CustomEvent("rz:calendar:range-complete", {
+            detail: { start: this.dates[0], end: this.dates[this.dates.length - 1] },
+            bubbles: true,
+            composed: true
+          }));
+        }
+        this.$nextTick(() => this._isUpdatingFromCalendar = false);
+      };
+      this.$el.addEventListener("rz:calendar:click-day", clickHandler);
+      this._handlers.push({ type: "rz:calendar:click-day", fn: clickHandler });
+      this.$watch("dates", () => {
+        if (this._isUpdatingFromCalendar) return;
+        const current = Array.isArray(this.dates) ? this.dates : [];
+        const normalized = this._normalize(current);
+        const isDirty = !Array.isArray(this.dates) || normalized.length !== this.dates.length || normalized.some((v2, i2) => v2 !== this.dates[i2]);
+        if (isDirty) {
+          this.dates = normalized;
+          return;
+        }
+        this.syncToCalendar();
+      });
+    },
+    destroy() {
+      this._handlers.forEach((h2) => this.$el.removeEventListener(h2.type, h2.fn));
+      this._handlers = [];
+    },
+    // --- Synchronization Logic ---
+    syncToCalendar() {
+      if (!this.calendarApi) return;
+      let selectedDates = [...this.dates];
+      if (this.mode === "multiple-ranged" && this.dates.length >= 2) {
+        const start2 = this.dates[0];
+        const end = this.dates[this.dates.length - 1];
+        selectedDates = [`${start2}:${end}`];
+      }
+      let selectedMonth, selectedYear;
+      let canFocus = false;
+      if (this.dates.length > 0) {
+        const target = this.parseIsoLocal(this.dates[0]);
+        if (!isNaN(target.getTime())) {
+          selectedMonth = target.getMonth();
+          selectedYear = target.getFullYear();
+          canFocus = true;
+        }
+      }
+      const stateKey = JSON.stringify({ mode: this.mode, dates: selectedDates, m: selectedMonth, y: selectedYear });
+      if (this._lastAppliedState === stateKey) return;
+      this._lastAppliedState = stateKey;
+      const params = { selectedDates };
+      if (canFocus) {
+        params.selectedMonth = selectedMonth;
+        params.selectedYear = selectedYear;
+      }
+      this.calendarApi.set(
+        params,
+        {
+          dates: true,
+          month: canFocus,
+          year: canFocus,
+          holidays: false,
+          time: false
+        }
+      );
+    },
+    // --- Utilities ---
+    _extractIsoDates(value) {
+      if (typeof value !== "string") return [];
+      const matches2 = value.match(/\d{4}-\d{2}-\d{2}/g);
+      return matches2 ?? [];
+    },
+    _isValidIsoDate(s2) {
+      if (typeof s2 !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(s2)) return false;
+      const [y, m2, d2] = s2.split("-").map(Number);
+      const dt = new Date(Date.UTC(y, m2 - 1, d2));
+      return dt.getUTCFullYear() === y && dt.getUTCMonth() + 1 === m2 && dt.getUTCDate() === d2;
+    },
+    _normalize(input) {
+      const arr = Array.isArray(input) ? input : [];
+      const iso = arr.flat(Infinity).flatMap((v2) => {
+        if (typeof v2 === "string") return this._extractIsoDates(v2);
+        return [];
+      }).filter((s2) => this._isValidIsoDate(s2));
+      if (this.mode === "single") {
+        const sorted = [...new Set(iso)].sort();
+        return sorted.slice(0, 1);
+      }
+      if (this.mode === "multiple-ranged") {
+        const sorted = iso.sort();
+        if (sorted.length <= 1) return sorted;
+        return [sorted[0], sorted[sorted.length - 1]];
+      }
+      return [...new Set(iso)].sort();
+    },
+    // Parse YYYY-MM-DD as local time (00:00:00)
+    parseIsoLocal(s2) {
+      const [y, m2, d2] = s2.split("-").map(Number);
+      return new Date(y, m2 - 1, d2);
+    },
+    toLocalISO(dateObj) {
+      const y = dateObj.getFullYear();
+      const m2 = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const d2 = String(dateObj.getDate()).padStart(2, "0");
+      return `${y}-${m2}-${d2}`;
+    },
+    // --- Public API ---
+    setToday() {
+      this.dates = this._normalize([this.toLocalISO(/* @__PURE__ */ new Date())]);
+    },
+    addDays(n2) {
+      if (this.dates.length === 0) return;
+      const current = this.parseIsoLocal(this.dates[0]);
+      if (isNaN(current.getTime())) return;
+      current.setDate(current.getDate() + n2);
+      this.dates = this._normalize([this.toLocalISO(current)]);
+    },
+    setDate(dateStr) {
+      this.dates = this._normalize(dateStr ? [dateStr] : []);
+    },
+    clear() {
+      this.dates = [];
+    },
+    toggleDate(dateStr) {
+      let newDates;
+      if (this.dates.includes(dateStr)) {
+        newDates = this.dates.filter((d2) => d2 !== dateStr);
+      } else {
+        newDates = [...this.dates, dateStr];
+      }
+      this.dates = this._normalize(newDates);
     }
   }));
 }
@@ -9447,6 +9666,7 @@ function registerComponents(Alpine2) {
   registerRzAspectRatio(Alpine2);
   registerRzBrowser(Alpine2);
   registerRzCalendar(Alpine2, rizzyRequire);
+  registerRzCalendarProvider(Alpine2);
   registerRzCarousel(Alpine2, rizzyRequire);
   registerRzCodeViewer(Alpine2, rizzyRequire);
   registerRzCollapsible(Alpine2);

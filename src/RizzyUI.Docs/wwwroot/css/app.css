@@ -1101,6 +1101,9 @@
   .min-h-\[30rem\] {
     min-height: 30rem;
   }
+  .min-h-\[100px\] {
+    min-height: 100px;
+  }
   .min-h-\[300px\] {
     min-height: 300px;
   }
@@ -1181,6 +1184,9 @@
   }
   .w-\[200px\] {
     width: 200px;
+  }
+  .w-\[240px\] {
+    width: 240px;
   }
   .w-\[300px\] {
     width: 300px;
@@ -2873,6 +2879,9 @@
   }
   .text-\[1\.05rem\] {
     font-size: 1.05rem;
+  }
+  .text-\[10px\] {
+    font-size: 10px;
   }
   .leading-5 {
     --tw-leading: calc(var(--spacing) * 5);
@@ -5758,6 +5767,12 @@
       box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
     }
   }
+  .focus-visible\:ring-1 {
+    &:focus-visible {
+      --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+  }
   .focus-visible\:ring-2 {
     &:focus-visible {
       --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
@@ -7359,6 +7374,17 @@
   .lg\:grid-cols-\[\.75fr_1fr\] {
     @media (width >= 64rem) {
       grid-template-columns: .75fr 1fr;
+    }
+  }
+  .lg\:flex-row {
+    @media (width >= 64rem) {
+      flex-direction: row;
+    }
+  }
+  .lg\:border-r {
+    @media (width >= 64rem) {
+      border-right-style: var(--tw-border-style);
+      border-right-width: 1px;
     }
   }
   .lg\:p-8 {
