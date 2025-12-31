@@ -7,6 +7,8 @@
      x-data="rzCalendarProvider"
      data-mode="@ToVcpMode(Mode)"
      data-initial-dates="@_serializedDates"
+     data-locale="@(Locale ?? "en-US")"
+     data-format-options="@_serializedFormatOptions"
      @attributes="AdditionalAttributes">
     @ChildContent
 </div>

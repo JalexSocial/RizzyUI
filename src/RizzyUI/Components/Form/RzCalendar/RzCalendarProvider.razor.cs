@@ -22,6 +22,7 @@ public partial class RzCalendarProvider : RzComponent<RzCalendarProvider.Slots>
     );
 
     private string _serializedDates = "[]";
+    private string _serializedFormatOptions = "{}";
 
     /// <summary>
     /// Gets or sets the child content to be rendered within the provider's scope.
@@ -48,6 +49,18 @@ public partial class RzCalendarProvider : RzComponent<RzCalendarProvider.Slots>
     /// Gets or sets the initial date range. Used when Mode is MultipleRanged.
     /// </summary>
     [Parameter] public CalendarDateRange? Range { get; set; }
+
+    /// <summary>
+    /// The BCP 47 language tag to use for client-side date formatting (e.g., "en-US", "fr-FR").
+    /// Defaults to "en-US".
+    /// </summary>
+    [Parameter] public string? Locale { get; set; }
+
+    /// <summary>
+    /// Configuration object for Intl.DateTimeFormat (e.g., { dateStyle: 'full' }).
+    /// Used by the 'formattedDate' and 'formattedRange' JS properties.
+    /// </summary>
+    [Parameter] public object? FormatOptions { get; set; }
 
     /// <summary>
     /// Maps the enum to the exact string expected by VanillaCalendarPro.
@@ -83,7 +96,6 @@ public partial class RzCalendarProvider : RzComponent<RzCalendarProvider.Slots>
         else if (Mode == SelectionDatesMode.MultipleRanged && Range != null)
         {
             // Check if the range is actually populated (non-default)
-            // DateOnly default is 0001-01-01
             var isPopulated = Range.From != default || Range.To.HasValue;
             
             if (isPopulated)
@@ -111,6 +123,16 @@ public partial class RzCalendarProvider : RzComponent<RzCalendarProvider.Slots>
         }
 
         _serializedDates = JsonSerializer.Serialize(dateList);
+
+        if (FormatOptions != null)
+        {
+            _serializedFormatOptions = JsonSerializer.Serialize(FormatOptions);
+        }
+        else
+        {
+            // Default friendly format: "Jan 1, 2025"
+            _serializedFormatOptions = JsonSerializer.Serialize(new { month = "short", day = "numeric", year = "numeric" });
+        }
     }
 
     private void ValidateParameters()

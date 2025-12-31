@@ -8,11 +8,12 @@
              id="@Id"
              class="@SlotClasses.GetBase()"
              type="button"
-             aria-label="@Localizer["RzDarkModeToggle.AriaLabel"]">
-    <div x-data="rzDarkModeToggle"
-         x-on:click="toggle"
-         data-alpine-root="@Id"
-         :aria-pressed="isDark">
+             aria-label="@Localizer["RzDarkModeToggle.AriaLabel"]"
+             x-data="rzDarkModeToggle"
+             x-on:click="toggle"
+             data-alpine-root="@Id"
+             :aria-pressed="isDark">
+    <div>
         <div x-show="isLight" x-cloak>
             <Blazicon Svg="@DarkIcon" class="@SlotClasses.GetIcon()"/>
         </div>

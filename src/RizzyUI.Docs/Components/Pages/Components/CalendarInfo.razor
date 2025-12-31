@@ -20,6 +20,7 @@
                 Designed for RizzyUI's SSR-first architecture, it renders the initial state on the server and provides a rich set of DOM events for client-side interactivity via Alpine.js or HTMX.
             </RzParagraph>
             
+            <!-- Example 1 -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Example" class="scroll-mt-20">
                     Example
@@ -31,15 +32,13 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                         <RzCalendar Mode="SelectionDatesMode.Single"
-                                    Value="_selectedDate"
-                                    />
+                                    Value="_selectedDate" />
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
-            Value="_selectedDate"
-            /&gt;
+            Value="_selectedDate" /&gt;
 
 @@code {
     private DateOnly? _selectedDate = DateOnly.FromDateTime(DateTime.Now);
@@ -47,6 +46,7 @@
                 </RzCodeViewer>
             </section>
 
+            <!-- Example 2 -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Range Calendar" class="scroll-mt-20">
                     Range Calendar
@@ -58,15 +58,13 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                          <RzCalendar Mode="SelectionDatesMode.MultipleRanged"
-                                    Range="_selectedRange"
-                                    />
+                                    Range="_selectedRange" />
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.MultipleRanged"
-            Range="_selectedRange"
-            /&gt;
+            Range="_selectedRange" /&gt;
 
 @@code {
     private CalendarDateRange? _selectedRange = new CalendarDateRange
@@ -78,7 +76,8 @@
                 </RzCodeViewer>
             </section>
 
-             <section class="my-8 py-2">
+            <!-- Example 3 -->
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Multi-Month" class="scroll-mt-20">
                     Multi-Month Calendar
                 </RzHeading>
@@ -91,8 +90,7 @@
                          <RzCalendar Mode="SelectionDatesMode.Single"
                                     Type="CalendarType.Multiple"
                                     Options="@(new VanillaCalendarOptions { DisplayMonthsCount = 2 })"
-                                    Value="_selectedDate"
-                                    />
+                                    Value="_selectedDate" />
                     </div>
                 </RzBrowser>
 
@@ -100,11 +98,11 @@
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
             Type="CalendarType.Multiple"
             Options="@@(new VanillaCalendarOptions { DisplayMonthsCount = 2 })"
-            Value="_selectedDate"
-            /&gt;
+            Value="_selectedDate" /&gt;
                 </RzCodeViewer>
             </section>
 
+            <!-- Example 4 -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Disabled Dates" class="scroll-mt-20">
                     Disabled Dates
@@ -117,19 +115,18 @@
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                         <RzCalendar Mode="SelectionDatesMode.Single"
                                     Value="_selectedDate"
-                                    MinDate="@DateOnly.FromDateTime(DateTime.Now.AddDays(-5))"
-                                    />
+                                    MinDate="@DateOnly.FromDateTime(DateTime.Now.AddDays(-5))" />
                     </div>
                 </RzBrowser>
                  <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Single"
             Value="_selectedDate"
-            MinDate="@@DateOnly.FromDateTime(DateTime.Now.AddDays(-5))"
-            /&gt;
+            MinDate="@@DateOnly.FromDateTime(DateTime.Now.AddDays(-5))" /&gt;
                 </RzCodeViewer>
             </section>
             
-             <section class="my-8 py-2">
+            <!-- Example 5 -->
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Multiple Selection" class="scroll-mt-20">
                     Multiple Selection
                 </RzHeading>
@@ -140,15 +137,13 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto flex justify-center items-center p-8 min-h-60">
                         <RzCalendar Mode="SelectionDatesMode.Multiple"
-                                    Values="_selectedDates"
-                                    />
+                                    Values="_selectedDates" />
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendar Mode="SelectionDatesMode.Multiple"
-            Values="_selectedDates"
-            /&gt;
+            Values="_selectedDates" /&gt;
 
 @@code {
     private List&lt;DateOnly&gt; _selectedDates = new() { 
