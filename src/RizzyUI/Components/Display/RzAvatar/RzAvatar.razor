@@ -1,3 +1,4 @@
+
 @namespace RizzyUI
 @using TailwindVariants.NET
 @inherits RzComponent<RzAvatar.Slots>
@@ -8,6 +9,7 @@
 	             aria-label="@EffectiveAriaLabel"
 	             @attributes="@AdditionalAttributes"
                  id="@Id"
+                 data-slot="avatar"
                  class="@(SlotClasses.GetBase())">
         @ChildContent
     </HtmlElement>

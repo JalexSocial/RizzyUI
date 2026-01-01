@@ -83,30 +83,37 @@ public partial class RzProgress : RzComponent<RzProgress.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("progress")]
         public string? Base { get; set; }
         /// <summary>
         /// The slot for the container of the label when positioned outside.
         /// </summary>
+        [Slot("progress-outside-label-container")]
         public string? OutsideLabelContainer { get; set; }
         /// <summary>
         /// The slot for the text of the label when positioned outside.
         /// </summary>
+        [Slot("progress-outside-label-text")]
         public string? OutsideLabelText { get; set; }
         /// <summary>
         /// The slot for the outer bar of the progress indicator.
         /// </summary>
+        [Slot("progress-outer-bar")]
         public string? OuterBar { get; set; }
         /// <summary>
         /// The slot for the inner bar that represents the progress.
         /// </summary>
+        [Slot("progress-inner-bar")]
         public string? InnerBar { get; set; }
         /// <summary>
         /// The slot for the container of the label when positioned inside.
         /// </summary>
+        [Slot("progress-inside-label-container")]
         public string? InsideLabelContainer { get; set; }
         /// <summary>
         /// The slot for the text of the label when positioned inside.
         /// </summary>
+        [Slot("progress-inside-label-text")]
         public string? InsideLabelText { get; set; }
     }
 }

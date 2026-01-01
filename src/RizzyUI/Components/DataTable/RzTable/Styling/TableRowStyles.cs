@@ -11,6 +11,7 @@ public sealed partial class TableRowSlots : ISlots
     /// <summary>
     /// The base slot for the `&lt;tr&gt;` element.
     /// </summary>
+    [Slot("table-row")]
     public string? Base { get; set; }
 }
 

@@ -106,18 +106,22 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("article")]
         public string? Base { get; set; }
         /// <summary>
         /// The slot for the inner container that holds the article and aside.
         /// </summary>
+        [Slot("article-inner-container")]
         public string? InnerContainer { get; set; }
         /// <summary>
         /// The slot for the main article content.
         /// </summary>
+        [Slot("article-content")]
         public string? Article { get; set; }
         /// <summary>
         /// The slot for the aside (side content).
         /// </summary>
+        [Slot("article-aside")]
         public string? Aside { get; set; }
     }
 }

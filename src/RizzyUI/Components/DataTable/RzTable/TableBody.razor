@@ -3,7 +3,7 @@
 @typeparam TItem
 @inherits RzComponent<TableBodySlots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" hx-indicator="@EffectiveHxIndicatorSelector">
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" data-slot="table-body" class="@SlotClasses.GetBase()" hx-indicator="@EffectiveHxIndicatorSelector">
     @if (EffectiveItems.Any())
     {
         int rowIndex = (this.ParentRzTable?.CurrentPaginationState.CurrentPage-1) * this.ParentRzTable?.CurrentPaginationState.PageSize ?? 0;
@@ -17,7 +17,7 @@
     }
     else if (EmptyTemplate != null)
     {
-        <tr> 
+        <tr data-slot="table-row"> 
             <TableCell TItem="@TItem" Colspan="@ColumnCount"> 
                 @EmptyTemplate
             </TableCell>
@@ -25,11 +25,11 @@
     }
     else
     {
-        <tr>
+        <tr data-slot="table-row">
             <TableCell TItem="@TItem" Colspan="@ColumnCount">
                 @Localizer["RzTable.DefaultEmptyMessage"]
             </TableCell>
         </tr>
     }
-    <RzSpinner Id="@SpinnerId" Size="Size.Small" class="htmx-indicator absolute top-2.5 left-1/2 -translate-x-1/2"/>
+    <RzSpinner Id="@SpinnerId" Size="Size.Small" class="htmx-indicator absolute top-2.5 left-1/2 -translate-x-1/2" data-slot="table-spinner"/>
 </HtmlElement>

@@ -22,18 +22,22 @@ public sealed partial class RzTableSlots : ISlots
     /// <summary>
     /// The base slot for the main table container.
     /// </summary>
+    [Slot("table")]
     public string? Base { get; set; }
     /// <summary>
     /// The slot for the `&lt;table&gt;` element itself.
     /// </summary>
+    [Slot("table-element")]
     public string? Table { get; set; }
     /// <summary>
     /// The slot for the `&lt;thead&gt;` element.
     /// </summary>
+    [Slot("table-thead")]
     public string? Thead { get; set; }
     /// <summary>
     /// The slot for the `&lt;tfoot&gt;` element.
     /// </summary>
+    [Slot("table-tfoot")]
     public string? Tfoot { get; set; }
 }
 

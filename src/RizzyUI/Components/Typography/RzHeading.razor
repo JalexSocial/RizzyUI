@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzTypographyBase<RzHeading.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()">
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="heading">
     <div x-data="rzHeading" data-alpine-root="@Id">
         @if (ChildContent == null && !string.IsNullOrEmpty(QuickReferenceTitle))
         {

@@ -115,6 +115,7 @@ public partial class RzIndicator : RzComponent<RzIndicator.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("indicator")]
         public string? Base { get; set; }
     }
 }

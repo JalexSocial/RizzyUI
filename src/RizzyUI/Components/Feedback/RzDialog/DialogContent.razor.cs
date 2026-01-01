@@ -86,18 +86,22 @@ public partial class DialogContent : RzComponent<DialogContent.Slots>
         /// <summary>
         /// The base slot for the main dialog panel.
         /// </summary>
+        [Slot("dialog-content")]
         public string? Base { get; set; }
         /// <summary>
         /// The slot for the backdrop overlay.
         /// </summary>
+        [Slot("dialog-overlay")]
         public string? Backdrop { get; set; }
         /// <summary>
         /// The slot for the close button.
         /// </summary>
+        [Slot("dialog-close")]
         public string? CloseButton { get; set; }
         /// <summary>
         /// The slot for the icon inside the close button.
         /// </summary>
+        [Slot("dialog-close-icon")]
         public string? CloseButtonIcon { get; set; }
     }
 }

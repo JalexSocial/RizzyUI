@@ -108,6 +108,7 @@ public partial class RzParagraph : RzTypographyBase<RzParagraph.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("paragraph")]
         public string? Base { get; set; }
     }
 }

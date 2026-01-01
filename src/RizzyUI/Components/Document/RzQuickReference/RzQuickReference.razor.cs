@@ -90,22 +90,27 @@ public partial class RzQuickReference : RzComponent<RzQuickReference.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("quick-reference")]
         public string? Base { get; set; }
         /// <summary>
         /// The slot for the title element.
         /// </summary>
+        [Slot("quick-reference-title")]
         public string? Title { get; set; }
         /// <summary>
         /// The slot for the list (`&lt;ul&gt;`) element.
         /// </summary>
+        [Slot("quick-reference-list")]
         public string? List { get; set; }
         /// <summary>
         /// The slot for each list item (`&lt;li&gt;`) element.
         /// </summary>
+        [Slot("quick-reference-list-item")]
         public string? ListItem { get; set; }
         /// <summary>
         /// The slot for each link (`&lt;a&gt;`) element.
         /// </summary>
+        [Slot("quick-reference-link")]
         public string? Link { get; set; }
     }
 }

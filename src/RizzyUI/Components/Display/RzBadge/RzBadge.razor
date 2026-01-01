@@ -4,7 +4,7 @@
 @inherits RzComponent<RzBadge.Slots>
 
 <HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="badge">
-    <span class="@SlotClasses.GetInnerSpan()">
+    <span class="@SlotClasses.GetInnerSpan()" data-slot="badge-inner-span">
 	    <span class="flex items-center gap-1"> 
 		    @if (Icon != null)
 		    {

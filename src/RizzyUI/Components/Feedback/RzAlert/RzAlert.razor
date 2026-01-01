@@ -9,6 +9,7 @@
 	             aria-live="assertive"
                  @attributes="@AdditionalAttributes"
                  id="@Id"
+                 data-slot="alert"
                  class="@SlotClasses.GetBase()">
 	    <div aria-atomic="true"
 	         x-cloak
@@ -20,18 +21,18 @@
 	         x-transition:leave-start="opacity-100"
 	         x-transition:leave-end="opacity-0"
 	         data-alpine-root="@Id">
-	         <div class="@SlotClasses.GetInnerContainer()">
+	         <div class="@SlotClasses.GetInnerContainer()" data-slot="alert-inner-container">
 		         @if (Icon != null)
 		         {
-			         <div class="@SlotClasses.GetIconContainer()" aria-hidden="true">
+			         <div class="@SlotClasses.GetIconContainer()" aria-hidden="true" data-slot="alert-icon-container">
 				         @if (Pulse)
 				         {
-					         <div class="@SlotClasses.GetIconPulse()"></div>
+					         <div class="@SlotClasses.GetIconPulse()" data-slot="alert-icon-pulse"></div>
 				         }
 				         <Blazicon Svg="Icon"></Blazicon>
 			         </div>
 		         }
-		         <div class="@SlotClasses.GetContentContainer()">
+		         <div class="@SlotClasses.GetContentContainer()" data-slot="alert-content-container">
 			         @ChildContent
 		         </div>
 
@@ -41,9 +42,10 @@
 				         type="button"
 				         x-on:click="dismiss"
 				         aria-label="@Localizer["RzAlert.CloseButtonAriaLabel"]"
-				         class="@SlotClasses.GetCloseButton()">
+				         class="@SlotClasses.GetCloseButton()"
+				         data-slot="alert-close-button">
 				         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor"
-				              fill="none" stroke-width="2.5" class="@SlotClasses.GetCloseButtonIcon()">
+				              fill="none" stroke-width="2.5" class="@SlotClasses.GetCloseButtonIcon()" data-slot="alert-close-button-icon">
 					         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
 				         </svg>
 			         </button>

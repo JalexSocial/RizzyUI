@@ -1,7 +1,8 @@
+
 @namespace RizzyUI
 @inherits RzComponent
 
 @if (_renderImage)
 {
-	<img src="@ImageSource" alt="@EffectiveAlternateText" @attributes="AdditionalAttributes" class="@ParentAvatar?.SlotClasses.GetImage()" id="@Id" />
+	<img src="@ImageSource" alt="@EffectiveAlternateText" @attributes="AdditionalAttributes" class="@ParentAvatar?.SlotClasses.GetImage()" id="@Id" data-slot="avatar-image" />
 }

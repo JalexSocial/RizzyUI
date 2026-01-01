@@ -11,6 +11,7 @@ public sealed partial class TableCellSlots : ISlots
     /// <summary>
     /// The base slot for the `&lt;td&gt;` element.
     /// </summary>
+    [Slot("table-cell")]
     public string? Base { get; set; }
 }
 

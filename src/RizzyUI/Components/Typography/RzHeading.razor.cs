@@ -139,6 +139,7 @@ public partial class RzHeading : RzTypographyBase<RzHeading.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("heading")]
         public string? Base { get; set; }
     }
 }

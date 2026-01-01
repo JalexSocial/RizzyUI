@@ -97,6 +97,7 @@ public partial class RzSeparator : RzComponent<RzSeparator.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("separator")]
         public string? Base { get; set; }
     }
 }

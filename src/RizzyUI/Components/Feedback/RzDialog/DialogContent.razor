@@ -13,6 +13,7 @@
 		     x-transition:leave="ease-in-out duration-300"
 		     x-transition:leave-start="opacity-100"
 		     x-transition:leave-end="opacity-0"
+		     data-slot="dialog-overlay"
 		     class="@SlotClasses.GetBackdrop()">
 		</div>
 
@@ -28,6 +29,7 @@
 		             x-trap.inert="modalOpen"
 		             x-on:click.outside="handleClickOutside"
 		             role="document"
+		             data-slot="dialog-content"
 		             class="@SlotClasses.GetBase()">
 
 			@ChildContent
@@ -37,8 +39,9 @@
 				<button x-on:click="closeModal"
 				        type="button"
 				        aria-label="@Localizer["RzDialog.CloseButtonAriaLabel"]"
+				        data-slot="dialog-close"
 				        class="@SlotClasses.GetCloseButton()">
-					<Blazicon Svg="Lucide.X" class="@SlotClasses.GetCloseButtonIcon()"/>
+					<Blazicon Svg="Lucide.X" class="@SlotClasses.GetCloseButtonIcon()" data-slot="dialog-close-icon"/>
 				</button>
 			}
 		</HtmlElement>

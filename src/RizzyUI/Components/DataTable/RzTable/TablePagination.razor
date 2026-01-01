@@ -3,15 +3,16 @@
 @typeparam TItem
 @inherits RzComponent<TablePaginationSlots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" aria-label="@NavigationAriaLabel">
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" data-slot="table-pagination" class="@SlotClasses.GetBase()" aria-label="@NavigationAriaLabel">
     @if (EffectivePaginationState.TotalPages > 1) 
     {
-        <ul class="@SlotClasses.GetList()">
+        <ul class="@SlotClasses.GetList()" data-slot="table-pagination-list">
             <li>
                 @if (CanGoPrevious)
                 {
                     <button type="button"
                             class="@SlotClasses.GetLink()"
+                            data-slot="table-pagination-link"
                             aria-label="@PreviousButtonLabel"
                             @attributes="GetPageLinkHxAttributes(EffectivePaginationState.CurrentPage - 1)">
                         @PreviousButtonLabel
@@ -19,7 +20,7 @@
                 }
                 else
                 {
-                    <span class="@SlotClasses.GetLinkDisabled()" aria-disabled="true">
+                    <span class="@SlotClasses.GetLinkDisabled()" data-slot="table-pagination-link-disabled" aria-disabled="true">
                         @PreviousButtonLabel
                     </span>
                 }
@@ -30,12 +31,13 @@
                 <li>
                     @if (link.IsEllipsis)
                     {
-                        <span class="@SlotClasses.GetEllipsis()">@link.Text</span>
+                        <span class="@SlotClasses.GetEllipsis()" data-slot="table-pagination-ellipsis">@link.Text</span>
                     }
                     else
                     {
                         <button type="button"
                                 class="@(link.IsCurrent ? SlotClasses.GetLinkCurrent() : SlotClasses.GetLink())"
+                                data-slot="@(link.IsCurrent ? "table-pagination-link-current" : "table-pagination-link")"
                                 aria-current="@(link.IsCurrent ? "page" : null)"
                                 aria-label="@($"Go to page {link.PageNumber}")"
                                 disabled="@link.IsCurrent" 
@@ -51,6 +53,7 @@
                 {
                     <button type="button"
                             class="@SlotClasses.GetLink()"
+                            data-slot="table-pagination-link"
                             aria-label="@NextButtonLabel"
                             @attributes="GetPageLinkHxAttributes(EffectivePaginationState.CurrentPage + 1)">
                         @NextButtonLabel
@@ -58,7 +61,7 @@
                 }
                 else
                 {
-                    <span class="@SlotClasses.GetLinkDisabled()" aria-disabled="true">
+                    <span class="@SlotClasses.GetLinkDisabled()" data-slot="table-pagination-link-disabled" aria-disabled="true">
                         @NextButtonLabel
                     </span>
                 }

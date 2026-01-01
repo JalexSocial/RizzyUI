@@ -11,6 +11,7 @@ public sealed partial class TableBodySlots : ISlots
     /// <summary>
     /// The base slot for the `&lt;tbody&gt;` element.
     /// </summary>
+    [Slot("table-body")]
     public string? Base { get; set; }
 }
 

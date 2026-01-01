@@ -78,6 +78,7 @@ public partial class TabsTrigger : RzAsChildComponent<TabsTrigger.Slots>
             ["x-bind:tabindex"] = "_attrTabIndex",
             ["x-bind:data-state"] = "_attrDataState",
             ["x-bind:disabled"] = "_attrDisabled",
+            ["data-slot"] = "tabs-trigger"
         };
         return attributes;
     }

@@ -138,22 +138,27 @@ public partial class RzAvatar : RzComponent<RzAvatar.Slots>
         /// <summary>
         /// The base slot for the main avatar container.
         /// </summary>
+        [Slot("avatar")]
         public string? Base { get; set; }
         /// <summary>
         /// The slot for the `&lt;img&gt;` element.
         /// </summary>
+        [Slot("avatar-image")]
         public string? Image { get; set; }
         /// <summary>
         /// The slot for the container that displays initials.
         /// </summary>
+        [Slot("avatar-initials")]
         public string? InitialsContainer { get; set; }
         /// <summary>
         /// The slot for the container of the default placeholder icon.
         /// </summary>
+        [Slot("avatar-fallback")]
         public string? PlaceholderContainer { get; set; }
         /// <summary>
         /// The slot for the default placeholder SVG icon.
         /// </summary>
+        [Slot("avatar-placeholder-icon")]
         public string? PlaceholderIcon { get; set; }
     }
 }

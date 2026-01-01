@@ -101,7 +101,7 @@ public partial class RzBadge : RzComponent<RzBadge.Slots>
         /// <summary>
         /// The slot for the inner span that wraps the content.
         /// </summary>
-        [Slot("inner-span")]
+        [Slot("badge-inner-span")]
         public string? InnerSpan { get; set; }
     }
 }

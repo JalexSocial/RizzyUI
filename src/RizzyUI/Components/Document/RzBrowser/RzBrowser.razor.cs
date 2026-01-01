@@ -70,46 +70,57 @@ public partial class RzBrowser : RzComponent<RzBrowser.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("browser")]
         public string? Base { get; set; }
         /// <summary>
         /// The slot for the top bar of the browser window.
         /// </summary>
+        [Slot("browser-top-bar")]
         public string? TopBar { get; set; }
         /// <summary>
         /// The slot for the container of the traffic light buttons.
         /// </summary>
+        [Slot("browser-traffic-lights")]
         public string? TrafficLightsContainer { get; set; }
         /// <summary>
         /// The slot for the red traffic light button.
         /// </summary>
+        [Slot("browser-traffic-light-red")]
         public string? TrafficLightRed { get; set; }
         /// <summary>
         /// The slot for the yellow traffic light button.
         /// </summary>
+        [Slot("browser-traffic-light-yellow")]
         public string? TrafficLightYellow { get; set; }
         /// <summary>
         /// The slot for the green traffic light button.
         /// </summary>
+        [Slot("browser-traffic-light-green")]
         public string? TrafficLightGreen { get; set; }
         /// <summary>
         /// The slot for the container of the screen size control buttons.
         /// </summary>
+        [Slot("browser-screen-controls")]
         public string? ScreenSizeControlsContainer { get; set; }
         /// <summary>
         /// The slot for the button group of screen size controls.
         /// </summary>
+        [Slot("browser-screen-button-group")]
         public string? ScreenSizeButtonGroup { get; set; }
         /// <summary>
         /// The slot for an individual screen size control button.
         /// </summary>
+        [Slot("browser-screen-button")]
         public string? ScreenSizeButton { get; set; }
         /// <summary>
         /// The slot for the main content area of the browser.
         /// </summary>
+        [Slot("browser-content-area")]
         public string? ContentArea { get; set; }
         /// <summary>
         /// The slot for the container of the preview content.
         /// </summary>
+        [Slot("browser-preview-container")]
         public string? PreviewContainer { get; set; }
     }
 }

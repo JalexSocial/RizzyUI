@@ -121,32 +121,32 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
         /// <summary>
         /// The slot for the inner container that holds the icon and content.
         /// </summary>
-        [Slot("inner-container")]
+        [Slot("alert-inner-container")]
         public string? InnerContainer { get; set; }
         /// <summary>
         /// The slot for the icon container.
         /// </summary>
-        [Slot("icon-container")]
+        [Slot("alert-icon-container")]
         public string? IconContainer { get; set; }
         /// <summary>
         /// The slot for the pulsing animation element behind the icon.
         /// </summary>
-        [Slot("icon-pulse")]
+        [Slot("alert-icon-pulse")]
         public string? IconPulse { get; set; }
         /// <summary>
         /// The slot for the main content container (title and description).
         /// </summary>
-        [Slot("content-container")]
+        [Slot("alert-content-container")]
         public string? ContentContainer { get; set; }
         /// <summary>
         /// The slot for the close button.
         /// </summary>
-        [Slot("close-button")]
+        [Slot("alert-close-button")]
         public string? CloseButton { get; set; }
         /// <summary>
         /// The slot for the icon inside the close button.
         /// </summary>
-        [Slot("close-button-icon")]
+        [Slot("alert-close-button-icon")]
         public string? CloseButtonIcon { get; set; }
     }
 }
