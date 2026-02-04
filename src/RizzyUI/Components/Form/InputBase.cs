@@ -7,7 +7,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
-    where TSlots : ISlots, new()
+    where TSlots : class, ISlots, new()
 {
     [Parameter, EditorRequired]
     public required Expression<Func<TValue>> For { get; set; }

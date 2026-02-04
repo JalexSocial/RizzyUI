@@ -10,7 +10,7 @@ namespace RizzyUI;
 ///     styles. This version is generic to support TailwindVariants.NET.
 /// </xmldoc>
 public abstract partial class RzTypographyBase<TSlots> : RzComponent<TSlots>
-    where TSlots : ISlots, new()
+    where TSlots : class, ISlots, new()
 {
     /// <summary> Gets or sets the text color. If null, defaults are often applied by inheriting components. </summary>
     [Parameter]
