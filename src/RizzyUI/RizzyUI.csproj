@@ -30,7 +30,7 @@
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>0.8.6-alpha</Version>
+        <Version>0.9.0-alpha</Version>
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
         <StaticWebAssetBasePath>_content/RizzyUI</StaticWebAssetBasePath>
