@@ -1,0 +1,33 @@
+
+@namespace RizzyUI
+@using RizzyUI.Extensions
+@inherits RzComponent<RzCommand.Slots>
+
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement" 
+                 @attributes="@AdditionalAttributes" 
+                 id="@Id" 
+                 class="@SlotClasses.GetBase()"
+                 data-slot="command"
+                 x-data="rzCommand"
+                 data-alpine-root="@Id"
+                 data-loop="@(Loop.ToString().ToLowerInvariant())"
+                 data-should-filter="@(ShouldFilter.ToString().ToLowerInvariant())"
+                 data-selected-value="@SelectedValue"
+                 data-items-id="@DataScriptId"
+                 data-items-url="@ItemsUrl"
+                 data-fetch-trigger="@FetchTrigger.ToString().ToKebabCase()"
+                 data-server-filtering="@(ServerFiltering.ToString().ToLowerInvariant())"
+                 data-template-id="@DataItemTemplateId"
+                 aria-label="@AriaLabel">
+        
+        @if (string.IsNullOrEmpty(ItemsUrl) && Items.Any())
+        {
+            <script type="application/json" id="@DataScriptId">
+                @((MarkupString)_serializedItems)
+            </script>
+        }
+
+        @ChildContent
+    </HtmlElement>
+</CascadingValue>

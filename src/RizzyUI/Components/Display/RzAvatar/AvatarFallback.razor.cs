@@ -1,7 +1,5 @@
 
-// src/RizzyUI/Components/Display/RzAvatar/AvatarFallback.razor.cs
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
@@ -13,9 +11,6 @@ namespace RizzyUI;
 public partial class AvatarFallback : RzComponent
 {
     private bool _shouldRender;
-    private string _initialsContainerClass = string.Empty;
-    private string _placeholderContainerClass = string.Empty;
-    private string _placeholderIconClass = string.Empty;
 
     /// <summary>
     /// Gets or sets the parent <see cref="RzAvatar"/> component.
@@ -44,42 +39,5 @@ public partial class AvatarFallback : RzComponent
     {
         base.OnParametersSet();
         _shouldRender = ParentAvatar != null && !ParentAvatar.HasImage;
-
-        if (_shouldRender && ParentAvatar != null)
-        {
-            var fallbackStyles = Theme.AvatarFallback; // RzStylesBase.AvatarFallbackStylesBase
-            var avatarStyles = Theme.RzAvatar; // RzStylesBase.RzAvatarStylesBase
-
-            if (ChildContent != null) // Rendering initials or custom content
-            {
-                _initialsContainerClass = TwMerge.Merge(
-                    fallbackStyles.InitialsContainer,
-                    avatarStyles.GetSizeCss(ParentAvatar.Size),
-                    avatarStyles.GetShapeCss(ParentAvatar.Shape),
-                    avatarStyles.GetInitialsSizeCss(ParentAvatar.Size)
-                );
-            }
-            else // Rendering default SVG placeholder
-            {
-                _placeholderContainerClass = TwMerge.Merge(
-                    fallbackStyles.PlaceholderContainer,
-                    avatarStyles.GetSizeCss(ParentAvatar.Size),
-                    avatarStyles.GetShapeCss(ParentAvatar.Shape)
-                );
-                _placeholderIconClass = TwMerge.Merge(
-                    fallbackStyles.PlaceholderIcon,
-                    avatarStyles.GetPlaceholderSizeCss(ParentAvatar.Size)
-                );
-            }
-        }
-    }
-    
-    /// <inheritdoc/>
-    protected override string? RootClass()
-    {
-        if (!_shouldRender) return null;
-        
-        // The root class will be either for initials or for the placeholder container
-        return ChildContent != null ? _initialsContainerClass : _placeholderContainerClass;
     }
 }

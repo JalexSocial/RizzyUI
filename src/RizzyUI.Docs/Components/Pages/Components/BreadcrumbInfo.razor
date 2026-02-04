@@ -1,4 +1,5 @@
-﻿@page "/components/breadcrumb"
+
+@page "/components/breadcrumb"
 @using RizzyUI
 
 <PageTitle>RzBreadcrumb</PageTitle>
@@ -11,102 +12,267 @@
         <MainContent>
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="RzBreadcrumb" class="scroll-mt-20">RzBreadcrumb</RzHeading>
             <RzParagraph>
-                The RzBreadcrumb component is a navigation aid that allows users to keep track of their locations within programs, documents, or websites. It enhances user experience by providing a clear path of navigation, making it easier to understand and navigate the application's structure.
+                <strong>RzBreadcrumb</strong> is a composable navigation component for displaying a user's location within a site hierarchy. It is built from modular subcomponents—<code class="font-semibold">BreadcrumbList</code>, <code class="font-semibold">BreadcrumbItem</code>, <code class="font-semibold">BreadcrumbLink</code>, and <code class="font-semibold">BreadcrumbSeparator</code>—allowing you to create accessible, customizable breadcrumb trails for any application structure.
             </RzParagraph>
 			
             <section class="my-8 py-2">
-
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzBreadcrumb with Chevron" class="scroll-mt-20">RzBreadcrumb with Chevron</RzHeading>
-                <RzParagraph TextColor="SemanticColor.OnSurface">
-                    A breadcrumb navigation with chevron (arrow) separators. This style provides a modern and clean look, making the navigation path clear and intuitive.
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Breadcrumb" class="scroll-mt-20">Basic Breadcrumb</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">
+                    Use <strong>RzBreadcrumb</strong> to render a standard navigation trail. Each <code class="font-semibold">BreadcrumbItem</code> represents a step in the path, and the final item uses <code class="font-semibold">BreadcrumbPage</code> to indicate the current page. This pattern improves navigation clarity and accessibility.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-
-                    <div class="mx-auto p-8 mb-5">
-						
+                    <div class="mx-auto p-8 mb-5 flex justify-center">
                         <RzBreadcrumb>
-                            <RzBreadcrumbItem Href="javascript:void(0);" Label="Home" />
-                            <RzBreadcrumbItem Href="javascript:void(0);" Label="Components" />
-                            <RzBreadcrumbItem Label="RzBreadcrumb" IsActive="true" />
+                            <BreadcrumbList>
+                                <BreadcrumbItem>
+                                    <BreadcrumbLink Href="/">Home</BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator />
+                                <BreadcrumbItem>
+                                    <BreadcrumbLink Href="/components">Components</BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator />
+                                <BreadcrumbItem>
+                                    <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+                                </BreadcrumbItem>
+                            </BreadcrumbList>
                         </RzBreadcrumb>
-						
                     </div>
-
                 </RzBrowser>
 
                 <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
 &lt;RzBreadcrumb&gt;
-    &lt;RzBreadcrumbItem Href="/" Label="Home" /&gt;
-    &lt;RzBreadcrumbItem Href="/components" Label="Components" /&gt;
-    &lt;RzBreadcrumbItem Label="RzBreadcrumb" IsActive="true" /&gt;
+    &lt;BreadcrumbList&gt;
+        &lt;BreadcrumbItem&gt;
+            &lt;BreadcrumbLink Href="/"&gt;Home&lt;/BreadcrumbLink&gt;
+        &lt;/BreadcrumbItem&gt;
+        &lt;BreadcrumbSeparator /&gt;
+        &lt;BreadcrumbItem&gt;
+            &lt;BreadcrumbLink Href="/components"&gt;Components&lt;/BreadcrumbLink&gt;
+        &lt;/BreadcrumbItem&gt;
+        &lt;BreadcrumbSeparator /&gt;
+        &lt;BreadcrumbItem&gt;
+            &lt;BreadcrumbPage&gt;Breadcrumb&lt;/BreadcrumbPage&gt;
+        &lt;/BreadcrumbItem&gt;
+    &lt;/BreadcrumbList&gt;
 &lt;/RzBreadcrumb&gt;
                 </RzCodeViewer>
-
             </section>
 
             <section class="my-8 py-2">
-
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzBreadcrumb with Slash" class="scroll-mt-20">RzBreadcrumb with Slash</RzHeading>
-                <RzParagraph TextColor="SemanticColor.OnSurface">
-                    A breadcrumb navigation with slash ("/") separators. This traditional style is simple and widely recognized, making it easy for users to follow their navigation path.
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Collapsible Breadcrumb" class="scroll-mt-20">Collapsible Breadcrumb with Dropdown</RzHeading>
+                <RzParagraph>
+                    For deep navigation paths, keep breadcrumbs concise by using <code class="font-semibold">BreadcrumbEllipsis</code> inside a <code class="font-semibold">RzDropdownMenu</code>. This pattern collapses intermediate steps into a dropdown, letting users access the full path without cluttering the UI.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-
-                    <div class="mx-auto p-8 mb-5">
-						
-                        <RzBreadcrumb Separator="MdiIcon.SlashForward">
-                            <RzBreadcrumbItem Href="javascript:void(0);" Label="Home" Icon="MdiIcon.Home" />
-                            <RzBreadcrumbItem Href="javascript:void(0);" Label="Components" />
-                            <RzBreadcrumbItem Label="RzBreadcrumb" IsActive="true" />
-                        </RzBreadcrumb>
-						
-                    </div>
-
-                </RzBrowser>
-
-                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
-&lt;RzBreadcrumb Separator="MdiIcon.SlashForward"&gt;
-    &lt;RzBreadcrumbItem Href="/" Label="Home" Icon="MdiIcon.Home" /&gt;
-    &lt;RzBreadcrumbItem Href="/components" Label="Components" /&gt;
-    &lt;RzBreadcrumbItem Label="RzBreadcrumb" IsActive="true" /&gt;
-&lt;/RzBreadcrumb&gt;
-                </RzCodeViewer>
-
-            </section>
-			
-            <section class="my-8 py-2">
-
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzBreadcrumb with Icon" class="scroll-mt-20">RzBreadcrumb with Icon</RzHeading>
-                <RzParagraph TextColor="SemanticColor.OnSurface">
-                    A breadcrumb navigation where the first item includes an icon, providing a visual cue for the starting point of navigation. This enhances the aesthetic appeal and usability of the breadcrumb.
-                </RzParagraph>
-
-                <RzBrowser Layout="typeof(PreviewLayout)">
-
-                    <div class="mx-auto p-8 mb-5">
-						
+                    <div class="mx-auto p-8 mb-5 flex justify-center min-h-48">
                         <RzBreadcrumb>
-                            <RzBreadcrumbItem Href="javascript:void(0);" Label="Home" Icon="MdiIcon.Home" />
-                            <RzBreadcrumbItem Href="javascript:void(0);" Label="Components" />
-                            <RzBreadcrumbItem Label="RzBreadcrumb" IsActive="true" />
+                            <BreadcrumbList>
+                                <BreadcrumbItem>
+                                    <BreadcrumbLink Href="/">Home</BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator />
+                                <BreadcrumbItem>
+                                    <RzDropdownMenu Offset="0" Anchor="@AnchorPoint.BottomStart">
+                                        <DropdownMenuTrigger>
+                                            <BreadcrumbEllipsis />
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuItem>Documentation</DropdownMenuItem>
+                                            <DropdownMenuItem>Themes</DropdownMenuItem>
+                                            <DropdownMenuItem>GitHub</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </RzDropdownMenu>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator />
+                                <BreadcrumbItem>
+                                    <BreadcrumbLink Href="/components">Components</BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator />
+                                <BreadcrumbItem>
+                                    <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+                                </BreadcrumbItem>
+                            </BreadcrumbList>
                         </RzBreadcrumb>
-						
                     </div>
-
                 </RzBrowser>
 
                 <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
 &lt;RzBreadcrumb&gt;
-    &lt;RzBreadcrumbItem Href="/" Label="Home" Icon="MdiIcon.Home" /&gt;
-    &lt;RzBreadcrumbItem Href="/components" Label="Components" /&gt;
-    &lt;RzBreadcrumbItem Label="RzBreadcrumb" IsActive="true" /&gt;
+    &lt;BreadcrumbList&gt;
+        &lt;BreadcrumbItem&gt;
+            &lt;BreadcrumbLink Href="/"&gt;Home&lt;/BreadcrumbLink&gt;
+        &lt;/BreadcrumbItem&gt;
+        &lt;BreadcrumbSeparator /&gt;
+        &lt;BreadcrumbItem&gt;
+            &lt;RzDropdownMenu&gt;
+                &lt;DropdownMenuTrigger&gt;
+                    &lt;BreadcrumbEllipsis /&gt;
+                &lt;/DropdownMenuTrigger&gt;
+                &lt;DropdownMenuContent&gt;
+                    &lt;DropdownMenuItem&gt;Documentation&lt;/DropdownMenuItem&gt;
+                    &lt;DropdownMenuItem&gt;Themes&lt;/DropdownMenuItem&gt;
+                    &lt;DropdownMenuItem&gt;GitHub&lt;/DropdownMenuItem&gt;
+                &lt;/DropdownMenuContent&gt;
+            &lt;/RzDropdownMenu&gt;
+        &lt;/BreadcrumbItem&gt;
+        &lt;BreadcrumbSeparator /&gt;
+        &lt;BreadcrumbItem&gt;
+            &lt;BreadcrumbLink Href="/components"&gt;Components&lt;/BreadcrumbLink&gt;
+        &lt;/BreadcrumbItem&gt;
+        &lt;BreadcrumbSeparator /&gt;
+        &lt;BreadcrumbItem&gt;
+            &lt;BreadcrumbPage&gt;Breadcrumb&lt;/BreadcrumbPage&gt;
+        &lt;/BreadcrumbItem&gt;
+    &lt;/BreadcrumbList&gt;
 &lt;/RzBreadcrumb&gt;
                 </RzCodeViewer>
-
             </section>
 
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Separator" class="scroll-mt-20">Custom Separator</RzHeading>
+                <RzParagraph>
+                    You can override the default chevron separator by providing custom content to <code class="font-semibold">BreadcrumbSeparator</code>. This enables you to match your application's style or use alternative icons.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center">
+                        <RzBreadcrumb>
+                            <BreadcrumbList>
+                                <BreadcrumbItem>
+                                    <BreadcrumbLink Href="/">Home</BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator>
+                                    <Blazicon Svg="MdiIcon.SlashForward" />
+                                </BreadcrumbSeparator>
+                                <BreadcrumbItem>
+                                    <BreadcrumbLink Href="/components">Components</BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator>
+                                    <Blazicon Svg="MdiIcon.SlashForward"/>
+                                </BreadcrumbSeparator>
+                                <BreadcrumbItem>
+                                    <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+                                </BreadcrumbItem>
+                            </BreadcrumbList>
+                        </RzBreadcrumb>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;RzBreadcrumb&gt;
+    &lt;BreadcrumbList&gt;
+        &lt;BreadcrumbItem&gt;
+            &lt;BreadcrumbLink Href="/"&gt;Home&lt;/BreadcrumbLink&gt;
+        &lt;/BreadcrumbItem&gt;
+        &lt;BreadcrumbSeparator&gt;
+            &lt;Blazicon Svg="MdiIcon.SlashForward" /&gt;
+        &lt;/BreadcrumbSeparator&gt;
+        &lt;BreadcrumbItem&gt;
+            &lt;BreadcrumbLink Href="/components"&gt;Components&lt;/BreadcrumbLink&gt;
+        &lt;/BreadcrumbItem&gt;
+        &lt;BreadcrumbSeparator&gt;
+            &lt;Blazicon Svg="MdiIcon.SlashForward"/&gt;
+        &lt;/BreadcrumbSeparator&gt;
+        &lt;BreadcrumbItem&gt;
+            &lt;BreadcrumbPage&gt;Breadcrumb&lt;/BreadcrumbPage&gt;
+        &lt;/BreadcrumbItem&gt;
+    &lt;/BreadcrumbList&gt;
+&lt;/RzBreadcrumb&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
+                </RzHeading>
+                <RzParagraph>
+                    The following tables summarize the main parameters for each breadcrumb component. Use these to customize navigation behavior and appearance as needed.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzBreadcrumb</RzHeading>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Accessible label for the navigation container. Defaults to a localized "Breadcrumb".</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The content of the breadcrumb, which should be a <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">BreadcrumbList</code> component.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">BreadcrumbList, BreadcrumbItem, BreadcrumbPage</RzHeading>
+                <RzParagraph>These components primarily accept <code class="font-semibold">ChildContent</code> and pass through any additional attributes. They have no unique parameters beyond standard HTML attributes.</RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">BreadcrumbLink</RzHeading>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Href</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – The URL the link navigates to.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The content of the link, typically text.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">BreadcrumbSeparator</RzHeading>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Custom content to use as a separator. If not provided, a default chevron icon is rendered.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>

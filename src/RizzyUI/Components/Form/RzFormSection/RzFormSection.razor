@@ -1,21 +1,21 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzFormSection.Slots>
 
-<HtmlElement Element="@EffectiveElement" class="@RootClass()" @attributes="AdditionalAttributes" id="@Id">
-	<div class="@Theme.RzFormSection.GetDescriptionLayoutCss(Layout)">
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" id="@Id">
+	<div class="@SlotClasses.GetDescriptionContainer()">
 		@if (!string.IsNullOrEmpty(Title))
 		{
-			<h2 class="@Theme.RzFormSection.Title">@Title</h2>
+			<h2 class="@SlotClasses.GetTitle()">@Title</h2>
 		}
 		@if (Description != null)
 		{
-			<p class="@Theme.RzFormSection.Description">
+			<p class="@SlotClasses.GetDescription()">
 				@Description
 			</p>
 		}
 	</div>
-	<div class="@Theme.RzFormSection.GetContentLayoutCss(Layout)">
+	<div class="@SlotClasses.GetContentContainer()">
 		@Content
 	</div>
 </HtmlElement>

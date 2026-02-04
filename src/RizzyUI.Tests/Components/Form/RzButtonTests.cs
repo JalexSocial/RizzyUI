@@ -31,16 +31,16 @@ namespace RizzyUI.Tests.Components.Form
         }
 
         [Theory]
-        [InlineData(ButtonVariant.Primary)]
-        [InlineData(ButtonVariant.Secondary)]
-        [InlineData(ButtonVariant.Alternate)]
-        [InlineData(ButtonVariant.Inverse)]
-        [InlineData(ButtonVariant.Information)]
-        [InlineData(ButtonVariant.Danger)]
-        [InlineData(ButtonVariant.Warning)]
-        [InlineData(ButtonVariant.Success)]
-        [InlineData(ButtonVariant.Ghost)]
-        public void RzButton_WithVariant_AppliesCorrectClasses(ButtonVariant variant)
+        [InlineData(ThemeVariant.Primary)]
+        [InlineData(ThemeVariant.Secondary)]
+        [InlineData(ThemeVariant.Accent)]
+        [InlineData(ThemeVariant.Inverse)]
+        [InlineData(ThemeVariant.Information)]
+        [InlineData(ThemeVariant.Destructive)]
+        [InlineData(ThemeVariant.Warning)]
+        [InlineData(ThemeVariant.Success)]
+        [InlineData(ThemeVariant.Ghost)]
+        public void RzButton_WithVariant_AppliesCorrectClasses(ThemeVariant variant)
         {
             // Arrange
             var expectedId = $"{variant.ToString().ToLower()}-button";
@@ -59,15 +59,15 @@ namespace RizzyUI.Tests.Components.Form
             // Check for variant-specific classes
             string expectedClass = variant switch
             {
-                ButtonVariant.Primary => "bg-primary",
-                ButtonVariant.Secondary => "bg-secondary",
-                ButtonVariant.Alternate => "bg-surface-alt",
-                ButtonVariant.Inverse => "bg-surface",
-                ButtonVariant.Information => "bg-info",
-                ButtonVariant.Danger => "bg-danger",
-                ButtonVariant.Warning => "bg-warning",
-                ButtonVariant.Success => "bg-success",
-                ButtonVariant.Ghost => "bg-transparent",
+                ThemeVariant.Primary => "bg-primary",
+                ThemeVariant.Secondary => "bg-secondary",
+                ThemeVariant.Accent => "bg-secondary",
+                ThemeVariant.Inverse => "bg-background",
+                ThemeVariant.Information => "bg-info",
+                ThemeVariant.Destructive => "bg-destructive",
+                ThemeVariant.Warning => "bg-warning",
+                ThemeVariant.Success => "bg-success",
+                ThemeVariant.Ghost => "bg-transparent",
                 _ => "bg-primary"
             };
             Assert.Contains(expectedClass, button.OuterHtml);
@@ -78,7 +78,7 @@ namespace RizzyUI.Tests.Components.Form
         {
             // Arrange
             var expectedId = "outline-button";
-            var variant = ButtonVariant.Primary;
+            var variant = ThemeVariant.Primary;
 
             // Act
             var cut = RenderComponent<RzButton>(parameters => parameters

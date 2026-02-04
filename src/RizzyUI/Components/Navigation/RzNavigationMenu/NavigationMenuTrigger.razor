@@ -1,0 +1,22 @@
+
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<NavigationMenuTrigger.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
+             id="@TriggerId"
+             class="@SlotClasses.GetBase()"
+             x-ref="@TriggerXRef"
+             aria-haspopup="true"
+             aria-expanded="false"
+             aria-controls="@ContentId"
+             data-state="closed"
+             x-on:click.prevent="toggleActive"
+             x-on:focus="handleTriggerEnter"
+             data-slot="navigation-menu-trigger">
+	@ChildContent
+	<span class="relative top-[1px] ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180">
+		<Blazicon Svg="MdiIcon.ChevronDown" aria-hidden="true"/>
+	</span>
+</HtmlElement>

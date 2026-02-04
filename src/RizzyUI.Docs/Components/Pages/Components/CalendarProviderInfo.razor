@@ -1,0 +1,331 @@
+@page "/components/calendar-provider"
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+@using RizzyUI
+@using RizzyUI.Docs
+@using Blazicons
+@inherits RzComponent
+
+<PageTitle>Calendar Provider</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Calendar Provider" class="scroll-mt-20">Calendar Provider</RzHeading>
+            
+            <RzParagraph class="lead">
+                The <strong>RzCalendarProvider</strong> is an orchestration component that bridges the gap between server-side rendering and client-side interactivity.
+            </RzParagraph>
+
+            <RzParagraph>
+                In RizzyUI's SSR architecture, UI components are rendered on the server. However, rich calendar interactions—like syncing two-way inputs, managing popover visibility based on selection, or applying quick-select presets—often require immediate feedback on the client without a server round-trip.
+            </RzParagraph>
+
+            <RzParagraph>
+                The <code>RzCalendarProvider</code> creates a reactive <strong>Alpine.js scope</strong> around the calendar. It serves as the "Client-Side Source of Truth," keeping the visual calendar synchronized with inputs, buttons, and other UI elements automatically.
+            </RzParagraph>
+
+            <!-- 1. Client-Side Feedback -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Client-Side Feedback" class="scroll-mt-20">Client-Side Feedback</RzHeading>
+                <RzParagraph>
+                    By wrapping an <code>RzCalendar</code> in a provider, you can access the selected date reactively using Alpine.js (<code>x-text="date"</code>). This allows you to display selection feedback instantly.
+                </RzParagraph>
+
+                <RzCard class="w-fit mx-auto mb-6">
+                    <CardHeader><CardTitle>Single Date</CardTitle></CardHeader>
+                    <CardContent class="flex flex-col items-center gap-4">
+                        <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1">
+                            <div class="rounded-md border p-1">
+                                <RzCalendar />
+                            </div>
+                            <p class="text-sm text-muted-foreground">
+                                Selected: <span x-text="date || 'None'" class="font-medium text-foreground"></span>
+                            </p>
+                        </RzCalendarProvider>
+                    </CardContent>
+                </RzCard>
+                
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1"&gt;
+    &lt;RzCalendar /&gt;
+    &lt;p&gt;Selected: &lt;span x-text="date"&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/RzCalendarProvider&gt;
+
+@@code {
+    private DateOnly? _date1 = DateOnly.FromDateTime(DateTime.Now);
+}
+                </RzCodeViewer>
+            </section>
+
+            <!-- 2. Presets & Controls -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Presets & Controls" class="scroll-mt-20">Presets & Controls</RzHeading>
+                <RzParagraph>
+                    The provider exposes a public JavaScript API (<code>setToday()</code>, <code>addDays(n)</code>, <code>clear()</code>) that external buttons can call directly within the provider's scope.
+                </RzParagraph>
+
+                <RzCard class="w-fit mx-auto mb-6">
+                     <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1">
+                         <div class="flex flex-col lg:flex-row">
+                             <div class="flex flex-col gap-2 p-3 lg:border-r">
+                                <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small" class="justify-start" x-on:click="setToday()">Today</RzButton>
+                                <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small" class="justify-start" x-on:click="addDays(1)">Tomorrow</RzButton>
+                                <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small" class="justify-start" x-on:click="addDays(7)">In a week</RzButton>
+                             </div>
+                             <div class="p-3">
+                                 <RzCalendar class="border-0 shadow-none p-0" />
+                             </div>
+                         </div>
+                    </RzCalendarProvider>
+                </RzCard>
+                
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1"&gt;
+    &lt;div class="flex"&gt;
+        &lt;div class="flex flex-col gap-2"&gt;
+           &lt;RzButton Variant="ThemeVariant.Default" Outline x-on:click="setToday()"&gt;Today&lt;/RzButton&gt;
+           &lt;RzButton Variant="ThemeVariant.Default" Outline x-on:click="addDays(1)"&gt;Tomorrow&lt;/RzButton&gt;
+        &lt;/div&gt;
+        &lt;RzCalendar /&gt;
+    &lt;/div&gt;
+&lt;/RzCalendarProvider&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- 3. Popovers & Inputs -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Popovers & Inputs" class="scroll-mt-20">Popovers & Inputs</RzHeading>
+                <RzParagraph>
+                    Combine <code>RzPopover</code> with <code>RzCalendarProvider</code> to create dropdown pickers. 
+                    The provider exposes a <code>formattedDate</code> property (configured via <code>FormatOptions</code>) for display.
+                </RzParagraph>
+
+                <div class="flex flex-col gap-6 items-center mb-6">
+                    
+                    <!-- Popover Single -->
+                    <div class="flex flex-col gap-2">
+                        <Label>Date of birth</Label>
+                        <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1" 
+                                            FormatOptions="@(new { month="long", day="numeric", year="numeric" })">
+                            <RzPopover>
+                                <PopoverTrigger AsChild>
+                                    <RzButton Variant="ThemeVariant.Default" Outline class="w-[240px] justify-start text-left font-normal">
+                                        <Blazicon Svg="Lucide.Calendar" class="mr-2 size-4" />
+                                        <span x-text="formattedDate || 'Pick a date'"></span>
+                                    </RzButton>
+                                </PopoverTrigger>
+                                <PopoverContent class="w-auto p-0">
+                                    <!-- Close popover on selection -->
+                                    <div x-on:rz:calendar:click-day="open = false">
+                                        <RzCalendar />
+                                    </div>
+                                </PopoverContent>
+                            </RzPopover>
+                        </RzCalendarProvider>
+                    </div>
+
+                    <!-- Input Integration -->
+                    <div class="flex flex-col gap-2 w-[240px]">
+                        <Label>Two-Way Input Binding</Label>
+                        <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1">
+                            <div class="relative">
+                                <!-- x-model.debounce prevents input fighting while typing -->
+                                <input type="text" 
+                                       class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" 
+                                       placeholder="YYYY-MM-DD" 
+                                       x-model.debounce.500ms="date" />
+                                <div class="absolute right-0 top-0">
+                                    <RzPopover Anchor="AnchorPoint.BottomEnd" Offset="8">
+                                        <PopoverTrigger AsChild>
+                                            <RzButton Variant="ThemeVariant.Ghost" Size="Size.Small" class="px-2 h-9">
+                                                <Blazicon Svg="Lucide.Calendar" class="size-4 opacity-50" />
+                                            </RzButton>
+                                        </PopoverTrigger>
+                                        <PopoverContent class="w-auto p-0">
+                                            <div x-on:rz:calendar:click-day="open = false">
+                                                <RzCalendar />
+                                            </div>
+                                        </PopoverContent>
+                                    </RzPopover>
+                                </div>
+                            </div>
+                        </RzCalendarProvider>
+                    </div>
+                </div>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;!-- Popover Example --&gt;
+&lt;RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1"&gt;
+    &lt;RzPopover&gt;
+        &lt;PopoverTrigger AsChild&gt;
+            &lt;RzButton Variant="ThemeVariant.Default" Outline&gt;
+                &lt;span x-text="formattedDate || 'Pick a date'"&gt;&lt;/span&gt;
+            &lt;/RzButton&gt;
+        &lt;/PopoverTrigger&gt;
+        &lt;PopoverContent class="w-auto p-0"&gt;
+            &lt;div x-on:rz:calendar:click-day="open = false"&gt;
+                &lt;RzCalendar /&gt;
+            &lt;/div&gt;
+        &lt;/PopoverContent&gt;
+    &lt;/RzPopover&gt;
+&lt;/RzCalendarProvider&gt;
+
+&lt;!-- Input Example --&gt;
+&lt;RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1"&gt;
+    &lt;input type="text" x-model.debounce.500ms="date" placeholder="YYYY-MM-DD" /&gt;
+&lt;/RzCalendarProvider&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- 4. Data Integration (Simulated) -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Data Integration" class="scroll-mt-20">Data Integration</RzHeading>
+                <RzParagraph>
+                    In a real application, selecting a date often requires fetching data from the server. 
+                    This example simulates a data fetch using client-side logic to update an event list instantly.
+                </RzParagraph>
+
+                <RzCard class="w-[350px] mx-auto mb-6">
+                    <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1"
+                                        FormatOptions="@(new { weekday="long", month="long", day="numeric" })">
+                        <CardContent class="p-0">
+                             <RzCalendar class="border-0 shadow-none" />
+                        </CardContent>
+                        <CardFooter class="flex flex-col gap-2 items-start border-t p-4 min-h-[100px]">
+                             <div class="flex justify-between w-full items-center">
+                                 <span class="font-medium text-sm" x-text="formattedDate || 'Select a date'"></span>
+                                 <RzButton Variant="ThemeVariant.Ghost" Size="Size.ExtraSmall"><Blazicon Svg="Lucide.Plus" /></RzButton>
+                             </div>
+                             
+                             <div class="space-y-2 w-full" x-show="date">
+                                 <!-- Logic to show simulated events -->
+                                 <div class="rounded-md bg-muted px-3 py-2 text-sm">
+                                     <div class="font-medium">Team Sync</div>
+                                     <div class="text-xs text-muted-foreground">9:00 AM - 10:00 AM</div>
+                                 </div>
+                                 <div class="rounded-md bg-muted px-3 py-2 text-sm">
+                                     <div class="font-medium">Design Review</div>
+                                     <div class="text-xs text-muted-foreground">1:00 PM - 2:30 PM</div>
+                                 </div>
+                             </div>
+                             
+                             <div x-show="!date" class="text-xs text-muted-foreground w-full text-center py-2">
+                                 Pick a date to see your schedule.
+                             </div>
+                        </CardFooter>
+                    </RzCalendarProvider>
+                </RzCard>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1"&gt;
+    &lt;RzCard&gt;
+        &lt;RzCalendar class="border-0 shadow-none" /&gt;
+        &lt;CardFooter&gt;
+             &lt;div x-show="date"&gt;
+                 &lt;!-- In a real app, use HTMX here: 
+                      hx-get="/api/events" 
+                      hx-trigger="rz:calendar:click-day" --&gt;
+                 &lt;div class="rounded-md bg-muted px-3 py-2 text-sm"&gt;
+                     &lt;div class="font-medium"&gt;Team Sync&lt;/div&gt;
+                 &lt;/div&gt;
+             &lt;/div&gt;
+        &lt;/CardFooter&gt;
+    &lt;/RzCard&gt;
+&lt;/RzCalendarProvider&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- API Reference -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Provider Parameters" class="scroll-mt-20">
+                    RzCalendarProvider Parameters
+                </RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="p-4 w-1/4">Parameter</th>
+                                <th scope="col" class="p-4 w-1/4">Type</th>
+                                <th scope="col" class="p-4">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">Mode</td>
+                                <td class="p-4 font-mono text-violet-600">SelectionDatesMode</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Must match the Mode of the child <code>RzCalendar</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">Value</td>
+                                <td class="p-4 font-mono text-violet-600">DateOnly?</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Initial date for <code>Single</code> mode.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">Values</td>
+                                <td class="p-4 font-mono text-violet-600">List&lt;DateOnly&gt;?</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Initial dates for <code>Multiple</code> mode.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">Range</td>
+                                <td class="p-4 font-mono text-violet-600">CalendarDateRange?</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Initial range for <code>MultipleRanged</code> mode.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="JavaScript API" class="scroll-mt-20">
+                    JavaScript Scope API
+                </RzHeading>
+                <RzParagraph>
+                    The provider exposes these properties and methods to the Alpine scope (e.g., via <code>x-on:click</code>).
+                </RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="p-4 w-1/4">Name</th>
+                                <th scope="col" class="p-4">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">date</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Get/Set the selected date string (YYYY-MM-DD).</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">formattedDate</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Read-only localized string of the selected date.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">dates</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Raw array of selected date strings.</td>
+                            </tr>
+                             <tr>
+                                <td class="p-4 font-mono text-sky-600">setToday()</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Sets the selection to the current date.</td>
+                            </tr>
+                             <tr>
+                                <td class="p-4 font-mono text-sky-600">addDays(n)</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Adds <code>n</code> days to the current selection.</td>
+                            </tr>
+                             <tr>
+                                <td class="p-4 font-mono text-sky-600">clear()</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Clears all selected dates.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private DateOnly? _date1 = DateOnly.FromDateTime(DateTime.Now);
+    private CalendarDateRange? _range1 = new() { From = DateTime.Now, To = DateTime.Now.AddDays(7) };
+}

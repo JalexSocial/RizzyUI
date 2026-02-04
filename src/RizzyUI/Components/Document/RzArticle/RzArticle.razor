@@ -1,18 +1,18 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzArticle.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()">
-    <div class="@Theme.RzArticle.InnerContainer">
-        <article class="@Theme.RzArticle.Article @Theme.RzArticle.GetArticleProseCss(ProseWidth)">
-            @MainContent
-        </article>
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="article">
+	<div class="@SlotClasses.GetInnerContainer()" data-slot="article-inner-container">
+		<article class="@SlotClasses.GetArticle()" data-slot="article-content">
+			@MainContent
+		</article>
 
-        @if (SideContent != null)
-        {
-            <aside class="@Theme.RzArticle.GetAsideCss(ColumnWidth, IsSideFixed)" aria-label="@AsideAriaLabel">
-                @SideContent
-            </aside>
-        }
-    </div>
+		@if (SideContent != null)
+		{
+			<aside class="@SlotClasses.GetAside()" aria-label="@AsideAriaLabel" data-slot="article-aside">
+				@SideContent
+			</aside>
+		}
+	</div>
 </HtmlElement>

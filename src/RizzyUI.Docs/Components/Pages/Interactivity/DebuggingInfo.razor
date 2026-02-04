@@ -1,0 +1,134 @@
+﻿@page "/docs/interactivity/debugging"
+@namespace RizzyUI.Docs.Components.Pages.Interactivity
+
+@using RizzyUI
+
+<PageTitle>Debugging and Best Practices</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Debugging and Best Practices">
+                Debugging and Best Practices
+            </RzHeading>
+
+            <RzParagraph class="lead">
+                You've learned the patterns for building powerful, interactive components with RizzyUI and Alpine.js. Now, let's talk about what to do when things don't work as expected. Debugging client-side interactivity can be tricky, but with the right tools and knowledge of common pitfalls, you can solve issues quickly.
+            </RzParagraph>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Essential Debugging Tools">
+                    Essential Debugging Tools
+                </RzHeading>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">1. The Alpine.js DevTools Extension</RzHeading>
+                <RzParagraph>
+                    This is your most powerful tool. The Alpine.js DevTools is a browser extension (available for Chrome and Firefox) that lets you inspect the state of all your Alpine components on the page.
+                </RzParagraph>
+                <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
+                    <li><strong>Inspect State:</strong> See the current values of all properties in your <code>x-data</code> objects in real-time.</li>
+                    <li><strong>Modify State:</strong> Change data directly in the devtools panel to see how your component reacts.</li>
+                    <li><strong>Component Tree:</strong> View a tree of all initialized Alpine components on the page.</li>
+                </ul>
+                <RzAlert Variant="ThemeVariant.Information">
+                    <AlertDescription>
+                        <strong>Recommendation:</strong> Before you write any serious Alpine.js code, install this extension. It will save you hours of guesswork.
+                    </AlertDescription>
+                </RzAlert>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-8">2. Good Old <code>console.log()</code></RzHeading>
+                <RzParagraph>
+                    When you need to see what's happening at a specific moment, <code>console.log()</code> is your best friend. You can log the entire component instance (<code>this</code>) or its data context (<code>this.$data</code>) to inspect its properties and methods.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mt-4">
+export default () =&gt; ({
+  count: 0,
+  
+  increment() {
+    this.count++;
+    // Log the entire component's data context
+    console.log(this.$data); 
+  }
+});
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-8">3. <code>Alpine.raw()</code> for Clean Logging</RzHeading>
+                <RzParagraph>
+                    When you <code>console.log</code> an Alpine data object, you'll see a lot of Proxy information. To see the raw, underlying data without the reactivity wrappers, use <code>Alpine.raw()</code>.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mt-4">
+// Inside a method
+console.log(Alpine.raw(this.myComplexObject));
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Common Pitfalls">
+                    Common Pitfalls and How to Fix Them
+                </RzHeading>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">1. CSP Error: "Refused to execute inline script..."</RzHeading>
+                <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
+                    <li><strong>Cause:</strong> You are using the <code>rizzyui-csp.js</code> build and have an inline JavaScript expression in your markup (e.g., <code>x-on:click="isOpen = !isOpen"</code>).</li>
+                    <li><strong>Fix:</strong> Move the logic into a method in your <code>.razor.js</code> file and call it by name (e.g., <code>x-on:click="toggle"</code>).</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">2. `AsChild` Error: A Button Inside a Button</RzHeading>
+                <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
+                    <li><strong>Cause:</strong> You placed an <code>&lt;RzButton&gt;</code> inside a component that also renders a button, like <code>&lt;SheetTrigger&gt;</code>, without the `AsChild` property.</li>
+                    <li><strong>Fix:</strong> Add <code>AsChild</code> to the parent RizzyUI component (e.g., <code>&lt;SheetTrigger AsChild&gt;</code>). This tells it to merge its behavior into your button instead of rendering its own.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">3. Timing Issue: `$refs` is `undefined` in `init()`</RzHeading>
+                <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
+                    <li><strong>Cause:</strong> The <code>init()</code> method runs before Alpine has necessarily rendered conditional elements (like those inside an <code>x-if</code> or <code>x-show</code>).</li>
+                    <li><strong>Fix:</strong> Wrap your logic in <code>this.$nextTick(() => { ... })</code>. This tells Alpine to wait until the next DOM update cycle before running your code.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">4. Case Sensitivity with `Props`</RzHeading>
+                <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
+                    <li><strong>Cause:</strong> C# uses <code>PascalCase</code> by default, but JSON serialization and JavaScript convention use <code>camelCase</code>.</li>
+                    <li><strong>Fix:</strong> Always access your props in JavaScript using <code>camelCase</code>. <code>MyMessage</code> in C# becomes <code>myMessage</code> in your <code>.razor.js</code> file.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">5. HTMX and Stale References</RzHeading>
+                <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
+                    <li><strong>Cause:</strong> The target component's DOM element was replaced by an HTMX swap, and your stored reference to its Alpine instance is now stale.</li>
+                    <li><strong>Fix:</strong> Re-acquire the reference to the component inside the method that performs the action, right before you use it.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Best Practices">
+                    Best Practices for Performance and Maintainability
+                </RzHeading>
+                <ul class="list-disc space-y-3 pl-6 my-6 text-foreground">
+                    <li><strong>Keep `x-data` Lean:</strong> Only include properties that are truly reactive. Avoid storing large, static objects in your component's state if they don't need to trigger UI updates.</li>
+                    <li><strong>Prefer `x-show` over `x-if`:</strong> Use <code>x-show</code> for elements that are toggled frequently. Use <code>x-if</code> only when you need to completely remove an element from the DOM.</li>
+                    <li><strong>Clean Up in `destroy()`:</strong> Always clean up manual event listeners, timers, or third-party libraries in the <code>destroy()</code> method to prevent memory leaks, especially in applications that use HTMX.</li>
+                    <li><strong>Use Co-located Files:</strong> For any logic more complex than a simple toggle, use the Alpine Code-Behind pattern. It keeps your markup clean and your logic organized.</li>
+                </ul>
+            </section>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Conclusion">
+                    Conclusion
+                </RzHeading>
+                <RzParagraph>
+                    You've now covered the entire lifecycle of building interactive components in RizzyUI, from the fundamentals to advanced orchestration and debugging. You have a powerful set of tools to create rich, server-driven applications with just the right amount of client-side magic.
+                </RzParagraph>
+                <RzParagraph>
+                    With this foundation, you're ready to explore the RizzyUI component library and apply these patterns to build your own amazing user experiences. Happy coding!
+                </RzParagraph>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

@@ -1,0 +1,18 @@
+
+@namespace RizzyUI
+@inherits RzComponent<TabsContent.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
+             id="@ContentId"
+             class="@SlotClasses.GetBase()"
+             data-slot="@TabsContent.SlotNames.NameOf(SlotTypes.Base)"
+             role="tabpanel"
+             aria-labelledby="@TriggerId"
+             data-value="@Value"
+             x-bind:aria-hidden="_attrAriaHidden"
+             x-bind:hidden="_attrHidden"
+             x-bind:tabIndex="_attrTabIndex"
+             x-cloak>
+    @ChildContent
+</HtmlElement>

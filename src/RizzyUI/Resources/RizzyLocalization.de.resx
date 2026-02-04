@@ -93,4 +93,91 @@
   <data name="RzEmbeddedPreview.DefaultIFrameTitle" xml:space="preserve">
     <value>Eingebettete Inhaltsvorschau</value>
   </data>
+  <data name="RzSidebar.DefaultAriaLabel" xml:space="preserve">
+    <value>Seitenleisten-Navigation</value>
+  </data>
+  <data name="RzSidebarTrigger.DefaultAriaLabel" xml:space="preserve">
+    <value>Seitenleiste umschalten</value>
+  </data>
+  <data name="RzPagination.PreviousButtonLabel" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="RzPagination.NextButtonLabel" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+  <data name="RzPagination.NavigationAriaLabel" xml:space="preserve">
+    <value>Seitennavigation</value>
+  </data>
+  <data name="RzTable.SortButtonAriaLabelFormat" xml:space="preserve">
+    <value>Sortieren nach {0}, derzeit {1}</value>
+  </data>
+  <data name="RzTable.SortDirectionAscendingLong" xml:space="preserve">
+    <value>aufsteigend sortiert</value>
+  </data>
+  <data name="RzTable.SortDirectionDescendingLong" xml:space="preserve">
+    <value>absteigend sortiert</value>
+  </data>
+  <data name="RzTable.SortDirectionNone" xml:space="preserve">
+    <value>nicht sortiert</value>
+  </data>
+  <data name="RzTable.DefaultEmptyMessage" xml:space="preserve">
+    <value>Keine Elemente zum Anzeigen.</value>
+  </data>
+  <data name="RzIndicator.DefaultAriaLabel" xml:space="preserve">
+    <value>Indikator</value>
+  </data>
+  <data name="RzAvatar.DefaultAriaLabel" xml:space="preserve">
+    <value>Avatar</value>
+  </data>
+  <data name="RzDropdownMenu.TriggerAriaLabel" xml:space="preserve">
+    <value>Menü öffnen</value>
+  </data>
+  <data name="RzDropdownMenu.ContentAriaLabel" xml:space="preserve">
+    <value>Menüoptionen</value>
+  </data>
+  <data name="RzDropdownMenu.SubTriggerAriaLabelFormat" xml:space="preserve">
+    <value>Untermenü {0} öffnen</value>
+  </data>
+  <data name="RzDropdownMenu.SubContentAriaLabelFormat" xml:space="preserve">
+    <value>{0} Untermenüoptionen</value>
+  </data>
+  <data name="RzPopover.DefaultAriaLabel" xml:space="preserve">
+    <value>Popover</value>
+  </data>
+  <data name="RzPopover.TriggerAriaLabel" xml:space="preserve">
+    <value>Popover öffnen</value>
+  </data>
+  <data name="RzPopover.ContentAriaLabel" xml:space="preserve">
+    <value>Popover-Inhalt</value>
+  </data>
+  <data name="RzNavigationMenu.DefaultAriaLabel" xml:space="preserve">
+    <value>Hauptnavigation</value>
+  </data>
+  <data name="RzSheet.CloseButtonText" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="RzSidebarRail.DefaultAriaLabel" xml:space="preserve">
+    <value>Seitenleiste umschalten</value>
+  </data>
+  <data name="RzCarousel.DefaultAriaLabel" xml:space="preserve">
+    <value>Karussell</value>
+  </data>
+  <data name="RzCarousel.PreviousButtonAriaLabel" xml:space="preserve">
+    <value>Vorherige Folie</value>
+  </data>
+  <data name="RzCarousel.NextButtonAriaLabel" xml:space="preserve">
+    <value>Nächste Folie</value>
+  </data>
+  <data name="RzDialog.CloseButtonAriaLabel" xml:space="preserve">
+    <value>Dialog schließen</value>
+  </data>
+  <data name="RzDialog.DefaultAriaLabel" xml:space="preserve">
+    <value>Dialog</value>
+  </data>
+  <data name="RzEmpty.DefaultAriaLabel" xml:space="preserve">
+    <value>Leerer Zustand</value>
+  </data>
+  <data name="RzBrowser.PreviewIFrameTitle" xml:space="preserve">
+    <value>Komponenten-Vorschau</value>
+  </data>
 </root>

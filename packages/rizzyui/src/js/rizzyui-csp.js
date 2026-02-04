@@ -1,28 +1,13 @@
-﻿import Alpine from '@alpinejs/csp';
-import collapse from '@alpinejs/collapse';
-import intersect from '@alpinejs/intersect';
-import focus from '@alpinejs/focus';
-import toast from "./lib/notify/toast";
-import { registerComponents, require } from './lib/components.js';
-import $data from './lib/alpineData.js';
 
-// Register Alpine.js extensions
-Alpine.plugin(collapse);
-Alpine.plugin(intersect);
-Alpine.plugin(focus)
-registerComponents(Alpine);
+/**
+ * @file RizzyUI CSP-Compliant Entry Point
+ * @module rizzyui-csp
+ */
+import Alpine from '@alpinejs/csp';
+import { bootstrapRizzyUI } from './lib/bootstrap.js';
 
-const RizzyUI = {
-    Alpine,
-    require,
-    toast,
-    $data
-}
+const RizzyUI = bootstrapRizzyUI(Alpine);
 
-window.Alpine = Alpine;
-window.Rizzy = { ...(window.Rizzy || {}), ...RizzyUI };
-
-Alpine.start()
+Alpine.start();
 
 export default RizzyUI;
-

@@ -1,0 +1,26 @@
+
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<DropdownMenuItem.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             role="menuitem"
+             tabindex="-1"
+             x-on:click="handleItemClick"
+             x-on:mouseenter="handleItemMouseEnter"
+             aria-disabled="@(Disabled.ToString().ToLowerInvariant())"
+             disabled="@(Disabled ? "disabled" : null)"
+             data-slot="dropdown-menu-item">
+    @if (Icon != null)
+    {
+        <span class="@SlotClasses.GetIcon()"><Blazicon Svg="@Icon"/></span>
+    }
+    @ChildContent
+    @if (ShortcutContent != null)
+    {
+        @ShortcutContent
+    }
+</HtmlElement>

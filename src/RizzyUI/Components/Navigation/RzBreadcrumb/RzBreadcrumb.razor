@@ -1,24 +1,12 @@
 
 @namespace RizzyUI
-@using Blazicons
-@inherits RzComponent
+@inherits RzComponent<RzBreadcrumb.Slots>
 
-<CascadingValue Value="this">
-	<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@RootClass()" aria-label="breadcrumb">
-
-		@ChildContent
-		<ol class="@Theme.RzBreadcrumb.List">
-			@foreach (var item in Items)
-			{
-				<li class="@Theme.RzBreadcrumbItem.ListItem">
-
-					@item.Content
-					@if (item != Items.Last())
-					{
-						<Blazicon Svg="Separator"/>
-					}
-				</li>
-			}
-		</ol>
-	</HtmlElement>
-</CascadingValue>
+<HtmlElement Element="@EffectiveElement"
+             @attributes="AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             aria-label="@AriaLabel"
+             data-slot="breadcrumb">
+    @ChildContent
+</HtmlElement>

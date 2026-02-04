@@ -1,6 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -8,19 +8,18 @@ namespace RizzyUI;
 ///     A flexible container component for displaying content in a card format.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzCard : RzComponent
+public partial class RzCard : RzComponent<RzCard.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzCard component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "flex flex-col gap-6 rounded-xl border py-6 shadow-sm bg-card text-card-foreground"
+    );
+
     /// <summary> The content to be rendered inside the card. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    /// <summary> The background color for the card. Defaults to Surface. </summary>
-    [Parameter]
-    public SemanticColor BackgroundColor { get; set; } = SemanticColor.Surface;
-
-    /// <summary> The text color for the card content. Defaults to OnSurface. </summary>
-    [Parameter]
-    public SemanticColor TextColor { get; set; } = SemanticColor.OnSurface;
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -30,19 +29,16 @@ public partial class RzCard : RzComponent
     }
 
     /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzCard;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzCard component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        var bgColorClass = BackgroundColor != SemanticColor.None
-            ? BackgroundColor.ToBackgroundClass()
-            : Theme.Light.Surface.ToCssClassString("bg"); // Use theme default if None
-
-        var textColorClass = TextColor != SemanticColor.None
-            ? TextColor.ToTextClass()
-            : Theme.Light.OnSurface.ToCssClassString("text"); // Use theme default if None
-
-        return TwMerge.Merge(AdditionalAttributes,
-            Theme.RzCard.Container,
-            bgColorClass,
-            textColorClass);
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
+        public string? Base { get; set; }
     }
 }

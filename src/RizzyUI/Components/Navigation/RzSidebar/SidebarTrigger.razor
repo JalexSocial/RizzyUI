@@ -1,0 +1,24 @@
+
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<SidebarTrigger.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             type="button"
+             @attributes="@AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             aria-label="@AriaLabel"
+             x-on:click="toggle"
+             aria-controls="@ParentProvider?.Id"
+             x-bind:aria-expanded="isMobileOpen"
+             data-slot="sidebar-trigger">
+	@if (ChildContent == null)
+	{
+		<Blazicon Svg="@Lucide.PanelLeft"/>
+	}
+	else
+	{
+		@ChildContent
+	}
+</HtmlElement>

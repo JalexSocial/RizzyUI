@@ -1,7 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+        <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <IsPackable>true</IsPackable>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -29,71 +30,57 @@
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <Version>0.8.6-alpha</Version>
+        <Version>0.9.0-alpha</Version>
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
-        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    </PropertyGroup>
-    
+        <StaticWebAssetBasePath>_content/RizzyUI</StaticWebAssetBasePath>
+		<HotReloadAutoRestart>true</HotReloadAutoRestart>
+	</PropertyGroup>
+
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Blazicons.Ionicons" Version="2.2.18" />
-        <PackageReference Include="Markdig" Version="0.40.0" />
-        <PackageReference Include="Rizzy" Version="5.1.5" />
-        <PackageReference Include="Blazicons" Version="2.1.30" />
-        <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.1.23" />
-        <PackageReference Include="Scrutor" Version="6.0.1" />        
+        <PackageReference Include="Blazicons.Ionicons" Version="3.1.22" />
+        <PackageReference Include="Blazicons.Lucide" Version="1.12.33" />
+        <PackageReference Include="Markdig" Version="0.42.0" />
+        <PackageReference Include="Rizzy" Version="5.2.0" />
+        <PackageReference Include="Blazicons" Version="2.2.39" />
+        <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.2.26" />
+        <PackageReference Include="Scrutor" Version="6.1.0" />
         <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
+        <PackageReference Include="TailwindVariants.NET" Version="0.2.7-preview.1" />
+        <PackageReference Include="RizzyUI.Tasks" Version="1.3.5" />
     </ItemGroup>
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
     </ItemGroup>
-    
-    <PropertyGroup>
-        <!-- Define the directory path once -->
-        <ClientPackageDir>$(MSBuildProjectDirectory)/../../packages</ClientPackageDir>
-        <!-- Define a stamp file to track installation -->
-        <NodeModulesStampFile>/node_modules/.install-stamp</NodeModulesStampFile>
 
-        <_RunOnce Condition="'$(IsCrossTargetingBuild)' == 'true' or '$(TargetFrameworks)' == ''">true</_RunOnce>        
+    <PropertyGroup>
+        <ClientPackageDir>$(MSBuildProjectDirectory)/../../packages</ClientPackageDir>
+        <NodeModulesStampFile>/node_modules/.install-stamp</NodeModulesStampFile>
+        <_RunOnce Condition="'$(IsCrossTargetingBuild)' == 'true' or '$(TargetFrameworks)' == ''">true</_RunOnce>
     </PropertyGroup>
 
-    <Target Name="InstallClientPackages"
-            Condition="'$(_RunOnce)' == 'true'"
-            BeforeTargets="DispatchToInnerBuilds"
-            Inputs="$(ClientPackageDir)/rizzyui/package.json;$(ClientPackageDir)/rizzyui/package-lock.json"
-            Outputs="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)">
-
+    <Target Name="InstallClientPackages" Condition="'$(_RunOnce)' == 'true'" BeforeTargets="DispatchToInnerBuilds" Inputs="$(ClientPackageDir)/rizzyui/package.json;$(ClientPackageDir)/rizzyui/package-lock.json" Outputs="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)">
         <Message Text="Ensuring npm packages are installed in $(ClientPackageDir)..." Importance="high" />
-        <!-- WorkingDirectory uses the property defined above -->
         <Exec Command="npm install" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
-        <!-- Create or update the stamp file after install succeeds -->
         <Touch Files="$(ClientPackageDir)/rizzyui$(NodeModulesStampFile)" AlwaysCreate="true" />
-
     </Target>
 
-    <Target Name="BuildClientAssets"
-            Condition="'$(_RunOnce)' == 'true'"
-            DependsOnTargets="InstallClientPackages"
-            BeforeTargets="DispatchToInnerBuilds">
-        <!-- This target now implicitly depends on InstallClientPackages running first if needed -->
+    <Target Name="BuildClientAssets" Condition="'$(_RunOnce)' == 'true'" DependsOnTargets="InstallClientPackages" BeforeTargets="DispatchToInnerBuilds">
         <Message Text="Building client assets in $(ClientPackageDir)/rizzyui..." Importance="high" />
-
         <Exec Command="npm run build" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
     </Target>
 
-    <Target Name="LLM"
-            Condition="'$(_RunOnce)' == 'true'"
-            AfterTargets="Build">
+    <Target Name="LLM" Condition="'$(_RunOnce)' == 'true'" AfterTargets="Build">
         <Exec Command="npm run llm" />
     </Target>
-    
+
     <ItemGroup>
         <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
         <None Include="..\..\README.md" Pack="true" PackagePath="\" />
         <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
+        <None Include="build\RizzyUI.targets" Pack="true" PackagePath="build\RizzyUI.targets" />
     </ItemGroup>
 
     <ItemGroup>
@@ -102,7 +89,19 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\css\" />
+        <Folder Include="Attributes\" />
+        <Folder Include="Components\Interactivity\" />
+        <Folder Include="wwwroot\css\" />
     </ItemGroup>
-    
+
+    <ItemGroup>
+        <Content Remove="Themes\vercel.json" />
+        <EmbeddedResource Include="Themes\vercel.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Components\Form\RzToggle\RzToggle.razor" />
+      <UpToDateCheckInput Remove="Components\Form\RzToggle\RzToggleField.razor" />
+    </ItemGroup>
+
 </Project>

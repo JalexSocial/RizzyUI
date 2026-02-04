@@ -1,0 +1,147 @@
+
+@page "/components/kbd"
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+@using RizzyUI
+@using Blazicons
+
+<PageTitle>Kbd</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Kbd" class="scroll-mt-20">Kbd</RzHeading>
+            <RzParagraph>
+                The <code>RzKbd</code> component is used to display keyboard shortcuts. It renders a <code>&lt;kbd&gt;</code> element with styling that mimics the appearance of a physical keyboard key.
+            </RzParagraph>
+
+            <!-- Example 1: Basic Kbd -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">
+                    Basic Usage
+                </RzHeading>
+                <RzParagraph>
+                    A simple keyboard key display.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzKbd>⌘</RzKbd>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzKbd&gt;⌘&lt;/RzKbd&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 2: Kbd with Icon -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="With Icon" class="scroll-mt-20">
+                    With Icon
+                </RzHeading>
+                <RzParagraph>
+                    You can nest Blazicons or other elements inside an <code>RzKbd</code> component.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzKbd>
+                            <Blazicon Svg="MdiIcon.AppleKeyboardCommand" />
+                        </RzKbd>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzKbd&gt;
+    &lt;Blazicon Svg="MdiIcon.AppleKeyboardCommand" /&gt;
+&lt;/RzKbd&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 3: Kbd Group -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Key Combination" class="scroll-mt-20">
+                    Key Combination
+                </RzHeading>
+                <RzParagraph>
+                    Use the <code>RzKbdGroup</code> component to display a combination of keys, such as a keyboard shortcut.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzKbdGroup>
+                            <RzKbd>⌘</RzKbd>
+                            <RzKbd>K</RzKbd>
+                        </RzKbdGroup>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzKbdGroup&gt;
+    &lt;RzKbd&gt;⌘&lt;/RzKbd&gt;
+    &lt;RzKbd&gt;K&lt;/RzKbd&gt;
+&lt;/RzKbdGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Parameters Table: RzKbd -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzKbd Parameters" class="scroll-mt-20">
+                    RzKbd Component Parameters
+                </RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content to be rendered inside the kbd element, such as text or an icon.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Parameters Table: RzKbdGroup -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzKbdGroup Parameters" class="scroll-mt-20">
+                    RzKbdGroup Component Parameters
+                </RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content to be rendered inside the group, typically multiple <code>RzKbd</code> components.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

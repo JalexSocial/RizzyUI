@@ -1,0 +1,325 @@
+
+@page "/components/dialog"
+@using RizzyUI
+@using Rizzy.Htmx
+@implements IDisposable
+
+<PageTitle>Dialog</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Dialog" class="scroll-mt-20">Dialog</RzHeading>
+            <RzParagraph>
+                The RzDialog component suite provides a flexible way to display modal dialogs. It's a composable system built from components like <code>DialogTrigger</code>, <code>DialogContent</code>, <code>DialogHeader</code>, and more. It leverages Alpine.js for client-side state management, transitions, focus trapping, and standard closing mechanisms. Its internal body and footer areas have stable IDs, allowing HTMX to dynamically load or update content within the dialog after it's opened.
+            </RzParagraph>
+
+            <RzAlert Variant="ThemeVariant.Information" class="mb-6">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    This component uses an Alpine.js component (<code>x-data="rzDialog"</code>) to manage its state and interactions. It utilizes <code>&lt;template x-teleport="body"&gt;</code> to ensure the dialog is rendered at the end of the document body, avoiding potential z-index issues.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Dialog" class="scroll-mt-20">
+                    Basic Dialog
+                </RzHeading>
+                <RzParagraph>
+                    This example shows a standard dialog. The <code>DialogTrigger</code> component wraps a button that, when clicked, opens the <code>DialogContent</code>.
+                </RzParagraph>
+
+                <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-40">
+                    <RzDialog>
+                        <DialogTrigger AsChild>
+                            <RzButton Variant="ThemeVariant.Primary">Open Basic Dialog</RzButton>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Basic Dialog Example</DialogTitle>
+                                <DialogDescription>
+                                    This is the content of the basic dialog. You can close it using the 'X' button, pressing Escape, or clicking the backdrop.
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div class="p-6">
+                                <p>This is the main body content.</p>
+                            </div>
+                            <DialogFooter>
+                                <DialogClose AsChild>
+                                    <RzButton Variant="ThemeVariant.Accent">Close</RzButton>
+                                </DialogClose>
+                                <RzButton Variant="ThemeVariant.Primary">Okay</RzButton>
+                            </DialogFooter>
+                        </DialogContent>
+                    </RzDialog>
+                </div>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzDialog&gt;
+    &lt;DialogTrigger AsChild&gt;
+        &lt;RzButton Variant=&quot;ThemeVariant.Primary&quot;&gt;Open Basic Dialog&lt;/RzButton&gt;
+    &lt;/DialogTrigger&gt;
+    &lt;DialogContent&gt;
+        &lt;DialogHeader&gt;
+            &lt;DialogTitle&gt;Basic Dialog Example&lt;/DialogTitle&gt;
+            &lt;DialogDescription&gt;
+                This is the content of the basic dialog. You can close it using the 'X' button, pressing Escape, or clicking the backdrop.
+            &lt;/DialogDescription&gt;
+        &lt;/DialogHeader&gt;
+        &lt;div class=&quot;p-6&quot;&gt;
+            &lt;p&gt;This is the main body content.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;DialogFooter&gt;
+            &lt;DialogClose AsChild&gt;
+                &lt;RzButton Variant=&quot;ThemeVariant.Accent&quot;&gt;Close&lt;/RzButton&gt;
+            &lt;/DialogClose&gt;
+            &lt;RzButton Variant=&quot;ThemeVariant.Primary&quot;&gt;Okay&lt;/RzButton&gt;
+        &lt;/DialogFooter&gt;
+    &lt;/DialogContent&gt;
+&lt;/RzDialog&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Customizing Appearance" class="scroll-mt-20">
+                    Customizing Appearance
+                </RzHeading>
+                <RzParagraph>
+                    You can customize the dialog's appearance using parameters like <code>Size</code> on <code>DialogContent</code>, or by omitting components like <code>DialogHeader</code>.
+                </RzParagraph>
+
+                <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-40 space-x-4">
+                    <RzDialog>
+                        <DialogTrigger AsChild>
+                            <RzButton>Open Small (No Header)</RzButton>
+                        </DialogTrigger>
+                        <DialogContent Size="ModalSize.Small" ShowCloseButton="false">
+                            <div class="p-6">
+                                <p>This dialog has no header and the default close button is hidden.</p>
+                                <div class="mt-4 text-right">
+                                    <DialogClose AsChild>
+                                        <RzButton Variant="ThemeVariant.Accent">Close Me</RzButton>
+                                    </DialogClose>
+                                </div>
+                            </div>
+                        </DialogContent>
+                    </RzDialog>
+
+                    <RzDialog>
+                        <DialogTrigger AsChild>
+                            <RzButton>Open Custom Title</RzButton>
+                        </DialogTrigger>
+                        <DialogContent Size="ModalSize.Medium">
+                            <DialogHeader>
+                                <DialogTitle>
+                                    <div class="flex items-center gap-2 font-semibold text-primary">
+                                        <Blazicon Svg="MdiIcon.Information" class="size-5"/>
+                                        <span>Important Information</span>
+                                    </div>
+                                </DialogTitle>
+                            </DialogHeader>
+                            <div class="p-6">
+                                <p>This dialog uses custom markup inside the <code>DialogTitle</code>.</p>
+                            </div>
+                        </DialogContent>
+                    </RzDialog>
+                </div>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;!-- Small Dialog without Header --&gt;
+&lt;RzDialog&gt;
+    &lt;DialogTrigger AsChild&gt;
+        &lt;RzButton&gt;Open Small (No Header)&lt;/RzButton&gt;
+    &lt;/DialogTrigger&gt;
+    &lt;DialogContent Size=&quot;ModalSize.Small&quot; ShowCloseButton=&quot;false&quot;&gt;
+        &lt;div class=&quot;p-6&quot;&gt;
+            &lt;p&gt;This dialog has no header and the default close button is hidden.&lt;/p&gt;
+            &lt;div class=&quot;mt-4 text-right&quot;&gt;
+                &lt;DialogClose AsChild&gt;
+                    &lt;RzButton Variant=&quot;ThemeVariant.Accent&quot;&gt;Close Me&lt;/RzButton&gt;
+                &lt;/DialogClose&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/DialogContent&gt;
+&lt;/RzDialog&gt;
+
+&lt;!-- Dialog with Custom TitleContent --&gt;
+&lt;RzDialog&gt;
+    &lt;DialogTrigger AsChild&gt;
+        &lt;RzButton&gt;Open Custom Title&lt;/RzButton&gt;
+    &lt;/DialogTrigger&gt;
+    &lt;DialogContent Size=&quot;ModalSize.Medium&quot;&gt;
+        &lt;DialogHeader&gt;
+            &lt;DialogTitle&gt;
+                &lt;div class=&quot;flex items-center gap-2 font-semibold text-primary&quot;&gt;
+                    &lt;Blazicon Svg=&quot;MdiIcon.Information&quot; class=&quot;size-5&quot;/&gt;
+                    &lt;span&gt;Important Information&lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/DialogTitle&gt;
+        &lt;/DialogHeader&gt;
+        &lt;div class=&quot;p-6&quot;&gt;
+            &lt;p&gt;This dialog uses custom markup inside the &lt;code&gt;DialogTitle&lt;/code&gt;.&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/DialogContent&gt;
+&lt;/RzDialog&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="HTMX Content Loading" class="scroll-mt-20">
+                    HTMX Content Loading
+                </RzHeading>
+                <RzParagraph>
+                    This demonstrates using HTMX to load content dynamically into the dialog's body. The <code>DialogTrigger</code> opens the dialog, and its child <code>RzButton</code> has HTMX attributes to fetch content, targeting the dialog's specific <code>BodyId</code>.
+                </RzParagraph>
+
+                <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-40">
+                    <RzDialog @ref="htmxLoadDialogRef">
+                        <DialogTrigger AsChild>
+                            <RzButton hx-get="/demo/htmx-dialog-sample"
+                                      hx-target="@($"#{htmxLoadDialogRef.BodyId}")"
+                                      hx-swap="innerHTML"
+                                      hx-indicator="@($"#{htmxLoadDialogRef.BodyId}-spinner")">
+                                Open & Load Content via HTMX
+                            </RzButton>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>HTMX Loaded Content</DialogTitle>
+                            </DialogHeader>
+                            <div id="@htmxLoadDialogRef.BodyId" class="p-6">
+                                <div class="text-center p-4">
+                                    <RzSpinner Id="@($"{htmxLoadDialogRef.BodyId}-spinner")" Size="Size.Large"/>
+                                    <p class="mt-2">Loading content...</p>
+                                </div>
+                            </div>
+                        </DialogContent>
+                    </RzDialog>
+                </div>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10" ViewerTitle="Blazor Component">
+&lt;RzDialog @@ref=&quot;htmxLoadDialogRef&quot;&gt;
+    &lt;DialogTrigger AsChild&gt;
+        &lt;RzButton hx-get=&quot;/demo/htmx-dialog-sample&quot;
+                  hx-target=&quot;@@($&quot;#{htmxLoadDialogRef.BodyId}&quot;)&quot;
+                  hx-swap=&quot;innerHTML&quot;
+                  hx-indicator=&quot;@@($&quot;#{htmxLoadDialogRef.BodyId}-spinner&quot;)&quot;&gt;
+            Open &amp; Load Content via HTMX
+        &lt;/RzButton&gt;
+    &lt;/DialogTrigger&gt;
+    &lt;DialogContent&gt;
+        &lt;DialogHeader&gt;
+            &lt;DialogTitle&gt;HTMX Loaded Content&lt;/DialogTitle&gt;
+        &lt;/DialogHeader&gt;
+        &lt;div id=&quot;@@htmxLoadDialogRef.BodyId&quot; class=&quot;p-6&quot;&gt;
+            &lt;div class=&quot;text-center p-4&quot;&gt;
+                &lt;RzSpinner Id=&quot;@@($&quot;#{htmxLoadDialogRef.BodyId}-spinner&quot;)&quot; Size=&quot;Size.Large&quot;/&gt;
+                &lt;p class=&quot;mt-2&quot;&gt;Loading content...&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/DialogContent&gt;
+&lt;/RzDialog&gt;
+
+@@code {
+    RzDialog htmxLoadDialogRef = default!;
+}
+                </RzCodeViewer>
+                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10" ViewerTitle="Demo Content Page (/demo/htmx-dialog-sample)">
+@@page &quot;/demo/htmx-dialog-sample&quot;
+@@layout RizzyUI.Docs.Components.Layout.EmptyLayout
+@@using RizzyUI
+
+&lt;p&gt;This content was loaded dynamically via an HTMX request!&lt;/p&gt;
+&lt;RzAlert Variant=&quot;ThemeVariant.Success&quot;&gt;
+    &lt;AlertTitle&gt;Success&lt;/AlertTitle&gt;
+    &lt;AlertDescription&gt;Content loaded successfully.&lt;/AlertDescription&gt;
+&lt;/RzAlert&gt;
+                </RzCodeViewer>
+            </section>
+
+             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Closing with HTMX" class="scroll-mt-20">
+                    Closing with HTMX
+                </RzHeading>
+                <RzParagraph>
+                    Dialogs can be closed from the server by returning an HTMX response header that triggers the event specified in the `CloseEventName` parameter (default: `rz:modal-close`). This example shows a form inside the dialog; upon successful submission, the server sends back the trigger header.
+                </RzParagraph>
+
+                <RzAlert Variant="ThemeVariant.Warning" class="mb-6">
+                   <AlertTitle>Static Documentation Limitation</AlertTitle>
+                   <AlertDescription>
+                       This specific "Close via HTMX Header" example requires server-side processing to send the `HX-Trigger` response header. Since this documentation is rendered as static HTML, clicking the "Submit & Close" button below will not actually close the dialog in this demo environment. It demonstrates the client-side setup and the expected server-side response.
+                   </AlertDescription>
+               </RzAlert>
+
+                <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-40">
+                    <RzDialog>
+                        <DialogTrigger AsChild>
+                            <RzButton>Open HTMX Close Example</RzButton>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Close via HTMX Header</DialogTitle>
+                            </DialogHeader>
+                            <div class="p-6">
+                                <form hx-post="/api/dialog/htmx-close-action"
+                                      hx-target="this"
+                                      hx-swap="outerHTML">
+                                    <p>Submit this form. The server response will include an HX-Trigger header to close this dialog (requires live server).</p>
+                                    <div class="text-right mt-4">
+                                        <RzButton type="submit" Variant="ThemeVariant.Success">Submit & Close</RzButton>
+                                    </div>
+                                </form>
+                            </div>
+                        </DialogContent>
+                    </RzDialog>
+                </div>
+
+                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10" ViewerTitle="Blazor Component">
+&lt;RzDialog&gt;
+    &lt;DialogTrigger AsChild&gt;
+        &lt;RzButton&gt;Open HTMX Close Example&lt;/RzButton&gt;
+    &lt;/DialogTrigger&gt;
+    &lt;DialogContent&gt;
+        &lt;DialogHeader&gt;
+            &lt;DialogTitle&gt;Close via HTMX Header&lt;/DialogTitle&gt;
+        &lt;/DialogHeader&gt;
+        &lt;div class=&quot;p-6&quot;&gt;
+            &lt;form hx-post=&quot;/api/dialog/htmx-close-action&quot;
+                  hx-target=&quot;this&quot;
+                  hx-swap=&quot;outerHTML&quot;&gt;
+                &lt;p&gt;Submit this form. The server response will include an HX-Trigger header to close this dialog.&lt;/p&gt;
+                &lt;div class=&quot;text-right mt-4&quot;&gt;
+                    &lt;RzButton type=&quot;submit&quot; Variant=&quot;ThemeVariant.Success&quot;&gt;Submit &amp; Close&lt;/RzButton&gt;
+                &lt;/div&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+    &lt;/DialogContent&gt;
+&lt;/RzDialog&gt;
+                 </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" class="mb-10" ViewerTitle="Example Controller Action (using RzController)">
+[HttpPost(&quot;/api/dialog/htmx-close-action&quot;)]
+public IResult CloseDialogAction()
+{
+    // Process form data if needed...
+
+    // Add the HX-Trigger header to close the dialog
+    HttpContext.Response.Htmx(h =&gt; h.Trigger(RizzyUI.Constants.Events.ModalClose));
+
+    // Can return swapped content for the form, or just Ok/NoContent if only closing
+    return Ok(&quot;&lt;p&gt;Form Submitted! Dialog closed by server.&lt;/p&gt;&quot;); 
+}
+                </RzCodeViewer>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    RzDialog htmxLoadDialogRef = default!;
+
+    public void Dispose() { }
+}

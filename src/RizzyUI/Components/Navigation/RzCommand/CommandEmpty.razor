@@ -1,0 +1,24 @@
+
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<CommandEmpty.Slots>
+
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@SlotClasses.GetBase()"
+     data-slot="command-empty"
+     x-show="shouldShowEmptyOrError"
+     x-cloak>
+    <template x-if="hasError">
+        <div class="text-destructive flex flex-col items-center gap-2">
+            <Blazicon Svg="MdiIcon.AlertCircleOutline" class="size-6" />
+            <p>Failed to load items.</p>
+            <p class="text-xs" x-text="error"></p>
+        </div>
+    </template>
+    <template x-if="notHasError">
+        <div>
+            @ChildContent
+        </div>
+    </template>
+</div>

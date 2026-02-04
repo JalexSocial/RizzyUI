@@ -1,3 +1,4 @@
-﻿// Global using directives
+
+// Global using directives
 
 global using Rizzy;

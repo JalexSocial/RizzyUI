@@ -1,14 +1,13 @@
-﻿@page "/components/checkboxgroup"
-@using Rizzy
-@namespace RizzyUI
 
-@using Rizzy.Components
+@page "/components/checkbox"
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
 @using RizzyUI
-@using RizzyUI.Extensions
-@using Blazicons
-@using RizzyUI.Docs.Models
+@using Rizzy.Components
 
-<PageTitle>CheckboxGroup and RzCheckboxGroupField</PageTitle>
+<PageTitle>Checkbox & Checkbox Group</PageTitle>
 
 <RzQuickReferenceContainer>
     <RzArticle ProseWidth="ProseWidth.UltraWide">
@@ -16,156 +15,174 @@
             <RzQuickReference />
         </SideContent>
         <MainContent>
-            <!-- Page Title and Overview -->
-            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="CheckboxGroup and RzCheckboxGroupField" class="scroll-mt-20">
-                CheckboxGroup and RzCheckboxGroupField
-            </RzHeading>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Checkbox" class="scroll-mt-20">Checkbox</RzHeading>
             <RzParagraph>
-                The <code>CheckboxGroup</code> component enables users to select one or more options from a group of checkboxes, with support for model binding and validation. The <code>RzCheckboxGroupField</code> component extends this functionality by wrapping <code>CheckboxGroup</code> within a complete form field experience, including a label, help text, and validation messages.
+                Components for capturing boolean or multiple-choice selections from a user. Use `RzCheckbox` for a single true/false input and `RzCheckboxGroup` for selecting multiple options from a list.
             </RzParagraph>
 
-            <!-- Example 1: CheckboxGroup Usage -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CheckboxGroup Example" class="scroll-mt-20">
-                    CheckboxGroup Example
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Checkbox" class="scroll-mt-20">
+                    Basic Checkbox
                 </RzHeading>
                 <RzParagraph>
-                    In the example below, an <code>EditForm</code> is used with a <code>CheckboxGroup</code> to capture multiple interests from a user. The <code>Interests</code> property of the <code>Customer</code> model is utilized for binding.
+                    A standalone checkbox for a single boolean value, composed with `Field` and `FieldLabel` for proper form structure and accessibility.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-5">
-                        <EditForm Model="Model" class="form-children-spacing">
-                            <RzValidationSummary/>
-                            <RzCheckboxGroup TValue="string" For="@(() => Model.Interests)" Orientation="Orientation.Vertical">
-                                <RzCheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports" />
-                                <RzCheckboxGroupItem TValue="string" Value="@("Music")" Title="Music" />
-                                <RzCheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel" />
-                                <RzCheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology" />
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <Field Orientation="FieldOrientation.Horizontal">
+                                <RzInputCheckbox For="@(() => _model.AcceptTerms)" />
+                                <FieldLabel For="@(() => _model.AcceptTerms)" class="font-normal">Accept terms and conditions</FieldLabel>
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;EditForm Model=&quot;@@_model&quot;&gt;
+    &lt;Field Orientation=&quot;FieldOrientation.Horizontal&quot;&gt;
+        &lt;RzCheckbox For=&quot;@@(() =&gt; _model.AcceptTerms)&quot; /&gt;
+        &lt;FieldLabel For=&quot;@@(() =&gt; _model.AcceptTerms)&quot; class=&quot;font-normal&quot;&gt;Accept terms and conditions&lt;/FieldLabel&gt;
+    &lt;/Field&gt;
+&lt;/EditForm&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Checkbox with Description" class="scroll-mt-20">
+                    Checkbox with Description
+                </RzHeading>
+                <RzParagraph>
+                    Add a `FieldDescription` to provide more context for the checkbox.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <Field Orientation="FieldOrientation.Horizontal" class="items-start">
+                                <RzInputCheckbox For="@(() => _model.AcceptTerms)" />
+                                <RzFieldGroup>
+                                    <Field>
+                                        <FieldLabel For="@(() => _model.AcceptTerms)" class="font-normal">Accept terms and conditions</FieldLabel>
+                                        <FieldDescription>
+                                            By clicking this checkbox, you agree to the terms and conditions.
+                                        </FieldDescription>
+                                    </Field>
+                                </RzFieldGroup>
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;Field Orientation=&quot;FieldOrientation.Horizontal&quot; class=&quot;items-start&quot;&gt;
+    &lt;RzInputCheckbox For=&quot;@@(() =&gt; _model.AcceptTerms)&quot; /&gt;
+    &lt;RzFieldGroup&gt;
+        &lt;Field&gt;
+            &lt;FieldLabel For=&quot;@@(() =&gt; _model.AcceptTerms)&quot; class=&quot;font-normal&quot;&gt;Accept terms and conditions&lt;/FieldLabel&gt;
+            &lt;FieldDescription&gt;
+                By clicking this checkbox, you agree to the terms and conditions.
+            &lt;/FieldDescription&gt;
+        &lt;/Field&gt;
+    &lt;/RzFieldGroup&gt;
+&lt;/Field&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Checkbox Group" class="scroll-mt-20">
+                    Checkbox Group
+                </RzHeading>
+                <RzParagraph>
+                    Use `RzCheckboxGroup` within an `Field` to bind multiple options to a collection. This example binds to the `TaskNotifications` list on the model.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <Field>
+                                <FieldLabel For="@(() => _model.TaskNotifications)">Tasks</FieldLabel>
+                                <FieldDescription>
+                                    Get notified when tasks you've created have updates.
+                                    <RzLink Href="#">Manage tasks</RzLink>
+                                </FieldDescription>
+                                <RzCheckboxGroup For="@(() => _model.TaskNotifications)" class="mt-2">
+                                    <RzCheckboxGroupItem TValue="string" Name="@("push")">
+                                        <span class="text-sm">Push notifications</span>
+                                    </RzCheckboxGroupItem>
+                                    <RzCheckboxGroupItem TValue="string" Name="@("email")">
+                                        <span class="text-sm">Email notifications</span>
+                                    </RzCheckboxGroupItem>
+                                </RzCheckboxGroup>
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;Field&gt;
+    &lt;FieldLabel For=&quot;@@(() =&gt; _model.TaskNotifications)&quot;&gt;Tasks&lt;/FieldLabel&gt;
+    &lt;FieldDescription&gt;
+        Get notified when tasks you&#39;ve created have updates.
+        &lt;RzLink Href=&quot;#&quot;&gt;Manage tasks&lt;/RzLink&gt;
+    &lt;/FieldDescription&gt;
+    &lt;RzCheckboxGroup For=&quot;@@(() =&gt; _model.TaskNotifications)&quot; class=&quot;mt-2&quot;&gt;
+        &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;push&quot;)&quot;&gt;
+            &lt;span class=&quot;text-sm&quot;&gt;Push notifications&lt;/span&gt;
+        &lt;/RzCheckboxGroupItem&gt;
+        &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;email&quot;)&quot;&gt;
+            &lt;span class=&quot;text-sm&quot;&gt;Email notifications&lt;/span&gt;
+        &lt;/RzCheckboxGroupItem&gt;
+    &lt;/RzCheckboxGroup&gt;
+&lt;/Field&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Choice Card Pattern" class="scroll-mt-20">
+                    Choice Card Pattern
+                </RzHeading>
+                <RzParagraph>
+                    Create large, clickable "choice cards" by placing rich content inside an `RzCheckboxGroupItem`. The entire item acts as a label for the checkbox.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <RzCheckboxGroup For="@(() => _model.NotificationPreferences)">
+                                <RzCheckboxGroupItem TValue="string" Value="@("enable-notifications")">
+                                    <div class="flex w-full cursor-pointer items-start gap-3 rounded-lg border p-3 has-[[aria-checked=true]]:border-primary has-[[aria-checked=true]]:bg-accent/50 hover:bg-accent/50">
+                                        <div class="grid gap-1.5 font-normal">
+                                            <p class="text-sm font-medium leading-none">
+                                                Enable notifications
+                                            </p>
+                                            <p class="text-sm text-muted-foreground">
+                                                You can enable or disable notifications at any time.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </RzCheckboxGroupItem>
                             </RzCheckboxGroup>
                         </EditForm>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;EditForm Model="Model" class="form-children-spacing"&gt;
-    &lt;RzValidationSummary /&gt;
-    &lt;RzCheckboxGroup TValue="string" For="@@(() =&gt; Model.Interests)" Orientation="@@Orientation.Vertical"&gt;
-        &lt;RzCheckboxGroupItem TValue="string" Value="@@("Sports")" Title="Sports" /&gt;
-        &lt;RzCheckboxGroupItem TValue="string" Value="@@("Music")" Title="Music" /&gt;
-        &lt;RzCheckboxGroupItem TValue="string" Value="@@("Travel")" Title="Travel" /&gt;
-        &lt;RzCheckboxGroupItem TValue="string" Value="@@("Technology")" Title="Technology" /&gt;
-    &lt;/RzCheckboxGroup&gt;
-&lt;/EditForm&gt;
-                </RzCodeViewer>
-            </section>
-
-            <!-- Example 2: RzCheckboxGroupField Usage -->
-            <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzCheckboxGroupField Example" class="scroll-mt-20">
-                    RzCheckboxGroupField Example
-                </RzHeading>
-                <RzParagraph>
-                    The <code>RzCheckboxGroupField</code> component encapsulates a complete form field experience by combining a label, the checkbox group, help text, and validation messages. The example below demonstrates its usage with the <code>Interests</code> property of the <code>Customer</code> model.
-                </RzParagraph>
-
-                <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-5">
-                        <EditForm Model="Model" class="form-children-spacing">
-                            <RzValidationSummary/>
-                            <RzCheckboxGroupField TValue="string" For="@(() => Model.Interests)" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
-	                            <CheckboxGroupContent>
-		                            <RzCheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports"/>
-		                            <RzCheckboxGroupItem TValue="string" Value="@("Music")" Title="Music"/>
-		                            <RzCheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel"/>
-		                            <RzCheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology"/>
-	                            </CheckboxGroupContent>
-	                            <FieldHelp>Select all interests that apply.</FieldHelp>
-                            </RzCheckboxGroupField>
-                        </EditForm>
-                    </div>
-                </RzBrowser>
-
-                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-                            &lt;RzCheckboxGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.Interests)&quot; DisplayName=&quot;Select Your Interests&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;
-	                            &lt;CheckboxGroupContent&gt;
-		                            &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Sports&quot;)&quot; Title=&quot;Sports&quot;/&gt;
-		                            &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Music&quot;)&quot; Title=&quot;Music&quot;/&gt;
-		                            &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Travel&quot;)&quot; Title=&quot;Travel&quot;/&gt;
-		                            &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;Technology&quot;)&quot; Title=&quot;Technology&quot;/&gt;
-	                            &lt;/CheckboxGroupContent&gt;
-	                            &lt;FieldHelp&gt;Select all interests that apply.&lt;/FieldHelp&gt;
-                            &lt;/RzCheckboxGroupField&gt;
-                </RzCodeViewer>
-            </section>
-
-            <!-- Customer Model Reference -->
-            <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Customer Model" class="scroll-mt-20">
-                    Customer Model Reference
-                </RzHeading>
-                <RzParagraph>
-                    The following code defines a sample <code>Customer</code> model that is used in these examples:
-                </RzParagraph>
-                <RzCodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
-&lt;!-- Customer.cs --&gt;
-&lt;summary&gt;
-Represents a customer with personal and contact information.
-&lt;/summary&gt;
-public class Customer
-{
-    &lt;summary&gt;
-    Gets or sets the unique identifier for the customer.
-    &lt;/summary&gt;
-    public int CustomerId { get; set; } = 1234;
-
-    &lt;summary&gt;
-    Gets or sets the full name of the customer.
-    &lt;/summary&gt;
-    [MaxLength(10)]
-    public string Name { get; set; } = "Jane Johnson";
-
-    &lt;summary&gt;
-    Gets or sets the email address of the customer.
-    &lt;/summary&gt;
-    public string Email { get; set; } = "johnsonj@gmail.com";
-
-    &lt;summary&gt;
-    Gets or sets the phone number of the customer.
-    &lt;/summary&gt;
-    public string PhoneNumber { get; set; } = "555-555-5555";
-
-    &lt;summary&gt;
-    Gets or sets the age of the customer.
-    &lt;/summary&gt;
-    public int Age { get; set; } = 29;
-
-    &lt;summary&gt;
-    Gets or sets a value indicating whether the customer is active.
-    &lt;/summary&gt;
-    public bool IsActive { get; set; } = true;
-
-    &lt;summary&gt;
-    Gets or sets the gender of the customer.
-    &lt;/summary&gt;
-    public string Gender { get; set; } = "female";
-
-    &lt;summary&gt;
-    Gets or sets the preferred method of contact for the customer.
-    &lt;/summary&gt;
-    public string PreferredContactMethod { get; set; } = "email";
-
-    &lt;summary&gt;
-    Gets or sets the birth date of the customer.
-    &lt;/summary&gt;
-    public DateTime BirthDate { get; set; } = DateTime.Now.AddYears(-29).AddMonths(3).AddDays(9);
-
-    &lt;summary&gt;
-    Gets or sets the interests of the customer.
-    This property is used to demonstrate the checkbox group components.
-    &lt;/summary&gt;
-    public List&lt;string&gt; Interests { get; set; } = new List&lt;string&gt; { "Sports" };
-}
+&lt;RzCheckboxGroup For=&quot;@@(() =&gt; _model.NotificationPreferences)&quot;&gt;
+    &lt;RzCheckboxGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;enable-notifications&quot;)&quot;&gt;
+        &lt;div class=&quot;flex w-full cursor-pointer items-start gap-3 rounded-lg border p-3 has-[[aria-checked=true]]:border-primary has-[[aria-checked=true]]:bg-accent/50 hover:bg-accent/50&quot;&gt;
+            &lt;div class=&quot;grid gap-1.5 font-normal&quot;&gt;
+                &lt;p class=&quot;text-sm font-medium leading-none&quot;&gt;
+                    Enable notifications
+                &lt;/p&gt;
+                &lt;p class=&quot;text-sm text-muted-foreground&quot;&gt;
+                    You can enable or disable notifications at any time.
+                &lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/RzCheckboxGroupItem&gt;
+&lt;/RzCheckboxGroup&gt;
                 </RzCodeViewer>
             </section>
         </MainContent>
@@ -173,11 +190,16 @@ public class Customer
 </RzQuickReferenceContainer>
 
 @code {
-    private Customer Model = default!;
-
-    protected override void OnInitialized()
+    private class CheckboxDemoModel
     {
-        base.OnInitialized();
-        Model = new();
+        [Required(ErrorMessage = "You must accept the terms and conditions.")]
+        [Range(typeof(bool), "true", "true", ErrorMessage = "You must accept the terms and conditions.")]
+        public bool AcceptTerms { get; set; }
+
+        public List<string> Responses { get; set; } = new() { "push" };
+        public List<string> TaskNotifications { get; set; } = new();
+        public List<string> NotificationPreferences { get; set; } = new() { "enable-notifications" };
     }
+
+    private CheckboxDemoModel _model = new();
 }

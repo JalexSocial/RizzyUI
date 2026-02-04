@@ -1,0 +1,22 @@
+
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<CommandList.Slots>
+
+<div @attributes="AdditionalAttributes"
+     id="rz-command-list-@ParentCommand?.Id"
+     class="@SlotClasses.GetBase()"
+     data-slot="command-list"
+     role="listbox"
+     x-data="rzCommandList"
+     x-on:rz:command:list-changed.window="renderList"
+     x-on:click.capture="handleItemClick"
+     x-on:mouseover.throttle.10ms="handleItemHover">
+    
+    <div x-show="showLoading()" class="flex items-center justify-center p-4" data-dynamic-item x-cloak>
+        <RzSpinner Size="Size.Small" />
+    </div>
+
+    @ChildContent
+
+</div>

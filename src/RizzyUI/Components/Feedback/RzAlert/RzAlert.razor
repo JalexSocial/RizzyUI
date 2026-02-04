@@ -1,16 +1,17 @@
 
 @namespace RizzyUI
 @using Blazicons
-@inherits RzComponent
+@inherits RzComponent<RzAlert.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
-    <HtmlElement Element="@EffectiveElement"
+	<HtmlElement Element="@EffectiveElement"
+	             role="alert"
+	             aria-live="assertive"
                  @attributes="@AdditionalAttributes"
                  id="@Id"
-                 class="@RootClass()"
-                 role="alert"
-                 aria-live="assertive">
-	    <div class="@Theme.RzAlert.GetVariantCss(Variant)" aria-atomic="true"
+                 data-slot="alert"
+                 class="@SlotClasses.GetBase()">
+	    <div aria-atomic="true"
 	         x-cloak
 	         x-data="rzAlert" x-show="showAlert"
 	         x-transition:enter="transition ease-out duration-200 motion-reduce:transition-none"
@@ -20,18 +21,18 @@
 	         x-transition:leave-start="opacity-100"
 	         x-transition:leave-end="opacity-0"
 	         data-alpine-root="@Id">
-	         <div class="@Theme.RzAlert.InnerContainer @(_bgLight)">
+	         <div class="@SlotClasses.GetInnerContainer()" data-slot="alert-inner-container">
 		         @if (Icon != null)
 		         {
-			         <div class="@Theme.RzAlert.IconContainer @(_iconColor)" aria-hidden="true">
+			         <div class="@SlotClasses.GetIconContainer()" aria-hidden="true" data-slot="alert-icon-container">
 				         @if (Pulse)
 				         {
-					         <div class="@Theme.RzAlert.IconPulse @_bgLighter"></div>
+					         <div class="@SlotClasses.GetIconPulse()" data-slot="alert-icon-pulse"></div>
 				         }
 				         <Blazicon Svg="Icon"></Blazicon>
 			         </div>
 		         }
-		         <div class="@Theme.RzAlert.ContentContainer">
+		         <div class="@SlotClasses.GetContentContainer()" data-slot="alert-content-container">
 			         @ChildContent
 		         </div>
 
@@ -41,15 +42,15 @@
 				         type="button"
 				         x-on:click="dismiss"
 				         aria-label="@Localizer["RzAlert.CloseButtonAriaLabel"]"
-				         class="@Theme.RzAlert.CloseButton">
+				         class="@SlotClasses.GetCloseButton()"
+				         data-slot="alert-close-button">
 				         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor"
-				              fill="none" stroke-width="2.5" class="@Theme.RzAlert.CloseButtonIcon">
+				              fill="none" stroke-width="2.5" class="@SlotClasses.GetCloseButtonIcon()" data-slot="alert-close-button-icon">
 					         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
 				         </svg>
 			         </button>
 		         }
 	         </div>
-             
          </div>        
     </HtmlElement>
 </CascadingValue>

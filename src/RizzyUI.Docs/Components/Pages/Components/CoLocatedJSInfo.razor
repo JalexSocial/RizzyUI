@@ -1,0 +1,213 @@
+
+@page "/components/co-located-js"
+@attribute [RzAlpineCodeBehind]
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+@using RizzyUI
+@using RizzyUI.Docs.Models
+@using System.Text.Json
+@using RizzyUI.Docs.Components.Pages.Components.Demo
+
+<PageTitle>Co-located JS</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Co-located JS with Alpine Modules" class="scroll-mt-20">
+                Co-located JS Additional Examples
+            </RzHeading>
+            <RzParagraph>
+                RizzyUI provides a first-class system for writing page-specific, co-located JavaScript using Alpine.js. This allows you to add rich, client-side interactivity to your server-rendered components in a structured, maintainable, and CSP-compliant way.
+            </RzParagraph>
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
+                <AlertTitle>The Core Idea</AlertTitle>
+                <AlertDescription>
+                    You write your component's JavaScript in a <code>.razor.js</code> file right next to your <code>.razor</code> file. A special <code>&lt;RzAlpineComponent&gt;</code> component handles loading this script, registering it as an Alpine.js component, and passing initial data.
+                </AlertDescription>
+            </RzAlert>
+
+            <!-- Example 1: Basic Interaction -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Example" class="scroll-mt-20">
+                    Basic Example
+                </RzHeading>
+                <RzParagraph>
+                    This example shows a simple Alpine module that updates a text element. The <code>[RzAlpineCodeBehind]</code> attribute enables the feature, and <code>&lt;RzAlpineComponent&gt;</code> loads the script and passes data from C# to the JS module via the <code>Props</code> parameter.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 flex min-h-40 flex-col items-center justify-center gap-4 p-8">
+                        <RzAlpineComponent For="this" Name="coLocatedJsPage" Props="@(new { initialMessage = "Hello from C#!" })">
+                            <p>Message from Alpine: <strong x-ref="messageOutput"></strong></p>
+                            <RzButton x-on:click="updateMessage">Update Message from JS</RzButton>
+                        </RzAlpineComponent>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="razor" ViewerTitle="CoLocatedJSInfo.razor" class="mb-4">
+&lt;!-- Add this attribute to your component --&gt;
+@@attribute [RzAlpineCodeBehind]
+
+&lt;RzAlpineComponent For="this" Name="coLocatedJsPage" Props="@@(new { initialMessage = "Hello from C#!" })"&gt;
+    &lt;p&gt;Message from Alpine: &lt;strong x-ref="messageOutput"&gt;&lt;/strong&gt;&lt;/p&gt;
+    &lt;RzButton x-on:click="updateMessage"&gt;Update Message from JS&lt;/RzButton&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+                <RzCodeViewer Language="javascript" ViewerTitle="CoLocatedJSInfo.razor.js" class="mb-10">
+// The exported function is a factory for your Alpine.js data object.
+export default () => ({
+    message: '',
+
+    // Alpine's `init()` is called after the component is ready.
+    init() {
+        const props = Rizzy.props(this.$el);
+        this.message = props.initialMessage || 'Default message';
+        this.$refs.messageOutput.innerText = this.message;
+    },
+
+    updateMessage() {
+        this.message = 'The message was updated by our co-located Alpine module!';
+        this.$refs.messageOutput.innerText = this.message;
+    }
+});
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 2: Multiple Instances -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Multiple Instances" class="scroll-mt-20">
+                    Multiple Instances with a Sub-Component
+                </RzHeading>
+                <RzParagraph>
+                    This pattern shines when reusing components. Each <code>&lt;Demo._UserCard&gt;</code> component instance gets its own independent Alpine.js scope, initialized with its own unique data from the C# loop. The <code>_UserCard.razor.js</code> module is loaded and registered only once.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 flex flex-wrap items-center justify-center gap-4 p-8">
+                        @foreach (var user in _users)
+                        {
+                            <UserCard User="user" />
+                        }
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="razor" ViewerTitle="ParentPage.razor (Loop)" class="mb-4">
+&lt;div class="flex flex-wrap gap-4"&gt;
+@@foreach (var user in _users)
+{
+    &lt;UserCard User="user" /&gt;
+}
+&lt;/div&gt;
+
+@@code {
+private List&lt;UserData&gt; _users = new()
+{
+    new() { Id = 1, Name = "Alice", Email = "alice@example.com" },
+    new() { Id = 2, Name = "Bob", Email = "bob@example.com" },
+    new() { Id = 3, Name = "Charlie", Email = "charlie@example.com" }
+};
+}
+                </RzCodeViewer>
+                <RzCodeViewer Language="razor" ViewerTitle="UserCard.razor" class="mb-4">
+@@attribute [RzAlpineCodeBehind]
+
+&lt;RzAlpineComponent For="this" Name="userCard" Props="@@User" LoadStrategy="visible" AsChild&gt;
+    &lt;div class="border p-4 rounded-lg shadow-sm w-64"&gt;
+        &lt;h3 class="font-bold" x-text="user.name"&gt;&lt;/h3&gt;
+        &lt;p class="text-sm text-muted-foreground" x-text="user.email"&gt;&lt;/p&gt;
+        &lt;RzButton class="mt-2" x-on:click="showAlert"&gt;Show Alert&lt;/RzButton&gt;
+    &lt;/div&gt;
+&lt;/RzAlpineComponent&gt;
+
+@@code {
+[Parameter, EditorRequired]
+public UserData User { get; set; } = default!;
+}
+                </RzCodeViewer>
+                <RzCodeViewer Language="javascript" ViewerTitle="UserCard.razor.js" class="mb-10">
+export default () => ({
+    user: {},
+
+    init() {
+        this.user = Rizzy.props(this.$el);
+        console.log('UserCard initialized for:', this.user.name);
+    },
+
+    showAlert() {
+        alert(`You clicked on ${this.user.name}'s card!`);
+    }
+});
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 3: Orchestration -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Orchestrating RizzyUI Components" class="scroll-mt-20">
+                    Orchestrating RizzyUI Components
+                </RzHeading>
+                <RzParagraph>
+                    Your co-located Alpine module can act as a controller for other RizzyUI components. By giving a RizzyUI component an <code>x-ref</code>, you can get a handle to its DOM element and then use <code>Rizzy.$data()</code> to access its internal Alpine instance and API.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 flex min-h-40 items-center justify-center p-8">
+                        <RzAlpineComponent For="this" Name="coLocatedJsPage">
+                            <RzButton x-on:click="openConfirmationModal">Show Confirmation</RzButton>
+
+                            <RzDialog Title="Confirm Action" x-ref="confirmModal">
+                                <DialogContent>
+                                    <p>Are you sure you want to proceed? This action is controlled by the page's Alpine module.</p>
+                                    <DialogFooter>
+                                        <RzButton x-on:click="$data.closeModal()">Close</RzButton>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </RzDialog>
+                        </RzAlpineComponent>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="razor" ViewerTitle="CoLocatedJSInfo.razor (Orchestration)" class="mb-4">
+&lt;RzAlpineComponent For="this" Name="coLocatedJsPage"&gt;
+    &lt;RzButton x-on:click="openConfirmationModal"&gt;Show Confirmation&lt;/RzButton&gt;
+
+    &lt;RzDialog Title="Confirm Action" x-ref="confirmModal"&gt;
+        &lt;!-- Modal Content --&gt;
+    &lt;/RzDialog&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+                <RzCodeViewer Language="javascript" ViewerTitle="CoLocatedJSInfo.razor.js (Orchestration)" class="mb-10">
+export default () => ({
+    confirmModal: null,
+
+    async init() {
+        // Allow a tick for modal to transport to body (needed by RzDialog)
+        await Alpine.nextTick();
+        
+        // Get the Alpine instance for the RzDialog component
+        this.confirmModal = Rizzy.$data(this.$refs.confirmModal);
+    },
+
+    openConfirmationModal() {
+        if (this.confirmModal) {
+            this.confirmModal.openModal();
+        }
+    }
+});
+                </RzCodeViewer>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private List<UserData> _users = new()
+    {
+        new() { Id = 1, Name = "Alice", Email = "alice@example.com" },
+        new() { Id = 2, Name = "Bob", Email = "bob@example.com" },
+        new() { Id = 3, Name = "Charlie", Email = "charlie@example.com" }
+    };
+}

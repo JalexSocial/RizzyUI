@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization; // Required for IStringLocalizer
 using Microsoft.Extensions.Options;
@@ -11,7 +12,7 @@ namespace RizzyUI;
 /// Base class for all RizzyUI components, providing common functionality
 /// such as theme access, attribute merging, nonce handling, and localization support.
 /// </summary>
-public abstract class RzComponent : ComponentBase
+public abstract partial class RzComponent : ComponentBase
 {
     private string? _nonce;
 
@@ -111,20 +112,6 @@ public abstract class RzComponent : ComponentBase
     /// Actual HTML element tag name to be rendered as the root of this component.
     /// </summary>
     protected string EffectiveElement => string.IsNullOrEmpty(Element) ? "div" : Element;
-
-    /// <summary>
-    /// Calculates the final CSS class string for the component's root element by merging
-    /// base classes defined by the theme (if overridden) with any additional classes
-    /// provided via the `class` attribute in <see cref="AdditionalAttributes"/>.
-    /// Derived components MUST override this method to include their specific base classes.
-    /// </summary>
-    /// <returns>A string containing the merged CSS classes, or null/empty if no classes are applicable.</returns>
-    protected virtual string? RootClass()
-    {
-        // Base implementation only handles the 'class' attribute from AdditionalAttributes.
-        // Derived components should override and use TwMerge.Merge(AdditionalAttributes, baseClass, ...)
-        return AdditionalAttributes?.GetValueOrDefault("class", string.Empty)?.ToString();
-    }
 
     /// <summary>
     /// Initializes the component and resolves the effective theme.

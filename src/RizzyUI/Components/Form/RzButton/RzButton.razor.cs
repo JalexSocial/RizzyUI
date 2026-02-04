@@ -1,121 +1,143 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
 /// Represents a clickable button with customizable styling, variant, and size. Styling is handled by the active theme.
 /// </summary>
-public partial class RzButton : RzComponent
+public partial class RzButton : RzComponent<RzButton.Slots>
 {
     /// <summary>
-    /// Gets or sets the parent <see cref="RzButtonGroup"/> this component belongs to, if any.
-    /// This is provided via a cascading parameter.
+    /// Defines the default styling for the RzButton component.
+    /// This is used by themes as the base definition and can be overridden.
     /// </summary>
-    [CascadingParameter]
-    public RzButtonGroup? Group { get; set; }
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer rounded-md",
+        variants: new()
+        {
+            [b => ((RzButton)b).EffectiveVariant] = new Variant<ThemeVariant, Slots>
+            {
+                [ThemeVariant.Default] = "bg-input text-foreground border border-input shadow-sm hover:bg-accent hover:text-accent-foreground",
+                [ThemeVariant.Primary] = "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+                [ThemeVariant.Secondary] = "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/90",
+                [ThemeVariant.Destructive] = "bg-destructive text-white shadow-xs hover:bg-destructive/90",
+                [ThemeVariant.Ghost] = "shadow-none hover:bg-accent hover:text-accent-foreground",
+                [ThemeVariant.Accent] = "bg-accent text-accent-foreground shadow-xs hover:bg-accent/90",
+                [ThemeVariant.Inverse] = "bg-foreground text-background shadow-xs hover:bg-foreground/90",
+                [ThemeVariant.Information] = "bg-info text-info-foreground shadow-xs hover:bg-info/90",
+                [ThemeVariant.Warning] = "bg-warning text-warning-foreground shadow-xs hover:bg-warning/90",
+                [ThemeVariant.Success] = "bg-success text-success-foreground shadow-xs hover:bg-success/90"
+            },
+            [b => ((RzButton)b).Size] = new Variant<Size, Slots>
+            {
+                [Size.ExtraSmall] = "gap-1 h-7 px-2.5 text-xs",
+                [Size.Small] = "gap-1.5 h-8 px-3",
+                [Size.Medium] = "gap-2 h-9 px-4 py-2",
+                [Size.Large] = "gap-2 h-10 px-6",
+                [Size.ExtraLarge] = "gap-2.5 h-12 px-8 text-lg"
+            },
+            [b => ((RzButton)b).Animate] = new Variant<bool, Slots>
+            {
+                [true] = "transform active:scale-95 motion-reduce:transition-none transition-transform"
+            }
+        },
+        compoundVariants: new()
+        {
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Default) { Class = "border border-input text-foreground bg-transparent hover:bg-accent hover:text-accent-foreground" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Primary) { Class = "border border-primary text-primary bg-transparent hover:bg-primary/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Secondary) { Class = "border border-secondary text-foreground bg-transparent hover:bg-secondary/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Destructive) { Class = "border border-destructive text-destructive bg-transparent hover:bg-destructive/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Accent) { Class = "border border-accent text-foreground bg-transparent hover:bg-accent/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Inverse) { Class = "border border-foreground text-foreground bg-transparent hover:bg-foreground/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Information) { Class = "border border-info text-info bg-transparent hover:bg-info/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Warning) { Class = "border border-warning text-warning bg-transparent hover:bg-warning/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Success) { Class = "border border-success text-success bg-transparent hover:bg-success/10" },
+            new(b => ((RzButton)b).Outline && ((RzButton)b).EffectiveVariant == ThemeVariant.Ghost) { Class = "border border-transparent" }
+        }
+    );
+
+    /// <summary>
+    /// Gets the variant cascaded from a parent RzButtonGroup, if any.
+    /// </summary>
+    [CascadingParameter(Name = "GroupVariant")]
+    protected ThemeVariant? GroupVariant { get; set; }
 
     /// <summary>
     /// Gets or sets the accessible label for the button, used for screen readers.
-    /// If not provided, it defaults to a localized value obtained from <see cref="RzComponent.Localizer"/>
-    /// using the key "RzButton.AssistiveLabelDefault".
+    /// If not provided, it defaults to a localized value.
     /// </summary>
     [Parameter]
     public string? AssistiveLabel { get; set; }
 
     /// <summary>
-    /// Gets or sets the visual style variant of the button (e.g., Primary, Secondary).
-    /// Defaults to <see cref="ButtonVariant.Primary"/>.
+    /// Gets or sets the visual style variant of the button.
+    /// If not set, it falls back to <see cref="GroupVariant"/> or <see cref="ThemeVariant.Default"/>.
     /// </summary>
     [Parameter]
-    public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
+    public ThemeVariant? Variant { get; set; }
 
     /// <summary>
-    /// Gets or sets the size of the button.
-    /// Defaults to <see cref="Size.Medium"/>.
+    /// Gets or sets the size of the button. Defaults to <see cref="Size.Medium"/>.
     /// </summary>
     [Parameter]
     public Size Size { get; set; } = Size.Medium;
 
     /// <summary>
-    /// Gets or sets a value indicating whether the button should have an outline style
-    /// instead of a solid background. Defaults to false.
+    /// Gets or sets a value indicating whether the button should have an outline style. Defaults to false.
     /// </summary>
     [Parameter]
     public bool Outline { get; set; }
 
     /// <summary>
-    /// Gets or sets the text label displayed on the button. This is used only if
-    /// the <see cref="ChildContent"/> parameter is not provided. Defaults to an empty string.
+    /// Gets or sets the text label displayed on the button. Used if <see cref="ChildContent"/> is not provided.
     /// </summary>
     [Parameter]
     public string Label { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets a value indicating whether to enable the button's click animation
-    /// (e.g., scaling effect on press). Defaults to true.
+    /// Gets or sets a value indicating whether to enable the button's click animation. Defaults to true.
     /// </summary>
     [Parameter]
     public bool Animate { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the optional content to be rendered inside the button element.
-    /// If provided, this overrides the <see cref="Label"/> property.
+    /// Gets or sets the optional content to be rendered inside the button element. Overrides the <see cref="Label"/> property.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Gets the effective assistive label to be used for the `aria-label` attribute.
-    /// It returns the value of the <see cref="AssistiveLabel"/> parameter if provided,
-    /// otherwise it falls back to the localized default string identified by the key "RzButton.AssistiveLabelDefault".
+    /// Gets the effective assistive label for the `aria-label` attribute.
     /// </summary>
     protected string EffectiveAssistiveLabel => AssistiveLabel ?? Localizer["RzButton.AssistiveLabelDefault"];
+
+    /// <summary>
+    /// Gets the effective variant, prioritizing the explicit Variant parameter, then the GroupVariant, and defaulting to Default.
+    /// </summary>
+    public ThemeVariant EffectiveVariant => Variant ?? GroupVariant ?? ThemeVariant.Default;
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        // Set the root HTML element for this component to 'button'.
         if (string.IsNullOrEmpty(Element))
             Element = "button";
     }
 
     /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzButton;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzButton component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        var styles = Theme.RzButton;
-        var groupStyles = Theme.RzButtonGroup;
-        string groupSpecificClass = string.Empty;
-
-        // Determine if this button is part of a group and apply specific styles
-        if (Group != null)
-        {
-            var index = Group.Buttons.IndexOf(this);
-            if (index == 0) // First button in the group
-                groupSpecificClass = groupStyles.GroupFirst;
-            else if (index == Group.Buttons.Count - 1) // Last button in the group
-                groupSpecificClass = groupStyles.GroupLast;
-            else // Middle button in the group
-                groupSpecificClass = groupStyles.GroupMiddle;
-        }
-
-        // Merge all applicable CSS classes using Tailwind Merge
-        return TwMerge.Merge(AdditionalAttributes, // Start with user-provided classes
-            styles.Button,                        // Base button styles
-            Outline ? styles.GetVariantOutlineCss(Variant) : styles.GetVariantCss(Variant), // Apply variant (solid or outline)
-            Animate ? styles.Animated : "",       // Apply animation class if enabled
-            styles.GetSizeCss(Size),              // Apply size class
-            groupSpecificClass);                  // Apply group-specific class if applicable
-    }
-
-    /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        // Register this button with its parent group, if it exists.
-        Group?.AddButton(this);
+        /// <summary>
+        /// The base slot, representing the root element of the button.
+        /// </summary>
+        [Slot("button")]
+        public string? Base { get; set; }
     }
 }

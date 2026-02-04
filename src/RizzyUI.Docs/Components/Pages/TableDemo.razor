@@ -1,3 +1,4 @@
+
 @page "/table-demo"
 @using RizzyUI
 @using RizzyUI.Docs.Models 
@@ -41,42 +42,42 @@
          hx-boost="true"> 
 
     <Header>
-        <RzTableRow>
-            <RzTableHeaderCell For="p => p.Id" Sortable="true">ID</RzTableHeaderCell>
-            <RzTableHeaderCell For="p => p.Name" Sortable="true">Product Name</RzTableHeaderCell>
-            <RzTableHeaderCell For="p => p.Category" Sortable="true">Category</RzTableHeaderCell>
-            <RzTableHeaderCell For="p => p.Price" Sortable="true" InitialSortDirection="SortDirection.Descending">Price</RzTableHeaderCell>
-            <RzTableHeaderCell For="p => p.StockQuantity">Stock</RzTableHeaderCell>
-            <RzTableHeaderCell ColumnKey="actions">Actions</RzTableHeaderCell>
-        </RzTableRow>
+        <TableRow>
+            <TableHeaderCell For="p => p.Id" Sortable="true">ID</TableHeaderCell>
+            <TableHeaderCell For="p => p.Name" Sortable="true">Product Name</TableHeaderCell>
+            <TableHeaderCell For="p => p.Category" Sortable="true">Category</TableHeaderCell>
+            <TableHeaderCell For="p => p.Price" Sortable="true" InitialSortDirection="SortDirection.Descending">Price</TableHeaderCell>
+            <TableHeaderCell For="p => p.StockQuantity">Stock</TableHeaderCell>
+            <TableHeaderCell ColumnKey="actions">Actions</TableHeaderCell>
+        </TableRow>
     </Header>
 
     <Body>
-        <RzTableBody Id="@TableBodyId">
+        <TableBody Id="@TableBodyId">
             <RowTemplate Context="product">
-                <RzTableRow>
-                    <RzTableCell>@product.Id</RzTableCell>
-                    <RzTableCell>@product.Name</RzTableCell>
-                    <RzTableCell>@product.Category</RzTableCell>
-                    <RzTableCell>@product.Price.ToString("C")</RzTableCell>
-                    <RzTableCell>
+                <TableRow>
+                    <TableCell>@product.Id</TableCell>
+                    <TableCell>@product.Name</TableCell>
+                    <TableCell>@product.Category</TableCell>
+                    <TableCell>@product.Price.ToString("C")</TableCell>
+                    <TableCell>
                         @if (product.StockQuantity > 0)
                         {
-                            <RzBadge Color="SemanticColor.Success" Soft="true" class="px-2 py-1">@product.StockQuantity</RzBadge>
+                            <RzBadge Variant="ThemeVariant.Success" Soft="true" class="px-2 py-1">@product.StockQuantity</RzBadge>
                         }
                         else
                         {
-                            <RzBadge Color="SemanticColor.Danger" Soft="true" class="px-2 py-1">Out of Stock</RzBadge>
+                            <RzBadge Variant="ThemeVariant.Destructive" Soft="true" class="px-2 py-1">Out of Stock</RzBadge>
                         }
-                    </RzTableCell>
-                    <RzTableCell ColumnKey="actions">
-                        <RzButton Variant="ButtonVariant.Primary" Outline="true" Size="Size.Small"
+                    </TableCell>
+                    <TableCell ColumnKey="actions">
+                        <RzButton Variant="ThemeVariant.Primary" Outline="true" Size="Size.Small"
                                   hx-get="@($"/products/view-details/{product.Id}")"
                                   hx-target="#detail-modal-content"
                                   hx-swap="innerHTML"> 
                             View
                         </RzButton>
-                        <RzButton Variant="ButtonVariant.Danger" Outline="true" Size="Size.Small"
+                        <RzButton Variant="ThemeVariant.Destructive" Outline="true" Size="Size.Small"
                                   hx-delete="@($"/api/products/{product.Id}")"
                                   hx-confirm="@($"Are you sure you want to delete {product.Name}?")"
                                   hx-target="closest tr"
@@ -84,28 +85,28 @@
                                   class="ml-2">
                             Delete
                         </RzButton>
-                    </RzTableCell>
-                </RzTableRow>
+                    </TableCell>
+                </TableRow>
             </RowTemplate>
             <EmptyTemplate>
                 <div class="text-center py-10">
-                    <div class="text-5xl text-on-surface-muted mx-auto mb-3">
+                    <div class="text-5xl text-muted-foreground mx-auto mb-3">
                         <Blazicon Svg="MdiIcon.PackageVariantClosedRemove"/>
                     </div>
-                    <p class="text-lg font-semibold text-on-surface-strong">No Products Found</p>
-                    <p class="text-sm text-on-surface-muted">
+                    <p class="text-lg font-semibold text-foreground">No Products Found</p>
+                    <p class="text-sm text-muted-foreground">
                         Please try adjusting your search or filter criteria.
                     </p>
                 </div>
             </EmptyTemplate>
-        </RzTableBody>
+        </TableBody>
     </Body>
 
     <Footer Context="table">
-        <RzTableRow>
-            <RzTableCell Colspan="@table.ColumnCount">
+        <TableRow>
+            <TableCell Colspan="@table.ColumnCount">
                 <div class="flex flex-col sm:flex-row justify-between items-center p-3 gap-3">
-                    <div class="text-sm text-on-surface-muted">
+                    <div class="text-sm text-muted-foreground">
                         @if (CurrentPagingState.TotalItems > 0)
                         {
                             <span>
@@ -118,10 +119,10 @@
                             <span>No entries found</span>
                         }
                     </div>
-                    <RzPagination MaxVisiblePageLinks="5"/>
+                    <TablePagination MaxVisiblePageLinks="5"/>
                 </div>
-            </RzTableCell>
-        </RzTableRow>
+            </TableCell>
+        </TableRow>
     </Footer>
 </RzTable>
 

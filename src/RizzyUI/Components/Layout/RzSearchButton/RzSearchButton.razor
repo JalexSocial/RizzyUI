@@ -1,16 +1,16 @@
 
 @namespace RizzyUI
 @using Blazicons
-@inherits RzComponent
+@inherits RzComponent<RzSearchButton.Slots>
 
 <HtmlElement Element="@EffectiveElement"
              type="button"
              @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@RootClass()"
+             class="@SlotClasses.GetBase()"
              aria-label="@Label">
-	<div class="@Theme.RzSearchButton.InnerContainer">
-		<span class="@Theme.RzSearchButton.IconSpan" aria-hidden="true">
+	<div class="@SlotClasses.GetInnerContainer()">
+		<span class="@SlotClasses.GetIconSpan()" aria-hidden="true">
 			<Blazicon Svg="MdiIcon.Magnify"/>
 		</span>
 		@Label

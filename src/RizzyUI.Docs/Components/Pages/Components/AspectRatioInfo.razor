@@ -1,0 +1,107 @@
+﻿@page "/components/aspect-ratio"
+@using RizzyUI
+
+<PageTitle>Aspect Ratio</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Aspect Ratio" class="scroll-mt-20">Aspect Ratio</RzHeading>
+            <RzParagraph>
+                A container that maintains a specific aspect ratio for its content. This is useful for displaying images, videos, or any other media that needs to scale responsively while preserving its proportions.
+            </RzParagraph>
+
+            <!-- Example 1: 16:9 Aspect Ratio -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="16:9 Aspect Ratio" class="scroll-mt-20">
+                    16:9 Aspect Ratio
+                </RzHeading>
+                <RzParagraph>
+                    This example demonstrates a common 16:9 aspect ratio, perfect for video embeds or landscape images. The `Ratio` is calculated as `width / height`.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="w-full max-w-md mx-auto p-8 mb-5">
+                        <RzAspectRatio Ratio="16.0 / 9.0">
+                            <img src="/images/card1.jpg" alt="Image with 16:9 aspect ratio" class="rounded-md object-cover w-full h-full" />
+                        </RzAspectRatio>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class="w-full max-w-md"&gt;
+    &lt;RzAspectRatio Ratio="16.0 / 9.0"&gt;
+        &lt;img src="/images/card1.jpg" alt="Image with 16:9 aspect ratio" class="rounded-md object-cover w-full h-full" /&gt;
+    &lt;/RzAspectRatio&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 2: Square Aspect Ratio -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Square Aspect Ratio" class="scroll-mt-20">
+                    Square Aspect Ratio
+                </RzHeading>
+                <RzParagraph>
+                    This example shows a 1:1 aspect ratio, which creates a perfect square. The `Ratio` parameter is set to `1`.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="w-full max-w-xs mx-auto p-8 mb-5">
+                        <RzAspectRatio Ratio="1">
+                            <div class="bg-muted rounded-md flex items-center justify-center w-full h-full">
+                                <span class="text-muted-foreground">1:1 Aspect Ratio</span>
+                            </div>
+                        </RzAspectRatio>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class="w-full max-w-xs"&gt;
+    &lt;RzAspectRatio Ratio="1"&gt;
+        &lt;div class="bg-muted rounded-md flex items-center justify-center w-full h-full"&gt;
+            &lt;span class="text-muted-foreground"&gt;1:1 Aspect Ratio&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/RzAspectRatio&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Parameters Table -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    RzAspectRatio Component Parameters
+                </RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Ratio</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The desired aspect ratio, calculated as width / height. For example, a 16:9 ratio would be `16.0 / 9.0`.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">double</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">1</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The content to be rendered inside the aspect ratio container.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

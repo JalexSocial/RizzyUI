@@ -1,0 +1,18 @@
+
+@namespace RizzyUI
+@inherits RzComponent<DropdownMenuSub.Slots>
+
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement"
+                 @attributes="@AdditionalAttributes"
+                 id="@Id"
+                 class="@SlotClasses.GetBase()"
+                 x-data="rzDropdownSubmenu"
+                 data-alpine-root="@Id"
+                 data-parent-id="@ParentDropdownMenu?.Id"
+                 data-sub-anchor="@Anchor.ToString().ToKebabCase()"
+                 data-sub-offset="@Offset"
+                 data-slot="dropdown-menu-sub">
+        @ChildContent
+    </HtmlElement>
+</CascadingValue>

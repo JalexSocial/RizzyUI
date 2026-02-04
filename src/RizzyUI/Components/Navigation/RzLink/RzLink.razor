@@ -1,7 +1,7 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzLink.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" href="@Href" id="@Id" class="@RootClass()">
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" href="@Href" id="@Id" class="@SlotClasses.GetBase()">
 	@ChildContent
 </HtmlElement>

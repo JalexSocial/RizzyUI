@@ -1,0 +1,347 @@
+
+@page "/components/input"
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@using RizzyUI
+@using Rizzy.Components
+@using Blazicons
+
+<PageTitle>Inputs</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Inputs" class="scroll-mt-20">Inputs</RzHeading>
+            <RzParagraph>
+                The <code>RzInputText</code> and <code>RzInputNumber</code> components are versatile inputs for capturing user data. They can be used standalone within a form or composed with <code>RzInputGroup</code> to include addons like icons, text, and buttons.
+            </RzParagraph>
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
+                <AlertTitle>Form Integration</AlertTitle>
+                <AlertDescription>
+                    All input components must be placed within an <code>EditForm</code> and bound to a model property using the <code>For</code> parameter to enable validation and data binding.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Inputs" class="scroll-mt-20">
+                    Basic Inputs
+                </RzHeading>
+                <RzParagraph>
+                    A standard text input with a label and placeholder.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <Field>
+                                <FieldLabel For="@(() => _model.Email)">Email</FieldLabel>
+                                <RzInputText For="@(() => _model.Email)" Placeholder="Enter your email..." />
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;EditForm Model="_model"&gt;
+    &lt;Field&gt;
+        &lt;FieldLabel For="@@(() => _model.Email)"&gt;Email&lt;/FieldLabel&gt;
+        &lt;RzInputText For="@@(() => _model.Email)" Placeholder="Enter your email..." /&gt;
+    &lt;/Field&gt;
+&lt;/EditForm&gt;
+                </RzCodeViewer>
+            </section>
+            
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Input Roles" class="scroll-mt-20">
+                    Input Roles
+                </RzHeading>
+                <RzParagraph>
+                    Use the <code>Role</code> parameter on <code>RzInputText</code> to specify the input type, which provides better semantics and can trigger appropriate mobile keyboards.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 grid w-full max-w-sm gap-6 p-8">
+                        <EditForm Model="_model">
+                            <RzFieldSet>
+                                <Field>
+                                    <FieldLabel For="@(() => _model.Password)">Password</FieldLabel>
+                                    <RzInputText For="@(() => _model.Password)" Role="TextRole.Password" Placeholder="Enter your password" />
+                                </Field>
+                                <Field>
+                                    <FieldLabel For="@(() => _model.Search)">Search</FieldLabel>
+                                    <RzInputText For="@(() => _model.Search)" Role="TextRole.Search" Placeholder="Search..." />
+                                </Field>
+                            </RzFieldSet>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzFieldSet&gt;
+    &lt;Field&gt;
+        &lt;FieldLabel For="@@(() => _model.Password)"&gt;Password&lt;/FieldLabel&gt;
+        &lt;RzInputText For="@@(() => _model.Password)" Role="TextRole.Password" Placeholder="Enter your password" /&gt;
+    &lt;/Field&gt;
+    &lt;Field&gt;
+        &lt;FieldLabel For="@@(() => _model.Search)"&gt;Search&lt;/FieldLabel&gt;
+        &lt;RzInputText For="@@(() => _model.Search)" Role="TextRole.Search" Placeholder="Search..." /&gt;
+    &lt;/Field&gt;
+&lt;/RzFieldSet&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Number Input" class="scroll-mt-20">
+                    Number Input
+                </RzHeading>
+                <RzParagraph>
+                    The <code>RzInputNumber</code> component is designed for numeric input.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <Field>
+                                <FieldLabel For="@(() => _model.Quantity)">Quantity</FieldLabel>
+                                <RzInputNumber TValue="int" For="@(() => _model.Quantity)" />
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;Field&gt;
+    &lt;FieldLabel For="@@(() => _model.Quantity)"&gt;Quantity&lt;/FieldLabel&gt;
+    &lt;RzInputNumber TValue="int" For="@@(() => _model.Quantity)" /&gt;
+&lt;/Field&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Disabled" class="scroll-mt-20">
+                    Disabled
+                </RzHeading>
+                <RzParagraph>
+                    Add the <code>disabled</code> attribute to make an input non-interactive.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <Field>
+                                <FieldLabel For="@(() => _model.Email)">Email</FieldLabel>
+                                <RzInputText For="@(() => _model.Email)" Placeholder="Email" disabled />
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzInputText For="@@(() => _model.Email)" Placeholder="Email" disabled /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Input Group" class="scroll-mt-20">
+                    Input Group
+                </RzHeading>
+                <RzParagraph>
+                    Use <code>RzInputGroup</code> to compose inputs with addons like icons, text, and buttons.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 grid w-full max-w-sm gap-6 p-8">
+                        <EditForm Model="_model">
+                            <RzFieldSet>
+                                <Field>
+                                    <FieldLabel For="@(() => _model.Search)">Icon</FieldLabel>
+                                    <RzInputGroup>
+                                        <InputGroupInput For="@(() => _model.Search)" Placeholder="Search..." />
+                                        <InputGroupAddon>
+                                            <Blazicon Svg="MdiIcon.Magnify" />
+                                        </InputGroupAddon>
+                                    </RzInputGroup>
+                                </Field>
+                                <Field>
+                                    <FieldLabel For="@(() => _model.Website)">Text Addon</FieldLabel>
+                                    <RzInputGroup>
+                                        <InputGroupAddon>
+                                            <InputGroupText>https://</InputGroupText>
+                                        </InputGroupAddon>
+                                        <InputGroupInput For="@(() => _model.Website)" Placeholder="example.com" />
+                                    </RzInputGroup>
+                                </Field>
+                                <Field>
+                                    <FieldLabel For="@(() => _model.Coupon)">Button Addon</FieldLabel>
+                                    <RzInputGroup>
+                                        <InputGroupInput For="@(() => _model.Coupon)" Placeholder="Enter coupon code" />
+                                        <InputGroupAddon>
+                                            <InputGroupButton Variant="ThemeVariant.Primary">Apply</InputGroupButton>
+                                        </InputGroupAddon>
+                                    </RzInputGroup>
+                                </Field>
+                            </RzFieldSet>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzFieldSet&gt;
+    &lt;!-- With Icon --&gt;
+    &lt;RzInputGroup&gt;
+        &lt;InputGroupInput For="@@(() => _model.Search)" Placeholder="Search..." /&gt;
+        &lt;InputGroupAddon&gt;
+            &lt;Blazicon Svg="MdiIcon.Magnify" /&gt;
+        &lt;/InputGroupAddon&gt;
+    &lt;/RzInputGroup&gt;
+
+    &lt;!-- With Text Addon --&gt;
+    &lt;RzInputGroup&gt;
+        &lt;InputGroupAddon&gt;
+            &lt;InputGroupText&gt;https://&lt;/InputGroupText&gt;
+        &lt;/InputGroupAddon&gt;
+        &lt;InputGroupInput For="@@(() => _model.Website)" Placeholder="example.com" /&gt;
+    &lt;/RzInputGroup&gt;
+
+    &lt;!-- With Button Addon --&gt;
+    &lt;RzInputGroup&gt;
+        &lt;InputGroupInput For="@@(() => _model.Coupon)" Placeholder="Enter coupon code" /&gt;
+        &lt;InputGroupAddon&gt;
+            &lt;InputGroupButton Variant="ThemeVariant.Primary"&gt;Apply&lt;/InputGroupButton&gt;
+        &lt;/InputGroupAddon&gt;
+    &lt;/RzInputGroup&gt;
+&lt;/RzFieldSet&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Complex Input Group" class="scroll-mt-20">
+                    Complex Input Group
+                </RzHeading>
+                <RzParagraph>
+                    Combine multiple addons, including buttons with dropdowns, for more complex interactions.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <RzInputGroup>
+                                <InputGroupTextarea For="@(() => _model.Message)" Placeholder="Ask, Search or Chat..." />
+                                <InputGroupAddon Align="InputGroupAddonAlign.BlockEnd">
+                                    <InputGroupButton Variant="ThemeVariant.Primary" Outline class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall">
+                                        <Blazicon Svg="MdiIcon.Plus" />
+                                    </InputGroupButton>
+                                    <RzDropdownMenu>
+                                        <DropdownMenuTrigger AsChild>
+                                            <InputGroupButton Variant="ThemeVariant.Ghost">Auto</InputGroupButton>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuItem>Auto</DropdownMenuItem>
+                                            <DropdownMenuItem>Agent</DropdownMenuItem>
+                                            <DropdownMenuItem>Manual</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </RzDropdownMenu>
+                                    <InputGroupText class="ml-auto">52% used</InputGroupText>
+                                    <RzSeparator Orientation="Orientation.Vertical" class="!h-4" />
+                                    <InputGroupButton Variant="ThemeVariant.Primary" class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall" disabled>
+                                        <Blazicon Svg="MdiIcon.ArrowUp" />
+                                        <span class="sr-only">Send</span>
+                                    </InputGroupButton>
+                                </InputGroupAddon>
+                            </RzInputGroup>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzInputGroup&gt;
+    &lt;InputGroupTextarea For="@@(() => _model.Message)" Placeholder="Ask, Search or Chat..." /&gt;
+    &lt;InputGroupAddon Align="InputGroupAddonAlign.BlockEnd"&gt;
+        &lt;InputGroupButton Variant="ThemeVariant.Primary" Outline class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall"&gt;
+            &lt;Blazicon Svg="MdiIcon.Plus" /&gt;
+        &lt;/InputGroupButton&gt;
+        &lt;RzDropdownMenu&gt;
+            &lt;DropdownMenuTrigger AsChild&gt;
+                &lt;InputGroupButton Variant="ThemeVariant.Ghost"&gt;Auto&lt;/InputGroupButton&gt;
+            &lt;/DropdownMenuTrigger&gt;
+            &lt;DropdownMenuContent&gt;
+                &lt;DropdownMenuItem&gt;Auto&lt;/DropdownMenuItem&gt;
+                &lt;DropdownMenuItem&gt;Agent&lt;/DropdownMenuItem&gt;
+                &lt;DropdownMenuItem&gt;Manual&lt;/DropdownMenuItem&gt;
+            &lt;/DropdownMenuContent&gt;
+        &lt;/RzDropdownMenu&gt;
+        &lt;InputGroupText class="ml-auto"&gt;52% used&lt;/InputGroupText&gt;
+        &lt;RzSeparator Orientation="Orientation.Vertical" class="!h-4" /&gt;
+        &lt;InputGroupButton Variant="ThemeVariant.Primary" class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall" disabled&gt;
+            &lt;Blazicon Svg="MdiIcon.ArrowUp" /&gt;
+            &lt;span class="sr-only"&gt;Send&lt;/span&gt;
+        &lt;/InputGroupButton&gt;
+    &lt;/InputGroupAddon&gt;
+&lt;/RzInputGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Loading State" class="scroll-mt-20">
+                    Loading State
+                </RzHeading>
+                <RzParagraph>
+                    Indicate a loading or processing state by adding an <code>RzSpinner</code> to an addon.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <RzInputGroup>
+                                <InputGroupInput For="@(() => _model.Search)" Placeholder="Searching..." disabled />
+                                <InputGroupAddon>
+                                    <RzSpinner Size="Size.ExtraSmall" />
+                                </InputGroupAddon>
+                            </RzInputGroup>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzInputGroup&gt;
+    &lt;InputGroupInput For="@@(() => _model.Search)" Placeholder="Searching..." disabled /&gt;
+    &lt;InputGroupAddon&gt;
+        &lt;RzSpinner Size="Size.ExtraSmall" /&gt;
+    &lt;/InputGroupAddon&gt;
+&lt;/RzInputGroup&gt;
+                </RzCodeViewer>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private class InputModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
+        
+        [Required]
+        public string Password { get; set; } = string.Empty;
+        
+        public string Search { get; set; } = string.Empty;
+        
+        [Required]
+        public int Quantity { get; set; } = 1;
+        
+        public string Website { get; set; } = string.Empty;
+        
+        public string Coupon { get; set; } = string.Empty;
+        
+        public string Message { get; set; } = string.Empty;
+    }
+
+    private InputModel _model = new();
+}

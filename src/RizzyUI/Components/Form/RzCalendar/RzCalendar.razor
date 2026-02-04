@@ -1,0 +1,26 @@
+@namespace RizzyUI
+@using Rizzy.Utility
+@inherits RzComponent<RzCalendar.Slots>
+
+<HtmlElement Element="@EffectiveElement" 
+             @attributes="AdditionalAttributes" 
+             id="@Id" 
+             class="@SlotClasses.GetBase()"
+             data-slot="calendar">
+    
+	<div x-data="rzCalendar"
+	     id="@CalendarId"
+	     data-alpine-root="@Id"
+	     data-config-id="@ConfigScriptId"
+	     data-assets="@_assets"
+	     data-nonce="@Nonce"
+	     class="@SlotClasses.GetCalendarContainer()">
+         
+		<script type="application/json" id="@ConfigScriptId" nonce="@Nonce">
+            @((MarkupString)_serializedConfig)
+        </script>
+
+		<div x-ref="calendarEl" class="@SlotClasses.GetRoot()"></div>
+	</div>
+
+</HtmlElement>

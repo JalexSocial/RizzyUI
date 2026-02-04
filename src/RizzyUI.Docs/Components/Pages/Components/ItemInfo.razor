@@ -1,0 +1,303 @@
+@page "/components/item"
+@using RizzyUI
+@using Blazicons
+
+<PageTitle>Item</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Item" class="scroll-mt-20">Item</RzHeading>
+            <RzParagraph>
+                A versatile and composable component for displaying items in a list or grid. It can be used to build complex layouts with media, content, and actions.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Variants" class="scroll-mt-20">
+                    Variants
+                </RzHeading>
+                <RzParagraph>
+                    Items can have different visual styles using the `Variant` parameter.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex w-full max-w-md flex-col gap-6">
+                        <RzItem>
+                            <ItemContent>
+                                <ItemTitle>Default Variant</ItemTitle>
+                                <ItemDescription>
+                                    Standard styling with subtle background and borders.
+                                </ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <RzButton Variant="ThemeVariant.Primary" Outline="true" Size="Size.Small">
+                                    Open
+                                </RzButton>
+                            </ItemActions>
+                        </RzItem>
+                        <RzItem Variant="ItemVariant.Outline">
+                            <ItemContent>
+                                <ItemTitle>Outline Variant</ItemTitle>
+                                <ItemDescription>
+                                    Outlined style with clear borders and transparent background.
+                                </ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <RzButton Variant="ThemeVariant.Primary" Outline="true" Size="Size.Small">
+                                    Open
+                                </RzButton>
+                            </ItemActions>
+                        </RzItem>
+                        <RzItem Variant="ItemVariant.Muted">
+                            <ItemContent>
+                                <ItemTitle>Muted Variant</ItemTitle>
+                                <ItemDescription>
+                                    Subdued appearance with muted colors for secondary content.
+                                </ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <RzButton Variant="ThemeVariant.Primary" Outline="true" Size="Size.Small">
+                                    Open
+                                </RzButton>
+                            </ItemActions>
+                        </RzItem>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class="flex flex-col gap-6"&gt;
+    &lt;RzItem&gt;
+        &lt;ItemContent&gt;
+            &lt;ItemTitle&gt;Default Variant&lt;/ItemTitle&gt;
+            &lt;ItemDescription&gt;Standard styling with subtle background and borders.&lt;/ItemDescription&gt;
+        &lt;/ItemContent&gt;
+        &lt;ItemActions&gt;
+            &lt;RzButton Variant="ThemeVariant.Primary" Outline="true" Size="Size.Small"&gt;Open&lt;/RzButton&gt;
+        &lt;/ItemActions&gt;
+    &lt;/RzItem&gt;
+    &lt;RzItem Variant="ItemVariant.Outline"&gt;
+        &lt;ItemContent&gt;
+            &lt;ItemTitle&gt;Outline Variant&lt;/ItemTitle&gt;
+            &lt;ItemDescription&gt;Outlined style with clear borders and transparent background.&lt;/ItemDescription&gt;
+        &lt;/ItemContent&gt;
+        &lt;ItemActions&gt;
+            &lt;RzButton Variant="ThemeVariant.Primary" Outline="true" Size="Size.Small"&gt;Open&lt;/RzButton&gt;
+        &lt;/ItemActions&gt;
+    &lt;/RzItem&gt;
+    &lt;RzItem Variant="ItemVariant.Muted"&gt;
+        &lt;ItemContent&gt;
+            &lt;ItemTitle&gt;Muted Variant&lt;/ItemTitle&gt;
+            &lt;ItemDescription&gt;Subdued appearance with muted colors for secondary content.&lt;/ItemDescription&gt;
+        &lt;/ItemContent&gt;
+        &lt;ItemActions&gt;
+            &lt;RzButton Variant="ThemeVariant.Primary" Outline="true" Size="Size.Small"&gt;Open&lt;/RzButton&gt;
+        &lt;/ItemActions&gt;
+    &lt;/RzItem&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Sizes" class="scroll-mt-20">
+                    Sizes
+                </RzHeading>
+                <RzParagraph>
+                    The `Item` component has different sizes. Use `Size="Size.Small"` for a compact item or `Size="Size.Medium"` (the default) for a standard item.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex w-full max-w-md flex-col gap-6">
+                        <RzItem Variant="ItemVariant.Outline">
+                            <ItemContent>
+                                <ItemTitle>Default Size Item</ItemTitle>
+                                <ItemDescription>A simple item with title and description.</ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <RzButton Variant="ThemeVariant.Primary" Outline="true" Size="Size.Small">Action</RzButton>
+                            </ItemActions>
+                        </RzItem>
+                        <RzItem Variant="ItemVariant.Outline" Size="Size.Small" AsChild="true">
+                            <a href="#">
+                                <ItemMedia>
+                                    <Blazicon Svg="MdiIcon.CheckDecagram" class="text-xl" />
+                                </ItemMedia>
+                                <ItemContent>
+                                    <ItemTitle>Your profile has been verified.</ItemTitle>
+                                </ItemContent>
+                                <ItemActions>
+                                    <Blazicon Svg="MdiIcon.ChevronRight" class="text-lg" />
+                                </ItemActions>
+                            </a>
+                        </RzItem>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class="flex w-full max-w-md flex-col gap-6"&gt;
+    &lt;RzItem Variant="ItemVariant.Outline"&gt;
+        &lt;ItemContent&gt;
+            &lt;ItemTitle&gt;Default Size Item&lt;/ItemTitle&gt;
+            &lt;ItemDescription&gt;A simple item with title and description.&lt;/ItemDescription&gt;
+        &lt;/ItemContent&gt;
+        &lt;ItemActions&gt;
+            &lt;RzButton Variant="ThemeVariant.Primary" Outline="true" Size="Size.Small"&gt;Action&lt;/RzButton&gt;
+        &lt;/ItemActions&gt;
+    &lt;/RzItem&gt;
+    &lt;RzItem Variant="ItemVariant.Outline" Size="Size.Small" AsChild="true"&gt;
+        &lt;a href="#"&gt;
+            &lt;ItemMedia&gt;
+                &lt;Blazicon Svg="MdiIcon.CheckDecagram" class="text-xl" /&gt;
+            &lt;/ItemMedia&gt;
+            &lt;ItemContent&gt;
+                &lt;ItemTitle&gt;Your profile has been verified.&lt;/ItemTitle&gt;
+            &lt;/ItemContent&gt;
+            &lt;ItemActions&gt;
+                &lt;Blazicon Svg="MdiIcon.ChevronRight" class="text-lg" /&gt;
+            &lt;/ItemActions&gt;
+        &lt;/a&gt;
+    &lt;/RzItem&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="With Icon" class="scroll-mt-20">
+                    With Icon
+                </RzHeading>
+                <RzParagraph>
+                    Use the `ItemMedia` component with `Variant="ItemMediaVariant.Icon"` to display an icon.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex w-full max-w-lg flex-col gap-6">
+                        <RzItem Variant="ItemVariant.Outline">
+                            <ItemMedia Variant="ItemMediaVariant.Icon">
+                                <Blazicon Svg="MdiIcon.ShieldAlert" class="text-lg"/>
+                            </ItemMedia>
+                            <ItemContent>
+                                <ItemTitle>Security Alert</ItemTitle>
+                                <ItemDescription>New login detected from unknown device.</ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <RzButton Size="Size.Small" Variant="ThemeVariant.Primary" Outline="true">Review</RzButton>
+                            </ItemActions>
+                        </RzItem>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzItem Variant="ItemVariant.Outline"&gt;
+    &lt;ItemMedia Variant="ItemMediaVariant.Icon"&gt;
+        &lt;Blazicon Svg="MdiIcon.ShieldAlert" class="text-lg"/&gt;
+    &lt;/ItemMedia&gt;
+    &lt;ItemContent&gt;
+        &lt;ItemTitle&gt;Security Alert&lt;/ItemTitle&gt;
+        &lt;ItemDescription&gt;New login detected from unknown device.&lt;/ItemDescription&gt;
+    &lt;/ItemContent&gt;
+    &lt;ItemActions&gt;
+        &lt;RzButton Size="Size.Small" Variant="ThemeVariant.Primary" Outline="true"&gt;Review&lt;/RzButton&gt;
+    &lt;/ItemActions&gt;
+&lt;/RzItem&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="With Avatar" class="scroll-mt-20">
+                    With Avatar
+                </RzHeading>
+                <RzParagraph>
+                    Display an `RzAvatar` inside the `ItemMedia` component.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex w-full max-w-lg flex-col gap-6">
+                        <RzItem Variant="ItemVariant.Outline">
+                            <ItemMedia>
+                                <RzAvatar Size="Size.Medium">
+                                    <AvatarImage ImageSource="https://github.com/evilrabbit.png" />
+                                    <AvatarFallback>ER</AvatarFallback>
+                                </RzAvatar>
+                            </ItemMedia>
+                            <ItemContent>
+                                <ItemTitle>Evil Rabbit</ItemTitle>
+                                <ItemDescription>Last seen 5 months ago</ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <RzButton Size="Size.Small" class="rounded-full size-10"><Blazicon Svg="MdiIcon.Plus" class="text-xl"/></RzButton>
+                            </ItemActions>
+                        </RzItem>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzItem Variant="ItemVariant.Outline"&gt;
+    &lt;ItemMedia&gt;
+        &lt;RzAvatar Size="Size.Medium"&gt;
+            &lt;AvatarImage ImageSource="https://github.com/evilrabbit.png" /&gt;
+            &lt;AvatarFallback&gt;ER&lt;/AvatarFallback&gt;
+        &lt;/RzAvatar&gt;
+    &lt;/ItemMedia&gt;
+    &lt;ItemContent&gt;
+        &lt;ItemTitle&gt;Evil Rabbit&lt;/ItemTitle&gt;
+        &lt;ItemDescription&gt;Last seen 5 months ago&lt;/ItemDescription&gt;
+    &lt;/ItemContent&gt;
+    &lt;ItemActions&gt;
+        &lt;RzButton Size="Size.Small" class="rounded-full size-10"&gt;&lt;Blazicon Svg="MdiIcon.Plus" class="text-xl"/&gt;&lt;/RzButton&gt;
+    &lt;/ItemActions&gt;
+&lt;/RzItem&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
+                </RzHeading>
+                <RzParagraph>
+                    The following tables summarize the main parameters for each `Item` component.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzItem</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr>
+                                <th class="p-4">Property</th>
+                                <th class="p-4">Type</th>
+                                <th class="p-4">Default</th>
+                                <th class="p-4">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>Variant</code></td><td class="p-4"><code>ItemVariant</code></td><td class="p-4"><code>Default</code></td><td class="p-4">The visual style of the item.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Size</code></td><td class="p-4"><code>Size</code></td><td class="p-4"><code>Medium</code></td><td class="p-4">The size of the item, affecting padding and gaps. `Medium` maps to 'default' and `Small` maps to 'sm'.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>AsChild</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">Merges behavior into a single child element instead of rendering a `div`.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">ItemMedia</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr>
+                                <th class="p-4">Property</th>
+                                <th class="p-4">Type</th>
+                                <th class="p-4">Default</th>
+                                <th class="p-4">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>Variant</code></td><td class="p-4"><code>ItemMediaVariant</code></td><td class="p-4"><code>Default</code></td><td class="p-4">The style variant for the media container (e.g., for an icon or image).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <RzParagraph>
+                    The components `RzItemGroup`, `RzItemSeparator`, `ItemContent`, `ItemTitle`, `ItemDescription`, `ItemActions`, `ItemHeader`, and `ItemFooter` primarily accept `ChildContent` and pass through any additional attributes. They have no unique parameters beyond standard HTML attributes.
+                </RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

@@ -1,81 +1,25 @@
 
 // --------------------------------------------------------------------------------
 // Alpine.js component: rzDarkModeToggle
-// This component toggles between light and dark themes.
-// It reads the stored mode, applies the theme, and listens for OS-level changes.
+// This is now a lightweight wrapper around the global $store.theme.
+// It exposes the API surface on the local scope for backward compatibility
+// and ease of use.
 // --------------------------------------------------------------------------------
-export default function(Alpine) {
+export default function (Alpine) {
     Alpine.data('rzDarkModeToggle', () => ({
-        mode: 'light',
-        applyTheme: null,
-        init() {
-            const hasLocalStorage = typeof window !== 'undefined' && 'localStorage' in window;
-            const allowedModes = ['light', 'dark', 'auto'];
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // Proxy all properties to the reactive store
+        get mode() { return this.$store.theme.mode; },
+        get prefersDark() { return this.$store.theme.prefersDark; },
+        get effectiveDark() { return this.$store.theme.effectiveDark; },
+        
+        // Proxy properties from the store (isDark/isLight are getters on the store)
+        get isDark() { return this.$store.theme.isDark; },
+        get isLight() { return this.$store.theme.isLight; },
 
-            let storedMode = "auto";
-
-            if (hasLocalStorage) {
-                storedMode = localStorage.getItem('darkMode') ?? 'auto';
-
-                // Validate stored mode against allowed values
-                if (!allowedModes.includes(storedMode)) {
-                    storedMode = 'light';
-                }
-            }
-
-            if (hasLocalStorage) {
-                localStorage.setItem('darkMode', storedMode);
-            }
-
-            // Function to apply the theme based on stored mode and OS preference
-            this.applyTheme = () => {
-                document.documentElement.classList.toggle('dark',
-                    storedMode === 'dark' || (storedMode === 'auto' && prefersDark));
-            };
-            this.applyTheme();
-
-            // Listen for OS-level color scheme changes to reapply the theme
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.applyTheme);
-        },
-        // Returns true if dark mode should be active
-        isDark() {
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            var storedMode = localStorage.getItem('darkMode');
-            return this.mode === 'dark' || (this.mode === 'auto' && prefersDark);
-        },
-        // Returns true if light mode should be active
-        isLight() {
-            return !this.isDark();
-        },
-        // Toggle the dark mode setting and dispatch a custom event
-        toggle() {
-            let storedMode = localStorage.getItem('darkMode');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            if (storedMode === 'light')
-                storedMode = 'dark';
-            else if (storedMode === 'dark')
-                storedMode = 'light';
-            else if (storedMode === 'auto') {
-                storedMode = prefersDark ? 'light' : 'dark';
-            }
-
-            this.mode = storedMode;
-            localStorage.setItem('darkMode', storedMode);
-
-            const isDark = storedMode === 'dark' || (storedMode === 'auto' && prefersDark);
-            document.documentElement.classList.toggle('dark', isDark);
-
-            const darkModeEvent = new CustomEvent('darkModeToggle', {
-                detail: {darkMode: isDark}
-            });
-            window.dispatchEvent(darkModeEvent);
-        },
-        destroy() {
-            if (this.applyTheme) {
-                window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.applyTheme);
-            }
-        }
+        // Proxy methods
+        setLight() { this.$store.theme.setLight(); },
+        setDark() { this.$store.theme.setDark(); },
+        setAuto() { this.$store.theme.setAuto(); },
+        toggle() { this.$store.theme.toggle(); }
     }));
 }

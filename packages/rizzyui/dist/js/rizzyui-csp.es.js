@@ -455,7 +455,7 @@ function normalEvaluator(el, expression) {
 }
 function generateEvaluatorFromFunction(dataStack, func) {
   return (receiver = () => {
-  }, { scope: scope2 = {}, params = [] } = {}) => {
+  }, { scope: scope2 = {}, params = [], context } = {}) => {
     let result = func.apply(mergeProxies([scope2, ...dataStack]), params);
     runIfTypeOfFunction(receiver, result);
   };
@@ -490,12 +490,12 @@ function generateFunctionFromString(expression, el) {
 function generateEvaluatorFromString(dataStack, expression, el) {
   let func = generateFunctionFromString(expression, el);
   return (receiver = () => {
-  }, { scope: scope2 = {}, params = [] } = {}) => {
+  }, { scope: scope2 = {}, params = [], context } = {}) => {
     func.result = void 0;
     func.finished = false;
     let completeScope = mergeProxies([scope2, ...dataStack]);
     if (typeof func === "function") {
-      let promise = func(func, completeScope).catch((error2) => handleError(error2, el, expression));
+      let promise = func.call(context, func, completeScope).catch((error2) => handleError(error2, el, expression));
       if (func.finished) {
         runIfTypeOfFunction(receiver, func.result, completeScope, params, el);
         func.result = void 0;
@@ -1446,10 +1446,10 @@ function isRadio$1(el) {
   return el.type === "radio" || el.localName === "ui-radio";
 }
 function debounce(func, wait) {
-  var timeout;
+  let timeout;
   return function() {
-    var context = this, args = arguments;
-    var later = function() {
+    const context = this, args = arguments;
+    const later = function() {
       timeout = null;
       func.apply(context, args);
     };
@@ -1596,7 +1596,7 @@ var Alpine$1 = {
   get raw() {
     return raw;
   },
-  version: "3.14.9",
+  version: "3.15.0",
   flushAndStopDeferringMutations,
   dontAutoEvaluateFunctions,
   disableEffectScheduling,
@@ -1655,6 +1655,751 @@ var Alpine$1 = {
   bind: bind2
 };
 var alpine_default = Alpine$1;
+var Token = class {
+  constructor(type, value, start2, end) {
+    this.type = type;
+    this.value = value;
+    this.start = start2;
+    this.end = end;
+  }
+};
+var Tokenizer = class {
+  constructor(input) {
+    this.input = input;
+    this.position = 0;
+    this.tokens = [];
+  }
+  tokenize() {
+    while (this.position < this.input.length) {
+      this.skipWhitespace();
+      if (this.position >= this.input.length)
+        break;
+      const char = this.input[this.position];
+      if (this.isDigit(char)) {
+        this.readNumber();
+      } else if (this.isAlpha(char) || char === "_" || char === "$") {
+        this.readIdentifierOrKeyword();
+      } else if (char === '"' || char === "'") {
+        this.readString();
+      } else if (char === "/" && this.peek() === "/") {
+        this.skipLineComment();
+      } else {
+        this.readOperatorOrPunctuation();
+      }
+    }
+    this.tokens.push(new Token("EOF", null, this.position, this.position));
+    return this.tokens;
+  }
+  skipWhitespace() {
+    while (this.position < this.input.length && /\s/.test(this.input[this.position])) {
+      this.position++;
+    }
+  }
+  skipLineComment() {
+    while (this.position < this.input.length && this.input[this.position] !== "\n") {
+      this.position++;
+    }
+  }
+  isDigit(char) {
+    return /[0-9]/.test(char);
+  }
+  isAlpha(char) {
+    return /[a-zA-Z]/.test(char);
+  }
+  isAlphaNumeric(char) {
+    return /[a-zA-Z0-9_$]/.test(char);
+  }
+  peek(offset2 = 1) {
+    return this.input[this.position + offset2] || "";
+  }
+  readNumber() {
+    const start2 = this.position;
+    let hasDecimal = false;
+    while (this.position < this.input.length) {
+      const char = this.input[this.position];
+      if (this.isDigit(char)) {
+        this.position++;
+      } else if (char === "." && !hasDecimal) {
+        hasDecimal = true;
+        this.position++;
+      } else {
+        break;
+      }
+    }
+    const value = this.input.slice(start2, this.position);
+    this.tokens.push(new Token("NUMBER", parseFloat(value), start2, this.position));
+  }
+  readIdentifierOrKeyword() {
+    const start2 = this.position;
+    while (this.position < this.input.length && this.isAlphaNumeric(this.input[this.position])) {
+      this.position++;
+    }
+    const value = this.input.slice(start2, this.position);
+    const keywords = ["true", "false", "null", "undefined", "new", "typeof", "void", "delete", "in", "instanceof"];
+    if (keywords.includes(value)) {
+      if (value === "true" || value === "false") {
+        this.tokens.push(new Token("BOOLEAN", value === "true", start2, this.position));
+      } else if (value === "null") {
+        this.tokens.push(new Token("NULL", null, start2, this.position));
+      } else if (value === "undefined") {
+        this.tokens.push(new Token("UNDEFINED", void 0, start2, this.position));
+      } else {
+        this.tokens.push(new Token("KEYWORD", value, start2, this.position));
+      }
+    } else {
+      this.tokens.push(new Token("IDENTIFIER", value, start2, this.position));
+    }
+  }
+  readString() {
+    const start2 = this.position;
+    const quote = this.input[this.position];
+    this.position++;
+    let value = "";
+    let escaped = false;
+    while (this.position < this.input.length) {
+      const char = this.input[this.position];
+      if (escaped) {
+        switch (char) {
+          case "n":
+            value += "\n";
+            break;
+          case "t":
+            value += "	";
+            break;
+          case "r":
+            value += "\r";
+            break;
+          case "\\":
+            value += "\\";
+            break;
+          case quote:
+            value += quote;
+            break;
+          default:
+            value += char;
+        }
+        escaped = false;
+      } else if (char === "\\") {
+        escaped = true;
+      } else if (char === quote) {
+        this.position++;
+        this.tokens.push(new Token("STRING", value, start2, this.position));
+        return;
+      } else {
+        value += char;
+      }
+      this.position++;
+    }
+    throw new Error(`Unterminated string starting at position ${start2}`);
+  }
+  readOperatorOrPunctuation() {
+    const start2 = this.position;
+    const char = this.input[this.position];
+    const next = this.peek();
+    const nextNext = this.peek(2);
+    if (char === "=" && next === "=" && nextNext === "=") {
+      this.position += 3;
+      this.tokens.push(new Token("OPERATOR", "===", start2, this.position));
+    } else if (char === "!" && next === "=" && nextNext === "=") {
+      this.position += 3;
+      this.tokens.push(new Token("OPERATOR", "!==", start2, this.position));
+    } else if (char === "=" && next === "=") {
+      this.position += 2;
+      this.tokens.push(new Token("OPERATOR", "==", start2, this.position));
+    } else if (char === "!" && next === "=") {
+      this.position += 2;
+      this.tokens.push(new Token("OPERATOR", "!=", start2, this.position));
+    } else if (char === "<" && next === "=") {
+      this.position += 2;
+      this.tokens.push(new Token("OPERATOR", "<=", start2, this.position));
+    } else if (char === ">" && next === "=") {
+      this.position += 2;
+      this.tokens.push(new Token("OPERATOR", ">=", start2, this.position));
+    } else if (char === "&" && next === "&") {
+      this.position += 2;
+      this.tokens.push(new Token("OPERATOR", "&&", start2, this.position));
+    } else if (char === "|" && next === "|") {
+      this.position += 2;
+      this.tokens.push(new Token("OPERATOR", "||", start2, this.position));
+    } else if (char === "+" && next === "+") {
+      this.position += 2;
+      this.tokens.push(new Token("OPERATOR", "++", start2, this.position));
+    } else if (char === "-" && next === "-") {
+      this.position += 2;
+      this.tokens.push(new Token("OPERATOR", "--", start2, this.position));
+    } else {
+      this.position++;
+      const type = "()[]{},.;:?".includes(char) ? "PUNCTUATION" : "OPERATOR";
+      this.tokens.push(new Token(type, char, start2, this.position));
+    }
+  }
+};
+var Parser = class {
+  constructor(tokens) {
+    this.tokens = tokens;
+    this.position = 0;
+  }
+  parse() {
+    if (this.isAtEnd()) {
+      throw new Error("Empty expression");
+    }
+    const expr = this.parseExpression();
+    this.match("PUNCTUATION", ";");
+    if (!this.isAtEnd()) {
+      throw new Error(`Unexpected token: ${this.current().value}`);
+    }
+    return expr;
+  }
+  parseExpression() {
+    return this.parseAssignment();
+  }
+  parseAssignment() {
+    const expr = this.parseTernary();
+    if (this.match("OPERATOR", "=")) {
+      const value = this.parseAssignment();
+      if (expr.type === "Identifier" || expr.type === "MemberExpression") {
+        return {
+          type: "AssignmentExpression",
+          left: expr,
+          operator: "=",
+          right: value
+        };
+      }
+      throw new Error("Invalid assignment target");
+    }
+    return expr;
+  }
+  parseTernary() {
+    const expr = this.parseLogicalOr();
+    if (this.match("PUNCTUATION", "?")) {
+      const consequent = this.parseExpression();
+      this.consume("PUNCTUATION", ":");
+      const alternate = this.parseExpression();
+      return {
+        type: "ConditionalExpression",
+        test: expr,
+        consequent,
+        alternate
+      };
+    }
+    return expr;
+  }
+  parseLogicalOr() {
+    let expr = this.parseLogicalAnd();
+    while (this.match("OPERATOR", "||")) {
+      const operator = this.previous().value;
+      const right = this.parseLogicalAnd();
+      expr = {
+        type: "BinaryExpression",
+        operator,
+        left: expr,
+        right
+      };
+    }
+    return expr;
+  }
+  parseLogicalAnd() {
+    let expr = this.parseEquality();
+    while (this.match("OPERATOR", "&&")) {
+      const operator = this.previous().value;
+      const right = this.parseEquality();
+      expr = {
+        type: "BinaryExpression",
+        operator,
+        left: expr,
+        right
+      };
+    }
+    return expr;
+  }
+  parseEquality() {
+    let expr = this.parseRelational();
+    while (this.match("OPERATOR", "==", "!=", "===", "!==")) {
+      const operator = this.previous().value;
+      const right = this.parseRelational();
+      expr = {
+        type: "BinaryExpression",
+        operator,
+        left: expr,
+        right
+      };
+    }
+    return expr;
+  }
+  parseRelational() {
+    let expr = this.parseAdditive();
+    while (this.match("OPERATOR", "<", ">", "<=", ">=")) {
+      const operator = this.previous().value;
+      const right = this.parseAdditive();
+      expr = {
+        type: "BinaryExpression",
+        operator,
+        left: expr,
+        right
+      };
+    }
+    return expr;
+  }
+  parseAdditive() {
+    let expr = this.parseMultiplicative();
+    while (this.match("OPERATOR", "+", "-")) {
+      const operator = this.previous().value;
+      const right = this.parseMultiplicative();
+      expr = {
+        type: "BinaryExpression",
+        operator,
+        left: expr,
+        right
+      };
+    }
+    return expr;
+  }
+  parseMultiplicative() {
+    let expr = this.parseUnary();
+    while (this.match("OPERATOR", "*", "/", "%")) {
+      const operator = this.previous().value;
+      const right = this.parseUnary();
+      expr = {
+        type: "BinaryExpression",
+        operator,
+        left: expr,
+        right
+      };
+    }
+    return expr;
+  }
+  parseUnary() {
+    if (this.match("OPERATOR", "++", "--")) {
+      const operator = this.previous().value;
+      const argument = this.parseUnary();
+      return {
+        type: "UpdateExpression",
+        operator,
+        argument,
+        prefix: true
+      };
+    }
+    if (this.match("OPERATOR", "!", "-", "+")) {
+      const operator = this.previous().value;
+      const argument = this.parseUnary();
+      return {
+        type: "UnaryExpression",
+        operator,
+        argument,
+        prefix: true
+      };
+    }
+    return this.parsePostfix();
+  }
+  parsePostfix() {
+    let expr = this.parseMember();
+    if (this.match("OPERATOR", "++", "--")) {
+      const operator = this.previous().value;
+      return {
+        type: "UpdateExpression",
+        operator,
+        argument: expr,
+        prefix: false
+      };
+    }
+    return expr;
+  }
+  parseMember() {
+    let expr = this.parsePrimary();
+    while (true) {
+      if (this.match("PUNCTUATION", ".")) {
+        const property = this.consume("IDENTIFIER");
+        expr = {
+          type: "MemberExpression",
+          object: expr,
+          property: { type: "Identifier", name: property.value },
+          computed: false
+        };
+      } else if (this.match("PUNCTUATION", "[")) {
+        const property = this.parseExpression();
+        this.consume("PUNCTUATION", "]");
+        expr = {
+          type: "MemberExpression",
+          object: expr,
+          property,
+          computed: true
+        };
+      } else if (this.match("PUNCTUATION", "(")) {
+        const args = this.parseArguments();
+        expr = {
+          type: "CallExpression",
+          callee: expr,
+          arguments: args
+        };
+      } else {
+        break;
+      }
+    }
+    return expr;
+  }
+  parseArguments() {
+    const args = [];
+    if (!this.check("PUNCTUATION", ")")) {
+      do {
+        args.push(this.parseExpression());
+      } while (this.match("PUNCTUATION", ","));
+    }
+    this.consume("PUNCTUATION", ")");
+    return args;
+  }
+  parsePrimary() {
+    if (this.match("NUMBER")) {
+      return { type: "Literal", value: this.previous().value };
+    }
+    if (this.match("STRING")) {
+      return { type: "Literal", value: this.previous().value };
+    }
+    if (this.match("BOOLEAN")) {
+      return { type: "Literal", value: this.previous().value };
+    }
+    if (this.match("NULL")) {
+      return { type: "Literal", value: null };
+    }
+    if (this.match("UNDEFINED")) {
+      return { type: "Literal", value: void 0 };
+    }
+    if (this.match("IDENTIFIER")) {
+      return { type: "Identifier", name: this.previous().value };
+    }
+    if (this.match("PUNCTUATION", "(")) {
+      const expr = this.parseExpression();
+      this.consume("PUNCTUATION", ")");
+      return expr;
+    }
+    if (this.match("PUNCTUATION", "[")) {
+      return this.parseArrayLiteral();
+    }
+    if (this.match("PUNCTUATION", "{")) {
+      return this.parseObjectLiteral();
+    }
+    throw new Error(`Unexpected token: ${this.current().type} "${this.current().value}"`);
+  }
+  parseArrayLiteral() {
+    const elements = [];
+    while (!this.check("PUNCTUATION", "]") && !this.isAtEnd()) {
+      elements.push(this.parseExpression());
+      if (this.match("PUNCTUATION", ",")) {
+        if (this.check("PUNCTUATION", "]")) {
+          break;
+        }
+      } else {
+        break;
+      }
+    }
+    this.consume("PUNCTUATION", "]");
+    return {
+      type: "ArrayExpression",
+      elements
+    };
+  }
+  parseObjectLiteral() {
+    const properties = [];
+    while (!this.check("PUNCTUATION", "}") && !this.isAtEnd()) {
+      let key;
+      let computed = false;
+      if (this.match("STRING")) {
+        key = { type: "Literal", value: this.previous().value };
+      } else if (this.match("IDENTIFIER")) {
+        const name = this.previous().value;
+        key = { type: "Identifier", name };
+      } else if (this.match("PUNCTUATION", "[")) {
+        key = this.parseExpression();
+        computed = true;
+        this.consume("PUNCTUATION", "]");
+      } else {
+        throw new Error("Expected property key");
+      }
+      this.consume("PUNCTUATION", ":");
+      const value = this.parseExpression();
+      properties.push({
+        type: "Property",
+        key,
+        value,
+        computed,
+        shorthand: false
+      });
+      if (this.match("PUNCTUATION", ",")) {
+        if (this.check("PUNCTUATION", "}")) {
+          break;
+        }
+      } else {
+        break;
+      }
+    }
+    this.consume("PUNCTUATION", "}");
+    return {
+      type: "ObjectExpression",
+      properties
+    };
+  }
+  match(...args) {
+    for (let i2 = 0; i2 < args.length; i2++) {
+      const arg = args[i2];
+      if (i2 === 0 && args.length > 1) {
+        const type = arg;
+        for (let j = 1; j < args.length; j++) {
+          if (this.check(type, args[j])) {
+            this.advance();
+            return true;
+          }
+        }
+        return false;
+      } else if (args.length === 1) {
+        if (this.checkType(arg)) {
+          this.advance();
+          return true;
+        }
+        return false;
+      }
+    }
+    return false;
+  }
+  check(type, value) {
+    if (this.isAtEnd())
+      return false;
+    if (value !== void 0) {
+      return this.current().type === type && this.current().value === value;
+    }
+    return this.current().type === type;
+  }
+  checkType(type) {
+    if (this.isAtEnd())
+      return false;
+    return this.current().type === type;
+  }
+  advance() {
+    if (!this.isAtEnd())
+      this.position++;
+    return this.previous();
+  }
+  isAtEnd() {
+    return this.current().type === "EOF";
+  }
+  current() {
+    return this.tokens[this.position];
+  }
+  previous() {
+    return this.tokens[this.position - 1];
+  }
+  consume(type, value) {
+    if (value !== void 0) {
+      if (this.check(type, value))
+        return this.advance();
+      throw new Error(`Expected ${type} "${value}" but got ${this.current().type} "${this.current().value}"`);
+    }
+    if (this.check(type))
+      return this.advance();
+    throw new Error(`Expected ${type} but got ${this.current().type} "${this.current().value}"`);
+  }
+};
+var Evaluator = class {
+  evaluate({ node, scope: scope2 = {}, context = null, allowGlobal = false, forceBindingRootScopeToFunctions = true }) {
+    switch (node.type) {
+      case "Literal":
+        return node.value;
+      case "Identifier":
+        if (node.name in scope2) {
+          const value2 = scope2[node.name];
+          if (typeof value2 === "function") {
+            return value2.bind(scope2);
+          }
+          return value2;
+        }
+        if (allowGlobal && typeof globalThis[node.name] !== "undefined") {
+          const value2 = globalThis[node.name];
+          if (typeof value2 === "function") {
+            return value2.bind(globalThis);
+          }
+          return value2;
+        }
+        throw new Error(`Undefined variable: ${node.name}`);
+      case "MemberExpression":
+        const object = this.evaluate({ node: node.object, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+        if (object == null) {
+          throw new Error("Cannot read property of null or undefined");
+        }
+        let memberValue;
+        if (node.computed) {
+          const property = this.evaluate({ node: node.property, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+          memberValue = object[property];
+        } else {
+          memberValue = object[node.property.name];
+        }
+        if (typeof memberValue === "function") {
+          if (forceBindingRootScopeToFunctions) {
+            return memberValue.bind(scope2);
+          } else {
+            return memberValue.bind(object);
+          }
+        }
+        return memberValue;
+      case "CallExpression":
+        const args = node.arguments.map((arg) => this.evaluate({ node: arg, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions }));
+        if (node.callee.type === "MemberExpression") {
+          const obj = this.evaluate({ node: node.callee.object, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+          let func;
+          if (node.callee.computed) {
+            const prop = this.evaluate({ node: node.callee.property, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+            func = obj[prop];
+          } else {
+            func = obj[node.callee.property.name];
+          }
+          if (typeof func !== "function") {
+            throw new Error("Value is not a function");
+          }
+          return func.apply(obj, args);
+        } else {
+          if (node.callee.type === "Identifier") {
+            const name = node.callee.name;
+            let func;
+            if (name in scope2) {
+              func = scope2[name];
+            } else if (allowGlobal && typeof globalThis[name] !== "undefined") {
+              func = globalThis[name];
+            } else {
+              throw new Error(`Undefined variable: ${name}`);
+            }
+            if (typeof func !== "function") {
+              throw new Error("Value is not a function");
+            }
+            const thisContext = context !== null ? context : scope2;
+            return func.apply(thisContext, args);
+          } else {
+            const callee = this.evaluate({ node: node.callee, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+            if (typeof callee !== "function") {
+              throw new Error("Value is not a function");
+            }
+            return callee.apply(context, args);
+          }
+        }
+      case "UnaryExpression":
+        const argument = this.evaluate({ node: node.argument, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+        switch (node.operator) {
+          case "!":
+            return !argument;
+          case "-":
+            return -argument;
+          case "+":
+            return +argument;
+          default:
+            throw new Error(`Unknown unary operator: ${node.operator}`);
+        }
+      case "UpdateExpression":
+        if (node.argument.type === "Identifier") {
+          const name = node.argument.name;
+          if (!(name in scope2)) {
+            throw new Error(`Undefined variable: ${name}`);
+          }
+          const oldValue = scope2[name];
+          if (node.operator === "++") {
+            scope2[name] = oldValue + 1;
+          } else if (node.operator === "--") {
+            scope2[name] = oldValue - 1;
+          }
+          return node.prefix ? scope2[name] : oldValue;
+        } else if (node.argument.type === "MemberExpression") {
+          const obj = this.evaluate({ node: node.argument.object, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+          const prop = node.argument.computed ? this.evaluate({ node: node.argument.property, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions }) : node.argument.property.name;
+          const oldValue = obj[prop];
+          if (node.operator === "++") {
+            obj[prop] = oldValue + 1;
+          } else if (node.operator === "--") {
+            obj[prop] = oldValue - 1;
+          }
+          return node.prefix ? obj[prop] : oldValue;
+        }
+        throw new Error("Invalid update expression target");
+      case "BinaryExpression":
+        const left = this.evaluate({ node: node.left, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+        const right = this.evaluate({ node: node.right, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+        switch (node.operator) {
+          case "+":
+            return left + right;
+          case "-":
+            return left - right;
+          case "*":
+            return left * right;
+          case "/":
+            return left / right;
+          case "%":
+            return left % right;
+          case "==":
+            return left == right;
+          case "!=":
+            return left != right;
+          case "===":
+            return left === right;
+          case "!==":
+            return left !== right;
+          case "<":
+            return left < right;
+          case ">":
+            return left > right;
+          case "<=":
+            return left <= right;
+          case ">=":
+            return left >= right;
+          case "&&":
+            return left && right;
+          case "||":
+            return left || right;
+          default:
+            throw new Error(`Unknown binary operator: ${node.operator}`);
+        }
+      case "ConditionalExpression":
+        const test = this.evaluate({ node: node.test, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+        return test ? this.evaluate({ node: node.consequent, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions }) : this.evaluate({ node: node.alternate, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+      case "AssignmentExpression":
+        const value = this.evaluate({ node: node.right, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+        if (node.left.type === "Identifier") {
+          scope2[node.left.name] = value;
+          return value;
+        } else if (node.left.type === "MemberExpression") {
+          const obj = this.evaluate({ node: node.left.object, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+          if (node.left.computed) {
+            const prop = this.evaluate({ node: node.left.property, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+            obj[prop] = value;
+          } else {
+            obj[node.left.property.name] = value;
+          }
+          return value;
+        }
+        throw new Error("Invalid assignment target");
+      case "ArrayExpression":
+        return node.elements.map((el) => this.evaluate({ node: el, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions }));
+      case "ObjectExpression":
+        const result = {};
+        for (const prop of node.properties) {
+          const key = prop.computed ? this.evaluate({ node: prop.key, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions }) : prop.key.type === "Identifier" ? prop.key.name : this.evaluate({ node: prop.key, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+          const value2 = this.evaluate({ node: prop.value, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+          result[key] = value2;
+        }
+        return result;
+      default:
+        throw new Error(`Unknown node type: ${node.type}`);
+    }
+  }
+};
+function generateRuntimeFunction(expression) {
+  try {
+    const tokenizer = new Tokenizer(expression);
+    const tokens = tokenizer.tokenize();
+    const parser = new Parser(tokens);
+    const ast = parser.parse();
+    const evaluator = new Evaluator();
+    return function(options = {}) {
+      const { scope: scope2 = {}, context = null, allowGlobal = false, forceBindingRootScopeToFunctions = false } = options;
+      return evaluator.evaluate({ node: ast, scope: scope2, context, allowGlobal, forceBindingRootScopeToFunctions });
+    };
+  } catch (error2) {
+    throw new Error(`CSP Parser Error: ${error2.message}`);
+  }
+}
 function cspEvaluator(el, expression) {
   let dataStack = generateDataStack(el);
   if (typeof expression === "function") {
@@ -1672,29 +2417,25 @@ function generateEvaluator(el, expression, dataStack) {
   return (receiver = () => {
   }, { scope: scope2 = {}, params = [] } = {}) => {
     let completeScope = mergeProxies([scope2, ...dataStack]);
-    let evaluatedExpression = expression.split(".").reduce(
-      (currentScope, currentExpression) => {
-        if (currentScope[currentExpression] === void 0) {
-          throwExpressionError(el, expression);
-        }
-        return currentScope[currentExpression];
-      },
-      completeScope
-    );
-    runIfTypeOfFunction(receiver, evaluatedExpression, completeScope, params);
+    let evaluate2 = generateRuntimeFunction(expression);
+    let returnValue = evaluate2({
+      scope: completeScope,
+      allowGlobal: true,
+      forceBindingRootScopeToFunctions: true
+    });
+    if (shouldAutoEvaluateFunctions && typeof returnValue === "function") {
+      let nextReturnValue = returnValue.apply(returnValue, params);
+      if (nextReturnValue instanceof Promise) {
+        nextReturnValue.then((i2) => receiver(i2));
+      } else {
+        receiver(nextReturnValue);
+      }
+    } else if (typeof returnValue === "object" && returnValue instanceof Promise) {
+      returnValue.then((i2) => receiver(i2));
+    } else {
+      receiver(returnValue);
+    }
   };
-}
-function throwExpressionError(el, expression) {
-  console.warn(
-    `Alpine Error: Alpine is unable to interpret the following expression using the CSP-friendly build:
-
-"${expression}"
-
-Read more about the Alpine's CSP-friendly build restrictions here: https://alpinejs.dev/advanced/csp
-
-`,
-    el
-  );
 }
 function makeMap(str, expectsLowerCase) {
   const map = /* @__PURE__ */ Object.create(null);
@@ -2576,15 +3317,15 @@ directive("ignore", handler);
 directive("effect", skipDuringClone((el, { expression }, { effect: effect3 }) => {
   effect3(evaluateLater(el, expression));
 }));
-function on(el, event, modifiers, callback) {
+function on(el, event2, modifiers, callback) {
   let listenerTarget = el;
   let handler4 = (e2) => callback(e2);
   let options = {};
   let wrapHandler = (callback2, wrapper) => (e2) => wrapper(callback2, e2);
   if (modifiers.includes("dot"))
-    event = dotSyntax(event);
+    event2 = dotSyntax(event2);
   if (modifiers.includes("camel"))
-    event = camelCase2(event);
+    event2 = camelCase2(event2);
   if (modifiers.includes("passive"))
     options.passive = true;
   if (modifiers.includes("capture"))
@@ -2616,7 +3357,7 @@ function on(el, event, modifiers, callback) {
   if (modifiers.includes("once")) {
     handler4 = wrapHandler(handler4, (next, e2) => {
       next(e2);
-      listenerTarget.removeEventListener(event, handler4, options);
+      listenerTarget.removeEventListener(event2, handler4, options);
     });
   }
   if (modifiers.includes("away") || modifiers.includes("outside")) {
@@ -2637,7 +3378,7 @@ function on(el, event, modifiers, callback) {
     handler4 = wrapHandler(handler4, (next, e2) => {
       e2.target === el && next(e2);
     });
-  if (isKeyEvent(event) || isClickEvent(event)) {
+  if (isKeyEvent(event2) || isClickEvent(event2)) {
     handler4 = wrapHandler(handler4, (next, e2) => {
       if (isListeningForASpecificKeyThatHasntBeenPressed(e2, modifiers)) {
         return;
@@ -2645,9 +3386,9 @@ function on(el, event, modifiers, callback) {
       next(e2);
     });
   }
-  listenerTarget.addEventListener(event, handler4, options);
+  listenerTarget.addEventListener(event2, handler4, options);
   return () => {
-    listenerTarget.removeEventListener(event, handler4, options);
+    listenerTarget.removeEventListener(event2, handler4, options);
   };
 }
 function dotSyntax(subject) {
@@ -2666,15 +3407,15 @@ function kebabCase2(subject) {
     return subject;
   return subject.replace(/([a-z])([A-Z])/g, "$1-$2").replace(/[_\s]/, "-").toLowerCase();
 }
-function isKeyEvent(event) {
-  return ["keydown", "keyup"].includes(event);
+function isKeyEvent(event2) {
+  return ["keydown", "keyup"].includes(event2);
 }
-function isClickEvent(event) {
-  return ["contextmenu", "click", "mouse"].some((i2) => event.includes(i2));
+function isClickEvent(event2) {
+  return ["contextmenu", "click", "mouse"].some((i2) => event2.includes(i2));
 }
 function isListeningForASpecificKeyThatHasntBeenPressed(e2, modifiers) {
   let keyModifiers = modifiers.filter((i2) => {
-    return !["window", "document", "prevent", "stop", "once", "capture", "self", "away", "outside", "passive"].includes(i2);
+    return !["window", "document", "prevent", "stop", "once", "capture", "self", "away", "outside", "passive", "preserve-scroll"].includes(i2);
   });
   if (keyModifiers.includes("debounce")) {
     let debounceIndex = keyModifiers.indexOf("debounce");
@@ -2771,9 +3512,9 @@ directive("model", (el, { modifiers, expression }, { effect: effect3, cleanup: c
         el.setAttribute("name", expression);
     });
   }
-  var event = el.tagName.toLowerCase() === "select" || ["checkbox", "radio"].includes(el.type) || modifiers.includes("lazy") ? "change" : "input";
+  let event2 = el.tagName.toLowerCase() === "select" || ["checkbox", "radio"].includes(el.type) || modifiers.includes("lazy") ? "change" : "input";
   let removeListener = isCloning ? () => {
-  } : on(el, event, modifiers, (e2) => {
+  } : on(el, event2, modifiers, (e2) => {
     setValue(getInputValue(el, modifiers, e2, getValue()));
   });
   if (modifiers.includes("fill")) {
@@ -2815,49 +3556,49 @@ directive("model", (el, { modifiers, expression }, { effect: effect3, cleanup: c
     el._x_forceModelUpdate(value);
   });
 });
-function getInputValue(el, modifiers, event, currentValue) {
+function getInputValue(el, modifiers, event2, currentValue) {
   return mutateDom(() => {
-    if (event instanceof CustomEvent && event.detail !== void 0)
-      return event.detail !== null && event.detail !== void 0 ? event.detail : event.target.value;
+    if (event2 instanceof CustomEvent && event2.detail !== void 0)
+      return event2.detail !== null && event2.detail !== void 0 ? event2.detail : event2.target.value;
     else if (isCheckbox(el)) {
       if (Array.isArray(currentValue)) {
         let newValue = null;
         if (modifiers.includes("number")) {
-          newValue = safeParseNumber(event.target.value);
+          newValue = safeParseNumber(event2.target.value);
         } else if (modifiers.includes("boolean")) {
-          newValue = safeParseBoolean(event.target.value);
+          newValue = safeParseBoolean(event2.target.value);
         } else {
-          newValue = event.target.value;
+          newValue = event2.target.value;
         }
-        return event.target.checked ? currentValue.includes(newValue) ? currentValue : currentValue.concat([newValue]) : currentValue.filter((el2) => !checkedAttrLooseCompare2(el2, newValue));
+        return event2.target.checked ? currentValue.includes(newValue) ? currentValue : currentValue.concat([newValue]) : currentValue.filter((el2) => !checkedAttrLooseCompare2(el2, newValue));
       } else {
-        return event.target.checked;
+        return event2.target.checked;
       }
     } else if (el.tagName.toLowerCase() === "select" && el.multiple) {
       if (modifiers.includes("number")) {
-        return Array.from(event.target.selectedOptions).map((option) => {
+        return Array.from(event2.target.selectedOptions).map((option) => {
           let rawValue = option.value || option.text;
           return safeParseNumber(rawValue);
         });
       } else if (modifiers.includes("boolean")) {
-        return Array.from(event.target.selectedOptions).map((option) => {
+        return Array.from(event2.target.selectedOptions).map((option) => {
           let rawValue = option.value || option.text;
           return safeParseBoolean(rawValue);
         });
       }
-      return Array.from(event.target.selectedOptions).map((option) => {
+      return Array.from(event2.target.selectedOptions).map((option) => {
         return option.value || option.text;
       });
     } else {
       let newValue;
       if (isRadio$1(el)) {
-        if (event.target.checked) {
-          newValue = event.target.value;
+        if (event2.target.checked) {
+          newValue = event2.target.value;
         } else {
           newValue = currentValue;
         }
       } else {
-        newValue = event.target.value;
+        newValue = event2.target.value;
       }
       if (modifiers.includes("number")) {
         return safeParseNumber(newValue);
@@ -3815,8 +4556,8 @@ var valueOrHandler = function valueOrHandler2(value) {
   }
   return typeof value === "function" ? value.apply(void 0, params) : value;
 };
-var getActualTarget = function getActualTarget2(event) {
-  return event.target.shadowRoot && typeof event.composedPath === "function" ? event.composedPath()[0] : event.target;
+var getActualTarget = function getActualTarget2(event2) {
+  return event2.target.shadowRoot && typeof event2.composedPath === "function" ? event2.composedPath()[0] : event2.target;
 };
 var createFocusTrap = function createFocusTrap2(elements, userOptions) {
   var doc = (userOptions === null || userOptions === void 0 ? void 0 : userOptions.document) || document;
@@ -4364,6 +5105,8 @@ function src_default(Alpine2) {
         allowOutsideClick: true,
         fallbackFocus: () => el
       };
+      let undoInert = () => {
+      };
       if (modifiers.includes("noautofocus")) {
         options.initialFocus = false;
       } else {
@@ -4371,9 +5114,14 @@ function src_default(Alpine2) {
         if (autofocusEl)
           options.initialFocus = autofocusEl;
       }
+      if (modifiers.includes("inert")) {
+        options.onPostActivate = () => {
+          Alpine2.nextTick(() => {
+            undoInert = setInert(el);
+          });
+        };
+      }
       let trap = createFocusTrap(el, options);
-      let undoInert = () => {
-      };
       let undoDisableScrolling = () => {
       };
       const releaseFocus = () => {
@@ -4393,8 +5141,6 @@ function src_default(Alpine2) {
         if (value && !oldValue) {
           if (modifiers.includes("noscroll"))
             undoDisableScrolling = disableScrolling();
-          if (modifiers.includes("inert"))
-            undoInert = setInert(el);
           setTimeout(() => {
             trap.activate();
           }, 15);
@@ -4464,6 +5210,292 @@ focus-trap/dist/focus-trap.esm.js:
   * @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
   *)
 */
+function eager() {
+  return true;
+}
+function event({ component, argument }) {
+  return new Promise((resolve) => {
+    if (argument) {
+      window.addEventListener(
+        argument,
+        () => resolve(),
+        { once: true }
+      );
+    } else {
+      const cb = (e2) => {
+        if (e2.detail.id !== component.id) return;
+        window.removeEventListener("async-alpine:load", cb);
+        resolve();
+      };
+      window.addEventListener("async-alpine:load", cb);
+    }
+  });
+}
+function idle() {
+  return new Promise((resolve) => {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(resolve);
+    } else {
+      setTimeout(resolve, 200);
+    }
+  });
+}
+function media({ argument }) {
+  return new Promise((resolve) => {
+    if (!argument) {
+      console.log("Async Alpine: media strategy requires a media query. Treating as 'eager'");
+      return resolve();
+    }
+    const mediaQuery = window.matchMedia(`(${argument})`);
+    if (mediaQuery.matches) {
+      resolve();
+    } else {
+      mediaQuery.addEventListener("change", resolve, { once: true });
+    }
+  });
+}
+function visible({ component, argument }) {
+  return new Promise((resolve) => {
+    const rootMargin = argument || "0px 0px 0px 0px";
+    const observer2 = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        observer2.disconnect();
+        resolve();
+      }
+    }, { rootMargin });
+    observer2.observe(component.el);
+  });
+}
+var strategies_default = {
+  eager,
+  event,
+  idle,
+  media,
+  visible
+};
+async function awaitRequirements(component) {
+  const requirements = parseRequirements(component.strategy);
+  await generateRequirements(component, requirements);
+}
+async function generateRequirements(component, requirements) {
+  if (requirements.type === "expression") {
+    if (requirements.operator === "&&") {
+      return Promise.all(
+        requirements.parameters.map((param) => generateRequirements(component, param))
+      );
+    }
+    if (requirements.operator === "||") {
+      return Promise.any(
+        requirements.parameters.map((param) => generateRequirements(component, param))
+      );
+    }
+  }
+  if (!strategies_default[requirements.method]) return false;
+  return strategies_default[requirements.method]({
+    component,
+    argument: requirements.argument
+  });
+}
+function parseRequirements(expression) {
+  const tokens = tokenize(expression);
+  let ast = parseExpression(tokens);
+  if (ast.type === "method") {
+    return {
+      type: "expression",
+      operator: "&&",
+      parameters: [ast]
+    };
+  }
+  return ast;
+}
+function tokenize(expression) {
+  const regex = /\s*([()])\s*|\s*(\|\||&&|\|)\s*|\s*((?:[^()&|]+\([^()]+\))|[^()&|]+)\s*/g;
+  const tokens = [];
+  let match;
+  while ((match = regex.exec(expression)) !== null) {
+    const [_, parenthesis, operator, token] = match;
+    if (parenthesis !== void 0) {
+      tokens.push({ type: "parenthesis", value: parenthesis });
+    } else if (operator !== void 0) {
+      tokens.push({
+        type: "operator",
+        // we do the below to make operators backwards-compatible with previous
+        // versions of Async Alpine, where '|' is equivalent to &&
+        value: operator === "|" ? "&&" : operator
+      });
+    } else {
+      const tokenObj = {
+        type: "method",
+        method: token.trim()
+      };
+      if (token.includes("(")) {
+        tokenObj.method = token.substring(0, token.indexOf("(")).trim();
+        tokenObj.argument = token.substring(
+          token.indexOf("(") + 1,
+          token.indexOf(")")
+        );
+      }
+      if (token.method === "immediate") {
+        token.method = "eager";
+      }
+      tokens.push(tokenObj);
+    }
+  }
+  return tokens;
+}
+function parseExpression(tokens) {
+  let ast = parseTerm(tokens);
+  while (tokens.length > 0 && (tokens[0].value === "&&" || tokens[0].value === "|" || tokens[0].value === "||")) {
+    const operator = tokens.shift().value;
+    const right = parseTerm(tokens);
+    if (ast.type === "expression" && ast.operator === operator) {
+      ast.parameters.push(right);
+    } else {
+      ast = {
+        type: "expression",
+        operator,
+        parameters: [ast, right]
+      };
+    }
+  }
+  return ast;
+}
+function parseTerm(tokens) {
+  if (tokens[0].value === "(") {
+    tokens.shift();
+    const ast = parseExpression(tokens);
+    if (tokens[0].value === ")") {
+      tokens.shift();
+    }
+    return ast;
+  } else {
+    return tokens.shift();
+  }
+}
+function async_alpine_default(Alpine2) {
+  const directive2 = "load";
+  const srcAttr = Alpine2.prefixed("load-src");
+  const ignoreAttr = Alpine2.prefixed("ignore");
+  let options = {
+    defaultStrategy: "eager",
+    keepRelativeURLs: false
+  };
+  let alias = false;
+  let data2 = {};
+  let realIndex = 0;
+  function index() {
+    return realIndex++;
+  }
+  Alpine2.asyncOptions = (opts) => {
+    options = {
+      ...options,
+      ...opts
+    };
+  };
+  Alpine2.asyncData = (name, download2 = false) => {
+    data2[name] = {
+      loaded: false,
+      download: download2
+    };
+  };
+  Alpine2.asyncUrl = (name, url) => {
+    if (!name || !url || data2[name]) return;
+    data2[name] = {
+      loaded: false,
+      download: () => import(
+        /* @vite-ignore */
+        /* webpackIgnore: true */
+        parseUrl(url)
+      )
+    };
+  };
+  Alpine2.asyncAlias = (path) => {
+    alias = path;
+  };
+  const syncHandler = (el) => {
+    Alpine2.skipDuringClone(() => {
+      if (el._x_async) return;
+      el._x_async = "init";
+      el._x_ignore = true;
+      el.setAttribute(ignoreAttr, "");
+    })();
+  };
+  const handler4 = async (el) => {
+    Alpine2.skipDuringClone(async () => {
+      if (el._x_async !== "init") return;
+      el._x_async = "await";
+      const { name, strategy } = elementPrep(el);
+      await awaitRequirements({
+        name,
+        strategy,
+        el,
+        id: el.id || index()
+      });
+      if (!el.isConnected) return;
+      await download(name);
+      if (!el.isConnected) return;
+      activate(el);
+      el._x_async = "loaded";
+    })();
+  };
+  handler4.inline = syncHandler;
+  Alpine2.directive(directive2, handler4).before("ignore");
+  function elementPrep(el) {
+    const name = parseName(el.getAttribute(Alpine2.prefixed("data")));
+    const strategy = el.getAttribute(Alpine2.prefixed(directive2)) || options.defaultStrategy;
+    const urlAttributeValue = el.getAttribute(srcAttr);
+    if (urlAttributeValue) {
+      Alpine2.asyncUrl(name, urlAttributeValue);
+    }
+    return {
+      name,
+      strategy
+    };
+  }
+  async function download(name) {
+    if (name.startsWith("_x_async_")) return;
+    handleAlias(name);
+    if (!data2[name] || data2[name].loaded) return;
+    const module = await getModule(name);
+    Alpine2.data(name, module);
+    data2[name].loaded = true;
+  }
+  async function getModule(name) {
+    if (!data2[name]) return;
+    const module = await data2[name].download(name);
+    if (typeof module === "function") return module;
+    let whichExport = module[name] || module.default || Object.values(module)[0] || false;
+    return whichExport;
+  }
+  function activate(el) {
+    Alpine2.destroyTree(el);
+    el._x_ignore = false;
+    el.removeAttribute(ignoreAttr);
+    if (el.closest(`[${ignoreAttr}]`)) return;
+    Alpine2.initTree(el);
+  }
+  function handleAlias(name) {
+    if (!alias || data2[name]) return;
+    if (typeof alias === "function") {
+      Alpine2.asyncData(name, alias);
+      return;
+    }
+    Alpine2.asyncUrl(name, alias.replaceAll("[name]", name));
+  }
+  function parseName(attribute) {
+    const parsedName = (attribute || "").trim().split(/[({]/g)[0];
+    const ourName = parsedName || `_x_async_${index()}`;
+    return ourName;
+  }
+  function parseUrl(url) {
+    if (options.keepRelativeURLs) return url;
+    const absoluteReg = new RegExp("^(?:[a-z+]+:)?//", "i");
+    if (!absoluteReg.test(url)) {
+      return new URL(url, document.baseURI).href;
+    }
+    return url;
+  }
+}
 function t(t2, e2) {
   if (!(t2 instanceof e2)) {
     throw new TypeError("Cannot call a class as a function");
@@ -4885,6 +5917,99 @@ loadjs.reset = function reset() {
 loadjs.isDefined = function isDefined(bundleId) {
   return bundleId in bundleIdCache;
 };
+function $data(idOrElement) {
+  if (typeof Alpine === "undefined" || typeof Alpine.$data !== "function") {
+    console.error(
+      "Rizzy.$data: Alpine.js context (Alpine.$data) is not available. Ensure Alpine is loaded and started before calling $data."
+    );
+    return void 0;
+  }
+  if (idOrElement instanceof Element) {
+    const target = resolveProxy(idOrElement) || idOrElement;
+    let alpineData = Alpine.$data(target);
+    if (alpineData === void 0) {
+      const nearest = target.closest?.("[x-data]");
+      if (nearest) {
+        alpineData = Alpine.$data(nearest);
+      }
+    }
+    if (alpineData === void 0) {
+      warnDataUndefined("element", target);
+    }
+    return alpineData;
+  }
+  if (typeof idOrElement === "string") {
+    const componentId = idOrElement.trim();
+    if (!componentId) {
+      console.warn("Rizzy.$data: Invalid componentId provided (empty string).");
+      return void 0;
+    }
+    const selector = `[data-alpine-root="${cssEscapeSafe(componentId)}"]`;
+    let root = null;
+    const wrapper = document.getElementById(componentId);
+    if (wrapper) {
+      root = wrapper.matches(selector) ? wrapper : wrapper.querySelector(selector);
+    }
+    if (!root) {
+      root = findAlpineRootById(componentId);
+    }
+    if (!root) {
+      console.warn(
+        `Rizzy.$data: Could not locate an Alpine root using ${selector} locally or globally. Verify that the teleported root rendered and that 'data-alpine-root="${componentId}"' is present.`
+      );
+      return void 0;
+    }
+    const alpineData = Alpine.$data(root);
+    if (alpineData === void 0) {
+      warnDataUndefined(`data-alpine-root="${componentId}"`, root);
+    }
+    return alpineData;
+  }
+  console.warn("Rizzy.$data: Expected a non-empty string id or an Element.");
+  return void 0;
+}
+function resolveProxy(el) {
+  if (!(el instanceof Element)) return null;
+  const isProxyTag = el.tagName?.toLowerCase?.() === "rz-proxy";
+  const proxyFor = el.getAttribute?.("data-for");
+  if (isProxyTag || proxyFor) {
+    const id = proxyFor || "";
+    if (!id) return el;
+    const root = findAlpineRootById(id);
+    if (!root) {
+      console.warn(
+        `Rizzy.$data: Proxy element could not resolve Alpine root for id "${id}". Ensure the teleported root rendered with data-alpine-root="${id}".`
+      );
+      return null;
+    }
+    return root;
+  }
+  return el;
+}
+function findAlpineRootById(id) {
+  const sel = `[data-alpine-root="${cssEscapeSafe(id)}"]`;
+  const candidates = document.querySelectorAll(sel);
+  for (const n2 of candidates) {
+    if (n2.hasAttribute("x-data")) return n2;
+  }
+  if (candidates.length > 0) return candidates[0];
+  return document.getElementById(id) || null;
+}
+function cssEscapeSafe(s2) {
+  try {
+    if (window.CSS && typeof window.CSS.escape === "function") {
+      return window.CSS.escape(s2);
+    }
+  } catch (_) {
+  }
+  return String(s2).replace(/"/g, '\\"');
+}
+function warnDataUndefined(origin, target) {
+  const desc = `${target.tagName?.toLowerCase?.() || "node"}${target.id ? "#" + target.id : ""}${target.classList?.length ? "." + Array.from(target.classList).join(".") : ""}`;
+  console.warn(
+    `Rizzy.$data: Located target via ${origin} (${desc}), but Alpine.$data returned undefined. Ensure this element (or its nearest [x-data] ancestor) has an initialized Alpine component.`
+  );
+}
 function registerRzAccordion(Alpine2) {
   Alpine2.data("rzAccordion", () => ({
     selected: "",
@@ -4954,6 +6079,19 @@ function registerRzAlert(Alpine2) {
     };
   });
 }
+function registerRzAspectRatio(Alpine2) {
+  Alpine2.data("rzAspectRatio", () => ({
+    init() {
+      const ratio = parseFloat(this.$el.dataset.ratio);
+      if (!isNaN(ratio) && ratio > 0) {
+        const paddingBottom = 100 / ratio + "%";
+        this.$el.style.paddingBottom = paddingBottom;
+      } else {
+        this.$el.style.paddingBottom = "100%";
+      }
+    }
+  }));
+}
 function registerRzBrowser(Alpine2) {
   Alpine2.data("rzBrowser", () => {
     return {
@@ -4973,36 +6111,423 @@ function registerRzBrowser(Alpine2) {
       },
       // Get CSS classes for desktop screen button styling
       getDesktopScreenCss() {
-        return [this.screenSize === "" ? "text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong" : "opacity-60"];
+        return [this.screenSize === "" ? "text-foreground forced-color-adjust-auto dark:text-foreground" : "opacity-60"];
       },
       // Get CSS classes for tablet screen button styling
       getTabletScreenCss() {
-        return [this.screenSize === "max-w-2xl" ? "text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong" : "opacity-60"];
+        return [this.screenSize === "max-w-2xl" ? "text-foreground forced-color-adjust-auto dark:text-foreground" : "opacity-60"];
       },
       // Get CSS classes for phone screen button styling
       getPhoneScreenCss() {
-        return [this.screenSize === "max-w-sm" ? "text-on-surface-strong forced-color-adjust-auto dark:text-on-surface-dark-strong" : "opacity-60"];
+        return [this.screenSize === "max-w-sm" ? "text-foreground forced-color-adjust-auto dark:text-foreground" : "opacity-60"];
       }
     };
   });
 }
-function registerRzCheckboxGroupItem(Alpine2) {
-  Alpine2.data("rzCheckboxGroupItem", () => {
-    return {
-      checkbox: null,
-      isChecked: false,
-      init() {
-        this.checkbox = this.$refs.chk;
-        this.isChecked = this.checkbox.checked;
-      },
-      toggleCheckbox() {
-        this.isChecked = this.checkbox.checked;
-      },
-      getIconCss() {
-        return this.isChecked ? "" : "hidden";
+function registerRzCalendar(Alpine2, require2) {
+  Alpine2.data("rzCalendar", () => ({
+    calendar: null,
+    initialized: false,
+    init() {
+      const assets = JSON.parse(this.$el.dataset.assets || "[]");
+      const configId = this.$el.dataset.configId;
+      const nonce = this.$el.dataset.nonce;
+      if (assets.length === 0) {
+        console.warn("RzCalendar: No assets configured.");
+        return;
       }
-    };
-  });
+      require2(assets, {
+        success: () => {
+          this.initCalendar(configId);
+        },
+        error: (e2) => console.error("RzCalendar: Failed to load assets", e2)
+      }, nonce);
+    },
+    initCalendar(configId) {
+      const configElement = document.getElementById(configId);
+      if (!configElement) {
+        console.error(`RzCalendar: Config element #${configId} not found.`);
+        return;
+      }
+      let rawConfig = {};
+      try {
+        rawConfig = JSON.parse(configElement.textContent);
+      } catch (e2) {
+        console.error("RzCalendar: Failed to parse config JSON", e2);
+        return;
+      }
+      const eventHandlers = {
+        onClickDate: (self, e2) => {
+          this.dispatchCalendarEvent("click-day", {
+            event: e2,
+            dates: self.context.selectedDates
+          });
+        },
+        onClickWeekNumber: (self, number, year, dateEls, e2) => {
+          this.dispatchCalendarEvent("click-week-number", {
+            event: e2,
+            number,
+            year,
+            days: dateEls
+          });
+        },
+        onClickMonth: (self, e2) => {
+          this.dispatchCalendarEvent("click-month", {
+            event: e2,
+            month: self.context.selectedMonth
+          });
+        },
+        onClickYear: (self, e2) => {
+          this.dispatchCalendarEvent("click-year", {
+            event: e2,
+            year: self.context.selectedYear
+          });
+        },
+        onClickArrow: (self, e2) => {
+          this.dispatchCalendarEvent("click-arrow", {
+            event: e2,
+            year: self.context.selectedYear,
+            month: self.context.selectedMonth
+          });
+        },
+        onChangeTime: (self, e2, isError) => {
+          this.dispatchCalendarEvent("change-time", {
+            event: e2,
+            time: self.context.selectedTime,
+            hours: self.context.selectedHours,
+            minutes: self.context.selectedMinutes,
+            keeping: self.context.selectedKeeping,
+            isError
+          });
+        }
+      };
+      const options = {
+        ...rawConfig.options,
+        styles: rawConfig.styles,
+        ...eventHandlers
+      };
+      if (window.VanillaCalendarPro) {
+        this.calendar = new VanillaCalendarPro.Calendar(this.$refs.calendarEl, options);
+        this.calendar.init();
+        this.initialized = true;
+        this.dispatchCalendarEvent("init", { instance: this.calendar });
+      } else {
+        console.error("RzCalendar: VanillaCalendar global not found.");
+      }
+    },
+    dispatchCalendarEvent(eventName, detail) {
+      this.$dispatch(`rz:calendar:${eventName}`, detail);
+    },
+    destroy() {
+      if (this.calendar) {
+        this.calendar.destroy();
+        this.dispatchCalendarEvent("destroy", {});
+      }
+    }
+  }));
+}
+function registerRzCalendarProvider(Alpine2) {
+  Alpine2.data("rzCalendarProvider", () => ({
+    // --- Public State ---
+    mode: "single",
+    dates: [],
+    // Canonical state: Flat array of ISO strings ['YYYY-MM-DD', ...], always sorted/unique
+    // --- Internal ---
+    calendarApi: null,
+    _isUpdatingFromCalendar: false,
+    _lastAppliedState: null,
+    _handlers: [],
+    // Store handlers for cleanup
+    // --- Computed Helpers ---
+    get date() {
+      return this.dates[0] || "";
+    },
+    set date(val) {
+      this.setDate(val);
+    },
+    get startDate() {
+      return this.dates[0] || "";
+    },
+    get endDate() {
+      return this.dates[this.dates.length - 1] || "";
+    },
+    get isRangeComplete() {
+      return this.mode === "multiple-ranged" && this.dates.length >= 2;
+    },
+    // --- Lifecycle ---
+    init() {
+      this.mode = this.$el.dataset.mode || "single";
+      try {
+        const rawDates = JSON.parse(this.$el.dataset.initialDates || "[]");
+        this.dates = this._normalize(rawDates);
+      } catch (e2) {
+        this.dates = [];
+      }
+      const initHandler = (e2) => {
+        this.calendarApi = e2.detail.instance;
+        this.syncToCalendar();
+      };
+      this.$el.addEventListener("rz:calendar:init", initHandler);
+      this._handlers.push({ type: "rz:calendar:init", fn: initHandler });
+      const destroyHandler = () => {
+        this.calendarApi = null;
+        this._lastAppliedState = null;
+      };
+      this.$el.addEventListener("rz:calendar:destroy", destroyHandler);
+      this._handlers.push({ type: "rz:calendar:destroy", fn: destroyHandler });
+      const clickHandler = (e2) => {
+        this._isUpdatingFromCalendar = true;
+        const wasComplete = this.isRangeComplete;
+        this.dates = this._normalize(e2.detail.dates || []);
+        if (!wasComplete && this.isRangeComplete) {
+          this.$el.dispatchEvent(new CustomEvent("rz:calendar:range-complete", {
+            detail: { start: this.dates[0], end: this.dates[this.dates.length - 1] },
+            bubbles: true,
+            composed: true
+          }));
+        }
+        this.$nextTick(() => this._isUpdatingFromCalendar = false);
+      };
+      this.$el.addEventListener("rz:calendar:click-day", clickHandler);
+      this._handlers.push({ type: "rz:calendar:click-day", fn: clickHandler });
+      this.$watch("dates", () => {
+        if (this._isUpdatingFromCalendar) return;
+        const current = Array.isArray(this.dates) ? this.dates : [];
+        const normalized = this._normalize(current);
+        const isDirty = !Array.isArray(this.dates) || normalized.length !== this.dates.length || normalized.some((v2, i2) => v2 !== this.dates[i2]);
+        if (isDirty) {
+          this.dates = normalized;
+          return;
+        }
+        this.syncToCalendar();
+      });
+    },
+    destroy() {
+      this._handlers.forEach((h2) => this.$el.removeEventListener(h2.type, h2.fn));
+      this._handlers = [];
+    },
+    // --- Synchronization Logic ---
+    syncToCalendar() {
+      if (!this.calendarApi) return;
+      let selectedDates = [...this.dates];
+      if (this.mode === "multiple-ranged" && this.dates.length >= 2) {
+        const start2 = this.dates[0];
+        const end = this.dates[this.dates.length - 1];
+        selectedDates = [`${start2}:${end}`];
+      }
+      let selectedMonth, selectedYear;
+      let canFocus = false;
+      if (this.dates.length > 0) {
+        const target = this.parseIsoLocal(this.dates[0]);
+        if (!isNaN(target.getTime())) {
+          selectedMonth = target.getMonth();
+          selectedYear = target.getFullYear();
+          canFocus = true;
+        }
+      }
+      const stateKey = JSON.stringify({ mode: this.mode, dates: selectedDates, m: selectedMonth, y: selectedYear });
+      if (this._lastAppliedState === stateKey) return;
+      this._lastAppliedState = stateKey;
+      const params = { selectedDates };
+      if (canFocus) {
+        params.selectedMonth = selectedMonth;
+        params.selectedYear = selectedYear;
+      }
+      this.calendarApi.set(
+        params,
+        {
+          dates: true,
+          month: canFocus,
+          year: canFocus,
+          holidays: false,
+          time: false
+        }
+      );
+    },
+    // --- Utilities ---
+    _extractIsoDates(value) {
+      if (typeof value !== "string") return [];
+      const matches2 = value.match(/\d{4}-\d{2}-\d{2}/g);
+      return matches2 ?? [];
+    },
+    _isValidIsoDate(s2) {
+      if (typeof s2 !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(s2)) return false;
+      const [y, m2, d2] = s2.split("-").map(Number);
+      const dt = new Date(Date.UTC(y, m2 - 1, d2));
+      return dt.getUTCFullYear() === y && dt.getUTCMonth() + 1 === m2 && dt.getUTCDate() === d2;
+    },
+    _normalize(input) {
+      const arr = Array.isArray(input) ? input : [];
+      const iso = arr.flat(Infinity).flatMap((v2) => {
+        if (typeof v2 === "string") return this._extractIsoDates(v2);
+        return [];
+      }).filter((s2) => this._isValidIsoDate(s2));
+      if (this.mode === "single") {
+        const sorted = [...new Set(iso)].sort();
+        return sorted.slice(0, 1);
+      }
+      if (this.mode === "multiple-ranged") {
+        const sorted = iso.sort();
+        if (sorted.length <= 1) return sorted;
+        return [sorted[0], sorted[sorted.length - 1]];
+      }
+      return [...new Set(iso)].sort();
+    },
+    // Parse YYYY-MM-DD as local time (00:00:00)
+    parseIsoLocal(s2) {
+      const [y, m2, d2] = s2.split("-").map(Number);
+      return new Date(y, m2 - 1, d2);
+    },
+    toLocalISO(dateObj) {
+      const y = dateObj.getFullYear();
+      const m2 = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const d2 = String(dateObj.getDate()).padStart(2, "0");
+      return `${y}-${m2}-${d2}`;
+    },
+    // --- Public API ---
+    setToday() {
+      this.dates = this._normalize([this.toLocalISO(/* @__PURE__ */ new Date())]);
+    },
+    addDays(n2) {
+      if (this.dates.length === 0) return;
+      const current = this.parseIsoLocal(this.dates[0]);
+      if (isNaN(current.getTime())) return;
+      current.setDate(current.getDate() + n2);
+      this.dates = this._normalize([this.toLocalISO(current)]);
+    },
+    setDate(dateStr) {
+      this.dates = this._normalize(dateStr ? [dateStr] : []);
+    },
+    clear() {
+      this.dates = [];
+    },
+    toggleDate(dateStr) {
+      let newDates;
+      if (this.dates.includes(dateStr)) {
+        newDates = this.dates.filter((d2) => d2 !== dateStr);
+      } else {
+        newDates = [...this.dates, dateStr];
+      }
+      this.dates = this._normalize(newDates);
+    }
+  }));
+}
+function registerRzCarousel(Alpine2, require2) {
+  function parseJsonFromScriptId(id) {
+    if (!id) return {};
+    const el = document.getElementById(id);
+    if (!el) {
+      console.warn(`[rzCarousel] JSON script element #${id} not found.`);
+      return {};
+    }
+    try {
+      return JSON.parse(el.textContent || "{}");
+    } catch (e2) {
+      console.error(`[rzCarousel] Failed to parse JSON from #${id}:`, e2);
+      return {};
+    }
+  }
+  Alpine2.data("rzCarousel", () => ({
+    emblaApi: null,
+    canScrollPrev: false,
+    canScrollNext: false,
+    selectedIndex: 0,
+    scrollSnaps: [],
+    init() {
+      const assetsToLoad = (() => {
+        try {
+          return JSON.parse(this.$el.dataset.assets || "[]");
+        } catch (e2) {
+          console.error("[rzCarousel] Bad assets JSON:", e2);
+          return [];
+        }
+      })();
+      const nonce = this.$el.dataset.nonce || "";
+      const config = parseJsonFromScriptId(this.$el.dataset.config);
+      const options = config.Options || {};
+      const pluginsConfig = config.Plugins || [];
+      const self = this;
+      if (assetsToLoad.length > 0 && typeof require2 === "function") {
+        require2(
+          assetsToLoad,
+          {
+            success() {
+              if (window.EmblaCarousel) {
+                self.initializeEmbla(options, pluginsConfig);
+              } else {
+                console.error("[rzCarousel] EmblaCarousel not found on window after loading assets.");
+              }
+            },
+            error(err) {
+              console.error("[rzCarousel] Failed to load EmblaCarousel assets.", err);
+            }
+          },
+          nonce
+        );
+      } else {
+        if (window.EmblaCarousel) {
+          this.initializeEmbla(options, pluginsConfig);
+        } else {
+          console.error("[rzCarousel] EmblaCarousel not found and no assets specified for loading.");
+        }
+      }
+    },
+    initializeEmbla(options, pluginsConfig) {
+      const viewport = this.$el.querySelector('[x-ref="viewport"]');
+      if (!viewport) {
+        console.error('[rzCarousel] Carousel viewport with x-ref="viewport" not found.');
+        return;
+      }
+      const instantiatedPlugins = this.instantiatePlugins(pluginsConfig);
+      this.emblaApi = window.EmblaCarousel(viewport, options, instantiatedPlugins);
+      this.emblaApi.on("select", this.onSelect.bind(this));
+      this.emblaApi.on("reInit", this.onSelect.bind(this));
+      this.onSelect();
+    },
+    instantiatePlugins(pluginsConfig) {
+      if (!Array.isArray(pluginsConfig) || pluginsConfig.length === 0) {
+        return [];
+      }
+      return pluginsConfig.map((pluginInfo) => {
+        const constructor = window[pluginInfo.Name];
+        if (typeof constructor !== "function") {
+          console.error(`[rzCarousel] Plugin constructor '${pluginInfo.Name}' not found on window object.`);
+          return null;
+        }
+        try {
+          return constructor(pluginInfo.Options || {});
+        } catch (e2) {
+          console.error(`[rzCarousel] Error instantiating plugin '${pluginInfo.Name}':`, e2);
+          return null;
+        }
+      }).filter(Boolean);
+    },
+    destroy() {
+      if (this.emblaApi) this.emblaApi.destroy();
+    },
+    onSelect() {
+      if (!this.emblaApi) return;
+      this.selectedIndex = this.emblaApi.selectedScrollSnap();
+      this.canScrollPrev = this.emblaApi.canScrollPrev();
+      this.canScrollNext = this.emblaApi.canScrollNext();
+      this.scrollSnaps = this.emblaApi.scrollSnapList();
+    },
+    cannotScrollPrev() {
+      return !this.canScrollPrev;
+    },
+    cannotScrollNext() {
+      return !this.canScrollNext;
+    },
+    scrollPrev() {
+      this.emblaApi?.scrollPrev();
+    },
+    scrollNext() {
+      this.emblaApi?.scrollNext();
+    },
+    scrollTo(index) {
+      this.emblaApi?.scrollTo(index);
+    }
+  }));
 }
 function registerRzCodeViewer(Alpine2, require2) {
   Alpine2.data("rzCodeViewer", () => {
@@ -5055,7 +6580,7 @@ function registerRzCodeViewer(Alpine2, require2) {
       },
       // Get CSS classes for the copy button based on copied state
       getCopiedCss() {
-        return [this.copied ? "focus-visible:outline-success" : "focus-visible:outline-on-surface-dark"];
+        return [this.copied ? "focus-visible:outline-success" : "focus-visible:outline-foreground"];
       },
       // Get CSS classes for the code container based on expand state
       getExpandCss() {
@@ -5067,6 +6592,86 @@ function registerRzCodeViewer(Alpine2, require2) {
       }
     };
   });
+}
+function registerRzCollapsible(Alpine2) {
+  Alpine2.data("rzCollapsible", () => ({
+    isOpen: false,
+    init() {
+      this.isOpen = this.$el.dataset.defaultOpen === "true";
+    },
+    toggle() {
+      this.isOpen = !this.isOpen;
+    },
+    state() {
+      return this.isOpen ? "open" : "closed";
+    }
+  }));
+}
+function registerRzCombobox(Alpine2, require2) {
+  Alpine2.data("rzCombobox", () => ({
+    tomSelect: null,
+    init() {
+      const assets = JSON.parse(this.$el.dataset.assets || "[]");
+      const nonce = this.$el.dataset.nonce;
+      if (assets.length > 0 && typeof require2 === "function") {
+        require2(assets, {
+          success: () => this.initTomSelect(),
+          error: (err) => console.error("RzCombobox: Failed to load assets.", err)
+        }, nonce);
+      } else if (window.TomSelect) {
+        this.initTomSelect();
+      }
+    },
+    initTomSelect() {
+      const selectEl = this.$refs.selectInput;
+      if (!selectEl) return;
+      const configEl = document.getElementById(this.$el.dataset.configId);
+      const config = configEl ? JSON.parse(configEl.textContent) : {};
+      const render = {};
+      const createAlpineRow = (templateRef, data2) => {
+        if (!templateRef) return null;
+        const div = document.createElement("div");
+        let parsedItem = data2.item;
+        if (typeof parsedItem === "string") {
+          try {
+            parsedItem = JSON.parse(parsedItem);
+          } catch (e2) {
+          }
+        }
+        const scope2 = {
+          ...data2,
+          item: parsedItem
+        };
+        if (Alpine2 && typeof Alpine2.addScopeToNode === "function") {
+          Alpine2.addScopeToNode(div, scope2);
+        } else {
+          div._x_dataStack = [scope2];
+        }
+        div.innerHTML = templateRef.innerHTML;
+        return div;
+      };
+      if (this.$refs.optionTemplate) {
+        render.option = (data2, escape) => createAlpineRow(this.$refs.optionTemplate, data2);
+      }
+      if (this.$refs.itemTemplate) {
+        render.item = (data2, escape) => createAlpineRow(this.$refs.itemTemplate, data2);
+      }
+      config.dataAttr = "data-item";
+      this.tomSelect = new TomSelect(selectEl, {
+        ...config,
+        render,
+        onInitialize: function() {
+          this.sync();
+        }
+      });
+    },
+    destroy() {
+      if (this.tomSelect) {
+        this.tomSelect.destroy();
+        this.tomSelect = null;
+      }
+    }
+  }));
 }
 function registerRzDateEdit(Alpine2, require2) {
   Alpine2.data("rzDateEdit", () => ({
@@ -5096,6 +6701,132 @@ function registerRzDateEdit(Alpine2, require2) {
           console.error("Failed to load Flatpickr assets.");
         }
       }, nonce);
+    }
+  }));
+}
+function registerRzDialog(Alpine2) {
+  Alpine2.data("rzDialog", () => ({
+    modalOpen: false,
+    // Main state variable
+    eventTriggerName: "",
+    closeEventName: "rz:modal-close",
+    // Default value, corresponds to Constants.Events.ModalClose
+    closeOnEscape: true,
+    closeOnClickOutside: true,
+    modalId: "",
+    bodyId: "",
+    footerId: "",
+    nonce: "",
+    _escapeListener: null,
+    _openListener: null,
+    _closeEventListener: null,
+    init() {
+      this.modalId = this.$el.dataset.modalId || "";
+      this.bodyId = this.$el.dataset.bodyId || "";
+      this.footerId = this.$el.dataset.footerId || "";
+      this.nonce = this.$el.dataset.nonce || "";
+      this.eventTriggerName = this.$el.dataset.eventTriggerName || "";
+      this.closeEventName = this.$el.dataset.closeEventName || this.closeEventName;
+      this.closeOnEscape = this.$el.dataset.closeOnEscape !== "false";
+      this.closeOnClickOutside = this.$el.dataset.closeOnClickOutside !== "false";
+      this.$el.dispatchEvent(new CustomEvent("rz:modal-initialized", {
+        detail: { modalId: this.modalId, bodyId: this.bodyId, footerId: this.footerId },
+        bubbles: true
+      }));
+      if (this.eventTriggerName) {
+        this._openListener = (e2) => {
+          this.openModal(e2);
+        };
+        window.addEventListener(this.eventTriggerName, this._openListener);
+      }
+      this._closeEventListener = (event2) => {
+        if (this.modalOpen) {
+          this.closeModalInternally("event");
+        }
+      };
+      window.addEventListener(this.closeEventName, this._closeEventListener);
+      this._escapeListener = (e2) => {
+        if (this.modalOpen && this.closeOnEscape && e2.key === "Escape") {
+          this.closeModalInternally("escape");
+        }
+      };
+      window.addEventListener("keydown", this._escapeListener);
+      this.$watch("modalOpen", (value) => {
+        const currentWidth = document.body.offsetWidth;
+        document.body.classList.toggle("overflow-hidden", value);
+        const scrollBarWidth = document.body.offsetWidth - currentWidth;
+        document.body.style.setProperty("--page-scrollbar-width", `${scrollBarWidth}px`);
+        if (value) {
+          this.$nextTick(() => {
+            const dialogElement = this.$el.querySelector('[role="document"]');
+            const focusable3 = dialogElement?.querySelector(`button, [href], input:not([type='hidden']), select, textarea, [tabindex]:not([tabindex="-1"])`);
+            focusable3?.focus();
+            this.$el.dispatchEvent(new CustomEvent("rz:modal-after-open", {
+              detail: { modalId: this.modalId },
+              bubbles: true
+            }));
+          });
+        } else {
+          this.$nextTick(() => {
+            this.$el.dispatchEvent(new CustomEvent("rz:modal-after-close", {
+              detail: { modalId: this.modalId },
+              bubbles: true
+            }));
+          });
+        }
+      });
+    },
+    notModalOpen() {
+      return !this.modalOpen;
+    },
+    destroy() {
+      if (this._openListener && this.eventTriggerName) {
+        window.removeEventListener(this.eventTriggerName, this._openListener);
+      }
+      if (this._closeEventListener) {
+        window.removeEventListener(this.closeEventName, this._closeEventListener);
+      }
+      if (this._escapeListener) {
+        window.removeEventListener("keydown", this._escapeListener);
+      }
+      document.body.classList.remove("overflow-hidden");
+      document.body.style.setProperty("--page-scrollbar-width", `0px`);
+    },
+    openModal(event2 = null) {
+      const beforeOpenEvent = new CustomEvent("rz:modal-before-open", {
+        detail: { modalId: this.modalId, originalEvent: event2 },
+        bubbles: true,
+        cancelable: true
+      });
+      this.$el.dispatchEvent(beforeOpenEvent);
+      if (!beforeOpenEvent.defaultPrevented) {
+        this.modalOpen = true;
+      }
+    },
+    // Internal close function called by button, escape, backdrop, event
+    closeModalInternally(reason = "unknown") {
+      const beforeCloseEvent = new CustomEvent("rz:modal-before-close", {
+        detail: { modalId: this.modalId, reason },
+        bubbles: true,
+        cancelable: true
+      });
+      this.$el.dispatchEvent(beforeCloseEvent);
+      if (!beforeCloseEvent.defaultPrevented) {
+        document.activeElement?.blur && document.activeElement.blur();
+        this.modalOpen = false;
+        document.body.classList.remove("overflow-hidden");
+        document.body.style.setProperty("--page-scrollbar-width", `0px`);
+      }
+    },
+    // Called only by the explicit close button in the template
+    closeModal() {
+      this.closeModalInternally("button");
+    },
+    // Method called by x-on:click.outside on the dialog element
+    handleClickOutside() {
+      if (this.closeOnClickOutside) {
+        this.closeModalInternally("backdrop");
+      }
     }
   }));
 }
@@ -6260,129 +7991,408 @@ const computePosition = (reference, floating, options) => {
     platform: platformWithCache
   });
 };
-function registerRzDropdown(Alpine2) {
-  Alpine2.data("rzDropdown", () => ({
-    dropdownEl: null,
+function registerRzDropdownMenu(Alpine2) {
+  Alpine2.data("rzDropdownMenu", () => ({
+    // --- STATE ---
+    open: false,
+    isModal: true,
+    ariaExpanded: "false",
+    trapActive: false,
+    focusedIndex: null,
+    menuItems: [],
+    parentEl: null,
     triggerEl: null,
-    floatingEl: null,
-    floatingCss: "",
-    anchor: "",
-    offset: 6,
-    dropdownOpen: false,
-    openedWithKeyboard: false,
+    contentEl: null,
+    // Will be populated when menu opens
+    anchor: "bottom",
+    pixelOffset: 3,
+    isSubmenuActive: false,
+    navThrottle: 100,
+    _lastNavAt: 0,
+    selfId: null,
+    // --- INIT ---
     init() {
-      this.dropdownEl = this.$el;
-      this.offset = parseInt(this.$el.dataset.offset || 6);
-      this.anchor = (this.$el.dataset.anchor || "bottom").toLowerCase();
-      this.triggerEl = this.dropdownEl.querySelector("[data-trigger]");
-      this.floatingEl = this.dropdownEl.querySelector("[data-floating]");
-      this.updateFloatingCss();
-    },
-    toggleDropdown() {
-      this.dropdownOpen = !this.dropdownOpen;
-      this.updateFloatingCss();
-    },
-    openDropdown() {
-      this.dropdownOpen = true;
-      this.openedWithKeyboard = false;
-      this.updateFloatingCss();
-    },
-    openWithKeyboard() {
-      this.dropdownOpen = true;
-      this.openedWithKeyboard = true;
-      this.updateFloatingCss();
-      this.focusWrapNext();
-    },
-    closeDropdown() {
-      this.dropdownOpen = false;
-      this.openedWithKeyboard = false;
-      this.updateFloatingCss();
-    },
-    focusWrapNext() {
-      this.$focus.wrap().next();
-    },
-    focusWrapPrevious() {
-      this.$focus.wrap().previous();
-    },
-    // Computes the Tailwind CSS classes for the dropdown's anchor based on its data attribute
-    updateFloatingCss() {
-      this.floatingEl.style.display = this.dropdownOpen ? "block" : "none";
-      this.floatingCss = this.dropdownOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-90 pointer-events-none";
-      if (this.dropdownOpen) {
-        computePosition(this.triggerEl, this.floatingEl, {
-          placement: this.anchor,
-          middleware: [offset(this.offset), flip(), shift()]
-        }).then(({ x, y }) => {
-          Object.assign(this.floatingEl.style, {
-            left: `${x}px`,
-            top: `${y}px`
+      if (!this.$el.id) this.$el.id = crypto.randomUUID();
+      this.selfId = this.$el.id;
+      this.parentEl = this.$el;
+      this.triggerEl = this.$refs.trigger;
+      this.anchor = this.$el.dataset.anchor || "bottom";
+      this.pixelOffset = parseInt(this.$el.dataset.offset) || 6;
+      this.isModal = this.$el.dataset.modal !== "false";
+      this.$watch("open", (value) => {
+        if (value) {
+          this._lastNavAt = 0;
+          this.$nextTick(() => {
+            this.contentEl = document.getElementById(`${this.selfId}-content`);
+            if (!this.contentEl) return;
+            this.updatePosition();
+            this.menuItems = Array.from(
+              this.contentEl.querySelectorAll(
+                '[role^="menuitem"]:not([disabled],[aria-disabled="true"])'
+              )
+            );
           });
+          this.ariaExpanded = "true";
+          this.triggerEl.dataset.state = "open";
+          this.trapActive = this.isModal;
+        } else {
+          this.focusedIndex = null;
+          this.closeAllSubmenus();
+          this.ariaExpanded = "false";
+          delete this.triggerEl.dataset.state;
+          this.trapActive = false;
+          this.contentEl = null;
+        }
+      });
+    },
+    // --- METHODS ---
+    updatePosition() {
+      if (!this.triggerEl || !this.contentEl) return;
+      this.contentEl.style.setProperty("--rizzy-dropdown-trigger-width", `${this.triggerEl.offsetWidth}px`);
+      computePosition(this.triggerEl, this.contentEl, {
+        placement: this.anchor,
+        middleware: [offset(this.pixelOffset), flip(), shift({ padding: 8 })]
+      }).then(({ x, y }) => {
+        Object.assign(this.contentEl.style, { left: `${x}px`, top: `${y}px` });
+      });
+    },
+    toggle() {
+      if (this.open) {
+        this.open = false;
+        let self = this;
+        this.$nextTick(() => self.triggerEl?.focus());
+      } else {
+        this.open = true;
+        this.focusedIndex = -1;
+      }
+    },
+    handleOutsideClick() {
+      if (!this.open) return;
+      this.open = false;
+      let self = this;
+      this.$nextTick(() => self.triggerEl?.focus());
+    },
+    handleTriggerKeydown(event2) {
+      if (["Enter", " ", "ArrowDown", "ArrowUp"].includes(event2.key)) {
+        event2.preventDefault();
+        this.open = true;
+        this.$nextTick(() => {
+          if (event2.key === "ArrowUp") this.focusLastItem();
+          else this.focusFirstItem();
         });
+      }
+    },
+    focusNextItem() {
+      const now = Date.now();
+      if (now - this._lastNavAt < this.navThrottle) return;
+      this._lastNavAt = now;
+      if (!this.menuItems.length) return;
+      this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1;
+      this.focusCurrentItem();
+    },
+    focusPreviousItem() {
+      const now = Date.now();
+      if (now - this._lastNavAt < this.navThrottle) return;
+      this._lastNavAt = now;
+      if (!this.menuItems.length) return;
+      this.focusedIndex = this.focusedIndex === null || this.focusedIndex <= 0 ? this.menuItems.length - 1 : this.focusedIndex - 1;
+      this.focusCurrentItem();
+    },
+    focusFirstItem() {
+      if (!this.menuItems.length) return;
+      this.focusedIndex = 0;
+      this.focusCurrentItem();
+    },
+    focusLastItem() {
+      if (!this.menuItems.length) return;
+      this.focusedIndex = this.menuItems.length - 1;
+      this.focusCurrentItem();
+    },
+    focusCurrentItem() {
+      if (this.focusedIndex !== null && this.menuItems[this.focusedIndex]) {
+        this.$nextTick(() => this.menuItems[this.focusedIndex].focus());
+      }
+    },
+    focusSelectedItem(item) {
+      if (!item || item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
+      const index = this.menuItems.indexOf(item);
+      if (index !== -1) {
+        this.focusedIndex = index;
+        item.focus();
+      }
+    },
+    handleItemClick(event2) {
+      const item = event2.currentTarget;
+      if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
+      if (item.getAttribute("aria-haspopup") === "menu") {
+        Alpine2.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
+        return;
+      }
+      this.open = false;
+      let self = this;
+      this.$nextTick(() => self.triggerEl?.focus());
+    },
+    handleItemMouseEnter(event2) {
+      const item = event2.currentTarget;
+      this.focusSelectedItem(item);
+      if (item.getAttribute("aria-haspopup") !== "menu") {
+        this.closeAllSubmenus();
+      }
+    },
+    handleWindowEscape() {
+      if (this.open) {
+        this.open = false;
+        let self = this;
+        this.$nextTick(() => self.triggerEl?.focus());
+      }
+    },
+    handleContentTabKey() {
+      if (this.open) {
+        this.open = false;
+        let self = this;
+        this.$nextTick(() => self.triggerEl?.focus());
+      }
+    },
+    handleTriggerMouseover() {
+      let self = this;
+      this.$nextTick(() => self.$el.firstElementChild?.focus());
+    },
+    closeAllSubmenus() {
+      const submenus = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+      submenus.forEach((el) => {
+        Alpine2.$data(el)?.closeSubmenu();
+      });
+      this.isSubmenuActive = false;
+    }
+  }));
+  Alpine2.data("rzDropdownSubmenu", () => ({
+    // --- STATE ---
+    open: false,
+    ariaExpanded: "false",
+    parentDropdown: null,
+    triggerEl: null,
+    contentEl: null,
+    // Will be populated when submenu opens
+    menuItems: [],
+    focusedIndex: null,
+    anchor: "right-start",
+    pixelOffset: 0,
+    navThrottle: 100,
+    _lastNavAt: 0,
+    selfId: null,
+    siblingContainer: null,
+    closeTimeout: null,
+    closeDelay: 150,
+    // --- INIT ---
+    init() {
+      if (!this.$el.id) this.$el.id = crypto.randomUUID();
+      this.selfId = this.$el.id;
+      const parentId = this.$el.dataset.parentId;
+      if (parentId) {
+        const parentEl = document.getElementById(parentId);
+        if (parentEl) {
+          this.parentDropdown = Alpine2.$data(parentEl);
+        }
+      }
+      if (!this.parentDropdown) {
+        console.error("RzDropdownSubmenu could not find its parent RzDropdownMenu controller.");
+        return;
+      }
+      this.triggerEl = this.$refs.subTrigger;
+      this.siblingContainer = this.$el.parentElement;
+      this.anchor = this.$el.dataset.subAnchor || this.anchor;
+      this.pixelOffset = parseInt(this.$el.dataset.subOffset) || this.pixelOffset;
+      this.$watch("open", (value) => {
+        if (value) {
+          this._lastNavAt = 0;
+          this.parentDropdown.isSubmenuActive = true;
+          this.$nextTick(() => {
+            this.contentEl = document.getElementById(`${this.selfId}-subcontent`);
+            if (!this.contentEl) return;
+            this.updatePosition(this.contentEl);
+            this.menuItems = Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled], [aria-disabled="true"])'));
+          });
+          this.ariaExpanded = "true";
+          this.triggerEl.dataset.state = "open";
+        } else {
+          this.focusedIndex = null;
+          this.ariaExpanded = "false";
+          delete this.triggerEl.dataset.state;
+          this.$nextTick(() => {
+            const anySubmenuIsOpen = this.parentDropdown.parentEl.querySelector('[x-data^="rzDropdownSubmenu"] [data-state="open"]');
+            if (!anySubmenuIsOpen) this.parentDropdown.isSubmenuActive = false;
+          });
+          this.contentEl = null;
+        }
+      });
+    },
+    // --- METHODS ---
+    updatePosition(contentEl) {
+      if (!this.triggerEl || !contentEl) return;
+      computePosition(this.triggerEl, contentEl, {
+        placement: this.anchor,
+        middleware: [offset(this.pixelOffset), flip(), shift({ padding: 8 })]
+      }).then(({ x, y }) => {
+        Object.assign(contentEl.style, { left: `${x}px`, top: `${y}px` });
+      });
+    },
+    handleTriggerMouseEnter() {
+      clearTimeout(this.closeTimeout);
+      this.triggerEl.focus();
+      this.openSubmenu();
+    },
+    handleTriggerMouseLeave() {
+      this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
+    },
+    handleContentMouseEnter() {
+      clearTimeout(this.closeTimeout);
+    },
+    handleContentMouseLeave() {
+      const childSubmenus = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+      if (childSubmenus) {
+        const isAnyChildOpen = Array.from(childSubmenus).some((el) => Alpine2.$data(el)?.open);
+        if (isAnyChildOpen) {
+          return;
+        }
+      }
+      this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
+    },
+    openSubmenu(focusFirst = false) {
+      if (this.open) return;
+      this.closeSiblingSubmenus();
+      this.open = true;
+      if (focusFirst) {
+        this.$nextTick(() => requestAnimationFrame(() => this.focusFirstItem()));
+      }
+    },
+    closeSubmenu() {
+      const childSubmenus = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
+      childSubmenus?.forEach((el) => {
+        Alpine2.$data(el)?.closeSubmenu();
+      });
+      this.open = false;
+    },
+    closeSiblingSubmenus() {
+      if (!this.siblingContainer) return;
+      const siblings = Array.from(this.siblingContainer.children).filter(
+        (el) => el.hasAttribute("x-data") && el.getAttribute("x-data").startsWith("rzDropdownSubmenu") && el.id !== this.selfId
+      );
+      siblings.forEach((el) => {
+        Alpine2.$data(el)?.closeSubmenu();
+      });
+    },
+    toggleSubmenu() {
+      this.open ? this.closeSubmenu() : this.openSubmenu();
+    },
+    openSubmenuAndFocusFirst() {
+      this.openSubmenu(true);
+    },
+    handleTriggerKeydown(e2) {
+      if (["ArrowRight", "Enter", " "].includes(e2.key)) {
+        e2.preventDefault();
+        this.openSubmenuAndFocusFirst();
+      }
+    },
+    focusNextItem() {
+      const now = Date.now();
+      if (now - this._lastNavAt < this.navThrottle) return;
+      this._lastNavAt = now;
+      if (!this.menuItems.length) return;
+      this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1;
+      this.focusCurrentItem();
+    },
+    focusPreviousItem() {
+      const now = Date.now();
+      if (now - this._lastNavAt < this.navThrottle) return;
+      this._lastNavAt = now;
+      if (!this.menuItems.length) return;
+      this.focusedIndex = this.focusedIndex === null || this.focusedIndex <= 0 ? this.menuItems.length - 1 : this.focusedIndex - 1;
+      this.focusCurrentItem();
+    },
+    focusFirstItem() {
+      if (!this.menuItems.length) return;
+      this.focusedIndex = 0;
+      this.focusCurrentItem();
+    },
+    focusLastItem() {
+      if (!this.menuItems.length) return;
+      this.focusedIndex = this.menuItems.length - 1;
+      this.focusCurrentItem();
+    },
+    focusCurrentItem() {
+      if (this.focusedIndex !== null && this.menuItems[this.focusedIndex]) {
+        this.menuItems[this.focusedIndex].focus();
+      }
+    },
+    handleItemClick(event2) {
+      const item = event2.currentTarget;
+      if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
+      if (item.getAttribute("aria-haspopup") === "menu") {
+        Alpine2.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
+        return;
+      }
+      this.parentDropdown.open = false;
+      this.$nextTick(() => this.parentDropdown.triggerEl?.focus());
+    },
+    handleItemMouseEnter(event2) {
+      const item = event2.currentTarget;
+      if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
+      const index = this.menuItems.indexOf(item);
+      if (index !== -1) {
+        this.focusedIndex = index;
+        item.focus();
+      }
+      if (item.getAttribute("aria-haspopup") === "menu") {
+        Alpine2.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.openSubmenu();
+      } else {
+        this.closeSiblingSubmenus();
+      }
+    },
+    handleSubmenuEscape() {
+      if (this.open) {
+        this.open = false;
+        this.$nextTick(() => this.triggerEl?.focus());
+      }
+    },
+    handleSubmenuArrowLeft() {
+      if (this.open) {
+        this.open = false;
+        this.$nextTick(() => this.triggerEl?.focus());
       }
     }
   }));
 }
 function registerRzDarkModeToggle(Alpine2) {
   Alpine2.data("rzDarkModeToggle", () => ({
-    mode: "light",
-    applyTheme: null,
-    init() {
-      const hasLocalStorage = typeof window !== "undefined" && "localStorage" in window;
-      const allowedModes = ["light", "dark", "auto"];
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      let storedMode = "auto";
-      if (hasLocalStorage) {
-        storedMode = localStorage.getItem("darkMode") ?? "auto";
-        if (!allowedModes.includes(storedMode)) {
-          storedMode = "light";
-        }
-      }
-      if (hasLocalStorage) {
-        localStorage.setItem("darkMode", storedMode);
-      }
-      this.applyTheme = () => {
-        document.documentElement.classList.toggle(
-          "dark",
-          storedMode === "dark" || storedMode === "auto" && prefersDark
-        );
-      };
-      this.applyTheme();
-      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", this.applyTheme);
+    // Proxy all properties to the reactive store
+    get mode() {
+      return this.$store.theme.mode;
     },
-    // Returns true if dark mode should be active
-    isDark() {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      localStorage.getItem("darkMode");
-      return this.mode === "dark" || this.mode === "auto" && prefersDark;
+    get prefersDark() {
+      return this.$store.theme.prefersDark;
     },
-    // Returns true if light mode should be active
-    isLight() {
-      return !this.isDark();
+    get effectiveDark() {
+      return this.$store.theme.effectiveDark;
     },
-    // Toggle the dark mode setting and dispatch a custom event
+    // Proxy properties from the store (isDark/isLight are getters on the store)
+    get isDark() {
+      return this.$store.theme.isDark;
+    },
+    get isLight() {
+      return this.$store.theme.isLight;
+    },
+    // Proxy methods
+    setLight() {
+      this.$store.theme.setLight();
+    },
+    setDark() {
+      this.$store.theme.setDark();
+    },
+    setAuto() {
+      this.$store.theme.setAuto();
+    },
     toggle() {
-      let storedMode = localStorage.getItem("darkMode");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      if (storedMode === "light")
-        storedMode = "dark";
-      else if (storedMode === "dark")
-        storedMode = "light";
-      else if (storedMode === "auto") {
-        storedMode = prefersDark ? "light" : "dark";
-      }
-      this.mode = storedMode;
-      localStorage.setItem("darkMode", storedMode);
-      const isDark = storedMode === "dark" || storedMode === "auto" && prefersDark;
-      document.documentElement.classList.toggle("dark", isDark);
-      const darkModeEvent = new CustomEvent("darkModeToggle", {
-        detail: { darkMode: isDark }
-      });
-      window.dispatchEvent(darkModeEvent);
-    },
-    destroy() {
-      if (this.applyTheme) {
-        window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", this.applyTheme);
-      }
+      this.$store.theme.toggle();
     }
   }));
 }
@@ -6405,8 +8415,8 @@ function registerRzEmbeddedPreview(Alpine2) {
           });
           resizeObserver.observe(this.iframe);
           const iframe = this.iframe;
-          this.onDarkModeToggle = (event) => {
-            iframe.contentWindow.postMessage(event.detail, "*");
+          this.onDarkModeToggle = (event2) => {
+            iframe.contentWindow.postMessage(event2.detail, "*");
           };
           window.addEventListener("darkModeToggle", this.onDarkModeToggle);
         } catch (error2) {
@@ -6491,6 +8501,8 @@ function registerRzIndicator(Alpine2) {
       const colorValue = this.$el.dataset.color;
       if (colorValue) {
         this.$el.style.backgroundColor = colorValue;
+      } else {
+        this.$el.style.backgroundColor = "var(--color-success)";
       }
       if (this.$el.dataset.visible === "true") {
         this.visible = true;
@@ -6498,6 +8510,23 @@ function registerRzIndicator(Alpine2) {
     },
     notVisible() {
       return !this.visible;
+    },
+    setVisible(value) {
+      this.visible = value;
+    }
+  }));
+}
+function registerRzInputGroupAddon(Alpine2) {
+  Alpine2.data("rzInputGroupAddon", () => ({
+    handleClick(event2) {
+      if (event2.target.closest("button")) {
+        return;
+      }
+      const parent = this.$el.parentElement;
+      if (parent) {
+        const input = parent.querySelector("input, textarea");
+        input?.focus();
+      }
     }
   }));
 }
@@ -6519,128 +8548,207 @@ function registerRzMarkdown(Alpine2, require2) {
     };
   });
 }
-function registerRzModal(Alpine2) {
-  Alpine2.data("rzModal", () => ({
-    modalOpen: false,
-    // Main state variable
-    eventTriggerName: "",
-    closeEventName: "rz:modal-close",
-    // Default value, corresponds to Constants.Events.ModalClose
-    closeOnEscape: true,
-    closeOnClickOutside: true,
-    modalId: "",
-    bodyId: "",
-    footerId: "",
-    nonce: "",
-    _escapeListener: null,
-    _openListener: null,
-    _closeEventListener: null,
+function registerRzNavigationMenu(Alpine2, $data2) {
+  Alpine2.data("rzNavigationMenu", () => ({
+    activeItemId: null,
+    open: false,
+    closeTimeout: null,
+    prevIndex: null,
+    list: null,
+    isClosing: false,
+    /* ---------- helpers ---------- */
+    _triggerIndex(id) {
+      if (!this.list) return -1;
+      const triggers = Array.from(this.list.querySelectorAll('[x-ref^="trigger_"]'));
+      return triggers.findIndex((t2) => t2.getAttribute("x-ref") === `trigger_${id}`);
+    },
+    _contentEl(id) {
+      return document.getElementById(`${id}-content`);
+    },
+    /* ---------- lifecycle ---------- */
     init() {
-      this.modalId = this.$el.dataset.modalId || "";
-      this.bodyId = this.$el.dataset.bodyId || "";
-      this.footerId = this.$el.dataset.footerId || "";
-      this.nonce = this.$el.dataset.nonce || "";
-      this.eventTriggerName = this.$el.dataset.eventTriggerName || "";
-      this.closeEventName = this.$el.dataset.closeEventName || this.closeEventName;
-      this.closeOnEscape = this.$el.dataset.closeOnEscape !== "false";
-      this.closeOnClickOutside = this.$el.dataset.closeOnClickOutside !== "false";
-      this.$el.dispatchEvent(new CustomEvent("rz:modal-initialized", {
-        detail: { modalId: this.modalId, bodyId: this.bodyId, footerId: this.footerId },
-        bubbles: true
-      }));
-      if (this.eventTriggerName) {
-        this._openListener = (e2) => {
-          this.openModal(e2);
-        };
-        window.addEventListener(this.eventTriggerName, this._openListener);
+      const contentEls = this.$el.querySelectorAll("[data-popover]");
+      contentEls.forEach((el) => {
+        el.style.display = "none";
+      });
+      this.$nextTick(() => {
+        this.list = this.$refs.list;
+      });
+    },
+    /* ---------- event handlers (from events with no params) ---------- */
+    toggleActive(e2) {
+      const id = e2.currentTarget.getAttribute("x-ref").replace("trigger_", "");
+      this.activeItemId === id && this.open ? this.closeMenu() : this.openMenu(id);
+    },
+    handleTriggerEnter(e2) {
+      const id = e2.currentTarget.getAttribute("x-ref").replace("trigger_", "");
+      this.cancelClose();
+      if (this.activeItemId !== id && !this.isClosing) {
+        requestAnimationFrame(() => this.openMenu(id));
       }
-      this._closeEventListener = (event) => {
-        if (this.modalOpen) {
-          this.closeModalInternally("event");
+    },
+    handleItemEnter(e2) {
+      const item = e2.currentTarget;
+      if (!item) return;
+      this.cancelClose();
+      const trigger2 = item.querySelector('[x-ref^="trigger_"]');
+      if (trigger2) {
+        const id = trigger2.getAttribute("x-ref").replace("trigger_", "");
+        if (this.activeItemId !== id && !this.isClosing) {
+          requestAnimationFrame(() => this.openMenu(id));
         }
-      };
-      window.addEventListener(this.closeEventName, this._closeEventListener);
-      this._escapeListener = (e2) => {
-        if (this.modalOpen && this.closeOnEscape && e2.key === "Escape") {
-          this.closeModalInternally("escape");
+      } else {
+        if (this.open && !this.isClosing) {
+          this.closeMenu();
         }
-      };
-      window.addEventListener("keydown", this._escapeListener);
-      this.$watch("modalOpen", (value) => {
-        const currentWidth = document.body.offsetWidth;
-        document.body.classList.toggle("overflow-hidden", value);
-        const scrollBarWidth = document.body.offsetWidth - currentWidth;
-        document.body.style.setProperty("--page-scrollbar-width", `${scrollBarWidth}px`);
+      }
+    },
+    handleContentEnter() {
+      this.cancelClose();
+    },
+    scheduleClose() {
+      if (this.isClosing || this.closeTimeout) return;
+      this.closeTimeout = setTimeout(() => this.closeMenu(), 150);
+    },
+    cancelClose() {
+      if (this.closeTimeout) {
+        clearTimeout(this.closeTimeout);
+        this.closeTimeout = null;
+      }
+      this.isClosing = false;
+    },
+    /* ---------- open / close logic with direct DOM manipulation ---------- */
+    openMenu(id) {
+      this.cancelClose();
+      this.isClosing = false;
+      const newIdx = this._triggerIndex(id);
+      const dir = newIdx > (this.prevIndex ?? newIdx) ? "end" : "start";
+      const isFirstOpen = this.prevIndex === null;
+      if (this.open && this.activeItemId && this.activeItemId !== id) {
+        const oldTrig = this.$refs[`trigger_${this.activeItemId}`];
+        if (oldTrig) delete oldTrig.dataset.state;
+        const oldEl = this._contentEl(this.activeItemId);
+        if (oldEl) {
+          const outgoingDirection = dir === "end" ? "start" : "end";
+          oldEl.setAttribute("data-motion", `to-${outgoingDirection}`);
+          setTimeout(() => {
+            oldEl.style.display = "none";
+          }, 150);
+        }
+      }
+      this.activeItemId = id;
+      this.open = true;
+      this.prevIndex = newIdx;
+      const newTrig = this.$refs[`trigger_${id}`];
+      const newContentEl = this._contentEl(id);
+      if (!newTrig || !newContentEl) return;
+      computePosition(newTrig, newContentEl, {
+        placement: "bottom-start",
+        middleware: [offset(6), flip(), shift({ padding: 8 })]
+      }).then(({ x, y }) => {
+        Object.assign(newContentEl.style, { left: `${x}px`, top: `${y}px` });
+      });
+      newContentEl.style.display = "block";
+      if (isFirstOpen) {
+        newContentEl.setAttribute("data-motion", "fade-in");
+      } else {
+        newContentEl.setAttribute("data-motion", `from-${dir}`);
+      }
+      this.$nextTick(() => {
+        newTrig.setAttribute("aria-expanded", "true");
+        newTrig.dataset.state = "open";
+      });
+    },
+    closeMenu() {
+      if (!this.open || this.isClosing) return;
+      this.isClosing = true;
+      this.cancelClose();
+      const activeId = this.activeItemId;
+      if (!activeId) {
+        this.isClosing = false;
+        return;
+      }
+      const trig = this.$refs[`trigger_${activeId}`];
+      if (trig) {
+        trig.setAttribute("aria-expanded", "false");
+        delete trig.dataset.state;
+      }
+      const contentEl = this._contentEl(activeId);
+      if (contentEl) {
+        contentEl.setAttribute("data-motion", "fade-out");
+        setTimeout(() => {
+          contentEl.style.display = "none";
+        }, 150);
+      }
+      this.open = false;
+      this.activeItemId = null;
+      this.prevIndex = null;
+      setTimeout(() => {
+        this.isClosing = false;
+      }, 150);
+    }
+  }));
+}
+function registerRzPopover(Alpine2) {
+  Alpine2.data("rzPopover", () => ({
+    open: false,
+    ariaExpanded: "false",
+    triggerEl: null,
+    contentEl: null,
+    init() {
+      this.triggerEl = this.$refs.trigger;
+      this.contentEl = this.$refs.content;
+      this.$watch("open", (value) => {
+        this.ariaExpanded = value.toString();
         if (value) {
-          this.$nextTick(() => {
-            const dialogElement = this.$el.querySelector('[role="document"]');
-            const focusable3 = dialogElement?.querySelector(`button, [href], input:not([type='hidden']), select, textarea, [tabindex]:not([tabindex="-1"])`);
-            focusable3?.focus();
-            this.$el.dispatchEvent(new CustomEvent("rz:modal-after-open", {
-              detail: { modalId: this.modalId },
-              bubbles: true
-            }));
-          });
-        } else {
-          this.$nextTick(() => {
-            this.$el.dispatchEvent(new CustomEvent("rz:modal-after-close", {
-              detail: { modalId: this.modalId },
-              bubbles: true
-            }));
-          });
+          this.$nextTick(() => this.updatePosition());
         }
       });
     },
-    notModalOpen() {
-      return !this.modalOpen;
-    },
-    destroy() {
-      if (this._openListener && this.eventTriggerName) {
-        window.removeEventListener(this.eventTriggerName, this._openListener);
+    updatePosition() {
+      if (!this.triggerEl || !this.contentEl) return;
+      const anchor = this.$el.dataset.anchor || "bottom";
+      const mainOffset = parseInt(this.$el.dataset.offset) || 0;
+      const crossAxisOffset = parseInt(this.$el.dataset.crossAxisOffset) || 0;
+      const alignmentAxisOffset = parseInt(this.$el.dataset.alignmentAxisOffset) || null;
+      const strategy = this.$el.dataset.strategy || "absolute";
+      const enableFlip = this.$el.dataset.enableFlip !== "false";
+      const enableShift = this.$el.dataset.enableShift !== "false";
+      const shiftPadding = parseInt(this.$el.dataset.shiftPadding) || 8;
+      let middleware = [];
+      middleware.push(offset({
+        mainAxis: mainOffset,
+        crossAxis: crossAxisOffset,
+        alignmentAxis: alignmentAxisOffset
+      }));
+      if (enableFlip) {
+        middleware.push(flip());
       }
-      if (this._closeEventListener) {
-        window.removeEventListener(this.closeEventName, this._closeEventListener);
+      if (enableShift) {
+        middleware.push(shift({ padding: shiftPadding }));
       }
-      if (this._escapeListener) {
-        window.removeEventListener("keydown", this._escapeListener);
-      }
-      document.body.classList.remove("overflow-hidden");
-      document.body.style.setProperty("--page-scrollbar-width", `0px`);
-    },
-    openModal(event = null) {
-      const beforeOpenEvent = new CustomEvent("rz:modal-before-open", {
-        detail: { modalId: this.modalId, originalEvent: event },
-        bubbles: true,
-        cancelable: true
+      computePosition(this.triggerEl, this.contentEl, {
+        placement: anchor,
+        strategy,
+        middleware
+      }).then(({ x, y }) => {
+        Object.assign(this.contentEl.style, {
+          left: `${x}px`,
+          top: `${y}px`
+        });
       });
-      this.$el.dispatchEvent(beforeOpenEvent);
-      if (!beforeOpenEvent.defaultPrevented) {
-        this.modalOpen = true;
-      }
     },
-    // Internal close function called by button, escape, backdrop, event
-    closeModalInternally(reason = "unknown") {
-      const beforeCloseEvent = new CustomEvent("rz:modal-before-close", {
-        detail: { modalId: this.modalId, reason },
-        bubbles: true,
-        cancelable: true
-      });
-      this.$el.dispatchEvent(beforeCloseEvent);
-      if (!beforeCloseEvent.defaultPrevented) {
-        document.activeElement?.blur && document.activeElement.blur();
-        this.modalOpen = false;
-        document.body.classList.remove("overflow-hidden");
-        document.body.style.setProperty("--page-scrollbar-width", `0px`);
-      }
+    toggle() {
+      this.open = !this.open;
     },
-    // Called only by the explicit close button in the template
-    closeModal() {
-      this.closeModalInternally("button");
+    handleOutsideClick() {
+      if (!this.open) return;
+      this.open = false;
     },
-    // Method called by x-on:click.outside on the dialog element
-    handleClickOutside() {
-      if (this.closeOnClickOutside) {
-        this.closeModalInternally("backdrop");
+    handleWindowEscape() {
+      if (this.open) {
+        this.open = false;
+        this.$nextTick(() => this.triggerEl?.focus());
       }
     }
   }));
@@ -6738,7 +8846,7 @@ function registerRzProgress(Alpine2) {
       const barLabel = this.$refs.progressBarLabel;
       const progressBar = this.$refs.progressBar;
       if (barLabel && progressBar && barLabel.clientWidth > progressBar.clientWidth) {
-        return "text-on-surface dark:text-on-surface-dark";
+        return "text-foreground dark:text-foreground";
       }
       return "";
     },
@@ -6803,138 +8911,694 @@ function registerRzQuickReferenceContainer(Alpine2) {
     };
   });
 }
+function registerRzSheet(Alpine2) {
+  Alpine2.data("rzSheet", () => ({
+    open: false,
+    init() {
+      this.open = this.$el.dataset.defaultOpen === "true";
+    },
+    toggle() {
+      this.open = !this.open;
+    },
+    close() {
+      this.open = false;
+    },
+    show() {
+      this.open = true;
+    },
+    state() {
+      return this.open ? "open" : "closed";
+    }
+  }));
+}
 function registerRzTabs(Alpine2) {
-  Alpine2.data("rzTabs", () => {
-    return {
-      buttonRef: null,
-      tabSelected: "",
-      tabButton: null,
-      init() {
-        this.buttonRef = document.getElementById(this.$el.dataset.buttonref);
-        this.tabSelected = this.$el.dataset.tabselected;
-        this.tabButton = this.buttonRef.querySelector("[data-name='" + this.tabSelected + "']");
-        this.tabRepositionMarker(this.tabButton);
-      },
-      tabButtonClicked(tabButton) {
-        if (tabButton instanceof Event)
-          tabButton = tabButton.target;
-        this.tabSelected = tabButton.dataset.name;
-        this.tabRepositionMarker(tabButton);
-        tabButton.focus();
-      },
-      tabRepositionMarker(tabButton) {
-        this.tabButton = tabButton;
-        this.$refs.tabMarker.style.width = tabButton.offsetWidth + "px";
-        this.$refs.tabMarker.style.height = tabButton.offsetHeight + "px";
-        this.$refs.tabMarker.style.left = tabButton.offsetLeft + "px";
-        setTimeout(() => {
-          this.$refs.tabMarker.style.opacity = 1;
-        }, 150);
-      },
-      // Get the CSS classes for the tab content panel based on selection
-      getTabContentCss() {
-        return this.tabSelected === this.$el.dataset.name ? "" : "hidden";
-      },
-      tabContentActive(tabContent) {
-        tabContent = tabContent ?? this.$el;
-        return this.tabSelected === tabContent.dataset.name;
-      },
-      tabButtonActive(tabButton) {
-        tabButton = tabButton ?? this.$el;
-        return this.tabSelected === tabButton.dataset.name;
-      },
-      // Get the value for the aria-selected attribute
-      getTabButtonAriaSelected() {
-        return this.tabSelected === this.$el.dataset.name ? "true" : "false";
-      },
-      // Get the CSS classes for the tab button text color based on selection
-      getSelectedTabTextColorCss() {
-        const color = this.$el.dataset.selectedtextcolor ?? "";
-        return this.tabSelected === this.$el.dataset.name ? color : "";
-      },
-      handleResize() {
-        this.tabRepositionMarker(this.tabButton);
-      },
-      handleKeyDown(event) {
-        const key = event.key;
-        const tabButtons = Array.from(this.buttonRef.querySelectorAll("[role='tab']"));
-        const currentIndex = tabButtons.findIndex((button) => this.tabSelected === button.dataset.name);
-        let newIndex = currentIndex;
-        if (key === "ArrowRight") {
-          newIndex = (currentIndex + 1) % tabButtons.length;
-          event.preventDefault();
-        } else if (key === "ArrowLeft") {
-          newIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
-          event.preventDefault();
-        } else if (key === "Home") {
-          newIndex = 0;
-          event.preventDefault();
-        } else if (key === "End") {
-          newIndex = tabButtons.length - 1;
-          event.preventDefault();
+  Alpine2.data("rzTabs", () => ({
+    selectedTab: "",
+    _triggers: [],
+    _observer: null,
+    init() {
+      const defaultValue = this.$el.dataset.defaultValue;
+      this._observer = new MutationObserver(() => this.refreshTriggers());
+      this._observer.observe(this.$el, { childList: true, subtree: true });
+      this.refreshTriggers();
+      if (defaultValue && this._triggers.some((t2) => t2.dataset.value === defaultValue)) {
+        this.selectedTab = defaultValue;
+      } else if (this._triggers.length > 0) {
+        this.selectedTab = this._triggers[0].dataset.value;
+      }
+    },
+    destroy() {
+      if (this._observer) {
+        this._observer.disconnect();
+      }
+    },
+    refreshTriggers() {
+      this._triggers = Array.from(this.$el.querySelectorAll('[role="tab"]'));
+    },
+    onTriggerClick(e2) {
+      const value = e2.currentTarget?.dataset?.value;
+      if (!value || e2.currentTarget.getAttribute("aria-disabled") === "true") {
+        return;
+      }
+      this.selectedTab = value;
+      this.$dispatch("rz:tabs-change", { value: this.selectedTab });
+    },
+    isSelected(value) {
+      return this.selectedTab === value;
+    },
+    bindTrigger() {
+      this.selectedTab;
+      const value = this.$el.dataset.value;
+      const active = this.isSelected(value);
+      const disabled = this.$el.getAttribute("aria-disabled") === "true";
+      return {
+        "aria-selected": String(active),
+        "tabindex": active ? "0" : "-1",
+        "data-state": active ? "active" : "inactive",
+        ...disabled && { "disabled": true }
+      };
+    },
+    _attrDisabled() {
+      return this.$el.getAttribute("aria-disabled") === "true" ? "true" : null;
+    },
+    _attrAriaSelected() {
+      return String(this.$el.dataset.value === this.selectedTab);
+    },
+    _attrHidden() {
+      return this.$el.dataset.value === this.selectedTab ? null : "true";
+    },
+    _attrAriaHidden() {
+      return String(this.selectedTab !== this.$el.dataset.value);
+    },
+    _attrDataState() {
+      return this.selectedTab === this.$el.dataset.value ? "active" : "inactive";
+    },
+    _attrTabIndex() {
+      return this.selectedTab === this.$el.dataset.value ? "0" : "-1";
+    },
+    onListKeydown(e2) {
+      if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(e2.key)) {
+        e2.preventDefault();
+        const availableTriggers = this._triggers.filter((t2) => t2.getAttribute("aria-disabled") !== "true");
+        if (availableTriggers.length === 0) return;
+        const activeIndex = availableTriggers.findIndex((t2) => t2.dataset.value === this.selectedTab);
+        if (activeIndex === -1) return;
+        const isVertical = e2.currentTarget?.getAttribute("aria-orientation") === "vertical";
+        const prevKey = isVertical ? "ArrowUp" : "ArrowLeft";
+        const nextKey = isVertical ? "ArrowDown" : "ArrowRight";
+        let newIndex = activeIndex;
+        switch (e2.key) {
+          case prevKey:
+            newIndex = activeIndex - 1 < 0 ? availableTriggers.length - 1 : activeIndex - 1;
+            break;
+          case nextKey:
+            newIndex = (activeIndex + 1) % availableTriggers.length;
+            break;
+          case "Home":
+            newIndex = 0;
+            break;
+          case "End":
+            newIndex = availableTriggers.length - 1;
+            break;
         }
-        if (newIndex !== currentIndex) {
-          this.tabButtonClicked(tabButtons[newIndex]);
+        if (newIndex >= 0 && newIndex < availableTriggers.length) {
+          const newTrigger = availableTriggers[newIndex];
+          this.selectedTab = newTrigger.dataset.value;
+          this.$nextTick(() => newTrigger.focus());
         }
       }
-    };
-  });
+    }
+  }));
 }
 function registerRzSidebar(Alpine2) {
-  Alpine2.data("rzSidebar", () => {
-    return {
-      showSidebar: false,
-      isSidebarHidden() {
-        return !this.showSidebar;
-      },
-      toggleSidebar() {
-        this.showSidebar = !this.showSidebar;
-      },
-      hideSidebar() {
-        this.showSidebar = false;
-      },
-      // Return translation classes based on sidebar state for smooth slide-in/out
-      getSidebarTranslation() {
-        return this.showSidebar ? "translate-x-0" : "-translate-x-60";
-      }
-    };
-  });
-}
-function registerRzSidebarLinkItem(Alpine2) {
-  Alpine2.data("rzSidebarLinkItem", () => {
-    return {
-      isExpanded: false,
-      chevronExpandedClass: "",
-      chevronCollapsedClass: "",
-      init() {
-        this.isExpanded = this.$el.dataset.expanded === "true";
-        this.chevronExpandedClass = this.$el.dataset.chevronExpandedClass;
-        this.chevronCollapsedClass = this.$el.dataset.chevronCollapsedClass;
-      },
-      isCollapsed() {
-        return !this.isExpanded;
-      },
-      toggleExpanded() {
-        this.isExpanded = !this.isExpanded;
-      },
-      hideSidebar() {
-        const sidebarScope = this.$el.closest('[x-data^="rzSidebar"]');
-        if (sidebarScope) {
-          let data2 = Alpine2.$data(sidebarScope);
-          data2.showSidebar = false;
-        } else {
-          console.warn("Parent sidebar context not found or 'showSidebar' is not defined.");
+  Alpine2.data("rzSidebar", () => ({
+    open: false,
+    openMobile: false,
+    isMobile: false,
+    collapsible: "offcanvas",
+    shortcut: "b",
+    cookieName: "sidebar_state",
+    mobileBreakpoint: 768,
+    init() {
+      this.collapsible = this.$el.dataset.collapsible || "offcanvas";
+      this.shortcut = this.$el.dataset.shortcut || "b";
+      this.cookieName = this.$el.dataset.cookieName || "sidebar_state";
+      this.mobileBreakpoint = parseInt(this.$el.dataset.mobileBreakpoint) || 768;
+      const savedState = this.cookieName ? document.cookie.split("; ").find((row) => row.startsWith(`${this.cookieName}=`))?.split("=")[1] : null;
+      const defaultOpen = this.$el.dataset.defaultOpen === "true";
+      this.open = savedState !== null ? savedState === "true" : defaultOpen;
+      this.checkIfMobile();
+      window.addEventListener("keydown", (e2) => {
+        if ((e2.ctrlKey || e2.metaKey) && e2.key.toLowerCase() === this.shortcut.toLowerCase()) {
+          e2.preventDefault();
+          this.toggle();
         }
-      },
-      getExpandedClass() {
-        return this.isExpanded ? this.chevronExpandedClass : this.chevronCollapsedClass;
-      },
-      // Get the value for the aria-expanded attribute
-      getAriaExpanded() {
-        return this.isExpanded ? "true" : "false";
+      });
+      this.$watch("open", (value) => {
+        if (this.cookieName) {
+          document.cookie = `${this.cookieName}=${value}; path=/; max-age=31536000`;
+        }
+      });
+    },
+    checkIfMobile() {
+      this.isMobile = window.innerWidth < this.mobileBreakpoint;
+    },
+    toggle() {
+      if (this.isMobile) {
+        this.openMobile = !this.openMobile;
+      } else {
+        this.open = !this.open;
       }
-    };
-  });
+    },
+    close() {
+      if (this.isMobile) {
+        this.openMobile = false;
+      }
+    },
+    isMobileOpen() {
+      return this.openMobile;
+    },
+    desktopState() {
+      return this.open ? "expanded" : "collapsed";
+    },
+    mobileState() {
+      return this.openMobile ? "open" : "closed";
+    },
+    getCollapsibleAttribute() {
+      return this.desktopState() === "collapsed" ? this.collapsible : "";
+    }
+  }));
+}
+function registerRzCommand(Alpine2) {
+  Alpine2.data("rzCommand", () => ({
+    // --- STATE ---
+    search: "",
+    selectedValue: null,
+    selectedIndex: -1,
+    items: [],
+    filteredItems: [],
+    groupTemplates: /* @__PURE__ */ new Map(),
+    activeDescendantId: null,
+    isOpen: false,
+    isEmpty: true,
+    firstRender: true,
+    isLoading: false,
+    error: null,
+    // --- CONFIG ---
+    loop: false,
+    shouldFilter: true,
+    itemsUrl: null,
+    fetchTrigger: "immediate",
+    serverFiltering: false,
+    dataItemTemplateId: null,
+    _dataFetched: false,
+    _debounceTimer: null,
+    // --- COMPUTED (CSP-Compliant Methods) ---
+    showLoading() {
+      return this.isLoading;
+    },
+    hasError() {
+      return this.error !== null;
+    },
+    notHasError() {
+      return this.error == null;
+    },
+    shouldShowEmpty() {
+      return this.isEmpty && this.search && !this.isLoading && !this.error;
+    },
+    shouldShowEmptyOrError() {
+      return this.isEmpty && this.search && !this.isLoading || this.error !== null;
+    },
+    // --- LIFECYCLE ---
+    init() {
+      this.loop = this.$el.dataset.loop === "true";
+      this.shouldFilter = this.$el.dataset.shouldFilter !== "false";
+      this.selectedValue = this.$el.dataset.selectedValue || null;
+      this.itemsUrl = this.$el.dataset.itemsUrl || null;
+      this.fetchTrigger = this.$el.dataset.fetchTrigger || "immediate";
+      this.serverFiltering = this.$el.dataset.serverFiltering === "true";
+      this.dataItemTemplateId = this.$el.dataset.templateId || null;
+      const itemsScriptId = this.$el.dataset.itemsId;
+      let staticItems = [];
+      if (itemsScriptId) {
+        const itemsScript = document.getElementById(itemsScriptId);
+        if (itemsScript) {
+          try {
+            staticItems = JSON.parse(itemsScript.textContent || "[]");
+          } catch (e2) {
+            console.error(`RzCommand: Failed to parse JSON from script tag #${itemsScriptId}`, e2);
+          }
+        }
+      }
+      if (staticItems.length > 0 && !this.dataItemTemplateId) {
+        console.error("RzCommand: `Items` were provided, but no `<CommandItemTemplate>` was found to render them.");
+      }
+      staticItems.forEach((item) => {
+        item.id = item.id || `static-item-${crypto.randomUUID()}`;
+        item.isDataItem = true;
+        this.registerItem(item);
+      });
+      if (this.itemsUrl && this.fetchTrigger === "immediate") {
+        this.fetchItems();
+      }
+      this.$watch("search", (newValue) => {
+        this.firstRender = false;
+        if (this.serverFiltering) {
+          clearTimeout(this._debounceTimer);
+          this._debounceTimer = setTimeout(() => {
+            this.fetchItems(newValue);
+          }, 300);
+        } else {
+          this.filterAndSortItems();
+        }
+      });
+      this.$watch("selectedIndex", (newIndex, oldIndex) => {
+        if (oldIndex > -1) {
+          const oldItem = this.filteredItems[oldIndex];
+          if (oldItem) {
+            const oldEl = this.$el.querySelector(`[data-command-item-id="${oldItem.id}"]`);
+            if (oldEl) {
+              oldEl.removeAttribute("data-selected");
+              oldEl.setAttribute("aria-selected", "false");
+            }
+          }
+        }
+        if (newIndex > -1 && this.filteredItems[newIndex]) {
+          const selectedItem = this.filteredItems[newIndex];
+          this.activeDescendantId = selectedItem.id;
+          const el = this.$el.querySelector(`[data-command-item-id="${selectedItem.id}"]`);
+          if (el) {
+            el.setAttribute("data-selected", "true");
+            el.setAttribute("aria-selected", "true");
+            el.scrollIntoView({ block: "nearest" });
+          }
+          const newValue = selectedItem.value;
+          if (this.selectedValue !== newValue) {
+            this.selectedValue = newValue;
+            this.$dispatch("rz:command:select", { value: newValue });
+          }
+        } else {
+          this.activeDescendantId = null;
+          this.selectedValue = null;
+        }
+      });
+      this.$watch("selectedValue", (newValue) => {
+        const index = this.filteredItems.findIndex((item) => item.value === newValue);
+        if (this.selectedIndex !== index) {
+          this.selectedIndex = index;
+        }
+      });
+      this.$watch("filteredItems", (items) => {
+        this.isOpen = items.length > 0 || this.isLoading;
+        this.isEmpty = items.length === 0;
+        if (!this.firstRender) {
+          window.dispatchEvent(new CustomEvent("rz:command:list-changed", {
+            detail: {
+              items: this.filteredItems,
+              groups: this.groupTemplates,
+              commandId: this.$el.id
+            }
+          }));
+        }
+      });
+    },
+    // --- METHODS ---
+    async fetchItems(query = "") {
+      if (!this.itemsUrl) return;
+      if (!this.dataItemTemplateId) {
+        console.error("RzCommand: `ItemsUrl` was provided, but no `<CommandItemTemplate>` was found to render the data.");
+        this.error = "Configuration error: No data template found.";
+        return;
+      }
+      this.isLoading = true;
+      this.error = null;
+      try {
+        const url = new URL(this.itemsUrl, window.location.origin);
+        if (this.serverFiltering && query) {
+          url.searchParams.append("q", query);
+        }
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        const data2 = await response.json();
+        if (this.serverFiltering) {
+          this.items = this.items.filter((i2) => !i2.isDataItem);
+        }
+        data2.forEach((item) => {
+          item.id = item.id || `data-item-${crypto.randomUUID()}`;
+          item.isDataItem = true;
+          this.registerItem(item);
+        });
+        this._dataFetched = true;
+      } catch (e2) {
+        this.error = e2.message || "Failed to fetch command items.";
+        console.error("RzCommand:", this.error);
+      } finally {
+        this.isLoading = false;
+        this.filterAndSortItems();
+      }
+    },
+    handleInteraction() {
+      if (this.itemsUrl && this.fetchTrigger === "on-open" && !this._dataFetched) {
+        this.fetchItems();
+      }
+    },
+    registerItem(item) {
+      if (this.items.some((i2) => i2.id === item.id)) return;
+      item._order = this.items.length;
+      this.items.push(item);
+      if (this.selectedIndex === -1)
+        this.selectedIndex = 0;
+      if (!this.serverFiltering) {
+        this.filterAndSortItems();
+      }
+    },
+    unregisterItem(itemId) {
+      this.items = this.items.filter((i2) => i2.id !== itemId);
+      this.filterAndSortItems();
+    },
+    registerGroupTemplate(name, templateId) {
+      if (!this.groupTemplates.has(name)) {
+        this.groupTemplates.set(name, templateId);
+      }
+    },
+    filterAndSortItems() {
+      if (this.serverFiltering && this._dataFetched) {
+        this.filteredItems = this.items;
+        this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
+        return;
+      }
+      let items;
+      if (!this.shouldFilter || !this.search) {
+        items = this.items.map((item) => ({ ...item, score: 1 }));
+      } else {
+        items = this.items.map((item) => ({
+          ...item,
+          score: item.forceMount ? 0 : this.commandScore(item.name, this.search, item.keywords)
+        })).filter((item) => item.score > 0 || item.forceMount).sort((a2, b) => {
+          if (a2.forceMount && !b.forceMount) return 1;
+          if (!a2.forceMount && b.forceMount) return -1;
+          if (b.score !== a2.score) return b.score - a2.score;
+          return (a2._order || 0) - (b._order || 0);
+        });
+      }
+      this.filteredItems = items;
+      if (this.selectedValue) {
+        const newIndex = this.filteredItems.findIndex((item) => item.value === this.selectedValue);
+        this.selectedIndex = newIndex > -1 ? newIndex : this.filteredItems.length > 0 ? 0 : -1;
+      } else {
+        this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
+      }
+    },
+    // --- EVENT HANDLERS ---
+    handleItemClick(event2) {
+      const host = event2.target.closest("[data-command-item-id]");
+      if (!host) return;
+      const itemId = host.dataset.commandItemId;
+      const index = this.filteredItems.findIndex((item) => item.id === itemId);
+      if (index > -1) {
+        const item = this.filteredItems[index];
+        if (item && !item.disabled) {
+          this.selectedIndex = index;
+          this.$dispatch("rz:command:execute", { value: item.value });
+        }
+      }
+    },
+    handleItemHover(event2) {
+      const host = event2.target.closest("[data-command-item-id]");
+      if (!host) return;
+      const itemId = host.dataset.commandItemId;
+      const index = this.filteredItems.findIndex((item) => item.id === itemId);
+      if (index > -1) {
+        const item = this.filteredItems[index];
+        if (item && !item.disabled) {
+          if (this.selectedIndex !== index) {
+            this.selectedIndex = index;
+          }
+        }
+      }
+    },
+    // --- KEYBOARD NAVIGATION ---
+    handleKeydown(e2) {
+      switch (e2.key) {
+        case "ArrowDown":
+          e2.preventDefault();
+          this.selectNext();
+          break;
+        case "ArrowUp":
+          e2.preventDefault();
+          this.selectPrev();
+          break;
+        case "Home":
+          e2.preventDefault();
+          this.selectFirst();
+          break;
+        case "End":
+          e2.preventDefault();
+          this.selectLast();
+          break;
+        case "Enter":
+          e2.preventDefault();
+          const item = this.filteredItems[this.selectedIndex];
+          if (item && !item.disabled) {
+            this.$dispatch("rz:command:execute", { value: item.value });
+          }
+          break;
+      }
+    },
+    selectNext() {
+      if (this.filteredItems.length === 0) return;
+      let i2 = this.selectedIndex, count = 0;
+      do {
+        i2 = i2 + 1 >= this.filteredItems.length ? this.loop ? 0 : this.filteredItems.length - 1 : i2 + 1;
+        count++;
+        if (!this.filteredItems[i2]?.disabled) {
+          this.selectedIndex = i2;
+          return;
+        }
+        if (!this.loop && i2 === this.filteredItems.length - 1) return;
+      } while (count <= this.filteredItems.length);
+    },
+    selectPrev() {
+      if (this.filteredItems.length === 0) return;
+      let i2 = this.selectedIndex, count = 0;
+      do {
+        i2 = i2 - 1 < 0 ? this.loop ? this.filteredItems.length - 1 : 0 : i2 - 1;
+        count++;
+        if (!this.filteredItems[i2]?.disabled) {
+          this.selectedIndex = i2;
+          return;
+        }
+        if (!this.loop && i2 === 0) return;
+      } while (count <= this.filteredItems.length);
+    },
+    selectFirst() {
+      if (this.filteredItems.length > 0) {
+        const firstEnabledIndex = this.filteredItems.findIndex((item) => !item.disabled);
+        if (firstEnabledIndex > -1) this.selectedIndex = firstEnabledIndex;
+      }
+    },
+    selectLast() {
+      if (this.filteredItems.length > 0) {
+        const lastEnabledIndex = this.filteredItems.map((item) => item.disabled).lastIndexOf(false);
+        if (lastEnabledIndex > -1) this.selectedIndex = lastEnabledIndex;
+      }
+    },
+    // --- SCORING ALGORITHM (Adapted from cmdk) ---
+    commandScore(string, search, keywords = []) {
+      const SCORE_CONTINUE_MATCH = 1;
+      const SCORE_SPACE_WORD_JUMP = 0.9;
+      const SCORE_NON_SPACE_WORD_JUMP = 0.8;
+      const SCORE_CHARACTER_JUMP = 0.17;
+      const PENALTY_SKIPPED = 0.999;
+      const PENALTY_CASE_MISMATCH = 0.9999;
+      const PENALTY_NOT_COMPLETE = 0.99;
+      const IS_GAP_REGEXP = /[\\/_+.#"@[\(\{&]/;
+      const IS_SPACE_REGEXP = /[\s-]/;
+      const fullString = `${string} ${keywords ? keywords.join(" ") : ""}`;
+      function formatInput(str) {
+        return str.toLowerCase().replace(/[\s-]/g, " ");
+      }
+      function commandScoreInner(str, abbr, lowerStr, lowerAbbr, strIndex, abbrIndex, memo) {
+        if (abbrIndex === abbr.length) {
+          return strIndex === str.length ? SCORE_CONTINUE_MATCH : PENALTY_NOT_COMPLETE;
+        }
+        const memoKey = `${strIndex},${abbrIndex}`;
+        if (memo[memoKey] !== void 0) return memo[memoKey];
+        const abbrChar = lowerAbbr.charAt(abbrIndex);
+        let index = lowerStr.indexOf(abbrChar, strIndex);
+        let highScore = 0;
+        while (index >= 0) {
+          let score = commandScoreInner(str, abbr, lowerStr, lowerAbbr, index + 1, abbrIndex + 1, memo);
+          if (score > highScore) {
+            if (index === strIndex) {
+              score *= SCORE_CONTINUE_MATCH;
+            } else if (IS_GAP_REGEXP.test(str.charAt(index - 1))) {
+              score *= SCORE_NON_SPACE_WORD_JUMP;
+            } else if (IS_SPACE_REGEXP.test(str.charAt(index - 1))) {
+              score *= SCORE_SPACE_WORD_JUMP;
+            } else {
+              score *= SCORE_CHARACTER_JUMP;
+              if (strIndex > 0) {
+                score *= Math.pow(PENALTY_SKIPPED, index - strIndex);
+              }
+            }
+            if (str.charAt(index) !== abbr.charAt(abbrIndex)) {
+              score *= PENALTY_CASE_MISMATCH;
+            }
+          }
+          if (score > highScore) {
+            highScore = score;
+          }
+          index = lowerStr.indexOf(abbrChar, index + 1);
+        }
+        memo[memoKey] = highScore;
+        return highScore;
+      }
+      return commandScoreInner(fullString, search, formatInput(fullString), formatInput(search), 0, 0, {});
+    }
+  }));
+}
+function registerRzCommandItem(Alpine2) {
+  Alpine2.data("rzCommandItem", () => ({
+    parent: null,
+    itemData: {},
+    init() {
+      const parentEl = this.$el.closest('[x-data="rzCommand"]');
+      if (!parentEl) {
+        console.error("CommandItem must be a child of RzCommand.");
+        return;
+      }
+      this.parent = Alpine2.$data(parentEl);
+      this.itemData = {
+        id: this.$el.id,
+        value: this.$el.dataset.value || this.$el.textContent.trim(),
+        name: this.$el.dataset.name || this.$el.dataset.value || this.$el.textContent.trim(),
+        keywords: JSON.parse(this.$el.dataset.keywords || "[]"),
+        group: this.$el.dataset.group || null,
+        templateId: this.$el.id + "-template",
+        disabled: this.$el.dataset.disabled === "true",
+        forceMount: this.$el.dataset.forceMount === "true"
+      };
+      this.parent.registerItem(this.itemData);
+    },
+    destroy() {
+      if (this.parent) {
+        this.parent.unregisterItem(this.itemData.id);
+      }
+    }
+  }));
+}
+function registerRzCommandList(Alpine2) {
+  Alpine2.data("rzCommandList", () => ({
+    parent: null,
+    dataItemTemplate: null,
+    init() {
+      const parentEl = this.$el.closest('[x-data="rzCommand"]');
+      if (!parentEl) {
+        console.error("CommandList must be a child of RzCommand.");
+        return;
+      }
+      this.parent = Alpine2.$data(parentEl);
+      if (this.parent.dataItemTemplateId) {
+        this.dataItemTemplate = document.getElementById(this.parent.dataItemTemplateId);
+      }
+    },
+    renderList(event2) {
+      if (event2.detail.commandId !== this.parent.$el.id) return;
+      const items = event2.detail.items || [];
+      const groups = event2.detail.groups || /* @__PURE__ */ new Map();
+      const container = this.$el;
+      container.querySelectorAll("[data-dynamic-item]").forEach((el) => el.remove());
+      const groupedItems = /* @__PURE__ */ new Map([["__ungrouped__", []]]);
+      items.forEach((item) => {
+        const groupName = item.group || "__ungrouped__";
+        if (!groupedItems.has(groupName)) {
+          groupedItems.set(groupName, []);
+        }
+        groupedItems.get(groupName).push(item);
+      });
+      groupedItems.forEach((groupItems, groupName) => {
+        if (groupItems.length === 0) return;
+        const groupContainer = document.createElement("div");
+        groupContainer.setAttribute("role", "group");
+        groupContainer.setAttribute("data-dynamic-item", "true");
+        groupContainer.setAttribute("data-slot", "command-group");
+        if (groupName !== "__ungrouped__") {
+          const headingTemplateId = groups.get(groupName);
+          if (headingTemplateId) {
+            const headingTemplate = document.getElementById(headingTemplateId);
+            if (headingTemplate && headingTemplate.content) {
+              const headingClone = headingTemplate.content.cloneNode(true);
+              const headingEl = headingClone.firstElementChild;
+              if (headingEl) {
+                groupContainer.setAttribute("aria-labelledby", headingEl.id);
+                groupContainer.appendChild(headingClone);
+              }
+            }
+          }
+        }
+        groupItems.forEach((item) => {
+          const itemIndex = this.parent.filteredItems.indexOf(item);
+          let itemEl;
+          if (item.isDataItem) {
+            if (!this.dataItemTemplate) {
+              return;
+            }
+            const clone2 = this.dataItemTemplate.content.cloneNode(true);
+            itemEl = clone2.firstElementChild;
+            Alpine2.addScopeToNode(itemEl, { item });
+          } else {
+            const template = document.getElementById(item.templateId);
+            if (template && template.content) {
+              const clone2 = template.content.cloneNode(true);
+              itemEl = clone2.querySelector(`[data-command-item-id="${item.id}"]`);
+            }
+          }
+          if (itemEl) {
+            itemEl.setAttribute("data-command-item-id", item.id);
+            itemEl.setAttribute("data-value", item.value);
+            if (item.keywords) itemEl.setAttribute("data-keywords", JSON.stringify(item.keywords));
+            if (item.group) itemEl.setAttribute("data-group", item.group);
+            if (item.disabled) itemEl.setAttribute("data-disabled", "true");
+            if (item.forceMount) itemEl.setAttribute("data-force-mount", "true");
+            itemEl.setAttribute("role", "option");
+            itemEl.setAttribute("aria-selected", this.parent.selectedIndex === itemIndex);
+            if (item.disabled) {
+              itemEl.setAttribute("aria-disabled", "true");
+            }
+            if (this.parent.selectedIndex === itemIndex) {
+              itemEl.setAttribute("data-selected", "true");
+            }
+            groupContainer.appendChild(itemEl);
+            Alpine2.initTree(itemEl);
+          }
+        });
+        container.appendChild(groupContainer);
+      });
+    }
+  }));
+}
+function registerRzCommandGroup(Alpine2) {
+  Alpine2.data("rzCommandGroup", () => ({
+    parent: null,
+    heading: "",
+    templateId: "",
+    init() {
+      const parentEl = this.$el.closest('[x-data="rzCommand"]');
+      if (!parentEl) {
+        console.error("CommandGroup must be a child of RzCommand.");
+        return;
+      }
+      this.parent = Alpine2.$data(parentEl);
+      this.heading = this.$el.dataset.heading;
+      this.templateId = this.$el.dataset.templateId;
+      if (this.heading && this.templateId) {
+        this.parent.registerGroupTemplate(this.heading, this.templateId);
+      }
+    }
+  }));
 }
 async function generateBundleId(paths) {
   paths = [...paths].sort();
@@ -6945,110 +9609,563 @@ async function generateBundleId(paths) {
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
-function rizzyRequire(paths, callbackFn, nonce) {
-  generateBundleId(paths).then((bundleId) => {
+function rizzyRequire(paths, callbackOrNonce, nonce) {
+  let cbObj = void 0;
+  let csp = void 0;
+  if (typeof callbackOrNonce === "function") {
+    cbObj = { success: callbackOrNonce };
+  } else if (callbackOrNonce && typeof callbackOrNonce === "object") {
+    cbObj = callbackOrNonce;
+  } else if (typeof callbackOrNonce === "string") {
+    csp = callbackOrNonce;
+  }
+  if (!csp && typeof nonce === "string") csp = nonce;
+  const files = Array.isArray(paths) ? paths : [paths];
+  return generateBundleId(files).then((bundleId) => {
     if (!loadjs.isDefined(bundleId)) {
-      loadjs(
-        paths,
-        bundleId,
-        {
-          async: false,
-          inlineScriptNonce: nonce,
-          inlineStyleNonce: nonce
-        }
-      );
+      loadjs(files, bundleId, {
+        // keep scripts ordered unless you explicitly change this later
+        async: false,
+        // pass CSP nonce to both script and style tags as your loader expects
+        inlineScriptNonce: csp,
+        inlineStyleNonce: csp
+      });
     }
-    loadjs.ready([bundleId], callbackFn);
+    return new Promise((resolve, reject) => {
+      loadjs.ready(bundleId, {
+        success: () => {
+          try {
+            if (cbObj && typeof cbObj.success === "function") cbObj.success();
+          } catch (e2) {
+            console.error("[rizzyRequire] success callback threw:", e2);
+          }
+          resolve({ bundleId });
+        },
+        error: (depsNotFound) => {
+          try {
+            if (cbObj && typeof cbObj.error === "function") {
+              cbObj.error(depsNotFound);
+            }
+          } catch (e2) {
+            console.error("[rizzyRequire] error callback threw:", e2);
+          }
+          reject(
+            new Error(
+              `[rizzyRequire] Failed to load bundle ${bundleId} (missing: ${Array.isArray(depsNotFound) ? depsNotFound.join(", ") : String(depsNotFound)})`
+            )
+          );
+        }
+      });
+    });
   });
 }
 function registerComponents(Alpine2) {
   registerRzAccordion(Alpine2);
   registerAccordionItem(Alpine2);
   registerRzAlert(Alpine2);
+  registerRzAspectRatio(Alpine2);
   registerRzBrowser(Alpine2);
-  registerRzCheckboxGroupItem(Alpine2);
+  registerRzCalendar(Alpine2, rizzyRequire);
+  registerRzCalendarProvider(Alpine2);
+  registerRzCarousel(Alpine2, rizzyRequire);
   registerRzCodeViewer(Alpine2, rizzyRequire);
+  registerRzCollapsible(Alpine2);
+  registerRzCombobox(Alpine2, rizzyRequire);
   registerRzDateEdit(Alpine2, rizzyRequire);
-  registerRzDropdown(Alpine2);
+  registerRzDialog(Alpine2);
+  registerRzDropdownMenu(Alpine2);
   registerRzDarkModeToggle(Alpine2);
   registerRzEmbeddedPreview(Alpine2);
   registerRzEmpty(Alpine2);
   registerRzHeading(Alpine2);
   registerRzIndicator(Alpine2);
+  registerRzInputGroupAddon(Alpine2);
   registerRzMarkdown(Alpine2, rizzyRequire);
-  registerRzModal(Alpine2);
+  registerRzNavigationMenu(Alpine2);
+  registerRzPopover(Alpine2);
   registerRzPrependInput(Alpine2);
   registerRzProgress(Alpine2);
   registerRzQuickReferenceContainer(Alpine2);
+  registerRzSheet(Alpine2);
   registerRzTabs(Alpine2);
   registerRzSidebar(Alpine2);
-  registerRzSidebarLinkItem(Alpine2);
+  registerRzCommand(Alpine2);
+  registerRzCommandItem(Alpine2);
+  registerRzCommandList(Alpine2);
+  registerRzCommandGroup(Alpine2);
 }
-function $data(idOrElement) {
-  if (typeof Alpine === "undefined" || typeof Alpine.$data !== "function") {
+function props(alpineRootElement) {
+  if (!(alpineRootElement instanceof Element)) {
+    console.warn("[Rizzy.props] Invalid input. Expected an Alpine.js root element (this.$el).");
+    return {};
+  }
+  const propsScriptId = alpineRootElement.dataset.propsId;
+  if (!propsScriptId) {
+    return {};
+  }
+  const propsScriptEl = document.getElementById(propsScriptId);
+  if (!propsScriptEl) {
+    console.warn(`[Rizzy.props] Could not find the props script tag with ID '${propsScriptId}'.`);
+    return {};
+  }
+  try {
+    return JSON.parse(propsScriptEl.textContent || "{}");
+  } catch (e2) {
+    console.error(`[Rizzy.props] Failed to parse JSON from script tag #${propsScriptId}.`, e2);
+    return {};
+  }
+}
+const _registered = /* @__PURE__ */ new Map();
+const _importCache = /* @__PURE__ */ new Map();
+let _onAlpineInitAttached = false;
+function onceImport(path) {
+  if (!_importCache.has(path)) {
+    _importCache.set(
+      path,
+      import(path).catch((err) => {
+        _importCache.delete(path);
+        throw err;
+      })
+    );
+  }
+  return _importCache.get(path);
+}
+function setAsyncLoader(name, path) {
+  const Alpine2 = globalThis.Alpine;
+  if (!(Alpine2 && typeof Alpine2.asyncData === "function")) {
     console.error(
-      "$data helper: Alpine.js context (Alpine.$data) is not available. Ensure Alpine is loaded and initialized globally before use."
+      `[RizzyUI] Could not register async component '${name}'. AsyncAlpine not available.`
     );
-    return void 0;
+    return false;
   }
-  let outerElement = null;
-  let componentId = null;
-  if (typeof idOrElement === "string") {
-    if (!idOrElement) {
-      console.warn("Rizzy.$data: Invalid componentId provided (empty string).");
-      return void 0;
-    }
-    componentId = idOrElement;
-    outerElement = document.getElementById(componentId);
-    if (!outerElement) {
-      console.warn(`Rizzy.$data: Rizzy component with ID "${componentId}" not found in the DOM.`);
-      return void 0;
-    }
-  } else if (idOrElement instanceof Element) {
-    outerElement = idOrElement;
-    if (!outerElement.id) {
-      console.warn("Rizzy.$data: Provided element does not have an ID attribute, which is required for locating the data-alpine-root.");
-      return void 0;
-    }
-    componentId = outerElement.id;
-  } else {
-    console.warn("Rizzy.$data: Invalid input provided. Expected a non-empty string ID or an Element object.");
-    return void 0;
-  }
-  const alpineRootSelector = `[data-alpine-root="${componentId}"]`;
-  let alpineRootElement = null;
-  if (outerElement.matches(alpineRootSelector)) {
-    alpineRootElement = outerElement;
-  } else {
-    alpineRootElement = outerElement.querySelector(alpineRootSelector);
-  }
-  if (!alpineRootElement) {
-    console.warn(
-      `Rizzy.$data: Could not locate the designated Alpine root element using selector "${alpineRootSelector}" on or inside the wrapper element (ID: #${componentId}). Verify the 'data-alpine-root' attribute placement.`
-    );
-    return void 0;
-  }
-  const alpineData = Alpine.$data(alpineRootElement);
-  if (alpineData === void 0) {
-    const targetDesc = `${alpineRootElement.tagName.toLowerCase()}${alpineRootElement.id ? "#" + alpineRootElement.id : ""}${alpineRootElement.classList.length ? "." + Array.from(alpineRootElement.classList).join(".") : ""}`;
-    console.warn(
-      `Rizzy.$data: Located designated Alpine root (${targetDesc}) via 'data-alpine-root="${componentId}"', but Alpine.$data returned undefined. Ensure 'x-data' is correctly defined and initialized on this element.`
-    );
-  }
-  return alpineData;
+  Alpine2.asyncData(
+    name,
+    () => onceImport(path).catch((error2) => {
+      console.error(
+        `[RizzyUI] Failed to load Alpine module '${name}' from '${path}'.`,
+        error2
+      );
+      return () => ({
+        _error: true,
+        _errorMessage: `Module '${name}' failed to load.`
+      });
+    })
+  );
+  return true;
 }
-module_default$3.plugin(module_default$2);
-module_default$3.plugin(module_default$1);
-module_default$3.plugin(module_default);
-registerComponents(module_default$3);
-const RizzyUI = {
-  Alpine: module_default$3,
-  require: rizzyRequire,
-  toast: Toast,
-  $data
-};
-window.Alpine = module_default$3;
-window.Rizzy = { ...window.Rizzy || {}, ...RizzyUI };
+function registerAsyncComponent(name, path) {
+  if (!name || !path) {
+    console.error("[RizzyUI] registerAsyncComponent requires both name and path.");
+    return;
+  }
+  const prev = _registered.get(name);
+  if (prev && prev.path !== path) {
+    console.warn(
+      `[RizzyUI] Re-registering '${name}' with a different path.
+  Previous: ${prev.path}
+  New:      ${path}`
+    );
+  }
+  const Alpine2 = globalThis.Alpine;
+  if (Alpine2 && Alpine2.version) {
+    const changedPath = !prev || prev.path !== path;
+    const alreadySet = prev && prev.loaderSet && !changedPath;
+    if (!alreadySet) {
+      const ok = setAsyncLoader(name, path);
+      _registered.set(name, { path, loaderSet: ok });
+    }
+    return;
+  }
+  _registered.set(name, { path, loaderSet: false });
+  if (!_onAlpineInitAttached) {
+    _onAlpineInitAttached = true;
+    document.addEventListener(
+      "alpine:init",
+      () => {
+        for (const [n2, info] of _registered) {
+          if (!info.loaderSet) {
+            const ok = setAsyncLoader(n2, info.path);
+            info.loaderSet = ok;
+          }
+        }
+      },
+      { once: true }
+    );
+  }
+}
+function registerMobileDirective(Alpine2) {
+  Alpine2.directive("mobile", (el, { modifiers, expression }, { cleanup: cleanup2 }) => {
+    const bpMod = modifiers.find((m2) => m2.startsWith("bp-"));
+    const BREAKPOINT = bpMod ? parseInt(bpMod.slice(3), 10) : 768;
+    const ASSIGN_PROP = !!(expression && expression.length > 0);
+    if (typeof window === "undefined" || !window.matchMedia) {
+      el.dataset.mobile = "false";
+      el.dataset.screen = "desktop";
+      return;
+    }
+    const isMobileNow = () => window.innerWidth < BREAKPOINT;
+    const reflect = (val) => {
+      el.dataset.mobile = val ? "true" : "false";
+      el.dataset.screen = val ? "mobile" : "desktop";
+    };
+    const getComponentData = () => {
+      if (typeof Alpine2.$data === "function") return Alpine2.$data(el);
+      return el.__x ? el.__x.$data : null;
+    };
+    const setProp = (val) => {
+      if (!ASSIGN_PROP) return;
+      const data2 = getComponentData();
+      if (data2) data2[expression] = val;
+    };
+    const dispatch2 = (val) => {
+      el.dispatchEvent(
+        new CustomEvent("screen:change", {
+          bubbles: true,
+          detail: { isMobile: val, width: window.innerWidth, breakpoint: BREAKPOINT }
+        })
+      );
+    };
+    const mql = window.matchMedia(`(max-width: ${BREAKPOINT - 1}px)`);
+    const update = () => {
+      const val = isMobileNow();
+      reflect(val);
+      setProp(val);
+      dispatch2(val);
+    };
+    update();
+    const onChange = () => update();
+    const onResize = () => update();
+    mql.addEventListener("change", onChange);
+    window.addEventListener("resize", onResize, { passive: true });
+    cleanup2(() => {
+      mql.removeEventListener("change", onChange);
+      window.removeEventListener("resize", onResize);
+    });
+  });
+}
+function registerSyncDirective(Alpine2) {
+  const handler4 = (el, { expression, modifiers }, { cleanup: cleanup2, effect: effect3 }) => {
+    if (!expression || typeof expression !== "string") return;
+    const setAtPath = (obj, path, value) => {
+      const norm = path.replace(/\[(\d+)\]/g, ".$1");
+      const keys = norm.split(".");
+      const last = keys.pop();
+      let cur = obj;
+      for (const k of keys) {
+        if (cur[k] == null || typeof cur[k] !== "object") cur[k] = isFinite(+k) ? [] : {};
+        cur = cur[k];
+      }
+      cur[last] = value;
+    };
+    const stack = Alpine2.closestDataStack(el) || [];
+    const childData = stack[0] || null;
+    const parentData = stack[1] || null;
+    if (!childData || !parentData) {
+      if (import.meta?.env?.DEV) {
+        console.warn("[x-syncprop] Could not find direct parent/child x-data. Ensure x-syncprop is used one level inside a parent component.");
+      }
+      return;
+    }
+    const pairs = expression.split(",").map((s2) => s2.trim()).filter(Boolean).map((s2) => {
+      const m2 = s2.split("->").map((x) => x.trim());
+      if (m2.length !== 2) {
+        console.warn('[x-syncprop] Invalid mapping (expected "parent.path -> child.path"): ', s2);
+        return null;
+      }
+      return { parentPath: m2[0], childPath: m2[1] };
+    }).filter(Boolean);
+    const initChildWins = modifiers.includes("init-child") || modifiers.includes("child") || modifiers.includes("childWins");
+    const guard = pairs.map(() => ({
+      fromParent: false,
+      fromChild: false,
+      skipChildOnce: initChildWins
+      // avoid redundant first child->parent write
+    }));
+    const stops = [];
+    pairs.forEach((pair, idx) => {
+      const g = guard[idx];
+      if (initChildWins) {
+        const childVal = Alpine2.evaluate(el, pair.childPath, { scope: childData });
+        g.fromChild = true;
+        setAtPath(parentData, pair.parentPath, childVal);
+        queueMicrotask(() => {
+          g.fromChild = false;
+        });
+      } else {
+        const parentVal = Alpine2.evaluate(el, pair.parentPath, { scope: parentData });
+        g.fromParent = true;
+        setAtPath(childData, pair.childPath, parentVal);
+        queueMicrotask(() => {
+          g.fromParent = false;
+        });
+      }
+      const stop1 = effect3(() => {
+        const parentVal = Alpine2.evaluate(el, pair.parentPath, { scope: parentData });
+        if (g.fromChild) return;
+        g.fromParent = true;
+        setAtPath(childData, pair.childPath, parentVal);
+        queueMicrotask(() => {
+          g.fromParent = false;
+        });
+      });
+      const stop2 = effect3(() => {
+        const childVal = Alpine2.evaluate(el, pair.childPath, { scope: childData });
+        if (g.fromParent) return;
+        if (g.skipChildOnce) {
+          g.skipChildOnce = false;
+          return;
+        }
+        g.fromChild = true;
+        setAtPath(parentData, pair.parentPath, childVal);
+        queueMicrotask(() => {
+          g.fromChild = false;
+        });
+      });
+      stops.push(stop1, stop2);
+    });
+    cleanup2(() => {
+      for (const stop2 of stops) {
+        try {
+          stop2 && stop2();
+        } catch {
+        }
+      }
+    });
+  };
+  Alpine2.directive("syncprop", handler4);
+}
+class ThemeController {
+  constructor() {
+    this.storageKey = "darkMode";
+    this.eventName = "rz:theme-change";
+    this.darkClass = "dark";
+    this._mode = "auto";
+    this._mq = null;
+    this._initialized = false;
+    this._onMqChange = null;
+    this._onStorage = null;
+    this._lastSnapshot = { mode: null, effectiveDark: null, prefersDark: null };
+  }
+  init() {
+    if (this._initialized) return;
+    if (typeof window === "undefined") return;
+    this._initialized = true;
+    this._mq = typeof window.matchMedia === "function" ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+    const raw2 = this._safeReadStorage(this.storageKey);
+    this._mode = this._normalizeMode(raw2 ?? "auto");
+    this._sync();
+    this._onMqChange = () => {
+      this._sync();
+    };
+    if (this._mq) {
+      if (typeof this._mq.addEventListener === "function") {
+        this._mq.addEventListener("change", this._onMqChange);
+      } else if (typeof this._mq.addListener === "function") {
+        this._mq.addListener(this._onMqChange);
+      }
+    }
+    this._onStorage = (e2) => {
+      if (e2.key !== this.storageKey) return;
+      const next = this._normalizeMode(e2.newValue ?? "auto");
+      if (next !== this._mode) {
+        this._mode = next;
+        this._sync();
+      }
+    };
+    window.addEventListener("storage", this._onStorage);
+  }
+  destroy() {
+    if (!this._initialized) return;
+    this._initialized = false;
+    if (this._mq && this._onMqChange) {
+      if (typeof this._mq.removeEventListener === "function") {
+        this._mq.removeEventListener("change", this._onMqChange);
+      } else if (typeof this._mq.removeListener === "function") {
+        this._mq.removeListener(this._onMqChange);
+      }
+    }
+    if (typeof window !== "undefined" && this._onStorage) {
+      window.removeEventListener("storage", this._onStorage);
+    }
+    this._onMqChange = null;
+    this._onStorage = null;
+    this._mq = null;
+    this._lastSnapshot = { mode: null, effectiveDark: null, prefersDark: null };
+  }
+  // ----- Public State Accessors -----
+  get mode() {
+    return this._mode;
+  }
+  get prefersDark() {
+    return !!this._mq?.matches;
+  }
+  get effectiveDark() {
+    return this._mode === "dark" || this._mode === "auto" && this.prefersDark;
+  }
+  // ----- Public API Surface -----
+  isDark() {
+    return this.effectiveDark;
+  }
+  isLight() {
+    return !this.effectiveDark;
+  }
+  setLight() {
+    this._setMode("light");
+  }
+  setDark() {
+    this._setMode("dark");
+  }
+  setAuto() {
+    this._setMode("auto");
+  }
+  toggle() {
+    const currentlyDark = this.effectiveDark;
+    this._setMode(currentlyDark ? "light" : "dark");
+  }
+  // ----- Internals -----
+  _setMode(value) {
+    this._mode = this._normalizeMode(value);
+    this._persist();
+    this._sync();
+  }
+  _normalizeMode(value) {
+    return value === "light" || value === "dark" || value === "auto" ? value : "auto";
+  }
+  _safeReadStorage(key) {
+    try {
+      return window?.localStorage?.getItem(key);
+    } catch (e2) {
+      return null;
+    }
+  }
+  _persist() {
+    try {
+      window?.localStorage?.setItem(this.storageKey, this._mode);
+    } catch (e2) {
+    }
+  }
+  _sync() {
+    const effectiveDark = this.effectiveDark;
+    const mode = this._mode;
+    const prefersDark = this.prefersDark;
+    const root = typeof document !== "undefined" ? document.documentElement : null;
+    const domMatchesState = root ? root.classList.contains(this.darkClass) === effectiveDark && root.style.colorScheme === (effectiveDark ? "dark" : "light") : true;
+    if (this._lastSnapshot.mode === mode && this._lastSnapshot.effectiveDark === effectiveDark && this._lastSnapshot.prefersDark === prefersDark && domMatchesState) {
+      return;
+    }
+    this._lastSnapshot = { mode, effectiveDark, prefersDark };
+    if (root) {
+      root.classList.toggle(this.darkClass, effectiveDark);
+      root.style.colorScheme = effectiveDark ? "dark" : "light";
+    }
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent(this.eventName, {
+          detail: {
+            mode,
+            darkMode: effectiveDark,
+            // External API uses 'darkMode' convention
+            prefersDark,
+            source: "RizzyUI"
+          }
+        })
+      );
+    }
+  }
+}
+const themeController = new ThemeController();
+function registerStores(Alpine2) {
+  themeController.init();
+  Alpine2.store("theme", {
+    // Reactive state mirrors
+    // We mirror ALL derived properties to ensure Alpine reactivity works 
+    // for bindings like x-show="prefersDark" or x-text="mode".
+    _mode: themeController.mode,
+    _prefersDark: themeController.prefersDark,
+    _effectiveDark: themeController.effectiveDark,
+    // Listener reference to prevent duplicate registration
+    _onThemeChange: null,
+    init() {
+      if (!this._onThemeChange) {
+        this._onThemeChange = () => this._refresh();
+        window.addEventListener(themeController.eventName, this._onThemeChange);
+      }
+      this._refresh();
+    },
+    _refresh() {
+      this._mode = themeController.mode;
+      this._prefersDark = themeController.prefersDark;
+      this._effectiveDark = themeController.effectiveDark;
+    },
+    // ----- Reactive Getters -----
+    // These return the reactive properties from the store, ensuring Alpine
+    // properly tracks dependencies.
+    get mode() {
+      return this._mode;
+    },
+    get effectiveDark() {
+      return this._effectiveDark;
+    },
+    get prefersDark() {
+      return this._prefersDark;
+    },
+    // Expose as getters (not methods) for consistency
+    get isDark() {
+      return this._effectiveDark;
+    },
+    get isLight() {
+      return !this._effectiveDark;
+    },
+    // ----- Proxy Methods -----
+    setLight() {
+      themeController.setLight();
+    },
+    setDark() {
+      themeController.setDark();
+    },
+    setAuto() {
+      themeController.setAuto();
+    },
+    toggle() {
+      themeController.toggle();
+    }
+  });
+}
+let cachedRizzyUI = null;
+function bootstrapRizzyUI(Alpine2) {
+  if (cachedRizzyUI) return cachedRizzyUI;
+  Alpine2.plugin(module_default$2);
+  Alpine2.plugin(module_default$1);
+  Alpine2.plugin(module_default);
+  Alpine2.plugin(async_alpine_default);
+  if (typeof document !== "undefined") {
+    document.addEventListener("alpine:init", () => {
+      registerStores(Alpine2);
+    });
+  }
+  registerComponents(Alpine2);
+  registerMobileDirective(Alpine2);
+  registerSyncDirective(Alpine2);
+  cachedRizzyUI = {
+    Alpine: Alpine2,
+    require: rizzyRequire,
+    toast: Toast,
+    $data,
+    props,
+    registerAsyncComponent,
+    theme: themeController
+  };
+  if (typeof window !== "undefined") {
+    themeController.init();
+    window.Alpine = Alpine2;
+    window.Rizzy = { ...window.Rizzy || {}, ...cachedRizzyUI };
+    document.dispatchEvent(new CustomEvent("rz:init", {
+      detail: { Rizzy: window.Rizzy }
+    }));
+  }
+  return cachedRizzyUI;
+}
+const RizzyUI = bootstrapRizzyUI(module_default$3);
 module_default$3.start();
 export {
   RizzyUI as default

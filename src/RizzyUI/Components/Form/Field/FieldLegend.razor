@@ -1,0 +1,13 @@
+
+@namespace RizzyUI
+@using RizzyUI.Extensions
+@inherits RzComponent<FieldLegend.Slots>
+
+<HtmlElement Element="@EffectiveElement" 
+             @attributes="AdditionalAttributes" 
+             id="@Id" 
+             class="@SlotClasses.GetBase()" 
+             data-slot="field-legend"
+             data-variant="@Variant.ToString().ToKebabCase()">
+    @ChildContent
+</HtmlElement>

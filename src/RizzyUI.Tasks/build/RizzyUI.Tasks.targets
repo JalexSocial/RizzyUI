@@ -1,0 +1,23 @@
+
+<Project>
+    <PropertyGroup>
+        <RizzyUI_TasksTFM Condition="'$(RizzyUI_TasksTFM)'==''">net10.0</RizzyUI_TasksTFM>
+        <!-- Corrected Path Construction -->
+        <_RizzyUI_TasksAssemblyPath>$(MSBuildThisFileDirectory)..\tasks\$(RizzyUI_TasksTFM)\RizzyUI.Tasks.dll</_RizzyUI_TasksAssemblyPath>
+    </PropertyGroup>
+
+    <UsingTask
+            TaskName="RizzyUI.Tasks.ComputeCallerFileNamePrefix"
+            AssemblyFile="$(_RizzyUI_TasksAssemblyPath)" />
+
+    <!-- This logging target is very helpful for debugging -->
+    <Target Name="_RizzyUI_LogTaskRegistration"
+            BeforeTargets="CoreCompile"
+            Condition="'$(DesignTimeBuild)' != 'true'">
+        <Message Text="RizzyUI.Tasks probing for assembly at: $(_RizzyUI_TasksAssemblyPath)" Importance="high" />
+        <Message Text="RizzyUI.Tasks assembly found and loaded." Importance="high"
+                 Condition="Exists('$(_RizzyUI_TasksAssemblyPath)')" />
+        <Error Text="RizzyUI.Tasks.dll NOT found at $(_RizzyUI_TasksAssemblyPath). The task cannot be loaded."
+               Condition="!Exists('$(_RizzyUI_TasksAssemblyPath)')" />
+    </Target>
+</Project>

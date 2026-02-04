@@ -1,4 +1,5 @@
-﻿@page "/components/avatar"
+
+@page "/components/avatar"
 @using RizzyUI
 
 <PageTitle>RzAvatar</PageTitle>
@@ -18,7 +19,7 @@
             
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Image Avatar" class="scroll-mt-20">Image Avatar</RzHeading>
-                <RzParagraph TextColor="SemanticColor.OnSurface">
+                <RzParagraph TextColor="SemanticColor.Foreground">
                     Displays an image using the <code class="font-semibold">AvatarImage</code> child component. Shown in various sizes with the default circular shape.
                 </RzParagraph>
 
@@ -110,7 +111,7 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Fallback with Initials" class="scroll-mt-20">
                     Fallback with Initials
                 </RzHeading>
-                <RzParagraph TextColor="SemanticColor.OnSurface">
+                <RzParagraph TextColor="SemanticColor.Foreground">
                     If <code class="font-semibold">AvatarImage</code> has no source or fails to load, <code class="font-semibold">AvatarFallback</code> renders its child content (e.g., initials).
                 </RzParagraph>
 
@@ -167,7 +168,7 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Fallback with Default Placeholder" class="scroll-mt-20">
                     Fallback with Default Placeholder
                 </RzHeading>
-                <RzParagraph TextColor="SemanticColor.OnSurface">
+                <RzParagraph TextColor="SemanticColor.Foreground">
                     If <code class="font-semibold">AvatarImage</code> has no source and <code class="font-semibold">AvatarFallback</code> has no child content, a default SVG placeholder is rendered.
                 </RzParagraph>
 
@@ -224,7 +225,7 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Avatar with Indicator" class="scroll-mt-20">
                     Avatar with Indicator
                 </RzHeading>
-                <RzParagraph TextColor="SemanticColor.OnSurface">
+                <RzParagraph TextColor="SemanticColor.Foreground">
                     Nest an <code class="font-semibold">RzIndicator</code> component within <code class="font-semibold">RzAvatar</code> to display a status dot. The indicator's position and color are configurable on the <code class="font-semibold">RzIndicator</code> itself.
                 </RzParagraph>
 
@@ -266,78 +267,106 @@
             <!-- RzAvatar Parameters -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzAvatar Parameters" class="scroll-mt-20">RzAvatar Component Parameters</RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                    <thead>
-                        <tr class="bg-surface-alt">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>Shape</strong></td>
-                            <td class="text-base p-4"><em>AvatarShape</em> – Determines the shape of the avatar (<code>Circle</code> or <code>Square</code>). Defaults to <code>Circle</code>.</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>Size</strong></td>
-                            <td class="text-base p-4"><em>Size</em> – Specifies the size of the avatar (<code>ExtraSmall</code>, <code>Small</code>, <code>Medium</code>, <code>Large</code>, <code>ExtraLarge</code>). Defaults to <code>Medium</code>.</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>Border</strong></td>
-                            <td class="text-base p-4"><em>bool</em> – If true, a border is applied to the avatar container. Defaults to <code>false</code>. Styling for the border comes from the theme.</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>AriaLabel</strong></td>
-                            <td class="text-base p-4"><em>string?</em> – Accessible label for the avatar container. Defaults to a localized "Avatar".</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment?</em> – Used to nest <code>AvatarImage</code>, <code>AvatarFallback</code>, and <code>RzIndicator</code> components.</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Shape</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AvatarShape</code> – Determines the shape of the avatar (<code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Circle</code> or <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Square</code>).</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">AvatarShape</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">AvatarShape.Circle</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Size</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Size</code> – Specifies the size of the avatar (<code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">ExtraSmall</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Small</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Medium</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Large</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">ExtraLarge</code>).</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Size</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Size.Medium</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Border</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – If true, a border is applied to the avatar container. Styling for the border comes from the theme.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Accessible label for the avatar container. Defaults to a localized "Avatar".</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Used to nest <code>AvatarImage</code>, <code>AvatarFallback</code>, and <code>RzIndicator</code> components.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- AvatarImage Parameters -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="AvatarImage Parameters" class="scroll-mt-20">AvatarImage Component Parameters</RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                    <thead>
-                        <tr class="bg-surface-alt">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ImageSource</strong></td>
-                            <td class="text-base p-4"><em>string?</em> – The URL of the image to display. If null or empty, the image will not be rendered.</td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>AlternateText</strong></td>
-                            <td class="text-base p-4"><em>string?</em> – The alt text for the image. If not provided, it defaults to the parent <code>RzAvatar</code>'s <code>AriaLabel</code> or a localized default.</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ImageSource</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – The URL of the image to display. If null or empty, the image will not be rendered.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AlternateText</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – The alt text for the image. If not provided, it defaults to the parent <code>RzAvatar</code>'s <code>AriaLabel</code> or a localized default.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- AvatarFallback Parameters -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="AvatarFallback Parameters" class="scroll-mt-20">AvatarFallback Component Parameters</RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outlineDark mt-6">
-                    <thead>
-                        <tr class="bg-surface-alt">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong">Property</th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outlineDark">
-                        <tr>
-                            <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                            <td class="text-base p-4"><em>RenderFragment?</em> – Content to display as fallback (e.g., initials). If not provided, a default SVG placeholder icon is shown. This component only renders if <code>AvatarImage</code> does not render an image.</td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – Content to display as fallback (e.g., initials). If not provided, a default SVG placeholder icon is shown. This component only renders if <code>AvatarImage</code> does not render an image.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
         </MainContent>

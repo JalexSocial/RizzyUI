@@ -1,0 +1,20 @@
+
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<CheckboxGroupItemIndicator.Slots>
+
+@if (ShowIndicators)
+{
+    <div @attributes="AdditionalAttributes" class="@SlotClasses.GetBase()" data-slot="@CheckboxGroupItemIndicator.SlotNames.NameOf(SlotTypes.Base)">
+        @if (ChildContent is null)
+        {
+            <Blazicon Svg="@(CheckedIcon ?? MdiIcon.CheckBold)" class="@SlotClasses.GetIcon()" />
+        }
+        else
+        {
+            <div class="@SlotClasses.GetCustomContentWrapper()" data-slot="@CheckboxGroupItemIndicator.SlotNames.NameOf(SlotTypes.CustomContentWrapper)">
+                @ChildContent
+            </div>
+        }
+    </div>
+}

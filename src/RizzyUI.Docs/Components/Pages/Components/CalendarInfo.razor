@@ -1,0 +1,289 @@
+
+@page "/components/calendar"
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+@using RizzyUI
+@using RizzyUI.Docs.Components.Pages.Components.Demo
+@using Blazicons
+
+<PageTitle>Calendar</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Calendar" class="scroll-mt-20">Calendar</RzHeading>
+            <RzParagraph>
+                The <code>RzCalendar</code> component is a powerful, highly configurable date picker built on top of Vanilla Calendar Pro. 
+                Designed for RizzyUI's SSR-first architecture, it renders the initial state on the server and provides a rich set of DOM events for client-side interactivity via Alpine.js or HTMX.
+            </RzParagraph>
+            
+            <!-- Example 1 -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Example" class="scroll-mt-20">
+                    Example
+                </RzHeading>
+                <RzParagraph>
+                    A basic calendar showing the current date in Single selection mode.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex justify-center items-center p-8 min-h-60">
+                        <RzCalendar Mode="SelectionDatesMode.Single"
+                                    Value="_selectedDate" />
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCalendar Mode="SelectionDatesMode.Single"
+            Value="_selectedDate" /&gt;
+
+@@code {
+    private DateOnly? _selectedDate = DateOnly.FromDateTime(DateTime.Now);
+}
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 2 -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Range Calendar" class="scroll-mt-20">
+                    Range Calendar
+                </RzHeading>
+                <RzParagraph>
+                    A calendar displaying a pre-selected date range.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex justify-center items-center p-8 min-h-60">
+                         <RzCalendar Mode="SelectionDatesMode.MultipleRanged"
+                                    Range="_selectedRange" />
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCalendar Mode="SelectionDatesMode.MultipleRanged"
+            Range="_selectedRange" /&gt;
+
+@@code {
+    private CalendarDateRange? _selectedRange = new CalendarDateRange
+    {
+        From = DateTime.Now,
+        To = DateTime.Now.AddDays(7)
+    };
+}
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 3 -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Multi-Month" class="scroll-mt-20">
+                    Multi-Month Calendar
+                </RzHeading>
+                <RzParagraph>
+                    A calendar displaying multiple months at once.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex justify-center items-center p-8 min-h-60">
+                         <RzCalendar Mode="SelectionDatesMode.Single"
+                                    Type="CalendarType.Multiple"
+                                    Options="@(new VanillaCalendarOptions { DisplayMonthsCount = 2 })"
+                                    Value="_selectedDate" />
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCalendar Mode="SelectionDatesMode.Single"
+            Type="CalendarType.Multiple"
+            Options="@@(new VanillaCalendarOptions { DisplayMonthsCount = 2 })"
+            Value="_selectedDate" /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Example 4 -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Disabled Dates" class="scroll-mt-20">
+                    Disabled Dates
+                </RzHeading>
+                <RzParagraph>
+                    A calendar with specific dates disabled using <code>MinDate</code>.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex justify-center items-center p-8 min-h-60">
+                        <RzCalendar Mode="SelectionDatesMode.Single"
+                                    Value="_selectedDate"
+                                    MinDate="@DateOnly.FromDateTime(DateTime.Now.AddDays(-5))" />
+                    </div>
+                </RzBrowser>
+                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCalendar Mode="SelectionDatesMode.Single"
+            Value="_selectedDate"
+            MinDate="@@DateOnly.FromDateTime(DateTime.Now.AddDays(-5))" /&gt;
+                </RzCodeViewer>
+            </section>
+            
+            <!-- Example 5 -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Multiple Selection" class="scroll-mt-20">
+                    Multiple Selection
+                </RzHeading>
+                <RzParagraph>
+                    A calendar allowing selection of multiple individual dates.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex justify-center items-center p-8 min-h-60">
+                        <RzCalendar Mode="SelectionDatesMode.Multiple"
+                                    Values="_selectedDates" />
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCalendar Mode="SelectionDatesMode.Multiple"
+            Values="_selectedDates" /&gt;
+
+@@code {
+    private List&lt;DateOnly&gt; _selectedDates = new() { 
+        DateOnly.FromDateTime(DateTime.Now),
+        DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
+        DateOnly.FromDateTime(DateTime.Now.AddDays(5))
+    };
+}
+                </RzCodeViewer>
+            </section>
+
+            <!-- API Reference -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
+                </RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="p-4 w-1/4">Parameter</th>
+                                <th scope="col" class="p-4 w-1/4">Type</th>
+                                <th scope="col" class="p-4 w-1/4">Default</th>
+                                <th scope="col" class="p-4">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">Mode</td>
+                                <td class="p-4 font-mono text-violet-600">SelectionDatesMode</td>
+                                <td class="p-4 font-mono">Single</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Determines if the user selects a Single date, Multiple dates, or a Range.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">Value</td>
+                                <td class="p-4 font-mono text-violet-600">DateOnly?</td>
+                                <td class="p-4 font-mono">null</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">The initial selected date when Mode is <code>Single</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">Values</td>
+                                <td class="p-4 font-mono text-violet-600">List&lt;DateOnly&gt;?</td>
+                                <td class="p-4 font-mono">null</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">The initial list of selected dates when Mode is <code>Multiple</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">Range</td>
+                                <td class="p-4 font-mono text-violet-600">CalendarDateRange?</td>
+                                <td class="p-4 font-mono">null</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">The initial date range when Mode is <code>MultipleRanged</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">MinDate</td>
+                                <td class="p-4 font-mono text-violet-600">DateOnly?</td>
+                                <td class="p-4 font-mono">null</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Minimum selectable date. Dates before this are disabled.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">MaxDate</td>
+                                <td class="p-4 font-mono text-violet-600">DateOnly?</td>
+                                <td class="p-4 font-mono">null</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Maximum selectable date. Dates after this are disabled.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">Type</td>
+                                <td class="p-4 font-mono text-violet-600">CalendarType</td>
+                                <td class="p-4 font-mono">Default</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">View type: <code>Default</code> (Month), <code>Multiple</code> (Multi-Month), <code>Month</code>, or <code>Year</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">Options</td>
+                                <td class="p-4 font-mono text-violet-600">VanillaCalendarOptions</td>
+                                <td class="p-4 font-mono">null</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Advanced configuration object for locale, disabled weekdays, week numbers, and more.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Client-Side Events" class="scroll-mt-20">
+                    Client-Side Events
+                </RzHeading>
+                <RzParagraph>
+                    The calendar dispatches custom DOM events that can be listened to via Alpine.js or vanilla JavaScript. All events bubble.
+                </RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="p-4 w-1/3">Event Name</th>
+                                <th scope="col" class="p-4 w-1/3">Detail Property</th>
+                                <th scope="col" class="p-4">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">rz:calendar:init</td>
+                                <td class="p-4 font-mono text-xs">{ instance }</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Fired when the calendar is fully initialized.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">rz:calendar:click-day</td>
+                                <td class="p-4 font-mono text-xs">{ dates, event }</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Fired when a day is clicked. <code>dates</code> contains the array of selected ISO date strings.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">rz:calendar:change-time</td>
+                                <td class="p-4 font-mono text-xs">{ time, hours, minutes... }</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Fired when the time picker value changes.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-mono text-sky-600">rz:calendar:click-month</td>
+                                <td class="p-4 font-mono text-xs">{ month, event }</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Fired when a month is selected in the header.</td>
+                            </tr>
+                             <tr>
+                                <td class="p-4 font-mono text-sky-600">rz:calendar:click-year</td>
+                                <td class="p-4 font-mono text-xs">{ year, event }</td>
+                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Fired when a year is selected in the header.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private DateOnly? _selectedDate = DateOnly.FromDateTime(DateTime.Now);
+    
+    private List<DateOnly> _selectedDates = new() { 
+        DateOnly.FromDateTime(DateTime.Now),
+        DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
+        DateOnly.FromDateTime(DateTime.Now.AddDays(5))
+    };
+
+    private CalendarDateRange? _selectedRange = new CalendarDateRange
+    {
+        From = DateTime.Now,
+        To = DateTime.Now.AddDays(7)
+    };
+}

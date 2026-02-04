@@ -1,0 +1,35 @@
+
+@namespace RizzyUI
+@typeparam TItem
+@inherits RzComponent<TableBodySlots>
+
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" data-slot="table-body" class="@SlotClasses.GetBase()" hx-indicator="@EffectiveHxIndicatorSelector">
+    @if (EffectiveItems.Any())
+    {
+        int rowIndex = (this.ParentRzTable?.CurrentPaginationState.CurrentPage-1) * this.ParentRzTable?.CurrentPaginationState.PageSize ?? 0;
+        foreach (var item in EffectiveItems)
+        {
+            <CascadingValue Value="rowIndex" Name="RowIndex" IsFixed="false">
+                @RowTemplate(item)
+            </CascadingValue>
+            rowIndex++;
+        }
+    }
+    else if (EmptyTemplate != null)
+    {
+        <tr data-slot="table-row"> 
+            <TableCell TItem="@TItem" Colspan="@ColumnCount"> 
+                @EmptyTemplate
+            </TableCell>
+        </tr>
+    }
+    else
+    {
+        <tr data-slot="table-row">
+            <TableCell TItem="@TItem" Colspan="@ColumnCount">
+                @Localizer["RzTable.DefaultEmptyMessage"]
+            </TableCell>
+        </tr>
+    }
+    <RzSpinner Id="@SpinnerId" Size="Size.Small" class="htmx-indicator absolute top-2.5 left-1/2 -translate-x-1/2" data-slot="table-spinner"/>
+</HtmlElement>

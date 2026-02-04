@@ -1,0 +1,29 @@
+
+@namespace RizzyUI
+@using Blazicons
+
+@typeparam TItem
+@inherits RzComponent<TableHeaderCellSlots>
+
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" aria-sort="@_ariaSortValue">
+    @if (Sortable)
+    {
+        <button type="button"
+                class="@SlotClasses.GetSortableButton()"
+                aria-label="@_sortButtonAriaLabel"
+                @attributes="GetEffectiveHxAttributes()">
+            <span class="@SlotClasses.GetTitleSpan()">@ChildContent</span>
+            @if (SortIndicatorIcon != null)
+            {
+                <div class="@SlotClasses.GetSortIndicator()">
+                    <Blazicon Svg="SortIndicatorIcon" />
+                </div>
+                
+            }
+        </button>
+    }
+    else
+    {
+        <span class="@SlotClasses.GetTitleSpan()">@ChildContent</span>
+    }
+</HtmlElement>

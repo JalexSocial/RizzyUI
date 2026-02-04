@@ -1,0 +1,71 @@
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- Task DLL -->
+        <TargetFramework>net10.0</TargetFramework>
+
+        <!-- Build hygiene -->
+        <LangVersion>Latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <Deterministic>true</Deterministic>
+        <DebugType>embedded</DebugType>
+
+        <!-- Copy transitive deps next to the task DLL so we can pack them under tasks/<tfm>/ -->
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+
+        <!-- We pack explicitly (no lib/) -->
+        <IsPackable>true</IsPackable>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+
+        <!-- NuGet metadata -->
+        <PackageId>RizzyUI.Tasks</PackageId>
+        <Version>1.3.5</Version>
+        <Title>RizzyUI.Tasks - MSBuild tasks for RizzyUI</Title>
+        <Description>MSBuild tasks used by RizzyUI to compute source prefixes and embed static asset configuration.</Description>
+        <Authors>Michael Tanczos</Authors>
+        <Company>Michael Tanczos</Company>
+        <PackageProjectUrl>https://github.com/jalexsocial/Rizzy</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/jalexsocial/RizzyUI</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>rizzy.png</PackageIcon>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+        <!-- Validation -->
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
+
+        <!-- Optional: suppress “no lib assets” warning when packing a pure build/targets package -->
+        <NoWarn>$(NoWarn);NU5128</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- MSBuild bits -->
+        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.14.28" PrivateAssets="all" />
+        <!-- Often not needed for simple tasks; keep only if your task uses Roslyn APIs -->
+        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.10.0" PrivateAssets="all" />
+        <!-- Explicit framework (usually transitively provided by Utilities.Core, but harmless/clear) -->
+        <PackageReference Include="Microsoft.Build.Framework" Version="17.14.28" PrivateAssets="all" />
+    </ItemGroup>
+
+    <!-- Put targets into both build/ and buildTransitive/ -->
+    <ItemGroup>
+        <None Include="build\RizzyUI.Tasks.targets" Pack="true" PackagePath="build\RizzyUI.Tasks.targets" />
+        <None Include="build\RizzyUI.Tasks.targets" Pack="true" PackagePath="buildTransitive\RizzyUI.Tasks.targets" />
+    </ItemGroup>
+
+    <!-- Repo assets -->
+    <ItemGroup>
+        <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="$(OutputPath)\*" Pack="true" PackagePath="tasks\$(TargetFramework)\" />
+    </ItemGroup>
+
+</Project>

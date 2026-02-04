@@ -1,0 +1,19 @@
+
+@namespace RizzyUI
+@inherits RzComponent<RzDropdownMenu.Slots>
+
+<CascadingValue Value="this" IsFixed="true">
+    <!-- Invisible Alpine controller: no visual wrapper, retains a stable $el -->
+    <div id="@Id"
+         class="@SlotClasses.GetBase()"
+         x-data="rzDropdownMenu"
+         data-alpine-root="@Id"
+         data-offset="@Offset"
+         data-anchor="@Anchor.ToString().ToKebabCase()"
+         data-modal="@IsModal.ToString().ToLowerInvariant()"
+         x-on:keydown.escape.window="handleWindowEscape"
+         @attributes="@AdditionalAttributes"
+         data-slot="dropdown-menu">
+        @ChildContent
+    </div>
+</CascadingValue>

@@ -1,0 +1,14 @@
+
+@namespace RizzyUI
+@inherits RzComponent<BreadcrumbPage.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             aria-current="page"
+             aria-disabled="true"
+             role="link"
+             @attributes="@AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             data-slot="breadcrumb-page">
+    @ChildContent
+</HtmlElement>

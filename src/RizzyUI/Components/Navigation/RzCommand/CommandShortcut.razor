@@ -1,0 +1,10 @@
+
+@namespace RizzyUI
+@inherits RzComponent<CommandShortcut.Slots>
+
+<span @attributes="AdditionalAttributes"
+      id="@Id"
+      class="@SlotClasses.GetBase()"
+      data-slot="command-shortcut">
+    @ChildContent
+</span>

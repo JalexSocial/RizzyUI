@@ -79,8 +79,7 @@
                         <RzSpinner Color="SemanticColor.Success" />
                         <RzSpinner Color="SemanticColor.Info" />
                         <RzSpinner Color="SemanticColor.Warning" />
-                        <RzSpinner Color="SemanticColor.Danger" />
-                        <RzSpinner Color="SemanticColor.OnSurfaceStrong" />
+                        <RzSpinner Color="SemanticColor.Destructive" />
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
@@ -89,8 +88,7 @@
                     &lt;RzSpinner Color=&quot;SemanticColor.Success&quot; /&gt;
                     &lt;RzSpinner Color=&quot;SemanticColor.Info&quot; /&gt;
                     &lt;RzSpinner Color=&quot;SemanticColor.Warning&quot; /&gt;
-                    &lt;RzSpinner Color=&quot;SemanticColor.Danger&quot; /&gt;
-                    &lt;RzSpinner Color=&quot;SemanticColor.OnSurfaceStrong&quot; /&gt;
+                    &lt;RzSpinner Color=&quot;SemanticColor.Destructive&quot; /&gt;
                 </RzCodeViewer>
             </section>
 
@@ -99,44 +97,38 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzSpinner Component Parameters" class="scroll-mt-20">
                     RzSpinner Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                        <tr class="bg-surface-alt ">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong ">
-                                Property
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong ">
-                                Description
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Size</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>Size</em> – Specifies the size of the spinner. Options: <code>ExtraSmall</code>, <code>Small</code>, <code>Medium</code>, <code>Large</code>, <code>ExtraLarge</code>. (Default: <code>Medium</code>)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Color</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>SemanticColor</em> – Determines the fill color of the spinner. Defaults to <code>None</code>, which uses the theme's default 'OnSurface' color. Options include <code>Primary</code>, <code>Secondary</code>, <code>Success</code>, <code>Info</code>, <code>Warning</code>, <code>Danger</code>, etc.
-                            </td>
-                        </tr>
-                         <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>AriaLabel</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>string?</em> – Sets the accessible label for the spinner, announced by screen readers. Defaults to a localized "Loading...". It's recommended to provide a more specific label indicating what is loading (e.g., "Loading user data...").
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Size</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>Size</code> – Specifies the size of the spinner. Options: <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">ExtraSmall</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Small</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Medium</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Large</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">ExtraLarge</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Size</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Size.Medium</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Color</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>SemanticColor</code> – Determines the fill color of the spinner. Defaults to <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">None</code>, which uses the theme's default 'Foreground' color. Options include <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Primary</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Secondary</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Success</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Info</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Warning</code>, <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Destructive</code>, etc.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SemanticColor</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">SemanticColor.None</code></td>
+                            </tr>
+                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Sets the accessible label for the spinner, announced by screen readers. Defaults to a localized "Loading...". It's recommended to provide a more specific label indicating what is loading (e.g., "Loading user data...").</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
         </MainContent>
     </RzArticle>

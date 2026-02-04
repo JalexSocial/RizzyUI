@@ -1,26 +1,26 @@
 
 @namespace RizzyUI
 @typeparam TItem
-@inherits RzComponent
+@inherits RzComponent<RzTableSlots>
 
 <CascadingValue Value="this" Name="ParentRzTable" IsFixed="true">
-    <HtmlElement Element="div" @attributes="AdditionalAttributes" id="@Id" class="@RootClass()">
-        <table class="@Theme.RzTable.Table" id="@TableId"> 
+    <HtmlElement Element="div" @attributes="AdditionalAttributes" id="@Id" data-slot="table" class="@SlotClasses.GetBase()">
+        <table class="@SlotClasses.GetTable()" id="@TableId" data-slot="table-element"> 
             @if (Header != null)
             {
-                <thead class="@(FixedHeader ? $"{Theme.RzTable.Thead} {Theme.RzTable.FixedThead}" : Theme.RzTable.Thead)" id="@TableHeaderId">
+                <thead class="@SlotClasses.GetThead()" id="@TableHeaderId" data-slot="table-thead">
                 @Header(this)
                 </thead>
             }
             
             @if (Body != null)
             {
-                @Body!(this) @* RzTableBody will handle its own scrollable class based on FixedHeader *@
+                @Body!(this)
             }
 
             @if (Footer != null)
             {
-                <tfoot class="@(FixedHeader ? $"{Theme.RzTable.Tfoot} {Theme.RzTable.FixedTfoot}" : Theme.RzTable.Tfoot)" id="@TableFooterId">
+                <tfoot class="@SlotClasses.GetTfoot()" id="@TableFooterId" data-slot="table-tfoot">
                 @Footer(this)
                 </tfoot>
             }

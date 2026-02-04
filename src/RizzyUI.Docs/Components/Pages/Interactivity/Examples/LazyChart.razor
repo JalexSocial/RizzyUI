@@ -1,0 +1,12 @@
+
+@attribute [RzAlpineCodeBehind]
+@namespace RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+@using RizzyUI
+
+<RzAlpineComponent For="this" Name="lazyChart" LoadStrategy="visible" AsChild
+                   Props="@(new { ChartData = new { labels = new[] { "Jan", "Feb", "Mar" }, data = new[] { 12, 19, 3 } } })">
+    <div class="chart-container w-full bg-background p-4 border rounded-lg shadow-sm">
+        <canvas></canvas>
+    </div>
+</RzAlpineComponent>

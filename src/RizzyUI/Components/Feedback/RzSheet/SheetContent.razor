@@ -1,0 +1,32 @@
+
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<SheetContent.Slots>
+
+<template x-teleport="body">
+	<div x-show="open" x-cloak>
+		<div class="@SlotClasses.GetOverlay()" 
+             x-on:click="close" 
+             x-bind:data-state="state"
+		     x-transition:enter="ease-in-out duration-500"
+		     x-transition:enter-start="opacity-0"
+		     x-transition:enter-end="opacity-100"
+		     x-transition:leave="ease-in-out duration-300"
+		     x-transition:leave-start="opacity-100"
+		     x-transition:leave-end="opacity-0"></div>
+		<div @attributes="AdditionalAttributes"
+		     id="@Id"
+		     class="@SlotClasses.GetBase()"
+		     data-slot="sheet-content"
+		     x-trap.inert="open"
+		     x-bind:data-state="state"
+             x-transition:enter="transition ease-in-out duration-500"
+             x-transition:leave="transition ease-in-out duration-300">
+			@ChildContent
+			<button type="button" class="@SlotClasses.GetCloseButton()" x-on:click="close">
+				<Blazicon Svg="Lucide.X" class="@SlotClasses.GetCloseButtonIcon()" />
+				<span class="sr-only">@Localizer["RzSheet.CloseButtonText"]</span>
+			</button>
+		</div>
+	</div>
+</template>

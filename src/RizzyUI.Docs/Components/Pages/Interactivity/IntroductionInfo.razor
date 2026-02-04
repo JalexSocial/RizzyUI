@@ -1,0 +1,104 @@
+@page "/docs/interactivity/introduction"
+@namespace RizzyUI.Docs.Components.Pages.Interactivity
+
+@using RizzyUI
+
+<PageTitle>Introduction to Interactivity</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Introduction">
+                Introduction to Client-Side Interactivity
+            </RzHeading>
+
+            <RzParagraph class="lead">
+                RizzyUI is built on a <strong>server-side rendering (SSR) first</strong> philosophy. Most of your UI comes directly from Blazor components rendered on the server, which keeps your application fast, secure, and simple. But sometimes, you need a touch of additional client-side magic—like toggling a dropdown, animating a modal, or responding instantly to a user's click without a full trip back to the server. 
+            </RzParagraph>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Why Alpine.js?">
+                    Why Alpine.js?
+                </RzHeading>
+                <RzParagraph>
+                    For that client-side layer, RizzyUI uses <strong>Alpine.js</strong> with every component. Think of it as a rugged, lightweight JavaScript framework that “lives right in your HTML.” It’s declarative, has a tiny footprint, and pairs perfectly with Blazor’s component model. Instead of wrestling with a heavy client-side framework, you sprinkle in just enough JavaScript to handle interactivity between components precisely where it’s needed.
+                </RzParagraph>
+
+                <RzAlert Variant="ThemeVariant.Information" class="my-5">
+                    <AlertTitle>Tip: Tailwind for JavaScript</AlertTitle>
+                    <AlertDescription>
+                        Alpine is often described as “the Tailwind CSS of JavaScript.” If you’re comfortable adding utility classes to your markup, you’ll feel right at home adding Alpine directives like <code>x-data</code> and <code>x-on:click</code>.
+                    </AlertDescription>
+                </RzAlert>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="What You’ll Learn">
+                    What You’ll Learn in This Section
+                </RzHeading>
+                <RzParagraph>
+                    This <em>Interactivity</em> section is your guided tour from “zero JavaScript” to confidently building rich, dynamic components in RizzyUI. We’ll cover everything you need to know:
+                </RzParagraph>
+                <ul class="list-disc space-y-2 pl-6 my-6 text-foreground">
+                    <li><strong>Defining State:</strong> Using <code>x-data</code> to give your components a memory.</li>
+                    <li><strong>Handling Events:</strong> Making your components react to clicks, input, and more with <code>x-on</code>.</li>
+                    <li><strong>Using Code-Behinds:</strong> The official RizzyUI pattern for organizing your JavaScript with <code>RzAlpineComponent</code>.</li>
+                    <li><strong>Sharing State:</strong> How to make different components talk to each other.</li>
+                    <li><strong>Lazy-Loading:</strong> How to keep your app fast by only loading JavaScript when it's needed.</li>
+                    <li><strong>Debugging:</strong> Tips and tricks for when things don't go as planned.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="A First Glimpse">
+                    A First Glimpse
+                </RzHeading>
+                <RzParagraph>
+                    Here’s a simple example to show you what Alpine.js looks like in action. It’s a button that toggles a message on and off, right in the browser.
+                </RzParagraph>
+                
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex flex-col items-center justify-center gap-4 p-8 min-h-32" 
+                         x-data="{ open: false }">
+                        <RzButton x-on:click="open = !open">Toggle Message</RzButton>
+                        <p x-show="open" x-cloak x-transition>Hello from Alpine!</p>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Razor" class="mt-4">
+&lt;div x-data=&quot;{ open: false }&quot;&gt;
+  &lt;RzButton x-on:click=&quot;open = !open&quot;&gt;Toggle Message&lt;/RzButton&gt;
+  &lt;p x-show=&quot;open&quot;&gt;Hello from Alpine!&lt;/p&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+
+                <RzAlert Variant="ThemeVariant.Warning" class="mt-6">
+                    <AlertTitle>A Note on CSP and Interactivity Styles</AlertTitle>
+                    <AlertDescription>
+                        RizzyUI ships with two client-side scripts: <code>rizzyui.js</code> (the standard build) and <code>rizzyui-csp.js</code> (for strict Content Security Policy environments).
+                        The simple example above works perfectly with the standard build.
+                        <br /><br />
+                        However, if you use <code>rizzyui-csp.js</code> for enhanced security, Alpine.js cannot execute inline JavaScript expressions like <code>open = !open</code>. In that case, you must move logic into methods within a co-located JavaScript file. We'll cover this recommended "code-behind" pattern in the next sections.
+                    </AlertDescription>
+                </RzAlert>
+            </section>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Next Steps">
+                    Next Steps
+                </RzHeading>
+                <RzParagraph>
+                    Ready to get started? On the next page, we’ll dive into the <RzLink Href="/docs/interactivity/alpine-fundamentals">fundamentals of Alpine.js</RzLink>, learning the core directives you’ll use every day and how they connect seamlessly with your RizzyUI components.
+                </RzParagraph>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

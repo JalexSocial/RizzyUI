@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
+using RizzyUI.Extensions;
 using System.Text;
-// Required for HeadContent
 
 namespace RizzyUI;
 
@@ -39,7 +39,7 @@ public class RzThemeProvider : ComponentBase
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    ///     Builds the render tree for the component, injecting a &lt;style> tag with CSS variables
+    ///     Builds the render tree for the component, injecting a &lt;style&gt; tag with CSS variables
     ///     and an initial dark mode script into the head via <see cref="HeadContent" />. It also
     ///     renders the <see cref="ChildContent" /> wrapped in a <see cref="CascadingValue{TValue}" />
     ///     providing the resolved <see cref="RzTheme" />.
@@ -62,11 +62,28 @@ public class RzThemeProvider : ComponentBase
             headBuilder.AddMarkupContent(2, $"<style nonce=\"{nonce}\">{css}</style>");
 
             // Inject the initial dark mode script
-            headBuilder.AddMarkupContent(3, $@"<script nonce=""{nonce}"">
-                const storedMode = localStorage.getItem('darkMode') ?? 'auto';
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.classList.toggle('dark', storedMode === 'dark' || (storedMode === 'auto' && prefersDark));
-            </script>");
+            // Notes:
+            // - Normalizes localStorage to 'light'|'dark'|'auto'
+            // - Guards against localStorage access failures (privacy mode / blocked storage)
+            // - Sets both the root 'dark' class and color-scheme to avoid initial flashes
+            headBuilder.AddMarkupContent(3, $@"<script nonce=""{nonce}"">(()=>{{
+  try {{
+    const raw = localStorage.getItem('darkMode');
+    const mode = (raw === 'light' || raw === 'dark' || raw === 'auto') ? raw : 'auto';
+    const prefersDark = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const isDark = mode === 'dark' || (mode === 'auto' && prefersDark);
+
+    const root = document.documentElement;
+    root.classList.toggle('dark', isDark);
+    root.style.colorScheme = isDark ? 'dark' : 'light';
+  }} catch {{
+    // If storage is blocked/unavailable, fall back to OS preference only
+    const prefersDark = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const root = document.documentElement;
+    root.classList.toggle('dark', prefersDark);
+    root.style.colorScheme = prefersDark ? 'dark' : 'light';
+  }}
+}})();</script>");
         }));
         builder.CloseComponent(); // Close HeadContent
 
@@ -89,91 +106,116 @@ public class RzThemeProvider : ComponentBase
     private string GenerateRootVariables(RzTheme theme)
     {
         var sb = new StringBuilder();
+
+        // --- Light Theme (:root) ---
         sb.AppendLine(":root {");
+        // Radius from the root theme
+        sb.AppendLine($"  --radius: {theme.Radius};");
 
-        // --- Base (Light) Variables ---
-        sb.AppendLine($"--color-surface: {theme.Light.Surface.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface: {theme.Light.OnSurface.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface-strong: {theme.Light.OnSurfaceStrong.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface-muted: {theme.Light.OnSurfaceMuted.ToCssColorString()};");
-        sb.AppendLine($"--color-surface-alt: {theme.Light.SurfaceAlt.ToCssColorString()};");
-        sb.AppendLine($"--color-surface-tertiary: {theme.Light.SurfaceTertiary.ToCssColorString()};");
-        sb.AppendLine($"--color-on-surface-tertiary: {theme.Light.OnSurfaceTertiary.ToCssColorString()};");
-        sb.AppendLine($"--color-primary: {theme.Light.Primary.ToCssColorString()};");
-        sb.AppendLine($"--color-on-primary: {theme.Light.OnPrimary.ToCssColorString()};");
-        sb.AppendLine($"--color-secondary: {theme.Light.Secondary.ToCssColorString()};");
-        sb.AppendLine($"--color-on-secondary: {theme.Light.OnSecondary.ToCssColorString()};");
-        sb.AppendLine($"--color-outline: {theme.Light.Outline.ToCssColorString()};");
-        sb.AppendLine($"--color-outline-strong: {theme.Light.OutlineStrong.ToCssColorString()};");
-
-        // --- Status Colors (Same for Light/Dark in current definition) ---
-        sb.AppendLine($"--color-danger: {theme.Danger.ToCssColorString()};");
-        sb.AppendLine($"--color-on-danger: {theme.OnDanger.ToCssColorString()};");
-        sb.AppendLine($"--color-info: {theme.Info.ToCssColorString()};");
-        sb.AppendLine($"--color-on-info: {theme.OnInfo.ToCssColorString()};"); // Consistent naming needed
-        sb.AppendLine($"--color-warning: {theme.Warning.ToCssColorString()};");
-        sb.AppendLine($"--color-on-warning: {theme.OnWarning.ToCssColorString()};");
-        sb.AppendLine($"--color-success: {theme.Success.ToCssColorString()};");
-        sb.AppendLine($"--color-on-success: {theme.OnSuccess.ToCssColorString()};");
-
-        // --- Border Variables ---
-        sb.AppendLine($"--borderWidth: {theme.BorderWidth};");
-        sb.AppendLine($"--borderRadius: {theme.BorderRadius};");
-
-        // --- Highlight.js (Light) Variables ---
-        sb.AppendLine($"--highlight-bg: {theme.Light.Code.Background.ToCssColorString()};");
-        sb.AppendLine($"--highlight-color: {theme.Light.Code.Color.ToCssColorString()};");
-        sb.AppendLine($"--highlight-comment: {theme.Light.Code.Comment.ToCssColorString()};");
-        sb.AppendLine($"--highlight-keyword: {theme.Light.Code.Keyword.ToCssColorString()};");
-        sb.AppendLine($"--highlight-attribute: {theme.Light.Code.Attribute.ToCssColorString()};");
-        sb.AppendLine($"--highlight-symbol: {theme.Light.Code.Symbol.ToCssColorString()};");
-        sb.AppendLine($"--highlight-namespace: {theme.Light.Code.Namespace.ToCssColorString()};");
-        sb.AppendLine($"--highlight-variable: {theme.Light.Code.Variable.ToCssColorString()};");
-        sb.AppendLine($"--highlight-literal: {theme.Light.Code.Literal.ToCssColorString()};");
-        sb.AppendLine($"--highlight-punctuation: {theme.Light.Code.Punctuation.ToCssColorString()};");
-        sb.AppendLine($"--highlight-deletion: {theme.Light.Code.Deletion.ToCssColorString()};");
-        sb.AppendLine($"--highlight-addition: {theme.Light.Code.Addition.ToCssColorString()};");
-
-        // Link highlight variables to Tailwind Prose variables
-        sb.AppendLine(".prose {");
-        sb.AppendLine("  --tw-prose-code: var(--highlight-color);");
-        sb.AppendLine("  --tw-prose-pre-code: var(--highlight-color);"); // Ensure pre code also uses it
-        sb.AppendLine("  --tw-prose-pre-bg: var(--highlight-bg);");
+        // Global theme properties
+        if (theme.AdditionalProperties != null)
+        {
+            foreach (var kvp in theme.AdditionalProperties)
+            {
+                sb.AppendLine($"  --{kvp.Key.ToKebabCase()}: {kvp.Value};");
+            }
+        }
+        // All variables from the Light variant
+        AppendVariantVariables(sb, theme.Light);
         sb.AppendLine("}");
 
-        // --- Dark Mode Overrides
-        sb.AppendLine("&:where(.dark, .dark *) {");
-        sb.AppendLine($"  --color-surface: {theme.Dark.Surface.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-surface: {theme.Dark.OnSurface.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-surface-strong: {theme.Dark.OnSurfaceStrong.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-surface-muted: {theme.Dark.OnSurfaceMuted.ToCssColorString()};");
-        sb.AppendLine($"  --color-surface-alt: {theme.Dark.SurfaceAlt.ToCssColorString()};");
-        sb.AppendLine($"  --color-surface-tertiary: {theme.Dark.SurfaceTertiary.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-surface-tertiary: {theme.Dark.OnSurfaceTertiary.ToCssColorString()};");
-        sb.AppendLine($"  --color-primary: {theme.Dark.Primary.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-primary: {theme.Dark.OnPrimary.ToCssColorString()};");
-        sb.AppendLine($"  --color-secondary: {theme.Dark.Secondary.ToCssColorString()};");
-        sb.AppendLine($"  --color-on-secondary: {theme.Dark.OnSecondary.ToCssColorString()};");
-        sb.AppendLine($"  --color-outline: {theme.Dark.Outline.ToCssColorString()};");
-        sb.AppendLine($"  --color-outline-strong: {theme.Dark.OutlineStrong.ToCssColorString()};");
+        // --- Dark Theme (.dark) ---
+        sb.AppendLine();
+        // Scope dark variables to the document root to prevent accidental variable overrides
+        // from nested elements that may use a "dark" class for other purposes.
+        sb.AppendLine(":root.dark {");
+        AppendVariantVariables(sb, theme.Dark);
+        sb.AppendLine("}");
 
-        // Highlight.js (Dark) Variables
-        sb.AppendLine($"  --highlight-bg: {theme.Dark.Code.Background.ToCssColorString()};");
-        sb.AppendLine($"  --highlight-color: {theme.Dark.Code.Color.ToCssColorString()};");
-        sb.AppendLine($"  --highlight-comment: {theme.Dark.Code.Comment.ToCssColorString()};");
-        sb.AppendLine($"  --highlight-keyword: {theme.Dark.Code.Keyword.ToCssColorString()};");
-        sb.AppendLine($"  --highlight-attribute: {theme.Dark.Code.Attribute.ToCssColorString()};");
-        sb.AppendLine($"  --highlight-symbol: {theme.Dark.Code.Symbol.ToCssColorString()};");
-        sb.AppendLine($"  --highlight-namespace: {theme.Dark.Code.Namespace.ToCssColorString()};");
-        sb.AppendLine($"  --highlight-variable: {theme.Dark.Code.Variable.ToCssColorString()};");
-        sb.AppendLine($"  --highlight-literal: {theme.Dark.Code.Literal.ToCssColorString()};");
-        sb.AppendLine($"  --highlight-punctuation: {theme.Dark.Code.Punctuation.ToCssColorString()};");
-        sb.AppendLine($"  --highlight-deletion: {theme.Dark.Code.Deletion.ToCssColorString()};");
-        sb.AppendLine($"  --highlight-addition: {theme.Dark.Code.Addition.ToCssColorString()};");
+        // Base page styling to ensure the earliest paint uses the tokenized background/foreground.
+        // This helps prevent a flash of white when the page is intended to start in dark mode.
+        sb.AppendLine();
+        sb.AppendLine("html, body {");
+        sb.AppendLine("  background-color: var(--background);");
+        sb.AppendLine("  color: var(--foreground);");
+        sb.AppendLine("}");
 
-        // Note: Status colors (Danger, Info, etc.) don't have dark overrides in RzTheme current definition
-        sb.AppendLine("}"); // Close &:where(...)
-        sb.AppendLine("}"); // Close :root
         return sb.ToString();
+    }
+
+    private void AppendVariantVariables(StringBuilder sb, RzThemeVariant variant)
+    {
+        // Colors
+        sb.AppendLine($"  --background: {variant.Background.ToCssColorString()};");
+        sb.AppendLine($"  --foreground: {variant.Foreground.ToCssColorString()};");
+        sb.AppendLine($"  --card: {variant.Card.ToCssColorString()};");
+        sb.AppendLine($"  --card-foreground: {variant.CardForeground.ToCssColorString()};");
+        sb.AppendLine($"  --popover: {variant.Popover.ToCssColorString()};");
+        sb.AppendLine($"  --popover-foreground: {variant.PopoverForeground.ToCssColorString()};");
+        sb.AppendLine($"  --primary: {variant.Primary.ToCssColorString()};");
+        sb.AppendLine($"  --primary-foreground: {variant.PrimaryForeground.ToCssColorString()};");
+        sb.AppendLine($"  --secondary: {variant.Secondary.ToCssColorString()};");
+        sb.AppendLine($"  --secondary-foreground: {variant.SecondaryForeground.ToCssColorString()};");
+        sb.AppendLine($"  --muted: {variant.Muted.ToCssColorString()};");
+        sb.AppendLine($"  --muted-foreground: {variant.MutedForeground.ToCssColorString()};");
+        sb.AppendLine($"  --accent: {variant.Accent.ToCssColorString()};");
+        sb.AppendLine($"  --accent-foreground: {variant.AccentForeground.ToCssColorString()};");
+        sb.AppendLine($"  --destructive: {variant.Destructive.ToCssColorString()};");
+        sb.AppendLine($"  --destructive-foreground: {variant.DestructiveForeground.ToCssColorString()};");
+        sb.AppendLine($"  --border: {variant.Border.ToCssColorString()};");
+        sb.AppendLine($"  --input: {variant.Input.ToCssColorString()};");
+        sb.AppendLine($"  --ring: {variant.Ring.ToCssColorString()};");
+
+        // Chart Colors
+        sb.AppendLine($"  --chart-1: {variant.Chart1.ToCssColorString()};");
+        sb.AppendLine($"  --chart-2: {variant.Chart2.ToCssColorString()};");
+        sb.AppendLine($"  --chart-3: {variant.Chart3.ToCssColorString()};");
+        sb.AppendLine($"  --chart-4: {variant.Chart4.ToCssColorString()};");
+        sb.AppendLine($"  --chart-5: {variant.Chart5.ToCssColorString()};");
+
+        // Sidebar Colors
+        sb.AppendLine($"  --sidebar: {variant.Sidebar.ToCssColorString()};");
+        sb.AppendLine($"  --sidebar-foreground: {variant.SidebarForeground.ToCssColorString()};");
+        sb.AppendLine($"  --sidebar-primary: {variant.SidebarPrimary.ToCssColorString()};");
+        sb.AppendLine($"  --sidebar-primary-foreground: {variant.SidebarPrimaryForeground.ToCssColorString()};");
+        sb.AppendLine($"  --sidebar-accent: {variant.SidebarAccent.ToCssColorString()};");
+        sb.AppendLine($"  --sidebar-accent-foreground: {variant.SidebarAccentForeground.ToCssColorString()};");
+        sb.AppendLine($"  --sidebar-border: {variant.SidebarBorder.ToCssColorString()};");
+        sb.AppendLine($"  --sidebar-ring: {variant.SidebarRing.ToCssColorString()};");
+
+        // Status Colors
+        sb.AppendLine($"  --info: {variant.Info.ToCssColorString()};");
+        sb.AppendLine($"  --info-foreground: {variant.InfoForeground.ToCssColorString()};");
+        sb.AppendLine($"  --warning: {variant.Warning.ToCssColorString()};");
+        sb.AppendLine($"  --warning-foreground: {variant.WarningForeground.ToCssColorString()};");
+        sb.AppendLine($"  --success: {variant.Success.ToCssColorString()};");
+        sb.AppendLine($"  --success-foreground: {variant.SuccessForeground.ToCssColorString()};");
+
+        // Fonts
+        sb.AppendLine($"  --font-sans: {variant.FontSans};");
+        sb.AppendLine($"  --font-serif: {variant.FontSerif};");
+        sb.AppendLine($"  --font-mono: {variant.FontMono};");
+
+        // Radius (from variant)
+        sb.AppendLine($"  --radius: {variant.Radius};");
+
+        // Shadows
+        sb.AppendLine($"  --shadow-2xs: {variant.Shadow2Xs};");
+        sb.AppendLine($"  --shadow-xs: {variant.ShadowXs};");
+        sb.AppendLine($"  --shadow-sm: {variant.ShadowSm};");
+        sb.AppendLine($"  --shadow: {variant.Shadow};");
+        sb.AppendLine($"  --shadow-md: {variant.ShadowMd};");
+        sb.AppendLine($"  --shadow-lg: {variant.ShadowLg};");
+        sb.AppendLine($"  --shadow-xl: {variant.ShadowXl};");
+        sb.AppendLine($"  --shadow-2xl: {variant.Shadow2Xl};");
+
+        // Additional Properties from the variant (e.g., letter-spacing, spacing)
+        if (variant.AdditionalProperties != null)
+        {
+            foreach (var kvp in variant.AdditionalProperties)
+            {
+                sb.AppendLine($"  --{kvp.Key}: {kvp.Value};");
+            }
+        }
     }
 }

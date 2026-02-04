@@ -1,0 +1,10 @@
+
+@namespace RizzyUI
+@typeparam TItem
+@inherits RzComponent<TableRowSlots>
+
+<CascadingValue Value="this" Name="ParentTableRow" IsFixed="true">
+	<tr @attributes="AdditionalAttributes" id="@Id" data-slot="table-row" class="@SlotClasses.GetBase()">
+			@ChildContent
+	</tr>	
+</CascadingValue>

@@ -1,0 +1,29 @@
+
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<DropdownMenuSubTrigger.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
+             id="@TriggerId"
+             class="@SlotClasses.GetBase()"
+             role="menuitem"
+             tabindex="-1"
+             aria-haspopup="menu"
+             aria-controls="@SubContentId"
+             x-ref="subTrigger"
+             x-bind:aria-expanded="ariaExpanded"
+             x-on:click.prevent="toggleSubmenu"
+             x-on:mouseenter="handleTriggerMouseEnter"
+             x-on:mouseleave="handleTriggerMouseLeave"
+             x-on:keydown.enter.prevent="handleTriggerKeydown"
+             x-on:keydown.space.prevent="handleTriggerKeydown"
+             x-on:keydown.right.prevent="handleTriggerKeydown"
+             data-slot="dropdown-menu-sub-trigger">
+    @if (Icon != null)
+    {
+        <span class="@SlotClasses.GetIcon()"><Blazicon Svg="@Icon"/></span>
+    }
+    @ChildContent
+    <Blazicon Svg="MdiIcon.ChevronRight" class="@SlotClasses.GetChevron()" aria-hidden="true"/>
+</HtmlElement>

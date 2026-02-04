@@ -7,11 +7,23 @@ namespace RizzyUI;
 public sealed class RizzyUIConfig
 {
     /// <summary>
+    /// Gets or sets a dictionary of logical asset names to their CDN or local URLs.
+    /// This allows for central management and user overrides of component dependencies.
+    /// </summary>
+    public Dictionary<string, string> AssetUrls { get; set; } = new();
+
+    /// <summary>
     /// Gets or sets the default theme to be used by RizzyUI components if no theme is
     /// explicitly provided via <see cref="RzThemeProvider"/>.
     /// Defaults to <see cref="RzTheme.ArcticTheme"/>.
     /// </summary>
     public RzTheme DefaultTheme { get; set; } = RzTheme.Default;
+
+    /// <summary>
+    /// Gets or sets the list of available themes that can be used within the application.
+    /// This list can be populated during startup using the <see cref="ThemeLoader"/> or by adding themes manually.
+    /// </summary>
+    public List<RzTheme> AvailableThemes { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the marker <see cref="Type"/> used by the consuming application to identify

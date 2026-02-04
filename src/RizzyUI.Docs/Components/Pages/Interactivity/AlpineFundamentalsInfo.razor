@@ -1,0 +1,230 @@
+﻿@page "/docs/interactivity/alpine-fundamentals"
+@namespace RizzyUI.Docs.Components.Pages.Interactivity
+
+@using RizzyUI
+
+<PageTitle>Alpine.js Fundamentals</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Alpine.js Fundamentals">
+                Alpine.js Fundamentals for RizzyUI Developers
+            </RzHeading>
+
+            <RzParagraph class="lead">
+                Before we dive into more advanced patterns, let’s get comfortable with the core building blocks of Alpine.js. These are the features you’ll use every time you add interactivity to a RizzyUI component.
+                <br/><br/>
+                We’ll start with the essentials—defining state, responding to events, updating the DOM—and show how each one fits naturally into the RizzyUI ecosystem. By the end of this page, you’ll have the foundation you need to make your Blazor components feel responsive and alive.
+            </RzParagraph>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="x-data: The Heart of Your Component">
+                    x-data: The Heart of Your Component
+                </RzHeading>
+                <RzParagraph>
+                    At the heart of every interactive component is its <strong>state</strong>—the data it needs to remember, like whether a dropdown is open or what a user has typed into a search box. In Alpine, you define this state using the <code>x-data</code> directive.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Html" class="my-4">
+&lt;div x-data=&quot;{ open: false, searchTerm: '' }&quot;&gt;
+  &lt;!-- This div and all its children can now access 'open' and 'searchTerm' --&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+                <RzParagraph>
+                    <strong>How It Works:</strong> The <code>x-data</code> directive creates a reactive "scope." Any element inside this <code>&lt;div&gt;</code> can read and modify the <code>open</code> and <code>searchTerm</code> properties. When they change, Alpine automatically updates any part of the UI that depends on them.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="x-on: Responding to Events">
+                    x-on: Responding to Events
+                </RzHeading>
+                <RzParagraph>
+                    Now that we have state, how do we change it? With browser events. Alpine uses the <code>x-on</code> directive to listen for events like clicks, input, and mouse movements.
+                </RzParagraph>
+
+                <RzAlert Variant="ThemeVariant.Warning" class="my-5">
+                    <AlertTitle>Important RizzyUI Convention</AlertTitle>
+                    <AlertDescription>
+                        You might see Alpine examples using the <code>@@click</code> shorthand. <strong>In RizzyUI, you should always use the full <code>x-on:click</code> syntax.</strong> This is because Blazor uses the <code>@@</code> symbol for its own directives (like <code>@@onclick</code>), and using <code>@@click</code> can cause conflicts. Sticking with <code>x-on:</code> is the safe and recommended practice.
+                    </AlertDescription>
+                </RzAlert>
+                
+                <RzParagraph>Here’s how you’d use it with an <code>&lt;RzButton&gt;</code>:</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex items-center justify-center gap-4 p-8 min-h-20" 
+                         x-data="{ count: 0, increment() { this.count++ } }">
+                        <RzButton x-on:click="increment">Increment</RzButton>
+                        <span class="text-foreground">Count: <span x-text="count"></span></span>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Html" ViewerTitle="HTML" class="mt-4">
+&lt;div x-data=&quot;{ count: 0, increment() { this.count++ } }&quot;&gt;
+  &lt;RzButton x-on:click=&quot;increment&quot;&gt;Increment&lt;/RzButton&gt;
+  &lt;span&gt;Count: &lt;span x-text=&quot;count&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+                <RzParagraph>
+                    <strong>How It Works:</strong> When the <code>&lt;RzButton&gt;</code> is clicked, the <code>increment</code> method inside our <code>x-data</code> object is called. This is the fundamental pattern for making your components interactive.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Interacting with the DOM">
+                    Interacting with the DOM
+                </RzHeading>
+                <RzParagraph>
+                    Your Alpine component will often need to read from or write to the HTML. Alpine provides simple, declarative directives for this.
+                </RzParagraph>
+                <ul class="list-disc space-y-2 pl-6 my-6 text-foreground">
+                    <li><code>x-text</code>: Safely updates the text content of an element. It's like Blazor's <code>@@myVariable</code>.</li>
+                    <li><code>x-html</code>: Renders raw HTML. Use this with caution and only with trusted content.</li>
+                    <li><code>x-ref</code>: Gives you a "handle" to a specific element so you can access it directly from your JavaScript methods.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-8">The Reactive Way (Recommended)</RzHeading>
+                <RzParagraph>
+                    The best way to update the DOM is to change your state and let Alpine handle the rest using reactive directives.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex items-center justify-center gap-4 p-8 min-h-20"
+                         x-data="{ message: 'Hello!' }">
+                        <p class="text-foreground">The message is: <strong x-text="message"></strong></p>
+                        <RzButton x-on:click="message = 'Updated!'">Update It</RzButton>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Html" class="mt-4">
+&lt;div x-data=&quot;{ message: 'Hello!' }&quot;&gt;
+  &lt;p&gt;The message is: &lt;strong x-text=&quot;message&quot;&gt;&lt;/strong&gt;&lt;/p&gt;
+  &lt;RzButton x-on:click=&quot;message = 'Updated!'&quot;&gt;Update It&lt;/RzButton&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+                
+                <RzHeading Level="HeadingLevel.H3" class="mt-8">Direct DOM Access with <i>$refs</i> (Advanced)</RzHeading>
+                <RzParagraph>
+                    For special cases, like integrating with a third-party library or measuring an element's size, you can get a direct handle to a DOM node using <code>x-ref</code>.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex items-center justify-center gap-4 p-8 min-h-20"
+                         x-data="{ updateMessage() { this.$refs.output.innerText = 'Updated Directly!' } }">
+                        <p class="text-foreground">The message is: <strong x-ref="output">Hello!</strong></p>
+                        <RzButton x-on:click="updateMessage">Update via $refs</RzButton>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Html" class="mt-4">
+&lt;div x-data=&quot;{ updateMessage() { this.$refs.output.innerText = 'Updated Directly!' } }&quot;&gt;
+  &lt;p&gt;The message is: &lt;strong x-ref=&quot;output&quot;&gt;Hello!&lt;/strong&gt;&lt;/p&gt;
+  &lt;RzButton x-on:click=&quot;updateMessage&quot;&gt;Update via $refs&lt;/RzButton&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+                <RzAlert Variant="ThemeVariant.Information" class="mt-6">
+                    <AlertTitle>Tip</AlertTitle>
+                    <AlertDescription>
+                        Prefer changing state (e.g., <code>message = '...'</code>) and letting Alpine's reactive directives update the UI. Use <code>$refs</code> as an "escape hatch" for when you truly need to interact with a DOM element programmatically.
+                    </AlertDescription>
+                </RzAlert>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Conditional Logic & Styling">
+                    Conditional Logic &amp; Styling with x-show and :class
+                </RzHeading>
+                <RzParagraph>
+                    A huge part of interactivity is showing, hiding, or changing the appearance of elements based on state. Alpine provides two powerful directives for this.
+                </RzParagraph>
+                
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex flex-col items-center justify-center gap-4 p-8 min-h-40"
+                         x-data="{ isSaved: false, save() { this.isSaved = true; setTimeout(() => this.isSaved = false, 2000) } }">
+                        <RzButton
+                            x-on:click="save"
+                            :aria-busy="isSaved ? 'true' : 'false'"
+                            Variant="ThemeVariant.Primary"
+                            class="transition-colors"
+                            :class="{ 'bg-success hover:bg-success/90': isSaved }">
+                            <span x-show="!isSaved">Save</span>
+                            <span x-show="isSaved" x-cloak>Saved!</span>
+                        </RzButton>
+
+                        <RzAlert x-show="isSaved" x-transition Variant="ThemeVariant.Success" class="mt-4" role="status" aria-live="polite">
+                            <AlertTitle>Success!</AlertTitle>
+                            <AlertDescription>Your changes have been saved.</AlertDescription>
+                        </RzAlert>
+                    </div>
+                </RzBrowser>
+                
+                <RzCodeViewer Language="@CodeLanguage.Html" class="mt-4">
+&lt;div x-data=&quot;{ isSaved: false, save() { this.isSaved = true; setTimeout(() => this.isSaved = false, 2000) } }&quot;&gt;
+
+  &lt;RzButton
+    x-on:click=&quot;save&quot;
+    :aria-busy=&quot;isSaved ? 'true' : 'false'&quot;
+    Variant=&quot;ThemeVariant.Primary&quot;
+    class=&quot;transition-colors&quot;
+    :class=&quot;{ 'bg-success hover:bg-success/90': isSaved }&quot;&gt;
+    &lt;span x-show=&quot;!isSaved&quot;&gt;Save&lt;/span&gt;
+    &lt;span x-show=&quot;isSaved&quot; x-cloak&gt;Saved!&lt;/span&gt;
+  &lt;/RzButton&gt;
+
+  &lt;RzAlert x-show=&quot;isSaved&quot; x-transition Variant=&quot;ThemeVariant.Success&quot; class=&quot;mt-4&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;
+    &lt;AlertTitle&gt;Success!&lt;/AlertTitle&gt;
+    &lt;AlertDescription&gt;Your changes have been saved.&lt;/AlertDescription&gt;
+  &lt;/RzAlert&gt;
+
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CSP vs. Non-CSP Builds">
+                    The Standard vs. CSP Build
+                </RzHeading>
+                <RzParagraph>
+                    RizzyUI provides two client-side scripts, and your choice affects how you write Alpine code.
+                </RzParagraph>
+                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr>
+                                <th class="p-4 w-1/3">Build</th>
+                                <th class="p-4 w-2/3">Usage</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top">
+                                <td class="p-4 font-medium"><code class="font-semibold">rizzyui.js</code> (Standard)</td>
+                                <td class="p-4">Flexible and allows simple inline JavaScript expressions like <code>x-on:click="count++"</code>. Perfect for rapid development and projects without strict security requirements.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4 font-medium"><code class="font-semibold">rizzyui-csp.js</code> (CSP-Compliant)</td>
+                                <td class="p-4">For applications requiring a strict Content Security Policy. This build disables inline script evaluation, so all logic must be in methods (e.g., <code>x-on:click="increment"</code>) defined in co-located <code>.razor.js</code> files.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <RzParagraph>
+                    <strong>Our recommendation:</strong> Even if you don't need CSP, moving logic into methods and co-located files is a best practice. If an inline expression gets longer than a few words or is reused, it's a good sign that it belongs in a method.
+                </RzParagraph>
+            </section>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Next Steps">
+                    Next Steps
+                </RzHeading>
+                <RzParagraph>
+                    Now that you've seen the fundamental directives, you're ready to learn the official RizzyUI pattern for organizing this logic. On the next page, we'll create our <RzLink Href="/docs/interactivity/alpine-code-behind">first Alpine code-behind with `RzAlpineComponent`</RzLink>.
+                </RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

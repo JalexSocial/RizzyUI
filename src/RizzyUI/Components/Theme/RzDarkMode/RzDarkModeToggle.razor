@@ -1,23 +1,24 @@
 
 @namespace RizzyUI
 @using Blazicons
-@inherits RzComponent
+@inherits RzComponent<RzDarkModeToggle.Slots>
 
 <HtmlElement Element="@EffectiveElement"
              @attributes="@AdditionalAttributes"
              id="@Id"
-             class="@RootClass()"
+             class="@SlotClasses.GetBase()"
              type="button"
-             aria-label="@Localizer["RzDarkModeToggle.AriaLabel"]">
-    <div x-data="rzDarkModeToggle"
-         x-on:click="toggle"
-         alpine-data-root="@Id"
-         :aria-pressed="isDark">
+             aria-label="@Localizer["RzDarkModeToggle.AriaLabel"]"
+             x-data="rzDarkModeToggle"
+             x-on:click="toggle"
+             data-alpine-root="@Id"
+             :aria-pressed="isDark">
+    <div>
         <div x-show="isLight" x-cloak>
-            <Blazicon Svg="@DarkIcon" class="@Theme.RzDarkmodeToggle.Icon"/>
+            <Blazicon Svg="@DarkIcon" class="@SlotClasses.GetIcon()"/>
         </div>
         <div x-show="isDark" x-cloak>
-            <Blazicon Svg="@LightIcon" class="@Theme.RzDarkmodeToggle.Icon"/>
+            <Blazicon Svg="@LightIcon" class="@SlotClasses.GetIcon()"/>
         </div>
     </div>
 </HtmlElement>

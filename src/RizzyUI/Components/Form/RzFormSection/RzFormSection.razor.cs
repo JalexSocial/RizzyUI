@@ -1,6 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
@@ -8,8 +8,36 @@ namespace RizzyUI;
 ///     Organizes form content into sections with an optional title and description, supporting different layouts.
 ///     Styling is determined by the active <see cref="RzTheme" />.
 /// </xmldoc>
-public partial class RzFormSection : RzComponent
+public partial class RzFormSection : RzComponent<RzFormSection.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzFormSection component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        slots: new()
+        {
+            [s => s.Title] = "text-base/7 font-semibold text-foreground",
+            [s => s.Description] = "text-sm text-foreground"
+        },
+        variants: new()
+        {
+            [s => ((RzFormSection)s).Layout] = new Variant<SectionLayout, Slots>
+            {
+                [SectionLayout.TwoColumn] = new()
+                {
+                    [s => s.Base] = "md:flex md:space-x-5",
+                    [s => s.DescriptionContainer] = "md:w-1/3 md:flex-none",
+                    [s => s.ContentContainer] = "space-y-6 md:w-1/2"
+                },
+                [SectionLayout.Stacked] = new()
+                {
+                    [s => s.Base] = "mb-5",
+                    [s => s.DescriptionContainer] = "pb-5 mb-10 border-b border-outline"
+                }
+            }
+        }
+    );
+
     /// <summary> The title of the form section. Required. </summary>
     [Parameter]
     [EditorRequired]
@@ -28,9 +56,32 @@ public partial class RzFormSection : RzComponent
     public SectionLayout Layout { get; set; } = SectionLayout.TwoColumn;
 
     /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzFormSection;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzFormSection component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzFormSection.Container,
-            Theme.RzFormSection.GetLayoutCss(Layout));
+        /// <summary>
+        /// The base slot for the main section container.
+        /// </summary>
+        public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the container of the title and description.
+        /// </summary>
+        public string? DescriptionContainer { get; set; }
+        /// <summary>
+        /// The slot for the title element.
+        /// </summary>
+        public string? Title { get; set; }
+        /// <summary>
+        /// The slot for the description element.
+        /// </summary>
+        public string? Description { get; set; }
+        /// <summary>
+        /// The slot for the main content container.
+        /// </summary>
+        public string? ContentContainer { get; set; }
     }
 }

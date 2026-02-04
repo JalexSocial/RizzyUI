@@ -1,0 +1,202 @@
+
+@page "/components/popover"
+@using RizzyUI
+
+<PageTitle>Popover</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Popover" class="scroll-mt-20">Popover</RzHeading>
+            <RzParagraph>
+                <b>RzPopover</b> lets you render floating content that’s anchored to a trigger element—no page navigation or messy workarounds. Think tooltips, forms, or quick-access panels, all staying in view and behaving well across screen sizes.  
+                <br /><br />
+                Under the hood, this component ties together <b>Alpine.js</b> (for state and interactivity) and <b>floating-ui</b> (for robust positioning), so you don’t need to wrangle the DOM or manage pixel math yourself.
+            </RzParagraph>
+
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    RzPopover uses an Alpine.js component (<code>x-data="rzPopover"</code>) for managing open/close state and user interactions. Placement is handled by <b>floating-ui</b>, which keeps the popover visible and anchored—even if the viewport or scroll position changes.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Popover" class="scroll-mt-20">
+                    Basic Popover
+                </RzHeading>
+                <RzParagraph>
+                    Here’s a basic popover attached to a button. The popover contains a small form, but you can embed any interactive content you need—everything from menus to custom panels. Positioning and accessibility are automatic.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-start min-h-80">
+                        <RzPopover>
+                            <PopoverTrigger AsChild>
+                                <RzButton Variant="ThemeVariant.Primary">Open Popover</RzButton>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <div class="grid gap-4">
+                                    <div class="space-y-2">
+                                        <h4 class="font-medium leading-none">Dimensions</h4>
+                                        <p class="text-sm text-muted-foreground">
+                                            Set the dimensions for the layer.
+                                        </p>
+                                    </div>
+                                    <form class="form grid gap-2">
+                                        <div class="grid grid-cols-3 items-center gap-4">
+                                            <label for="width">Width</label>
+                                            <input type="text" id="width" value="100%" class="col-span-2 h-8 input" />
+                                        </div>
+                                        <div class="grid grid-cols-3 items-center gap-4">
+                                            <label for="maxWidth">Max. width</label>
+                                            <input type="text" id="maxWidth" value="300px" class="col-span-2 h-8 input" />
+                                        </div>
+                                        <div class="grid grid-cols-3 items-center gap-4">
+                                            <label for="height">Height</label>
+                                            <input type="text" id="height" value="25px" class="col-span-2 h-8 input" />
+                                        </div>
+                                        <div class="grid grid-cols-3 items-center gap-4">
+                                            <label for="maxHeight">Max. height</label>
+                                            <input type="text" id="maxHeight" value="none" class="col-span-2 h-8 input" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </PopoverContent>
+                        </RzPopover>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzPopover&gt;
+    &lt;PopoverTrigger&gt;
+        &lt;RzButton Variant="ThemeVariant.Primary" AsChild&gt;Open Popover&lt;/RzButton&gt;
+    &lt;/PopoverTrigger&gt;
+    &lt;PopoverContent&gt;
+        &lt;div class="grid gap-4"&gt;
+            &lt;div class="space-y-2"&gt;
+                &lt;h4 class="font-medium leading-none"&gt;Dimensions&lt;/h4&gt;
+                &lt;p class="text-sm text-muted-foreground"&gt;
+                    Set the dimensions for the layer.
+                &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class="grid gap-2"&gt;
+                &lt;div class="grid grid-cols-3 items-center gap-4"&gt;
+                    &lt;label for="width"&gt;Width&lt;/label&gt;
+                    &lt;input id="width" value="100%" class="col-span-2 h-8 input" /&gt;
+                &lt;/div&gt;
+                &lt;div class="grid grid-cols-3 items-center gap-4"&gt;
+                    &lt;label for="maxWidth"&gt;Max. width&lt;/label&gt;
+                    &lt;input id="maxWidth" value="300px" class="col-span-2 h-8 input" /&gt;
+                &lt;/div&gt;
+                &lt;div class="grid grid-cols-3 items-center gap-4"&gt;
+                    &lt;label for="height"&gt;Height&lt;/label&gt;
+                    &lt;input id="height" value="25px" class="col-span-2 h-8 input" /&gt;
+                &lt;/div&gt;
+                &lt;div class="grid grid-cols-3 items-center gap-4"&gt;
+                    &lt;label for="maxHeight"&gt;Max. height&lt;/label&gt;
+                    &lt;input id="maxHeight" value="none" class="col-span-2 h-8 input" /&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/PopoverContent&gt;
+&lt;/RzPopover&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    RzPopover Component Parameters
+                </RzHeading>
+                <RzParagraph>
+                    <b>Parameters at a glance:</b>  
+                    Customize RzPopover’s behavior and positioning by tweaking these properties. Most developers will only need the defaults, but the knobs are here if you want to fine-tune layout or accessibility.
+                </RzParagraph>
+
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">PopoverTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – The trigger element users interact with to open the popover.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">PopoverContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment</code> – Content displayed inside the floating popover panel.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Anchor</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AnchorPoint</code> – Preferred placement (top, bottom, etc.) relative to the trigger.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">AnchorPoint</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">AnchorPoint.BottomStart</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Offset</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Pixel offset along the anchor axis.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">4</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CrossAxisOffset</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Pixel offset on the cross axis (perpendicular to anchor).</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">0</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AlignmentAxisOffset</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Pixel offset for alignment axis, if used.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">0</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Strategy</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AnchorStrategy</code> – Positioning mode. Use <code class="rounded-md bg-zinc-100 px-1.5 py-0.5 font-mono text-sm font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">fixed</code> if your trigger is in a scrollable container.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">AnchorStrategy</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">AnchorStrategy.Absolute</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">EnableFlip</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – If true, popover will "flip" sides when needed to stay visible.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">EnableShift</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – If true, popover will shift along its axis to stay in the viewport.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ShiftPadding</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>int</code> – Viewport padding in pixels before shifting kicks in.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">8</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string?</code> – Accessible label for the popover container.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

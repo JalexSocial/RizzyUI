@@ -1,0 +1,383 @@
+
+@page "/components/combobox"
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+@using RizzyUI
+@using RizzyUI.Docs.Models
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>Combobox</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Combobox" class="scroll-mt-20">Combobox</RzHeading>
+            <RzParagraph>
+                The <code>RzCombobox</code> is a robust, autocomplete-enabled select component powered by <strong>Tom Select</strong>.
+                It supports single and multiple selections, asynchronous loading, option grouping, rich templating, and plugin extensibility,
+                all while maintaining native form compatibility.
+            </RzParagraph>
+
+            <!-- 1. Basic Single Select -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Single Select" class="scroll-mt-20">
+                    Basic Single Select
+                </RzHeading>
+                <RzParagraph>
+                    A standard single-select dropdown bound to a list of strings.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">
+                        <EditForm Model="@_model">
+                            <Field>
+                                <Label>Favorite Fruit</Label>
+                                <RzCombobox TItem="string" TValue="string"
+                                            Items="@_fruits"
+                                            @bind-Value="_model.Fruit"
+                                            For="@(() => _model.Fruit)"
+                                            Placeholder="Pick a fruit..." />
+                            </Field>
+                            <div class="mt-4 text-sm text-muted-foreground">
+                                Selected: <strong>@(_model.Fruit ?? "None")</strong>
+                            </div>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCombobox TItem="string" TValue="string"
+            Items="@@_fruits"
+            @@bind-Value="_model.Fruit"
+            For="@@(() => _model.Fruit)"
+            Placeholder="Pick a fruit..." /&gt;
+
+@@code {
+    private List&lt;string&gt; _fruits = ["Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig"];
+}
+                </RzCodeViewer>
+            </section>
+
+            <!-- 2. Multiple Select -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Multiple Select" class="scroll-mt-20">
+                    Multiple Selection
+                </RzHeading>
+                <RzParagraph>
+                    Enable multiple selection by setting <code>Multiple="true"</code>. The <code>remove_button</code> and <code>checkbox_options</code> plugins are automatically enabled for better UX.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">
+                        <EditForm Model="@_model">
+                            <Field>
+                                <Label>Required Skills</Label>
+                                <RzCombobox TItem="string" TValue="IEnumerable<string>"
+                                            Items="@_skills"
+                                            Multiple="true"
+                                            @bind-Value="_model.Skills"
+                                            For="@(() => _model.Skills)"
+                                            Placeholder="Select skills..." />
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCombobox TItem="string" TValue="IEnumerable&lt;string&gt;"
+            Items="@@_skills"
+            Multiple="true"
+            @@bind-Value="_model.Skills"
+            For="@@(() => _model.Skills)" /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- 3. Object Binding -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Binding to Objects" class="scroll-mt-20">
+                    Binding to Objects
+                </RzHeading>
+                <RzParagraph>
+                    Bind to complex objects by specifying <code>ValueSelector</code> (what is stored) and <code>TextSelector</code> (what is displayed).
+                    Here we bind to the <code>Id</code> (int) of a <code>Person</code> object.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">
+                        <EditForm Model="@_model">
+                            <Field>
+                                <Label>Assignee</Label>
+                                <RzCombobox TItem="UserData" TValue="int?"
+                                            Items="@_users"
+                                            ValueSelector="@(u => u.Id.ToString())"
+                                            TextSelector="@(u => u.Name)"
+                                            @bind-Value="_model.AssigneeId"
+                                            For="@(() => _model.AssigneeId)"
+                                            Placeholder="Select a user..." />
+                            </Field>
+                            <div class="mt-4 text-sm text-muted-foreground">
+                                Selected ID: <strong>@(_model.AssigneeId?.ToString() ?? "None")</strong>
+                            </div>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCombobox TItem="UserData" TValue="int?"
+            Items="@@_users"
+            ValueSelector="@@(u => u.Id.ToString())"
+            TextSelector="@@(u => u.Name)"
+            @@bind-Value="_model.AssigneeId" /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- 4. Grouping -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Option Grouping" class="scroll-mt-20">
+                    Option Grouping
+                </RzHeading>
+                <RzParagraph>
+                    RzCombobox natively supports <code>SelectListItem</code> grouping.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">
+                        <EditForm Model="@_model">
+                            <Field>
+                                <Label>Select Framework</Label>
+                                <RzCombobox TItem="SelectListItem" TValue="string"
+                                            Items="@_groupedItems"
+                                            @bind-Value="_model.Framework"
+                                            For="@(() => _model.Framework)" />
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
+// Setup SelectListItems with Groups
+var frontendGroup = new SelectListGroup { Name = "Frontend" };
+var backendGroup = new SelectListGroup { Name = "Backend" };
+
+_groupedItems = [
+    new SelectListItem("React", "react") { Group = frontendGroup },
+    new SelectListItem("Vue", "vue") { Group = frontendGroup },
+    new SelectListItem(".NET", "dotnet") { Group = backendGroup },
+    new SelectListItem("Django", "django") { Group = backendGroup },
+];
+                </RzCodeViewer>
+            </section>
+
+            <!-- 5. User Creation (Tags) -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Item Creation" class="scroll-mt-20">
+                    Item Creation (Tags)
+                </RzHeading>
+                <RzParagraph>
+                    Allow users to create new items on the fly by setting <code>Create="true"</code> in the options.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">
+                        <EditForm Model="@_model">
+                            <Field>
+                                <Label>Tags (Type and press Enter)</Label>
+                                <RzCombobox TItem="string" TValue="IEnumerable<string>"
+                                            Items="@_tags"
+                                            Multiple="true"
+                                            Options="@(new ComboboxOptions { Create = true, Persist = false })"
+                                            @bind-Value="_model.Tags"
+                                            For="@(() => _model.Tags)"
+                                            Placeholder="Add tags..." />
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzCombobox Items="@@_tags"
+            Multiple="true"
+            Options="@@(new ComboboxOptions { Create = true })"
+            @@bind-Value="_model.Tags" /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- 6. Plugins -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Plugins: Clear Button" class="scroll-mt-20">
+                    Plugins: Clear Button
+                </RzHeading>
+                <RzParagraph>
+                    Easily extend functionality using plugins. Here we add a 'Clear' button to a single-select input.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">
+                        <EditForm Model="@_model">
+                            <Field>
+                                <Label>Selection with Clear Button</Label>
+                                <RzCombobox TItem="string" TValue="string"
+                                            Items="@_fruits"
+                                            @bind-Value="_model.Fruit"
+                                            For="@(() => _model.Fruit)"
+                                            Options="@_clearButtonOptions" />
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
+private ComboboxOptions _clearButtonOptions = new()
+{
+    Plugins = new List&lt;IComboboxPlugin&gt; { new ComboboxClearButtonPlugin() }
+};
+                </RzCodeViewer>
+            </section>
+
+            <!-- 7. Custom Templates -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Templates" class="scroll-mt-20">
+                    Custom Templates
+                </RzHeading>
+                <RzParagraph>
+                    Customize how options and selected items are rendered using <code>OptionTemplate</code> and <code>ItemTemplate</code>.
+                    Alpine.js syntax is used within the template, with access to the <code>item</code> object.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">
+                        <EditForm Model="@_model">
+                            <Field>
+                                <Label>Select User</Label>
+                                <RzCombobox TItem="UserData" TValue="int?"
+                                            Items="@_users"
+                                            ValueSelector="@(u => u.Id.ToString())"
+                                            TextSelector="@(u => u.Name)"
+                                            Value="_model.AssigneeId"
+                                            For="@(() => _model.AssigneeId)"
+                                            Placeholder="Search users...">
+                                    <OptionTemplate>
+                                        <div class="flex items-center gap-3 py-1">
+                                            <div class="flex items-center justify-center size-8 rounded-full bg-secondary text-secondary-foreground">
+                                                <RzAvatar Size="Size.Small">
+                                                    <AvatarImage :src="item.photo"/>
+                                                </RzAvatar>
+                                            </div>
+                                            <div class="flex flex-col">
+                                                <span class="font-medium text-sm" x-text="item.name"></span>
+                                                <span class="text-xs text-muted-foreground" x-text="item.email"></span>
+                                            </div>
+                                        </div>
+                                    </OptionTemplate>
+                                </RzCombobox>
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                        &lt;EditForm Model=&quot;@@_model&quot;&gt;
+                            &lt;Field&gt;
+                                &lt;Label&gt;Select User&lt;/Label&gt;
+                                &lt;RzCombobox TItem=&quot;UserData&quot; TValue=&quot;int?&quot;
+                                            Items=&quot;@@_users&quot;
+                                            ValueSelector=&quot;@@(u =&gt; u.Id.ToString())&quot;
+                                            TextSelector=&quot;@@(u =&gt; u.Name)&quot;
+                                            Value=&quot;_model.AssigneeId&quot;
+                                            For=&quot;@@(() =&gt; _model.AssigneeId)&quot;
+                                            Placeholder=&quot;Search users...&quot;&gt;
+                                    &lt;OptionTemplate&gt;
+                                        &lt;div class=&quot;flex items-center gap-3 py-1&quot;&gt;
+                                            &lt;div class=&quot;flex items-center justify-center size-8 rounded-full bg-secondary text-secondary-foreground&quot;&gt;
+                                                &lt;RzAvatar Size=&quot;Size.Small&quot;&gt;
+                                                    &lt;AvatarImage :src=&quot;item.photo&quot;/&gt;
+                                                &lt;/RzAvatar&gt;
+                                            &lt;/div&gt;
+                                            &lt;div class=&quot;flex flex-col&quot;&gt;
+                                                &lt;span class=&quot;font-medium text-sm&quot; x-text=&quot;item.name&quot;&gt;&lt;/span&gt;
+                                                &lt;span class=&quot;text-xs text-muted-foreground&quot; x-text=&quot;item.email&quot;&gt;&lt;/span&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/OptionTemplate&gt;
+                                &lt;/RzCombobox&gt;
+                            &lt;/Field&gt;
+                        &lt;/EditForm&gt;
+                </RzCodeViewer>
+            </section>
+
+             <!-- 8. Max Items -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Max Items Limit" class="scroll-mt-20">
+                    Max Items Limit
+                </RzHeading>
+                <RzParagraph>
+                    Restrict the number of selections in multi-select mode. Here, you can only select up to 2 items.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">
+                        <EditForm Model="@_model">
+                            <Field>
+                                <Label>Pick Top 2 Fruits</Label>
+                                <RzCombobox TItem="string" TValue="IEnumerable<string>"
+                                            Items="@_fruits"
+                                            Multiple="true"
+                                            @bind-Value="_model.TopFruits"
+                                            For="@(() => _model.TopFruits)"
+                                            Options="@(new ComboboxOptions { MaxItems = 2 })" />
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private DemoModel _model = new();
+    private List<string> _fruits = ["Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew"];
+    private List<string> _skills = ["C#", "Blazor", "JavaScript", "CSS", "SQL", "Docker"];
+    private List<string> _tags = ["Bug", "Feature", "Enhancement"];
+    private List<SelectListItem> _groupedItems = new();
+    private List<UserData> _users = new()
+    {
+        new() { Id = 1, Name = "Alice Johnson", Email = "alice@example.com", Photo = "/images/profile/68.jpg"},
+        new() { Id = 2, Name = "Bob Smith", Email = "bob@example.com", Photo = "/images/profile/91.jpg" },
+        new() { Id = 3, Name = "Charlie Brown", Email = "charlie@example.com", Photo = "/images/profile/94.jpg" }
+    };
+
+    private ComboboxOptions _clearButtonOptions = new()
+    {
+        Plugins = new List<IComboboxPlugin> { new ComboboxClearButtonPlugin() }
+    };
+
+    protected override void OnInitialized()
+    {
+        var frontendGroup = new SelectListGroup { Name = "Frontend" };
+        var backendGroup = new SelectListGroup { Name = "Backend" };
+
+        _groupedItems =
+        [
+            new SelectListItem("React", "react") { Group = frontendGroup },
+            new SelectListItem("Vue", "vue") { Group = frontendGroup },
+            new SelectListItem(".NET", "dotnet") { Group = backendGroup },
+            new SelectListItem("Django", "django") { Group = backendGroup },
+        ];
+    }
+
+    public class DemoModel
+    {
+        [Required]
+        public string? Fruit { get; set; }
+        public IEnumerable<string> Skills { get; set; } = new List<string>();
+        public IEnumerable<string> Tags { get; set; } = new List<string>();
+        public IEnumerable<string> TopFruits { get; set; } = new List<string>();
+        public int? AssigneeId { get; set; }
+        public string? Framework { get; set; }
+    }
+}

@@ -1,0 +1,19 @@
+
+@namespace RizzyUI
+@inherits InputBase<bool, RzSwitchSlots>
+
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@($"{Id}-wrapper")" class="@SlotClasses.GetBase()">
+    <InputCheckbox
+        ValueExpression="@For"
+        Value="@Value"
+        DisplayName="@DisplayName"
+        @attributes="InputAttributes"
+        class="@SlotClasses.GetInput()"
+        id="@Id"
+        role="switch"
+        aria-label="@AriaLabel"
+    />
+    <label for="@Id" class="@SlotClasses.GetTrack()">
+        <span class="@SlotClasses.GetThumb()"></span>
+    </label>
+</HtmlElement>

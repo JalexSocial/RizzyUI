@@ -1,5 +1,10 @@
-﻿@page "/components/tabs"
+
+@page "/components/tabs"
+@using System.ComponentModel
 @using RizzyUI
+@using Rizzy.Components
+@using System.ComponentModel.DataAnnotations
+@using Rizzy
 
 <PageTitle>Tabs</PageTitle>
 
@@ -9,156 +14,269 @@
             <RzQuickReference />
         </SideContent>
         <MainContent>
-            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">Tabs</RzHeading>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Tabs" class="scroll-mt-20">Tabs</RzHeading>
             <RzParagraph>
-                Tabs are a great way to display different sections of your website. They can be used to indicate the current section, navigate to the next or previous section, and more.
+                A set of layered sections of content—known as tab panels—that are displayed one at a time.
             </RzParagraph>
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    The <code>RzTabs</code> component family is powered by a lightweight Alpine.js controller that manages state, selection, and keyboard navigation in a fully CSP-compliant manner.
+                </AlertDescription>
+            </RzAlert>
 
-            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Tabs" class="scroll-mt-20">Default Tabs</RzHeading>
-            <RzParagraph TextColor="SemanticColor.OnSurface">
-                A list of tabs with a tab panel.
-            </RzParagraph>
+            <!-- Main Demo -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Demo" class="scroll-mt-20">
+                    Demo
+                </RzHeading>
+                <RzParagraph>
+                    The main demo showcases a common use case for tabs: organizing user settings into "Account" and "Password" sections within a card.
+                </RzParagraph>
 
-            <RzBrowser Layout="typeof(PreviewLayout)">
-                <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
-                    <RzTabs>
-                        <Menu>
-                            <RzTabStrip>
-                                <RzTab Name="groups">Groups</RzTab>
-                                <RzTab Name="likes">Likes</RzTab>
-                                <RzTab Name="comments">Comments</RzTab>
-                                <RzTab Name="saved">Saved</RzTab>
-                            </RzTabStrip>
-                        </Menu>
-                        <TabPanels>
-                            <RzTabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</RzTabPanel>
-                            <RzTabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</RzTabPanel>
-                            <RzTabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</RzTabPanel>
-                            <RzTabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</RzTabPanel>
-                        </TabPanels>
-                    </RzTabs>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 w-full max-w-sm items-center justify-center gap-6">
+                        <EditForm Model="_demoModel">
+                            <DataAnnotationsValidator/>
+
+	                        <RzTabs DefaultValue="account">
+		                        <TabsList>
+			                        <TabsTrigger Value="account">Account</TabsTrigger>
+			                        <TabsTrigger Value="password">Password</TabsTrigger>
+		                        </TabsList>
+		                        <TabsContent Value="account">
+			                        <RzCard>
+				                        <CardHeader>
+					                        <CardTitle>Account</CardTitle>
+					                        <CardDescription>
+						                        Make changes to your account here. Click save when you're done.
+					                        </CardDescription>
+				                        </CardHeader>
+				                        <CardContent>
+                                            <RzFieldSet>
+                                                <RzFieldGroup>
+                                                    <Field>
+                                                        <FieldLabel For="@(() => _demoModel.Name)" />
+                                                        <RzInputText For="@(() => _demoModel.Name)" />
+                                                        <FieldError><RzValidationMessageBase For="@(() => _demoModel.Name)" /></FieldError>
+                                                    </Field>
+                                                    <Field>
+                                                        <FieldLabel For="@(() => _demoModel.Username)" />
+                                                        <RzInputText For="@(() => _demoModel.Username)" />
+                                                        <FieldError><RzValidationMessageBase For="@(() => _demoModel.Username)" /></FieldError>
+                                                    </Field>
+                                                </RzFieldGroup>
+                                            </RzFieldSet>
+				                        </CardContent>
+				                        <CardFooter>
+					                        <RzButton>Save changes</RzButton>
+				                        </CardFooter>
+			                        </RzCard>
+		                        </TabsContent>
+		                        <TabsContent Value="password">
+			                        <RzCard>
+				                        <CardHeader>
+					                        <CardTitle>Password</CardTitle>
+					                        <CardDescription>
+						                        Change your password here. After saving, you'll be logged out.
+					                        </CardDescription>
+				                        </CardHeader>
+				                        <CardContent>
+                                            <RzFieldSet>
+                                                <RzFieldGroup>
+                                                    <Field>
+                                                        <FieldLabel For="@(() => _demoModel.CurrentPassword)" />
+                                                        <RzInputText For="@(() => _demoModel.CurrentPassword)" Role="@TextRole.Password" />
+                                                        <FieldError><RzValidationMessageBase For="@(() => _demoModel.CurrentPassword)" /></FieldError>
+                                                    </Field>
+                                                    <Field>
+                                                        <FieldLabel For="@(() => _demoModel.NewPassword)" />
+                                                        <RzInputText For="@(() => _demoModel.NewPassword)" Role="@TextRole.Password" />
+                                                        <FieldError><RzValidationMessageBase For="@(() => _demoModel.NewPassword)" /></FieldError>
+                                                    </Field>
+                                                </RzFieldGroup>
+                                            </RzFieldSet>
+				                        </CardContent>
+				                        <CardFooter>
+					                        <RzButton>Save password</RzButton>
+				                        </CardFooter>
+			                        </RzCard>
+		                        </TabsContent>
+	                        </RzTabs>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                        &lt;EditForm Model=&quot;_demoModel&quot;&gt;
+                            &lt;DataAnnotationsValidator /&gt;
+                            &lt;RzInitialValidator /&gt;
+	                        &lt;RzTabs DefaultValue=&quot;account&quot;&gt;
+		                        &lt;TabsList&gt;
+			                        &lt;TabsTrigger Value=&quot;account&quot;&gt;Account&lt;/TabsTrigger&gt;
+			                        &lt;TabsTrigger Value=&quot;password&quot;&gt;Password&lt;/TabsTrigger&gt;
+		                        &lt;/TabsList&gt;
+		                        &lt;TabsContent Value=&quot;account&quot;&gt;
+			                        &lt;RzCard&gt;
+				                        &lt;CardHeader&gt;
+					                        &lt;CardTitle&gt;Account&lt;/CardTitle&gt;
+					                        &lt;CardDescription&gt;
+						                        Make changes to your account here. Click save when you&#39;re done.
+					                        &lt;/CardDescription&gt;
+				                        &lt;/CardHeader&gt;
+				                        &lt;CardContent&gt;
+                                            &lt;RzFieldSet&gt;
+                                                &lt;RzFieldGroup&gt;
+                                                    &lt;Field&gt;
+                                                        &lt;FieldLabel For=&quot;@@(() =&gt; _demoModel.Name)&quot; /&gt;
+                                                        &lt;RzInputText For=&quot;@@(() =&gt; _demoModel.Name)&quot; /&gt;
+                                                        &lt;FieldError&gt;&lt;RzValidationMessage For=&quot;@@(() =&gt; _demoModel.Name)&quot; /&gt;&lt;/FieldError&gt;
+                                                    &lt;/Field&gt;
+                                                    &lt;Field&gt;
+                                                        &lt;FieldLabel For=&quot;@@(() =&gt; _demoModel.Username)&quot; /&gt;
+                                                        &lt;RzInputText For=&quot;@@(() =&gt; _demoModel.Username)&quot; /&gt;
+                                                        &lt;FieldError&gt;&lt;RzValidationMessage For=&quot;@@(() =&gt; _demoModel.Username)&quot; /&gt;&lt;/FieldError&gt;
+                                                    &lt;/Field&gt;
+                                                &lt;/RzFieldGroup&gt;
+                                            &lt;/RzFieldSet&gt;
+				                        &lt;/CardContent&gt;
+				                        &lt;CardFooter&gt;
+					                        &lt;RzButton&gt;Save changes&lt;/RzButton&gt;
+				                        &lt;/CardFooter&gt;
+			                        &lt;/RzCard&gt;
+		                        &lt;/TabsContent&gt;
+		                        &lt;TabsContent Value=&quot;password&quot;&gt;
+			                        &lt;RzCard&gt;
+				                        &lt;CardHeader&gt;
+					                        &lt;CardTitle&gt;Password&lt;/CardTitle&gt;
+					                        &lt;CardDescription&gt;
+						                        Change your password here. After saving, you&#39;ll be logged out.
+					                        &lt;/CardDescription&gt;
+				                        &lt;/CardHeader&gt;
+				                        &lt;CardContent&gt;
+                                            &lt;RzFieldSet&gt;
+                                                &lt;RzFieldGroup&gt;
+                                                    &lt;Field&gt;
+                                                        &lt;FieldLabel For=&quot;@@(() =&gt; _demoModel.CurrentPassword)&quot; /&gt;
+                                                        &lt;RzInputText For=&quot;@@(() =&gt; _demoModel.CurrentPassword)&quot; Role=&quot;@TextRole.Password&quot; /&gt;
+                                                        &lt;FieldError&gt;&lt;RzValidationMessage For=&quot;@@(() =&gt; _demoModel.CurrentPassword)&quot; /&gt;&lt;/FieldError&gt;
+                                                    &lt;/Field&gt;
+                                                    &lt;Field&gt;
+                                                        &lt;FieldLabel For=&quot;@@(() =&gt; _demoModel.NewPassword)&quot; /&gt;
+                                                        &lt;RzInputText For=&quot;@@(() =&gt; _demoModel.NewPassword)&quot; Role=&quot;@TextRole.Password&quot; /&gt;
+                                                        &lt;FieldError&gt;&lt;RzValidationMessage For=&quot;@@(() =&gt; _demoModel.NewPassword)&quot; /&gt;&lt;/FieldError&gt;
+                                                    &lt;/Field&gt;
+                                                &lt;/RzFieldGroup&gt;
+                                            &lt;/RzFieldSet&gt;
+				                        &lt;/CardContent&gt;
+				                        &lt;CardFooter&gt;
+					                        &lt;RzButton&gt;Save password&lt;/RzButton&gt;
+				                        &lt;/CardFooter&gt;
+			                        &lt;/RzCard&gt;
+		                        &lt;/TabsContent&gt;
+	                        &lt;/RzTabs&gt;
+                        &lt;/EditForm&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Usage Section -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Usage" class="scroll-mt-20">
+                    Usage
+                </RzHeading>
+                <RzParagraph>
+                    Here is the basic structure for creating a set of tabs.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzTabs DefaultValue="account" class="w-[400px]"&gt;
+  &lt;TabsList&gt;
+    &lt;TabsTrigger Value="account"&gt;Account&lt;/TabsTrigger&gt;
+    &lt;TabsTrigger Value="password"&gt;Password&lt;/TabsTrigger&gt;
+  &lt;/TabsList&gt;
+  &lt;TabsContent Value="account"&gt;Make changes to your account here.&lt;/TabsContent&gt;
+  &lt;TabsContent Value="password"&gt;Change your password here.&lt;/TabsContent&gt;
+&lt;/RzTabs&gt;
+                </RzCodeViewer>
+            </section>
+
+            <!-- Component Parameters -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
+                </RzHeading>
+                <RzParagraph>
+                    The following tables summarize the main parameters for each component in the Tabs family.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzTabs</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>DefaultValue</code></td><td class="p-4"><code>string?</code></td><td class="p-4">First tab</td><td class="p-4">The value of the tab that should be active on initial render.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4">Required</td><td class="p-4">The content, which should include a <code>TabsList</code> and <code>TabsContent</code> components.</td></tr>
+                        </tbody>
+                    </table>
                 </div>
-            </RzBrowser>
 
-            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;RzTabs&gt;
-        &lt;Menu&gt;
-            &lt;RzTabStrip&gt;
-                &lt;RzTab Name=&quot;groups&quot;&gt;Groups&lt;/Tab&gt;
-                &lt;RzTab Name=&quot;likes&quot;&gt;Likes&lt;/Tab&gt;
-                &lt;RzTab Name=&quot;comments&quot;&gt;Comments&lt;/Tab&gt;
-                &lt;RzTab Name=&quot;saved&quot;&gt;Saved&lt;/Tab&gt;
-            &lt;/TabStrip&gt;
-        &lt;/Menu&gt;
-        &lt;TabPanels&gt;
-            &lt;RzTabPanel Name=&quot;groups&quot;&gt;&lt;strong&gt;&lt;u&gt;Groups&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
-            &lt;RzTabPanel Name=&quot;likes&quot;&gt;&lt;strong&gt;&lt;u&gt;Likes&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
-            &lt;RzTabPanel Name=&quot;comments&quot;&gt;&lt;strong&gt;&lt;u&gt;Comments&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
-            &lt;RzTabPanel Name=&quot;saved&quot;&gt;&lt;strong&gt;&lt;u&gt;Saved&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/TabPanel&gt;
-        &lt;/TabPanels&gt;
-    &lt;/RzTabs&gt;
-            </RzCodeViewer>
-            
-            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Tabs with icon" class="scroll-mt-20">Tabs with icon</RzHeading>
-            <RzParagraph TextColor="SemanticColor.OnSurface">
-                A list of tabs with icons and a tab panel.
-            </RzParagraph>
-
-            <RzBrowser Layout="typeof(PreviewLayout)">
-                <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
-                    <RzTabs>
-                        <Menu>
-                            <RzTabStrip>
-                                <RzTab Name="groups">
-                                    <div class="pr-2"><Blazicon Svg="MdiIcon.AccountGroup" /></div>
-                                    Groups
-                                </RzTab>
-                                <RzTab Name="likes">Likes</RzTab>
-                                <RzTab Name="comments">Comments</RzTab>
-                                <RzTab Name="saved">Saved</RzTab>
-                            </RzTabStrip>
-                        </Menu>
-                        <TabPanels>
-                            <RzTabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</RzTabPanel>
-                            <RzTabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</RzTabPanel>
-                            <RzTabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</RzTabPanel>
-                            <RzTabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</RzTabPanel>
-                        </TabPanels>
-                    </RzTabs>
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">TabsList</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4">Required</td><td class="p-4">The content, which should be a series of <code>TabsTrigger</code> components.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>AriaLabel</code></td><td class="p-4"><code>string?</code></td><td class="p-4">"Tabs"</td><td class="p-4">The accessible name for the tab list.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Orientation</code></td><td class="p-4"><code>Orientation</code></td><td class="p-4"><code>Horizontal</code></td><td class="p-4">The orientation of the tab list, affecting keyboard navigation.</td></tr>
+                        </tbody>
+                    </table>
                 </div>
-            </RzBrowser>
 
-            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;RzTabs&gt;
-        &lt;Menu&gt;
-            &lt;RzTabStrip&gt;
-                &lt;RzTab Name=&quot;groups&quot;&gt;Groups&lt;/RzTab&gt;
-                &lt;RzTab Name=&quot;likes&quot;&gt;Likes&lt;/RzTab&gt;
-                &lt;RzTab Name=&quot;comments&quot;&gt;Comments&lt;/RzTab&gt;
-                &lt;RzTab Name=&quot;saved&quot;&gt;Saved&lt;/RzTab&gt;
-            &lt;/TabStrip&gt;
-        &lt;/Menu&gt;
-        &lt;TabPanels&gt;
-            &lt;RzTabPanel Name=&quot;groups&quot;&gt;&lt;strong&gt;&lt;u&gt;Groups&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/RzTabPanel&gt;
-            &lt;RzTabPanel Name=&quot;likes&quot;&gt;&lt;strong&gt;&lt;u&gt;Likes&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/RzTabPanel&gt;
-            &lt;RzTabPanel Name=&quot;comments&quot;&gt;&lt;strong&gt;&lt;u&gt;Comments&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/RzTabPanel&gt;
-            &lt;RzTabPanel Name=&quot;saved&quot;&gt;&lt;strong&gt;&lt;u&gt;Saved&lt;/u&gt;&lt;/strong&gt; tab is selected&lt;/RzTabPanel&gt;
-        &lt;/TabPanels&gt;
-    &lt;/RzTabs&gt;
-            </RzCodeViewer>            
-
-            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Colored Tabs" class="scroll-mt-20">Colored Tabs</RzHeading>
-            <RzParagraph TextColor="SemanticColor.OnSurface">
-                A list of colored tabs with a tab panel.
-            </RzParagraph>
-
-            <RzBrowser Layout="typeof(PreviewLayout)">
-                <div class="grid-cols-1 mx-auto grid min-h-[18rem] place-content-evenly place-items-center gap-4 rounded-xl p-8 xl:grid-cols-1 2xl:grid-cols-1">
-                    <RzTabs SelectedTabName="events" 
-                          TabBackgroundColor="SemanticColor.SurfaceAlt"
-                          SelectedTabUnderlineColor="SemanticColor.Warning"
-                          TabTextColor="SemanticColor.OnSurface"
-                          SelectedTabTextColor="SemanticColor.OnSurfaceStrong">
-                        <Menu>
-                            <RzTabStrip Justify="Justify.Center" SpaceBetween="Size.Small">
-                                <RzTab Name="activity">Activity</RzTab>
-                                <RzTab Name="events">Events</RzTab>
-                                <RzTab Name="pages">Pages</RzTab>
-                                <RzTab Name="members">Members</RzTab>
-                            </RzTabStrip>
-                        </Menu>
-                        <TabPanels>
-                            <RzTabPanel Name="activity" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Activity Content</RzTabPanel>
-                            <RzTabPanel Name="events" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Events Content</RzTabPanel>
-                            <RzTabPanel Name="pages" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Pages Content</RzTabPanel>
-                            <RzTabPanel Name="members" class="bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4">Members Content</RzTabPanel>
-                        </TabPanels>
-                    </RzTabs>
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">TabsTrigger</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>Value</code></td><td class="p-4"><code>string</code></td><td class="p-4">Required</td><td class="p-4">A unique value that associates the trigger with a <code>TabsContent</code>.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Disabled</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">If true, the trigger is disabled and cannot be selected.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>AsChild</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">Merges behavior into a single child element instead of rendering a button.</td></tr>
+                        </tbody>
+                    </table>
                 </div>
-            </RzBrowser>
 
-            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;RzTabs SelectedTabName=&quot;events&quot; 
-          TabBackgroundSemanticColor=&quot;SemanticColor.SurfaceAlt&quot;
-          SelectedTabUnderlineSemanticColor=&quot;SemanticColor.Warning&quot;
-          TabTextSemanticColor=&quot;SemanticColor.OnSurface&quot;
-          SelectedTabTextSemanticColor=&quot;SemanticColor.OnSurfaceStrong&quot;&gt;
-        &lt;Menu&gt;
-            &lt;RzTabStrip Justify=&quot;Justify.Center&quot; SpaceBetween=&quot;Size.Medium&quot;&gt;
-                &lt;RzTab Name=&quot;activity&quot;&gt;Activity&lt;/RzTab&gt;
-                &lt;RzTab Name=&quot;events&quot;&gt;Events&lt;/RzTab&gt;
-                &lt;RzTab Name=&quot;pages&quot;&gt;Pages&lt;/RzTab&gt;
-                &lt;Rzab Name=&quot;members&quot;&gt;Members&lt;/RzTab&gt;
-            &lt;/TabStrip&gt;
-        &lt;/Menu&gt;
-        &lt;TabPanels&gt;
-            &lt;RzTabPanel Name=&quot;activity&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Activity Content&lt;/RzTabPanel&gt;
-            &lt;RzTabPanel Name=&quot;events&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Events Content&lt;/RzTabPanel&gt;
-            &lt;RzTabPanel Name=&quot;pages&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Pages Content&lt;/RzTabPanel&gt;
-            &lt;RzTabPanel Name=&quot;members&quot; class=&quot;bg-surfaceAlt dark:bg-surfaceAltDark rounded-b p-4&quot;&gt;Members Content&lt;/RzTabPanel&gt;
-        &lt;/TabPanels&gt;
-    &lt;/Tabs&gt;
-            </RzCodeViewer>
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">TabsContent</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>Value</code></td><td class="p-4"><code>string</code></td><td class="p-4">Required</td><td class="p-4">A unique value that associates the content with a <code>TabsTrigger</code>.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>
+
+@code {
+    private class TabsDemoModel
+    {
+        [Required]
+        public string Name { get; set; } = "Pedro Duarte";
+        [Required]
+        public string Username { get; set; } = "@peduarte";
+        [Required, Display(Name = "Current Password")]
+        public string CurrentPassword { get; set; } = string.Empty;
+        [Required, Display(Name = "New Password")]
+        public string NewPassword { get; set; } = string.Empty;
+    }
+
+    private TabsDemoModel _demoModel = new();
+}

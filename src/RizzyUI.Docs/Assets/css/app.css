@@ -2,4 +2,3 @@
 @import "../../../../packages/rizzyui/dist/css/rizzyui-plugin.css";
 
 @plugin "@tailwindcss/forms";
-@plugin "@tailwindcss/typography";

@@ -1,0 +1,26 @@
+
+@namespace RizzyUI
+@inherits RzComponent<RzPopover.Slots>
+
+<CascadingValue Value="this" IsFixed="true">
+	<HtmlElement Element="@EffectiveElement"
+	             id="@Id"
+	             class="@SlotClasses.GetBase()"
+	             @attributes="@AdditionalAttributes"
+	             x-data="rzPopover"
+	             data-alpine-root="@Id"
+	             data-anchor="@Anchor.ToString().ToKebabCase()"
+	             data-offset="@Offset"
+	             data-cross-axis-offset="@CrossAxisOffset"
+	             data-alignment-axis-offset="@AlignmentAxisOffset"
+	             data-strategy="@Strategy.ToString().ToLowerInvariant()"
+	             data-enable-flip="@EnableFlip.ToString().ToLowerInvariant()"
+	             data-enable-shift="@EnableShift.ToString().ToLowerInvariant()"
+	             data-shift-padding="@ShiftPadding"
+	             x-on:keydown.escape.window="handleWindowEscape"
+	             x-on:click.outside="handleOutsideClick"
+	             aria-label="@AriaLabel"
+                 data-slot="popover">
+		@ChildContent
+	</HtmlElement>
+</CascadingValue>

@@ -1,0 +1,14 @@
+
+@namespace RizzyUI
+@inherits InputBase<bool, RzInputCheckbox.Slots>
+
+<InputCheckbox
+    @ref="_elem"
+    ValueExpression="@For"
+    Value="@Value"
+    DisplayName="@DisplayName"
+    @attributes="InputAttributes"
+    class="@SlotClasses.GetBase()"
+    id="@Id"
+    data-slot="@RzInputCheckbox.SlotNames.NameOf(SlotTypes.Base)"
+/>

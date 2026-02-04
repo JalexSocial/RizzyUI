@@ -1,13 +1,13 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<AccordionItem.Slots>
 
-<div x-data="accordionItem" x-ref="@SectionId" data-is-open="@((!Collapsed).ToString().ToLowerInvariant())"
+<div x-data="accordionItem" @attributes="@AdditionalAttributes" x-ref="@SectionId" data-is-open="@((!Collapsed).ToString().ToLowerInvariant())"
      data-section-id="@SectionId"
-     data-expanded-class="@Theme.AccordionItem.ChevronIconExpanded"
-     class="@Theme.AccordionItem.Container">
-	<button id="@ButtonId" type="button" class="@RootClass()" aria-controls="@ContentId"
-	        x-on:click="toggle" :aria-expanded="getAriaExpanded">
+     data-expanded-class="@SlotClasses.GetChevronIconExpanded()"
+     class="@SlotClasses.GetBase()" data-slot="accordion-item">
+	<button id="@ButtonId" type="button" class="@SlotClasses.GetButton()" aria-controls="@ContentId"
+	        x-on:click="toggle" :aria-expanded="getAriaExpanded" data-slot="accordion-trigger">
 		@if (AccordionTrigger != null)
 		{
 			@AccordionTrigger
@@ -17,15 +17,15 @@
 			@Title
 		}
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
-		     stroke="currentColor" class="@Theme.AccordionItem.ChevronIcon motion-safe:transition-transform" aria-hidden="true"
+		     stroke="currentColor" class="@SlotClasses.GetChevronIcon() motion-safe:transition-transform" aria-hidden="true"
 		     :class="getExpandedCss">
 			<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
 		</svg>
 	</button>
 	<div id="@ContentId" role="region" aria-labelledby="@ButtonId"
 	     x-cloak x-show="open" x-collapse
-         class="@Theme.AccordionItem.ContentContainerWrapper">
-		<div class="@Theme.AccordionItem.ContentContainer">
+         class="@SlotClasses.GetContentContainerWrapper()" data-slot="accordion-content">
+		<div class="@SlotClasses.GetContentContainer()">
 			@AccordionContent
 		</div>
 	</div>

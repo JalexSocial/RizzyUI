@@ -1,0 +1,24 @@
+
+@attribute [RzAlpineCodeBehind]
+@namespace RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+@using RizzyUI
+
+<RzAlpineComponent For="this" Name="modalController">
+    <RzButton x-on:click="openModal">Open Modal</RzButton>
+    <RzDialog x-ref="myModal">
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle>My Modal</DialogTitle>
+            </DialogHeader>
+            <div class="p-6">
+                This modal is controlled by an Alpine.js module.
+            </div>
+            <DialogFooter>
+                <DialogClose AsChild>
+                    <RzButton>Close</RzButton>
+                </DialogClose>
+            </DialogFooter>
+        </DialogContent>
+    </RzDialog>
+</RzAlpineComponent>

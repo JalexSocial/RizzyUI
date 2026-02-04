@@ -1,125 +1,236 @@
 /**
- * Helper function to retrieve the Alpine.js x-data state object associated with
- * a specific component. It accepts either the component's wrapper ID (string)
- * or a direct reference to the wrapper element itself (Element).
+ * Helper function to retrieve the Alpine.js x-data state object associated with a component.
  *
- * This function bridges the gap between a known component wrapper (identified
- * by ID or element reference) and the potentially nested element that actually
- * holds the Alpine `x-data` directive and is marked with a `data-alpine-root`
- * attribute matching the wrapper's ID.
+ * This version is teleport-safe and proxy-aware:
+ * - It accepts either a component **ID** (string) or a **DOM Element**.
+ * - If the element is an `<rz-proxy data-for="...">`, it resolves that proxy to the real
+ *   teleported Alpine root (`[data-alpine-root="<id>"]`) before calling `Alpine.$data`.
+ * - If a string ID is provided, it searches under the local wrapper (if present) and then
+ *   falls back to a **document-wide** lookup, which works even when the root was teleported.
  *
  * @prerequisites
- *   - Alpine.js (v3+) must be loaded and initialized globally as `Alpine`.
- *   - If `idOrElement` is a string, the DOM must contain an element with that ID.
- *   - The identified wrapper element (whether found by ID or passed directly)
- *     MUST have an `id` attribute.
- *   - EITHER the wrapper element OR one of its descendants MUST have the
- *     attribute `data-alpine-root` set to the wrapper element's `id`. This
- *     element with `data-alpine-root` is assumed to be the intended Alpine
- *     component root containing the `x-data`. Failure to meet this structure
- *     will result in `undefined` being returned and a warning logged.
+ *   - Alpine.js (v3+) loaded and initialized globally as `Alpine`.
+ *   - For string input:
+ *       The component wrapper SHOULD have `id="<Id>"`, and the Alpine root element SHOULD have
+ *       `data-alpine-root="<Id>"`. When teleport moves the root, the global fallback will still find it.
+ *   - For element input:
+ *       - If the element is an `<rz-proxy data-for="<Id>">`, `$data` will resolve `<Id>`
+ *         to the actual Alpine root before querying Alpine.
+ *       - If the element is any other node, `$data` will attempt to read the scope on that
+ *         element, then fall back to the closest `[x-data]` ancestor.
  *
- * @param {string | Element} idOrElement - The unique ID attribute (string) of
- *   the component's outermost wrapper element, OR a direct reference (Element)
- *   to that wrapper element.
- * @returns {object | undefined} The Alpine x-data state object if the designated
- *   Alpine root element is found and successfully initialized by Alpine.
- *   Returns `undefined` if the input is invalid, prerequisites are not met,
- *   the designated Alpine root element cannot be located, or if Alpine.$data
- *   itself returns undefined for the located element. This mirrors the return
- *   behavior of the native `Alpine.$data`.
+ * @param {string | Element} idOrElement
+ *   - A **string** component ID (the wrapper/root id used by `data-alpine-root`), OR
+ *   - An **Element** (can be the Alpine root, a descendant, or an `<rz-proxy>`).
+ *
+ * @returns {object | undefined}
+ *   The Alpine x-data state object if found and initialized, otherwise `undefined`.
+ *   (Mirrors `Alpine.$data` semantics.)
  */
 function $data(idOrElement) {
-    // --- Prerequisite Checks ---
-
-    // Guard clause: Verify Alpine.js and its $data utility are available.
+    // ── Prerequisite check ───────────────────────────────────────────────────────
     if (typeof Alpine === 'undefined' || typeof Alpine.$data !== 'function') {
         console.error(
-            '$data helper: Alpine.js context (Alpine.$data) is not available. ' +
-            'Ensure Alpine is loaded and initialized globally before use.'
+            'Rizzy.$data: Alpine.js context (Alpine.$data) is not available. ' +
+            'Ensure Alpine is loaded and started before calling $data.'
         );
         return undefined;
     }
 
-    // --- Determine Outer Element and Component ID ---
+    // ── Element path (supports proxies & teleports) ─────────────────────────────
+    if (idOrElement instanceof Element) {
+        const target = resolveProxy(idOrElement) || idOrElement;
 
-    let outerElement = null;
-    let componentId = null; // Store the string ID for selector construction
+        // Ask Alpine for the scope bound to this element
+        let alpineData = Alpine.$data(target);
 
+        // If the element itself isn't an Alpine root, try nearest [x-data] ancestor
+        if (alpineData === undefined) {
+            const nearest = target.closest?.('[x-data]');
+            if (nearest) {
+                alpineData = Alpine.$data(nearest);
+            }
+        }
+
+        if (alpineData === undefined) {
+            warnDataUndefined('element', target);
+        }
+        return alpineData;
+    }
+
+    // ── String ID path (local → global fallback for teleports) ──────────────────
     if (typeof idOrElement === 'string') {
-        // Input is a string ID
-        if (!idOrElement) { // Check for empty string
+        const componentId = idOrElement.trim();
+        if (!componentId) {
             console.warn('Rizzy.$data: Invalid componentId provided (empty string).');
             return undefined;
         }
-        componentId = idOrElement;
-        outerElement = document.getElementById(componentId);
 
-        // Check if element was found using the ID
-        if (!outerElement) {
-            console.warn(`Rizzy.$data: Rizzy component with ID "${componentId}" not found in the DOM.`);
+        const selector = `[data-alpine-root="${cssEscapeSafe(componentId)}"]`;
+        let root = null;
+
+        // 1) Try the wrapper by id, then search inside (classic local layout)
+        const wrapper = document.getElementById(componentId);
+        if (wrapper) {
+            root = wrapper.matches(selector) ? wrapper : wrapper.querySelector(selector);
+        }
+
+        // 2) Global fallback (supports x-teleport to <body> or elsewhere)
+        if (!root) {
+            root = findAlpineRootById(componentId);
+        }
+
+        if (!root) {
+            console.warn(
+                `Rizzy.$data: Could not locate an Alpine root using ${selector} ` +
+                `locally or globally. Verify that the teleported root rendered and ` +
+                `that 'data-alpine-root="${componentId}"' is present.`
+            );
             return undefined;
         }
-    } else if (idOrElement instanceof Element) {
-        // Input is an Element object
-        outerElement = idOrElement;
-        // Crucial: The wrapper element itself MUST have an ID for the
-        // data-alpine-root lookup logic to work correctly.
-        if (!outerElement.id) {
-            console.warn('Rizzy.$data: Provided element does not have an ID attribute, which is required for locating the data-alpine-root.');
-            return undefined;
+
+        const alpineData = Alpine.$data(root);
+        if (alpineData === undefined) {
+            warnDataUndefined(`data-alpine-root="${componentId}"`, root);
         }
-        componentId = outerElement.id;
-    } else {
-        // Input is neither a valid string nor an Element
-        console.warn('Rizzy.$data: Invalid input provided. Expected a non-empty string ID or an Element object.');
-        return undefined;
+        return alpineData;
     }
 
-    // --- DOM Element Location (using determined outerElement and componentId) ---
+    // ── Invalid input ────────────────────────────────────────────────────────────
+    console.warn('Rizzy.$data: Expected a non-empty string id or an Element.');
+    return undefined;
+}
 
-    // Prepare the CSS selector using the determined component ID.
-    const alpineRootSelector = `[data-alpine-root="${componentId}"]`;
-    let alpineRootElement = null;
+/**
+ * Wait until the Alpine root for a given component ID exists and has an initialized x-data.
+ *
+ * Useful when calling early (e.g., right after navigation) and you need to defer
+ * until the teleported/modal root is in the DOM and Alpine has started.
+ *
+ * @param {string} componentId - The id used in `data-alpine-root="<componentId>"`.
+ * @param {{ timeout?: number, interval?: number }} [options]
+ *   - timeout: max time to wait in ms (default 3000ms)
+ *   - interval: poll interval in ms (default 50ms)
+ *
+ * @returns {Promise<Element|null>}
+ *   Resolves with the Alpine root Element when ready, or `null` on timeout.
+ *
+ * @example
+ * const root = await waitForRoot('myModalId');
+ * if (root) {
+ *   const modal = Alpine.$data(root);
+ *   modal?.openModal?.();
+ * }
+ */
+async function waitForRoot(componentId, { timeout = 3000, interval = 50 } = {}) {
+    const start = performance.now();
 
-    // Strategy: Check wrapper first, then descendants.
-    if (outerElement.matches(alpineRootSelector)) {
-        alpineRootElement = outerElement;
-    } else {
-        alpineRootElement = outerElement.querySelector(alpineRootSelector);
+    while (performance.now() - start < timeout) {
+        const root = findAlpineRootById(componentId);
+        if (root) {
+            const data = Alpine.$data(root);
+            if (data !== undefined) return root;
+        }
+        await sleep(interval);
+    }
+    return null;
+}
+
+// ──────────────────────────── Internals ───────────────────────────────────────
+
+/**
+ * Resolve an `<rz-proxy data-for="...">` element (or any element carrying `data-for`)
+ * to the *actual* Alpine root for that component id. Non-proxy elements are returned as-is.
+ *
+ * @param {Element} el
+ * @returns {Element|null} The resolved Alpine root element, the original element, or null if not found.
+ */
+function resolveProxy(el) {
+    if (!(el instanceof Element)) return null;
+
+    const isProxyTag = el.tagName?.toLowerCase?.() === 'rz-proxy';
+    const proxyFor = el.getAttribute?.('data-for');
+
+    if (isProxyTag || proxyFor) {
+        const id = proxyFor || '';
+        if (!id) return el; // malformed proxy, fall back to the element itself
+        const root = findAlpineRootById(id);
+        if (!root) {
+            console.warn(
+                `Rizzy.$data: Proxy element could not resolve Alpine root for id "${id}". ` +
+                `Ensure the teleported root rendered with data-alpine-root="${id}".`
+            );
+            return null;
+        }
+        return root; // success: return the real Alpine root
     }
 
-    // Verify the designated Alpine root was located.
-    if (!alpineRootElement) {
-        console.warn(
-            `Rizzy.$data: Could not locate the designated Alpine root element ` +
-            `using selector "${alpineRootSelector}" on or inside the wrapper element ` +
-            `(ID: #${componentId}). Verify the 'data-alpine-root' attribute placement.`
-        );
-        return undefined;
+    return el; // not a proxy
+}
+
+/**
+ * Locate the Alpine root element for a given component id anywhere in document.
+ * Prefers nodes that actually carry `x-data`.
+ *
+ * @param {string} id
+ * @returns {Element|null}
+ */
+function findAlpineRootById(id) {
+    const sel = `[data-alpine-root="${cssEscapeSafe(id)}"]`;
+    const candidates = document.querySelectorAll(sel);
+
+    // Prefer a node that actually has x-data (the real Alpine root)
+    for (const n of candidates) {
+        if (n.hasAttribute('x-data')) return n;
     }
+    // Fallback: return the first candidate if any
+    if (candidates.length > 0) return candidates[0];
 
-    // --- Alpine Data Retrieval ---
+    // Last resort: an element whose id matches (helps in edge layouts)
+    return document.getElementById(id) || null;
+}
 
-    // Delegate to native Alpine.$data.
-    const alpineData = Alpine.$data(alpineRootElement);
+/**
+ * Escape a string for safe use inside a CSS attribute selector.
+ * Falls back to a minimal escape when CSS.escape is unavailable.
+ *
+ * @param {string} s
+ * @returns {string}
+ */
+function cssEscapeSafe(s) {
+    try {
+        if (window.CSS && typeof window.CSS.escape === 'function') {
+            return window.CSS.escape(s);
+        }
+    } catch (_) { /* noop */ }
+    // Minimal escape for double quotes inside ["..."]
+    return String(s).replace(/"/g, '\\"');
+}
 
-    // Check Alpine.$data's result.
-    if (alpineData === undefined) {
-        const targetDesc = `${alpineRootElement.tagName.toLowerCase()}` +
-            `${alpineRootElement.id ? '#'+alpineRootElement.id : ''}` +
-            `${alpineRootElement.classList.length ? '.'+Array.from(alpineRootElement.classList).join('.') : ''}`;
-        console.warn(
-            `Rizzy.$data: Located designated Alpine root (${targetDesc}) ` +
-            `via 'data-alpine-root="${componentId}"', but Alpine.$data returned undefined. ` +
-            `Ensure 'x-data' is correctly defined and initialized on this element.`
-        );
-        // Return undefined, consistent with Alpine.$data.
-    }
+/**
+ * Log a helpful warning when Alpine.$data returned undefined for a target.
+ *
+ * @param {string} origin - A description of how the target was selected (e.g., 'element' or 'data-alpine-root="id"').
+ * @param {Element} target
+ */
+function warnDataUndefined(origin, target) {
+    const desc =
+        `${target.tagName?.toLowerCase?.() || 'node'}` +
+        `${target.id ? '#' + target.id : ''}` +
+        `${target.classList?.length ? '.' + Array.from(target.classList).join('.') : ''}`;
 
-    // Return the data or undefined.
-    return alpineData;
+    console.warn(
+        `Rizzy.$data: Located target via ${origin} (${desc}), but Alpine.$data returned undefined. ` +
+        `Ensure this element (or its nearest [x-data] ancestor) has an initialized Alpine component.`
+    );
+}
+
+function sleep(ms) {
+    return new Promise((r) => setTimeout(r, ms));
 }
 
 // Default ES Module export
 export default $data;
+
+// Named export for the waiter
+export { waitForRoot };

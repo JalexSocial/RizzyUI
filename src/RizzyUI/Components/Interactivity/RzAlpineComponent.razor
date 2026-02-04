@@ -1,0 +1,32 @@
+
+@namespace RizzyUI
+@inherits RzAsChildComponent
+@using System.Text.Json
+
+@if (AsChild)
+{
+    @RenderAsChild()
+}
+else
+{
+    <HtmlElement Element="@EffectiveElement" @attributes="GetComponentAttributes()">
+        @ChildContent
+    </HtmlElement>
+}
+
+@if (Props is not null)
+{
+    <script type="application/json" id="@_propsScriptId" nonce="@Nonce">
+        @((MarkupString)_serializedProps)
+    </script>
+}
+
+@if (!string.IsNullOrEmpty(_modulePath))
+{
+    <script nonce="@Nonce">
+        if (window.Rizzy) 
+            window.Rizzy.registerAsyncComponent('@Name', '@_modulePath');
+        else 
+            document.addEventListener("rz:init", e => e.detail.Rizzy.registerAsyncComponent('@Name', '@_modulePath'), { once: true });
+    </script>
+}

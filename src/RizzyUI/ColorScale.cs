@@ -1,4 +1,5 @@
-﻿namespace RizzyUI;
+
+namespace RizzyUI;
 
 /// <summary>
 ///     Represents a scale of colors with various lightness levels.
@@ -67,37 +68,37 @@ public abstract class ColorScale
 public sealed class Red : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-red-50", "red-50");
+    public override Color L50 => new("oklch(0.971 0.013 17.38)", "red-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-red-100", "red-100");
+    public override Color L100 => new("oklch(0.936 0.032 17.717)", "red-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-red-200", "red-200");
+    public override Color L200 => new("oklch(0.885 0.062 18.334)", "red-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-red-300", "red-300");
+    public override Color L300 => new("oklch(0.808 0.114 19.571)", "red-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-red-400", "red-400");
+    public override Color L400 => new("oklch(0.704 0.191 22.216)", "red-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-red-500", "red-500");
+    public override Color L500 => new("oklch(0.637 0.237 25.331)", "red-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-red-600", "red-600");
+    public override Color L600 => new("oklch(0.577 0.245 27.325)", "red-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-red-700", "red-700");
+    public override Color L700 => new("oklch(0.505 0.213 27.518)", "red-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-red-800", "red-800");
+    public override Color L800 => new("oklch(0.444 0.177 26.899)", "red-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-red-900", "red-900");
+    public override Color L900 => new("oklch(0.396 0.141 25.723)", "red-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-red-950", "red-950");
+    public override Color L950 => new("oklch(0.258 0.092 26.042)", "red-950");
 }
 
 /// <summary>
@@ -106,37 +107,37 @@ public sealed class Red : ColorScale
 public sealed class Orange : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-orange-50", "orange-50");
+    public override Color L50 => new("oklch(0.98 0.016 73.684)", "orange-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-orange-100", "orange-100");
+    public override Color L100 => new("oklch(0.954 0.038 75.164)", "orange-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-orange-200", "orange-200");
+    public override Color L200 => new("oklch(0.901 0.076 70.697)", "orange-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-orange-300", "orange-300");
+    public override Color L300 => new("oklch(0.837 0.128 66.29)", "orange-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-orange-400", "orange-400");
+    public override Color L400 => new("oklch(0.75 0.183 55.934)", "orange-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-orange-500", "orange-500");
+    public override Color L500 => new("oklch(0.705 0.213 47.604)", "orange-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-orange-600", "orange-600");
+    public override Color L600 => new("oklch(0.646 0.222 41.116)", "orange-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-orange-700", "orange-700");
+    public override Color L700 => new("oklch(0.553 0.195 38.402)", "orange-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-orange-800", "orange-800");
+    public override Color L800 => new("oklch(0.47 0.157 37.304)", "orange-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-orange-900", "orange-900");
+    public override Color L900 => new("oklch(0.408 0.123 38.172)", "orange-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-orange-950", "orange-950");
+    public override Color L950 => new("oklch(0.266 0.079 36.259)", "orange-950");
 }
 
 /// <summary>
@@ -145,37 +146,37 @@ public sealed class Orange : ColorScale
 public sealed class Amber : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-amber-50", "amber-50");
+    public override Color L50 => new("oklch(0.987 0.022 95.277)", "amber-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-amber-100", "amber-100");
+    public override Color L100 => new("oklch(0.962 0.059 95.617)", "amber-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-amber-200", "amber-200");
+    public override Color L200 => new("oklch(0.924 0.12 95.746)", "amber-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-amber-300", "amber-300");
+    public override Color L300 => new("oklch(0.879 0.169 91.605)", "amber-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-amber-400", "amber-400");
+    public override Color L400 => new("oklch(0.828 0.189 84.429)", "amber-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-amber-500", "amber-500");
+    public override Color L500 => new("oklch(0.769 0.188 70.08)", "amber-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-amber-600", "amber-600");
+    public override Color L600 => new("oklch(0.666 0.179 58.318)", "amber-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-amber-700", "amber-700");
+    public override Color L700 => new("oklch(0.555 0.163 48.998)", "amber-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-amber-800", "amber-800");
+    public override Color L800 => new("oklch(0.473 0.137 46.201)", "amber-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-amber-900", "amber-900");
+    public override Color L900 => new("oklch(0.414 0.112 45.904)", "amber-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-amber-950", "amber-950");
+    public override Color L950 => new("oklch(0.279 0.077 45.635)", "amber-950");
 }
 
 /// <summary>
@@ -184,37 +185,37 @@ public sealed class Amber : ColorScale
 public sealed class Yellow : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-yellow-50", "yellow-50");
+    public override Color L50 => new("oklch(0.987 0.026 102.212)", "yellow-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-yellow-100", "yellow-100");
+    public override Color L100 => new("oklch(0.973 0.071 103.193)", "yellow-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-yellow-200", "yellow-200");
+    public override Color L200 => new("oklch(0.945 0.129 101.54)", "yellow-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-yellow-300", "yellow-300");
+    public override Color L300 => new("oklch(0.905 0.182 98.111)", "yellow-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-yellow-400", "yellow-400");
+    public override Color L400 => new("oklch(0.852 0.199 91.936)", "yellow-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-yellow-500", "yellow-500");
+    public override Color L500 => new("oklch(0.795 0.184 86.047)", "yellow-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-yellow-600", "yellow-600");
+    public override Color L600 => new("oklch(0.681 0.162 75.834)", "yellow-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-yellow-700", "yellow-700");
+    public override Color L700 => new("oklch(0.554 0.135 66.442)", "yellow-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-yellow-800", "yellow-800");
+    public override Color L800 => new("oklch(0.476 0.114 61.907)", "yellow-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-yellow-900", "yellow-900");
+    public override Color L900 => new("oklch(0.421 0.095 57.708)", "yellow-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-yellow-950", "yellow-950");
+    public override Color L950 => new("oklch(0.286 0.066 53.813)", "yellow-950");
 }
 
 /// <summary>
@@ -223,37 +224,37 @@ public sealed class Yellow : ColorScale
 public sealed class Lime : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-lime-50", "lime-50");
+    public override Color L50 => new("oklch(0.986 0.031 120.757)", "lime-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-lime-100", "lime-100");
+    public override Color L100 => new("oklch(0.967 0.067 122.328)", "lime-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-lime-200", "lime-200");
+    public override Color L200 => new("oklch(0.938 0.127 124.321)", "lime-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-lime-300", "lime-300");
+    public override Color L300 => new("oklch(0.897 0.196 126.665)", "lime-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-lime-400", "lime-400");
+    public override Color L400 => new("oklch(0.841 0.238 128.85)", "lime-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-lime-500", "lime-500");
+    public override Color L500 => new("oklch(0.768 0.233 130.85)", "lime-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-lime-600", "lime-600");
+    public override Color L600 => new("oklch(0.648 0.2 131.684)", "lime-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-lime-700", "lime-700");
+    public override Color L700 => new("oklch(0.532 0.157 131.589)", "lime-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-lime-800", "lime-800");
+    public override Color L800 => new("oklch(0.453 0.124 130.933)", "lime-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-lime-900", "lime-900");
+    public override Color L900 => new("oklch(0.405 0.101 131.063)", "lime-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-lime-950", "lime-950");
+    public override Color L950 => new("oklch(0.274 0.072 132.109)", "lime-950");
 }
 
 /// <summary>
@@ -262,37 +263,37 @@ public sealed class Lime : ColorScale
 public sealed class Green : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-green-50", "green-50");
+    public override Color L50 => new("oklch(0.982 0.018 155.826)", "green-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-green-100", "green-100");
+    public override Color L100 => new("oklch(0.962 0.044 156.743)", "green-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-green-200", "green-200");
+    public override Color L200 => new("oklch(0.925 0.084 155.995)", "green-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-green-300", "green-300");
+    public override Color L300 => new("oklch(0.871 0.15 154.449)", "green-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-green-400", "green-400");
+    public override Color L400 => new("oklch(0.792 0.209 151.711)", "green-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-green-500", "green-500");
+    public override Color L500 => new("oklch(0.723 0.219 149.579)", "green-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-green-600", "green-600");
+    public override Color L600 => new("oklch(0.627 0.194 149.214)", "green-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-green-700", "green-700");
+    public override Color L700 => new("oklch(0.527 0.154 150.069)", "green-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-green-800", "green-800");
+    public override Color L800 => new("oklch(0.448 0.119 151.328)", "green-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-green-900", "green-900");
+    public override Color L900 => new("oklch(0.393 0.095 152.535)", "green-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-green-950", "green-950");
+    public override Color L950 => new("oklch(0.266 0.065 152.934)", "green-950");
 }
 
 /// <summary>
@@ -301,37 +302,37 @@ public sealed class Green : ColorScale
 public sealed class Emerald : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-emerald-50", "emerald-50");
+    public override Color L50 => new("oklch(0.979 0.021 166.113)", "emerald-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-emerald-100", "emerald-100");
+    public override Color L100 => new("oklch(0.95 0.052 163.051)", "emerald-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-emerald-200", "emerald-200");
+    public override Color L200 => new("oklch(0.905 0.093 164.15)", "emerald-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-emerald-300", "emerald-300");
+    public override Color L300 => new("oklch(0.845 0.143 164.978)", "emerald-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-emerald-400", "emerald-400");
+    public override Color L400 => new("oklch(0.765 0.177 163.223)", "emerald-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-emerald-500", "emerald-500");
+    public override Color L500 => new("oklch(0.696 0.17 162.48)", "emerald-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-emerald-600", "emerald-600");
+    public override Color L600 => new("oklch(0.596 0.145 163.225)", "emerald-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-emerald-700", "emerald-700");
+    public override Color L700 => new("oklch(0.508 0.118 165.612)", "emerald-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-emerald-800", "emerald-800");
+    public override Color L800 => new("oklch(0.432 0.095 166.913)", "emerald-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-emerald-900", "emerald-900");
+    public override Color L900 => new("oklch(0.378 0.077 168.94)", "emerald-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-emerald-950", "emerald-950");
+    public override Color L950 => new("oklch(0.262 0.051 172.552)", "emerald-950");
 }
 
 /// <summary>
@@ -340,37 +341,37 @@ public sealed class Emerald : ColorScale
 public sealed class Teal : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-teal-50", "teal-50");
+    public override Color L50 => new("oklch(0.984 0.014 180.72)", "teal-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-teal-100", "teal-100");
+    public override Color L100 => new("oklch(0.953 0.051 180.801)", "teal-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-teal-200", "teal-200");
+    public override Color L200 => new("oklch(0.91 0.096 180.426)", "teal-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-teal-300", "teal-300");
+    public override Color L300 => new("oklch(0.855 0.138 181.071)", "teal-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-teal-400", "teal-400");
+    public override Color L400 => new("oklch(0.777 0.152 181.912)", "teal-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-teal-500", "teal-500");
+    public override Color L500 => new("oklch(0.704 0.14 182.503)", "teal-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-teal-600", "teal-600");
+    public override Color L600 => new("oklch(0.6 0.118 184.704)", "teal-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-teal-700", "teal-700");
+    public override Color L700 => new("oklch(0.511 0.096 186.391)", "teal-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-teal-800", "teal-800");
+    public override Color L800 => new("oklch(0.437 0.078 188.216)", "teal-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-teal-900", "teal-900");
+    public override Color L900 => new("oklch(0.386 0.063 188.416)", "teal-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-teal-950", "teal-950");
+    public override Color L950 => new("oklch(0.277 0.046 192.524)", "teal-950");
 }
 
 /// <summary>
@@ -379,37 +380,37 @@ public sealed class Teal : ColorScale
 public sealed class Cyan : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-cyan-50", "cyan-50");
+    public override Color L50 => new("oklch(0.984 0.019 200.873)", "cyan-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-cyan-100", "cyan-100");
+    public override Color L100 => new("oklch(0.956 0.045 203.388)", "cyan-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-cyan-200", "cyan-200");
+    public override Color L200 => new("oklch(0.917 0.08 205.041)", "cyan-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-cyan-300", "cyan-300");
+    public override Color L300 => new("oklch(0.865 0.127 207.078)", "cyan-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-cyan-400", "cyan-400");
+    public override Color L400 => new("oklch(0.789 0.154 211.53)", "cyan-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-cyan-500", "cyan-500");
+    public override Color L500 => new("oklch(0.715 0.143 215.221)", "cyan-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-cyan-600", "cyan-600");
+    public override Color L600 => new("oklch(0.609 0.126 221.723)", "cyan-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-cyan-700", "cyan-700");
+    public override Color L700 => new("oklch(0.52 0.105 223.128)", "cyan-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-cyan-800", "cyan-800");
+    public override Color L800 => new("oklch(0.45 0.085 224.283)", "cyan-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-cyan-900", "cyan-900");
+    public override Color L900 => new("oklch(0.398 0.07 227.392)", "cyan-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-cyan-950", "cyan-950");
+    public override Color L950 => new("oklch(0.302 0.056 229.695)", "cyan-950");
 }
 
 /// <summary>
@@ -418,37 +419,37 @@ public sealed class Cyan : ColorScale
 public sealed class Sky : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-sky-50", "sky-50");
+    public override Color L50 => new("oklch(0.977 0.013 236.62)", "sky-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-sky-100", "sky-100");
+    public override Color L100 => new("oklch(0.951 0.026 236.824)", "sky-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-sky-200", "sky-200");
+    public override Color L200 => new("oklch(0.901 0.058 230.902)", "sky-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-sky-300", "sky-300");
+    public override Color L300 => new("oklch(0.828 0.111 230.318)", "sky-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-sky-400", "sky-400");
+    public override Color L400 => new("oklch(0.746 0.16 232.661)", "sky-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-sky-500", "sky-500");
+    public override Color L500 => new("oklch(0.685 0.169 237.323)", "sky-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-sky-600", "sky-600");
+    public override Color L600 => new("oklch(0.588 0.158 241.966)", "sky-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-sky-700", "sky-700");
+    public override Color L700 => new("oklch(0.5 0.134 242.749)", "sky-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-sky-800", "sky-800");
+    public override Color L800 => new("oklch(0.443 0.11 240.79)", "sky-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-sky-900", "sky-900");
+    public override Color L900 => new("oklch(0.391 0.09 240.876)", "sky-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-sky-950", "sky-950");
+    public override Color L950 => new("oklch(0.293 0.066 243.157)", "sky-950");
 }
 
 /// <summary>
@@ -457,37 +458,37 @@ public sealed class Sky : ColorScale
 public sealed class Blue : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-blue-50", "blue-50");
+    public override Color L50 => new("oklch(0.97 0.014 254.604)", "blue-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-blue-100", "blue-100");
+    public override Color L100 => new("oklch(0.932 0.032 255.585)", "blue-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-blue-200", "blue-200");
+    public override Color L200 => new("oklch(0.882 0.059 254.128)", "blue-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-blue-300", "blue-300");
+    public override Color L300 => new("oklch(0.809 0.105 251.813)", "blue-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-blue-400", "blue-400");
+    public override Color L400 => new("oklch(0.707 0.165 254.624)", "blue-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-blue-500", "blue-500");
+    public override Color L500 => new("oklch(0.623 0.214 259.815)", "blue-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-blue-600", "blue-600");
+    public override Color L600 => new("oklch(0.546 0.245 262.881)", "blue-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-blue-700", "blue-700");
+    public override Color L700 => new("oklch(0.488 0.243 264.376)", "blue-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-blue-800", "blue-800");
+    public override Color L800 => new("oklch(0.424 0.199 265.638)", "blue-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-blue-900", "blue-900");
+    public override Color L900 => new("oklch(0.379 0.146 265.522)", "blue-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-blue-950", "blue-950");
+    public override Color L950 => new("oklch(0.282 0.091 267.935)", "blue-950");
 }
 
 /// <summary>
@@ -496,37 +497,37 @@ public sealed class Blue : ColorScale
 public sealed class Indigo : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-indigo-50", "indigo-50");
+    public override Color L50 => new("oklch(0.962 0.018 272.314)", "indigo-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-indigo-100", "indigo-100");
+    public override Color L100 => new("oklch(0.93 0.034 272.788)", "indigo-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-indigo-200", "indigo-200");
+    public override Color L200 => new("oklch(0.87 0.065 274.039)", "indigo-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-indigo-300", "indigo-300");
+    public override Color L300 => new("oklch(0.785 0.115 274.713)", "indigo-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-indigo-400", "indigo-400");
+    public override Color L400 => new("oklch(0.673 0.182 276.935)", "indigo-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-indigo-500", "indigo-500");
+    public override Color L500 => new("oklch(0.585 0.233 277.117)", "indigo-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-indigo-600", "indigo-600");
+    public override Color L600 => new("oklch(0.511 0.262 276.966)", "indigo-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-indigo-700", "indigo-700");
+    public override Color L700 => new("oklch(0.457 0.24 277.023)", "indigo-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-indigo-800", "indigo-800");
+    public override Color L800 => new("oklch(0.398 0.195 277.366)", "indigo-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-indigo-900", "indigo-900");
+    public override Color L900 => new("oklch(0.359 0.144 278.697)", "indigo-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-indigo-950", "indigo-950");
+    public override Color L950 => new("oklch(0.257 0.09 281.288)", "indigo-950");
 }
 
 /// <summary>
@@ -535,37 +536,37 @@ public sealed class Indigo : ColorScale
 public sealed class Violet : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-violet-50", "violet-50");
+    public override Color L50 => new("oklch(0.969 0.016 293.756)", "violet-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-violet-100", "violet-100");
+    public override Color L100 => new("oklch(0.943 0.029 294.588)", "violet-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-violet-200", "violet-200");
+    public override Color L200 => new("oklch(0.894 0.057 293.283)", "violet-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-violet-300", "violet-300");
+    public override Color L300 => new("oklch(0.811 0.111 293.571)", "violet-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-violet-400", "violet-400");
+    public override Color L400 => new("oklch(0.702 0.183 293.541)", "violet-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-violet-500", "violet-500");
+    public override Color L500 => new("oklch(0.606 0.25 292.717)", "violet-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-violet-600", "violet-600");
+    public override Color L600 => new("oklch(0.541 0.281 293.009)", "violet-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-violet-700", "violet-700");
+    public override Color L700 => new("oklch(0.491 0.27 292.581)", "violet-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-violet-800", "violet-800");
+    public override Color L800 => new("oklch(0.432 0.232 292.759)", "violet-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-violet-900", "violet-900");
+    public override Color L900 => new("oklch(0.38 0.189 293.745)", "violet-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-violet-950", "violet-950");
+    public override Color L950 => new("oklch(0.283 0.141 291.089)", "violet-950");
 }
 
 /// <summary>
@@ -574,37 +575,37 @@ public sealed class Violet : ColorScale
 public sealed class Purple : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-purple-50", "purple-50");
+    public override Color L50 => new("oklch(0.977 0.014 308.299)", "purple-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-purple-100", "purple-100");
+    public override Color L100 => new("oklch(0.946 0.033 307.174)", "purple-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-purple-200", "purple-200");
+    public override Color L200 => new("oklch(0.902 0.063 306.703)", "purple-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-purple-300", "purple-300");
+    public override Color L300 => new("oklch(0.827 0.119 306.383)", "purple-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-purple-400", "purple-400");
+    public override Color L400 => new("oklch(0.714 0.203 305.504)", "purple-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-purple-500", "purple-500");
+    public override Color L500 => new("oklch(0.627 0.265 303.9)", "purple-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-purple-600", "purple-600");
+    public override Color L600 => new("oklch(0.558 0.288 302.321)", "purple-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-purple-700", "purple-700");
+    public override Color L700 => new("oklch(0.496 0.265 301.924)", "purple-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-purple-800", "purple-800");
+    public override Color L800 => new("oklch(0.438 0.218 303.724)", "purple-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-purple-900", "purple-900");
+    public override Color L900 => new("oklch(0.381 0.176 304.987)", "purple-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-purple-950", "purple-950");
+    public override Color L950 => new("oklch(0.291 0.149 302.717)", "purple-950");
 }
 
 /// <summary>
@@ -613,37 +614,37 @@ public sealed class Purple : ColorScale
 public sealed class Fuchsia : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-fuchsia-50", "fuchsia-50");
+    public override Color L50 => new("oklch(0.977 0.017 320.058)", "fuchsia-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-fuchsia-100", "fuchsia-100");
+    public override Color L100 => new("oklch(0.952 0.037 318.852)", "fuchsia-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-fuchsia-200", "fuchsia-200");
+    public override Color L200 => new("oklch(0.903 0.076 319.62)", "fuchsia-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-fuchsia-300", "fuchsia-300");
+    public override Color L300 => new("oklch(0.833 0.145 321.434)", "fuchsia-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-fuchsia-400", "fuchsia-400");
+    public override Color L400 => new("oklch(0.74 0.238 322.16)", "fuchsia-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-fuchsia-500", "fuchsia-500");
+    public override Color L500 => new("oklch(0.667 0.295 322.15)", "fuchsia-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-fuchsia-600", "fuchsia-600");
+    public override Color L600 => new("oklch(0.591 0.293 322.896)", "fuchsia-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-fuchsia-700", "fuchsia-700");
+    public override Color L700 => new("oklch(0.518 0.253 323.949)", "fuchsia-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-fuchsia-800", "fuchsia-800");
+    public override Color L800 => new("oklch(0.452 0.211 324.591)", "fuchsia-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-fuchsia-900", "fuchsia-900");
+    public override Color L900 => new("oklch(0.401 0.17 325.612)", "fuchsia-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-fuchsia-950", "fuchsia-950");
+    public override Color L950 => new("oklch(0.293 0.136 325.661)", "fuchsia-950");
 }
 
 /// <summary>
@@ -652,37 +653,37 @@ public sealed class Fuchsia : ColorScale
 public sealed class Pink : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-pink-50", "pink-50");
+    public override Color L50 => new("oklch(0.971 0.014 343.198)", "pink-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-pink-100", "pink-100");
+    public override Color L100 => new("oklch(0.948 0.028 342.258)", "pink-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-pink-200", "pink-200");
+    public override Color L200 => new("oklch(0.899 0.061 343.231)", "pink-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-pink-300", "pink-300");
+    public override Color L300 => new("oklch(0.823 0.12 346.018)", "pink-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-pink-400", "pink-400");
+    public override Color L400 => new("oklch(0.718 0.202 349.761)", "pink-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-pink-500", "pink-500");
+    public override Color L500 => new("oklch(0.656 0.241 354.308)", "pink-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-pink-600", "pink-600");
+    public override Color L600 => new("oklch(0.592 0.249 0.584)", "pink-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-pink-700", "pink-700");
+    public override Color L700 => new("oklch(0.525 0.223 3.958)", "pink-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-pink-800", "pink-800");
+    public override Color L800 => new("oklch(0.459 0.187 3.815)", "pink-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-pink-900", "pink-900");
+    public override Color L900 => new("oklch(0.408 0.153 2.432)", "pink-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-pink-950", "pink-950");
+    public override Color L950 => new("oklch(0.284 0.109 3.907)", "pink-950");
 }
 
 /// <summary>
@@ -691,37 +692,37 @@ public sealed class Pink : ColorScale
 public sealed class Rose : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-rose-50", "rose-50");
+    public override Color L50 => new("oklch(0.969 0.015 12.422)", "rose-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-rose-100", "rose-100");
+    public override Color L100 => new("oklch(0.941 0.03 12.58)", "rose-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-rose-200", "rose-200");
+    public override Color L200 => new("oklch(0.892 0.058 10.001)", "rose-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-rose-300", "rose-300");
+    public override Color L300 => new("oklch(0.81 0.117 11.638)", "rose-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-rose-400", "rose-400");
+    public override Color L400 => new("oklch(0.712 0.194 13.428)", "rose-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-rose-500", "rose-500");
+    public override Color L500 => new("oklch(0.645 0.246 16.439)", "rose-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-rose-600", "rose-600");
+    public override Color L600 => new("oklch(0.586 0.253 17.585)", "rose-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-rose-700", "rose-700");
+    public override Color L700 => new("oklch(0.514 0.222 16.935)", "rose-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-rose-800", "rose-800");
+    public override Color L800 => new("oklch(0.455 0.188 13.697)", "rose-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-rose-900", "rose-900");
+    public override Color L900 => new("oklch(0.41 0.159 10.272)", "rose-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-rose-950", "rose-950");
+    public override Color L950 => new("oklch(0.271 0.105 12.094)", "rose-950");
 }
 
 /// <summary>
@@ -730,37 +731,37 @@ public sealed class Rose : ColorScale
 public sealed class Slate : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-slate-50", "slate-50");
+    public override Color L50 => new("oklch(0.984 0.003 247.858)", "slate-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-slate-100", "slate-100");
+    public override Color L100 => new("oklch(0.968 0.007 247.896)", "slate-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-slate-200", "slate-200");
+    public override Color L200 => new("oklch(0.929 0.013 255.508)", "slate-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-slate-300", "slate-300");
+    public override Color L300 => new("oklch(0.869 0.022 252.894)", "slate-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-slate-400", "slate-400");
+    public override Color L400 => new("oklch(0.704 0.04 256.788)", "slate-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-slate-500", "slate-500");
+    public override Color L500 => new("oklch(0.554 0.046 257.417)", "slate-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-slate-600", "slate-600");
+    public override Color L600 => new("oklch(0.446 0.043 257.281)", "slate-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-slate-700", "slate-700");
+    public override Color L700 => new("oklch(0.372 0.044 257.287)", "slate-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-slate-800", "slate-800");
+    public override Color L800 => new("oklch(0.279 0.041 260.031)", "slate-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-slate-900", "slate-900");
+    public override Color L900 => new("oklch(0.208 0.042 265.755)", "slate-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-slate-950", "slate-950");
+    public override Color L950 => new("oklch(0.129 0.042 264.695)", "slate-950");
 }
 
 /// <summary>
@@ -769,37 +770,37 @@ public sealed class Slate : ColorScale
 public sealed class Gray : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-gray-50", "gray-50");
+    public override Color L50 => new("oklch(0.985 0.002 247.839)", "gray-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-gray-100", "gray-100");
+    public override Color L100 => new("oklch(0.967 0.003 264.542)", "gray-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-gray-200", "gray-200");
+    public override Color L200 => new("oklch(0.928 0.006 264.531)", "gray-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-gray-300", "gray-300");
+    public override Color L300 => new("oklch(0.872 0.01 258.338)", "gray-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-gray-400", "gray-400");
+    public override Color L400 => new("oklch(0.707 0.022 261.325)", "gray-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-gray-500", "gray-500");
+    public override Color L500 => new("oklch(0.551 0.027 264.364)", "gray-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-gray-600", "gray-600");
+    public override Color L600 => new("oklch(0.446 0.03 256.802)", "gray-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-gray-700", "gray-700");
+    public override Color L700 => new("oklch(0.373 0.034 259.733)", "gray-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-gray-800", "gray-800");
+    public override Color L800 => new("oklch(0.278 0.033 256.848)", "gray-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-gray-900", "gray-900");
+    public override Color L900 => new("oklch(0.21 0.034 264.665)", "gray-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-gray-950", "gray-950");
+    public override Color L950 => new("oklch(0.13 0.028 261.692)", "gray-950");
 }
 
 /// <summary>
@@ -808,37 +809,37 @@ public sealed class Gray : ColorScale
 public sealed class Zinc : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-zinc-50", "zinc-50");
+    public override Color L50 => new("oklch(0.985 0 0)", "zinc-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-zinc-100", "zinc-100");
+    public override Color L100 => new("oklch(0.967 0.001 286.375)", "zinc-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-zinc-200", "zinc-200");
+    public override Color L200 => new("oklch(0.92 0.004 286.32)", "zinc-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-zinc-300", "zinc-300");
+    public override Color L300 => new("oklch(0.871 0.006 286.286)", "zinc-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-zinc-400", "zinc-400");
+    public override Color L400 => new("oklch(0.705 0.015 286.067)", "zinc-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-zinc-500", "zinc-500");
+    public override Color L500 => new("oklch(0.552 0.016 285.938)", "zinc-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-zinc-600", "zinc-600");
+    public override Color L600 => new("oklch(0.442 0.017 285.786)", "zinc-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-zinc-700", "zinc-700");
+    public override Color L700 => new("oklch(0.37 0.013 285.805)", "zinc-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-zinc-800", "zinc-800");
+    public override Color L800 => new("oklch(0.274 0.006 286.033)", "zinc-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-zinc-900", "zinc-900");
+    public override Color L900 => new("oklch(0.21 0.006 285.885)", "zinc-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-zinc-950", "zinc-950");
+    public override Color L950 => new("oklch(0.141 0.005 285.823)", "zinc-950");
 }
 
 /// <summary>
@@ -847,37 +848,37 @@ public sealed class Zinc : ColorScale
 public sealed class Neutral : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-neutral-50", "neutral-50");
+    public override Color L50 => new("oklch(0.985 0 0)", "neutral-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-neutral-100", "neutral-100");
+    public override Color L100 => new("oklch(0.97 0 0)", "neutral-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-neutral-200", "neutral-200");
+    public override Color L200 => new("oklch(0.922 0 0)", "neutral-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-neutral-300", "neutral-300");
+    public override Color L300 => new("oklch(0.87 0 0)", "neutral-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-neutral-400", "neutral-400");
+    public override Color L400 => new("oklch(0.708 0 0)", "neutral-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-neutral-500", "neutral-500");
+    public override Color L500 => new("oklch(0.556 0 0)", "neutral-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-neutral-600", "neutral-600");
+    public override Color L600 => new("oklch(0.439 0 0)", "neutral-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-neutral-700", "neutral-700");
+    public override Color L700 => new("oklch(0.371 0 0)", "neutral-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-neutral-800", "neutral-800");
+    public override Color L800 => new("oklch(0.269 0 0)", "neutral-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-neutral-900", "neutral-900");
+    public override Color L900 => new("oklch(0.205 0 0)", "neutral-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-neutral-950", "neutral-950");
+    public override Color L950 => new("oklch(0.145 0 0)", "neutral-950");
 }
 
 /// <summary>
@@ -886,35 +887,35 @@ public sealed class Neutral : ColorScale
 public sealed class Stone : ColorScale
 {
     /// <inheritdoc />
-    public override Color L50 => new("--color-stone-50", "stone-50");
+    public override Color L50 => new("oklch(0.985 0.001 106.423)", "stone-50");
 
     /// <inheritdoc />
-    public override Color L100 => new("--color-stone-100", "stone-100");
+    public override Color L100 => new("oklch(0.97 0.001 106.424)", "stone-100");
 
     /// <inheritdoc />
-    public override Color L200 => new("--color-stone-200", "stone-200");
+    public override Color L200 => new("oklch(0.923 0.003 48.717)", "stone-200");
 
     /// <inheritdoc />
-    public override Color L300 => new("--color-stone-300", "stone-300");
+    public override Color L300 => new("oklch(0.869 0.005 56.366)", "stone-300");
 
     /// <inheritdoc />
-    public override Color L400 => new("--color-stone-400", "stone-400");
+    public override Color L400 => new("oklch(0.709 0.01 56.259)", "stone-400");
 
     /// <inheritdoc />
-    public override Color L500 => new("--color-stone-500", "stone-500");
+    public override Color L500 => new("oklch(0.553 0.013 58.071)", "stone-500");
 
     /// <inheritdoc />
-    public override Color L600 => new("--color-stone-600", "stone-600");
+    public override Color L600 => new("oklch(0.444 0.011 73.639)", "stone-600");
 
     /// <inheritdoc />
-    public override Color L700 => new("--color-stone-700", "stone-700");
+    public override Color L700 => new("oklch(0.374 0.01 67.558)", "stone-700");
 
     /// <inheritdoc />
-    public override Color L800 => new("--color-stone-800", "stone-800");
+    public override Color L800 => new("oklch(0.268 0.007 34.298)", "stone-800");
 
     /// <inheritdoc />
-    public override Color L900 => new("--color-stone-900", "stone-900");
+    public override Color L900 => new("oklch(0.216 0.006 56.043)", "stone-900");
 
     /// <inheritdoc />
-    public override Color L950 => new("--color-stone-950", "stone-950");
+    public override Color L950 => new("oklch(0.147 0.004 49.25)", "stone-950");
 }

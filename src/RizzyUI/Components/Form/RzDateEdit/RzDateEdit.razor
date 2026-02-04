@@ -1,12 +1,12 @@
 
 @namespace RizzyUI
 @using Blazicons
-@inherits RzComponent
+@inherits RzComponent<RzDateEdit.Slots>
 
 <HtmlElement Element="div"
              @attributes="AdditionalAttributes"
              id="@Id"
-             class="@Theme.RzDateEdit.Container"
+             class="@SlotClasses.GetBase()"
              role="group" aria-label="Date picker">
 	
 	<div x-data="rzDateEdit"
@@ -16,17 +16,17 @@
 	     data-assets="@_assets"
 	     data-nonce="@Nonce">
 
-		<div class="@Theme.RzDateEdit.InputWrapper" x-data="rzPrependInput" x-ref="pickerWrapper">
+		<div class="@SlotClasses.GetInputWrapper()" x-data="rzPrependInput" x-ref="pickerWrapper">
 			@if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
 			{
-				<div x-ref="prependContainer" class="@Theme.RzDateEdit.PrependElement">
+				<div x-ref="prependContainer" class="@SlotClasses.GetPrependElement()">
 					@if (!string.IsNullOrEmpty(PrependText))
 					{
 						@PrependText
 					}
 					else if (PrependIcon != null)
 					{
-						<div class="@Theme.RzDateEdit.PrependIconContainer">
+						<div class="@SlotClasses.GetPrependIconContainer()">
 							<Blazicon Svg="PrependIcon"/>
 						</div>
 					}
@@ -38,7 +38,7 @@
 			       type="text"
 			       @bind="CurrentValue"
 			       placeholder="@Placeholder"
-			       class="@Theme.RzDateEdit.Input"
+			       class="@SlotClasses.GetInput()"
 			       data-input
 			       aria-label="Select date"/>
 		</div>

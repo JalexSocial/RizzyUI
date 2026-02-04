@@ -1,0 +1,26 @@
+
+@attribute [RzAlpineCodeBehind]
+@namespace RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+@using RizzyUI
+@using RizzyUI.Docs.Models
+
+<EditForm Model="@_model">
+    <RzAlpineComponent For="this" Name="charCounter" AsChild>
+      <div class="w-full">
+        <RzInputTextArea For="@(() => _model.Message)" class="w-full min-h-24" x-model="message" />
+        <p class="text-sm text-muted-foreground mt-2 text-right">
+          Character count: <span x-text="count"></span>
+        </p>
+      </div>
+    </RzAlpineComponent>
+</EditForm>
+
+@code {
+    private class CharacterCounterModel
+    {
+        public string Message { get; set; } = string.Empty;
+    }
+
+    private CharacterCounterModel _model = new();
+}

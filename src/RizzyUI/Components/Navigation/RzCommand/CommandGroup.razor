@@ -1,0 +1,18 @@
+
+@namespace RizzyUI
+@inherits RzComponent<CommandGroup.Slots>
+
+<CascadingValue Value="this" IsFixed="true">
+    <div @attributes="AdditionalAttributes"
+         id="@Id"
+         x-data="rzCommandGroup"
+         data-slot="command-group"
+         data-alpine-root="@Id"
+         data-heading="@Heading"
+         data-template-id="@HeadingTemplateId">
+        <template x-if="firstRender" id="@HeadingTemplateId" data-heading-id="@HeadingId">
+            <div class="@SlotClasses.GetHeading()" id="@HeadingId" data-slot="command-group-heading">@Heading</div>
+        </template>
+        @ChildContent
+    </div>
+</CascadingValue>

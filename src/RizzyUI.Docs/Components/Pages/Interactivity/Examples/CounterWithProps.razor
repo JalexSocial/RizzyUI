@@ -1,0 +1,14 @@
+
+@attribute [RzAlpineCodeBehind]
+@namespace RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+@using RizzyUI
+
+<RzAlpineComponent For="this" Name="counterWithProps" AsChild
+                   Props="@(new { initialCount = 10, step = 2 })">
+    <div class="flex items-center gap-4">
+        <RzButton x-on:click="decrement">-</RzButton>
+        <span x-text="count" class="font-mono text-lg text-foreground"></span>
+        <RzButton x-on:click="increment">+</RzButton>
+    </div>
+</RzAlpineComponent>

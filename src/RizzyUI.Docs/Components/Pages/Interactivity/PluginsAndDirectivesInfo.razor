@@ -1,0 +1,192 @@
+@page "/docs/interactivity/plugins"
+@namespace RizzyUI.Docs.Components.Pages.Interactivity
+
+@using RizzyUI
+
+<PageTitle>Plugins & Directives</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Plugins & Directives">
+                Plugins & Directives
+            </RzHeading>
+
+            <RzParagraph class="lead">
+                RizzyUI isn't just a set of components; it's an interactive toolkit. We've pre-packaged some of the most useful official Alpine.js plugins and added our own custom directives to solve common UI challenges right out of the box.
+            </RzParagraph>
+            
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
+                <AlertTitle>What "Pre-Packaged" Means</AlertTitle>
+                <AlertDescription>
+                    RizzyUI bundles and registers these plugins automatically, so you can use their directives (<code>x-collapse</code>, <code>x-intersect</code>, <code>x-trap</code>) in your Razor markup without importing or configuring anything. They are always available.
+                </AlertDescription>
+            </RzAlert>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Official Alpine.js Plugins">
+                    Official Alpine.js Plugins
+                </RzHeading>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6" QuickReferenceTitle="Collapse (x-collapse)">Collapse (<em>x-collapse</em>)</RzHeading>
+                <RzParagraph>
+                    This plugin smoothly animates an element's height from <code>0</code> to its full height. It's the magic behind components like <code>&lt;RzAccordion&gt;</code> and <code>&lt;RzCollapsible&gt;</code>.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Html" class="mt-4">
+&lt;div x-data=&quot;{ open: false }&quot;&gt;
+  &lt;RzButton x-on:click=&quot;open = !open&quot; :aria-expanded=&quot;open&quot;&gt;
+    Toggle Content
+  &lt;/RzButton&gt;
+
+  &lt;div x-show=&quot;open&quot; x-collapse class=&quot;mt-2 border p-4 rounded-md&quot;&gt;
+    This content will slide open and closed.
+  &lt;/div&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+                <RzParagraph class="text-sm text-muted-foreground mt-2">
+                    Note: <code>x-collapse</code> only animates height. For a fade-and-slide effect, combine it with <code>x-transition</code>.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-8" QuickReferenceTitle="Intersect (x-intersect)">Intersect (<em>x-intersect</em>)</RzHeading>
+                <RzParagraph>
+                    This plugin detects when an element enters or leaves the viewport. It's perfect for triggering animations, lazy-loading images, or firing analytics events. Use modifiers like <code>.once</code> to control how often it fires.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Html" class="mt-4">
+&lt;div x-data=&quot;{ isVisible: false }&quot;
+     x-intersect.once:enter=&quot;isVisible = true&quot;
+     :class=&quot;{ 'opacity-100 translate-y-0': isVisible, 'opacity-0 translate-y-4': !isVisible }&quot;
+     class=&quot;transition-all duration-500 ease-out&quot;&gt;
+  &lt;RzCard&gt;
+    &lt;CardContent&gt;This card fades in only the first time it becomes visible.&lt;/CardContent&gt;
+  &lt;/RzCard&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-8" QuickReferenceTitle="Focus (x-trap)">Focus (<em>x-trap</em>)</RzHeading>
+                <RzParagraph>
+                    This is a critical plugin for accessibility. It "traps" the user's focus within an element, such as a modal dialog. This prevents users from accidentally tabbing to elements in the background.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Html" class="mt-4">
+&lt;div x-data=&quot;{ isOpen: false }&quot;&gt;
+  &lt;RzButton x-on:click=&quot;isOpen = true&quot;&gt;Open Dialog&lt;/RzButton&gt;
+
+  &lt;template x-teleport=&quot;body&quot;&gt;
+    &lt;div x-show=&quot;isOpen&quot; class=&quot;modal-backdrop&quot;&gt;
+      &lt;div x-show=&quot;isOpen&quot; x-trap.inert=&quot;isOpen&quot; role=&quot;dialog&quot; aria-modal=&quot;true&quot; aria-labelledby=&quot;dialog-title&quot; class=&quot;modal-dialog&quot;&gt;
+        &lt;h3 id=&quot;dialog-title&quot;&gt;Dialog Title&lt;/h3&gt;
+        &lt;p&gt;Focus is trapped inside this dialog. Try tabbing!&lt;/p&gt;
+        &lt;RzButton x-on:click=&quot;isOpen = false&quot;&gt;Close&lt;/RzButton&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/template&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+                <RzParagraph class="text-sm text-muted-foreground mt-2">
+                    Note: RizzyUI’s <code>&lt;RzDialog&gt;</code> and <code>&lt;RzSheet&gt;</code> components already use <code>x-trap</code> internally. You only need to use it yourself when building custom modal-like components.
+                </RzParagraph>
+            </section>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RizzyUI Custom Directives">
+                    RizzyUI Custom Directives
+                </RzHeading>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6" QuickReferenceTitle="x-mobile: Responsive Logic"><em>x-mobile</em>: Simple Responsive Logic</RzHeading>
+                <RzParagraph>
+                    The <code>x-mobile</code> directive detects if the viewport is below a breakpoint (default: <code>768px</code>) and updates automatically on resize. It provides two ways to react:
+                </RzParagraph>
+                <ul class="list-disc space-y-2 pl-6 my-4 text-foreground">
+                    <li><strong>CSS Attributes:</strong> It automatically adds <code>data-screen="mobile"</code> or <code>data-screen="desktop"</code> to the element.</li>
+                    <li><strong>Alpine State:</strong> It can sync a boolean value to your component's state.</li>
+                </ul>
+                <RzCodeViewer Language="@CodeLanguage.Html" class="mt-4">
+&lt;!-- Customize the breakpoint with a modifier --&gt;
+&lt;div x-data=&quot;{ isDesktop: false }&quot; x-mobile.bp-1024=&quot;isDesktop&quot;&gt;
+  &lt;div :class=&quot;{ 'flex-col': !isDesktop, 'flex-row': isDesktop }&quot; class=&quot;flex gap-4&quot;&gt;
+    &lt;!-- This layout is vertical below 1024px and horizontal above --&gt;
+  &lt;/div&gt;
+
+  &lt;p&gt;
+    Current view: &lt;span x-text=&quot;isDesktop ? 'Desktop' : 'Mobile'&quot;&gt;&lt;/span&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-8" QuickReferenceTitle="x-syncprop: Two-Way State Synchronization"><em>x-syncprop</em>: Two-Way State Synchronization</RzHeading>
+                <RzParagraph>
+                    The <code>x-syncprop</code> directive creates a two-way binding between a property in a parent Alpine component and a property in a **direct child** component.
+                </RzParagraph>
+                <RzAlert Variant="ThemeVariant.Information" class="my-4">
+                    <AlertTitle>What Problem Does <code>x-syncprop</code> Solve?</AlertTitle>
+                    <AlertDescription>
+                        Alpine's built-in <code>x-modelable</code> is for single-property binding and is **not compatible with CSP builds**. <code>x-syncprop</code> fills this gap by allowing you to declaratively sync **multiple, arbitrary properties** between components in a way that is both powerful and fully CSP-compliant.
+                    </AlertDescription>
+                </RzAlert>
+                <RzParagraph>
+                    The syntax is <code>x-syncprop="parent.property -> child.property"</code>. You can sync multiple properties by separating them with a comma.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Html" ViewerTitle="Syncing Multiple Properties" class="mt-4">
+&lt;div x-data=&quot;{ form: { name: 'Alice', email: 'alice@example.com' } }&quot;&gt;
+  &lt;!-- Child component that syncs with the parent form object --&gt;
+  &lt;div x-data=&quot;{ localName: '', localEmail: '' }&quot;
+       x-syncprop=&quot;form.name -&gt; localName, form.email -&gt; localEmail&quot;&gt;
+    
+    &lt;label&gt;Name:&lt;/label&gt;
+    &lt;input type=&quot;text&quot; x-model=&quot;localName&quot; class=&quot;input&quot; /&gt;
+
+    &lt;label class=&quot;mt-2&quot;&gt;Email:&lt;/label&gt;
+    &lt;input type=&quot;email&quot; x-model=&quot;localEmail&quot; class=&quot;input&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+                <RzHeading Level="HeadingLevel.H4" class="mt-6" QuickReferenceTitle="Initial Sync Direction">Controlling Initial Sync Direction</RzHeading>
+                <RzParagraph>
+                    By default, the parent's value overwrites the child's. You can reverse this by adding the <code>.init-child</code> modifier.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Html" class="mt-4">
+&lt;div x-data=&quot;{ form: { age: 30 } }&quot;&gt;
+  &lt;!-- Here, the child's initial value of 99 will overwrite the parent's value of 30 --&gt;
+  &lt;div x-data=&quot;{ fields: { ageCopy: 99 } }&quot;
+       x-syncprop.init-child=&quot;form.age -&gt; fields.ageCopy&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Best Practices">
+                    Best Practices
+                </RzHeading>
+                <ul class="list-disc space-y-3 pl-6 my-6 text-foreground">
+                    <li><strong><code>x-collapse</code>:</strong> Use for vertical slide animations. For a fade-and-slide effect, combine it with <code>x-transition</code>.</li>
+                    <li><strong><code>x-intersect</code>:</strong> Prefer using the <code>.once</code> modifier for animations that should only happen once to avoid re-triggering on scroll bounce.</li>
+                    <li><strong><code>x-trap</code>:</strong> When building custom modals, always pair <code>x-trap</code> with <code>role="dialog"</code> and <code>aria-modal="true"</code> for proper accessibility.</li>
+                    <li><strong><code>x-mobile</code>:</strong> The directive listens for `resize` events. Avoid putting expensive DOM updates in a watcher that observes the synced boolean to prevent performance issues.</li>
+                    <li><strong><code>x-syncprop</code>:</strong> Only sync the properties you need. Avoid syncing large, deeply nested objects unnecessarily to keep reactivity efficient.</li>
+                </ul>
+            </section>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Next Steps">
+                    Next Steps
+                </RzHeading>
+                <RzParagraph>
+                    You’ve now seen how to enhance individual components with plugins and directives. Next, we’ll look at orchestrating multiple components together, where helpers like <code>$refs</code> and <code>Rizzy.$data()</code> really shine.
+                </RzParagraph>
+                <RzParagraph>
+                    Let's move on to <RzLink Href="/docs/interactivity/orchestration">Advanced: Orchestrating Components</RzLink>.
+                </RzParagraph>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

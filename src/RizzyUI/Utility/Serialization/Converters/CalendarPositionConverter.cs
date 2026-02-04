@@ -1,4 +1,5 @@
-﻿using RizzyUI;
+
+using RizzyUI;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -12,11 +13,11 @@ public class CalendarPositionConverter : JsonConverter<CalendarPosition>
     /// <summary>
     ///     Converts string enum representation of CalendarPosition into it's enum counterpart
     /// </summary>
-    /// <param name="reader"></param>
-    /// <param name="typeToConvert"></param>
-    /// <param name="options"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <param name="reader">The JSON reader.</param>
+    /// <param name="typeToConvert">The type to convert.</param>
+    /// <param name="options">The serializer options.</param>
+    /// <returns>The deserialized <see cref="CalendarPosition"/> value.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown if the JSON value is not a valid CalendarPosition.</exception>
     public override CalendarPosition Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var value = reader.GetString() ?? string.Empty;
@@ -43,10 +44,10 @@ public class CalendarPositionConverter : JsonConverter<CalendarPosition>
     /// <summary>
     ///     Converts CalendarPosition enum to text
     /// </summary>
-    /// <param name="writer"></param>
-    /// <param name="value"></param>
-    /// <param name="options"></param>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <param name="writer">The JSON writer.</param>
+    /// <param name="value">The value to write.</param>
+    /// <param name="options">The serializer options.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown if the enum value is not a valid CalendarPosition.</exception>
     public override void Write(Utf8JsonWriter writer, CalendarPosition value, JsonSerializerOptions options)
     {
         // Convert enum values to specific string representations for serialization

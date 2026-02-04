@@ -1,0 +1,25 @@
+@typeparam TValue
+@namespace RizzyUI
+@using Rizzy
+@using Rizzy.Components.Form
+@inherits RzComponent<RadioGroupItemSlots>
+
+<label @attributes="AdditionalAttributes"
+       id="@Id"
+       class="@SlotClasses.GetBase()"
+       data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Base)"
+       aria-disabled=@Disabled>
+    <RzInputRadioBase TValue="TValue"
+                      @ref="_elem"
+                      Value="@Value"
+                      class="@SlotClasses.GetInput()"
+                      data-slot="@RadioGroupItemSlotNames.NameOf(RadioGroupItemSlotTypes.Input)"
+                      disabled="@Disabled" />
+    @if (!_hasExplicitIndicator)
+    {
+        <RadioGroupItemIndicator />
+    }
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</label>

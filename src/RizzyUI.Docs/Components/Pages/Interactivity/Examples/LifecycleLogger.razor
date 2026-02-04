@@ -1,0 +1,15 @@
+
+@attribute [RzAlpineCodeBehind]
+@namespace RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+@using RizzyUI
+
+<RzAlpineComponent For="this" Name="lifecycleLogger" AsChild>
+    <div class="text-center text-foreground">
+        <p>This component has a timer running. Check the browser console for logs.</p>
+        <p>Time elapsed: <strong x-text="seconds"></strong>s</p>
+        <p class="text-sm text-muted-foreground mt-2">
+            (If this component is removed by an HTMX swap, the `destroy` method will clean up the timer.)
+        </p>
+    </div>
+</RzAlpineComponent>

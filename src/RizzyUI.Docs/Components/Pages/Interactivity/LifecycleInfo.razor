@@ -1,0 +1,219 @@
+@page "/docs/interactivity/lifecycle"
+@namespace RizzyUI.Docs.Components.Pages.Interactivity
+
+@using RizzyUI
+@using RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+<PageTitle>Lifecycle and Initialization</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Lifecycle and Initialization">
+                Lifecycle and Initialization
+            </RzHeading>
+
+            <RzParagraph class="lead">
+                Have you ever wondered why a prop isn’t available yet in your script, or why a cleanup function didn’t fire when a component disappeared? That’s a lifecycle issue. This page shows you how RizzyUI ensures predictable initialization and teardown by explaining the sequence of events when an interactive component loads.
+            </RzParagraph>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="The Page Initialization Lifecycle">
+                    The Page Initialization Lifecycle
+                </RzHeading>
+                <RzParagraph>
+                    When a page with RizzyUI and Alpine components loads, a specific sequence of events takes place. Understanding this flow helps you know where to place your code.
+                </RzParagraph>
+
+                <div class="my-4 p-4 border rounded-lg bg-secondary/50">
+                    <p class="font-semibold text-foreground">Lifecycle Flow at a Glance</p>
+                    <pre class="bg-transparent p-0 font-mono text-sm text-muted-foreground mt-2">
+[DOM Ready] → [RizzyUI Script] → [Alpine Init] 
+    ↓
+[alpine:init] → [DOM Scan] → [init()] → [alpine:initialized]</pre>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Detailed Steps</RzHeading>
+                <ol class="list-decimal space-y-2 pl-6 my-6 text-foreground">
+                    <li><strong>DOM Ready:</strong> The browser parses the HTML from the Blazor server.</li>
+                    <li><strong>RizzyUI Script Execution:</strong> The main <code>rizzyui.js</code> or <code>rizzyui-csp.js</code> script runs and registers your co-located modules with <code>async-alpine</code>.</li>
+                    <li><strong>Alpine Initialization:</strong> Alpine.js starts its own initialization process.</li>
+                    <li><strong><code>alpine:init</code> Event:</strong> Alpine fires this event. This is the correct place to register global extensions like <code>Alpine.store()</code>.</li>
+                    <li><strong>DOM Scan:</strong> Alpine scans the DOM for components (elements with <code>x-data</code>).</li>
+                    <li><strong>Component <code>init()</code>:</strong> For each component, Alpine loads its async module, creates the reactive state, and executes the <code>init()</code> method.</li>
+                    <li><strong><code>alpine:initialized</code> Event:</strong> After all initial components are ready, Alpine fires this event.</li>
+                </ol>
+                <RzAlert Variant="ThemeVariant.Warning">
+                    <AlertDescription>
+                        If you try to register a store or directive after the <code>alpine:init</code> event has fired, Alpine won’t see it. Always register global helpers inside an <code>alpine:init</code> event listener.
+                    </AlertDescription>
+                </RzAlert>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="The init() Method">
+                    The <em>init()</em> Method: Your Component's Entry Point
+                </RzHeading>
+                <RzParagraph>
+                    The <code>init()</code> method in your co-located <code>.razor.js</code> file is the most important lifecycle hook. It runs <strong>once per component instance</strong> and is the designated place for all setup logic.
+                </RzParagraph>
+                
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="MyComponent.razor" class="mt-4">
+@@attribute [RzAlpineCodeBehind]
+
+&lt;RzAlpineComponent For=&quot;this&quot; Name=&quot;myComponent&quot; Props=&quot;@@(new { initialMessage = &quot;Hello!&quot; })&quot;&gt;
+  &lt;p x-text=&quot;message&quot;&gt;&lt;/p&gt;
+  &lt;RzDialog Title=&quot;My Modal&quot; x-ref=&quot;myModal&quot; /&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="MyComponent.razor.js" class="mt-4">
+export default () =&gt; ({
+  message: '',
+  modal: null,
+
+  init() {
+    // 1. Get initial data from Blazor
+    const props = Rizzy.props(this.$el);
+    this.message = props.initialMessage || 'Welcome!';
+
+    // 2. Set up watchers or effects
+    this.$watch('message', (newValue) =&gt; console.log(`Message changed to: ${newValue}`));
+
+    // 3. Get references to other components
+    this.modal = Rizzy.$data(this.$refs.myModal);
+  }
+});
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Handling Asynchronous Setup</RzHeading>
+                <RzParagraph>
+                    The <code>init()</code> method can also be used for asynchronous tasks, like fetching initial data from an API.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mt-4">
+init() {
+  fetch('/api/user')
+    .then(res =&gt; res.json())
+    .then(data =&gt; this.user = data);
+}
+                </RzCodeViewer>
+
+                <RzAlert Variant="ThemeVariant.Information" class="mt-6">
+                    <AlertTitle>Deferring DOM Access with <code>$nextTick</code></AlertTitle>
+                    <AlertDescription>
+                        The <code>init()</code> method runs before child elements inside conditionals (like <code>x-if</code>) are rendered. If you need to access a DOM element that might not exist yet, use <code>this.$nextTick()</code> to wait for Alpine's next DOM update.
+                    </AlertDescription>
+                </RzAlert>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mt-2">
+init() {
+  this.$nextTick(() =&gt; {
+    // This code runs after the initial render is complete.
+    console.log(this.$refs.myElement.offsetHeight);
+  });
+}
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="x-init vs. init()">
+                    <em>x-init</em> vs. <em>init()</em>
+                </RzHeading>
+                <RzParagraph>
+                    You may see <code>x-init</code> used in general Alpine.js documentation. In RizzyUI, you should always prefer the <code>init()</code> method in your code-behind for cleanliness, organization, and security.
+                </RzParagraph>
+                <RzAlert Variant="ThemeVariant.Warning" class="my-4">
+                    <AlertTitle>CSP Violation Example</AlertTitle>
+                    <AlertDescription>
+                        Using <code>x-init</code> with inline expressions in CSP mode will trigger browser errors like: <em>"Refused to execute inline script because it violates the Content Security Policy directive."</em>
+                    </AlertDescription>
+                </RzAlert>
+                
+                <RzHeading Level="HeadingLevel.H4" class="mt-6">❌ Not the RizzyUI Way</RzHeading>
+                <RzCodeViewer Language="@CodeLanguage.Html" class="mt-2">
+&lt;div x-data=&quot;{ message: '' }&quot; x-init=&quot;message = 'Hi'&quot;&gt;&lt;/div&gt;
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H4" class="mt-6">✅ The RizzyUI Way</RzHeading>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Razor" class="mt-2">
+&lt;RzAlpineComponent Name=&quot;example&quot;&gt;
+  &lt;div x-text=&quot;message&quot;&gt;&lt;/div&gt;
+&lt;/RzAlpineComponent&gt;
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="JavaScript" class="mt-2">
+export default () =&gt; ({
+  message: '',
+  init() { this.message = 'Hi'; }
+});
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="destroy(): Cleaning Up">
+                    <em>destroy()</em>: Cleaning Up Your Components
+                </RzHeading>
+                <RzParagraph>
+                    Just as <code>init()</code> runs on setup, you can provide a <code>destroy()</code> method that Alpine calls when a component is removed from the DOM. This is crucial for preventing memory leaks, especially for components swapped in and out by HTMX.
+                </RzParagraph>
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Common Cleanup Tasks</RzHeading>
+                <ul class="list-disc space-y-2 pl-6 my-6 text-foreground">
+                    <li>Removing intervals or timeouts (<code>clearInterval</code>, <code>clearTimeout</code>).</li>
+                    <li>Detaching global event listeners (e.g., <code>window.removeEventListener</code>).</li>
+                    <li>Disposing of third-party library instances (e.g., Chart.js, Mapbox).</li>
+                    <li>Resetting state in other RizzyUI components that were being controlled.</li>
+                </ul>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex flex-col items-center justify-center gap-4 p-8 min-h-40">
+                        <LifecycleLogger />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="LifecycleLogger.razor.js" class="mt-4">
+export default () =&gt; ({
+  seconds: 0,
+  intervalId: null,
+
+  handleResize() {
+    console.log('Window resized!');
+  },
+
+  init() {
+    console.log('Component initialized!');
+    this.intervalId = setInterval(() =&gt; {
+      this.seconds++;
+    }, 1000);
+
+    window.addEventListener('resize', this.handleResize);
+  },
+
+  destroy() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+    window.removeEventListener('resize', this.handleResize);
+    
+    console.log('Component destroyed and cleaned up.');
+  }
+});
+                </RzCodeViewer>
+            </section>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Next Steps">
+                    Next Steps
+                </RzHeading>
+                <RzParagraph>
+                    Understanding the lifecycle gives you control over *when* your code executes. By pairing <code>init()</code> with lazy loading, you ensure components only pay their setup cost when needed, improving both performance and maintainability.
+                </RzParagraph>
+                <RzParagraph>
+                    Next, we'll explore how to use <code>RzAlpineComponent</code>'s <code>LoadStrategy</code> parameter for <RzLink Href="/docs/interactivity/lazy-loading">Optimizing with Lazy Loading</RzLink>.
+                </RzParagraph>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

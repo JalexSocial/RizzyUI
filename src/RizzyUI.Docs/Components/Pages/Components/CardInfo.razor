@@ -1,4 +1,5 @@
-﻿@page "/components/card"
+
+@page "/components/card"
 @using RizzyUI.Docs.Components.Layout
 @using RizzyUI
 
@@ -18,89 +19,82 @@
             <section class="my-8 py-2">
 
 	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default Card" class="scroll-mt-20">Default Card</RzHeading>
-	            <RzParagraph TextColor="SemanticColor.OnSurface">
+	            <RzParagraph TextColor="SemanticColor.Foreground">
 		            A card with a header and footer
 	            </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
 
-                    <div class="mx-auto flex items-center justify-center gap-4 rounded-theme p-8">
+                    <div class="mx-auto flex items-center justify-center gap-4 rounded-md p-8">
 			            <RzCard class="w-full">
-				            <RzCardHeader>
-					            <div>
-						            <RzCardTitle>Project Management</RzCardTitle>
-						            <RzCardSubtitle>Manage all your projects</RzCardSubtitle>
-					            </div>
-					            <RzCardButtons>
-						            <RzButton Size="Size.Small" Variant="ButtonVariant.Information">
+				            <CardHeader>
+						        <CardTitle>Project Management</CardTitle>
+						        <CardDescription>Manage all your projects</CardDescription>
+					            <CardAction>
+						            <RzButton Size="Size.Small" Variant="ThemeVariant.Information">
 							            <Blazicon Svg="MdiIcon.Plus"></Blazicon>
 							            <span>New Project</span>
 						            </RzButton>
-						            <RzButton Size="Size.Small" Variant="ButtonVariant.Information">
+						            <RzButton Size="Size.Small" Variant="ThemeVariant.Information">
 							            <Blazicon Svg="MdiIcon.AccountMultiple"></Blazicon>
 							            <span>Clients</span>
 						            </RzButton>
-					            </RzCardButtons>
-				            </RzCardHeader>
-				            <RzCardBody>Body content here</RzCardBody>
-				            <RzCardFooter>Footer content here</RzCardFooter>
+					            </CardAction>
+				            </CardHeader>
+				            <CardContent>Body content here</CardContent>
+				            <CardFooter>Footer content here</CardFooter>
 			            </RzCard>
 		            </div>
 
 	            </RzBrowser>
 
 	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
-	    &lt;Card class=&quot;w-full&quot;&gt;
-	        &lt;RzCardHeader&gt;
-	            &lt;div&gt;
-	                &lt;RzCardTitle&gt;Information&lt;/RzCardTitle&gt;
-	                &lt;CardSubtitle&gt;This is a subtitle&lt;/CardSubtitle&gt;
-	            &lt;/div&gt;
-	            &lt;RzCardButtons&gt;
-	                &lt;RzButton Size=&quot;Size.Small&quot; Variant=&quot;ButtonVariant.Information&quot;&gt;
+	    &lt;RzCard class=&quot;w-full&quot;&gt;
+	        &lt;CardHeader&gt;
+	            &lt;CardTitle&gt;Information&lt;/CardTitle&gt;
+	            &lt;CardSubtitle&gt;This is a subtitle&lt;/CardDescription&gt;
+	            &lt;CardAction&gt;
+	                &lt;RzButton Size=&quot;Size.Small&quot; Variant=&quot;ThemeVariant.Information&quot;&gt;
 	                    &lt;Blazicon Svg=&quot;MdiIcon.Plus&quot;&gt;&lt;/Blazicon&gt;
 	                    &lt;span&gt;New Project&lt;/span&gt;
 	                &lt;/RzButton&gt;
-	                &lt;RzButton Size=&quot;Size.Small&quot; Variant=&quot;ButtonVariant.Information&quot;&gt;
+	                &lt;RzButton Size=&quot;Size.Small&quot; Variant=&quot;ThemeVariant.Information&quot;&gt;
 	                    &lt;Blazicon Svg=&quot;MdiIcon.AccountMultiple&quot;&gt;&lt;/Blazicon&gt;
 	                    &lt;span&gt;Clients&lt;/span&gt;
 	                &lt;/RzButton&gt;
-	            &lt;/RzCardButtons&gt;
-	        &lt;/RzCardHeader&gt;
-	        &lt;RzCardBody&gt;Body content here&lt;/RzCardBody&gt;
-	        &lt;RzCardFooter&gt;Footer content here&lt;/RzCardFooter&gt;
-	    &lt;/Card&gt;
+	            &lt;/CardAction&gt;
+	        &lt;/CardHeader&gt;
+	        &lt;CardContent&gt;Body content here&lt;/CardContent&gt;
+	        &lt;CardFooter&gt;Footer content here&lt;/CardFooter&gt;
+	    &lt;/RzCard&gt;
 	            </RzCodeViewer>
 
 	        </section>
 		
             <section class="my-8 py-2">
 
-	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzArticle Card" class="scroll-mt-20">RzArticle Card</RzHeading>
-	            <RzParagraph TextColor="SemanticColor.OnSurface">
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzArticle Card" class="scroll-mt-20">Article Card</RzHeading>
+	            <RzParagraph TextColor="SemanticColor.Foreground">
 		            A card with an image, title, and description.
 	            </RzParagraph>
 
 	            <RzBrowser Layout="typeof(PreviewLayout)">
 
-                    <div class="mx-auto flex items-center justify-center gap-4 rounded-theme p-8">
+                    <div class="mx-auto flex items-center justify-center gap-4 rounded-md p-8">
 
-			            <RzCard class="max-w-sm">
-				            <div class="h-44 md:h-64 overflow-hidden"> 
-					            <img src="/images/card2.jpg" class="w-full object-cover transition duration-700 ease-out group-hover:scale-105" alt="coffee beans spilling out from a coffee mug" />
-				            </div>
-
-				            <RzCardBody BackgroundColor="SemanticColor.SurfaceAlt">
+			            <RzCard class="max-w-sm py-0 pb-6 overflow-hidden">
+					        <img src="/images/card2.jpg" class="h-44 w-full object-cover transition duration-700 ease-out group-hover:scale-105" alt="coffee beans spilling out from a coffee mug" />
+				            <CardContent>
 					            <span class="text-sm font-medium">Features</span>
 					            <RzHeading Level="HeadingLevel.H2">Elevate your Coffee Brew With This One Trick</RzHeading>
 					            <RzParagraph class="text-sm mb-0">
 						            Whether you're a barista or a coffee enthusiast, this guide provides expert tips on selecting quality beans, mastering 
 						            the grind, and refining your brewing technique to elevate your coffee ritual and savor every sip.
 					            </RzParagraph>							
-				            </RzCardBody>
-				            <RzCardFooter>
-					            <RzButton Variant="ButtonVariant.Primary">View</RzButton>
-				            </RzCardFooter>
+				            </CardContent>
+				            <CardFooter>
+					            <RzButton Variant="ThemeVariant.Primary">View</RzButton>
+				            </CardFooter>
 			            </RzCard>
 
 		            </div>
@@ -108,25 +102,197 @@
 	            </RzBrowser>
 
 	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
-    &lt;Card class=&quot;max-w-sm&quot;&gt;
-        &lt;div class=&quot;h-44 md:h-64 overflow-hidden&quot;&gt; 
-            &lt;img src=&quot;/images/card2.jpg&quot; class=&quot;h-full object-cover transition duration-700 ease-out group-hover:scale-105&quot; alt=&quot;coffee beans spilling out from a coffee mug&quot; /&gt;
-        &lt;/div&gt;
-
-        &lt;RzCardBody BackgroundColor=&quot;SemanticColor.SurfaceAlt&quot;&gt;
-            &lt;span class=&quot;text-sm font-medium&quot;&gt;Features&lt;/span&gt;
-            &lt;RzHeading Level=&quot;HeadingLevel.H2&quot;&gt;Elevate your Coffee Brew With This One Trick&lt;/RzHeading&gt;
-            &lt;RzParagraph class=&quot;text-sm mb-0&quot;&gt;
-	            Whether you&#39;re a barista or a coffee enthusiast, this guide provides expert tips on selecting quality beans, mastering 
-	            the grind, and refining your brewing technique to elevate your coffee ritual and savor every sip.
-            &lt;/RzParagraph&gt;							
-        &lt;/RzCardBody&gt;
-        &lt;RzCardFooter&gt;
-            &lt;RzButton Variant=&quot;ButtonVariant.Primary&quot;&gt;View&lt;/RzButton&gt;
-        &lt;/RzCardFooter&gt;
-    &lt;/Card&gt;
+			            &lt;RzCard class=&quot;max-w-sm py-0 pb-6 overflow-hidden&quot;&gt;
+					        &lt;img src=&quot;/images/card2.jpg&quot; class=&quot;h-44 w-full object-cover transition duration-700 ease-out group-hover:scale-105&quot; alt=&quot;coffee beans spilling out from a coffee mug&quot; /&gt;
+				            &lt;CardContent&gt;
+					            &lt;span class=&quot;text-sm font-medium&quot;&gt;Features&lt;/span&gt;
+					            &lt;RzHeading Level=&quot;HeadingLevel.H2&quot;&gt;Elevate your Coffee Brew With This One Trick&lt;/RzHeading&gt;
+					            &lt;RzParagraph class=&quot;text-sm mb-0&quot;&gt;
+						            Whether you&#39;re a barista or a coffee enthusiast, this guide provides expert tips on selecting quality beans, mastering 
+						            the grind, and refining your brewing technique to elevate your coffee ritual and savor every sip.
+					            &lt;/RzParagraph&gt;							
+				            &lt;/CardContent&gt;
+				            &lt;CardFooter&gt;
+					            &lt;RzButton Variant=&quot;ThemeVariant.Primary&quot;&gt;View&lt;/RzButton&gt;
+				            &lt;/CardFooter&gt;
+			            &lt;/RzCard&gt;
 	            </RzCodeViewer>
 
+            </section>
+
+            <!-- RzCard Component Parameters -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzCard Parameters" class="scroll-mt-20">RzCard Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The content to be rendered inside the card.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- CardContent Component Parameters -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardContent Parameters" class="scroll-mt-20">CardContent Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The content to be rendered inside the card body.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- CardAction Component Parameters -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardAction Parameters" class="scroll-mt-20">CardAction Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The buttons or other action elements to be rendered within this container.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- CardFooter Component Parameters -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardFooter Parameters" class="scroll-mt-20">CardFooter Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The content to be rendered inside the card footer.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- CardHeader Component Parameters -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardHeader Parameters" class="scroll-mt-20">CardHeader Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The content to be rendered inside the card header.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- CardDescription Component Parameters -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardDescription Parameters" class="scroll-mt-20">CardDescription Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The text or content to be rendered as the card subtitle.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- CardTitle Component Parameters -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CardTitle Parameters" class="scroll-mt-20">CardTitle Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The text or content to be rendered as the card title.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
         </MainContent>

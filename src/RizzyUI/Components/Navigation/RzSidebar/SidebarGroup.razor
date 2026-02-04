@@ -1,0 +1,9 @@
+
+@namespace RizzyUI
+@inherits RzComponent<SidebarGroup.Slots>
+
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement" role="group" aria-labelledby="@LabelId" @attributes="AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="sidebar-group">
+        @ChildContent
+    </HtmlElement>
+</CascadingValue>

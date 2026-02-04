@@ -1,0 +1,21 @@
+
+@namespace RizzyUI
+@inherits RzComponent<RzNavigationMenu.Slots>
+
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement"
+                 @attributes="@AdditionalAttributes"
+                 id="@Id" 
+                 class="@SlotClasses.GetBase()"
+                 aria-label="@AriaLabel"
+                 data-orientation="@Orientation.ToString().ToLowerInvariant()"
+                 dir="ltr"
+                 x-data="rzNavigationMenu"
+                 data-alpine-root="@Id"
+                 x-on:keydown.escape.window="closeMenu"
+                 data-slot="navigation-menu">
+        <div class="relative" x-on:mouseleave="scheduleClose">
+            @ChildContent
+        </div>
+    </HtmlElement>
+</CascadingValue>

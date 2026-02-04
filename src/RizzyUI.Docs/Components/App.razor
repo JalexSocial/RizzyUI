@@ -11,7 +11,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' localhost:* http://localhost:* ws://localhost:* wss://localhost:*; script-src localhost:* wss://localhost:* 'nonce-@Nonce'; font-src fonts.gstatic.com; style-src 'self' fonts.googleapis.com 'nonce-@Nonce'; img-src 'self' data:;">
+    @if (UseContentSecurityPolicy)
+    {
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' localhost:* http://localhost:* ws://localhost:* wss://localhost:*; script-src localhost:* wss://localhost:* 'nonce-@Nonce'; font-src fonts.gstatic.com; style-src 'self' fonts.googleapis.com 'nonce-@Nonce'; img-src 'self' data:;">
+    }
     
     <HtmxConfigHeadOutlet/>
 
@@ -21,12 +24,17 @@
     <RzHeadOutlet />
     <title>RizzyUI</title>
     
-    <!--
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    -->
     <script nonce="@Nonce" src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
     <script nonce="@Nonce" defer src="/_content/Rizzy/js/rizzy.js"></script>
-    <script nonce="@Nonce" defer src="@Assets["/_content/RizzyUI/js/rizzyui-csp.js"]"></script>
+    
+    @if (UseContentSecurityPolicy)
+    {
+        <script nonce="@Nonce" defer src="@Assets["/_content/RizzyUI/js/rizzyui-csp.js"]"></script>
+    }
+    else
+    {
+        <script nonce="@Nonce" defer src="@Assets["/_content/RizzyUI/js/rizzyui.js"]"></script>
+    }
     <script nonce="@Nonce" src="/js/site.js"></script>
 
     <link rel="preconnect" nonce="@Nonce" href="https://fonts.googleapis.com">
@@ -38,7 +46,7 @@
 	
 </head>
 
-<body class="scroll-on-lg bg-surface " hx-ext="rizzy-nonce" x-data="rzEmpty" x-cloak>
+<body class="scroll-on-lg bg-background " hx-ext="rizzy-nonce" x-data="rzEmpty">
 
 <RzThemeProvider>
     <Routes/>
@@ -50,6 +58,7 @@
 
 @code {
     private string Nonce { get; set; } = string.Empty;
+    public static bool UseContentSecurityPolicy { get; set; } = false;
 
     [Inject] private IRizzyNonceProvider NonceProvider { get; set; } = null!;
 

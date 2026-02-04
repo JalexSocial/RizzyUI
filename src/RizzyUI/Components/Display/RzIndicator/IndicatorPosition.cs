@@ -66,7 +66,7 @@ public enum IndicatorPosition
     /// Position at the bottom-end (e.g., bottom-right).
     /// </summary>
     BottomEnd,
-    
+
     /// <summary>
     /// Position in the center of its conceptual parent.
     /// </summary>

@@ -1,0 +1,140 @@
+
+@page "/components/native-select"
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@using RizzyUI
+@using Rizzy.Components
+
+<PageTitle>Native Select</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Native Select" class="scroll-mt-20">Native Select</RzHeading>
+            <RzParagraph>
+                The Native Select component wraps the browser's native <code>&lt;select&gt;</code> element to ensure consistent styling while maintaining native behavior and accessibility.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Example" class="scroll-mt-20">
+                    Basic Example
+                </RzHeading>
+                <RzParagraph>
+                    A simple select component.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 flex items-center justify-center gap-4 p-8 min-h-40">
+                        <EditForm Model="_model">
+                            <RzNativeSelect @bind-Value="_model.Fruit" For="@(() => _model.Fruit)">
+                                <RzNativeSelectOption Value="@("apple")">Apple</RzNativeSelectOption>
+                                <RzNativeSelectOption Value="@("banana")">Banana</RzNativeSelectOption>
+                                <RzNativeSelectOption Value="@("blueberry")">Blueberry</RzNativeSelectOption>
+                                <RzNativeSelectOption Value="@("grapes")">Grapes</RzNativeSelectOption>
+                                <RzNativeSelectOption Value="@("pineapple")">Pineapple</RzNativeSelectOption>
+                            </RzNativeSelect>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;EditForm Model=&quot;@@_model&quot;&gt;
+    &lt;RzNativeSelect @@bind-Value=&quot;_model.Fruit&quot; For=&quot;@@(() =&gt; _model.Fruit)&quot;&gt;
+        &lt;RzNativeSelectOption Value=&quot;@@(&quot;apple&quot;)&quot;&gt;Apple&lt;/RzNativeSelectOption&gt;
+        &lt;RzNativeSelectOption Value=&quot;@@(&quot;banana&quot;)&quot;&gt;Banana&lt;/RzNativeSelectOption&gt;
+        &lt;RzNativeSelectOption Value=&quot;@@(&quot;blueberry&quot;)&quot;&gt;Blueberry&lt;/RzNativeSelectOption&gt;
+        &lt;RzNativeSelectOption Value=&quot;@@(&quot;grapes&quot;)&quot;&gt;Grapes&lt;/RzNativeSelectOption&gt;
+        &lt;RzNativeSelectOption Value=&quot;@@(&quot;pineapple&quot;)&quot;&gt;Pineapple&lt;/RzNativeSelectOption&gt;
+    &lt;/RzNativeSelect&gt;
+&lt;/EditForm&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Usage in a Field" class="scroll-mt-20">
+                    Usage in a Field
+                </RzHeading>
+                <RzParagraph>
+                    Combine with <code>RzField</code> components for labels and error messages.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <RzField>
+                                <FieldLabel For="@(() => _model.SelectedCar)">Car Brand</FieldLabel>
+                                <RzNativeSelect @bind-Value="_model.SelectedCar" For="@(() => _model.SelectedCar)" id="car-select">
+                                    <option value="">Select a car</option>
+                                    <RzNativeSelectOptGroup Label="German">
+                                        <RzNativeSelectOption Value="@("audi")">Audi</RzNativeSelectOption>
+                                        <RzNativeSelectOption Value="@("bmw")">BMW</RzNativeSelectOption>
+                                        <RzNativeSelectOption Value="@("mercedes")">Mercedes</RzNativeSelectOption>
+                                    </RzNativeSelectOptGroup>
+                                    <RzNativeSelectOptGroup Label="Japanese">
+                                        <RzNativeSelectOption Value="@("toyota")">Toyota</RzNativeSelectOption>
+                                        <RzNativeSelectOption Value="@("honda")">Honda</RzNativeSelectOption>
+                                        <RzNativeSelectOption Value="@("mazda")">Mazda</RzNativeSelectOption>
+                                    </RzNativeSelectOptGroup>
+                                </RzNativeSelect>
+                                <FieldDescription>Please select your preferred car brand.</FieldDescription>
+                            </RzField>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzField&gt;
+    &lt;FieldLabel For=&quot;@@(() =&gt; _model.SelectedCar)&quot;&gt;Car Brand&lt;/FieldLabel&gt;
+    &lt;RzNativeSelect @@bind-Value=&quot;_model.SelectedCar&quot; For=&quot;@@(() =&gt; _model.SelectedCar)&quot; id=&quot;car-select&quot;&gt;
+        &lt;option value=&quot;&quot;&gt;Select a car&lt;/option&gt;
+        &lt;RzNativeSelectOptGroup Label=&quot;German&quot;&gt;
+            &lt;RzNativeSelectOption Value=&quot;@@(&quot;audi&quot;)&quot;&gt;Audi&lt;/RzNativeSelectOption&gt;
+            &lt;RzNativeSelectOption Value=&quot;@@(&quot;bmw&quot;)&quot;&gt;BMW&lt;/RzNativeSelectOption&gt;
+            &lt;RzNativeSelectOption Value=&quot;@@(&quot;mercedes&quot;)&quot;&gt;Mercedes&lt;/RzNativeSelectOption&gt;
+        &lt;/RzNativeSelectOptGroup&gt;
+        &lt;RzNativeSelectOptGroup Label=&quot;Japanese&quot;&gt;
+            &lt;RzNativeSelectOption Value=&quot;@@(&quot;toyota&quot;)&quot;&gt;Toyota&lt;/RzNativeSelectOption&gt;
+            &lt;RzNativeSelectOption Value=&quot;@@(&quot;honda&quot;)&quot;&gt;Honda&lt;/RzNativeSelectOption&gt;
+            &lt;RzNativeSelectOption Value=&quot;@@(&quot;mazda&quot;)&quot;&gt;Mazda&lt;/RzNativeSelectOption&gt;
+        &lt;/RzNativeSelectOptGroup&gt;
+    &lt;/RzNativeSelect&gt;
+    &lt;FieldDescription&gt;Please select your preferred car brand.&lt;/FieldDescription&gt;
+&lt;/RzField&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
+                </RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>For</code></td><td class="p-4"><code>Expression&lt;Func&lt;TValue&gt;&gt;</code></td><td class="p-4">Required</td><td class="p-4">An expression that identifies the bound value.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Value</code></td><td class="p-4"><code>TValue?</code></td><td class="p-4"><code>default</code></td><td class="p-4">The current value of the select.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4"><code>null</code></td><td class="p-4">The options to display within the select element.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private class DemoModel
+    {
+        public string Fruit { get; set; } = "apple";
+        public string SelectedCar { get; set; } = string.Empty;
+    }
+
+    private DemoModel _model = new();
+}

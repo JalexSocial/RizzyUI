@@ -1,431 +1,90 @@
-﻿@page "/test"
+
+@page "/test"
 @using Rizzy.Components
 @using Rizzy
 @using RizzyUI.Docs.Models
+@using RizzyUI.Docs.Components.Pages.Components.Demo
 
-<RzSidebar>
-	<MenuContent>
-        <!-- logo  -->
-        <a href="#" class="ml-2 w-fit text-2xl font-bold text-black dark:text-white">
-            <span class="sr-only">homepage</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 376 155" fill="none" class="w-24" aria-hidden="true">
-                <path d="M54.009 101.344C54.137 103.733 54.777 105.867 55.929 107.744C57.081 109.621 58.745 111.093 60.921 112.16C63.1397 113.227 65.785 113.76 68.857 113.76C71.6303 113.76 74.0623 113.419 76.153 112.736C78.2863 112.053 80.0783 111.221 81.529 110.24C83.0223 109.216 84.1317 108.235 84.857 107.296L91.577 117.28C90.3823 118.773 88.7823 120.16 86.777 121.44C84.8143 122.677 82.297 123.659 79.225 124.384C76.1957 125.152 72.3983 125.536 67.833 125.536C62.073 125.536 57.017 124.405 52.665 122.144C48.313 119.883 44.921 116.619 42.489 112.352C40.057 108.085 38.841 103.008 38.841 97.12C38.841 92 39.929 87.392 42.105 83.296C44.281 79.1573 47.4383 75.8933 51.577 73.504C55.7583 71.1147 60.7717 69.92 66.617 69.92C72.121 69.92 76.8783 70.9867 80.889 73.12C84.9423 75.2107 88.0783 78.2827 90.297 82.336C92.5157 86.3893 93.625 91.3387 93.625 97.184C93.625 97.5253 93.6037 98.2293 93.561 99.296C93.561 100.32 93.5183 101.003 93.433 101.344H54.009ZM78.393 91.296C78.3503 89.9307 77.9237 88.4587 77.113 86.88C76.345 85.3013 75.129 83.9573 73.465 82.848C71.801 81.7387 69.5823 81.184 66.809 81.184C64.0357 81.184 61.753 81.7173 59.961 82.784C58.2117 83.8507 56.889 85.1733 55.993 86.752C55.097 88.288 54.585 89.8027 54.457 91.296H78.393ZM134.234 69.92C137.818 69.92 141.317 70.6667 144.73 72.16C148.143 73.6107 150.938 75.936 153.114 79.136C155.333 82.336 156.442 86.5173 156.442 91.68V124H140.122V94.496C140.122 90.1867 139.098 86.9867 137.05 84.896C135.045 82.8053 132.399 81.76 129.114 81.76C126.981 81.76 124.933 82.3573 122.97 83.552C121.05 84.704 119.471 86.3253 118.234 88.416C117.039 90.464 116.442 92.8107 116.442 95.456V124H100.186V71.456H116.442V79.84C116.911 78.3893 117.978 76.896 119.642 75.36C121.306 73.824 123.418 72.544 125.978 71.52C128.538 70.4533 131.29 69.92 134.234 69.92ZM189.297 152.096C185.457 152.096 181.766 151.733 178.225 151.008C174.726 150.283 171.548 149.152 168.689 147.616C165.83 146.08 163.441 144.075 161.521 141.6L171.377 131.616C172.273 132.768 173.425 133.92 174.833 135.072C176.284 136.267 178.118 137.248 180.337 138.016C182.556 138.827 185.329 139.232 188.657 139.232C191.814 139.232 194.524 138.613 196.785 137.376C199.089 136.181 200.86 134.475 202.097 132.256C203.377 130.037 204.017 127.456 204.017 124.512V123.04H219.953V125.472C219.953 131.275 218.588 136.16 215.857 140.128C213.126 144.096 209.457 147.083 204.849 149.088C200.241 151.093 195.057 152.096 189.297 152.096ZM204.017 124V114.848C203.633 115.787 202.652 117.109 201.073 118.816C199.494 120.523 197.361 122.08 194.673 123.488C192.028 124.853 188.913 125.536 185.329 125.536C180.294 125.536 175.836 124.341 171.953 121.952C168.07 119.52 165.02 116.213 162.801 112.032C160.625 107.808 159.537 103.051 159.537 97.76C159.537 92.4693 160.625 87.7333 162.801 83.552C165.02 79.328 168.07 76 171.953 73.568C175.836 71.136 180.294 69.92 185.329 69.92C188.828 69.92 191.857 70.5173 194.417 71.712C197.02 72.864 199.11 74.2293 200.689 75.808C202.31 77.344 203.356 78.7307 203.825 79.968V71.456H219.953V124H204.017ZM175.473 97.76C175.473 100.704 176.134 103.307 177.457 105.568C178.78 107.787 180.529 109.515 182.705 110.752C184.881 111.989 187.249 112.608 189.809 112.608C192.497 112.608 194.886 111.989 196.977 110.752C199.068 109.472 200.71 107.723 201.905 105.504C203.142 103.243 203.761 100.661 203.761 97.76C203.761 94.8587 203.142 92.2987 201.905 90.08C200.71 87.8187 199.068 86.048 196.977 84.768C194.886 83.488 192.497 82.848 189.809 82.848C187.249 82.848 184.881 83.488 182.705 84.768C180.529 86.0053 178.78 87.7547 177.457 90.016C176.134 92.2347 175.473 94.816 175.473 97.76ZM346.854 69.92C350.438 69.92 353.937 70.6667 357.35 72.16C360.763 73.6107 363.558 75.936 365.734 79.136C367.953 82.336 369.062 86.5173 369.062 91.68V124H352.742V94.496C352.742 90.1867 351.718 86.9867 349.67 84.896C347.665 82.8053 345.019 81.76 341.734 81.76C339.601 81.76 337.553 82.3573 335.59 83.552C333.67 84.704 332.091 86.3253 330.854 88.416C329.659 90.464 329.062 92.8107 329.062 95.456V124H312.806V71.456H329.062V79.84C329.531 78.3893 330.598 76.896 332.262 75.36C333.926 73.824 336.038 72.544 338.598 71.52C341.158 70.4533 343.91 69.92 346.854 69.92Z" class="fill-black dark:fill-white"></path>
-                <path d="M242.508 96.608C242.508 101.301 243.447 105.056 245.324 107.872C247.201 110.645 250.231 112.032 254.412 112.032C258.636 112.032 261.687 110.645 263.564 107.872C265.441 105.056 266.38 101.301 266.38 96.608V71.456H282.38V98.464C282.38 103.883 281.292 108.64 279.116 112.736C276.94 116.789 273.761 119.947 269.58 122.208C265.441 124.427 260.385 125.536 254.412 125.536C248.481 125.536 243.425 124.427 239.244 122.208C235.105 119.947 231.948 116.789 229.772 112.736C227.596 108.64 226.508 103.883 226.508 98.464V71.456H242.508V96.608ZM288.739 124V71.456H304.931V124H288.739ZM297.059 57.888C294.371 57.888 292.088 56.9493 290.211 55.072C288.376 53.1947 287.459 50.9547 287.459 48.352C287.459 45.7493 288.398 43.488 290.275 41.568C292.152 39.648 294.414 38.688 297.059 38.688C298.808 38.688 300.408 39.136 301.859 40.032C303.31 40.8853 304.483 42.0373 305.379 43.488C306.275 44.9387 306.723 46.56 306.723 48.352C306.723 50.9547 305.763 53.1947 303.843 55.072C301.966 56.9493 299.704 57.888 297.059 57.888Z" class="fill-blue-700 dark:fill-blue-600"></path>
-                <g>
-                    <path d="M36.9195 49.9344C37.7242 49.9344 38.3765 49.2951 38.3765 48.5065C38.3765 47.7179 37.7242 47.0786 36.9195 47.0786C36.1147 47.0786 35.4624 47.7179 35.4624 48.5065C35.4624 49.2951 36.1147 49.9344 36.9195 49.9344Z" class="fill-black dark:fill-white"></path>
-                    <path d="M68.6288 43.4241C65.7147 38.8016 61.4918 35.244 55.9846 32.7512C50.4528 30.2585 43.7849 29.0242 35.981 29.0242H4V126.024H19.6324C17.8049 112.471 18.2742 101.048 19.8547 91.7063C14.7427 95.7238 12.446 101.46 12.446 101.46C8.24767 90.6415 17.1135 80.0896 24.1024 75.6607C24.7445 73.9908 25.4112 72.4419 26.0533 71.014C29.6589 62.7854 27.1646 56.9528 23.4109 53.0806C18.9903 48.5307 12.8411 46.643 12.8411 46.643C12.8411 46.643 15.9034 41.1734 26.1027 46.8124C27.1152 47.369 28.3747 47.3448 29.3626 46.7398C30.0787 46.3041 30.8443 45.9411 31.6346 45.6023C37.5369 43.0611 44.2541 43.3999 49.3661 46.6672C55.1203 50.3458 62.2079 56.8076 58.3554 69.2715C57.7874 69.5619 56.2563 70.0701 55.7377 70.3363C48.5265 74.1844 40.4263 82.1709 42.2538 92.2146C42.2538 92.2146 47.6621 83.6956 56.7255 82.1225C56.7255 82.1225 70.9749 78.4197 72.8024 63.1969C72.9012 62.1078 73 61.0429 73 59.9054C73 53.5162 71.5429 48.0225 68.6041 43.4241H68.6288Z" class="fill-black dark:fill-white"></path>
-                </g>
-            </svg>
-        </a>
-
-        <!-- search  -->
-        <div class="relative my-4 flex w-full max-w-xs flex-col gap-1 text-slate-700 dark:text-slate-300">
-	        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" class="-translate-y-1/2 text-slate-700/50 absolute left-2 top-1/2 size-5 dark:text-slate-300/50" aria-hidden="true">
-		        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-	        </svg>
-	        <input type="search" class="w-full rounded-xl border border-slate-300 bg-white px-2 py-1.5 pl-9 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:cursor-not-allowed disabled:opacity-75 dark:border-slate-700 dark:bg-slate-900/50 dark:focus-visible:outline-blue-600" name="search" aria-label="Search" placeholder="Search" />
-        </div>
-
-		<RzSidebarLinks>
-            <RzSidebarLinkItem Icon="MdiIcon.ViewDashboard" Title="Dashboard" Href="#" />
-
-            <RzSidebarLinkItem Icon="MdiIcon.Account" Title="User Management" Collapsible="false">
-				<RzSidebarLinkItem Title="Users" Href="#"/>
-				<RzSidebarLinkItem Title="Permissions" Href="#"/>
-				<RzSidebarLinkItem Title="Activity Log" Href="#"/>
-			</RzSidebarLinkItem>
-
-            <RzSidebarLinkItem Icon="MdiIcon.FileCabinet" Title="Products" Collapsible="true">
-				<RzSidebarLinkItem Title="All Products" Href="#"/>
-				<RzSidebarLinkItem Title="Inventory" Href="#"/>
-				<RzSidebarLinkItem Title="Reviews" Href="#"/>
-			</RzSidebarLinkItem>
-
-            <RzSidebarLinkItem Icon="MdiIcon.CashRegister" Title="Orders" Collapsible="true" Collapsed="false">
-				<RzSidebarLinkItem Title="Pending" Href="#">
-					<TrailerContent>
-						<span class="ml-auto font-bold">3</span>
-					</TrailerContent>
-				</RzSidebarLinkItem>
-				<RzSidebarLinkItem Title="Shipped" Href="#">
-					<TrailerContent>
-						<span class="ml-auto font-bold">12</span>
-					</TrailerContent>
-				</RzSidebarLinkItem>
-				<RzSidebarLinkItem Title="Completed" Href="#">
-					<TrailerContent>
-						<span class="ml-auto font-bold">38</span>
-					</TrailerContent>
-				</RzSidebarLinkItem>
-				<RzSidebarLinkItem Title="Returns" Href="#">
-					<TrailerContent>
-						<span class="ml-auto font-bold">2</span>
-					</TrailerContent>
-				</RzSidebarLinkItem>
-			</RzSidebarLinkItem>
-
-            <RzSidebarLinkItem Icon="MdiIcon.Cog" Title="Settings" Href="#" />
-		</RzSidebarLinks>
-
-	</MenuContent>
-<MainContent>
-    
-    <RzMarkdown>
-            ## What is CSP?
-
-            A Content Security Policy (CSP) is a security mechanism that helps prevent cross-site scripting (XSS) and other code injection attacks by restricting the sources from which content (e.g., scripts, styles, images) can be loaded. A typical CSP might look like this:
-
-            ```html
-            &lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39;; base-uri &#39;self&#39;; script-src &#39;self&#39; &#39;nonce-&lt;REPLACE_WITH_ONE_TIME_USE_RANDOM_STRING&gt;&#39;; style-src &#39;self&#39; &#39;nonce-&lt;REPLACE_WITH_ONE_TIME_USE_RANDOM_STRING&gt;&#39;;&quot; /&gt;
-            ```
-
-            ## Using Nonces with Inline Content
-
-            Nonces (numbers used once) allow inline content to execute when its nonce matches the value specified in the CSP header. The general workflow is:
-
-            1. **Generate Nonces:** Secure, random nonce values are created.
-            2. **Inject Nonces:** Nonce values are applied as attributes to inline `&lt;script&gt;`, `&lt;style&gt;`, or other elements.
-            3. **CSP Enforcement:** The server sends a CSP header or meta tag that includes these nonce values, and only inline content tagged with the correct nonce is executed.
-
-            ## Generating and Validating Nonces with Rizzy
-
-            Rizzy provides an interface, `IRizzyNonceProvider`, for generating nonce values. The provider uses a cryptographically secure HMAC key to generate and validate nonce tokens. An HMAC key must be provided during application startup or can be generated automatically for you. You do not need to provide a NonceHMACKey configuration value if you want to have the key generated automatically.
-
-            ### IRizzyNonceProvider
-
-            | Member                     | Type               | Description                                                                                                                                                                                                                      |
-            |----------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            | **GetNonceValues()**       | `RizzyNonceValues` | Retrieves all nonce values for the current HTTP request. If they have not been generated for this request, new nonce values are generated, cached, and returned.                                                             |
-            | **GetNonceFor(NonceType)** | `string`           | Retrieves (or generates) the nonce value for a given nonce type. For example, `GetNonceFor(NonceType.Script)` returns the nonce used in inline script elements.                                                                |
-
-            ### NonceType Enumeration
-
-            The `NonceType` enumeration defines the supported types of nonce values. These are used to specify the nonce for various content types in the CSP and inline elements.
-
-            | Enum Value | Description                                                       |
-            |------------|-------------------------------------------------------------------|
-            | **Script** | Nonce for inline `&lt;script&gt;` tags.                                 |
-            | **Style**  | Nonce for inline `&lt;style&gt;` tags.                                  |
-            | **Font**   | Nonce for font requests.                                          |
-            | **Image**  | Nonce for image elements.                                         |
-            | **Connect**| Nonce for connect requests (e.g., WebSocket connections, AJAX).     |
-
-            ## HMAC Key Configuration
-
-            Nonces require an HMAC key for generation and validation. Configure the key on application startup (the key must be a Base64-encoded string at least 256 bits in length):
-
-            ```csharp
-            builder.Services.AddRizzy(config =&gt;
-            {
-            config.NonceHMACKey = &quot;Your_Base64_Encoded_HMAC_Key&quot;;
-            });
-            ```
-
-            For distributed environments, ensure that all instances share the same HMAC key. Otherwise, the key can be generated automatically during startup. You do not need to provide a NonceHMACKey configuration value if you want to have the key generated automatically by Rizzy.
-
-            ### Generating a Secure HMAC Key
-
-            Below is an example of generating a secure Base64-encoded HMAC key:
-
-            ```csharp
-            /// &lt;summary&gt;
-            /// Generates a secure HMAC key using a cryptographically secure random number generator.
-            /// &lt;/summary&gt;
-            /// &lt;param name=&quot;keySizeInBytes&quot;&gt;Size of the key in bytes (e.g., 32 for 256-bit).&lt;/param&gt;
-            /// &lt;returns&gt;Base64-encoded HMAC key.&lt;/returns&gt;
-            private byte[] GenerateSecureHmacKey(int keySizeInBytes = 32)
-            {
-            byte[] key = new byte[keySizeInBytes];
-            RandomNumberGenerator.Fill(key);
-            return key;
-            }
-
-            private string GetBase64Key() =&gt; Convert.ToBase64String(GenerateSecureHmacKey());
-            ```
-
-            ## Usage in a Blazor Application (App.razor)
-
-            Below is a simplified example of using the nonce values in a Blazor component. Nonce values are injected into the CSP meta tag and applied to inline script and stylesheet links using the `GetNonceFor(NonceType.X)` methods.
-
-            ```razor
-
-            &lt;!DOCTYPE html&gt;
-            &lt;html lang=&quot;en&quot;&gt;
-            &lt;head&gt;
-            &lt;meta charset=&quot;utf-8&quot; /&gt;
-            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
-            &lt;meta http-equiv=&quot;Content-Security-Policy&quot;
-            content=&quot;default-src &#39;self&#39;;
-            connect-src &#39;self&#39; localhost:* http://localhost:* ws://localhost:* wss://localhost:*;
-            script-src &#39;self&#39; &#39;nonce-@@NonceProvider.GetNonceFor(NonceType.Script)&#39;;
-            style-src &#39;self&#39; &#39;nonce-@@NonceProvider.GetNonceFor(NonceType.Style)&#39;;&quot;&gt;
-            &lt;!-- RzLink to stylesheets with nonce attributes --&gt;
-            &lt;link nonce=&quot;@@NonceProvider.GetNonceFor(NonceType.Style)&quot; rel=&quot;stylesheet&quot; href=&quot;/css/app.css&quot; /&gt;
-
-            &lt;HeadOutlet /&gt;
-
-            &lt;!-- RzLink to scripts with nonce attributes --&gt;
-            &lt;script defer nonce=&quot;@@NonceProvider.GetNonceFor(NonceType.Script)&quot; src=&quot;https://cdn.jsdelivr.net/npm/@@alpinejs/csp@3.x.x/dist/cdn.min.js&quot;&gt;&lt;/script&gt;
-            &lt;/head&gt;
-            &lt;body&gt;
-            &lt;Routes /&gt;
-            &lt;/body&gt;
-            &lt;/html&gt;
-
-            @@code {
-            [Inject] private IRizzyNonceProvider NonceProvider { get; set; } = null!;
-            }
-            ```
-
-            ## Usage with HTMX to Automatically Generate Nonces
-
-            Configure HTMX to use the IRizzyNonceProvider implementation to correctly configure nonce values in the HTMX configuration.
-
-            ```razor
-            builder.Services.AddHtmx(config =&gt;
-            {
-            config.GenerateScriptNonce = true;
-            config.GenerateStyleNonce = true;
-            })
-            ```
-
-            ## Summary
-
-            - **CSP:** Enforces permitted sources for content. Nonces ensure that only inline content with the correct one-time value is executed.
-            - **Nonce Generation:** Nonces are generated using secure random bytes combined with an HMAC signature. An HMAC key is required for this process.
-            - **IRizzyNonceProvider:** Provides nonce values for the current request; use `GetNonceFor(NonceType.X)` to retrieve a specific nonce.
-            - **NonceType Enumeration:** Defines supported nonce types—Script, Style, Font, Image, and Connect.
-            - **HMAC Key:** Must be configured (or generated) and shared in distributed environments.
-
-            This implementation secures web applications by ensuring that only inline elements with validated, type-specific nonces are executed, thereby reducing the risk of XSS attacks.
-        </RzMarkdown>
-
-    <div class="p-8">
-        <RzDropdown Anchor="AnchorPoint.TopStart">
-            <Trigger>
-                <RzButton Variant="ButtonVariant.Primary" Label="Open Menu"></RzButton>
-            </Trigger>
-            <Content>
-                <RzDropdownSection>
-                    <RzDropdownMenuItem Icon="MdiIcon.Cog" Title="Settings"/>
-                    <RzDropdownMenuItem Icon="MdiIcon.FaceManProfile" Title="Profile" Count="5"/>
-                </RzDropdownSection>
-                <RzDropdownSection>
-                    <RzDropdownMenuItem Icon="MdiIcon.Logout" Title="Logout"/>
-                </RzDropdownSection>
-            </Content>
-        </RzDropdown>
-    </div>
-
-    <RzCard x-data="demoTest">
-        <RzCardBody>
-            <RzTabs id="tabDemo">
-                <Menu>
-                    <RzTabStrip>
-                        <RzTab Name="groups">Groups</RzTab>
-                        <RzTab Name="likes">Likes</RzTab>
-                        <RzTab Name="comments">Comments</RzTab>
-                        <RzTab Name="saved">Saved</RzTab>
-                    </RzTabStrip>
-                </Menu>
-                <TabPanels>
-                    <RzTabPanel Name="groups"><strong><u>Groups</u></strong> tab is selected</RzTabPanel>
-                    <RzTabPanel Name="likes"><strong><u>Likes</u></strong> tab is selected</RzTabPanel>
-                    <RzTabPanel Name="comments"><strong><u>Comments</u></strong> tab is selected</RzTabPanel>
-                    <RzTabPanel Name="saved"><strong><u>Saved</u></strong> tab is selected</RzTabPanel>
-                </TabPanels>
-            </RzTabs>
-
-            <RzButton Size="Size.Large" x-on:click="handleButtonClick">Do Something</RzButton>
-        </RzCardBody>
-    </RzCard>
-
-    <RzSteps Orientation="Orientation.Horizontal"
-           ShowLabels="true"
-           AriaLabel="Registration RzProgress"
-           ActiveColor="StatusColor.Primary">
-        <RzStep Label="Create an account" Status="StepStatus.Completed" Caption="Account created"/>
-        <RzStep Label="Select a plan" Status="StepStatus.Current" Caption="Plan selection"/>
-        <RzStep Label="Checkout" Status="StepStatus.Upcoming" Caption="Review your cart"/>
-        <RzStep Label="Get started" Status="StepStatus.Upcoming" Caption="Begin your journey"/>
-    </RzSteps>
-
-    <RzAccordion AllowMultipleOpen="false">
-        <AccordionItem Title="What browsers are supported?">
-            <p>
-                Our website is optimized for the latest versions of Chrome, Firefox, Safari, and Edge.
-                Check our <a href="#" class="underline underline-offset-2 text-primary ">documentation</a> for more info.
-            </p>
-        </AccordionItem>
-        <AccordionItem Title="How can I contact customer support?">
-            <p>
-                Reach out to our support team via email at
-                <a href="#" class="underline underline-offset-2 text-primary ">support@example.com</a>
-                or call 1-800-123-4567.
-            </p>
-        </AccordionItem>
-        <AccordionItem Title="What is the refund policy?">
-            <p>
-                Please refer to our <a href="#" class="underline underline-offset-2 text-primary ">refund policy page</a> for details.
-            </p>
-        </AccordionItem>
-    </RzAccordion>
-
-    <!-- Add main content here -->
-    <RzBreadcrumb Separator="MdiIcon.ChevronRight">
-        <RzBreadcrumbItem Href="/" Label="Home" Icon="MdiIcon.Home"/>
-        <RzBreadcrumbItem Href="/components" Label="Components"/>
-        <RzBreadcrumbItem Label="RzBreadcrumb" IsActive="true"/>
-    </RzBreadcrumb>
-
-    <RzCard>
-        <RzCardHeader>
-            <div>
-                <RzCardTitle>Information</RzCardTitle>
-                <RzCardSubtitle>This is a subtitle</RzCardSubtitle>
-            </div>
-            <RzCardButtons>
-                <a href="javascript:void(0)"
-                   class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold leading-5 text-gray-800 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:ring focus:ring-gray-300/25 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600/40 dark:active:border-gray-700">
-                    <svg class="hi-mini hi-plus inline-block size-4 opacity-50"javascript:void(0)
-                         xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 20 20"
-                         fill="currentColor"
-                         aria-hidden="true">
-                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/>
-                    </svg>
-                    <span>New Project</span>
-                </a>
-                <a href="javascript:void(0)"
-                   class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold leading-5 text-gray-800 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:ring focus:ring-gray-300/25 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600/40 dark:active:border-gray-700">
-                    <svg class="hi-mini hi-users inline-block size-4 opacity-50"
-                         xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 20 20"
-                         fill="currentColor"
-                         aria-hidden="true">
-                        <path d="M7 8a3 3 0 100-6 3 3 0 000 6zM14.5 9a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM1.615 16.428a1.224 1.224 0 01-.569-1.175 6.002 6.002 0 0111.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 017 18a9.953 9.953 0 01-5.385-1.572zM14.5 16h-.106c.07-.297.088-.611.048-.933a7.47 7.47 0 00-1.588-3.755 4.502 4.502 0 015.874 2.636.818.818 0 01-.36.98A7.465 7.465 0 0114.5 16z"/>
-                    </svg>
-                    <span>Clients</span>
-                </a>
-            </RzCardButtons>
-        </RzCardHeader>
-        <RzCardBody>
-            <RzFormSection Layout="SectionLayout.TwoColumn" Title="User Details" class="mb-5">
-                <Description>This is a user details form where you enter information about yourself.</Description>
-                <Content>
-                    <EditForm Model="Model" class="form-children-spacing">
-                        <RzValidationSummary/>
-
+<div class="mx-auto p-8 mb-5 flex w-full max-w-sm flex-col items-center justify-center gap-6">
+    <EditForm Model="_demoModel">
+        <RzTabs DefaultValue="account">
+            <TabsList>
+                <TabsTrigger Value="account">Account</TabsTrigger>
+                <TabsTrigger Value="password">Password</TabsTrigger>
+            </TabsList>
+            <TabsContent Value="account">
+                <RzCard>
+                    <CardHeader>
+                        <CardTitle>Account</CardTitle>
+                        <CardDescription>
+	                        Make changes to your account here. Click save when you're done.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent class="grid gap-6">
                         <RzField>
-                            <RzFieldLabel DisplayName="Name" For="@(() => Model.Name)"></RzFieldLabel>
-                            <RzTextEdit For="@(() => Model.Name)" PrependText="http://"/>
-                            <RzValidationMessage For="@(() => Model.Name)"/>
+	                        <RzFieldLabel For="@(() => _demoModel.Name)">Name</RzFieldLabel>
+	                        <RzInputText For="@(() => _demoModel.Name)" />
                         </RzField>
+                        <RzField>
+	                        <RzFieldLabel For="@(() => _demoModel.Username)">Username</RzFieldLabel>
+	                        <RzInputText For="@(() => _demoModel.Username)" />
+                        </RzField>
+                    </CardContent>
+                    <CardFooter>
+                        <RzButton>Save changes</RzButton>
+                    </CardFooter>
+                </RzCard>
+            </TabsContent>
+            <TabsContent Value="password">
+                <RzCard>
+                    <CardHeader>
+                        <CardTitle>Password</CardTitle>
+                        <CardDescription>
+	                        Change your password here. After saving, you'll be logged out.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent class="grid gap-6">
+                        <RzField>
+	                        <RzFieldLabel For="@(() => _demoModel.CurrentPassword)">Current password</RzFieldLabel>
+	                        <RzInputText For="@(() => _demoModel.CurrentPassword)" Role="TextRole.Password" />
+                        </RzField>
+                        <RzField>
+	                        <RzFieldLabel For="@(() => _demoModel.NewPassword)">New password</RzFieldLabel>
+	                        <RzInputText For="@(() => _demoModel.NewPassword)" Role="TextRole.Password" />
+                        </RzField>
+                    </CardContent>
+                    <CardFooter>
+                        <RzButton>Save password</RzButton>
+                    </CardFooter>
+                </RzCard>
+            </TabsContent>
+        </RzTabs>
+    </EditForm>
+</div>
 
-                        <RzTextField For="@(() => Model.PhoneNumber)" DisplayName="Phone Number" Role="@TextRole.Tel"
-                                   Placeholder="Enter your phone number.."
-                                   PrependIcon="@MdiIcon.Phone">
-                            <RzFieldHelp>This is a helpful description</RzFieldHelp>
-                        </RzTextField>
+<div class="mx-auto mb-5 flex flex-wrap items-center justify-center gap-4 p-8">
 
-                        <RzToggleField For="@(() => Model.IsActive)" DisplayName="Active?">
-                            <RzFieldHelp>Is this person active?</RzFieldHelp>
-                        </RzToggleField>
+	@foreach (var user in _users)
+	{
+		<UserCard User="user" />
+	}
+</div>
 
-                        <RzRadioGroupField For="@(() => Model.PreferredContactMethod)" DisplayName="Product"
-                                         Orientation="Orientation.Vertical" CheckboxIcon="MdiIcon.CheckboxMarked">
-                            <RzRadioGroupItem TValue="string" Label="Modern" Value="@("email")">
-                                <Description>
-                                    We'll blast you with emails galore
-                                </Description>
-                            </RzRadioGroupItem>
-                            <RzRadioGroupItem TValue="string" Label="Minimal" Value="@("text")">
-                                <Description>
-                                    If you love simplicity every 5 minutes
-                                </Description>
-                            </RzRadioGroupItem>
-                            <RzRadioGroupItem TValue="string" Label="Classic" Value="@("phone")">
-                                <Description>
-                                    Our legacy method
-                                </Description>
-                            </RzRadioGroupItem>
-                        </RzRadioGroupField>
+@code {
+	private List<UserData> _users = new()
+	{
+		new() { Id = 1, Name = "Alice", Email = "alice@example.com" },
+		new() { Id = 2, Name = "Bob", Email = "bob@example.com" },
+		new() { Id = 3, Name = "Charlie", Email = "charlie@example.com" }
+	};
+	
+	private class TabsDemoModel
+	{
+		public string Name { get; set; } = "Pedro Duarte";
+		public string Username { get; set; } = "@peduarte";
+		public string CurrentPassword { get; set; } = string.Empty;
+		public string NewPassword { get; set; } = string.Empty;
+	}
 
-                        <RzCheckboxGroupField TValue="string" For="() => Model.Interests" DisplayName="Select Your Interests" Orientation="Orientation.Vertical">
-                            <CheckboxGroupContent>
-                                <RzCheckboxGroupItem TValue="string" Value="@("Sports")" Title="Sports"/>
-                                <RzCheckboxGroupItem TValue="string" Value="@("Music")" Title="Music"/>
-                                <RzCheckboxGroupItem TValue="string" Value="@("Travel")" Title="Travel"/>
-                                <RzCheckboxGroupItem TValue="string" Value="@("Technology")" Title="Technology"/>
-                            </CheckboxGroupContent>
-                        </RzCheckboxGroupField>
-
-                        
-
-                        <!--
-<RzDateEdit For="() => Model.BirthDate" PrependIcon="MdiIcon.Calendar"/>
-		                <NumberField For="@(() => Model.Age)" Placeholder="Enter your age..">
-							<RzFieldHelp>How old are you?</RzFieldHelp>
-						</NumberField>
-
-						<div x-data>
-							<select>
-								<option value="">Select an option</option>
-								<option value="1">Option 1</option>
-								<option value="2">Option 2</option>
-								<option value="3">Option 3</option>
-							</select>
-						</div>
-		                <RzRadioGroupField For="@(() => Model.Product)" DisplayName="Product" Orientation="Orientation.Vertical">
-							<RzRadioGroupItem TValue="string" Label="Modern" Value="@("modern")">
-								<Description>
-									This is the default one
-								</Description>
-							</RzRadioGroupItem>
-							<RzRadioGroupItem TValue="string" Label="Minimal" Value="@("minimal")">
-								<Description>
-									If you love simplicity
-								</Description>
-							</RzRadioGroupItem>
-							<RzRadioGroupItem TValue="string" Label="Classic" Value="@("classic")">
-								<Description>
-									Our legacy design
-								</Description>
-							</RzRadioGroupItem>
-						</RzRadioGroupField>
-
-						<RzToggleField For="@(() => Model.Eligible)" DisplayName="Eligible">
-							<Description>
-								Are you eligible to receive benefits?
-							</Description>
-						</RzToggleField>
-						
-						<DateField For="@(() => Model.Birthday)" DisplayName="Date of Birth"></DateField>
-		                    -->
-                        <RzButton type="submit" Variant="ButtonVariant.Primary" Size="Size.Medium">
-                            <span>Save</span>
-                        </RzButton>
-                    </EditForm>
-                </Content>
-            </RzFormSection>
-
-        </RzCardBody>
-        <RzCardFooter>Footer content here</RzCardFooter>
-    </RzCard>
-
-
-    <RzCard class="max-w-sm overflow-hidden">
-        <img src="/images/card1.jpg" class="w-full h-auto object-cover brightness-75"
-             alt="Card background"/>
-        <RzCardBody>
-            <p>Body content here</p>
-        </RzCardBody>
-    </RzCard>
-</MainContent>
-</RzSidebar>
-
-@code
-{
-    private Customer Model = new();
-   
+	private TabsDemoModel _demoModel = new();	
 }

@@ -1,0 +1,9 @@
+
+@namespace RizzyUI
+@inherits RzComponent<CommandItemTemplate.Slots>
+
+<template id="@Id" data-slot="command-item-template">
+    <div @attributes="AdditionalAttributes" class="@SlotClasses.GetBase()" data-slot="command-item">
+        @ChildContent
+    </div>
+</template>

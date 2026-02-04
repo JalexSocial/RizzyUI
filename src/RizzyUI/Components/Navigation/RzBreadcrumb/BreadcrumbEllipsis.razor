@@ -1,0 +1,16 @@
+
+@namespace RizzyUI
+@inherits RzComponent<BreadcrumbEllipsis.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             data-slot="breadcrumb-ellipsis">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="@SlotClasses.GetIcon()">
+        <circle cx="12" cy="12" r="1"></circle>
+        <circle cx="19" cy="12" r="1"></circle>
+        <circle cx="5" cy="12" r="1"></circle>
+    </svg>
+    <span class="sr-only">More</span>
+</HtmlElement>

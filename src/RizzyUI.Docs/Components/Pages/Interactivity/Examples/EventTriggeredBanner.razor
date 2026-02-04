@@ -1,0 +1,20 @@
+
+@attribute [RzAlpineCodeBehind]
+@namespace RizzyUI.Docs.Components.Pages.Interactivity.Examples
+
+@using RizzyUI
+
+<div>
+    <RzAlpineComponent For="this" Name="promoBanner" LoadStrategy="event(loadPromo)">
+        <RzAlert x-show="visible" x-transition>
+            <AlertTitle>Special Offer!</AlertTitle>
+            <AlertDescription>This banner's JavaScript was loaded on demand!</AlertDescription>
+        </RzAlert>
+    </RzAlpineComponent>
+
+    <div class="mt-4">
+        <RzButton onclick="window.dispatchEvent(new Event('loadPromo')); console.log('Show Promo clicked!')">
+            Show Promo
+        </RzButton>
+    </div>
+</div>

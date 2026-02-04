@@ -1,17 +1,18 @@
 
 @namespace RizzyUI
-@inherits RzComponent
+@inherits RzComponent<RzQuickReference.Slots>
 
-<nav @attributes="@AdditionalAttributes" class="@RootClass()" id="@Id" aria-label="@AriaLabel">
-    <p class="@Theme.RzQuickReference.Title">
+<nav aria-label="@AriaLabel" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" id="@Id" data-slot="quick-reference">
+    <p class="@SlotClasses.GetTitle()" data-slot="quick-reference-title">
         @Title
     </p>
-    <ul class="@Theme.RzQuickReference.List">
+    <ul class="@SlotClasses.GetList()" data-slot="quick-reference-list">
         @foreach (var heading in _headings)
         {
-            <li class="@Theme.RzQuickReference.ListItem @GetIndentationClass(heading.Level)">
+            <li class="@(SlotClasses.GetListItem() + " " + GetIndentationClass(heading.Level))" data-slot="quick-reference-list-item">
                 <a href="#@heading.Id"
-                   class="@Theme.RzQuickReference.Link"
+                   class="@SlotClasses.GetLink()"
+                   data-slot="quick-reference-link"
                    data-headingid="@heading.Id"
                    :class="getSelectedCss"
                    :aria-current="getSelectedAriaCurrent"

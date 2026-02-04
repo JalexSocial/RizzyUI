@@ -1,13 +1,16 @@
+
 @namespace RizzyUI
-@inherits RzComponent
+@using TailwindVariants.NET
+@inherits RzComponent<RzAvatar.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
-    <HtmlElement Element="@EffectiveElement"
+	<HtmlElement Element="@EffectiveElement"
+	             role="img"
+	             aria-label="@EffectiveAriaLabel"
+	             @attributes="@AdditionalAttributes"
                  id="@Id"
-                 class="@RootClass()"
-                 role="img"
-                 aria-label="@EffectiveAriaLabel"
-                 @attributes="@AdditionalAttributes">
+                 data-slot="avatar"
+                 class="@(SlotClasses.GetBase())">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

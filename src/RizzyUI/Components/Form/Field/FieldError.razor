@@ -1,0 +1,15 @@
+
+@namespace RizzyUI
+@inherits RzComponent<FieldError.Slots>
+
+@if (Content is not null)
+{
+    <HtmlElement Element="@EffectiveElement" 
+                 role="alert" 
+                 @attributes="AdditionalAttributes" 
+                 id="@Id" 
+                 class="@SlotClasses.GetBase()" 
+                 data-slot="field-error">
+        @Content
+    </HtmlElement>
+}

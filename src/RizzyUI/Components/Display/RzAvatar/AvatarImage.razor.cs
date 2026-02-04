@@ -1,13 +1,11 @@
 
-// src/RizzyUI/Components/Display/RzAvatar/AvatarImage.razor.cs
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 
 namespace RizzyUI;
 
 /// <summary>
 /// Represents the image part of an <see cref="RzAvatar"/>. 
-/// It renders an `<img>` tag if <see cref="ImageSource"/> is provided and valid.
+/// It renders an `&lt;img&gt;` tag if <see cref="ImageSource"/> is provided and valid.
 /// This component must be a child of <see cref="RzAvatar"/>.
 /// </summary>
 public partial class AvatarImage : RzComponent
@@ -50,24 +48,7 @@ public partial class AvatarImage : RzComponent
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        _renderImage = !string.IsNullOrWhiteSpace(ImageSource);
+        _renderImage = !string.IsNullOrWhiteSpace(ImageSource) || AdditionalAttributes?.ContainsKey(":src") == true;
         ParentAvatar?.SetImageStatus(_renderImage);
-    }
-
-    /// <inheritdoc/>
-    protected override string? RootClass()
-    {
-        if (!_renderImage || ParentAvatar == null) return null;
-
-        var s = Theme.AvatarImage; // RzStylesBase.AvatarImageStylesBase
-        // Get shape and size classes from parent RzAvatar's theme provider
-        var parentAvatarStyles = Theme.RzAvatar; // RzStylesBase.RzAvatarStylesBase
-        
-        return TwMerge.Merge(
-            AdditionalAttributes,
-            s.Image,
-            parentAvatarStyles.GetSizeCss(ParentAvatar.Size),
-            parentAvatarStyles.GetShapeCss(ParentAvatar.Shape)
-        );
     }
 }

@@ -1,0 +1,20 @@
+
+@namespace RizzyUI
+@typeparam TValue
+@using Blazicons
+@using Rizzy.Components
+@inherits InputBase<TValue, RzNativeSelectSlots>
+
+<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@($"{Id}-wrapper")" class="@SlotClasses.GetBase()">
+    <InputSelect TValue="TValue"
+                 Value="@Value"
+                 ValueChanged="@ValueChanged"
+                 ValueExpression="@For"
+                 @attributes="SanitizedInputAttributes"
+                 class="@SlotClasses.GetSelect()"
+                 id="@Id"
+                 data-slot="native-select">
+        @ChildContent
+    </InputSelect>
+    <Blazicon Svg="@Lucide.ChevronDown" class="@SlotClasses.GetIcon()" aria-hidden="true" data-slot="native-select-icon" />
+</HtmlElement>

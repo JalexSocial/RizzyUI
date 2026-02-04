@@ -1,0 +1,36 @@
+<Project>
+
+    <!-- Compute prefix if SourceRoot exists (task is already registered by RizzyUI.Tasks) -->
+    <Target Name="_RizzyUI_ComputeCallerFileNamePrefix"
+            DependsOnTargets="InitializeSourceRootMappedPaths"
+            Condition="'$(DesignTimeBuild)' != 'true' and '@(SourceRoot)' != ''">
+        <RizzyUI.Tasks.ComputeCallerFileNamePrefix SourceRoot="@(SourceRoot)" ProjectDir="$(ProjectDir)">
+            <Output TaskParameter="CallerFileNamePrefix" PropertyName="_RizzyUI_CallerFileNamePrefix" />
+        </RizzyUI.Tasks.ComputeCallerFileNamePrefix>
+    </Target>
+
+    <!-- Fallback if no SourceRoot was produced -->
+    <Target Name="_RizzyUI_SetFallbackPrefix"
+            Condition="'$(DesignTimeBuild)' != 'true' and '$(_RizzyUI_CallerFileNamePrefix)' == ''">
+        <PropertyGroup>
+            <_RizzyUI_CallerFileNamePrefix>$(ProjectDir)</_RizzyUI_CallerFileNamePrefix>
+        </PropertyGroup>
+    </Target>
+
+    <!-- Emit attribute with (prefix, basePath) -->
+    <Target Name="_RizzyUI_EmbedAssemblyStaticAssetInfo"
+            BeforeTargets="CoreGenerateAssemblyInfo"
+            DependsOnTargets="_RizzyUI_ComputeCallerFileNamePrefix;_RizzyUI_SetFallbackPrefix;ResolveStaticWebAssetsConfiguration"
+            Condition="'$(DesignTimeBuild)' != 'true'">
+        <PropertyGroup>
+            <_RizzyUI_StaticWebAssetBasePath Condition="'$(OutputType)' != 'Exe'">$(StaticWebAssetBasePath)/</_RizzyUI_StaticWebAssetBasePath>
+        </PropertyGroup>
+        <ItemGroup>
+            <AssemblyAttribute Include="RizzyUI.AssemblyRzAlpineCodeBehindAttribute">
+                <_Parameter1>$(_RizzyUI_CallerFileNamePrefix)</_Parameter1>
+                <_Parameter2>$(_RizzyUI_StaticWebAssetBasePath)</_Parameter2>
+            </AssemblyAttribute>
+        </ItemGroup>
+    </Target>
+
+</Project>

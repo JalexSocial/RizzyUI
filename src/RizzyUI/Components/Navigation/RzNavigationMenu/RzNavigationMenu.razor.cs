@@ -1,0 +1,81 @@
+
+using Microsoft.AspNetCore.Components;
+using TailwindVariants.NET;
+
+namespace RizzyUI;
+
+/// <summary>
+/// A collection of links for navigating a website. This is a root-level component.
+/// </summary>
+/// <remarks>
+/// As a root-level component, its name is prefixed with 'Rz'.
+/// </remarks>
+public partial class RzNavigationMenu : RzComponent<RzNavigationMenu.Slots>
+{
+    /// <summary>
+    /// Defines the default styling for the RzNavigationMenu component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "group/navigation-menu relative flex max-w-max flex-1 items-center justify-center"
+    );
+
+    internal readonly List<NavigationMenuItem> Items = new();
+
+    /// <summary>
+    /// Gets or sets the content of the navigation menu, typically a <see cref="NavigationMenuList"/>.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// The orientation of the menu.
+    /// </summary>
+    [Parameter]
+    public Orientation Orientation { get; set; } = Orientation.Horizontal;
+
+    /// <summary>
+    /// The accessible name for the navigation menu.
+    /// If not set, a default localized label will be applied.
+    /// </summary>
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (string.IsNullOrEmpty(Element))
+            Element = "nav";
+
+        AriaLabel ??= Localizer["RzNavigationMenu.DefaultAriaLabel"];
+    }
+
+    /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        AriaLabel ??= Localizer["RzNavigationMenu.DefaultAriaLabel"];
+    }
+
+    /// <inheritdoc/>
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzNavigationMenu;
+
+    internal void AddItem(NavigationMenuItem item)
+    {
+        if (!Items.Contains(item))
+        {
+            Items.Add(item);
+        }
+    }
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzNavigationMenu component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
+    {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
+        public string? Base { get; set; }
+    }
+}

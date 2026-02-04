@@ -1,19 +1,45 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <xmldoc>
 ///     A component that displays a sequence of steps, visually indicating progress through a process.
-///     Child <see cref="RzStep" /> components automatically register their data.
-///     Styling is determined by the active <see cref="RzTheme" />.
+///     Child &lt;see cref="RzStep" /&gt; components automatically register their data.
+///     Styling is determined by the active &lt;see cref="RzTheme" /&gt;.
 /// </xmldoc>
-public partial class RzSteps : RzComponent
+public partial class RzSteps : RzComponent<RzSteps.Slots>
 {
     /// <summary>
-    ///     Gets the list of step data to display. Populated by child <see cref="RzStep" /> components or directly via
-    ///     parameter.
+    /// Defines the default styling for the RzSteps component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "flex",
+        slots: new()
+        {
+            [s => s.StepItem] = "relative flex items-center text-sm",
+            [s => s.StepContentContainer] = "flex items-center gap-2",
+            [s => s.CircleCompleted] = "flex size-6 items-center justify-center rounded-full border",
+            [s => s.CircleCompletedIcon] = "size-4",
+            [s => s.CircleCompletedSrText] = "sr-only",
+            [s => s.CircleDefault] = "flex size-6 shrink-0 items-center justify-center rounded-full border",
+            [s => s.CircleDefaultIcon] = "size-4",
+            [s => s.Label] = "hidden w-max whitespace-nowrap sm:inline",
+            [s => s.Caption] = "text-xs text-muted-foreground mt-1"
+        },
+        variants: new()
+        {
+            [s => ((RzSteps)s).Orientation] = new Variant<Orientation, Slots>
+            {
+                [Orientation.Horizontal] = new() { [s => s.Base] = "w-full items-start gap-2" },
+                [Orientation.Vertical] = new() { [s => s.Base] = "w-min flex-col" }
+            }
+        }
+    );
+
+    /// <summary>
+    /// Gets or sets the list of step data to display.
     /// </summary>
     [Parameter]
     public List<StepData> Items { get; set; } = new();
@@ -34,7 +60,7 @@ public partial class RzSteps : RzComponent
     [Parameter]
     public StatusColor ActiveColor { get; set; } = StatusColor.Primary;
 
-    /// <summary> The child content, expected to be <see cref="RzStep" /> components. </summary>
+    /// <summary> The child content, expected to be &lt;see cref="RzStep" /&gt; components. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -56,28 +82,129 @@ public partial class RzSteps : RzComponent
     }
 
     /// <inheritdoc />
-    protected override string? RootClass()
-    {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzSteps.Container,
-            Theme.RzSteps.GetOrientationCss(Orientation));
-    }
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzSteps;
 
-    /// <summary> Registers step data. Called by child <see cref="RzStep" /> components. </summary>
+    /// <summary> Registers step data. Called by child &lt;see cref="RzStep" /&gt; components. </summary>
+    /// <param name="data">The step data to register.</param>
     internal void RegisterStep(StepData data)
     {
-        // Avoid adding if already present during potential re-renders
-        if (!Items.Exists(i => i.Label == data.Label && i.Caption == data.Caption)) // Check more fields for uniqueness
+        if (!Items.Exists(i => i.Label == data.Label && i.Caption == data.Caption))
         {
             Items.Add(data);
-            InvokeAsync(StateHasChanged); // Update UI after adding
+            InvokeAsync(StateHasChanged);
         }
     }
 
-    /// <summary> Gets the combined CSS classes for a step list item, considering if it's the first item. </summary>
-    /// <param name="isFirst">Indicates if the item is the first in the list.</param>
-    /// <returns>A string of CSS classes.</returns>
-    protected string GetStepItemCss(bool isFirst)
+    private string GetStepItemCss(bool isFirst, bool isLast, StepStatus stepStatus)
     {
-        return $"{Theme.RzSteps.StepItem} {Theme.RzSteps.GetStepItemWidthCss(isFirst)}";
+        var classes = new List<string> { SlotClasses.GetStepItem() ?? "" };
+
+        if (Orientation == Orientation.Vertical)
+        {
+            classes.Add("flex-1");
+            if (!isLast)
+            {
+                var connectorColorClass = stepStatus == StepStatus.Completed ? GetActiveBackgroundClass(ActiveColor) : "bg-border";
+                classes.Add($"after:content-[''] after:absolute after:left-3 after:-bottom-11 after:h-full after:w-0.5 after:{connectorColorClass}");
+            }
+        }
+        else if (!isFirst)
+        {
+            classes.Add("w-full");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetConnectorCss(StepStatus stepStatus)
+    {
+        var colorClass = stepStatus == StepStatus.Completed ? GetActiveBackgroundClass(ActiveColor) : "bg-border";
+        return $"h-0.5 flex-1 mx-2 {colorClass}";
+    }
+
+    private string GetCircleCompletedCss() =>
+        $"{SlotClasses.GetCircleCompleted()} {GetActiveBorderClass(ActiveColor)} {GetActiveBackgroundClass(ActiveColor)} {GetActiveTextClass(ActiveColor)}";
+
+    private string GetCircleDefaultCss(StepStatus status)
+    {
+        var baseClass = SlotClasses.GetCircleDefault();
+        return status switch
+        {
+            StepStatus.Current => $"{baseClass} border {GetActiveBorderClass(ActiveColor)} {GetActiveBackgroundClass(ActiveColor)} font-bold {GetActiveTextClass(ActiveColor)} focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 {GetFocusRingClass(ActiveColor)} dark:focus-visible:ring-offset-background",
+            _ => $"{baseClass} border border-border bg-muted font-medium text-muted-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring dark:focus-visible:ring-offset-background",
+        };
+    }
+
+    private string GetLabelCss(StepStatus status)
+    {
+        var baseClass = SlotClasses.GetLabel();
+        return status switch
+        {
+            StepStatus.Completed => $"{baseClass} {GetActiveTextColorClass(ActiveColor)}",
+            StepStatus.Current => $"{baseClass} font-bold {GetActiveTextColorClass(ActiveColor)}",
+            _ => $"{baseClass} text-muted-foreground",
+        };
+    }
+
+    private string GetActiveBackgroundClass(StatusColor color) => $"bg-{color.ToString().ToLowerInvariant()}";
+    private string GetActiveBorderClass(StatusColor color) => $"border-{color.ToString().ToLowerInvariant()}";
+    private string GetActiveTextClass(StatusColor color) => color switch
+    {
+        StatusColor.Primary => "text-primary-foreground",
+        StatusColor.Secondary => "text-secondary-foreground",
+        StatusColor.Success => "text-success-foreground",
+        StatusColor.Info => "text-info-foreground",
+        StatusColor.Warning => "text-warning-foreground",
+        StatusColor.Destructive => "text-destructive-foreground",
+        _ => "text-primary-foreground"
+    };
+    private string GetActiveTextColorClass(StatusColor color) => $"text-{color.ToString().ToLowerInvariant()}";
+    private string GetFocusRingClass(StatusColor color) => $"focus-visible:ring-{color.ToString().ToLowerInvariant()}";
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzSteps component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
+    {
+        /// <summary>
+        /// The base slot for the main container element.
+        /// </summary>
+        public string? Base { get; set; }
+        /// <summary>
+        /// The slot for each step item (`&lt;li&gt;`).
+        /// </summary>
+        public string? StepItem { get; set; }
+        /// <summary>
+        /// The slot for the container of a step's content.
+        /// </summary>
+        public string? StepContentContainer { get; set; }
+        /// <summary>
+        /// The slot for the circle of a completed step.
+        /// </summary>
+        public string? CircleCompleted { get; set; }
+        /// <summary>
+        /// The slot for the icon inside a completed step's circle.
+        /// </summary>
+        public string? CircleCompletedIcon { get; set; }
+        /// <summary>
+        /// The slot for the screen-reader-only text for a completed step.
+        /// </summary>
+        public string? CircleCompletedSrText { get; set; }
+        /// <summary>
+        /// The slot for the circle of a default (current or upcoming) step.
+        /// </summary>
+        public string? CircleDefault { get; set; }
+        /// <summary>
+        /// The slot for the icon inside a default step's circle.
+        /// </summary>
+        public string? CircleDefaultIcon { get; set; }
+        /// <summary>
+        /// The slot for the step's label.
+        /// </summary>
+        public string? Label { get; set; }
+        /// <summary>
+        /// The slot for the step's caption.
+        /// </summary>
+        public string? Caption { get; set; }
     }
 }

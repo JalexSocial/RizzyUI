@@ -1,0 +1,42 @@
+
+@namespace RizzyUI
+@inherits RzComponent<Sidebar.Slots>
+
+@if (ParentProvider?.Collapsible == SidebarCollapsible.None)
+{
+	<div data-slot="sidebar" class="@SlotClasses.GetBase()" @attributes="AdditionalAttributes">
+		@ChildContent
+	</div>
+}
+else
+{
+	<div class="@SlotClasses.GetBase()"
+	     x-bind:data-state="desktopState"
+	     x-bind:data-collapsible="getCollapsibleAttribute"
+	     data-variant="@Variant.ToString().ToLowerInvariant()"
+	     data-side="@Side.ToString().ToLowerInvariant()"
+	     data-slot="sidebar">
+
+		<div class="md:hidden">
+			<RzSheet x-syncprop="openMobile -> open">
+				<SheetContent Side="@(Side == SidebarSide.Left ? SheetSide.Left : SheetSide.Right)"
+				              class="w-[var(--sidebar-mobile-width)] p-0 [&>button]:hidden"
+				              x-bind:open="openMobile"
+				              x-on:close="close">
+					<div class="flex h-full w-full flex-col">
+						@ChildContent
+					</div>
+				</SheetContent>
+			</RzSheet>
+		</div>
+
+		<div class="hidden md:block">
+			<div data-slot="sidebar-gap" class="@SlotClasses.GetGap()"></div>
+			<div data-slot="sidebar-container" class="@SlotClasses.GetDesktopContainer()">
+				<div data-sidebar="sidebar" data-slot="sidebar-inner" class="@SlotClasses.GetDesktopInner()">
+					@ChildContent
+				</div>
+			</div>
+		</div>
+	</div>
+}

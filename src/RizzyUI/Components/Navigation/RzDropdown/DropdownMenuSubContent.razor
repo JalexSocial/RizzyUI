@@ -1,0 +1,36 @@
+
+@namespace RizzyUI
+@inherits RzComponent<DropdownMenuSubContent.Slots>
+
+<template x-teleport="body">
+	<div @attributes="AdditionalAttributes"
+	     x-ref="subContent"
+	     id="@SubContentId"
+	     data-floating
+	     data-popover
+	     role="menu"
+	     aria-labelledby="@SubTriggerId"
+	     x-show="open"
+	     x-cloak
+         x-on:mouseenter="handleContentMouseEnter"
+         x-on:mouseleave="handleContentMouseLeave"
+	     x-transition:enter="transition ease-out duration-100"
+	     x-transition:enter-start="opacity-0 scale-95"
+	     x-transition:enter-end="opacity-100 scale-100"
+	     x-transition:leave="transition ease-in duration-75"
+	     x-transition:leave-start="opacity-100 scale-100"
+	     x-transition:leave-end="opacity-0 scale-95"
+	     x-trap="open"
+	     x-on:keydown.escape.prevent="handleSubmenuEscape"
+	     x-on:keydown.left.prevent="handleSubmenuArrowLeft"
+	     x-on:keydown.down.prevent="focusNextItem"
+	     x-on:keydown.up.prevent="focusPreviousItem"
+	     x-on:keydown.home.prevent="focusFirstItem"
+	     x-on:keydown.end.prevent="focusLastItem"
+	     class="@SlotClasses.GetBase()"
+         data-slot="dropdown-menu-sub-content">
+		<div class="@SlotClasses.GetInnerContainer()">
+			@ChildContent
+		</div>
+	</div>
+</template>

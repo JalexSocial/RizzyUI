@@ -1,0 +1,12 @@
+
+@namespace RizzyUI
+@inherits RzComponent<RzItemGroup.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             role="list"
+             data-slot="item-group"
+             @attributes="AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()">
+    @ChildContent
+</HtmlElement>

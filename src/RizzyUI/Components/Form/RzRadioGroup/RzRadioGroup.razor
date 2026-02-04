@@ -1,0 +1,24 @@
+
+@typeparam TValue
+@namespace RizzyUI
+@using Rizzy
+@using Rizzy.Components.Form
+@inherits RzComponent<RzRadioGroupSlots>
+
+<HtmlElement Element="@EffectiveElement" 
+             @attributes="AdditionalAttributes" 
+             id="@Id" 
+             class="@SlotClasses.GetBase()" 
+             data-slot="@RzRadioGroupSlotNames.NameOf(RzRadioGroupSlotTypes.Base)" 
+             role="radiogroup"
+             aria-labelledby="@_legendId">
+    <legend id="@_legendId" class="sr-only">@DisplayName</legend>
+    <CascadingValue Value="ShowIndicators" Name="ShowIndicators">
+        <RzInputRadioGroupBase TValue="TValue"
+                               ValueExpression="@For"
+                               Value="CurrentValue"
+                               Name="@Name">
+            @ChildContent
+        </RzInputRadioGroupBase>
+    </CascadingValue>
+</HtmlElement>

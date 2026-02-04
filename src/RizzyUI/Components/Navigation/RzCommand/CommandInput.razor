@@ -1,0 +1,20 @@
+
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<CommandInput.Slots>
+
+<div data-slot="command-input-wrapper" class="@SlotClasses.GetBase()">
+    <Blazicon Svg="MdiIcon.Magnify" class="@SlotClasses.GetIcon()" />
+    <input @attributes="AdditionalAttributes"
+           id="@Id"
+           class="@SlotClasses.GetInput()"
+           data-slot="command-input"
+           x-model.debounce.300ms="search"
+           x-on:keydown="handleKeydown"
+           x-on:focus="handleInteraction"
+           role="combobox"
+           x-bind:aria-expanded="isOpen"
+           aria-controls="rz-command-list-@ParentCommand?.Id"
+           x-bind:aria-activedescendant="activeDescendantId"
+           autocomplete="off" />
+</div>

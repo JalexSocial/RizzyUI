@@ -1,0 +1,18 @@
+
+@namespace RizzyUI
+@inherits RzComponent<RzTabs.Slots>
+
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement" 
+                 @attributes="@AdditionalAttributes" 
+                 id="@Id" 
+                 class="@SlotClasses.GetBase()"
+                 data-slot="@RzTabs.SlotNames.NameOf(SlotTypes.Base)">
+        <div x-data="rzTabs"
+             data-alpine-root="@Id"
+             data-default-value="@DefaultValue"
+             class="contents">
+            @ChildContent
+        </div>
+    </HtmlElement>
+</CascadingValue>

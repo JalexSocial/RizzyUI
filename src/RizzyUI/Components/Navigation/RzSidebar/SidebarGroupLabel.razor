@@ -1,0 +1,14 @@
+
+@namespace RizzyUI
+@inherits RzAsChildComponent<SidebarGroupLabel.Slots>
+
+@if (AsChild)
+{
+    @RenderAsChild()
+}
+else
+{
+    <HtmlElement Element="@EffectiveElement" @attributes="GetComponentAttributes()">
+        @ChildContent
+    </HtmlElement>
+}

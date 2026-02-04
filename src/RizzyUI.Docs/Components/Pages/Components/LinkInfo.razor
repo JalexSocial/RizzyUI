@@ -1,8 +1,9 @@
-﻿@page "/components/link"
+
+@page "/components/link"
 @using RizzyUI
 @using RizzyUI.Extensions
 
-<PageTitle>RzLink</PageTitle>
+<PageTitle>Link</PageTitle>
 
 <RzQuickReferenceContainer>
     <RzArticle ProseWidth="ProseWidth.UltraWide">
@@ -12,10 +13,10 @@
         <MainContent>
             <!-- Page Title and Overview -->
             <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">
-                RzLink
+                Link
             </RzHeading>
             <RzParagraph>
-                RzLinks are a great way to direct users to a specific page or section of your website.
+                Links are a great way to direct users to a specific page or section of your website.
                 The <code>RzLink</code> component provides consistent styling for links throughout your application.
                 It wraps an anchor element (<code>&lt;a&gt;</code>) with predefined RizzyUI styling using our design tokens and Tailwind CSS.
             </RzParagraph>
@@ -23,7 +24,7 @@
             <!-- Example 1: Default RzLink -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default RzLink" class="scroll-mt-20">
-                    Default RzLink
+                    Default Link
                 </RzHeading>
                 <RzParagraph>
                     The default link below uses the standard styling.
@@ -41,20 +42,20 @@
             <!-- Example 2: RzLink Within Text -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzLink within Text" class="scroll-mt-20">
-                    RzLink within Text
+                    Link within Text
                 </RzHeading>
                 <RzParagraph>
                     You can seamlessly embed the RzLink component within text content.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-20">
-                        <p class="text-on-surface ">
+                        <p class="text-foreground ">
                             Follow us on <RzLink Href="javascript:void(0);">social media</RzLink> and become our virtual BFF. We promise not to send cat videos (just kidding, we totally will).
                         </p>
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;p class=&quot;text-on-surface &quot;&gt;
+&lt;p class=&quot;text-foreground &quot;&gt;
     Follow us on &lt;RzLink Href=&quot;#&quot;&gt;social media&lt;/RzLink&gt; and become our virtual BFF. We promise not to send cat videos (just kidding, we totally will).
 &lt;/p&gt;
                 </RzCodeViewer>
@@ -63,14 +64,14 @@
             <!-- Example 3: RzLink with Icon -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzLink with Icon" class="scroll-mt-20">
-                    RzLink with Icon
+                    Link with Icon
                 </RzHeading>
                 <RzParagraph>
                     The RzLink component can include icons. In this example, a Blazicon (<code>MdiIcon.ArrowRight</code>) is appended after the link text.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-20">
-                        <p class="text-on-surface ">
+                        <p class="text-foreground ">
                             Find out more 
                             <RzLink Href="#">
                                 about our company
@@ -80,7 +81,7 @@
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;p class=&quot;text-on-surface &quot;&gt;
+&lt;p class=&quot;text-foreground &quot;&gt;
     Find out more &lt;RzLink Href=&quot;#&quot;&gt;
         about our company
         &lt;Blazicon Svg=&quot;MdiIcon.ArrowRight&quot; class=&quot;size-4 inline&quot; /&gt;
@@ -92,16 +93,16 @@
             <!-- Example 4: Extra Attributes for Button-like Styling -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Extra Attributes for Styling" class="scroll-mt-20">
-                    RzLink Styled as Button
+                    Link Styled as Button
                 </RzHeading>
                 <RzParagraph>
-                    The RzLink component accepts extra attributes via <code>AdditionalAttributes</code>.
+                    The RzLink component accepts extra attributes via <code class="font-semibold">AdditionalAttributes</code>.
                     This lets you add extra styling classes to style the link like a button.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 flex justify-center min-h-20">
                         <RzLink Href="javascript:void(0);"
-                              class="whitespace-nowrap rounded bg-primary border border-primary px-4 py-2 text-center text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75    dark:focus-visible:outline-primary-dark"
+                              class="whitespace-nowrap rounded bg-primary border border-primary px-4 py-2 text-center text-sm font-medium tracking-wide text-primary-foreground transition hover:opacity-75 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75    dark:focus-visible:outline-primary-dark"
                               role="button">
                             I'm a link
                         </RzLink>
@@ -109,7 +110,7 @@
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzLink Href=&quot;#&quot; 
-      class=&quot;whitespace-nowrap rounded bg-primary border border-primary px-4 py-2 text-center text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75    dark:focus-visible:outline-primary-dark&quot; 
+      class=&quot;whitespace-nowrap rounded bg-primary border border-primary px-4 py-2 text-center text-sm font-medium tracking-wide text-primary-foreground transition hover:opacity-75 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75    dark:focus-visible:outline-primary-dark&quot; 
       role=&quot;button&quot;&gt;
     I&apos;m a link
 &lt;/RzLink&gt;
@@ -121,36 +122,38 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzLink Component Parameters" class="scroll-mt-20">
                     RzLink Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                        <tr class="bg-surface-alt ">
-                            <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong ">
-                                Property
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong ">
-                                Description
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>Href</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>string</em> – The URL the link navigates to. Defaults to <code>#</code> if not provided.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base p-4 text-center">
-                                <strong>ChildContent</strong>
-                            </td>
-                            <td class="text-base p-4">
-                                <em>RenderFragment</em> – The content to be rendered inside the link. This may include text, icons, or other markup.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                  <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Href</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string</code> – The URL the link navigates to.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">"#"</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Underline</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – Determines whether the link should be underlined on hover and focus.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The content to be rendered inside the link. This may include text, icons, or other markup.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
         </MainContent>
     </RzArticle>

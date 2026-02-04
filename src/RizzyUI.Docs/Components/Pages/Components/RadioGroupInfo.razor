@@ -1,16 +1,12 @@
-@page "/components/radiogroup"
-@namespace RizzyUI.Pages
+﻿@page "/components/radiogroup"
+@namespace RizzyUI.Docs.Components.Pages.Components
 
-@using System.Linq.Expressions
-@using Rizzy.Components
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
 @using RizzyUI
-@using RizzyUI.Extensions
 @using Blazicons
-@using RizzyUI.Docs.Models
-@using Rizzy
-@inherits RzComponent
 
-<PageTitle>RadioGroup and RzRadioGroupField</PageTitle>
+<PageTitle>Radio Group</PageTitle>
 
 <RzQuickReferenceContainer>
     <RzArticle ProseWidth="ProseWidth.UltraWide">
@@ -18,368 +14,383 @@
             <RzQuickReference />
         </SideContent>
         <MainContent>
-            <!-- Page Title and Overview -->
-            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">
-                RadioGroup and RzRadioGroupField
-            </RzHeading>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Radio Group" class="scroll-mt-20">Radio Group</RzHeading>
             <RzParagraph>
-                The <code>RadioGroup</code> component enables users to select **one** option from a group of radio buttons, with support for model binding and validation. The <code>RzRadioGroupField</code> component extends this functionality by wrapping <code>RadioGroup</code> within a complete form field experience, including a label, help text, and validation messages. These are typically used within an <code>EditForm</code>.
+                A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
             </RzParagraph>
 
-            <RzAlert Variant="AlertVariant.Information" Pulse>
-                <AlertTitle>Special Note</AlertTitle>
-                <AlertDescription>RizzyUI form controls depend on the Rizzy library for form control support. RizzyUI form controls provide client-side data annotations validation. <RzLink Href="https://jalexsocial.github.io/rizzy.docs/docs/forms/overview/" target="_blank">Click here for specific Rizzy form control documentation.</RzLink></AlertDescription>
-            </RzAlert>
-
-            <!-- Example 1: RadioGroup Usage -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RadioGroup Example" class="scroll-mt-20">
-                    RadioGroup Example
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Example" class="scroll-mt-20">
+                    Basic Example
                 </RzHeading>
                 <RzParagraph>
-                    In the example below, an <code>EditForm</code> is used with a <code>RadioGroup</code> to capture the user's preferred contact method. The <code>PreferredContactMethod</code> property of the <code>Customer</code> model is utilized for binding. Note how only one option can be selected.
+                    A basic radio group with simple labels. The `RadioGroupItem` component automatically includes an indicator, so you only need to provide the label content. Since this is a form component, it must be placed within an `EditForm` and bound to a model property using the `For` parameter.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-5">
-                        <EditForm Model="Model" class="form-children-spacing">
-                            <DataAnnotationsValidator/>
-                            <RzInitialValidator/>
-                            <RzValidationSummary/>
-
-                            <RzRadioGroup TValue="string" For="@(() => Model.PreferredContactMethod)" Orientation="Orientation.Vertical">
-                                <RzRadioGroupItem TValue="string" Value="@("email")" Label="Email" />
-                                <RzRadioGroupItem TValue="string" Value="@("phone")" Label="Phone" />
-                                <RzRadioGroupItem TValue="string" Value="@("text")" Label="Text Message" />
+                    <div class="mx-auto mb-5 w-full max-w-md p-8">
+                        <EditForm Model="@_model">
+                            <RzRadioGroup For="@(() => _model.LayoutPreference)" DisplayName="Layout Preference">
+                                <RadioGroupItem TValue="string" Value="@("default")">
+                                    <span class="text-sm font-medium">Default</span>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("comfortable")">
+                                    <span class="text-sm font-medium">Comfortable</span>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("compact")">
+                                    <span class="text-sm font-medium">Compact</span>
+                                </RadioGroupItem>
                             </RzRadioGroup>
                         </EditForm>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-                    &lt;EditForm Model=&quot;Model&quot; class=&quot;form-children-spacing&quot;&gt;
-                    &lt;DataAnnotationsValidator/&gt;
-                    &lt;RzInitialValidator/&gt;
-                    &lt;RzValidationSummary/&gt;
+&lt;EditForm Model=&quot;@@_model&quot;&gt;
+    &lt;RzRadioGroup For=&quot;@@(() =&gt; _model.LayoutPreference)&quot; DisplayName=&quot;Layout Preference&quot;&gt;
+        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;default&quot;)&quot;&gt;
+            &lt;span class=&quot;text-sm font-medium&quot;&gt;Default&lt;/span&gt;
+        &lt;/RadioGroupItem&gt;
+        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;comfortable&quot;)&quot;&gt;
+            &lt;span class=&quot;text-sm font-medium&quot;&gt;Comfortable&lt;/span&gt;
+        &lt;/RadioGroupItem&gt;
+        &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;compact&quot;)&quot;&gt;
+            &lt;span class=&quot;text-sm font-medium&quot;&gt;Compact&lt;/span&gt;
+        &lt;/RadioGroupItem&gt;
+    &lt;/RzRadioGroup&gt;
+&lt;/EditForm&gt;
 
-                    &lt;RadioGroup TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.PreferredContactMethod)&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;
-                        &lt;RzRadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;email&quot;)&quot; Label=&quot;Email&quot; /&gt;
-                        &lt;RzRadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;phone&quot;)&quot; Label=&quot;Phone&quot; /&gt;
-                        &lt;RzRadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;text&quot;)&quot; Label=&quot;Text Message&quot; /&gt;
-                    &lt;/RadioGroup&gt;
-                    &lt;/EditForm&gt;
+@@code {
+    private class DemoModel
+    {
+        public string? LayoutPreference { get; set; } = "comfortable";
+    }
+
+    private DemoModel _model = new();
+}
                 </RzCodeViewer>
             </section>
 
-            <!-- Example 2: RzRadioGroupField Usage -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzRadioGroupField Example" class="scroll-mt-20">
-                    RzRadioGroupField Example
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Choice Card Pattern" class="scroll-mt-20">
+                    Choice Card Pattern
                 </RzHeading>
                 <RzParagraph>
-                    The <code>RzRadioGroupField</code> component encapsulates a complete form field experience by combining a label, the radio button group, help text, and validation messages. The example below demonstrates its usage with the <code>Gender</code> property of the <code>Customer</code> model, using a horizontal layout.
+                    By composing `RadioGroupItem` with other components, you can create large, clickable "choice cards". The `RadioGroupItem`'s `ChildContent` contains the card structure, and the entire item is implicitly a label for its hidden radio input. The default indicator is still rendered automatically.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-5">
-                        <EditForm Model="Model" class="form-children-spacing">
-                            <RzValidationSummary/>
-                            <RzRadioGroupField TValue="string" For="@(() => Model.Gender)" DisplayName="Select Gender" Orientation="Orientation.Horizontal">
-                                    <RzRadioGroupItem TValue="string" Value="@("female")" Label="Female" />
-                                    <RzRadioGroupItem TValue="string" Value="@("male")" Label="Male" />
-                                    <RzRadioGroupItem TValue="string" Value="@("other")" Label="Other" />
-                                    <RzRadioGroupItem TValue="string" Value="@("prefer_not_to_say")" Label="Prefer not to say" />
-                                <RzFieldHelp>Select the option that best describes you.</RzFieldHelp>
-                            </RzRadioGroupField>
+                    <div class="mx-auto mb-5 w-full max-w-md p-8">
+                        <EditForm Model="@_model">
+                            <RzRadioGroup For="@(() => _model.SubscriptionPlan)" DisplayName="Subscription Plan">
+                                <RadioGroupItem TValue="string" Value="@("monthly")">
+                                    <div class="bg-background relative flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
+                                        <div class="grid gap-1.5 leading-none">
+                                            <span class="font-medium">Starter Plan</span>
+                                            <p class="text-muted-foreground text-sm">
+                                                Perfect for individuals and small teams.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("yearly")">
+                                    <div class="bg-background relative flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
+                                        <div class="grid gap-1.5 leading-none">
+                                            <span class="font-medium">Professional Plan</span>
+                                            <p class="text-muted-foreground text-sm">
+                                                Advanced features for growing businesses.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </RadioGroupItem>
+                            </RzRadioGroup>
                         </EditForm>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-                    &lt;EditForm Model=&quot;Model&quot; class=&quot;form-children-spacing&quot;&gt;
-                        &lt;RzValidationSummary/&gt;
-                        &lt;RzRadioGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.Gender)&quot; DisplayName=&quot;Select Gender&quot; Orientation=&quot;Orientation.Horizontal&quot;&gt;
-                                &lt;RzRadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;female&quot;)&quot; Label=&quot;Female&quot; /&gt;
-                                &lt;RzRadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;male&quot;)&quot; Label=&quot;Male&quot; /&gt;
-                                &lt;RzRadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;other&quot;)&quot; Label=&quot;Other&quot; /&gt;
-                                &lt;RzRadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;prefer_not_to_say&quot;)&quot; Label=&quot;Prefer not to say&quot; /&gt;
-                            &lt;FieldHelp&gt;Select the option that best describes you.&lt;/FieldHelp&gt;
-                        &lt;/RzRadioGroupField&gt;
-                    &lt;/EditForm&gt;
+                            &lt;RzRadioGroup For=&quot;@@(() =&gt; _model.SubscriptionPlan)&quot; DisplayName=&quot;Subscription Plan&quot;&gt;
+                                &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;monthly&quot;)&quot;&gt;
+                                    &lt;div class=&quot;bg-background relative flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent&quot;&gt;
+                                        &lt;div class=&quot;grid gap-1.5 leading-none&quot;&gt;
+                                            &lt;span class=&quot;font-medium&quot;&gt;Starter Plan&lt;/span&gt;
+                                            &lt;p class=&quot;text-muted-foreground text-sm&quot;&gt;
+                                                Perfect for individuals and small teams.
+                                            &lt;/p&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/RadioGroupItem&gt;
+                                &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;yearly&quot;)&quot;&gt;
+                                    &lt;div class=&quot;bg-background relative flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent&quot;&gt;
+                                        &lt;div class=&quot;grid gap-1.5 leading-none&quot;&gt;
+                                            &lt;span class=&quot;font-medium&quot;&gt;Professional Plan&lt;/span&gt;
+                                            &lt;p class=&quot;text-muted-foreground text-sm&quot;&gt;
+                                                Advanced features for growing businesses.
+                                            &lt;/p&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/RadioGroupItem&gt;
+                            &lt;/RzRadioGroup&gt;
                 </RzCodeViewer>
             </section>
-
-            <!-- Example 3: RzRadioGroupItem with Description and Icon -->
+            
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzRadioGroupItem Customization" class="scroll-mt-20">
-                    RzRadioGroupItem Customization (Description & Icon)
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Horizontal Layout" class="scroll-mt-20">
+                    Horizontal Layout
                 </RzHeading>
                 <RzParagraph>
-                    The <code>RzRadioGroupItem</code> can include a <code>Description</code> and an <code>Icon</code> for richer presentation, as shown below within a <code>RzRadioGroupField</code>.
+                    Set `Orientation="Orientation.Horizontal"` on the `RzRadioGroup` to arrange the items in a row.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-5">
-                        <EditForm Model="Model" class="form-children-spacing">
-                            <RzValidationSummary/>
-                            <RzRadioGroupField TValue="string" For="@(() => Model.PreferredContactMethod)" DisplayName="Contact Preference" Orientation="Orientation.Vertical">
-                                <RzRadioGroupItem TValue="string" Value="@("email")" Label="Email" Icon="MdiIcon.EmailOutline">
-                                    <Description>Receive updates via email.</Description>
-                                </RzRadioGroupItem>
-                                <RzRadioGroupItem TValue="string" Value="@("phone")" Label="Phone" Icon="MdiIcon.PhoneOutline">
-                                    <Description>Receive calls on your phone.</Description>
-                                </RzRadioGroupItem>
-                                <RzRadioGroupItem TValue="string" Value="@("text")" Label="Text Message" Icon="MdiIcon.MessageTextOutline">
-                                    <Description>Receive SMS notifications.</Description>
-                                </RzRadioGroupItem>
-                                <RzFieldHelp>How would you like us to contact you?</RzFieldHelp>
-                            </RzRadioGroupField>
+                    <div class="mx-auto mb-5 w-full max-w-md p-8">
+                        <EditForm Model="@_model">
+                            <RzRadioGroup For="@(() => _model.LayoutPreference)" DisplayName="Layout Preference" Orientation="@Orientation.Horizontal">
+                                <RadioGroupItem TValue="string" Value="@("default")">
+                                    <span class="text-sm font-medium">Default</span>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("comfortable")">
+                                    <span class="text-sm font-medium">Comfortable</span>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("compact")">
+                                    <span class="text-sm font-medium">Compact</span>
+                                </RadioGroupItem>
+                            </RzRadioGroup>
                         </EditForm>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-                    &lt;EditForm Model=&quot;Model&quot; class=&quot;form-children-spacing&quot;&gt;
-                        &lt;RzValidationSummary/&gt;
-                        &lt;RzRadioGroupField TValue=&quot;string&quot; For=&quot;@@(() =&gt; Model.PreferredContactMethod)&quot; DisplayName=&quot;Contact Preference&quot; Orientation=&quot;Orientation.Vertical&quot;&gt;
-                            &lt;RzRadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;email&quot;)&quot; Label=&quot;Email&quot; Icon=&quot;MdiIcon.EmailOutline&quot;&gt;
-                                &lt;Description&gt;Receive updates via email.&lt;/Description&gt;
-                            &lt;/RzRadioGroupItem&gt;
-                            &lt;RzRadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;phone&quot;)&quot; Label=&quot;Phone&quot; Icon=&quot;MdiIcon.PhoneOutline&quot;&gt;
-                                &lt;Description&gt;Receive calls on your phone.&lt;/Description&gt;
-                            &lt;/RzRadioGroupItem&gt;
-                            &lt;RzRadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;text&quot;)&quot; Label=&quot;Text Message&quot; Icon=&quot;MdiIcon.MessageTextOutline&quot;&gt;
-                                &lt;Description&gt;Receive SMS notifications.&lt;/Description&gt;
-                            &lt;/RzRadioGroupItem&gt;
-                            &lt;FieldHelp&gt;How would you like us to contact you?&lt;/FieldHelp&gt;
-                        &lt;/RzRadioGroupField&gt;
-                    &lt;/EditForm&gt;
+&lt;RzRadioGroup For=&quot;@@(() =&gt; _model.LayoutPreference)&quot; DisplayName=&quot;Layout Preference&quot; Orientation=&quot;Orientation.Horizontal&quot;&gt;
+    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;default&quot;&gt;
+        &lt;span class=&quot;text-sm font-medium&quot;&gt;Default&lt;/span&gt;
+    &lt;/RadioGroupItem&gt;
+    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;comfortable&quot;&gt;
+        &lt;span class=&quot;text-sm font-medium&quot;&gt;Comfortable&lt;/span&gt;
+    &lt;/RadioGroupItem&gt;
+    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;compact&quot;&gt;
+        &lt;span class=&quot;text-sm font-medium&quot;&gt;Compact&lt;/span&gt;
+    &lt;/RadioGroupItem&gt;
+&lt;/RzRadioGroup&gt;
                 </RzCodeViewer>
             </section>
 
-            <!-- Customer Model Reference -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Customer Model" class="scroll-mt-20">
-                    Customer Model Reference
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Disabled Items" class="scroll-mt-20">
+                    Disabled Items
                 </RzHeading>
                 <RzParagraph>
-                    The following code defines the sample <code>Customer</code> model used in these examples:
+                    Set the `Disabled` parameter on a `RadioGroupItem` to prevent it from being selected.
                 </RzParagraph>
-                <RzCodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
-                    @* Replaced with the actual C# code for Customer model *@
-                    using System.ComponentModel.DataAnnotations;
 
-                    namespace RizzyUI.Docs.Models;
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8">
+                        <EditForm Model="@_model">
+                            <RzRadioGroup For="@(() => _model.LayoutPreference)" DisplayName="Layout Preference">
+                                <RadioGroupItem TValue="string" Value="@("default")">
+                                    <span class="text-sm font-medium">Default</span>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("comfortable")">
+                                    <span class="text-sm font-medium">Comfortable</span>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("compact")" Disabled="true">
+                                    <span class="text-sm font-medium">Compact (Coming Soon)</span>
+                                </RadioGroupItem>
+                            </RzRadioGroup>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
 
-                    /// &lt;summary&gt;
-                    /// Represents a customer with personal and contact information.
-                    /// &lt;/summary&gt;
-                    public class Customer
-                    {
-                        /// &lt;summary&gt;
-                        /// Gets or sets the unique identifier for the customer.
-                        /// &lt;/summary&gt;
-                        public int CustomerId { get; set; } = 1234;
-
-                        /// &lt;summary&gt;
-                        /// Gets or sets the full name of the customer.
-                        /// &lt;/summary&gt;
-                        [MaxLength(10)]
-                        public string Name { get; set; } = &quot;Jane Johnson&quot;;
-
-                        /// &lt;summary&gt;
-                        /// Gets or sets the email address of the customer.
-                        /// &lt;/summary&gt;
-                        public string Email { get; set; } = &quot;johnsonj@gmail.com&quot;;
-
-                        /// &lt;summary&gt;
-                        /// Gets or sets the phone number of the customer.
-                        /// &lt;/summary&gt;
-                        public string PhoneNumber { get; set; } = &quot;555-555-5555&quot;;
-
-                        /// &lt;summary&gt;
-                        /// Gets or sets the age of the customer.
-                        /// &lt;/summary&gt;
-                        public int Age { get; set; } = 29;
-
-                        /// &lt;summary&gt;
-                        /// Gets or sets a value indicating whether the customer is active.
-                        /// &lt;/summary&gt;
-                        public bool IsActive { get; set; } = true;
-
-                        /// &lt;summary&gt;
-                        /// Gets or sets the gender of the customer.
-                        /// &lt;/summary&gt;
-                        public string Gender { get; set; } = &quot;female&quot;;
-
-                        /// &lt;summary&gt;
-                        /// Gets or sets the preferred method of contact for the customer.
-                        /// &lt;/summary&gt;
-                        public string PreferredContactMethod { get; set; } = &quot;email&quot;;
-
-                        /// &lt;summary&gt;
-                        /// Gets or sets the birth date of the customer.
-                        /// &lt;/summary&gt;
-                        public DateTime BirthDate { get; set; } = DateTime.Now.AddYears(-29).AddMonths(3).AddDays(9);
-
-                        /// &lt;summary&gt;
-                        /// Gets or sets the interests of the customer.
-                        /// This property is used to demonstrate the checkbox group components.
-                        /// &lt;/summary&gt;
-                        public List&lt;string&gt; Interests { get; set; } = new List&lt;string&gt; { &quot;Sports&quot; };
-                    }
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzRadioGroup For=&quot;@@(() =&gt; _model.LayoutPreference)&quot; DisplayName=&quot;Layout Preference&quot;&gt;
+    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;default&quot;&gt;
+        &lt;span class=&quot;text-sm font-medium&quot;&gt;Default&lt;/span&gt;
+    &lt;/RadioGroupItem&gt;
+    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;comfortable&quot;&gt;
+        &lt;span class=&quot;text-sm font-medium&quot;&gt;Comfortable&lt;/span&gt;
+    &lt;/RadioGroupItem&gt;
+    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;compact&quot; Disabled=&quot;true&quot;&gt;
+        &lt;span class=&quot;text-sm font-medium&quot;&gt;Compact (Coming Soon)&lt;/span&gt;
+    &lt;/RadioGroupItem&gt;
+&lt;/RzRadioGroup&gt;
                 </RzCodeViewer>
             </section>
 
-            <!-- Parameters Table: RadioGroup -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RadioGroup Parameters" class="scroll-mt-20">
-                    RadioGroup Component Parameters
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Hiding Indicators" class="scroll-mt-20">
+                    Hiding Indicators
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                    <tr class="bg-surface-alt ">
-                        <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong ">Property</th>
-                        <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong ">Description</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>For</strong></td>
-                        <td class="text-base p-4"><em>Expression&lt;Func&lt;TValue&gt;&gt;</em> – Specifies the field the radio group is bound to. (Required)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Value</strong></td>
-                        <td class="text-base p-4"><em>TValue?</em> – The currently selected value of the radio group.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>ValueChanged</strong></td>
-                        <td class="text-base p-4"><em>EventCallback&lt;TValue&gt;</em> – Callback invoked when the selected value changes.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Name</strong></td>
-                        <td class="text-base p-4"><em>string</em> – The name attribute shared by all radio buttons in the group.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Orientation</strong></td>
-                        <td class="text-base p-4"><em>Orientation</em> – Controls the layout direction (Vertical or Horizontal). (Default: Vertical)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>CheckboxIcon</strong></td>
-                        <td class="text-base p-4"><em>SvgIcon</em> – The icon displayed inside the selected radio button. (Default: MdiIcon.CheckboxMarkedCircle)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                        <td class="text-base p-4"><em>RenderFragment</em> – Contains the <code>RzRadioGroupItem</code> components.</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <RzParagraph>
+                    Set `ShowIndicators="false"` on the `RzRadioGroup` to hide the radio dots for all items. This is useful for "choice card" patterns where the selection is indicated by a border or background change.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8">
+                        <EditForm Model="@_model">
+                            <RzRadioGroup For="@(() => _model.SubscriptionPlan)" DisplayName="Subscription Plan" ShowIndicators="false">
+                                <RadioGroupItem TValue="string" Value="@("monthly")">
+                                    <div class="bg-background flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
+                                        <div class="grid gap-1.5 leading-none">
+                                            <span class="font-medium">Starter Plan</span>
+                                            <p class="text-muted-foreground text-sm">
+                                                Perfect for individuals and small teams.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("yearly")">
+                                    <div class="bg-background flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
+                                        <div class="grid gap-1.5 leading-none">
+                                            <span class="font-medium">Professional Plan</span>
+                                            <p class="text-muted-foreground text-sm">
+                                                Advanced features for growing businesses.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </RadioGroupItem>
+                            </RzRadioGroup>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                            &lt;RzRadioGroup For=&quot;@@(() =&gt; _model.SubscriptionPlan)&quot; DisplayName=&quot;Subscription Plan&quot; ShowIndicators=&quot;false&quot;&gt;
+                                &lt;RzFieldGroup&gt;
+                                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;monthly&quot;)&quot;&gt;
+                                        &lt;div class=&quot;bg-background flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent&quot;&gt;
+                                            &lt;div class=&quot;grid gap-1.5 leading-none&quot;&gt;
+                                                &lt;span class=&quot;font-medium&quot;&gt;Starter Plan&lt;/span&gt;
+                                                &lt;p class=&quot;text-muted-foreground text-sm&quot;&gt;
+                                                    Perfect for individuals and small teams.
+                                                &lt;/p&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/RadioGroupItem&gt;
+                                    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;yearly&quot;)&quot;&gt;
+                                        &lt;div class=&quot;bg-background flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent&quot;&gt;
+                                            &lt;div class=&quot;grid gap-1.5 leading-none&quot;&gt;
+                                                &lt;span class=&quot;font-medium&quot;&gt;Professional Plan&lt;/span&gt;
+                                                &lt;p class=&quot;text-muted-foreground text-sm&quot;&gt;
+                                                    Advanced features for growing businesses.
+                                                &lt;/p&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/RadioGroupItem&gt;
+                                &lt;/RzFieldGroup&gt;
+                            &lt;/RzRadioGroup&gt;
+                </RzCodeViewer>
             </section>
 
-            <!-- Parameters Table: RzRadioGroupField -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzRadioGroupField Parameters" class="scroll-mt-20">
-                    RzRadioGroupField Component Parameters
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Indicator" class="scroll-mt-20">
+                    Custom Indicator
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                    <tr class="bg-surface-alt ">
-                        <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong ">Property</th>
-                        <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong ">Description</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>For</strong></td>
-                        <td class="text-base p-4"><em>Expression&lt;Func&lt;TValue&gt;&gt;</em> – Specifies the field the radio group is bound to. (Required)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Value</strong></td>
-                        <td class="text-base p-4"><em>TValue?</em> – The currently selected value of the radio group.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>ValueChanged</strong></td>
-                        <td class="text-base p-4"><em>EventCallback&lt;TValue&lt;</em> – Callback invoked when the selected value changes.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>DisplayName</strong></td>
-                        <td class="text-base p-4"><em>string?</em> – The text displayed in the field's label. If not set, it's inferred from the `For` expression.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Name</strong></td>
-                        <td class="text-base p-4"><em>string</em> – The name attribute shared by all radio buttons in the group.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Orientation</strong></td>
-                        <td class="text-base p-4"><em>Orientation</em> – Controls the layout direction (Vertical or Horizontal). (Default: Vertical)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>CheckboxIcon</strong></td>
-                        <td class="text-base p-4"><em>SvgIcon</em> – The icon displayed inside the selected radio button. (Default: MdiIcon.CheckboxMarkedCircle)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>RadioGroupContent</strong></td>
-                        <td class="text-base p-4"><em>RenderFragment</em> – Contains the <code>RzRadioGroupItem</code> components. (Use this instead of ChildContent)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>FieldHelp</strong></td>
-                        <td class="text-base p-4"><em>RenderFragment?</em> – Optional content displayed below the radio group to provide help or context.</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <RzParagraph>
+                    You can provide custom content to the `RadioGroupItemIndicator` to replace the default dot. In this example, we use a checkmark icon.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8">
+                        <EditForm Model="@_model">
+                            <RzRadioGroup For="@(() => _model.DeliverySpeed)" DisplayName="Delivery Speed">
+                                <RadioGroupItem TValue="string" Value="@("standard")">
+                                    <RadioGroupItemIndicator>
+                                        <Blazicon Svg="MdiIcon.Check" class="text-primary size-3.5 fill-current" />
+                                    </RadioGroupItemIndicator>
+                                    <span class="text-sm font-medium">Standard</span>
+                                </RadioGroupItem>
+                                <RadioGroupItem TValue="string" Value="@("express")">
+                                    <RadioGroupItemIndicator>
+                                        <Blazicon Svg="MdiIcon.Check" class="text-primary size-3.5 fill-current" />
+                                    </RadioGroupItemIndicator>
+                                    <span class="text-sm font-medium">Express</span>
+                                </RadioGroupItem>
+                            </RzRadioGroup>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzRadioGroup For=&quot;@@(() =&gt; _model.DeliverySpeed)&quot; DisplayName=&quot;Delivery Speed&quot;&gt;
+    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;standard&quot;)&quot;&gt;
+        &lt;RadioGroupItemIndicator&gt;
+            &lt;Blazicon Svg=&quot;MdiIcon.Check&quot; class=&quot;size-3.5 fill-current text-primary&quot; /&gt;
+        &lt;/RadioGroupItemIndicator&gt;
+        &lt;span class=&quot;text-sm font-medium&quot;&gt;Standard&lt;/span&gt;
+    &lt;/RadioGroupItem&gt;
+    &lt;RadioGroupItem TValue=&quot;string&quot; Value=&quot;@@(&quot;express&quot;)&quot;&gt;
+        &lt;RadioGroupItemIndicator&gt;
+            &lt;Blazicon Svg=&quot;MdiIcon.Check&quot; class=&quot;size-3.5 fill-current text-primary&quot; /&gt;
+        &lt;/RadioGroupItemIndicator&gt;
+        &lt;span class=&quot;text-sm font-medium&quot;&gt;Express&lt;/span&gt;
+    &lt;/RadioGroupItem&gt;
+&lt;/RzRadioGroup&gt;
+                </RzCodeViewer>
             </section>
 
-            <!-- Parameters Table: RzRadioGroupItem -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzRadioGroupItem Parameters" class="scroll-mt-20">
-                    RzRadioGroupItem Component Parameters
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
                 </RzHeading>
-                <table class="min-w-full divide-y divide-outline dark:divide-outline-dark mt-6">
-                    <thead>
-                    <tr class="bg-surface-alt ">
-                        <th scope="col" class="px-6 py-3 text-center text-sm font-medium text-on-surface-strong ">Property</th>
-                        <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-on-surface-strong ">Description</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y divide-outline dark:divide-outline-dark">
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Value</strong></td>
-                        <td class="text-base p-4"><em>TValue?</em> – The specific value this radio button represents.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Label</strong></td>
-                        <td class="text-base p-4"><em>string</em> – The text label displayed next to the radio button. (Required)</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Icon</strong></td>
-                        <td class="text-base p-4"><em>SvgIcon?</em> – An optional icon displayed next to the label.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Description</strong></td>
-                        <td class="text-base p-4"><em>RenderFragment?</em> – Optional additional content displayed below the label for more context.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>ChildContent</strong></td>
-                        <td class="text-base p-4"><em>RenderFragment?</em> – Optional content rendered within the item's structure, often alongside the Description.</td>
-                    </tr>
-                    <tr>
-                        <td class="text-base p-4 text-center"><strong>Id</strong></td>
-                        <td class="text-base p-4"><em>string</em> – The unique ID for the radio input element. Auto-generated if not provided.</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </section>
+                <RzParagraph>
+                    The following tables summarize the main parameters for the Radio Group components.
+                </RzParagraph>
 
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzRadioGroup</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="bg-muted/50 text-left font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>For</code></td><td class="p-4"><code>Expression&lt;Func&lt;TValue&gt;&gt;</code></td><td class="p-4">Required</td><td class="p-4">An expression that identifies the bound value.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Value</code></td><td class="p-4"><code>TValue?</code></td><td class="p-4"><code>default</code></td><td class="p-4">The currently selected value of the radio group.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4"><code>null</code></td><td class="p-4">The content of the radio group, which should be a series of <code>RadioGroupItem</code> components.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>DisplayName</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">An accessible name for the fieldset, rendered as a screen-reader-only <code>&lt;legend&gt;</code>.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>ShowIndicators</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>true</code></td><td class="p-4">If false, all indicators within the group will be hidden.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RadioGroupItem</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="bg-muted/50 text-left font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>Value</code></td><td class="p-4"><code>TValue?</code></td><td class="p-4"><code>default</code></td><td class="p-4">The value associated with this radio item.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Disabled</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">If true, the item cannot be selected.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Id</code></td><td class="p-4"><code>string</code></td><td class="p-4">Auto-generated</td><td class="p-4">The unique identifier for the radio item's label.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4"><code>null</code></td><td class="p-4">The visible content of the label for this radio item.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RadioGroupItemIndicator</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="bg-muted/50 text-left font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Custom content to display as the indicator when checked. If null, a default dot is rendered.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>
 
 @code {
-    private Customer Model = new();
-
-    protected override void OnInitialized()
+    private class DemoModel
     {
-        base.OnInitialized();
-        Model = new(); // Ensure model is initialized
+        public string? LayoutPreference { get; set; } = "comfortable";
+        public string? NotificationOption { get; set; } = "option-one";
+        public string? SubscriptionPlan { get; set; } = "monthly";
+        public string? DeliverySpeed { get; set; } = "standard";
     }
+
+    private DemoModel _model = new();
 }

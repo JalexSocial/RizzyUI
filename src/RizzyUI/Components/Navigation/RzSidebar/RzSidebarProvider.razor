@@ -1,0 +1,30 @@
+
+@namespace RizzyUI
+@inherits RzComponent<RzSidebarProvider.Slots>
+
+<CascadingValue Value="this" IsFixed="true">
+	<HtmlElement Element="@EffectiveElement"
+	             @attributes="@AdditionalAttributes"
+	             id="@Id"
+	             class="@SlotClasses.GetBase()"
+	             data-slot="sidebar-wrapper"
+	             x-data="rzSidebar"
+	             x-mobile="isMobile"
+	             data-alpine-root="@Id"
+	             data-default-open="@DefaultOpen.ToString().ToLowerInvariant()"
+	             data-collapsible="@Collapsible.ToString().ToLowerInvariant()"
+	             data-shortcut="@KeyboardShortcut"
+	             data-cookie-name="@PersistenceCookieName"
+	             data-mobile-breakpoint="768">
+		
+		<style nonce="@Nonce">
+            :root {
+                --sidebar-width: @Width;
+                --sidebar-mobile-width: @MobileWidth;
+                --sidebar-width-icon: @IconWidth;
+            }
+        </style>
+		
+		@ChildContent
+	</HtmlElement>
+</CascadingValue>

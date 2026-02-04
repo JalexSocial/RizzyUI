@@ -1,20 +1,27 @@
 
 using Microsoft.AspNetCore.Components;
-using RizzyUI.Extensions;
 using System.Text.Json;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <xmldoc>
-///     A container component that collects heading information from child components (like <see cref="RzHeading" />)
-///     and makes it available to <see cref="RzQuickReference" /> for building an "on this page" navigation.
+///     A container component that collects heading information from child components (like &lt;see cref="RzHeading" /&gt;)
+///     and makes it available to &lt;see cref="RzQuickReference" /&gt; for building an "on this page" navigation.
 ///     Interacts with Alpine.js to manage the currently highlighted heading.
-///     Styling is determined by the active <see cref="RzTheme" />.
+///     Styling is determined by the active &lt;see cref="RzTheme" /&gt;.
 /// </xmldoc>
-public partial class RzQuickReferenceContainer : RzComponent
+public partial class RzQuickReferenceContainer : RzComponent<RzQuickReferenceContainer.Slots>
 {
+    /// <summary>
+    /// Defines the default styling for the RzQuickReferenceContainer component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: ""
+    );
+
     private readonly List<HeadingItem> _headingItems = new();
-    private string _currentHeadingId = string.Empty; // Store initial heading ID
+    private string _currentHeadingId = string.Empty;
     private string _headingItemsSerialized = "[]";
 
     /// <summary> The lowest heading level (e.g., H2) to include in the quick reference outline. Defaults to H2. </summary>
@@ -27,43 +34,41 @@ public partial class RzQuickReferenceContainer : RzComponent
 
     /// <summary>
     ///     The child content of the container, which should include headings and potentially an
-    ///     <see cref="RzQuickReference" /> component.
+    ///     &lt;see cref="RzQuickReference" /&gt; component.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary> Registers a heading with this container. Called by child <see cref="RzHeading" /> components. </summary>
-    /// <param name="level">The heading level.</param>
-    /// <param name="title">The title of the heading.</param>
-    /// <param name="id">The unique ID of the heading element.</param>
+    /// <summary> Registers a heading with this container. Called by child &lt;see cref="RzHeading" /&gt; components. </summary>
     internal void RegisterHeading(HeadingLevel level, string title, string id)
     {
         if (level >= MinimumHeadingLevel && level <= MaximumHeadingLevel)
             _headingItems.Add(new HeadingItem(level, title, id));
 
         UpdateSerializedHeadings();
-
         StateHasChanged();
     }
 
     private void UpdateSerializedHeadings()
     {
-        _headingItemsSerialized =
-            JsonSerializer.Serialize(_headingItems.Select(x => x.Id).ToList()); // Serialize the IDs
-        _currentHeadingId = _headingItems.FirstOrDefault()?.Id ?? string.Empty; // Set initial ID for Alpine
+        _headingItemsSerialized = JsonSerializer.Serialize(_headingItems.Select(x => x.Id).ToList());
+        _currentHeadingId = _headingItems.FirstOrDefault()?.Id ?? string.Empty;
     }
-
 
     /// <summary> Gets the list of registered heading items. </summary>
-    /// <returns>A read-only list of <see cref="HeadingItem" />.</returns>
-    public IReadOnlyList<HeadingItem> GetHeadingItems()
-    {
-        return _headingItems.AsReadOnly();
-    }
+    public IReadOnlyList<HeadingItem> GetHeadingItems() => _headingItems.AsReadOnly();
 
     /// <inheritdoc />
-    protected override string? RootClass()
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzQuickReferenceContainer;
+
+    /// <summary>
+    /// Defines the slots available for styling in the RzQuickReferenceContainer component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
     {
-        return TwMerge.Merge(AdditionalAttributes, Theme.RzQuickReferenceContainer.Container);
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
+        public string? Base { get; set; }
     }
 }

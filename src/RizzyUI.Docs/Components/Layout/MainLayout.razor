@@ -1,111 +1,203 @@
 
 @inherits LayoutComponentBase
+@using System.Reflection
 @using RizzyUI
+@using Blazicons
 
-<RzSidebar>
-    <NavbarContent>
-        <RzNavbar>
-            <div>
-                <!-- logo  -->
-                <a href="/" class="text-2xl font-bold text-black dark:text-white">
-                    <span class="sr-only">RizzyUI Home</span>
-                    <div class="w-32 md:w-50 px-2">
-                        <img src="/images/rizzy-logo-wb.svg" alt="RizzyUI" class="w-full h-full"/>
-                    </div>
-                </a>
+<RzSidebarProvider>
+    <Sidebar>
+        <SidebarHeader>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton Size="Size.Large" AsChild>
+                        <a href="/">
+                            <img src="/images/rizzy-icon.svg" class="size-10" alt="RizzyUI Icon" />
+
+                            <div class="flex flex-col gap-0.5 leading-none">
+                                <span class="font-medium">RizzyUI Docs</span>
+                                <span class="text-xs">v@(typeof(RzComponent).Assembly.GetName().Version)</span>
+                            </div>
+                        </a>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarMenu>
+        </SidebarHeader>
+        <SidebarContent>
+            <SidebarGroup>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="/" class="font-medium">Home</a>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="/themes" class="font-medium">Themes</a>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Interactivity</a>
+                        </SidebarMenuButton>
+                        <SidebarMenuSub>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/introduction"><span>Introduction</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/alpine-fundamentals"><span>Alpine.js Fundamentals</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/alpine-code-behind"><span>Your First Code-Behind</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/state-reactivity"><span>State and Reactivity</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/lifecycle"><span>Lifecycle and Initialization</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/lazy-loading"><span>Optimizing with Lazy Loading</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/plugins"><span>Plugins & Directives</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/orchestration"><span>Advanced: Orchestration</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/debugging"><span>Debugging and Best Practices</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/co-located-js"><span>Additional Examples</span></a></SidebarMenuButton></SidebarMenuItem>
+                        </SidebarMenuSub>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Forms</a>
+                        </SidebarMenuButton>
+                        <SidebarMenuSub>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
+                                    <a href="/components/buttons"><span>Button</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
+                                    <a href="/components/button-group"><span>Button Group</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
+                                    <a href="/components/calendar"><span>Calendar</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>         
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
+                                    <a href="/components/calendar-provider"><span>Calendar Provider</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>                             
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
+                                    <a href="/components/checkbox"><span>Checkbox</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
+                                    <a href="/components/combobox"><span>Combobox</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>                            
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
+                                    <a href="/components/input"><span>Input</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
+                                    <a href="/components/native-select"><span>Native Select</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>                            
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
+                                    <a href="/components/radiogroup"><span>Radio Group</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
+                                    <a href="/components/switch"><span>Switch</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </SidebarMenuSub>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Navigation</a>
+                        </SidebarMenuButton>
+                        <SidebarMenuSub>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/breadcrumb"><span>Breadcrumb</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/collapsible"><span>Collapsible</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/command"><span>Command</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/dropdown"><span>Dropdown Menu</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/link"><span>Link</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/navigation-menu"><span>Navigation Menu</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/popover"><span>Popover</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/sidebar"><span>Sidebar</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/tabs"><span>Tabs</span></a></SidebarMenuButton></SidebarMenuItem>
+                        </SidebarMenuSub>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Display</a>
+                        </SidebarMenuButton>
+                        <SidebarMenuSub>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/avatar"><span>Avatar</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/badge"><span>Badge</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/kbd"><span>Kbd</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/item"><span>Item</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/separator"><span>Separator</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/table"><span>Table</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/progress"><span>Progress</span></a></SidebarMenuButton></SidebarMenuItem>
+                        </SidebarMenuSub>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Feedback</a>
+                        </SidebarMenuButton>
+                        <SidebarMenuSub>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/alert"><span>Alert</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/dialog"><span>Dialog</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/toastnotification"><span>Toast Notification</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/tooltip"><span>Tooltip</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/sheet"><span>Sheet</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/empty"><span>Empty</span></a></SidebarMenuButton></SidebarMenuItem>                            
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/spinner"><span>Spinner</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/skeleton"><span>Skeleton</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/steps"><span>Steps</span></a></SidebarMenuButton></SidebarMenuItem>
+                        </SidebarMenuSub>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Layout</a>
+                        </SidebarMenuButton>
+                        <SidebarMenuSub>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/accordion"><span>Accordion</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/aspect-ratio"><span>Aspect Ratio</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/card"><span>Card</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/carousel"><span>Carousel</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/markdown"><span>Markdown</span></a></SidebarMenuButton></SidebarMenuItem>
+                        </SidebarMenuSub>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarGroup>
+        </SidebarContent>
+    </Sidebar>
+
+    <!-- Main Content Area -->
+    <SidebarInset class="h-screen">
+        <header class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-in-out group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 items-center justify-between border-b bg-secondary/75 px-4 py-2 backdrop-blur-xl">
+            <div class="flex items-center gap-2">
+                <SidebarTrigger />
+                <RzSeparator Orientation="Orientation.Vertical" class="mr-2 h-10" />
+                <div data-slot="header-logo" class="w-32 md:w-50 px-2 shrink-0 overflow-hidden opacity-0
+    transition-[opacity] duration-200
+    group-has-[[data-state=collapsed]]/sidebar-wrapper:py-2
+    group-has-[[data-state=collapsed]]/sidebar-wrapper:opacity-100" b-jf2s6kmoz7=""><img src="/images/rizzy-logo-wb.svg" alt="RizzyUI" class="w-full h-full"></div>
             </div>
+
+            <!-- Right-aligned items -->
             <div class="flex items-center gap-4">
+                <RzSearchButton class="bg-background" />
                 <RzDarkModeToggle/>
             </div>
-        </RzNavbar>
-    </NavbarContent>
-    <MenuContent>
+        </header>
 
+        <main class="flex flex-1 flex-col gap-4 p-4 overflow-y-scroll">
+            @Body
+        </main>
+    </SidebarInset>
+</RzSidebarProvider>
 
-        <!-- search  -->
-        <div class="relative my-4 flex w-full max-w-xs flex-col gap-1 text-slate-700 dark:text-slate-300">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" class="-translate-y-1/2 text-slate-700/50 absolute left-2 top-1/2 size-5 dark:text-slate-300/50" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
-            </svg>
-            <input type="search" class="w-full rounded-xl border border-slate-300 bg-white px-2 py-1.5 pl-9 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:cursor-not-allowed disabled:opacity-75 dark:border-slate-700 dark:bg-slate-900/50 dark:focus-visible:outline-blue-600" name="search" aria-label="Search" placeholder="Search"/>
-        </div>
-
-        <RzSidebarLinks>
-            <RzSidebarLinkItem Icon="MdiIcon.ViewDashboard" Title="Home" Href="/"/>
-            <RzSidebarLinkItem Icon="MdiIcon.PaletteSwatchVariant" Title="Themes" Href="/themes" hx-boost="true" />
-
-            <RzSidebarLinkItem Icon="MdiIcon.FormSelect" Title="Forms" Collapsible="false">
-                <RzSidebarLinkItem Title="Buttons" Href="/components/buttons" />
-                <RzSidebarLinkItem Title="Checkbox" Href="/components/checkboxgroup" />
-                <RzSidebarLinkItem Title="Text" Href="/components/textedit" />
-                <!--
-                <RzSidebarLinkItem Title="Combobox" Href="/components/combobox" />
-                <RzSidebarLinkItem Title="Counter" Href="/components/counter" />
-                <RzSidebarLinkItem Title="File Input" Href="/components/fileinput" />
-                <RzSidebarLinkItem Title="Radio" Href="/components/radio" />
-                <RzSidebarLinkItem Title="Range" Href="/components/range" />
-                <RzSidebarLinkItem Title="Rating" Href="/components/rating" />
-                <RzSidebarLinkItem Title="Select" Href="/components/select" />
-                <RzSidebarLinkItem Title="Text Input" Href="/components/textinput" />
-                <RzSidebarLinkItem Title="Textarea" Href="/components/textarea" />
-                <RzSidebarLinkItem Title="Toggle" Href="/components/toggle" />
-                -->
-            </RzSidebarLinkItem>
-
-            <RzSidebarLinkItem Icon="MdiIcon.Navigation" Title="Navigation" Collapsible="false">
-                <RzSidebarLinkItem Title="Breadcrumb" Href="/components/breadcrumb" />
-                <RzSidebarLinkItem Title="Dropdown" Href="/components/dropdown" />
-                <RzSidebarLinkItem Title="Link" Href="/components/link" />
-                <RzSidebarLinkItem Title="Navbar" Href="/components/navbar" />
-                <!--
-                <RzSidebarLinkItem Title="Paginations" Href="/components/paginations" />
-                -->
-                <RzSidebarLinkItem Title="Sidebar" Href="/components/sidebar" />
-                <RzSidebarLinkItem Title="Tabs" Href="/components/tabs" />
-            </RzSidebarLinkItem>
-
-            <RzSidebarLinkItem Icon="MdiIcon.ViewList" Title="Display" Collapsible="false">
-                <RzSidebarLinkItem Title="Avatar" Href="/components/avatar" hx-boost="true"/>
-                <RzSidebarLinkItem Title="Badge" Href="/components/badge" />
-                <RzSidebarLinkItem Title="Divider" Href="/components/divider" />
-                <RzSidebarLinkItem Title="Table" Href="/components/table" />
-                <RzSidebarLinkItem Title="Progress" Href="/components/progress" />
-                <!--
-                <RzSidebarLinkItem Title="Counter" Href="/components/counter" />
-                <RzSidebarLinkItem Title="Rating" Href="/components/rating" />
-                -->
-            </RzSidebarLinkItem>
-
-            <RzSidebarLinkItem Icon="MdiIcon.Alert" Title="Feedback" Collapsible="false">
-                <RzSidebarLinkItem Title="Alert" Href="/components/alert" />
-                <RzSidebarLinkItem Title="Toast Notification" Href="/components/toastnotification" />
-                <RzSidebarLinkItem Title="Modal" Href="/components/modal" />
-                <RzSidebarLinkItem Title="Tooltip" Href="/components/tooltip" />
-                <RzSidebarLinkItem Title="Spinner" Href="/components/spinner" />
-                <RzSidebarLinkItem Title="Skeleton" Href="/components/skeleton" />
-                <RzSidebarLinkItem Title="Steps" Href="/components/steps" />
-            </RzSidebarLinkItem>
-
-            <RzSidebarLinkItem Icon="MdiIcon.ViewGrid" Title="Layout" Collapsible="false">
-                <RzSidebarLinkItem Title="Card" Href="/components/card" />
-                <RzSidebarLinkItem Title="Markdown" Href="/components/markdown" />
-                <RzSidebarLinkItem Title="Accordion" Href="/components/accordion" />
-                <!--
-                <RzSidebarLinkItem Title="Banner" Href="/components/banner" />
-                <RzSidebarLinkItem Title="Carousel" Href="/components/carousel" />
-                <RzSidebarLinkItem Title="Chat Bubble" Href="/components/chatbubble" />
-                -->
-            </RzSidebarLinkItem>
-            <!--
-            <RzSidebarLinkItem Icon="MdiIcon.Apps" Title="Miscellaneous" Collapsible="false">
-                <RzSidebarLinkItem Title="KBD" Href="/components/kbd" />
-                <RzSidebarLinkItem Title="Chat Bubble" Href="/components/chatbubble" />
-            </RzSidebarLinkItem>
-            -->
-        </RzSidebarLinks>
-
-    </MenuContent>
-    <MainContent>
-        @Body
-    </MainContent>
-</RzSidebar>
+@code {
+    [CascadingParameter]
+    private RzTheme Theme { get; set; } = null!;
+}

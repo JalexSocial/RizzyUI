@@ -1,0 +1,71 @@
+
+using Microsoft.AspNetCore.Components;
+using TailwindVariants.NET;
+
+namespace RizzyUI;
+
+/// <summary>
+/// Represents a sub-menu container within an <see cref="RzDropdownMenu"/>.
+/// It requires a <see cref="DropdownMenuSubTrigger"/> and <see cref="DropdownMenuSubContent"/> as children.
+/// Interactivity is managed by the 'rzDropdownSubmenu' Alpine.js component.
+/// </summary>
+public partial class DropdownMenuSub : RzComponent<DropdownMenuSub.Slots>
+{
+    /// <summary>
+    /// Defines the default styling for the DropdownMenuSub component.
+    /// </summary>
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
+        @base: "relative"
+    );
+
+    /// <summary>
+    /// Gets the parent <see cref="RzDropdownMenu"/> component.
+    /// </summary>
+    [CascadingParameter]
+    protected RzDropdownMenu? ParentDropdownMenu { get; set; }
+
+    /// <summary>
+    /// Gets or sets the content of the sub-menu, typically a <see cref="DropdownMenuSubTrigger"/>
+    /// and a <see cref="DropdownMenuSubContent"/>. Required.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the preferred position of the sub-menu content relative to its trigger.
+    /// Defaults to <see cref="AnchorPoint.RightStart"/>.
+    /// </summary>
+    [Parameter]
+    public AnchorPoint Anchor { get; set; } = AnchorPoint.RightStart;
+
+    /// <summary>
+    /// Gets or sets the offset in pixels from the anchor point where the sub-menu content should appear.
+    /// Defaults to -4 (slight overlap).
+    /// </summary>
+    [Parameter]
+    public int Offset { get; set; } = -4;
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (ParentDropdownMenu == null)
+        {
+            throw new InvalidOperationException($"{nameof(DropdownMenuSub)} must be used within an {nameof(RzDropdownMenu)}.");
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.DropdownMenuSub;
+
+    /// <summary>
+    /// Defines the slots available for styling in the DropdownMenuSub component.
+    /// </summary>
+    public sealed partial class Slots : ISlots
+    {
+        /// <summary>
+        /// The base slot for the component's root element.
+        /// </summary>
+        public string? Base { get; set; }
+    }
+}

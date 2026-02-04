@@ -1,59 +1,10 @@
-﻿namespace RizzyUI;
+
+namespace RizzyUI;
 
 /// <summary>
-///     Variants for alert components, defining their visual appearance.
+///     Variants for button, alert, and badge components, defining their appearance and purpose.
 /// </summary>
-public enum AlertVariant
-{
-    /// <summary>
-    ///     Alert using the alternate background color
-    /// </summary>
-    Alternate,
-
-    /// <summary>Informational alert, typically blue or neutral.</summary>
-    Information,
-
-    /// <summary>Success alert, often green to indicate positive feedback.</summary>
-    Success,
-
-    /// <summary>Warning alert, often yellow to indicate caution.</summary>
-    Warning,
-
-    /// <summary>Danger alert, often red to indicate errors or critical issues.</summary>
-    Danger
-}
-
-/// <summary>
-///     Variants for badge components, defining their style and context.
-/// </summary>
-public enum BadgeVariant
-{
-    /// <summary>Default badge styling.</summary>
-    Default,
-
-    /// <summary>Secondary badge, typically for less emphasized content.</summary>
-    Secondary,
-
-    /// <summary>Outlined badge for a minimal look.</summary>
-    Outline,
-
-    /// <summary>Success badge, often green for positive actions or states.</summary>
-    Success,
-
-    /// <summary>Informational badge, often blue or neutral.</summary>
-    Info,
-
-    /// <summary>Warning badge, often yellow for caution.</summary>
-    Warning,
-
-    /// <summary>Destructive badge, often red to indicate critical actions.</summary>
-    Destructive
-}
-
-/// <summary>
-///     Variants for button components, defining their appearance and purpose.
-/// </summary>
-public enum ButtonVariant
+public enum ThemeVariant
 {
     /// <summary>Default button styling.</summary>
     Default,
@@ -64,22 +15,22 @@ public enum ButtonVariant
     /// <summary>Secondary button for supporting actions.</summary>
     Secondary,
 
-    /// <summary>Alternate button styling for varied contexts.</summary>
-    Alternate,
+    /// <summary>Alternate styling for varied contexts.</summary>
+    Accent,
 
-    /// <summary>Inverse button styling for dark backgrounds.</summary>
+    /// <summary>Inverse styling for dark backgrounds.</summary>
     Inverse,
 
-    /// <summary>Information button, typically blue for neutral actions.</summary>
+    /// <summary>Information styling, typically blue for neutral actions.</summary>
     Information,
 
-    /// <summary>Danger button, often red for critical actions.</summary>
-    Danger,
+    /// <summary>Destructive styling, often red for critical actions.</summary>
+    Destructive,
 
-    /// <summary>Warning button, often yellow for cautionary actions.</summary>
+    /// <summary>Warning styling, often yellow for cautionary actions.</summary>
     Warning,
 
-    /// <summary>Success button, often green for positive actions.</summary>
+    /// <summary>Success styling, often green for positive actions.</summary>
     Success,
 
     /// <summary>Ghost button for minimal and subtle interactions.</summary>
@@ -89,7 +40,7 @@ public enum ButtonVariant
 /// <summary>
 ///     Appearance option for divider
 /// </summary>
-public enum DividerStyle
+public enum SeparatorStyle
 {
     /// <summary>
     ///     Solid line
@@ -229,12 +180,12 @@ public enum AnchorPoint
     /// Anchor to left middle
     /// </summary>
     Left,
-    
+
     /// <summary>
     /// Anchor to left end
     /// </summary>
     LeftEnd,
-    
+
     /// <summary>
     ///     Anchor to right start
     /// </summary>
@@ -244,7 +195,7 @@ public enum AnchorPoint
     /// Anchor to right middle
     /// </summary>
     Right,
-    
+
     /// <summary>
     /// Anchor to right end
     /// </summary>
@@ -374,62 +325,83 @@ public enum ModalSize
 /// </summary>
 public enum SemanticColor
 {
-    /// <summary>No color specified.</summary>
+    /// <summary>No specific semantic color is applied; typically inherits or uses a component default.</summary>
     None,
 
-    /// <summary>Surface color, typically for backgrounds.</summary>
-    Surface,
+    /// <summary>General page background color (maps to --background in kitchen sink).</summary>
+    Background,
 
-    /// <summary>Foreground color on surface.</summary>
-    OnSurface,
+    /// <summary>General page foreground/text color (maps to --foreground).</summary>
+    Foreground,
 
-    /// <summary>Strong foreground color on surface.</summary>
-    OnSurfaceStrong,
+    /// <summary>Background color for card components (maps to --card).</summary>
+    Card,
 
-    /// <summary>Alternate surface color for secondary areas.</summary>
-    SurfaceAlt,
+    /// <summary>Foreground/text color for content on card components (maps to --card-foreground).</summary>
+    CardForeground,
 
-    /// <summary>Primary color for highlights or accents.</summary>
+    /// <summary>Background color for popover components (maps to --popover).</summary>
+    Popover,
+
+    /// <summary>Foreground/text color for content on popover components (maps to --popover-foreground).</summary>
+    PopoverForeground,
+
+    /// <summary>Primary accent color, typically for interactive elements (maps to --primary).</summary>
     Primary,
 
-    /// <summary>Foreground color on primary background.</summary>
-    OnPrimary,
+    /// <summary>Foreground/text color for content on primary-colored elements (maps to --primary-foreground).</summary>
+    PrimaryForeground,
 
-    /// <summary>Secondary color for less emphasized elements.</summary>
+    /// <summary>Secondary accent color (maps to --secondary).</summary>
     Secondary,
 
-    /// <summary>Foreground color on secondary background.</summary>
-    OnSecondary,
+    /// <summary>Foreground/text color for content on secondary-colored elements (maps to --secondary-foreground).</summary>
+    SecondaryForeground,
 
-    /// <summary>Outline color for borders or separators.</summary>
-    Outline,
+    /// <summary>Color for muted surfaces or backgrounds (maps to --muted).</summary>
+    Muted,
 
-    /// <summary>Strong outline color for emphasis.</summary>
-    OutlineStrong,
+    /// <summary>Foreground/text color for content on muted surfaces (maps to --muted-foreground).</summary>
+    MutedForeground,
 
-    /// <summary>Danger color, often red for errors.</summary>
-    Danger,
+    /// <summary>Color for accented surfaces or backgrounds (maps to --accent).</summary>
+    Accent,
 
-    /// <summary>Foreground color on danger background.</summary>
-    OnDanger,
+    /// <summary>Foreground/text color for content on accented surfaces (maps to --accent-foreground).</summary>
+    AccentForeground,
+
+    /// <summary>Color for destructive actions or elements, indicating errors or critical operations (maps to --destructive).</summary>
+    Destructive,
+
+    /// <summary>Foreground/text color for content on destructive-colored elements (maps to an implied --destructive-foreground).</summary>
+    DestructiveForeground,
+
+    /// <summary>Color for borders (maps to --border).</summary>
+    Border,
+
+    /// <summary>Color for input backgrounds or borders (maps to --input).</summary>
+    Input,
+
+    /// <summary>Color for focus rings (maps to --ring).</summary>
+    Ring,
 
     /// <summary>Informational color, often blue or neutral.</summary>
     Info,
 
     /// <summary>Foreground color on info background.</summary>
-    OnInfo,
+    InfoForeground,
 
     /// <summary>Warning color, often yellow for caution.</summary>
     Warning,
 
     /// <summary>Foreground color on warning background.</summary>
-    OnWarning,
+    WarningForeground,
 
     /// <summary>Success color, often green for positive feedback.</summary>
     Success,
 
     /// <summary>Foreground color on success background.</summary>
-    OnSuccess
+    SuccessForeground
 }
 
 /// <summary>
@@ -491,8 +463,8 @@ public enum StatusColor
     /// <summary>Warning status color.</summary>
     Warning,
 
-    /// <summary>Danger status color.</summary>
-    Danger
+    /// <summary>Destructive status color.</summary>
+    Destructive
 }
 
 /// <summary>
@@ -521,4 +493,72 @@ public enum AccordionType
     /// Allows multiple sections of the accordion to be expanded at the same time.
     /// </summary>
     Multiple
+}
+
+/// <summary>
+/// Specifies the visual variant of the sidebar.
+/// </summary>
+public enum SidebarVariant
+{
+    /// <summary>
+    /// Default docked sidebar.
+    /// </summary>
+    Sidebar,
+    /// <summary>
+    /// Floating sidebar with a margin from the viewport edges.
+    /// </summary>
+    Floating,
+    /// <summary>
+    /// Inset sidebar where the main content flows around it.
+    /// </summary>
+    Inset
+}
+
+/// <summary>
+/// Specifies the collapsible behavior of the sidebar.
+/// </summary>
+public enum SidebarCollapsible
+{
+    /// <summary>
+    /// The sidebar slides off-canvas on mobile and can be collapsed on desktop.
+    /// </summary>
+    OffCanvas,
+    /// <summary>
+    /// The sidebar collapses to show only icons.
+    /// </summary>
+    Icon,
+    /// <summary>
+    /// The sidebar is not collapsible.
+    /// </summary>
+    None
+}
+
+/// <summary>
+/// Specifies the side of the screen where the sidebar appears.
+/// </summary>
+public enum SidebarSide
+{
+    /// <summary>
+    /// The sidebar appears on the left.
+    /// </summary>
+    Left,
+    /// <summary>
+    /// The sidebar appears on the right.
+    /// </summary>
+    Right
+}
+
+/// <summary>
+/// Specifies the visual variant for a sidebar menu button.
+/// </summary>
+public enum SidebarMenuButtonVariant
+{
+    /// <summary>
+    /// Default styling.
+    /// </summary>
+    Default,
+    /// <summary>
+    /// Outline styling.
+    /// </summary>
+    Outline
 }

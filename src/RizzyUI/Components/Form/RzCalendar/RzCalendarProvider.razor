@@ -1,0 +1,14 @@
+
+@namespace RizzyUI
+@inherits RzComponent<RzCalendarProvider.Slots>
+
+<div id="@Id"
+     class="@SlotClasses.GetBase()"
+     x-data="rzCalendarProvider"
+     data-mode="@ToVcpMode(Mode)"
+     data-initial-dates="@_serializedDates"
+     data-locale="@(Locale ?? "en-US")"
+     data-format-options="@_serializedFormatOptions"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>

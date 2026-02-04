@@ -1,0 +1,19 @@
+
+@namespace RizzyUI
+@inherits RzComponent<RadioGroupItemIndicator.Slots>
+
+@if (ShowIndicators)
+{
+    <div @attributes="AdditionalAttributes" class="@SlotClasses.GetBase()" data-slot="@RadioGroupItemIndicator.SlotNames.NameOf(SlotTypes.Base)">
+        @if (ChildContent is null)
+        {
+            <div class="@SlotClasses.GetDot()" data-slot="@RadioGroupItemIndicator.SlotNames.NameOf(SlotTypes.Dot)"></div>
+        }
+        else
+        {
+            <div class="@SlotClasses.GetCustomContentWrapper()" data-slot="@RadioGroupItemIndicator.SlotNames.NameOf(SlotTypes.CustomContentWrapper)">
+                @ChildContent
+            </div>
+        }
+    </div>
+}

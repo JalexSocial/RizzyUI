@@ -1,15 +1,16 @@
-using Microsoft.AspNetCore.Components;
 
-// Required for TwMerge if used directly (though RootClass does it)
+using Microsoft.AspNetCore.Components;
+using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <xmldoc>
 ///     Base class for typography components like <see cref="RzHeading" /> and <see cref="RzParagraph" />.
 ///     Provides common parameters for text styling (color, weight, size, etc.) and access to the theme's typography
-///     styles.
+///     styles. This version is generic to support TailwindVariants.NET.
 /// </xmldoc>
-public abstract class RzTypographyBase : RzComponent
+public abstract partial class RzTypographyBase<TSlots> : RzComponent<TSlots>
+    where TSlots : class, ISlots, new()
 {
     /// <summary> Gets or sets the text color. If null, defaults are often applied by inheriting components. </summary>
     [Parameter]
@@ -34,11 +35,4 @@ public abstract class RzTypographyBase : RzComponent
     /// <summary> Gets or sets the text transformation (uppercase, etc.). </summary>
     [Parameter]
     public TextTransform? Transform { get; set; }
-
-    /// <summary> Builds a string of combined typography CSS classes based on the component's parameters and the active theme. </summary>
-    /// <returns>A string containing Tailwind CSS classes for typography styling.</returns>
-    protected virtual string GetTypographyBaseCss()
-    {
-        return Theme.RzTypography.GetBaseCss(TextColor, Weight, Size, LineHeight, Decoration, Transform);
-    }
 }

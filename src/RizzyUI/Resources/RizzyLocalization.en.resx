@@ -206,15 +206,14 @@
     <value>Search</value>
     <comment>Default text label and aria-label for the search button if not explicitly specified.</comment>
   </data>
-  <!-- RzSidebar -->
-  <data name="RzSidebar.SkipLinkText" xml:space="preserve">
-    <value>skip to the main content</value>
-    <comment>Text for the accessibility skip link.</comment>
-  </data>
-  <data name="RzSidebar.FloatingToggleButtonSrText" xml:space="preserve">
-    <value>sidebar toggle</value>
-    <comment>Screen reader text for the floating sidebar toggle button (used when no navbar).</comment>
-  </data>
+  <data name="RzSidebar.DefaultAriaLabel" xml:space="preserve">
+  <value>Sidebar navigation</value>
+  <comment>Default ARIA label for the Sidebar component</comment>
+</data>
+  <data name="RzSidebarTrigger.DefaultAriaLabel" xml:space="preserve">
+  <value>Toggle sidebar</value>
+  <comment>Default ARIA label for the SidebarTrigger component</comment>
+</data>
   <!-- RzSteps -->
   <data name="RzSteps.DefaultAriaLabel" xml:space="preserve">
     <value>steps progress</value>
@@ -286,4 +285,104 @@
       <value>Avatar</value>
       <comment>Default ARIA label for RzAvatar container</comment>
     </data>  
+    <data name="RzDropdownMenu.TriggerAriaLabel" xml:space="preserve">
+      <value>Open menu</value>
+      <comment>Default ARIA label for the dropdown trigger</comment>
+    </data>
+    <data name="RzDropdownMenu.ContentAriaLabel" xml:space="preserve">
+      <value>Menu options</value>
+      <comment>Default ARIA label for the dropdown content area</comment>
+    </data>
+    <data name="RzDropdownMenu.SubTriggerAriaLabelFormat" xml:space="preserve">
+      <value>Open {0} sub-menu</value>
+      <comment>Format for sub-menu trigger ARIA label, {0} is item title</comment>
+    </data>
+    <data name="RzDropdownMenu.SubContentAriaLabelFormat" xml:space="preserve">
+      <value>{0} sub-menu options</value>
+      <comment>Format for sub-menu content ARIA label, {0} is item title</comment>
+    </data>  
+    <data name="RzPopover.DefaultAriaLabel" xml:space="preserve">
+      <value>Popover</value>
+      <comment>Default ARIA label for RzPopover</comment>
+    </data>
+    <data name="RzPopover.TriggerAriaLabel" xml:space="preserve">
+      <value>Open popover</value>
+      <comment>Default ARIA label for the trigger</comment>
+    </data>
+    <data name="RzPopover.ContentAriaLabel" xml:space="preserve">
+      <value>Popover content</value>
+      <comment>Default ARIA label for the content area</comment>
+    </data>  
+    <data name="RzNavigationMenu.DefaultAriaLabel" xml:space="preserve">
+      <value>Main Navigation</value>
+      <comment>Default ARIA label for RzNavigationMenu</comment>
+    </data>  
+    <data name="RzSheet.CloseButtonText" xml:space="preserve">
+      <value>Close</value>
+      <comment>Screen reader text for the close button in the Sheet component</comment>
+    </data>
+    <data name="RzSidebarRail.DefaultAriaLabel" xml:space="preserve">
+      <value>Toggle Sidebar</value>
+      <comment>Default ARIA label for the SidebarRail component</comment>
+    </data>  
+    <data name="RzCarousel.DefaultAriaLabel" xml:space="preserve">
+      <value>Carousel</value>
+      <comment>Default ARIA label for the carousel region</comment>
+    </data>
+        <data name="RzCarousel.PreviousButtonAriaLabel" xml:space="preserve">
+        <value>Previous slide</value>
+        <comment>ARIA label for the previous slide button</comment>
+    </data>
+    <data name="RzCarousel.NextButtonAriaLabel" xml:space="preserve">
+        <value>Next slide</value>
+        <comment>ARIA label for the next slide button</comment>
+    </data>  
+    <data name="RzDialog.CloseButtonAriaLabel" xml:space="preserve">
+        <value>Close dialog</value>
+        <comment>Aria-label for the close button.</comment>
+    </data>    
+    <data name="RzDialog.DefaultAriaLabel" xml:space="preserve">
+        <value>Dialog</value>
+        <comment>Default ARIA label for the dialog.</comment>
+    </data>      
+    <data name="RzEmpty.DefaultAriaLabel" xml:space="preserve">
+        <value>Empty state</value>
+        <comment>Default ARIA label for RzEmpty</comment>
+    </data>  
+  <data name="RzBrowser.PreviewIFrameTitle" xml:space="preserve">
+        <value>Component Preview</value>
+        <comment>Default title for the iframe in RzBrowser</comment>
+    </data>    
+  <data name="RzCommand.DefaultAriaLabel" xml:space="preserve">
+    <value>Command Menu</value>
+    <comment>Default ARIA label for the RzCommand container.</comment>
+  </data>
+  <data name="RzCommandDialog.DefaultTitle" xml:space="preserve">
+    <value>Command Palette</value>
+    <comment>Default title for the RzCommandDialog header.</comment>
+  </data>
+  <data name="RzCommandDialog.DefaultDescription" xml:space="preserve">
+    <value>Search for a command to run...</value>
+    <comment>Default description for the RzCommandDialog header.</comment>
+  </data>  
+  <data name="RzTabs.DefaultAriaLabel" xml:space="preserve">
+    <value>Tabs</value>
+    <comment>Default ARIA label for the tabs container.</comment>
+  </data>
+  <data name="RzSwitch.DefaultAriaLabel" xml:space="preserve">
+  <value>Toggle switch</value>
+    <comment>Default ARIA label for RzSwitch</comment>
+</data>
+  <data name="RzNativeSelect.DefaultAriaLabel" xml:space="preserve">
+  <value>Select option</value>
+    <comment>Default ARIA label for RzNativeSelect</comment>
+</data>
+  <data name="RzCombobox.DefaultPlaceholder" xml:space="preserve">
+  <value>Select option</value>
+    <comment>Default ARIA placeholder for RzCombobox</comment>
+</data>
+  <data name="RzCalendar.DefaultAriaLabel" xml:space="preserve">
+    <value>Calendar</value>
+    <comment>Default ARIA label for the calendar component.</comment>
+  </data>  
 </root>

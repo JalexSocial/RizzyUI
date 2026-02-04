@@ -108,7 +108,7 @@ namespace RizzyUI.Tests.Components.Display
             // Should have primary color classes (checking for a subset of the expected classes)
             Assert.Contains("border-primary", badge.ClassList);
             Assert.Contains("bg-primary", badge.ClassList);
-            Assert.Contains("text-on-primary", badge.ClassList);
+            Assert.Contains("text-primary-foreground", badge.ClassList);
         }
 
         [Fact]
@@ -166,7 +166,7 @@ namespace RizzyUI.Tests.Components.Display
             {
                 SemanticColor.Success,
                 SemanticColor.Warning,
-                SemanticColor.Danger,
+                SemanticColor.Destructive,
                 SemanticColor.Info
             };
 
