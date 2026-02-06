@@ -1,35 +1,45 @@
-using Alba;
+
 using Bunit;
 
-namespace RizzyUI.Tests.Components.Document
+namespace RizzyUI.Tests.Components.Document;
+
+public class RzEmbeddedPreviewTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 {
-    public class RzEmbeddedPreviewTests : BunitAlbaContext, IClassFixture<WebAppFixture>
+    public RzEmbeddedPreviewTests(WebAppFixture fixture) : base(fixture)
     {
-        private readonly IAlbaHost _host;
-        public RzEmbeddedPreviewTests(WebAppFixture fixture) : base(fixture) => _host = fixture.Host;
+    }
 
-        [Fact]
-        public void Renders_IFrame_With_ChildContent()
-        {
-            var cut = RenderComponent<RzEmbeddedPreview>(p => p.AddChildContent("<h2>Previewed!</h2>"));
-            var iframe = cut.Find("iframe");
-            Assert.NotNull(iframe);
-            Assert.Contains("Previewed!", iframe.GetAttribute("srcdoc"));
-        }
+    [Fact]
+    public void DefaultRender_ShowsIFrame()
+    {
+        // Arrange
+        var id = "preview";
 
-        [Fact]
-        public void IFrame_Title_Default_And_Custom()
-        {
-            var cutDefault = RenderComponent<RzEmbeddedPreview>(p => p.AddChildContent("abc"));
-            var iframe = cutDefault.Find("iframe");
-            Assert.False(string.IsNullOrWhiteSpace(iframe.GetAttribute("title")));
-            var cutCustom = RenderComponent<RzEmbeddedPreview>(p => p
-                .AddChildContent("abc")
-                .Add(x => x.IFrameTitle, "My Preview")
-            );
-            var iframe2 = cutCustom.Find("iframe");
-            Assert.Equal("My Preview", iframe2.GetAttribute("title"));
-        }
+        // Act
+        var cut = RenderComponent<RzEmbeddedPreview>(parameters => parameters
+            .Add(p => p.Id, id)
+            .AddChildContent("<div>Preview Content</div>")
+        );
+
+        // Assert
+        var iframe = cut.Find("iframe");
+        Assert.Equal("rzEmbeddedPreview", iframe.GetAttribute("x-data"));
+        Assert.Equal(id, iframe.GetAttribute("data-alpine-root"));
+        Assert.NotNull(iframe.GetAttribute("srcdoc"));
+        Assert.Contains("Preview Content", iframe.GetAttribute("srcdoc"));
+    }
+
+    [Fact]
+    public void IFrameTitle_AppliesAttribute()
+    {
+        // Act
+        var cut = RenderComponent<RzEmbeddedPreview>(parameters => parameters
+            .AddChildContent("Content")
+            .Add(p => p.IFrameTitle, "My Demo")
+        );
+
+        // Assert
+        var iframe = cut.Find("iframe");
+        Assert.Equal("My Demo", iframe.GetAttribute("title"));
     }
 }
-

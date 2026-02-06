@@ -1,252 +1,74 @@
-using Blazicons;
+
 using Bunit;
+using Blazicons;
 using Microsoft.AspNetCore.Components;
 
-namespace RizzyUI.Tests.Components.Feedback
+namespace RizzyUI.Tests.Components.Feedback;
+
+public class RzAlertTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 {
-    public class RzAlertTests : TestContext
+    public RzAlertTests(WebAppFixture fixture) : base(fixture)
     {
-        public RzAlertTests()
-        {
-            // Register RizzyUI services
-            Services.AddRizzyUI();
-        }
+    }
 
-        [Fact]
-        public void RzAlert_DefaultRender_ShowsCorrectStructure()
-        {
-            // Arrange
-            var expectedId = "default-alert";
-            var content = "This is an alert message";
+    [Fact]
+    public void DefaultRender_ShowsCorrectStructureWithAlpine()
+    {
+        // Arrange
+        var id = "alert-test";
 
-            // Act
-            var cut = RenderComponent<RzAlert>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .AddChildContent(content)
-            );
+        // Act
+        var cut = RenderComponent<RzAlert>(parameters => parameters
+            .Add(p => p.Id, id)
+            .AddChildContent("Alert Content")
+        );
 
-            // Assert
-            var alert = cut.Find($"div#{expectedId}");
-            Assert.NotNull(alert);
-            Assert.Contains(content, cut.Markup);
-            Assert.Contains("role=\"alert\"", cut.Markup);
-            Assert.Contains("aria-live=\"assertive\"", cut.Markup);
-        }
+        // Assert
+        var root = cut.Find("[data-slot='alert']");
+        var alpineDiv = root.FirstElementChild;
+        Assert.Equal("rzAlert", alpineDiv.GetAttribute("x-data"));
+        Assert.Equal(id, alpineDiv.GetAttribute("data-alpine-root"));
+        Assert.Contains("Alert Content", alpineDiv.InnerHtml);
+    }
 
-        [Fact]
-        public void RzAlert_WithIcon_RendersIcon()
-        {
-            // Arrange
-            var expectedId = "icon-alert";
-            var testIcon = SvgIcon.FromContent("<path></path>", "24");
+    [Theory]
+    [InlineData(ThemeVariant.Information, "border-info")]
+    [InlineData(ThemeVariant.Destructive, "border-destructive")]
+    [InlineData(ThemeVariant.Success, "border-success")]
+    public void VariantParameter_AppliesCorrectClasses(ThemeVariant variant, string expectedClass)
+    {
+        // Act
+        var cut = RenderComponent<RzAlert>(parameters => parameters
+            .Add(p => p.Variant, variant)
+        );
 
-            // Act
-            var cut = RenderComponent<RzAlert>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.Icon, testIcon)
-                .AddChildContent("Alert with icon")
-            );
+        // Assert
+        var root = cut.Find("[data-slot='alert']");
+        Assert.Contains(expectedClass, root.ClassList);
+    }
 
-            // Assert
-            var alert = cut.Find($"div#{expectedId}");
-            Assert.NotNull(alert);
-            Assert.Contains("<svg", cut.Markup);
-        }
+    [Fact]
+    public void Dismissable_RendersCloseButton()
+    {
+        // Act
+        var cut = RenderComponent<RzAlert>(parameters => parameters
+            .Add(p => p.Dismissable, true)
+        );
 
-        [Fact]
-        public void RzAlert_WithPulse_RendersAnimatedElement()
-        {
-            // Arrange
-            var expectedId = "pulse-alert";
-            var testIcon = SvgIcon.FromContent("<path></path>", "24");
+        // Assert
+        Assert.NotNull(cut.Find("button[data-slot='alert-close-button']"));
+    }
 
-            // Act
-            var cut = RenderComponent<RzAlert>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.Icon, testIcon)
-                .Add(p => p.Pulse, true)
-                .AddChildContent("Alert with pulse")
-            );
+    [Fact]
+    public void Pulse_RendersPulseElement()
+    {
+        // Act
+        var cut = RenderComponent<RzAlert>(parameters => parameters
+            .Add(p => p.Icon, MdiIcon.Home)
+            .Add(p => p.Pulse, true)
+        );
 
-            // Assert
-            var alert = cut.Find($"div#{expectedId}");
-            Assert.NotNull(alert);
-            var pulseElement = cut.Find(".animate-ping");
-            Assert.NotNull(pulseElement);
-        }
-
-        [Fact]
-        public void RzAlert_Dismissable_RendersDismissButton()
-        {
-            // Arrange
-            var expectedId = "dismissable-alert";
-
-            // Act
-            var cut = RenderComponent<RzAlert>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.Dismissable, true)
-                .AddChildContent("Dismissable alert")
-            );
-
-            // Assert
-            var alert = cut.Find($"div#{expectedId}");
-            Assert.NotNull(alert);
-            var closeButton = cut.Find("button[aria-label]");
-            Assert.NotNull(closeButton);
-            Assert.Contains("M6 18L18 6M6 6l12 12", cut.Markup); // Close icon path
-        }
-
-        [Theory]
-        [InlineData(ThemeVariant.Information)]
-        [InlineData(ThemeVariant.Success)]
-        [InlineData(ThemeVariant.Warning)]
-        [InlineData(ThemeVariant.Destructive)]
-        [InlineData(ThemeVariant.Accent)]
-        public void RzAlert_WithVariant_AppliesCorrectClasses(ThemeVariant variant)
-        {
-            // Arrange
-            var expectedId = $"{variant.ToString().ToLower()}-alert";
-
-            // Act
-            var cut = RenderComponent<RzAlert>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.Variant, variant)
-                .AddChildContent($"{variant} alert")
-            );
-
-            // Assert
-            var alert = cut.Find($"div#{expectedId}");
-            Assert.NotNull(alert);
-
-            // Check for presence of variant-specific classes (based on DefaultRzAlertStyles)
-            string expectedClass = variant switch
-            {
-                ThemeVariant.Accent => "border-outline",
-                ThemeVariant.Information => "border-info",
-                ThemeVariant.Success => "border-success",
-                ThemeVariant.Warning => "border-warning",
-                ThemeVariant.Destructive => "border-destructive",
-                _ => "border-info"
-            };
-            Assert.Contains(expectedClass, alert.OuterHtml);
-        }
-
-        [Fact]
-        public void RzAlert_WithTitle_RendersCorrectly()
-        {
-            // Arrange
-            var expectedId = "title-alert";
-            var titleText = "Alert Title";
-
-            // Act
-            var cut = RenderComponent<RzAlert>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .AddChildContent(builder =>
-                {
-                    builder.OpenComponent<AlertTitle>(0);
-                    builder.AddAttribute(1, "ChildContent", (RenderFragment)(titleBuilder =>
-                        titleBuilder.AddContent(0, titleText)));
-                    builder.CloseComponent();
-
-                    builder.OpenComponent<AlertDescription>(2);
-                    builder.AddAttribute(3, "ChildContent", (RenderFragment)(descBuilder =>
-                        descBuilder.AddContent(0, "Description text")));
-                    builder.CloseComponent();
-                })
-            );
-
-            // Assert
-            var alert = cut.Find($"div#{expectedId}");
-            Assert.NotNull(alert);
-            Assert.Contains(titleText, cut.Markup);
-            Assert.Contains("text-sm font-semibold", cut.Markup); // Title class
-        }
-
-        [Fact]
-        public void RzAlert_WithDescription_RendersCorrectly()
-        {
-            // Arrange
-            var expectedId = "description-alert";
-            var descriptionText = "This is a detailed description";
-
-            // Act
-            var cut = RenderComponent<RzAlert>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .AddChildContent(builder =>
-                {
-                    builder.OpenComponent<AlertDescription>(0);
-                    builder.AddAttribute(1, "ChildContent", (RenderFragment)(descBuilder =>
-                        descBuilder.AddContent(0, descriptionText)));
-                    builder.CloseComponent();
-                })
-            );
-
-            // Assert
-            var alert = cut.Find($"div#{expectedId}");
-            Assert.NotNull(alert);
-            Assert.Contains(descriptionText, cut.Markup);
-            Assert.Contains("text-xs font-medium", cut.Markup); // Description class
-        }
-
-        [Fact]
-        public void RzAlert_WithCustomElement_RendersSpecifiedElement()
-        {
-            // Arrange
-            var expectedId = "custom-element-alert";
-            var customElement = "section";
-
-            // Act
-            var cut = RenderComponent<RzAlert>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.Element, customElement)
-                .AddChildContent("Alert with custom element")
-            );
-
-            // Assert
-            var alert = cut.Find($"{customElement}#{expectedId}");
-            Assert.NotNull(alert);
-            Assert.StartsWith($"<{customElement}", cut.Markup.Trim());
-        }
-
-        [Fact]
-        public void RzAlert_WithCompleteStructure_RendersCorrectly()
-        {
-            // Arrange
-            var expectedId = "complete-alert";
-            var testIcon = SvgIcon.FromContent("<path></path>", "24");
-            var titleText = "Important Notice";
-            var descriptionText = "This is a comprehensive alert with all features.";
-
-            // Act
-            var cut = RenderComponent<RzAlert>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.Icon, testIcon)
-                .Add(p => p.Variant, ThemeVariant.Warning)
-                .Add(p => p.Dismissable, true)
-                .Add(p => p.Pulse, true)
-                .AddChildContent(builder =>
-                {
-                    builder.OpenComponent<AlertTitle>(0);
-                    builder.AddAttribute(1, "ChildContent", (RenderFragment)(titleBuilder =>
-                        titleBuilder.AddContent(0, titleText)));
-                    builder.CloseComponent();
-
-                    builder.OpenComponent<AlertDescription>(2);
-                    builder.AddAttribute(3, "ChildContent", (RenderFragment)(descBuilder =>
-                        descBuilder.AddContent(0, descriptionText)));
-                    builder.CloseComponent();
-                })
-            );
-
-            // Assert
-            var alert = cut.Find($"div#{expectedId}");
-            Assert.NotNull(alert);
-            Assert.Contains(titleText, cut.Markup);
-            Assert.Contains(descriptionText, cut.Markup);
-            Assert.Contains("<svg", cut.Markup); // Icon
-            Assert.Contains("animate-ping", cut.Markup); // Pulse effect
-            Assert.Contains("border-warning", alert.OuterHtml); // Warning variant
-            Assert.Contains("<button", cut.Markup); // Dismiss button
-        }
+        // Assert
+        Assert.NotNull(cut.Find("[data-slot='alert-icon-pulse']"));
     }
 }

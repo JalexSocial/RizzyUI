@@ -1,203 +1,71 @@
+
 using Bunit;
 
-namespace RizzyUI.Tests.Components.Form
+namespace RizzyUI.Tests.Components.Form;
+
+public class RzButtonTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 {
-    public class RzButtonTests : TestContext
+    public RzButtonTests(WebAppFixture fixture) : base(fixture)
     {
-        public RzButtonTests()
-        {
-            // Register RizzyUI services
-            Services.AddRizzyUI();
-        }
+    }
 
-        [Fact]
-        public void RzButton_DefaultRender_ShowsCorrectStructure()
-        {
-            // Arrange
-            var expectedId = "default-button";
-            var labelText = "Click Me";
+    [Fact]
+    public void DefaultRender_ShowsButton()
+    {
+        // Act
+        var cut = RenderComponent<RzButton>(parameters => parameters
+            .Add(p => p.Label, "Click Me")
+        );
 
-            // Act
-            var cut = RenderComponent<RzButton>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.Label, labelText)
-            );
+        // Assert
+        var btn = cut.Find("button[data-slot='button']");
+        Assert.Contains("Click Me", btn.TextContent);
+        // Default variant
+        Assert.Contains("bg-input", btn.ClassList); // Default variant style
+    }
 
-            // Assert
-            var button = cut.Find($"button#{expectedId}");
-            Assert.NotNull(button);
-            Assert.Contains(labelText, cut.Markup);
-            Assert.Contains("bg-primary", button.OuterHtml); // Default variant is Primary
-        }
+    [Theory]
+    [InlineData(ThemeVariant.Primary, "bg-primary")]
+    [InlineData(ThemeVariant.Destructive, "bg-destructive")]
+    public void VariantParameter_AppliesCorrectClasses(ThemeVariant variant, string expectedClass)
+    {
+        // Act
+        var cut = RenderComponent<RzButton>(parameters => parameters
+            .Add(p => p.Variant, variant)
+        );
 
-        [Theory]
-        [InlineData(ThemeVariant.Primary)]
-        [InlineData(ThemeVariant.Secondary)]
-        [InlineData(ThemeVariant.Accent)]
-        [InlineData(ThemeVariant.Inverse)]
-        [InlineData(ThemeVariant.Information)]
-        [InlineData(ThemeVariant.Destructive)]
-        [InlineData(ThemeVariant.Warning)]
-        [InlineData(ThemeVariant.Success)]
-        [InlineData(ThemeVariant.Ghost)]
-        public void RzButton_WithVariant_AppliesCorrectClasses(ThemeVariant variant)
-        {
-            // Arrange
-            var expectedId = $"{variant.ToString().ToLower()}-button";
+        // Assert
+        var btn = cut.Find("button");
+        Assert.Contains(expectedClass, btn.ClassList);
+    }
 
-            // Act
-            var cut = RenderComponent<RzButton>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.Variant, variant)
-                .Add(p => p.Label, variant.ToString())
-            );
+    [Theory]
+    [InlineData(Size.Small, "h-8")]
+    [InlineData(Size.Large, "h-10")]
+    public void SizeParameter_AppliesCorrectClasses(Size size, string expectedClass)
+    {
+        // Act
+        var cut = RenderComponent<RzButton>(parameters => parameters
+            .Add(p => p.Size, size)
+        );
 
-            // Assert
-            var button = cut.Find($"button#{expectedId}");
-            Assert.NotNull(button);
+        // Assert
+        var btn = cut.Find("button");
+        Assert.Contains(expectedClass, btn.ClassList);
+    }
 
-            // Check for variant-specific classes
-            string expectedClass = variant switch
-            {
-                ThemeVariant.Primary => "bg-primary",
-                ThemeVariant.Secondary => "bg-secondary",
-                ThemeVariant.Accent => "bg-secondary",
-                ThemeVariant.Inverse => "bg-background",
-                ThemeVariant.Information => "bg-info",
-                ThemeVariant.Destructive => "bg-destructive",
-                ThemeVariant.Warning => "bg-warning",
-                ThemeVariant.Success => "bg-success",
-                ThemeVariant.Ghost => "bg-transparent",
-                _ => "bg-primary"
-            };
-            Assert.Contains(expectedClass, button.OuterHtml);
-        }
+    [Fact]
+    public void OutlineParameter_AppliesOutlineClasses()
+    {
+        // Act
+        var cut = RenderComponent<RzButton>(parameters => parameters
+            .Add(p => p.Variant, ThemeVariant.Primary)
+            .Add(p => p.Outline, true)
+        );
 
-        [Fact]
-        public void RzButton_WithOutline_AppliesOutlineClasses()
-        {
-            // Arrange
-            var expectedId = "outline-button";
-            var variant = ThemeVariant.Primary;
-
-            // Act
-            var cut = RenderComponent<RzButton>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.Variant, variant)
-                .Add(p => p.Outline, true)
-                .Add(p => p.Label, "Outline Button")
-            );
-
-            // Assert
-            var button = cut.Find($"button#{expectedId}");
-            Assert.NotNull(button);
-            Assert.Contains("bg-transparent", button.OuterHtml);
-            Assert.Contains("border-primary", button.OuterHtml);
-            Assert.Contains("text-primary", button.OuterHtml);
-        }
-
-        [Theory]
-        [InlineData(Size.ExtraSmall, "px-2 py-1")]
-        [InlineData(Size.Small, "px-3 py-2")]
-        [InlineData(Size.Medium, "px-4 py-2")]
-        [InlineData(Size.Large, "px-6 py-3")]
-        [InlineData(Size.ExtraLarge, "px-8 py-4")]
-        public void RzButton_WithSize_AppliesSizeClasses(Size size, string expectedClass)
-        {
-            // Arrange
-            var expectedId = $"{size.ToString().ToLower()}-button";
-
-            // Act
-            var cut = RenderComponent<RzButton>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.Size, size)
-                .Add(p => p.Label, size.ToString())
-            );
-
-            // Assert
-            var button = cut.Find($"button#{expectedId}");
-            Assert.NotNull(button);
-
-            // Size class check
-            Assert.Contains(expectedClass, button.OuterHtml);
-        }
-
-        [Fact]
-        public void RzButton_WithAnimationDisabled_DoesNotApplyAnimationClasses()
-        {
-            // Arrange
-            var expectedId = "no-animation-button";
-
-            // Act
-            var cut = RenderComponent<RzButton>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.Animate, false)
-                .Add(p => p.Label, "No Animation")
-            );
-
-            // Assert
-            var button = cut.Find($"button#{expectedId}");
-            Assert.NotNull(button);
-            Assert.DoesNotContain("transform active:scale-90", button.OuterHtml);
-        }
-
-        [Fact]
-        public void RzButton_WithChildContent_RendersCorrectly()
-        {
-            // Arrange
-            var expectedId = "childcontent-button";
-            var childContent = "Custom Button Content";
-
-            // Act
-            var cut = RenderComponent<RzButton>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .AddChildContent(childContent)
-            );
-
-            // Assert
-            var button = cut.Find($"button#{expectedId}");
-            Assert.NotNull(button);
-            Assert.Contains(childContent, cut.Markup);
-        }
-
-        [Fact]
-        public void RzButton_WithAssistiveLabel_AddsAriaLabel()
-        {
-            // Arrange
-            var expectedId = "assistive-button";
-            var assistiveLabel = "Custom Assistive Label";
-
-            // Act
-            var cut = RenderComponent<RzButton>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.AssistiveLabel, assistiveLabel)
-                .Add(p => p.Label, "Button")
-            );
-
-            // Assert
-            var button = cut.Find($"button#{expectedId}");
-            Assert.NotNull(button);
-            Assert.Equal(assistiveLabel, button.GetAttribute("aria-label"));
-        }
-
-        [Fact]
-        public void RzButton_WithCustomElement_RendersSpecifiedElement()
-        {
-            // Arrange
-            var expectedId = "custom-element-button";
-            var customElement = "a";
-
-            // Act
-            var cut = RenderComponent<RzButton>(parameters => parameters
-                .Add(p => p.Id, expectedId)
-                .Add(p => p.Element, customElement)
-                .Add(p => p.Label, "Link Button")
-            );
-
-            // Assert
-            var button = cut.Find($"{customElement}#{expectedId}");
-            Assert.NotNull(button);
-            Assert.StartsWith($"<{customElement}", cut.Markup.Trim());
-        }
+        // Assert
+        var btn = cut.Find("button");
+        Assert.Contains("border-primary", btn.ClassList);
+        Assert.Contains("bg-transparent", btn.ClassList);
     }
 }

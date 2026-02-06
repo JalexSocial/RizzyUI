@@ -75,7 +75,6 @@ public partial class RzIndicator : RzComponent<RzIndicator.Slots>
 
     /// <summary>
     /// Gets or sets the color of the indicator.
-    /// Defaults to <see cref="SemanticColor.Destructive"/>.
     /// </summary>
     [Parameter] public Color Color { get; set; } = Colors.Red.L500;
 
