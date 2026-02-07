@@ -24,15 +24,25 @@ public partial class RzTheme
 
         // Instantiate default styles for all components
 
+        // RzAccordion Family
+        RzAccordion = RizzyUI.RzAccordion.DefaultDescriptor;
+        AccordionItem = RizzyUI.AccordionItem.DefaultDescriptor;
+
         // RzAlert Family
         RzAlert = RizzyUI.RzAlert.DefaultDescriptor;
         AlertTitle = RizzyUI.AlertTitle.DefaultDescriptor;
         AlertDescription = RizzyUI.AlertDescription.DefaultDescriptor;
 
+        // RzArticle Family
+        RzArticle = RizzyUI.RzArticle.DefaultDescriptor;
+
+        // RzAspectRatio Family
+        RzAspectRatio = RizzyUI.RzAspectRatio.DefaultDescriptor;
+
         // RzAvatar Family
         RzAvatar = RizzyUI.RzAvatar.DefaultDescriptor;
 
-        // RzBadge
+        // RzBadge Family
         RzBadge = RizzyUI.RzBadge.DefaultDescriptor;
 
         // RzBreadcrumb Family
@@ -44,11 +54,74 @@ public partial class RzTheme
         BreadcrumbSeparator = RizzyUI.BreadcrumbSeparator.DefaultDescriptor;
         BreadcrumbEllipsis = RizzyUI.BreadcrumbEllipsis.DefaultDescriptor;
 
-        // RzButton
+        // RzBrowser Family
+        RzBrowser = RizzyUI.RzBrowser.DefaultDescriptor;
+
+        // RzButton Family
         RzButton = RizzyUI.RzButton.DefaultDescriptor;
+
+        // RzButtonGroup Family
+        RzButtonGroup = RizzyUI.RzButtonGroup.DefaultDescriptor;
         ButtonGroupSeparator = RizzyUI.ButtonGroupSeparator.DefaultDescriptor;
         ButtonGroupText = RizzyUI.ButtonGroupText.DefaultDescriptor;
-        
+
+        // RzCalendar Family
+        RzCalendar = RizzyUI.RzCalendar.DefaultDescriptor;
+        RzCalendarProvider = RizzyUI.RzCalendarProvider.DefaultDescriptor;
+
+        // RzCard Family
+        RzCard = RizzyUI.RzCard.DefaultDescriptor;
+        CardContent = RizzyUI.CardContent.DefaultDescriptor;
+        CardAction = RizzyUI.CardAction.DefaultDescriptor;
+        CardFooter = RizzyUI.CardFooter.DefaultDescriptor;
+        CardHeader = RizzyUI.CardHeader.DefaultDescriptor;
+        CardDescription = RizzyUI.CardDescription.DefaultDescriptor;
+        CardTitle = RizzyUI.CardTitle.DefaultDescriptor;
+
+        // RzCarousel Family
+        RzCarousel = RizzyUI.RzCarousel.DefaultDescriptor;
+        CarouselNext = RizzyUI.CarouselNext.DefaultDescriptor;
+        CarouselPrevious = RizzyUI.CarouselPrevious.DefaultDescriptor;
+        CarouselContent = RizzyUI.CarouselContent.DefaultDescriptor;
+        CarouselItem = RizzyUI.CarouselItem.DefaultDescriptor;
+
+        // RzCheckbox Family
+        RzCheckbox = RizzyUI.RzInputCheckbox.DefaultDescriptor;
+
+        // RzCheckboxGroup Family
+        RzCheckboxGroup = RizzyUI.RzCheckboxGroupStyles.DefaultDescriptor;
+        RzCheckboxGroupItem = RizzyUI.RzCheckboxGroupItemStyles.DefaultDescriptor;
+        CheckboxGroupItemIndicator = RizzyUI.CheckboxGroupItemIndicatorStyles.DefaultDescriptor;
+
+        // RzCodeViewer Family
+        RzCodeViewer = RizzyUI.RzCodeViewer.DefaultDescriptor;
+
+        // RzCollapsible Family
+        RzCollapsible = RizzyUI.RzCollapsible.DefaultDescriptor;
+        CollapsibleTrigger = RizzyUI.CollapsibleTrigger.DefaultDescriptor;
+        CollapsibleContent = RizzyUI.CollapsibleContent.DefaultDescriptor;
+
+        // RzCombobox Family
+        RzCombobox = RizzyUI.RzComboboxStyles.DefaultDescriptor;
+
+        // RzCommand Family
+        RzCommand = RizzyUI.RzCommand.DefaultDescriptor;
+        RzCommandDialog = RizzyUI.RzCommandDialog.DefaultDescriptor;
+        CommandInput = RizzyUI.CommandInput.DefaultDescriptor;
+        CommandList = RizzyUI.CommandList.DefaultDescriptor;
+        CommandEmpty = RizzyUI.CommandEmpty.DefaultDescriptor;
+        CommandGroup = RizzyUI.CommandGroup.DefaultDescriptor;
+        CommandItem = RizzyUI.CommandItem.DefaultDescriptor;
+        CommandSeparator = RizzyUI.CommandSeparator.DefaultDescriptor;
+        CommandShortcut = RizzyUI.CommandShortcut.DefaultDescriptor;
+        CommandItemTemplate = RizzyUI.CommandItemTemplate.DefaultDescriptor;
+
+        // RzDarkModeToggle Family
+        RzDarkModeToggle = RizzyUI.RzDarkModeToggle.DefaultDescriptor;
+
+        // RzDateEdit Family
+        RzDateEdit = RizzyUI.RzDateEdit.DefaultDescriptor;
+
         // RzDialog Family
         RzDialog = RizzyUI.RzDialog.DefaultDescriptor;
         DialogContent = RizzyUI.DialogContent.DefaultDescriptor;
@@ -59,6 +132,22 @@ public partial class RzTheme
         DialogClose = RizzyUI.DialogClose.DefaultDescriptor;
         DialogDescription = RizzyUI.DialogDescription.DefaultDescriptor;
 
+        // RzDropdownMenu Family
+        RzDropdownMenu = RizzyUI.RzDropdownMenu.DefaultDescriptor;
+        DropdownMenuContent = RizzyUI.DropdownMenuContent.DefaultDescriptor;
+        DropdownMenuGroup = RizzyUI.DropdownMenuGroup.DefaultDescriptor;
+        DropdownMenuItem = RizzyUI.DropdownMenuItem.DefaultDescriptor;
+        DropdownMenuLabel = RizzyUI.DropdownMenuLabel.DefaultDescriptor;
+        DropdownMenuSeparator = RizzyUI.DropdownMenuSeparator.DefaultDescriptor;
+        DropdownMenuShortcut = RizzyUI.DropdownMenuShortcut.DefaultDescriptor;
+        DropdownMenuSub = RizzyUI.DropdownMenuSub.DefaultDescriptor;
+        DropdownMenuSubContent = RizzyUI.DropdownMenuSubContent.DefaultDescriptor;
+        DropdownMenuSubTrigger = RizzyUI.DropdownMenuSubTrigger.DefaultDescriptor;
+        DropdownMenuTrigger = RizzyUI.DropdownMenuTrigger.DefaultDescriptor;
+
+        // RzEmbeddedPreview Family
+        RzEmbeddedPreview = RizzyUI.RzEmbeddedPreview.DefaultDescriptor;
+
         // RzEmpty Family
         RzEmpty = RizzyUI.RzEmpty.DefaultDescriptor;
         EmptyHeader = RizzyUI.EmptyHeader.DefaultDescriptor;
@@ -67,18 +156,89 @@ public partial class RzTheme
         EmptyDescription = RizzyUI.EmptyDescription.DefaultDescriptor;
         EmptyContent = RizzyUI.EmptyContent.DefaultDescriptor;
 
-        // RzIndicator
+        // RzField Family
+        RzFieldSet = RizzyUI.RzFieldSet.DefaultDescriptor;
+        FieldLegend = RizzyUI.FieldLegend.DefaultDescriptor;
+        FieldGroup = RizzyUI.RzFieldGroup.DefaultDescriptor;
+        Field = RizzyUI.FieldStyles.DefaultDescriptor;
+        FieldContent = RizzyUI.FieldContent.DefaultDescriptor;
+        FieldLabel = RizzyUI.FieldLabelStyles.DefaultDescriptor;
+        FieldTitle = RizzyUI.FieldTitle.DefaultDescriptor;
+        FieldDescription = RizzyUI.FieldDescription.DefaultDescriptor;
+        FieldSeparator = RizzyUI.FieldSeparator.DefaultDescriptor;
+        FieldError = RizzyUI.FieldError.DefaultDescriptor;
+        Label = RizzyUI.Label.DefaultDescriptor;
+
+        // RzFormSection Family
+        RzFormSection = RizzyUI.RzFormSection.DefaultDescriptor;
+
+        // RzIndicator Family
         RzIndicator = RizzyUI.RzIndicator.DefaultDescriptor;
+
+        // RzInput Family
+        RzInput = RizzyUI.FormInputStyles.DefaultDescriptor;
+        RzInputText = RizzyUI.RzInputText.DefaultDescriptor;
+        RzInputTextArea = RizzyUI.RzInputTextArea.DefaultDescriptor;
+        RzInputNumber = RizzyUI.RzInputNumberStyles.DefaultDescriptor;
+
+        // RzInputGroup Family
+        RzInputGroup = RizzyUI.RzInputGroup.DefaultDescriptor;
+        InputGroupAddon = RizzyUI.InputGroupAddonStyles.DefaultDescriptor;
+        InputGroupButton = RizzyUI.InputGroupButtonStyles.DefaultDescriptor;
+        InputGroupText = RizzyUI.InputGroupText.DefaultDescriptor;
+        InputGroupInput = RizzyUI.InputGroupInput.DefaultDescriptor;
+        InputGroupTextarea = RizzyUI.InputGroupTextarea.DefaultDescriptor;
+
+        // RzItem Family
+        RzItemGroup = RizzyUI.RzItemGroup.DefaultDescriptor;
+        RzItemSeparator = RizzyUI.RzItemSeparator.DefaultDescriptor;
+        RzItem = RizzyUI.RzItem.DefaultDescriptor;
+        ItemMedia = RizzyUI.ItemMedia.DefaultDescriptor;
+        ItemContent = RizzyUI.ItemContent.DefaultDescriptor;
+        ItemTitle = RizzyUI.ItemTitle.DefaultDescriptor;
+        ItemDescription = RizzyUI.ItemDescription.DefaultDescriptor;
+        ItemActions = RizzyUI.ItemActions.DefaultDescriptor;
+        ItemHeader = RizzyUI.ItemHeader.DefaultDescriptor;
+        ItemFooter = RizzyUI.ItemFooter.DefaultDescriptor;
+
+        // RzLink Family
+        RzLink = RizzyUI.RzLink.DefaultDescriptor;
+
+        // RzMarkdown Family
+        RzMarkdown = RizzyUI.RzMarkdown.DefaultDescriptor;
+
+        // RzNativeSelect Family
+        RzNativeSelect = RizzyUI.RzNativeSelectStyles.DefaultDescriptor;
+
+        // RzNavigationMenu Family
+        RzNavigationMenu = RizzyUI.RzNavigationMenu.DefaultDescriptor;
+        NavigationMenuContent = RizzyUI.NavigationMenuContent.DefaultDescriptor;
+        NavigationMenuItem = RizzyUI.NavigationMenuItem.DefaultDescriptor;
+        NavigationMenuLink = RizzyUI.NavigationMenuLink.DefaultDescriptor;
+        NavigationMenuList = RizzyUI.NavigationMenuList.DefaultDescriptor;
+        NavigationMenuTrigger = RizzyUI.NavigationMenuTrigger.DefaultDescriptor;
 
         // RzPopover Family
         RzPopover = RizzyUI.RzPopover.DefaultDescriptor;
         PopoverTrigger = RizzyUI.PopoverTrigger.DefaultDescriptor;
         PopoverContent = RizzyUI.PopoverContent.DefaultDescriptor;
 
-        // RzProgress
+        // RzProgress Family
         RzProgress = RizzyUI.RzProgress.DefaultDescriptor;
 
-        // RzSeparator
+        // RzQuickReference Family
+        RzQuickReference = RizzyUI.RzQuickReference.DefaultDescriptor;
+        RzQuickReferenceContainer = RizzyUI.RzQuickReferenceContainer.DefaultDescriptor;
+
+        // RzRadioGroup Family
+        RzRadioGroup = RizzyUI.RzRadioGroupStyles.DefaultDescriptor;
+        RadioGroupItem = RizzyUI.RadioGroupItemStyles.DefaultDescriptor;
+        RadioGroupItemIndicator = RizzyUI.RadioGroupItemIndicator.DefaultDescriptor;
+
+        // RzSearchButton Family
+        RzSearchButton = RizzyUI.RzSearchButton.DefaultDescriptor;
+
+        // RzSeparator Family
         RzSeparator = RizzyUI.RzSeparator.DefaultDescriptor;
 
         // RzSheet Family
@@ -91,73 +251,7 @@ public partial class RzTheme
         SheetTrigger = RizzyUI.SheetTrigger.DefaultDescriptor;
         SheetClose = RizzyUI.SheetClose.DefaultDescriptor;
 
-        // RzSpinner
-        RzSpinner = RizzyUI.RzSpinner.DefaultDescriptor;
-
-        // Typography Family
-        RzKbd = RizzyUI.RzKbd.DefaultDescriptor;
-        RzKbdGroup = RizzyUI.RzKbdGroup.DefaultDescriptor;
-        RzHeading = RizzyUI.RzHeading.DefaultDescriptor;
-        RzParagraph = RizzyUI.RzParagraph.DefaultDescriptor;
-
-        // Layout Components (Migrated)
-        RzAccordion = RizzyUI.RzAccordion.DefaultDescriptor;
-        AccordionItem = RizzyUI.AccordionItem.DefaultDescriptor;
-        RzArticle = RizzyUI.RzArticle.DefaultDescriptor;
-        RzAspectRatio = RizzyUI.RzAspectRatio.DefaultDescriptor;
-        RzCard = RizzyUI.RzCard.DefaultDescriptor;
-        CardContent = RizzyUI.CardContent.DefaultDescriptor;
-        CardAction = RizzyUI.CardAction.DefaultDescriptor;
-        CardFooter = RizzyUI.CardFooter.DefaultDescriptor;
-        CardHeader = RizzyUI.CardHeader.DefaultDescriptor;
-        CardDescription = RizzyUI.CardDescription.DefaultDescriptor;
-        CardTitle = RizzyUI.CardTitle.DefaultDescriptor;
-        RzCarousel = RizzyUI.RzCarousel.DefaultDescriptor;
-        CarouselNext = RizzyUI.CarouselNext.DefaultDescriptor;
-        CarouselPrevious = RizzyUI.CarouselPrevious.DefaultDescriptor;
-        CarouselContent = RizzyUI.CarouselContent.DefaultDescriptor;
-        CarouselItem = RizzyUI.CarouselItem.DefaultDescriptor;
-        RzCollapsible = RizzyUI.RzCollapsible.DefaultDescriptor;
-        CollapsibleTrigger = RizzyUI.CollapsibleTrigger.DefaultDescriptor;
-        CollapsibleContent = RizzyUI.CollapsibleContent.DefaultDescriptor;
-        RzItemGroup = RizzyUI.RzItemGroup.DefaultDescriptor;
-        RzItemSeparator = RizzyUI.RzItemSeparator.DefaultDescriptor;
-        RzItem = RizzyUI.RzItem.DefaultDescriptor;
-        ItemMedia = RizzyUI.ItemMedia.DefaultDescriptor;
-        ItemContent = RizzyUI.ItemContent.DefaultDescriptor;
-        ItemTitle = RizzyUI.ItemTitle.DefaultDescriptor;
-        ItemDescription = RizzyUI.ItemDescription.DefaultDescriptor;
-        ItemActions = RizzyUI.ItemActions.DefaultDescriptor;
-        ItemHeader = RizzyUI.ItemHeader.DefaultDescriptor;
-        ItemFooter = RizzyUI.ItemFooter.DefaultDescriptor;
-        RzSearchButton = RizzyUI.RzSearchButton.DefaultDescriptor;
-        RzSteps = RizzyUI.RzSteps.DefaultDescriptor;
-        RzBrowser = RizzyUI.RzBrowser.DefaultDescriptor;
-
-        RzCodeViewer = RizzyUI.RzCodeViewer.DefaultDescriptor;
-        RzEmbeddedPreview = RizzyUI.RzEmbeddedPreview.DefaultDescriptor;
-        RzMarkdown = RizzyUI.RzMarkdown.DefaultDescriptor;
-        RzQuickReference = RizzyUI.RzQuickReference.DefaultDescriptor;
-        RzQuickReferenceContainer = RizzyUI.RzQuickReferenceContainer.DefaultDescriptor;
-
-        RzDropdownMenu = RizzyUI.RzDropdownMenu.DefaultDescriptor;
-        DropdownMenuContent = RizzyUI.DropdownMenuContent.DefaultDescriptor;
-        DropdownMenuGroup = RizzyUI.DropdownMenuGroup.DefaultDescriptor;
-        DropdownMenuItem = RizzyUI.DropdownMenuItem.DefaultDescriptor;
-        DropdownMenuLabel = RizzyUI.DropdownMenuLabel.DefaultDescriptor;
-        DropdownMenuSeparator = RizzyUI.DropdownMenuSeparator.DefaultDescriptor;
-        DropdownMenuShortcut = RizzyUI.DropdownMenuShortcut.DefaultDescriptor;
-        DropdownMenuSub = RizzyUI.DropdownMenuSub.DefaultDescriptor;
-        DropdownMenuSubContent = RizzyUI.DropdownMenuSubContent.DefaultDescriptor;
-        DropdownMenuSubTrigger = RizzyUI.DropdownMenuSubTrigger.DefaultDescriptor;
-        DropdownMenuTrigger = RizzyUI.DropdownMenuTrigger.DefaultDescriptor;
-        RzLink = RizzyUI.RzLink.DefaultDescriptor;
-        RzNavigationMenu = RizzyUI.RzNavigationMenu.DefaultDescriptor;
-        NavigationMenuContent = RizzyUI.NavigationMenuContent.DefaultDescriptor;
-        NavigationMenuItem = RizzyUI.NavigationMenuItem.DefaultDescriptor;
-        NavigationMenuLink = RizzyUI.NavigationMenuLink.DefaultDescriptor;
-        NavigationMenuList = RizzyUI.NavigationMenuList.DefaultDescriptor;
-        NavigationMenuTrigger = RizzyUI.NavigationMenuTrigger.DefaultDescriptor;
+        // RzSidebar Family
         RzSidebarProvider = RizzyUI.RzSidebarProvider.DefaultDescriptor;
         Sidebar = RizzyUI.Sidebar.DefaultDescriptor;
         SidebarContent = RizzyUI.SidebarContent.DefaultDescriptor;
@@ -177,29 +271,16 @@ public partial class RzTheme
         SidebarSeparator = RizzyUI.SidebarSeparator.DefaultDescriptor;
         SidebarTrigger = RizzyUI.SidebarTrigger.DefaultDescriptor;
 
-        // Newly Migrated Components
-        RzButtonGroup = RizzyUI.RzButtonGroup.DefaultDescriptor;
-        RzDateEdit = RizzyUI.RzDateEdit.DefaultDescriptor;
-        RzFormSection = RizzyUI.RzFormSection.DefaultDescriptor;
-        RzInput = RizzyUI.FormInputStyles.DefaultDescriptor;
-        RzInputText = RizzyUI.RzInputText.DefaultDescriptor;
-        RzInputTextArea = RizzyUI.RzInputTextArea.DefaultDescriptor;
-        RzCheckbox = RizzyUI.RzInputCheckbox.DefaultDescriptor;
-        RzCheckboxGroup = RizzyUI.RzCheckboxGroupStyles.DefaultDescriptor;
-        RzCheckboxGroupItem = RizzyUI.RzCheckboxGroupItemStyles.DefaultDescriptor;
-        CheckboxGroupItemIndicator = RizzyUI.CheckboxGroupItemIndicatorStyles.DefaultDescriptor;
-        RzNativeSelect = RizzyUI.RzNativeSelectStyles.DefaultDescriptor;
-        RzInputNumber = RizzyUI.RzInputNumberStyles.DefaultDescriptor;
-        RzRadioGroup = RizzyUI.RzRadioGroupStyles.DefaultDescriptor;
-        RadioGroupItem = RizzyUI.RadioGroupItemStyles.DefaultDescriptor;
-        RadioGroupItemIndicator = RizzyUI.RadioGroupItemIndicator.DefaultDescriptor;
-        RzCombobox = RizzyUI.RzComboboxStyles.DefaultDescriptor;
-        RzTabs = RizzyUI.RzTabs.DefaultDescriptor;
-        TabsList = RizzyUI.TabsList.DefaultDescriptor;
-        TabsTrigger = RizzyUI.TabsTrigger.DefaultDescriptor;
-        TabsContent = RizzyUI.TabsContent.DefaultDescriptor;
+        // RzSpinner Family
+        RzSpinner = RizzyUI.RzSpinner.DefaultDescriptor;
+
+        // RzSteps Family
+        RzSteps = RizzyUI.RzSteps.DefaultDescriptor;
+
+        // RzSwitch Family
         RzSwitch = RizzyUI.RzSwitchStyles.DefaultDescriptor;
-        RzDarkModeToggle = RizzyUI.RzDarkModeToggle.DefaultDescriptor;
+
+        // RzTable Family
         RzTable = RizzyUI.RzTableStyles.DefaultDescriptor;
         TableBody = RizzyUI.TableBodyStyles.DefaultDescriptor;
         TableCell = RizzyUI.TableCellStyles.DefaultDescriptor;
@@ -207,38 +288,17 @@ public partial class RzTheme
         TableRow = RizzyUI.TableRowStyles.DefaultDescriptor;
         TablePagination = RizzyUI.TablePaginationStyles.DefaultDescriptor;
 
-        RzFieldSet = RizzyUI.RzFieldSet.DefaultDescriptor;
-        FieldLegend = RizzyUI.FieldLegend.DefaultDescriptor;
-        FieldGroup = RizzyUI.RzFieldGroup.DefaultDescriptor;
-        Field = RizzyUI.FieldStyles.DefaultDescriptor;
-        FieldContent = RizzyUI.FieldContent.DefaultDescriptor;
-        FieldLabel = RizzyUI.FieldLabelStyles.DefaultDescriptor;
-        FieldTitle = RizzyUI.FieldTitle.DefaultDescriptor;
-        FieldDescription = RizzyUI.FieldDescription.DefaultDescriptor;
-        FieldSeparator = RizzyUI.FieldSeparator.DefaultDescriptor;
-        FieldError = RizzyUI.FieldError.DefaultDescriptor;
-        Label = RizzyUI.Label.DefaultDescriptor;
+        // RzTabs Family
+        RzTabs = RizzyUI.RzTabs.DefaultDescriptor;
+        TabsList = RizzyUI.TabsList.DefaultDescriptor;
+        TabsTrigger = RizzyUI.TabsTrigger.DefaultDescriptor;
+        TabsContent = RizzyUI.TabsContent.DefaultDescriptor;
 
-        RzInputGroup = RizzyUI.RzInputGroup.DefaultDescriptor;
-        InputGroupAddon = RizzyUI.InputGroupAddonStyles.DefaultDescriptor;
-        InputGroupButton = RizzyUI.InputGroupButtonStyles.DefaultDescriptor;
-        InputGroupText = RizzyUI.InputGroupText.DefaultDescriptor;
-        InputGroupInput = RizzyUI.InputGroupInput.DefaultDescriptor;
-        InputGroupTextarea = RizzyUI.InputGroupTextarea.DefaultDescriptor;
-
-        RzCommand = RizzyUI.RzCommand.DefaultDescriptor;
-        RzCommandDialog = RizzyUI.RzCommandDialog.DefaultDescriptor;
-        CommandInput = RizzyUI.CommandInput.DefaultDescriptor;
-        CommandList = RizzyUI.CommandList.DefaultDescriptor;
-        CommandEmpty = RizzyUI.CommandEmpty.DefaultDescriptor;
-        CommandGroup = RizzyUI.CommandGroup.DefaultDescriptor;
-        CommandItem = RizzyUI.CommandItem.DefaultDescriptor;
-        CommandSeparator = RizzyUI.CommandSeparator.DefaultDescriptor;
-        CommandShortcut = RizzyUI.CommandShortcut.DefaultDescriptor;
-        CommandItemTemplate = RizzyUI.CommandItemTemplate.DefaultDescriptor;
-        
-        RzCalendar = RizzyUI.RzCalendar.DefaultDescriptor;
-        RzCalendarProvider = RizzyUI.RzCalendarProvider.DefaultDescriptor;
+        // Typography Family
+        RzHeading = RizzyUI.RzHeading.DefaultDescriptor;
+        RzKbd = RizzyUI.RzKbd.DefaultDescriptor;
+        RzKbdGroup = RizzyUI.RzKbdGroup.DefaultDescriptor;
+        RzParagraph = RizzyUI.RzParagraph.DefaultDescriptor;
     }
 
     /// <summary>
