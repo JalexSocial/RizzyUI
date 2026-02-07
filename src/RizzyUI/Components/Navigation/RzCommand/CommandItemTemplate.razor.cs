@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Components;
 using TailwindVariants.NET;
 
@@ -17,6 +16,9 @@ public partial class CommandItemTemplate : RzComponent<CommandItemTemplate.Slots
         @base: "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground aria-disabled:pointer-events-none aria-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
     );
 
+    /// <summary>
+    /// Gets or sets the containing <see cref="RzCommand"/> component.
+    /// </summary>
     [CascadingParameter]
     protected RzCommand? ParentCommand { get; set; }
 
@@ -27,6 +29,7 @@ public partial class CommandItemTemplate : RzComponent<CommandItemTemplate.Slots
     [Parameter, EditorRequired]
     public RenderFragment ChildContent { get; set; } = default!;
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -38,6 +41,7 @@ public partial class CommandItemTemplate : RzComponent<CommandItemTemplate.Slots
         ParentCommand.DataItemTemplateId = Id;
     }
 
+    /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.CommandItemTemplate;
 
     /// <summary>

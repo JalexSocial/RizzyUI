@@ -6,7 +6,7 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// Renders the visual indicator for a <see cref="RzCheckboxGroupItem"/>.
+/// Renders the visual indicator for a <see cref="RzCheckboxGroupItem{TValue}"/>.
 /// </summary>
 public partial class CheckboxGroupItemIndicator : RzComponent<CheckboxGroupItemIndicator.Slots>
 {

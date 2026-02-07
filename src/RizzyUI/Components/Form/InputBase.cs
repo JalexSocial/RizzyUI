@@ -6,15 +6,29 @@ using TailwindVariants.NET;
 
 namespace RizzyUI;
 
+/// <summary>
+/// Provides common form-field behavior for RizzyUI input components.
+/// </summary>
+/// <typeparam name="TValue">The bound value type.</typeparam>
+/// <typeparam name="TSlots">The slots type used for Tailwind variant styling.</typeparam>
 public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
     where TSlots : class, ISlots, new()
 {
+    /// <summary>
+    /// Gets or sets the bound model expression used for validation metadata.
+    /// </summary>
     [Parameter, EditorRequired]
     public required Expression<Func<TValue>> For { get; set; }
 
+    /// <summary>
+    /// Gets or sets the current value for the input.
+    /// </summary>
     [Parameter]
     public TValue? Value { get; set; }
 
+    /// <summary>
+    /// Gets or sets a display-friendly field name.
+    /// </summary>
     [Parameter]
     public string? DisplayName { get; set; }
 
@@ -23,8 +37,14 @@ public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
 
     private FieldIdentifier _fieldIdentifier;
 
+    /// <summary>
+    /// Gets a value indicating whether the current field has validation errors.
+    /// </summary>
     protected bool IsInvalid => EditContext?.GetValidationMessages(_fieldIdentifier).Any() ?? false;
 
+    /// <summary>
+    /// Gets the input attributes merged with validation accessibility attributes.
+    /// </summary>
     protected Dictionary<string, object?> InputAttributes
     {
         get
@@ -38,6 +58,7 @@ public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
         }
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -49,6 +70,7 @@ public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
         _fieldIdentifier = FieldIdentifier.Create(For);
     }
 
+    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

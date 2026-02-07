@@ -1,4 +1,3 @@
-
 // src/RizzyUI/Components/Form/RzCheckboxGroup/RzCheckboxGroupItem.razor.cs
 using Blazicons;
 using Microsoft.AspNetCore.Components;
@@ -18,6 +17,9 @@ public partial class RzCheckboxGroupItem<TValue> : RzComponent<RzCheckboxGroupIt
 {
     private bool _hasExplicitIndicator = false;
 
+    /// <summary>
+    /// Gets or sets the parent checkbox group.
+    /// </summary>
     [CascadingParameter] protected RzCheckboxGroup<TValue>? ParentGroup { get; set; }
 
     /// <summary> Gets or sets the value associated with this checkbox item. </summary>

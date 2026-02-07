@@ -14,12 +14,23 @@ internal interface IRadioGroupItem
     void RegisterIndicator();
 }
 
+/// <summary>
+/// Represents a selectable item within <see cref="RzRadioGroup{TValue}"/>.
+/// </summary>
+/// <typeparam name="TValue">The value type associated with each radio item.</typeparam>
 public partial class RadioGroupItem<TValue> : RzComponent<RadioGroupItemSlots>, IHasRadioGroupItemStylingProperties, IRadioGroupItem
 {
     private RzInputRadioBase<TValue>? _elem;
     private bool _hasExplicitIndicator = false;
 
+    /// <summary>
+    /// Gets or sets the value represented by this radio item.
+    /// </summary>
     [Parameter] public TValue? Value { get; set; }
+
+    /// <summary>
+    /// Gets or sets the content rendered as the radio item label.
+    /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
@@ -39,5 +50,6 @@ public partial class RadioGroupItem<TValue> : RzComponent<RadioGroupItemSlots>, 
         }
     }
 
+    /// <inheritdoc />
     protected override TvDescriptor<RzComponent<RadioGroupItemSlots>, RadioGroupItemSlots> GetDescriptor() => Theme.RadioGroupItem;
 }

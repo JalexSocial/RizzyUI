@@ -1,4 +1,3 @@
-
 using System.Text.Json.Serialization;
 
 namespace RizzyUI;
@@ -63,6 +62,10 @@ public class ComboboxCheckboxOptionsPlugin : ComboboxPluginBase<ComboboxCheckbox
 {
     /// <inheritdoc/>
     public override string Name => "checkbox_options";
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ComboboxCheckboxOptionsPlugin"/> class.
+    /// </summary>
+    /// <param name="options">Optional plugin configuration.</param>
     public ComboboxCheckboxOptionsPlugin(ComboboxCheckboxOptionsSettings? options = null) : base(options) { }
 }
 
@@ -102,6 +105,10 @@ public class ComboboxClearButtonPlugin : ComboboxPluginBase<ComboboxClearButtonS
 {
     /// <inheritdoc/>
     public override string Name => "clear_button";
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ComboboxClearButtonPlugin"/> class.
+    /// </summary>
+    /// <param name="options">Optional plugin configuration.</param>
     public ComboboxClearButtonPlugin(ComboboxClearButtonSettings? options = null) : base(options) { }
 }
 
@@ -134,6 +141,10 @@ public class ComboboxRemoveButtonPlugin : ComboboxPluginBase<ComboboxRemoveButto
 {
     /// <inheritdoc/>
     public override string Name => "remove_button";
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ComboboxRemoveButtonPlugin"/> class.
+    /// </summary>
+    /// <param name="options">Optional plugin configuration.</param>
     public ComboboxRemoveButtonPlugin(ComboboxRemoveButtonSettings? options = null) : base(options) { }
 }
 
@@ -158,5 +169,9 @@ public class ComboboxVirtualScrollPlugin : ComboboxPluginBase<ComboboxVirtualScr
 {
     /// <inheritdoc/>
     public override string Name => "virtual_scroll";
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ComboboxVirtualScrollPlugin"/> class.
+    /// </summary>
+    /// <param name="options">Optional plugin configuration.</param>
     public ComboboxVirtualScrollPlugin(ComboboxVirtualScrollSettings? options = null) : base(options) { }
 }
