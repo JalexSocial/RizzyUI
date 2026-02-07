@@ -91,7 +91,22 @@ public partial class RzAlpineComponent : RzAsChildComponent
         return attributes;
     }
 
-    private static string? GetComponentModulePath(Type componentType)
+
+    /// <summary>
+    /// Computes the absolute web path to the co-located JavaScript module for a Blazor component type.
+    /// Uses attributes applied at the assembly and component level:
+    /// - <see cref="AssemblyRzAlpineCodeBehindAttribute"/> provides the static web asset base path and caller file path prefix.
+    /// - <see cref="RzAlpineCodeBehindAttribute"/> on the component type provides the original Razor file path.
+    /// </summary>
+    /// <param name="componentType">The Blazor component <see cref="Type"/> whose module path should be resolved.</param>
+    /// <returns>
+    /// A URL path (starting with '/') to the component's `.razor.js` static file or null when the component does not declare a Razor file path.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when the assembly is not decorated with <see cref="AssemblyRzAlpineCodeBehindAttribute"/> or
+    /// when the component's razor file path does not start with the expected caller file prefix.
+    /// </exception>
+    public static string? GetComponentModulePath(Type componentType)
     {
         var assembly = componentType.Assembly;
         _ = typeof(AssemblyRzAlpineCodeBehindAttribute);

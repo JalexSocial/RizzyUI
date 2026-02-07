@@ -170,16 +170,20 @@ public static class StaticResourcesInfoProviderExtensions
     public static StaticResourcesInfoProvider AddAllBlazorPages(
         this StaticResourcesInfoProvider provider)
     {
-        provider.Add(GetPageResources());
+        var routes = GetAllRoutes();
+
+        provider.Add(GetPageResources(routes));
+        provider.Add(GetAllCodeBehinds());
+
         return provider;
     }
 
-    private static IEnumerable<PageResource> GetPageResources() =>
-                GetAllRoutes().Select(route => route.EndsWith("/") ? new PageResource(route) { OutFile = "index.html" } : new PageResource(route));
+    private static IEnumerable<PageResource> GetPageResources(string[] routes) =>
+                routes.Select(route => route.EndsWith("/") ? new PageResource(route) { OutFile = "index.html" } : new PageResource(route));
 
-    private static string[] GetAllRoutes()
+    private static Type[] GetAllComponentTypes()
     {
-        var routeTemplates = new List<string>();
+        var components = new List<Type>();
 
         // Get all assemblies loaded in the current application domain
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -209,22 +213,60 @@ public static class StaticResourcesInfoProviderExtensions
                 // Check if the type is a Blazor component
                 if (typeof(ComponentBase).IsAssignableFrom(type))
                 {
-                    // Get all RouteAttributes applied to the component
-                    var routeAttributes = type.GetCustomAttributes<RouteAttribute>(inherit: false);
-
-                    foreach (var routeAttribute in routeAttributes)
-                    {
-                        // Original route template
-                        var route = routeAttribute.Template;
-
-                        // Add the modified route template to the list
-                        routeTemplates.Add(route);
-                    }
+                    components.Add(type);
                 }
             }
         }
 
+        // Return an array of distinct components
+        return components.ToArray();
+    }
+
+    private static string[] GetAllRoutes()
+    {
+        var routeTemplates = new List<string>();
+
+        IEnumerable<Type> types = GetAllComponentTypes();
+
+        foreach (var type in types)
+        {
+            // Get all RouteAttributes applied to the component
+            var routeAttributes = type.GetCustomAttributes<RouteAttribute>(inherit: false);
+
+            foreach (var routeAttribute in routeAttributes)
+            {
+                // Original route template
+                var route = routeAttribute.Template;
+
+                // Add the modified route template to the list
+                routeTemplates.Add(route);
+            }
+        }
+ 
         // Return an array of distinct route templates
         return routeTemplates.Distinct().ToArray();
+    }
+
+    private static IEnumerable<JsResource> GetAllCodeBehinds()
+    {
+        var resources = new List<JsResource>();
+        var types = GetAllComponentTypes();
+
+        foreach (var type in types)
+        {
+            if (type.GetCustomAttribute<RzAlpineCodeBehindAttribute>() is not null)
+            {
+                Debug.WriteLine($"Found code-behind component: {type.FullName}");
+
+                string? path = RzAlpineComponent.GetComponentModulePath(type);
+
+                if (path != null)
+                {
+                    resources.Add(new JsResource(path));
+                }
+            }
+        }
+
+        return resources;
     }
 }
