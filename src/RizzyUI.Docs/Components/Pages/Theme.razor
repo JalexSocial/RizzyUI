@@ -6,114 +6,179 @@
     <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent><RzQuickReference/></SideContent>
         <MainContent>
-	        <RzMarkdown ProseWidth="ProseWidth.UltraWide">
-# Using Themes with RizzyUI
+            <RzMarkdown ProseWidth="ProseWidth.UltraWide">
+# Mastering Themes &amp; Styling in RizzyUI
 
-RizzyUI leverages themes to ensure consistent styling across all components. Themes define design tokens (such as colors, border widths, and radii) for both light and dark modes, allowing your application to easily switch between or customize visual appearances.
+Hardcoded styles are technical debt. If you’ve ever had to grep-replace hex codes across fifty files because the marketing team changed the primary brand color, you know the pain.
 
-## Adding the Theme Provider
+In this guide, we’ll configure a robust, type-safe styling system that handles dark mode automatically, supports runtime theme switching, and lets you modify component structures without fighting global CSS.
 
-To apply a theme across your application, you **must place the `&lt;RzThemeProvider&gt;` component in the `&lt;head&gt;` section** of your HTML template. This ensures that theme variables (declared as CSS custom properties) are available before any RizzyUI components render.
+## Prerequisites &amp; Installation
 
-**Example:**
+RizzyUI is designed for modern, server-centric .NET development.
 
-```html
-&lt;head&gt;
-  &lt;!-- Other head elements --&gt;
-  &lt;RzThemeProvider /&gt;
-  &lt;!-- Other head elements --&gt;
-&lt;/head&gt;
+**Requirements:**
+*   **.NET 10** (Blazor Web App).
+*   **Hosting Model:** Static Server Rendering (SSR). RizzyUI does not require WebAssembly.
+*   **Tailwind CSS 4.0+** (CLI).
+*   **Node.js** (for fetching the Tailwind configuration/styles).
+
+### Step 1: Install Packages
+You need the .NET components, the Tailwind styles, and the Tailwind CLI.
+
+**NuGet (The Components):**
+```bash
+dotnet add package RizzyUI
 ```
 
-## Providing a Theme
-
-There are two ways to supply a theme to your application:
-
-### Directly via the Theme Parameter
-
-You can pass a specific theme to the `Theme` parameter of the `&lt;RzThemeProvider&gt;` component.
-
-**Example:**
-
-```razor
-&lt;RzThemeProvider Theme=&quot;RizzyTheme.HighContrastTheme&quot; /&gt;
+**NPM (The Styles &amp; Build Tool):**
+```bash
+npm install @@jalexsocial/rizzyui
+npm install -D tailwindcss @@tailwindcss/cli
 ```
 
-This directly applies the **HighContrastTheme** (or any other theme you choose) to your application.
+## The Build Pipeline (Tailwind 4)
 
-### Setting a Default Theme via Configuration
+RizzyUI ships a CSS file (`rizzyui-plugin.css`) that acts as a Tailwind 4 configuration source. It contains the `@@theme` definitions, reset layers, and animation utilities.
 
-Alternatively, you can set a default theme when configuring RizzyUI in your startup code. If no explicit theme is provided to `&lt;RzThemeProvider&gt;`, the provider will use the default theme specified in the configuration.
+### Step 1: Create your Input CSS
+Create a file at `Styles/app.css` (or your preferred location).
 
-**Example (in Program.cs or Startup.cs):**
+```css
+@@import "tailwindcss";
 
-```csharp
-builder.Services.AddRizzyUI(config =&gt;
+/* 
+   Import RizzyUI Core.
+   This pulls in the base theme variables, form resets, and animations.
+   
+   If your toolchain supports node resolution (e.g. Vite), use the package name.
+   Otherwise, use the relative path to node_modules.
+*/
+@@import "@@jalexsocial/rizzyui/dist/css/rizzyui-plugin.css";
+
+/* 
+   Tell Tailwind to scan your Razor files and C# theme definitions.
+   CRITICAL: This path is relative to THIS css file. Adjust as needed.
+   We exclude bin/obj to prevent scanning generated files.
+*/
+@@source "../**/*.{razor,html,cs}";
+@@source "!../**/bin/**";
+@@source "!../**/obj/**";
+```
+
+### Step 2: Configure NPM Scripts
+Add these scripts to your `package.json` to make running the build easy for your team.
+
+```json
 {
-    config.DefaultTheme = RizzyTheme.HighContrastTheme // or new HighContrastTheme();
-});
-```
-
-In this example, the **HighContrastTheme** is set as the default theme for your application.
-
-## Customizing Themes
-
-RizzyUI includes several built-in themes (such as `ArcticTheme`, `HighContrastTheme`, `ModernTheme`, and `NewsTheme`), but you can also create a custom theme by inheriting from the `RizzyTheme` class.
-
-### Custom Theme Example
-
-```csharp
-namespace MyApp.Themes;
-
-public class CustomTheme : RizzyTheme
-{
-    public CustomTheme() : base(&quot;Custom&quot;, &quot;custom&quot;)
-    {
-        Light = new RizzyThemeVariant
-        {
-            Surface = Colors.White,
-            OnSurface = Colors.Gray.L700,
-            OnSurfaceStrong = Colors.Black,
-            SurfaceAlt = Colors.Gray.L100,
-            Primary = Colors.Blue.L700,
-            PrimaryForeground = Colors.White,
-            // Define additional tokens as required...
-        };
-        Dark = new RizzyThemeVariant
-        {
-            Surface = Colors.Gray.L900,
-            OnSurface = Colors.Gray.L300,
-            OnSurfaceStrong = Colors.White,
-            SurfaceAlt = Colors.Gray.L800,
-            Primary = Colors.Blue.L600,
-            PrimaryForeground = Colors.Black,
-            // Define additional tokens as required...
-        };
-        Destructive = Colors.Red.L600;
-        DestructiveForeground = Colors.White;
-        // Set other status colors...
-        BorderWidth = &quot;1px&quot;;
-        BorderRadius = &quot;6px&quot;;
-    }
+  "scripts": {
+    "tailwind:watch": "npx @@tailwindcss/cli -i ./Styles/app.css -o ./wwwroot/app.css --watch",
+    "tailwind:build": "npx @@tailwindcss/cli -i ./Styles/app.css -o ./wwwroot/app.css --minify"
+  }
 }
 ```
 
-Once you have created your custom theme, you can apply it by either passing it directly to `&lt;RzThemeProvider&gt;` or by configuring it as the default theme.
+### Step 3: Validation
+Open two terminals.
+1.  Run `dotnet watch`.
+2.  Run `npm run tailwind:watch`.
 
-## How Themes Are Applied
+If you add a class like `bg-red-500` to a Razor component, you should see the Tailwind CLI report a rebuild immediately, and the style should appear in the browser.
 
-After you configure a theme, all RizzyUI components will automatically use the defined design tokens. For example:
+## Application Wiring
 
-- Classes like `bg-background` and `text-foreground` reference the `--color-surface` and `--color-foreground` tokens from your current theme.
-- In dark mode, the theme provider swaps these tokens with the dark variant values.
+We need to register the services and inject the theme variables into the document head.
 
-This approach ensures that your components maintain a consistent look and feel, regardless of the theme or mode (light/dark) in use.
+### Step 1: Global Registration
+In `Program.cs`, add the service and set your baseline theme.
 
-# Using Themes and Colors in RizzyUI
+```csharp
+builder.Services.AddRizzyUI(config =>
+{
+    // Sets the baseline styling for all components
+    config.DefaultTheme = RzTheme.ArcticTheme; 
+});
+```
 
-RizzyUI uses a comprehensive color system based on Tailwind CSS design tokens. The library defines a set of color scales that match Tailwind’s color palettes. Each color scale is exposed via the static **Colors** class. For example, the color scale for Rose is accessed as **Colors.Rose**, and its various shades are provided as properties like **L50, L100, …, L950**.
+### Step 2: Inject the Provider (App.razor)
+In `App.razor`, add the head components. This file owns the HTML document structure in .NET 10 Blazor Web Apps.
 
-## Color Scales Overview
+```razor
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+    &lt;base href="/" /&gt;
+    
+    &lt;!-- 1. Your compiled Tailwind CSS --&gt;
+    &lt;link rel="stylesheet" href="app.css" /&gt;
+    
+    &lt;!-- 2. RizzyUI Head Outlet 
+         - Manages Page Titles / Meta
+         - Injects the Alpine.js runtime (required for interactivity) 
+    --&gt;
+    &lt;RzHeadOutlet /&gt;
+    
+    &lt;!-- 3. The Theme Provider 
+         - Must be in &lt;head&gt; to prevent Flash of Unstyled Content (FOUC)
+         - Calculates and injects CSS variables for the current theme
+    --&gt;
+    &lt;RzThemeProvider Theme="@@CurrentTheme" /&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;Routes /&gt;
+    
+    &lt;!-- 
+       Note: blazor.web.js is optional for RizzyUI itself. 
+       RizzyUI uses Alpine.js + HTMX for interactivity. 
+       Only include this if your app uses other InteractiveServer components.
+    --&gt;
+    &lt;script src="_framework/blazor.web.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+@@code {
+    // We bind this to the provider to allow runtime switching later
+    private RzTheme CurrentTheme { get; set; } = RzTheme.ArcticTheme;
+}
+```
+
+### Note on Alpine.js
+RizzyUI components use **Alpine.js** for client-side interactivity (dropdowns, toggles, etc.). 
+*   **How it loads:** The `&lt;RzHeadOutlet /&gt;` automatically injects a script tag pointing to the bundled Alpine runtime in `_content/RizzyUI/js/rizzyui.js`.
+*   **CSP:** If you use a Content Security Policy, allow scripts from `_content/RizzyUI`.
+
+## Understanding Design Tokens (Shadcn/UI)
+
+RizzyUI implements the **Shadcn/UI** token system. Instead of picking specific colors like `Blue` or `Red`, you pick *semantic* roles.
+
+*   **Primary:** The main brand color (buttons, active links).
+*   **Destructive:** Critical actions (delete buttons, errors).
+*   **Background:** The page background.
+*   **Foreground:** Text and icons.
+*   **Muted:** Subtle text or secondary backgrounds.
+
+### Why this matters
+When you use semantic tokens, **Dark Mode comes for free**.
+
+```html
+&lt;!-- Bad: Needs manual dark mode handling --&gt;
+&lt;div class="bg-white text-black dark:bg-slate-900 dark:text-white"&gt;...&lt;/div&gt;
+
+&lt;!-- Good: RizzyUI handles the swap automatically --&gt;
+&lt;div class="bg-background text-foreground"&gt;...&lt;/div&gt;
+```
+
+Under the hood, `RzThemeProvider` injects CSS variables via a `&lt;style&gt;` tag. In Light mode, `--background` maps to white. In Dark mode, it swaps the definition of `--background` to slate-950. Your HTML markup never changes.
+
+## The Color Palette System
+
+While semantic tokens handle the UI roles, RizzyUI also exposes the full Tailwind color palette in C# for scenarios where you need specific shades (e.g., defining a custom theme).
+
+The library defines a set of color scales exposed via the static **`RizzyUI.Colors`** class. For example, the color scale for Rose is accessed as **`Colors.Rose`**, and its various shades are provided as properties like **`L50, L100, …, L950`**.
+
+### Color Scales Overview
 
 The following table lists all the color scales defined in RizzyUI **Colors** along with their corresponding Tailwind color names:
 
@@ -142,15 +207,14 @@ The following table lists all the color scales defined in RizzyUI **Colors** alo
 | **Yellow**   | yellow              |
 | **Zinc**     | zinc                |
 
+### How Shades Map to Tailwind Classes
 
-## How Shades Map to Tailwind Classes
+Each color scale class (e.g. **`Colors.Rose`**) exposes properties representing different intensity levels. These properties are named following the pattern **L&lt;number&gt;** where the number corresponds to the Tailwind numeric scale. For example:
 
-Each color scale class (e.g. **Colors.Rose**) exposes properties representing different intensity levels. These properties are named following the pattern **L&lt;number&gt;** where the number corresponds to the Tailwind numeric scale. For example:
-
-- **Colors.Rose.L500**  
-  This property returns the color corresponding to **rose-500** in Tailwind.  
-- **Colors.Blue.L200**  
-  This is equivalent to the Tailwind class **blue-200**.
+- **`Colors.Rose.L500`**  
+  This property returns the color corresponding to **`rose-500`** in Tailwind.  
+- **`Colors.Blue.L200`**  
+  This is equivalent to the Tailwind class **`blue-200`**.
 
 ### Details
 
@@ -158,55 +222,146 @@ Each color scale class (e.g. **Colors.Rose**) exposes properties representing di
   The numeric value (L50, L100, L200, etc.) directly maps to the intensity in Tailwind. Lower numbers (e.g., L50, L100) are lighter shades, while higher numbers (e.g., L900, L950) are darker shades.
   
 - **Usage in Components:**  
-  When using theme tokens in your component styles (via Tailwind classes like `bg-primary` or `text-foreground`), the underlying theme may reference these color scales. For instance, a theme might set its primary color as **Colors.Blue.L700** so that any component using `bg-primary` will get the same blue tone as defined by Tailwind’s **blue-700**.
+  When using theme tokens in your component styles (via Tailwind classes like `bg-primary` or `text-foreground`), the underlying theme may reference these color scales. For instance, a theme might set its primary color as **`Colors.Blue.L700`** so that any component using `bg-primary` will get the same blue tone as defined by Tailwind’s **`blue-700`**.
 
 - **Consistency:**  
   This direct mapping ensures that when you use a color scale in code—for example, in a custom theme or a component’s variant—the numeric suffix always corresponds to the same Tailwind color. It simplifies maintenance and helps guarantee visual consistency across your application.
 
-## Example
+### Example
 
 If you want to apply the “Rose” color at intensity **500** as a background, you could use the following Tailwind class:
 
 ```razor
-&lt;div class=&quot;bg-rose-500 text-foreground&quot;&gt;
+&lt;div class="bg-rose-500 text-foreground"&gt;
     This div uses the rose color at intensity 500.
 &lt;/div&gt;
 ```
 
-Under the hood, **Colors.Rose.L500** in the theme provider will supply the same color value as Tailwind’s **rose-500**.
+Under the hood, **`Colors.Rose.L500`** in the theme provider will supply the same color value as Tailwind’s **`rose-500`**.
 
-## Semantic Colors in RizzyUI Themes
+> **Warning:** Avoid using raw color classes (like `bg-rose-500`) directly in your Razor markup for main layout elements. If you do, those elements won't automatically adapt when the user toggles Dark Mode. Stick to semantic tokens like `bg-primary`, `bg-background` (Surface), `bg-card`, etc.
 
-Semantic colors in RizzyUI provide a meaningful and consistent way to style components. Instead of hardcoding specific color values, the library uses semantic tokens that map to design choices. For example, a theme defines its background, text, accent, and status colors using these tokens. When you apply a theme (via the `&lt;RzThemeProvider&gt;` or through configuration), components reference these semantic tokens (such as `Surface`, `Primary`, or `Destructive`) to determine their visual appearance. This abstraction allows you to change the look of your entire application simply by switching themes or adjusting the theme’s values.
+## Loading External Themes (JSON)
 
-The semantic colors are defined in the `SemanticColor` enum and include the following values:
+Manually configuring every color property in C# can be tedious. RizzyUI supports the standard **Shadcn/UI JSON Registry schema**. This means you can use visual tools like [TweakCN](https://tweakcn.com/) to design your theme, export the JSON, and load it directly into your .NET application.
 
-| **Semantic Color**   | **Role/Usage**                                                                                                                                                                                                                                                                                                  |
-|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **None**             | Indicates that no semantic color is applied. Useful as a placeholder when no styling is desired.                                                                                                                                                                                                               |
-| **Surface**          | The primary background color for components (e.g., the default container or card background). Often referenced using the `bg-background` class.                                                                                                                                                                   |
-| **OnSurface**        | Used for text and icons displayed on a Surface background. This ensures adequate contrast (e.g., using `text-foreground`).                                                                                                                                                                                      |
-| **OnSurfaceStrong**  | A stronger variant for text on a Surface background, typically used for RzHeadings or prominent labels (e.g., `text-foreground`).                                                                                                                                                                            |
-| **SurfaceAlt**       | An alternate background color used to differentiate sections or secondary surfaces (e.g., `bg-secondary`).                                                                                                                                                                                                     |
-| **Primary**          | The main accent or brand color used in interactive elements like buttons or links (e.g., `bg-primary`).                                                                                                                                                                                                          |
-| **PrimaryForeground**        | Used for text and icons placed on a Primary-colored background, ensuring readability (e.g., `text-primary-foreground`).                                                                                                                                                                                                 |
-| **Secondary**        | A secondary accent color that complements the primary color. Often used for additional interactive elements (e.g., `bg-secondary`).                                                                                                                                                                               |
-| **SecondaryForeground**      | For text and icons on a Secondary-colored background (e.g., `text-secondary-foreground`).                                                                                                                                                                                                                                 |
-| **Outline**          | Defines the color for borders and outlines, providing visual separation (e.g., `border-outline`).                                                                                                                                                                                                                 |
-| **OutlineStrong**    | A stronger version of the outline color, used where a more pronounced border is required (e.g., `border-outline-strong`).                                                                                                                                                                                         |
-| **Destructive**           | Indicates error states or destructive actions. This color is used to draw attention to problems (e.g., `bg-destructive`).                                                                                                                                                                                              |
-| **DestructiveForeground**         | Used for text or icons on a Destructive background, ensuring contrast and readability (e.g., `text-destructive-foreground`).                                                                                                                                                                                                       |
-| **Info**             | Represents informational messages, providing context or guidance (e.g., `bg-info`).                                                                                                                                                                                                                               |
-| **OnInfo**           | Used for text and icons on an Info background (e.g., `text-info-foreground`).                                                                                                                                                                                                                                               |
-| **Warning**          | Used to signal caution or alert messages. It draws attention without the severity of a danger color (e.g., `bg-warning`).                                                                                                                                                                                         |
-| **OnWarning**        | For text and icons displayed on a Warning background, ensuring they remain legible (e.g., `text-warning-foreground`).                                                                                                                                                                                                     |
-| **Success**          | Indicates successful operations, confirmations, or positive statuses (e.g., `bg-success`).                                                                                                                                                                                                                        |
-| **OnSuccess**        | Used for text or icons on a Success background (e.g., `text-success-foreground`), ensuring clear communication of success.                                                                                                                                                                                                 |
+### Step 1: Get the JSON
+Export your theme from TweakCN or grab a Shadcn theme file. Save it as `my-theme.json` in your project (e.g., in `wwwroot/themes` or as an Embedded Resource).
 
-By using these semantic color tokens within your themes, you can easily adjust the visual appearance of your entire application. Whether you choose one of the built-in themes (like **HighContrastTheme**, **ModernTheme**, or **NewsTheme**) or create a custom theme, these tokens ensure a consistent, accessible, and easily maintainable design throughout your RizzyUI-powered application.
+### Step 2: Load at Startup
+In `Program.cs`, use the `ThemeLoader` to hydrate the theme object. In .NET 10, we can use top-level `await`.
 
-			</RzMarkdown>
+```csharp
+// Program.cs
+
+// Load the theme file asynchronously before building the app
+var customTheme = await ThemeLoader.LoadFromFileAsync("wwwroot/themes/my-theme.json");
+
+builder.Services.AddRizzyUI(config => {
+    // Apply the loaded theme. 
+    // Fallback to Arctic if the file failed to load.
+    config.DefaultTheme = customTheme ?? RzTheme.ArcticTheme;
+});
+```
+
+This allows you to change your entire application's color palette without recompiling, simply by swapping the JSON file.
+
+## Component Customization (TailwindVariants)
+
+Sometimes you don't just want to change colors; you want to change the **structure** or **default behavior** of a component across the entire app. 
+
+RizzyUI uses [TailwindVariants.NET](https://github.com/Denny09310/tailwind-variants-dotnet) to define component styles. This allows you to define "slots" (different parts of a component) and "variants" (different states).
+
+### The Problem
+You want all buttons in your application to be "pill" shaped (fully rounded) and uppercase, but `RzButton` defaults to slightly rounded corners (`rounded-md`) and normal casing.
+
+### The Solution: Override the Descriptor
+You can override the `TvDescriptor` for any component within your theme configuration.
+
+```csharp
+// 1. Create a custom theme class
+public class MyCustomTheme : ArcticTheme
+{
+    public MyCustomTheme()
+    {
+        // 2. Get the default button definition to copy existing logic
+        var defaultBtn = RizzyUI.RzButton.DefaultDescriptor;
+
+        // 3. Create a new descriptor
+        // We modify the 'Base' slot to add our new classes.
+        // TailwindMerge (built-in) will automatically resolve conflicts 
+        // (e.g., 'rounded-full' will overwrite 'rounded-md').
+        this.RzButton = new TvDescriptor&lt;RzComponent&lt;RzButton.Slots&gt;, RzButton.Slots&gt;(
+            @@base: defaultBtn.Base + " rounded-full uppercase tracking-widest",
+            variants: defaultBtn.Variants,
+            slots: defaultBtn.Slots
+        );
+    }
+}
+```
+
+**To activate this:**
+```csharp
+builder.Services.AddRizzyUI(config => {
+    config.DefaultTheme = new MyCustomTheme();
+});
+```
+
+## Runtime Theme Switching &amp; Dark Mode
+
+RizzyUI handles dark mode toggling automatically, but switching entire theme definitions (e.g. Blue vs Red) requires explicit state management in SSR.
+
+### Dark Mode (Automatic)
+Use the built-in component:
+```razor
+&lt;RzDarkModeToggle /&gt;
+```
+This component uses Alpine.js to toggle the `.dark` class on the `&lt;html&gt;` element and persists the preference to `localStorage`. `RzThemeProvider` detects this class and updates the CSS variables immediately.
+
+### Switching Theme Definitions (Manual)
+To switch from `ArcticTheme` to `VercelTheme` at runtime, you update the `Theme` parameter on the single `&lt;RzThemeProvider&gt;` we added to `App.razor`.
+
+**Important:** In SSR, this state lives on the server during the request. To make it persist across navigation, you must store the user's choice (e.g., in a cookie or database) and read it on page load.
+
+```razor
+&lt;!-- In a Layout or Page --&gt;
+&lt;form method="post" action="/settings/theme" data-enhance&gt;
+    &lt;input type="hidden" name="theme" value="vercel" /&gt;
+    &lt;button type="submit"&gt;Switch to Vercel&lt;/button&gt;
+&lt;/form&gt;
+```
+
+(The implementation of the controller/endpoint to set the cookie is standard ASP.NET Core logic).
+
+## Troubleshooting
+
+*   **I see unstyled components.**
+    *   Did you run the Tailwind build script? (`npm run tailwind:watch`)
+    *   Is the output CSS file linked in `App.razor`?
+    *   Check your `@@source` glob in `app.css`. It must find your `.razor` and `.cs` files relative to where `app.css` lives.
+
+*   **Interactive UI (dropdowns, toggles) isn't responding.**
+    *   Confirm `&lt;RzHeadOutlet /&gt;` is in `&lt;head&gt;`.
+    *   Check the browser console network tab—is `rizzyui.js` loading?
+    *   Check if a Content Security Policy (CSP) is blocking the script.
+
+*   **My descriptor changes aren't showing up.**
+    *   **Tailwind Scanning:** If you add a class string like `"bg-fuchsia-500"` inside a C# file, Tailwind's scanner must see that file. Ensure your `@@source` directive includes `**/*.cs`.
+    *   **Computed Classes:** Tailwind *cannot* see dynamically computed strings like `$"bg-{color}-500"`. You must use full class names in your C# code or add them to a safelist.
+
+*   **Theme switches but resets on refresh.**
+    *   Dark mode persists automatically via `localStorage`.
+    *   Theme Definition (Arctic vs Custom) selection is server-side state. You must persist this selection (Cookie/DB) and reload it in `App.razor` or `Program.cs`.
+
+## Key Takeaways
+
+*   **Runtime Power:** Themes are C# objects injected as CSS variables by `RzThemeProvider`.
+*   **Build Pipeline:** Use Tailwind CLI to compile your CSS; importing the NPM package is just the configuration step.
+*   **SSR First:** No WASM required. Interactivity is handled by Alpine.js.
+*   **Tokens:** Use semantic classes (`bg-primary`) instead of raw colors (`bg-blue-500`) to get Dark Mode for free.
+
+Thanks for reading—now go build something beautiful!
+            </RzMarkdown>
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>
-

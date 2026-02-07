@@ -60,6 +60,7 @@
     --color-purple-500: oklch(62.7% 0.265 303.9);
     --color-purple-600: oklch(55.8% 0.288 302.321);
     --color-purple-700: oklch(49.6% 0.265 301.924);
+    --color-fuchsia-500: oklch(66.7% 0.295 322.15);
     --color-pink-200: oklch(89.9% 0.061 343.231);
     --color-pink-500: oklch(65.6% 0.241 354.308);
     --color-pink-700: oklch(52.5% 0.223 3.958);
@@ -2232,6 +2233,9 @@
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--foreground) 15%, transparent);
     }
+  }
+  .bg-fuchsia-500 {
+    background-color: var(--color-fuchsia-500);
   }
   .bg-gray-50 {
     background-color: var(--color-gray-50);
@@ -7799,6 +7803,11 @@
       }
     }
   }
+  .dark\:bg-slate-900 {
+    &:is(.dark *) {
+      background-color: var(--color-slate-900);
+    }
+  }
   .dark\:bg-success {
     &:is(.dark *) {
       background-color: var(--success);
@@ -7993,6 +8002,11 @@
   .dark\:text-warning-foreground {
     &:is(.dark *) {
       color: var(--warning-foreground);
+    }
+  }
+  .dark\:text-white {
+    &:is(.dark *) {
+      color: #ffffff;
     }
   }
   .dark\:text-zinc-200 {
