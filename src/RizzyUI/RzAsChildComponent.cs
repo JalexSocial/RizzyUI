@@ -133,7 +133,7 @@ public abstract partial class RzAsChildComponent : RzComponent
     /// </para>
     /// <para>
     /// For DOM elements, use lowercase attribute names (e.g., "class", "onclick", "aria-label").
-    /// The <see cref="RzComponent.CloneFragment"/> method will handle filtering inappropriate attributes
+    /// The <see cref="RzAsChildComponent.CloneFragment"/> method will handle filtering inappropriate attributes
     /// when applying them to DOM elements versus Blazor components.
     /// </para>
     /// <para>
