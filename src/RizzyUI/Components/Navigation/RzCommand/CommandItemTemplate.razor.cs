@@ -1,3 +1,4 @@
+#pragma warning disable CS1591
 
 using Microsoft.AspNetCore.Components;
 using TailwindVariants.NET;

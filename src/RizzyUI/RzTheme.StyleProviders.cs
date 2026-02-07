@@ -1,5 +1,7 @@
 using TailwindVariants.NET;
 
+#pragma warning disable CS1574
+
 namespace RizzyUI;
 
 /// <summary>

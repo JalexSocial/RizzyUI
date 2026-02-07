@@ -1,3 +1,4 @@
+#pragma warning disable CS1591
 
 // src/RizzyUI/Components/Form/RzCheckboxGroup/RzCheckboxGroupItem.razor.cs
 using Blazicons;

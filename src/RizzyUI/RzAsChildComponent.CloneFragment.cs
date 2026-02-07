@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.RenderTree;
 using RizzyUI.Utility.Parser;
 
+#pragma warning disable CS1574
+
 namespace RizzyUI;
 
 /// <content>
@@ -35,7 +37,7 @@ public abstract partial class RzAsChildComponent : RzComponent
     /// <item>
     ///     <description>
     ///     If both the fragment and <paramref name="attributes"/> specify the &lt;c&gt;class&lt;/c&gt;
-    ///     attribute, they are merged using <see cref="TailwindMerge.TwMerge.Merge(string?, string?)"/>,
+    ///     attribute, they are merged using <c>TwMerge.Merge(string?, string?)</c>,
     ///     so that utilities in the fragment take precedence while conflicts are resolved.
     ///     </description>
     /// </item>
@@ -181,7 +183,7 @@ public abstract partial class RzAsChildComponent : RzComponent
     /// Copies attribute frames from <paramref name="frames"/> into <paramref name="b"/>, letting
     /// those original attributes override any matching keys in <paramref name="baseAttrs"/>. After
     /// originals are copied, remaining <paramref name="baseAttrs"/> entries are appended. For the
-    /// &lt;c&gt;class&lt;/c&gt; attribute, <see cref="TailwindMerge.TwMerge.Merge(string?, string?)"/> is used to merge
+    /// &lt;c&gt;class&lt;/c&gt; attribute, <c>TwMerge.Merge(string?, string?)</c> is used to merge
     /// Tailwind class lists, with the original (fragment) classes taking precedence.
     /// </summary>
     private void CopyAttributesWithPrecedence(RenderTreeBuilder b, RenderTreeFrame[] frames, ref int idx, IDictionary<string, object?> baseAttrs)
