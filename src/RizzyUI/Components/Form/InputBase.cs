@@ -49,7 +49,7 @@ public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
     {
         get
         {
-            var attributes = new Dictionary<string, object?>(AdditionalAttributes ?? new(), StringComparer.OrdinalIgnoreCase);
+            var attributes = new Dictionary<string, object?>(AdditionalAttributes?.ToDictionary(kvp => kvp.Key, kvp => (object?)kvp.Value) ?? new Dictionary<string, object?>(), StringComparer.OrdinalIgnoreCase);
             if (IsInvalid)
             {
                 attributes["aria-invalid"] = "true";
