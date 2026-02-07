@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.RenderTree;
 using RizzyUI.Utility.Parser;
 
-#pragma warning disable CS1574
-
 namespace RizzyUI;
 
 /// <content>

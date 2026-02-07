@@ -1,7 +1,5 @@
 using TailwindVariants.NET;
 
-#pragma warning disable CS1574
-
 namespace RizzyUI;
 
 /// <summary>
@@ -156,13 +154,13 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<FieldSlots>, FieldSlots> Field { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldContent"/> component. </summary>
     public virtual TvDescriptor<RzComponent<FieldContent.Slots>, FieldContent.Slots> FieldContent { get; set; }
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldLabel"/> component. </summary>
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldLabel{TValue}"/> component. </summary>
     public virtual TvDescriptor<RzComponent<FieldLabelSlots>, FieldLabelSlots> FieldLabel { get; set; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.FieldTitle"/> component. </summary>
     public virtual TvDescriptor<RzComponent<FieldTitle.Slots>, FieldTitle.Slots> FieldTitle { get; set; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzInput"/> component. </summary>
+    /// <summary> Gets or sets the style definitions for the <c>RzInput</c> component. </summary>
     public virtual TvDescriptor<RzComponent<FormInputSlots>, FormInputSlots> RzInput { get; set; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzInputText"/> component. </summary>
@@ -183,13 +181,13 @@ public partial class RzTheme
 	/// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.CheckboxGroupItemIndicator"/> component. </summary>
     public virtual TvDescriptor<RzComponent<CheckboxGroupItemIndicator.Slots>, CheckboxGroupItemIndicator.Slots> CheckboxGroupItemIndicator { get; set; }
     
-	/// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzInputNumber"/> component. </summary>
+	/// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzInputNumber{TValue}"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzInputNumberSlots>, RzInputNumberSlots> RzInputNumber { get; set; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzRadioGroup"/> component. </summary>
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzRadioGroup{TValue}"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzRadioGroupSlots>, RzRadioGroupSlots> RzRadioGroup { get; set; }
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RadioGroupItem"/> component. </summary>
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RadioGroupItem{TValue}"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RadioGroupItemSlots>, RadioGroupItemSlots> RadioGroupItem { get; set; }
 
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RadioGroupItemIndicator"/> component. </summary>

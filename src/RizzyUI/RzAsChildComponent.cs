@@ -1,8 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
 
-#pragma warning disable CS1574
-
 namespace RizzyUI;
 
 /// <summary>
