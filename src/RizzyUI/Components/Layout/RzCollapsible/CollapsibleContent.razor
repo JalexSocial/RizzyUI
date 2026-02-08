@@ -6,10 +6,9 @@
              @attributes="AdditionalAttributes" 
              id="@($"{ParentCollapsible?.Id}-content")" 
              class="@SlotClasses.GetBase()"
-             x-show="isOpen"
              x-cloak
+             x-show="isOpen"
              x-collapse
-             x-bind:data-state="state"
              data-slot="collapsible-content">
     @ChildContent
 </HtmlElement>
