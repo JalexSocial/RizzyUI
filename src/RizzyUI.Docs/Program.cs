@@ -26,10 +26,12 @@ builder.Services.AddRizzyUI(config =>
 
 //builder.Services.AddMvcCore().AddDataAnnotations();
 
+#if !DEBUG
 builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
     new StaticResourcesInfoProvider()
         .AddAllBlazorPages()
         .AddAllWebRootContent(builder.Environment));  // from AspNetStaticContrib project
+#endif
 
 // Add localization
 builder.Services.AddRazorComponents();
