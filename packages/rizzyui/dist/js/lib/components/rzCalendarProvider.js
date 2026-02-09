@@ -5,23 +5,59 @@ export default function(Alpine) {
         mode: 'single', 
         dates: [], // Canonical state: Flat array of ISO strings ['YYYY-MM-DD', ...], always sorted/unique
         
-        // --- Internal ---
+        // --- Configuration ---
+        locale: 'en-US',
+        formatOptions: {},
+
+        // --- Public API ---
+        /** 
+         * The underlying VanillaCalendarPro instance.
+         * Available after the 'rz:calendar:init' event fires.
+         * Use this to call VCP methods directly (e.g. showMonth, showYear).
+         */
         calendarApi: null,
+
+        // --- Internal ---
         _isUpdatingFromCalendar: false,
         _lastAppliedState: null,
-        _handlers: [], // Store handlers for cleanup
+        _handlers: [],
 
         // --- Computed Helpers ---
         get date() { return this.dates[0] || ''; },
-        set date(val) { this.setDate(val); },
+        set date(val) { 
+            // Defensive setter: Only update state if value is empty or a valid ISO string.
+            // This prevents "fighting" the user input while typing partial dates.
+            if (!val) {
+                this.dates = [];
+                return;
+            }
+            if (this._isValidIsoDate(val)) {
+                this.dates = this._normalize([val]);
+            }
+        },
 
         get startDate() { return this.dates[0] || ''; },
         get endDate() { return this.dates[this.dates.length - 1] || ''; },
         get isRangeComplete() { return this.mode === 'multiple-ranged' && this.dates.length >= 2; },
 
+        // --- Formatting Helpers ---
+        get formattedDate() {
+            if (!this.date) return '';
+            return this._format(this.date);
+        },
+
+        get formattedRange() {
+            if (!this.startDate) return '';
+            const start = this._format(this.startDate);
+            if (!this.endDate) return start;
+            return `${start} - ${this._format(this.endDate)}`;
+        },
+
         // --- Lifecycle ---
         init() {
             this.mode = this.$el.dataset.mode || 'single';
+            this.locale = this.$el.dataset.locale || 'en-US';
+            try { this.formatOptions = JSON.parse(this.$el.dataset.formatOptions || '{}'); } catch(e) {}
             try { 
                 const rawDates = JSON.parse(this.$el.dataset.initialDates || '[]'); 
                 this.dates = this._normalize(rawDates);
@@ -29,8 +65,6 @@ export default function(Alpine) {
                 this.dates = []; 
             }
 
-            // 1. Capture Calendar Instance
-            // RzCalendar emits 'rz:calendar:init'
             const initHandler = (e) => {
                 this.calendarApi = e.detail.instance;
                 this.syncToCalendar();
@@ -38,7 +72,6 @@ export default function(Alpine) {
             this.$el.addEventListener('rz:calendar:init', initHandler);
             this._handlers.push({ type: 'rz:calendar:init', fn: initHandler });
 
-            // 2. Listen for Destroy (Cleanup)
             const destroyHandler = () => {
                 this.calendarApi = null;
                 this._lastAppliedState = null;
@@ -46,14 +79,11 @@ export default function(Alpine) {
             this.$el.addEventListener('rz:calendar:destroy', destroyHandler);
             this._handlers.push({ type: 'rz:calendar:destroy', fn: destroyHandler });
 
-            // 3. Listen for Selection
-            // RzCalendar emits 'rz:calendar:click-day'
             const clickHandler = (e) => {
                 this._isUpdatingFromCalendar = true;
-                
-                // Track completion state transition
                 const wasComplete = this.isRangeComplete;
-
+                
+                // Adopt state from calendar
                 // Normalize immediately to prevent state churn
                 this.dates = this._normalize(e.detail.dates || []);
 
@@ -72,10 +102,10 @@ export default function(Alpine) {
             this.$el.addEventListener('rz:calendar:click-day', clickHandler);
             this._handlers.push({ type: 'rz:calendar:click-day', fn: clickHandler });
 
-            // 4. Watch for External Changes (Inputs/Buttons/Presets)
+            // Watch for External Changes (Inputs/Buttons/Presets)
             this.$watch('dates', () => {
                 if (this._isUpdatingFromCalendar) return;
-
+                
                 // Guard against null/undefined/garbage assignment by consumer
                 const current = Array.isArray(this.dates) ? this.dates : [];
                 const normalized = this._normalize(current);
@@ -89,21 +119,17 @@ export default function(Alpine) {
                     this.dates = normalized; // Re-assign triggers watcher again, but hits _normalize consistency
                     return;
                 }
-
                 this.syncToCalendar();
             });
         },
 
         destroy() {
-            // Cleanup event listeners to prevent leaks in SPA/HTMX scenarios
             this._handlers.forEach(h => this.$el.removeEventListener(h.type, h.fn));
             this._handlers = [];
         },
 
-        // --- Synchronization Logic ---
         syncToCalendar() {
             if (!this.calendarApi) return;
-
             let selectedDates = [...this.dates];
 
             // Translation: VCP expects 'Start:End' string for range SET operations
@@ -114,9 +140,7 @@ export default function(Alpine) {
             }
 
             // Calculate View Focus (only if valid dates exist)
-            let selectedMonth, selectedYear;
-            let canFocus = false;
-
+            let selectedMonth, selectedYear, canFocus = false;
             if (this.dates.length > 0) {
                 const target = this.parseIsoLocal(this.dates[0]);
                 // Guard against invalid dates to prevent NaN errors in VCP
@@ -154,6 +178,12 @@ export default function(Alpine) {
 
         // --- Utilities ---
         
+        _format(isoDateStr) {
+            const date = this.parseIsoLocal(isoDateStr);
+            if (isNaN(date.getTime())) return isoDateStr;
+            return new Intl.DateTimeFormat(this.locale, this.formatOptions).format(date);
+        },
+
         _extractIsoDates(value) {
             if (typeof value !== 'string') return [];
             const matches = value.match(/\d{4}-\d{2}-\d{2}/g);
@@ -170,8 +200,6 @@ export default function(Alpine) {
 
         _normalize(input) {
             const arr = Array.isArray(input) ? input : [];
-
-            // 1. Flatten nested arrays, handle strings, and extract potential range strings
             const iso = arr
                 .flat(Infinity)
                 .flatMap(v => {
@@ -180,25 +208,19 @@ export default function(Alpine) {
                 })
                 .filter(s => this._isValidIsoDate(s));
 
-            // 2. Per-Mode Logic
             if (this.mode === 'single') {
                 const sorted = [...new Set(iso)].sort();
                 return sorted.slice(0, 1);
             }
-            
             if (this.mode === 'multiple-ranged') {
-                // In range mode, do not dedupe immediately; [A, A] is a valid 1-day range
                 const sorted = iso.sort();
-                
-                if (sorted.length <= 1) return sorted; // Return [] or [start]
-                return [sorted[0], sorted[sorted.length - 1]]; // Return [start, end]
+                if (sorted.length <= 1) return sorted;
+                // Clamp to [min, max]
+                return [sorted[0], sorted[sorted.length - 1]];
             }
-
-            // Multiple: Dedupe and sort
             return [...new Set(iso)].sort(); 
         },
 
-        // Parse YYYY-MM-DD as local time (00:00:00)
         parseIsoLocal(s) {
             const [y, m, d] = s.split('-').map(Number);
             return new Date(y, m - 1, d);
@@ -221,7 +243,6 @@ export default function(Alpine) {
             if (this.dates.length === 0) return;
             const current = this.parseIsoLocal(this.dates[0]);
             if (isNaN(current.getTime())) return;
-            
             current.setDate(current.getDate() + n);
             this.dates = this._normalize([this.toLocalISO(current)]);
         },

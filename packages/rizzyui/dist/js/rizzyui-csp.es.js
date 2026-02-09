@@ -6232,18 +6232,32 @@ function registerRzCalendarProvider(Alpine2) {
     mode: "single",
     dates: [],
     // Canonical state: Flat array of ISO strings ['YYYY-MM-DD', ...], always sorted/unique
-    // --- Internal ---
+    // --- Configuration ---
+    locale: "en-US",
+    formatOptions: {},
+    // --- Public API ---
+    /** 
+     * The underlying VanillaCalendarPro instance.
+     * Available after the 'rz:calendar:init' event fires.
+     * Use this to call VCP methods directly (e.g. showMonth, showYear).
+     */
     calendarApi: null,
+    // --- Internal ---
     _isUpdatingFromCalendar: false,
     _lastAppliedState: null,
     _handlers: [],
-    // Store handlers for cleanup
     // --- Computed Helpers ---
     get date() {
       return this.dates[0] || "";
     },
     set date(val) {
-      this.setDate(val);
+      if (!val) {
+        this.dates = [];
+        return;
+      }
+      if (this._isValidIsoDate(val)) {
+        this.dates = this._normalize([val]);
+      }
     },
     get startDate() {
       return this.dates[0] || "";
@@ -6254,9 +6268,25 @@ function registerRzCalendarProvider(Alpine2) {
     get isRangeComplete() {
       return this.mode === "multiple-ranged" && this.dates.length >= 2;
     },
+    // --- Formatting Helpers ---
+    get formattedDate() {
+      if (!this.date) return "";
+      return this._format(this.date);
+    },
+    get formattedRange() {
+      if (!this.startDate) return "";
+      const start2 = this._format(this.startDate);
+      if (!this.endDate) return start2;
+      return `${start2} - ${this._format(this.endDate)}`;
+    },
     // --- Lifecycle ---
     init() {
       this.mode = this.$el.dataset.mode || "single";
+      this.locale = this.$el.dataset.locale || "en-US";
+      try {
+        this.formatOptions = JSON.parse(this.$el.dataset.formatOptions || "{}");
+      } catch (e2) {
+      }
       try {
         const rawDates = JSON.parse(this.$el.dataset.initialDates || "[]");
         this.dates = this._normalize(rawDates);
@@ -6306,7 +6336,6 @@ function registerRzCalendarProvider(Alpine2) {
       this._handlers.forEach((h2) => this.$el.removeEventListener(h2.type, h2.fn));
       this._handlers = [];
     },
-    // --- Synchronization Logic ---
     syncToCalendar() {
       if (!this.calendarApi) return;
       let selectedDates = [...this.dates];
@@ -6315,8 +6344,7 @@ function registerRzCalendarProvider(Alpine2) {
         const end = this.dates[this.dates.length - 1];
         selectedDates = [`${start2}:${end}`];
       }
-      let selectedMonth, selectedYear;
-      let canFocus = false;
+      let selectedMonth, selectedYear, canFocus = false;
       if (this.dates.length > 0) {
         const target = this.parseIsoLocal(this.dates[0]);
         if (!isNaN(target.getTime())) {
@@ -6345,6 +6373,11 @@ function registerRzCalendarProvider(Alpine2) {
       );
     },
     // --- Utilities ---
+    _format(isoDateStr) {
+      const date = this.parseIsoLocal(isoDateStr);
+      if (isNaN(date.getTime())) return isoDateStr;
+      return new Intl.DateTimeFormat(this.locale, this.formatOptions).format(date);
+    },
     _extractIsoDates(value) {
       if (typeof value !== "string") return [];
       const matches2 = value.match(/\d{4}-\d{2}-\d{2}/g);
@@ -6373,7 +6406,6 @@ function registerRzCalendarProvider(Alpine2) {
       }
       return [...new Set(iso)].sort();
     },
-    // Parse YYYY-MM-DD as local time (00:00:00)
     parseIsoLocal(s2) {
       const [y, m2, d2] = s2.split("-").map(Number);
       return new Date(y, m2 - 1, d2);
@@ -8911,6 +8943,187 @@ function registerRzQuickReferenceContainer(Alpine2) {
     };
   });
 }
+function registerRzScrollArea(Alpine2) {
+  Alpine2.data("rzScrollArea", () => ({
+    hideTimer: null,
+    type: "hover",
+    orientation: "vertical",
+    scrollHideDelay: 600,
+    _roViewport: null,
+    _roContent: null,
+    _dragAxis: null,
+    _dragPointerOffset: 0,
+    _viewport: null,
+    init() {
+      this.type = this.$el.dataset.type || "hover";
+      this.orientation = this.$el.dataset.orientation || "vertical";
+      this.scrollHideDelay = Number(this.$el.dataset.scrollHideDelay || 600);
+      const viewport = this.$refs.viewport;
+      if (!viewport) return;
+      this._viewport = viewport;
+      this.onScroll = this.onScroll.bind(this);
+      this.onPointerMove = this.onPointerMove.bind(this);
+      this.onPointerUp = this.onPointerUp.bind(this);
+      viewport.addEventListener("scroll", this.onScroll, { passive: true });
+      const update = () => this.update();
+      this._roViewport = new ResizeObserver(update);
+      this._roContent = new ResizeObserver(update);
+      this._roViewport.observe(viewport);
+      if (this.$refs.content) this._roContent.observe(this.$refs.content);
+      this.setState(this.type === "always" ? "visible" : "hidden");
+      this.update();
+    },
+    destroy() {
+      if (this._viewport) this._viewport.removeEventListener("scroll", this.onScroll);
+      window.removeEventListener("pointermove", this.onPointerMove);
+      window.removeEventListener("pointerup", this.onPointerUp);
+      this._roViewport?.disconnect();
+      this._roContent?.disconnect();
+      if (this.hideTimer) window.clearTimeout(this.hideTimer);
+    },
+    setState(state) {
+      if (this.$refs.scrollbarX) this.$refs.scrollbarX.dataset.state = state;
+      if (this.$refs.scrollbarY) this.$refs.scrollbarY.dataset.state = state;
+    },
+    setBarMounted(axis, mounted) {
+      const bar = this.$refs[`scrollbar${axis === "vertical" ? "Y" : "X"}`];
+      if (!bar) return;
+      bar.hidden = !mounted;
+    },
+    update() {
+      const viewport = this.$refs.viewport;
+      if (!viewport) return;
+      this._viewport = viewport;
+      const showX = viewport.scrollWidth > viewport.clientWidth;
+      const showY = viewport.scrollHeight > viewport.clientHeight;
+      this.setBarMounted("horizontal", showX);
+      this.setBarMounted("vertical", showY);
+      this.updateThumbSizes();
+      this.updateThumbPositions();
+      this.updateCorner();
+      if (this.type === "always") this.setState("visible");
+      if (this.type === "auto") this.setState(showX || showY ? "visible" : "hidden");
+    },
+    updateThumbSizes() {
+      const viewport = this.$refs.viewport;
+      if (!viewport) return;
+      this._viewport = viewport;
+      if (this.$refs.thumbY && this.$refs.scrollbarY && viewport.scrollHeight > 0) {
+        const ratio = viewport.clientHeight / viewport.scrollHeight;
+        const size2 = Math.max(this.$refs.scrollbarY.clientHeight * ratio, 18);
+        this.$refs.thumbY.style.height = `${size2}px`;
+      }
+      if (this.$refs.thumbX && this.$refs.scrollbarX && viewport.scrollWidth > 0) {
+        const ratio = viewport.clientWidth / viewport.scrollWidth;
+        const size2 = Math.max(this.$refs.scrollbarX.clientWidth * ratio, 18);
+        this.$refs.thumbX.style.width = `${size2}px`;
+      }
+    },
+    updateThumbPositions() {
+      const viewport = this.$refs.viewport;
+      if (!viewport) return;
+      this._viewport = viewport;
+      if (this.$refs.thumbY && this.$refs.scrollbarY && viewport.scrollHeight > viewport.clientHeight) {
+        const maxScroll = viewport.scrollHeight - viewport.clientHeight;
+        const track2 = this.$refs.scrollbarY.clientHeight - this.$refs.thumbY.offsetHeight;
+        const pos = viewport.scrollTop / maxScroll * Math.max(track2, 0);
+        this.$refs.thumbY.style.transform = `translate3d(0, ${pos}px, 0)`;
+      }
+      if (this.$refs.thumbX && this.$refs.scrollbarX && viewport.scrollWidth > viewport.clientWidth) {
+        const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+        const track2 = this.$refs.scrollbarX.clientWidth - this.$refs.thumbX.offsetWidth;
+        const pos = viewport.scrollLeft / maxScroll * Math.max(track2, 0);
+        this.$refs.thumbX.style.transform = `translate3d(${pos}px, 0, 0)`;
+      }
+    },
+    updateCorner() {
+      if (!this.$refs.corner) return;
+      const showCorner = !this.$refs.scrollbarX?.hidden && !this.$refs.scrollbarY?.hidden;
+      if (showCorner) {
+        this.$refs.corner.hidden = false;
+        this.$refs.corner.style.width = `${this.$refs.scrollbarY?.offsetWidth || 0}px`;
+        this.$refs.corner.style.height = `${this.$refs.scrollbarX?.offsetHeight || 0}px`;
+      } else {
+        this.$refs.corner.hidden = true;
+      }
+    },
+    onScroll() {
+      this.updateThumbPositions();
+      if (this.type === "scroll") {
+        this.setState("visible");
+        if (this.hideTimer) window.clearTimeout(this.hideTimer);
+        this.hideTimer = window.setTimeout(() => this.setState("hidden"), this.scrollHideDelay);
+      }
+    },
+    onPointerEnter() {
+      if (this.type === "hover") {
+        if (this.hideTimer) window.clearTimeout(this.hideTimer);
+        this.setState("visible");
+      }
+    },
+    onPointerLeave() {
+      if (this.type === "hover") {
+        if (this.hideTimer) window.clearTimeout(this.hideTimer);
+        this.hideTimer = window.setTimeout(() => this.setState("hidden"), this.scrollHideDelay);
+      }
+    },
+    onTrackPointerDown(event2) {
+      const axis = event2.currentTarget?.dataset.orientation || "vertical";
+      const scrollbar = this.$refs[`scrollbar${axis === "vertical" ? "Y" : "X"}`];
+      if (!scrollbar || scrollbar.hidden) return;
+      if (event2.target === this.$refs[`thumb${axis === "vertical" ? "Y" : "X"}`]) return;
+      const viewport = this.$refs.viewport;
+      const thumb = this.$refs[`thumb${axis === "vertical" ? "Y" : "X"}`];
+      if (!viewport || !thumb) return;
+      const rect = scrollbar.getBoundingClientRect();
+      if (axis === "vertical") {
+        const clickPos = event2.clientY - rect.top - thumb.offsetHeight / 2;
+        const track2 = scrollbar.clientHeight - thumb.offsetHeight;
+        const maxScroll = viewport.scrollHeight - viewport.clientHeight;
+        viewport.scrollTop = clickPos / Math.max(track2, 1) * maxScroll;
+      } else {
+        const clickPos = event2.clientX - rect.left - thumb.offsetWidth / 2;
+        const track2 = scrollbar.clientWidth - thumb.offsetWidth;
+        const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+        viewport.scrollLeft = clickPos / Math.max(track2, 1) * maxScroll;
+      }
+    },
+    onThumbPointerDown(event2) {
+      const axis = event2.currentTarget?.dataset.orientation || "vertical";
+      const thumb = this.$refs[`thumb${axis === "vertical" ? "Y" : "X"}`];
+      const scrollbar = this.$refs[`scrollbar${axis === "vertical" ? "Y" : "X"}`];
+      if (!thumb || !scrollbar || scrollbar.hidden) return;
+      const rect = thumb.getBoundingClientRect();
+      this._dragAxis = axis;
+      this._dragPointerOffset = axis === "vertical" ? event2.clientY - rect.top : event2.clientX - rect.left;
+      window.addEventListener("pointermove", this.onPointerMove);
+      window.addEventListener("pointerup", this.onPointerUp, { once: true });
+    },
+    onPointerMove(event2) {
+      const axis = this._dragAxis;
+      const viewport = this.$refs.viewport;
+      const scrollbar = this.$refs[`scrollbar${axis === "vertical" ? "Y" : "X"}`];
+      const thumb = this.$refs[`thumb${axis === "vertical" ? "Y" : "X"}`];
+      if (!axis || !viewport || !scrollbar || !thumb || scrollbar.hidden) return;
+      const rect = scrollbar.getBoundingClientRect();
+      if (axis === "vertical") {
+        const pointer = event2.clientY - rect.top;
+        const track2 = scrollbar.clientHeight - thumb.offsetHeight;
+        const maxScroll = viewport.scrollHeight - viewport.clientHeight;
+        viewport.scrollTop = (pointer - this._dragPointerOffset) / Math.max(track2, 1) * maxScroll;
+      } else {
+        const pointer = event2.clientX - rect.left;
+        const track2 = scrollbar.clientWidth - thumb.offsetWidth;
+        const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+        viewport.scrollLeft = (pointer - this._dragPointerOffset) / Math.max(track2, 1) * maxScroll;
+      }
+    },
+    onPointerUp() {
+      this._dragAxis = null;
+      window.removeEventListener("pointermove", this.onPointerMove);
+    }
+  }));
+}
 function registerRzSheet(Alpine2) {
   Alpine2.data("rzSheet", () => ({
     open: false,
@@ -9686,6 +9899,7 @@ function registerComponents(Alpine2) {
   registerRzPrependInput(Alpine2);
   registerRzProgress(Alpine2);
   registerRzQuickReferenceContainer(Alpine2);
+  registerRzScrollArea(Alpine2);
   registerRzSheet(Alpine2);
   registerRzTabs(Alpine2);
   registerRzSidebar(Alpine2);
