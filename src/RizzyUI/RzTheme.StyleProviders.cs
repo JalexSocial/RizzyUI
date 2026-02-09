@@ -335,10 +335,14 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzLink.Slots>, RzLink.Slots> RzLink { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzNavigationMenu"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzNavigationMenu.Slots>, RzNavigationMenu.Slots> RzNavigationMenu { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzScrollArea"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzScrollArea.Slots>, RzScrollArea.Slots> RzScrollArea { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzSidebarProvider"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzSidebarProvider.Slots>, RzSidebarProvider.Slots> RzSidebarProvider { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzTabs"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzTabs.Slots>, RzTabs.Slots> RzTabs { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.ScrollBar"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<ScrollBar.Slots>, ScrollBar.Slots> ScrollBar { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TabsList"/> component. </summary>
     public virtual TvDescriptor<RzComponent<TabsList.Slots>, TabsList.Slots> TabsList { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TabsTrigger"/> component. </summary>

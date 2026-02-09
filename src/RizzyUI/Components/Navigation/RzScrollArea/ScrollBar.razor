@@ -1,0 +1,11 @@
+@namespace RizzyUI
+@inherits RzComponent<ScrollBar.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             data-slot="scroll-area-scrollbar"
+             data-orientation="@Orientation.ToString().ToLowerInvariant()">
+    <div data-slot="scroll-area-thumb" class="@SlotClasses.GetThumb()"></div>
+</HtmlElement>

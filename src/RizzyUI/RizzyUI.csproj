@@ -72,10 +72,6 @@
         <Exec Command="npm run build" WorkingDirectory="$(ClientPackageDir)/rizzyui" />
     </Target>
 
-    <Target Name="LLM" Condition="'$(_RunOnce)' == 'true'" AfterTargets="Build">
-        <Exec Command="npm run llm" />
-    </Target>
-
     <ItemGroup>
         <None Include="..\..\LICENSE.md" Pack="true" PackagePath="\" />
         <None Include="..\..\README.md" Pack="true" PackagePath="\" />

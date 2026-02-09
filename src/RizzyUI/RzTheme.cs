@@ -217,6 +217,8 @@ public partial class RzTheme
         NavigationMenuLink = RizzyUI.NavigationMenuLink.DefaultDescriptor;
         NavigationMenuList = RizzyUI.NavigationMenuList.DefaultDescriptor;
         NavigationMenuTrigger = RizzyUI.NavigationMenuTrigger.DefaultDescriptor;
+        RzScrollArea = RizzyUI.RzScrollArea.DefaultDescriptor;
+        ScrollBar = RizzyUI.ScrollBar.DefaultDescriptor;
 
         // RzPopover Family
         RzPopover = RizzyUI.RzPopover.DefaultDescriptor;

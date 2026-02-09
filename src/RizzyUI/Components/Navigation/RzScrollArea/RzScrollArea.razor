@@ -1,0 +1,70 @@
+<style>
+    [data-radix-scroll-area-viewport]::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+
+@namespace RizzyUI
+@inherits RzComponent<RzScrollArea.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             @attributes="@AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()"
+             data-slot="scroll-area"
+             data-orientation="@Orientation.ToString().ToLowerInvariant()"
+             data-type="@Type.ToString().ToLowerInvariant()"
+             data-scroll-hide-delay="@ScrollHideDelay">
+    <div class="contents"
+         x-data="rzScrollArea"
+         data-alpine-root="@Id"
+         data-assets="[]"
+         data-nonce="@Nonce"
+         x-on:pointerenter="onPointerEnter"
+         x-on:pointerleave="onPointerLeave">
+        <div x-ref="viewport"
+             data-radix-scroll-area-viewport
+             data-slot="scroll-area-viewport"
+             class="@SlotClasses.GetViewport()"
+             tabindex="0"
+             style="scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;">
+            <div x-ref="content" data-slot="scroll-area-viewport-content" class="@SlotClasses.GetViewportContent()">
+                @ChildContent
+            </div>
+        </div>
+
+        @if (ShowVertical)
+        {
+            <div x-ref="scrollbarY"
+                 data-slot="scroll-area-scrollbar"
+                 data-orientation="vertical"
+                 data-state="@InitialScrollbarState"
+                 class="@($"{SlotClasses.GetScrollbar()} {SlotClasses.GetScrollbarVertical()}")"
+                 x-on:pointerdown="onTrackPointerDown">
+                <div x-ref="thumbY"
+                     data-slot="scroll-area-thumb"
+                     data-orientation="vertical"
+                     class="@SlotClasses.GetThumb()"
+                     x-on:pointerdown.stop.prevent="onThumbPointerDown"></div>
+            </div>
+        }
+
+        @if (ShowHorizontal)
+        {
+            <div x-ref="scrollbarX"
+                 data-slot="scroll-area-scrollbar"
+                 data-orientation="horizontal"
+                 data-state="@InitialScrollbarState"
+                 class="@($"{SlotClasses.GetScrollbar()} {SlotClasses.GetScrollbarHorizontal()}")"
+                 x-on:pointerdown="onTrackPointerDown">
+                <div x-ref="thumbX"
+                     data-slot="scroll-area-thumb"
+                     data-orientation="horizontal"
+                     class="@SlotClasses.GetThumb()"
+                     x-on:pointerdown.stop.prevent="onThumbPointerDown"></div>
+            </div>
+        }
+
+        <div x-ref="corner" data-slot="scroll-area-corner" class="@SlotClasses.GetCorner()" hidden></div>
+    </div>
+</HtmlElement>

@@ -1,0 +1,76 @@
+@page "/components/scroll-area"
+@using RizzyUI
+
+<PageTitle>Scroll Area</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Scroll Area" class="scroll-mt-20">Scroll Area</RzHeading>
+            <RzParagraph>
+                A themed scroll container for overflow content. Use <code>RzScrollArea</code> for the viewport and
+                <code>ScrollBar</code> for custom scrollbar rendering when needed.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Example" class="scroll-mt-20">Basic Example</RzHeading>
+                <RzParagraph>
+                    This example uses the default vertical scrollbar that is automatically rendered by <code>RzScrollArea</code>.
+                    Set <code>Orientation</code> to change the primary scroll direction.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 w-full max-w-md">
+                        <RzScrollArea class="h-56 w-full rounded-md border">
+                            <div class="p-4 space-y-3">
+                                @for (var i = 1; i <= 20; i++)
+                                {
+                                    <div class="rounded border bg-background px-3 py-2 text-sm">Scrollable item @i</div>
+                                }
+                            </div>
+                        </RzScrollArea>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzScrollArea
+  Orientation="Orientation.Vertical"
+  class="h-56 w-full rounded-md border"&gt;
+  &lt;div class="p-4 space-y-3"&gt;
+    @@for (var i = 1; i &lt;= 20; i++)
+    {
+      &lt;div class="rounded border bg-background px-3 py-2 text-sm"&gt;
+        Scrollable item @@i
+      &lt;/div&gt;
+    }
+  &lt;/div&gt;
+&lt;/RzScrollArea&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Scrollbars" class="scroll-mt-20">Custom Scrollbars</RzHeading>
+                <RzParagraph>
+                    Disable the default scrollbar and render your own <code>ScrollBar</code> components to control orientation.
+                </RzParagraph>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzScrollArea
+  Orientation="Orientation.Horizontal"
+  ShowDefaultScrollBar="false"
+  class="relative h-56 w-full rounded-md border"&gt;
+  &lt;div class="w-[640px] p-4"&gt;
+    Wide content...
+  &lt;/div&gt;
+
+  &lt;ScrollBar Orientation="Orientation.Vertical" /&gt;
+  &lt;ScrollBar Orientation="Orientation.Horizontal" /&gt;
+&lt;/RzScrollArea&gt;
+                </RzCodeViewer>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

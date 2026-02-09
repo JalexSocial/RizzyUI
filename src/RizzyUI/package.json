@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "llm": "repomix --instruction-file-path \"llm-instructions.txt\" --include \"**/*.razor,**/*.razor.cs,**/*.cs,**/js/*.js\" --ignore \"obj/,bin/,**/js/vendor/*.*\" --remove-empty-lines --style \"xml\" --output \"llmquery.txt\""
+    "llm": "repomix --instruction-file-path \"AGENTS.md\" --include \"**/*.razor,**/*.razor.cs,**/*.cs,**/js/*.js\" --ignore \"obj/,bin/,**/js/vendor/*.*,wwwroot/**/*.*\" --remove-empty-lines --style \"xml\" --output \"llmquery.txt\""
   },
   "keywords": [],
   "author": "",

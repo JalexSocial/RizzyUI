@@ -809,6 +809,84 @@
   .ml-px {
     margin-left: 1px;
   }
+  .form-input {
+    appearance: none;
+    background-color: #fff;
+    border-color: oklch(55.1% 0.027 264.364);
+    border-width: 1px;
+    border-radius: 0px;
+    padding-top: 0.5rem;
+    padding-right: 0.75rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    --tw-shadow: 0 0 #0000;
+    &:focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+      --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-color: oklch(54.6% 0.245 262.881);
+      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+      border-color: oklch(54.6% 0.245 262.881);
+    }
+    &::placeholder {
+      color: oklch(55.1% 0.027 264.364);
+      opacity: 1;
+    }
+    &::-webkit-datetime-edit-fields-wrapper {
+      padding: 0;
+    }
+    &::-webkit-date-and-time-value {
+      min-height: 1.5em;
+    }
+    &::-webkit-date-and-time-value {
+      text-align: inherit;
+    }
+    &::-webkit-datetime-edit {
+      display: inline-flex;
+    }
+    &::-webkit-datetime-edit {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    &::-webkit-datetime-edit-year-field {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    &::-webkit-datetime-edit-month-field {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    &::-webkit-datetime-edit-day-field {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    &::-webkit-datetime-edit-hour-field {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    &::-webkit-datetime-edit-minute-field {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    &::-webkit-datetime-edit-second-field {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    &::-webkit-datetime-edit-millisecond-field {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    &::-webkit-datetime-edit-meridiem-field {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
   .line-clamp-1 {
     overflow: hidden;
     display: -webkit-box;
@@ -862,6 +940,9 @@
   }
   .table-header-group {
     display: table-header-group;
+  }
+  .table-row {
+    display: table-row;
   }
   .field-sizing-content {
     field-sizing: content;
@@ -1000,6 +1081,9 @@
   .h-44 {
     height: calc(var(--spacing) * 44);
   }
+  .h-56 {
+    height: calc(var(--spacing) * 56);
+  }
   .h-60 {
     height: calc(var(--spacing) * 60);
   }
@@ -1126,6 +1210,9 @@
   .w-1\/5 {
     width: calc(1/5 * 100%);
   }
+  .w-2\.5 {
+    width: calc(var(--spacing) * 2.5);
+  }
   .w-2\/3 {
     width: calc(2/3 * 100%);
   }
@@ -1200,6 +1287,9 @@
   }
   .w-\[400px\] {
     width: 400px;
+  }
+  .w-\[640px\] {
+    width: 640px;
   }
   .w-\[var\(--radix-navigation-menu-viewport-width\)\] {
     width: var(--radix-navigation-menu-viewport-width);
@@ -1287,6 +1377,9 @@
   }
   .min-w-\[8rem\] {
     min-width: 8rem;
+  }
+  .min-w-full {
+    min-width: 100%;
   }
   .flex-1 {
     flex: 1;
@@ -1464,6 +1557,9 @@
   }
   .cursor-text {
     cursor: text;
+  }
+  .touch-none {
+    touch-action: none;
   }
   .resize {
     resize: both;
@@ -1768,6 +1864,9 @@
   .overflow-x-hidden {
     overflow-x: hidden;
   }
+  .overflow-x-scroll {
+    overflow-x: scroll;
+  }
   .overflow-y-auto {
     overflow-y: auto;
   }
@@ -1788,6 +1887,9 @@
   }
   .rounded-\[calc\(var\(--radius\)-5px\)\] {
     border-radius: calc(var(--radius) - 5px);
+  }
+  .rounded-\[inherit\] {
+    border-radius: inherit;
   }
   .rounded-full {
     border-radius: calc(infinity * 1px);
@@ -2074,6 +2176,12 @@
   }
   .border-zinc-200 {
     border-color: var(--color-zinc-200);
+  }
+  .border-t-transparent {
+    border-top-color: transparent;
+  }
+  .border-l-transparent {
+    border-left-color: transparent;
   }
   .\!bg-card {
     background-color: var(--card) !important;
@@ -6912,6 +7020,11 @@
   .data-\[state\=visible\]\:animate-in {
     &[data-state="visible"] {
       animation: enter var(--tw-animation-duration,var(--tw-duration,.15s))var(--tw-ease,ease)var(--tw-animation-delay,0s)var(--tw-animation-iteration-count,1)var(--tw-animation-direction,normal)var(--tw-animation-fill-mode,none);
+    }
+  }
+  .data-\[state\=visible\]\:opacity-100 {
+    &[data-state="visible"] {
+      opacity: 100%;
     }
   }
   .data-\[state\=visible\]\:fade-in {
