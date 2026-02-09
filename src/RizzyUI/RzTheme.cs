@@ -276,6 +276,9 @@ public partial class RzTheme
         // RzSpinner Family
         RzSpinner = RizzyUI.RzSpinner.DefaultDescriptor;
 
+        // RzSkeleton Family
+        RzSkeleton = RizzyUI.RzSkeleton.DefaultDescriptor;
+
         // RzSteps Family
         RzSteps = RizzyUI.RzSteps.DefaultDescriptor;
 

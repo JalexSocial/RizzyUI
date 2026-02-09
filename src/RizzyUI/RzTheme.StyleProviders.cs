@@ -105,6 +105,8 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzSheet.Slots>, RzSheet.Slots> RzSheet { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzSpinner"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzSpinner.Slots>, RzSpinner.Slots> RzSpinner { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzSkeleton"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzSkeleton.Slots>, RzSkeleton.Slots> RzSkeleton { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.SheetClose"/> component. </summary>
     public virtual TvDescriptor<RzAsChildComponent<SheetClose.Slots>, SheetClose.Slots> SheetClose { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.SheetContent"/> component. </summary>
