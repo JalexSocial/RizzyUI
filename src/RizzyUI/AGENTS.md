@@ -49,9 +49,9 @@ When the user requests code, wrap each file in a single **`output` block** so au
 ```razor
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
+             @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
-             data-slot="fancy-thing"
-             @attributes="@AdditionalAttributes">
+             data-slot="fancy-thing">
     @* Optional content here, like an Alpine child-container *@
 </HtmlElement>
 ```
@@ -62,6 +62,7 @@ When the user requests code, wrap each file in a single **`output` block** so au
 *   `data-slot="component-name"` is a **mandatory** attribute. The value should be the kebab-case version of the component's name (e.g., `RzFancyThing` becomes `fancy-thing`).
 *   **Always** convert enum values used as data- attributes into kebab-case (e.g. MyEnumProperty.ToString().ToKebabCase()).
 *   **Always** write `@attributes="@AdditionalAttributes"` (note the leading `@`).
+*   **Always place `@attributes` before `class`** on component root elements.
 *   **Never** use @* *@ comments inside Razor markup for elements that will be rendered.
 *   To change the `Element` type, override `OnInitialized()` in the code-behind. Set `Element` to the new type only if `Element` is empty or null.
     ```csharp
@@ -548,7 +549,7 @@ Alpine.data('counter', () => ({
 If a RizzyUI component uses Alpine.js, its root `<HtmlElement>` in the `.razor` file MUST contain a direct child `<div>` with the following attributes. This `div` serves as the root for the Alpine component.
 
 ```razor
-<HtmlElement Element="@EffectiveElement" id="@Id" class="@SlotClasses.GetBase()" @attributes="@AdditionalAttributes">
+<HtmlElement Element="@EffectiveElement" id="@Id" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()">
     <div data-alpine-root="@Id" @* Crucial: Must match the Blazor component's @Id *@
          x-data="rzFancyThing"   @* Alpine component name, e.g., 'rzComponentName' *@
          data-assets="@_assets"   @* Serialized JSON string of asset URLs for this component *@
