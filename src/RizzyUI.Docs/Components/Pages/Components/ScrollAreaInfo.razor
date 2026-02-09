@@ -11,21 +11,28 @@
         <MainContent>
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Scroll Area" class="scroll-mt-20">Scroll Area</RzHeading>
             <RzParagraph>
-                A themed scroll container for overflow content. Use <code>RzScrollArea</code> for the viewport and
-                <code>ScrollBar</code> for custom scrollbar rendering when needed.
+                <code>RzScrollArea</code> provides a themed, accessible viewport for overflow content with Radix-style behavior.
+                You can use its built-in scrollbars or opt into fully custom tracks with <code>ScrollBar</code>.
             </RzParagraph>
 
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
+                <AlertTitle>Radix UI aligned API</AlertTitle>
+                <AlertDescription>
+                    RizzyUI scroll areas follow the same conceptual model as Radix Scroll Area: a viewport, one or more scrollbars,
+                    and an optional corner when both axes are visible.
+                </AlertDescription>
+            </RzAlert>
+
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Example" class="scroll-mt-20">Basic Example</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Vertical Scroll" class="scroll-mt-20">Basic Vertical Scroll</RzHeading>
                 <RzParagraph>
-                    This example uses the default vertical scrollbar that is automatically rendered by <code>RzScrollArea</code>.
-                    Set <code>Orientation</code> to change the primary scroll direction.
+                    The default configuration renders a vertical scrollbar automatically.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="mx-auto p-8 mb-5 w-full max-w-md">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8">
                         <RzScrollArea class="h-56 w-full rounded-md border">
-                            <div class="p-4 space-y-3">
+                            <div class="space-y-3 p-4">
                                 @for (var i = 1; i <= 20; i++)
                                 {
                                     <div class="rounded border bg-background px-3 py-2 text-sm">Scrollable item @i</div>
@@ -36,10 +43,8 @@
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzScrollArea
-  Orientation="Orientation.Vertical"
-  class="h-56 w-full rounded-md border"&gt;
-  &lt;div class="p-4 space-y-3"&gt;
+&lt;RzScrollArea class="h-56 w-full rounded-md border"&gt;
+  &lt;div class="space-y-3 p-4"&gt;
     @@for (var i = 1; i &lt;= 20; i++)
     {
       &lt;div class="rounded border bg-background px-3 py-2 text-sm"&gt;
@@ -52,16 +57,70 @@
             </section>
 
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Scrollbars" class="scroll-mt-20">Custom Scrollbars</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Horizontal + Perpendicular Scrollbar" class="scroll-mt-20">Horizontal + Perpendicular Scrollbar</RzHeading>
                 <RzParagraph>
-                    Disable the default scrollbar and render your own <code>ScrollBar</code> components to control orientation.
+                    Set <code>Orientation</code> to control the primary axis, and set <code>ShowBothScrollbars</code> to render the perpendicular scrollbar as well.
                 </RzParagraph>
 
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8">
+                        <RzScrollArea Orientation="Orientation.Horizontal" ShowBothScrollbars="true" class="h-56 w-full rounded-md border">
+                            <div class="w-[640px] p-4">
+                                <div class="grid grid-cols-3 gap-3">
+                                    @for (var i = 1; i <= 18; i++)
+                                    {
+                                        <div class="rounded border bg-muted/40 p-4 text-sm">Cell @i</div>
+                                    }
+                                </div>
+                            </div>
+                        </RzScrollArea>
+                    </div>
+                </RzBrowser>
+
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzScrollArea
-  Orientation="Orientation.Horizontal"
-  ShowDefaultScrollBar="false"
-  class="relative h-56 w-full rounded-md border"&gt;
+&lt;RzScrollArea Orientation="Orientation.Horizontal"
+              ShowBothScrollbars="true"
+              class="h-56 w-full rounded-md border"&gt;
+  &lt;div class="w-[640px] p-4"&gt;
+    Wide content...
+  &lt;/div&gt;
+&lt;/RzScrollArea&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Custom ScrollBar Components" class="scroll-mt-20">Custom ScrollBar Components</RzHeading>
+                <RzParagraph>
+                    Disable default tracks with <code>ShowDefaultScrollBar</code>, then render <code>ScrollBar</code> components yourself.
+                    This gives full control over which bars are present.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-md p-8">
+                        <RzScrollArea Orientation="Orientation.Horizontal"
+                                      ShowDefaultScrollBar="false"
+                                      Type="ScrollAreaType.Always"
+                                      class="relative h-56 w-full rounded-md border">
+                            <div class="w-[640px] p-4">
+                                <div class="grid grid-cols-4 gap-3">
+                                    @for (var i = 1; i <= 20; i++)
+                                    {
+                                        <div class="rounded border bg-background px-3 py-4 text-center text-sm">Item @i</div>
+                                    }
+                                </div>
+                            </div>
+
+                            <ScrollBar Orientation="Orientation.Vertical" />
+                            <ScrollBar Orientation="Orientation.Horizontal" />
+                        </RzScrollArea>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzScrollArea Orientation="Orientation.Horizontal"
+              ShowDefaultScrollBar="false"
+              Type="ScrollAreaType.Always"
+              class="relative h-56 w-full rounded-md border"&gt;
   &lt;div class="w-[640px] p-4"&gt;
     Wide content...
   &lt;/div&gt;
@@ -70,6 +129,54 @@
   &lt;ScrollBar Orientation="Orientation.Horizontal" /&gt;
 &lt;/RzScrollArea&gt;
                 </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Scrollbar Visibility Modes" class="scroll-mt-20">Scrollbar Visibility Modes</RzHeading>
+                <RzParagraph>
+                    Use the <code>Type</code> parameter to control when the scrollbar is visible: <code>Hover</code>, <code>Scroll</code>, <code>Auto</code>, or <code>Always</code>.
+                    <code>ScrollHideDelay</code> controls hide timing for non-always modes.
+                </RzParagraph>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzScrollArea Type="ScrollAreaType.Hover" ScrollHideDelay="600" /&gt;
+&lt;RzScrollArea Type="ScrollAreaType.Scroll" ScrollHideDelay="400" /&gt;
+&lt;RzScrollArea Type="ScrollAreaType.Auto" /&gt;
+&lt;RzScrollArea Type="ScrollAreaType.Always" /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">Component Parameters</RzHeading>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzScrollArea</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="bg-muted/50 text-left font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Content rendered inside the scroll viewport.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Orientation</code></td><td class="p-4"><code>Orientation</code></td><td class="p-4"><code>Vertical</code></td><td class="p-4">Primary scroll axis. Determines viewport overflow direction and default scrollbar orientation.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Type</code></td><td class="p-4"><code>ScrollAreaType</code></td><td class="p-4"><code>Hover</code></td><td class="p-4">Scrollbar visibility behavior.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>ScrollHideDelay</code></td><td class="p-4"><code>int</code></td><td class="p-4"><code>600</code></td><td class="p-4">Delay in milliseconds before hiding non-persistent scrollbars.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>ShowDefaultScrollBar</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>true</code></td><td class="p-4">When true, RzScrollArea renders built-in scrollbar tracks.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>ShowBothScrollbars</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">When true, renders both horizontal and vertical built-in tracks.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">ScrollBar</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="bg-muted/50 text-left font-semibold">
+                            <tr><th class="p-4">Property</th><th class="p-4">Type</th><th class="p-4">Default</th><th class="p-4">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><code>Orientation</code></td><td class="p-4"><code>Orientation</code></td><td class="p-4"><code>Vertical</code></td><td class="p-4">Scrollbar track direction for the custom bar.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
         </MainContent>
     </RzArticle>
