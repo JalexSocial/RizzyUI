@@ -1,0 +1,15 @@
+@namespace RizzyUI
+@inherits RzComponent<RzTooltip.Slots>
+
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement"
+                 id="@Id"
+                 @attributes="@AdditionalAttributes"
+                 class="@SlotClasses.GetBase()"
+                 data-delay-duration="@DelayDuration"
+                 data-skip-delay-duration="@SkipDelayDuration"
+                 data-disable-hoverable-content="@DisableHoverableContent.ToString().ToLowerInvariant()"
+                 data-slot="tooltip">
+        @ChildContent
+    </HtmlElement>
+</CascadingValue>

@@ -225,6 +225,12 @@ public partial class RzTheme
         PopoverTrigger = RizzyUI.PopoverTrigger.DefaultDescriptor;
         PopoverContent = RizzyUI.PopoverContent.DefaultDescriptor;
 
+        // RzTooltip Family
+        RzTooltip = RizzyUI.RzTooltip.DefaultDescriptor;
+        TooltipProvider = RizzyUI.TooltipProvider.DefaultDescriptor;
+        TooltipTrigger = RizzyUI.TooltipTrigger.DefaultDescriptor;
+        TooltipContent = RizzyUI.TooltipContent.DefaultDescriptor;
+
         // RzProgress Family
         RzProgress = RizzyUI.RzProgress.DefaultDescriptor;
 

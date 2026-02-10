@@ -1,0 +1,18 @@
+@namespace RizzyUI
+@inherits RzAsChildComponent<TooltipTrigger.Slots>
+
+@if (AsChild)
+{
+    @RenderAsChild()
+}
+else
+{
+    <HtmlElement Element="@EffectiveElement"
+                 id="@Id"
+                 @attributes="@AdditionalAttributes"
+                 class="@SlotClasses.GetBase()"
+                 data-state="closed"
+                 data-slot="tooltip-trigger">
+        @ChildContent
+    </HtmlElement>
+}

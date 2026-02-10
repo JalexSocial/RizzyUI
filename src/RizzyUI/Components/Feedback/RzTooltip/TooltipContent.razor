@@ -1,0 +1,13 @@
+@namespace RizzyUI
+@inherits RzComponent<TooltipContent.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@ContentId"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             role="tooltip"
+             data-state="closed"
+             data-side="@Side.ToString().ToKebabCase()"
+             data-slot="tooltip-content">
+    @ChildContent
+</HtmlElement>
