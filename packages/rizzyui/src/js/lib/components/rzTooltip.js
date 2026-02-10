@@ -295,6 +295,7 @@ export default function(Alpine) {
             }).then(({ x, y, placement, middlewareData }) => {
                 this.side = placement.split('-')[0];
                 this.contentEl.dataset.side = this.side;
+                this.contentEl.style.position = this.strategy;
                 this.contentEl.style.left = `${x}px`;
                 this.contentEl.style.top = `${y}px`;
 
