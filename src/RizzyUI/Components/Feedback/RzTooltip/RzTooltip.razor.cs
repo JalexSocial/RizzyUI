@@ -16,6 +16,12 @@ public partial class RzTooltip : RzComponent<RzTooltip.Slots>
     );
 
     /// <summary>
+    /// Gets the parent <see cref="TooltipProvider.TooltipProviderContext"/> when this tooltip is nested in a provider.
+    /// </summary>
+    [CascadingParameter]
+    protected TooltipProvider.TooltipProviderContext? TooltipProviderContext { get; set; }
+
+    /// <summary>
     /// Gets or sets the child content that contains tooltip provider, trigger, and content elements.
     /// </summary>
     [Parameter, EditorRequired]
@@ -38,6 +44,21 @@ public partial class RzTooltip : RzComponent<RzTooltip.Slots>
     /// </summary>
     [Parameter]
     public bool DisableHoverableContent { get; set; }
+
+    /// <summary>
+    /// Gets the resolved delay duration in milliseconds, preferring provider-level configuration when available.
+    /// </summary>
+    protected int EffectiveDelayDuration => TooltipProviderContext?.DelayDuration ?? DelayDuration;
+
+    /// <summary>
+    /// Gets the resolved skip-delay duration in milliseconds, preferring provider-level configuration when available.
+    /// </summary>
+    protected int EffectiveSkipDelayDuration => TooltipProviderContext?.SkipDelayDuration ?? SkipDelayDuration;
+
+    /// <summary>
+    /// Gets the resolved hoverable-content behavior, preferring provider-level configuration when available.
+    /// </summary>
+    protected bool EffectiveDisableHoverableContent => TooltipProviderContext?.DisableHoverableContent ?? DisableHoverableContent;
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzTooltip;

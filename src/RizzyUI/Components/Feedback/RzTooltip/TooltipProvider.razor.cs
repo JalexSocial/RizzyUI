@@ -8,6 +8,8 @@ namespace RizzyUI;
 /// </summary>
 public partial class TooltipProvider : RzComponent<TooltipProvider.Slots>
 {
+    private readonly TooltipProviderContext _context = new();
+
     /// <summary>
     /// Defines the default styling for the <see cref="TooltipProvider"/> component.
     /// </summary>
@@ -25,7 +27,7 @@ public partial class TooltipProvider : RzComponent<TooltipProvider.Slots>
     /// Gets or sets the delay duration in milliseconds before the tooltip opens.
     /// </summary>
     [Parameter]
-    public int DelayDuration { get; set; } = 700;
+    public int DelayDuration { get; set; }
 
     /// <summary>
     /// Gets or sets the skip-delay duration in milliseconds for successive tooltip openings.
@@ -39,6 +41,11 @@ public partial class TooltipProvider : RzComponent<TooltipProvider.Slots>
     [Parameter]
     public bool DisableHoverableContent { get; set; }
 
+    /// <summary>
+    /// Gets the cascading provider context consumed by descendant tooltip components.
+    /// </summary>
+    protected TooltipProviderContext Context => _context;
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -48,6 +55,15 @@ public partial class TooltipProvider : RzComponent<TooltipProvider.Slots>
         {
             Element = "div";
         }
+
+        _context.UpdateConfiguration(DelayDuration, SkipDelayDuration, DisableHoverableContent);
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _context.UpdateConfiguration(DelayDuration, SkipDelayDuration, DisableHoverableContent);
     }
 
     /// <inheritdoc />
@@ -63,5 +79,40 @@ public partial class TooltipProvider : RzComponent<TooltipProvider.Slots>
         /// </summary>
         [Slot("tooltip-provider")]
         public string? Base { get; set; }
+    }
+
+    /// <summary>
+    /// Represents shared tooltip timing and hoverability state cascaded to descendants.
+    /// </summary>
+    public sealed class TooltipProviderContext
+    {
+        /// <summary>
+        /// Gets the delay in milliseconds before opening a tooltip.
+        /// </summary>
+        public int DelayDuration { get; private set; }
+
+        /// <summary>
+        /// Gets the skip-delay window in milliseconds after a tooltip closes.
+        /// </summary>
+        public int SkipDelayDuration { get; private set; } = 300;
+
+        /// <summary>
+        /// Gets whether hoverable tooltip content support is disabled.
+        /// </summary>
+        public bool DisableHoverableContent { get; private set; }
+
+        /// <summary>
+        /// Records the shared provider configuration values.
+        /// </summary>
+        /// <param name="delayDuration">The delay in milliseconds before a tooltip opens.</param>
+        /// <param name="skipDelayDuration">The skip-delay window in milliseconds.</param>
+        /// <param name="disableHoverableContent">Whether hoverable content is disabled.</param>
+        public void UpdateConfiguration(int delayDuration, int skipDelayDuration, bool disableHoverableContent)
+        {
+            DelayDuration = delayDuration;
+            SkipDelayDuration = skipDelayDuration;
+            DisableHoverableContent = disableHoverableContent;
+        }
+
     }
 }

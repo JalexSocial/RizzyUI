@@ -6,9 +6,9 @@
                  id="@Id"
                  @attributes="@AdditionalAttributes"
                  class="@SlotClasses.GetBase()"
-                 data-delay-duration="@DelayDuration"
-                 data-skip-delay-duration="@SkipDelayDuration"
-                 data-disable-hoverable-content="@DisableHoverableContent.ToString().ToLowerInvariant()"
+                 data-delay-duration="@EffectiveDelayDuration"
+                 data-skip-delay-duration="@EffectiveSkipDelayDuration"
+                 data-disable-hoverable-content="@EffectiveDisableHoverableContent.ToString().ToLowerInvariant()"
                  data-slot="tooltip">
         @ChildContent
     </HtmlElement>

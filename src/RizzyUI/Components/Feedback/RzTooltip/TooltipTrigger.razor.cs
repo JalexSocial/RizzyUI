@@ -71,6 +71,7 @@ public partial class TooltipTrigger : RzAsChildComponent<TooltipTrigger.Slots>
         return attributes;
     }
 
+
     /// <inheritdoc />
     protected override TvDescriptor<RzAsChildComponent<Slots>, Slots> GetDescriptor() => Theme.TooltipTrigger;
 
