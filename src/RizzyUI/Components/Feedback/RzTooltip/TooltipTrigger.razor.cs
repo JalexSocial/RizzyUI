@@ -65,8 +65,8 @@ public partial class TooltipTrigger : RzAsChildComponent<TooltipTrigger.Slots>
             ["class"] = SlotClasses.GetBase(),
             ["x-ref"] = "trigger",
             ["aria-controls"] = ContentId,
-            ["x-bind:aria-describedby"] = $"open ? '{ContentId}' : null",
-            ["x-bind:data-state"] = "open ? 'open' : 'closed'",
+            ["aria-describedby"] = ContentId,
+            ["x-bind:data-state"] = "state",
             ["data-state"] = "closed",
             ["data-slot"] = "tooltip-trigger"
         };

@@ -6,7 +6,7 @@
              @attributes="@AdditionalAttributes"
              class="@SlotClasses.GetBase()"
              x-ref="content"
-             x-bind:data-state="open ? 'open' : 'closed'"
+             x-bind:data-state="state"
              role="tooltip"
              aria-labelledby="@TriggerId"
              data-state="closed"
