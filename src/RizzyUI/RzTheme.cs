@@ -227,9 +227,9 @@ public partial class RzTheme
 
         // RzTooltip Family
         RzTooltip = RizzyUI.RzTooltip.DefaultDescriptor;
-        TooltipProvider = RizzyUI.TooltipProvider.DefaultDescriptor;
         TooltipTrigger = RizzyUI.TooltipTrigger.DefaultDescriptor;
         TooltipContent = RizzyUI.TooltipContent.DefaultDescriptor;
+        TooltipProvider = RizzyUI.TooltipProvider.DefaultDescriptor;
 
         // RzProgress Family
         RzProgress = RizzyUI.RzProgress.DefaultDescriptor;
