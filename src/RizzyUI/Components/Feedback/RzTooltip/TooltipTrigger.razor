@@ -8,12 +8,8 @@
 else
 {
     <HtmlElement Element="@EffectiveElement"
-                 id="@TriggerId"
-                 @attributes="@AdditionalAttributes"
-                 class="@SlotClasses.GetBase()"
-                 aria-describedby="@ContentId"
-                 data-state="closed"
-                 data-slot="tooltip-trigger">
+                 type="button"
+                 @attributes="GetComponentAttributes()">
         @ChildContent
     </HtmlElement>
 }
