@@ -150,6 +150,9 @@
   <data name="RzPopover.ContentAriaLabel" xml:space="preserve">
     <value>Conteúdo do popover</value>
   </data>
+  <data name="RzTooltip.DefaultAriaLabel" xml:space="preserve">
+    <value>Dica de ferramenta</value>
+  </data>
   <data name="RzNavigationMenu.DefaultAriaLabel" xml:space="preserve">
     <value>Navegação Principal</value>
   </data>

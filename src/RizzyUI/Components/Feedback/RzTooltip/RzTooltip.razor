@@ -6,9 +6,22 @@
                  id="@Id"
                  @attributes="@AdditionalAttributes"
                  class="@SlotClasses.GetBase()"
+                 data-alpine-root="@Id"
+                 data-anchor="@EffectiveAnchor"
+                 data-offset="@Offset"
+                 data-cross-axis-offset="@CrossAxisOffset"
+                 data-alignment-axis-offset="@AlignmentAxisOffset"
+                 data-strategy="@Strategy.ToString().ToLowerInvariant()"
+                 data-enable-flip="@EnableFlip.ToString().ToLowerInvariant()"
+                 data-enable-shift="@EnableShift.ToString().ToLowerInvariant()"
+                 data-shift-padding="@ShiftPadding"
+                 data-default-open="@DefaultOpen.ToString().ToLowerInvariant()"
+                 data-open="@EffectiveOpen.ToString().ToLowerInvariant()"
+                 data-open-controlled="@IsControlledOpenState.ToString().ToLowerInvariant()"
                  data-delay-duration="@EffectiveDelayDuration"
                  data-skip-delay-duration="@EffectiveSkipDelayDuration"
                  data-disable-hoverable-content="@EffectiveDisableHoverableContent.ToString().ToLowerInvariant()"
+                 aria-label="@AriaLabel"
                  data-slot="tooltip">
         @ChildContent
     </HtmlElement>
