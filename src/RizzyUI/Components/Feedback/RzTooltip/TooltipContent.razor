@@ -1,0 +1,19 @@
+@namespace RizzyUI
+@inherits RzComponent<TooltipContent.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@ContentId"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             x-ref="content"
+             x-bind:data-state="state"
+             role="tooltip"
+             aria-labelledby="@TriggerId"
+             data-state="closed"
+             data-side="@Side.ToString().ToKebabCase()"
+             data-slot="tooltip-content">
+    @ChildContent
+
+    <span class="@SlotClasses.GetArrow()"
+          data-slot="@TooltipContent.SlotNames.NameOf(SlotTypes.Arrow)"></span>
+</HtmlElement>

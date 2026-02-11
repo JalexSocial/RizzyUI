@@ -1,0 +1,114 @@
+@page "/components/tooltip"
+@using RizzyUI
+
+<PageTitle>Tooltip</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Tooltip" class="scroll-mt-20">Tooltip</RzHeading>
+            <RzParagraph>
+                Use <b>RzTooltip</b> to show concise contextual hints for buttons, links, and icons.
+                Wrap related tooltips in a <b>TooltipProvider</b> when you want shared delay settings.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="TooltipProvider with nested tooltips" class="scroll-mt-20">
+                    TooltipProvider with nested tooltips
+                </RzHeading>
+                <RzParagraph>
+                    This example wraps a section with <code>TooltipProvider</code> and shows nested <code>RzTooltip</code> components using
+                    <code>TooltipTrigger</code> and <code>TooltipContent</code>.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex flex-wrap gap-4 items-center justify-center">
+                        <TooltipProvider DelayDuration="250" SkipDelayDuration="300">
+                            <section class="flex flex-wrap items-center gap-4">
+                                <RzTooltip>
+                                    <TooltipTrigger AsChild>
+                                        <RzButton Variant="ThemeVariant.Primary">Save</RzButton>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        Save your current changes.
+                                    </TooltipContent>
+                                </RzTooltip>
+
+                                <RzTooltip>
+                                    <TooltipTrigger AsChild>
+                                        <RzButton Variant="ThemeVariant.Secondary">Share</RzButton>
+                                    </TooltipTrigger>
+                                    <TooltipContent Anchor="AnchorPoint.Top">
+                                        Invite collaborators to this document.
+                                    </TooltipContent>
+                                </RzTooltip>
+                            </section>
+                        </TooltipProvider>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;TooltipProvider DelayDuration=&quot;250&quot; SkipDelayDuration=&quot;300&quot;&gt;
+    &lt;section class=&quot;flex flex-wrap items-center gap-4&quot;&gt;
+        &lt;RzTooltip&gt;
+            &lt;TooltipTrigger AsChild&gt;
+                &lt;RzButton Variant=&quot;ThemeVariant.Primary&quot;&gt;Save&lt;/RzButton&gt;
+            &lt;/TooltipTrigger&gt;
+            &lt;TooltipContent&gt;
+                Save your current changes.
+            &lt;/TooltipContent&gt;
+        &lt;/RzTooltip&gt;
+
+        &lt;RzTooltip&gt;
+            &lt;TooltipTrigger AsChild&gt;
+                &lt;RzButton Variant=&quot;ThemeVariant.Secondary&quot;&gt;Share&lt;/RzButton&gt;
+            &lt;/TooltipTrigger&gt;
+            &lt;TooltipContent Anchor=&quot;AnchorPoint.Top&quot;&gt;
+                Invite collaborators to this document.
+            &lt;/TooltipContent&gt;
+        &lt;/RzTooltip&gt;
+    &lt;/section&gt;
+&lt;/TooltipProvider&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Minimal tooltip" class="scroll-mt-20">
+                    Minimal tooltip
+                </RzHeading>
+                <RzParagraph>
+                    A direct equivalent to the common pattern
+                    <code>&lt;Tooltip&gt;&lt;TooltipTrigger&gt;...&lt;/TooltipTrigger&gt;&lt;TooltipContent&gt;...&lt;/TooltipContent&gt;&lt;/Tooltip&gt;</code>,
+                    using RizzyUI names.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-36">
+                        <RzTooltip>
+                            <TooltipTrigger AsChild>
+                                <RzButton Variant="ThemeVariant.Secondary">Hover me</RzButton>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                A simple tooltip.
+                            </TooltipContent>
+                        </RzTooltip>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzTooltip&gt;
+    &lt;TooltipTrigger AsChild&gt;
+        &lt;RzButton Variant=&quot;ThemeVariant.Secondary&quot;&gt;Hover me&lt;/RzButton&gt;
+    &lt;/TooltipTrigger&gt;
+    &lt;TooltipContent&gt;
+        A simple tooltip.
+    &lt;/TooltipContent&gt;
+&lt;/RzTooltip&gt;
+                </RzCodeViewer>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
