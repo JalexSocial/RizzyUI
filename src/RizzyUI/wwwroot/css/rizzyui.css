@@ -141,6 +141,7 @@
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --animate-spin: spin 1s linear infinite;
     --animate-ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+    --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     --blur-xs: 4px;
     --blur-sm: 8px;
     --blur-xl: 24px;
@@ -1334,6 +1335,9 @@
   .rotate-0 {
     rotate: 0deg;
   }
+  .rotate-45 {
+    rotate: 45deg;
+  }
   .rotate-180 {
     rotate: 180deg;
   }
@@ -1348,6 +1352,9 @@
   }
   .animate-ping {
     animation: var(--animate-ping);
+  }
+  .animate-pulse {
+    animation: var(--animate-pulse);
   }
   .cursor-default {
     cursor: default;
@@ -3237,6 +3244,10 @@
   .forced-color-adjust-auto {
     forced-color-adjust: auto;
   }
+  .fade-in-0 {
+    --tw-enter-opacity: calc(0/100);
+    --tw-enter-opacity: 0;
+  }
   .fade-in-80 {
     --tw-enter-opacity: calc(80/100);
     --tw-enter-opacity: .8;
@@ -3252,6 +3263,10 @@
   .zoom-in-90 {
     --tw-enter-scale: calc(90*1%);
     --tw-enter-scale: .9;
+  }
+  .zoom-in-95 {
+    --tw-enter-scale: calc(95*1%);
+    --tw-enter-scale: .95;
   }
   .zoom-out-95 {
     --tw-exit-scale: calc(95*1%);
@@ -6255,6 +6270,11 @@
   .data-\[state\=checked\]\:text-primary-foreground {
     &[data-state="checked"] {
       color: var(--primary-foreground);
+    }
+  }
+  .data-\[state\=closed\]\:hidden {
+    &[data-state="closed"] {
+      display: none;
     }
   }
   .data-\[state\=closed\]\:animate-collapsible-up {
@@ -12811,6 +12831,11 @@ pre:has(> code) {
   75%, 100% {
     transform: scale(2);
     opacity: 0;
+  }
+}
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
   }
 }
 @keyframes enter {
