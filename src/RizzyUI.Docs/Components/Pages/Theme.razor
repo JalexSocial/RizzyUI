@@ -6,6 +6,17 @@
     <RzArticle ProseWidth="ProseWidth.UltraWide">
         <SideContent><RzQuickReference/></SideContent>
         <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Themes</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
             <RzMarkdown ProseWidth="ProseWidth.UltraWide">
 # Mastering Themes &amp; Styling in RizzyUI
 
