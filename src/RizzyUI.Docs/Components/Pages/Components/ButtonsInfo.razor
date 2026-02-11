@@ -10,6 +10,22 @@
             <RzQuickReference />
         </SideContent>
         <MainContent>
+            <RzBreadcrumb class="mb-4">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Button</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Buttons" class="scroll-mt-20">Buttons</RzHeading>
             <RzParagraph>
                 Buttons are a fundamental element of any user interface. Users can use them to trigger actions,

@@ -1,0 +1,65 @@
+@using System.Collections.Generic
+
+<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 not-prose my-6">
+    @foreach (var component in Components)
+    {
+        <a href="@component.Href"
+           hx-boost="true"
+           hx-select="#content"
+           hx-target="#content"
+           hx-swap="outerHTML"
+           class="group rounded-lg border bg-card p-4 transition-colors hover:border-primary/40 hover:bg-accent/30">
+            <p class="text-base font-semibold text-foreground">@component.Name</p>
+            <p class="mt-2 text-sm text-muted-foreground">@component.Description</p>
+        </a>
+    }
+</div>
+
+@code {
+    private static readonly IReadOnlyList<ComponentLink> Components = new List<ComponentLink>
+    {
+        new("Accordion", "/components/accordion", "Vertically stacked content sections with collapsible triggers."),
+        new("Alert", "/components/alert", "Contextual messages for status, warnings, and actions."),
+        new("Aspect Ratio", "/components/aspect-ratio", "Keeps media and containers locked to a ratio."),
+        new("Avatar", "/components/avatar", "User profile images with fallbacks and initials."),
+        new("Badge", "/components/badge", "Small status labels and metadata pills."),
+        new("Breadcrumb", "/components/breadcrumb", "Shows the current location in a navigation hierarchy."),
+        new("Button", "/components/buttons", "Triggers actions and calls to action."),
+        new("Button Group", "/components/button-group", "Related actions presented as a single grouped control."),
+        new("Calendar", "/components/calendar", "Date picking with rich month and selection controls."),
+        new("Calendar Provider", "/components/calendar-provider", "Shared date state and behavior for calendar experiences."),
+        new("Card", "/components/card", "Flexible container for grouped content and actions."),
+        new("Carousel", "/components/carousel", "Slide through content with track and navigation controls."),
+        new("Checkbox", "/components/checkbox", "Boolean input for selecting one or more options."),
+        new("Collapsible", "/components/collapsible", "Expand and collapse arbitrary content regions."),
+        new("Combobox", "/components/combobox", "Searchable select control for choosing options."),
+        new("Command", "/components/command", "Command palette style filtering and action execution."),
+        new("Dialog", "/components/dialog", "Modal overlays for focused tasks and confirmations."),
+        new("Dropdown Menu", "/components/dropdown", "Contextual menu of actions and selections."),
+        new("Empty", "/components/empty", "Reusable empty-state pattern for no-result screens."),
+        new("Input", "/components/input", "Single-line text and numeric form input controls."),
+        new("Item", "/components/item", "Composable item building block for lists and menus."),
+        new("Kbd", "/components/kbd", "Keyboard key hint and shortcut display."),
+        new("Link", "/components/link", "Styled navigation and action links."),
+        new("Markdown", "/components/markdown", "Render markdown content with RizzyUI styling."),
+        new("Navigation Menu", "/components/navigation-menu", "Accessible top-level navigation patterns."),
+        new("Native Select", "/components/native-select", "Styled native select input for forms."),
+        new("Popover", "/components/popover", "Floating content anchored to a trigger."),
+        new("Progress", "/components/progress", "Visual indicator of completion state."),
+        new("Radio Group", "/components/radiogroup", "Single-choice option set with radio controls."),
+        new("Scroll Area", "/components/scroll-area", "Custom scroll container with consistent styling."),
+        new("Separator", "/components/separator", "Visual divider between related content groups."),
+        new("Sheet", "/components/sheet", "Side panel that slides in for supplemental tasks."),
+        new("Sidebar", "/components/sidebar", "Collapsible application navigation shell."),
+        new("Skeleton", "/components/skeleton", "Loading placeholders to reduce layout shift."),
+        new("Spinner", "/components/spinner", "Animated loading indicator for pending operations."),
+        new("Steps", "/components/steps", "Progressive multi-step workflow indicator."),
+        new("Switch", "/components/switch", "Toggle control for on/off states."),
+        new("Tabs", "/components/tabs", "Organize content into selectable sections."),
+        new("Table", "/components/table", "Structured tabular layout for rows and columns."),
+        new("Toast Notification", "/components/toastnotification", "Transient feedback messages and alerts."),
+        new("Tooltip", "/components/tooltip", "Brief contextual helper text on hover/focus.")
+    };
+
+    private sealed record ComponentLink(string Name, string Href, string Description);
+}

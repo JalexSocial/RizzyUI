@@ -15,6 +15,22 @@
             <RzQuickReference />
         </SideContent>
         <MainContent>
+            <RzBreadcrumb class="mb-4">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Native Select</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Native Select" class="scroll-mt-20">Native Select</RzHeading>
             <RzParagraph>
                 The Native Select component wraps the browser's native <code>&lt;select&gt;</code> element to ensure consistent styling while maintaining native behavior and accessibility.
