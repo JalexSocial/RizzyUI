@@ -10,6 +10,22 @@
             <RzQuickReference />
         </SideContent>
         <MainContent>
+            <RzBreadcrumb class="mb-4">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Badge</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Badges" class="scroll-mt-20">Badges</RzHeading>
             <RzParagraph>
                 Badges are versatile components used to display labels, counts, or statuses. They can be styled with various variants, sizes, and icons to convey different meanings and actions within the user interface.
