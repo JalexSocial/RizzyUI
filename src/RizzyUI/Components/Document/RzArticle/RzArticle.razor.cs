@@ -72,7 +72,7 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
     ///     Defaults to true.
     /// </summary>
     [Parameter]
-    public bool IsSideSticky { get; set; } = false;
+    public bool IsSideSticky { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the aria-label for the aside element, providing context for screen readers.
