@@ -4086,9 +4086,17 @@ function $l(t) {
     // ID of the currently selected/opened section (if not allowMultiple)
     allowMultiple: !1,
     // Whether multiple sections can be open
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       this.allowMultiple = this.$el.dataset.multiple === "true";
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
     }
   }));
@@ -4098,6 +4106,10 @@ function kl(t) {
     open: !1,
     sectionId: "",
     expandedClass: "",
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       this.open = this.$el.dataset.isOpen === "true", this.sectionId = this.$el.dataset.sectionId, this.expandedClass = this.$el.dataset.expandedClass;
       const e = this;
@@ -4105,6 +4117,10 @@ function kl(t) {
         i !== e.sectionId && !e.allowMultiple && (e.open = !1);
       }) : console.warn("accordionItem: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
     },
     // Toggle the section's open state and update the parent's 'selected' state.
@@ -4125,10 +4141,18 @@ function Nl(t) {
   t.data("rzAlert", () => ({
     parentElement: null,
     showAlert: !0,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const e = this.$el.dataset.alpineRoot || this.$el.closest("[data-alpine-root]");
       this.parentElement = document.getElementById(e);
     },
+    /**
+     * Executes the `dismiss` operation.
+     * @returns {any} Returns the result of `dismiss` when applicable.
+     */
     dismiss() {
       this.showAlert = !1;
       const e = this;
@@ -4140,6 +4164,10 @@ function Nl(t) {
 }
 function Dl(t) {
   t.data("rzAspectRatio", () => ({
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const e = parseFloat(this.$el.dataset.ratio);
       if (!isNaN(e) && e > 0) {
@@ -4153,12 +4181,24 @@ function Dl(t) {
 function Rl(t) {
   t.data("rzBrowser", () => ({
     screenSize: "",
+    /**
+     * Executes the `setDesktopScreenSize` operation.
+     * @returns {any} Returns the result of `setDesktopScreenSize` when applicable.
+     */
     setDesktopScreenSize() {
       this.screenSize = "";
     },
+    /**
+     * Executes the `setTabletScreenSize` operation.
+     * @returns {any} Returns the result of `setTabletScreenSize` when applicable.
+     */
     setTabletScreenSize() {
       this.screenSize = "max-w-2xl";
     },
+    /**
+     * Executes the `setPhoneScreenSize` operation.
+     * @returns {any} Returns the result of `setPhoneScreenSize` when applicable.
+     */
     setPhoneScreenSize() {
       this.screenSize = "max-w-sm";
     },
@@ -4184,6 +4224,10 @@ function Ll(t, e) {
   t.data("rzCalendar", () => ({
     calendar: null,
     initialized: !1,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const i = JSON.parse(this.$el.dataset.assets || "[]"), n = this.$el.dataset.configId, r = this.$el.dataset.nonce;
       if (i.length === 0) {
@@ -4197,6 +4241,11 @@ function Ll(t, e) {
         error: (s) => console.error("RzCalendar: Failed to load assets", s)
       }, r);
     },
+    /**
+     * Executes the `initCalendar` operation.
+     * @param {any} configId Input value for this method.
+     * @returns {any} Returns the result of `initCalendar` when applicable.
+     */
     initCalendar(i) {
       const n = document.getElementById(i);
       if (!n) {
@@ -4261,9 +4310,19 @@ function Ll(t, e) {
       };
       window.VanillaCalendarPro ? (this.calendar = new VanillaCalendarPro.Calendar(this.$refs.calendarEl, o), this.calendar.init(), this.initialized = !0, this.dispatchCalendarEvent("init", { instance: this.calendar })) : console.error("RzCalendar: VanillaCalendar global not found.");
     },
+    /**
+     * Executes the `dispatchCalendarEvent` operation.
+     * @param {any} eventName Input value for this method.
+     * @param {any} detail Input value for this method.
+     * @returns {any} Returns the result of `dispatchCalendarEvent` when applicable.
+     */
     dispatchCalendarEvent(i, n) {
       this.$dispatch(`rz:calendar:${i}`, n);
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
       this.calendar && (this.calendar.destroy(), this.dispatchCalendarEvent("destroy", {}));
     }
@@ -4358,9 +4417,17 @@ function Pl(t) {
         this.syncToCalendar();
       });
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
       this._handlers.forEach((e) => this.$el.removeEventListener(e.type, e.fn)), this._handlers = [];
     },
+    /**
+     * Executes the `syncToCalendar` operation.
+     * @returns {any} Returns the result of `syncToCalendar` when applicable.
+     */
     syncToCalendar() {
       if (!this.calendarApi) return;
       let e = [...this.dates];
@@ -4393,14 +4460,29 @@ function Pl(t) {
       const i = this.parseIsoLocal(e);
       return isNaN(i.getTime()) ? e : new Intl.DateTimeFormat(this.locale, this.formatOptions).format(i);
     },
+    /**
+     * Executes the `_extractIsoDates` operation.
+     * @param {any} value Input value for this method.
+     * @returns {any} Returns the result of `_extractIsoDates` when applicable.
+     */
     _extractIsoDates(e) {
       return typeof e != "string" ? [] : e.match(/\d{4}-\d{2}-\d{2}/g) ?? [];
     },
+    /**
+     * Executes the `_isValidIsoDate` operation.
+     * @param {any} s Input value for this method.
+     * @returns {any} Returns the result of `_isValidIsoDate` when applicable.
+     */
     _isValidIsoDate(e) {
       if (typeof e != "string" || !/^\d{4}-\d{2}-\d{2}$/.test(e)) return !1;
       const [i, n, r] = e.split("-").map(Number), s = new Date(Date.UTC(i, n - 1, r));
       return s.getUTCFullYear() === i && s.getUTCMonth() + 1 === n && s.getUTCDate() === r;
     },
+    /**
+     * Executes the `_normalize` operation.
+     * @param {any} input Input value for this method.
+     * @returns {any} Returns the result of `_normalize` when applicable.
+     */
     _normalize(e) {
       const n = (Array.isArray(e) ? e : []).flat(1 / 0).flatMap((r) => typeof r == "string" ? this._extractIsoDates(r) : []).filter((r) => this._isValidIsoDate(r));
       if (this.mode === "single")
@@ -4411,10 +4493,20 @@ function Pl(t) {
       }
       return [...new Set(n)].sort();
     },
+    /**
+     * Executes the `parseIsoLocal` operation.
+     * @param {any} s Input value for this method.
+     * @returns {any} Returns the result of `parseIsoLocal` when applicable.
+     */
     parseIsoLocal(e) {
       const [i, n, r] = e.split("-").map(Number);
       return new Date(i, n - 1, r);
     },
+    /**
+     * Executes the `toLocalISO` operation.
+     * @param {any} dateObj Input value for this method.
+     * @returns {any} Returns the result of `toLocalISO` when applicable.
+     */
     toLocalISO(e) {
       const i = e.getFullYear(), n = String(e.getMonth() + 1).padStart(2, "0"), r = String(e.getDate()).padStart(2, "0");
       return `${i}-${n}-${r}`;
@@ -4423,17 +4515,36 @@ function Pl(t) {
     setToday() {
       this.dates = this._normalize([this.toLocalISO(/* @__PURE__ */ new Date())]);
     },
+    /**
+     * Executes the `addDays` operation.
+     * @param {any} n Input value for this method.
+     * @returns {any} Returns the result of `addDays` when applicable.
+     */
     addDays(e) {
       if (this.dates.length === 0) return;
       const i = this.parseIsoLocal(this.dates[0]);
       isNaN(i.getTime()) || (i.setDate(i.getDate() + e), this.dates = this._normalize([this.toLocalISO(i)]));
     },
+    /**
+     * Executes the `setDate` operation.
+     * @param {any} dateStr Input value for this method.
+     * @returns {any} Returns the result of `setDate` when applicable.
+     */
     setDate(e) {
       this.dates = this._normalize(e ? [e] : []);
     },
+    /**
+     * Executes the `clear` operation.
+     * @returns {any} Returns the result of `clear` when applicable.
+     */
     clear() {
       this.dates = [];
     },
+    /**
+     * Executes the `toggleDate` operation.
+     * @param {any} dateStr Input value for this method.
+     * @returns {any} Returns the result of `toggleDate` when applicable.
+     */
     toggleDate(e) {
       let i;
       this.dates.includes(e) ? i = this.dates.filter((n) => n !== e) : i = [...this.dates, e], this.dates = this._normalize(i);
@@ -4458,6 +4569,10 @@ function Ml(t, e) {
     canScrollNext: !1,
     selectedIndex: 0,
     scrollSnaps: [],
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const n = (() => {
         try {
@@ -4469,9 +4584,18 @@ function Ml(t, e) {
       n.length > 0 && typeof e == "function" ? e(
         n,
         {
+          /**
+           * Executes the `success` operation.
+           * @returns {any} Returns the result of `success` when applicable.
+           */
           success() {
             window.EmblaCarousel ? l.initializeEmbla(o, a) : console.error("[rzCarousel] EmblaCarousel not found on window after loading assets.");
           },
+          /**
+           * Executes the `error` operation.
+           * @param {any} err Input value for this method.
+           * @returns {any} Returns the result of `error` when applicable.
+           */
           error(c) {
             console.error("[rzCarousel] Failed to load EmblaCarousel assets.", c);
           }
@@ -4479,6 +4603,12 @@ function Ml(t, e) {
         r
       ) : window.EmblaCarousel ? this.initializeEmbla(o, a) : console.error("[rzCarousel] EmblaCarousel not found and no assets specified for loading.");
     },
+    /**
+     * Executes the `initializeEmbla` operation.
+     * @param {any} options Input value for this method.
+     * @param {any} pluginsConfig Input value for this method.
+     * @returns {any} Returns the result of `initializeEmbla` when applicable.
+     */
     initializeEmbla(n, r) {
       const s = this.$el.querySelector('[x-ref="viewport"]');
       if (!s) {
@@ -4488,6 +4618,11 @@ function Ml(t, e) {
       const o = this.instantiatePlugins(r);
       this.emblaApi = window.EmblaCarousel(s, n, o), this.emblaApi.on("select", this.onSelect.bind(this)), this.emblaApi.on("reInit", this.onSelect.bind(this)), this.onSelect();
     },
+    /**
+     * Executes the `instantiatePlugins` operation.
+     * @param {any} pluginsConfig Input value for this method.
+     * @returns {any} Returns the result of `instantiatePlugins` when applicable.
+     */
     instantiatePlugins(n) {
       return !Array.isArray(n) || n.length === 0 ? [] : n.map((r) => {
         const s = window[r.Name];
@@ -4500,9 +4635,17 @@ function Ml(t, e) {
         }
       }).filter(Boolean);
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
       this.emblaApi && this.emblaApi.destroy();
     },
+    /**
+     * Executes the `onSelect` operation.
+     * @returns {any} Returns the result of `onSelect` when applicable.
+     */
     onSelect() {
       this.emblaApi && (this.selectedIndex = this.emblaApi.selectedScrollSnap(), this.canScrollPrev = this.emblaApi.canScrollPrev(), this.canScrollNext = this.emblaApi.canScrollNext(), this.scrollSnaps = this.emblaApi.scrollSnapList());
     },
@@ -4532,6 +4675,10 @@ function zl(t, e) {
     // Default title
     copiedTitle: "Copied!",
     // Default title
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const i = JSON.parse(this.$el.dataset.assets), n = this.$el.dataset.codeid, r = this.$el.dataset.nonce;
       this.copyTitle = this.$el.dataset.copyTitle || this.copyTitle, this.copiedTitle = this.$el.dataset.copiedTitle || this.copiedTitle, e(i, {
@@ -4581,12 +4728,24 @@ function zl(t, e) {
 function Fl(t) {
   t.data("rzCollapsible", () => ({
     isOpen: !1,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       this.isOpen = this.$el.dataset.defaultOpen === "true";
     },
+    /**
+     * Executes the `toggle` operation.
+     * @returns {any} Returns the result of `toggle` when applicable.
+     */
     toggle() {
       this.isOpen = !this.isOpen;
     },
+    /**
+     * Executes the `state` operation.
+     * @returns {any} Returns the result of `state` when applicable.
+     */
     state() {
       return this.isOpen ? "open" : "closed";
     }
@@ -4595,6 +4754,10 @@ function Fl(t) {
 function Ul(t, e) {
   t.data("rzCombobox", () => ({
     tomSelect: null,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const i = JSON.parse(this.$el.dataset.assets || "[]"), n = this.$el.dataset.nonce;
       i.length > 0 && typeof e == "function" ? e(i, {
@@ -4602,6 +4765,10 @@ function Ul(t, e) {
         error: (r) => console.error("RzCombobox: Failed to load assets.", r)
       }, n) : window.TomSelect && this.initTomSelect();
     },
+    /**
+     * Executes the `initTomSelect` operation.
+     * @returns {any} Returns the result of `initTomSelect` when applicable.
+     */
     initTomSelect() {
       const i = this.$refs.selectInput;
       if (!i) return;
@@ -4628,6 +4795,10 @@ function Ul(t, e) {
         }
       });
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
       this.tomSelect && (this.tomSelect.destroy(), this.tomSelect = null);
     }
@@ -4638,6 +4809,10 @@ function Bl(t, e) {
     options: {},
     placeholder: "",
     prependText: "",
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const i = this.$el.dataset.config, n = document.getElementById(this.$el.dataset.uid + "-input");
       if (i) {
@@ -4672,6 +4847,10 @@ function Hl(t) {
     _escapeListener: null,
     _openListener: null,
     _closeEventListener: null,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       this.modalId = this.$el.dataset.modalId || "", this.bodyId = this.$el.dataset.bodyId || "", this.footerId = this.$el.dataset.footerId || "", this.nonce = this.$el.dataset.nonce || "", this.eventTriggerName = this.$el.dataset.eventTriggerName || "", this.closeEventName = this.$el.dataset.closeEventName || this.closeEventName, this.closeOnEscape = this.$el.dataset.closeOnEscape !== "false", this.closeOnClickOutside = this.$el.dataset.closeOnClickOutside !== "false", this.$el.dispatchEvent(new CustomEvent("rz:modal-initialized", {
         detail: { modalId: this.modalId, bodyId: this.bodyId, footerId: this.footerId },
@@ -4699,12 +4878,25 @@ function Hl(t) {
         });
       });
     },
+    /**
+     * Executes the `notModalOpen` operation.
+     * @returns {any} Returns the result of `notModalOpen` when applicable.
+     */
     notModalOpen() {
       return !this.modalOpen;
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
       this._openListener && this.eventTriggerName && window.removeEventListener(this.eventTriggerName, this._openListener), this._closeEventListener && window.removeEventListener(this.closeEventName, this._closeEventListener), this._escapeListener && window.removeEventListener("keydown", this._escapeListener), document.body.classList.remove("overflow-hidden"), document.body.style.setProperty("--page-scrollbar-width", "0px");
     },
+    /**
+     * Executes the `openModal` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `openModal` when applicable.
+     */
     openModal(e = null) {
       const i = new CustomEvent("rz:modal-before-open", {
         detail: { modalId: this.modalId, originalEvent: e },
@@ -5750,6 +5942,10 @@ function _c(t) {
         Object.assign(this.contentEl.style, { left: `${e}px`, top: `${i}px` });
       }));
     },
+    /**
+     * Executes the `toggle` operation.
+     * @returns {any} Returns the result of `toggle` when applicable.
+     */
     toggle() {
       if (this.open) {
         this.open = !1;
@@ -5758,39 +5954,78 @@ function _c(t) {
       } else
         this.open = !0, this.focusedIndex = -1;
     },
+    /**
+     * Executes the `handleOutsideClick` operation.
+     * @returns {any} Returns the result of `handleOutsideClick` when applicable.
+     */
     handleOutsideClick() {
       if (!this.open) return;
       this.open = !1;
       let e = this;
       this.$nextTick(() => e.triggerEl?.focus());
     },
+    /**
+     * Executes the `handleTriggerKeydown` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `handleTriggerKeydown` when applicable.
+     */
     handleTriggerKeydown(e) {
       ["Enter", " ", "ArrowDown", "ArrowUp"].includes(e.key) && (e.preventDefault(), this.open = !0, this.$nextTick(() => {
         e.key === "ArrowUp" ? this.focusLastItem() : this.focusFirstItem();
       }));
     },
+    /**
+     * Executes the `focusNextItem` operation.
+     * @returns {any} Returns the result of `focusNextItem` when applicable.
+     */
     focusNextItem() {
       const e = Date.now();
       e - this._lastNavAt < this.navThrottle || (this._lastNavAt = e, this.menuItems.length && (this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1, this.focusCurrentItem()));
     },
+    /**
+     * Executes the `focusPreviousItem` operation.
+     * @returns {any} Returns the result of `focusPreviousItem` when applicable.
+     */
     focusPreviousItem() {
       const e = Date.now();
       e - this._lastNavAt < this.navThrottle || (this._lastNavAt = e, this.menuItems.length && (this.focusedIndex = this.focusedIndex === null || this.focusedIndex <= 0 ? this.menuItems.length - 1 : this.focusedIndex - 1, this.focusCurrentItem()));
     },
+    /**
+     * Executes the `focusFirstItem` operation.
+     * @returns {any} Returns the result of `focusFirstItem` when applicable.
+     */
     focusFirstItem() {
       this.menuItems.length && (this.focusedIndex = 0, this.focusCurrentItem());
     },
+    /**
+     * Executes the `focusLastItem` operation.
+     * @returns {any} Returns the result of `focusLastItem` when applicable.
+     */
     focusLastItem() {
       this.menuItems.length && (this.focusedIndex = this.menuItems.length - 1, this.focusCurrentItem());
     },
+    /**
+     * Executes the `focusCurrentItem` operation.
+     * @returns {any} Returns the result of `focusCurrentItem` when applicable.
+     */
     focusCurrentItem() {
       this.focusedIndex !== null && this.menuItems[this.focusedIndex] && this.$nextTick(() => this.menuItems[this.focusedIndex].focus());
     },
+    /**
+     * Executes the `focusSelectedItem` operation.
+     * @param {any} item Input value for this method.
+     * @returns {any} Returns the result of `focusSelectedItem` when applicable.
+     */
     focusSelectedItem(e) {
       if (!e || e.getAttribute("aria-disabled") === "true" || e.hasAttribute("disabled")) return;
       const i = this.menuItems.indexOf(e);
       i !== -1 && (this.focusedIndex = i, e.focus());
     },
+    /**
+     * Executes the `handleItemClick` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `handleItemClick` when applicable.
+     */
     handleItemClick(e) {
       const i = e.currentTarget;
       if (i.getAttribute("aria-disabled") === "true" || i.hasAttribute("disabled")) return;
@@ -5802,10 +6037,19 @@ function _c(t) {
       let n = this;
       this.$nextTick(() => n.triggerEl?.focus());
     },
+    /**
+     * Executes the `handleItemMouseEnter` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `handleItemMouseEnter` when applicable.
+     */
     handleItemMouseEnter(e) {
       const i = e.currentTarget;
       this.focusSelectedItem(i), i.getAttribute("aria-haspopup") !== "menu" && this.closeAllSubmenus();
     },
+    /**
+     * Executes the `handleWindowEscape` operation.
+     * @returns {any} Returns the result of `handleWindowEscape` when applicable.
+     */
     handleWindowEscape() {
       if (this.open) {
         this.open = !1;
@@ -5813,6 +6057,10 @@ function _c(t) {
         this.$nextTick(() => e.triggerEl?.focus());
       }
     },
+    /**
+     * Executes the `handleContentTabKey` operation.
+     * @returns {any} Returns the result of `handleContentTabKey` when applicable.
+     */
     handleContentTabKey() {
       if (this.open) {
         this.open = !1;
@@ -5820,10 +6068,18 @@ function _c(t) {
         this.$nextTick(() => e.triggerEl?.focus());
       }
     },
+    /**
+     * Executes the `handleTriggerMouseover` operation.
+     * @returns {any} Returns the result of `handleTriggerMouseover` when applicable.
+     */
     handleTriggerMouseover() {
       let e = this;
       this.$nextTick(() => e.$el.firstElementChild?.focus());
     },
+    /**
+     * Executes the `closeAllSubmenus` operation.
+     * @returns {any} Returns the result of `closeAllSubmenus` when applicable.
+     */
     closeAllSubmenus() {
       this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]').forEach((i) => {
         t.$data(i)?.closeSubmenu();
@@ -5876,27 +6132,56 @@ function _c(t) {
         Object.assign(e.style, { left: `${i}px`, top: `${n}px` });
       });
     },
+    /**
+     * Executes the `handleTriggerMouseEnter` operation.
+     * @returns {any} Returns the result of `handleTriggerMouseEnter` when applicable.
+     */
     handleTriggerMouseEnter() {
       clearTimeout(this.closeTimeout), this.triggerEl.focus(), this.openSubmenu();
     },
+    /**
+     * Executes the `handleTriggerMouseLeave` operation.
+     * @returns {any} Returns the result of `handleTriggerMouseLeave` when applicable.
+     */
     handleTriggerMouseLeave() {
       this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
     },
+    /**
+     * Executes the `handleContentMouseEnter` operation.
+     * @returns {any} Returns the result of `handleContentMouseEnter` when applicable.
+     */
     handleContentMouseEnter() {
       clearTimeout(this.closeTimeout);
     },
+    /**
+     * Executes the `handleContentMouseLeave` operation.
+     * @returns {any} Returns the result of `handleContentMouseLeave` when applicable.
+     */
     handleContentMouseLeave() {
       const e = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
       e && Array.from(e).some((n) => t.$data(n)?.open) || (this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay));
     },
+    /**
+     * Executes the `openSubmenu` operation.
+     * @param {any} focusFirst Input value for this method.
+     * @returns {any} Returns the result of `openSubmenu` when applicable.
+     */
     openSubmenu(e = !1) {
       this.open || (this.closeSiblingSubmenus(), this.open = !0, e && this.$nextTick(() => requestAnimationFrame(() => this.focusFirstItem())));
     },
+    /**
+     * Executes the `closeSubmenu` operation.
+     * @returns {any} Returns the result of `closeSubmenu` when applicable.
+     */
     closeSubmenu() {
       this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]')?.forEach((i) => {
         t.$data(i)?.closeSubmenu();
       }), this.open = !1;
     },
+    /**
+     * Executes the `closeSiblingSubmenus` operation.
+     * @returns {any} Returns the result of `closeSiblingSubmenus` when applicable.
+     */
     closeSiblingSubmenus() {
       if (!this.siblingContainer) return;
       Array.from(this.siblingContainer.children).filter(
@@ -5905,32 +6190,70 @@ function _c(t) {
         t.$data(i)?.closeSubmenu();
       });
     },
+    /**
+     * Executes the `toggleSubmenu` operation.
+     * @returns {any} Returns the result of `toggleSubmenu` when applicable.
+     */
     toggleSubmenu() {
       this.open ? this.closeSubmenu() : this.openSubmenu();
     },
+    /**
+     * Executes the `openSubmenuAndFocusFirst` operation.
+     * @returns {any} Returns the result of `openSubmenuAndFocusFirst` when applicable.
+     */
     openSubmenuAndFocusFirst() {
       this.openSubmenu(!0);
     },
+    /**
+     * Executes the `handleTriggerKeydown` operation.
+     * @param {any} e Input value for this method.
+     * @returns {any} Returns the result of `handleTriggerKeydown` when applicable.
+     */
     handleTriggerKeydown(e) {
       ["ArrowRight", "Enter", " "].includes(e.key) && (e.preventDefault(), this.openSubmenuAndFocusFirst());
     },
+    /**
+     * Executes the `focusNextItem` operation.
+     * @returns {any} Returns the result of `focusNextItem` when applicable.
+     */
     focusNextItem() {
       const e = Date.now();
       e - this._lastNavAt < this.navThrottle || (this._lastNavAt = e, this.menuItems.length && (this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1, this.focusCurrentItem()));
     },
+    /**
+     * Executes the `focusPreviousItem` operation.
+     * @returns {any} Returns the result of `focusPreviousItem` when applicable.
+     */
     focusPreviousItem() {
       const e = Date.now();
       e - this._lastNavAt < this.navThrottle || (this._lastNavAt = e, this.menuItems.length && (this.focusedIndex = this.focusedIndex === null || this.focusedIndex <= 0 ? this.menuItems.length - 1 : this.focusedIndex - 1, this.focusCurrentItem()));
     },
+    /**
+     * Executes the `focusFirstItem` operation.
+     * @returns {any} Returns the result of `focusFirstItem` when applicable.
+     */
     focusFirstItem() {
       this.menuItems.length && (this.focusedIndex = 0, this.focusCurrentItem());
     },
+    /**
+     * Executes the `focusLastItem` operation.
+     * @returns {any} Returns the result of `focusLastItem` when applicable.
+     */
     focusLastItem() {
       this.menuItems.length && (this.focusedIndex = this.menuItems.length - 1, this.focusCurrentItem());
     },
+    /**
+     * Executes the `focusCurrentItem` operation.
+     * @returns {any} Returns the result of `focusCurrentItem` when applicable.
+     */
     focusCurrentItem() {
       this.focusedIndex !== null && this.menuItems[this.focusedIndex] && this.menuItems[this.focusedIndex].focus();
     },
+    /**
+     * Executes the `handleItemClick` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `handleItemClick` when applicable.
+     */
     handleItemClick(e) {
       const i = e.currentTarget;
       if (!(i.getAttribute("aria-disabled") === "true" || i.hasAttribute("disabled"))) {
@@ -5941,15 +6264,28 @@ function _c(t) {
         this.parentDropdown.open = !1, this.$nextTick(() => this.parentDropdown.triggerEl?.focus());
       }
     },
+    /**
+     * Executes the `handleItemMouseEnter` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `handleItemMouseEnter` when applicable.
+     */
     handleItemMouseEnter(e) {
       const i = e.currentTarget;
       if (i.getAttribute("aria-disabled") === "true" || i.hasAttribute("disabled")) return;
       const n = this.menuItems.indexOf(i);
       n !== -1 && (this.focusedIndex = n, i.focus()), i.getAttribute("aria-haspopup") === "menu" ? t.$data(i.closest('[x-data^="rzDropdownSubmenu"]'))?.openSubmenu() : this.closeSiblingSubmenus();
     },
+    /**
+     * Executes the `handleSubmenuEscape` operation.
+     * @returns {any} Returns the result of `handleSubmenuEscape` when applicable.
+     */
     handleSubmenuEscape() {
       this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
     },
+    /**
+     * Executes the `handleSubmenuArrowLeft` operation.
+     * @returns {any} Returns the result of `handleSubmenuArrowLeft` when applicable.
+     */
     handleSubmenuArrowLeft() {
       this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
     }
@@ -5993,6 +6329,10 @@ function Ec(t) {
   t.data("rzEmbeddedPreview", () => ({
     iframe: null,
     onDarkModeToggle: null,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       try {
         this.iframe = this.$refs.iframe;
@@ -6040,6 +6380,10 @@ function Ec(t) {
         }, i);
       };
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
       window.removeEventListener("darkModeToggle", this.onDarkModeToggle);
     }
@@ -6053,6 +6397,10 @@ function Tc(t) {
   t.data("rzHeading", () => ({
     observer: null,
     headingId: "",
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       this.headingId = this.$el.dataset.alpineRoot;
       const e = this;
@@ -6066,6 +6414,10 @@ function Tc(t) {
       } else
         console.warn("rzHeading: Could not find 'setCurrentHeading' function in parent scope.");
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
       this.observer != null && this.observer.disconnect();
     }
@@ -6074,13 +6426,26 @@ function Tc(t) {
 function Cc(t) {
   t.data("rzIndicator", () => ({
     visible: !1,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const e = this.$el.dataset.color;
       e ? this.$el.style.backgroundColor = e : this.$el.style.backgroundColor = "var(--color-success)", this.$el.dataset.visible === "true" && (this.visible = !0);
     },
+    /**
+     * Executes the `notVisible` operation.
+     * @returns {any} Returns the result of `notVisible` when applicable.
+     */
     notVisible() {
       return !this.visible;
     },
+    /**
+     * Executes the `setVisible` operation.
+     * @param {any} value Input value for this method.
+     * @returns {any} Returns the result of `setVisible` when applicable.
+     */
     setVisible(e) {
       this.visible = e;
     }
@@ -6088,6 +6453,11 @@ function Cc(t) {
 }
 function Sc(t) {
   t.data("rzInputGroupAddon", () => ({
+    /**
+     * Executes the `handleClick` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `handleClick` when applicable.
+     */
     handleClick(e) {
       if (e.target.closest("button"))
         return;
@@ -6098,6 +6468,10 @@ function Sc(t) {
 }
 function Ac(t, e) {
   t.data("rzMarkdown", () => ({
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const i = JSON.parse(this.$el.dataset.assets), n = this.$el.dataset.nonce;
       e(i, {
@@ -6139,10 +6513,20 @@ function Oc(t, e) {
       const n = i.currentTarget.getAttribute("x-ref").replace("trigger_", "");
       this.activeItemId === n && this.open ? this.closeMenu() : this.openMenu(n);
     },
+    /**
+     * Executes the `handleTriggerEnter` operation.
+     * @param {any} e Input value for this method.
+     * @returns {any} Returns the result of `handleTriggerEnter` when applicable.
+     */
     handleTriggerEnter(i) {
       const n = i.currentTarget.getAttribute("x-ref").replace("trigger_", "");
       this.cancelClose(), this.activeItemId !== n && !this.isClosing && requestAnimationFrame(() => this.openMenu(n));
     },
+    /**
+     * Executes the `handleItemEnter` operation.
+     * @param {any} e Input value for this method.
+     * @returns {any} Returns the result of `handleItemEnter` when applicable.
+     */
     handleItemEnter(i) {
       const n = i.currentTarget;
       if (!n) return;
@@ -6154,12 +6538,24 @@ function Oc(t, e) {
       } else
         this.open && !this.isClosing && this.closeMenu();
     },
+    /**
+     * Executes the `handleContentEnter` operation.
+     * @returns {any} Returns the result of `handleContentEnter` when applicable.
+     */
     handleContentEnter() {
       this.cancelClose();
     },
+    /**
+     * Executes the `scheduleClose` operation.
+     * @returns {any} Returns the result of `scheduleClose` when applicable.
+     */
     scheduleClose() {
       this.isClosing || this.closeTimeout || (this.closeTimeout = setTimeout(() => this.closeMenu(), 150));
     },
+    /**
+     * Executes the `cancelClose` operation.
+     * @returns {any} Returns the result of `cancelClose` when applicable.
+     */
     cancelClose() {
       this.closeTimeout && (clearTimeout(this.closeTimeout), this.closeTimeout = null), this.isClosing = !1;
     },
@@ -6189,6 +6585,10 @@ function Oc(t, e) {
         o.setAttribute("aria-expanded", "true"), o.dataset.state = "open";
       }));
     },
+    /**
+     * Executes the `closeMenu` operation.
+     * @returns {any} Returns the result of `closeMenu` when applicable.
+     */
     closeMenu() {
       if (!this.open || this.isClosing) return;
       this.isClosing = !0, this.cancelClose();
@@ -6214,11 +6614,19 @@ function $c(t) {
     ariaExpanded: "false",
     triggerEl: null,
     contentEl: null,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       this.triggerEl = this.$refs.trigger, this.contentEl = this.$refs.content, this.$watch("open", (e) => {
         this.ariaExpanded = e.toString(), e && this.$nextTick(() => this.updatePosition());
       });
     },
+    /**
+     * Executes the `updatePosition` operation.
+     * @returns {any} Returns the result of `updatePosition` when applicable.
+     */
     updatePosition() {
       if (!this.triggerEl || !this.contentEl) return;
       const e = this.$el.dataset.anchor || "bottom", i = parseInt(this.$el.dataset.offset) || 0, n = parseInt(this.$el.dataset.crossAxisOffset) || 0, r = parseInt(this.$el.dataset.alignmentAxisOffset) || null, s = this.$el.dataset.strategy || "absolute", o = this.$el.dataset.enableFlip !== "false", a = this.$el.dataset.enableShift !== "false", l = parseInt(this.$el.dataset.shiftPadding) || 8;
@@ -6238,12 +6646,24 @@ function $c(t) {
         });
       });
     },
+    /**
+     * Executes the `toggle` operation.
+     * @returns {any} Returns the result of `toggle` when applicable.
+     */
     toggle() {
       this.open = !this.open;
     },
+    /**
+     * Executes the `handleOutsideClick` operation.
+     * @returns {any} Returns the result of `handleOutsideClick` when applicable.
+     */
     handleOutsideClick() {
       this.open && (this.open = !1);
     },
+    /**
+     * Executes the `handleWindowEscape` operation.
+     * @returns {any} Returns the result of `handleWindowEscape` when applicable.
+     */
     handleWindowEscape() {
       this.open && (this.open = !1, this.$nextTick(() => this.triggerEl?.focus()));
     }
@@ -6253,6 +6673,10 @@ function kc(t) {
   t.data("rzPrependInput", () => ({
     prependContainer: null,
     textInput: null,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       this.prependContainer = this.$refs.prependContainer, this.textInput = this.$refs.textInput;
       let e = this;
@@ -6260,9 +6684,17 @@ function kc(t) {
         e.updatePadding();
       }, 50), window.addEventListener("resize", this.updatePadding);
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
       window.removeEventListener("resize", this.updatePadding);
     },
+    /**
+     * Executes the `updatePadding` operation.
+     * @returns {any} Returns the result of `updatePadding` when applicable.
+     */
     updatePadding() {
       const e = this.prependContainer, i = this.textInput;
       if (!e || !i) {
@@ -6281,6 +6713,10 @@ function Nc(t) {
     maxVal: 100,
     percentage: 0,
     label: "",
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const e = this.$el;
       this.currentVal = parseInt(e.getAttribute("data-current-val")) || 0, this.minVal = parseInt(e.getAttribute("data-min-val")) || 0, this.maxVal = parseInt(e.getAttribute("data-max-val")) || 100, this.label = e.getAttribute("data-label"), this.calculatePercentage(), e.setAttribute("aria-valuenow", this.currentVal), e.setAttribute("aria-valuemin", this.minVal), e.setAttribute("aria-valuemax", this.maxVal), e.setAttribute("aria-valuetext", `${this.percentage}%`), this.updateProgressBar(), new ResizeObserver((n) => {
@@ -6289,21 +6725,41 @@ function Nc(t) {
         this.calculatePercentage(), this.updateProgressBar(), e.setAttribute("aria-valuenow", this.currentVal), e.setAttribute("aria-valuetext", `${this.percentage}%`);
       });
     },
+    /**
+     * Executes the `calculatePercentage` operation.
+     * @returns {any} Returns the result of `calculatePercentage` when applicable.
+     */
     calculatePercentage() {
       this.maxVal === this.minVal ? this.percentage = 0 : this.percentage = Math.min(Math.max((this.currentVal - this.minVal) / (this.maxVal - this.minVal) * 100, 0), 100);
     },
+    /**
+     * Executes the `buildLabel` operation.
+     * @returns {any} Returns the result of `buildLabel` when applicable.
+     */
     buildLabel() {
       var e = this.label || "{percent}%";
       return this.calculatePercentage(), e.replace("{percent}", this.percentage);
     },
+    /**
+     * Executes the `buildInsideLabelPosition` operation.
+     * @returns {any} Returns the result of `buildInsideLabelPosition` when applicable.
+     */
     buildInsideLabelPosition() {
       const e = this.$refs.progressBar, i = this.$refs.progressBarLabel, n = this.$refs.innerLabel;
       i && e && n && (n.innerText = this.buildLabel(), i.clientWidth > e.clientWidth ? i.style.left = e.clientWidth + 10 + "px" : i.style.left = e.clientWidth / 2 - i.clientWidth / 2 + "px");
     },
+    /**
+     * Executes the `getLabelCss` operation.
+     * @returns {any} Returns the result of `getLabelCss` when applicable.
+     */
     getLabelCss() {
       const e = this.$refs.progressBarLabel, i = this.$refs.progressBar;
       return e && i && e.clientWidth > i.clientWidth ? "text-foreground dark:text-foreground" : "";
     },
+    /**
+     * Executes the `updateProgressBar` operation.
+     * @returns {any} Returns the result of `updateProgressBar` when applicable.
+     */
     updateProgressBar() {
       const e = this.$refs.progressBar;
       e && (e.style.width = `${this.percentage}%`, this.buildInsideLabelPosition());
@@ -6312,9 +6768,19 @@ function Nc(t) {
     setProgress(e) {
       this.currentVal = e;
     },
+    /**
+     * Executes the `increment` operation.
+     * @param {any} val Input value for this method.
+     * @returns {any} Returns the result of `increment` when applicable.
+     */
     increment(e = 1) {
       this.currentVal = Math.min(this.currentVal + e, this.maxVal);
     },
+    /**
+     * Executes the `decrement` operation.
+     * @param {any} val Input value for this method.
+     * @returns {any} Returns the result of `decrement` when applicable.
+     */
     decrement(e = 1) {
       this.currentVal = Math.max(this.currentVal - e, this.minVal);
     }
@@ -6368,6 +6834,10 @@ function Rc(t) {
     _dragAxis: null,
     _dragPointerOffset: 0,
     _viewport: null,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       this.type = this.$el.dataset.type || "hover", this.orientation = this.$el.dataset.orientation || "vertical", this.scrollHideDelay = Number(this.$el.dataset.scrollHideDelay || 600);
       const e = this.$refs.viewport;
@@ -6376,16 +6846,35 @@ function Rc(t) {
       const i = () => this.update();
       this._roViewport = new ResizeObserver(i), this._roContent = new ResizeObserver(i), this._roViewport.observe(e), this.$refs.content && this._roContent.observe(this.$refs.content), this.setState(this.type === "always" ? "visible" : "hidden"), this.update();
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
       this._viewport && this._viewport.removeEventListener("scroll", this.onScroll), window.removeEventListener("pointermove", this.onPointerMove), window.removeEventListener("pointerup", this.onPointerUp), this._roViewport?.disconnect(), this._roContent?.disconnect(), this.hideTimer && window.clearTimeout(this.hideTimer);
     },
+    /**
+     * Executes the `setState` operation.
+     * @param {any} state Input value for this method.
+     * @returns {any} Returns the result of `setState` when applicable.
+     */
     setState(e) {
       this.$refs.scrollbarX && (this.$refs.scrollbarX.dataset.state = e), this.$refs.scrollbarY && (this.$refs.scrollbarY.dataset.state = e);
     },
+    /**
+     * Executes the `setBarMounted` operation.
+     * @param {any} axis Input value for this method.
+     * @param {any} mounted Input value for this method.
+     * @returns {any} Returns the result of `setBarMounted` when applicable.
+     */
     setBarMounted(e, i) {
       const n = this.$refs[`scrollbar${e === "vertical" ? "Y" : "X"}`];
       n && (n.hidden = !i);
     },
+    /**
+     * Executes the `update` operation.
+     * @returns {any} Returns the result of `update` when applicable.
+     */
     update() {
       const e = this.$refs.viewport;
       if (!e) return;
@@ -6393,6 +6882,10 @@ function Rc(t) {
       const i = e.scrollWidth > e.clientWidth, n = e.scrollHeight > e.clientHeight;
       this.setBarMounted("horizontal", i), this.setBarMounted("vertical", n), this.updateThumbSizes(), this.updateThumbPositions(), this.updateCorner(), this.type === "always" && this.setState("visible"), this.type === "auto" && this.setState(i || n ? "visible" : "hidden");
     },
+    /**
+     * Executes the `updateThumbSizes` operation.
+     * @returns {any} Returns the result of `updateThumbSizes` when applicable.
+     */
     updateThumbSizes() {
       const e = this.$refs.viewport;
       if (e) {
@@ -6406,6 +6899,10 @@ function Rc(t) {
         }
       }
     },
+    /**
+     * Executes the `updateThumbPositions` operation.
+     * @returns {any} Returns the result of `updateThumbPositions` when applicable.
+     */
     updateThumbPositions() {
       const e = this.$refs.viewport;
       if (e) {
@@ -6419,19 +6916,40 @@ function Rc(t) {
         }
       }
     },
+    /**
+     * Executes the `updateCorner` operation.
+     * @returns {any} Returns the result of `updateCorner` when applicable.
+     */
     updateCorner() {
       if (!this.$refs.corner) return;
       !this.$refs.scrollbarX?.hidden && !this.$refs.scrollbarY?.hidden ? (this.$refs.corner.hidden = !1, this.$refs.corner.style.width = `${this.$refs.scrollbarY?.offsetWidth || 0}px`, this.$refs.corner.style.height = `${this.$refs.scrollbarX?.offsetHeight || 0}px`) : this.$refs.corner.hidden = !0;
     },
+    /**
+     * Executes the `onScroll` operation.
+     * @returns {any} Returns the result of `onScroll` when applicable.
+     */
     onScroll() {
       this.updateThumbPositions(), this.type === "scroll" && (this.setState("visible"), this.hideTimer && window.clearTimeout(this.hideTimer), this.hideTimer = window.setTimeout(() => this.setState("hidden"), this.scrollHideDelay));
     },
+    /**
+     * Executes the `onPointerEnter` operation.
+     * @returns {any} Returns the result of `onPointerEnter` when applicable.
+     */
     onPointerEnter() {
       this.type === "hover" && (this.hideTimer && window.clearTimeout(this.hideTimer), this.setState("visible"));
     },
+    /**
+     * Executes the `onPointerLeave` operation.
+     * @returns {any} Returns the result of `onPointerLeave` when applicable.
+     */
     onPointerLeave() {
       this.type === "hover" && (this.hideTimer && window.clearTimeout(this.hideTimer), this.hideTimer = window.setTimeout(() => this.setState("hidden"), this.scrollHideDelay));
     },
+    /**
+     * Executes the `onTrackPointerDown` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `onTrackPointerDown` when applicable.
+     */
     onTrackPointerDown(e) {
       const i = e.currentTarget?.dataset.orientation || "vertical", n = this.$refs[`scrollbar${i === "vertical" ? "Y" : "X"}`];
       if (!n || n.hidden || e.target === this.$refs[`thumb${i === "vertical" ? "Y" : "X"}`]) return;
@@ -6446,12 +6964,22 @@ function Rc(t) {
         r.scrollLeft = a / Math.max(l, 1) * c;
       }
     },
+    /**
+     * Executes the `onThumbPointerDown` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `onThumbPointerDown` when applicable.
+     */
     onThumbPointerDown(e) {
       const i = e.currentTarget?.dataset.orientation || "vertical", n = this.$refs[`thumb${i === "vertical" ? "Y" : "X"}`], r = this.$refs[`scrollbar${i === "vertical" ? "Y" : "X"}`];
       if (!n || !r || r.hidden) return;
       const s = n.getBoundingClientRect();
       this._dragAxis = i, this._dragPointerOffset = i === "vertical" ? e.clientY - s.top : e.clientX - s.left, window.addEventListener("pointermove", this.onPointerMove), window.addEventListener("pointerup", this.onPointerUp, { once: !0 });
     },
+    /**
+     * Executes the `onPointerMove` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `onPointerMove` when applicable.
+     */
     onPointerMove(e) {
       const i = this._dragAxis, n = this.$refs.viewport, r = this.$refs[`scrollbar${i === "vertical" ? "Y" : "X"}`], s = this.$refs[`thumb${i === "vertical" ? "Y" : "X"}`];
       if (!i || !n || !r || !s || r.hidden) return;
@@ -6464,6 +6992,10 @@ function Rc(t) {
         n.scrollLeft = (a - this._dragPointerOffset) / Math.max(l, 1) * c;
       }
     },
+    /**
+     * Executes the `onPointerUp` operation.
+     * @returns {any} Returns the result of `onPointerUp` when applicable.
+     */
     onPointerUp() {
       this._dragAxis = null, window.removeEventListener("pointermove", this.onPointerMove);
     }
@@ -6472,18 +7004,38 @@ function Rc(t) {
 function Lc(t) {
   t.data("rzSheet", () => ({
     open: !1,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       this.open = this.$el.dataset.defaultOpen === "true";
     },
+    /**
+     * Executes the `toggle` operation.
+     * @returns {any} Returns the result of `toggle` when applicable.
+     */
     toggle() {
       this.open = !this.open;
     },
+    /**
+     * Executes the `close` operation.
+     * @returns {any} Returns the result of `close` when applicable.
+     */
     close() {
       this.open = !1;
     },
+    /**
+     * Executes the `show` operation.
+     * @returns {any} Returns the result of `show` when applicable.
+     */
     show() {
       this.open = !0;
     },
+    /**
+     * Executes the `state` operation.
+     * @returns {any} Returns the result of `state` when applicable.
+     */
     state() {
       return this.open ? "open" : "closed";
     }
@@ -6494,23 +7046,49 @@ function Pc(t) {
     selectedTab: "",
     _triggers: [],
     _observer: null,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const e = this.$el.dataset.defaultValue;
       this._observer = new MutationObserver(() => this.refreshTriggers()), this._observer.observe(this.$el, { childList: !0, subtree: !0 }), this.refreshTriggers(), e && this._triggers.some((i) => i.dataset.value === e) ? this.selectedTab = e : this._triggers.length > 0 && (this.selectedTab = this._triggers[0].dataset.value);
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
       this._observer && this._observer.disconnect();
     },
+    /**
+     * Executes the `refreshTriggers` operation.
+     * @returns {any} Returns the result of `refreshTriggers` when applicable.
+     */
     refreshTriggers() {
       this._triggers = Array.from(this.$el.querySelectorAll('[role="tab"]'));
     },
+    /**
+     * Executes the `onTriggerClick` operation.
+     * @param {any} e Input value for this method.
+     * @returns {any} Returns the result of `onTriggerClick` when applicable.
+     */
     onTriggerClick(e) {
       const i = e.currentTarget?.dataset?.value;
       !i || e.currentTarget.getAttribute("aria-disabled") === "true" || (this.selectedTab = i, this.$dispatch("rz:tabs-change", { value: this.selectedTab }));
     },
+    /**
+     * Executes the `isSelected` operation.
+     * @param {any} value Input value for this method.
+     * @returns {any} Returns the result of `isSelected` when applicable.
+     */
     isSelected(e) {
       return this.selectedTab === e;
     },
+    /**
+     * Executes the `bindTrigger` operation.
+     * @returns {any} Returns the result of `bindTrigger` when applicable.
+     */
     bindTrigger() {
       this.selectedTab;
       const e = this.$el.dataset.value, i = this.isSelected(e), n = this.$el.getAttribute("aria-disabled") === "true";
@@ -6521,24 +7099,53 @@ function Pc(t) {
         ...n && { disabled: !0 }
       };
     },
+    /**
+     * Executes the `_attrDisabled` operation.
+     * @returns {any} Returns the result of `_attrDisabled` when applicable.
+     */
     _attrDisabled() {
       return this.$el.getAttribute("aria-disabled") === "true" ? "true" : null;
     },
+    /**
+     * Executes the `_attrAriaSelected` operation.
+     * @returns {any} Returns the result of `_attrAriaSelected` when applicable.
+     */
     _attrAriaSelected() {
       return String(this.$el.dataset.value === this.selectedTab);
     },
+    /**
+     * Executes the `_attrHidden` operation.
+     * @returns {any} Returns the result of `_attrHidden` when applicable.
+     */
     _attrHidden() {
       return this.$el.dataset.value === this.selectedTab ? null : "true";
     },
+    /**
+     * Executes the `_attrAriaHidden` operation.
+     * @returns {any} Returns the result of `_attrAriaHidden` when applicable.
+     */
     _attrAriaHidden() {
       return String(this.selectedTab !== this.$el.dataset.value);
     },
+    /**
+     * Executes the `_attrDataState` operation.
+     * @returns {any} Returns the result of `_attrDataState` when applicable.
+     */
     _attrDataState() {
       return this.selectedTab === this.$el.dataset.value ? "active" : "inactive";
     },
+    /**
+     * Executes the `_attrTabIndex` operation.
+     * @returns {any} Returns the result of `_attrTabIndex` when applicable.
+     */
     _attrTabIndex() {
       return this.selectedTab === this.$el.dataset.value ? "0" : "-1";
     },
+    /**
+     * Executes the `onListKeydown` operation.
+     * @param {any} e Input value for this method.
+     * @returns {any} Returns the result of `onListKeydown` when applicable.
+     */
     onListKeydown(e) {
       if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(e.key)) {
         e.preventDefault();
@@ -6575,6 +7182,10 @@ function Mc(t) {
     pressed: !1,
     disabled: !1,
     controlled: !1,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       this.disabled = this.$el.dataset.disabled === "true";
       const e = this.$el.dataset.pressed;
@@ -6584,15 +7195,31 @@ function Mc(t) {
       }
       this.pressed = this.$el.dataset.defaultPressed === "true";
     },
+    /**
+     * Executes the `toggle` operation.
+     * @returns {any} Returns the result of `toggle` when applicable.
+     */
     toggle() {
       this.disabled || this.controlled || (this.pressed = !this.pressed);
     },
+    /**
+     * Executes the `state` operation.
+     * @returns {any} Returns the result of `state` when applicable.
+     */
     state() {
       return this.pressed ? "on" : "off";
     },
+    /**
+     * Executes the `ariaPressed` operation.
+     * @returns {any} Returns the result of `ariaPressed` when applicable.
+     */
     ariaPressed() {
       return this.pressed.toString();
     },
+    /**
+     * Executes the `dataDisabled` operation.
+     * @returns {any} Returns the result of `dataDisabled` when applicable.
+     */
     dataDisabled() {
       return this.disabled ? "" : null;
     }
@@ -6626,6 +7253,10 @@ function zc(t) {
     enableAutoUpdate: !0,
     isControlledOpenState: !1,
     cleanupAutoUpdate: null,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       this.readDatasetOptions(), this.open = this.getBooleanDataset("open", this.getBooleanDataset("defaultOpen", !1)), this.ariaExpanded = this.open.toString(), this.state = this.open ? "open" : "closed", this.triggerEl = this.$refs.trigger || this.$el.querySelector('[data-slot="tooltip-trigger"]'), this.contentEl = this.$refs.content || this.$el.querySelector('[data-slot="tooltip-content"]'), this.arrowEl = this.$el.querySelector('[data-slot="tooltip-arrow"]'), this.bindInteractionEvents(), this.$watch("open", (e) => {
         const i = this.getBooleanDataset("open", e), n = this.isControlledOpenState ? i : e;
@@ -6640,37 +7271,79 @@ function zc(t) {
         this.updatePosition(), this.startAutoUpdate();
       });
     },
+    /**
+     * Executes the `readDatasetOptions` operation.
+     * @returns {any} Returns the result of `readDatasetOptions` when applicable.
+     */
     readDatasetOptions() {
       this.anchor = this.$el.dataset.anchor || this.anchor, this.strategy = this.$el.dataset.strategy || this.strategy, this.mainOffset = this.getNumberDataset("offset", this.mainOffset), this.crossAxisOffset = this.getNumberDataset("crossAxisOffset", this.crossAxisOffset), this.alignmentAxisOffset = this.getNullableNumberDataset("alignmentAxisOffset", this.alignmentAxisOffset), this.shiftPadding = this.getNumberDataset("shiftPadding", this.shiftPadding), this.openDelayDuration = this.getNumberDataset("delayDuration", this.openDelayDuration), this.skipDelayDuration = this.getNumberDataset("skipDelayDuration", this.skipDelayDuration), this.closeDelayDuration = this.getNumberDataset("closeDelayDuration", this.closeDelayDuration), this.disableHoverableContent = this.getBooleanDataset("disableHoverableContent", this.disableHoverableContent), this.enableFlip = this.getBooleanDataset("enableFlip", this.enableFlip), this.enableShift = this.getBooleanDataset("enableShift", this.enableShift), this.enableAutoUpdate = this.getBooleanDataset("autoUpdate", this.enableAutoUpdate), this.isControlledOpenState = this.getBooleanDataset("openControlled", this.isControlledOpenState);
     },
+    /**
+     * Executes the `getBooleanDataset` operation.
+     * @param {any} name Input value for this method.
+     * @param {any} fallbackValue Input value for this method.
+     * @returns {any} Returns the result of `getBooleanDataset` when applicable.
+     */
     getBooleanDataset(e, i) {
       const n = this.$el.dataset[e];
       return typeof n > "u" ? i : n === "true";
     },
+    /**
+     * Executes the `getNumberDataset` operation.
+     * @param {any} name Input value for this method.
+     * @param {any} fallbackValue Input value for this method.
+     * @returns {any} Returns the result of `getNumberDataset` when applicable.
+     */
     getNumberDataset(e, i) {
       const n = Number(this.$el.dataset[e]);
       return Number.isFinite(n) ? n : i;
     },
+    /**
+     * Executes the `getNullableNumberDataset` operation.
+     * @param {any} name Input value for this method.
+     * @param {any} fallbackValue Input value for this method.
+     * @returns {any} Returns the result of `getNullableNumberDataset` when applicable.
+     */
     getNullableNumberDataset(e, i) {
       const n = this.$el.dataset[e];
       if (typeof n > "u" || n === null || n === "") return i;
       const r = Number(n);
       return Number.isFinite(r) ? r : i;
     },
+    /**
+     * Executes the `bindInteractionEvents` operation.
+     * @returns {any} Returns the result of `bindInteractionEvents` when applicable.
+     */
     bindInteractionEvents() {
       this.triggerEl && (this.triggerEl.addEventListener("pointerenter", this.handleTriggerPointerEnter.bind(this)), this.triggerEl.addEventListener("pointerleave", this.handleTriggerPointerLeave.bind(this)), this.triggerEl.addEventListener("focus", this.handleTriggerFocus.bind(this)), this.triggerEl.addEventListener("blur", this.handleTriggerBlur.bind(this)), this.triggerEl.addEventListener("keydown", this.handleTriggerKeydown.bind(this)), this.contentEl && (this.contentEl.addEventListener("pointerenter", this.handleContentPointerEnter.bind(this)), this.contentEl.addEventListener("pointerleave", this.handleContentPointerLeave.bind(this))));
     },
+    /**
+     * Executes the `startAutoUpdate` operation.
+     * @returns {any} Returns the result of `startAutoUpdate` when applicable.
+     */
     startAutoUpdate() {
       !this.enableAutoUpdate || !this.triggerEl || !this.contentEl || (this.stopAutoUpdate(), this.cleanupAutoUpdate = bc(this.triggerEl, this.contentEl, () => {
         this.updatePosition();
       }));
     },
+    /**
+     * Executes the `stopAutoUpdate` operation.
+     * @returns {any} Returns the result of `stopAutoUpdate` when applicable.
+     */
     stopAutoUpdate() {
       typeof this.cleanupAutoUpdate == "function" && (this.cleanupAutoUpdate(), this.cleanupAutoUpdate = null);
     },
+    /**
+     * Executes the `clearTimers` operation.
+     * @returns {any} Returns the result of `clearTimers` when applicable.
+     */
     clearTimers() {
       this.openDelayTimer && (window.clearTimeout(this.openDelayTimer), this.openDelayTimer = null), this.closeDelayTimer && (window.clearTimeout(this.closeDelayTimer), this.closeDelayTimer = null), this.skipDelayTimer && (window.clearTimeout(this.skipDelayTimer), this.skipDelayTimer = null);
     },
+    /**
+     * Executes the `startSkipDelayWindow` operation.
+     * @returns {any} Returns the result of `startSkipDelayWindow` when applicable.
+     */
     startSkipDelayWindow() {
       if (this.skipDelayDuration <= 0) {
         this.skipDelayActive = !1;
@@ -6680,6 +7353,10 @@ function zc(t) {
         this.skipDelayActive = !1, this.skipDelayTimer = null;
       }, this.skipDelayDuration);
     },
+    /**
+     * Executes the `queueOpen` operation.
+     * @returns {any} Returns the result of `queueOpen` when applicable.
+     */
     queueOpen() {
       if (this.open) return;
       this.closeDelayTimer && (window.clearTimeout(this.closeDelayTimer), this.closeDelayTimer = null);
@@ -6692,6 +7369,10 @@ function zc(t) {
         this.open = !0, this.openDelayTimer = null;
       }, e);
     },
+    /**
+     * Executes the `queueClose` operation.
+     * @returns {any} Returns the result of `queueClose` when applicable.
+     */
     queueClose() {
       if (!(!this.open && !this.openDelayTimer)) {
         if (this.openDelayTimer && (window.clearTimeout(this.openDelayTimer), this.openDelayTimer = null), this.closeDelayDuration <= 0) {
@@ -6703,30 +7384,67 @@ function zc(t) {
         }, this.closeDelayDuration);
       }
     },
+    /**
+     * Executes the `handleTriggerPointerEnter` operation.
+     * @returns {any} Returns the result of `handleTriggerPointerEnter` when applicable.
+     */
     handleTriggerPointerEnter() {
       this.queueOpen();
     },
+    /**
+     * Executes the `handleTriggerPointerLeave` operation.
+     * @returns {any} Returns the result of `handleTriggerPointerLeave` when applicable.
+     */
     handleTriggerPointerLeave() {
       this.queueClose();
     },
+    /**
+     * Executes the `handleTriggerFocus` operation.
+     * @returns {any} Returns the result of `handleTriggerFocus` when applicable.
+     */
     handleTriggerFocus() {
       this.queueOpen();
     },
+    /**
+     * Executes the `handleTriggerBlur` operation.
+     * @returns {any} Returns the result of `handleTriggerBlur` when applicable.
+     */
     handleTriggerBlur() {
       this.queueClose();
     },
+    /**
+     * Executes the `handleContentPointerEnter` operation.
+     * @returns {any} Returns the result of `handleContentPointerEnter` when applicable.
+     */
     handleContentPointerEnter() {
       this.disableHoverableContent || this.closeDelayTimer && (window.clearTimeout(this.closeDelayTimer), this.closeDelayTimer = null);
     },
+    /**
+     * Executes the `handleContentPointerLeave` operation.
+     * @returns {any} Returns the result of `handleContentPointerLeave` when applicable.
+     */
     handleContentPointerLeave() {
       this.disableHoverableContent || this.queueClose();
     },
+    /**
+     * Executes the `handleTriggerKeydown` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `handleTriggerKeydown` when applicable.
+     */
     handleTriggerKeydown(e) {
       e.key === "Escape" && this.handleWindowEscape();
     },
+    /**
+     * Executes the `handleWindowEscape` operation.
+     * @returns {any} Returns the result of `handleWindowEscape` when applicable.
+     */
     handleWindowEscape() {
       this.clearTimers(), this.open = !1, this.$nextTick(() => this.triggerEl?.focus());
     },
+    /**
+     * Executes the `updatePosition` operation.
+     * @returns {any} Returns the result of `updatePosition` when applicable.
+     */
     updatePosition() {
       if (!this.triggerEl || !this.contentEl) return;
       const e = [
@@ -6762,6 +7480,10 @@ function Fc(t) {
     shortcut: "b",
     cookieName: "sidebar_state",
     mobileBreakpoint: 768,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       this.collapsible = this.$el.dataset.collapsible || "offcanvas", this.shortcut = this.$el.dataset.shortcut || "b", this.cookieName = this.$el.dataset.cookieName || "sidebar_state", this.mobileBreakpoint = parseInt(this.$el.dataset.mobileBreakpoint) || 768;
       const e = this.cookieName ? document.cookie.split("; ").find((n) => n.startsWith(`${this.cookieName}=`))?.split("=")[1] : null, i = this.$el.dataset.defaultOpen === "true";
@@ -6771,24 +7493,52 @@ function Fc(t) {
         this.cookieName && (document.cookie = `${this.cookieName}=${n}; path=/; max-age=31536000`);
       });
     },
+    /**
+     * Executes the `checkIfMobile` operation.
+     * @returns {any} Returns the result of `checkIfMobile` when applicable.
+     */
     checkIfMobile() {
       this.isMobile = window.innerWidth < this.mobileBreakpoint;
     },
+    /**
+     * Executes the `toggle` operation.
+     * @returns {any} Returns the result of `toggle` when applicable.
+     */
     toggle() {
       this.isMobile ? this.openMobile = !this.openMobile : this.open = !this.open;
     },
+    /**
+     * Executes the `close` operation.
+     * @returns {any} Returns the result of `close` when applicable.
+     */
     close() {
       this.isMobile && (this.openMobile = !1);
     },
+    /**
+     * Executes the `isMobileOpen` operation.
+     * @returns {any} Returns the result of `isMobileOpen` when applicable.
+     */
     isMobileOpen() {
       return this.openMobile;
     },
+    /**
+     * Executes the `desktopState` operation.
+     * @returns {any} Returns the result of `desktopState` when applicable.
+     */
     desktopState() {
       return this.open ? "expanded" : "collapsed";
     },
+    /**
+     * Executes the `mobileState` operation.
+     * @returns {any} Returns the result of `mobileState` when applicable.
+     */
     mobileState() {
       return this.openMobile ? "open" : "closed";
     },
+    /**
+     * Executes the `getCollapsibleAttribute` operation.
+     * @returns {any} Returns the result of `getCollapsibleAttribute` when applicable.
+     */
     getCollapsibleAttribute() {
       return this.desktopState() === "collapsed" ? this.collapsible : "";
     }
@@ -6909,18 +7659,42 @@ function Uc(t) {
         }
       }
     },
+    /**
+     * Executes the `handleInteraction` operation.
+     * @returns {any} Returns the result of `handleInteraction` when applicable.
+     */
     handleInteraction() {
       this.itemsUrl && this.fetchTrigger === "on-open" && !this._dataFetched && this.fetchItems();
     },
+    /**
+     * Executes the `registerItem` operation.
+     * @param {any} item Input value for this method.
+     * @returns {any} Returns the result of `registerItem` when applicable.
+     */
     registerItem(e) {
       this.items.some((i) => i.id === e.id) || (e._order = this.items.length, this.items.push(e), this.selectedIndex === -1 && (this.selectedIndex = 0), this.serverFiltering || this.filterAndSortItems());
     },
+    /**
+     * Executes the `unregisterItem` operation.
+     * @param {any} itemId Input value for this method.
+     * @returns {any} Returns the result of `unregisterItem` when applicable.
+     */
     unregisterItem(e) {
       this.items = this.items.filter((i) => i.id !== e), this.filterAndSortItems();
     },
+    /**
+     * Executes the `registerGroupTemplate` operation.
+     * @param {any} name Input value for this method.
+     * @param {any} templateId Input value for this method.
+     * @returns {any} Returns the result of `registerGroupTemplate` when applicable.
+     */
     registerGroupTemplate(e, i) {
       this.groupTemplates.has(e) || this.groupTemplates.set(e, i);
     },
+    /**
+     * Executes the `filterAndSortItems` operation.
+     * @returns {any} Returns the result of `filterAndSortItems` when applicable.
+     */
     filterAndSortItems() {
       if (this.serverFiltering && this._dataFetched) {
         this.filteredItems = this.items, this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
@@ -6946,6 +7720,11 @@ function Uc(t) {
         s && !s.disabled && (this.selectedIndex = r, this.$dispatch("rz:command:execute", { value: s.value }));
       }
     },
+    /**
+     * Executes the `handleItemHover` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `handleItemHover` when applicable.
+     */
     handleItemHover(e) {
       const i = e.target.closest("[data-command-item-id]");
       if (!i) return;
@@ -6977,6 +7756,10 @@ function Uc(t) {
           break;
       }
     },
+    /**
+     * Executes the `selectNext` operation.
+     * @returns {any} Returns the result of `selectNext` when applicable.
+     */
     selectNext() {
       if (this.filteredItems.length === 0) return;
       let e = this.selectedIndex, i = 0;
@@ -6988,6 +7771,10 @@ function Uc(t) {
         if (!this.loop && e === this.filteredItems.length - 1) return;
       } while (i <= this.filteredItems.length);
     },
+    /**
+     * Executes the `selectPrev` operation.
+     * @returns {any} Returns the result of `selectPrev` when applicable.
+     */
     selectPrev() {
       if (this.filteredItems.length === 0) return;
       let e = this.selectedIndex, i = 0;
@@ -6999,12 +7786,20 @@ function Uc(t) {
         if (!this.loop && e === 0) return;
       } while (i <= this.filteredItems.length);
     },
+    /**
+     * Executes the `selectFirst` operation.
+     * @returns {any} Returns the result of `selectFirst` when applicable.
+     */
     selectFirst() {
       if (this.filteredItems.length > 0) {
         const e = this.filteredItems.findIndex((i) => !i.disabled);
         e > -1 && (this.selectedIndex = e);
       }
     },
+    /**
+     * Executes the `selectLast` operation.
+     * @returns {any} Returns the result of `selectLast` when applicable.
+     */
     selectLast() {
       if (this.filteredItems.length > 0) {
         const e = this.filteredItems.map((i) => i.disabled).lastIndexOf(!1);
@@ -7038,6 +7833,10 @@ function Bc(t) {
   t.data("rzCommandItem", () => ({
     parent: null,
     itemData: {},
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const e = this.$el.closest('[x-data="rzCommand"]');
       if (!e) {
@@ -7055,6 +7854,10 @@ function Bc(t) {
         forceMount: this.$el.dataset.forceMount === "true"
       }, this.parent.registerItem(this.itemData);
     },
+    /**
+     * Executes the `destroy` operation.
+     * @returns {any} Returns the result of `destroy` when applicable.
+     */
     destroy() {
       this.parent && this.parent.unregisterItem(this.itemData.id);
     }
@@ -7064,6 +7867,10 @@ function Hc(t) {
   t.data("rzCommandList", () => ({
     parent: null,
     dataItemTemplate: null,
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const e = this.$el.closest('[x-data="rzCommand"]');
       if (!e) {
@@ -7072,6 +7879,11 @@ function Hc(t) {
       }
       this.parent = t.$data(e), this.parent.dataItemTemplateId && (this.dataItemTemplate = document.getElementById(this.parent.dataItemTemplateId));
     },
+    /**
+     * Executes the `renderList` operation.
+     * @param {any} event Input value for this method.
+     * @returns {any} Returns the result of `renderList` when applicable.
+     */
     renderList(e) {
       if (e.detail.commandId !== this.parent.$el.id) return;
       const i = e.detail.items || [], n = e.detail.groups || /* @__PURE__ */ new Map(), r = this.$el;
@@ -7115,6 +7927,10 @@ function jc(t) {
     parent: null,
     heading: "",
     templateId: "",
+    /**
+     * Executes the `init` operation.
+     * @returns {any} Returns the result of `init` when applicable.
+     */
     init() {
       const e = this.$el.closest('[x-data="rzCommand"]');
       if (!e) {

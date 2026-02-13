@@ -38,6 +38,11 @@ export default function (Alpine, $data) {
       (this.activeItemId === id && this.open) ? this.closeMenu() : this.openMenu(id);
     },
 
+    /**
+     * Executes the `handleTriggerEnter` operation.
+     * @param {any} e Input value for this method.
+     * @returns {any} Returns the result of `handleTriggerEnter` when applicable.
+     */
     handleTriggerEnter(e) {
       const id = e.currentTarget.getAttribute('x-ref').replace('trigger_', '');
       this.cancelClose();
@@ -46,6 +51,11 @@ export default function (Alpine, $data) {
       }
     },
 
+    /**
+     * Executes the `handleItemEnter` operation.
+     * @param {any} e Input value for this method.
+     * @returns {any} Returns the result of `handleItemEnter` when applicable.
+     */
     handleItemEnter(e) {
       const item = e.currentTarget;
       if (!item) return;
@@ -65,15 +75,27 @@ export default function (Alpine, $data) {
       }
     },
 
+    /**
+     * Executes the `handleContentEnter` operation.
+     * @returns {any} Returns the result of `handleContentEnter` when applicable.
+     */
     handleContentEnter() {
       this.cancelClose();
     },
 
+    /**
+     * Executes the `scheduleClose` operation.
+     * @returns {any} Returns the result of `scheduleClose` when applicable.
+     */
     scheduleClose() {
       if (this.isClosing || this.closeTimeout) return;
       this.closeTimeout = setTimeout(() => this.closeMenu(), 150);
     },
 
+    /**
+     * Executes the `cancelClose` operation.
+     * @returns {any} Returns the result of `cancelClose` when applicable.
+     */
     cancelClose() {
       if (this.closeTimeout) {
         clearTimeout(this.closeTimeout);
@@ -139,6 +161,10 @@ export default function (Alpine, $data) {
       });
     },
 
+    /**
+     * Executes the `closeMenu` operation.
+     * @returns {any} Returns the result of `closeMenu` when applicable.
+     */
     closeMenu() {
       if (!this.open || this.isClosing) return;
 

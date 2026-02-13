@@ -3,6 +3,10 @@ export default function(Alpine, require) {
         calendar: null,
         initialized: false,
 
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             const assets = JSON.parse(this.$el.dataset.assets || '[]');
             const configId = this.$el.dataset.configId;
@@ -22,6 +26,11 @@ export default function(Alpine, require) {
             }, nonce);
         },
 
+        /**
+         * Executes the `initCalendar` operation.
+         * @param {any} configId Input value for this method.
+         * @returns {any} Returns the result of `initCalendar` when applicable.
+         */
         initCalendar(configId) {
             const configElement = document.getElementById(configId);
             if (!configElement) {
@@ -106,12 +115,22 @@ export default function(Alpine, require) {
             }
         },
 
+        /**
+         * Executes the `dispatchCalendarEvent` operation.
+         * @param {any} eventName Input value for this method.
+         * @param {any} detail Input value for this method.
+         * @returns {any} Returns the result of `dispatchCalendarEvent` when applicable.
+         */
         dispatchCalendarEvent(eventName, detail) {
             // Dispatch with prefix 'rz:calendar:'
             // Resulting events: 'rz:calendar:click-day', 'rz:calendar:change-time', etc.
             this.$dispatch(`rz:calendar:${eventName}`, detail);
         },
 
+        /**
+         * Executes the `destroy` operation.
+         * @returns {any} Returns the result of `destroy` when applicable.
+         */
         destroy() {
             if (this.calendar) {
                 this.calendar.destroy();

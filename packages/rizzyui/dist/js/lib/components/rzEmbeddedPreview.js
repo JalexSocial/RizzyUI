@@ -9,6 +9,10 @@ export default function(Alpine) {
         return {
             iframe: null,
             onDarkModeToggle: null,
+            /**
+             * Executes the `init` operation.
+             * @returns {any} Returns the result of `init` when applicable.
+             */
             init() {
                 try {
                     this.iframe = this.$refs.iframe;
@@ -66,6 +70,10 @@ export default function(Alpine) {
                     }, timeout);
                 };
             },
+            /**
+             * Executes the `destroy` operation.
+             * @returns {any} Returns the result of `destroy` when applicable.
+             */
             destroy() {
                 window.removeEventListener('darkModeToggle', this.onDarkModeToggle);
             }

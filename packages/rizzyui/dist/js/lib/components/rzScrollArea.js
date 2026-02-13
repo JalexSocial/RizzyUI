@@ -10,6 +10,10 @@ export default function registerRzScrollArea(Alpine) {
         _dragPointerOffset: 0,
         _viewport: null,
 
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             this.type = this.$el.dataset.type || 'hover';
             this.orientation = this.$el.dataset.orientation || 'vertical';
@@ -36,6 +40,10 @@ export default function registerRzScrollArea(Alpine) {
 
         },
 
+        /**
+         * Executes the `destroy` operation.
+         * @returns {any} Returns the result of `destroy` when applicable.
+         */
         destroy() {
             if (this._viewport) this._viewport.removeEventListener('scroll', this.onScroll);
             window.removeEventListener('pointermove', this.onPointerMove);
@@ -45,17 +53,32 @@ export default function registerRzScrollArea(Alpine) {
             if (this.hideTimer) window.clearTimeout(this.hideTimer);
         },
 
+        /**
+         * Executes the `setState` operation.
+         * @param {any} state Input value for this method.
+         * @returns {any} Returns the result of `setState` when applicable.
+         */
         setState(state) {
             if (this.$refs.scrollbarX) this.$refs.scrollbarX.dataset.state = state;
             if (this.$refs.scrollbarY) this.$refs.scrollbarY.dataset.state = state;
         },
 
+        /**
+         * Executes the `setBarMounted` operation.
+         * @param {any} axis Input value for this method.
+         * @param {any} mounted Input value for this method.
+         * @returns {any} Returns the result of `setBarMounted` when applicable.
+         */
         setBarMounted(axis, mounted) {
             const bar = this.$refs[`scrollbar${axis === 'vertical' ? 'Y' : 'X'}`];
             if (!bar) return;
             bar.hidden = !mounted;
         },
 
+        /**
+         * Executes the `update` operation.
+         * @returns {any} Returns the result of `update` when applicable.
+         */
         update() {
             const viewport = this.$refs.viewport;
             if (!viewport) return;
@@ -75,6 +98,10 @@ export default function registerRzScrollArea(Alpine) {
             if (this.type === 'auto') this.setState(showX || showY ? 'visible' : 'hidden');
         },
 
+        /**
+         * Executes the `updateThumbSizes` operation.
+         * @returns {any} Returns the result of `updateThumbSizes` when applicable.
+         */
         updateThumbSizes() {
             const viewport = this.$refs.viewport;
             if (!viewport) return;
@@ -93,6 +120,10 @@ export default function registerRzScrollArea(Alpine) {
             }
         },
 
+        /**
+         * Executes the `updateThumbPositions` operation.
+         * @returns {any} Returns the result of `updateThumbPositions` when applicable.
+         */
         updateThumbPositions() {
             const viewport = this.$refs.viewport;
             if (!viewport) return;
@@ -113,6 +144,10 @@ export default function registerRzScrollArea(Alpine) {
             }
         },
 
+        /**
+         * Executes the `updateCorner` operation.
+         * @returns {any} Returns the result of `updateCorner` when applicable.
+         */
         updateCorner() {
             if (!this.$refs.corner) return;
             const showCorner = !this.$refs.scrollbarX?.hidden && !this.$refs.scrollbarY?.hidden;
@@ -125,6 +160,10 @@ export default function registerRzScrollArea(Alpine) {
             }
         },
 
+        /**
+         * Executes the `onScroll` operation.
+         * @returns {any} Returns the result of `onScroll` when applicable.
+         */
         onScroll() {
             this.updateThumbPositions();
             if (this.type === 'scroll') {
@@ -134,6 +173,10 @@ export default function registerRzScrollArea(Alpine) {
             }
         },
 
+        /**
+         * Executes the `onPointerEnter` operation.
+         * @returns {any} Returns the result of `onPointerEnter` when applicable.
+         */
         onPointerEnter() {
             if (this.type === 'hover') {
                 if (this.hideTimer) window.clearTimeout(this.hideTimer);
@@ -141,6 +184,10 @@ export default function registerRzScrollArea(Alpine) {
             }
         },
 
+        /**
+         * Executes the `onPointerLeave` operation.
+         * @returns {any} Returns the result of `onPointerLeave` when applicable.
+         */
         onPointerLeave() {
             if (this.type === 'hover') {
                 if (this.hideTimer) window.clearTimeout(this.hideTimer);
@@ -148,6 +195,11 @@ export default function registerRzScrollArea(Alpine) {
             }
         },
 
+        /**
+         * Executes the `onTrackPointerDown` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `onTrackPointerDown` when applicable.
+         */
         onTrackPointerDown(event) {
             const axis = event.currentTarget?.dataset.orientation || 'vertical';
             const scrollbar = this.$refs[`scrollbar${axis === 'vertical' ? 'Y' : 'X'}`];
@@ -172,6 +224,11 @@ export default function registerRzScrollArea(Alpine) {
             }
         },
 
+        /**
+         * Executes the `onThumbPointerDown` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `onThumbPointerDown` when applicable.
+         */
         onThumbPointerDown(event) {
             const axis = event.currentTarget?.dataset.orientation || 'vertical';
             const thumb = this.$refs[`thumb${axis === 'vertical' ? 'Y' : 'X'}`];
@@ -185,6 +242,11 @@ export default function registerRzScrollArea(Alpine) {
             window.addEventListener('pointerup', this.onPointerUp, { once: true });
         },
 
+        /**
+         * Executes the `onPointerMove` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `onPointerMove` when applicable.
+         */
         onPointerMove(event) {
             const axis = this._dragAxis;
             const viewport = this.$refs.viewport;
@@ -206,6 +268,10 @@ export default function registerRzScrollArea(Alpine) {
             }
         },
 
+        /**
+         * Executes the `onPointerUp` operation.
+         * @returns {any} Returns the result of `onPointerUp` when applicable.
+         */
         onPointerUp() {
             this._dragAxis = null;
             window.removeEventListener('pointermove', this.onPointerMove);

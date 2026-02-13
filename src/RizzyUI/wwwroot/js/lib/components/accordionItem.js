@@ -9,6 +9,10 @@ export default function(Alpine) {
         open: false,
         sectionId: "",
         expandedClass: "",
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             this.open = this.$el.dataset.isOpen === "true";
             this.sectionId = this.$el.dataset.sectionId;
@@ -28,6 +32,10 @@ export default function(Alpine) {
                 console.warn("accordionItem: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
             }
         },
+        /**
+         * Executes the `destroy` operation.
+         * @returns {any} Returns the result of `destroy` when applicable.
+         */
         destroy() {
             // Cleanup if needed
         },

@@ -23,6 +23,10 @@ export default function(Alpine) {
         _openListener: null,
         _closeEventListener: null,
 
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             this.modalId = this.$el.dataset.modalId || '';
             this.bodyId = this.$el.dataset.bodyId || '';
@@ -93,10 +97,18 @@ export default function(Alpine) {
             });
         },
         
+        /**
+         * Executes the `notModalOpen` operation.
+         * @returns {any} Returns the result of `notModalOpen` when applicable.
+         */
         notModalOpen() {
             return !this.modalOpen;
         },
 
+        /**
+         * Executes the `destroy` operation.
+         * @returns {any} Returns the result of `destroy` when applicable.
+         */
         destroy() {
             // Clean up listeners
             if (this._openListener && this.eventTriggerName) {
@@ -112,6 +124,11 @@ export default function(Alpine) {
             document.body.style.setProperty('--page-scrollbar-width', `0px`);
         },
 
+        /**
+         * Executes the `openModal` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `openModal` when applicable.
+         */
         openModal(event = null) {
             // Dispatch before-open event - Use "rz:modal-before-open"
             const beforeOpenEvent = new CustomEvent('rz:modal-before-open', {

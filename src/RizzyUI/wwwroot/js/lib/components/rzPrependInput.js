@@ -8,6 +8,10 @@ export default function(Alpine) {
         return {
             prependContainer: null,
             textInput: null,
+            /**
+             * Executes the `init` operation.
+             * @returns {any} Returns the result of `init` when applicable.
+             */
             init() {
                 // On init, measure the prepend container and adjust input padding
                 this.prependContainer = this.$refs.prependContainer;
@@ -19,9 +23,17 @@ export default function(Alpine) {
                 // Update padding on window resize
                 window.addEventListener('resize', this.updatePadding);
             },
+            /**
+             * Executes the `destroy` operation.
+             * @returns {any} Returns the result of `destroy` when applicable.
+             */
             destroy() {
                 window.removeEventListener('resize', this.updatePadding);
             },
+            /**
+             * Executes the `updatePadding` operation.
+             * @returns {any} Returns the result of `updatePadding` when applicable.
+             */
             updatePadding() {
                 // Get the width of the prepend container and apply it as left padding to the input
                 const prependDiv = this.prependContainer;

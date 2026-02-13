@@ -29,6 +29,10 @@ export default function(Alpine) {
         isControlledOpenState: false,
         cleanupAutoUpdate: null,
 
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             this.readDatasetOptions();
 
@@ -78,6 +82,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `readDatasetOptions` operation.
+         * @returns {any} Returns the result of `readDatasetOptions` when applicable.
+         */
         readDatasetOptions() {
             this.anchor = this.$el.dataset.anchor || this.anchor;
             this.strategy = this.$el.dataset.strategy || this.strategy;
@@ -95,17 +103,35 @@ export default function(Alpine) {
             this.isControlledOpenState = this.getBooleanDataset('openControlled', this.isControlledOpenState);
         },
 
+        /**
+         * Executes the `getBooleanDataset` operation.
+         * @param {any} name Input value for this method.
+         * @param {any} fallbackValue Input value for this method.
+         * @returns {any} Returns the result of `getBooleanDataset` when applicable.
+         */
         getBooleanDataset(name, fallbackValue) {
             const value = this.$el.dataset[name];
             if (typeof value === 'undefined') return fallbackValue;
             return value === 'true';
         },
 
+        /**
+         * Executes the `getNumberDataset` operation.
+         * @param {any} name Input value for this method.
+         * @param {any} fallbackValue Input value for this method.
+         * @returns {any} Returns the result of `getNumberDataset` when applicable.
+         */
         getNumberDataset(name, fallbackValue) {
             const value = Number(this.$el.dataset[name]);
             return Number.isFinite(value) ? value : fallbackValue;
         },
 
+        /**
+         * Executes the `getNullableNumberDataset` operation.
+         * @param {any} name Input value for this method.
+         * @param {any} fallbackValue Input value for this method.
+         * @returns {any} Returns the result of `getNullableNumberDataset` when applicable.
+         */
         getNullableNumberDataset(name, fallbackValue) {
             const raw = this.$el.dataset[name];
             if (typeof raw === 'undefined' || raw === null || raw === '') return fallbackValue;
@@ -113,6 +139,10 @@ export default function(Alpine) {
             return Number.isFinite(value) ? value : fallbackValue;
         },
 
+        /**
+         * Executes the `bindInteractionEvents` operation.
+         * @returns {any} Returns the result of `bindInteractionEvents` when applicable.
+         */
         bindInteractionEvents() {
             if (!this.triggerEl) return;
 
@@ -128,6 +158,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `startAutoUpdate` operation.
+         * @returns {any} Returns the result of `startAutoUpdate` when applicable.
+         */
         startAutoUpdate() {
             if (!this.enableAutoUpdate || !this.triggerEl || !this.contentEl) return;
             this.stopAutoUpdate();
@@ -136,6 +170,10 @@ export default function(Alpine) {
             });
         },
 
+        /**
+         * Executes the `stopAutoUpdate` operation.
+         * @returns {any} Returns the result of `stopAutoUpdate` when applicable.
+         */
         stopAutoUpdate() {
             if (typeof this.cleanupAutoUpdate === 'function') {
                 this.cleanupAutoUpdate();
@@ -143,6 +181,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `clearTimers` operation.
+         * @returns {any} Returns the result of `clearTimers` when applicable.
+         */
         clearTimers() {
             if (this.openDelayTimer) {
                 window.clearTimeout(this.openDelayTimer);
@@ -160,6 +202,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `startSkipDelayWindow` operation.
+         * @returns {any} Returns the result of `startSkipDelayWindow` when applicable.
+         */
         startSkipDelayWindow() {
             if (this.skipDelayDuration <= 0) {
                 this.skipDelayActive = false;
@@ -177,6 +223,10 @@ export default function(Alpine) {
             }, this.skipDelayDuration);
         },
 
+        /**
+         * Executes the `queueOpen` operation.
+         * @returns {any} Returns the result of `queueOpen` when applicable.
+         */
         queueOpen() {
             if (this.open) return;
 
@@ -201,6 +251,10 @@ export default function(Alpine) {
             }, delay);
         },
 
+        /**
+         * Executes the `queueClose` operation.
+         * @returns {any} Returns the result of `queueClose` when applicable.
+         */
         queueClose() {
             if (!this.open && !this.openDelayTimer) return;
 
@@ -224,22 +278,42 @@ export default function(Alpine) {
             }, this.closeDelayDuration);
         },
 
+        /**
+         * Executes the `handleTriggerPointerEnter` operation.
+         * @returns {any} Returns the result of `handleTriggerPointerEnter` when applicable.
+         */
         handleTriggerPointerEnter() {
             this.queueOpen();
         },
 
+        /**
+         * Executes the `handleTriggerPointerLeave` operation.
+         * @returns {any} Returns the result of `handleTriggerPointerLeave` when applicable.
+         */
         handleTriggerPointerLeave() {
             this.queueClose();
         },
 
+        /**
+         * Executes the `handleTriggerFocus` operation.
+         * @returns {any} Returns the result of `handleTriggerFocus` when applicable.
+         */
         handleTriggerFocus() {
             this.queueOpen();
         },
 
+        /**
+         * Executes the `handleTriggerBlur` operation.
+         * @returns {any} Returns the result of `handleTriggerBlur` when applicable.
+         */
         handleTriggerBlur() {
             this.queueClose();
         },
 
+        /**
+         * Executes the `handleContentPointerEnter` operation.
+         * @returns {any} Returns the result of `handleContentPointerEnter` when applicable.
+         */
         handleContentPointerEnter() {
             if (this.disableHoverableContent) return;
             if (this.closeDelayTimer) {
@@ -248,23 +322,40 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `handleContentPointerLeave` operation.
+         * @returns {any} Returns the result of `handleContentPointerLeave` when applicable.
+         */
         handleContentPointerLeave() {
             if (this.disableHoverableContent) return;
             this.queueClose();
         },
 
+        /**
+         * Executes the `handleTriggerKeydown` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `handleTriggerKeydown` when applicable.
+         */
         handleTriggerKeydown(event) {
             if (event.key === 'Escape') {
                 this.handleWindowEscape();
             }
         },
 
+        /**
+         * Executes the `handleWindowEscape` operation.
+         * @returns {any} Returns the result of `handleWindowEscape` when applicable.
+         */
         handleWindowEscape() {
             this.clearTimers();
             this.open = false;
             this.$nextTick(() => this.triggerEl?.focus());
         },
 
+        /**
+         * Executes the `updatePosition` operation.
+         * @returns {any} Returns the result of `updatePosition` when applicable.
+         */
         updatePosition() {
             if (!this.triggerEl || !this.contentEl) return;
 

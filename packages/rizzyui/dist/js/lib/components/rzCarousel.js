@@ -23,6 +23,10 @@ export default function (Alpine, require) {
         selectedIndex: 0,
         scrollSnaps: [],
 
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             const assetsToLoad = (() => {
                 try { return JSON.parse(this.$el.dataset.assets || '[]'); }
@@ -39,6 +43,10 @@ export default function (Alpine, require) {
                 require(
                     assetsToLoad,
                     {
+                        /**
+                         * Executes the `success` operation.
+                         * @returns {any} Returns the result of `success` when applicable.
+                         */
                         success() {
                             if (window.EmblaCarousel) {
                                 self.initializeEmbla(options, pluginsConfig);
@@ -46,6 +54,11 @@ export default function (Alpine, require) {
                                 console.error('[rzCarousel] EmblaCarousel not found on window after loading assets.');
                             }
                         },
+                        /**
+                         * Executes the `error` operation.
+                         * @param {any} err Input value for this method.
+                         * @returns {any} Returns the result of `error` when applicable.
+                         */
                         error(err) {
                             console.error('[rzCarousel] Failed to load EmblaCarousel assets.', err);
                         }
@@ -61,6 +74,12 @@ export default function (Alpine, require) {
             }
         },
 
+        /**
+         * Executes the `initializeEmbla` operation.
+         * @param {any} options Input value for this method.
+         * @param {any} pluginsConfig Input value for this method.
+         * @returns {any} Returns the result of `initializeEmbla` when applicable.
+         */
         initializeEmbla(options, pluginsConfig) {
             const viewport = this.$el.querySelector('[x-ref="viewport"]');
             if (!viewport) {
@@ -76,6 +95,11 @@ export default function (Alpine, require) {
             this.onSelect();
         },
 
+        /**
+         * Executes the `instantiatePlugins` operation.
+         * @param {any} pluginsConfig Input value for this method.
+         * @returns {any} Returns the result of `instantiatePlugins` when applicable.
+         */
         instantiatePlugins(pluginsConfig) {
             if (!Array.isArray(pluginsConfig) || pluginsConfig.length === 0) {
                 return [];
@@ -96,10 +120,18 @@ export default function (Alpine, require) {
             }).filter(Boolean); // Filter out any nulls from failed instantiations
         },
 
+        /**
+         * Executes the `destroy` operation.
+         * @returns {any} Returns the result of `destroy` when applicable.
+         */
         destroy() {
             if (this.emblaApi) this.emblaApi.destroy();
         },
 
+        /**
+         * Executes the `onSelect` operation.
+         * @returns {any} Returns the result of `onSelect` when applicable.
+         */
         onSelect() {
             if (!this.emblaApi) return;
             this.selectedIndex = this.emblaApi.selectedScrollSnap();

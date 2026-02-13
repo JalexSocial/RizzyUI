@@ -11,6 +11,10 @@ export default function(Alpine) {
         maxVal: 100,
         percentage: 0,
         label: '',
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             const element = this.$el;
             // Retrieve progress values from data attributes
@@ -39,6 +43,10 @@ export default function(Alpine) {
                 element.setAttribute('aria-valuetext', `${this.percentage}%`);
             });
         },
+        /**
+         * Executes the `calculatePercentage` operation.
+         * @returns {any} Returns the result of `calculatePercentage` when applicable.
+         */
         calculatePercentage() {
             if (this.maxVal === this.minVal) {
                 this.percentage = 0;
@@ -46,11 +54,19 @@ export default function(Alpine) {
                 this.percentage = Math.min(Math.max(((this.currentVal - this.minVal) / (this.maxVal - this.minVal)) * 100, 0), 100);
             }
         },
+        /**
+         * Executes the `buildLabel` operation.
+         * @returns {any} Returns the result of `buildLabel` when applicable.
+         */
         buildLabel() {
             var label = this.label || '{percent}%';
             this.calculatePercentage();
             return label.replace('{percent}', this.percentage);
         },
+        /**
+         * Executes the `buildInsideLabelPosition` operation.
+         * @returns {any} Returns the result of `buildInsideLabelPosition` when applicable.
+         */
         buildInsideLabelPosition() {
             const progressBar = this.$refs.progressBar;
             const barLabel = this.$refs.progressBarLabel;
@@ -64,6 +80,10 @@ export default function(Alpine) {
                 }
             }
         },
+        /**
+         * Executes the `getLabelCss` operation.
+         * @returns {any} Returns the result of `getLabelCss` when applicable.
+         */
         getLabelCss() {
             const barLabel = this.$refs.progressBarLabel;
             const progressBar = this.$refs.progressBar;
@@ -72,6 +92,10 @@ export default function(Alpine) {
             }
             return "";
         },
+        /**
+         * Executes the `updateProgressBar` operation.
+         * @returns {any} Returns the result of `updateProgressBar` when applicable.
+         */
         updateProgressBar() {
             const progressBar = this.$refs.progressBar;
             if (progressBar) {
@@ -83,9 +107,19 @@ export default function(Alpine) {
         setProgress(value) {
             this.currentVal = value;
         },
+        /**
+         * Executes the `increment` operation.
+         * @param {any} val Input value for this method.
+         * @returns {any} Returns the result of `increment` when applicable.
+         */
         increment(val = 1) {
             this.currentVal = Math.min(this.currentVal + val, this.maxVal);
         },
+        /**
+         * Executes the `decrement` operation.
+         * @param {any} val Input value for this method.
+         * @returns {any} Returns the result of `decrement` when applicable.
+         */
         decrement(val = 1) {
             this.currentVal = Math.max(this.currentVal - val, this.minVal);
         }

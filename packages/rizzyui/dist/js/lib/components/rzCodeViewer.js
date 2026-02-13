@@ -12,6 +12,10 @@ export default function(Alpine, require) {
             copied: false,
             copyTitle: 'Copy',     // Default title
             copiedTitle: 'Copied!', // Default title
+            /**
+             * Executes the `init` operation.
+             * @returns {any} Returns the result of `init` when applicable.
+             */
             init() {
                 const assets = JSON.parse(this.$el.dataset.assets);
                 const codeId = this.$el.dataset.codeid;

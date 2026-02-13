@@ -3,6 +3,10 @@ export default function(Alpine, require) {
     Alpine.data('rzCombobox', () => ({
         tomSelect: null,
 
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             const assets = JSON.parse(this.$el.dataset.assets || '[]');
             const nonce = this.$el.dataset.nonce;
@@ -17,6 +21,10 @@ export default function(Alpine, require) {
             }
         },
 
+        /**
+         * Executes the `initTomSelect` operation.
+         * @returns {any} Returns the result of `initTomSelect` when applicable.
+         */
         initTomSelect() {
             const selectEl = this.$refs.selectInput;
             if (!selectEl) return;
@@ -74,6 +82,10 @@ export default function(Alpine, require) {
             });
         },
 
+        /**
+         * Executes the `destroy` operation.
+         * @returns {any} Returns the result of `destroy` when applicable.
+         */
         destroy() {
             if (this.tomSelect) {
                 this.tomSelect.destroy();

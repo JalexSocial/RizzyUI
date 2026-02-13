@@ -185,12 +185,21 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `handleInteraction` operation.
+         * @returns {any} Returns the result of `handleInteraction` when applicable.
+         */
         handleInteraction() {
             if (this.itemsUrl && this.fetchTrigger === 'on-open' && !this._dataFetched) {
                 this.fetchItems();
             }
         },
 
+        /**
+         * Executes the `registerItem` operation.
+         * @param {any} item Input value for this method.
+         * @returns {any} Returns the result of `registerItem` when applicable.
+         */
         registerItem(item) {
             if (this.items.some(i => i.id === item.id)) return;
             item._order = this.items.length;
@@ -204,17 +213,32 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `unregisterItem` operation.
+         * @param {any} itemId Input value for this method.
+         * @returns {any} Returns the result of `unregisterItem` when applicable.
+         */
         unregisterItem(itemId) {
             this.items = this.items.filter(i => i.id !== itemId);
             this.filterAndSortItems();
         },
 
+        /**
+         * Executes the `registerGroupTemplate` operation.
+         * @param {any} name Input value for this method.
+         * @param {any} templateId Input value for this method.
+         * @returns {any} Returns the result of `registerGroupTemplate` when applicable.
+         */
         registerGroupTemplate(name, templateId) {
             if (!this.groupTemplates.has(name)) {
                 this.groupTemplates.set(name, templateId);
             }
         },
 
+        /**
+         * Executes the `filterAndSortItems` operation.
+         * @returns {any} Returns the result of `filterAndSortItems` when applicable.
+         */
         filterAndSortItems() {
             if (this.serverFiltering && this._dataFetched) {
                 this.filteredItems = this.items;
@@ -266,6 +290,11 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `handleItemHover` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `handleItemHover` when applicable.
+         */
         handleItemHover(event) {
             const host = event.target.closest('[data-command-item-id]');
             if (!host) return;
@@ -312,6 +341,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `selectNext` operation.
+         * @returns {any} Returns the result of `selectNext` when applicable.
+         */
         selectNext() {
             if (this.filteredItems.length === 0) return;
             let i = this.selectedIndex, count = 0;
@@ -323,6 +356,10 @@ export default function(Alpine) {
             } while (count <= this.filteredItems.length);
         },
 
+        /**
+         * Executes the `selectPrev` operation.
+         * @returns {any} Returns the result of `selectPrev` when applicable.
+         */
         selectPrev() {
             if (this.filteredItems.length === 0) return;
             let i = this.selectedIndex, count = 0;
@@ -334,6 +371,10 @@ export default function(Alpine) {
             } while (count <= this.filteredItems.length);
         },
 
+        /**
+         * Executes the `selectFirst` operation.
+         * @returns {any} Returns the result of `selectFirst` when applicable.
+         */
         selectFirst() {
             if (this.filteredItems.length > 0) {
                 const firstEnabledIndex = this.filteredItems.findIndex(item => !item.disabled);
@@ -341,6 +382,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `selectLast` operation.
+         * @returns {any} Returns the result of `selectLast` when applicable.
+         */
         selectLast() {
             if (this.filteredItems.length > 0) {
                 const lastEnabledIndex = this.filteredItems.map(item => item.disabled).lastIndexOf(false);

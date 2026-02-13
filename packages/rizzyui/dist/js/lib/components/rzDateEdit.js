@@ -9,6 +9,10 @@ export default function(Alpine, require) {
         options: {},
         placeholder: '',
         prependText: '',
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             // Retrieve configuration (options, placeholder, prependText) from the element's dataset
             const cfgString = this.$el.dataset.config;

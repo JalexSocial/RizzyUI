@@ -7,6 +7,10 @@ export default function(Alpine) {
         triggerEl: null,
         contentEl: null,
 
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             this.triggerEl = this.$refs.trigger;
             this.contentEl = this.$refs.content;
@@ -19,6 +23,10 @@ export default function(Alpine) {
             });
         },
 
+        /**
+         * Executes the `updatePosition` operation.
+         * @returns {any} Returns the result of `updatePosition` when applicable.
+         */
         updatePosition() {
             if (!this.triggerEl || !this.contentEl) return;
 
@@ -59,15 +67,27 @@ export default function(Alpine) {
             });
         },
 
+        /**
+         * Executes the `toggle` operation.
+         * @returns {any} Returns the result of `toggle` when applicable.
+         */
         toggle() {
             this.open = !this.open;
         },
 
+        /**
+         * Executes the `handleOutsideClick` operation.
+         * @returns {any} Returns the result of `handleOutsideClick` when applicable.
+         */
         handleOutsideClick() {
             if (!this.open) return;
             this.open = false;
         },
 
+        /**
+         * Executes the `handleWindowEscape` operation.
+         * @returns {any} Returns the result of `handleWindowEscape` when applicable.
+         */
         handleWindowEscape() {
             if (this.open) {
                 this.open = false;

@@ -573,6 +573,9 @@
   .z-\[10004\] {
     z-index: 10004;
   }
+  .z-auto {
+    z-index: auto;
+  }
   .order-first {
     order: -9999;
   }
@@ -1032,6 +1035,12 @@
   }
   .max-h-\[400px\] {
     max-height: 400px;
+  }
+  .max-h-\[calc\(100vh-4rem\)\] {
+    max-height: calc(100vh - 4rem);
+  }
+  .max-h-none {
+    max-height: none;
   }
   .min-h-0 {
     min-height: calc(var(--spacing) * 0);
@@ -1517,6 +1526,9 @@
   }
   .gap-7 {
     gap: calc(var(--spacing) * 7);
+  }
+  .gap-8 {
+    gap: calc(var(--spacing) * 8);
   }
   .gap-14 {
     gap: calc(var(--spacing) * 14);

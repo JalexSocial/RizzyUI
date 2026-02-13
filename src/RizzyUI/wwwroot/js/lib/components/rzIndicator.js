@@ -2,6 +2,10 @@
 export default function(Alpine) {
     Alpine.data('rzIndicator', () => ({
         visible: false,
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             const colorValue = this.$el.dataset.color;
             if (colorValue) {
@@ -19,9 +23,18 @@ export default function(Alpine) {
             // from a data-visible attribute, unless more complex Alpine-driven logic
             // for visibility is required later.
         },
+        /**
+         * Executes the `notVisible` operation.
+         * @returns {any} Returns the result of `notVisible` when applicable.
+         */
         notVisible() {
             return !this.visible;
         },
+        /**
+         * Executes the `setVisible` operation.
+         * @param {any} value Input value for this method.
+         * @returns {any} Returns the result of `setVisible` when applicable.
+         */
         setVisible(value) {
             this.visible = value;
         }

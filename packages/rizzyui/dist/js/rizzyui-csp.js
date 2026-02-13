@@ -6020,9 +6020,17 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       // ID of the currently selected/opened section (if not allowMultiple)
       allowMultiple: false,
       // Whether multiple sections can be open
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         this.allowMultiple = this.$el.dataset.multiple === "true";
       },
+      /**
+       * Executes the `destroy` operation.
+       * @returns {any} Returns the result of `destroy` when applicable.
+       */
       destroy() {
       }
     }));
@@ -6032,6 +6040,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       open: false,
       sectionId: "",
       expandedClass: "",
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         this.open = this.$el.dataset.isOpen === "true";
         this.sectionId = this.$el.dataset.sectionId;
@@ -6047,6 +6059,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           console.warn("accordionItem: Could not find 'selected' or 'allowMultiple' in parent scope for $watch.");
         }
       },
+      /**
+       * Executes the `destroy` operation.
+       * @returns {any} Returns the result of `destroy` when applicable.
+       */
       destroy() {
       },
       // Toggle the section's open state and update the parent's 'selected' state.
@@ -6069,10 +6085,18 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       return {
         parentElement: null,
         showAlert: true,
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
           const alpineRoot = this.$el.dataset.alpineRoot || this.$el.closest("[data-alpine-root]");
           this.parentElement = document.getElementById(alpineRoot);
         },
+        /**
+         * Executes the `dismiss` operation.
+         * @returns {any} Returns the result of `dismiss` when applicable.
+         */
         dismiss() {
           this.showAlert = false;
           const self2 = this;
@@ -6085,6 +6109,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
   }
   function registerRzAspectRatio(Alpine2) {
     Alpine2.data("rzAspectRatio", () => ({
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         const ratio = parseFloat(this.$el.dataset.ratio);
         if (!isNaN(ratio) && ratio > 0) {
@@ -6100,12 +6128,24 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     Alpine2.data("rzBrowser", () => {
       return {
         screenSize: "",
+        /**
+         * Executes the `setDesktopScreenSize` operation.
+         * @returns {any} Returns the result of `setDesktopScreenSize` when applicable.
+         */
         setDesktopScreenSize() {
           this.screenSize = "";
         },
+        /**
+         * Executes the `setTabletScreenSize` operation.
+         * @returns {any} Returns the result of `setTabletScreenSize` when applicable.
+         */
         setTabletScreenSize() {
           this.screenSize = "max-w-2xl";
         },
+        /**
+         * Executes the `setPhoneScreenSize` operation.
+         * @returns {any} Returns the result of `setPhoneScreenSize` when applicable.
+         */
         setPhoneScreenSize() {
           this.screenSize = "max-w-sm";
         },
@@ -6132,6 +6172,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     Alpine2.data("rzCalendar", () => ({
       calendar: null,
       initialized: false,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         const assets = JSON.parse(this.$el.dataset.assets || "[]");
         const configId = this.$el.dataset.configId;
@@ -6147,6 +6191,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           error: (e2) => console.error("RzCalendar: Failed to load assets", e2)
         }, nonce);
       },
+      /**
+       * Executes the `initCalendar` operation.
+       * @param {any} configId Input value for this method.
+       * @returns {any} Returns the result of `initCalendar` when applicable.
+       */
       initCalendar(configId) {
         const configElement = document.getElementById(configId);
         if (!configElement) {
@@ -6219,9 +6268,19 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           console.error("RzCalendar: VanillaCalendar global not found.");
         }
       },
+      /**
+       * Executes the `dispatchCalendarEvent` operation.
+       * @param {any} eventName Input value for this method.
+       * @param {any} detail Input value for this method.
+       * @returns {any} Returns the result of `dispatchCalendarEvent` when applicable.
+       */
       dispatchCalendarEvent(eventName, detail) {
         this.$dispatch(`rz:calendar:${eventName}`, detail);
       },
+      /**
+       * Executes the `destroy` operation.
+       * @returns {any} Returns the result of `destroy` when applicable.
+       */
       destroy() {
         if (this.calendar) {
           this.calendar.destroy();
@@ -6336,10 +6395,18 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.syncToCalendar();
         });
       },
+      /**
+       * Executes the `destroy` operation.
+       * @returns {any} Returns the result of `destroy` when applicable.
+       */
       destroy() {
         this._handlers.forEach((h2) => this.$el.removeEventListener(h2.type, h2.fn));
         this._handlers = [];
       },
+      /**
+       * Executes the `syncToCalendar` operation.
+       * @returns {any} Returns the result of `syncToCalendar` when applicable.
+       */
       syncToCalendar() {
         if (!this.calendarApi) return;
         let selectedDates = [...this.dates];
@@ -6382,17 +6449,32 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         if (isNaN(date.getTime())) return isoDateStr;
         return new Intl.DateTimeFormat(this.locale, this.formatOptions).format(date);
       },
+      /**
+       * Executes the `_extractIsoDates` operation.
+       * @param {any} value Input value for this method.
+       * @returns {any} Returns the result of `_extractIsoDates` when applicable.
+       */
       _extractIsoDates(value) {
         if (typeof value !== "string") return [];
         const matches2 = value.match(/\d{4}-\d{2}-\d{2}/g);
         return matches2 ?? [];
       },
+      /**
+       * Executes the `_isValidIsoDate` operation.
+       * @param {any} s Input value for this method.
+       * @returns {any} Returns the result of `_isValidIsoDate` when applicable.
+       */
       _isValidIsoDate(s2) {
         if (typeof s2 !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(s2)) return false;
         const [y, m2, d2] = s2.split("-").map(Number);
         const dt = new Date(Date.UTC(y, m2 - 1, d2));
         return dt.getUTCFullYear() === y && dt.getUTCMonth() + 1 === m2 && dt.getUTCDate() === d2;
       },
+      /**
+       * Executes the `_normalize` operation.
+       * @param {any} input Input value for this method.
+       * @returns {any} Returns the result of `_normalize` when applicable.
+       */
       _normalize(input) {
         const arr = Array.isArray(input) ? input : [];
         const iso = arr.flat(Infinity).flatMap((v2) => {
@@ -6410,10 +6492,20 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         }
         return [...new Set(iso)].sort();
       },
+      /**
+       * Executes the `parseIsoLocal` operation.
+       * @param {any} s Input value for this method.
+       * @returns {any} Returns the result of `parseIsoLocal` when applicable.
+       */
       parseIsoLocal(s2) {
         const [y, m2, d2] = s2.split("-").map(Number);
         return new Date(y, m2 - 1, d2);
       },
+      /**
+       * Executes the `toLocalISO` operation.
+       * @param {any} dateObj Input value for this method.
+       * @returns {any} Returns the result of `toLocalISO` when applicable.
+       */
       toLocalISO(dateObj) {
         const y = dateObj.getFullYear();
         const m2 = String(dateObj.getMonth() + 1).padStart(2, "0");
@@ -6424,6 +6516,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       setToday() {
         this.dates = this._normalize([this.toLocalISO(/* @__PURE__ */ new Date())]);
       },
+      /**
+       * Executes the `addDays` operation.
+       * @param {any} n Input value for this method.
+       * @returns {any} Returns the result of `addDays` when applicable.
+       */
       addDays(n2) {
         if (this.dates.length === 0) return;
         const current = this.parseIsoLocal(this.dates[0]);
@@ -6431,12 +6528,26 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         current.setDate(current.getDate() + n2);
         this.dates = this._normalize([this.toLocalISO(current)]);
       },
+      /**
+       * Executes the `setDate` operation.
+       * @param {any} dateStr Input value for this method.
+       * @returns {any} Returns the result of `setDate` when applicable.
+       */
       setDate(dateStr) {
         this.dates = this._normalize(dateStr ? [dateStr] : []);
       },
+      /**
+       * Executes the `clear` operation.
+       * @returns {any} Returns the result of `clear` when applicable.
+       */
       clear() {
         this.dates = [];
       },
+      /**
+       * Executes the `toggleDate` operation.
+       * @param {any} dateStr Input value for this method.
+       * @returns {any} Returns the result of `toggleDate` when applicable.
+       */
       toggleDate(dateStr) {
         let newDates;
         if (this.dates.includes(dateStr)) {
@@ -6469,6 +6580,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       canScrollNext: false,
       selectedIndex: 0,
       scrollSnaps: [],
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         const assetsToLoad = (() => {
           try {
@@ -6487,6 +6602,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           require(
             assetsToLoad,
             {
+              /**
+               * Executes the `success` operation.
+               * @returns {any} Returns the result of `success` when applicable.
+               */
               success() {
                 if (window.EmblaCarousel) {
                   self2.initializeEmbla(options, pluginsConfig);
@@ -6494,6 +6613,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
                   console.error("[rzCarousel] EmblaCarousel not found on window after loading assets.");
                 }
               },
+              /**
+               * Executes the `error` operation.
+               * @param {any} err Input value for this method.
+               * @returns {any} Returns the result of `error` when applicable.
+               */
               error(err) {
                 console.error("[rzCarousel] Failed to load EmblaCarousel assets.", err);
               }
@@ -6508,6 +6632,12 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           }
         }
       },
+      /**
+       * Executes the `initializeEmbla` operation.
+       * @param {any} options Input value for this method.
+       * @param {any} pluginsConfig Input value for this method.
+       * @returns {any} Returns the result of `initializeEmbla` when applicable.
+       */
       initializeEmbla(options, pluginsConfig) {
         const viewport = this.$el.querySelector('[x-ref="viewport"]');
         if (!viewport) {
@@ -6520,6 +6650,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this.emblaApi.on("reInit", this.onSelect.bind(this));
         this.onSelect();
       },
+      /**
+       * Executes the `instantiatePlugins` operation.
+       * @param {any} pluginsConfig Input value for this method.
+       * @returns {any} Returns the result of `instantiatePlugins` when applicable.
+       */
       instantiatePlugins(pluginsConfig) {
         if (!Array.isArray(pluginsConfig) || pluginsConfig.length === 0) {
           return [];
@@ -6538,9 +6673,17 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           }
         }).filter(Boolean);
       },
+      /**
+       * Executes the `destroy` operation.
+       * @returns {any} Returns the result of `destroy` when applicable.
+       */
       destroy() {
         if (this.emblaApi) this.emblaApi.destroy();
       },
+      /**
+       * Executes the `onSelect` operation.
+       * @returns {any} Returns the result of `onSelect` when applicable.
+       */
       onSelect() {
         if (!this.emblaApi) return;
         this.selectedIndex = this.emblaApi.selectedScrollSnap();
@@ -6575,6 +6718,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         // Default title
         copiedTitle: "Copied!",
         // Default title
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
           const assets = JSON.parse(this.$el.dataset.assets);
           const codeId = this.$el.dataset.codeid;
@@ -6632,12 +6779,24 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
   function registerRzCollapsible(Alpine2) {
     Alpine2.data("rzCollapsible", () => ({
       isOpen: false,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         this.isOpen = this.$el.dataset.defaultOpen === "true";
       },
+      /**
+       * Executes the `toggle` operation.
+       * @returns {any} Returns the result of `toggle` when applicable.
+       */
       toggle() {
         this.isOpen = !this.isOpen;
       },
+      /**
+       * Executes the `state` operation.
+       * @returns {any} Returns the result of `state` when applicable.
+       */
       state() {
         return this.isOpen ? "open" : "closed";
       }
@@ -6646,6 +6805,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
   function registerRzCombobox(Alpine2, require) {
     Alpine2.data("rzCombobox", () => ({
       tomSelect: null,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         const assets = JSON.parse(this.$el.dataset.assets || "[]");
         const nonce = this.$el.dataset.nonce;
@@ -6658,6 +6821,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.initTomSelect();
         }
       },
+      /**
+       * Executes the `initTomSelect` operation.
+       * @returns {any} Returns the result of `initTomSelect` when applicable.
+       */
       initTomSelect() {
         const selectEl = this.$refs.selectInput;
         if (!selectEl) return;
@@ -6701,6 +6868,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           }
         });
       },
+      /**
+       * Executes the `destroy` operation.
+       * @returns {any} Returns the result of `destroy` when applicable.
+       */
       destroy() {
         if (this.tomSelect) {
           this.tomSelect.destroy();
@@ -6714,6 +6885,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       options: {},
       placeholder: "",
       prependText: "",
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         const cfgString = this.$el.dataset.config;
         const inputElem = document.getElementById(this.$el.dataset.uid + "-input");
@@ -6756,6 +6931,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       _escapeListener: null,
       _openListener: null,
       _closeEventListener: null,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         this.modalId = this.$el.dataset.modalId || "";
         this.bodyId = this.$el.dataset.bodyId || "";
@@ -6812,9 +6991,17 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           }
         });
       },
+      /**
+       * Executes the `notModalOpen` operation.
+       * @returns {any} Returns the result of `notModalOpen` when applicable.
+       */
       notModalOpen() {
         return !this.modalOpen;
       },
+      /**
+       * Executes the `destroy` operation.
+       * @returns {any} Returns the result of `destroy` when applicable.
+       */
       destroy() {
         if (this._openListener && this.eventTriggerName) {
           window.removeEventListener(this.eventTriggerName, this._openListener);
@@ -6828,6 +7015,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         document.body.classList.remove("overflow-hidden");
         document.body.style.setProperty("--page-scrollbar-width", `0px`);
       },
+      /**
+       * Executes the `openModal` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `openModal` when applicable.
+       */
       openModal(event2 = null) {
         const beforeOpenEvent = new CustomEvent("rz:modal-before-open", {
           detail: { modalId: this.modalId, originalEvent: event2 },
@@ -8304,6 +8496,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           Object.assign(this.contentEl.style, { left: `${x}px`, top: `${y}px` });
         });
       },
+      /**
+       * Executes the `toggle` operation.
+       * @returns {any} Returns the result of `toggle` when applicable.
+       */
       toggle() {
         if (this.open) {
           this.open = false;
@@ -8314,12 +8510,21 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.focusedIndex = -1;
         }
       },
+      /**
+       * Executes the `handleOutsideClick` operation.
+       * @returns {any} Returns the result of `handleOutsideClick` when applicable.
+       */
       handleOutsideClick() {
         if (!this.open) return;
         this.open = false;
         let self2 = this;
         this.$nextTick(() => self2.triggerEl?.focus());
       },
+      /**
+       * Executes the `handleTriggerKeydown` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `handleTriggerKeydown` when applicable.
+       */
       handleTriggerKeydown(event2) {
         if (["Enter", " ", "ArrowDown", "ArrowUp"].includes(event2.key)) {
           event2.preventDefault();
@@ -8330,6 +8535,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           });
         }
       },
+      /**
+       * Executes the `focusNextItem` operation.
+       * @returns {any} Returns the result of `focusNextItem` when applicable.
+       */
       focusNextItem() {
         const now = Date.now();
         if (now - this._lastNavAt < this.navThrottle) return;
@@ -8338,6 +8547,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1;
         this.focusCurrentItem();
       },
+      /**
+       * Executes the `focusPreviousItem` operation.
+       * @returns {any} Returns the result of `focusPreviousItem` when applicable.
+       */
       focusPreviousItem() {
         const now = Date.now();
         if (now - this._lastNavAt < this.navThrottle) return;
@@ -8346,21 +8559,38 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this.focusedIndex = this.focusedIndex === null || this.focusedIndex <= 0 ? this.menuItems.length - 1 : this.focusedIndex - 1;
         this.focusCurrentItem();
       },
+      /**
+       * Executes the `focusFirstItem` operation.
+       * @returns {any} Returns the result of `focusFirstItem` when applicable.
+       */
       focusFirstItem() {
         if (!this.menuItems.length) return;
         this.focusedIndex = 0;
         this.focusCurrentItem();
       },
+      /**
+       * Executes the `focusLastItem` operation.
+       * @returns {any} Returns the result of `focusLastItem` when applicable.
+       */
       focusLastItem() {
         if (!this.menuItems.length) return;
         this.focusedIndex = this.menuItems.length - 1;
         this.focusCurrentItem();
       },
+      /**
+       * Executes the `focusCurrentItem` operation.
+       * @returns {any} Returns the result of `focusCurrentItem` when applicable.
+       */
       focusCurrentItem() {
         if (this.focusedIndex !== null && this.menuItems[this.focusedIndex]) {
           this.$nextTick(() => this.menuItems[this.focusedIndex].focus());
         }
       },
+      /**
+       * Executes the `focusSelectedItem` operation.
+       * @param {any} item Input value for this method.
+       * @returns {any} Returns the result of `focusSelectedItem` when applicable.
+       */
       focusSelectedItem(item) {
         if (!item || item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
         const index = this.menuItems.indexOf(item);
@@ -8369,6 +8599,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           item.focus();
         }
       },
+      /**
+       * Executes the `handleItemClick` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `handleItemClick` when applicable.
+       */
       handleItemClick(event2) {
         const item = event2.currentTarget;
         if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
@@ -8380,6 +8615,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         let self2 = this;
         this.$nextTick(() => self2.triggerEl?.focus());
       },
+      /**
+       * Executes the `handleItemMouseEnter` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `handleItemMouseEnter` when applicable.
+       */
       handleItemMouseEnter(event2) {
         const item = event2.currentTarget;
         this.focusSelectedItem(item);
@@ -8387,6 +8627,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.closeAllSubmenus();
         }
       },
+      /**
+       * Executes the `handleWindowEscape` operation.
+       * @returns {any} Returns the result of `handleWindowEscape` when applicable.
+       */
       handleWindowEscape() {
         if (this.open) {
           this.open = false;
@@ -8394,6 +8638,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.$nextTick(() => self2.triggerEl?.focus());
         }
       },
+      /**
+       * Executes the `handleContentTabKey` operation.
+       * @returns {any} Returns the result of `handleContentTabKey` when applicable.
+       */
       handleContentTabKey() {
         if (this.open) {
           this.open = false;
@@ -8401,10 +8649,18 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.$nextTick(() => self2.triggerEl?.focus());
         }
       },
+      /**
+       * Executes the `handleTriggerMouseover` operation.
+       * @returns {any} Returns the result of `handleTriggerMouseover` when applicable.
+       */
       handleTriggerMouseover() {
         let self2 = this;
         this.$nextTick(() => self2.$el.firstElementChild?.focus());
       },
+      /**
+       * Executes the `closeAllSubmenus` operation.
+       * @returns {any} Returns the result of `closeAllSubmenus` when applicable.
+       */
       closeAllSubmenus() {
         const submenus = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
         submenus.forEach((el) => {
@@ -8484,17 +8740,33 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           Object.assign(contentEl.style, { left: `${x}px`, top: `${y}px` });
         });
       },
+      /**
+       * Executes the `handleTriggerMouseEnter` operation.
+       * @returns {any} Returns the result of `handleTriggerMouseEnter` when applicable.
+       */
       handleTriggerMouseEnter() {
         clearTimeout(this.closeTimeout);
         this.triggerEl.focus();
         this.openSubmenu();
       },
+      /**
+       * Executes the `handleTriggerMouseLeave` operation.
+       * @returns {any} Returns the result of `handleTriggerMouseLeave` when applicable.
+       */
       handleTriggerMouseLeave() {
         this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
       },
+      /**
+       * Executes the `handleContentMouseEnter` operation.
+       * @returns {any} Returns the result of `handleContentMouseEnter` when applicable.
+       */
       handleContentMouseEnter() {
         clearTimeout(this.closeTimeout);
       },
+      /**
+       * Executes the `handleContentMouseLeave` operation.
+       * @returns {any} Returns the result of `handleContentMouseLeave` when applicable.
+       */
       handleContentMouseLeave() {
         const childSubmenus = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
         if (childSubmenus) {
@@ -8505,6 +8777,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         }
         this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
       },
+      /**
+       * Executes the `openSubmenu` operation.
+       * @param {any} focusFirst Input value for this method.
+       * @returns {any} Returns the result of `openSubmenu` when applicable.
+       */
       openSubmenu(focusFirst = false) {
         if (this.open) return;
         this.closeSiblingSubmenus();
@@ -8513,6 +8790,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.$nextTick(() => requestAnimationFrame(() => this.focusFirstItem()));
         }
       },
+      /**
+       * Executes the `closeSubmenu` operation.
+       * @returns {any} Returns the result of `closeSubmenu` when applicable.
+       */
       closeSubmenu() {
         const childSubmenus = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
         childSubmenus?.forEach((el) => {
@@ -8520,6 +8801,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         });
         this.open = false;
       },
+      /**
+       * Executes the `closeSiblingSubmenus` operation.
+       * @returns {any} Returns the result of `closeSiblingSubmenus` when applicable.
+       */
       closeSiblingSubmenus() {
         if (!this.siblingContainer) return;
         const siblings = Array.from(this.siblingContainer.children).filter(
@@ -8529,18 +8814,35 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           Alpine2.$data(el)?.closeSubmenu();
         });
       },
+      /**
+       * Executes the `toggleSubmenu` operation.
+       * @returns {any} Returns the result of `toggleSubmenu` when applicable.
+       */
       toggleSubmenu() {
         this.open ? this.closeSubmenu() : this.openSubmenu();
       },
+      /**
+       * Executes the `openSubmenuAndFocusFirst` operation.
+       * @returns {any} Returns the result of `openSubmenuAndFocusFirst` when applicable.
+       */
       openSubmenuAndFocusFirst() {
         this.openSubmenu(true);
       },
+      /**
+       * Executes the `handleTriggerKeydown` operation.
+       * @param {any} e Input value for this method.
+       * @returns {any} Returns the result of `handleTriggerKeydown` when applicable.
+       */
       handleTriggerKeydown(e2) {
         if (["ArrowRight", "Enter", " "].includes(e2.key)) {
           e2.preventDefault();
           this.openSubmenuAndFocusFirst();
         }
       },
+      /**
+       * Executes the `focusNextItem` operation.
+       * @returns {any} Returns the result of `focusNextItem` when applicable.
+       */
       focusNextItem() {
         const now = Date.now();
         if (now - this._lastNavAt < this.navThrottle) return;
@@ -8549,6 +8851,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1;
         this.focusCurrentItem();
       },
+      /**
+       * Executes the `focusPreviousItem` operation.
+       * @returns {any} Returns the result of `focusPreviousItem` when applicable.
+       */
       focusPreviousItem() {
         const now = Date.now();
         if (now - this._lastNavAt < this.navThrottle) return;
@@ -8557,21 +8863,38 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this.focusedIndex = this.focusedIndex === null || this.focusedIndex <= 0 ? this.menuItems.length - 1 : this.focusedIndex - 1;
         this.focusCurrentItem();
       },
+      /**
+       * Executes the `focusFirstItem` operation.
+       * @returns {any} Returns the result of `focusFirstItem` when applicable.
+       */
       focusFirstItem() {
         if (!this.menuItems.length) return;
         this.focusedIndex = 0;
         this.focusCurrentItem();
       },
+      /**
+       * Executes the `focusLastItem` operation.
+       * @returns {any} Returns the result of `focusLastItem` when applicable.
+       */
       focusLastItem() {
         if (!this.menuItems.length) return;
         this.focusedIndex = this.menuItems.length - 1;
         this.focusCurrentItem();
       },
+      /**
+       * Executes the `focusCurrentItem` operation.
+       * @returns {any} Returns the result of `focusCurrentItem` when applicable.
+       */
       focusCurrentItem() {
         if (this.focusedIndex !== null && this.menuItems[this.focusedIndex]) {
           this.menuItems[this.focusedIndex].focus();
         }
       },
+      /**
+       * Executes the `handleItemClick` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `handleItemClick` when applicable.
+       */
       handleItemClick(event2) {
         const item = event2.currentTarget;
         if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
@@ -8582,6 +8905,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this.parentDropdown.open = false;
         this.$nextTick(() => this.parentDropdown.triggerEl?.focus());
       },
+      /**
+       * Executes the `handleItemMouseEnter` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `handleItemMouseEnter` when applicable.
+       */
       handleItemMouseEnter(event2) {
         const item = event2.currentTarget;
         if (item.getAttribute("aria-disabled") === "true" || item.hasAttribute("disabled")) return;
@@ -8596,12 +8924,20 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.closeSiblingSubmenus();
         }
       },
+      /**
+       * Executes the `handleSubmenuEscape` operation.
+       * @returns {any} Returns the result of `handleSubmenuEscape` when applicable.
+       */
       handleSubmenuEscape() {
         if (this.open) {
           this.open = false;
           this.$nextTick(() => this.triggerEl?.focus());
         }
       },
+      /**
+       * Executes the `handleSubmenuArrowLeft` operation.
+       * @returns {any} Returns the result of `handleSubmenuArrowLeft` when applicable.
+       */
       handleSubmenuArrowLeft() {
         if (this.open) {
           this.open = false;
@@ -8649,6 +8985,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       return {
         iframe: null,
         onDarkModeToggle: null,
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
           try {
             this.iframe = this.$refs.iframe;
@@ -8702,6 +9042,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
             }, timeout);
           };
         },
+        /**
+         * Executes the `destroy` operation.
+         * @returns {any} Returns the result of `destroy` when applicable.
+         */
         destroy() {
           window.removeEventListener("darkModeToggle", this.onDarkModeToggle);
         }
@@ -8717,6 +9061,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       return {
         observer: null,
         headingId: "",
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
           this.headingId = this.$el.dataset.alpineRoot;
           const self2 = this;
@@ -8735,6 +9083,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
             console.warn("rzHeading: Could not find 'setCurrentHeading' function in parent scope.");
           }
         },
+        /**
+         * Executes the `destroy` operation.
+         * @returns {any} Returns the result of `destroy` when applicable.
+         */
         destroy() {
           if (this.observer != null)
             this.observer.disconnect();
@@ -8745,6 +9097,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
   function registerRzIndicator(Alpine2) {
     Alpine2.data("rzIndicator", () => ({
       visible: false,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         const colorValue = this.$el.dataset.color;
         if (colorValue) {
@@ -8756,9 +9112,18 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.visible = true;
         }
       },
+      /**
+       * Executes the `notVisible` operation.
+       * @returns {any} Returns the result of `notVisible` when applicable.
+       */
       notVisible() {
         return !this.visible;
       },
+      /**
+       * Executes the `setVisible` operation.
+       * @param {any} value Input value for this method.
+       * @returns {any} Returns the result of `setVisible` when applicable.
+       */
       setVisible(value) {
         this.visible = value;
       }
@@ -8766,6 +9131,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
   }
   function registerRzInputGroupAddon(Alpine2) {
     Alpine2.data("rzInputGroupAddon", () => ({
+      /**
+       * Executes the `handleClick` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `handleClick` when applicable.
+       */
       handleClick(event2) {
         if (event2.target.closest("button")) {
           return;
@@ -8781,6 +9151,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
   function registerRzMarkdown(Alpine2, require) {
     Alpine2.data("rzMarkdown", () => {
       return {
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
           const assets = JSON.parse(this.$el.dataset.assets);
           const nonce = this.$el.dataset.nonce;
@@ -8828,6 +9202,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         const id = e2.currentTarget.getAttribute("x-ref").replace("trigger_", "");
         this.activeItemId === id && this.open ? this.closeMenu() : this.openMenu(id);
       },
+      /**
+       * Executes the `handleTriggerEnter` operation.
+       * @param {any} e Input value for this method.
+       * @returns {any} Returns the result of `handleTriggerEnter` when applicable.
+       */
       handleTriggerEnter(e2) {
         const id = e2.currentTarget.getAttribute("x-ref").replace("trigger_", "");
         this.cancelClose();
@@ -8835,6 +9214,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           requestAnimationFrame(() => this.openMenu(id));
         }
       },
+      /**
+       * Executes the `handleItemEnter` operation.
+       * @param {any} e Input value for this method.
+       * @returns {any} Returns the result of `handleItemEnter` when applicable.
+       */
       handleItemEnter(e2) {
         const item = e2.currentTarget;
         if (!item) return;
@@ -8851,13 +9235,25 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           }
         }
       },
+      /**
+       * Executes the `handleContentEnter` operation.
+       * @returns {any} Returns the result of `handleContentEnter` when applicable.
+       */
       handleContentEnter() {
         this.cancelClose();
       },
+      /**
+       * Executes the `scheduleClose` operation.
+       * @returns {any} Returns the result of `scheduleClose` when applicable.
+       */
       scheduleClose() {
         if (this.isClosing || this.closeTimeout) return;
         this.closeTimeout = setTimeout(() => this.closeMenu(), 150);
       },
+      /**
+       * Executes the `cancelClose` operation.
+       * @returns {any} Returns the result of `cancelClose` when applicable.
+       */
       cancelClose() {
         if (this.closeTimeout) {
           clearTimeout(this.closeTimeout);
@@ -8907,6 +9303,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           newTrig.dataset.state = "open";
         });
       },
+      /**
+       * Executes the `closeMenu` operation.
+       * @returns {any} Returns the result of `closeMenu` when applicable.
+       */
       closeMenu() {
         if (!this.open || this.isClosing) return;
         this.isClosing = true;
@@ -8943,6 +9343,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       ariaExpanded: "false",
       triggerEl: null,
       contentEl: null,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         this.triggerEl = this.$refs.trigger;
         this.contentEl = this.$refs.content;
@@ -8953,6 +9357,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           }
         });
       },
+      /**
+       * Executes the `updatePosition` operation.
+       * @returns {any} Returns the result of `updatePosition` when applicable.
+       */
       updatePosition() {
         if (!this.triggerEl || !this.contentEl) return;
         const anchor = this.$el.dataset.anchor || "bottom";
@@ -8986,13 +9394,25 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           });
         });
       },
+      /**
+       * Executes the `toggle` operation.
+       * @returns {any} Returns the result of `toggle` when applicable.
+       */
       toggle() {
         this.open = !this.open;
       },
+      /**
+       * Executes the `handleOutsideClick` operation.
+       * @returns {any} Returns the result of `handleOutsideClick` when applicable.
+       */
       handleOutsideClick() {
         if (!this.open) return;
         this.open = false;
       },
+      /**
+       * Executes the `handleWindowEscape` operation.
+       * @returns {any} Returns the result of `handleWindowEscape` when applicable.
+       */
       handleWindowEscape() {
         if (this.open) {
           this.open = false;
@@ -9006,6 +9426,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       return {
         prependContainer: null,
         textInput: null,
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
           this.prependContainer = this.$refs.prependContainer;
           this.textInput = this.$refs.textInput;
@@ -9015,9 +9439,17 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           }, 50);
           window.addEventListener("resize", this.updatePadding);
         },
+        /**
+         * Executes the `destroy` operation.
+         * @returns {any} Returns the result of `destroy` when applicable.
+         */
         destroy() {
           window.removeEventListener("resize", this.updatePadding);
         },
+        /**
+         * Executes the `updatePadding` operation.
+         * @returns {any} Returns the result of `updatePadding` when applicable.
+         */
         updatePadding() {
           const prependDiv = this.prependContainer;
           const inputElem = this.textInput;
@@ -9042,6 +9474,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       maxVal: 100,
       percentage: 0,
       label: "",
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         const element = this.$el;
         this.currentVal = parseInt(element.getAttribute("data-current-val")) || 0;
@@ -9065,6 +9501,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           element.setAttribute("aria-valuetext", `${this.percentage}%`);
         });
       },
+      /**
+       * Executes the `calculatePercentage` operation.
+       * @returns {any} Returns the result of `calculatePercentage` when applicable.
+       */
       calculatePercentage() {
         if (this.maxVal === this.minVal) {
           this.percentage = 0;
@@ -9072,11 +9512,19 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.percentage = Math.min(Math.max((this.currentVal - this.minVal) / (this.maxVal - this.minVal) * 100, 0), 100);
         }
       },
+      /**
+       * Executes the `buildLabel` operation.
+       * @returns {any} Returns the result of `buildLabel` when applicable.
+       */
       buildLabel() {
         var label = this.label || "{percent}%";
         this.calculatePercentage();
         return label.replace("{percent}", this.percentage);
       },
+      /**
+       * Executes the `buildInsideLabelPosition` operation.
+       * @returns {any} Returns the result of `buildInsideLabelPosition` when applicable.
+       */
       buildInsideLabelPosition() {
         const progressBar = this.$refs.progressBar;
         const barLabel = this.$refs.progressBarLabel;
@@ -9090,6 +9538,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           }
         }
       },
+      /**
+       * Executes the `getLabelCss` operation.
+       * @returns {any} Returns the result of `getLabelCss` when applicable.
+       */
       getLabelCss() {
         const barLabel = this.$refs.progressBarLabel;
         const progressBar = this.$refs.progressBar;
@@ -9098,6 +9550,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         }
         return "";
       },
+      /**
+       * Executes the `updateProgressBar` operation.
+       * @returns {any} Returns the result of `updateProgressBar` when applicable.
+       */
       updateProgressBar() {
         const progressBar = this.$refs.progressBar;
         if (progressBar) {
@@ -9109,9 +9565,19 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       setProgress(value) {
         this.currentVal = value;
       },
+      /**
+       * Executes the `increment` operation.
+       * @param {any} val Input value for this method.
+       * @returns {any} Returns the result of `increment` when applicable.
+       */
       increment(val = 1) {
         this.currentVal = Math.min(this.currentVal + val, this.maxVal);
       },
+      /**
+       * Executes the `decrement` operation.
+       * @param {any} val Input value for this method.
+       * @returns {any} Returns the result of `decrement` when applicable.
+       */
       decrement(val = 1) {
         this.currentVal = Math.max(this.currentVal - val, this.minVal);
       }
@@ -9170,6 +9636,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       _dragAxis: null,
       _dragPointerOffset: 0,
       _viewport: null,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         this.type = this.$el.dataset.type || "hover";
         this.orientation = this.$el.dataset.orientation || "vertical";
@@ -9189,6 +9659,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this.setState(this.type === "always" ? "visible" : "hidden");
         this.update();
       },
+      /**
+       * Executes the `destroy` operation.
+       * @returns {any} Returns the result of `destroy` when applicable.
+       */
       destroy() {
         if (this._viewport) this._viewport.removeEventListener("scroll", this.onScroll);
         window.removeEventListener("pointermove", this.onPointerMove);
@@ -9197,15 +9671,30 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this._roContent?.disconnect();
         if (this.hideTimer) window.clearTimeout(this.hideTimer);
       },
+      /**
+       * Executes the `setState` operation.
+       * @param {any} state Input value for this method.
+       * @returns {any} Returns the result of `setState` when applicable.
+       */
       setState(state) {
         if (this.$refs.scrollbarX) this.$refs.scrollbarX.dataset.state = state;
         if (this.$refs.scrollbarY) this.$refs.scrollbarY.dataset.state = state;
       },
+      /**
+       * Executes the `setBarMounted` operation.
+       * @param {any} axis Input value for this method.
+       * @param {any} mounted Input value for this method.
+       * @returns {any} Returns the result of `setBarMounted` when applicable.
+       */
       setBarMounted(axis, mounted) {
         const bar = this.$refs[`scrollbar${axis === "vertical" ? "Y" : "X"}`];
         if (!bar) return;
         bar.hidden = !mounted;
       },
+      /**
+       * Executes the `update` operation.
+       * @returns {any} Returns the result of `update` when applicable.
+       */
       update() {
         const viewport = this.$refs.viewport;
         if (!viewport) return;
@@ -9220,6 +9709,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         if (this.type === "always") this.setState("visible");
         if (this.type === "auto") this.setState(showX || showY ? "visible" : "hidden");
       },
+      /**
+       * Executes the `updateThumbSizes` operation.
+       * @returns {any} Returns the result of `updateThumbSizes` when applicable.
+       */
       updateThumbSizes() {
         const viewport = this.$refs.viewport;
         if (!viewport) return;
@@ -9235,6 +9728,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.$refs.thumbX.style.width = `${size2}px`;
         }
       },
+      /**
+       * Executes the `updateThumbPositions` operation.
+       * @returns {any} Returns the result of `updateThumbPositions` when applicable.
+       */
       updateThumbPositions() {
         const viewport = this.$refs.viewport;
         if (!viewport) return;
@@ -9252,6 +9749,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.$refs.thumbX.style.transform = `translate3d(${pos}px, 0, 0)`;
         }
       },
+      /**
+       * Executes the `updateCorner` operation.
+       * @returns {any} Returns the result of `updateCorner` when applicable.
+       */
       updateCorner() {
         if (!this.$refs.corner) return;
         const showCorner = !this.$refs.scrollbarX?.hidden && !this.$refs.scrollbarY?.hidden;
@@ -9263,6 +9764,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.$refs.corner.hidden = true;
         }
       },
+      /**
+       * Executes the `onScroll` operation.
+       * @returns {any} Returns the result of `onScroll` when applicable.
+       */
       onScroll() {
         this.updateThumbPositions();
         if (this.type === "scroll") {
@@ -9271,18 +9776,31 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.hideTimer = window.setTimeout(() => this.setState("hidden"), this.scrollHideDelay);
         }
       },
+      /**
+       * Executes the `onPointerEnter` operation.
+       * @returns {any} Returns the result of `onPointerEnter` when applicable.
+       */
       onPointerEnter() {
         if (this.type === "hover") {
           if (this.hideTimer) window.clearTimeout(this.hideTimer);
           this.setState("visible");
         }
       },
+      /**
+       * Executes the `onPointerLeave` operation.
+       * @returns {any} Returns the result of `onPointerLeave` when applicable.
+       */
       onPointerLeave() {
         if (this.type === "hover") {
           if (this.hideTimer) window.clearTimeout(this.hideTimer);
           this.hideTimer = window.setTimeout(() => this.setState("hidden"), this.scrollHideDelay);
         }
       },
+      /**
+       * Executes the `onTrackPointerDown` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `onTrackPointerDown` when applicable.
+       */
       onTrackPointerDown(event2) {
         const axis = event2.currentTarget?.dataset.orientation || "vertical";
         const scrollbar = this.$refs[`scrollbar${axis === "vertical" ? "Y" : "X"}`];
@@ -9304,6 +9822,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           viewport.scrollLeft = clickPos / Math.max(track2, 1) * maxScroll;
         }
       },
+      /**
+       * Executes the `onThumbPointerDown` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `onThumbPointerDown` when applicable.
+       */
       onThumbPointerDown(event2) {
         const axis = event2.currentTarget?.dataset.orientation || "vertical";
         const thumb = this.$refs[`thumb${axis === "vertical" ? "Y" : "X"}`];
@@ -9315,6 +9838,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         window.addEventListener("pointermove", this.onPointerMove);
         window.addEventListener("pointerup", this.onPointerUp, { once: true });
       },
+      /**
+       * Executes the `onPointerMove` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `onPointerMove` when applicable.
+       */
       onPointerMove(event2) {
         const axis = this._dragAxis;
         const viewport = this.$refs.viewport;
@@ -9334,6 +9862,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           viewport.scrollLeft = (pointer - this._dragPointerOffset) / Math.max(track2, 1) * maxScroll;
         }
       },
+      /**
+       * Executes the `onPointerUp` operation.
+       * @returns {any} Returns the result of `onPointerUp` when applicable.
+       */
       onPointerUp() {
         this._dragAxis = null;
         window.removeEventListener("pointermove", this.onPointerMove);
@@ -9343,18 +9875,38 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
   function registerRzSheet(Alpine2) {
     Alpine2.data("rzSheet", () => ({
       open: false,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         this.open = this.$el.dataset.defaultOpen === "true";
       },
+      /**
+       * Executes the `toggle` operation.
+       * @returns {any} Returns the result of `toggle` when applicable.
+       */
       toggle() {
         this.open = !this.open;
       },
+      /**
+       * Executes the `close` operation.
+       * @returns {any} Returns the result of `close` when applicable.
+       */
       close() {
         this.open = false;
       },
+      /**
+       * Executes the `show` operation.
+       * @returns {any} Returns the result of `show` when applicable.
+       */
       show() {
         this.open = true;
       },
+      /**
+       * Executes the `state` operation.
+       * @returns {any} Returns the result of `state` when applicable.
+       */
       state() {
         return this.open ? "open" : "closed";
       }
@@ -9365,6 +9917,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       selectedTab: "",
       _triggers: [],
       _observer: null,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         const defaultValue = this.$el.dataset.defaultValue;
         this._observer = new MutationObserver(() => this.refreshTriggers());
@@ -9376,14 +9932,27 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.selectedTab = this._triggers[0].dataset.value;
         }
       },
+      /**
+       * Executes the `destroy` operation.
+       * @returns {any} Returns the result of `destroy` when applicable.
+       */
       destroy() {
         if (this._observer) {
           this._observer.disconnect();
         }
       },
+      /**
+       * Executes the `refreshTriggers` operation.
+       * @returns {any} Returns the result of `refreshTriggers` when applicable.
+       */
       refreshTriggers() {
         this._triggers = Array.from(this.$el.querySelectorAll('[role="tab"]'));
       },
+      /**
+       * Executes the `onTriggerClick` operation.
+       * @param {any} e Input value for this method.
+       * @returns {any} Returns the result of `onTriggerClick` when applicable.
+       */
       onTriggerClick(e2) {
         const value = e2.currentTarget?.dataset?.value;
         if (!value || e2.currentTarget.getAttribute("aria-disabled") === "true") {
@@ -9392,9 +9961,18 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this.selectedTab = value;
         this.$dispatch("rz:tabs-change", { value: this.selectedTab });
       },
+      /**
+       * Executes the `isSelected` operation.
+       * @param {any} value Input value for this method.
+       * @returns {any} Returns the result of `isSelected` when applicable.
+       */
       isSelected(value) {
         return this.selectedTab === value;
       },
+      /**
+       * Executes the `bindTrigger` operation.
+       * @returns {any} Returns the result of `bindTrigger` when applicable.
+       */
       bindTrigger() {
         this.selectedTab;
         const value = this.$el.dataset.value;
@@ -9407,24 +9985,53 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           ...disabled && { "disabled": true }
         };
       },
+      /**
+       * Executes the `_attrDisabled` operation.
+       * @returns {any} Returns the result of `_attrDisabled` when applicable.
+       */
       _attrDisabled() {
         return this.$el.getAttribute("aria-disabled") === "true" ? "true" : null;
       },
+      /**
+       * Executes the `_attrAriaSelected` operation.
+       * @returns {any} Returns the result of `_attrAriaSelected` when applicable.
+       */
       _attrAriaSelected() {
         return String(this.$el.dataset.value === this.selectedTab);
       },
+      /**
+       * Executes the `_attrHidden` operation.
+       * @returns {any} Returns the result of `_attrHidden` when applicable.
+       */
       _attrHidden() {
         return this.$el.dataset.value === this.selectedTab ? null : "true";
       },
+      /**
+       * Executes the `_attrAriaHidden` operation.
+       * @returns {any} Returns the result of `_attrAriaHidden` when applicable.
+       */
       _attrAriaHidden() {
         return String(this.selectedTab !== this.$el.dataset.value);
       },
+      /**
+       * Executes the `_attrDataState` operation.
+       * @returns {any} Returns the result of `_attrDataState` when applicable.
+       */
       _attrDataState() {
         return this.selectedTab === this.$el.dataset.value ? "active" : "inactive";
       },
+      /**
+       * Executes the `_attrTabIndex` operation.
+       * @returns {any} Returns the result of `_attrTabIndex` when applicable.
+       */
       _attrTabIndex() {
         return this.selectedTab === this.$el.dataset.value ? "0" : "-1";
       },
+      /**
+       * Executes the `onListKeydown` operation.
+       * @param {any} e Input value for this method.
+       * @returns {any} Returns the result of `onListKeydown` when applicable.
+       */
       onListKeydown(e2) {
         if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(e2.key)) {
           e2.preventDefault();
@@ -9464,6 +10071,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       pressed: false,
       disabled: false,
       controlled: false,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         this.disabled = this.$el.dataset.disabled === "true";
         const pressedValue = this.$el.dataset.pressed;
@@ -9474,17 +10085,33 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         }
         this.pressed = this.$el.dataset.defaultPressed === "true";
       },
+      /**
+       * Executes the `toggle` operation.
+       * @returns {any} Returns the result of `toggle` when applicable.
+       */
       toggle() {
         if (this.disabled) return;
         if (this.controlled) return;
         this.pressed = !this.pressed;
       },
+      /**
+       * Executes the `state` operation.
+       * @returns {any} Returns the result of `state` when applicable.
+       */
       state() {
         return this.pressed ? "on" : "off";
       },
+      /**
+       * Executes the `ariaPressed` operation.
+       * @returns {any} Returns the result of `ariaPressed` when applicable.
+       */
       ariaPressed() {
         return this.pressed.toString();
       },
+      /**
+       * Executes the `dataDisabled` operation.
+       * @returns {any} Returns the result of `dataDisabled` when applicable.
+       */
       dataDisabled() {
         return this.disabled ? "" : null;
       }
@@ -9518,6 +10145,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       enableAutoUpdate: true,
       isControlledOpenState: false,
       cleanupAutoUpdate: null,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         this.readDatasetOptions();
         this.open = this.getBooleanDataset("open", this.getBooleanDataset("defaultOpen", false));
@@ -9556,6 +10187,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           });
         }
       },
+      /**
+       * Executes the `readDatasetOptions` operation.
+       * @returns {any} Returns the result of `readDatasetOptions` when applicable.
+       */
       readDatasetOptions() {
         this.anchor = this.$el.dataset.anchor || this.anchor;
         this.strategy = this.$el.dataset.strategy || this.strategy;
@@ -9572,21 +10207,43 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this.enableAutoUpdate = this.getBooleanDataset("autoUpdate", this.enableAutoUpdate);
         this.isControlledOpenState = this.getBooleanDataset("openControlled", this.isControlledOpenState);
       },
+      /**
+       * Executes the `getBooleanDataset` operation.
+       * @param {any} name Input value for this method.
+       * @param {any} fallbackValue Input value for this method.
+       * @returns {any} Returns the result of `getBooleanDataset` when applicable.
+       */
       getBooleanDataset(name, fallbackValue) {
         const value = this.$el.dataset[name];
         if (typeof value === "undefined") return fallbackValue;
         return value === "true";
       },
+      /**
+       * Executes the `getNumberDataset` operation.
+       * @param {any} name Input value for this method.
+       * @param {any} fallbackValue Input value for this method.
+       * @returns {any} Returns the result of `getNumberDataset` when applicable.
+       */
       getNumberDataset(name, fallbackValue) {
         const value = Number(this.$el.dataset[name]);
         return Number.isFinite(value) ? value : fallbackValue;
       },
+      /**
+       * Executes the `getNullableNumberDataset` operation.
+       * @param {any} name Input value for this method.
+       * @param {any} fallbackValue Input value for this method.
+       * @returns {any} Returns the result of `getNullableNumberDataset` when applicable.
+       */
       getNullableNumberDataset(name, fallbackValue) {
         const raw2 = this.$el.dataset[name];
         if (typeof raw2 === "undefined" || raw2 === null || raw2 === "") return fallbackValue;
         const value = Number(raw2);
         return Number.isFinite(value) ? value : fallbackValue;
       },
+      /**
+       * Executes the `bindInteractionEvents` operation.
+       * @returns {any} Returns the result of `bindInteractionEvents` when applicable.
+       */
       bindInteractionEvents() {
         if (!this.triggerEl) return;
         this.triggerEl.addEventListener("pointerenter", this.handleTriggerPointerEnter.bind(this));
@@ -9599,6 +10256,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.contentEl.addEventListener("pointerleave", this.handleContentPointerLeave.bind(this));
         }
       },
+      /**
+       * Executes the `startAutoUpdate` operation.
+       * @returns {any} Returns the result of `startAutoUpdate` when applicable.
+       */
       startAutoUpdate() {
         if (!this.enableAutoUpdate || !this.triggerEl || !this.contentEl) return;
         this.stopAutoUpdate();
@@ -9606,12 +10267,20 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.updatePosition();
         });
       },
+      /**
+       * Executes the `stopAutoUpdate` operation.
+       * @returns {any} Returns the result of `stopAutoUpdate` when applicable.
+       */
       stopAutoUpdate() {
         if (typeof this.cleanupAutoUpdate === "function") {
           this.cleanupAutoUpdate();
           this.cleanupAutoUpdate = null;
         }
       },
+      /**
+       * Executes the `clearTimers` operation.
+       * @returns {any} Returns the result of `clearTimers` when applicable.
+       */
       clearTimers() {
         if (this.openDelayTimer) {
           window.clearTimeout(this.openDelayTimer);
@@ -9626,6 +10295,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.skipDelayTimer = null;
         }
       },
+      /**
+       * Executes the `startSkipDelayWindow` operation.
+       * @returns {any} Returns the result of `startSkipDelayWindow` when applicable.
+       */
       startSkipDelayWindow() {
         if (this.skipDelayDuration <= 0) {
           this.skipDelayActive = false;
@@ -9640,6 +10313,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.skipDelayTimer = null;
         }, this.skipDelayDuration);
       },
+      /**
+       * Executes the `queueOpen` operation.
+       * @returns {any} Returns the result of `queueOpen` when applicable.
+       */
       queueOpen() {
         if (this.open) return;
         if (this.closeDelayTimer) {
@@ -9659,6 +10336,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.openDelayTimer = null;
         }, delay2);
       },
+      /**
+       * Executes the `queueClose` operation.
+       * @returns {any} Returns the result of `queueClose` when applicable.
+       */
       queueClose() {
         if (!this.open && !this.openDelayTimer) return;
         if (this.openDelayTimer) {
@@ -9677,18 +10358,38 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.closeDelayTimer = null;
         }, this.closeDelayDuration);
       },
+      /**
+       * Executes the `handleTriggerPointerEnter` operation.
+       * @returns {any} Returns the result of `handleTriggerPointerEnter` when applicable.
+       */
       handleTriggerPointerEnter() {
         this.queueOpen();
       },
+      /**
+       * Executes the `handleTriggerPointerLeave` operation.
+       * @returns {any} Returns the result of `handleTriggerPointerLeave` when applicable.
+       */
       handleTriggerPointerLeave() {
         this.queueClose();
       },
+      /**
+       * Executes the `handleTriggerFocus` operation.
+       * @returns {any} Returns the result of `handleTriggerFocus` when applicable.
+       */
       handleTriggerFocus() {
         this.queueOpen();
       },
+      /**
+       * Executes the `handleTriggerBlur` operation.
+       * @returns {any} Returns the result of `handleTriggerBlur` when applicable.
+       */
       handleTriggerBlur() {
         this.queueClose();
       },
+      /**
+       * Executes the `handleContentPointerEnter` operation.
+       * @returns {any} Returns the result of `handleContentPointerEnter` when applicable.
+       */
       handleContentPointerEnter() {
         if (this.disableHoverableContent) return;
         if (this.closeDelayTimer) {
@@ -9696,20 +10397,37 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.closeDelayTimer = null;
         }
       },
+      /**
+       * Executes the `handleContentPointerLeave` operation.
+       * @returns {any} Returns the result of `handleContentPointerLeave` when applicable.
+       */
       handleContentPointerLeave() {
         if (this.disableHoverableContent) return;
         this.queueClose();
       },
+      /**
+       * Executes the `handleTriggerKeydown` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `handleTriggerKeydown` when applicable.
+       */
       handleTriggerKeydown(event2) {
         if (event2.key === "Escape") {
           this.handleWindowEscape();
         }
       },
+      /**
+       * Executes the `handleWindowEscape` operation.
+       * @returns {any} Returns the result of `handleWindowEscape` when applicable.
+       */
       handleWindowEscape() {
         this.clearTimers();
         this.open = false;
         this.$nextTick(() => this.triggerEl?.focus());
       },
+      /**
+       * Executes the `updatePosition` operation.
+       * @returns {any} Returns the result of `updatePosition` when applicable.
+       */
       updatePosition() {
         if (!this.triggerEl || !this.contentEl) return;
         const middleware = [
@@ -9766,6 +10484,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       shortcut: "b",
       cookieName: "sidebar_state",
       mobileBreakpoint: 768,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         this.collapsible = this.$el.dataset.collapsible || "offcanvas";
         this.shortcut = this.$el.dataset.shortcut || "b";
@@ -9787,9 +10509,17 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           }
         });
       },
+      /**
+       * Executes the `checkIfMobile` operation.
+       * @returns {any} Returns the result of `checkIfMobile` when applicable.
+       */
       checkIfMobile() {
         this.isMobile = window.innerWidth < this.mobileBreakpoint;
       },
+      /**
+       * Executes the `toggle` operation.
+       * @returns {any} Returns the result of `toggle` when applicable.
+       */
       toggle() {
         if (this.isMobile) {
           this.openMobile = !this.openMobile;
@@ -9797,20 +10527,40 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.open = !this.open;
         }
       },
+      /**
+       * Executes the `close` operation.
+       * @returns {any} Returns the result of `close` when applicable.
+       */
       close() {
         if (this.isMobile) {
           this.openMobile = false;
         }
       },
+      /**
+       * Executes the `isMobileOpen` operation.
+       * @returns {any} Returns the result of `isMobileOpen` when applicable.
+       */
       isMobileOpen() {
         return this.openMobile;
       },
+      /**
+       * Executes the `desktopState` operation.
+       * @returns {any} Returns the result of `desktopState` when applicable.
+       */
       desktopState() {
         return this.open ? "expanded" : "collapsed";
       },
+      /**
+       * Executes the `mobileState` operation.
+       * @returns {any} Returns the result of `mobileState` when applicable.
+       */
       mobileState() {
         return this.openMobile ? "open" : "closed";
       },
+      /**
+       * Executes the `getCollapsibleAttribute` operation.
+       * @returns {any} Returns the result of `getCollapsibleAttribute` when applicable.
+       */
       getCollapsibleAttribute() {
         return this.desktopState() === "collapsed" ? this.collapsible : "";
       }
@@ -9986,11 +10736,20 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.filterAndSortItems();
         }
       },
+      /**
+       * Executes the `handleInteraction` operation.
+       * @returns {any} Returns the result of `handleInteraction` when applicable.
+       */
       handleInteraction() {
         if (this.itemsUrl && this.fetchTrigger === "on-open" && !this._dataFetched) {
           this.fetchItems();
         }
       },
+      /**
+       * Executes the `registerItem` operation.
+       * @param {any} item Input value for this method.
+       * @returns {any} Returns the result of `registerItem` when applicable.
+       */
       registerItem(item) {
         if (this.items.some((i2) => i2.id === item.id)) return;
         item._order = this.items.length;
@@ -10001,15 +10760,30 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.filterAndSortItems();
         }
       },
+      /**
+       * Executes the `unregisterItem` operation.
+       * @param {any} itemId Input value for this method.
+       * @returns {any} Returns the result of `unregisterItem` when applicable.
+       */
       unregisterItem(itemId) {
         this.items = this.items.filter((i2) => i2.id !== itemId);
         this.filterAndSortItems();
       },
+      /**
+       * Executes the `registerGroupTemplate` operation.
+       * @param {any} name Input value for this method.
+       * @param {any} templateId Input value for this method.
+       * @returns {any} Returns the result of `registerGroupTemplate` when applicable.
+       */
       registerGroupTemplate(name, templateId) {
         if (!this.groupTemplates.has(name)) {
           this.groupTemplates.set(name, templateId);
         }
       },
+      /**
+       * Executes the `filterAndSortItems` operation.
+       * @returns {any} Returns the result of `filterAndSortItems` when applicable.
+       */
       filterAndSortItems() {
         if (this.serverFiltering && this._dataFetched) {
           this.filteredItems = this.items;
@@ -10052,6 +10826,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           }
         }
       },
+      /**
+       * Executes the `handleItemHover` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `handleItemHover` when applicable.
+       */
       handleItemHover(event2) {
         const host = event2.target.closest("[data-command-item-id]");
         if (!host) return;
@@ -10094,6 +10873,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
             break;
         }
       },
+      /**
+       * Executes the `selectNext` operation.
+       * @returns {any} Returns the result of `selectNext` when applicable.
+       */
       selectNext() {
         if (this.filteredItems.length === 0) return;
         let i2 = this.selectedIndex, count = 0;
@@ -10107,6 +10890,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           if (!this.loop && i2 === this.filteredItems.length - 1) return;
         } while (count <= this.filteredItems.length);
       },
+      /**
+       * Executes the `selectPrev` operation.
+       * @returns {any} Returns the result of `selectPrev` when applicable.
+       */
       selectPrev() {
         if (this.filteredItems.length === 0) return;
         let i2 = this.selectedIndex, count = 0;
@@ -10120,12 +10907,20 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           if (!this.loop && i2 === 0) return;
         } while (count <= this.filteredItems.length);
       },
+      /**
+       * Executes the `selectFirst` operation.
+       * @returns {any} Returns the result of `selectFirst` when applicable.
+       */
       selectFirst() {
         if (this.filteredItems.length > 0) {
           const firstEnabledIndex = this.filteredItems.findIndex((item) => !item.disabled);
           if (firstEnabledIndex > -1) this.selectedIndex = firstEnabledIndex;
         }
       },
+      /**
+       * Executes the `selectLast` operation.
+       * @returns {any} Returns the result of `selectLast` when applicable.
+       */
       selectLast() {
         if (this.filteredItems.length > 0) {
           const lastEnabledIndex = this.filteredItems.map((item) => item.disabled).lastIndexOf(false);
@@ -10191,6 +10986,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     Alpine2.data("rzCommandItem", () => ({
       parent: null,
       itemData: {},
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         const parentEl = this.$el.closest('[x-data="rzCommand"]');
         if (!parentEl) {
@@ -10210,6 +11009,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         };
         this.parent.registerItem(this.itemData);
       },
+      /**
+       * Executes the `destroy` operation.
+       * @returns {any} Returns the result of `destroy` when applicable.
+       */
       destroy() {
         if (this.parent) {
           this.parent.unregisterItem(this.itemData.id);
@@ -10221,6 +11024,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     Alpine2.data("rzCommandList", () => ({
       parent: null,
       dataItemTemplate: null,
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         const parentEl = this.$el.closest('[x-data="rzCommand"]');
         if (!parentEl) {
@@ -10232,6 +11039,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           this.dataItemTemplate = document.getElementById(this.parent.dataItemTemplateId);
         }
       },
+      /**
+       * Executes the `renderList` operation.
+       * @param {any} event Input value for this method.
+       * @returns {any} Returns the result of `renderList` when applicable.
+       */
       renderList(event2) {
         if (event2.detail.commandId !== this.parent.$el.id) return;
         const items = event2.detail.items || [];
@@ -10312,6 +11124,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       parent: null,
       heading: "",
       templateId: "",
+      /**
+       * Executes the `init` operation.
+       * @returns {any} Returns the result of `init` when applicable.
+       */
       init() {
         const parentEl = this.$el.closest('[x-data="rzCommand"]');
         if (!parentEl) {
