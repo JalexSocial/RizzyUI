@@ -2086,7 +2086,7 @@ function ia() {
     n
   ];
 }
-var [na, ra, Qc, tu] = /* @__PURE__ */ ia();
+var [na, ra, tu, eu] = /* @__PURE__ */ ia();
 function Ir(t, e) {
   const i = t ? ra : na;
   return (n, r, s) => r === "__v_isReactive" ? !t : r === "__v_isReadonly" ? t : r === "__v_raw" ? n : Reflect.get(Ne(i, r) && r in n ? i : n, r, s);
@@ -6571,6 +6571,34 @@ function Pc(t) {
   }));
 }
 function Mc(t) {
+  t.data("rzToggle", () => ({
+    pressed: !1,
+    disabled: !1,
+    controlled: !1,
+    init() {
+      this.disabled = this.$el.dataset.disabled === "true";
+      const e = this.$el.dataset.pressed;
+      if (this.controlled = e === "true" || e === "false", this.controlled) {
+        this.pressed = e === "true";
+        return;
+      }
+      this.pressed = this.$el.dataset.defaultPressed === "true";
+    },
+    toggle() {
+      this.disabled || this.controlled || (this.pressed = !this.pressed);
+    },
+    state() {
+      return this.pressed ? "on" : "off";
+    },
+    ariaPressed() {
+      return this.pressed.toString();
+    },
+    dataDisabled() {
+      return this.disabled ? "" : null;
+    }
+  }));
+}
+function zc(t) {
   t.data("rzTooltip", () => ({
     open: !1,
     ariaExpanded: "false",
@@ -6725,7 +6753,7 @@ function Mc(t) {
     }
   }));
 }
-function zc(t) {
+function Fc(t) {
   t.data("rzSidebar", () => ({
     open: !1,
     openMobile: !1,
@@ -6766,7 +6794,7 @@ function zc(t) {
     }
   }));
 }
-function Fc(t) {
+function Uc(t) {
   t.data("rzCommand", () => ({
     // --- STATE ---
     search: "",
@@ -7006,7 +7034,7 @@ function Fc(t) {
     }
   }));
 }
-function Uc(t) {
+function Bc(t) {
   t.data("rzCommandItem", () => ({
     parent: null,
     itemData: {},
@@ -7032,7 +7060,7 @@ function Uc(t) {
     }
   }));
 }
-function Bc(t) {
+function Hc(t) {
   t.data("rzCommandList", () => ({
     parent: null,
     dataItemTemplate: null,
@@ -7082,7 +7110,7 @@ function Bc(t) {
     }
   }));
 }
-function Hc(t) {
+function jc(t) {
   t.data("rzCommandGroup", () => ({
     parent: null,
     heading: "",
@@ -7097,7 +7125,7 @@ function Hc(t) {
     }
   }));
 }
-async function jc(t) {
+async function Wc(t) {
   t = [...t].sort();
   const e = t.join("|"), n = new TextEncoder().encode(e), r = await crypto.subtle.digest("SHA-256", n);
   return Array.from(new Uint8Array(r)).map((o) => o.toString(16).padStart(2, "0")).join("");
@@ -7106,7 +7134,7 @@ function ut(t, e, i) {
   let n, r;
   typeof e == "function" ? n = { success: e } : e && typeof e == "object" ? n = e : typeof e == "string" && (r = e), !r && typeof i == "string" && (r = i);
   const s = Array.isArray(t) ? t : [t];
-  return jc(s).then((o) => (rt.isDefined(o) || rt(s, o, {
+  return Wc(s).then((o) => (rt.isDefined(o) || rt(s, o, {
     // keep scripts ordered unless you explicitly change this later
     async: !1,
     // pass CSP nonce to both script and style tags as your loader expects
@@ -7137,10 +7165,10 @@ function ut(t, e, i) {
     });
   })));
 }
-function Wc(t) {
-  $l(t), kl(t), Nl(t), Dl(t), Rl(t), Ll(t, ut), Pl(t), Ml(t, ut), zl(t, ut), Fl(t), Ul(t, ut), Bl(t, ut), Hl(t), _c(t), xc(t), Ec(t), Ic(t), Tc(t), Cc(t), Sc(t), Ac(t, ut), Oc(t), $c(t), kc(t), Nc(t), Dc(t), Rc(t), Lc(t), Pc(t), Mc(t), zc(t), Fc(t), Uc(t), Bc(t), Hc(t);
-}
 function qc(t) {
+  $l(t), kl(t), Nl(t), Dl(t), Rl(t), Ll(t, ut), Pl(t), Ml(t, ut), zl(t, ut), Fl(t), Ul(t, ut), Bl(t, ut), Hl(t), _c(t), xc(t), Ec(t), Ic(t), Tc(t), Cc(t), Sc(t), Ac(t, ut), Oc(t), $c(t), kc(t), Nc(t), Dc(t), Rc(t), Lc(t), Pc(t), Mc(t), zc(t), Fc(t), Uc(t), Bc(t), Hc(t), jc(t);
+}
+function Vc(t) {
   if (!(t instanceof Element))
     return console.warn("[Rizzy.props] Invalid input. Expected an Alpine.js root element (this.$el)."), {};
   const e = t.dataset.propsId;
@@ -7157,7 +7185,7 @@ function qc(t) {
 }
 const pe = /* @__PURE__ */ new Map(), me = /* @__PURE__ */ new Map();
 let xn = !1;
-function Vc(t) {
+function Yc(t) {
   return me.has(t) || me.set(
     t,
     import(t).catch((e) => {
@@ -7169,7 +7197,7 @@ function En(t, e) {
   const i = globalThis.Alpine;
   return i && typeof i.asyncData == "function" ? (i.asyncData(
     t,
-    () => Vc(e).catch((n) => (console.error(
+    () => Yc(e).catch((n) => (console.error(
       `[RizzyUI] Failed to load Alpine module '${t}' from '${e}'.`,
       n
     ), () => ({
@@ -7180,7 +7208,7 @@ function En(t, e) {
     `[RizzyUI] Could not register async component '${t}'. AsyncAlpine not available.`
   ), !1);
 }
-function Yc(t, e) {
+function Kc(t, e) {
   if (!t || !e) {
     console.error("[RizzyUI] registerAsyncComponent requires both name and path.");
     return;
@@ -7212,7 +7240,7 @@ function Yc(t, e) {
     { once: !0 }
   ));
 }
-function Kc(t) {
+function Jc(t) {
   t.directive("mobile", (e, { modifiers: i, expression: n }, { cleanup: r }) => {
     const s = i.find((v) => v.startsWith("bp-")), o = s ? parseInt(s.slice(3), 10) : 768, a = !!(n && n.length > 0);
     if (typeof window > "u" || !window.matchMedia) {
@@ -7243,7 +7271,7 @@ function Kc(t) {
     });
   });
 }
-function Jc(t) {
+function Xc(t) {
   const e = (i, { expression: n, modifiers: r }, { cleanup: s, effect: o }) => {
     if (!n || typeof n != "string") return;
     const a = (b, m, v) => {
@@ -7307,7 +7335,7 @@ function Jc(t) {
   };
   t.directive("syncprop", e);
 }
-class Xc {
+class Zc {
   constructor() {
     this.storageKey = "darkMode", this.eventName = "rz:theme-change", this.darkClass = "dark", this._mode = "auto", this._mq = null, this._initialized = !1, this._onMqChange = null, this._onStorage = null, this._lastSnapshot = { mode: null, effectiveDark: null, prefersDark: null };
   }
@@ -7391,8 +7419,8 @@ class Xc {
     ));
   }
 }
-const F = new Xc();
-function Zc(t) {
+const F = new Zc();
+function Gc(t) {
   F.init(), t.store("theme", {
     // Reactive state mirrors
     // We mirror ALL derived properties to ensure Alpine reactivity works 
@@ -7443,23 +7471,23 @@ function Zc(t) {
   });
 }
 let Ht = null;
-function Gc(t) {
+function Qc(t) {
   return Ht || (t.plugin($a), t.plugin(La), t.plugin(il), t.plugin(dl), typeof document < "u" && document.addEventListener("alpine:init", () => {
-    Zc(t);
-  }), Wc(t), Kc(t), Jc(t), Ht = {
+    Gc(t);
+  }), qc(t), Jc(t), Xc(t), Ht = {
     Alpine: t,
     require: ut,
     toast: Il,
     $data: Al,
-    props: qc,
-    registerAsyncComponent: Yc,
+    props: Vc,
+    registerAsyncComponent: Kc,
     theme: F
   }, typeof window < "u" && (F.init(), window.Alpine = t, window.Rizzy = { ...window.Rizzy || {}, ...Ht }, document.dispatchEvent(new CustomEvent("rz:init", {
     detail: { Rizzy: window.Rizzy }
   }))), Ht);
 }
-const eu = Gc(Pr);
+const iu = Qc(Pr);
 Pr.start();
 export {
-  eu as default
+  iu as default
 };
