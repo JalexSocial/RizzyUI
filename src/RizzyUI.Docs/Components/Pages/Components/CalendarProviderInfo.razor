@@ -254,84 +254,62 @@
                 </RzCodeViewer>
             </section>
 
-            <!-- API Reference -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Provider Parameters" class="scroll-mt-20">
-                    RzCalendarProvider Parameters
-                </RzHeading>
-                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
-                    <table class="w-full text-sm">
-                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
-                            <tr>
-                                <th scope="col" class="p-4 w-1/4">Parameter</th>
-                                <th scope="col" class="p-4 w-1/4">Type</th>
-                                <th scope="col" class="p-4">Description</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            <tr>
-                                <td class="p-4 font-mono text-sky-600">Mode</td>
-                                <td class="p-4 font-mono text-violet-600">SelectionDatesMode</td>
-                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Must match the Mode of the child <code>RzCalendar</code>.</td>
-                            </tr>
-                            <tr>
-                                <td class="p-4 font-mono text-sky-600">Value</td>
-                                <td class="p-4 font-mono text-violet-600">DateOnly?</td>
-                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Initial date for <code>Single</code> mode.</td>
-                            </tr>
-                            <tr>
-                                <td class="p-4 font-mono text-sky-600">Values</td>
-                                <td class="p-4 font-mono text-violet-600">List&lt;DateOnly&gt;?</td>
-                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Initial dates for <code>Multiple</code> mode.</td>
-                            </tr>
-                            <tr>
-                                <td class="p-4 font-mono text-sky-600">Range</td>
-                                <td class="p-4 font-mono text-violet-600">CalendarDateRange?</td>
-                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Initial range for <code>MultipleRanged</code> mode.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="JavaScript API" class="scroll-mt-20">
-                    JavaScript Scope API
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
                 </RzHeading>
                 <RzParagraph>
-                    The provider exposes these properties and methods to the Alpine scope (e.g., via <code>x-on:click</code>).
+                    The following table summarizes the key parameters for <code>RzCalendarProvider</code>.
                 </RzParagraph>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
                             <tr>
-                                <th scope="col" class="p-4 w-1/4">Name</th>
-                                <th scope="col" class="p-4">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Content rendered in the provider scope, usually one or more <code>RzCalendar</code> components and related UI.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td>
+                                <td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td>
+                            </tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Mode</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Selection strategy used by the provider and child calendar instances.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SelectionDatesMode</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">SelectionDatesMode.Single</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Value</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Initial selected date for single-date mode.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">DateOnly?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Values</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Initial selected dates for multiple-date mode.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">List&lt;DateOnly&gt;?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Range</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Initial date range for ranged selection mode.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">CalendarDateRange?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Locale</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Locale used for the formatted Alpine date helpers.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">FormatOptions</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Intl.DateTimeFormat options object used when generating <code>formattedDate</code> and <code>formattedRange</code>.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">object?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">
+                    Alpine API
+                </RzHeading>
+                <RzParagraph>
+                    <code>RzCalendarProvider</code> uses the <code>rzCalendarProvider</code> Alpine <code>x-data</code> component.
+                </RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
                             <tr>
-                                <td class="p-4 font-mono text-sky-600">date</td>
-                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Get/Set the selected date string (YYYY-MM-DD).</td>
+                                <th scope="col" class="w-1/5 px-4 py-3">Method</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Parameters</th>
+                                <th scope="col" class="px-4 py-3">Description</th>
                             </tr>
-                            <tr>
-                                <td class="p-4 font-mono text-sky-600">formattedDate</td>
-                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Read-only localized string of the selected date.</td>
-                            </tr>
-                            <tr>
-                                <td class="p-4 font-mono text-sky-600">dates</td>
-                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Raw array of selected date strings.</td>
-                            </tr>
-                             <tr>
-                                <td class="p-4 font-mono text-sky-600">setToday()</td>
-                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Sets the selection to the current date.</td>
-                            </tr>
-                             <tr>
-                                <td class="p-4 font-mono text-sky-600">addDays(n)</td>
-                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Adds <code>n</code> days to the current selection.</td>
-                            </tr>
-                             <tr>
-                                <td class="p-4 font-mono text-sky-600">clear()</td>
-                                <td class="p-4 text-zinc-600 dark:text-zinc-400">Clears all selected dates.</td>
-                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">setToday</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Sets today as the active selection.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">addDays</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">n: number</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Shifts the current selected date by <code>n</code> days.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">setDate</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">dateStr: string</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Sets the selection to a specific ISO date string (<code>YYYY-MM-DD</code>).</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">clear</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Clears all selected dates.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">toggleDate</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">dateStr: string</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Toggles an ISO date in/out of the selection collection.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">syncToCalendar</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Forces provider state to sync to the underlying Vanilla Calendar instance.</td></tr>
                         </tbody>
                     </table>
                 </div>
