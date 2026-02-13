@@ -18,9 +18,9 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
         @base: "flex w-full justify-between pr-0 text-foreground dark:text-foreground",
         slots: new()
         {
-            [s => s.InnerContainer] = "mx-auto flex max-w-7xl grow flex-col overflow-x-auto overflow-y-hidden",
+            [s => s.InnerContainer] = "mx-auto flex max-w-7xl grow overflow-x-auto overflow-y-hidden",
             [s => s.Article] = "prose",
-            [s => s.Aside] = "hidden shrink-0 flex-col gap-2 overflow-y-auto p-8 pl-0 text-sm xl:flex"
+            [s => s.Aside] = "hidden shrink-0 flex-col gap-2 lg:p-8 text-sm xl:flex"
         },
         variants: new()
         {
@@ -35,16 +35,25 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
             },
             [a => ((RzArticle)a).ColumnWidth] = new Variant<Size, Slots>
             {
-                [Size.ExtraSmall] = new() { [s => s.Base] = "xl:pr-48", [s => s.Aside] = "w-48" },
-                [Size.Small] = new() { [s => s.Base] = "xl:pr-56", [s => s.Aside] = "w-56" },
-                [Size.Medium] = new() { [s => s.Base] = "xl:pr-64", [s => s.Aside] = "w-64" },
-                [Size.Large] = new() { [s => s.Base] = "xl:pr-72", [s => s.Aside] = "w-72" },
-                [Size.ExtraLarge] = new() { [s => s.Base] = "xl:pr-80", [s => s.Aside] = "w-80" }
+                [Size.ExtraSmall] = new() { [s => s.Aside] = "w-48" },
+                [Size.Small] = new() { [s => s.Aside] = "w-56" },
+                [Size.Medium] = new() { [s => s.Aside] = "w-64" },
+                [Size.Large] = new() { [s => s.Aside] = "w-72" },
+                [Size.ExtraLarge] = new() { [s => s.Aside] = "w-80" }
             },
             [a => ((RzArticle)a).IsSideFixed] = new Variant<bool, Slots>
             {
-                [true] = new() { [s => s.Aside] = "h-fill fixed right-3 top-16 z-0" }
+                [true] = new() { [s => s.Aside] = "h-fill fixed right-3 top-16 z-0 overflow-y-auto " },
+                [false] = new() { [s => s.Aside] = "sticky top-16 z-0" }
             }
+        },
+        compoundVariants: new ()
+        {
+            new(b => ((RzArticle)b).IsSideFixed && ((RzArticle)b).ColumnWidth == Size.ExtraSmall) { Class = "xl:pr-48" },
+            new(b => ((RzArticle)b).IsSideFixed && ((RzArticle)b).ColumnWidth == Size.Small) { Class = "xl:pr-56" },
+            new(b => ((RzArticle)b).IsSideFixed && ((RzArticle)b).ColumnWidth == Size.Medium) { Class = "xl:pr-64" },
+            new(b => ((RzArticle)b).IsSideFixed && ((RzArticle)b).ColumnWidth == Size.Large) { Class = "xl:pr-72" },
+            new(b => ((RzArticle)b).IsSideFixed && ((RzArticle)b).ColumnWidth == Size.ExtraLarge) { Class = "xl:pr-80" }
         }
     );
 
@@ -70,7 +79,7 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
     ///     Defaults to true.
     /// </summary>
     [Parameter]
-    public bool IsSideFixed { get; set; } = true;
+    public bool IsSideFixed { get; set; } = false;
 
     /// <summary>
     /// Gets or sets the aria-label for the aside element, providing context for screen readers.
