@@ -5,6 +5,10 @@ export default function(Alpine) {
         parent: null,
         itemData: {},
 
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             const parentEl = this.$el.closest('[x-data="rzCommand"]');
             if (!parentEl) {
@@ -27,6 +31,10 @@ export default function(Alpine) {
             this.parent.registerItem(this.itemData);
         },
 
+        /**
+         * Executes the `destroy` operation.
+         * @returns {any} Returns the result of `destroy` when applicable.
+         */
         destroy() {
             if (this.parent) {
                 this.parent.unregisterItem(this.itemData.id);

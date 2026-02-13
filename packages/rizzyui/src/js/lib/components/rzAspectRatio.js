@@ -1,6 +1,10 @@
 
 export default function(Alpine) {
     Alpine.data('rzAspectRatio', () => ({
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             const ratio = parseFloat(this.$el.dataset.ratio);
             if (!isNaN(ratio) && ratio > 0) {

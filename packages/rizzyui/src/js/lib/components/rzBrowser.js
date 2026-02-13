@@ -7,12 +7,24 @@ export default function(Alpine) {
     Alpine.data('rzBrowser', () => {
         return {
             screenSize: '',
+            /**
+             * Executes the `setDesktopScreenSize` operation.
+             * @returns {any} Returns the result of `setDesktopScreenSize` when applicable.
+             */
             setDesktopScreenSize() {
                 this.screenSize = '';
             },
+            /**
+             * Executes the `setTabletScreenSize` operation.
+             * @returns {any} Returns the result of `setTabletScreenSize` when applicable.
+             */
             setTabletScreenSize() {
                 this.screenSize = 'max-w-2xl';
             },
+            /**
+             * Executes the `setPhoneScreenSize` operation.
+             * @returns {any} Returns the result of `setPhoneScreenSize` when applicable.
+             */
             setPhoneScreenSize() {
                 this.screenSize = 'max-w-sm';
             },

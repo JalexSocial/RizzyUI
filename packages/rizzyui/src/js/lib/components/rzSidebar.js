@@ -9,6 +9,10 @@ export default function(Alpine) {
         cookieName: 'sidebar_state',
         mobileBreakpoint: 768,
 
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             this.collapsible = this.$el.dataset.collapsible || 'offcanvas';
             this.shortcut = this.$el.dataset.shortcut || 'b';
@@ -36,10 +40,18 @@ export default function(Alpine) {
             });
         },
         
+        /**
+         * Executes the `checkIfMobile` operation.
+         * @returns {any} Returns the result of `checkIfMobile` when applicable.
+         */
         checkIfMobile() {
             this.isMobile = window.innerWidth < this.mobileBreakpoint;
         },
 
+        /**
+         * Executes the `toggle` operation.
+         * @returns {any} Returns the result of `toggle` when applicable.
+         */
         toggle() {
             if (this.isMobile) {
                 this.openMobile = !this.openMobile;
@@ -48,24 +60,44 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `close` operation.
+         * @returns {any} Returns the result of `close` when applicable.
+         */
         close() {
             if (this.isMobile) {
                 this.openMobile = false;
             }
         },
 
+        /**
+         * Executes the `isMobileOpen` operation.
+         * @returns {any} Returns the result of `isMobileOpen` when applicable.
+         */
         isMobileOpen() {
             return this.openMobile;
         },
 
+        /**
+         * Executes the `desktopState` operation.
+         * @returns {any} Returns the result of `desktopState` when applicable.
+         */
         desktopState() {
             return this.open ? 'expanded' : 'collapsed';
         },
 
+        /**
+         * Executes the `mobileState` operation.
+         * @returns {any} Returns the result of `mobileState` when applicable.
+         */
         mobileState() {
             return this.openMobile ? 'open' : 'closed';
         },
 
+        /**
+         * Executes the `getCollapsibleAttribute` operation.
+         * @returns {any} Returns the result of `getCollapsibleAttribute` when applicable.
+         */
         getCollapsibleAttribute() {
             return this.desktopState() === 'collapsed' ? this.collapsible : '';
         }

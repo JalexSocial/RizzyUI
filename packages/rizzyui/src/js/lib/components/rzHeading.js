@@ -8,6 +8,10 @@ export default function(Alpine) {
         return {
             observer: null,
             headingId: '',
+            /**
+             * Executes the `init` operation.
+             * @returns {any} Returns the result of `init` when applicable.
+             */
             init() {
                 this.headingId = this.$el.dataset.alpineRoot;
                 
@@ -29,6 +33,10 @@ export default function(Alpine) {
                     console.warn("rzHeading: Could not find 'setCurrentHeading' function in parent scope.");
                 }
             },
+            /**
+             * Executes the `destroy` operation.
+             * @returns {any} Returns the result of `destroy` when applicable.
+             */
             destroy() {
                 if (this.observer != null)
                     this.observer.disconnect();

@@ -4,6 +4,10 @@ export default function(Alpine) {
         parent: null,
         dataItemTemplate: null,
 
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             const parentEl = this.$el.closest('[x-data="rzCommand"]');
             if (!parentEl) {
@@ -16,6 +20,11 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `renderList` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `renderList` when applicable.
+         */
         renderList(event) {
             if (event.detail.commandId !== this.parent.$el.id) return;
 

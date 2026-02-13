@@ -123,11 +123,19 @@ export default function(Alpine) {
             });
         },
 
+        /**
+         * Executes the `destroy` operation.
+         * @returns {any} Returns the result of `destroy` when applicable.
+         */
         destroy() {
             this._handlers.forEach(h => this.$el.removeEventListener(h.type, h.fn));
             this._handlers = [];
         },
 
+        /**
+         * Executes the `syncToCalendar` operation.
+         * @returns {any} Returns the result of `syncToCalendar` when applicable.
+         */
         syncToCalendar() {
             if (!this.calendarApi) return;
             let selectedDates = [...this.dates];
@@ -184,12 +192,22 @@ export default function(Alpine) {
             return new Intl.DateTimeFormat(this.locale, this.formatOptions).format(date);
         },
 
+        /**
+         * Executes the `_extractIsoDates` operation.
+         * @param {any} value Input value for this method.
+         * @returns {any} Returns the result of `_extractIsoDates` when applicable.
+         */
         _extractIsoDates(value) {
             if (typeof value !== 'string') return [];
             const matches = value.match(/\d{4}-\d{2}-\d{2}/g);
             return matches ?? [];
         },
 
+        /**
+         * Executes the `_isValidIsoDate` operation.
+         * @param {any} s Input value for this method.
+         * @returns {any} Returns the result of `_isValidIsoDate` when applicable.
+         */
         _isValidIsoDate(s) {
             if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
             // Logical validation using UTC to avoid DST edge cases
@@ -198,6 +216,11 @@ export default function(Alpine) {
             return dt.getUTCFullYear() === y && (dt.getUTCMonth() + 1) === m && dt.getUTCDate() === d;
         },
 
+        /**
+         * Executes the `_normalize` operation.
+         * @param {any} input Input value for this method.
+         * @returns {any} Returns the result of `_normalize` when applicable.
+         */
         _normalize(input) {
             const arr = Array.isArray(input) ? input : [];
             const iso = arr
@@ -221,11 +244,21 @@ export default function(Alpine) {
             return [...new Set(iso)].sort(); 
         },
 
+        /**
+         * Executes the `parseIsoLocal` operation.
+         * @param {any} s Input value for this method.
+         * @returns {any} Returns the result of `parseIsoLocal` when applicable.
+         */
         parseIsoLocal(s) {
             const [y, m, d] = s.split('-').map(Number);
             return new Date(y, m - 1, d);
         },
 
+        /**
+         * Executes the `toLocalISO` operation.
+         * @param {any} dateObj Input value for this method.
+         * @returns {any} Returns the result of `toLocalISO` when applicable.
+         */
         toLocalISO(dateObj) {
             const y = dateObj.getFullYear();
             const m = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -239,6 +272,11 @@ export default function(Alpine) {
             this.dates = this._normalize([this.toLocalISO(new Date())]);
         },
 
+        /**
+         * Executes the `addDays` operation.
+         * @param {any} n Input value for this method.
+         * @returns {any} Returns the result of `addDays` when applicable.
+         */
         addDays(n) {
             if (this.dates.length === 0) return;
             const current = this.parseIsoLocal(this.dates[0]);
@@ -247,14 +285,28 @@ export default function(Alpine) {
             this.dates = this._normalize([this.toLocalISO(current)]);
         },
 
+        /**
+         * Executes the `setDate` operation.
+         * @param {any} dateStr Input value for this method.
+         * @returns {any} Returns the result of `setDate` when applicable.
+         */
         setDate(dateStr) {
             this.dates = this._normalize(dateStr ? [dateStr] : []);
         },
 
+        /**
+         * Executes the `clear` operation.
+         * @returns {any} Returns the result of `clear` when applicable.
+         */
         clear() {
             this.dates = [];
         },
         
+        /**
+         * Executes the `toggleDate` operation.
+         * @param {any} dateStr Input value for this method.
+         * @returns {any} Returns the result of `toggleDate` when applicable.
+         */
         toggleDate(dateStr) {
             let newDates;
             if (this.dates.includes(dateStr)) {

@@ -73,6 +73,10 @@ export default function(Alpine) {
             });
         },
 
+        /**
+         * Executes the `toggle` operation.
+         * @returns {any} Returns the result of `toggle` when applicable.
+         */
         toggle() {
             if (this.open) {
                 this.open = false;
@@ -84,6 +88,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `handleOutsideClick` operation.
+         * @returns {any} Returns the result of `handleOutsideClick` when applicable.
+         */
         handleOutsideClick() {
             if (!this.open) return;
             this.open = false;
@@ -91,6 +99,11 @@ export default function(Alpine) {
             this.$nextTick(() => self.triggerEl?.focus());
         },
 
+        /**
+         * Executes the `handleTriggerKeydown` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `handleTriggerKeydown` when applicable.
+         */
         handleTriggerKeydown(event) {
             if (['Enter', ' ', 'ArrowDown', 'ArrowUp'].includes(event.key)) {
                 event.preventDefault();
@@ -102,6 +115,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `focusNextItem` operation.
+         * @returns {any} Returns the result of `focusNextItem` when applicable.
+         */
         focusNextItem() {
             const now = Date.now();
             if (now - this._lastNavAt < this.navThrottle) return;
@@ -111,6 +128,10 @@ export default function(Alpine) {
             this.focusCurrentItem();
         },
 
+        /**
+         * Executes the `focusPreviousItem` operation.
+         * @returns {any} Returns the result of `focusPreviousItem` when applicable.
+         */
         focusPreviousItem() {
             const now = Date.now();
             if (now - this._lastNavAt < this.navThrottle) return;
@@ -120,24 +141,41 @@ export default function(Alpine) {
             this.focusCurrentItem();
         },
 
+        /**
+         * Executes the `focusFirstItem` operation.
+         * @returns {any} Returns the result of `focusFirstItem` when applicable.
+         */
         focusFirstItem() {
             if (!this.menuItems.length) return;
             this.focusedIndex = 0;
             this.focusCurrentItem();
         },
 
+        /**
+         * Executes the `focusLastItem` operation.
+         * @returns {any} Returns the result of `focusLastItem` when applicable.
+         */
         focusLastItem() {
             if (!this.menuItems.length) return;
             this.focusedIndex = this.menuItems.length - 1;
             this.focusCurrentItem();
         },
 
+        /**
+         * Executes the `focusCurrentItem` operation.
+         * @returns {any} Returns the result of `focusCurrentItem` when applicable.
+         */
         focusCurrentItem() {
             if (this.focusedIndex !== null && this.menuItems[this.focusedIndex]) {
                 this.$nextTick(() => this.menuItems[this.focusedIndex].focus());
             }
         },
 
+        /**
+         * Executes the `focusSelectedItem` operation.
+         * @param {any} item Input value for this method.
+         * @returns {any} Returns the result of `focusSelectedItem` when applicable.
+         */
         focusSelectedItem(item) {
             if (!item || item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
             const index = this.menuItems.indexOf(item);
@@ -147,6 +185,11 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `handleItemClick` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `handleItemClick` when applicable.
+         */
         handleItemClick(event) {
             const item = event.currentTarget;
             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
@@ -159,6 +202,11 @@ export default function(Alpine) {
             this.$nextTick(() => self.triggerEl?.focus());
         },
         
+        /**
+         * Executes the `handleItemMouseEnter` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `handleItemMouseEnter` when applicable.
+         */
         handleItemMouseEnter(event) {
             const item = event.currentTarget;
             this.focusSelectedItem(item);
@@ -168,6 +216,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `handleWindowEscape` operation.
+         * @returns {any} Returns the result of `handleWindowEscape` when applicable.
+         */
         handleWindowEscape() {
             if (this.open) {
                 this.open = false;
@@ -176,6 +228,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `handleContentTabKey` operation.
+         * @returns {any} Returns the result of `handleContentTabKey` when applicable.
+         */
         handleContentTabKey() {
             if (this.open) {
                 this.open = false;
@@ -184,11 +240,19 @@ export default function(Alpine) {
             }
         },
         
+        /**
+         * Executes the `handleTriggerMouseover` operation.
+         * @returns {any} Returns the result of `handleTriggerMouseover` when applicable.
+         */
         handleTriggerMouseover() {
             let self = this;
             this.$nextTick(() => self.$el.firstElementChild?.focus());
         },
 
+        /**
+         * Executes the `closeAllSubmenus` operation.
+         * @returns {any} Returns the result of `closeAllSubmenus` when applicable.
+         */
         closeAllSubmenus() {
             const submenus = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
             submenus.forEach(el => {
@@ -278,20 +342,36 @@ export default function(Alpine) {
             });
         },
 
+        /**
+         * Executes the `handleTriggerMouseEnter` operation.
+         * @returns {any} Returns the result of `handleTriggerMouseEnter` when applicable.
+         */
         handleTriggerMouseEnter() {
             clearTimeout(this.closeTimeout);
             this.triggerEl.focus();
             this.openSubmenu();
         },
 
+        /**
+         * Executes the `handleTriggerMouseLeave` operation.
+         * @returns {any} Returns the result of `handleTriggerMouseLeave` when applicable.
+         */
         handleTriggerMouseLeave() {
             this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
         },
 
+        /**
+         * Executes the `handleContentMouseEnter` operation.
+         * @returns {any} Returns the result of `handleContentMouseEnter` when applicable.
+         */
         handleContentMouseEnter() {
             clearTimeout(this.closeTimeout);
         },
 
+        /**
+         * Executes the `handleContentMouseLeave` operation.
+         * @returns {any} Returns the result of `handleContentMouseLeave` when applicable.
+         */
         handleContentMouseLeave() {
             const childSubmenus = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
             if (childSubmenus) {
@@ -303,6 +383,11 @@ export default function(Alpine) {
             this.closeTimeout = setTimeout(() => this.closeSubmenu(), this.closeDelay);
         },
 
+        /**
+         * Executes the `openSubmenu` operation.
+         * @param {any} focusFirst Input value for this method.
+         * @returns {any} Returns the result of `openSubmenu` when applicable.
+         */
         openSubmenu(focusFirst = false) {
             if (this.open) return;
             this.closeSiblingSubmenus();
@@ -312,6 +397,10 @@ export default function(Alpine) {
             }
         },
         
+        /**
+         * Executes the `closeSubmenu` operation.
+         * @returns {any} Returns the result of `closeSubmenu` when applicable.
+         */
         closeSubmenu() {
             const childSubmenus = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
             childSubmenus?.forEach(el => {
@@ -320,6 +409,10 @@ export default function(Alpine) {
             this.open = false;
         },
 
+        /**
+         * Executes the `closeSiblingSubmenus` operation.
+         * @returns {any} Returns the result of `closeSiblingSubmenus` when applicable.
+         */
         closeSiblingSubmenus() {
             if (!this.siblingContainer) return;
             const siblings = Array.from(this.siblingContainer.children).filter(
@@ -330,14 +423,27 @@ export default function(Alpine) {
             });
         },
 
+        /**
+         * Executes the `toggleSubmenu` operation.
+         * @returns {any} Returns the result of `toggleSubmenu` when applicable.
+         */
         toggleSubmenu() {
             this.open ? this.closeSubmenu() : this.openSubmenu();
         },
 
+        /**
+         * Executes the `openSubmenuAndFocusFirst` operation.
+         * @returns {any} Returns the result of `openSubmenuAndFocusFirst` when applicable.
+         */
         openSubmenuAndFocusFirst() {
             this.openSubmenu(true);
         },
 
+        /**
+         * Executes the `handleTriggerKeydown` operation.
+         * @param {any} e Input value for this method.
+         * @returns {any} Returns the result of `handleTriggerKeydown` when applicable.
+         */
         handleTriggerKeydown(e) {
             if (['ArrowRight', 'Enter', ' '].includes(e.key)) {
                 e.preventDefault();
@@ -345,6 +451,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `focusNextItem` operation.
+         * @returns {any} Returns the result of `focusNextItem` when applicable.
+         */
         focusNextItem() {
             const now = Date.now();
             if (now - this._lastNavAt < this.navThrottle) return;
@@ -354,6 +464,10 @@ export default function(Alpine) {
             this.focusCurrentItem();
         },
 
+        /**
+         * Executes the `focusPreviousItem` operation.
+         * @returns {any} Returns the result of `focusPreviousItem` when applicable.
+         */
         focusPreviousItem() {
             const now = Date.now();
             if (now - this._lastNavAt < this.navThrottle) return;
@@ -363,24 +477,41 @@ export default function(Alpine) {
             this.focusCurrentItem();
         },
 
+        /**
+         * Executes the `focusFirstItem` operation.
+         * @returns {any} Returns the result of `focusFirstItem` when applicable.
+         */
         focusFirstItem() {
             if (!this.menuItems.length) return;
             this.focusedIndex = 0;
             this.focusCurrentItem();
         },
 
+        /**
+         * Executes the `focusLastItem` operation.
+         * @returns {any} Returns the result of `focusLastItem` when applicable.
+         */
         focusLastItem() {
             if (!this.menuItems.length) return;
             this.focusedIndex = this.menuItems.length - 1;
             this.focusCurrentItem();
         },
 
+        /**
+         * Executes the `focusCurrentItem` operation.
+         * @returns {any} Returns the result of `focusCurrentItem` when applicable.
+         */
         focusCurrentItem() {
             if (this.focusedIndex !== null && this.menuItems[this.focusedIndex]) {
                 this.menuItems[this.focusedIndex].focus();
             }
         },
 
+        /**
+         * Executes the `handleItemClick` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `handleItemClick` when applicable.
+         */
         handleItemClick(event) {
             const item = event.currentTarget;
             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
@@ -392,6 +523,11 @@ export default function(Alpine) {
             this.$nextTick(() => this.parentDropdown.triggerEl?.focus());
         },
 
+        /**
+         * Executes the `handleItemMouseEnter` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `handleItemMouseEnter` when applicable.
+         */
         handleItemMouseEnter(event) {
             const item = event.currentTarget;
             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
@@ -409,6 +545,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `handleSubmenuEscape` operation.
+         * @returns {any} Returns the result of `handleSubmenuEscape` when applicable.
+         */
         handleSubmenuEscape() {
             if (this.open) {
                 this.open = false;
@@ -416,6 +556,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `handleSubmenuArrowLeft` operation.
+         * @returns {any} Returns the result of `handleSubmenuArrowLeft` when applicable.
+         */
         handleSubmenuArrowLeft() {
             if (this.open) {
                 this.open = false;

@@ -330,6 +330,38 @@ public IResult CloseDialogAction()
 }
                 </RzCodeViewer>
             </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">Component Parameters</RzHeading>
+                <RzParagraph>The following tables summarize primary dialog component parameters.</RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzDialog</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Contains trigger/content composition for the dialog.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td><td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">EventTriggerName</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Window event name that opens the dialog.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">string.Empty</code></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CloseEventName</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Window event name used to close the dialog.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">Constants.Events.DialogClose</code></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CloseOnEscape</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes dialog when Escape is pressed.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">CloseOnClickOutside</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes dialog when the backdrop is clicked.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td></tr>
+                </tbody></table></div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">DialogContent</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Content displayed inside the dialog surface.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td><td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ShowCloseButton</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Toggles the built-in close button.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Size</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Controls dialog width preset.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">ModalSize</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">ModalSize.Large</code></td></tr>
+                </tbody></table></div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
+                <RzParagraph>Dialog interactivity is implemented by Alpine <code>x-data</code> component <code>rzDialog</code>.</RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">openModal</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">event?</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens the dialog and dispatches lifecycle events.</td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">closeModal</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">None</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the dialog using the normal close pipeline.</td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">handleClickOutside</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">event</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Handles backdrop/pointer interactions to close when allowed.</td></tr>
+                </tbody></table></div>
+            </section>
+
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>

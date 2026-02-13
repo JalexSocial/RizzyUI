@@ -6,6 +6,10 @@
 export default function(Alpine, require) {
     Alpine.data('rzMarkdown', () => {
         return {
+            /**
+             * Executes the `init` operation.
+             * @returns {any} Returns the result of `init` when applicable.
+             */
             init() {
                 // Retrieve asset configuration from dataset attributes
                 const assets = JSON.parse(this.$el.dataset.assets);

@@ -125,6 +125,38 @@
 &lt;/RzTooltip&gt;
                 </RzCodeViewer>
             </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">Component Parameters</RzHeading>
+                <RzParagraph>The following tables summarize primary tooltip parameters.</RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzTooltip</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Should include <code>TooltipTrigger</code> and <code>TooltipContent</code>.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td><td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Anchor</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Preferred anchor placement around trigger.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">AnchorPoint</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">Top</code></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">DelayDuration</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Open delay in milliseconds.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">700</code></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Open</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Controlled open state for two-way binding.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">DefaultOpen</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Initial open state when uncontrolled.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td></tr>
+                </tbody></table></div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">TooltipProvider</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Nested tooltips receiving shared defaults.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td><td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">DelayDuration</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Shared delay before opening.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">0</code></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">SkipDelayDuration</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Window after close where reopen skips full delay.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">300</code></td></tr>
+                </tbody></table></div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
+                <RzParagraph>Tooltip positioning and interactions are implemented by Alpine <code>x-data</code> component <code>rzTooltip</code>.</RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">queueOpen</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">None</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Starts the delayed open pipeline and shows tooltip.</td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">queueClose</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">None</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Starts delayed close behavior and hides tooltip.</td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">updatePosition</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">None</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Recomputes floating position using current anchor options.</td></tr>
+                </tbody></table></div>
+            </section>
+
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>
