@@ -1,4 +1,4 @@
-
+﻿
 @inherits LayoutComponentBase
 @using System.Reflection
 @using RizzyUI
@@ -185,25 +185,28 @@
 
     <!-- Main Content Area -->
     <SidebarInset class="h-screen">
-        <header class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-in-out group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 items-center justify-between border-b bg-secondary/75 px-4 py-2 backdrop-blur-xl">
+        <header class="bg-secondary/75 flex h-16 shrink-0 items-center items-center justify-between gap-2 border-b px-4 py-2 backdrop-blur-xl transition-[width,height] ease-in-out group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
             <div class="flex items-center gap-2">
                 <SidebarTrigger />
                 <RzSeparator Orientation="Orientation.Vertical" class="mr-2 h-10" />
-                <div data-slot="header-logo" class="w-32 md:w-50 px-2 shrink-0 overflow-hidden opacity-0
-    transition-[opacity] duration-200
-    group-has-[[data-state=collapsed]]/sidebar-wrapper:py-2
-    group-has-[[data-state=collapsed]]/sidebar-wrapper:opacity-100"><img src="/images/rizzy-logo-wb.svg" alt="RizzyUI" class="w-full h-full"></div>
+                <div data-slot="header-logo" class="w-32 shrink-0 overflow-hidden px-2 opacity-0 transition-[opacity]
+    duration-200 group-has-[[data-state=collapsed]]/sidebar-wrapper:py-2
+    group-has-[[data-state=collapsed]]/sidebar-wrapper:opacity-100
+    md:w-50"><img src="/images/rizzy-logo-wb.svg" alt="RizzyUI" class="h-full w-full"></div>
             </div>
 
             <!-- Right-aligned items -->
             <div class="flex items-center gap-4">
-                <RzSearchButton class="bg-background" />
+                <RzSearchButton class="bg-background h-8" />
                 <RzDarkModeToggle/>
             </div>
         </header>
 
-        <main class="flex flex-1 flex-col gap-4 p-4 overflow-y-scroll" id="content">
-            @Body
+        <main class="flex flex-1 flex-col overflow-y-auto" id="content">
+            <div class="flex flex-1 flex-col gap-4 p-4">
+                @Body
+            </div>
+            <Footer />
         </main>
     </SidebarInset>
 </RzSidebarProvider>

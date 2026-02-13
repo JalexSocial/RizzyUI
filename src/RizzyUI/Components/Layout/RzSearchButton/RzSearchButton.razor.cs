@@ -15,7 +15,7 @@ public partial class RzSearchButton : RzComponent<RzSearchButton.Slots>
     /// Defines the default styling for the RzSearchButton component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "flex h-10 w-full cursor-pointer items-center justify-between border-outline bg-secondary p-2 px-4 font-light transition-all duration-200 rounded-md border",
+        @base: "flex w-full cursor-pointer items-center justify-between border-outline bg-secondary p-2 px-4 font-light transition-all duration-200 rounded-md border",
         slots: new()
         {
             [s => s.InnerContainer] = "flex items-center gap-2",
