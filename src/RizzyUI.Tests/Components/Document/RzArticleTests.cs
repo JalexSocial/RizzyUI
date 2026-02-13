@@ -64,7 +64,7 @@ public class RzArticleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var cut = RenderComponent<RzArticle>(parameters => parameters
             .Add(p => p.MainContent, (RenderFragment)(b => b.AddContent(0, "Main")))
             .Add(p => p.SideContent, (RenderFragment)(b => b.AddContent(0, "Sidebar")))
-            .Add(p => p.IsSideFixed, true)
+            .Add(p => p.IsSideSticky, true)
         );
 
         // Assert

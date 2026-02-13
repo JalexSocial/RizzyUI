@@ -41,20 +41,12 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
                 [Size.Large] = new() { [s => s.Aside] = "w-72" },
                 [Size.ExtraLarge] = new() { [s => s.Aside] = "w-80" }
             },
-            [a => ((RzArticle)a).IsSideFixed] = new Variant<bool, Slots>
+            [a => ((RzArticle)a).IsSideSticky] = new Variant<bool, Slots>
             {
-                [true] = new() { [s => s.Aside] = "fixed right-3 top-16 z-20 h-[calc(100vh-4rem)] overflow-y-auto" },
-                [false] = new() { [s => s.Aside] = "sticky top-0 z-10 max-h-[calc(100vh-4rem)] overflow-y-auto" }
+                [true] = new() { [s => s.Aside] = "sticky top-0 z-10 max-h-[calc(100vh-4rem)] overflow-y-auto" },
+                [false] = new() { [s => s.Aside] = "static z-auto max-h-none overflow-visible" }
 
             }
-        },
-        compoundVariants: new ()
-        {
-            new(b => ((RzArticle)b).IsSideFixed && ((RzArticle)b).ColumnWidth == Size.ExtraSmall) { Class = "xl:pr-48" },
-            new(b => ((RzArticle)b).IsSideFixed && ((RzArticle)b).ColumnWidth == Size.Small) { Class = "xl:pr-56" },
-            new(b => ((RzArticle)b).IsSideFixed && ((RzArticle)b).ColumnWidth == Size.Medium) { Class = "xl:pr-64" },
-            new(b => ((RzArticle)b).IsSideFixed && ((RzArticle)b).ColumnWidth == Size.Large) { Class = "xl:pr-72" },
-            new(b => ((RzArticle)b).IsSideFixed && ((RzArticle)b).ColumnWidth == Size.ExtraLarge) { Class = "xl:pr-80" }
         }
     );
 
@@ -80,7 +72,7 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
     ///     Defaults to true.
     /// </summary>
     [Parameter]
-    public bool IsSideFixed { get; set; } = true;
+    public bool IsSideSticky { get; set; } = false;
 
     /// <summary>
     /// Gets or sets the aria-label for the aside element, providing context for screen readers.
