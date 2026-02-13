@@ -8673,6 +8673,37 @@ function registerRzTabs(Alpine2) {
     }
   }));
 }
+function registerRzToggle(Alpine2) {
+  Alpine2.data("rzToggle", () => ({
+    pressed: false,
+    disabled: false,
+    controlled: false,
+    init() {
+      this.disabled = this.$el.dataset.disabled === "true";
+      const pressedValue = this.$el.dataset.pressed;
+      this.controlled = pressedValue === "true" || pressedValue === "false";
+      if (this.controlled) {
+        this.pressed = pressedValue === "true";
+        return;
+      }
+      this.pressed = this.$el.dataset.defaultPressed === "true";
+    },
+    toggle() {
+      if (this.disabled) return;
+      if (this.controlled) return;
+      this.pressed = !this.pressed;
+    },
+    state() {
+      return this.pressed ? "on" : "off";
+    },
+    ariaPressed() {
+      return this.pressed.toString();
+    },
+    dataDisabled() {
+      return this.disabled ? "" : null;
+    }
+  }));
+}
 function registerRzTooltip(Alpine2) {
   Alpine2.data("rzTooltip", () => ({
     open: false,
@@ -9599,6 +9630,7 @@ function registerComponents(Alpine2) {
   registerRzScrollArea(Alpine2);
   registerRzSheet(Alpine2);
   registerRzTabs(Alpine2);
+  registerRzToggle(Alpine2);
   registerRzTooltip(Alpine2);
   registerRzSidebar(Alpine2);
   registerRzCommand(Alpine2);

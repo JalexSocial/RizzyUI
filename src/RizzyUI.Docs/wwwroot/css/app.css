@@ -161,6 +161,7 @@
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --animate-spin: spin 1s linear infinite;
     --animate-ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+    --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     --blur-xs: 4px;
     --blur-sm: 8px;
     --blur-xl: 24px;
@@ -1396,6 +1397,15 @@
   .min-w-5 {
     min-width: calc(var(--spacing) * 5);
   }
+  .min-w-8 {
+    min-width: calc(var(--spacing) * 8);
+  }
+  .min-w-9 {
+    min-width: calc(var(--spacing) * 9);
+  }
+  .min-w-10 {
+    min-width: calc(var(--spacing) * 10);
+  }
   .min-w-\[8rem\] {
     min-width: 8rem;
   }
@@ -1552,6 +1562,9 @@
   .rotate-0 {
     rotate: 0deg;
   }
+  .rotate-45 {
+    rotate: 45deg;
+  }
   .rotate-180 {
     rotate: 180deg;
   }
@@ -1566,6 +1579,9 @@
   }
   .animate-ping {
     animation: var(--animate-ping);
+  }
+  .animate-pulse {
+    animation: var(--animate-pulse);
   }
   .cursor-default {
     cursor: default;
@@ -3674,6 +3690,10 @@
   .forced-color-adjust-auto {
     forced-color-adjust: auto;
   }
+  .fade-in-0 {
+    --tw-enter-opacity: calc(0/100);
+    --tw-enter-opacity: 0;
+  }
   .fade-in-80 {
     --tw-enter-opacity: calc(80/100);
     --tw-enter-opacity: .8;
@@ -3689,6 +3709,10 @@
   .zoom-in-90 {
     --tw-enter-scale: calc(90*1%);
     --tw-enter-scale: .9;
+  }
+  .zoom-in-95 {
+    --tw-enter-scale: calc(95*1%);
+    --tw-enter-scale: .95;
   }
   .zoom-out-95 {
     --tw-exit-scale: calc(95*1%);
@@ -5100,6 +5124,16 @@
       }
     }
   }
+  .hover\:border-primary\/40 {
+    &:hover {
+      @media (hover: hover) {
+        border-color: var(--primary);
+        @supports (color: color-mix(in lab, red, red)) {
+          border-color: color-mix(in oklab, var(--primary) 40%, transparent);
+        }
+      }
+    }
+  }
   .hover\:bg-accent {
     &:hover {
       @media (hover: hover) {
@@ -5123,6 +5157,16 @@
         background-color: var(--accent);
         @supports (color: color-mix(in lab, red, red)) {
           background-color: color-mix(in oklab, var(--accent) 20%, transparent);
+        }
+      }
+    }
+  }
+  .hover\:bg-accent\/30 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--accent);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--accent) 30%, transparent);
         }
       }
     }
@@ -5341,6 +5385,13 @@
         @supports (color: color-mix(in lab, red, red)) {
           background-color: color-mix(in oklab, var(--input) 80%, transparent);
         }
+      }
+    }
+  }
+  .hover\:bg-muted {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--muted);
       }
     }
   }
@@ -5608,6 +5659,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--foreground);
+      }
+    }
+  }
+  .hover\:text-muted-foreground {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--muted-foreground);
       }
     }
   }
@@ -6883,6 +6941,11 @@
       color: var(--primary-foreground);
     }
   }
+  .data-\[state\=closed\]\:hidden {
+    &[data-state="closed"] {
+      display: none;
+    }
+  }
   .data-\[state\=closed\]\:animate-collapsible-up {
     &[data-state="closed"] {
       animation: collapsible-up var(--tw-animation-duration,var(--tw-duration,.2s))ease-out;
@@ -6955,6 +7018,16 @@
   .data-\[state\=hidden\]\:fade-out {
     &[data-state="hidden"] {
       --tw-exit-opacity: 0;
+    }
+  }
+  .data-\[state\=on\]\:bg-accent {
+    &[data-state="on"] {
+      background-color: var(--accent);
+    }
+  }
+  .data-\[state\=on\]\:text-accent-foreground {
+    &[data-state="on"] {
+      color: var(--accent-foreground);
     }
   }
   .data-\[state\=open\]\:rotate-90 {
@@ -7181,6 +7254,11 @@
   .sm\:max-w-xs {
     @media (width >= 40rem) {
       max-width: var(--container-xs);
+    }
+  }
+  .sm\:grid-cols-2 {
+    @media (width >= 40rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
   .sm\:flex-row {
@@ -7521,6 +7599,11 @@
   .lg\:basis-1\/3 {
     @media (width >= 64rem) {
       flex-basis: calc(1/3 * 100%);
+    }
+  }
+  .lg\:grid-cols-3 {
+    @media (width >= 64rem) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
   .lg\:grid-cols-\[\.75fr_1fr\] {
@@ -13633,6 +13716,11 @@ pre:has(> code) {
   75%, 100% {
     transform: scale(2);
     opacity: 0;
+  }
+}
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
   }
 }
 @keyframes enter {

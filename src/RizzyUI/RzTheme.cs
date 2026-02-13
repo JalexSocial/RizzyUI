@@ -291,6 +291,9 @@ public partial class RzTheme
         // RzSwitch Family
         RzSwitch = RizzyUI.RzSwitchStyles.DefaultDescriptor;
 
+        // RzToggle Family
+        RzToggle = RizzyUI.RzToggle.DefaultDescriptor;
+
         // RzTable Family
         RzTable = RizzyUI.RzTableStyles.DefaultDescriptor;
         TableBody = RizzyUI.TableBodyStyles.DefaultDescriptor;

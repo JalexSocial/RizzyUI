@@ -1,0 +1,21 @@
+@namespace RizzyUI
+@inherits RzComponent<RzToggle.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             type="button"
+             disabled="@Disabled"
+             data-default-pressed="@DefaultPressed.ToString().ToLowerInvariant()"
+             data-pressed="@PressedAttributeValue"
+             data-disabled="@Disabled.ToString().ToLowerInvariant()"
+             data-slot="toggle"
+             data-alpine-root="@Id"
+             x-data="rzToggle"
+             x-on:click="toggle"
+             x-bind:data-state="state"
+             x-bind:aria-pressed="ariaPressed"
+             x-bind:data-disabled="dataDisabled">
+    @ChildContent
+</HtmlElement>
