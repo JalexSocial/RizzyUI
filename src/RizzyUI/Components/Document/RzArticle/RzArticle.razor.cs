@@ -18,9 +18,9 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
         @base: "flex w-full justify-between pr-0 text-foreground dark:text-foreground",
         slots: new()
         {
-            [s => s.InnerContainer] = "mx-auto flex max-w-7xl grow overflow-x-auto overflow-y-hidden",
-            [s => s.Article] = "prose",
-            [s => s.Aside] = "hidden shrink-0 flex-col gap-2 lg:p-8 text-sm xl:flex"
+            [s => s.InnerContainer] = "mx-auto flex max-w-7xl grow items-start gap-8",
+            [s => s.Article] = "prose flex-1 min-w-0",
+            [s => s.Aside] = "hidden shrink-0 self-start flex-col gap-2 lg:p-8 text-sm xl:flex"
         },
         variants: new()
         {
@@ -43,8 +43,9 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
             },
             [a => ((RzArticle)a).IsSideFixed] = new Variant<bool, Slots>
             {
-                [true] = new() { [s => s.Aside] = "h-fill fixed right-3 top-16 z-0 overflow-y-auto " },
-                [false] = new() { [s => s.Aside] = "sticky top-16 z-0" }
+                [true] = new() { [s => s.Aside] = "fixed right-3 top-16 z-20 h-[calc(100vh-4rem)] overflow-y-auto" },
+                [false] = new() { [s => s.Aside] = "sticky top-0 z-10 max-h-[calc(100vh-4rem)] overflow-y-auto" }
+
             }
         },
         compoundVariants: new ()
@@ -79,7 +80,7 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
     ///     Defaults to true.
     /// </summary>
     [Parameter]
-    public bool IsSideFixed { get; set; } = false;
+    public bool IsSideFixed { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the aria-label for the aside element, providing context for screen readers.
