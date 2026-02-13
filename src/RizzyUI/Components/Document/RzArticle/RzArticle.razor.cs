@@ -43,7 +43,7 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
             },
             [a => ((RzArticle)a).IsSideSticky] = new Variant<bool, Slots>
             {
-                [true] = new() { [s => s.Aside] = "sticky top-0 z-10 max-h-[calc(100vh-4rem)] overflow-y-auto" },
+                [true] = new() { [s => s.Aside] = "sticky top-0 z-10 max-h-[calc(100vh-4rem)]" },
                 [false] = new() { [s => s.Aside] = "static z-auto max-h-none overflow-visible" }
 
             }
