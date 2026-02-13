@@ -5,6 +5,10 @@ export default function(Alpine) {
         _triggers: [],
         _observer: null,
 
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             const defaultValue = this.$el.dataset.defaultValue;
             
@@ -20,16 +24,29 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Executes the `destroy` operation.
+         * @returns {any} Returns the result of `destroy` when applicable.
+         */
         destroy() {
             if (this._observer) {
                 this._observer.disconnect();
             }
         },
 
+        /**
+         * Executes the `refreshTriggers` operation.
+         * @returns {any} Returns the result of `refreshTriggers` when applicable.
+         */
         refreshTriggers() {
             this._triggers = Array.from(this.$el.querySelectorAll('[role="tab"]'));
         },
 
+        /**
+         * Executes the `onTriggerClick` operation.
+         * @param {any} e Input value for this method.
+         * @returns {any} Returns the result of `onTriggerClick` when applicable.
+         */
         onTriggerClick(e) {
             const value = e.currentTarget?.dataset?.value;
             if (!value || e.currentTarget.getAttribute('aria-disabled') === 'true') {
@@ -39,10 +56,19 @@ export default function(Alpine) {
             this.$dispatch('rz:tabs-change', { value: this.selectedTab });
         },
 
+        /**
+         * Executes the `isSelected` operation.
+         * @param {any} value Input value for this method.
+         * @returns {any} Returns the result of `isSelected` when applicable.
+         */
         isSelected(value) {
             return this.selectedTab === value;
         },
 
+        /**
+         * Executes the `bindTrigger` operation.
+         * @returns {any} Returns the result of `bindTrigger` when applicable.
+         */
         bindTrigger() {
             const current = this.selectedTab;
             const value = this.$el.dataset.value;
@@ -56,30 +82,59 @@ export default function(Alpine) {
             };
         },
         
+        /**
+         * Executes the `_attrDisabled` operation.
+         * @returns {any} Returns the result of `_attrDisabled` when applicable.
+         */
         _attrDisabled() {
             return this.$el.getAttribute('aria-disabled') === 'true' ? 'true' : null;
         },
         
+        /**
+         * Executes the `_attrAriaSelected` operation.
+         * @returns {any} Returns the result of `_attrAriaSelected` when applicable.
+         */
         _attrAriaSelected() {
             return String(this.$el.dataset.value === this.selectedTab);
         },
 
+        /**
+         * Executes the `_attrHidden` operation.
+         * @returns {any} Returns the result of `_attrHidden` when applicable.
+         */
         _attrHidden() {
             return this.$el.dataset.value === this.selectedTab ? null : 'true';
         },
 
+        /**
+         * Executes the `_attrAriaHidden` operation.
+         * @returns {any} Returns the result of `_attrAriaHidden` when applicable.
+         */
         _attrAriaHidden() {
             return String(this.selectedTab !== this.$el.dataset.value);
         },
         
+        /**
+         * Executes the `_attrDataState` operation.
+         * @returns {any} Returns the result of `_attrDataState` when applicable.
+         */
         _attrDataState() {
             return this.selectedTab === this.$el.dataset.value ? 'active' : 'inactive';
         },
         
+        /**
+         * Executes the `_attrTabIndex` operation.
+         * @returns {any} Returns the result of `_attrTabIndex` when applicable.
+         */
         _attrTabIndex() {
             return this.selectedTab === this.$el.dataset.value ? '0' : '-1';
         },
 
+        /**
+         * Executes the `onListKeydown` operation.
+         * @param {any} e Input value for this method.
+         * @returns {any} Returns the result of `onListKeydown` when applicable.
+         */
         onListKeydown(e) {
             if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key)) {
                 e.preventDefault();

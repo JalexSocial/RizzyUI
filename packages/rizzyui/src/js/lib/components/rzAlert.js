@@ -8,11 +8,19 @@ export default function(Alpine) {
         return {
             parentElement: null,
             showAlert: true,
+            /**
+             * Executes the `init` operation.
+             * @returns {any} Returns the result of `init` when applicable.
+             */
             init() {
                 const alpineRoot = this.$el.dataset.alpineRoot || this.$el.closest('[data-alpine-root]');
                 
                 this.parentElement = document.getElementById(alpineRoot);
             },
+            /**
+             * Executes the `dismiss` operation.
+             * @returns {any} Returns the result of `dismiss` when applicable.
+             */
             dismiss() {
                 this.showAlert = false;
                 const self = this;

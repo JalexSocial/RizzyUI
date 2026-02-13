@@ -6,6 +6,10 @@ export default function(Alpine) {
         heading: '',
         templateId: '',
 
+        /**
+         * Executes the `init` operation.
+         * @returns {any} Returns the result of `init` when applicable.
+         */
         init() {
             const parentEl = this.$el.closest('[x-data="rzCommand"]');
             if (!parentEl) {
