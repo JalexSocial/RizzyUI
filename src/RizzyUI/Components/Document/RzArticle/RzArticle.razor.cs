@@ -15,7 +15,7 @@ public partial class RzArticle : RzComponent<RzArticle.Slots>
     /// Defines the default styling for the RzArticle component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "flex w-full justify-between pr-0 text-foreground dark:text-foreground",
+        @base: "lg:flex w-full justify-between pr-0 text-foreground dark:text-foreground",
         slots: new()
         {
             [s => s.InnerContainer] = "mx-auto flex max-w-7xl grow items-start gap-8",
