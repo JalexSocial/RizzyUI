@@ -1,0 +1,10 @@
+@namespace RizzyUI
+@inherits RzComponent<PaginationList.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="@PaginationList.SlotNames.NameOf(SlotTypes.Base)">
+    @ChildContent
+</HtmlElement>

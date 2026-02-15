@@ -1,0 +1,13 @@
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<PaginationEllipsis.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             aria-hidden="true"
+             data-slot="@PaginationEllipsis.SlotNames.NameOf(SlotTypes.Base)">
+    <Blazicon Svg="MdiIcon.DotsHorizontal" class="@SlotClasses.GetIcon()" data-slot="@PaginationEllipsis.SlotNames.NameOf(SlotTypes.Icon)" aria-hidden="true" />
+    <span class="@SlotClasses.GetSrOnly()" data-slot="@PaginationEllipsis.SlotNames.NameOf(SlotTypes.SrOnly)">@ScreenReaderText</span>
+</HtmlElement>

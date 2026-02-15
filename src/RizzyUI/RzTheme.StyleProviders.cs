@@ -309,6 +309,18 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<BreadcrumbPage.Slots>, BreadcrumbPage.Slots> BreadcrumbPage { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.BreadcrumbSeparator"/> component. </summary>
     public virtual TvDescriptor<RzComponent<BreadcrumbSeparator.Slots>, BreadcrumbSeparator.Slots> BreadcrumbSeparator { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.PaginationEllipsis"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<PaginationEllipsis.Slots>, PaginationEllipsis.Slots> PaginationEllipsis { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.PaginationItem"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<PaginationItem.Slots>, PaginationItem.Slots> PaginationItem { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.PaginationLink"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<PaginationLink.Slots>, PaginationLink.Slots> PaginationLink { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.PaginationList"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<PaginationList.Slots>, PaginationList.Slots> PaginationList { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.PaginationNext"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<PaginationNext.Slots>, PaginationNext.Slots> PaginationNext { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.PaginationPrevious"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<PaginationPrevious.Slots>, PaginationPrevious.Slots> PaginationPrevious { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.DropdownMenuContent"/> component. </summary>
     public virtual TvDescriptor<RzComponent<DropdownMenuContent.Slots>, DropdownMenuContent.Slots> DropdownMenuContent { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.DropdownMenuGroup"/> component. </summary>
@@ -347,6 +359,8 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzLink.Slots>, RzLink.Slots> RzLink { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzNavigationMenu"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzNavigationMenu.Slots>, RzNavigationMenu.Slots> RzNavigationMenu { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzPagination"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzPagination.Slots>, RzPagination.Slots> RzPagination { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzScrollArea"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzScrollArea.Slots>, RzScrollArea.Slots> RzScrollArea { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzSidebarProvider"/> component. </summary>

@@ -388,4 +388,28 @@
     <value>Calendar</value>
     <comment>Default ARIA label for the calendar component.</comment>
   </data>  
+  <data name="RzPagination.AriaLabel" xml:space="preserve">
+    <value>Pagination</value>
+    <comment>Default ARIA label for the pagination navigation landmark.</comment>
+  </data>
+  <data name="PaginationPrevious.Label" xml:space="preserve">
+    <value>Previous</value>
+    <comment>Default visible label for the previous-page pagination link.</comment>
+  </data>
+  <data name="PaginationPrevious.AriaLabel" xml:space="preserve">
+    <value>Go to previous page</value>
+    <comment>Default ARIA label for the previous-page pagination link.</comment>
+  </data>
+  <data name="PaginationNext.Label" xml:space="preserve">
+    <value>Next</value>
+    <comment>Default visible label for the next-page pagination link.</comment>
+  </data>
+  <data name="PaginationNext.AriaLabel" xml:space="preserve">
+    <value>Go to next page</value>
+    <comment>Default ARIA label for the next-page pagination link.</comment>
+  </data>
+  <data name="PaginationEllipsis.MorePages" xml:space="preserve">
+    <value>More pages</value>
+    <comment>Screen-reader-only label for a pagination ellipsis item.</comment>
+  </data>
 </root>
