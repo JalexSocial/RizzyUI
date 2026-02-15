@@ -1,6 +1,6 @@
-﻿### **The Definitive Guide to Authoring a RizzyUI Component (Version 3.4 - `data-slot` and TailwindVariants.NET Pattern)**
+﻿### **The Definitive Guide to Authoring a RizzyUI Component (Version 3.5 - Documentation Standards)**
 
-**Fully expanded specification for code-generation models — Feb 2026, rev 3.4**
+**Fully expanded specification for code-generation models — Feb 2026, rev 3.5**
 
 ---
 
@@ -16,6 +16,12 @@
 
    * Run `npm install` in **any directory that contains a `packages.json`**.
      *(If the repository uses `package.json` in practice, treat it as the same intent; do not skip installs.)*
+
+3. **Documentation is Mandatory**
+
+   * **Every** new component must have a corresponding documentation page in `src/RizzyUI.Docs/Components/Pages/Components/`.
+   * **Every** modified component must have its documentation page updated to reflect API, parameter, or behavior changes.
+   * **Every** new component must be added to the navigation menu in `src/RizzyUI.Docs/Components/Layout/ComponentList.razor`.
 
 ---
 
@@ -48,6 +54,7 @@ The NPM package responsible for building the CSS (Tailwind) and JavaScript (Alpi
 A Blazor Web App that acts as the documentation site and component playground.
 
 * **`Components/Pages/Components/`**: Contains the documentation pages for specific components (e.g., `ButtonInfo.razor`). These pages serve as the primary source of usage examples.
+* **`Components/Layout/ComponentList.razor`**: The side navigation menu listing all available components.
 
 ### `src/RizzyUI.Tests` (Unit Tests)
 
@@ -69,13 +76,13 @@ If the model follows every rule, a maintainer (or an automated agent) can:
 
 ### If working via copy/paste (chat-style generation)
 
-1. Paste the generated files into `src/RizzyUI/…`.
-2. Apply the indicated cross-file edits (see § 14).
+1. Paste the generated files into `src/RizzyUI/…` and `src/RizzyUI.Docs/…`.
+2. Apply the indicated cross-file edits (see § 15).
 3. Run `dotnet build`.
 
 ### If working as an agent with direct repository access (agent-based edits)
 
-1. Apply the file additions/edits directly in the working tree (including any cross-file edits described in §14).
+1. Apply the file additions/edits directly in the working tree (including any cross-file edits described in §15).
 2. Ensure any required Node dependencies are installed where applicable (**AGENTS ONLY — see “Up-Front Non-Negotiables”**).
 3. Run `dotnet build` (and any requested tests), and ensure repository conventions remain intact.
 
@@ -98,6 +105,10 @@ When the user requests code, wrap each file in a single **`output` block** so au
 
   <file path="src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor.cs">
   <!-- C# code-behind -->
+  </file>
+
+  <file path="src/RizzyUI.Docs/Components/Pages/Components/FancyThingInfo.razor">
+  <!-- Documentation Page -->
   </file>
 </files>
 ```
@@ -940,7 +951,96 @@ When unit tests are specifically requested for a new or modified component, they
 
 ---
 
-## 12. The output block example (canonical)
+## 12. Documentation Guidelines (RizzyUI.Docs)
+
+**Any component that is created or modified MUST have a corresponding documentation page in `src/RizzyUI.Docs`.** This ensures the documentation site remains the source of truth for all API surfaces.
+
+### 12.1 Page Contract and Layout
+
+*   **Route and Identity:**
+    *   Use a single, canonical route: `@page "/components/<kebab-or-lowercase-name>"`.
+    *   Set `<PageTitle>` to the component name (matches H1).
+    *   The H1 should be the canonical component name and should also set `QuickReferenceTitle`.
+*   **Consistent Doc Shell:**
+    *   Wrap pages in `RzQuickReferenceContainer` + `RzArticle`.
+    *   Use a two-column pattern:
+        *   `<SideContent>`: `<RzQuickReference />`
+        *   `<MainContent>`: all documentation content
+    *   Use a consistent prose width per page (e.g., `ProseWidth.UltraWide`) so code tables don’t feel cramped.
+*   **Breadcrumbs:**
+    *   **Always** include `RzBreadcrumb` at the top of `MainContent`.
+    *   Hierarchy: Docs → Components → Current Page.
+    *   Use standard HTMX navigation attributes: `hx-boost`, `hx-select`, `hx-target`, `hx-swap="outerHTML"`.
+
+### 12.2 Top-of-page Content
+
+*   **H1 then “One-Paragraph Contract”:**
+    *   Immediately after the H1, include a short paragraph covering:
+        *   What the component is for (use-cases).
+        *   What the “suite” is composed of (subcomponents).
+        *   What provides interactivity (Alpine, not Blazor runtime interactivity).
+        *   Any notable integration hooks (stable IDs, HTMX targeting, events).
+*   **“Under the Hood” Alert:**
+    *   Add an info alert near the top explaining implementation details:
+        *   Alpine `x-data="<name>"`.
+        *   Teleport strategy (e.g., `x-teleport="body"`).
+        *   Focus trapping / escape / backdrop click behaviors.
+    *   Keep it practical: mention the consequence (e.g., avoids z-index issues, enables predictable DOM placement).
+
+### 12.3 Section Structure (Repeatable Pattern)
+
+Every H2 section should follow this mini-template:
+
+1.  **H2 + Explanation:**
+    *   `<RzHeading Level="H2" QuickReferenceTitle="…">`
+    *   Short paragraph naming the scenario, stating what the example demonstrates, and mentioning relevant parameters.
+2.  **Live Demo Region:**
+    *   Provide a centered demo container (e.g., `mx-auto p-8 mb-5 flex justify-center items-center min-h-40`).
+    *   Demos should be minimal but real.
+3.  **Matching Code Block:**
+    *   Immediately follow each demo with an `RzCodeViewer` containing the exact markup used.
+    *   If multiple snippets exist, add `ViewerTitle` (e.g., “Blazor Component”, “Controller Action”).
+    *   **Copy/Paste Safe:** Show all required attributes (`AsChild`, `hx-*`, ids/targets).
+4.  **Progressive Complexity:**
+    *   Order sections from simplest to most integrated: Basic Usage → Appearance Customization → Integration (HTMX) → Advanced Flows.
+
+### 12.4 Environment Limitations
+
+*   **Explicit Limitation Alerts:** If an example cannot work in the docs environment (e.g., requires a real backend endpoint not present in the static docs site), add a warning alert immediately before the demo.
+*   The alert must state what will *not* happen, what *would* happen in a real app, and what the developer should copy.
+
+### 12.5 Parameter and API Reference
+
+*   **Parameters Section (Mandatory):**
+    *   Include a “Component Parameters” H2 near the bottom.
+    *   Break down by component type (e.g., `RzDialog`, `DialogContent`).
+    *   Tables must include: **Property, Description, Type, Default**.
+    *   Clearly mark required values (“Required” pill).
+*   **Alpine API Section:**
+    *   If the component exposes/relies on an Alpine API, include a table with: **Method, Parameters, Description**.
+*   **Event Names & Interoperability:**
+    *   Document event names, default values, and how HTMX/server code triggers them.
+
+### 12.6 Example Quality Standards
+
+*   **Happy Path:** Basic examples must show the trigger, content surface, close mechanism, and exit strategies (Escape, backdrop).
+*   **Customization:** Show at least one example changing a meaningful parameter (size, visibility).
+*   **Integration:** When showing HTMX patterns, include both client markup (`hx-get`, `hx-target`) and server endpoint/controller samples.
+
+### 12.7 Consistency
+
+*   **Terminology:** Pick one term (Dialog vs Modal) and explain the relationship.
+*   **Naming:** Component/parameter names in inline `<code>` must match API casing exactly.
+*   **Quick Reference:** Set `QuickReferenceTitle` on headers. Keep titles short and task-oriented.
+
+### 12.8 Updating ComponentList.razor
+
+*   Any new component must be added to the side navigation in `src/RizzyUI.Docs/Components/Layout/ComponentList.razor`.
+*   This ensures the new documentation page is discoverable.
+
+---
+
+## 13. The output block example (canonical)
 
 When asked to generate `RzFancyThing` (a non-generic component):
 
@@ -948,6 +1048,7 @@ When asked to generate `RzFancyThing` (a non-generic component):
 <files>
   <file path="src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor">…</file>
   <file path="src/RizzyUI/Components/Fancy/RzFancyThing/RzFancyThing.razor.cs">…</file>
+  <file path="src/RizzyUI.Docs/Components/Pages/Components/FancyThingInfo.razor">…</file>
 </files>
 ```
 
@@ -958,14 +1059,15 @@ When asked to generate `RzGenericThing<TItem>`:
   <file path="src/RizzyUI/Components/Generic/RzGenericThing/RzGenericThing.razor">…</file>
   <file path="src/RizzyUI/Components/Generic/RzGenericThing/RzGenericThing.razor.cs">…</file>
   <file path="src/RizzyUI/Components/Generic/RzGenericThing/Styling/RzGenericThingStyles.cs">…</file>
+  <file path="src/RizzyUI.Docs/Components/Pages/Components/GenericThingInfo.razor">…</file>
 </files>
 ```
 
 ---
 
-## 13. What **not** to place in the `output` block
+## 14. What **not** to place in the `output` block
 
-Changes to **global theme scaffolding** (`RzTheme.cs`, `RzTheme.StyleProviders.cs`), **configuration** (`RizzyUIConfig.cs`, `ServiceCollectionExtensions.cs`), and **localization resource files** (`RizzyLocalization.resx`) go in a **separate, preface section** that appears *before* the `output` block.
+Changes to **global theme scaffolding** (`RzTheme.cs`, `RzTheme.StyleProviders.cs`), **configuration** (`RizzyUIConfig.cs`, `ServiceCollectionExtensions.cs`), **localization resource files** (`RizzyLocalization.resx`), and **navigation menus** (`ComponentList.razor`) go in a **separate, preface section** that appears *before* the `output` block.
 That section must identify each existing file and show the lines/entries to insert, either as a diff or as verbatim code snippets/tables.
 Never embed these edits in `<file>` tags because CI merges them manually.
 
@@ -975,7 +1077,7 @@ Never embed these edits in `<file>` tags because CI merges them manually.
 
 ---
 
-## 14. Theme, Localization, and Asset Integration (cross-file edits)
+## 15. Theme, Localization, Asset, and Documentation Integration (cross-file edits)
 
 Whenever a new component is introduced, instruct the user accordingly:
 
@@ -1037,14 +1139,22 @@ Please add the following default asset URLs to the `PostConfigure` action in `sr
      }
      ```
 
+**Documentation Navigation (if new component):**
+
+1. **Add to `src/RizzyUI.Docs/Components/Layout/ComponentList.razor`**:
+
+   ```razor
+   <RzSideNavLink Href="components/fancy-thing">Fancy Thing</RzSideNavLink>
+   ```
+
 ---
 
-## 15. Final checklist for the LLM
+## 16. Final checklist for the LLM
 
 * CRITICAL - Only generate or modify code directly related to the task requested. You are not permitted to modify code outside the scope of the request.
 * **Component Naming:** Ensure only root-level components are prefixed with `Rz`.
-* Prepend the cross-file edit instructions for theme, localization, and asset management if needed (§14).
-* Provide an `output` block for new or replaced component-specific files only (§1, §12).
+* Prepend the cross-file edit instructions for theme, localization, asset management, and **documentation navigation** if needed (§15).
+* Provide an `output` block for new or replaced component-specific files **and documentation pages** only (§1, §12, §13).
 * Use the root element pattern (§2) and Alpine child-container convention if Alpine is used (§10.2).
 * `.razor` files: Use `@inherits RzComponent<...>` and `SlotClasses.Get...()` for all classes (§3, §5).
 * `.razor.cs` files:
@@ -1062,6 +1172,7 @@ Please add the following default asset URLs to the `PostConfigure` action in `sr
   * Define the `static class` containing the `DefaultDescriptor`.
   * Variant expressions in the descriptor **MUST** cast to the `IHas...StylingProperties` interface.
 * Alpine.js: Strictly adhere to API restrictions by always using `Alpine.data` and referencing properties/methods by key only.
+* Documentation: Ensure the generated documentation page (`Info.razor`) strictly follows the layout, structure, and content rules in §12.
 * Include unit tests *only* when specifically requested (§11).
 * Adhere to all specified conventions and avoid manual concatenation of class strings.
 * Do not include comments in Razor markup or using statements. Any comments in code blocks should be production-ready.
@@ -1076,7 +1187,7 @@ Please add the following default asset URLs to the `PostConfigure` action in `sr
 
 ---
 
-### **Final Sign-Off Checklist (Version 3.4)**
+### **Final Sign-Off Checklist (Version 3.5)**
 
 #### **Part A: LLM Automated Verification Checklist**
 
@@ -1104,10 +1215,17 @@ Please add the following default asset URLs to the `PostConfigure` action in `sr
 * **[ ] 16. `data-slot` on Internal Elements:** Every internal element with a `class="@SlotClasses.Get...()"` attribute also has a corresponding `data-slot="@...SlotNames.NameOf(...)"` attribute.
 * **[ ] 17. Alpine Directives Preserved:** All non-class Alpine directives are present in the `.razor` file on their original elements.
 
-#### **Part B: Human Developer Validation Checklist**
+#### **Part B: Documentation Verification Checklist**
 
-* **[ ] 18. Theme Integration:** Have the manual edits to `RzTheme.StyleProviders.cs` and `RzTheme.cs` been applied correctly?
-* **[ ] 19. Obsolete Files Deleted:** Have the old `Default...Styles.cs` and `RzStylesBase...cs` files for the component been deleted?
-* **[ ] 20. Build Success:** Does the entire `RizzyUI` solution build without errors?
-* **[ ] 21. Unit Tests:** Do all existing unit tests for the component pass?
-* **[ ] 22. Demo Application:** Visually confirm that the component renders and behaves exactly as it did before the refactor in the `RizzyUI.Docs` application.
+* **[ ] 18. Documentation Page Exists:** A file in `src/RizzyUI.Docs/Components/Pages/Components/` exists and matches the component name.
+* **[ ] 19. Structure Compliance:** The documentation page uses `RzQuickReferenceContainer`, `RzBreadcrumb`, and `RzCodeViewer` correctly.
+* **[ ] 20. Content Compliance:** The documentation includes a Parameters table and (if applicable) Alpine API/Event details.
+* **[ ] 21. Navigation Updated:** The new component is listed in `src/RizzyUI.Docs/Components/Layout/ComponentList.razor`.
+
+#### **Part C: Human Developer Validation Checklist**
+
+* **[ ] 22. Theme Integration:** Have the manual edits to `RzTheme.StyleProviders.cs` and `RzTheme.cs` been applied correctly?
+* **[ ] 23. Obsolete Files Deleted:** Have the old `Default...Styles.cs` and `RzStylesBase...cs` files for the component been deleted?
+* **[ ] 24. Build Success:** Does the entire `RizzyUI` solution build without errors?
+* **[ ] 25. Unit Tests:** Do all existing unit tests for the component pass?
+* **[ ] 26. Demo Application:** Visually confirm that the component renders and behaves exactly as it did before the refactor in the `RizzyUI.Docs` application.
