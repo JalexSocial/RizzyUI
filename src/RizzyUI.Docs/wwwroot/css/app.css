@@ -549,6 +549,9 @@
   .left-1\/2 {
     left: calc(1/2 * 100%);
   }
+  .left-2 {
+    left: calc(var(--spacing) * 2);
+  }
   .left-3 {
     left: calc(var(--spacing) * 3);
   }
@@ -1427,6 +1430,12 @@
   .min-w-\[8rem\] {
     min-width: 8rem;
   }
+  .min-w-\[10rem\] {
+    min-width: 10rem;
+  }
+  .min-w-\[12rem\] {
+    min-width: 12rem;
+  }
   .min-w-full {
     min-width: 100%;
   }
@@ -1845,6 +1854,13 @@
       --tw-space-x-reverse: 0;
       margin-inline-start: calc(calc(var(--spacing) * 0.5) * var(--tw-space-x-reverse));
       margin-inline-end: calc(calc(var(--spacing) * 0.5) * calc(1 - var(--tw-space-x-reverse)));
+    }
+  }
+  .space-x-1 {
+    :where(& > :not(:last-child)) {
+      --tw-space-x-reverse: 0;
+      margin-inline-start: calc(calc(var(--spacing) * 1) * var(--tw-space-x-reverse));
+      margin-inline-end: calc(calc(var(--spacing) * 1) * calc(1 - var(--tw-space-x-reverse)));
     }
   }
   .space-x-2 {
@@ -6777,6 +6793,11 @@
   .data-\[disabled\]\:opacity-50 {
     &[data-disabled] {
       opacity: 50%;
+    }
+  }
+  .data-\[highlighted\]\:bg-accent {
+    &[data-highlighted] {
+      background-color: var(--accent);
     }
   }
   .data-\[invalid\=true\]\:text-destructive {

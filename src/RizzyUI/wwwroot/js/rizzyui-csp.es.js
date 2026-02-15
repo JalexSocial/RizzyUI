@@ -9166,6 +9166,163 @@ function registerRzMarkdown(Alpine2, require2) {
     };
   });
 }
+function registerRzMenubar(Alpine2) {
+  Alpine2.data("rzMenubar", () => ({
+    currentMenuValue: "",
+    currentTrigger: null,
+    ariaExpanded: "false",
+    isMenuOpen() {
+      const value = this.$el.dataset.menuContent;
+      return this.currentMenuValue !== "" && value === this.currentMenuValue;
+    },
+    setTriggerState(trigger2, isOpen) {
+      if (!trigger2) return;
+      trigger2.dataset.state = isOpen ? "open" : "closed";
+      this.ariaExpanded = isOpen ? "true" : "false";
+    },
+    openMenu(value, trigger2) {
+      if (!value) return;
+      if (this.currentTrigger && this.currentTrigger !== trigger2) {
+        this.setTriggerState(this.currentTrigger, false);
+      }
+      this.currentMenuValue = value;
+      this.currentTrigger = trigger2;
+      this.setTriggerState(trigger2, true);
+      this.$nextTick(() => {
+        const menuContent = this.$el.querySelector(`[data-menu-content="${value}"]`) ?? document.querySelector(`[data-menu-content="${value}"]`);
+        if (!menuContent || !trigger2) return;
+        computePosition(trigger2, menuContent, {
+          placement: "bottom-start",
+          middleware: [offset(4), flip(), shift({ padding: 8 })]
+        }).then(({ x, y }) => {
+          Object.assign(menuContent.style, { left: `${x}px`, top: `${y}px` });
+        });
+      });
+    },
+    closeMenus() {
+      this.currentMenuValue = "";
+      this.setTriggerState(this.currentTrigger, false);
+      this.currentTrigger = null;
+    },
+    getMenuValueFromTrigger(trigger2) {
+      return trigger2?.dataset?.menuValue ?? trigger2?.closest("[data-menu-value]")?.dataset?.menuValue ?? "";
+    },
+    handleTriggerPointerDown(event2) {
+      if (event2.button !== 0 || event2.ctrlKey) return;
+      const trigger2 = event2.currentTarget;
+      const value = this.getMenuValueFromTrigger(trigger2);
+      if (this.currentMenuValue === value) {
+        this.closeMenus();
+      } else {
+        this.openMenu(value, trigger2);
+      }
+      event2.preventDefault();
+    },
+    handleTriggerPointerEnter(event2) {
+      if (!this.currentMenuValue) return;
+      const trigger2 = event2.currentTarget;
+      const value = this.getMenuValueFromTrigger(trigger2);
+      if (value && value !== this.currentMenuValue) {
+        this.openMenu(value, trigger2);
+        trigger2.focus();
+      }
+    },
+    handleTriggerKeydown(event2) {
+      const trigger2 = event2.currentTarget;
+      const value = this.getMenuValueFromTrigger(trigger2);
+      if (["Enter", " ", "ArrowDown"].includes(event2.key)) {
+        this.openMenu(value, trigger2);
+        event2.preventDefault();
+        return;
+      }
+      if (["ArrowRight", "ArrowLeft"].includes(event2.key)) {
+        const triggers = Array.from(this.$el.querySelectorAll('[data-slot="menubar-trigger"]'));
+        const currentIndex = triggers.indexOf(trigger2);
+        if (currentIndex < 0) return;
+        const nextIndex = event2.key === "ArrowRight" ? (currentIndex + 1) % triggers.length : (currentIndex - 1 + triggers.length) % triggers.length;
+        const nextTrigger = triggers[nextIndex];
+        if (!nextTrigger) return;
+        nextTrigger.focus();
+        if (this.currentMenuValue) {
+          this.openMenu(this.getMenuValueFromTrigger(nextTrigger), nextTrigger);
+        }
+        event2.preventDefault();
+      }
+    },
+    handleContentKeydown(event2) {
+      if (event2.key === "Escape") {
+        this.closeMenus();
+        this.currentTrigger?.focus();
+      }
+    },
+    handleItemClick(event2) {
+      const item = event2.currentTarget;
+      if (item.hasAttribute("disabled") || item.getAttribute("aria-disabled") === "true") return;
+      if (item.getAttribute("aria-haspopup") === "menu") return;
+      this.closeMenus();
+      this.currentTrigger?.focus();
+    },
+    toggleCheckboxItem(event2) {
+      const item = event2.currentTarget;
+      const checked = item.getAttribute("data-state") === "checked";
+      item.setAttribute("data-state", checked ? "unchecked" : "checked");
+      item.setAttribute("aria-checked", checked ? "false" : "true");
+    },
+    selectRadioItem(event2) {
+      const item = event2.currentTarget;
+      const group = item.getAttribute("data-radio-group");
+      if (!group) return;
+      const allItems = this.$el.querySelectorAll(`[data-radio-group="${group}"][role="menuitemradio"]`);
+      allItems.forEach((candidate) => {
+        candidate.setAttribute("data-state", "unchecked");
+        candidate.setAttribute("aria-checked", "false");
+      });
+      item.setAttribute("data-state", "checked");
+      item.setAttribute("aria-checked", "true");
+    }
+  }));
+  Alpine2.data("rzMenubarSubmenu", () => ({
+    open: false,
+    ariaExpanded: "false",
+    menuItems: [],
+    focusedIndex: null,
+    init() {
+      this.$watch("open", (value) => {
+        this.ariaExpanded = value ? "true" : "false";
+        this.$nextTick(() => {
+          this.menuItems = Array.from(this.$el.querySelectorAll('[role^="menuitem"]'));
+        });
+      });
+    },
+    openSubmenu() {
+      this.open = true;
+    },
+    closeSubmenu() {
+      this.open = false;
+      this.focusedIndex = null;
+    },
+    toggleSubmenu() {
+      this.open = !this.open;
+    },
+    openSubmenuAndFocusFirst() {
+      this.open = true;
+      this.$nextTick(() => {
+        this.focusedIndex = 0;
+        this.menuItems[0]?.focus();
+      });
+    },
+    focusNextItem() {
+      if (!this.menuItems.length) return;
+      this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1;
+      this.menuItems[this.focusedIndex]?.focus();
+    },
+    focusPreviousItem() {
+      if (!this.menuItems.length) return;
+      this.focusedIndex = this.focusedIndex === null || this.focusedIndex <= 0 ? this.menuItems.length - 1 : this.focusedIndex - 1;
+      this.menuItems[this.focusedIndex]?.focus();
+    }
+  }));
+}
 function registerRzNavigationMenu(Alpine2, $data2) {
   Alpine2.data("rzNavigationMenu", () => ({
     activeItemId: null,
@@ -11220,6 +11377,7 @@ function registerComponents(Alpine2) {
   registerRzIndicator(Alpine2);
   registerRzInputGroupAddon(Alpine2);
   registerRzMarkdown(Alpine2, rizzyRequire);
+  registerRzMenubar(Alpine2);
   registerRzNavigationMenu(Alpine2);
   registerRzPopover(Alpine2);
   registerRzPrependInput(Alpine2);

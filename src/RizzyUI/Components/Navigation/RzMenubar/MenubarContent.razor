@@ -1,0 +1,18 @@
+@namespace RizzyUI
+@inherits RzComponent<MenubarContent.Slots>
+
+<template x-teleport="body">
+    <div id="@Id"
+         @attributes="@AdditionalAttributes"
+         class="@SlotClasses.GetBase()"
+         data-menu-content="@ParentMenu?.Value"
+         role="menu"
+         tabindex="-1"
+         x-show="isMenuOpen"
+         x-cloak
+         x-on:keydown="handleContentKeydown"
+         x-on:pointerdown.outside="closeMenus"
+         data-slot="menubar-content">
+        @ChildContent
+    </div>
+</template>

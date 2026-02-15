@@ -341,6 +341,34 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<DropdownMenuSubTrigger.Slots>, DropdownMenuSubTrigger.Slots> DropdownMenuSubTrigger { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.DropdownMenuTrigger"/> component. </summary>
     public virtual TvDescriptor<RzAsChildComponent<DropdownMenuTrigger.Slots>, DropdownMenuTrigger.Slots> DropdownMenuTrigger { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarCheckboxItem"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarCheckboxItem.Slots>, MenubarCheckboxItem.Slots> MenubarCheckboxItem { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarContent"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarContent.Slots>, MenubarContent.Slots> MenubarContent { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarGroup"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarGroup.Slots>, MenubarGroup.Slots> MenubarGroup { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarItem"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarItem.Slots>, MenubarItem.Slots> MenubarItem { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarLabel"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarLabel.Slots>, MenubarLabel.Slots> MenubarLabel { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarMenu"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarMenu.Slots>, MenubarMenu.Slots> MenubarMenu { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarRadioGroup"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarRadioGroup.Slots>, MenubarRadioGroup.Slots> MenubarRadioGroup { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarRadioItem"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarRadioItem.Slots>, MenubarRadioItem.Slots> MenubarRadioItem { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarSeparator"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarSeparator.Slots>, MenubarSeparator.Slots> MenubarSeparator { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarShortcut"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarShortcut.Slots>, MenubarShortcut.Slots> MenubarShortcut { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarSub"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarSub.Slots>, MenubarSub.Slots> MenubarSub { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarSubContent"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarSubContent.Slots>, MenubarSubContent.Slots> MenubarSubContent { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarSubTrigger"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<MenubarSubTrigger.Slots>, MenubarSubTrigger.Slots> MenubarSubTrigger { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.MenubarTrigger"/> component. </summary>
+    public virtual TvDescriptor<RzAsChildComponent<MenubarTrigger.Slots>, MenubarTrigger.Slots> MenubarTrigger { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.NavigationMenuContent"/> component. </summary>
     public virtual TvDescriptor<RzComponent<NavigationMenuContent.Slots>, NavigationMenuContent.Slots> NavigationMenuContent { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.NavigationMenuItem"/> component. </summary>
@@ -355,6 +383,8 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzBreadcrumb.Slots>, RzBreadcrumb.Slots> RzBreadcrumb { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzDropdownMenu"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzDropdownMenu.Slots>, RzDropdownMenu.Slots> RzDropdownMenu { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzMenubar"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzMenubar.Slots>, RzMenubar.Slots> RzMenubar { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzLink"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzLink.Slots>, RzLink.Slots> RzLink { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzNavigationMenu"/> component. </summary>
