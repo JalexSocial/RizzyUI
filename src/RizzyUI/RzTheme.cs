@@ -54,6 +54,15 @@ public partial class RzTheme
         BreadcrumbSeparator = RizzyUI.BreadcrumbSeparator.DefaultDescriptor;
         BreadcrumbEllipsis = RizzyUI.BreadcrumbEllipsis.DefaultDescriptor;
 
+        // RzPagination Family
+        RzPagination = RizzyUI.RzPagination.DefaultDescriptor;
+        PaginationList = RizzyUI.PaginationList.DefaultDescriptor;
+        PaginationItem = RizzyUI.PaginationItem.DefaultDescriptor;
+        PaginationLink = RizzyUI.PaginationLink.DefaultDescriptor;
+        PaginationPrevious = RizzyUI.PaginationPrevious.DefaultDescriptor;
+        PaginationNext = RizzyUI.PaginationNext.DefaultDescriptor;
+        PaginationEllipsis = RizzyUI.PaginationEllipsis.DefaultDescriptor;
+
         // RzBrowser Family
         RzBrowser = RizzyUI.RzBrowser.DefaultDescriptor;
 

@@ -1,0 +1,14 @@
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<PaginationNext.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             href="@Href"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             aria-label="@AriaLabel"
+             data-slot="@PaginationNext.SlotNames.NameOf(SlotTypes.Base)">
+    <span class="@SlotClasses.GetLabel()" data-slot="@PaginationNext.SlotNames.NameOf(SlotTypes.Label)">@Label</span>
+    <Blazicon Svg="MdiIcon.ChevronRight" class="@SlotClasses.GetIcon()" data-slot="@PaginationNext.SlotNames.NameOf(SlotTypes.Icon)" aria-hidden="true" />
+</HtmlElement>

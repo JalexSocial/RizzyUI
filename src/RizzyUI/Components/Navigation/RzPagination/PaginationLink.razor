@@ -1,0 +1,13 @@
+@namespace RizzyUI
+@inherits RzComponent<PaginationLink.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             href="@Href"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             aria-label="@AriaLabel"
+             aria-current="@(IsActive ? "page" : null)"
+             data-slot="@PaginationLink.SlotNames.NameOf(SlotTypes.Base)">
+    @ChildContent
+</HtmlElement>
