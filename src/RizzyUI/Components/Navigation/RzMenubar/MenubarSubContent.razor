@@ -5,12 +5,13 @@
      @attributes="@AdditionalAttributes"
      class="@SlotClasses.GetBase()"
      role="menu"
-     x-show="open"
      x-cloak
      x-on:keydown.down.prevent="focusNextItem"
      x-on:keydown.up.prevent="focusPreviousItem"
-     x-on:keydown.left.prevent="closeSubmenu"
-     x-on:keydown.escape.prevent="closeSubmenu"
+     x-on:keydown.left.prevent="handleSubContentLeftKey"
+     x-on:keydown.escape.prevent="closeMenus"
+     x-on:pointerenter="cancelCloseAll"
+     x-on:pointerleave="scheduleCloseAll"
      data-slot="menubar-sub-content">
     @ChildContent
 </div>

@@ -9170,24 +9170,61 @@ function registerRzMenubar(Alpine2) {
   Alpine2.data("rzMenubar", () => ({
     currentMenuValue: "",
     currentTrigger: null,
-    ariaExpanded: "false",
+    openPath: [],
+    closeTimer: null,
+    closeDelayMs: 220,
+    init() {
+      this.onDocumentPointerDown = this.handleDocumentPointerDown.bind(this);
+      this.onWindowBlur = this.handleWindowBlur.bind(this);
+      this.onDocumentFocusIn = this.handleDocumentFocusIn.bind(this);
+      document.addEventListener("pointerdown", this.onDocumentPointerDown, true);
+      document.addEventListener("focusin", this.onDocumentFocusIn, true);
+      window.addEventListener("blur", this.onWindowBlur);
+      this.$watch("currentMenuValue", () => {
+        this.$nextTick(() => this.syncSubmenus());
+      });
+    },
+    destroy() {
+      document.removeEventListener("pointerdown", this.onDocumentPointerDown, true);
+      document.removeEventListener("focusin", this.onDocumentFocusIn, true);
+      window.removeEventListener("blur", this.onWindowBlur);
+    },
     isMenuOpen() {
       const value = this.$el.dataset.menuContent;
       return this.currentMenuValue !== "" && value === this.currentMenuValue;
     },
+    isSubmenuOpen() {
+      const ownerId = this.$el.dataset.submenuOwner;
+      return !!ownerId && this.openPath.includes(ownerId);
+    },
     setTriggerState(trigger2, isOpen) {
       if (!trigger2) return;
       trigger2.dataset.state = isOpen ? "open" : "closed";
-      this.ariaExpanded = isOpen ? "true" : "false";
+      trigger2.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    },
+    commonPrefixLen(a2, b) {
+      let i2 = 0;
+      while (i2 < a2.length && i2 < b.length && a2[i2] === b[i2]) i2++;
+      return i2;
+    },
+    setOpenPath(newPath) {
+      const normalizedPath = Array.isArray(newPath) ? newPath.filter(Boolean) : [];
+      const prefix2 = this.commonPrefixLen(this.openPath, normalizedPath);
+      if (prefix2 !== this.openPath.length || prefix2 !== normalizedPath.length) {
+        this.openPath = normalizedPath;
+        this.$nextTick(() => this.syncSubmenus());
+      }
     },
     openMenu(value, trigger2) {
       if (!value) return;
+      this.cancelCloseAll();
       if (this.currentTrigger && this.currentTrigger !== trigger2) {
         this.setTriggerState(this.currentTrigger, false);
       }
       this.currentMenuValue = value;
       this.currentTrigger = trigger2;
       this.setTriggerState(trigger2, true);
+      this.setOpenPath([]);
       this.$nextTick(() => {
         const menuContent = this.$el.querySelector(`[data-menu-content="${value}"]`) ?? document.querySelector(`[data-menu-content="${value}"]`);
         if (!menuContent || !trigger2) return;
@@ -9200,9 +9237,11 @@ function registerRzMenubar(Alpine2) {
       });
     },
     closeMenus() {
+      this.cancelCloseAll();
       this.currentMenuValue = "";
       this.setTriggerState(this.currentTrigger, false);
       this.currentTrigger = null;
+      this.setOpenPath([]);
     },
     getMenuValueFromTrigger(trigger2) {
       return trigger2?.dataset?.menuValue ?? trigger2?.closest("[data-menu-value]")?.dataset?.menuValue ?? "";
@@ -9224,7 +9263,6 @@ function registerRzMenubar(Alpine2) {
       const value = this.getMenuValueFromTrigger(trigger2);
       if (value && value !== this.currentMenuValue) {
         this.openMenu(value, trigger2);
-        trigger2.focus();
       }
     },
     handleTriggerKeydown(event2) {
@@ -9254,11 +9292,25 @@ function registerRzMenubar(Alpine2) {
         this.closeMenus();
         this.currentTrigger?.focus();
       }
+      if (event2.key === "Tab") {
+        this.closeMenus();
+      }
     },
     handleItemMouseEnter(event2) {
       const item = event2.currentTarget;
       if (!item || item.hasAttribute("disabled") || item.getAttribute("aria-disabled") === "true") return;
+      item.dataset.highlighted = "";
       item.focus();
+      const itemPath = this.buildPathToSubTrigger(item);
+      this.setOpenPath(itemPath);
+    },
+    handleItemMouseLeave(event2) {
+      const item = event2.currentTarget;
+      if (!item) return;
+      delete item.dataset.highlighted;
+      if (document.activeElement === item) {
+        item.blur();
+      }
     },
     handleItemClick(event2) {
       const item = event2.currentTarget;
@@ -9277,54 +9329,121 @@ function registerRzMenubar(Alpine2) {
       const item = event2.currentTarget;
       const group = item.getAttribute("data-radio-group");
       if (!group) return;
-      const allItems = this.$el.querySelectorAll(`[data-radio-group="${group}"][role="menuitemradio"]`);
+      const groupEl = this.$el.closest(`[role="group"][data-radio-group="${group}"]`);
+      const allItems = groupEl?.querySelectorAll(`[role="menuitemradio"][data-radio-group="${group}"]`) ?? [];
       allItems.forEach((candidate) => {
         candidate.setAttribute("data-state", "unchecked");
         candidate.setAttribute("aria-checked", "false");
       });
       item.setAttribute("data-state", "checked");
       item.setAttribute("aria-checked", "true");
-    }
-  }));
-  Alpine2.data("rzMenubarSubmenu", () => ({
-    open: false,
-    ariaExpanded: "false",
-    menuItems: [],
-    focusedIndex: null,
-    init() {
-      this.$watch("open", (value) => {
-        this.ariaExpanded = value ? "true" : "false";
-        this.$nextTick(() => {
-          this.menuItems = Array.from(this.$el.querySelectorAll('[role^="menuitem"]'));
-        });
-      });
     },
-    openSubmenu() {
-      this.open = true;
+    buildPathToSubTrigger(element) {
+      const path = [];
+      let currentSub = element.closest('[data-slot="menubar-sub"]');
+      while (currentSub) {
+        const subTrigger = currentSub.querySelector(':scope > [data-slot="menubar-sub-trigger"]');
+        if (!subTrigger?.id) break;
+        path.unshift(subTrigger.id);
+        currentSub = currentSub.parentElement?.closest('[data-slot="menubar-sub"]') ?? null;
+      }
+      return path;
     },
-    closeSubmenu() {
-      this.open = false;
-      this.focusedIndex = null;
+    handleSubTriggerPointerEnter(event2) {
+      if (!this.currentMenuValue) return;
+      this.cancelCloseAll();
+      const trigger2 = event2.currentTarget;
+      const newPath = this.buildPathToSubTrigger(trigger2);
+      this.setOpenPath(newPath);
     },
-    toggleSubmenu() {
-      this.open = !this.open;
+    handleSubTriggerClick(event2) {
+      const trigger2 = event2.currentTarget;
+      const newPath = this.buildPathToSubTrigger(trigger2);
+      const isOpen = this.openPath.length === newPath.length && this.openPath.every((value, index) => value === newPath[index]);
+      this.setOpenPath(isOpen ? newPath.slice(0, -1) : newPath);
     },
-    openSubmenuAndFocusFirst() {
-      this.open = true;
+    handleSubTriggerKeyRight(event2) {
+      this.handleSubTriggerPointerEnter(event2);
       this.$nextTick(() => {
-        this.focusedIndex = 0;
-        this.menuItems[0]?.focus();
+        const subRoot = event2.currentTarget.closest('[data-slot="menubar-sub"]');
+        const firstItem = subRoot?.querySelector('[data-slot="menubar-sub-content"] [role^="menuitem"]');
+        firstItem?.focus();
       });
     },
-    focusNextItem() {
-      if (!this.menuItems.length) return;
-      this.focusedIndex = this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1 ? 0 : this.focusedIndex + 1;
-      this.menuItems[this.focusedIndex]?.focus();
+    focusNextItem(event2) {
+      const items = Array.from(event2.currentTarget.querySelectorAll('[role^="menuitem"]'));
+      if (!items.length) return;
+      const currentIndex = items.indexOf(document.activeElement);
+      const nextIndex = currentIndex < 0 || currentIndex >= items.length - 1 ? 0 : currentIndex + 1;
+      items[nextIndex]?.focus();
     },
-    focusPreviousItem() {
-      if (!this.menuItems.length) return;
-      this.focusedIndex = this.focusedIndex === null || this.focusedIndex <= 0 ? this.menuItems.length - 1 : this.focusedIndex - 1;
-      this.menuItems[this.focusedIndex]?.focus();
+    focusPreviousItem(event2) {
+      const items = Array.from(event2.currentTarget.querySelectorAll('[role^="menuitem"]'));
+      if (!items.length) return;
+      const currentIndex = items.indexOf(document.activeElement);
+      const nextIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      items[nextIndex]?.focus();
+    },
+    handleSubContentLeftKey(event2) {
+      const subRoot = event2.currentTarget.closest('[data-slot="menubar-sub"]');
+      const trigger2 = subRoot?.querySelector(':scope > [data-slot="menubar-sub-trigger"]');
+      if (!trigger2) return;
+      const path = this.buildPathToSubTrigger(trigger2);
+      this.setOpenPath(path.slice(0, -1));
+      trigger2.focus();
+    },
+    syncSubmenus() {
+      const openMenuContent = this.currentMenuValue ? this.$el.querySelector(`[data-menu-content="${this.currentMenuValue}"]`) ?? document.querySelector(`[data-menu-content="${this.currentMenuValue}"]`) : null;
+      const subRoots = openMenuContent?.querySelectorAll('[data-slot="menubar-sub"]') ?? [];
+      subRoots.forEach((subRoot) => {
+        const trigger2 = subRoot.querySelector(':scope > [data-slot="menubar-sub-trigger"]');
+        const content = subRoot.querySelector(':scope > [data-slot="menubar-sub-content"]');
+        const triggerId = trigger2?.id;
+        const isOpen = !!triggerId && this.openPath.includes(triggerId);
+        this.setTriggerState(trigger2, isOpen);
+        if (content) {
+          content.style.display = isOpen ? "" : "none";
+          content.dataset.state = isOpen ? "open" : "closed";
+          if (isOpen && trigger2) {
+            computePosition(trigger2, content, {
+              placement: "right-start",
+              middleware: [offset(4), flip(), shift({ padding: 8 })]
+            }).then(({ x, y }) => {
+              Object.assign(content.style, { left: `${x}px`, top: `${y}px` });
+            });
+          }
+        }
+      });
+    },
+    scheduleCloseAll() {
+      this.cancelCloseAll();
+      this.closeTimer = setTimeout(() => {
+        this.closeMenus();
+      }, this.closeDelayMs);
+    },
+    cancelCloseAll() {
+      if (this.closeTimer) {
+        clearTimeout(this.closeTimer);
+        this.closeTimer = null;
+      }
+    },
+    handleDocumentPointerDown(event2) {
+      const target = event2.target;
+      if (target instanceof Node && this.$el.contains(target)) return;
+      const openMenuContent = this.currentMenuValue ? this.$el.querySelector(`[data-menu-content="${this.currentMenuValue}"]`) ?? document.querySelector(`[data-menu-content="${this.currentMenuValue}"]`) : null;
+      if (target instanceof Node && openMenuContent?.contains(target)) return;
+      this.closeMenus();
+    },
+    handleDocumentFocusIn(event2) {
+      const target = event2.target;
+      if (!(target instanceof Node)) return;
+      if (this.$el.contains(target)) return;
+      const openMenuContent = this.currentMenuValue ? this.$el.querySelector(`[data-menu-content="${this.currentMenuValue}"]`) ?? document.querySelector(`[data-menu-content="${this.currentMenuValue}"]`) : null;
+      if (openMenuContent?.contains(target)) return;
+      this.closeMenus();
+    },
+    handleWindowBlur() {
+      this.closeMenus();
     }
   }));
 }

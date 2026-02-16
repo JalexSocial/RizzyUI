@@ -6995,6 +6995,11 @@
       color: var(--primary-foreground);
     }
   }
+  .data-\[state\=checked\]\:opacity-100 {
+    &[data-state="checked"] {
+      opacity: 100%;
+    }
+  }
   .data-\[state\=closed\]\:hidden {
     &[data-state="closed"] {
       display: none;
@@ -7184,6 +7189,28 @@
   .data-\[state\=visible\]\:fade-in {
     &[data-state="visible"] {
       --tw-enter-opacity: 0;
+    }
+  }
+  .data-\[variant\=destructive\]\:text-destructive {
+    &[data-variant="destructive"] {
+      color: var(--destructive);
+    }
+  }
+  .data-\[variant\=destructive\]\:focus\:bg-destructive\/10 {
+    &[data-variant="destructive"] {
+      &:focus {
+        background-color: var(--destructive);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
+        }
+      }
+    }
+  }
+  .data-\[variant\=destructive\]\:focus\:text-destructive {
+    &[data-variant="destructive"] {
+      &:focus {
+        color: var(--destructive);
+      }
     }
   }
   .nth-last-2\:-mt-1 {
@@ -9238,6 +9265,18 @@
       }
     }
   }
+  .dark\:data-\[variant\=destructive\]\:focus\:bg-destructive\/20 {
+    &:is(.dark *) {
+      &[data-variant="destructive"] {
+        &:focus {
+          background-color: var(--destructive);
+          @supports (color: color-mix(in lab, red, red)) {
+            background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
+          }
+        }
+      }
+    }
+  }
   .\[\&_\.ts-control\]\:\!border-destructive {
     & .ts-control {
       border-color: var(--destructive) !important;
@@ -9320,6 +9359,18 @@
   .peer-checked\:\[\&_\[data-slot\=indicator\]\]\:opacity-100 {
     &:is(:where(.peer):checked ~ *) {
       & [data-slot=indicator] {
+        opacity: 100%;
+      }
+    }
+  }
+  .\[\&_\[data-slot\=menubar-item-indicator\]\]\:opacity-0 {
+    & [data-slot=menubar-item-indicator] {
+      opacity: 0%;
+    }
+  }
+  .data-\[state\=checked\]\:\[\&_\[data-slot\=menubar-item-indicator\]\]\:opacity-100 {
+    &[data-state="checked"] {
+      & [data-slot=menubar-item-indicator] {
         opacity: 100%;
       }
     }
@@ -9512,6 +9563,15 @@
     &:is(aria-selected='true') {
       &:is(.dark *) {
         color: var(--foreground);
+      }
+    }
+  }
+  .data-\[variant\=destructive\]\:\*\:\[svg\]\:\!text-destructive {
+    &[data-variant="destructive"] {
+      :is(& > *) {
+        &:is(svg) {
+          color: var(--destructive) !important;
+        }
       }
     }
   }

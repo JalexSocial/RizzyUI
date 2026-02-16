@@ -6,11 +6,6 @@
                  id="@Id"
                  @attributes="@AdditionalAttributes"
                  class="@SlotClasses.GetBase()"
-                 x-data="rzMenubarSubmenu"
-                 x-on:mouseenter="handleSubRootMouseEnter"
-                 x-on:pointerdown.outside="handleSubOutsidePointerDown"
-                 x-on:menubar-close-submenus.window="handleParentItemHover"
-                 x-on:menubar-close-all-submenus.window="forceCloseSubmenu"
                  data-slot="menubar-sub">
         @ChildContent
     </HtmlElement>

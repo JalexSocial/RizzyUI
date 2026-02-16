@@ -9,12 +9,12 @@
              role="menuitem"
              tabindex="-1"
              aria-haspopup="menu"
-             x-bind:aria-expanded="ariaExpanded"
-             x-on:pointerenter="openSubmenu"
+             aria-expanded="false"
+             x-on:pointerenter="handleSubTriggerPointerEnter"
              x-on:mouseenter="handleItemMouseEnter"
              x-on:mouseleave="handleItemMouseLeave"
-             x-on:click="toggleSubmenu"
-             x-on:keydown.right.prevent="openSubmenuAndFocusFirst"
+             x-on:click="handleSubTriggerClick"
+             x-on:keydown.right.prevent="handleSubTriggerKeyRight"
              data-slot="menubar-sub-trigger">
     @if (Icon is not null)
     {

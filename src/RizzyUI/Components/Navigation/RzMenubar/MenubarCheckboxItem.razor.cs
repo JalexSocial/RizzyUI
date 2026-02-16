@@ -12,10 +12,10 @@ public partial class MenubarCheckboxItem : RzComponent<MenubarCheckboxItem.Slots
     /// Defines the default styling for <see cref="MenubarCheckboxItem"/>.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        @base: "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_[data-slot=menubar-item-indicator]]:opacity-0 data-[state=checked]:[&_[data-slot=menubar-item-indicator]]:opacity-100",
         slots: new()
         {
-            [s => s.Indicator] = "absolute left-2 flex size-3.5 items-center justify-center opacity-0 data-[state=checked]:opacity-100"
+            [s => s.Indicator] = "absolute left-2 flex size-3.5 items-center justify-center"
         }
     );
 

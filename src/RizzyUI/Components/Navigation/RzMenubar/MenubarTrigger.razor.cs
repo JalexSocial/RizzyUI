@@ -51,7 +51,7 @@ public partial class MenubarTrigger : RzAsChildComponent<MenubarTrigger.Slots>
             ["role"] = "menuitem",
             ["tabindex"] = "0",
             ["aria-haspopup"] = "menu",
-            ["x-bind:aria-expanded"] = "ariaExpanded",
+            ["aria-expanded"] = "false",
             ["data-menu-value"] = ParentMenu?.Value,
             ["x-on:pointerdown"] = "handleTriggerPointerDown",
             ["x-on:pointerenter"] = "handleTriggerPointerEnter",
