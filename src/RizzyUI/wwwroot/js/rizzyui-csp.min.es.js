@@ -6541,6 +6541,10 @@ function Oc(t) {
     handleContentKeydown(e) {
       e.key === "Escape" && (this.closeMenus(), this.currentTrigger?.focus());
     },
+    handleItemMouseEnter(e) {
+      const i = e.currentTarget;
+      !i || i.hasAttribute("disabled") || i.getAttribute("aria-disabled") === "true" || i.focus();
+    },
     handleItemClick(e) {
       const i = e.currentTarget;
       i.hasAttribute("disabled") || i.getAttribute("aria-disabled") === "true" || i.getAttribute("aria-haspopup") !== "menu" && (this.closeMenus(), this.currentTrigger?.focus());

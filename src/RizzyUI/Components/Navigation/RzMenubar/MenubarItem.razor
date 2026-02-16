@@ -9,7 +9,8 @@
              role="menuitem"
              tabindex="-1"
              aria-disabled="@(Disabled.ToString().ToLowerInvariant())"
-             disabled="@(Disabled ? "disabled" : null)"
+             disabled=@(Disabled ? "disabled" : null)
+             data-disabled=@(Disabled ? "disabled" : null)
              x-on:click="handleItemClick"
              x-on:mouseenter="handleItemMouseEnter"
              data-slot="menubar-item">

@@ -8473,6 +8473,11 @@ function registerRzMenubar(Alpine2) {
         this.currentTrigger?.focus();
       }
     },
+    handleItemMouseEnter(event2) {
+      const item = event2.currentTarget;
+      if (!item || item.hasAttribute("disabled") || item.getAttribute("aria-disabled") === "true") return;
+      item.focus();
+    },
     handleItemClick(event2) {
       const item = event2.currentTarget;
       if (item.hasAttribute("disabled") || item.getAttribute("aria-disabled") === "true") return;
