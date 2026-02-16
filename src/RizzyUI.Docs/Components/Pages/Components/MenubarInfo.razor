@@ -1,6 +1,7 @@
 @page "/components/menubar"
 @namespace RizzyUI.Pages
 @using RizzyUI
+@using Blazicons
 @inherits RzComponent
 
 <PageTitle>Menubar</PageTitle>
@@ -21,40 +22,90 @@
                 </BreadcrumbList>
             </RzBreadcrumb>
 
-            <RzHeading Level="HeadingLevel.H1">Menubar</RzHeading>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Menubar" class="scroll-mt-20">Menubar</RzHeading>
             <RzParagraph>
-                Menubar provides desktop-style command menus with keyboard navigation, submenus, checkboxes, and radio items.
-                It mirrors the shadcn/ui menubar API while using RizzyUI's SSR + Alpine.js interaction model.
+                Menubar provides desktop-style command menus with keyboard navigation, nested submenus, separators,
+                checkboxes, radio groups, shortcuts, and disabled items. It mirrors the shadcn/ui menubar API while
+                keeping RizzyUI's SSR-first architecture and Alpine.js behavior model.
             </RzParagraph>
 
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2">Example</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic" class="scroll-mt-20">Basic Menubar</RzHeading>
+                <RzParagraph>
+                    Start with top-level menus and action items. This pattern is ideal for file and edit commands.
+                </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="p-8 flex justify-center">
                         <RzMenubar>
                             <MenubarMenu Value="file">
                                 <MenubarTrigger>File</MenubarTrigger>
                                 <MenubarContent>
+                                    <MenubarItem>New Tab</MenubarItem>
+                                    <MenubarItem>New Window</MenubarItem>
+                                    <MenubarSeparator />
+                                    <MenubarItem>Open...</MenubarItem>
+                                    <MenubarItem Disabled="true">Save As...</MenubarItem>
+                                </MenubarContent>
+                            </MenubarMenu>
+                            <MenubarMenu Value="edit">
+                                <MenubarTrigger>Edit</MenubarTrigger>
+                                <MenubarContent>
+                                    <MenubarItem>Undo</MenubarItem>
+                                    <MenubarItem>Redo</MenubarItem>
+                                    <MenubarSeparator />
+                                    <MenubarItem>Cut</MenubarItem>
+                                    <MenubarItem>Copy</MenubarItem>
+                                    <MenubarItem>Paste</MenubarItem>
+                                </MenubarContent>
+                            </MenubarMenu>
+                        </RzMenubar>
+                    </div>
+                </RzBrowser>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Shortcuts & Icons" class="scroll-mt-20">Commands with Icons and Shortcuts</RzHeading>
+                <RzParagraph>
+                    Use icons and shortcuts to improve scanability for frequent desktop actions.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="p-8 flex justify-center">
+                        <RzMenubar>
+                            <MenubarMenu Value="file-shortcuts">
+                                <MenubarTrigger>File</MenubarTrigger>
+                                <MenubarContent>
                                     <MenubarItem Icon="MdiIcon.FileOutline">New File<MenubarShortcut>⌘N</MenubarShortcut></MenubarItem>
                                     <MenubarItem Icon="MdiIcon.FolderOpenOutline">Open...<MenubarShortcut>⌘O</MenubarShortcut></MenubarItem>
                                     <MenubarSeparator />
-                                    <MenubarCheckboxItem Checked="true">Auto Save</MenubarCheckboxItem>
-                                    <MenubarSub>
-                                        <MenubarSubTrigger>Share</MenubarSubTrigger>
-                                        <MenubarSubContent>
-                                            <MenubarItem>Email Link</MenubarItem>
-                                            <MenubarItem>Copy Invite</MenubarItem>
-                                        </MenubarSubContent>
-                                    </MenubarSub>
+                                    <MenubarItem Icon="MdiIcon.ContentSaveOutline">Save<MenubarShortcut>⌘S</MenubarShortcut></MenubarItem>
+                                    <MenubarItem Icon="MdiIcon.FileExportOutline">Export<MenubarShortcut>⇧⌘E</MenubarShortcut></MenubarItem>
                                 </MenubarContent>
                             </MenubarMenu>
+                        </RzMenubar>
+                    </div>
+                </RzBrowser>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Checkbox & Radio" class="scroll-mt-20">Checkbox and Radio Item Groups</RzHeading>
+                <RzParagraph>
+                    Use checkbox items for independent toggles and radio groups for mutually exclusive selections.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="p-8 flex justify-center">
+                        <RzMenubar>
                             <MenubarMenu Value="view">
                                 <MenubarTrigger>View</MenubarTrigger>
                                 <MenubarContent>
-                                    <MenubarLabel>Panel Layout</MenubarLabel>
-                                    <MenubarRadioGroup Name="layout-mode">
+                                    <MenubarCheckboxItem Checked="true">Status Bar</MenubarCheckboxItem>
+                                    <MenubarCheckboxItem Checked="true">Activity Panel</MenubarCheckboxItem>
+                                    <MenubarCheckboxItem>Secondary Sidebar</MenubarCheckboxItem>
+                                    <MenubarSeparator />
+                                    <MenubarLabel>Panel Density</MenubarLabel>
+                                    <MenubarRadioGroup Name="panel-density">
                                         <MenubarRadioItem Value="default" Checked="true">Default</MenubarRadioItem>
                                         <MenubarRadioItem Value="compact">Compact</MenubarRadioItem>
+                                        <MenubarRadioItem Value="comfortable">Comfortable</MenubarRadioItem>
                                     </MenubarRadioGroup>
                                 </MenubarContent>
                             </MenubarMenu>
@@ -62,7 +113,89 @@
                     </div>
                 </RzBrowser>
             </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Nested Menus" class="scroll-mt-20">Nested Submenus</RzHeading>
+                <RzParagraph>
+                    Submenus let you group related actions without overloading the first level.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="p-8 flex justify-center">
+                        <RzMenubar>
+                            <MenubarMenu Value="share">
+                                <MenubarTrigger>Share</MenubarTrigger>
+                                <MenubarContent>
+                                    <MenubarSub>
+                                        <MenubarSubTrigger>Email</MenubarSubTrigger>
+                                        <MenubarSubContent>
+                                            <MenubarItem>Send as Link</MenubarItem>
+                                            <MenubarItem>Send as Attachment</MenubarItem>
+                                        </MenubarSubContent>
+                                    </MenubarSub>
+                                    <MenubarSub>
+                                        <MenubarSubTrigger>Invite</MenubarSubTrigger>
+                                        <MenubarSubContent>
+                                            <MenubarItem>Copy Invite Link</MenubarItem>
+                                            <MenubarItem>Invite by Username</MenubarItem>
+                                            <MenubarSeparator />
+                                            <MenubarItem Disabled="true">Manage Access</MenubarItem>
+                                        </MenubarSubContent>
+                                    </MenubarSub>
+                                </MenubarContent>
+                            </MenubarMenu>
+                            <MenubarMenu Value="help">
+                                <MenubarTrigger>Help</MenubarTrigger>
+                                <MenubarContent>
+                                    <MenubarItem>Documentation</MenubarItem>
+                                    <MenubarItem>Keyboard Shortcuts</MenubarItem>
+                                    <MenubarSeparator />
+                                    <MenubarItem>Release Notes</MenubarItem>
+                                </MenubarContent>
+                            </MenubarMenu>
+                        </RzMenubar>
+                    </div>
+                </RzBrowser>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
+                <RzParagraph>
+                    Menubar interactivity is implemented with Alpine.js. The root menubar uses <code>rzMenubar</code>,
+                    and nested flyout menus use <code>rzMenubarSubmenu</code>. This keeps the component SSR-first while
+                    still supporting keyboard and pointer interactions without Blazor event handlers.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">rzMenubar methods</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">openMenu</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">value: string, trigger: HTMLElement</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens the specified top-level menu and positions content with Floating UI.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">closeMenus</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the active top-level menu and clears trigger state.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">handleTriggerKeydown</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">event: KeyboardEvent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Handles Enter/Space/ArrowDown to open and ArrowLeft/ArrowRight to move between triggers.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">toggleCheckboxItem</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">event: Event</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Toggles <code>data-state</code> and <code>aria-checked</code> for checkbox menu items.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">selectRadioItem</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">event: Event</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Selects a radio item and clears previous selection in the same group.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">rzMenubarSubmenu methods</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">openSubmenu</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens the submenu panel.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">closeSubmenu</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the submenu and resets keyboard focus index.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">openSubmenuAndFocusFirst</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens the submenu and focuses the first item for keyboard navigation.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">focusNextItem / focusPreviousItem</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Cycles focus through submenu items with wraparound behavior.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>
-
