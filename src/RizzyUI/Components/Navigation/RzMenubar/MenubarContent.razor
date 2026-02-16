@@ -11,7 +11,8 @@
          x-show="isMenuOpen"
          x-cloak
          x-on:keydown="handleContentKeydown"
-         x-on:pointerdown.outside="closeMenus"
+         x-on:pointerenter="cancelCloseAll"
+         x-on:pointerleave="scheduleCloseAll"
          data-slot="menubar-content">
         @ChildContent
     </div>

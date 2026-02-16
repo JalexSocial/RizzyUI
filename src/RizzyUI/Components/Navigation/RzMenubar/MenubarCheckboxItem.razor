@@ -11,6 +11,8 @@
              aria-checked="@(Checked.ToString().ToLowerInvariant())"
              data-state="@(Checked ? "checked" : "unchecked")"
              x-on:click="toggleCheckboxItem"
+             x-on:mouseenter="handleItemMouseEnter"
+             x-on:mouseleave="handleItemMouseLeave"
              data-slot="menubar-checkbox-item">
     <span class="@SlotClasses.GetIndicator()" data-slot="menubar-item-indicator">
         <Blazicon Svg="MdiIcon.Check" aria-hidden="true" />
