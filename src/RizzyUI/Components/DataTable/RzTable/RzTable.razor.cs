@@ -49,9 +49,9 @@ public partial class RzTable<TItem> : RzComponent<RzTableSlots>, IHasTableStylin
     [Parameter, EditorRequired] public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
 
     /// <summary>
-    /// Gets or sets the base URL for HTMX requests (e.g., sorting, pagination). This is a required parameter.
+    /// Gets or sets the base URL for HTMX requests (e.g., sorting, pagination).
     /// </summary>
-    [Parameter, EditorRequired] public string HxControllerUrl { get; set; } = string.Empty;
+    [Parameter] public string? HxControllerUrl { get; set; }
 
     /// <summary>
     /// Gets or sets the current state of the table request, including sorting, filtering, and pagination info.
