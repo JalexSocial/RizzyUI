@@ -105,6 +105,12 @@ export default function(Alpine) {
             }
         },
 
+
+        handleItemMouseEnter(event) {
+            const item = event.currentTarget;
+            if (!item || item.hasAttribute('disabled') || item.getAttribute('aria-disabled') === 'true') return;
+            item.focus();
+        },
         handleItemClick(event) {
             const item = event.currentTarget;
             if (item.hasAttribute('disabled') || item.getAttribute('aria-disabled') === 'true') return;

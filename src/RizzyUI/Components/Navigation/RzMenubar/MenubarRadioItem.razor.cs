@@ -12,7 +12,7 @@ public partial class MenubarRadioItem : RzComponent<MenubarRadioItem.Slots>
     /// Defines the default styling for <see cref="MenubarRadioItem"/>.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        @base: "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         slots: new() { [s => s.Indicator] = "absolute left-2 flex size-3.5 items-center justify-center" }
     );
 

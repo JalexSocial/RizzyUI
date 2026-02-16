@@ -11,10 +11,11 @@
              aria-disabled="@(Disabled.ToString().ToLowerInvariant())"
              disabled="@(Disabled ? "disabled" : null)"
              x-on:click="handleItemClick"
+             x-on:mouseenter="handleItemMouseEnter"
              data-slot="menubar-item">
     @if (Icon is not null)
     {
-        <Blazicon Svg="@Icon" class="@SlotClasses.GetIcon()" aria-hidden="true" />
+        <Blazicon Svg="@Icon" class="@SlotClasses.GetIcon()" data-slot="icon" aria-hidden="true" />
     }
     @ChildContent
     @if (ShortcutContent is not null)
