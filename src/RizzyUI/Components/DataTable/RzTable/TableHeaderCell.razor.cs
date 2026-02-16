@@ -207,7 +207,9 @@ public partial class TableHeaderCell<TItem> : RzComponent<TableHeaderCellSlots>,
                     Page = 1
                 };
             }
-            _effectiveHxGetUrl = $"{ParentRzTable.HxControllerUrl}{nextRequestParameters.ToQueryString()}";
+            _effectiveHxGetUrl = string.IsNullOrEmpty(ParentRzTable.HxControllerUrl)
+                ? null
+                : $"{ParentRzTable.HxControllerUrl}{nextRequestParameters.ToQueryString()}";
         }
         else
         {

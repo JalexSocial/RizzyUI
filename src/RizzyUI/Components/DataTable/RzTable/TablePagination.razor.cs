@@ -116,9 +116,9 @@ public partial class TablePagination<TItem> : RzComponent<TablePaginationSlots>
         if (string.IsNullOrEmpty(Element))
             Element = "nav";
 
-        if (ParentRzTable == null && (PaginationState == null || string.IsNullOrEmpty(HxControllerUrl)))
+        if (ParentRzTable == null && PaginationState == null)
         {
-            throw new InvalidOperationException($"{GetType().Name} requires either to be within an RzTable, or to have PaginationState and HxControllerUrl parameters provided.");
+            throw new InvalidOperationException($"{GetType().Name} requires either to be within an RzTable, or to have PaginationState provided.");
         }
 
         EnsureParameterDefaults();
@@ -159,15 +159,18 @@ public partial class TablePagination<TItem> : RzComponent<TablePaginationSlots>
     /// <returns>A dictionary of HTMX attributes.</returns>
     protected Dictionary<string, object> GetPageLinkHxAttributes(int pageNumber)
     {
-        var defaultAttributes = new Dictionary<string, object>
+        var defaultAttributes = new Dictionary<string, object>();
+
+        if (!string.IsNullOrEmpty(EffectiveHxControllerUrl))
         {
-            { "hx-get", GetPageUrl(pageNumber) },
-            { "hx-target", EffectiveHxTargetSelector },
-            { "hx-swap", EffectiveHxSwapMode }
-        };
-        if (!string.IsNullOrEmpty(EffectiveHxIndicatorSelector))
-        {
-            defaultAttributes["hx-indicator"] = EffectiveHxIndicatorSelector;
+            defaultAttributes["hx-get"] = GetPageUrl(pageNumber);
+            defaultAttributes["hx-target"] = EffectiveHxTargetSelector;
+            defaultAttributes["hx-swap"] = EffectiveHxSwapMode;
+
+            if (!string.IsNullOrEmpty(EffectiveHxIndicatorSelector))
+            {
+                defaultAttributes["hx-indicator"] = EffectiveHxIndicatorSelector;
+            }
         }
 
         if (HxPageLinkAttributes != null)
@@ -177,6 +180,7 @@ public partial class TablePagination<TItem> : RzComponent<TablePaginationSlots>
                 defaultAttributes[attr.Key] = attr.Value;
             }
         }
+
         return defaultAttributes;
     }
 

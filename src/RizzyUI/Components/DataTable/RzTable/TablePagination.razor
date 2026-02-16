@@ -1,75 +1,66 @@
-
 @namespace RizzyUI
 @typeparam TItem
 @inherits RzComponent<TablePaginationSlots>
 
 <HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" data-slot="table-pagination" class="@SlotClasses.GetBase()" aria-label="@NavigationAriaLabel">
-    @if (EffectivePaginationState.TotalPages > 1) 
+    @if (EffectivePaginationState.TotalPages > 1)
     {
-        <ul class="@SlotClasses.GetList()" data-slot="table-pagination-list">
-            <li>
-                @if (CanGoPrevious)
-                {
-                    <button type="button"
-                            class="@SlotClasses.GetLink()"
-                            data-slot="table-pagination-link"
-                            aria-label="@PreviousButtonLabel"
-                            @attributes="GetPageLinkHxAttributes(EffectivePaginationState.CurrentPage - 1)">
-                        @PreviousButtonLabel
-                    </button>
-                }
-                else
-                {
-                    <span class="@SlotClasses.GetLinkDisabled()" data-slot="table-pagination-link-disabled" aria-disabled="true">
-                        @PreviousButtonLabel
-                    </span>
-                }
-            </li>
-
-            @foreach (var link in GetPageLinks())
-            {
-                <li>
-                    @if (link.IsEllipsis)
+        <RzPagination AriaLabel="@NavigationAriaLabel" class="@SlotClasses.GetBase()">
+            <PaginationList class="@SlotClasses.GetList()">
+                <PaginationItem>
+                    @if (CanGoPrevious)
                     {
-                        <span class="@SlotClasses.GetEllipsis()" data-slot="table-pagination-ellipsis">@link.Text</span>
+                        <PaginationPrevious Href="@GetPageUrl(EffectivePaginationState.CurrentPage - 1)"
+                                            Label="@PreviousButtonLabel"
+                                            AriaLabel="@PreviousButtonLabel"
+                                            class="@SlotClasses.GetLink()"
+                                            @attributes="GetPageLinkHxAttributes(EffectivePaginationState.CurrentPage - 1)" />
                     }
                     else
                     {
-                        <button type="button"
-                                class="@(link.IsCurrent ? SlotClasses.GetLinkCurrent() : SlotClasses.GetLink())"
-                                data-slot="@(link.IsCurrent ? "table-pagination-link-current" : "table-pagination-link")"
-                                aria-current="@(link.IsCurrent ? "page" : null)"
-                                aria-label="@($"Go to page {link.PageNumber}")"
-                                disabled="@link.IsCurrent" 
-                                @attributes="link.IsCurrent ? null : GetPageLinkHxAttributes(link.PageNumber)">
-                            @link.Text
-                        </button>
+                        <span class="@SlotClasses.GetLinkDisabled()" data-slot="table-pagination-link-disabled" aria-disabled="true">
+                            @PreviousButtonLabel
+                        </span>
                     }
-                </li>
-            }
+                </PaginationItem>
 
-            <li>
-                @if (CanGoNext)
+                @foreach (var link in GetPageLinks())
                 {
-                    <button type="button"
-                            class="@SlotClasses.GetLink()"
-                            data-slot="table-pagination-link"
-                            aria-label="@NextButtonLabel"
-                            @attributes="GetPageLinkHxAttributes(EffectivePaginationState.CurrentPage + 1)">
-                        @NextButtonLabel
-                    </button>
+                    <PaginationItem>
+                        @if (link.IsEllipsis)
+                        {
+                            <PaginationEllipsis class="@SlotClasses.GetEllipsis()" ScreenReaderText="@Localizer["PaginationEllipsis.MorePages"]" />
+                        }
+                        else
+                        {
+                            <PaginationLink Href="@GetPageUrl(link.PageNumber)"
+                                            class="@(link.IsCurrent ? SlotClasses.GetLinkCurrent() : SlotClasses.GetLink())"
+                                            IsActive="@link.IsCurrent"
+                                            AriaLabel="@($"Go to page {link.PageNumber}")"
+                                            @attributes="link.IsCurrent ? null : GetPageLinkHxAttributes(link.PageNumber)">
+                                @link.Text
+                            </PaginationLink>
+                        }
+                    </PaginationItem>
                 }
-                else
-                {
-                    <span class="@SlotClasses.GetLinkDisabled()" data-slot="table-pagination-link-disabled" aria-disabled="true">
-                        @NextButtonLabel
-                    </span>
-                }
-            </li>
-        </ul>
-    }
-    else if (EffectivePaginationState.TotalItems > 0 && EffectivePaginationState.TotalPages <= 1)
-    {
-        // Optionally show nothing or a minimal message if only one page or no items?
+
+                <PaginationItem>
+                    @if (CanGoNext)
+                    {
+                        <PaginationNext Href="@GetPageUrl(EffectivePaginationState.CurrentPage + 1)"
+                                        Label="@NextButtonLabel"
+                                        AriaLabel="@NextButtonLabel"
+                                        class="@SlotClasses.GetLink()"
+                                        @attributes="GetPageLinkHxAttributes(EffectivePaginationState.CurrentPage + 1)" />
+                    }
+                    else
+                    {
+                        <span class="@SlotClasses.GetLinkDisabled()" data-slot="table-pagination-link-disabled" aria-disabled="true">
+                            @NextButtonLabel
+                        </span>
+                    }
+                </PaginationItem>
+            </PaginationList>
+        </RzPagination>
     }
 </HtmlElement>

@@ -41,7 +41,7 @@
          class="shadow-md rounded-lg"
          hx-boost="true"> 
 
-    <Header>
+    <TableHeader>
         <TableRow>
             <TableHeaderCell For="p => p.Id" Sortable="true">ID</TableHeaderCell>
             <TableHeaderCell For="p => p.Name" Sortable="true">Product Name</TableHeaderCell>
@@ -50,10 +50,9 @@
             <TableHeaderCell For="p => p.StockQuantity">Stock</TableHeaderCell>
             <TableHeaderCell ColumnKey="actions">Actions</TableHeaderCell>
         </TableRow>
-    </Header>
+    </TableHeader>
 
-    <Body>
-        <TableBody Id="@TableBodyId">
+    <TableBody Id="@TableBodyId">
             <RowTemplate Context="product">
                 <TableRow>
                     <TableCell>@product.Id</TableCell>
@@ -99,12 +98,11 @@
                     </p>
                 </div>
             </EmptyTemplate>
-        </TableBody>
-    </Body>
+    </TableBody>
 
-    <Footer Context="table">
+    <TableFooter>
         <TableRow>
-            <TableCell Colspan="@table.ColumnCount">
+            <TableCell Colspan="6">
                 <div class="flex flex-col sm:flex-row justify-between items-center p-3 gap-3">
                     <div class="text-sm text-muted-foreground">
                         @if (CurrentPagingState.TotalItems > 0)
@@ -123,7 +121,7 @@
                 </div>
             </TableCell>
         </TableRow>
-    </Footer>
+    </TableFooter>
 </RzTable>
 
 @code {
