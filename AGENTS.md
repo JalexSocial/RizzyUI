@@ -1266,7 +1266,7 @@ Please add the following default asset URLs to the `PostConfigure` action in `sr
 
 **Agent-only enforcement (CRITICAL):**
 
-* AGENTS ONLY — run `npm install` in any directory containing `packages.json` (and do not skip equivalent Node manifest directories).
+* AGENTS ONLY — run `npm install` in any directory containing `packages.json` (and do not skip equivalent Node manifest directories) except if it has a path prefixed with `src/RizzyUI/wwwroot/vendor/`.  
 
 ---
 
