@@ -1,4 +1,6 @@
-# RizzyUI: Modern UI Composition for ASP.NET Core
+<img src="https://jalexsocial.github.io/Rizzy/media/rizzy-logo.png?cache=bust3" width="600"/>
+
+# RizzyUI: Modern UI Composition for ASP.NET SSR 
 
 <div align="center">
 
@@ -8,7 +10,7 @@
 
 </div>
 
-**Composable SSR UI for ASP.NET Core—no WASM runtime, no SignalR circuit, no SPA rewrite.**
+**Composable SSR UI for ASP.NET Core - no WASM runtime, no SignalR circuit, no SPA rewrite.**
 
 If you like MVC or Razor Pages because they’re explicit, stateless, and easy to debug, RizzyUI keeps that model and modernizes the **view layer**:
 
