@@ -202,21 +202,6 @@ RizzyUI is intentionally “boring tech,” but there are still costs:
 
 ---
 
-## Incremental adoption and exit strategy
-
-You can drop RizzyUI components into an existing MVC/Razor Pages app immediately. No rewrite required.
-
-If you decide later that RizzyUI isn’t for you, you’re not trapped. Components render standard HTML, and your app is still just:
-
-* Razor
-* Tailwind
-* Alpine
-* HTMX
-
-No proprietary runtime to untangle.
-
----
-
 ## License
 
 RizzyUI is licensed under the [MIT License](LICENSE.md).
