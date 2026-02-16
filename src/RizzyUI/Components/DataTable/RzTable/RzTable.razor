@@ -6,24 +6,7 @@
 <CascadingValue Value="this" Name="ParentRzTable" IsFixed="true">
     <HtmlElement Element="div" @attributes="AdditionalAttributes" id="@Id" data-slot="table" class="@SlotClasses.GetBase()">
         <table class="@SlotClasses.GetTable()" id="@TableId" data-slot="table-element"> 
-            @if (Header != null)
-            {
-                <thead class="@SlotClasses.GetThead()" id="@TableHeaderId" data-slot="table-thead">
-                @Header(this)
-                </thead>
-            }
-            
-            @if (Body != null)
-            {
-                @Body!(this)
-            }
-
-            @if (Footer != null)
-            {
-                <tfoot class="@SlotClasses.GetTfoot()" id="@TableFooterId" data-slot="table-tfoot">
-                @Footer(this)
-                </tfoot>
-            }
+            @ChildContent
         </table>
     </HtmlElement>
 </CascadingValue>

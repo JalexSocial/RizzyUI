@@ -14,8 +14,12 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<TableBodySlots>, TableBodySlots> TableBody { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableCell{TItem}"/> component. </summary>
     public virtual TvDescriptor<RzComponent<TableCellSlots>, TableCellSlots> TableCell { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableHeader"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<TableHeaderSlots>, TableHeaderSlots> TableHeader { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableHeaderCell{TItem}"/> component. </summary>
     public virtual TvDescriptor<RzComponent<TableHeaderCellSlots>, TableHeaderCellSlots> TableHeaderCell { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableFooter"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<TableFooterSlots>, TableFooterSlots> TableFooter { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TablePagination{TItem}"/> component. </summary>
     public virtual TvDescriptor<RzComponent<TablePaginationSlots>, TablePaginationSlots> TablePagination { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableRow{TItem}"/> component. </summary>

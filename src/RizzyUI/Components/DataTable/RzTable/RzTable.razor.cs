@@ -79,19 +79,9 @@ public partial class RzTable<TItem> : RzComponent<RzTableSlots>, IHasTableStylin
     [Parameter] public string? HxIndicatorSelector { get; set; }
 
     /// <summary>
-    /// Gets or sets the render fragment for the table's header section (`&lt;thead&gt;`). This is a required parameter.
+    /// Gets or sets the content rendered inside the `&lt;table&gt;` element.
     /// </summary>
-    [Parameter, EditorRequired] public RenderFragment<RzTable<TItem>>? Header { get; set; }
-
-    /// <summary>
-    /// Gets or sets the render fragment for the table's body section (`&lt;tbody&gt;`). This is a required parameter.
-    /// </summary>
-    [Parameter, EditorRequired] public RenderFragment<RzTable<TItem>>? Body { get; set; }
-
-    /// <summary>
-    /// Gets or sets the render fragment for the table's footer section (`&lt;tfoot&gt;`).
-    /// </summary>
-    [Parameter] public RenderFragment<RzTable<TItem>>? Footer { get; set; }
+    [Parameter, EditorRequired] public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to apply striped styling to table rows. Defaults to false.
@@ -137,16 +127,6 @@ public partial class RzTable<TItem> : RzComponent<RzTableSlots>, IHasTableStylin
     /// Gets the unique ID for the inner `&lt;table&gt;` element.
     /// </summary>
     public string TableId => $"{Id}-table";
-
-    /// <summary>
-    /// Gets the unique ID for the `&lt;thead&gt;` element.
-    /// </summary>
-    public string TableHeaderId => $"{Id}-table-head";
-
-    /// <summary>
-    /// Gets the unique ID for the `&lt;tfoot&gt;` element.
-    /// </summary>
-    public string TableFooterId => $"{Id}-table-foot";
 
     internal void AddColumnDefinition(ColumnDefinition<TItem> columnDefinition)
     {

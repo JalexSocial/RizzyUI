@@ -1,4 +1,3 @@
-
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -24,21 +23,12 @@ public sealed partial class RzTableSlots : ISlots
     /// </summary>
     [Slot("table")]
     public string? Base { get; set; }
+
     /// <summary>
     /// The slot for the `&lt;table&gt;` element itself.
     /// </summary>
     [Slot("table-element")]
     public string? Table { get; set; }
-    /// <summary>
-    /// The slot for the `&lt;thead&gt;` element.
-    /// </summary>
-    [Slot("table-thead")]
-    public string? Thead { get; set; }
-    /// <summary>
-    /// The slot for the `&lt;tfoot&gt;` element.
-    /// </summary>
-    [Slot("table-tfoot")]
-    public string? Tfoot { get; set; }
 }
 
 /// <summary>
@@ -53,9 +43,7 @@ public static class RzTableStyles
         @base: "relative w-full overflow-x-auto rounded-lg border",
         slots: new()
         {
-            [s => s.Table] = "w-full caption-bottom text-sm",
-            [s => s.Thead] = "[&_tr]:border-b",
-            [s => s.Tfoot] = "bg-muted/50 border-t font-medium [&>tr]:last:border-b-0"
+            [s => s.Table] = "w-full caption-bottom text-sm"
         },
         variants: new()
         {
@@ -63,9 +51,7 @@ public static class RzTableStyles
             {
                 [true] = new()
                 {
-                    [s => s.Base] = "relative overflow-y-auto",
-                    [s => s.Thead] = "sticky top-0 z-10 bg-card",
-                    [s => s.Tfoot] = "sticky bottom-0 z-10 bg-muted/50"
+                    [s => s.Base] = "relative overflow-y-auto"
                 }
             }
         }
