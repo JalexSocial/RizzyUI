@@ -13,7 +13,7 @@ public partial class MenubarItem : RzComponent<MenubarItem.Slots>
     /// Default styling for <see cref="MenubarItem"/>.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[highlighted]:bg-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        @base: "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[highlighted]:bg-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         slots: new()
         {
             [s => s.Icon] = "mr-2 size-4"

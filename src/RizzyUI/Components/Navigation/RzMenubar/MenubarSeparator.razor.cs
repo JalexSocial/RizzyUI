@@ -10,7 +10,7 @@ public partial class MenubarSeparator : RzComponent<MenubarSeparator.Slots>
     /// <summary>
     /// Defines the default styling for <see cref="MenubarSeparator"/>.
     /// </summary>
-    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(@base: "-mx-1 my-1 h-px bg-border");
+    public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(@base: "-mx-1 my-1 h-px bg-muted");
 
     /// <inheritdoc/>
     protected override void OnInitialized()

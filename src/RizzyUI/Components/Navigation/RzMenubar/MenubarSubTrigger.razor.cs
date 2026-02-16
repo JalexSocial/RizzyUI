@@ -13,7 +13,7 @@ public partial class MenubarSubTrigger : RzComponent<MenubarSubTrigger.Slots>
     /// Defines the default styling for <see cref="MenubarSubTrigger"/>.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent",
+        @base: "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
         slots: new()
         {
             [s => s.Icon] = "mr-2 size-4",

@@ -12,7 +12,7 @@ public partial class MenubarTrigger : RzAsChildComponent<MenubarTrigger.Slots>
     /// Defines the default styling for <see cref="MenubarTrigger"/>.
     /// </summary>
     public static readonly TvDescriptor<RzAsChildComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "flex cursor-default select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium outline-none focus:bg-accent data-[state=open]:bg-accent data-[state=open]:text-accent-foreground"
+        @base: "flex cursor-default select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium outline-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground"
     );
 
     /// <summary>

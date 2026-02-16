@@ -12,7 +12,7 @@ public partial class RzMenubar : RzComponent<RzMenubar.Slots>
     /// Defines the default styling for <see cref="RzMenubar"/>.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "flex h-9 items-center space-x-1 rounded-md border bg-background p-1"
+        @base: "flex h-10 items-center space-x-1 rounded-md border bg-background p-1"
     );
 
     /// <summary>
