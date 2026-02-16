@@ -254,12 +254,15 @@ export default function(Alpine) {
          * @returns {any} Returns the result of `closeAllSubmenus` when applicable.
          */
         closeAllSubmenus() {
-            const submenus = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
-            submenus.forEach(el => {
-                Alpine.$data(el)?.closeSubmenu();
-            });
+            // Teleported submenu roots are not under this.parentEl; query globally by parent id.
+            const roots = document.querySelectorAll(
+                `[x-data^="rzDropdownSubmenu"][data-parent-id="${this.selfId}"]`
+            );
+
+            roots.forEach(el => Alpine.$data(el)?.closeSubmenu?.());
             this.isSubmenuActive = false;
         }
+
     }));
 
     /**
@@ -323,9 +326,14 @@ export default function(Alpine) {
                     this.ariaExpanded = 'false';
                     delete this.triggerEl.dataset.state;
                     this.$nextTick(() => {
-                        const anySubmenuIsOpen = this.parentDropdown.parentEl.querySelector('[x-data^="rzDropdownSubmenu"] [data-state="open"]');
-                        if (!anySubmenuIsOpen) this.parentDropdown.isSubmenuActive = false;
+                        const roots = document.querySelectorAll(
+                            `[x-data^="rzDropdownSubmenu"][data-parent-id="${this.parentDropdown.selfId}"]`
+                        );
+
+                        const anyOpen = Array.from(roots).some(el => Alpine.$data(el)?.open);
+                        if (!anyOpen) this.parentDropdown.isSubmenuActive = false;
                     });
+
                     this.contentEl = null;
                 }
             });
@@ -515,11 +523,15 @@ export default function(Alpine) {
         handleItemClick(event) {
             const item = event.currentTarget;
             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
+
             if (item.getAttribute('aria-haspopup') === 'menu') {
                 Alpine.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
-                return; 
+                return;
             }
-            this.parentDropdown.open = false;
+
+            clearTimeout(this.closeTimeout);
+            this.closeSubmenu();              // close self + descendants immediately
+            this.parentDropdown.open = false; // closes root (and triggers root closeAllSubmenus too)
             this.$nextTick(() => this.parentDropdown.triggerEl?.focus());
         },
 

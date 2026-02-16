@@ -7880,10 +7880,10 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
        * @returns {any} Returns the result of `closeAllSubmenus` when applicable.
        */
       closeAllSubmenus() {
-        const submenus = this.parentEl.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
-        submenus.forEach((el) => {
-          Alpine2.$data(el)?.closeSubmenu();
-        });
+        const roots = document.querySelectorAll(
+          `[x-data^="rzDropdownSubmenu"][data-parent-id="${this.selfId}"]`
+        );
+        roots.forEach((el) => Alpine2.$data(el)?.closeSubmenu?.());
         this.isSubmenuActive = false;
       }
     }));
@@ -7941,8 +7941,11 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
             this.ariaExpanded = "false";
             delete this.triggerEl.dataset.state;
             this.$nextTick(() => {
-              const anySubmenuIsOpen = this.parentDropdown.parentEl.querySelector('[x-data^="rzDropdownSubmenu"] [data-state="open"]');
-              if (!anySubmenuIsOpen) this.parentDropdown.isSubmenuActive = false;
+              const roots = document.querySelectorAll(
+                `[x-data^="rzDropdownSubmenu"][data-parent-id="${this.parentDropdown.selfId}"]`
+              );
+              const anyOpen = Array.from(roots).some((el) => Alpine2.$data(el)?.open);
+              if (!anyOpen) this.parentDropdown.isSubmenuActive = false;
             });
             this.contentEl = null;
           }
@@ -8120,6 +8123,8 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           Alpine2.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
           return;
         }
+        clearTimeout(this.closeTimeout);
+        this.closeSubmenu();
         this.parentDropdown.open = false;
         this.$nextTick(() => this.parentDropdown.triggerEl?.focus());
       },
