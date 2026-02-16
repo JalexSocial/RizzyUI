@@ -19,6 +19,8 @@ export default function(Alpine) {
 
         openMenu(value, trigger) {
             if (!value) return;
+            this.closeAllSubmenus();
+
             if (this.currentTrigger && this.currentTrigger !== trigger) {
                 this.setTriggerState(this.currentTrigger, false);
             }
@@ -44,6 +46,11 @@ export default function(Alpine) {
             this.currentMenuValue = '';
             this.setTriggerState(this.currentTrigger, false);
             this.currentTrigger = null;
+            this.closeAllSubmenus();
+        },
+
+        closeAllSubmenus() {
+            window.dispatchEvent(new CustomEvent('menubar-close-all-submenus'));
         },
 
         getMenuValueFromTrigger(trigger) {
@@ -109,8 +116,22 @@ export default function(Alpine) {
         handleItemMouseEnter(event) {
             const item = event.currentTarget;
             if (!item || item.hasAttribute('disabled') || item.getAttribute('aria-disabled') === 'true') return;
+            item.dataset.highlighted = '';
             item.focus();
+            window.dispatchEvent(new CustomEvent('menubar-close-submenus', {
+                detail: { hoveredItemId: item.id },
+            }));
         },
+
+        handleItemMouseLeave(event) {
+            const item = event.currentTarget;
+            if (!item) return;
+            delete item.dataset.highlighted;
+            if (document.activeElement === item) {
+                item.blur();
+            }
+        },
+
         handleItemClick(event) {
             const item = event.currentTarget;
             if (item.hasAttribute('disabled') || item.getAttribute('aria-disabled') === 'true') return;
@@ -142,6 +163,7 @@ export default function(Alpine) {
 
     Alpine.data('rzMenubarSubmenu', () => ({
         open: false,
+        persistOpenUntilOutsideClick: false,
         ariaExpanded: 'false',
         menuItems: [],
         focusedIndex: null,
@@ -156,24 +178,52 @@ export default function(Alpine) {
         },
 
         openSubmenu() {
+            this.persistOpenUntilOutsideClick = false;
             this.open = true;
         },
 
         closeSubmenu() {
             this.open = false;
             this.focusedIndex = null;
+            this.persistOpenUntilOutsideClick = false;
         },
 
         toggleSubmenu() {
+            this.persistOpenUntilOutsideClick = false;
             this.open = !this.open;
         },
 
         openSubmenuAndFocusFirst() {
+            this.persistOpenUntilOutsideClick = false;
             this.open = true;
             this.$nextTick(() => {
                 this.focusedIndex = 0;
                 this.menuItems[0]?.focus();
             });
+        },
+
+        handleSubRootMouseEnter() {
+            if (!this.open) return;
+            this.persistOpenUntilOutsideClick = true;
+        },
+
+        handleSubOutsidePointerDown() {
+            this.closeSubmenu();
+        },
+
+        handleParentItemHover(event) {
+            if (!this.open) return;
+            const hoveredItemId = event.detail?.hoveredItemId;
+            const hoveredItem = hoveredItemId ? document.getElementById(hoveredItemId) : null;
+
+            if (hoveredItem && this.$el.contains(hoveredItem)) return;
+            if (this.persistOpenUntilOutsideClick) return;
+
+            this.closeSubmenu();
+        },
+
+        forceCloseSubmenu() {
+            this.closeSubmenu();
         },
 
         focusNextItem() {

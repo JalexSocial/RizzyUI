@@ -15,7 +15,7 @@ public partial class MenubarCheckboxItem : RzComponent<MenubarCheckboxItem.Slots
         @base: "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         slots: new()
         {
-            [s => s.Indicator] = "absolute left-2 flex size-3.5 items-center justify-center"
+            [s => s.Indicator] = "absolute left-2 flex size-3.5 items-center justify-center opacity-0 data-[state=checked]:opacity-100"
         }
     );
 

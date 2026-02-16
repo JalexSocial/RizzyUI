@@ -12,6 +12,7 @@
              x-bind:aria-expanded="ariaExpanded"
              x-on:pointerenter="openSubmenu"
              x-on:mouseenter="handleItemMouseEnter"
+             x-on:mouseleave="handleItemMouseLeave"
              x-on:click="toggleSubmenu"
              x-on:keydown.right.prevent="openSubmenuAndFocusFirst"
              data-slot="menubar-sub-trigger">

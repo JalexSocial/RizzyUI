@@ -259,6 +259,39 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Destructive Actions" class="scroll-mt-20">Destructive Menubar Items</RzHeading>
+                <RzParagraph>
+                    Use <code>Variant="MenubarItemVariant.Destructive"</code> for destructive commands like delete operations.
+                    This maps to <code>data-variant="destructive"</code> so theme styling can target dangerous actions.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="p-8 flex justify-center min-h-90">
+                        <RzMenubar>
+                            <MenubarMenu Value="project-actions">
+                                <MenubarTrigger>Project</MenubarTrigger>
+                                <MenubarContent>
+                                    <MenubarItem>Archive Project</MenubarItem>
+                                    <MenubarItem Variant="MenubarItemVariant.Destructive">Delete Project</MenubarItem>
+                                </MenubarContent>
+                            </MenubarMenu>
+                        </RzMenubar>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzMenubar&gt;
+    &lt;MenubarMenu Value=&quot;project-actions&quot;&gt;
+        &lt;MenubarTrigger&gt;Project&lt;/MenubarTrigger&gt;
+        &lt;MenubarContent&gt;
+            &lt;MenubarItem&gt;Archive Project&lt;/MenubarItem&gt;
+            &lt;MenubarItem Variant=&quot;MenubarItemVariant.Destructive&quot;&gt;Delete Project&lt;/MenubarItem&gt;
+        &lt;/MenubarContent&gt;
+    &lt;/MenubarMenu&gt;
+&lt;/RzMenubar&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
                 <RzParagraph>
                     Menubar interactivity is implemented with Alpine.js. The root menubar uses <code>rzMenubar</code>,
@@ -276,7 +309,7 @@
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">openMenu</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">value: string, trigger: HTMLElement</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens the specified top-level menu and positions content with Floating UI.</td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">closeMenus</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the active top-level menu and clears trigger state.</td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">handleTriggerKeydown</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">event: KeyboardEvent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Handles Enter/Space/ArrowDown to open and ArrowLeft/ArrowRight to move between triggers.</td></tr>
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">handleItemMouseEnter</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">event: MouseEvent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to hovered menu items so hover and keyboard highlight states stay in sync.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">handleItemMouseEnter / handleItemMouseLeave</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">event: MouseEvent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Keeps hover highlighting synchronized with pointer position and closes sibling submenus when moving across menu items.</td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">toggleCheckboxItem</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">event: Event</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Toggles <code>data-state</code> and <code>aria-checked</code> for checkbox menu items.</td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">selectRadioItem</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">event: Event</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Selects a radio item and clears previous selection in the same group.</td></tr>
                         </tbody>
@@ -290,7 +323,7 @@
                             <tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">openSubmenu</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens the submenu panel.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">openSubmenu / forceCloseSubmenu</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens a submenu from its trigger and force-closes it whenever the parent menubar menu closes.</td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">closeSubmenu</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the submenu and resets keyboard focus index.</td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">openSubmenuAndFocusFirst</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens the submenu and focuses the first item for keyboard navigation.</td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">focusNextItem / focusPreviousItem</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Cycles focus through submenu items with wraparound behavior.</td></tr>

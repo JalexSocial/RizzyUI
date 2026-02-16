@@ -13,7 +13,7 @@ public partial class MenubarItem : RzComponent<MenubarItem.Slots>
     /// Default styling for <see cref="MenubarItem"/>.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[highlighted]:bg-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        @base: "relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[highlighted]:bg-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive",
         slots: new()
         {
             [s => s.Icon] = "mr-2 size-4"
@@ -43,6 +43,12 @@ public partial class MenubarItem : RzComponent<MenubarItem.Slots>
     /// </summary>
     [Parameter]
     public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets the visual variant for the menubar item.
+    /// </summary>
+    [Parameter]
+    public MenubarItemVariant Variant { get; set; } = MenubarItemVariant.Default;
 
     /// <inheritdoc/>
     protected override void OnInitialized()

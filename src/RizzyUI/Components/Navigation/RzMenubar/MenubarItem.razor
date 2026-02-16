@@ -1,5 +1,6 @@
 @namespace RizzyUI
 @using Blazicons
+@using RizzyUI.Extensions
 @inherits RzComponent<MenubarItem.Slots>
 
 <HtmlElement Element="@EffectiveElement"
@@ -11,8 +12,10 @@
              aria-disabled="@(Disabled.ToString().ToLowerInvariant())"
              disabled=@(Disabled ? "disabled" : null)
              data-disabled=@(Disabled ? "disabled" : null)
+             data-variant="@Variant.ToString().ToKebabCase()"
              x-on:click="handleItemClick"
              x-on:mouseenter="handleItemMouseEnter"
+             x-on:mouseleave="handleItemMouseLeave"
              data-slot="menubar-item">
     @if (Icon is not null)
     {
