@@ -40,7 +40,7 @@
                     Start with top-level menus and action items. This pattern is ideal for file and edit commands.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="p-8 flex justify-center">
+                    <div class="p-8 flex justify-center min-h-90">
                         <RzMenubar>
                             <MenubarMenu Value="file">
                                 <MenubarTrigger>File</MenubarTrigger>
@@ -66,6 +66,32 @@
                         </RzMenubar>
                     </div>
                 </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzMenubar&gt;
+    &lt;MenubarMenu Value=&quot;file&quot;&gt;
+        &lt;MenubarTrigger&gt;File&lt;/MenubarTrigger&gt;
+        &lt;MenubarContent&gt;
+            &lt;MenubarItem&gt;New Tab&lt;/MenubarItem&gt;
+            &lt;MenubarItem&gt;New Window&lt;/MenubarItem&gt;
+            &lt;MenubarSeparator /&gt;
+            &lt;MenubarItem&gt;Open...&lt;/MenubarItem&gt;
+            &lt;MenubarItem Disabled=&quot;true&quot;&gt;Save As...&lt;/MenubarItem&gt;
+        &lt;/MenubarContent&gt;
+    &lt;/MenubarMenu&gt;
+    &lt;MenubarMenu Value=&quot;edit&quot;&gt;
+        &lt;MenubarTrigger&gt;Edit&lt;/MenubarTrigger&gt;
+        &lt;MenubarContent&gt;
+            &lt;MenubarItem&gt;Undo&lt;/MenubarItem&gt;
+            &lt;MenubarItem&gt;Redo&lt;/MenubarItem&gt;
+            &lt;MenubarSeparator /&gt;
+            &lt;MenubarItem&gt;Cut&lt;/MenubarItem&gt;
+            &lt;MenubarItem&gt;Copy&lt;/MenubarItem&gt;
+            &lt;MenubarItem&gt;Paste&lt;/MenubarItem&gt;
+        &lt;/MenubarContent&gt;
+    &lt;/MenubarMenu&gt;
+&lt;/RzMenubar&gt;
+                </RzCodeViewer>
             </section>
 
             <section class="my-8 py-2">
@@ -74,7 +100,7 @@
                     Use icons and shortcuts to improve scanability for frequent desktop actions.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="p-8 flex justify-center">
+                    <div class="p-8 flex justify-center min-h-90">
                         <RzMenubar>
                             <MenubarMenu Value="file-shortcuts">
                                 <MenubarTrigger>File</MenubarTrigger>
@@ -89,6 +115,21 @@
                         </RzMenubar>
                     </div>
                 </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzMenubar&gt;
+    &lt;MenubarMenu Value=&quot;file-shortcuts&quot;&gt;
+        &lt;MenubarTrigger&gt;File&lt;/MenubarTrigger&gt;
+        &lt;MenubarContent&gt;
+            &lt;MenubarItem Icon=&quot;MdiIcon.FileOutline&quot;&gt;New File&lt;MenubarShortcut&gt;⌘N&lt;/MenubarShortcut&gt;&lt;/MenubarItem&gt;
+            &lt;MenubarItem Icon=&quot;MdiIcon.FolderOpenOutline&quot;&gt;Open...&lt;MenubarShortcut&gt;⌘O&lt;/MenubarShortcut&gt;&lt;/MenubarItem&gt;
+            &lt;MenubarSeparator /&gt;
+            &lt;MenubarItem Icon=&quot;MdiIcon.ContentSaveOutline&quot;&gt;Save&lt;MenubarShortcut&gt;⌘S&lt;/MenubarShortcut&gt;&lt;/MenubarItem&gt;
+            &lt;MenubarItem Icon=&quot;MdiIcon.FileExportOutline&quot;&gt;Export&lt;MenubarShortcut&gt;⇧⌘E&lt;/MenubarShortcut&gt;&lt;/MenubarItem&gt;
+        &lt;/MenubarContent&gt;
+    &lt;/MenubarMenu&gt;
+&lt;/RzMenubar&gt;
+                </RzCodeViewer>
             </section>
 
             <section class="my-8 py-2">
@@ -97,7 +138,7 @@
                     Use checkbox items for independent toggles and radio groups for mutually exclusive selections.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="p-8 flex justify-center">
+                    <div class="p-8 flex justify-center min-h-90">
                         <RzMenubar>
                             <MenubarMenu Value="view">
                                 <MenubarTrigger>View</MenubarTrigger>
@@ -117,6 +158,26 @@
                         </RzMenubar>
                     </div>
                 </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzMenubar&gt;
+    &lt;MenubarMenu Value=&quot;view&quot;&gt;
+        &lt;MenubarTrigger&gt;View&lt;/MenubarTrigger&gt;
+        &lt;MenubarContent&gt;
+            &lt;MenubarCheckboxItem Checked=&quot;true&quot;&gt;Status Bar&lt;/MenubarCheckboxItem&gt;
+            &lt;MenubarCheckboxItem Checked=&quot;true&quot;&gt;Activity Panel&lt;/MenubarCheckboxItem&gt;
+            &lt;MenubarCheckboxItem&gt;Secondary Sidebar&lt;/MenubarCheckboxItem&gt;
+            &lt;MenubarSeparator /&gt;
+            &lt;MenubarLabel&gt;Panel Density&lt;/MenubarLabel&gt;
+            &lt;MenubarRadioGroup Name=&quot;panel-density&quot;&gt;
+                &lt;MenubarRadioItem Value=&quot;default&quot; Checked=&quot;true&quot;&gt;Default&lt;/MenubarRadioItem&gt;
+                &lt;MenubarRadioItem Value=&quot;compact&quot;&gt;Compact&lt;/MenubarRadioItem&gt;
+                &lt;MenubarRadioItem Value=&quot;comfortable&quot;&gt;Comfortable&lt;/MenubarRadioItem&gt;
+            &lt;/MenubarRadioGroup&gt;
+        &lt;/MenubarContent&gt;
+    &lt;/MenubarMenu&gt;
+&lt;/RzMenubar&gt;
+                </RzCodeViewer>
             </section>
 
             <section class="my-8 py-2">
@@ -125,7 +186,7 @@
                     Submenus let you group related actions without overloading the first level.
                 </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="p-8 flex justify-center">
+                    <div class="p-8 flex justify-center min-h-90">
                         <RzMenubar>
                             <MenubarMenu Value="share">
                                 <MenubarTrigger>Share</MenubarTrigger>
@@ -160,6 +221,41 @@
                         </RzMenubar>
                     </div>
                 </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzMenubar&gt;
+    &lt;MenubarMenu Value=&quot;share&quot;&gt;
+        &lt;MenubarTrigger&gt;Share&lt;/MenubarTrigger&gt;
+        &lt;MenubarContent&gt;
+            &lt;MenubarSub&gt;
+                &lt;MenubarSubTrigger&gt;Email&lt;/MenubarSubTrigger&gt;
+                &lt;MenubarSubContent&gt;
+                    &lt;MenubarItem&gt;Send as Link&lt;/MenubarItem&gt;
+                    &lt;MenubarItem&gt;Send as Attachment&lt;/MenubarItem&gt;
+                &lt;/MenubarSubContent&gt;
+            &lt;/MenubarSub&gt;
+            &lt;MenubarSub&gt;
+                &lt;MenubarSubTrigger&gt;Invite&lt;/MenubarSubTrigger&gt;
+                &lt;MenubarSubContent&gt;
+                    &lt;MenubarItem&gt;Copy Invite Link&lt;/MenubarItem&gt;
+                    &lt;MenubarItem&gt;Invite by Username&lt;/MenubarItem&gt;
+                    &lt;MenubarSeparator /&gt;
+                    &lt;MenubarItem Disabled=&quot;true&quot;&gt;Manage Access&lt;/MenubarItem&gt;
+                &lt;/MenubarSubContent&gt;
+            &lt;/MenubarSub&gt;
+        &lt;/MenubarContent&gt;
+    &lt;/MenubarMenu&gt;
+    &lt;MenubarMenu Value=&quot;help&quot;&gt;
+        &lt;MenubarTrigger&gt;Help&lt;/MenubarTrigger&gt;
+        &lt;MenubarContent&gt;
+            &lt;MenubarItem&gt;Documentation&lt;/MenubarItem&gt;
+            &lt;MenubarItem&gt;Keyboard Shortcuts&lt;/MenubarItem&gt;
+            &lt;MenubarSeparator /&gt;
+            &lt;MenubarItem&gt;Release Notes&lt;/MenubarItem&gt;
+        &lt;/MenubarContent&gt;
+    &lt;/MenubarMenu&gt;
+&lt;/RzMenubar&gt;
+                </RzCodeViewer>
             </section>
 
             <section class="my-8 py-2">
