@@ -1,0 +1,13 @@
+@namespace RizzyUI
+@inherits RzAsChildComponent<MenubarTrigger.Slots>
+
+@if (AsChild)
+{
+    @RenderAsChild()
+}
+else
+{
+    <HtmlElement Element="@EffectiveElement" @attributes="GetComponentAttributes()">
+        @ChildContent
+    </HtmlElement>
+}

@@ -955,22 +955,53 @@ When unit tests are specifically requested for a new or modified component, they
 
 **Any component that is created or modified MUST have a corresponding documentation page in `src/RizzyUI.Docs`.** This ensures the documentation site remains the source of truth for all API surfaces.
 
-### 12.1 Page Contract and Layout
+### 12.1 Page Contract and Layout (Mandatory Skeleton)
 
-*   **Route and Identity:**
-    *   Use a single, canonical route: `@page "/components/<kebab-or-lowercase-name>"`.
-    *   Set `<PageTitle>` to the component name (matches H1).
-    *   The H1 should be the canonical component name and should also set `QuickReferenceTitle`.
-*   **Consistent Doc Shell:**
-    *   Wrap pages in `RzQuickReferenceContainer` + `RzArticle`.
-    *   Use a two-column pattern:
-        *   `<SideContent>`: `<RzQuickReference />`
-        *   `<MainContent>`: all documentation content
-    *   Use a consistent prose width per page (e.g., `ProseWidth.UltraWide`) so code tables don’t feel cramped.
-*   **Breadcrumbs:**
-    *   **Always** include `RzBreadcrumb` at the top of `MainContent`.
-    *   Hierarchy: Docs → Components → Current Page.
-    *   Use standard HTMX navigation attributes: `hx-boost`, `hx-select`, `hx-target`, `hx-swap="outerHTML"`.
+Every documentation page **MUST** use the following Razor skeleton exactly. You must preserve the `SideContent`/`MainContent` nesting, the `RzQuickReference` component, and the specific HTMX attributes on the breadcrumb links.
+
+```razor
+@page "/components/your-component-kebab-name"
+@using RizzyUI
+@using Rizzy.Htmx
+
+<PageTitle>Your Component Name</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Your Component Name</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Your Component Name" class="scroll-mt-20">Your Component Name</RzHeading>
+            
+            <!-- One-Paragraph Contract (see 12.2) -->
+            <RzParagraph>...</RzParagraph>
+
+            <!-- Implementation Details Alert (if applicable) (see 12.2) -->
+            
+            <!-- Content Sections (see 12.3) -->
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+```
 
 ### 12.2 Top-of-page Content
 
@@ -992,7 +1023,8 @@ When unit tests are specifically requested for a new or modified component, they
 Every H2 section should follow this mini-template:
 
 1.  **H2 + Explanation:**
-    *   `<RzHeading Level="H2" QuickReferenceTitle="…">`
+    *   `<RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="…" class="scroll-mt-20">`
+    *   **Note:** Always include `class="scroll-mt-20"` on headings for scroll positioning.
     *   Short paragraph naming the scenario, stating what the example demonstrates, and mentioning relevant parameters.
 2.  **Live Demo Region:**
     *   Provide a centered demo container (e.g., `mx-auto p-8 mb-5 flex justify-center items-center min-h-40`).

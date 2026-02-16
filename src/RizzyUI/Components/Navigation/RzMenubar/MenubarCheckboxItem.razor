@@ -1,0 +1,23 @@
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<MenubarCheckboxItem.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             role="menuitemcheckbox"
+             tabindex="-1"
+             aria-checked="@(Checked.ToString().ToLowerInvariant())"
+             data-state="@(Checked ? "checked" : "unchecked")"
+             x-on:click="toggleCheckboxItem"
+             data-slot="menubar-checkbox-item">
+    <span class="@SlotClasses.GetIndicator()" data-slot="menubar-item-indicator">
+        <Blazicon Svg="MdiIcon.Check" aria-hidden="true" />
+    </span>
+    @ChildContent
+    @if (ShortcutContent is not null)
+    {
+        @ShortcutContent
+    }
+</HtmlElement>

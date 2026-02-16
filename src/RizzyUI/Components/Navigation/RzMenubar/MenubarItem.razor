@@ -1,0 +1,24 @@
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<MenubarItem.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             role="menuitem"
+             tabindex="-1"
+             aria-disabled="@(Disabled.ToString().ToLowerInvariant())"
+             disabled="@(Disabled ? "disabled" : null)"
+             x-on:click="handleItemClick"
+             data-slot="menubar-item">
+    @if (Icon is not null)
+    {
+        <Blazicon Svg="@Icon" class="@SlotClasses.GetIcon()" aria-hidden="true" />
+    }
+    @ChildContent
+    @if (ShortcutContent is not null)
+    {
+        @ShortcutContent
+    }
+</HtmlElement>
