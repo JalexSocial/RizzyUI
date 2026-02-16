@@ -49,6 +49,8 @@ The NPM package responsible for building the CSS (Tailwind) and JavaScript (Alpi
 * **`src/js/rizzyui.js`**: The main entry point that bootstraps Alpine.js and registers components.
 * **`src/css/`**: Tailwind CSS source files.
 
+** DO NOT ** directly alter files in `packages/rizzyui/dist` and `src/RizzyUI/wwwroot` as files from those directory are build assets from running `npm run build` in `packages/rizzyui`
+
 ### `src/RizzyUI.Docs` (Documentation)
 
 A Blazor Web App that acts as the documentation site and component playground.
