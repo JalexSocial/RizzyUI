@@ -1478,6 +1478,9 @@
   .border-collapse {
     border-collapse: collapse;
   }
+  .origin-\[--radix-menubar-content-transform-origin\] {
+    transform-origin: --radix-menubar-content-transform-origin;
+  }
   .origin-bottom {
     transform-origin: bottom;
   }

@@ -961,8 +961,10 @@ Every documentation page **MUST** use the following Razor skeleton exactly. You 
 
 ```razor
 @page "/components/your-component-kebab-name"
+@namespace RizzyUI.Pages
 @using RizzyUI
 @using Rizzy.Htmx
+@inherits RzComponent
 
 <PageTitle>Your Component Name</PageTitle>
 
@@ -990,12 +992,59 @@ Every documentation page **MUST** use the following Razor skeleton exactly. You 
 
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Your Component Name" class="scroll-mt-20">Your Component Name</RzHeading>
             
-            <!-- One-Paragraph Contract (see 12.2) -->
-            <RzParagraph>...</RzParagraph>
+            <RzParagraph>
+                <!-- 1. What the component is for. 2. Subcomponents involved. 3. Interactivity details (Alpine/HTMX). -->
+            </RzParagraph>
 
-            <!-- Implementation Details Alert (if applicable) (see 12.2) -->
-            
-            <!-- Content Sections (see 12.3) -->
+            <!-- Optional: "Under the Hood" Alert for implementation details -->
+            <!-- <RzAlert ...><AlertTitle>Under the Hood</AlertTitle>...</RzAlert> -->
+
+            <!-- REPEATABLE PATTERN: Usage Examples (Must include RzBrowser AND RzCodeViewer) -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">
+                    Basic Usage
+                </RzHeading>
+                <RzParagraph>
+                    <!-- Description of the specific example -->
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-40">
+                        <!-- LIVE DEMO MARKUP HERE -->
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                    <!-- ESCAPED SOURCE CODE OF THE DEMO ABOVE HERE -->
+                </RzCodeViewer>
+            </section>
+
+            <!-- REPEATABLE PATTERN: Component Parameters (Must use specific table styling) -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
+                </RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">PropertyName</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Description of property.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
         </MainContent>
     </RzArticle>
