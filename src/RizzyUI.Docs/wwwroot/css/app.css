@@ -9737,6 +9737,11 @@
       display: none;
     }
   }
+  .\[\&\>button\:first-child\]\:\!h-8 {
+    &>button:first-child {
+      height: calc(var(--spacing) * 8) !important;
+    }
+  }
   .\[\&\>input\]\:flex-1 {
     &>input {
       flex: 1;
