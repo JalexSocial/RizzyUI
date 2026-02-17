@@ -1,5 +1,17 @@
 ﻿document.addEventListener('alpine:init', () => {
 
+    Alpine.data('docSearch', () => ({
+
+        init() {
+            docsearch({
+                container: '#docsearch',
+                appId: '4NNHPLPB1Z',
+                indexName: 'RizzyUI Documentation',
+                apiKey: '52ed9e7932048b8906b7babc7739551b',
+                askAi: '', // TODO: Replace with your Algolia Assistant ID
+            });
+        }
+    }));
 
     Alpine.data('demoTest', () => ({
         tabRef: null,
