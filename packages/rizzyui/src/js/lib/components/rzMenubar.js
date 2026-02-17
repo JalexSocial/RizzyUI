@@ -290,6 +290,7 @@ export default function(Alpine) {
                 if (content) {
                     // DIRECTLY toggle visibility. 
                     // This bypasses the need for x-show and works perfectly with CSP.
+                    content.hidden = !isOpen;
                     content.style.display = isOpen ? '' : 'none';
                     content.dataset.state = isOpen ? 'open' : 'closed';
 

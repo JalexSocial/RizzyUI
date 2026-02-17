@@ -8629,6 +8629,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           const isOpen = !!triggerId && this.openPath.includes(triggerId);
           this.setTriggerState(trigger2, isOpen);
           if (content) {
+            content.hidden = !isOpen;
             content.style.display = isOpen ? "" : "none";
             content.dataset.state = isOpen ? "open" : "closed";
             if (isOpen && trigger2) {
@@ -9999,7 +10000,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         this.mobileBreakpoint = parseInt(this.$el.dataset.mobileBreakpoint) || 768;
         const savedState = this.cookieName ? document.cookie.split("; ").find((row) => row.startsWith(`${this.cookieName}=`))?.split("=")[1] : null;
         const defaultOpen = this.$el.dataset.defaultOpen === "true";
-        this.open = savedState !== null ? savedState === "true" : defaultOpen;
+        this.open = savedState !== null && savedState !== void 0 ? savedState === "true" : defaultOpen;
         this.checkIfMobile();
         window.addEventListener("keydown", (e2) => {
           if ((e2.ctrlKey || e2.metaKey) && e2.key.toLowerCase() === this.shortcut.toLowerCase()) {

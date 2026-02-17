@@ -22,7 +22,7 @@ export default function(Alpine) {
             const savedState = this.cookieName ? document.cookie.split('; ').find(row => row.startsWith(`${this.cookieName}=`))?.split('=')[1] : null;
             const defaultOpen = this.$el.dataset.defaultOpen === 'true';
 
-            this.open = savedState !== null ? savedState === 'true' : defaultOpen;
+            this.open = savedState !== null && savedState !== undefined ? savedState === 'true' : defaultOpen;
 
             this.checkIfMobile();
 

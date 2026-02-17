@@ -6639,7 +6639,7 @@ function Oc(t) {
     syncSubmenus() {
       ((this.currentMenuValue ? this.$el.querySelector(`[data-menu-content="${this.currentMenuValue}"]`) ?? document.querySelector(`[data-menu-content="${this.currentMenuValue}"]`) : null)?.querySelectorAll('[data-slot="menubar-sub"]') ?? []).forEach((n) => {
         const r = n.querySelector(':scope > [data-slot="menubar-sub-trigger"]'), s = n.querySelector(':scope > [data-slot="menubar-sub-content"]'), o = r?.id, a = !!o && this.openPath.includes(o);
-        this.setTriggerState(r, a), s && (s.style.display = a ? "" : "none", s.dataset.state = a ? "open" : "closed", a && r && St(r, s, {
+        this.setTriggerState(r, a), s && (s.hidden = !a, s.style.display = a ? "" : "none", s.dataset.state = a ? "open" : "closed", a && r && St(r, s, {
           placement: "right-start",
           middleware: [Et(4), It(), Tt({ padding: 8 })]
         }).then(({ x: l, y: c }) => {
@@ -7672,7 +7672,7 @@ function Uc(t) {
     init() {
       this.collapsible = this.$el.dataset.collapsible || "offcanvas", this.shortcut = this.$el.dataset.shortcut || "b", this.cookieName = this.$el.dataset.cookieName || "sidebar_state", this.mobileBreakpoint = parseInt(this.$el.dataset.mobileBreakpoint) || 768;
       const e = this.cookieName ? document.cookie.split("; ").find((n) => n.startsWith(`${this.cookieName}=`))?.split("=")[1] : null, i = this.$el.dataset.defaultOpen === "true";
-      this.open = e !== null ? e === "true" : i, this.checkIfMobile(), window.addEventListener("keydown", (n) => {
+      this.open = e != null ? e === "true" : i, this.checkIfMobile(), window.addEventListener("keydown", (n) => {
         (n.ctrlKey || n.metaKey) && n.key.toLowerCase() === this.shortcut.toLowerCase() && (n.preventDefault(), this.toggle());
       }), this.$watch("open", (n) => {
         this.cookieName && (document.cookie = `${this.cookieName}=${n}; path=/; max-age=31536000`);
