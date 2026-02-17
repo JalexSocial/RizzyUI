@@ -17,7 +17,7 @@ public partial class RzDarkModeToggle : RzComponent<RzDarkModeToggle.Slots>
     /// Defines the default styling for the RzDarkModeToggle component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "inline-flex items-center justify-center p-2 rounded-md transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground bg-background hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent dark:hover:text-accent-foreground dark:focus-visible:ring-offset-background",
+        @base: "inline-flex items-center justify-center p-2 shadow-xs rounded-md transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground bg-background hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent dark:hover:text-accent-foreground dark:focus-visible:ring-offset-background",
         slots: new()
         {
             [s => s.Icon] = "transition-transform duration-300 ease-out size-5"

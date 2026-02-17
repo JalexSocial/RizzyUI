@@ -19,7 +19,7 @@ public partial class RzButton : RzComponent<RzButton.Slots>
         {
             [b => ((RzButton)b).EffectiveVariant] = new Variant<ThemeVariant, Slots>
             {
-                [ThemeVariant.Default] = "bg-input text-foreground border border-input shadow-sm hover:bg-accent hover:text-accent-foreground",
+                [ThemeVariant.Default] = "bg-input text-foreground border border-input shadow-xs hover:bg-accent hover:text-accent-foreground",
                 [ThemeVariant.Primary] = "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
                 [ThemeVariant.Secondary] = "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/90",
                 [ThemeVariant.Destructive] = "bg-destructive text-white shadow-xs hover:bg-destructive/90",
