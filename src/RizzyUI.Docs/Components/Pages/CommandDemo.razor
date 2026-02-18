@@ -6,8 +6,8 @@
     <RzArticle ProseWidth="ProseWidth.Wide">
         <MainContent>
             <RzBreadcrumb>
-                <RzBreadcrumbItem Href="/" Label="Home" />
-                <RzBreadcrumbItem Label="Command Demo" />
+                <BreadcrumbItem Href="/" Label="Home" />
+                <BreadcrumbItem Label="Command Demo" />
             </RzBreadcrumb>
 
             <RzHeading Level="HeadingLevel.H1">Command Demo</RzHeading>
@@ -15,7 +15,7 @@
                 This page demonstrates <strong>5,000</strong> command items rendered using <code>Items</code> and <code>CommandItemTemplate</code>.
             </RzParagraph>
 
-            <RzCommand class="rounded-lg border shadow-md" Items="@_commandItems" MaxRender="5000">
+            <RzCommand class="rounded-lg border shadow-md" Items="@_commandItems" MaxRender="500">
                 <CommandInput Placeholder="Search 5,000 commands..." />
                 <CommandList class="max-h-[32rem]">
                     <CommandEmpty>No results found.</CommandEmpty>

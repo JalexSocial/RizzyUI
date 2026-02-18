@@ -1148,6 +1148,9 @@
   .max-h-60 {
     max-height: calc(var(--spacing) * 60);
   }
+  .max-h-\[32rem\] {
+    max-height: 32rem;
+  }
   .max-h-\[300px\] {
     max-height: 300px;
   }

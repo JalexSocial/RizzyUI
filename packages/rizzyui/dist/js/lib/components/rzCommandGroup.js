@@ -1,14 +1,13 @@
-
 // packages/rizzyui/src/js/lib/components/rzCommandGroup.js
 export default function(Alpine) {
     Alpine.data('rzCommandGroup', () => ({
         parent: null,
         heading: '',
-        templateId: '',
+        headingId: '',
 
         /**
-         * Executes the `init` operation.
-         * @returns {any} Returns the result of `init` when applicable.
+         * Initializes the group and registers its heading template with the parent command.
+         * @returns {void}
          */
         init() {
             const parentEl = this.$el.closest('[x-data="rzCommand"]');
@@ -17,12 +16,15 @@ export default function(Alpine) {
                 return;
             }
             this.parent = Alpine.$data(parentEl);
-            
-            this.heading = this.$el.dataset.heading;
-            this.templateId = this.$el.dataset.templateId;
 
-            if (this.heading && this.templateId) {
-                this.parent.registerGroupTemplate(this.heading, this.templateId);
+            this.heading = this.$el.dataset.heading;
+
+            const template = this.$el.querySelector('template');
+            const headingId = template?.dataset.headingId || '';
+            const templateContent = template?.content ? template.content.cloneNode(true) : null;
+
+            if (this.heading && templateContent) {
+                this.parent.registerGroupTemplate(this.heading, templateContent, headingId);
             }
         }
     }));
