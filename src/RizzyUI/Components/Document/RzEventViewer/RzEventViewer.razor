@@ -30,7 +30,7 @@
          data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Container)">
         <div class="@SlotClasses.GetHeader()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Header)">
             <span class="@SlotClasses.GetTitle()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Title)">@ViewerTitle</span>
-            <div class="@SlotClasses.GetControls()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Controls)">
+            <div class="@SlotClasses.GetControls()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Controls)" x-cloak>
                 <button type="button"
                         x-on:click="copyEntries"
                         :title="getCopiedTitle"
