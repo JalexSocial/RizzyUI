@@ -30,14 +30,75 @@ export default function(Alpine) {
         _lastMatchedItems: [],
         _listInstance: null,
 
+        /**
+         * Computes a deterministic 32-bit hash for a string.
+         * @param {string} value The value to hash.
+         * @returns {string} An unsigned integer hash represented as a string.
+         */
+        hashString(value) {
+            let hash = 0;
+            for (let i = 0; i < value.length; i++) {
+                hash = ((hash << 5) - hash) + value.charCodeAt(i);
+                hash |= 0;
+            }
+
+            return String(hash >>> 0);
+        },
+
+        /**
+         * Resolves a stable item identifier when an item is missing an id.
+         * @param {object} item The command item.
+         * @returns {string} A stable identifier for the item.
+         */
+        resolveStableItemId(item) {
+            if (item?.id) {
+                return String(item.id);
+            }
+
+            if (item?.value) {
+                return String(item.value);
+            }
+
+            const fallbackValue = item?.name || item?.label || JSON.stringify(item ?? {});
+            return `item-${this.hashString(String(fallbackValue))}`;
+        },
+
         // --- COMPUTED (CSP-Compliant Methods) ---
+        /**
+         * Indicates whether the loading state should be displayed.
+         * @returns {boolean} True when loading.
+         */
         showLoading() { return this.isLoading; },
+
+        /**
+         * Indicates whether an error is currently set.
+         * @returns {boolean} True when an error exists.
+         */
         hasError() { return this.error !== null; },
+
+        /**
+         * Indicates whether there is currently no error.
+         * @returns {boolean} True when no error exists.
+         */
         notHasError() { return this.error == null; },
+
+        /**
+         * Indicates whether the empty state should be shown.
+         * @returns {boolean} True when the empty state should be shown.
+         */
         shouldShowEmpty() { return this.isEmpty && this.search && !this.isLoading && !this.error; },
+
+        /**
+         * Indicates whether either empty or error state should be shown.
+         * @returns {boolean} True when empty or error state applies.
+         */
         shouldShowEmptyOrError() { return (this.isEmpty && this.search && !this.isLoading) || this.error !== null; },
 
         // --- LIFECYCLE ---
+        /**
+         * Initializes command state, registers watchers, and loads initial items.
+         * @returns {void}
+         */
         init() {
             this.loop = this.$el.dataset.loop === 'true';
             this.shouldFilter = this.$el.dataset.shouldFilter !== 'false';
@@ -67,7 +128,7 @@ export default function(Alpine) {
 
             const normalizedStaticItems = staticItems.map(item => ({
                 ...item,
-                id: item.id || `static-item-${crypto.randomUUID()}`,
+                id: this.resolveStableItemId(item),
                 isDataItem: true
             }));
             this.registerItems(normalizedStaticItems, { suppressFilter: true });
@@ -141,28 +202,50 @@ export default function(Alpine) {
         },
 
         // --- METHODS ---
+        /**
+         * Stores the list renderer instance for cache-aware rendering.
+         * @param {object} listInstance The command list Alpine instance.
+         * @returns {void}
+         */
         setListInstance(listInstance) {
             this._listInstance = listInstance;
             this._listInstance.renderList();
         },
 
+        /**
+         * Normalizes an item and enriches search metadata.
+         * @param {object} item The command item to normalize.
+         * @returns {object} The normalized item.
+         */
         normalizeItem(item) {
             const name = item.name || '';
             const keywords = Array.isArray(item.keywords) ? item.keywords : [];
             return {
                 ...item,
+                id: this.resolveStableItemId(item),
                 keywords,
                 _searchText: `${name} ${keywords.join(' ')}`.trim().toLowerCase(),
                 _order: item._order ?? this.items.length
             };
         },
 
+        /**
+         * Registers multiple items while avoiding duplicates.
+         * @param {Array<object>} items Items to register.
+         * @param {{ suppressFilter?: boolean }} options Registration options.
+         * @returns {void}
+         */
         registerItems(items, options = {}) {
             const suppressFilter = options.suppressFilter === true;
             let added = 0;
 
             for (const rawItem of items) {
-                if (!rawItem?.id || this.itemsById.has(rawItem.id)) {
+                if (!rawItem) {
+                    continue;
+                }
+
+                const itemId = this.resolveStableItemId(rawItem);
+                if (this.itemsById.has(itemId)) {
                     continue;
                 }
 
@@ -186,6 +269,11 @@ export default function(Alpine) {
             this.registerItems([item]);
         },
 
+        /**
+         * Unregisters an item by id.
+         * @param {string} itemId The item identifier.
+         * @returns {void}
+         */
         unregisterItem(itemId) {
             if (!this.itemsById.has(itemId)) {
                 return;
@@ -196,6 +284,13 @@ export default function(Alpine) {
             this.filterAndSortItems();
         },
 
+        /**
+         * Registers a group heading template.
+         * @param {string} name The group name.
+         * @param {DocumentFragment} templateContent The template content.
+         * @param {string} headingId The heading identifier.
+         * @returns {void}
+         */
         registerGroupTemplate(name, templateContent, headingId) {
             if (!name || !templateContent || this.groupTemplates.has(name)) {
                 return;
@@ -207,6 +302,10 @@ export default function(Alpine) {
             });
         },
 
+        /**
+         * Rebuilds the map of filtered indexes by item id.
+         * @returns {void}
+         */
         updateFilteredIndexes() {
             const indexMap = new Map();
             for (let i = 0; i < this.filteredItems.length; i++) {
@@ -215,6 +314,12 @@ export default function(Alpine) {
             this.filteredIndexById = indexMap;
         },
 
+        /**
+         * Computes a simple ranking score for fast filtering.
+         * @param {string} searchText Normalized searchable text.
+         * @param {string} searchTerm Normalized search term.
+         * @returns {number} Ranking score.
+         */
         fastScore(searchText, searchTerm) {
             if (!searchTerm) {
                 return 1;
@@ -236,6 +341,10 @@ export default function(Alpine) {
             return 2;
         },
 
+        /**
+         * Filters, sorts, and trims items based on current settings.
+         * @returns {void}
+         */
         filterAndSortItems() {
             if (this.serverFiltering && this._dataFetched) {
                 this.filteredItems = this.items.slice(0, this.maxRender);
@@ -291,6 +400,11 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Fetches remote items and registers them.
+         * @param {string} [query=''] Query string used for server filtering.
+         * @returns {Promise<void>}
+         */
         async fetchItems(query = '') {
             if (!this.itemsUrl) return;
             if (!this.dataItemTemplateId) {
@@ -321,7 +435,7 @@ export default function(Alpine) {
 
                 const normalizedDataItems = data.map(item => ({
                     ...item,
-                    id: item.id || `data-item-${crypto.randomUUID()}`,
+                    id: this.resolveStableItemId(item),
                     isDataItem: true
                 }));
 
@@ -336,6 +450,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Handles an interaction that may trigger deferred data fetch.
+         * @returns {void}
+         */
         handleInteraction() {
             if (this.itemsUrl && this.fetchTrigger === 'on-open' && !this._dataFetched) {
                 this.fetchItems();
@@ -343,6 +461,11 @@ export default function(Alpine) {
         },
 
         // --- EVENT HANDLERS ---
+        /**
+         * Handles item click selection and execute dispatch.
+         * @param {MouseEvent} event The click event.
+         * @returns {void}
+         */
         handleItemClick(event) {
             const host = event.target.closest('[data-command-item-id]');
             if (!host) return;
@@ -359,6 +482,11 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Handles hover-based selection changes.
+         * @param {MouseEvent} event The mouse event.
+         * @returns {void}
+         */
         handleItemHover(event) {
             const host = event.target.closest('[data-command-item-id]');
             if (!host) return;
@@ -375,6 +503,11 @@ export default function(Alpine) {
         },
 
         // --- KEYBOARD NAVIGATION ---
+        /**
+         * Handles keyboard navigation and execute behavior.
+         * @param {KeyboardEvent} e The keyboard event.
+         * @returns {void}
+         */
         handleKeydown(e) {
             switch (e.key) {
                 case 'ArrowDown':
@@ -404,6 +537,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Selects the next enabled item.
+         * @returns {void}
+         */
         selectNext() {
             if (this.filteredItems.length === 0) return;
             let i = this.selectedIndex;
@@ -416,6 +553,10 @@ export default function(Alpine) {
             } while (count <= this.filteredItems.length);
         },
 
+        /**
+         * Selects the previous enabled item.
+         * @returns {void}
+         */
         selectPrev() {
             if (this.filteredItems.length === 0) return;
             let i = this.selectedIndex;
@@ -428,6 +569,10 @@ export default function(Alpine) {
             } while (count <= this.filteredItems.length);
         },
 
+        /**
+         * Selects the first enabled item.
+         * @returns {void}
+         */
         selectFirst() {
             if (this.filteredItems.length > 0) {
                 const firstEnabledIndex = this.filteredItems.findIndex(item => !item.disabled);
@@ -435,6 +580,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Selects the last enabled item.
+         * @returns {void}
+         */
         selectLast() {
             if (this.filteredItems.length > 0) {
                 const lastEnabledIndex = this.filteredItems.map(item => item.disabled).lastIndexOf(false);

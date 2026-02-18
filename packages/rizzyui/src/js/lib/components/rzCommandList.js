@@ -4,6 +4,10 @@ export default function(Alpine) {
         dataItemTemplate: null,
         rowCache: new Map(),
 
+        /**
+         * Initializes the command list and links it with the parent command instance.
+         * @returns {void}
+         */
         init() {
             const parentEl = this.$el.closest('[x-data="rzCommand"]');
             if (!parentEl) {
@@ -19,6 +23,11 @@ export default function(Alpine) {
             this.parent.setListInstance(this);
         },
 
+        /**
+         * Returns a cached row for an item, creating one from a template when needed.
+         * @param {object} item The command item.
+         * @returns {Element|null} The row element or null when unavailable.
+         */
         ensureRow(item) {
             if (this.rowCache.has(item.id)) {
                 return this.rowCache.get(item.id);
@@ -51,6 +60,13 @@ export default function(Alpine) {
             return itemEl;
         },
 
+        /**
+         * Applies ARIA/data attributes to a rendered row.
+         * @param {Element} itemEl The row element.
+         * @param {object} item The command item.
+         * @param {number} itemIndex The filtered index of the item.
+         * @returns {void}
+         */
         applyItemAttributes(itemEl, item, itemIndex) {
             itemEl.setAttribute('data-command-item-id', item.id);
             itemEl.setAttribute('data-value', item.value || '');
@@ -85,6 +101,10 @@ export default function(Alpine) {
             }
         },
 
+        /**
+         * Renders grouped command rows using cached row elements.
+         * @returns {void}
+         */
         renderList() {
             const items = this.parent.filteredItems || [];
             const groups = this.parent.groupTemplates || new Map();

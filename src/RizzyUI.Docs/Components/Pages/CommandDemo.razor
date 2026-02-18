@@ -1,0 +1,43 @@
+@page "/command-demo"
+
+<PageTitle>Command Demo</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.Wide">
+        <MainContent>
+            <RzBreadcrumb>
+                <RzBreadcrumbItem Href="/" Label="Home" />
+                <RzBreadcrumbItem Label="Command Demo" />
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1">Command Demo</RzHeading>
+            <RzParagraph>
+                This page demonstrates <strong>5,000</strong> command items rendered using <code>Items</code> and <code>CommandItemTemplate</code>.
+            </RzParagraph>
+
+            <RzCommand class="rounded-lg border shadow-md" Items="@_commandItems" MaxRender="5000">
+                <CommandInput Placeholder="Search 5,000 commands..." />
+                <CommandList class="max-h-[32rem]">
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandItemTemplate>
+                        <span x-text="item.name"></span>
+                        <CommandShortcut x-text="item.shortcut"></CommandShortcut>
+                    </CommandItemTemplate>
+                </CommandList>
+            </RzCommand>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private readonly List<CommandItemData> _commandItems = Enumerable
+        .Range(1, 5000)
+        .Select(index => new CommandItemData
+        {
+            Value = $"CMD-{index:D5}",
+            Name = $"Command Item {index}",
+            Group = index % 2 == 0 ? "Even" : "Odd",
+            Shortcut = index <= 26 ? $"⌘{(char)('A' + index - 1)}" : string.Empty
+        })
+        .ToList();
+}

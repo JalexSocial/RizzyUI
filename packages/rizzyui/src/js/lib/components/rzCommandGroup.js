@@ -5,6 +5,10 @@ export default function(Alpine) {
         heading: '',
         headingId: '',
 
+        /**
+         * Initializes the group and registers its heading template with the parent command.
+         * @returns {void}
+         */
         init() {
             const parentEl = this.$el.closest('[x-data="rzCommand"]');
             if (!parentEl) {
