@@ -19,6 +19,7 @@
                  data-fetch-trigger="@FetchTrigger.ToString().ToKebabCase()"
                  data-server-filtering="@(ServerFiltering.ToString().ToLowerInvariant())"
                  data-template-id="@DataItemTemplateId"
+                 data-max-render="@MaxRender"
                  aria-label="@AriaLabel">
         
         @if (string.IsNullOrEmpty(ItemsUrl) && Items.Any())

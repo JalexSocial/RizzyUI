@@ -9,7 +9,7 @@
            id="@Id"
            class="@SlotClasses.GetInput()"
            data-slot="command-input"
-           x-model.debounce.300ms="search"
+           x-model.debounce.50ms="search"
            x-on:keydown="handleKeydown"
            x-on:focus="handleInteraction"
            role="combobox"

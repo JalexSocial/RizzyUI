@@ -1,4 +1,3 @@
-
 // packages/rizzyui/src/js/lib/components/rzCommand.js
 export default function(Alpine) {
     Alpine.data('rzCommand', () => ({
@@ -7,15 +6,16 @@ export default function(Alpine) {
         selectedValue: null,
         selectedIndex: -1,
         items: [],
+        itemsById: new Map(),
         filteredItems: [],
+        filteredIndexById: new Map(),
         groupTemplates: new Map(),
         activeDescendantId: null,
         isOpen: false,
         isEmpty: true,
-        firstRender: true,
         isLoading: false,
         error: null,
-        
+
         // --- CONFIG ---
         loop: false,
         shouldFilter: true,
@@ -23,17 +23,82 @@ export default function(Alpine) {
         fetchTrigger: 'immediate',
         serverFiltering: false,
         dataItemTemplateId: null,
+        maxRender: 100,
         _dataFetched: false,
         _debounceTimer: null,
+        _lastSearch: '',
+        _lastMatchedItems: [],
+        _listInstance: null,
+
+        /**
+         * Computes a deterministic 32-bit hash for a string.
+         * @param {string} value The value to hash.
+         * @returns {string} An unsigned integer hash represented as a string.
+         */
+        hashString(value) {
+            let hash = 0;
+            for (let i = 0; i < value.length; i++) {
+                hash = ((hash << 5) - hash) + value.charCodeAt(i);
+                hash |= 0;
+            }
+
+            return String(hash >>> 0);
+        },
+
+        /**
+         * Resolves a stable item identifier when an item is missing an id.
+         * @param {object} item The command item.
+         * @returns {string} A stable identifier for the item.
+         */
+        resolveStableItemId(item) {
+            if (item?.id) {
+                return String(item.id);
+            }
+
+            if (item?.value) {
+                return String(item.value);
+            }
+
+            const fallbackValue = item?.name || item?.label || JSON.stringify(item ?? {});
+            return `item-${this.hashString(String(fallbackValue))}`;
+        },
 
         // --- COMPUTED (CSP-Compliant Methods) ---
+        /**
+         * Indicates whether the loading state should be displayed.
+         * @returns {boolean} True when loading.
+         */
         showLoading() { return this.isLoading; },
+
+        /**
+         * Indicates whether an error is currently set.
+         * @returns {boolean} True when an error exists.
+         */
         hasError() { return this.error !== null; },
+
+        /**
+         * Indicates whether there is currently no error.
+         * @returns {boolean} True when no error exists.
+         */
         notHasError() { return this.error == null; },
+
+        /**
+         * Indicates whether the empty state should be shown.
+         * @returns {boolean} True when the empty state should be shown.
+         */
         shouldShowEmpty() { return this.isEmpty && this.search && !this.isLoading && !this.error; },
+
+        /**
+         * Indicates whether either empty or error state should be shown.
+         * @returns {boolean} True when empty or error state applies.
+         */
         shouldShowEmptyOrError() { return (this.isEmpty && this.search && !this.isLoading) || this.error !== null; },
 
         // --- LIFECYCLE ---
+        /**
+         * Initializes command state, registers watchers, and loads initial items.
+         * @returns {void}
+         */
         init() {
             this.loop = this.$el.dataset.loop === 'true';
             this.shouldFilter = this.$el.dataset.shouldFilter !== 'false';
@@ -42,6 +107,7 @@ export default function(Alpine) {
             this.fetchTrigger = this.$el.dataset.fetchTrigger || 'immediate';
             this.serverFiltering = this.$el.dataset.serverFiltering === 'true';
             this.dataItemTemplateId = this.$el.dataset.templateId || null;
+            this.maxRender = Number.parseInt(this.$el.dataset.maxRender || '100', 10);
 
             const itemsScriptId = this.$el.dataset.itemsId;
             let staticItems = [];
@@ -60,26 +126,28 @@ export default function(Alpine) {
                 console.error('RzCommand: `Items` were provided, but no `<CommandItemTemplate>` was found to render them.');
             }
 
-            staticItems.forEach(item => {
-                item.id = item.id || `static-item-${crypto.randomUUID()}`;
-                item.isDataItem = true; 
-                this.registerItem(item);
-            });
+            const normalizedStaticItems = staticItems.map(item => ({
+                ...item,
+                id: this.resolveStableItemId(item),
+                isDataItem: true
+            }));
+            this.registerItems(normalizedStaticItems, { suppressFilter: true });
 
             if (this.itemsUrl && this.fetchTrigger === 'immediate') {
                 this.fetchItems();
+            } else {
+                this.filterAndSortItems();
             }
 
             this.$watch('search', (newValue) => {
-                this.firstRender = false;
                 if (this.serverFiltering) {
                     clearTimeout(this._debounceTimer);
                     this._debounceTimer = setTimeout(() => {
                         this.fetchItems(newValue);
-                    }, 300); // Debounce server requests
-                } else {
-                    this.filterAndSortItems();
+                    }, 300);
+                    return;
                 }
+                this.filterAndSortItems();
             });
 
             this.$watch('selectedIndex', (newIndex, oldIndex) => {
@@ -97,7 +165,7 @@ export default function(Alpine) {
                 if (newIndex > -1 && this.filteredItems[newIndex]) {
                     const selectedItem = this.filteredItems[newIndex];
                     this.activeDescendantId = selectedItem.id;
-                    
+
                     const el = this.$el.querySelector(`[data-command-item-id="${selectedItem.id}"]`);
                     if (el) {
                         el.setAttribute('data-selected', 'true');
@@ -127,20 +195,216 @@ export default function(Alpine) {
                 this.isOpen = items.length > 0 || this.isLoading;
                 this.isEmpty = items.length === 0;
 
-                if (!this.firstRender)
-                {
-                    window.dispatchEvent(new CustomEvent('rz:command:list-changed', {
-                        detail: {
-                            items: this.filteredItems,
-                            groups: this.groupTemplates,
-                            commandId: this.$el.id
-                        }
-                    }));
+                if (this._listInstance) {
+                    this._listInstance.renderList();
                 }
             });
         },
 
         // --- METHODS ---
+        /**
+         * Stores the list renderer instance for cache-aware rendering.
+         * @param {object} listInstance The command list Alpine instance.
+         * @returns {void}
+         */
+        setListInstance(listInstance) {
+            this._listInstance = listInstance;
+            this._listInstance.renderList();
+        },
+
+        /**
+         * Normalizes an item and enriches search metadata.
+         * @param {object} item The command item to normalize.
+         * @returns {object} The normalized item.
+         */
+        normalizeItem(item) {
+            const name = item.name || '';
+            const keywords = Array.isArray(item.keywords) ? item.keywords : [];
+            return {
+                ...item,
+                id: this.resolveStableItemId(item),
+                keywords,
+                _searchText: `${name} ${keywords.join(' ')}`.trim().toLowerCase(),
+                _order: item._order ?? this.items.length
+            };
+        },
+
+        /**
+         * Registers multiple items while avoiding duplicates.
+         * @param {Array<object>} items Items to register.
+         * @param {{ suppressFilter?: boolean }} options Registration options.
+         * @returns {void}
+         */
+        registerItems(items, options = {}) {
+            const suppressFilter = options.suppressFilter === true;
+            let added = 0;
+
+            for (const rawItem of items) {
+                if (!rawItem) {
+                    continue;
+                }
+
+                const itemId = this.resolveStableItemId(rawItem);
+                if (this.itemsById.has(itemId)) {
+                    continue;
+                }
+
+                const normalizedItem = this.normalizeItem(rawItem);
+                normalizedItem._order = this.items.length;
+                this.items.push(normalizedItem);
+                this.itemsById.set(normalizedItem.id, normalizedItem);
+                added++;
+            }
+
+            if (added > 0 && this.selectedIndex === -1) {
+                this.selectedIndex = 0;
+            }
+
+            if (!suppressFilter && !this.serverFiltering) {
+                this.filterAndSortItems();
+            }
+        },
+
+        registerItem(item) {
+            this.registerItems([item]);
+        },
+
+        /**
+         * Unregisters an item by id.
+         * @param {string} itemId The item identifier.
+         * @returns {void}
+         */
+        unregisterItem(itemId) {
+            if (!this.itemsById.has(itemId)) {
+                return;
+            }
+
+            this.itemsById.delete(itemId);
+            this.items = this.items.filter(i => i.id !== itemId);
+            this.filterAndSortItems();
+        },
+
+        /**
+         * Registers a group heading template.
+         * @param {string} name The group name.
+         * @param {DocumentFragment} templateContent The template content.
+         * @param {string} headingId The heading identifier.
+         * @returns {void}
+         */
+        registerGroupTemplate(name, templateContent, headingId) {
+            if (!name || !templateContent || this.groupTemplates.has(name)) {
+                return;
+            }
+
+            this.groupTemplates.set(name, {
+                headingId,
+                templateContent
+            });
+        },
+
+        /**
+         * Rebuilds the map of filtered indexes by item id.
+         * @returns {void}
+         */
+        updateFilteredIndexes() {
+            const indexMap = new Map();
+            for (let i = 0; i < this.filteredItems.length; i++) {
+                indexMap.set(this.filteredItems[i].id, i);
+            }
+            this.filteredIndexById = indexMap;
+        },
+
+        /**
+         * Computes a simple ranking score for fast filtering.
+         * @param {string} searchText Normalized searchable text.
+         * @param {string} searchTerm Normalized search term.
+         * @returns {number} Ranking score.
+         */
+        fastScore(searchText, searchTerm) {
+            if (!searchTerm) {
+                return 1;
+            }
+
+            const termIndex = searchText.indexOf(searchTerm);
+            if (termIndex === -1) {
+                return 0;
+            }
+
+            if (termIndex === 0) {
+                return 4;
+            }
+
+            if (searchText.includes(` ${searchTerm}`)) {
+                return 3;
+            }
+
+            return 2;
+        },
+
+        /**
+         * Filters, sorts, and trims items based on current settings.
+         * @returns {void}
+         */
+        filterAndSortItems() {
+            if (this.serverFiltering && this._dataFetched) {
+                this.filteredItems = this.items.slice(0, this.maxRender);
+                this.updateFilteredIndexes();
+                this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
+                return;
+            }
+
+            const searchTerm = (this.search || '').trim().toLowerCase();
+            const useIncremental = searchTerm && this._lastSearch && searchTerm.startsWith(this._lastSearch);
+            const candidates = useIncremental ? this._lastMatchedItems : this.items;
+
+            let matches = [];
+            if (!this.shouldFilter || !searchTerm) {
+                matches = this.items.slice();
+            } else {
+                const scored = [];
+
+                for (const item of candidates) {
+                    if (item.forceMount) {
+                        continue;
+                    }
+
+                    const score = this.fastScore(item._searchText, searchTerm);
+                    if (score > 0) {
+                        scored.push([item, score]);
+                    }
+                }
+
+                scored.sort((a, b) => {
+                    if (b[1] !== a[1]) {
+                        return b[1] - a[1];
+                    }
+                    return (a[0]._order || 0) - (b[0]._order || 0);
+                });
+
+                matches = scored.map(([item]) => item);
+            }
+
+            const forceMountedItems = this.items.filter(item => item.forceMount);
+            const combined = [...matches, ...forceMountedItems];
+
+            this._lastSearch = searchTerm;
+            this._lastMatchedItems = combined;
+            this.filteredItems = combined.slice(0, this.maxRender);
+            this.updateFilteredIndexes();
+
+            if (this.selectedValue) {
+                const newIndex = this.filteredItems.findIndex(item => item.value === this.selectedValue);
+                this.selectedIndex = newIndex > -1 ? newIndex : (this.filteredItems.length > 0 ? 0 : -1);
+            } else {
+                this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
+            }
+        },
+
+        /**
+         * Fetches remote items and registers them.
+         * @param {string} [query=''] Query string used for server filtering.
+         * @returns {Promise<void>}
+         */
         async fetchItems(query = '') {
             if (!this.itemsUrl) return;
             if (!this.dataItemTemplateId) {
@@ -157,24 +421,25 @@ export default function(Alpine) {
                 if (this.serverFiltering && query) {
                     url.searchParams.append('q', query);
                 }
-                
+
                 const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error(`Network response was not ok: ${response.statusText}`);
                 }
                 const data = await response.json();
 
-                // On server filtering, we replace items. Otherwise, we merge.
                 if (this.serverFiltering) {
-                    this.items = this.items.filter(i => !i.isDataItem); // Keep declarative items
+                    this.items = this.items.filter(i => !i.isDataItem);
+                    this.itemsById = new Map(this.items.map(item => [item.id, item]));
                 }
 
-                data.forEach(item => {
-                    item.id = item.id || `data-item-${crypto.randomUUID()}`;
-                    item.isDataItem = true;
-                    this.registerItem(item);
-                });
-                
+                const normalizedDataItems = data.map(item => ({
+                    ...item,
+                    id: this.resolveStableItemId(item),
+                    isDataItem: true
+                }));
+
+                this.registerItems(normalizedDataItems, { suppressFilter: true });
                 this._dataFetched = true;
             } catch (e) {
                 this.error = e.message || 'Failed to fetch command items.';
@@ -186,8 +451,8 @@ export default function(Alpine) {
         },
 
         /**
-         * Executes the `handleInteraction` operation.
-         * @returns {any} Returns the result of `handleInteraction` when applicable.
+         * Handles an interaction that may trigger deferred data fetch.
+         * @returns {void}
          */
         handleInteraction() {
             if (this.itemsUrl && this.fetchTrigger === 'on-open' && !this._dataFetched) {
@@ -195,91 +460,18 @@ export default function(Alpine) {
             }
         },
 
-        /**
-         * Executes the `registerItem` operation.
-         * @param {any} item Input value for this method.
-         * @returns {any} Returns the result of `registerItem` when applicable.
-         */
-        registerItem(item) {
-            if (this.items.some(i => i.id === item.id)) return;
-            item._order = this.items.length;
-            this.items.push(item);
-            
-            if (this.selectedIndex === -1)
-                this.selectedIndex = 0;
-            
-            if (!this.serverFiltering) {
-                this.filterAndSortItems();
-            }
-        },
-
-        /**
-         * Executes the `unregisterItem` operation.
-         * @param {any} itemId Input value for this method.
-         * @returns {any} Returns the result of `unregisterItem` when applicable.
-         */
-        unregisterItem(itemId) {
-            this.items = this.items.filter(i => i.id !== itemId);
-            this.filterAndSortItems();
-        },
-
-        /**
-         * Executes the `registerGroupTemplate` operation.
-         * @param {any} name Input value for this method.
-         * @param {any} templateId Input value for this method.
-         * @returns {any} Returns the result of `registerGroupTemplate` when applicable.
-         */
-        registerGroupTemplate(name, templateId) {
-            if (!this.groupTemplates.has(name)) {
-                this.groupTemplates.set(name, templateId);
-            }
-        },
-
-        /**
-         * Executes the `filterAndSortItems` operation.
-         * @returns {any} Returns the result of `filterAndSortItems` when applicable.
-         */
-        filterAndSortItems() {
-            if (this.serverFiltering && this._dataFetched) {
-                this.filteredItems = this.items;
-                this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
-                return;
-            }
-            
-            let items;
-            if (!this.shouldFilter || !this.search) {
-                items = this.items.map(item => ({ ...item, score: 1 }));
-            } else {
-                items = this.items
-                    .map(item => ({
-                        ...item,
-                        score: item.forceMount ? 0 : this.commandScore(item.name, this.search, item.keywords)
-                    }))
-                    .filter(item => item.score > 0 || item.forceMount)
-                    .sort((a, b) => {
-                        if (a.forceMount && !b.forceMount) return 1;
-                        if (!a.forceMount && b.forceMount) return -1;
-                        if (b.score !== a.score) return b.score - a.score;
-                        return (a._order || 0) - (b._order || 0);
-                    });
-            }
-            this.filteredItems = items;
-            
-            if (this.selectedValue) {
-                const newIndex = this.filteredItems.findIndex(item => item.value === this.selectedValue);
-                this.selectedIndex = newIndex > -1 ? newIndex : (this.filteredItems.length > 0 ? 0 : -1);
-            } else {
-                this.selectedIndex = this.filteredItems.length > 0 ? 0 : -1;
-            }
-        },
-
         // --- EVENT HANDLERS ---
+        /**
+         * Handles item click selection and execute dispatch.
+         * @param {MouseEvent} event The click event.
+         * @returns {void}
+         */
         handleItemClick(event) {
             const host = event.target.closest('[data-command-item-id]');
             if (!host) return;
 
             const itemId = host.dataset.commandItemId;
-            const index = this.filteredItems.findIndex(item => item.id === itemId);
+            const index = this.filteredIndexById.get(itemId) ?? -1;
 
             if (index > -1) {
                 const item = this.filteredItems[index];
@@ -291,28 +483,31 @@ export default function(Alpine) {
         },
 
         /**
-         * Executes the `handleItemHover` operation.
-         * @param {any} event Input value for this method.
-         * @returns {any} Returns the result of `handleItemHover` when applicable.
+         * Handles hover-based selection changes.
+         * @param {MouseEvent} event The mouse event.
+         * @returns {void}
          */
         handleItemHover(event) {
             const host = event.target.closest('[data-command-item-id]');
             if (!host) return;
 
             const itemId = host.dataset.commandItemId;
-            const index = this.filteredItems.findIndex(item => item.id === itemId);
+            const index = this.filteredIndexById.get(itemId) ?? -1;
 
             if (index > -1) {
                 const item = this.filteredItems[index];
-                if (item && !item.disabled) {
-                    if (this.selectedIndex !== index) {
-                        this.selectedIndex = index;
-                    }
+                if (item && !item.disabled && this.selectedIndex !== index) {
+                    this.selectedIndex = index;
                 }
             }
         },
 
         // --- KEYBOARD NAVIGATION ---
+        /**
+         * Handles keyboard navigation and execute behavior.
+         * @param {KeyboardEvent} e The keyboard event.
+         * @returns {void}
+         */
         handleKeydown(e) {
             switch (e.key) {
                 case 'ArrowDown':
@@ -331,23 +526,25 @@ export default function(Alpine) {
                     e.preventDefault();
                     this.selectLast();
                     break;
-                case 'Enter':
+                case 'Enter': {
                     e.preventDefault();
                     const item = this.filteredItems[this.selectedIndex];
                     if (item && !item.disabled) {
                         this.$dispatch('rz:command:execute', { value: item.value });
                     }
                     break;
+                }
             }
         },
 
         /**
-         * Executes the `selectNext` operation.
-         * @returns {any} Returns the result of `selectNext` when applicable.
+         * Selects the next enabled item.
+         * @returns {void}
          */
         selectNext() {
             if (this.filteredItems.length === 0) return;
-            let i = this.selectedIndex, count = 0;
+            let i = this.selectedIndex;
+            let count = 0;
             do {
                 i = (i + 1 >= this.filteredItems.length) ? (this.loop ? 0 : this.filteredItems.length - 1) : i + 1;
                 count++;
@@ -357,12 +554,13 @@ export default function(Alpine) {
         },
 
         /**
-         * Executes the `selectPrev` operation.
-         * @returns {any} Returns the result of `selectPrev` when applicable.
+         * Selects the previous enabled item.
+         * @returns {void}
          */
         selectPrev() {
             if (this.filteredItems.length === 0) return;
-            let i = this.selectedIndex, count = 0;
+            let i = this.selectedIndex;
+            let count = 0;
             do {
                 i = (i - 1 < 0) ? (this.loop ? this.filteredItems.length - 1 : 0) : i - 1;
                 count++;
@@ -372,8 +570,8 @@ export default function(Alpine) {
         },
 
         /**
-         * Executes the `selectFirst` operation.
-         * @returns {any} Returns the result of `selectFirst` when applicable.
+         * Selects the first enabled item.
+         * @returns {void}
          */
         selectFirst() {
             if (this.filteredItems.length > 0) {
@@ -383,80 +581,14 @@ export default function(Alpine) {
         },
 
         /**
-         * Executes the `selectLast` operation.
-         * @returns {any} Returns the result of `selectLast` when applicable.
+         * Selects the last enabled item.
+         * @returns {void}
          */
         selectLast() {
             if (this.filteredItems.length > 0) {
                 const lastEnabledIndex = this.filteredItems.map(item => item.disabled).lastIndexOf(false);
                 if (lastEnabledIndex > -1) this.selectedIndex = lastEnabledIndex;
             }
-        },
-
-        // --- SCORING ALGORITHM (Adapted from cmdk) ---
-        commandScore(string, search, keywords = []) {
-            const SCORE_CONTINUE_MATCH = 1;
-            const SCORE_SPACE_WORD_JUMP = 0.9;
-            const SCORE_NON_SPACE_WORD_JUMP = 0.8;
-            const SCORE_CHARACTER_JUMP = 0.17;
-            const PENALTY_SKIPPED = 0.999;
-            const PENALTY_CASE_MISMATCH = 0.9999;
-            const PENALTY_NOT_COMPLETE = 0.99;
-
-            const IS_GAP_REGEXP = /[\\/_+.#"@[\(\{&]/;
-            const IS_SPACE_REGEXP = /[\s-]/;
-
-            const fullString = `${string} ${keywords ? keywords.join(' ') : ''}`;
-
-            function formatInput(str) {
-                return str.toLowerCase().replace(/[\s-]/g, ' ');
-            }
-
-            function commandScoreInner(str, abbr, lowerStr, lowerAbbr, strIndex, abbrIndex, memo) {
-                if (abbrIndex === abbr.length) {
-                    return strIndex === str.length ? SCORE_CONTINUE_MATCH : PENALTY_NOT_COMPLETE;
-                }
-
-                const memoKey = `${strIndex},${abbrIndex}`;
-                if (memo[memoKey] !== undefined) return memo[memoKey];
-
-                const abbrChar = lowerAbbr.charAt(abbrIndex);
-                let index = lowerStr.indexOf(abbrChar, strIndex);
-                let highScore = 0;
-
-                while (index >= 0) {
-                    let score = commandScoreInner(str, abbr, lowerStr, lowerAbbr, index + 1, abbrIndex + 1, memo);
-                    if (score > highScore) {
-                        if (index === strIndex) {
-                            score *= SCORE_CONTINUE_MATCH;
-                        } else if (IS_GAP_REGEXP.test(str.charAt(index - 1))) {
-                            score *= SCORE_NON_SPACE_WORD_JUMP;
-                        } else if (IS_SPACE_REGEXP.test(str.charAt(index - 1))) {
-                            score *= SCORE_SPACE_WORD_JUMP;
-                        } else {
-                            score *= SCORE_CHARACTER_JUMP;
-                            if (strIndex > 0) {
-                                score *= Math.pow(PENALTY_SKIPPED, index - strIndex);
-                            }
-                        }
-
-                        if (str.charAt(index) !== abbr.charAt(abbrIndex)) {
-                            score *= PENALTY_CASE_MISMATCH;
-                        }
-                    }
-                    
-                    if (score > highScore) {
-                        highScore = score;
-                    }
-
-                    index = lowerStr.indexOf(abbrChar, index + 1);
-                }
-
-                memo[memoKey] = highScore;
-                return highScore;
-            }
-
-            return commandScoreInner(fullString, search, formatInput(fullString), formatInput(search), 0, 0, {});
         }
     }));
 }

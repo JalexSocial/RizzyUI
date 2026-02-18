@@ -54,6 +54,8 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzCodeViewer.Slots>, RzCodeViewer.Slots> RzCodeViewer { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzEmbeddedPreview"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzEmbeddedPreview.Slots>, RzEmbeddedPreview.Slots> RzEmbeddedPreview { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzEventViewer"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzEventViewer.Slots>, RzEventViewer.Slots> RzEventViewer { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzMarkdown"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzMarkdown.Slots>, RzMarkdown.Slots> RzMarkdown { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzQuickReference"/> component. </summary>

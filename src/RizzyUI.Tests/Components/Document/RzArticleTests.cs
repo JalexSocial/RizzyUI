@@ -58,7 +58,7 @@ public class RzArticleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     }
 
     [Fact]
-    public void IsSideFixed_AppliesFixedClass()
+    public void IsSideSticky_AppliesStickyClass()
     {
         // Act
         var cut = RenderComponent<RzArticle>(parameters => parameters
@@ -69,6 +69,7 @@ public class RzArticleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 
         // Assert
         var aside = cut.Find("[data-slot='article-aside']");
-        Assert.Contains("fixed", aside.ClassList);
+        Assert.Contains("sticky", aside.ClassList);
+        Assert.Contains("top-0", aside.ClassList);
     }
 }

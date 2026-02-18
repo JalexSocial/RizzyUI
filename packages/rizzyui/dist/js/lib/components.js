@@ -20,6 +20,7 @@ import registerRzDialog from './components/rzDialog.js';
 import registerRzDropdownMenu from './components/rzDropdownMenu.js';
 import registerRzDarkModeToggle from './components/rzDarkModeToggle.js';
 import registerRzEmbeddedPreview from './components/rzEmbeddedPreview.js';
+import registerRzEventViewer from './components/rzEventViewer.js';
 import registerRzEmpty from './components/rzEmpty.js';
 import registerRzHeading from './components/rzHeading.js';
 import registerRzIndicator from './components/rzIndicator.js';
@@ -165,6 +166,7 @@ function registerComponents(Alpine) {
     registerRzDropdownMenu(Alpine);
     registerRzDarkModeToggle(Alpine);
     registerRzEmbeddedPreview(Alpine);
+    registerRzEventViewer(Alpine);
     registerRzEmpty(Alpine);
     registerRzHeading(Alpine);
     registerRzIndicator(Alpine);
