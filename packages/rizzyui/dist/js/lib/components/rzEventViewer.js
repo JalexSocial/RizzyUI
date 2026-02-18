@@ -4,6 +4,9 @@ export default function (Alpine) {
         entries: [],
         error: null,
         paused: false,
+        copied: false,
+        copyTitle: 'Copy',
+        copiedTitle: 'Copied!',
         target: 'window',
         targetEl: null,
         maxEntries: 200,
@@ -29,6 +32,10 @@ export default function (Alpine) {
             return !this.paused;
         },
 
+        notCopied() {
+            return !this.copied;
+        },
+
         init() {
             this.target = this.$el.dataset.target || 'window';
             this.maxEntries = Number.parseInt(this.$el.dataset.maxEntries || '200', 10);
@@ -38,6 +45,8 @@ export default function (Alpine) {
             this.showEventMeta = this.parseBoolean(this.$el.dataset.showEventMeta, false);
             this.level = this.$el.dataset.level || 'info';
             this.filterPath = this.$el.dataset.filter || '';
+            this.copyTitle = this.$el.dataset.copyTitle || this.copyTitle;
+            this.copiedTitle = this.$el.dataset.copiedTitle || this.copiedTitle;
 
             this.eventNames = this.resolveEventNames();
             if (this.eventNames.length === 0) {
@@ -259,13 +268,32 @@ export default function (Alpine) {
             this.paused = !this.paused;
         },
 
-        copyEntries() {
+        disableCopied() {
+            this.copied = false;
+        },
+
+        getCopiedTitle() {
+            return this.copied ? this.copiedTitle : this.copyTitle;
+        },
+
+        getCopiedCss() {
+            return [this.copied ? 'focus-visible:outline-success' : 'focus-visible:outline-foreground'];
+        },
+
+        async copyEntries() {
             const payload = this.entries
                 .map(entry => `${entry.hasTimestamp ? `${entry.timestamp} ` : ''}${entry.type} ${entry.body}`)
                 .join('\n');
 
-            if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-                navigator.clipboard.writeText(payload);
+            if (!(navigator.clipboard && typeof navigator.clipboard.writeText === 'function')) {
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(payload);
+                this.copied = true;
+            } catch {
+                this.copied = false;
             }
         }
     }));

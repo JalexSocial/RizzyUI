@@ -9059,6 +9059,9 @@ function registerRzEventViewer(Alpine2) {
     entries: [],
     error: null,
     paused: false,
+    copied: false,
+    copyTitle: "Copy",
+    copiedTitle: "Copied!",
     target: "window",
     targetEl: null,
     maxEntries: 200,
@@ -9080,6 +9083,9 @@ function registerRzEventViewer(Alpine2) {
     notPaused() {
       return !this.paused;
     },
+    notCopied() {
+      return !this.copied;
+    },
     init() {
       this.target = this.$el.dataset.target || "window";
       this.maxEntries = Number.parseInt(this.$el.dataset.maxEntries || "200", 10);
@@ -9089,6 +9095,8 @@ function registerRzEventViewer(Alpine2) {
       this.showEventMeta = this.parseBoolean(this.$el.dataset.showEventMeta, false);
       this.level = this.$el.dataset.level || "info";
       this.filterPath = this.$el.dataset.filter || "";
+      this.copyTitle = this.$el.dataset.copyTitle || this.copyTitle;
+      this.copiedTitle = this.$el.dataset.copiedTitle || this.copiedTitle;
       this.eventNames = this.resolveEventNames();
       if (this.eventNames.length === 0) {
         this.error = "At least one event name is required.";
@@ -9269,10 +9277,25 @@ function registerRzEventViewer(Alpine2) {
     togglePaused() {
       this.paused = !this.paused;
     },
-    copyEntries() {
+    disableCopied() {
+      this.copied = false;
+    },
+    getCopiedTitle() {
+      return this.copied ? this.copiedTitle : this.copyTitle;
+    },
+    getCopiedCss() {
+      return [this.copied ? "focus-visible:outline-success" : "focus-visible:outline-foreground"];
+    },
+    async copyEntries() {
       const payload = this.entries.map((entry) => `${entry.hasTimestamp ? `${entry.timestamp} ` : ""}${entry.type} ${entry.body}`).join("\n");
-      if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
-        navigator.clipboard.writeText(payload);
+      if (!(navigator.clipboard && typeof navigator.clipboard.writeText === "function")) {
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(payload);
+        this.copied = true;
+      } catch {
+        this.copied = false;
       }
     }
   }));
@@ -11685,6 +11708,8 @@ function registerRzCommandList(Alpine2) {
     parent: null,
     dataItemTemplate: null,
     rowCache: /* @__PURE__ */ new Map(),
+    separatorTemplate: null,
+    showLoading: false,
     /**
      * Initializes the command list and links it with the parent command instance.
      * @returns {void}
@@ -11699,6 +11724,20 @@ function registerRzCommandList(Alpine2) {
       if (this.parent.dataItemTemplateId) {
         this.dataItemTemplate = document.getElementById(this.parent.dataItemTemplateId);
       }
+      const separator = this.$el.querySelector('[data-slot="command-separator"]');
+      if (separator) {
+        this.separatorTemplate = separator.cloneNode(true);
+        this.separatorTemplate.removeAttribute("id");
+        this.separatorTemplate.removeAttribute("x-data");
+        this.separatorTemplate.removeAttribute("data-alpine-root");
+      }
+      this.$el.querySelectorAll('[data-slot="command-separator"]').forEach((element) => {
+        element.remove();
+      });
+      this.showLoading = this.parent?.isLoading === true;
+      this.$watch("parent.isLoading", (value) => {
+        this.showLoading = value === true;
+      });
       this.parent.setListInstance(this);
     },
     /**
@@ -11782,15 +11821,21 @@ function registerRzCommandList(Alpine2) {
         }
         groupedItems.get(groupName).push(item);
       }
-      groupedItems.forEach((groupItems, groupName) => {
-        if (groupItems.length === 0) {
-          return;
+      const groupEntries = Array.from(groupedItems.entries()).filter(([, groupItems]) => groupItems.length > 0);
+      const namedGroupCount = groupEntries.filter(([groupName]) => groupName !== "__ungrouped__").length;
+      let renderedNamedGroups = 0;
+      groupEntries.forEach(([groupName, groupItems]) => {
+        const isNamedGroup = groupName !== "__ungrouped__";
+        if (isNamedGroup && this.separatorTemplate && namedGroupCount > 1 && renderedNamedGroups > 0) {
+          const separatorClone = this.separatorTemplate.cloneNode(true);
+          separatorClone.setAttribute("data-dynamic-item", "true");
+          fragment.appendChild(separatorClone);
         }
         const groupContainer = document.createElement("div");
         groupContainer.setAttribute("role", "group");
         groupContainer.setAttribute("data-dynamic-item", "true");
         groupContainer.setAttribute("data-slot", "command-group");
-        if (groupName !== "__ungrouped__") {
+        if (isNamedGroup) {
           const groupTemplate = groups.get(groupName);
           if (groupTemplate?.templateContent) {
             const headingClone = groupTemplate.templateContent.cloneNode(true);
@@ -11810,6 +11855,9 @@ function registerRzCommandList(Alpine2) {
           groupContainer.appendChild(itemEl);
         });
         fragment.appendChild(groupContainer);
+        if (isNamedGroup) {
+          renderedNamedGroups += 1;
+        }
       });
       container.querySelectorAll("[data-dynamic-item]").forEach((el) => el.remove());
       container.appendChild(fragment);
