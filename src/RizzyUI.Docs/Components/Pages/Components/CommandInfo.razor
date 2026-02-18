@@ -35,7 +35,7 @@
             <RzAlert Variant="ThemeVariant.Information" class="my-5">
                 <AlertTitle>Under the Hood</AlertTitle>
                 <AlertDescription>
-                    The <code>RzCommand</code> component family is powered by Alpine.js. It uses a performant architecture where items are defined as <code>&lt;template&gt;</code> tags and are only rendered into the DOM by Alpine when they match the search filter. This ensures excellent performance even with thousands of items.
+                    The <code>RzCommand</code> component family is powered by Alpine.js. Item templates are registered once and reused during filtering, preserving declarative markup (including <code>hx-*</code> attributes) while avoiding repeated Alpine initialization per row.
                 </AlertDescription>
             </RzAlert>
 
@@ -290,6 +290,7 @@
                             <tr class="align-top"><td class="p-4"><code>ShouldFilter</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>true</code></td><td class="p-4">Whether to enable built-in client-side filtering and sorting.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Loop</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">Whether keyboard navigation should wrap around the list.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>SelectedValue</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">The value of the currently selected item. Can be used for two-way binding.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>MaxRender</code></td><td class="p-4"><code>int</code></td><td class="p-4"><code>100</code></td><td class="p-4">Caps the number of filtered results rendered at once for smoother performance with large datasets.</td></tr>
                         </tbody>
                     </table>
                 </div>

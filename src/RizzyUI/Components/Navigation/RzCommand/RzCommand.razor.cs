@@ -101,6 +101,13 @@ public partial class RzCommand : RzComponent<RzCommand.Slots>
     public bool Loop { get; set; }
 
     /// <summary>
+    /// Gets or sets the maximum number of filtered items rendered in the list at once.
+    /// Defaults to 100.
+    /// </summary>
+    [Parameter]
+    public int MaxRender { get; set; } = 100;
+
+    /// <summary>
     /// Gets or sets the currently selected value. This can be used to programmatically control the selection.
     /// </summary>
     [Parameter]

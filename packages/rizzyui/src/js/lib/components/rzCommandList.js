@@ -1,50 +1,109 @@
-
 export default function(Alpine) {
     Alpine.data('rzCommandList', () => ({
         parent: null,
         dataItemTemplate: null,
+        rowCache: new Map(),
 
-        /**
-         * Executes the `init` operation.
-         * @returns {any} Returns the result of `init` when applicable.
-         */
         init() {
             const parentEl = this.$el.closest('[x-data="rzCommand"]');
             if (!parentEl) {
                 console.error('CommandList must be a child of RzCommand.');
                 return;
             }
+
             this.parent = Alpine.$data(parentEl);
             if (this.parent.dataItemTemplateId) {
                 this.dataItemTemplate = document.getElementById(this.parent.dataItemTemplateId);
             }
+
+            this.parent.setListInstance(this);
         },
 
-        /**
-         * Executes the `renderList` operation.
-         * @param {any} event Input value for this method.
-         * @returns {any} Returns the result of `renderList` when applicable.
-         */
-        renderList(event) {
-            if (event.detail.commandId !== this.parent.$el.id) return;
+        ensureRow(item) {
+            if (this.rowCache.has(item.id)) {
+                return this.rowCache.get(item.id);
+            }
 
-            const items = event.detail.items || [];
-            const groups = event.detail.groups || new Map();
+            let itemEl = null;
+
+            if (item.isDataItem) {
+                if (!this.dataItemTemplate || !this.dataItemTemplate.content) {
+                    return null;
+                }
+
+                const clone = this.dataItemTemplate.content.cloneNode(true);
+                itemEl = clone.firstElementChild;
+
+                if (itemEl) {
+                    Alpine.addScopeToNode(itemEl, { item });
+                    Alpine.initTree(itemEl);
+                }
+            } else if (item.templateContent) {
+                const clone = item.templateContent.cloneNode(true);
+                itemEl = clone.firstElementChild;
+            }
+
+            if (!itemEl) {
+                return null;
+            }
+
+            this.rowCache.set(item.id, itemEl);
+            return itemEl;
+        },
+
+        applyItemAttributes(itemEl, item, itemIndex) {
+            itemEl.setAttribute('data-command-item-id', item.id);
+            itemEl.setAttribute('data-value', item.value || '');
+
+            if (item.keywords) {
+                itemEl.setAttribute('data-keywords', JSON.stringify(item.keywords));
+            }
+
+            if (item.group) {
+                itemEl.setAttribute('data-group', item.group);
+            }
+
+            if (item.disabled) {
+                itemEl.setAttribute('data-disabled', 'true');
+                itemEl.setAttribute('aria-disabled', 'true');
+            } else {
+                itemEl.removeAttribute('data-disabled');
+                itemEl.removeAttribute('aria-disabled');
+            }
+
+            if (item.forceMount) {
+                itemEl.setAttribute('data-force-mount', 'true');
+            }
+
+            itemEl.setAttribute('role', 'option');
+            itemEl.setAttribute('aria-selected', this.parent.selectedIndex === itemIndex ? 'true' : 'false');
+
+            if (this.parent.selectedIndex === itemIndex) {
+                itemEl.setAttribute('data-selected', 'true');
+            } else {
+                itemEl.removeAttribute('data-selected');
+            }
+        },
+
+        renderList() {
+            const items = this.parent.filteredItems || [];
+            const groups = this.parent.groupTemplates || new Map();
             const container = this.$el;
-
-            container.querySelectorAll('[data-dynamic-item]').forEach(el => el.remove());
+            const fragment = document.createDocumentFragment();
 
             const groupedItems = new Map([['__ungrouped__', []]]);
-            items.forEach(item => {
+            for (const item of items) {
                 const groupName = item.group || '__ungrouped__';
                 if (!groupedItems.has(groupName)) {
                     groupedItems.set(groupName, []);
                 }
                 groupedItems.get(groupName).push(item);
-            });
+            }
 
             groupedItems.forEach((groupItems, groupName) => {
-                if (groupItems.length === 0) return;
+                if (groupItems.length === 0) {
+                    return;
+                }
 
                 const groupContainer = document.createElement('div');
                 groupContainer.setAttribute('role', 'group');
@@ -52,68 +111,36 @@ export default function(Alpine) {
                 groupContainer.setAttribute('data-slot', 'command-group');
 
                 if (groupName !== '__ungrouped__') {
-                    const headingTemplateId = groups.get(groupName);
-                    if (headingTemplateId) {
-                        const headingTemplate = document.getElementById(headingTemplateId);
-                        if (headingTemplate && headingTemplate.content) {
-                            const headingClone = headingTemplate.content.cloneNode(true);
-                            const headingEl = headingClone.firstElementChild;
-                            if(headingEl) {
-                                groupContainer.setAttribute('aria-labelledby', headingEl.id);
-                                groupContainer.appendChild(headingClone);
-                            }
+                    const groupTemplate = groups.get(groupName);
+                    if (groupTemplate?.templateContent) {
+                        const headingClone = groupTemplate.templateContent.cloneNode(true);
+                        if (groupTemplate.headingId) {
+                            groupContainer.setAttribute('aria-labelledby', groupTemplate.headingId);
                         }
+                        groupContainer.appendChild(headingClone);
                     }
                 }
 
-                groupItems.forEach(item => {
-                    const itemIndex = this.parent.filteredItems.indexOf(item);
-                    let itemEl;
-
-                    if (item.isDataItem) {
-                        if (!this.dataItemTemplate) {
-                            // This check is now also performed in rzCommand.js, but we keep it here as a safeguard.
-                            return;
-                        }
-                        const clone = this.dataItemTemplate.content.cloneNode(true);
-                        itemEl = clone.firstElementChild;
-                        // Add a reactive scope for this item, making `item.property` available in the template
-                        Alpine.addScopeToNode(itemEl, { item: item });
-                    } else {
-                        const template = document.getElementById(item.templateId);
-                        if (template && template.content) {
-                            const clone = template.content.cloneNode(true);
-                            itemEl = clone.querySelector(`[data-command-item-id="${item.id}"]`);
-                        }
+                groupItems.forEach((item, idx) => {
+                    const itemIndex = this.parent.filteredIndexById.get(item.id) ?? idx;
+                    const itemEl = this.ensureRow(item);
+                    if (!itemEl) {
+                        return;
                     }
-                    
-                    if (itemEl) {
-                        // Dynamically set attributes from the item data
-                        itemEl.setAttribute('data-command-item-id', item.id);
-                        itemEl.setAttribute('data-value', item.value);
-                        if (item.keywords) itemEl.setAttribute('data-keywords', JSON.stringify(item.keywords));
-                        if (item.group) itemEl.setAttribute('data-group', item.group);
-                        if (item.disabled) itemEl.setAttribute('data-disabled', 'true');
-                        if (item.forceMount) itemEl.setAttribute('data-force-mount', 'true');
 
-                        // Set accessibility and state attributes
-                        itemEl.setAttribute('role', 'option');
-                        itemEl.setAttribute('aria-selected', this.parent.selectedIndex === itemIndex);
-                        if (item.disabled) {
-                            itemEl.setAttribute('aria-disabled', 'true');
-                        }
-
-                        if (this.parent.selectedIndex === itemIndex) {
-                            itemEl.setAttribute('data-selected', 'true');
-                        }
-                        
-                        groupContainer.appendChild(itemEl);
-                        Alpine.initTree(itemEl);
-                    }
+                    this.applyItemAttributes(itemEl, item, itemIndex);
+                    groupContainer.appendChild(itemEl);
                 });
 
-                container.appendChild(groupContainer);
+                fragment.appendChild(groupContainer);
             });
+
+            container.querySelectorAll('[data-dynamic-item]').forEach(el => el.remove());
+            container.appendChild(fragment);
+
+            if (window.htmx) {
+                window.htmx.process(container);
+            }
         }
     }));
 }

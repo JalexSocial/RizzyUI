@@ -11,7 +11,7 @@
      data-group="@ParentGroup?.Heading"
      data-disabled="@(Disabled.ToString().ToLowerInvariant())"
      data-force-mount="@(ForceMount.ToString().ToLowerInvariant())">
-    <template x-if="firstRender" x-ref="template" id="@($"{Id}-template")">
+    <template x-ref="template" id="@($"{Id}-template")">
         <div @attributes="AdditionalAttributes" class="@SlotClasses.GetBase()" data-slot="command-item" aria-disabled="@(Disabled.ToString().ToLowerInvariant())" data-command-item-id="@Id">
             @ChildContent
         </div>
