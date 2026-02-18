@@ -20,7 +20,7 @@ public partial class RzEventViewer : RzComponent<RzEventViewer.Slots>
             [s => s.Container] = "flex flex-col",
             [s => s.Header] = "flex items-center justify-between gap-2 border-b-0 border-outline bg-secondary px-4 py-1 text-sm text-secondary-foreground",
             [s => s.Title] = "text-foreground",
-            [s => s.Controls] = "flex items-center gap-2 text-xl py-1",
+            [s => s.Controls] = "flex items-center gap-2 text-2xl py-1",
             [s => s.IconButton] = "my-auto overflow-hidden rounded-full p-1 hover:bg-background/10 focus:outline-none focus:outline-offset-0 focus-visible:outline-2 active:-outline-offset-2",
             [s => s.ActionIcon] = "text-foreground font-bold size-6 cursor-pointer",
             [s => s.Error] = "border-b border-destructive/30 bg-destructive/10 px-4 py-2 font-mono text-xs text-destructive",
