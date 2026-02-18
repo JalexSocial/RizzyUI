@@ -103,6 +103,16 @@ public partial class RzEventViewer : RzComponent<RzEventViewer.Slots>
     [Parameter] public string? CopyButtonText { get; set; }
 
     /// <summary>
+    /// Gets the copy tooltip title before content is copied.
+    /// </summary>
+    protected string CopyButtonTitle => Localizer["RzEventViewer.CopyButtonTitleCopy"];
+
+    /// <summary>
+    /// Gets the copy tooltip title after content is copied.
+    /// </summary>
+    protected string CopiedButtonTitle => Localizer["RzEventViewer.CopyButtonTitleCopied"];
+
+    /// <summary>
     /// Gets or sets the pause button text.
     /// </summary>
     [Parameter] public string? PauseButtonText { get; set; }

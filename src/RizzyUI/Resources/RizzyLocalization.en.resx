@@ -432,4 +432,12 @@
     <value>Resume</value>
     <comment>Default resume button text for RzEventViewer.</comment>
   </data>
+  <data name="RzEventViewer.CopyButtonTitleCopy" xml:space="preserve">
+    <value>Copy</value>
+    <comment>Default copy tooltip title for RzEventViewer before copying.</comment>
+  </data>
+  <data name="RzEventViewer.CopyButtonTitleCopied" xml:space="preserve">
+    <value>Copied!</value>
+    <comment>Default copy tooltip title for RzEventViewer after copying.</comment>
+  </data>
 </root>
