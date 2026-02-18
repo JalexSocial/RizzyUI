@@ -3,6 +3,8 @@ export default function(Alpine) {
         parent: null,
         dataItemTemplate: null,
         rowCache: new Map(),
+        separatorTemplate: null,
+        showLoading: false,
 
         /**
          * Initializes the command list and links it with the parent command instance.
@@ -19,6 +21,23 @@ export default function(Alpine) {
             if (this.parent.dataItemTemplateId) {
                 this.dataItemTemplate = document.getElementById(this.parent.dataItemTemplateId);
             }
+
+            const separator = this.$el.querySelector('[data-slot="command-separator"]');
+            if (separator) {
+                this.separatorTemplate = separator.cloneNode(true);
+                this.separatorTemplate.removeAttribute('id');
+                this.separatorTemplate.removeAttribute('x-data');
+                this.separatorTemplate.removeAttribute('data-alpine-root');
+            }
+
+            this.$el.querySelectorAll('[data-slot="command-separator"]').forEach((element) => {
+                element.remove();
+            });
+
+            this.showLoading = this.parent?.isLoading === true;
+            this.$watch('parent.isLoading', (value) => {
+                this.showLoading = value === true;
+            });
 
             this.parent.setListInstance(this);
         },
@@ -120,9 +139,16 @@ export default function(Alpine) {
                 groupedItems.get(groupName).push(item);
             }
 
-            groupedItems.forEach((groupItems, groupName) => {
-                if (groupItems.length === 0) {
-                    return;
+            const groupEntries = Array.from(groupedItems.entries()).filter(([, groupItems]) => groupItems.length > 0);
+            const namedGroupCount = groupEntries.filter(([groupName]) => groupName !== '__ungrouped__').length;
+            let renderedNamedGroups = 0;
+
+            groupEntries.forEach(([groupName, groupItems]) => {
+                const isNamedGroup = groupName !== '__ungrouped__';
+                if (isNamedGroup && this.separatorTemplate && namedGroupCount > 1 && renderedNamedGroups > 0) {
+                    const separatorClone = this.separatorTemplate.cloneNode(true);
+                    separatorClone.setAttribute('data-dynamic-item', 'true');
+                    fragment.appendChild(separatorClone);
                 }
 
                 const groupContainer = document.createElement('div');
@@ -130,7 +156,7 @@ export default function(Alpine) {
                 groupContainer.setAttribute('data-dynamic-item', 'true');
                 groupContainer.setAttribute('data-slot', 'command-group');
 
-                if (groupName !== '__ungrouped__') {
+                if (isNamedGroup) {
                     const groupTemplate = groups.get(groupName);
                     if (groupTemplate?.templateContent) {
                         const headingClone = groupTemplate.templateContent.cloneNode(true);
@@ -153,6 +179,10 @@ export default function(Alpine) {
                 });
 
                 fragment.appendChild(groupContainer);
+
+                if (isNamedGroup) {
+                    renderedNamedGroups += 1;
+                }
             });
 
             container.querySelectorAll('[data-dynamic-item]').forEach(el => el.remove());
