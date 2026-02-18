@@ -88,6 +88,7 @@
                     </RzCommand>
                 </div>
 
+                <RzEventViewer EventName="rz:command:execute" class="mb-4" />
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCommand class="rounded-lg border shadow-md md:min-w-[450px]"&gt;
@@ -190,6 +191,8 @@
                     </RzCommandDialog>
                 </div>
 
+                <RzEventViewer EventName="rz:command:execute" class="mb-4" />
+
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;div x-on:keydown.window.cmd.k.prevent="$dispatch('show-command-dialog') x-on:keydown.window.ctrl.k.prevent="$dispatch('show-command-dialog')"&gt;
     &lt;p class="text-muted-foreground text-sm"&gt;
@@ -237,6 +240,8 @@
                         </CommandItemTemplate>
                     </CommandList>
                 </RzCommand>
+
+                <RzEventViewer EventName="rz:command:execute" class="mt-6 mb-4" />
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mt-8 mb-4">
 &lt;RzCommand class="rounded-lg border shadow-md md:min-w-[450px]" Items="@@_commandItems"&gt;

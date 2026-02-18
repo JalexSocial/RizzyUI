@@ -412,4 +412,24 @@
     <value>More pages</value>
     <comment>Screen-reader-only label for a pagination ellipsis item.</comment>
   </data>
+  <data name="RzEventViewer.DefaultViewerTitle" xml:space="preserve">
+    <value>Event Viewer</value>
+    <comment>Default header title for RzEventViewer.</comment>
+  </data>
+  <data name="RzEventViewer.ClearButtonText" xml:space="preserve">
+    <value>Clear</value>
+    <comment>Default clear button text for RzEventViewer.</comment>
+  </data>
+  <data name="RzEventViewer.CopyButtonText" xml:space="preserve">
+    <value>Copy</value>
+    <comment>Default copy button text for RzEventViewer.</comment>
+  </data>
+  <data name="RzEventViewer.PauseButtonText" xml:space="preserve">
+    <value>Pause</value>
+    <comment>Default pause button text for RzEventViewer.</comment>
+  </data>
+  <data name="RzEventViewer.ResumeButtonText" xml:space="preserve">
+    <value>Resume</value>
+    <comment>Default resume button text for RzEventViewer.</comment>
+  </data>
 </root>

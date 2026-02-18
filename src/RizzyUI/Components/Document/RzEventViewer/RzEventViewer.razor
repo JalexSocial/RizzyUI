@@ -1,0 +1,100 @@
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<RzEventViewer.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="event-viewer">
+    <div data-alpine-root="@Id"
+         x-data="rzEventViewer"
+         data-assets="@_assets"
+         data-nonce="@Nonce"
+         data-event-name="@EventName"
+         data-event-names="@EventNames"
+         data-target="@Target"
+         data-max-entries="@MaxEntries"
+         data-auto-scroll="@AutoScroll.ToString().ToLowerInvariant()"
+         data-pretty="@Pretty.ToString().ToLowerInvariant()"
+         data-show-timestamp="@ShowTimestamp.ToString().ToLowerInvariant()"
+         data-show-event-meta="@ShowEventMeta.ToString().ToLowerInvariant()"
+         data-level="@Level"
+         data-filter="@Filter"
+         data-pause-text="@PauseButtonText"
+         data-resume-text="@ResumeButtonText"
+         data-events="@ResolvedEventNamesAttribute"
+         class="@SlotClasses.GetContainer()"
+         data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Container)">
+        <div class="@SlotClasses.GetHeader()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Header)">
+            <span class="@SlotClasses.GetTitle()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Title)">@ViewerTitle</span>
+            <div class="@SlotClasses.GetControls()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Controls)">
+                <button type="button"
+                        x-on:click="copyEntries"
+                        aria-label="@CopyButtonText"
+                        class="@SlotClasses.GetIconButton()"
+                        data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.IconButton)">
+                    <Blazicon Svg="Lucide.Copy"
+                              class="@SlotClasses.GetActionIcon()"
+                              data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.ActionIcon)"
+                              aria-hidden="true" />
+                </button>
+                <button type="button"
+                        x-on:click="togglePaused"
+                        aria-label="@PauseButtonText"
+                        class="@SlotClasses.GetIconButton()"
+                        data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.IconButton)">
+                    <Blazicon Svg="Lucide.CirclePause"
+                              x-show="notPaused"
+                              class="@SlotClasses.GetActionIcon()"
+                              data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.ActionIcon)"
+                              aria-hidden="true" />
+                    <Blazicon Svg="Lucide.CirclePlay"
+                              x-show="isPaused"
+                              class="@SlotClasses.GetActionIcon()"
+                              data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.ActionIcon)"
+                              aria-hidden="true" />
+                </button>
+                <button type="button"
+                        x-on:click="clearEntries"
+                        aria-label="@ClearButtonText"
+                        class="@SlotClasses.GetIconButton()"
+                        data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.IconButton)">
+                    <Blazicon Svg="Lucide.CircleX"
+                              class="@SlotClasses.GetActionIcon()"
+                              data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.ActionIcon)"
+                              aria-hidden="true" />
+                </button>
+            </div>
+        </div>
+
+        <div x-show="hasError"
+             x-text="error"
+             class="@SlotClasses.GetError()"
+             data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Error)"></div>
+
+        <div x-ref="console"
+             role="log"
+             aria-live="polite"
+             aria-atomic="false"
+             class="@SlotClasses.GetConsole()"
+             data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Console)">
+            <template x-for="entry in entries" :key="entry.id">
+                <div :data-event="entry.type"
+                     class="@SlotClasses.GetEntry()"
+                     data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Entry)">
+                    <span x-text="entry.timestamp"
+                          x-show="entry.hasTimestamp"
+                          class="@SlotClasses.GetTimestamp()"
+                          data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Timestamp)"></span>
+                    <span x-text="entry.type"
+                          class="@SlotClasses.GetEventName()"
+                          data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.EventName)"></span>
+                    <span x-text="entry.body"
+                          class="@SlotClasses.GetEntryBody()"
+                          data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.EntryBody)"></span>
+                </div>
+            </template>
+        </div>
+    </div>
+</HtmlElement>

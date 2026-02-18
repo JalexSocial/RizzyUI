@@ -1148,6 +1148,9 @@
   .max-h-60 {
     max-height: calc(var(--spacing) * 60);
   }
+  .max-h-64 {
+    max-height: calc(var(--spacing) * 64);
+  }
   .max-h-\[32rem\] {
     max-height: 32rem;
   }
@@ -2152,6 +2155,12 @@
       border-color: color-mix(in oklab, var(--destructive) 20%, transparent);
     }
   }
+  .border-destructive\/30 {
+    border-color: var(--destructive);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--destructive) 30%, transparent);
+    }
+  }
   .border-destructive\/50 {
     border-color: var(--destructive);
     @supports (color: color-mix(in lab, red, red)) {
@@ -2986,6 +2995,9 @@
   .pl-0 {
     padding-left: calc(var(--spacing) * 0);
   }
+  .pl-1 {
+    padding-left: calc(var(--spacing) * 1);
+  }
   .pl-2 {
     padding-left: calc(var(--spacing) * 2);
   }
@@ -3193,6 +3205,9 @@
   }
   .whitespace-nowrap {
     white-space: nowrap;
+  }
+  .whitespace-pre-wrap {
+    white-space: pre-wrap;
   }
   .\!text-card-foreground {
     color: var(--card-foreground) !important;

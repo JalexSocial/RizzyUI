@@ -175,6 +175,9 @@ public partial class RzTheme
         // RzEmbeddedPreview Family
         RzEmbeddedPreview = RizzyUI.RzEmbeddedPreview.DefaultDescriptor;
 
+        // RzEventViewer Family
+        RzEventViewer = RizzyUI.RzEventViewer.DefaultDescriptor;
+
         // RzEmpty Family
         RzEmpty = RizzyUI.RzEmpty.DefaultDescriptor;
         EmptyHeader = RizzyUI.EmptyHeader.DefaultDescriptor;
