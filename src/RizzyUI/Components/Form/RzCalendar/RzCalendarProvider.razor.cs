@@ -57,10 +57,10 @@ public partial class RzCalendarProvider : RzComponent<RzCalendarProvider.Slots>
     [Parameter] public string? Locale { get; set; }
 
     /// <summary>
-    /// Configuration object for Intl.DateTimeFormat (e.g., { dateStyle: 'full' }).
+    /// Configuration object for Intl.DateTimeFormat.
     /// Used by the 'formattedDate' and 'formattedRange' JS properties.
     /// </summary>
-    [Parameter] public object? FormatOptions { get; set; }
+    [Parameter] public IntlDateTimeFormatOptions? FormatOptions { get; set; }
 
     /// <summary>
     /// Maps the enum to the exact string expected by VanillaCalendarPro.
@@ -124,15 +124,14 @@ public partial class RzCalendarProvider : RzComponent<RzCalendarProvider.Slots>
 
         _serializedDates = JsonSerializer.Serialize(dateList);
 
-        if (FormatOptions != null)
+        var effectiveFormatOptions = FormatOptions ?? new IntlDateTimeFormatOptions
         {
-            _serializedFormatOptions = JsonSerializer.Serialize(FormatOptions);
-        }
-        else
-        {
-            // Default friendly format: "Jan 1, 2025"
-            _serializedFormatOptions = JsonSerializer.Serialize(new { month = "short", day = "numeric", year = "numeric" });
-        }
+            Month = MonthStyle.Short,
+            Day = Numeric2Digit.Numeric,
+            Year = Numeric2Digit.Numeric
+        };
+
+        _serializedFormatOptions = IntlJson.SerializeOptions(effectiveFormatOptions);
     }
 
     private void ValidateParameters()

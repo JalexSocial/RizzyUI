@@ -47,7 +47,7 @@
                         <CardHeader><CardTitle>Single Date</CardTitle></CardHeader>
                         <CardContent class="flex flex-col items-center gap-4">
                             <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1" 
-                                                FormatOptions="@(new { month="long", day="numeric", year="numeric" })">
+                                                FormatOptions="@(new IntlDateTimeFormatOptions { Month = MonthStyle.Long, Day = Numeric2Digit.Numeric, Year = Numeric2Digit.Numeric })">
                                 <div class="rounded-md border p-1">
                                     <RzCalendar />
                                 </div>
@@ -61,7 +61,7 @@
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1"
-                    FormatOptions="@@(new { month="long", day="numeric", year="numeric" })"&gt;
+                    FormatOptions="@@(new IntlDateTimeFormatOptions { Month = MonthStyle.Long, Day = Numeric2Digit.Numeric, Year = Numeric2Digit.Numeric })"&gt;
     &lt;div class="rounded-md border p-1"&gt;
         &lt;RzCalendar /&gt;
     &lt;/div&gt;
@@ -88,7 +88,7 @@
                         <CardHeader><CardTitle>Range Selection</CardTitle></CardHeader>
                         <CardContent class="flex flex-col items-center gap-4">
                             <RzCalendarProvider Mode="SelectionDatesMode.MultipleRanged" Range="_range1"
-                                                FormatOptions="@(new { month="short", day="numeric" })">
+                                                FormatOptions="@(new IntlDateTimeFormatOptions { Month = MonthStyle.Short, Day = Numeric2Digit.Numeric })">
                                 <div class="rounded-md border p-1">
                                     <RzCalendar Mode="SelectionDatesMode.MultipleRanged" />
                                 </div>
@@ -211,7 +211,7 @@
                     <div class="flex flex-col gap-6 items-center">
                         <div class="flex flex-col gap-2">
                             <Label>Select your stay</Label>
-                            <RzCalendarProvider Mode="SelectionDatesMode.MultipleRanged" Range="_range1" FormatOptions="@(new { month="short", day="numeric" })">
+                            <RzCalendarProvider Mode="SelectionDatesMode.MultipleRanged" Range="_range1" FormatOptions="@(new IntlDateTimeFormatOptions { Month = MonthStyle.Short, Day = Numeric2Digit.Numeric })">
                                 <RzPopover>
                                     <PopoverTrigger AsChild>
                                         <RzButton Variant="ThemeVariant.Default" Outline class="w-[300px] justify-start text-left font-normal">
@@ -308,7 +308,7 @@
                 <div class="mx-auto flex justify-center items-center p-8 min-h-60 border rounded-xl mb-6">
                     <RzCard class="w-[350px] mx-auto">
                         <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1"
-                                            FormatOptions="@(new { weekday="long", month="long", day="numeric" })">
+                                            FormatOptions="@(new IntlDateTimeFormatOptions { Weekday = TextWidth.Long, Month = MonthStyle.Long, Day = Numeric2Digit.Numeric })">
                             <CardContent class="p-0">
                                  <RzCalendar class="border-0 shadow-none" />
                             </CardContent>
@@ -350,7 +350,7 @@
                 </div>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1"
-                    FormatOptions="@@(new { weekday="long", month="long", day="numeric" })"&gt;
+                    FormatOptions="@@(new IntlDateTimeFormatOptions { Weekday = TextWidth.Long, Month = MonthStyle.Long, Day = Numeric2Digit.Numeric })"&gt;
     &lt;CardContent class="p-0"&gt;
          &lt;RzCalendar class="border-0 shadow-none" /&gt;
     &lt;/CardContent&gt;

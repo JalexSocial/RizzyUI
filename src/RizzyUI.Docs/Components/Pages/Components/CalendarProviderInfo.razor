@@ -126,7 +126,7 @@
                     <div class="flex flex-col gap-2">
                         <Label>Date of birth</Label>
                         <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1" 
-                                            FormatOptions="@(new { month="long", day="numeric", year="numeric" })">
+                                            FormatOptions="@(new IntlDateTimeFormatOptions { Month = MonthStyle.Long, Day = Numeric2Digit.Numeric, Year = Numeric2Digit.Numeric })">
                             <RzPopover>
                                 <PopoverTrigger AsChild>
                                     <RzButton Variant="ThemeVariant.Default" Outline class="w-[240px] justify-start text-left font-normal">
@@ -206,7 +206,7 @@
 
                 <RzCard class="w-[350px] mx-auto mb-6">
                     <RzCalendarProvider Mode="SelectionDatesMode.Single" Value="_date1"
-                                        FormatOptions="@(new { weekday="long", month="long", day="numeric" })">
+                                        FormatOptions="@(new IntlDateTimeFormatOptions { Weekday = TextWidth.Long, Month = MonthStyle.Long, Day = Numeric2Digit.Numeric })">
                         <CardContent class="p-0">
                              <RzCalendar class="border-0 shadow-none" />
                         </CardContent>
@@ -283,7 +283,7 @@
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Values</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Initial selected dates for multiple-date mode.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">List&lt;DateOnly&gt;?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Range</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Initial date range for ranged selection mode.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">CalendarDateRange?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Locale</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Locale used for the formatted Alpine date helpers.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">FormatOptions</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Intl.DateTimeFormat options object used when generating <code>formattedDate</code> and <code>formattedRange</code>.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">object?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">FormatOptions</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Intl.DateTimeFormat options object used when generating <code>formattedDate</code> and <code>formattedRange</code>.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">IntlDateTimeFormatOptions?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
                         </tbody>
                     </table>
                 </div>
