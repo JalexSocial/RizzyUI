@@ -20,7 +20,7 @@ public partial class RzProgress : RzComponent<RzProgress.Slots>
         {
             [s => s.OutsideLabelContainer] = "mb-2 flex items-center",
             [s => s.OutsideLabelText] = "text-foreground",
-            [s => s.OuterBar] = "relative flex w-full overflow-hidden rounded-md bg-outline",
+            [s => s.OuterBar] = "relative flex w-full overflow-hidden rounded-full bg-primary/20",
             [s => s.InnerBar] = "p-0.5 text-center text-xs font-semibold leading-none transition-all",
             [s => s.InsideLabelContainer] = "absolute",
             [s => s.InsideLabelText] = null
@@ -34,12 +34,12 @@ public partial class RzProgress : RzComponent<RzProgress.Slots>
             },
             [p => ((RzProgress)p).Variant] = new Variant<StatusColor, Slots>
             {
-                [StatusColor.Primary] = new() { [s => s.InnerBar] = "h-full rounded-md bg-primary text-primary-foreground" },
-                [StatusColor.Secondary] = new() { [s => s.InnerBar] = "h-full rounded-md bg-secondary text-secondary-foreground" },
-                [StatusColor.Success] = new() { [s => s.InnerBar] = "h-full rounded-md bg-success dark:bg-success text-success-foreground dark:text-success-foreground" },
-                [StatusColor.Info] = new() { [s => s.InnerBar] = "h-full rounded-md bg-info dark:bg-info text-info-foreground dark:text-info-foreground" },
-                [StatusColor.Warning] = new() { [s => s.InnerBar] = "h-full rounded-md bg-warning dark:bg-warning text-warning-foreground dark:text-warning-foreground" },
-                [StatusColor.Destructive] = new() { [s => s.InnerBar] = "h-full rounded-md bg-destructive dark:bg-destructive text-destructive-foreground dark:text-destructive-foreground" }
+                [StatusColor.Primary] = new() { [s => s.InnerBar] = "h-full rounded-full bg-primary text-primary-foreground" },
+                [StatusColor.Secondary] = new() { [s => s.InnerBar] = "h-full rounded-full bg-secondary text-secondary-foreground" },
+                [StatusColor.Success] = new() { [s => s.InnerBar] = "h-full rounded-full bg-success dark:bg-success text-success-foreground dark:text-success-foreground" },
+                [StatusColor.Info] = new() { [s => s.InnerBar] = "h-full rounded-full bg-info dark:bg-info text-info-foreground dark:text-info-foreground" },
+                [StatusColor.Warning] = new() { [s => s.InnerBar] = "h-full rounded-full bg-warning dark:bg-warning text-warning-foreground dark:text-warning-foreground" },
+                [StatusColor.Destructive] = new() { [s => s.InnerBar] = "h-full rounded-full bg-destructive dark:bg-destructive text-destructive-foreground dark:text-destructive-foreground" }
             }
         }
     );

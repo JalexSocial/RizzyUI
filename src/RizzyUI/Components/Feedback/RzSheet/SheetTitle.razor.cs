@@ -13,7 +13,7 @@ public partial class SheetTitle : RzComponent<SheetTitle.Slots>
     /// Defines the default styling for the SheetTitle component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "text-lg font-semibold text-foreground"
+        @base: "font-semibold text-foreground"
     );
 
     /// <summary>

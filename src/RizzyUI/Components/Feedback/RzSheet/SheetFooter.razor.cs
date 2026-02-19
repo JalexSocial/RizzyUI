@@ -13,7 +13,7 @@ public partial class SheetFooter : RzComponent<SheetFooter.Slots>
     /// Defines the default styling for the SheetFooter component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "mt-auto flex flex-col gap-2 p-6"
+        @base: "mt-auto flex flex-col gap-2 p-4"
     );
 
     /// <summary>
