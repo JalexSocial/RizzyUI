@@ -13,7 +13,7 @@ public partial class DropdownMenuLabel : RzComponent<DropdownMenuLabel.Slots>
     /// Defines the default styling for the DropdownMenuLabel component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "px-2 py-1.5 text-sm font-semibold text-foreground"
+        @base: "px-2 py-1.5 text-sm font-medium text-foreground"
     );
 
     /// <summary>

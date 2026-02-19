@@ -13,7 +13,7 @@ public partial class SheetHeader : RzComponent<SheetHeader.Slots>
     /// Defines the default styling for the SheetHeader component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "flex flex-col gap-1.5 p-6 text-center sm:text-left"
+        @base: "flex flex-col gap-1.5 p-4 text-center sm:text-left"
     );
 
     /// <summary>
