@@ -13,7 +13,7 @@ public class RzLinkTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void DefaultRender_ShowsAnchor()
     {
         // Act
-        var cut = RenderComponent<RzLink>(parameters => parameters
+        var cut = Render<RzLink>(parameters => parameters
             .Add(p => p.Href, "/somewhere")
             .AddChildContent("Go")
         );
@@ -31,7 +31,7 @@ public class RzLinkTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void ColorParameter_AppliesCorrectClasses(SemanticColor color, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzLink>(parameters => parameters
+        var cut = Render<RzLink>(parameters => parameters
             .Add(p => p.Color, color)
         );
 
@@ -44,7 +44,7 @@ public class RzLinkTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void UnderlineParameter_TogglesClass()
     {
         // Act
-        var cut = RenderComponent<RzLink>(parameters => parameters
+        var cut = Render<RzLink>(parameters => parameters
             .Add(p => p.Underline, true)
         );
 

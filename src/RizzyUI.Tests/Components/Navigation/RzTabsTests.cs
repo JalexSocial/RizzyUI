@@ -17,7 +17,7 @@ public class RzTabsTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var id = "tabs-test";
 
         // Act
-        var cut = RenderComponent<RzTabs>(parameters => parameters
+        var cut = Render<RzTabs>(parameters => parameters
             .Add(p => p.Id, id)
             .Add(p => p.DefaultValue, "tab1")
             .AddChildContent<TabsList>(l => l
@@ -40,7 +40,7 @@ public class RzTabsTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void TabsTrigger_RendersWithCorrectAttributes()
     {
         // Act
-        var cut = RenderComponent<RzTabs>(parameters => parameters
+        var cut = Render<RzTabs>(parameters => parameters
             .Add(p => p.DefaultValue, "tab1")
             .AddChildContent<TabsList>(l => l
                 .AddChildContent<TabsTrigger>(t => t.Add(p => p.Value, "tab1").AddChildContent("Tab 1"))
@@ -59,7 +59,7 @@ public class RzTabsTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void TabsContent_RendersWithCorrectAttributes()
     {
         // Act
-        var cut = RenderComponent<RzTabs>(parameters => parameters
+        var cut = Render<RzTabs>(parameters => parameters
             .Add(p => p.DefaultValue, "tab1")
             .AddChildContent<TabsList>(l => l
                 .AddChildContent<TabsTrigger>(t => t.Add(p => p.Value, "tab1"))

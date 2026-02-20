@@ -18,7 +18,7 @@ public class RzSheetTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var id = "sheet-test";
 
         // Act
-        var cut = RenderComponent<RzSheet>(parameters => parameters
+        var cut = Render<RzSheet>(parameters => parameters
             .Add(p => p.Id, id)
             .AddChildContent<SheetTrigger>(t => t.AddChildContent("Open"))
             .AddChildContent<SheetContent>(c => c.AddChildContent("Content"))
@@ -34,7 +34,7 @@ public class RzSheetTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void DefaultOpenParameter_SetsDataAttribute()
     {
         // Act
-        var cut = RenderComponent<RzSheet>(parameters => parameters
+        var cut = Render<RzSheet>(parameters => parameters
             .Add(p => p.DefaultOpen, true)
             .AddChildContent<SheetTrigger>(t => t.AddChildContent("Open"))
             .AddChildContent<SheetContent>(c => c.AddChildContent("Content"))
@@ -53,7 +53,7 @@ public class RzSheetTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void SheetContent_SideParameter_AppliesCorrectAnimationClasses(SheetSide side, string expectedClassSegment)
     {
         // Act
-        var cut = RenderComponent<RzSheet>(parameters => parameters
+        var cut = Render<RzSheet>(parameters => parameters
             .AddChildContent<SheetTrigger>(t => t.AddChildContent("Open"))
             .AddChildContent<SheetContent>(c => c
                 .Add(p => p.Side, side)
@@ -71,7 +71,7 @@ public class RzSheetTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void SheetTrigger_RendersButtonWithEvents()
     {
         // Act
-        var cut = RenderComponent<RzSheet>(parameters => parameters
+        var cut = Render<RzSheet>(parameters => parameters
             .AddChildContent<SheetTrigger>(t => t.AddChildContent("Trigger"))
             .AddChildContent<SheetContent>(c => c.AddChildContent("Content"))
         );
@@ -85,7 +85,7 @@ public class RzSheetTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void SheetClose_RendersButtonWithCloseEvent()
     {
         // Act
-        var cut = RenderComponent<RzSheet>(parameters => parameters
+        var cut = Render<RzSheet>(parameters => parameters
             .AddChildContent<SheetTrigger>(t => t.AddChildContent("Trigger"))
             .AddChildContent<SheetContent>(c => c
                 .AddChildContent<SheetClose>(close => close.AddChildContent("Close"))

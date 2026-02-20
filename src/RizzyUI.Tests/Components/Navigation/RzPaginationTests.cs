@@ -11,7 +11,7 @@ public class RzPaginationTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void RzPagination_DefaultsToNavAndHasDataSlot()
     {
-        var cut = RenderComponent<RzPagination>();
+        var cut = Render<RzPagination>();
 
         var nav = cut.Find("nav");
         Assert.Equal("pagination", nav.GetAttribute("data-slot"));
@@ -21,7 +21,7 @@ public class RzPaginationTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void PaginationLink_WhenActive_UsesAriaCurrentPage()
     {
-        var cut = RenderComponent<PaginationLink>(parameters => parameters
+        var cut = Render<PaginationLink>(parameters => parameters
             .Add(p => p.IsActive, true)
             .Add(p => p.Href, "/page/2")
             .AddChildContent("2"));
@@ -34,7 +34,7 @@ public class RzPaginationTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void PaginationPrevious_UsesProvidedLabels()
     {
-        var cut = RenderComponent<PaginationPrevious>(parameters => parameters
+        var cut = Render<PaginationPrevious>(parameters => parameters
             .Add(p => p.AriaLabel, "Go back")
             .Add(p => p.Label, "Prev"));
 
@@ -46,7 +46,7 @@ public class RzPaginationTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void PaginationEllipsis_RendersScreenReaderText()
     {
-        var cut = RenderComponent<PaginationEllipsis>(parameters => parameters
+        var cut = Render<PaginationEllipsis>(parameters => parameters
             .Add(p => p.ScreenReaderText, "Hidden pages"));
 
         Assert.Contains("Hidden pages", cut.Markup);

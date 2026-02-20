@@ -18,7 +18,7 @@ public class RzBadgeTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var expectedId = "default-badge";
 
         // Act
-        var cut = RenderComponent<RzBadge>(parameters => parameters
+        var cut = Render<RzBadge>(parameters => parameters
             .Add(p => p.Id, expectedId)
             .Add(p => p.Label, "Badge Text")
         );
@@ -40,7 +40,7 @@ public class RzBadgeTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void VariantParameter_AppliesCorrectClasses(ThemeVariant variant, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzBadge>(parameters => parameters
+        var cut = Render<RzBadge>(parameters => parameters
             .Add(p => p.Variant, variant)
         );
 
@@ -53,7 +53,7 @@ public class RzBadgeTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void SoftParameter_AppliesSoftClasses()
     {
         // Act
-        var cut = RenderComponent<RzBadge>(parameters => parameters
+        var cut = Render<RzBadge>(parameters => parameters
             .Add(p => p.Variant, ThemeVariant.Primary)
             .Add(p => p.Soft, true)
         );
@@ -69,7 +69,7 @@ public class RzBadgeTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void IconParameter_RendersIcon()
     {
         // Act
-        var cut = RenderComponent<RzBadge>(parameters => parameters
+        var cut = Render<RzBadge>(parameters => parameters
             .Add(p => p.Icon, MdiIcon.Check)
         );
 

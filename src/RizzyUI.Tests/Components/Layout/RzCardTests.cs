@@ -14,7 +14,7 @@ public class RzCardTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void RzCard_RendersContainer()
     {
         // Act
-        var cut = RenderComponent<RzCard>(parameters => parameters
+        var cut = Render<RzCard>(parameters => parameters
             .AddChildContent("Card Body")
         );
 
@@ -29,7 +29,7 @@ public class RzCardTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void CardComponents_RenderCorrectSlots()
     {
         // Act
-        var cut = RenderComponent<RzCard>(parameters => parameters
+        var cut = Render<RzCard>(parameters => parameters
             .AddChildContent<CardHeader>(h => h
                 .AddChildContent<CardTitle>(t => t.AddChildContent("Title"))
                 .AddChildContent<CardDescription>(d => d.AddChildContent("Description"))

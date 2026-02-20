@@ -18,7 +18,7 @@ public class RzMarkdownTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var markdown = "# Hello World";
 
         // Act
-        var cut = RenderComponent<RzMarkdown>(parameters => parameters
+        var cut = Render<RzMarkdown>(parameters => parameters
             .Add(p => p.Content, markdown)
         );
 
@@ -39,7 +39,7 @@ public class RzMarkdownTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void ProseWidth_AppliesCorrectClass(ProseWidth width, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzMarkdown>(parameters => parameters
+        var cut = Render<RzMarkdown>(parameters => parameters
             .Add(p => p.Content, "text")
             .Add(p => p.ProseWidth, width)
         );

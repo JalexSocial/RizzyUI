@@ -18,7 +18,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var expectedId = "default-avatar";
 
         // Act
-        var cut = RenderComponent<RzAvatar>(parameters => parameters
+        var cut = Render<RzAvatar>(parameters => parameters
             .Add(p => p.Id, expectedId)
         );
 
@@ -35,7 +35,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void ShapeParameter_AppliesCorrectClasses()
     {
         // Act
-        var cut = RenderComponent<RzAvatar>(parameters => parameters
+        var cut = Render<RzAvatar>(parameters => parameters
             .Add(p => p.Shape, AvatarShape.Square)
         );
 
@@ -53,7 +53,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void SizeParameter_AppliesCorrectClasses(Size size, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzAvatar>(parameters => parameters
+        var cut = Render<RzAvatar>(parameters => parameters
             .Add(p => p.Size, size)
         );
 
@@ -66,7 +66,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void BorderParameter_AppliesBorderClasses()
     {
         // Act
-        var cut = RenderComponent<RzAvatar>(parameters => parameters
+        var cut = Render<RzAvatar>(parameters => parameters
             .Add(p => p.Border, true)
         );
 
@@ -80,7 +80,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void AvatarImage_RendersImage_WhenSourceProvided()
     {
         // Act
-        var cut = RenderComponent<RzAvatar>(parameters => parameters
+        var cut = Render<RzAvatar>(parameters => parameters
             .AddChildContent<AvatarImage>(img => img
                 .Add(p => p.ImageSource, "/test.jpg")
                 .Add(p => p.AlternateText, "Test Alt")
@@ -97,7 +97,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void AvatarFallback_Renders_WhenImageMissing()
     {
         // Act - No AvatarImage or empty AvatarImage
-        var cut = RenderComponent<RzAvatar>(parameters => parameters
+        var cut = Render<RzAvatar>(parameters => parameters
             .AddChildContent<AvatarFallback>(fb => fb
                 .AddChildContent("JD")
             )
@@ -114,7 +114,7 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void AvatarFallback_RendersIcon_WhenContentMissing()
     {
         // Act
-        var cut = RenderComponent<RzAvatar>(parameters => parameters
+        var cut = Render<RzAvatar>(parameters => parameters
             .AddChildContent<AvatarFallback>()
         );
 

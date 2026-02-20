@@ -14,7 +14,7 @@ public class RzButtonGroupTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void DefaultRender_ShowsCorrectStructure()
     {
         // Act
-        var cut = RenderComponent<RzButtonGroup>(parameters => parameters
+        var cut = Render<RzButtonGroup>(parameters => parameters
             .AddChildContent<RzButton>(b => b.Add(p => p.Label, "Btn 1"))
             .AddChildContent<RzButton>(b => b.Add(p => p.Label, "Btn 2"))
         );
@@ -29,7 +29,7 @@ public class RzButtonGroupTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void Orientation_Vertical_AppliesAttribute()
     {
         // Act
-        var cut = RenderComponent<RzButtonGroup>(parameters => parameters
+        var cut = Render<RzButtonGroup>(parameters => parameters
             .Add(p => p.Orientation, Orientation.Vertical)
         );
 
@@ -42,7 +42,7 @@ public class RzButtonGroupTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void ButtonGroupSeparator_RendersCorrectly()
     {
         // Act
-        var cut = RenderComponent<RzButtonGroup>(parameters => parameters
+        var cut = Render<RzButtonGroup>(parameters => parameters
             .AddChildContent<ButtonGroupSeparator>()
         );
 

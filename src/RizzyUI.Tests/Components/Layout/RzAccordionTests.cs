@@ -17,7 +17,7 @@ public class RzAccordionTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var id = "accordion-test";
 
         // Act
-        var cut = RenderComponent<RzAccordion>(parameters => parameters
+        var cut = Render<RzAccordion>(parameters => parameters
             .Add(p => p.Id, id)
         );
 
@@ -33,7 +33,7 @@ public class RzAccordionTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void TypeParameter_SetsMultipleAttribute(AccordionType type, string expectedMultiple)
     {
         // Act
-        var cut = RenderComponent<RzAccordion>(parameters => parameters
+        var cut = Render<RzAccordion>(parameters => parameters
             .Add(p => p.Type, type)
         );
 
@@ -46,7 +46,7 @@ public class RzAccordionTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void AccordionItem_RendersCorrectStructure()
     {
         // Act
-        var cut = RenderComponent<RzAccordion>(parameters => parameters
+        var cut = Render<RzAccordion>(parameters => parameters
             .AddChildContent<AccordionItem>(item => item
                 .Add(p => p.Title, "Section 1")
                 .Add(p => p.AccordionContent, (RenderFragment)(b => b.AddContent(0, "Content 1")))
@@ -70,7 +70,7 @@ public class RzAccordionTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void AccordionItem_DefaultCollapsed_IsReflectedInDataAttribute()
     {
         // Act
-        var cut = RenderComponent<RzAccordion>(parameters => parameters
+        var cut = Render<RzAccordion>(parameters => parameters
             .AddChildContent<AccordionItem>(item => item
                 .Add(p => p.Collapsed, true)
             )

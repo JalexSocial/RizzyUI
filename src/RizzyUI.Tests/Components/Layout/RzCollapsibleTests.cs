@@ -17,7 +17,7 @@ public class RzCollapsibleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var id = "collapsible-test";
 
         // Act
-        var cut = RenderComponent<RzCollapsible>(parameters => parameters
+        var cut = Render<RzCollapsible>(parameters => parameters
             .Add(p => p.Id, id)
             .AddChildContent<CollapsibleTrigger>(t => t.AddChildContent("Toggle"))
             .AddChildContent<CollapsibleContent>(c => c.AddChildContent("Content"))
@@ -35,7 +35,7 @@ public class RzCollapsibleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void DefaultOpenParameter_SetsDataAttribute(bool defaultOpen)
     {
         // Act
-        var cut = RenderComponent<RzCollapsible>(parameters => parameters
+        var cut = Render<RzCollapsible>(parameters => parameters
             .Add(p => p.DefaultOpen, defaultOpen)
             .AddChildContent<CollapsibleTrigger>(t => t.AddChildContent("Toggle"))
             .AddChildContent<CollapsibleContent>(c => c.AddChildContent("Content"))
@@ -50,7 +50,7 @@ public class RzCollapsibleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void CollapsibleTrigger_RendersButtonWithToggle()
     {
         // Act
-        var cut = RenderComponent<RzCollapsible>(parameters => parameters
+        var cut = Render<RzCollapsible>(parameters => parameters
             .AddChildContent<CollapsibleTrigger>(t => t.AddChildContent("Toggle"))
             .AddChildContent<CollapsibleContent>(c => c.AddChildContent("Content"))
         );
@@ -65,7 +65,7 @@ public class RzCollapsibleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void CollapsibleContent_RendersWithCollapseDirective()
     {
         // Act
-        var cut = RenderComponent<RzCollapsible>(parameters => parameters
+        var cut = Render<RzCollapsible>(parameters => parameters
             .AddChildContent<CollapsibleTrigger>(t => t.AddChildContent("Toggle"))
             .AddChildContent<CollapsibleContent>(c => c.AddChildContent("Content"))
         );

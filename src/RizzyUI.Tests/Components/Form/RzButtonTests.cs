@@ -13,7 +13,7 @@ public class RzButtonTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void DefaultRender_ShowsButton()
     {
         // Act
-        var cut = RenderComponent<RzButton>(parameters => parameters
+        var cut = Render<RzButton>(parameters => parameters
             .Add(p => p.Label, "Click Me")
         );
 
@@ -30,7 +30,7 @@ public class RzButtonTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void VariantParameter_AppliesCorrectClasses(ThemeVariant variant, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzButton>(parameters => parameters
+        var cut = Render<RzButton>(parameters => parameters
             .Add(p => p.Variant, variant)
         );
 
@@ -45,7 +45,7 @@ public class RzButtonTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void SizeParameter_AppliesCorrectClasses(Size size, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzButton>(parameters => parameters
+        var cut = Render<RzButton>(parameters => parameters
             .Add(p => p.Size, size)
         );
 
@@ -58,7 +58,7 @@ public class RzButtonTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void OutlineParameter_AppliesOutlineClasses()
     {
         // Act
-        var cut = RenderComponent<RzButton>(parameters => parameters
+        var cut = Render<RzButton>(parameters => parameters
             .Add(p => p.Variant, ThemeVariant.Primary)
             .Add(p => p.Outline, true)
         );

@@ -16,7 +16,7 @@ public class RzEmbeddedPreviewTests : BunitAlbaContext, IClassFixture<WebAppFixt
         var id = "preview";
 
         // Act
-        var cut = RenderComponent<RzEmbeddedPreview>(parameters => parameters
+        var cut = Render<RzEmbeddedPreview>(parameters => parameters
             .Add(p => p.Id, id)
             .AddChildContent("<div>Preview Content</div>")
         );
@@ -33,7 +33,7 @@ public class RzEmbeddedPreviewTests : BunitAlbaContext, IClassFixture<WebAppFixt
     public void IFrameTitle_AppliesAttribute()
     {
         // Act
-        var cut = RenderComponent<RzEmbeddedPreview>(parameters => parameters
+        var cut = Render<RzEmbeddedPreview>(parameters => parameters
             .AddChildContent("Content")
             .Add(p => p.IFrameTitle, "My Demo")
         );
