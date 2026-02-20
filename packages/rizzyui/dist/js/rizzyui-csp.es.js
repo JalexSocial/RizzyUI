@@ -6876,6 +6876,92 @@ function registerRzCombobox(Alpine2, require2) {
     }
   }));
 }
+function registerRzColorPicker(Alpine2, require2) {
+  Alpine2.data("rzColorPicker", () => ({
+    colorValue: "",
+    swatchStyle: "background-color: transparent;",
+    config: {},
+    inputId: "",
+    init() {
+      this.inputId = this.$el.dataset.inputId;
+      this.colorValue = this.$el.dataset.initialValue || "";
+      this.config = this.readConfig();
+      this.refreshSwatch();
+      const assets = JSON.parse(this.$el.dataset.assets || "[]");
+      const nonce = this.$el.dataset.nonce;
+      require2(assets, nonce).then(() => this.initializeColoris()).catch((e2) => this.handleAssetError(e2));
+    },
+    readConfig() {
+      const raw2 = this.$el.dataset.config;
+      if (!raw2) {
+        return {};
+      }
+      try {
+        return JSON.parse(raw2);
+      } catch {
+        return {};
+      }
+    },
+    initializeColoris() {
+      const input = this.$refs.input;
+      if (!input || !window.Coloris) {
+        return;
+      }
+      const self = this;
+      this.config = {
+        el: input,
+        wrap: false,
+        themeMode: "auto",
+        onChange: (color, inputEl) => {
+          inputEl.dispatchEvent(new CustomEvent("rz:colorpicker:on-change", {
+            bubbles: true,
+            composed: true,
+            detail: {
+              rzColorPicker: self,
+              updateConfiguration: self.updateConfiguration.bind(self),
+              el: inputEl
+            }
+          }));
+        },
+        ...this.config
+      };
+      window.Coloris(this.config);
+      this.colorValue = input.value || this.colorValue;
+      this.refreshSwatch();
+      input.addEventListener("input", () => this.handleInput());
+    },
+    openPicker() {
+      const input = this.$refs.input;
+      if (!input) {
+        return;
+      }
+      input.focus();
+      input.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    },
+    updateConfiguration(config) {
+      this.config = {
+        ...this.config,
+        ...config
+      };
+      if (!window.Coloris || !this.$refs.input) {
+        return;
+      }
+      window.Coloris.setInstance(this.$refs.input, this.config);
+    },
+    handleInput() {
+      const input = this.$refs.input;
+      this.colorValue = input ? input.value : "";
+      this.refreshSwatch();
+    },
+    refreshSwatch() {
+      const normalized = this.colorValue && this.colorValue.trim().length > 0 ? this.colorValue : "transparent";
+      this.swatchStyle = "background-color: " + normalized + ";";
+    },
+    handleAssetError(error2) {
+      console.error("Failed to load Coloris assets.", error2);
+    }
+  }));
+}
 function registerRzDateEdit(Alpine2, require2) {
   Alpine2.data("rzDateEdit", () => ({
     options: {},
@@ -9221,23 +9307,41 @@ function registerRzEventViewer(Alpine2) {
       });
     },
     stringifyDetail(value) {
-      if (value === void 0) {
-        return "undefined";
-      }
-      if (value === null) {
-        return "null";
-      }
-      if (typeof value === "string") {
-        return value;
-      }
-      if (typeof value === "number" || typeof value === "boolean") {
-        return String(value);
-      }
-      try {
-        if (this.pretty) {
-          return JSON.stringify(value, null, 2);
+      if (value === void 0) return "undefined";
+      if (value === null) return "null";
+      if (typeof value === "string") return value;
+      if (typeof value === "number" || typeof value === "boolean") return String(value);
+      const seen = /* @__PURE__ */ new WeakSet();
+      const isDomObject = (v2) => {
+        if (!v2 || typeof v2 !== "object") return false;
+        if (typeof Node !== "undefined" && v2 instanceof Node) return true;
+        if (typeof Window !== "undefined" && v2 instanceof Window) return true;
+        return typeof v2.nodeType === "number" && typeof v2.nodeName === "string";
+      };
+      const replacer = (key, v2) => {
+        if (v2 === void 0) return "undefined";
+        if (typeof v2 === "function") {
+          return "function (hidden)";
         }
-        return JSON.stringify(value);
+        if (typeof v2 === "bigint") {
+          return `${v2}n`;
+        }
+        if (typeof v2 === "symbol") {
+          return "symbol (hidden)";
+        }
+        if (isDomObject(v2)) {
+          return "element (hidden)";
+        }
+        if (v2 && typeof v2 === "object") {
+          if (seen.has(v2)) {
+            return "[circular]";
+          }
+          seen.add(v2);
+        }
+        return v2;
+      };
+      try {
+        return this.pretty ? JSON.stringify(value, replacer, 2) : JSON.stringify(value, replacer);
       } catch {
         return "[unserializable detail]";
       }
@@ -11964,6 +12068,7 @@ function registerComponents(Alpine2) {
   registerRzCodeViewer(Alpine2, rizzyRequire);
   registerRzCollapsible(Alpine2);
   registerRzCombobox(Alpine2, rizzyRequire);
+  registerRzColorPicker(Alpine2, rizzyRequire);
   registerRzDateEdit(Alpine2, rizzyRequire);
   registerRzDialog(Alpine2);
   registerRzDropdownMenu(Alpine2);

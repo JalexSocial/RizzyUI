@@ -52,6 +52,9 @@ public static class Constants
         
         /// <summary>Fired after dialog closes.</summary>
         public const string DialogAfterClose = "rz:dialog-after-close";
+
+        /// <summary>Fired after color changes.</summary>
+        public const string ColorPickerOnChange = "rz:colorpicker:on-change";
     }
 
     /// <summary>

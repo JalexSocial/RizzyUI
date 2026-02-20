@@ -3,13 +3,13 @@
 @inherits RzComponent<InputGroupAddonSlots>
 
 <HtmlElement Element="@EffectiveElement" 
+             x-on:click="handleClick"
              @attributes="AdditionalAttributes" 
              id="@Id" 
+             x-data="rzInputGroupAddon"
              class="@SlotClasses.GetBase()" 
              data-slot="input-group-addon"
              role="group"
-             data-align="@Align.ToString().ToKebabCase()"
-             x-data="rzInputGroupAddon"
-             x-on:click="handleClick">
+             data-align="@Align.ToString().ToKebabCase()">
     @ChildContent
 </HtmlElement>

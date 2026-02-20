@@ -154,6 +154,8 @@ public partial class RzTheme
 	public virtual TvDescriptor<RzComponent<RzCalendarProvider.Slots>, RzCalendarProvider.Slots> RzCalendarProvider { get; set; }	
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzDateEdit"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzDateEdit.Slots>, RzDateEdit.Slots> RzDateEdit { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzColorPicker"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzColorPicker.Slots>, RzColorPicker.Slots> RzColorPicker { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzFormSection"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzFormSection.Slots>, RzFormSection.Slots> RzFormSection { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzSwitch"/> component. </summary>
