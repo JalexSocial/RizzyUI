@@ -179,6 +179,11 @@
     --scrollbar-thumb: var(--color-muted-foreground);
     --scrollbar-width: 8px;
     --scrollbar-radius: 4px;
+
+    --clr-bg: var(--popover);
+    --clr-text: var(--popover-foreground);
+    --clr-border: var(--border);
+    --clr-shadow: 0 10px 30px color-mix(in oklab, var(--foreground) 16%, transparent);    
 }
 
 @layer base {
@@ -381,6 +386,24 @@
 
         -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16c-.3 0-.5-.1-.7-.3l-6-6c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l5.3 5.3 5.3-5.3c.4-.4 1-.4 1.4 0s.4 1 0 1.4l-6 6c-.2.2-.4.3-.7.3'/%3E%3C/svg%3E") no-repeat center / contain;
         mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 16c-.3 0-.5-.1-.7-.3l-6-6c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l5.3 5.3 5.3-5.3c.4-.4 1-.4 1.4 0s.4 1 0 1.4l-6 6c-.2.2-.4.3-.7.3'/%3E%3C/svg%3E") no-repeat center / contain;
+    }
+}
+
+/* Color picker */
+@layer components {
+    .clr-picker {
+        background-color: var(--clr-bg);
+        color: var(--clr-text);
+        border-color: var(--clr-border);
+        box-shadow: var(--clr-shadow);
+        border-radius: var(--radius);
+    }
+
+    .clr-field input,
+    .clr-field button,
+    .clr-gradient,
+    .clr-swatches button {
+        border-radius: calc(var(--radius) - 2px);
     }
 }
 
