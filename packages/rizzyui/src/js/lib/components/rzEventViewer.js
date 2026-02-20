@@ -197,28 +197,59 @@ export default function (Alpine) {
         },
 
         stringifyDetail(value) {
-            if (value === undefined) {
-                return 'undefined';
-            }
+            if (value === undefined) return 'undefined';
+            if (value === null) return 'null';
+            if (typeof value === 'string') return value;
+            if (typeof value === 'number' || typeof value === 'boolean') return String(value);
 
-            if (value === null) {
-                return 'null';
-            }
+            const seen = new WeakSet();
 
-            if (typeof value === 'string') {
-                return value;
-            }
+            const isDomObject = (v) => {
+                if (!v || typeof v !== 'object') return false;
 
-            if (typeof value === 'number' || typeof value === 'boolean') {
-                return String(value);
-            }
+                // Covers elements, document, text nodes, etc.
+                if (typeof Node !== 'undefined' && v instanceof Node) return true;
 
-            try {
-                if (this.pretty) {
-                    return JSON.stringify(value, null, 2);
+                // Optional: also hide Window objects
+                if (typeof Window !== 'undefined' && v instanceof Window) return true;
+
+                // Fallback for cross-realm DOM objects (iframes)
+                return typeof v.nodeType === 'number' && typeof v.nodeName === 'string';
+            };
+
+            const replacer = (key, v) => {
+                if (v === undefined) return 'undefined';
+
+                if (typeof v === 'function') {
+                    return 'function (hidden)';
                 }
 
-                return JSON.stringify(value);
+                if (typeof v === 'bigint') {
+                    return `${v}n`; // JSON.stringify normally throws on BigInt
+                }
+
+                if (typeof v === 'symbol') {
+                    return 'symbol (hidden)';
+                }
+
+                if (isDomObject(v)) {
+                    return 'element (hidden)';
+                }
+
+                if (v && typeof v === 'object') {
+                    if (seen.has(v)) {
+                        return '[circular]';
+                    }
+                    seen.add(v);
+                }
+
+                return v;
+            };
+
+            try {
+                return this.pretty
+                    ? JSON.stringify(value, replacer, 2)
+                    : JSON.stringify(value, replacer);
             } catch {
                 return '[unserializable detail]';
             }
