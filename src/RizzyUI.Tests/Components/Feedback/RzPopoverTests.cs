@@ -17,7 +17,7 @@ public class RzPopoverTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var id = "popover-test";
 
         // Act
-        var cut = RenderComponent<RzPopover>(parameters => parameters
+        var cut = Render<RzPopover>(parameters => parameters
             .Add(p => p.Id, id)
             .AddChildContent<PopoverTrigger>(t => t.AddChildContent("Open"))
             .AddChildContent<PopoverContent>(c => c.AddChildContent("Content"))
@@ -36,7 +36,7 @@ public class RzPopoverTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void AnchorParameter_SetsDataAttribute(AnchorPoint anchor, string expectedValue)
     {
         // Act
-        var cut = RenderComponent<RzPopover>(parameters => parameters
+        var cut = Render<RzPopover>(parameters => parameters
             .Add(p => p.Anchor, anchor)
             .AddChildContent<PopoverTrigger>(t => t.AddChildContent("Open"))
             .AddChildContent<PopoverContent>(c => c.AddChildContent("Content"))
@@ -51,7 +51,7 @@ public class RzPopoverTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void OffsetParameter_SetsDataAttribute()
     {
         // Act
-        var cut = RenderComponent<RzPopover>(parameters => parameters
+        var cut = Render<RzPopover>(parameters => parameters
             .Add(p => p.Offset, 10)
             .AddChildContent<PopoverTrigger>(t => t.AddChildContent("Open"))
             .AddChildContent<PopoverContent>(c => c.AddChildContent("Content"))
@@ -66,7 +66,7 @@ public class RzPopoverTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void PopoverTrigger_RendersButtonWithEvents()
     {
         // Act
-        var cut = RenderComponent<RzPopover>(parameters => parameters
+        var cut = Render<RzPopover>(parameters => parameters
             .AddChildContent<PopoverTrigger>(t => t.AddChildContent("Trigger"))
             .AddChildContent<PopoverContent>(c => c.AddChildContent("Content"))
         );
@@ -81,7 +81,7 @@ public class RzPopoverTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void PopoverContent_RendersWithAlpineDirectives()
     {
         // Act
-        var cut = RenderComponent<RzPopover>(parameters => parameters
+        var cut = Render<RzPopover>(parameters => parameters
             .AddChildContent<PopoverTrigger>(t => t.AddChildContent("Trigger"))
             .AddChildContent<PopoverContent>(c => c.AddChildContent("Popup Content"))
         );

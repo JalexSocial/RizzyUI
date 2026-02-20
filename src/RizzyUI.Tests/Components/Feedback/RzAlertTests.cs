@@ -18,7 +18,7 @@ public class RzAlertTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var id = "alert-test";
 
         // Act
-        var cut = RenderComponent<RzAlert>(parameters => parameters
+        var cut = Render<RzAlert>(parameters => parameters
             .Add(p => p.Id, id)
             .AddChildContent("Alert Content")
         );
@@ -38,7 +38,7 @@ public class RzAlertTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void VariantParameter_AppliesCorrectClasses(ThemeVariant variant, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzAlert>(parameters => parameters
+        var cut = Render<RzAlert>(parameters => parameters
             .Add(p => p.Variant, variant)
         );
 
@@ -51,7 +51,7 @@ public class RzAlertTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void Dismissable_RendersCloseButton()
     {
         // Act
-        var cut = RenderComponent<RzAlert>(parameters => parameters
+        var cut = Render<RzAlert>(parameters => parameters
             .Add(p => p.Dismissable, true)
         );
 
@@ -63,7 +63,7 @@ public class RzAlertTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void Pulse_RendersPulseElement()
     {
         // Act
-        var cut = RenderComponent<RzAlert>(parameters => parameters
+        var cut = Render<RzAlert>(parameters => parameters
             .Add(p => p.Icon, MdiIcon.Home)
             .Add(p => p.Pulse, true)
         );

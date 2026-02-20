@@ -13,7 +13,7 @@ public class RzSpinnerTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void DefaultRender_ShowsSVG()
     {
         // Act
-        var cut = RenderComponent<RzSpinner>();
+        var cut = Render<RzSpinner>();
 
         // Assert
         var svg = cut.Find("svg");
@@ -28,7 +28,7 @@ public class RzSpinnerTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void SizeParameter_AppliesCorrectClasses(Size size, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzSpinner>(parameters => parameters
+        var cut = Render<RzSpinner>(parameters => parameters
             .Add(p => p.Size, size)
         );
 
@@ -43,7 +43,7 @@ public class RzSpinnerTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void ColorParameter_AppliesCorrectClasses(SemanticColor color, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzSpinner>(parameters => parameters
+        var cut = Render<RzSpinner>(parameters => parameters
             .Add(p => p.Color, color)
         );
 

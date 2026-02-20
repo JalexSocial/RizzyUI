@@ -14,7 +14,7 @@ public class RzArticleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void DefaultRender_ShowsCorrectStructure()
     {
         // Act
-        var cut = RenderComponent<RzArticle>(parameters => parameters
+        var cut = Render<RzArticle>(parameters => parameters
             .Add(p => p.MainContent, (RenderFragment)(b => b.AddContent(0, "Main Body")))
         );
 
@@ -29,7 +29,7 @@ public class RzArticleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void SideContent_RendersAside()
     {
         // Act
-        var cut = RenderComponent<RzArticle>(parameters => parameters
+        var cut = Render<RzArticle>(parameters => parameters
             .Add(p => p.MainContent, (RenderFragment)(b => b.AddContent(0, "Main")))
             .Add(p => p.SideContent, (RenderFragment)(b => b.AddContent(0, "Sidebar")))
         );
@@ -47,7 +47,7 @@ public class RzArticleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void ProseWidth_AppliesCorrectClass(ProseWidth width, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzArticle>(parameters => parameters
+        var cut = Render<RzArticle>(parameters => parameters
             .Add(p => p.MainContent, (RenderFragment)(b => b.AddContent(0, "Main")))
             .Add(p => p.ProseWidth, width)
         );
@@ -61,7 +61,7 @@ public class RzArticleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void IsSideSticky_AppliesStickyClass()
     {
         // Act
-        var cut = RenderComponent<RzArticle>(parameters => parameters
+        var cut = Render<RzArticle>(parameters => parameters
             .Add(p => p.MainContent, (RenderFragment)(b => b.AddContent(0, "Main")))
             .Add(p => p.SideContent, (RenderFragment)(b => b.AddContent(0, "Sidebar")))
             .Add(p => p.IsSideSticky, true)

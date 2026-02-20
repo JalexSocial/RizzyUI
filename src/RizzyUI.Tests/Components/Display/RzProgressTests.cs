@@ -16,7 +16,7 @@ public class RzProgressTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var expectedId = "progress-test";
 
         // Act
-        var cut = RenderComponent<RzProgress>(parameters => parameters
+        var cut = Render<RzProgress>(parameters => parameters
             .Add(p => p.Id, expectedId)
             .Add(p => p.CurrentValue, 50)
         );
@@ -36,7 +36,7 @@ public class RzProgressTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void LabelPosition_Outside_RendersCorrectStructure()
     {
         // Act
-        var cut = RenderComponent<RzProgress>(parameters => parameters
+        var cut = Render<RzProgress>(parameters => parameters
             .Add(p => p.Label, "{percent}%")
             .Add(p => p.LabelPosition, ProgressLabelPosition.Outside)
         );
@@ -49,7 +49,7 @@ public class RzProgressTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void LabelPosition_Inside_RendersCorrectStructure()
     {
         // Act
-        var cut = RenderComponent<RzProgress>(parameters => parameters
+        var cut = Render<RzProgress>(parameters => parameters
             .Add(p => p.Label, "{percent}%")
             .Add(p => p.LabelPosition, ProgressLabelPosition.Inside)
         );
@@ -65,7 +65,7 @@ public class RzProgressTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void VariantParameter_AppliesCorrectInnerBarClass(StatusColor variant, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzProgress>(parameters => parameters
+        var cut = Render<RzProgress>(parameters => parameters
             .Add(p => p.Variant, variant)
         );
 

@@ -40,12 +40,12 @@
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Blazicons.Ionicons" Version="3.1.22" />
-        <PackageReference Include="Blazicons.Lucide" Version="1.12.33" />
-        <PackageReference Include="Markdig" Version="0.42.0" />
-        <PackageReference Include="Rizzy" Version="5.2.0" />
-        <PackageReference Include="Blazicons" Version="2.2.39" />
+        <PackageReference Include="Blazicons.Lucide" Version="1.14.37" />
+        <PackageReference Include="Markdig" Version="0.45.0" />
+        <PackageReference Include="Rizzy" Version="5.3.0" />
+        <PackageReference Include="Blazicons" Version="3.0.12" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.2.26" />
-        <PackageReference Include="Scrutor" Version="6.1.0" />
+        <PackageReference Include="Scrutor" Version="7.0.0" />
         <PackageReference Include="TailwindVariants.NET" Version="0.2.9" />
         <PackageReference Include="RizzyUI.Tasks" Version="1.3.5" />
     </ItemGroup>

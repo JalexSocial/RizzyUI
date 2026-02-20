@@ -18,7 +18,7 @@ public class RzDropdownMenuTests : BunitAlbaContext, IClassFixture<WebAppFixture
         var id = "dropdown-test";
 
         // Act
-        var cut = RenderComponent<RzDropdownMenu>(parameters => parameters
+        var cut = Render<RzDropdownMenu>(parameters => parameters
             .Add(p => p.Id, id)
             .AddChildContent<DropdownMenuTrigger>(t => t.AddChildContent("Open"))
             .AddChildContent<DropdownMenuContent>(c => c.AddChildContent("Items"))
@@ -35,7 +35,7 @@ public class RzDropdownMenuTests : BunitAlbaContext, IClassFixture<WebAppFixture
     public void DropdownMenuTrigger_RendersCorrectly()
     {
         // Act
-        var cut = RenderComponent<RzDropdownMenu>(parameters => parameters
+        var cut = Render<RzDropdownMenu>(parameters => parameters
             .AddChildContent<DropdownMenuTrigger>(t => t.AddChildContent("Trigger"))
             .AddChildContent<DropdownMenuContent>(c => c.AddChildContent("Items"))
         );
@@ -50,7 +50,7 @@ public class RzDropdownMenuTests : BunitAlbaContext, IClassFixture<WebAppFixture
     public void DropdownMenuContent_RendersTeleportTemplate()
     {
         // Act
-        var cut = RenderComponent<RzDropdownMenu>(parameters => parameters
+        var cut = Render<RzDropdownMenu>(parameters => parameters
             .AddChildContent<DropdownMenuTrigger>(t => t.AddChildContent("Trigger"))
             .AddChildContent<DropdownMenuContent>(c => c.AddChildContent("Item Content"))
         );
@@ -67,7 +67,7 @@ public class RzDropdownMenuTests : BunitAlbaContext, IClassFixture<WebAppFixture
     public void IsModalParameter_SetsDataAttribute()
     {
         // Act
-        var cut = RenderComponent<RzDropdownMenu>(parameters => parameters
+        var cut = Render<RzDropdownMenu>(parameters => parameters
             .Add(p => p.IsModal, true)
             .AddChildContent<DropdownMenuTrigger>(t => t.AddChildContent("Trigger"))
             .AddChildContent<DropdownMenuContent>(c => c.AddChildContent("Items"))

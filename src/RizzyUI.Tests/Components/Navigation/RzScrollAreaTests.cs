@@ -12,7 +12,7 @@ public class RzScrollAreaTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void RzScrollArea_DefaultRender_RendersVerticalViewportAndScrollbar()
     {
         // Act
-        var cut = RenderComponent<RzScrollArea>(parameters => parameters
+        var cut = Render<RzScrollArea>(parameters => parameters
             .AddChildContent("Scrollable content")
         );
 
@@ -36,7 +36,7 @@ public class RzScrollAreaTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void RzScrollArea_HorizontalOrientation_RendersHorizontalViewportAndScrollbar()
     {
         // Act
-        var cut = RenderComponent<RzScrollArea>(parameters => parameters
+        var cut = Render<RzScrollArea>(parameters => parameters
             .Add(p => p.Orientation, Orientation.Horizontal)
         );
 
@@ -56,7 +56,7 @@ public class RzScrollAreaTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void RzScrollArea_ShowDefaultScrollBarFalse_DoesNotRenderDefaultScrollbar()
     {
         // Act
-        var cut = RenderComponent<RzScrollArea>(parameters => parameters
+        var cut = Render<RzScrollArea>(parameters => parameters
             .Add(p => p.ShowDefaultScrollBar, false)
         );
 
@@ -68,7 +68,7 @@ public class RzScrollAreaTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void RzScrollArea_AlwaysType_InitializesScrollbarVisibleState()
     {
         // Act
-        var cut = RenderComponent<RzScrollArea>(parameters => parameters
+        var cut = Render<RzScrollArea>(parameters => parameters
             .Add(p => p.Type, ScrollAreaType.Always)
         );
 

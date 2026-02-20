@@ -18,7 +18,7 @@ public class RzDialogTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var id = "test-dialog";
 
         // Act
-        var cut = RenderComponent<RzDialog>(parameters => parameters
+        var cut = Render<RzDialog>(parameters => parameters
             .Add(p => p.Id, id)
             .AddChildContent<DialogContent>(content => content
                 .AddChildContent("Dialog Content")
@@ -43,7 +43,7 @@ public class RzDialogTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var eventName = "custom-open-event";
 
         // Act
-        var cut = RenderComponent<RzDialog>(parameters => parameters
+        var cut = Render<RzDialog>(parameters => parameters
             .Add(p => p.EventTriggerName, eventName)
             .AddChildContent<DialogTrigger>(trigger => trigger
                 .AddChildContent("Trigger Button")
@@ -61,7 +61,7 @@ public class RzDialogTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void DialogContent_RendersTeleportTemplate()
     {
         // Act
-        var cut = RenderComponent<RzDialog>(parameters => parameters
+        var cut = Render<RzDialog>(parameters => parameters
             .AddChildContent<DialogContent>(content => content
                 .AddChildContent("Modal Body")
             )
@@ -85,7 +85,7 @@ public class RzDialogTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void DialogContent_SizeParameter_AppliesCorrectClass(ModalSize size, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzDialog>(parameters => parameters
+        var cut = Render<RzDialog>(parameters => parameters
             .AddChildContent<DialogContent>(content => content
                 .Add(p => p.Size, size)
                 .AddChildContent("Content")
@@ -102,7 +102,7 @@ public class RzDialogTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void DialogHeaderAndFooter_RenderCorrectly()
     {
         // Act
-        var cut = RenderComponent<RzDialog>(parameters => parameters
+        var cut = Render<RzDialog>(parameters => parameters
             .AddChildContent<DialogContent>(content => content
                 .AddChildContent(builder => {
                     builder.OpenComponent<DialogHeader>(0);

@@ -14,7 +14,7 @@ public class RzEmptyTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void RzEmpty_RendersCorrectStructure()
     {
         // Act
-        var cut = RenderComponent<RzEmpty>(parameters => parameters
+        var cut = Render<RzEmpty>(parameters => parameters
             .AddChildContent<EmptyHeader>(h => h
                 .AddChildContent<EmptyTitle>(t => t.AddChildContent("Title"))
                 .AddChildContent<EmptyDescription>(d => d.AddChildContent("Description"))
@@ -34,7 +34,7 @@ public class RzEmptyTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void EmptyMedia_Variant_AppliesAttribute()
     {
         // Act
-        var cut = RenderComponent<RzEmpty>(parameters => parameters
+        var cut = Render<RzEmpty>(parameters => parameters
             .AddChildContent<EmptyHeader>(h => h
                 .AddChildContent<EmptyMedia>(m => m
                     .Add(p => p.Variant, EmptyMediaVariant.Icon)

@@ -17,7 +17,7 @@ public class RzAspectRatioTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var id = "aspect-test";
 
         // Act
-        var cut = RenderComponent<RzAspectRatio>(parameters => parameters
+        var cut = Render<RzAspectRatio>(parameters => parameters
             .Add(p => p.Id, id)
             .Add(p => p.Ratio, 16.0/9.0)
             .AddChildContent("Content")

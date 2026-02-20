@@ -17,7 +17,7 @@ public class RzIndicatorTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var expectedId = "default-indicator";
 
         // Act
-        var cut = RenderComponent<RzIndicator>(parameters => parameters
+        var cut = Render<RzIndicator>(parameters => parameters
             .Add(p => p.Id, expectedId)
         );
 
@@ -37,7 +37,7 @@ public class RzIndicatorTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void PositionParameter_AppliesCorrectClasses(IndicatorPosition position, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzIndicator>(parameters => parameters
+        var cut = Render<RzIndicator>(parameters => parameters
             .Add(p => p.Position, position)
         );
 
@@ -57,7 +57,7 @@ public class RzIndicatorTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void SizeParameter_AppliesCorrectClasses(Size size, string expectedClass)
     {
         // Act
-        var cut = RenderComponent<RzIndicator>(parameters => parameters
+        var cut = Render<RzIndicator>(parameters => parameters
             .Add(p => p.Size, size)
         );
 
@@ -70,7 +70,7 @@ public class RzIndicatorTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void VisibleParameter_TogglesAttributes()
     {
         // Act
-        var cut = RenderComponent<RzIndicator>(parameters => parameters
+        var cut = Render<RzIndicator>(parameters => parameters
             .Add(p => p.Visible, false)
         );
 
@@ -86,7 +86,7 @@ public class RzIndicatorTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var customColor = Colors.Green.L500;
 
         // Act
-        var cut = RenderComponent<RzIndicator>(parameters => parameters
+        var cut = Render<RzIndicator>(parameters => parameters
             .Add(p => p.Color, customColor)
         );
 

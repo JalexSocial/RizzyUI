@@ -16,7 +16,7 @@ public class RzCodeViewerTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var id = "code-viewer";
 
         // Act
-        var cut = RenderComponent<RzCodeViewer>(parameters => parameters
+        var cut = Render<RzCodeViewer>(parameters => parameters
             .Add(p => p.Id, id)
             .Add(p => p.Source, "console.log('hi');")
         );
@@ -32,7 +32,7 @@ public class RzCodeViewerTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void SourceParameter_RendersCodeBlock()
     {
         // Act
-        var cut = RenderComponent<RzCodeViewer>(parameters => parameters
+        var cut = Render<RzCodeViewer>(parameters => parameters
             .Add(p => p.Source, "var x = 1;")
             .Add(p => p.Language, "javascript")
         );
@@ -47,7 +47,7 @@ public class RzCodeViewerTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     public void ViewerTitle_RendersHeader()
     {
         // Act
-        var cut = RenderComponent<RzCodeViewer>(parameters => parameters
+        var cut = Render<RzCodeViewer>(parameters => parameters
             .Add(p => p.Source, "test")
             .Add(p => p.ViewerTitle, "My Snippet")
         );

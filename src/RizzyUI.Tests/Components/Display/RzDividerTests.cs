@@ -18,7 +18,7 @@ namespace RizzyUI.Tests.Components.Display
             var contentText = "Section Divider";
 
             // Act
-            var cut = RenderComponent<RzSeparator>(parameters => parameters
+            var cut = Render<RzSeparator>(parameters => parameters
                 .Add(p => p.Id, expectedId)
                 .AddChildContent(contentText)
             );
@@ -37,7 +37,7 @@ namespace RizzyUI.Tests.Components.Display
             var expectedId = "dashed-divider";
 
             // Act
-            var cut = RenderComponent<RzSeparator>(parameters => parameters
+            var cut = Render<RzSeparator>(parameters => parameters
                 .Add(p => p.Id, expectedId)
                 .Add(p => p.Style, SeparatorStyle.Dashed)
             );
@@ -55,7 +55,7 @@ namespace RizzyUI.Tests.Components.Display
             var expectedId = "dotted-divider";
 
             // Act
-            var cut = RenderComponent<RzSeparator>(parameters => parameters
+            var cut = Render<RzSeparator>(parameters => parameters
                 .Add(p => p.Id, expectedId)
                 .Add(p => p.Style, SeparatorStyle.Dotted)
             );
@@ -73,7 +73,7 @@ namespace RizzyUI.Tests.Components.Display
             var expectedId = "solid-divider";
 
             // Act
-            var cut = RenderComponent<RzSeparator>(parameters => parameters
+            var cut = Render<RzSeparator>(parameters => parameters
                 .Add(p => p.Id, expectedId)
                 .Add(p => p.Style, SeparatorStyle.Solid)
             );
@@ -92,7 +92,7 @@ namespace RizzyUI.Tests.Components.Display
             var contentText = "Left Aligned";
 
             // Act
-            var cut = RenderComponent<RzSeparator>(parameters => parameters
+            var cut = Render<RzSeparator>(parameters => parameters
                 .Add(p => p.Id, expectedId)
                 .Add(p => p.LabelAlignment, Align.Start)
                 .AddChildContent(contentText)
@@ -113,7 +113,7 @@ namespace RizzyUI.Tests.Components.Display
             var contentText = "Center Aligned";
 
             // Act
-            var cut = RenderComponent<RzSeparator>(parameters => parameters
+            var cut = Render<RzSeparator>(parameters => parameters
                 .Add(p => p.Id, expectedId)
                 .Add(p => p.LabelAlignment, Align.Center)
                 .AddChildContent(contentText)
@@ -134,7 +134,7 @@ namespace RizzyUI.Tests.Components.Display
             var contentText = "Right Aligned";
 
             // Act
-            var cut = RenderComponent<RzSeparator>(parameters => parameters
+            var cut = Render<RzSeparator>(parameters => parameters
                 .Add(p => p.Id, expectedId)
                 .Add(p => p.LabelAlignment, Align.End)
                 .AddChildContent(contentText)
@@ -155,7 +155,7 @@ namespace RizzyUI.Tests.Components.Display
             var customClass = "my-custom-class py-8";
 
             // Act
-            var cut = RenderComponent<RzSeparator>(parameters => parameters
+            var cut = Render<RzSeparator>(parameters => parameters
                 .Add(p => p.Id, expectedId)
                 .AddUnmatched("class", customClass)
             );
@@ -177,7 +177,7 @@ namespace RizzyUI.Tests.Components.Display
             var dataTestId = "test-divider";
 
             // Act
-            var cut = RenderComponent<RzSeparator>(parameters => parameters
+            var cut = Render<RzSeparator>(parameters => parameters
                 .Add(p => p.Id, expectedId)
                 .Add(p => p.AdditionalAttributes, new Dictionary<string, object>
                 {
