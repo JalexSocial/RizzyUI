@@ -6876,6 +6876,61 @@ function registerRzCombobox(Alpine2, require2) {
     }
   }));
 }
+function registerRzColorPicker(Alpine2, require2) {
+  Alpine2.data("rzColorPicker", () => ({
+    colorValue: "",
+    swatchStyle: "background-color: transparent;",
+    config: {},
+    inputId: "",
+    init() {
+      this.inputId = this.$el.dataset.inputId;
+      this.colorValue = this.$el.dataset.initialValue || "";
+      this.config = this.readConfig();
+      this.refreshSwatch();
+      const assets = JSON.parse(this.$el.dataset.assets || "[]");
+      const nonce = this.$el.dataset.nonce;
+      require2(assets, nonce).then(() => this.initializeColoris()).catch((e2) => this.handleAssetError(e2));
+    },
+    readConfig() {
+      const raw2 = this.$el.dataset.config;
+      if (!raw2) {
+        return {};
+      }
+      try {
+        return JSON.parse(raw2);
+      } catch {
+        return {};
+      }
+    },
+    initializeColoris() {
+      const input = this.$refs.input;
+      if (!input || !window.Coloris) {
+        return;
+      }
+      window.Coloris({
+        el: input,
+        wrap: false,
+        themeMode: "auto",
+        ...this.config
+      });
+      this.colorValue = input.value || this.colorValue;
+      this.refreshSwatch();
+      input.addEventListener("input", () => this.handleInput());
+    },
+    handleInput() {
+      const input = this.$refs.input;
+      this.colorValue = input ? input.value : "";
+      this.refreshSwatch();
+    },
+    refreshSwatch() {
+      const normalized = this.colorValue && this.colorValue.trim().length > 0 ? this.colorValue : "transparent";
+      this.swatchStyle = "background-color: " + normalized + ";";
+    },
+    handleAssetError(error2) {
+      console.error("Failed to load Coloris assets.", error2);
+    }
+  }));
+}
 function registerRzDateEdit(Alpine2, require2) {
   Alpine2.data("rzDateEdit", () => ({
     options: {},
@@ -11964,6 +12019,7 @@ function registerComponents(Alpine2) {
   registerRzCodeViewer(Alpine2, rizzyRequire);
   registerRzCollapsible(Alpine2);
   registerRzCombobox(Alpine2, rizzyRequire);
+  registerRzColorPicker(Alpine2, rizzyRequire);
   registerRzDateEdit(Alpine2, rizzyRequire);
   registerRzDialog(Alpine2);
   registerRzDropdownMenu(Alpine2);

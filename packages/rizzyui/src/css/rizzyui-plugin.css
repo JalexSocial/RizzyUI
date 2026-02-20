@@ -7,3 +7,25 @@
 
 
 
+
+:root {
+    --clr-bg: var(--popover);
+    --clr-text: var(--popover-foreground);
+    --clr-border: var(--border);
+    --clr-shadow: 0 10px 30px color-mix(in oklab, var(--foreground) 16%, transparent);
+}
+
+.clr-picker {
+    background-color: var(--clr-bg);
+    color: var(--clr-text);
+    border-color: var(--clr-border);
+    box-shadow: var(--clr-shadow);
+    border-radius: var(--radius);
+}
+
+.clr-field input,
+.clr-field button,
+.clr-gradient,
+.clr-swatches button {
+    border-radius: calc(var(--radius) - 2px);
+}

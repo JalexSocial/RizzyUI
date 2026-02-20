@@ -131,6 +131,9 @@ public partial class RzTheme
         // RzDateEdit Family
         RzDateEdit = RizzyUI.RzDateEdit.DefaultDescriptor;
 
+        // RzColorPicker Family
+        RzColorPicker = RizzyUI.RzColorPicker.DefaultDescriptor;
+
         // RzDialog Family
         RzDialog = RizzyUI.RzDialog.DefaultDescriptor;
         DialogContent = RizzyUI.DialogContent.DefaultDescriptor;
