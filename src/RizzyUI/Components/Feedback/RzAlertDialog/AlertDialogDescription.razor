@@ -1,0 +1,6 @@
+@namespace RizzyUI
+@inherits RzComponent<AlertDialogDescription.Slots>
+
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@(ParentAlertDialog?.AriaDescriptionId ?? Id)" class="@SlotClasses.GetBase()" data-slot="alert-dialog-description">
+    @ChildContent
+</HtmlElement>

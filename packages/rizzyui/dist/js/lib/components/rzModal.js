@@ -1,6 +1,6 @@
 
 // --------------------------------------------------------------------------------
-// Alpine.js component: rzDialog
+// Alpine.js component: rzModal
 // Manages the state and behavior of a dialog.
 // Can be triggered by a window event, closed via button, escape key,
 // or outside click. Supports HTMX content swapping within its body/footer.
@@ -9,7 +9,7 @@
 // rz:modal-after-open, rz:modal-before-close, rz:modal-after-close.
 // --------------------------------------------------------------------------------
 export default function(Alpine) {
-    Alpine.data('rzDialog', () => ({
+    Alpine.data('rzModal', () => ({
         modalOpen: false, // Main state variable
         eventTriggerName: '',
         closeEventName: 'rz:modal-close', // Default value, corresponds to Constants.Events.ModalClose
@@ -76,7 +76,7 @@ export default function(Alpine) {
                 document.body.style.setProperty('--page-scrollbar-width', `${scrollBarWidth}px`);
                 if (value) {
                     this.$nextTick(() => {
-                        const dialogElement = this.$el.querySelector('[role="document"]');
+                        const dialogElement = this.$el.querySelector('[role="dialog"], [role="alertdialog"], [data-modal-panel="true"]');
                         const focusable = dialogElement?.querySelector('button, [href], input:not([type=\'hidden\']), select, textarea, [tabindex]:not([tabindex="-1"])');
                         focusable?.focus();
                         // Dispatch after-open event - Use "rz:modal-after-open"

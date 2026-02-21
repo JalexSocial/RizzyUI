@@ -4,7 +4,7 @@
 @using RizzyUI
 @using Blazicons
 
-<RzSidebarProvider>
+<RzSidebarProvider class="overflow-y-hidden">
     <Sidebar>
         <SidebarHeader>
             <SidebarMenu>
@@ -99,7 +99,17 @@
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton AsChild>
+                                    <a href="/components/file-input" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>File Input</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
                                     <a href="/components/input" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>Input</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
+                                    <a href="/components/input-otp" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>Input OTP</span></a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
@@ -163,6 +173,7 @@
                         </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/alert" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>Alert</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/alert-dialog" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>Alert Dialog</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/dialog" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>Dialog</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/toastnotification" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>Toast Notification</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/tooltip" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>Tooltip</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -210,7 +221,7 @@
             </div>
         </header>
 
-        <main class="flex flex-1 flex-col overflow-y-auto" id="content">
+        <main class="flex flex-1 flex-col overflow-y-auto min-h-0" id="content">
             <div class="flex flex-1 flex-col gap-4 p-4">
                 @Body
             </div>

@@ -1,0 +1,13 @@
+@namespace RizzyUI
+@inherits RzAsChildComponent<AlertDialogCancel.Slots>
+
+@if (AsChild)
+{
+    @RenderAsChild()
+}
+else
+{
+    <HtmlElement Element="@EffectiveElement" type="button" @attributes="GetComponentAttributes()">
+        @ChildContent
+    </HtmlElement>
+}

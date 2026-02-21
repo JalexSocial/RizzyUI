@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -488,5 +488,21 @@
   </data>
   <data name="RzColorPicker.A11y.Instruction" xml:space="preserve">
     <value>Saturation and brightness selector. Use arrow keys to select.</value>
+  </data>
+  <data name="RzFileInput.ButtonText" xml:space="preserve">
+    <value>Choose files</value>
+  </data>
+  <data name="RzFileInput.DefaultAriaLabel" xml:space="preserve">
+    <value>File input</value>
+  </data>
+  <data name="RzFileInput.DropzoneText" xml:space="preserve">
+    <value>Drag and drop files here or click to upload</value>
+  <data name="RzFileInput.RemoveLabel" xml:space="preserve">
+  </data>
+    <value>Remove file</value>
+  </data>
+  <data name="RzInputOTP.DefaultAriaLabel" xml:space="preserve">
+    <value>One-time verification code</value>
+    <comment>Default ARIA label for RzInputOTP.</comment>
   </data>
 </root>

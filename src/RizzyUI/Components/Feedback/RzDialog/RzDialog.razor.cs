@@ -22,6 +22,11 @@ public partial class RzDialog : RzComponent<RzDialog.Slots>
     internal string AriaLabelId { get; } = IdGenerator.UniqueId("rzdlgttl");
 
     /// <summary>
+    /// Gets the unique identifier for the <c>aria-describedby</c> attribute, linking the dialog to its description.
+    /// </summary>
+    internal string AriaDescriptionId { get; } = IdGenerator.UniqueId("rzdlgdesc");
+
+    /// <summary>
     /// Gets the unique identifier for the dialog body container, usable as an HTMX target ID.
     /// </summary>
     public string BodyId { get; } = IdGenerator.UniqueId("rzdlgbody");

@@ -7001,8 +7001,8 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       }
     }));
   }
-  function registerRzDialog(Alpine2) {
-    Alpine2.data("rzDialog", () => ({
+  function registerRzModal(Alpine2) {
+    Alpine2.data("rzModal", () => ({
       modalOpen: false,
       // Main state variable
       eventTriggerName: "",
@@ -7059,7 +7059,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           document.body.style.setProperty("--page-scrollbar-width", `${scrollBarWidth}px`);
           if (value) {
             this.$nextTick(() => {
-              const dialogElement = this.$el.querySelector('[role="document"]');
+              const dialogElement = this.$el.querySelector('[role="dialog"], [role="alertdialog"], [data-modal-panel="true"]');
               const focusable2 = dialogElement?.querySelector(`button, [href], input:not([type='hidden']), select, textarea, [tabindex]:not([tabindex="-1"])`);
               focusable2?.focus();
               this.$el.dispatchEvent(new CustomEvent("rz:modal-after-open", {
@@ -9484,6 +9484,114 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       }
     }));
   }
+  function registerRzFileInput(Alpine2) {
+    Alpine2.data("rzFileInput", () => ({
+      files: [],
+      hasFiles: false,
+      isDragging: false,
+      draggingState: "false",
+      init() {
+        this.syncFromInput();
+      },
+      trigger() {
+        if (this.$refs.input) {
+          this.$refs.input.click();
+        }
+      },
+      handleFileChange() {
+        this.syncFromInput();
+      },
+      handleDragOver() {
+        this.isDragging = true;
+        this.draggingState = "true";
+      },
+      handleDragLeave() {
+        this.isDragging = false;
+        this.draggingState = "false";
+      },
+      handleDrop(event2) {
+        this.handleDragLeave();
+        const input = this.$refs.input;
+        const dropped = event2?.dataTransfer?.files;
+        if (!input || !dropped || dropped.length === 0) {
+          return;
+        }
+        this.applyDroppedFiles(input, dropped);
+        this.syncFromInput();
+      },
+      removeFileByIndex(event2) {
+        const input = this.$refs.input;
+        if (!input?.files) {
+          return;
+        }
+        const indexRaw = event2?.currentTarget?.dataset?.index;
+        const index = Number.parseInt(indexRaw ?? "-1", 10);
+        if (Number.isNaN(index) || index < 0) {
+          return;
+        }
+        const transfer = new DataTransfer();
+        Array.from(input.files).forEach((file, fileIndex) => {
+          if (fileIndex !== index) {
+            transfer.items.add(file);
+          }
+        });
+        input.files = transfer.files;
+        this.syncFromInput();
+      },
+      applyDroppedFiles(input, droppedFiles) {
+        const transfer = new DataTransfer();
+        const canAppend = input.multiple;
+        if (canAppend && input.files) {
+          Array.from(input.files).forEach((file) => transfer.items.add(file));
+          Array.from(droppedFiles).forEach((file) => transfer.items.add(file));
+        } else if (droppedFiles.length > 0) {
+          transfer.items.add(droppedFiles[0]);
+        }
+        input.files = transfer.files;
+      },
+      syncFromInput() {
+        const input = this.$refs.input;
+        this.revokePreviews();
+        if (!input?.files) {
+          this.files = [];
+          this.hasFiles = false;
+          return;
+        }
+        this.files = Array.from(input.files).map((file) => {
+          const imageFile = file.type.startsWith("image/");
+          const previewUrl = imageFile ? URL.createObjectURL(file) : null;
+          return {
+            name: file.name,
+            size: file.size,
+            formattedSize: this.formatFileSize(file.size),
+            isImage: imageFile,
+            previewUrl
+          };
+        });
+        this.hasFiles = this.files.length > 0;
+      },
+      formatFileSize(size2) {
+        if (!Number.isFinite(size2) || size2 <= 0) {
+          return "0 B";
+        }
+        const units = ["B", "KB", "MB", "GB", "TB"];
+        const power = Math.min(Math.floor(Math.log(size2) / Math.log(1024)), units.length - 1);
+        const formatted = size2 / 1024 ** power;
+        const rounded = formatted >= 10 || power === 0 ? Math.round(formatted) : formatted.toFixed(1);
+        return `${rounded} ${units[power]}`;
+      },
+      revokePreviews() {
+        this.files.forEach((file) => {
+          if (file.previewUrl) {
+            URL.revokeObjectURL(file.previewUrl);
+          }
+        });
+      },
+      destroy() {
+        this.revokePreviews();
+      }
+    }));
+  }
   function registerRzEmpty(Alpine2) {
     Alpine2.data("rzEmpty", () => {
     });
@@ -9577,6 +9685,440 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           const input = parent.querySelector("input, textarea");
           input?.focus();
         }
+      }
+    }));
+  }
+  function registerRzInputOTP(Alpine2) {
+    Alpine2.data("rzInputOTP", () => ({
+      value: "",
+      length: 0,
+      activeIndex: 0,
+      isFocused: false,
+      isInvalid: false,
+      otpType: "numeric",
+      textTransform: "none",
+      slots: [],
+      slotElements: [],
+      selectedIndexes: [],
+      /**
+       * Initializes OTP behavior and hydrates visual slots.
+       */
+      init() {
+        if (this.$el.dataset.rzOtpInitialized === "true") {
+          this.syncFromInput();
+          return;
+        }
+        this.$el.dataset.rzOtpInitialized = "true";
+        this.slotElements = [];
+        this.selectedIndexes = [];
+        this.length = Number(this.$el.dataset.length || "0");
+        this.otpType = this.$el.dataset.otpType || "numeric";
+        this.textTransform = this.$el.dataset.textTransform || "none";
+        this.isInvalid = this.$el.dataset.invalid === "true";
+        this.syncFromInput();
+      },
+      /**
+       * Returns the current OTP value.
+       * @returns {string}
+       */
+      getValue() {
+        return this.value;
+      },
+      /**
+       * Sets the current OTP value.
+       * @param {string} newValue
+       */
+      setValue(newValue) {
+        const nextValue = this.sanitizeValue(newValue || "");
+        const previousValue = this.value;
+        this.clearSelection();
+        this.value = nextValue;
+        this.activeIndex = this.getMaxFocusableIndex();
+        this.applyValueToInput();
+        this.refreshSlots();
+        this.dispatchInputEvent(previousValue);
+        this.dispatchChangeEvent(previousValue);
+      },
+      /**
+       * Handles input typing updates.
+       * @param {InputEvent} event
+       */
+      onInput(event2) {
+        this.clearSelection();
+        this.syncFromInput(event2?.target);
+      },
+      /**
+       * Handles paste behavior for OTP values.
+       * @param {ClipboardEvent} event
+       */
+      onPaste(event2) {
+        event2.preventDefault();
+        const text = event2.clipboardData ? event2.clipboardData.getData("text") : "";
+        const filtered = this.sanitizeValue(text);
+        const previousValue = this.value;
+        this.clearSelection();
+        this.value = filtered;
+        this.activeIndex = this.getMaxFocusableIndex();
+        this.applyValueToInput();
+        this.refreshSlots();
+        this.dispatchInputEvent(previousValue);
+        this.dispatchChangeEvent(previousValue);
+      },
+      /**
+       * Handles keyboard navigation and deletion.
+       * @param {KeyboardEvent} event
+       */
+      onKeyDown(event2) {
+        if (this.hasSelection() && (event2.key === "Backspace" || event2.key === "Delete")) {
+          event2.preventDefault();
+          this.clearAllSlots();
+          return;
+        }
+        if (this.hasSelection() && this.selectedIndexes.length > 1 && this.isAcceptableInputChar(event2.key)) {
+          event2.preventDefault();
+          this.replaceSelectionWithKey(event2.key);
+          return;
+        }
+        if (this.isAcceptableInputChar(event2.key)) {
+          event2.preventDefault();
+          this.replaceActiveSlotWithKey(event2.key);
+          return;
+        }
+        if (event2.key === "ArrowLeft") {
+          event2.preventDefault();
+          this.clearSelection();
+          this.moveLeft();
+          return;
+        }
+        if (event2.key === "ArrowRight") {
+          event2.preventDefault();
+          this.clearSelection();
+          this.moveRight();
+          return;
+        }
+        if (event2.key === "Home") {
+          event2.preventDefault();
+          this.clearSelection();
+          this.moveHome();
+          return;
+        }
+        if (event2.key === "End") {
+          event2.preventDefault();
+          this.clearSelection();
+          this.moveEnd();
+          return;
+        }
+        if (event2.key === "Backspace") {
+          this.handleBackspace();
+        }
+      },
+      /**
+       * Sets focus state to true.
+       */
+      onFocus() {
+        this.isFocused = true;
+        this.setActiveFromCaret();
+        this.refreshSlots();
+      },
+      /**
+       * Sets focus state to false.
+       */
+      onBlur() {
+        this.isFocused = false;
+        this.clearSelection();
+        this.refreshSlots();
+      },
+      /**
+       * Prevents slot mousedown default so input keeps control.
+       * @param {MouseEvent} event
+       */
+      preventMouseDown(event2) {
+        event2.preventDefault();
+      },
+      /**
+       * Focuses the native input and updates active slot from clicked index.
+       * @param {MouseEvent} event
+       */
+      focusSlot(event2) {
+        const target = event2.currentTarget;
+        const index = Number(target.dataset.index || "0");
+        if (!this.canFocusIndex(index)) {
+          return;
+        }
+        this.clearSelection();
+        this.activeIndex = this.normalizeIndex(index);
+        this.focusInput();
+        this.setCaretToActiveIndex();
+        this.refreshSlots();
+      },
+      /**
+       * Selects all currently filled slots from a double click gesture.
+       */
+      selectFilledSlots() {
+        const filledIndexes = this.slots.map((slot, index) => ({ slot, index })).filter(({ slot }) => slot.char !== "").map(({ index }) => index);
+        if (filledIndexes.length === 0) {
+          this.clearSelection();
+          this.refreshSlots();
+          return;
+        }
+        this.selectedIndexes = filledIndexes;
+        this.isFocused = true;
+        this.focusInput();
+        const input = this.$refs.input;
+        if (input) {
+          input.setSelectionRange(0, this.value.length);
+        }
+        this.refreshSlots();
+      },
+      registerSlot() {
+        if (!this.$el || this.$el.dataset.inputOtpSlot !== "true") return;
+        if (!this.slotElements.includes(this.$el)) {
+          this.slotElements.push(this.$el);
+          this.slotElements.sort((left, right) => Number(left.dataset.index || "0") - Number(right.dataset.index || "0"));
+        }
+        this.refreshSlots();
+      },
+      moveLeft() {
+        this.activeIndex = this.normalizeIndex(this.activeIndex - 1);
+        this.focusInput();
+        this.setCaretToActiveIndex();
+        this.refreshSlots();
+      },
+      moveRight() {
+        const nextIndex = this.normalizeIndex(this.activeIndex + 1);
+        if (!this.canFocusIndex(nextIndex)) {
+          return;
+        }
+        this.activeIndex = nextIndex;
+        this.focusInput();
+        this.setCaretToActiveIndex();
+        this.refreshSlots();
+      },
+      moveHome() {
+        this.activeIndex = 0;
+        this.focusInput();
+        this.setCaretToActiveIndex();
+        this.refreshSlots();
+      },
+      moveEnd() {
+        this.activeIndex = this.getMaxFocusableIndex();
+        this.focusInput();
+        this.setCaretToActiveIndex();
+        this.refreshSlots();
+      },
+      handleBackspace() {
+        const input = this.$refs.input;
+        if (!input) return;
+        const start2 = input.selectionStart || 0;
+        const end = input.selectionEnd || 0;
+        if (start2 !== end) return;
+        if (start2 <= 0) return;
+        this.activeIndex = this.normalizeIndex(start2 - 1);
+        this.refreshSlots();
+      },
+      syncFromInput(sourceInput) {
+        const input = sourceInput || this.$refs.input;
+        if (!input) return;
+        const previousValue = this.value;
+        this.value = this.sanitizeValue(input.value || "");
+        if (this.value !== input.value) {
+          input.value = this.value;
+        }
+        this.setActiveFromCaret(this.value.length);
+        this.refreshSlots();
+        this.dispatchInputEvent(previousValue);
+        this.dispatchChangeEvent(previousValue);
+      },
+      sanitizeValue(raw2) {
+        if (!raw2) return "";
+        const pattern = this.otpType === "alphanumeric" ? /[^a-zA-Z0-9]/g : /[^0-9]/g;
+        const cleaned = raw2.replace(pattern, "").slice(0, this.length);
+        return this.applyTextTransform(cleaned);
+      },
+      applyTextTransform(raw2) {
+        if (!raw2) return "";
+        if (this.textTransform === "to-lower") {
+          return raw2.toLowerCase();
+        }
+        if (this.textTransform === "to-upper") {
+          return raw2.toUpperCase();
+        }
+        return raw2;
+      },
+      applyValueToInput() {
+        const input = this.$refs.input;
+        if (!input) return;
+        input.value = this.value;
+        this.setCaretToActiveIndex();
+      },
+      setActiveFromCaret(fallbackIndex) {
+        const input = this.$refs.input;
+        if (!input) {
+          this.activeIndex = this.getMaxFocusableIndex(fallbackIndex ?? 0);
+          return;
+        }
+        const selectionStart = input.selectionStart;
+        const caret = selectionStart == null ? Number.isFinite(fallbackIndex) ? Number(fallbackIndex) : 0 : Number(selectionStart);
+        const normalizedCaret = this.normalizeIndex(caret);
+        if (this.canFocusIndex(normalizedCaret)) {
+          this.activeIndex = normalizedCaret;
+          return;
+        }
+        this.activeIndex = this.getMaxFocusableIndex();
+      },
+      setCaretToActiveIndex() {
+        const input = this.$refs.input;
+        if (!input) return;
+        const index = this.normalizeIndex(this.activeIndex);
+        input.setSelectionRange(index, index);
+      },
+      focusInput() {
+        const input = this.$refs.input;
+        if (!input) return;
+        input.focus();
+      },
+      hasSelection() {
+        return this.selectedIndexes.length > 0;
+      },
+      clearSelection() {
+        this.selectedIndexes = [];
+      },
+      clearAllSlots() {
+        const previousValue = this.value;
+        this.clearSelection();
+        this.value = "";
+        this.activeIndex = 0;
+        this.applyValueToInput();
+        this.refreshSlots();
+        this.dispatchInputEvent(previousValue);
+      },
+      replaceSelectionWithKey(key) {
+        const nextChar = this.sanitizeValue(key).charAt(0);
+        if (!nextChar) return;
+        const previousValue = this.value;
+        this.value = nextChar;
+        this.clearSelection();
+        this.activeIndex = this.getMaxFocusableIndex();
+        this.applyValueToInput();
+        this.refreshSlots();
+        this.dispatchInputEvent(previousValue);
+      },
+      replaceActiveSlotWithKey(key) {
+        const nextChar = this.sanitizeValue(key).charAt(0);
+        if (!nextChar) return;
+        const index = this.canFocusIndex(this.activeIndex) ? this.normalizeIndex(this.activeIndex) : this.getMaxFocusableIndex();
+        const chars = this.value.split("");
+        while (chars.length < index) {
+          chars.push("");
+        }
+        chars[index] = nextChar;
+        const previousValue = this.value;
+        this.value = this.applyTextTransform(chars.join("").slice(0, this.length));
+        this.clearSelection();
+        this.activeIndex = this.getMaxFocusableIndex(index + 1);
+        this.applyValueToInput();
+        this.refreshSlots();
+        this.dispatchInputEvent(previousValue);
+        this.dispatchChangeEvent(previousValue);
+      },
+      isAcceptableInputChar(key) {
+        if (!key || key.length !== 1) return false;
+        if (this.otpType === "alphanumeric") {
+          return /^[a-zA-Z0-9]$/.test(key);
+        }
+        return /^[0-9]$/.test(key);
+      },
+      getNextFillIndex() {
+        if (this.length <= 0) return 0;
+        return Math.min(this.value.length, this.length - 1);
+      },
+      getMaxFocusableIndex(fallbackIndex) {
+        const safeFallback = Number.isFinite(fallbackIndex) ? this.normalizeIndex(Number(fallbackIndex)) : this.getNextFillIndex();
+        return this.canFocusIndex(safeFallback) ? safeFallback : this.getNextFillIndex();
+      },
+      canFocusIndex(index) {
+        const normalizedIndex = this.normalizeIndex(index);
+        const char = this.value.charAt(normalizedIndex);
+        if (char !== "") {
+          return true;
+        }
+        return normalizedIndex === this.getNextFillIndex();
+      },
+      dispatchInputEvent(previousValue) {
+        if (this.value === previousValue) return;
+        this.$dispatch("rz:inputotp:oninput", {
+          value: this.value,
+          previousValue,
+          activeIndex: this.activeIndex,
+          isComplete: this.value.length === this.length,
+          length: this.length,
+          otpType: this.otpType,
+          textTransform: this.textTransform
+        });
+      },
+      dispatchChangeEvent(previousValue) {
+        if (this.value === previousValue) return;
+        if (this.value.length !== this.length) return;
+        this.$dispatch("rz:inputotp:onchange", {
+          value: this.value,
+          previousValue,
+          activeIndex: this.activeIndex,
+          length: this.length,
+          otpType: this.otpType,
+          textTransform: this.textTransform
+        });
+      },
+      refreshSlots() {
+        this.buildSlotsState();
+        this.updateSlotDom();
+      },
+      buildSlotsState() {
+        const next = [];
+        let i2 = 0;
+        while (i2 < this.length) {
+          const char = this.value.charAt(i2) || "";
+          const isSelected = this.selectedIndexes.includes(i2);
+          const isActive = this.isFocused && !this.hasSelection() && i2 === this.activeIndex;
+          const hasFakeCaret = this.isFocused && !this.hasSelection() && isActive && char === "";
+          next.push({ char, isActive, hasFakeCaret, isSelected });
+          i2 += 1;
+        }
+        this.slots = next;
+      },
+      updateSlotDom() {
+        const fallbackRoot = this.$el?.closest("[data-alpine-root]") || this.$el;
+        const slotElements = this.slotElements.length > 0 ? this.slotElements : fallbackRoot.querySelectorAll('[data-input-otp-slot="true"]');
+        slotElements.forEach((slotElement) => {
+          const index = Number(slotElement.dataset.index || "0");
+          const state = this.slots[index] || { char: "", isActive: false, hasFakeCaret: false, isSelected: false };
+          slotElement.dataset.active = state.isActive ? "true" : "false";
+          slotElement.dataset.focused = this.isFocused ? "true" : "false";
+          slotElement.dataset.selected = state.isSelected ? "true" : "false";
+          slotElement.dataset.focusable = this.canFocusIndex(index) ? "true" : "false";
+          if (this.isInvalid) {
+            slotElement.setAttribute("aria-invalid", "true");
+          } else {
+            slotElement.removeAttribute("aria-invalid");
+          }
+          const charElement = slotElement.querySelector('[data-input-otp-char="true"]');
+          if (charElement) {
+            charElement.textContent = state.char;
+          }
+          const caretWrapper = slotElement.querySelector('[data-input-otp-caret="true"]');
+          if (caretWrapper) {
+            if (state.hasFakeCaret) {
+              caretWrapper.classList.remove("hidden");
+            } else {
+              caretWrapper.classList.add("hidden");
+            }
+          }
+        });
+      },
+      normalizeIndex(index) {
+        if (this.length <= 0) return 0;
+        if (index < 0) return 0;
+        if (index > this.length - 1) return this.length - 1;
+        return index;
       }
     }));
   }
@@ -12150,15 +12692,17 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     registerRzCombobox(Alpine2, rizzyRequire);
     registerRzColorPicker(Alpine2, rizzyRequire);
     registerRzDateEdit(Alpine2, rizzyRequire);
-    registerRzDialog(Alpine2);
+    registerRzModal(Alpine2);
     registerRzDropdownMenu(Alpine2);
     registerRzDarkModeToggle(Alpine2);
     registerRzEmbeddedPreview(Alpine2);
     registerRzEventViewer(Alpine2);
+    registerRzFileInput(Alpine2);
     registerRzEmpty(Alpine2);
     registerRzHeading(Alpine2);
     registerRzIndicator(Alpine2);
     registerRzInputGroupAddon(Alpine2);
+    registerRzInputOTP(Alpine2);
     registerRzMarkdown(Alpine2, rizzyRequire);
     registerRzMenubar(Alpine2);
     registerRzNavigationMenu(Alpine2);

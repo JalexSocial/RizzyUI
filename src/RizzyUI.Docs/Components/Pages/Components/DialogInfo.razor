@@ -36,7 +36,7 @@
             <RzAlert Variant="ThemeVariant.Information" class="mb-6">
                 <AlertTitle>Under the Hood</AlertTitle>
                 <AlertDescription>
-                    This component uses an Alpine.js component (<code>x-data="rzDialog"</code>) to manage its state and interactions. It utilizes <code>&lt;template x-teleport="body"&gt;</code> to ensure the dialog is rendered at the end of the document body, avoiding potential z-index issues.
+                    This component uses an Alpine.js component (<code>x-data="rzModal"</code>) to manage its state and interactions. It utilizes <code>&lt;template x-teleport="body"&gt;</code> to ensure the dialog is rendered at the end of the document body, avoiding potential z-index issues.
                 </AlertDescription>
             </RzAlert>
 
@@ -354,7 +354,7 @@ public IResult CloseDialogAction()
 
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
-                <RzParagraph>Dialog interactivity is implemented by Alpine <code>x-data</code> component <code>rzDialog</code>.</RzParagraph>
+                <RzParagraph>Dialog interactivity is implemented by Alpine <code>x-data</code> component <code>rzModal</code>.</RzParagraph>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                 <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">openModal</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">event?</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens the dialog and dispatches lifecycle events.</td></tr>
                 <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">closeModal</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">None</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the dialog using the normal close pipeline.</td></tr>

@@ -1,0 +1,19 @@
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<InputOTPSeparator.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@GetSeparatorClasses()"
+             data-slot="input-otp-separator"
+             role="separator">
+    @if (ChildContent is not null)
+    {
+        @ChildContent
+    }
+    else
+    {
+        <Blazicon Svg="MdiIcon.Minus" class="@SlotClasses.GetIcon()" data-slot="@InputOTPSeparator.SlotNames.NameOf(SlotTypes.Icon)" aria-hidden="true" />
+    }
+</HtmlElement>

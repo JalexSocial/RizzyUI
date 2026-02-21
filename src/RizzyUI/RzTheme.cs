@@ -144,6 +144,17 @@ public partial class RzTheme
         DialogClose = RizzyUI.DialogClose.DefaultDescriptor;
         DialogDescription = RizzyUI.DialogDescription.DefaultDescriptor;
 
+        // RzAlertDialog Family
+        RzAlertDialog = RizzyUI.RzAlertDialog.DefaultDescriptor;
+        AlertDialogContent = RizzyUI.AlertDialogContent.DefaultDescriptor;
+        AlertDialogHeader = RizzyUI.AlertDialogHeader.DefaultDescriptor;
+        AlertDialogFooter = RizzyUI.AlertDialogFooter.DefaultDescriptor;
+        AlertDialogTitle = RizzyUI.AlertDialogTitle.DefaultDescriptor;
+        AlertDialogDescription = RizzyUI.AlertDialogDescription.DefaultDescriptor;
+        AlertDialogTrigger = RizzyUI.AlertDialogTrigger.DefaultDescriptor;
+        AlertDialogAction = RizzyUI.AlertDialogAction.DefaultDescriptor;
+        AlertDialogCancel = RizzyUI.AlertDialogCancel.DefaultDescriptor;
+
         // RzDropdownMenu Family
         RzDropdownMenu = RizzyUI.RzDropdownMenu.DefaultDescriptor;
         DropdownMenuContent = RizzyUI.DropdownMenuContent.DefaultDescriptor;
@@ -212,7 +223,12 @@ public partial class RzTheme
         RzInput = RizzyUI.FormInputStyles.DefaultDescriptor;
         RzInputText = RizzyUI.RzInputText.DefaultDescriptor;
         RzInputTextArea = RizzyUI.RzInputTextArea.DefaultDescriptor;
+        RzFileInput = RizzyUI.RzFileInput.DefaultDescriptor;
         RzInputNumber = RizzyUI.RzInputNumberStyles.DefaultDescriptor;
+        RzInputOTP = RizzyUI.RzInputOTP.DefaultDescriptor;
+        InputOTPGroup = RizzyUI.InputOTPGroup.DefaultDescriptor;
+        InputOTPSlot = RizzyUI.InputOTPSlot.DefaultDescriptor;
+        InputOTPSeparator = RizzyUI.InputOTPSeparator.DefaultDescriptor;
 
         // RzInputGroup Family
         RzInputGroup = RizzyUI.RzInputGroup.DefaultDescriptor;

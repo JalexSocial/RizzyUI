@@ -1,0 +1,95 @@
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<RzFileInput.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="file-input">
+    <div data-alpine-root="@Id"
+         x-data="rzFileInput"
+         data-assets="@_assets"
+         data-nonce="@Nonce"
+         class="@SlotClasses.GetContainer()"
+         data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.Container)"
+         x-bind:data-dragging="draggingState"
+         x-on:dragover.prevent="handleDragOver"
+         x-on:dragleave.prevent="handleDragLeave"
+         x-on:drop.prevent="handleDrop">
+        <input type="file"
+               id="@InputId"
+               x-ref="input"
+               name="@NameAttributeValue"
+               multiple="@Multiple"
+               accept="@Accept"
+               disabled="@Disabled"
+               aria-label="@AriaLabel"
+               class="@SlotClasses.GetNativeInput()"
+               data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.NativeInput)"
+               x-on:change="handleFileChange" />
+
+        <div class="@SlotClasses.GetTrigger()"
+             data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.Trigger)"
+             role="button"
+             tabindex="0"
+             aria-controls="@ListId"
+             aria-label="@AriaLabel"
+             x-on:click="trigger"
+             x-on:keydown.enter.prevent="trigger"
+             x-on:keydown.space.prevent="trigger">
+            @if (ChildContent is not null)
+            {
+                @ChildContent
+            }
+            else
+            {
+                <span class="@SlotClasses.GetTriggerContent()"
+                      data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.TriggerContent)">
+                    @if (Variant == FileInputVariant.Dropzone)
+                    {
+                        @Localizer["RzFileInput.DropzoneText"]
+                    }
+                    else
+                    {
+                        @Localizer["RzFileInput.ButtonText"]
+                    }
+                </span>
+            }
+        </div>
+
+        <ul id="@ListId"
+            class="@SlotClasses.GetList()"
+            data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.List)"
+            x-show="hasFiles"
+            x-cloak>
+            <template x-for="(file, index) in files" :key="file.name + '-' + index">
+                <li class="@SlotClasses.GetItem()"
+                    data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.Item)">
+                    <img x-show="file.isImage"
+                         x-bind:src="file.previewUrl"
+                         x-bind:alt="file.name"
+                         class="@SlotClasses.GetPreviewImage()"
+                         data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.PreviewImage)" />
+                    <div class="@SlotClasses.GetInfo()"
+                         data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.Info)">
+                        <span class="@SlotClasses.GetFileName()"
+                              data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.FileName)"
+                              x-text="file.name"></span>
+                        <span class="@SlotClasses.GetFileSize()"
+                              data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.FileSize)"
+                              x-text="file.formattedSize"></span>
+                    </div>
+                    <button type="button"
+                            class="@SlotClasses.GetRemoveButton()"
+                            data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.RemoveButton)"
+                            x-bind:data-index="index"
+                            aria-label="@Localizer["RzFileInput.RemoveLabel"]"
+                            x-on:click="removeFileByIndex">
+                        <Blazicon Svg="Lucide.X" aria-hidden="true" />
+                    </button>
+                </li>
+            </template>
+        </ul>
+    </div>
+</HtmlElement>

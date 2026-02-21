@@ -55,6 +55,12 @@ public static class Constants
 
         /// <summary>Fired after color changes.</summary>
         public const string ColorPickerOnChange = "rz:colorpicker:on-change";
+
+        /// <summary>Fired when any OTP input slot value is modified.</summary>
+        public const string InputOTPOnInput = "rz:inputotp:oninput";
+
+        /// <summary>Fired when OTP input changes and all slots are filled.</summary>
+        public const string InputOTPOnChange = "rz:inputotp:onchange";
     }
 
     /// <summary>

@@ -30,7 +30,7 @@ public class RzDialogTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 
         // Assert
         var root = cut.Find($"div#{id}");
-        Assert.Equal("rzDialog", root.GetAttribute("x-data"));
+        Assert.Equal("rzModal", root.GetAttribute("x-data"));
         Assert.Equal(id, root.GetAttribute("data-modal-id"));
         Assert.NotNull(root.GetAttribute("data-body-id"));
         Assert.NotNull(root.GetAttribute("data-footer-id"));
@@ -76,6 +76,7 @@ public class RzDialogTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var html = template.ToHtml() ?? "";
         Assert.Contains("Modal Body", html);
         Assert.Contains("x-show=\"modalOpen\"", html);
+        Assert.Contains("data-modal-panel=\"true\"", html);
     }
 
     [Theory]

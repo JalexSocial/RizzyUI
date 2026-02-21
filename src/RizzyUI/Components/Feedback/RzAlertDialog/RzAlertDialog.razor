@@ -1,0 +1,20 @@
+@namespace RizzyUI
+@inherits RzComponent<RzAlertDialog.Slots>
+
+<CascadingValue Value="this" IsFixed="true">
+    <div x-data="rzModal"
+         id="@Id"
+         data-slot="alert-dialog"
+         data-alpine-root="@Id"
+         data-modal-id="@Id"
+         data-body-id="@BodyId"
+         data-footer-id="@FooterId"
+         data-nonce="@Nonce"
+         data-event-trigger-name="@EventTriggerName"
+         data-close-event-name="@CloseEventName"
+         data-close-on-escape="@(CloseOnEscape.ToString().ToLowerInvariant())"
+         data-close-on-click-outside="@(CloseOnClickOutside.ToString().ToLowerInvariant())"
+         class="@SlotClasses.GetBase()">
+        @ChildContent
+    </div>
+</CascadingValue>
