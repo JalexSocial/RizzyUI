@@ -210,6 +210,18 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzFileInput"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzFileInput.Slots>, RzFileInput.Slots> RzFileInput { get; set; }
 
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzInputOTP"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzInputOTP.Slots>, RzInputOTP.Slots> RzInputOTP { get; set; }
+
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.InputOTPGroup"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<InputOTPGroup.Slots>, InputOTPGroup.Slots> InputOTPGroup { get; set; }
+
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.InputOTPSlot"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<InputOTPSlot.Slots>, InputOTPSlot.Slots> InputOTPSlot { get; set; }
+
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.InputOTPSeparator"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<InputOTPSeparator.Slots>, InputOTPSeparator.Slots> InputOTPSeparator { get; set; }
+
     /// <summary> Gets or sets the style definitions for the <see cref="RzInputCheckbox"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzInputCheckbox.Slots>, RzInputCheckbox.Slots> RzCheckbox { get; set; }
 

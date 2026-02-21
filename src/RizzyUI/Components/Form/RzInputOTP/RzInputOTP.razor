@@ -1,0 +1,48 @@
+@namespace RizzyUI
+@inherits RzComponent<RzInputOTP.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@GetContainerClasses()"
+             data-slot="input-otp">
+    <div data-alpine-root="@Id"
+         x-data="rzInputOTP"
+         class="flex items-center gap-2"
+         data-assets="@_assets"
+         data-nonce="@Nonce"
+         data-length="@Length"
+         data-otp-type="@OtpType.ToString().ToKebabCase()"
+         data-text-transform="@TextTransform.ToString().ToKebabCase()"
+         data-value="@Value"
+         data-disabled="@Disabled.ToString().ToLowerInvariant()"
+         data-invalid="@GetInvalidValue().ToString().ToLowerInvariant()">
+        <input type="text"
+               id="@InputId"
+               name="@GetNameAttribute()"
+               maxlength="@Length"
+               value="@Value"
+               autocomplete="@Autocomplete"
+               inputmode="@GetInputModeValue()"
+               disabled="@Disabled"
+               required="@Required"
+               aria-label="@AriaLabel"
+               aria-required="@Required.ToString().ToLowerInvariant()"
+               aria-invalid="@GetInvalidValue().ToString().ToLowerInvariant()"
+               aria-describedby="@AriaDescribedBy"
+               class="@GetInputClasses()"
+               data-slot="@RzInputOTP.SlotNames.NameOf(SlotTypes.Input)"
+               data-otp-input="true"
+               style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" 
+               x-ref="input"
+               x-on:input="onInput"
+               x-on:keydown="onKeyDown"
+               x-on:paste="onPaste"
+               x-on:focus="onFocus"
+               x-on:blur="onBlur" />
+
+        <CascadingValue Value="this" IsFixed="true">
+            @ChildContent
+        </CascadingValue>
+    </div>
+</HtmlElement>

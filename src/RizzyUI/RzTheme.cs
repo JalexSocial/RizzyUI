@@ -225,6 +225,10 @@ public partial class RzTheme
         RzInputTextArea = RizzyUI.RzInputTextArea.DefaultDescriptor;
         RzFileInput = RizzyUI.RzFileInput.DefaultDescriptor;
         RzInputNumber = RizzyUI.RzInputNumberStyles.DefaultDescriptor;
+        RzInputOTP = RizzyUI.RzInputOTP.DefaultDescriptor;
+        InputOTPGroup = RizzyUI.InputOTPGroup.DefaultDescriptor;
+        InputOTPSlot = RizzyUI.InputOTPSlot.DefaultDescriptor;
+        InputOTPSeparator = RizzyUI.InputOTPSeparator.DefaultDescriptor;
 
         // RzInputGroup Family
         RzInputGroup = RizzyUI.RzInputGroup.DefaultDescriptor;

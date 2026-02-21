@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -497,8 +497,12 @@
   </data>
   <data name="RzFileInput.DropzoneText" xml:space="preserve">
     <value>Drag and drop files here or click to upload</value>
-  </data>
   <data name="RzFileInput.RemoveLabel" xml:space="preserve">
+  </data>
     <value>Remove file</value>
+  </data>
+  <data name="RzInputOTP.DefaultAriaLabel" xml:space="preserve">
+    <value>One-time verification code</value>
+    <comment>Default ARIA label for RzInputOTP.</comment>
   </data>
 </root>

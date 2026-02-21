@@ -1,0 +1,10 @@
+@namespace RizzyUI
+@inherits RzComponent<InputOTPGroup.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@GetGroupClasses()"
+             data-slot="input-otp-group">
+    @ChildContent
+</HtmlElement>

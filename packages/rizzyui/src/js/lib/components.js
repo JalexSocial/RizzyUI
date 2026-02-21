@@ -27,6 +27,7 @@ import registerRzEmpty from './components/rzEmpty.js';
 import registerRzHeading from './components/rzHeading.js';
 import registerRzIndicator from './components/rzIndicator.js';
 import registerRzInputGroupAddon from './components/rzInputGroupAddon.js';
+import registerRzInputOTP from './components/rzInputOTP.js';
 import registerRzMarkdown from './components/rzMarkdown.js';
 import registerRzMenubar from './components/rzMenubar.js';
 import registerRzNavigationMenu from './components/rzNavigationMenu.js';
@@ -175,6 +176,7 @@ function registerComponents(Alpine) {
     registerRzHeading(Alpine);
     registerRzIndicator(Alpine);
     registerRzInputGroupAddon(Alpine);
+    registerRzInputOTP(Alpine);
     registerRzMarkdown(Alpine, rizzyRequire);
     registerRzMenubar(Alpine);
     registerRzNavigationMenu(Alpine, $data);

@@ -26,7 +26,7 @@ public partial class RzEventViewer : RzComponent<RzEventViewer.Slots>
             [s => s.StatusBadge] = "rounded-full border border-outline/70 bg-background px-2 py-0.5 text-[11px] font-medium text-muted-foreground",
             [s => s.EntryCount] = "rounded-full bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground",
             [s => s.Error] = "border-b border-destructive/30 bg-destructive/10 px-4 py-2 font-mono text-xs text-destructive",
-            [s => s.Console] = "max-h-64 overflow-y-auto bg-background p-2",
+            [s => s.Console] = "h-64 overflow-y-auto bg-background p-2",
             [s => s.Entry] = "border-b border-outline/50 py-1.5 text-foreground last:border-b-0",
             [s => s.RowHeader] = "grid w-full grid-cols-[minmax(0,18rem)_minmax(0,1fr)_auto] items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm hover:bg-accent/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary",
             [s => s.RowMeta] = "flex min-w-0 items-center gap-2",
@@ -63,7 +63,7 @@ public partial class RzEventViewer : RzComponent<RzEventViewer.Slots>
     /// <summary>
     /// Gets or sets the maximum number of entries retained in the console.
     /// </summary>
-    [Parameter] public int MaxEntries { get; set; } = 200;
+    [Parameter] public int MaxEntries { get; set; } = 50;
 
     /// <summary>
     /// Gets or sets a value indicating whether the console should auto-scroll after each append.
