@@ -33,7 +33,7 @@ public partial class RzEventViewer : RzComponent<RzEventViewer.Slots>
             [s => s.RowPreview] = "truncate text-xs text-muted-foreground",
             [s => s.RowToggle] = "inline-flex size-6 items-center justify-center rounded transition-transform duration-150",
             [s => s.RowExpanded] = "mx-2 mt-1 rounded-md border border-outline/70 bg-muted/30 p-2",
-            [s => s.PayloadPre] = "overflow-x-auto whitespace-pre text-xs font-mono text-foreground",
+            [s => s.PayloadPre] = "overflow-x-auto whitespace-pre text-xs font-mono text-foreground m-0",
             [s => s.Timestamp] = "shrink-0 text-xs text-muted-foreground/90",
             [s => s.EventName] = "truncate rounded-full border border-outline/70 bg-card px-2 py-0.5 text-xs font-semibold text-foreground",
             [s => s.EntryBody] = "hidden"
