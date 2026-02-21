@@ -26,11 +26,17 @@
          data-events="@ResolvedEventNamesAttribute"
          data-copy-title="@CopyButtonTitle"
          data-copied-title="@CopiedButtonTitle"
+         data-listening-text="@ListeningStatusText"
+         data-paused-text="@PausedStatusText"
+         data-expand-text="@ExpandEntryDetailsText"
+         data-collapse-text="@CollapseEntryDetailsText"
          class="@SlotClasses.GetContainer()"
          data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Container)">
         <div class="@SlotClasses.GetHeader()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Header)">
             <span class="@SlotClasses.GetTitle()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Title)">@ViewerTitle</span>
             <div class="@SlotClasses.GetControls()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Controls)" x-cloak>
+                <span x-text="getStatusText" class="@SlotClasses.GetStatusBadge()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.StatusBadge)"></span>
+                <span x-text="entryCount" class="@SlotClasses.GetEntryCount()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.EntryCount)"></span>
                 <button type="button"
                         x-on:click="copyEntries"
                         :title="getCopiedTitle"
@@ -104,22 +110,54 @@
              role="log"
              aria-live="polite"
              aria-atomic="false"
+             x-on:scroll.passive="handleConsoleScroll"
              class="@SlotClasses.GetConsole()"
              data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Console)">
             <template x-for="entry in entries" :key="entry.id">
-                <div :data-event="entry.type"
-                     class="@SlotClasses.GetEntry()"
-                     data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Entry)">
-                    <span x-text="entry.timestamp"
-                          x-show="entry.hasTimestamp"
-                          class="@SlotClasses.GetTimestamp()"
-                          data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Timestamp)"></span>
-                    <span x-text="entry.type"
-                          class="@SlotClasses.GetEventName()"
-                          data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.EventName)"></span>
-                    <span x-text="entry.body"
-                          class="@SlotClasses.GetEntryBody()"
-                          data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.EntryBody)"></span>
+                <div class="@SlotClasses.GetEntry()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Entry)">
+                    <button type="button"
+                            :data-entry-id="entry.id"
+                            x-on:click="toggleEntryExpansion"
+                            x-on:keydown.enter.prevent="toggleEntryExpansion"
+                            x-on:keydown.space.prevent="toggleEntryExpansion"
+                            :aria-expanded="entry.expanded"
+                            class="@SlotClasses.GetRowHeader()"
+                            data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.RowHeader)">
+                        <span class="@SlotClasses.GetRowMeta()" data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.RowMeta)">
+                            <span x-text="entry.timestamp"
+                                  x-show="entry.hasTimestamp"
+                                  class="@SlotClasses.GetTimestamp()"
+                                  data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.Timestamp)"></span>
+                            <span x-text="entry.type"
+                                  class="@SlotClasses.GetEventName()"
+                                  data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.EventName)"></span>
+                        </span>
+                        <span x-text="entry.bodyPreview"
+                              class="@SlotClasses.GetRowPreview()"
+                              data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.RowPreview)"></span>
+                        <span class="@SlotClasses.GetRowToggle()"
+                              :class="entry.toggleClass"
+                              data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.RowToggle)">
+                            <span class="sr-only" x-text="entry.toggleLabel"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="1.5"
+                                 stroke="currentColor"
+                                 class="@SlotClasses.GetActionIcon()"
+                                 data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.ActionIcon)"
+                                 aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <div x-show="entry.expanded"
+                         class="@SlotClasses.GetRowExpanded()"
+                         data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.RowExpanded)">
+                        <pre x-text="entry.bodyRaw"
+                             class="@SlotClasses.GetPayloadPre()"
+                             data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.PayloadPre)"></pre>
+                    </div>
                 </div>
             </template>
         </div>
