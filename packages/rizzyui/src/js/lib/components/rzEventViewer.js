@@ -1,3 +1,5 @@
+const PREVIEW_MAX_LENGTH = 160;
+
 export default function (Alpine) {
     Alpine.data('rzEventViewer', () => ({
         eventNames: [],
@@ -7,6 +9,10 @@ export default function (Alpine) {
         copied: false,
         copyTitle: 'Copy',
         copiedTitle: 'Copied!',
+        listeningStatusText: 'Listening',
+        pausedStatusText: 'Paused',
+        expandText: 'Expand event details',
+        collapseText: 'Collapse event details',
         target: 'window',
         targetEl: null,
         maxEntries: 200,
@@ -16,6 +22,8 @@ export default function (Alpine) {
         showEventMeta: false,
         level: 'info',
         filterPath: '',
+        stickToBottom: true,
+        expandedEntryId: null,
         _handlers: new Map(),
         _boundEvents: new Set(),
         _entryId: 0,
@@ -36,6 +44,14 @@ export default function (Alpine) {
             return !this.copied;
         },
 
+        entryCount() {
+            return this.entries.length;
+        },
+
+        getStatusText() {
+            return this.paused ? this.pausedStatusText : this.listeningStatusText;
+        },
+
         init() {
             this.target = this.$el.dataset.target || 'window';
             this.maxEntries = Number.parseInt(this.$el.dataset.maxEntries || '200', 10);
@@ -47,6 +63,10 @@ export default function (Alpine) {
             this.filterPath = this.$el.dataset.filter || '';
             this.copyTitle = this.$el.dataset.copyTitle || this.copyTitle;
             this.copiedTitle = this.$el.dataset.copiedTitle || this.copiedTitle;
+            this.listeningStatusText = this.$el.dataset.listeningText || this.listeningStatusText;
+            this.pausedStatusText = this.$el.dataset.pausedText || this.pausedStatusText;
+            this.expandText = this.$el.dataset.expandText || this.expandText;
+            this.collapseText = this.$el.dataset.collapseText || this.collapseText;
 
             this.eventNames = this.resolveEventNames();
             if (this.eventNames.length === 0) {
@@ -165,8 +185,10 @@ export default function (Alpine) {
 
         buildEntry(eventType, detail) {
             const timestamp = this.showTimestamp ? `[${new Date().toLocaleTimeString()}]` : '';
-            const body = this.stringifyDetail(detail);
-            const metaSuffix = this.showEventMeta ? ` [level:${this.level}]` : '';
+            const bodyRaw = this.stringifyDetail(detail, this.pretty);
+            const bodyPreview = this.buildBodyPreview(detail);
+            const withMetaRaw = this.appendMetaSuffix(bodyRaw);
+            const withMetaPreview = this.appendMetaSuffix(bodyPreview);
 
             return {
                 id: `${eventType}-${this._entryId++}`,
@@ -174,18 +196,73 @@ export default function (Alpine) {
                 level: this.level,
                 hasTimestamp: this.showTimestamp,
                 timestamp,
-                body: `${body}${metaSuffix}`
+                bodyRaw: withMetaRaw,
+                bodyPreview: withMetaPreview,
+                body: withMetaRaw,
+                expanded: false,
+                toggleLabel: this.expandText,
+                toggleClass: ''
             };
+        },
+
+        buildBodyPreview(detail) {
+            if (detail === undefined) {
+                return 'undefined';
+            }
+
+            if (detail === null) {
+                return 'null';
+            }
+
+            if (typeof detail === 'string') {
+                return this.truncatePreview(this.toSingleLine(detail.trim()));
+            }
+
+            const compact = this.stringifyDetail(detail, false);
+            return this.truncatePreview(this.toSingleLine(compact));
+        },
+
+        appendMetaSuffix(value) {
+            if (!this.showEventMeta) {
+                return value;
+            }
+
+            return `${value} [level:${this.level}]`;
+        },
+
+        toSingleLine(value) {
+            return value.replace(/\s+/g, ' ').trim();
+        },
+
+        truncatePreview(value) {
+            if (value.length <= PREVIEW_MAX_LENGTH) {
+                return value;
+            }
+
+            return `${value.slice(0, PREVIEW_MAX_LENGTH - 1)}…`;
         },
 
         enforceMaxEntries() {
             if (this.entries.length > this.maxEntries) {
                 this.entries.splice(0, this.entries.length - this.maxEntries);
             }
+
+            if (this.expandedEntryId && !this.entries.some(entry => entry.id === this.expandedEntryId)) {
+                this.expandedEntryId = null;
+            }
+        },
+
+        handleConsoleScroll() {
+            if (!this.$refs.console) {
+                return;
+            }
+
+            const distanceFromBottom = this.$refs.console.scrollHeight - (this.$refs.console.scrollTop + this.$refs.console.clientHeight);
+            this.stickToBottom = distanceFromBottom < 12;
         },
 
         scrollToBottom() {
-            if (!this.autoScroll) {
+            if (!this.autoScroll || !this.stickToBottom) {
                 return;
             }
 
@@ -196,7 +273,24 @@ export default function (Alpine) {
             });
         },
 
-        stringifyDetail(value) {
+        toggleEntryExpansion(event) {
+            const entryId = event?.currentTarget?.dataset?.entryId || event?.target?.dataset?.entryId;
+            if (!entryId) {
+                return;
+            }
+
+            const nextExpandedId = this.expandedEntryId === entryId ? null : entryId;
+            this.expandedEntryId = nextExpandedId;
+
+            for (const entry of this.entries) {
+                const isExpanded = entry.id === this.expandedEntryId;
+                entry.expanded = isExpanded;
+                entry.toggleClass = isExpanded ? 'rotate-90' : '';
+                entry.toggleLabel = isExpanded ? this.collapseText : this.expandText;
+            }
+        },
+
+        stringifyDetail(value, prettyPrint) {
             if (value === undefined) return 'undefined';
             if (value === null) return 'null';
             if (typeof value === 'string') return value;
@@ -206,35 +300,17 @@ export default function (Alpine) {
 
             const isDomObject = (v) => {
                 if (!v || typeof v !== 'object') return false;
-
-                // Covers elements, document, text nodes, etc.
                 if (typeof Node !== 'undefined' && v instanceof Node) return true;
-
-                // Optional: also hide Window objects
                 if (typeof Window !== 'undefined' && v instanceof Window) return true;
-
-                // Fallback for cross-realm DOM objects (iframes)
                 return typeof v.nodeType === 'number' && typeof v.nodeName === 'string';
             };
 
             const replacer = (key, v) => {
                 if (v === undefined) return 'undefined';
-
-                if (typeof v === 'function') {
-                    return 'function (hidden)';
-                }
-
-                if (typeof v === 'bigint') {
-                    return `${v}n`; // JSON.stringify normally throws on BigInt
-                }
-
-                if (typeof v === 'symbol') {
-                    return 'symbol (hidden)';
-                }
-
-                if (isDomObject(v)) {
-                    return 'element (hidden)';
-                }
+                if (typeof v === 'function') return 'function (hidden)';
+                if (typeof v === 'bigint') return `${v}n`;
+                if (typeof v === 'symbol') return 'symbol (hidden)';
+                if (isDomObject(v)) return 'element (hidden)';
 
                 if (v && typeof v === 'object') {
                     if (seen.has(v)) {
@@ -247,7 +323,7 @@ export default function (Alpine) {
             };
 
             try {
-                return this.pretty
+                return prettyPrint
                     ? JSON.stringify(value, replacer, 2)
                     : JSON.stringify(value, replacer);
             } catch {
@@ -279,13 +355,19 @@ export default function (Alpine) {
         },
 
         appendSystemEntry(message) {
+            const preview = this.truncatePreview(this.toSingleLine(message));
             this.entries.push({
                 id: `system-${this._entryId++}`,
                 type: 'system',
                 level: 'info',
                 hasTimestamp: false,
                 timestamp: '',
-                body: message
+                bodyRaw: message,
+                bodyPreview: preview,
+                body: message,
+                expanded: false,
+                toggleLabel: this.expandText,
+                toggleClass: ''
             });
             this.enforceMaxEntries();
             this.scrollToBottom();
@@ -293,6 +375,8 @@ export default function (Alpine) {
 
         clearEntries() {
             this.entries = [];
+            this.expandedEntryId = null;
+            this.stickToBottom = true;
         },
 
         togglePaused() {
@@ -313,7 +397,7 @@ export default function (Alpine) {
 
         async copyEntries() {
             const payload = this.entries
-                .map(entry => `${entry.hasTimestamp ? `${entry.timestamp} ` : ''}${entry.type} ${entry.body}`)
+                .map(entry => `${entry.hasTimestamp ? `${entry.timestamp} ` : ''}${entry.type} ${entry.bodyRaw}`)
                 .join('\n');
 
             if (!(navigator.clipboard && typeof navigator.clipboard.writeText === 'function')) {

@@ -440,6 +440,22 @@
     <value>Copied!</value>
     <comment>Default copy tooltip title for RzEventViewer after copying.</comment>
   </data>
+  <data name="RzEventViewer.ListeningStatusText" xml:space="preserve">
+    <value>Listening</value>
+    <comment>Status badge text while the viewer is actively listening for events.</comment>
+  </data>
+  <data name="RzEventViewer.PausedStatusText" xml:space="preserve">
+    <value>Paused</value>
+    <comment>Status badge text while the viewer is paused.</comment>
+  </data>
+  <data name="RzEventViewer.ExpandEntryDetailsText" xml:space="preserve">
+    <value>Expand event details</value>
+    <comment>Screen reader label for expanding an event row.</comment>
+  </data>
+  <data name="RzEventViewer.CollapseEntryDetailsText" xml:space="preserve">
+    <value>Collapse event details</value>
+    <comment>Screen reader label for collapsing an event row.</comment>
+  </data>
   <data name="RzColorPicker.DefaultPlaceholder" xml:space="preserve">
     <value>Select a color</value>
   </data>

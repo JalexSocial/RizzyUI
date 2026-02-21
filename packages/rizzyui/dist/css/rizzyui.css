@@ -1382,6 +1382,9 @@
   .rotate-45 {
     rotate: 45deg;
   }
+  .rotate-90 {
+    rotate: 90deg;
+  }
   .rotate-180 {
     rotate: 180deg;
   }
@@ -1477,6 +1480,9 @@
   }
   .grid-cols-\[0_1fr\] {
     grid-template-columns: 0 1fr;
+  }
+  .grid-cols-\[minmax\(0\,18rem\)_minmax\(0\,1fr\)_auto\] {
+    grid-template-columns: minmax(0,18rem) minmax(0,1fr) auto;
   }
   .grid-rows-\[auto_auto\] {
     grid-template-rows: auto auto;
@@ -2230,6 +2236,12 @@
       background-color: color-mix(in oklab, var(--muted) 15%, transparent);
     }
   }
+  .bg-muted\/30 {
+    background-color: var(--muted);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--muted) 30%, transparent);
+    }
+  }
   .bg-muted\/50 {
     background-color: var(--muted);
     @supports (color: color-mix(in lab, red, red)) {
@@ -2497,6 +2509,9 @@
   .p-1 {
     padding: calc(var(--spacing) * 1);
   }
+  .p-1\.5 {
+    padding: calc(var(--spacing) * 1.5);
+  }
   .p-2 {
     padding: calc(var(--spacing) * 2);
   }
@@ -2715,6 +2730,9 @@
   .text-\[0\.8rem\] {
     font-size: 0.8rem;
   }
+  .text-\[11px\] {
+    font-size: 11px;
+  }
   .leading-5 {
     --tw-leading: calc(var(--spacing) * 5);
     line-height: calc(var(--spacing) * 5);
@@ -2821,6 +2839,9 @@
   }
   .whitespace-nowrap {
     white-space: nowrap;
+  }
+  .whitespace-pre {
+    white-space: pre;
   }
   .whitespace-pre-wrap {
     white-space: pre-wrap;
@@ -2931,6 +2952,12 @@
     color: var(--muted-foreground);
     @supports (color: color-mix(in lab, red, red)) {
       color: color-mix(in oklab, var(--muted-foreground) 80%, transparent);
+    }
+  }
+  .text-muted-foreground\/90 {
+    color: var(--muted-foreground);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in oklab, var(--muted-foreground) 90%, transparent);
     }
   }
   .text-orange-700 {
@@ -4694,6 +4721,16 @@
       }
     }
   }
+  .hover\:bg-accent\/30 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--accent);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--accent) 30%, transparent);
+        }
+      }
+    }
+  }
   .hover\:bg-accent\/80 {
     &:hover {
       @media (hover: hover) {
@@ -4730,6 +4767,16 @@
         background-color: var(--background);
         @supports (color: color-mix(in lab, red, red)) {
           background-color: color-mix(in oklab, var(--background) 10%, transparent);
+        }
+      }
+    }
+  }
+  .hover\:bg-background\/20 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--background);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--background) 20%, transparent);
         }
       }
     }
