@@ -144,6 +144,17 @@ public partial class RzTheme
         DialogClose = RizzyUI.DialogClose.DefaultDescriptor;
         DialogDescription = RizzyUI.DialogDescription.DefaultDescriptor;
 
+        // RzAlertDialog Family
+        RzAlertDialog = RizzyUI.RzAlertDialog.DefaultDescriptor;
+        AlertDialogContent = RizzyUI.AlertDialogContent.DefaultDescriptor;
+        AlertDialogHeader = RizzyUI.AlertDialogHeader.DefaultDescriptor;
+        AlertDialogFooter = RizzyUI.AlertDialogFooter.DefaultDescriptor;
+        AlertDialogTitle = RizzyUI.AlertDialogTitle.DefaultDescriptor;
+        AlertDialogDescription = RizzyUI.AlertDialogDescription.DefaultDescriptor;
+        AlertDialogTrigger = RizzyUI.AlertDialogTrigger.DefaultDescriptor;
+        AlertDialogAction = RizzyUI.AlertDialogAction.DefaultDescriptor;
+        AlertDialogCancel = RizzyUI.AlertDialogCancel.DefaultDescriptor;
+
         // RzDropdownMenu Family
         RzDropdownMenu = RizzyUI.RzDropdownMenu.DefaultDescriptor;
         DropdownMenuContent = RizzyUI.DropdownMenuContent.DefaultDescriptor;

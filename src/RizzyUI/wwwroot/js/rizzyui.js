@@ -6219,8 +6219,8 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       }
     }));
   }
-  function registerRzDialog(Alpine2) {
-    Alpine2.data("rzDialog", () => ({
+  function registerRzModal(Alpine2) {
+    Alpine2.data("rzModal", () => ({
       modalOpen: false,
       // Main state variable
       eventTriggerName: "",
@@ -6277,7 +6277,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
           document.body.style.setProperty("--page-scrollbar-width", `${scrollBarWidth}px`);
           if (value) {
             this.$nextTick(() => {
-              const dialogElement = this.$el.querySelector('[role="document"]');
+              const dialogElement = this.$el.querySelector('[role="dialog"], [role="alertdialog"], [data-modal-panel="true"]');
               const focusable2 = dialogElement?.querySelector(`button, [href], input:not([type='hidden']), select, textarea, [tabindex]:not([tabindex="-1"])`);
               focusable2?.focus();
               this.$el.dispatchEvent(new CustomEvent("rz:modal-after-open", {
@@ -11368,7 +11368,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     registerRzCombobox(Alpine2, rizzyRequire);
     registerRzColorPicker(Alpine2, rizzyRequire);
     registerRzDateEdit(Alpine2, rizzyRequire);
-    registerRzDialog(Alpine2);
+    registerRzModal(Alpine2);
     registerRzDropdownMenu(Alpine2);
     registerRzDarkModeToggle(Alpine2);
     registerRzEmbeddedPreview(Alpine2);

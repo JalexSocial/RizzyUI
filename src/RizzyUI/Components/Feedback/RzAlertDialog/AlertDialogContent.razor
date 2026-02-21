@@ -1,0 +1,13 @@
+@namespace RizzyUI
+@inherits RzComponent<AlertDialogContent.Slots>
+
+<RzModalPrimitive AdditionalAttributes="@AdditionalAttributes"
+                  OverlayClass="@SlotClasses.GetBackdrop()"
+                  ContentClass="@SlotClasses.GetBase()"
+                  OverlayDataSlot="alert-dialog-overlay"
+                  ContentDataSlot="alert-dialog-content"
+                  Role="alertdialog"
+                  AriaLabelledBy="@ParentAlertDialog?.AriaLabelId"
+                  AriaDescribedBy="@ParentAlertDialog?.AriaDescriptionId">
+    @ChildContent
+</RzModalPrimitive>

@@ -1,0 +1,6 @@
+@namespace RizzyUI
+@inherits RzComponent<AlertDialogFooter.Slots>
+
+<HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" data-slot="alert-dialog-footer" id="@ParentAlertDialog?.FooterId">
+    @ChildContent
+</HtmlElement>

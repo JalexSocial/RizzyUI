@@ -17,6 +17,12 @@ public partial class DialogDescription : RzComponent<DialogDescription.Slots>
     );
 
     /// <summary>
+    /// Gets or sets the parent <see cref="RzDialog"/> component.
+    /// </summary>
+    [CascadingParameter]
+    protected RzDialog? ParentDialog { get; set; }
+
+    /// <summary>
     /// Gets or sets the content to be rendered as the description.
     /// </summary>
     [Parameter]

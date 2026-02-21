@@ -2375,6 +2375,9 @@
   .bg-black\/50 {
     background-color: color-mix(in oklab, #000000 50%, transparent);
   }
+  .bg-black\/80 {
+    background-color: color-mix(in oklab, #000000 80%, transparent);
+  }
   .bg-blue-100 {
     background-color: var(--color-blue-100);
   }
@@ -7338,6 +7341,11 @@
       background-color: color-mix(in oklab, #000000 50%, transparent);
     }
   }
+  .sm\:mt-0 {
+    @media (width >= 40rem) {
+      margin-top: calc(var(--spacing) * 0);
+    }
+  }
   .sm\:flex {
     @media (width >= 40rem) {
       display: flex;
@@ -7431,6 +7439,11 @@
   .sm\:justify-end {
     @media (width >= 40rem) {
       justify-content: flex-end;
+    }
+  }
+  .sm\:gap-2 {
+    @media (width >= 40rem) {
+      gap: calc(var(--spacing) * 2);
     }
   }
   .sm\:gap-2\.5 {

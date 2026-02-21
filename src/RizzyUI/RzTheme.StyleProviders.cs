@@ -69,6 +69,22 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AlertDescription"/> component. </summary>
     public virtual TvDescriptor<RzComponent<AlertDescription.Slots>, AlertDescription.Slots> AlertDescription { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AlertDialogAction"/> component. </summary>
+    public virtual TvDescriptor<RzAsChildComponent<AlertDialogAction.Slots>, AlertDialogAction.Slots> AlertDialogAction { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AlertDialogCancel"/> component. </summary>
+    public virtual TvDescriptor<RzAsChildComponent<AlertDialogCancel.Slots>, AlertDialogCancel.Slots> AlertDialogCancel { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AlertDialogContent"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<AlertDialogContent.Slots>, AlertDialogContent.Slots> AlertDialogContent { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AlertDialogDescription"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<AlertDialogDescription.Slots>, AlertDialogDescription.Slots> AlertDialogDescription { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AlertDialogFooter"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<AlertDialogFooter.Slots>, AlertDialogFooter.Slots> AlertDialogFooter { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AlertDialogHeader"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<AlertDialogHeader.Slots>, AlertDialogHeader.Slots> AlertDialogHeader { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AlertDialogTitle"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<AlertDialogTitle.Slots>, AlertDialogTitle.Slots> AlertDialogTitle { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AlertDialogTrigger"/> component. </summary>
+    public virtual TvDescriptor<RzAsChildComponent<AlertDialogTrigger.Slots>, AlertDialogTrigger.Slots> AlertDialogTrigger { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AlertTitle"/> component. </summary>
     public virtual TvDescriptor<RzComponent<AlertTitle.Slots>, AlertTitle.Slots> AlertTitle { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.DialogClose"/> component. </summary>
@@ -101,6 +117,8 @@ public partial class RzTheme
     public virtual TvDescriptor<RzAsChildComponent<PopoverTrigger.Slots>, PopoverTrigger.Slots> PopoverTrigger { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzAlert"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzAlert.Slots>, RzAlert.Slots> RzAlert { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzAlertDialog"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzAlertDialog.Slots>, RzAlertDialog.Slots> RzAlertDialog { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzDialog"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzDialog.Slots>, RzDialog.Slots> RzDialog { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzEmpty"/> component. </summary>

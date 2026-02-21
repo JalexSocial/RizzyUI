@@ -4899,7 +4899,7 @@ function jl(e, t) {
   }));
 }
 function ql(e) {
-  e.data("rzDialog", () => ({
+  e.data("rzModal", () => ({
     modalOpen: !1,
     // Main state variable
     eventTriggerName: "",
@@ -4933,7 +4933,7 @@ function ql(e) {
         document.body.classList.toggle("overflow-hidden", t);
         const n = document.body.offsetWidth - i;
         document.body.style.setProperty("--page-scrollbar-width", `${n}px`), t ? this.$nextTick(() => {
-          this.$el.querySelector('[role="document"]')?.querySelector(`button, [href], input:not([type='hidden']), select, textarea, [tabindex]:not([tabindex="-1"])`)?.focus(), this.$el.dispatchEvent(new CustomEvent("rz:modal-after-open", {
+          this.$el.querySelector('[role="dialog"], [role="alertdialog"], [data-modal-panel="true"]')?.querySelector(`button, [href], input:not([type='hidden']), select, textarea, [tabindex]:not([tabindex="-1"])`)?.focus(), this.$el.dispatchEvent(new CustomEvent("rz:modal-after-open", {
             detail: { modalId: this.modalId },
             bubbles: !0
           }));

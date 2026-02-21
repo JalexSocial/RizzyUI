@@ -6215,8 +6215,8 @@ function registerRzDateEdit(Alpine2, require2) {
     }
   }));
 }
-function registerRzDialog(Alpine2) {
-  Alpine2.data("rzDialog", () => ({
+function registerRzModal(Alpine2) {
+  Alpine2.data("rzModal", () => ({
     modalOpen: false,
     // Main state variable
     eventTriggerName: "",
@@ -6273,7 +6273,7 @@ function registerRzDialog(Alpine2) {
         document.body.style.setProperty("--page-scrollbar-width", `${scrollBarWidth}px`);
         if (value) {
           this.$nextTick(() => {
-            const dialogElement = this.$el.querySelector('[role="document"]');
+            const dialogElement = this.$el.querySelector('[role="dialog"], [role="alertdialog"], [data-modal-panel="true"]');
             const focusable3 = dialogElement?.querySelector(`button, [href], input:not([type='hidden']), select, textarea, [tabindex]:not([tabindex="-1"])`);
             focusable3?.focus();
             this.$el.dispatchEvent(new CustomEvent("rz:modal-after-open", {
@@ -11364,7 +11364,7 @@ function registerComponents(Alpine2) {
   registerRzCombobox(Alpine2, rizzyRequire);
   registerRzColorPicker(Alpine2, rizzyRequire);
   registerRzDateEdit(Alpine2, rizzyRequire);
-  registerRzDialog(Alpine2);
+  registerRzModal(Alpine2);
   registerRzDropdownMenu(Alpine2);
   registerRzDarkModeToggle(Alpine2);
   registerRzEmbeddedPreview(Alpine2);

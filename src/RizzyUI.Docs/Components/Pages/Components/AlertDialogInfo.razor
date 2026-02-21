@@ -1,0 +1,91 @@
+@page "/components/alert-dialog"
+@using RizzyUI
+
+<PageTitle>Alert Dialog</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem><BreadcrumbLink Href="/">Docs</BreadcrumbLink></BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem><BreadcrumbLink Href="/components">Components</BreadcrumbLink></BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem><BreadcrumbPage>Alert Dialog</BreadcrumbPage></BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Alert Dialog" class="scroll-mt-20">Alert Dialog</RzHeading>
+            <RzParagraph>
+                <code>RzAlertDialog</code> provides a blocking confirmation modal for destructive or high-priority actions.
+                It uses the shared modal primitive and Alpine.js behavior from <code>rzModal</code>.
+                By default it disables Escape-key and outside-click dismissal.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Alert" class="scroll-mt-20">Basic Alert</RzHeading>
+                <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-40">
+                    <RzAlertDialog>
+                        <AlertDialogTrigger AsChild>
+                            <RzButton Variant="ThemeVariant.Destructive">Delete Project</RzButton>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This permanently deletes your project and removes all related data.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction>Yes, delete project</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </RzAlertDialog>
+                </div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Triggers" class="scroll-mt-20">Triggers</RzHeading>
+                <RzParagraph>
+                    Use <code>AlertDialogTrigger</code> with <code>AsChild</code> to wrap any trigger element.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-6">
+&lt;RzAlertDialog&gt;
+    &lt;AlertDialogTrigger AsChild&gt;
+        &lt;RzButton Variant=&quot;ThemeVariant.Warning&quot;&gt;Open Alert&lt;/RzButton&gt;
+    &lt;/AlertDialogTrigger&gt;
+    &lt;AlertDialogContent&gt;
+        &lt;AlertDialogHeader&gt;
+            &lt;AlertDialogTitle&gt;Confirm action&lt;/AlertDialogTitle&gt;
+            &lt;AlertDialogDescription&gt;Please review before continuing.&lt;/AlertDialogDescription&gt;
+        &lt;/AlertDialogHeader&gt;
+        &lt;AlertDialogFooter&gt;
+            &lt;AlertDialogCancel&gt;Cancel&lt;/AlertDialogCancel&gt;
+            &lt;AlertDialogAction&gt;Continue&lt;/AlertDialogAction&gt;
+        &lt;/AlertDialogFooter&gt;
+    &lt;/AlertDialogContent&gt;
+&lt;/RzAlertDialog&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Parameters" class="scroll-mt-20">Parameters</RzHeading>
+                <table>
+                    <thead>
+                        <tr><th>Component</th><th>Parameter</th><th>Description</th><th>Default</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>RzAlertDialog</code></td><td><code>CloseOnEscape</code></td><td>Allows closing with Escape.</td><td><code>false</code></td></tr>
+                        <tr><td><code>RzAlertDialog</code></td><td><code>CloseOnClickOutside</code></td><td>Allows closing by clicking backdrop.</td><td><code>false</code></td></tr>
+                        <tr><td><code>AlertDialogContent</code></td><td><code>Size</code></td><td>Controls max width of content panel.</td><td><code>ModalSize.Large</code></td></tr>
+                    </tbody>
+                </table>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
