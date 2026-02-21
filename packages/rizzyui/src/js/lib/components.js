@@ -22,6 +22,7 @@ import registerRzDropdownMenu from './components/rzDropdownMenu.js';
 import registerRzDarkModeToggle from './components/rzDarkModeToggle.js';
 import registerRzEmbeddedPreview from './components/rzEmbeddedPreview.js';
 import registerRzEventViewer from './components/rzEventViewer.js';
+import registerRzFileInput from './components/rzFileInput.js';
 import registerRzEmpty from './components/rzEmpty.js';
 import registerRzHeading from './components/rzHeading.js';
 import registerRzIndicator from './components/rzIndicator.js';
@@ -169,6 +170,7 @@ function registerComponents(Alpine) {
     registerRzDarkModeToggle(Alpine);
     registerRzEmbeddedPreview(Alpine);
     registerRzEventViewer(Alpine);
+    registerRzFileInput(Alpine);
     registerRzEmpty(Alpine);
     registerRzHeading(Alpine);
     registerRzIndicator(Alpine);

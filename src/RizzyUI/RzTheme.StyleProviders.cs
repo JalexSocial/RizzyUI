@@ -207,6 +207,9 @@ public partial class RzTheme
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzInputTextArea"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzInputTextArea.Slots>, RzInputTextArea.Slots> RzInputTextArea { get; set; }
 
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzFileInput"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzFileInput.Slots>, RzFileInput.Slots> RzFileInput { get; set; }
+
     /// <summary> Gets or sets the style definitions for the <see cref="RzInputCheckbox"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzInputCheckbox.Slots>, RzInputCheckbox.Slots> RzCheckbox { get; set; }
 

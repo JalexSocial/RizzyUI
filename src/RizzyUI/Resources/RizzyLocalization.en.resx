@@ -489,4 +489,16 @@
   <data name="RzColorPicker.A11y.Instruction" xml:space="preserve">
     <value>Saturation and brightness selector. Use arrow keys to select.</value>
   </data>
+  <data name="RzFileInput.ButtonText" xml:space="preserve">
+    <value>Choose files</value>
+  </data>
+  <data name="RzFileInput.DefaultAriaLabel" xml:space="preserve">
+    <value>File input</value>
+  </data>
+  <data name="RzFileInput.DropzoneText" xml:space="preserve">
+    <value>Drag and drop files here or click to upload</value>
+  </data>
+  <data name="RzFileInput.RemoveLabel" xml:space="preserve">
+    <value>Remove file</value>
+  </data>
 </root>
