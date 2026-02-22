@@ -134,7 +134,7 @@
                             <span x-text="entry.bodyPreview"
                               class="@SlotClasses.GetRowPreview()"
                               data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.RowPreview)"></span>
-                        <span class="@SlotClasses.GetRowToggle()"
+                        <span class="@SlotClasses.GetRowToggle()" :class="entry.toggleClass"
                                     data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.RowToggle)">
                                 <span class="sr-only" x-text="entry.toggleLabel"></span>
                                 <svg xmlns="http://www.w3.org/2000/svg"
