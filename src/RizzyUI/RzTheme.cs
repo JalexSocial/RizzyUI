@@ -41,6 +41,9 @@ public partial class RzTheme
 
         // RzAvatar Family
         RzAvatar = RizzyUI.RzAvatar.DefaultDescriptor;
+        AvatarBadge = RizzyUI.AvatarBadge.DefaultDescriptor;
+        AvatarGroup = RizzyUI.AvatarGroup.DefaultDescriptor;
+        AvatarGroupCount = RizzyUI.AvatarGroupCount.DefaultDescriptor;
 
         // RzBadge Family
         RzBadge = RizzyUI.RzBadge.DefaultDescriptor;

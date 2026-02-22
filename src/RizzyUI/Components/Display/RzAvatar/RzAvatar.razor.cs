@@ -16,7 +16,7 @@ public partial class RzAvatar : RzComponent<RzAvatar.Slots>
     /// Defines the default styling for the RzAvatar component and its children slots.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "relative inline-flex items-center justify-center shrink-0 aspect-square object-cover overflow-hidden align-middle",
+        @base: "group/avatar relative inline-flex items-center justify-center shrink-0 aspect-square object-cover align-middle",
         slots: new()
         {
             [s => s.Image] = "inline-block aspect-square object-cover w-full h-full",

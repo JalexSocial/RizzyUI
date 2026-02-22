@@ -33,6 +33,12 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzAvatar"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzAvatar.Slots>, RzAvatar.Slots> RzAvatar { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AvatarBadge"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<AvatarBadge.Slots>, AvatarBadge.Slots> AvatarBadge { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AvatarGroup"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<AvatarGroup.Slots>, AvatarGroup.Slots> AvatarGroup { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AvatarGroupCount"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<AvatarGroupCount.Slots>, AvatarGroupCount.Slots> AvatarGroupCount { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzBadge"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzBadge.Slots>, RzBadge.Slots> RzBadge { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzIndicator"/> component. </summary>

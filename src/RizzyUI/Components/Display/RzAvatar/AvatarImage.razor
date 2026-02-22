@@ -4,5 +4,5 @@
 
 @if (_renderImage)
 {
-	<img src="@ImageSource" alt="@EffectiveAlternateText" @attributes="AdditionalAttributes" class="@ParentAvatar?.SlotClasses.GetImage()" id="@Id" data-slot="avatar-image" />
+	<img src="@ImageSource" alt="@EffectiveAlternateText" @attributes="@AdditionalAttributes" class="@ParentAvatar?.SlotClasses.GetImage()" id="@Id" data-slot="avatar-image" />
 }

@@ -1,0 +1,12 @@
+@namespace RizzyUI
+@inherits RzComponent<AvatarGroup.Slots>
+
+<CascadingValue Value="this" IsFixed="true">
+    <HtmlElement Element="@EffectiveElement"
+                 id="@Id"
+                 @attributes="@AdditionalAttributes"
+                 class="@SlotClasses.GetBase()"
+                 data-slot="@AvatarGroup.SlotNames.NameOf(SlotTypes.Base)">
+        @ChildContent
+    </HtmlElement>
+</CascadingValue>

@@ -6,7 +6,7 @@
 @if (_shouldRender)
 {
 	<HtmlElement Element="@EffectiveElement"
-	             @attributes="AdditionalAttributes"
+	             @attributes="@AdditionalAttributes"
 	             id="@Id" 
 	             data-slot="avatar-fallback"
 	             class="@(ChildContent != null ? ParentAvatar?.SlotClasses.GetInitialsContainer() : ParentAvatar?.SlotClasses.GetPlaceholderContainer())">
