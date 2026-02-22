@@ -1,0 +1,225 @@
+@page "/components/color-swatch"
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+@using Rizzy.Components
+@using RizzyUI
+
+<PageTitle>Color Swatch</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem><BreadcrumbLink Href="/">Docs</BreadcrumbLink></BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem><BreadcrumbLink Href="/components">Components</BreadcrumbLink></BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem><BreadcrumbPage>Color Swatch</BreadcrumbPage></BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Color Swatch" class="scroll-mt-20">Color Swatch</RzHeading>
+            <RzParagraph>
+                <code>RzColorSwatch</code> is an SSR-friendly visual primitive for previewing color values. It supports semantic sizing,
+                alpha-aware checkerboard rendering, optional transparency suppression, and runtime control through Alpine.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic">Basic</RzHeading>
+                <RzParagraph>A simple palette preview using default size swatches.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)" class="mb-5">
+                    <div class="mx-auto flex min-h-[8rem] flex-col justify-center gap-2 p-4">
+                        <span class="text-sm font-medium">Default</span>
+                        <div class="flex gap-2">
+                            <RzColorSwatch Value="#ef4444" />
+                            <RzColorSwatch Value="#f97316" />
+                            <RzColorSwatch Value="#eab308" />
+                            <RzColorSwatch Value="#22c55e" />
+                            <RzColorSwatch Value="#3b82f6" />
+                        </div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class="flex gap-2"&gt;
+    &lt;RzColorSwatch Value="#ef4444" /&gt;
+    &lt;RzColorSwatch Value="#f97316" /&gt;
+    &lt;RzColorSwatch Value="#eab308" /&gt;
+    &lt;RzColorSwatch Value="#22c55e" /&gt;
+    &lt;RzColorSwatch Value="#3b82f6" /&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Different Sizes">Different Sizes</RzHeading>
+                <RzParagraph>Render the same palette with <code>Small</code>, <code>Default</code>, and <code>Large</code> swatch sizes.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)" class="mb-5">
+                    <div class="mx-auto flex min-h-[14rem] flex-col justify-center gap-6 p-4">
+                        <div class="flex flex-col gap-2">
+                            <span class="text-sm font-medium">Small (sm)</span>
+                            <div class="flex gap-2">
+                                <RzColorSwatch Value="#ef4444" Size="ColorSwatchSize.Small" />
+                                <RzColorSwatch Value="#f97316" Size="ColorSwatchSize.Small" />
+                                <RzColorSwatch Value="#eab308" Size="ColorSwatchSize.Small" />
+                                <RzColorSwatch Value="#22c55e" Size="ColorSwatchSize.Small" />
+                                <RzColorSwatch Value="#3b82f6" Size="ColorSwatchSize.Small" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <span class="text-sm font-medium">Default</span>
+                            <div class="flex gap-2">
+                                <RzColorSwatch Value="#ef4444" />
+                                <RzColorSwatch Value="#f97316" />
+                                <RzColorSwatch Value="#eab308" />
+                                <RzColorSwatch Value="#22c55e" />
+                                <RzColorSwatch Value="#3b82f6" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <span class="text-sm font-medium">Large (lg)</span>
+                            <div class="flex gap-2">
+                                <RzColorSwatch Value="#ef4444" Size="ColorSwatchSize.Large" />
+                                <RzColorSwatch Value="#f97316" Size="ColorSwatchSize.Large" />
+                                <RzColorSwatch Value="#eab308" Size="ColorSwatchSize.Large" />
+                                <RzColorSwatch Value="#22c55e" Size="ColorSwatchSize.Large" />
+                                <RzColorSwatch Value="#3b82f6" Size="ColorSwatchSize.Large" />
+                            </div>
+                        </div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzColorSwatch Value="#ef4444" Size="ColorSwatchSize.Small" /&gt;
+&lt;RzColorSwatch Value="#ef4444" Size="ColorSwatchSize.Default" /&gt;
+&lt;RzColorSwatch Value="#ef4444" Size="ColorSwatchSize.Large" /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Transparency Support">Transparency Support</RzHeading>
+                <RzParagraph>
+                    <code>RzColorSwatch</code> detects alpha-capable color values and overlays them on a checkerboard pattern by default.
+                    Set <code>WithoutTransparency</code> to suppress the pattern and render a solid swatch background.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)" class="mb-5">
+                    <div class="mx-auto flex min-h-[18rem] flex-col justify-center gap-6 p-4">
+                        <div class="flex flex-col gap-2">
+                            <span class="text-sm font-medium">Alpha Transparency</span>
+                            <div class="flex gap-2">
+                                <RzColorSwatch Value="rgba(59, 130, 246, 1)" />
+                                <RzColorSwatch Value="rgba(59, 130, 246, 0.8)" />
+                                <RzColorSwatch Value="rgba(59, 130, 246, 0.6)" />
+                                <RzColorSwatch Value="rgba(59, 130, 246, 0.4)" />
+                                <RzColorSwatch Value="rgba(59, 130, 246, 0.2)" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <span class="text-sm font-medium">HSLA Colors</span>
+                            <div class="flex gap-2">
+                                <RzColorSwatch Value="hsla(220, 91%, 60%, 1)" />
+                                <RzColorSwatch Value="hsla(220, 91%, 60%, 0.75)" />
+                                <RzColorSwatch Value="hsla(220, 91%, 60%, 0.5)" />
+                                <RzColorSwatch Value="hsla(220, 91%, 60%, 0.25)" />
+                                <RzColorSwatch Value="hsla(220, 91%, 60%, 0.1)" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <span class="text-sm font-medium">Without Transparency Pattern</span>
+                            <div class="flex gap-2">
+                                <RzColorSwatch Value="rgba(239, 68, 68, 0.8)" WithoutTransparency="true" />
+                                <RzColorSwatch Value="rgba(34, 197, 94, 0.6)" WithoutTransparency="true" />
+                                <RzColorSwatch Value="rgba(139, 92, 246, 0.4)" WithoutTransparency="true" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <span class="text-sm font-medium">With Transparency Pattern (Default)</span>
+                            <div class="flex gap-2">
+                                <RzColorSwatch Value="rgba(239, 68, 68, 0.8)" />
+                                <RzColorSwatch Value="rgba(34, 197, 94, 0.6)" />
+                                <RzColorSwatch Value="rgba(139, 92, 246, 0.4)" />
+                            </div>
+                        </div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzColorSwatch Value="rgba(239, 68, 68, 0.8)" WithoutTransparency="true" /&gt;
+&lt;RzColorSwatch Value="rgba(239, 68, 68, 0.8)" /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility">Accessibility</RzHeading>
+                <RzParagraph>
+                    The component renders with <code>role="img"</code> and always exposes an accessible name. If no <code>AriaLabel</code>
+                    is provided, localized fallbacks are used:
+                    <code>"No color selected"</code> when empty, otherwise <code>"Color swatch: &lt;value&gt;"</code>.
+                </RzParagraph>
+                <RzParagraph>
+                    Use <code>Disabled="true"</code> when a swatch should be non-interactive in your UI and include a descriptive
+                    <code>AriaLabel</code> when color meaning is contextual.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Color Format Support">Color Format Support</RzHeading>
+                <RzParagraph>
+                    <code>RzColorSwatch</code> accepts any value recognized by <code>CSS.supports("color", value)</code>. Common examples include:
+                    hex (<code>#ef4444</code>, <code>#RGBA</code>, <code>#RRGGBBAA</code>), <code>rgb()</code>/<code>rgba()</code>,
+                    <code>hsl()</code>/<code>hsla()</code>, and modern CSS color functions (for example <code>oklch()</code>).
+                </RzParagraph>
+                <RzParagraph>
+                    Invalid or unsupported values safely render as transparent rather than throwing runtime errors.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Transparency Detection">Transparency Detection</RzHeading>
+                <RzParagraph>
+                    The Alpine implementation marks a value as alpha-capable when it matches one of these patterns:
+                    <code>transparent</code>, 4/8-digit hex notation, <code>rgba()</code>, <code>hsla()</code>,
+                    or slash-alpha syntax in functional colors. When detected and <code>WithoutTransparency</code> is <code>false</code>,
+                    the swatch composes the color over the checkerboard pattern.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Parameters">Parameters</RzHeading>
+                <div class="overflow-x-auto not-prose">
+                    <table class="w-full text-sm border-collapse">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-2 pr-4">Parameter</th>
+                                <th class="text-left py-2 pr-4">Type</th>
+                                <th class="text-left py-2 pr-4">Default</th>
+                                <th class="text-left py-2">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b"><td class="py-2 pr-4"><code>Value</code></td><td class="py-2 pr-4"><code>string?</code></td><td class="py-2 pr-4"><code>null</code></td><td class="py-2">Color rendered by the swatch.</td></tr>
+                            <tr class="border-b"><td class="py-2 pr-4"><code>Size</code></td><td class="py-2 pr-4"><code>ColorSwatchSize</code></td><td class="py-2 pr-4"><code>Default</code></td><td class="py-2">Size variant for the swatch.</td></tr>
+                            <tr class="border-b"><td class="py-2 pr-4"><code>WithoutTransparency</code></td><td class="py-2 pr-4"><code>bool</code></td><td class="py-2 pr-4"><code>false</code></td><td class="py-2">Disables checkerboard alpha background composition.</td></tr>
+                            <tr class="border-b"><td class="py-2 pr-4"><code>Disabled</code></td><td class="py-2 pr-4"><code>bool</code></td><td class="py-2 pr-4"><code>false</code></td><td class="py-2">Applies disabled visual treatment and marks the control as aria-disabled.</td></tr>
+                            <tr><td class="py-2 pr-4"><code>AriaLabel</code></td><td class="py-2 pr-4"><code>string?</code></td><td class="py-2 pr-4"><code>null</code></td><td class="py-2">Optional custom accessible name. Falls back to localized defaults.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine.js API">Alpine.js API</RzHeading>
+                <RzParagraph>
+                    <code>RzColorSwatch</code> uses the Alpine component <code>rzColorSwatch</code>. You can access methods through
+                    <code>Rizzy.$data(id)</code> and invoke <code>getValue()</code> and <code>setValue(value)</code> at runtime.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mb-10">
+const swatch = Rizzy.$data('my-swatch-id');
+const current = swatch.getValue();
+swatch.setValue('rgba(14, 165, 233, 0.35)');
+                </RzCodeViewer>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

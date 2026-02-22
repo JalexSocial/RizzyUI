@@ -826,6 +826,9 @@
   .ml-px {
     margin-left: 1px;
   }
+  .box-border {
+    box-sizing: border-box;
+  }
   .form-input {
     appearance: none;
     background-color: #fff;
@@ -1226,6 +1229,9 @@
   }
   .min-h-\[10rem\] {
     min-height: 10rem;
+  }
+  .min-h-\[14rem\] {
+    min-height: 14rem;
   }
   .min-h-\[18rem\] {
     min-height: 18rem;
@@ -2799,6 +2805,9 @@
     --tw-gradient-to: var(--secondary);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
+  .\[background-clip\:padding-box\] {
+    background-clip: padding-box;
+  }
   .mask-repeat {
     mask-repeat: repeat;
   }
@@ -3834,6 +3843,9 @@
   }
   .forced-color-adjust-auto {
     forced-color-adjust: auto;
+  }
+  .forced-color-adjust-none {
+    forced-color-adjust: none;
   }
   .fade-in-0 {
     --tw-enter-opacity: calc(0/100);

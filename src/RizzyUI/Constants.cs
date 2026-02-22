@@ -54,7 +54,7 @@ public static class Constants
         public const string DialogAfterClose = "rz:dialog-after-close";
 
         /// <summary>Fired after color changes.</summary>
-        public const string ColorPickerOnChange = "rz:colorpicker:on-change";
+        public const string ColorPickerOnChange = "rz:colorpicker:onchange";
 
         /// <summary>Fired when any OTP input slot value is modified.</summary>
         public const string InputOTPOnInput = "rz:inputotp:oninput";

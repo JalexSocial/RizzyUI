@@ -133,6 +133,7 @@ public partial class RzTheme
 
         // RzColorPicker Family
         RzColorPicker = RizzyUI.RzColorPicker.DefaultDescriptor;
+        RzColorSwatch = RizzyUI.RzColorSwatch.DefaultDescriptor;
 
         // RzDialog Family
         RzDialog = RizzyUI.RzDialog.DefaultDescriptor;
