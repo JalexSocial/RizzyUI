@@ -11,6 +11,7 @@
              aria-disabled="@(Disabled ? "true" : null)">
     <div data-alpine-root="@Id"
          x-data="rzColorSwatch"
+         x-modelable="value"
          data-value="@Value"
          data-without-transparency="@WithoutTransparency.ToString().ToLowerInvariant()"
          data-disabled="@Disabled.ToString().ToLowerInvariant()"
