@@ -13,48 +13,10 @@ namespace RizzyUI;
 public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
 {
     /// <summary>
-    /// Defines the supported OTP filtering modes.
-    /// </summary>
-    public enum InputOtpType
-    {
-        /// <summary>
-        /// Restricts OTP input to numeric characters.
-        /// </summary>
-        Numeric,
-
-        /// <summary>
-        /// Allows alphanumeric OTP input.
-        /// </summary>
-        Alphanumeric
-    }
-
-
-    /// <summary>
-    /// Defines text transformation options applied to OTP text input.
-    /// </summary>
-    public enum InputOtpTextTransform
-    {
-        /// <summary>
-        /// Leaves OTP text unchanged.
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// Transforms OTP text to lowercase.
-        /// </summary>
-        ToLower,
-
-        /// <summary>
-        /// Transforms OTP text to uppercase.
-        /// </summary>
-        ToUpper
-    }
-
-    /// <summary>
     /// Defines the default styling for the <see cref="RzInputOTP"/> component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "flex items-center gap-2 has-disabled:opacity-50",
+        @base: "relative flex items-center gap-2 has-disabled:opacity-50",
         slots: new()
         {
             [s => s.Input] = "disabled:cursor-not-allowed"
@@ -242,4 +204,42 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
         [Slot("input")]
         public string? Input { get; set; }
     }
+}
+
+/// <summary>
+/// Defines the supported OTP filtering modes.
+/// </summary>
+public enum InputOtpType
+{
+    /// <summary>
+    /// Restricts OTP input to numeric characters.
+    /// </summary>
+    Numeric,
+
+    /// <summary>
+    /// Allows alphanumeric OTP input.
+    /// </summary>
+    Alphanumeric
+}
+
+
+/// <summary>
+/// Defines text transformation options applied to OTP text input.
+/// </summary>
+public enum InputOtpTextTransform
+{
+    /// <summary>
+    /// Leaves OTP text unchanged.
+    /// </summary>
+    None,
+
+    /// <summary>
+    /// Transforms OTP text to lowercase.
+    /// </summary>
+    ToLower,
+
+    /// <summary>
+    /// Transforms OTP text to uppercase.
+    /// </summary>
+    ToUpper
 }

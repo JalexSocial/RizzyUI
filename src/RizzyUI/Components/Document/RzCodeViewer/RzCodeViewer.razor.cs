@@ -22,7 +22,7 @@ public partial class RzCodeViewer : RzComponent<RzCodeViewer.Slots>
         @base: "mt-2 overflow-auto card p-0 rounded-lg",
         slots: new()
         {
-            [s => s.Header] = "border-b-0 border-outline bg-secondary flex flex-col items-start justify-between gap-4 rounded-md rounded-b-none border px-4 py-1 text-sm text-secondary-foreground md:flex-row md:items-center md:gap-2",
+            [s => s.Header] = "border-b-0 border-outline bg-secondary flex flex-row items-start justify-between gap-4 rounded-md rounded-b-none border px-4 py-1 text-sm text-secondary-foreground items-center gap-2",
             [s => s.HeaderTitle] = "text-foreground",
             [s => s.CodeContainer] = "border-outline w-full overflow-y-auto transition-all !rounded-b-none rounded-b-xl border",
             [s => s.CopyButtonContainer] = "flex justify-between",
