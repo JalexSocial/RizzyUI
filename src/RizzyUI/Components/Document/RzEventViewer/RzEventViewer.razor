@@ -130,33 +130,33 @@
                             <span x-text="entry.type"
                                   class="@SlotClasses.GetEventName()"
                                   data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.EventName)"></span>
-                        </span>
-                        <span x-text="entry.bodyPreview"
+                            </span>
+                            <span x-text="entry.bodyPreview"
                               class="@SlotClasses.GetRowPreview()"
                               data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.RowPreview)"></span>
-                        <span class="@SlotClasses.GetRowToggle()"
-                              :class="entry.toggleClass"
-                              data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.RowToggle)">
-                            <span class="sr-only" x-text="entry.toggleLabel"></span>
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor"
-                                 class="@SlotClasses.GetActionIcon()"
-                                 data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.ActionIcon)"
-                                 aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </span>
-                    </button>
-                    <div x-show="entry.expanded"
+                        <span class="@SlotClasses.GetRowToggle()" :class="entry.toggleClass"
+                                    data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.RowToggle)">
+                                <span class="sr-only" x-text="entry.toggleLabel"></span>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="@SlotClasses.GetActionIcon()"
+                                        data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.ActionIcon)"
+                                        aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </span>
+
+                        </button>
+                        <div x-show="entry.expanded"
                          class="@SlotClasses.GetRowExpanded()"
                          data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.RowExpanded)">
-                        <pre x-text="entry.bodyRaw"
-                             class="@SlotClasses.GetPayloadPre()"
-                             data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.PayloadPre)"></pre>
-                    </div>
+                            <div x-text="entry.bodyRaw"
+                                 class="@SlotClasses.GetPayloadPre()"
+                                 data-slot="@RzEventViewer.SlotNames.NameOf(SlotTypes.PayloadPre)"></div>
+                        </div>
                 </div>
             </template>
         </div>
