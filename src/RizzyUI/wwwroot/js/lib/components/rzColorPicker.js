@@ -44,7 +44,7 @@ export default function(Alpine, require) {
                 wrap: false,
                 themeMode: 'auto',
                 onChange: (color, inputEl) => {
-                    inputEl.dispatchEvent(new CustomEvent('rz:colorpicker:on-change', {
+                    inputEl.dispatchEvent(new CustomEvent('rz:colorpicker:onchange', {
                         bubbles: true,
                         composed: true,
                         detail: {
