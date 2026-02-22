@@ -29,6 +29,8 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.NotNull(avatar.GetAttribute("aria-label"));
         Assert.Contains("rounded-full", avatar.ClassList); // Default shape
         Assert.Contains("size-10", avatar.ClassList); // Default size (Medium)
+        Assert.Equal("medium", avatar.GetAttribute("data-size"));
+        Assert.DoesNotContain("overflow-hidden", avatar.ClassList);
     }
 
     [Fact]
@@ -121,5 +123,31 @@ public class RzAvatarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         // Assert
         var fallback = cut.Find("[data-slot='avatar-fallback']");
         Assert.NotNull(fallback.QuerySelector("svg[data-slot='avatar-placeholder-icon']"));
+    }
+
+    [Fact]
+    public void AvatarBadge_RendersInsideAvatar()
+    {
+        var cut = Render<RzAvatar>(parameters => parameters
+            .AddChildContent<AvatarImage>(img => img.Add(p => p.ImageSource, "/test.jpg"))
+            .AddChildContent<AvatarBadge>()
+        );
+
+        var badge = cut.Find("[data-slot='avatar-badge']");
+        Assert.Contains("absolute", badge.ClassList);
+    }
+
+    [Fact]
+    public void AvatarGroup_RendersOverlappingAvatarsAndCount()
+    {
+        var cut = Render<AvatarGroup>(parameters => parameters
+            .AddChildContent<RzAvatar>()
+            .AddChildContent<RzAvatar>()
+            .AddChildContent<AvatarGroupCount>(count => count.AddChildContent("+2"))
+        );
+
+        var group = cut.Find("[data-slot='avatar-group']");
+        Assert.Contains("-space-x-2", group.ClassList);
+        Assert.Equal("+2", cut.Find("[data-slot='avatar-group-count']").TextContent.Trim());
     }
 }

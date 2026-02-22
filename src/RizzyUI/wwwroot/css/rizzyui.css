@@ -757,6 +757,9 @@
   .ml-px {
     margin-left: 1px;
   }
+  .box-border {
+    box-sizing: border-box;
+  }
   .form-input {
     appearance: none;
     background-color: #fff;
@@ -1611,6 +1614,13 @@
   .gap-x-3 {
     column-gap: calc(var(--spacing) * 3);
   }
+  .-space-x-2 {
+    :where(& > :not(:last-child)) {
+      --tw-space-x-reverse: 0;
+      margin-inline-start: calc(calc(var(--spacing) * -2) * var(--tw-space-x-reverse));
+      margin-inline-end: calc(calc(var(--spacing) * -2) * calc(1 - var(--tw-space-x-reverse)));
+    }
+  }
   .-space-x-px {
     :where(& > :not(:last-child)) {
       --tw-space-x-reverse: 0;
@@ -2451,6 +2461,9 @@
     --tw-gradient-to: var(--secondary);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
+  .\[background-clip\:padding-box\] {
+    background-clip: padding-box;
+  }
   .mask-repeat {
     mask-repeat: repeat;
   }
@@ -3202,6 +3215,9 @@
     --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
+  .ring-background {
+    --tw-ring-color: var(--background);
+  }
   .ring-black {
     --tw-ring-color: #000000;
   }
@@ -3399,6 +3415,9 @@
   }
   .forced-color-adjust-auto {
     forced-color-adjust: auto;
+  }
+  .forced-color-adjust-none {
+    forced-color-adjust: none;
   }
   .fade-in-0 {
     --tw-enter-opacity: calc(0/100);
@@ -6581,6 +6600,21 @@
       --tw-enter-translate-y: calc(2*var(--spacing));
     }
   }
+  .\*\:data-\[slot\=avatar\]\:ring-2 {
+    :is(& > *) {
+      &[data-slot="avatar"] {
+        --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+        box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+      }
+    }
+  }
+  .\*\:data-\[slot\=avatar\]\:ring-background {
+    :is(& > *) {
+      &[data-slot="avatar"] {
+        --tw-ring-color: var(--background);
+      }
+    }
+  }
   .data-\[slot\=checkbox-group\]\:gap-3 {
     &[data-slot="checkbox-group"] {
       gap: calc(var(--spacing) * 3);
@@ -9258,6 +9292,18 @@
       &>span:last-child {
         display: none;
       }
+    }
+  }
+  .\[\&\>svg\]\:size-2 {
+    &>svg {
+      width: calc(var(--spacing) * 2);
+      height: calc(var(--spacing) * 2);
+    }
+  }
+  .\[\&\>svg\]\:size-2\.5 {
+    &>svg {
+      width: calc(var(--spacing) * 2.5);
+      height: calc(var(--spacing) * 2.5);
     }
   }
   .\[\&\>svg\]\:size-4 {

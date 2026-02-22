@@ -505,4 +505,10 @@
     <value>One-time verification code</value>
     <comment>Default ARIA label for RzInputOTP.</comment>
   </data>
+  <data name="RzColorSwatch.A11y.NoColor" xml:space="preserve">
+    <value>No color selected</value>
+  </data>
+  <data name="RzColorSwatch.A11y.ColorValue" xml:space="preserve">
+    <value>Color swatch: {0}</value>
+  </data>
 </root>

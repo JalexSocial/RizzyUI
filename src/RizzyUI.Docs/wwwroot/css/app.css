@@ -826,6 +826,9 @@
   .ml-px {
     margin-left: 1px;
   }
+  .box-border {
+    box-sizing: border-box;
+  }
   .form-input {
     appearance: none;
     background-color: #fff;
@@ -1226,6 +1229,9 @@
   }
   .min-h-\[10rem\] {
     min-height: 10rem;
+  }
+  .min-h-\[14rem\] {
+    min-height: 14rem;
   }
   .min-h-\[18rem\] {
     min-height: 18rem;
@@ -2799,6 +2805,9 @@
     --tw-gradient-to: var(--secondary);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
+  .\[background-clip\:padding-box\] {
+    background-clip: padding-box;
+  }
   .mask-repeat {
     mask-repeat: repeat;
   }
@@ -3613,6 +3622,9 @@
     --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
+  .ring-background {
+    --tw-ring-color: var(--background);
+  }
   .ring-black {
     --tw-ring-color: #000000;
   }
@@ -3834,6 +3846,9 @@
   }
   .forced-color-adjust-auto {
     forced-color-adjust: auto;
+  }
+  .forced-color-adjust-none {
+    forced-color-adjust: none;
   }
   .fade-in-0 {
     --tw-enter-opacity: calc(0/100);
@@ -7205,6 +7220,21 @@
       --tw-enter-translate-y: calc(2*var(--spacing));
     }
   }
+  .\*\:data-\[slot\=avatar\]\:ring-2 {
+    :is(& > *) {
+      &[data-slot="avatar"] {
+        --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+        box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+      }
+    }
+  }
+  .\*\:data-\[slot\=avatar\]\:ring-background {
+    :is(& > *) {
+      &[data-slot="avatar"] {
+        --tw-ring-color: var(--background);
+      }
+    }
+  }
   .data-\[slot\=checkbox-group\]\:gap-3 {
     &[data-slot="checkbox-group"] {
       gap: calc(var(--spacing) * 3);
@@ -10098,6 +10128,18 @@
       &>span:last-child {
         display: none;
       }
+    }
+  }
+  .\[\&\>svg\]\:size-2 {
+    &>svg {
+      width: calc(var(--spacing) * 2);
+      height: calc(var(--spacing) * 2);
+    }
+  }
+  .\[\&\>svg\]\:size-2\.5 {
+    &>svg {
+      width: calc(var(--spacing) * 2.5);
+      height: calc(var(--spacing) * 2.5);
     }
   }
   .\[\&\>svg\]\:size-4 {

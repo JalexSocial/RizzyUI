@@ -2086,7 +2086,7 @@ function na() {
     n
   ];
 }
-var [sa, ra, ou, au] = /* @__PURE__ */ na();
+var [sa, ra, au, lu] = /* @__PURE__ */ na();
 function Ts(e, t) {
   const i = e ? ra : sa;
   return (n, s, r) => s === "__v_isReactive" ? !e : s === "__v_isReadonly" ? e : s === "__v_raw" ? n : Reflect.get(De(i, s) && s in n ? i : n, s, r);
@@ -4835,7 +4835,7 @@ function Vl(e, t) {
         wrap: !1,
         themeMode: "auto",
         onChange: (s, r) => {
-          r.dispatchEvent(new CustomEvent("rz:colorpicker:on-change", {
+          r.dispatchEvent(new CustomEvent("rz:colorpicker:onchange", {
             bubbles: !0,
             composed: !0,
             detail: {
@@ -4871,7 +4871,53 @@ function Vl(e, t) {
     }
   }));
 }
-function jl(e, t) {
+function jl(e) {
+  e.data("rzColorSwatch", () => ({
+    value: "",
+    withoutTransparency: !1,
+    isDisabled: !1,
+    swatchStyle: "",
+    init() {
+      this.value = this.readValue(this.$el.dataset.value), this.withoutTransparency = this.$el.dataset.withoutTransparency === "true", this.isDisabled = this.$el.dataset.disabled === "true", this.refreshSwatch();
+    },
+    getValue() {
+      return this.value;
+    },
+    setValue(t) {
+      this.value = this.readValue(t), this.refreshSwatch();
+    },
+    readValue(t) {
+      return typeof t != "string" ? "" : t.trim();
+    },
+    isCssColor(t) {
+      try {
+        return typeof CSS < "u" && typeof CSS.supports == "function" ? CSS.supports("color", t) : !0;
+      } catch {
+        return !1;
+      }
+    },
+    hasAlpha(t) {
+      const i = t.trim().toLowerCase();
+      return !!(i === "transparent" || /^#(?:[0-9a-f]{4}|[0-9a-f]{8})$/i.test(i) || /\b(?:rgba|hsla)\s*\(/i.test(i) || /\b(?:rgb|hsl|lab|lch|oklab|oklch|color)\s*\([^)]*\/\s*[\d.]+%?\s*\)/i.test(i));
+    },
+    refreshSwatch() {
+      if (!this.value) {
+        this.swatchStyle = "background: linear-gradient(to bottom right, transparent calc(50% - 1px), hsl(var(--destructive)) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)) no-repeat;";
+        return;
+      }
+      if (!this.isCssColor(this.value)) {
+        this.swatchStyle = "background-color: transparent;";
+        return;
+      }
+      if (!this.withoutTransparency && this.hasAlpha(this.value)) {
+        this.swatchStyle = "background: linear-gradient(" + this.value + ", " + this.value + "), repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 0% 50% / 10px 10px;";
+        return;
+      }
+      this.swatchStyle = "background-color: " + this.value + ";";
+    }
+  }));
+}
+function Wl(e, t) {
   e.data("rzDateEdit", () => ({
     options: {},
     placeholder: "",
@@ -4898,7 +4944,7 @@ function jl(e, t) {
     }
   }));
 }
-function Wl(e) {
+function ql(e) {
   e.data("rzModal", () => ({
     modalOpen: !1,
     // Main state variable
@@ -4994,12 +5040,12 @@ function Wl(e) {
 const Ot = Math.min, gt = Math.max, Se = Math.round, fe = Math.floor, X = (e) => ({
   x: e,
   y: e
-}), ql = {
+}), Hl = {
   left: "right",
   right: "left",
   bottom: "top",
   top: "bottom"
-}, Hl = {
+}, Yl = {
   start: "end",
   end: "start"
 };
@@ -5027,20 +5073,20 @@ function vt(e) {
 function zi(e) {
   return ir(vt(e));
 }
-function Yl(e, t, i) {
+function Kl(e, t, i) {
   i === void 0 && (i = !1);
   const n = se(e), s = zi(e), r = Mi(s);
   let o = s === "x" ? n === (i ? "end" : "start") ? "right" : "left" : n === "start" ? "bottom" : "top";
   return t.reference[r] > t.floating[r] && (o = Ce(o)), [o, Ce(o)];
 }
-function Kl(e) {
+function Jl(e) {
   const t = Ce(e);
   return [pi(e), t, pi(t)];
 }
 function pi(e) {
-  return e.replace(/start|end/g, (t) => Hl[t]);
+  return e.replace(/start|end/g, (t) => Yl[t]);
 }
-function Jl(e, t, i) {
+function Xl(e, t, i) {
   const n = ["left", "right"], s = ["right", "left"], r = ["top", "bottom"], o = ["bottom", "top"];
   switch (e) {
     case "top":
@@ -5053,15 +5099,15 @@ function Jl(e, t, i) {
       return [];
   }
 }
-function Xl(e, t, i, n) {
+function Zl(e, t, i, n) {
   const s = se(e);
-  let r = Jl(xt(e), i === "start", n);
+  let r = Xl(xt(e), i === "start", n);
   return s && (r = r.map((o) => o + "-" + s), t && (r = r.concat(r.map(pi)))), r;
 }
 function Ce(e) {
-  return e.replace(/left|right|bottom|top/g, (t) => ql[t]);
+  return e.replace(/left|right|bottom|top/g, (t) => Hl[t]);
 }
-function Zl(e) {
+function Gl(e) {
   return {
     top: 0,
     right: 0,
@@ -5071,7 +5117,7 @@ function Zl(e) {
   };
 }
 function nr(e) {
-  return typeof e != "number" ? Zl(e) : {
+  return typeof e != "number" ? Gl(e) : {
     top: e,
     right: e,
     bottom: e,
@@ -5144,7 +5190,7 @@ function yn(e, t, i) {
   }
   return g;
 }
-const Gl = async (e, t, i) => {
+const Ql = async (e, t, i) => {
   const {
     placement: n = "bottom",
     strategy: s = "absolute",
@@ -5250,7 +5296,7 @@ async function sr(e, t) {
     right: (_.right - y.right + f.right) / I.x
   };
 }
-const Ql = (e) => ({
+const tc = (e) => ({
   name: "arrow",
   options: e,
   async fn(t) {
@@ -5287,7 +5333,7 @@ const Ql = (e) => ({
       reset: j
     };
   }
-}), tc = function(e) {
+}), ec = function(e) {
   return e === void 0 && (e = {}), {
     name: "flip",
     options: e,
@@ -5311,12 +5357,12 @@ const Ql = (e) => ({
       } = ne(e, t);
       if ((i = r.arrow) != null && i.alignmentOffset)
         return {};
-      const y = xt(s), p = vt(a), x = xt(a) === a, I = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), _ = h || (x || !v ? [Ce(a)] : Kl(a)), b = f !== "none";
-      !h && b && _.push(...Xl(a, v, f, I));
+      const y = xt(s), p = vt(a), x = xt(a) === a, I = await (l.isRTL == null ? void 0 : l.isRTL(c.floating)), _ = h || (x || !v ? [Ce(a)] : Jl(a)), b = f !== "none";
+      !h && b && _.push(...Zl(a, v, f, I));
       const w = [a, ..._], E = await sr(t, m), S = [];
       let T = ((n = r.flip) == null ? void 0 : n.overflows) || [];
       if (u && S.push(E[y]), d) {
-        const P = Yl(s, o, I);
+        const P = Kl(s, o, I);
         S.push(E[P[0]], E[P[1]]);
       }
       if (T = [...T, {
@@ -5371,7 +5417,7 @@ const Ql = (e) => ({
     }
   };
 };
-async function ec(e, t) {
+async function ic(e, t) {
   const {
     placement: i,
     platform: n,
@@ -5398,7 +5444,7 @@ async function ec(e, t) {
     y: g * u
   };
 }
-const ic = function(e) {
+const nc = function(e) {
   return e === void 0 && (e = 0), {
     name: "offset",
     options: e,
@@ -5409,7 +5455,7 @@ const ic = function(e) {
         y: r,
         placement: o,
         middlewareData: a
-      } = t, l = await ec(t, e);
+      } = t, l = await ic(t, e);
       return o === ((i = a.offset) == null ? void 0 : i.placement) && (n = a.arrow) != null && n.alignmentOffset ? {} : {
         x: s + l.x,
         y: r + l.y,
@@ -5420,7 +5466,7 @@ const ic = function(e) {
       };
     }
   };
-}, nc = function(e) {
+}, sc = function(e) {
   return e === void 0 && (e = {}), {
     name: "shift",
     options: e,
@@ -5512,7 +5558,7 @@ function re(e) {
   } = H(e);
   return /auto|scroll|overlay|hidden|clip/.test(t + n + i) && !["inline", "contents"].includes(s);
 }
-function sc(e) {
+function rc(e) {
   return ["table", "td", "th"].includes(zt(e));
 }
 function Me(e) {
@@ -5528,7 +5574,7 @@ function Fi(e) {
   const t = Bi(), i = q(e) ? H(e) : e;
   return ["transform", "translate", "scale", "rotate", "perspective"].some((n) => i[n] ? i[n] !== "none" : !1) || (i.containerType ? i.containerType !== "normal" : !1) || !t && (i.backdropFilter ? i.backdropFilter !== "none" : !1) || !t && (i.filter ? i.filter !== "none" : !1) || ["transform", "translate", "scale", "rotate", "perspective", "filter"].some((n) => (i.willChange || "").includes(n)) || ["paint", "layout", "strict", "content"].some((n) => (i.contain || "").includes(n));
 }
-function rc(e) {
+function oc(e) {
   let t = lt(e);
   for (; Z(t) && !kt(t); ) {
     if (Fi(t))
@@ -5614,15 +5660,15 @@ function At(e) {
     y: a
   };
 }
-const oc = /* @__PURE__ */ X(0);
+const ac = /* @__PURE__ */ X(0);
 function lr(e) {
   const t = B(e);
-  return !Bi() || !t.visualViewport ? oc : {
+  return !Bi() || !t.visualViewport ? ac : {
     x: t.visualViewport.offsetLeft,
     y: t.visualViewport.offsetTop
   };
 }
-function ac(e, t, i) {
+function lc(e, t, i) {
   return t === void 0 && (t = !1), !i || t && i !== B(e) ? !1 : t;
 }
 function _t(e, t, i, n) {
@@ -5630,7 +5676,7 @@ function _t(e, t, i, n) {
   const s = e.getBoundingClientRect(), r = Ui(e);
   let o = X(1);
   t && (n ? q(n) && (o = At(n)) : o = At(e));
-  const a = ac(r, i, n) ? lr(r) : X(0);
+  const a = lc(r, i, n) ? lr(r) : X(0);
   let l = (s.left + a.x) / o.x, c = (s.top + a.y) / o.y, u = s.width / o.x, d = s.height / o.y;
   if (r) {
     const h = B(r), g = n && q(n) ? B(n) : n;
@@ -5662,7 +5708,7 @@ function cr(e, t, i) {
     y: r
   };
 }
-function lc(e) {
+function cc(e) {
   let {
     elements: t,
     rect: i,
@@ -5689,10 +5735,10 @@ function lc(e) {
     y: i.y * c.y - l.scrollTop * c.y + u.y + h.y
   };
 }
-function cc(e) {
+function uc(e) {
   return Array.from(e.getClientRects());
 }
-function uc(e) {
+function dc(e) {
   const t = G(e), i = ze(e), n = e.ownerDocument.body, s = gt(t.scrollWidth, t.clientWidth, n.scrollWidth, n.clientWidth), r = gt(t.scrollHeight, t.clientHeight, n.scrollHeight, n.clientHeight);
   let o = -i.scrollLeft + Vi(e);
   const a = -i.scrollTop;
@@ -5703,7 +5749,7 @@ function uc(e) {
     y: a
   };
 }
-function dc(e, t) {
+function hc(e, t) {
   const i = B(e), n = G(e), s = i.visualViewport;
   let r = n.clientWidth, o = n.clientHeight, a = 0, l = 0;
   if (s) {
@@ -5718,7 +5764,7 @@ function dc(e, t) {
     y: l
   };
 }
-function hc(e, t) {
+function fc(e, t) {
   const i = _t(e, !0, t === "fixed"), n = i.top + e.clientTop, s = i.left + e.clientLeft, r = Z(e) ? At(e) : X(1), o = e.clientWidth * r.x, a = e.clientHeight * r.y, l = s * r.x, c = n * r.y;
   return {
     width: o,
@@ -5730,11 +5776,11 @@ function hc(e, t) {
 function wn(e, t, i) {
   let n;
   if (t === "viewport")
-    n = dc(e, i);
+    n = hc(e, i);
   else if (t === "document")
-    n = uc(G(e));
+    n = dc(G(e));
   else if (q(t))
-    n = hc(t, i);
+    n = fc(t, i);
   else {
     const s = lr(e);
     n = {
@@ -5750,7 +5796,7 @@ function ur(e, t) {
   const i = lt(e);
   return i === t || !q(i) || kt(i) ? !1 : H(i).position === "fixed" || ur(i, t);
 }
-function fc(e, t) {
+function pc(e, t) {
   const i = t.get(e);
   if (i)
     return i;
@@ -5763,14 +5809,14 @@ function fc(e, t) {
   }
   return t.set(e, n), n;
 }
-function pc(e) {
+function mc(e) {
   let {
     element: t,
     boundary: i,
     rootBoundary: n,
     strategy: s
   } = e;
-  const o = [...i === "clippingAncestors" ? Me(t) ? [] : fc(t, this._c) : [].concat(i), n], a = o[0], l = o.reduce((c, u) => {
+  const o = [...i === "clippingAncestors" ? Me(t) ? [] : pc(t, this._c) : [].concat(i), n], a = o[0], l = o.reduce((c, u) => {
     const d = wn(t, u, s);
     return c.top = gt(d.top, c.top), c.right = Ot(d.right, c.right), c.bottom = Ot(d.bottom, c.bottom), c.left = gt(d.left, c.left), c;
   }, wn(t, a, s));
@@ -5781,7 +5827,7 @@ function pc(e) {
     y: l.top
   };
 }
-function mc(e) {
+function gc(e) {
   const {
     width: t,
     height: i
@@ -5791,7 +5837,7 @@ function mc(e) {
     height: i
   };
 }
-function gc(e, t, i) {
+function vc(e, t, i) {
   const n = Z(t), s = G(t), r = i === "fixed", o = _t(e, !0, r, t);
   let a = {
     scrollLeft: 0,
@@ -5840,14 +5886,14 @@ function dr(e, t) {
     return i;
   }
   let n = xn(e, t);
-  for (; n && sc(n) && qe(n); )
+  for (; n && rc(n) && qe(n); )
     n = xn(n, t);
-  return n && kt(n) && qe(n) && !Fi(n) ? i : n || rc(e) || i;
+  return n && kt(n) && qe(n) && !Fi(n) ? i : n || oc(e) || i;
 }
-const vc = async function(e) {
+const yc = async function(e) {
   const t = this.getOffsetParent || dr, i = this.getDimensions, n = await i(e.floating);
   return {
-    reference: gc(e.reference, await t(e.floating), e.strategy),
+    reference: vc(e.reference, await t(e.floating), e.strategy),
     floating: {
       x: 0,
       y: 0,
@@ -5856,25 +5902,25 @@ const vc = async function(e) {
     }
   };
 };
-function yc(e) {
+function bc(e) {
   return H(e).direction === "rtl";
 }
-const bc = {
-  convertOffsetParentRelativeRectToViewportRelativeRect: lc,
+const wc = {
+  convertOffsetParentRelativeRectToViewportRelativeRect: cc,
   getDocumentElement: G,
-  getClippingRect: pc,
+  getClippingRect: mc,
   getOffsetParent: dr,
-  getElementRects: vc,
-  getClientRects: cc,
-  getDimensions: mc,
+  getElementRects: yc,
+  getClientRects: uc,
+  getDimensions: gc,
   getScale: At,
   isElement: q,
-  isRTL: yc
+  isRTL: bc
 };
 function hr(e, t) {
   return e.x === t.x && e.y === t.y && e.width === t.width && e.height === t.height;
 }
-function wc(e, t) {
+function xc(e, t) {
   let i = null, n;
   const s = G(e);
   function r() {
@@ -5920,7 +5966,7 @@ function wc(e, t) {
   }
   return o(!0), r;
 }
-function xc(e, t, i, n) {
+function _c(e, t, i, n) {
   n === void 0 && (n = {});
   const {
     ancestorScroll: s = !0,
@@ -5934,7 +5980,7 @@ function xc(e, t, i, n) {
       passive: !0
     }), r && y.addEventListener("resize", i);
   });
-  const d = c && a ? wc(c, i) : null;
+  const d = c && a ? xc(c, i) : null;
   let h = -1, g = null;
   o && (g = new ResizeObserver((y) => {
     let [p] = y;
@@ -5956,20 +6002,20 @@ function xc(e, t, i, n) {
     }), d?.(), (y = g) == null || y.disconnect(), g = null, l && cancelAnimationFrame(f);
   };
 }
-const It = ic, Et = nc, Tt = tc, _c = Ql, St = (e, t, i) => {
+const It = nc, Et = sc, Tt = ec, Ic = tc, St = (e, t, i) => {
   const n = /* @__PURE__ */ new Map(), s = {
-    platform: bc,
+    platform: wc,
     ...i
   }, r = {
     ...s.platform,
     _c: n
   };
-  return Gl(e, t, {
+  return Ql(e, t, {
     ...s,
     platform: r
   });
 };
-function Ic(e) {
+function Ec(e) {
   e.data("rzDropdownMenu", () => ({
     // --- STATE ---
     open: !1,
@@ -6361,7 +6407,7 @@ function Ic(e) {
     }
   }));
 }
-function Ec(e) {
+function Tc(e) {
   e.data("rzDarkModeToggle", () => ({
     // Proxy all properties to the reactive store
     get mode() {
@@ -6395,7 +6441,7 @@ function Ec(e) {
     }
   }));
 }
-function Tc(e) {
+function Sc(e) {
   e.data("rzEmbeddedPreview", () => ({
     iframe: null,
     onDarkModeToggle: null,
@@ -6460,7 +6506,7 @@ function Tc(e) {
   }));
 }
 const _n = 160;
-function Sc(e) {
+function Cc(e) {
   e.data("rzEventViewer", () => ({
     eventNames: [],
     entries: [],
@@ -6700,7 +6746,7 @@ function Sc(e) {
     }
   }));
 }
-function Cc(e) {
+function Ac(e) {
   e.data("rzFileInput", () => ({
     files: [],
     hasFiles: !1,
@@ -6775,11 +6821,11 @@ function Cc(e) {
     }
   }));
 }
-function Ac(e) {
+function $c(e) {
   e.data("rzEmpty", () => {
   });
 }
-function $c(e) {
+function Oc(e) {
   e.data("rzHeading", () => ({
     observer: null,
     headingId: "",
@@ -6809,7 +6855,7 @@ function $c(e) {
     }
   }));
 }
-function Oc(e) {
+function kc(e) {
   e.data("rzIndicator", () => ({
     visible: !1,
     /**
@@ -6837,7 +6883,7 @@ function Oc(e) {
     }
   }));
 }
-function kc(e) {
+function Dc(e) {
   e.data("rzInputGroupAddon", () => ({
     /**
      * Executes the `handleClick` operation.
@@ -6852,7 +6898,7 @@ function kc(e) {
     }
   }));
 }
-function Dc(e) {
+function Nc(e) {
   e.data("rzInputOTP", () => ({
     value: "",
     length: 0,
@@ -7132,7 +7178,7 @@ function Dc(e) {
     }
   }));
 }
-function Nc(e, t) {
+function Lc(e, t) {
   e.data("rzMarkdown", () => ({
     /**
      * Executes the `init` operation.
@@ -7151,7 +7197,7 @@ function Nc(e, t) {
     }
   }));
 }
-function Lc(e) {
+function Rc(e) {
   e.data("rzMenubar", () => ({
     currentMenuValue: "",
     currentTrigger: null,
@@ -7333,7 +7379,7 @@ function Lc(e) {
     }
   }));
 }
-function Rc(e, t) {
+function Pc(e, t) {
   e.data("rzNavigationMenu", () => ({
     activeItemId: null,
     open: !1,
@@ -7456,7 +7502,7 @@ function Rc(e, t) {
     }
   }));
 }
-function Pc(e) {
+function Mc(e) {
   e.data("rzPopover", () => ({
     open: !1,
     ariaExpanded: "false",
@@ -7517,7 +7563,7 @@ function Pc(e) {
     }
   }));
 }
-function Mc(e) {
+function zc(e) {
   e.data("rzPrependInput", () => ({
     prependContainer: null,
     textInput: null,
@@ -7554,7 +7600,7 @@ function Mc(e) {
     }
   }));
 }
-function zc(e) {
+function Fc(e) {
   e.data("rzProgress", () => ({
     currentVal: 0,
     minVal: 0,
@@ -7634,7 +7680,7 @@ function zc(e) {
     }
   }));
 }
-function Fc(e) {
+function Bc(e) {
   e.data("rzQuickReferenceContainer", () => ({
     headings: [],
     // Array of heading IDs
@@ -7671,7 +7717,7 @@ function Fc(e) {
     }
   }));
 }
-function Bc(e) {
+function Uc(e) {
   e.data("rzScrollArea", () => ({
     hideTimer: null,
     type: "hover",
@@ -7849,7 +7895,7 @@ function Bc(e) {
     }
   }));
 }
-function Uc(e) {
+function Vc(e) {
   e.data("rzSheet", () => ({
     open: !1,
     /**
@@ -7889,7 +7935,7 @@ function Uc(e) {
     }
   }));
 }
-function Vc(e) {
+function jc(e) {
   e.data("rzTabs", () => ({
     selectedTab: "",
     _triggers: [],
@@ -8025,7 +8071,7 @@ function Vc(e) {
     }
   }));
 }
-function jc(e) {
+function Wc(e) {
   e.data("rzToggle", () => ({
     pressed: !1,
     disabled: !1,
@@ -8073,7 +8119,7 @@ function jc(e) {
     }
   }));
 }
-function Wc(e) {
+function qc(e) {
   e.data("rzTooltip", () => ({
     open: !1,
     ariaExpanded: "false",
@@ -8170,7 +8216,7 @@ function Wc(e) {
      * @returns {any} Returns the result of `startAutoUpdate` when applicable.
      */
     startAutoUpdate() {
-      !this.enableAutoUpdate || !this.triggerEl || !this.contentEl || (this.stopAutoUpdate(), this.cleanupAutoUpdate = xc(this.triggerEl, this.contentEl, () => {
+      !this.enableAutoUpdate || !this.triggerEl || !this.contentEl || (this.stopAutoUpdate(), this.cleanupAutoUpdate = _c(this.triggerEl, this.contentEl, () => {
         this.updatePosition();
       }));
     },
@@ -8302,7 +8348,7 @@ function Wc(e) {
           alignmentAxis: this.alignmentAxisOffset
         })
       ];
-      this.enableFlip && t.push(Tt()), this.enableShift && t.push(Et({ padding: this.shiftPadding })), this.arrowEl && t.push(_c({ element: this.arrowEl })), St(this.triggerEl, this.contentEl, {
+      this.enableFlip && t.push(Tt()), this.enableShift && t.push(Et({ padding: this.shiftPadding })), this.arrowEl && t.push(Ic({ element: this.arrowEl })), St(this.triggerEl, this.contentEl, {
         placement: this.anchor,
         strategy: this.strategy,
         middleware: t
@@ -8319,7 +8365,7 @@ function Wc(e) {
     }
   }));
 }
-function qc(e) {
+function Hc(e) {
   e.data("rzSidebar", () => ({
     open: !1,
     openMobile: !1,
@@ -8392,7 +8438,7 @@ function qc(e) {
     }
   }));
 }
-function Hc(e) {
+function Yc(e) {
   e.data("rzCommand", () => ({
     // --- STATE ---
     search: "",
@@ -8806,7 +8852,7 @@ function Hc(e) {
     }
   }));
 }
-function Yc(e) {
+function Kc(e) {
   e.data("rzCommandItem", () => ({
     parent: null,
     itemData: {},
@@ -8862,7 +8908,7 @@ function Yc(e) {
     }
   }));
 }
-function Kc(e) {
+function Jc(e) {
   e.data("rzCommandList", () => ({
     parent: null,
     dataItemTemplate: null,
@@ -8947,7 +8993,7 @@ function Kc(e) {
     }
   }));
 }
-function Jc(e) {
+function Xc(e) {
   e.data("rzCommandGroup", () => ({
     parent: null,
     heading: "",
@@ -8968,7 +9014,7 @@ function Jc(e) {
     }
   }));
 }
-async function Xc(e) {
+async function Zc(e) {
   e = [...e].sort();
   const t = e.join("|"), n = new TextEncoder().encode(t), s = await crypto.subtle.digest("SHA-256", n);
   return Array.from(new Uint8Array(s)).map((o) => o.toString(16).padStart(2, "0")).join("");
@@ -8977,7 +9023,7 @@ function st(e, t, i) {
   let n, s;
   typeof t == "function" ? n = { success: t } : t && typeof t == "object" ? n = t : typeof t == "string" && (s = t), !s && typeof i == "string" && (s = i);
   const r = Array.isArray(e) ? e : [e];
-  return Xc(r).then((o) => (rt.isDefined(o) || rt(r, o, {
+  return Zc(r).then((o) => (rt.isDefined(o) || rt(r, o, {
     // keep scripts ordered unless you explicitly change this later
     async: !1,
     // pass CSP nonce to both script and style tags as your loader expects
@@ -9008,10 +9054,10 @@ function st(e, t, i) {
     });
   })));
 }
-function Zc(e) {
-  kl(e), Dl(e), Nl(e), Ll(e), Rl(e), Pl(e, st), Ml(e), zl(e, st), Fl(e, st), Bl(e), Ul(e, st), Vl(e, st), jl(e, st), Wl(e), Ic(e), Ec(e), Tc(e), Sc(e), Cc(e), Ac(e), $c(e), Oc(e), kc(e), Dc(e), Nc(e, st), Lc(e), Rc(e), Pc(e), Mc(e), zc(e), Fc(e), Bc(e), Uc(e), Vc(e), jc(e), Wc(e), qc(e), Hc(e), Yc(e), Kc(e), Jc(e);
-}
 function Gc(e) {
+  kl(e), Dl(e), Nl(e), Ll(e), Rl(e), Pl(e, st), Ml(e), zl(e, st), Fl(e, st), Bl(e), Ul(e, st), Vl(e, st), jl(e), Wl(e, st), ql(e), Ec(e), Tc(e), Sc(e), Cc(e), Ac(e), $c(e), Oc(e), kc(e), Dc(e), Nc(e), Lc(e, st), Rc(e), Pc(e), Mc(e), zc(e), Fc(e), Bc(e), Uc(e), Vc(e), jc(e), Wc(e), qc(e), Hc(e), Yc(e), Kc(e), Jc(e), Xc(e);
+}
+function Qc(e) {
   if (!(e instanceof Element))
     return console.warn("[Rizzy.props] Invalid input. Expected an Alpine.js root element (this.$el)."), {};
   const t = e.dataset.propsId;
@@ -9028,7 +9074,7 @@ function Gc(e) {
 }
 const pe = /* @__PURE__ */ new Map(), me = /* @__PURE__ */ new Map();
 let In = !1;
-function Qc(e) {
+function tu(e) {
   return me.has(e) || me.set(
     e,
     import(e).catch((t) => {
@@ -9040,7 +9086,7 @@ function En(e, t) {
   const i = globalThis.Alpine;
   return i && typeof i.asyncData == "function" ? (i.asyncData(
     e,
-    () => Qc(t).catch((n) => (console.error(
+    () => tu(t).catch((n) => (console.error(
       `[RizzyUI] Failed to load Alpine module '${e}' from '${t}'.`,
       n
     ), () => ({
@@ -9051,7 +9097,7 @@ function En(e, t) {
     `[RizzyUI] Could not register async component '${e}'. AsyncAlpine not available.`
   ), !1);
 }
-function tu(e, t) {
+function eu(e, t) {
   if (!e || !t) {
     console.error("[RizzyUI] registerAsyncComponent requires both name and path.");
     return;
@@ -9083,7 +9129,7 @@ function tu(e, t) {
     { once: !0 }
   ));
 }
-function eu(e) {
+function iu(e) {
   e.directive("mobile", (t, { modifiers: i, expression: n }, { cleanup: s }) => {
     const r = i.find((y) => y.startsWith("bp-")), o = r ? parseInt(r.slice(3), 10) : 768, a = !!(n && n.length > 0);
     if (typeof window > "u" || !window.matchMedia) {
@@ -9114,7 +9160,7 @@ function eu(e) {
     });
   });
 }
-function iu(e) {
+function nu(e) {
   const t = (i, { expression: n, modifiers: s }, { cleanup: r, effect: o }) => {
     if (!n || typeof n != "string") return;
     const a = (v, m, y) => {
@@ -9178,7 +9224,7 @@ function iu(e) {
   };
   e.directive("syncprop", t);
 }
-class nu {
+class su {
   constructor() {
     this.storageKey = "darkMode", this.eventName = "rz:theme-change", this.darkClass = "dark", this._mode = "auto", this._mq = null, this._initialized = !1, this._onMqChange = null, this._onStorage = null, this._lastSnapshot = { mode: null, effectiveDark: null, prefersDark: null };
   }
@@ -9262,8 +9308,8 @@ class nu {
     ));
   }
 }
-const F = new nu();
-function su(e) {
+const F = new su();
+function ru(e) {
   F.init(), e.store("theme", {
     // Reactive state mirrors
     // We mirror ALL derived properties to ensure Alpine reactivity works 
@@ -9314,23 +9360,23 @@ function su(e) {
   });
 }
 let Ht = null;
-function ru(e) {
+function ou(e) {
   return Ht || (e.plugin(ka), e.plugin(Pa), e.plugin(nl), e.plugin(hl), typeof document < "u" && document.addEventListener("alpine:init", () => {
-    su(e);
-  }), Zc(e), eu(e), iu(e), Ht = {
+    ru(e);
+  }), Gc(e), iu(e), nu(e), Ht = {
     Alpine: e,
     require: st,
     toast: Tl,
     $data: $l,
-    props: Gc,
-    registerAsyncComponent: tu,
+    props: Qc,
+    registerAsyncComponent: eu,
     theme: F
   }, typeof window < "u" && (F.init(), window.Alpine = e, window.Rizzy = { ...window.Rizzy || {}, ...Ht }, document.dispatchEvent(new CustomEvent("rz:init", {
     detail: { Rizzy: window.Rizzy }
   }))), Ht);
 }
-const lu = ru(Ms);
+const cu = ou(Ms);
 Ms.start();
 export {
-  lu as default
+  cu as default
 };

@@ -2,7 +2,7 @@
 @page "/components/avatar"
 @using RizzyUI
 
-<PageTitle>RzAvatar</PageTitle>
+<PageTitle>Avatar</PageTitle>
 
 <RzQuickReferenceContainer>
     <RzArticle ProseWidth="ProseWidth.UltraWide">
@@ -26,7 +26,7 @@
                 </BreadcrumbList>
             </RzBreadcrumb>
 
-            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="RzAvatar" class="scroll-mt-20">RzAvatar</RzHeading>
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Avatar" class="scroll-mt-20">Avatar</RzHeading>
             <RzParagraph>
                 The <code>RzAvatar</code> component is a versatile container for displaying user profile images, initials, or default placeholders. 
                 It works in conjunction with child components <code class="font-semibold">AvatarImage</code> and <code class="font-semibold">AvatarFallback</code> to determine what to render. 
@@ -280,9 +280,72 @@
                 </RzCodeViewer>
             </section>
 
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Avatar with Badge" class="scroll-mt-20">Avatar with Badge</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">
+                    Use <code class="font-semibold">AvatarBadge</code> inside <code class="font-semibold">RzAvatar</code> to add a status indicator or icon overlay.
+                </RzParagraph>
+
+                <RzBrowser class="my-4">
+                    <div class="mx-auto flex min-h-[10rem] items-center justify-center gap-8 rounded-xl p-8">
+                        <RzAvatar Size="Size.Small">
+                            <AvatarImage ImageSource="/images/profile/30.jpg" AlternateText="Ari" />
+                            <AvatarBadge />
+                        </RzAvatar>
+                        <RzAvatar Size="Size.Medium">
+                            <AvatarImage ImageSource="/images/profile/68.jpg" AlternateText="Jordan" />
+                            <AvatarBadge>
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm4.3 7.8l-4.9 5a1 1 0 01-1.4 0L7.7 12.6a1 1 0 011.4-1.4l1.6 1.6 4.2-4.3a1 1 0 011.4 1.3z"/></svg>
+                            </AvatarBadge>
+                        </RzAvatar>
+                        <RzAvatar Size="Size.Large">
+                            <AvatarFallback>LS</AvatarFallback>
+                            <AvatarBadge />
+                        </RzAvatar>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;RzAvatar Size=&quot;Size.Medium&quot;&gt;
+    &lt;AvatarImage ImageSource=&quot;/images/profile/68.jpg&quot; AlternateText=&quot;Jordan&quot; /&gt;
+    &lt;AvatarBadge /&gt;
+&lt;/RzAvatar&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Avatar Group" class="scroll-mt-20">Avatar Group</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">
+                    Combine <code class="font-semibold">AvatarGroup</code> and <code class="font-semibold">AvatarGroupCount</code> to render overlapping team members with overflow.
+                </RzParagraph>
+
+                <RzBrowser class="my-4">
+                    <div class="mx-auto flex min-h-[10rem] items-center justify-center rounded-xl p-8">
+                        <AvatarGroup>
+                            <RzAvatar Size="Size.Medium"><AvatarImage ImageSource="/images/profile/90.jpg" AlternateText="Mason" /></RzAvatar>
+                            <RzAvatar Size="Size.Medium"><AvatarImage ImageSource="/images/profile/91.jpg" AlternateText="Noah" /></RzAvatar>
+                            <RzAvatar Size="Size.Medium"><AvatarFallback>OL</AvatarFallback></RzAvatar>
+                            <AvatarGroupCount>+4</AvatarGroupCount>
+                        </AvatarGroup>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+&lt;AvatarGroup&gt;
+    &lt;RzAvatar Size=&quot;Size.Medium&quot;&gt;
+        &lt;AvatarImage ImageSource=&quot;/images/profile/90.jpg&quot; AlternateText=&quot;Mason&quot; /&gt;
+    &lt;/RzAvatar&gt;
+    &lt;RzAvatar Size=&quot;Size.Medium&quot;&gt;
+        &lt;AvatarImage ImageSource=&quot;/images/profile/91.jpg&quot; AlternateText=&quot;Noah&quot; /&gt;
+    &lt;/RzAvatar&gt;
+    &lt;AvatarGroupCount&gt;+4&lt;/AvatarGroupCount&gt;
+&lt;/AvatarGroup&gt;
+                </RzCodeViewer>
+            </section>
+
             <!-- RzAvatar Parameters -->
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzAvatar Parameters" class="scroll-mt-20">RzAvatar Component Parameters</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Avatar Parameters" class="scroll-mt-20">Avatar Component Parameters</RzHeading>
                   <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
                         <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
@@ -384,6 +447,22 @@
                     </table>
                 </div>
             </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="AvatarBadge Parameters" class="scroll-mt-20">AvatarBadge Component Parameters</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">Use this component inside <code>RzAvatar</code> to display presence dots, checkmarks, or small status glyphs.</RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="AvatarGroup Parameters" class="scroll-mt-20">AvatarGroup Component Parameters</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground"><code>AvatarGroup</code> accepts standard element attributes and a <code>ChildContent</code> collection of avatars and <code>AvatarGroupCount</code>.</RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="AvatarGroupCount Parameters" class="scroll-mt-20">AvatarGroupCount Component Parameters</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground"><code>AvatarGroupCount</code> accepts <code>ChildContent</code> for the overflow text (for example, <code>+4</code>).</RzParagraph>
+            </section>
+
 
         </MainContent>
     </RzArticle>

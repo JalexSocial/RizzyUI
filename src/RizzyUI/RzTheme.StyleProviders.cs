@@ -33,6 +33,12 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzAvatar"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzAvatar.Slots>, RzAvatar.Slots> RzAvatar { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AvatarBadge"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<AvatarBadge.Slots>, AvatarBadge.Slots> AvatarBadge { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AvatarGroup"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<AvatarGroup.Slots>, AvatarGroup.Slots> AvatarGroup { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.AvatarGroupCount"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<AvatarGroupCount.Slots>, AvatarGroupCount.Slots> AvatarGroupCount { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzBadge"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzBadge.Slots>, RzBadge.Slots> RzBadge { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzIndicator"/> component. </summary>
@@ -174,6 +180,8 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzDateEdit.Slots>, RzDateEdit.Slots> RzDateEdit { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzColorPicker"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzColorPicker.Slots>, RzColorPicker.Slots> RzColorPicker { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzColorSwatch"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzColorSwatch.Slots>, RzColorSwatch.Slots> RzColorSwatch { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzFormSection"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzFormSection.Slots>, RzFormSection.Slots> RzFormSection { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzSwitch"/> component. </summary>

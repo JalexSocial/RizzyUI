@@ -7,10 +7,11 @@
 	<HtmlElement Element="@EffectiveElement"
 	             role="img"
 	             aria-label="@EffectiveAriaLabel"
-	             @attributes="@AdditionalAttributes"
-                 id="@Id"
-                 data-slot="avatar"
-                 class="@(SlotClasses.GetBase())">
+	             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@(SlotClasses.GetBase())"
+             data-slot="avatar"
+             data-size="@Size.ToString().ToKebabCase()">
         @ChildContent
     </HtmlElement>
 </CascadingValue>
