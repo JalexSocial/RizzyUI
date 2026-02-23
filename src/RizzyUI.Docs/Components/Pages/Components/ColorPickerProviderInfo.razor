@@ -1,0 +1,31 @@
+@page "/components/color-picker-provider"
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+<PageTitle>Color Picker Provider</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1">Color Picker Provider</RzHeading>
+            <RzParagraph>
+                <code>RzColorPickerProvider</code> exposes shared Alpine state as <code>colorPicker.*</code>
+                for headless composition, including the trigger primitive.
+            </RzParagraph>
+
+            <RzColorPickerProvider Value="#22c55e" Alpha="true">
+                <RzColorPickerTrigger class="max-w-md">
+                    <RzInputGroup>
+                        <InputGroupAddon Align="InputGroupAddonAlign.InlineStart">
+                            <RzColorSwatch x-model="colorPicker.value" />
+                        </InputGroupAddon>
+                        <InputGroupInput For="@(() => _value)" x-model="colorPicker.value" />
+                    </RzInputGroup>
+                </RzColorPickerTrigger>
+            </RzColorPickerProvider>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private string _value = "#22c55e";
+}

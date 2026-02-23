@@ -1,0 +1,48 @@
+@page "/components/input-color"
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>Input Color</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle>
+        <MainContent>
+            <RzHeading Level="HeadingLevel.H1">Input Color</RzHeading>
+            <RzParagraph>
+                <code>RzInputColor</code> is the turnkey color input component built from
+                <code>RzColorPickerProvider</code>, <code>RzColorPickerTrigger</code>, and <code>RzColorSwatch</code>.
+            </RzParagraph>
+
+            <EditForm Model="_model" class="max-w-md">
+                <Field>
+                    <FieldLabel For="@(() => _model.BrandColor)">Brand Color</FieldLabel>
+                    <RzInputColor For="@(() => _model.BrandColor)"
+                                  Value="@_model.BrandColor"
+                                  Swatches="_swatches"
+                                  CloseButton
+                                  ClearButton />
+                </Field>
+            </EditForm>
+
+            <RzCodeViewer Language="@CodeLanguage.Razor">
+&lt;RzInputColor For="@@(() =&gt; _model.BrandColor)"
+              Value="@@_model.BrandColor"
+              Swatches="@@_swatches"
+              CloseButton
+              ClearButton /&gt;
+            </RzCodeViewer>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private readonly DemoModel _model = new();
+    private static readonly string[] _swatches = ["#ef4444", "#22c55e", "#3b82f6", "#a855f7"];
+
+    private sealed class DemoModel
+    {
+        [Required]
+        public string BrandColor { get; set; } = "#3b82f6";
+    }
+}

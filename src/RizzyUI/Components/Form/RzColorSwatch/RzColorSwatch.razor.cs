@@ -32,6 +32,10 @@ public partial class RzColorSwatch : RzComponent<RzColorSwatch.Slots>
         }
     );
 
+    private string? SwatchModelBinding { get; set; }
+
+    private IReadOnlyDictionary<string, object?>? RootAttributes { get; set; }
+
     /// <summary>
     /// Gets or sets the color value rendered by the swatch.
     /// </summary>
@@ -62,6 +66,35 @@ public partial class RzColorSwatch : RzComponent<RzColorSwatch.Slots>
             ? Localizer["RzColorSwatch.A11y.NoColor"]
             : string.Format(Localizer["RzColorSwatch.A11y.ColorValue"], Value)
         : AriaLabel;
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (AdditionalAttributes is null)
+        {
+            RootAttributes = null;
+            SwatchModelBinding = null;
+            return;
+        }
+
+        var rootAttributes = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
+        SwatchModelBinding = null;
+
+        foreach (var attribute in AdditionalAttributes)
+        {
+            if (string.Equals(attribute.Key, "x-model", StringComparison.OrdinalIgnoreCase))
+            {
+                SwatchModelBinding = attribute.Value?.ToString();
+                continue;
+            }
+
+            rootAttributes[attribute.Key] = attribute.Value;
+        }
+
+        RootAttributes = rootAttributes;
+    }
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzColorSwatch;

@@ -3,7 +3,7 @@
 
 <HtmlElement Element="@EffectiveElement"
              id="@Id"
-             @attributes="@AdditionalAttributes"
+             @attributes="@RootAttributes"
              class="@SlotClasses.GetBase()"
              data-slot="color-swatch"
              role="img"
@@ -12,6 +12,7 @@
     <div data-alpine-root="@Id"
          x-data="rzColorSwatch"
          x-modelable="value"
+         x-model="@SwatchModelBinding"
          data-value="@Value"
          data-without-transparency="@WithoutTransparency.ToString().ToLowerInvariant()"
          data-disabled="@Disabled.ToString().ToLowerInvariant()"

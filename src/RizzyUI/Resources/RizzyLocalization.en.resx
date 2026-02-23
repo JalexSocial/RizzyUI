@@ -511,4 +511,7 @@
   <data name="RzColorSwatch.A11y.ColorValue" xml:space="preserve">
     <value>Color swatch: {0}</value>
   </data>
+  <data name="RzColorPickerTrigger.DefaultAriaLabel" xml:space="preserve">
+    <value>Open color picker</value>
+  </data>
 </root>
