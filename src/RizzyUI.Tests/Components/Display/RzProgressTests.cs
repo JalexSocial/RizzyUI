@@ -24,7 +24,7 @@ public class RzProgressTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         // Assert
         var root = cut.Find($"div#{expectedId}");
         Assert.NotNull(root);
-        
+
         var alpineDiv = root.FirstElementChild;
         Assert.NotNull(alpineDiv);
         Assert.Equal("rzProgress", alpineDiv.GetAttribute("x-data"));

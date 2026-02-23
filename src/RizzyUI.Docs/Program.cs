@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Localization;
 using Rizzy;
 using Rizzy.Htmx;
 using RizzyUI;
-using RizzyUI.Docs;
 using RizzyUI.Docs.Components;
 using System.Globalization;
 

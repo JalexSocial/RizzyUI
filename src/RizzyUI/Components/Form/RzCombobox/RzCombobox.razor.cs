@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
-using System.Linq.Expressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using RizzyUI.Extensions;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -24,12 +22,12 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
 
     private string ConfigScriptId => $"{Id}-config";
     private string SelectId => $"{Id}-select";
-    
+
     private string _serializedConfig = "{}";
     private string _assets = "[]";
     private ComboboxOptions _effectiveOptions = new();
     private bool _isSelectListItem;
-    
+
     /// <summary>
     /// Configuration options for the Tom Select instance.
     /// </summary>
@@ -65,7 +63,7 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     /// Automatically set if TItem is SelectListItem.
     /// </summary>
     [Parameter] public Func<TItem, string>? ValueSelector { get; set; }
-    
+
     /// <summary>
     /// Function to extract the display text from an item.
     /// Automatically set if TItem is SelectListItem.
@@ -88,10 +86,10 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     [Parameter] public string[] ComponentAssetKeys { get; set; } = ["TomSelect"];
 
     private string NameAttributeValue => Name ?? (For != null ? FieldIdentifier.Create(For).FieldName : string.Empty);
-    
+
     // Implements IHasRzComboboxStylingProperties via InputBase.IsInvalid
     bool IHasRzComboboxStylingProperties.Invalid => IsInvalid;
-    
+
     /// <summary>
     /// True if TItem is Microsoft.AspNetCore.Mvc.Rendering.SelectListItem.
     /// </summary>
@@ -103,7 +101,7 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
         base.OnInitialized();
         if (string.IsNullOrEmpty(Element)) Element = "div";
         Placeholder ??= Localizer["RzCombobox.DefaultPlaceholder"];
-        
+
         _isSelectListItem = typeof(TItem) == typeof(SelectListItem);
 
         UpdateConfiguration();
@@ -113,7 +111,7 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        
+
         if (_isSelectListItem)
         {
             ValueSelector ??= i => ((SelectListItem)(object)i!).Value ?? string.Empty;
@@ -142,12 +140,12 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
 
         _effectiveOptions.ValueField = "value";
         _effectiveOptions.LabelField = "text";
-        _effectiveOptions.SearchField = ["text"]; 
+        _effectiveOptions.SearchField = ["text"];
 
-        _serializedConfig = JsonSerializer.Serialize(_effectiveOptions, new JsonSerializerOptions 
-        { 
+        _serializedConfig = JsonSerializer.Serialize(_effectiveOptions, new JsonSerializerOptions
+        {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull 
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         });
     }
 
@@ -182,7 +180,7 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
         {
             if (Multiple && Value is System.Collections.IEnumerable enumerable)
             {
-                foreach (var v in enumerable) 
+                foreach (var v in enumerable)
                 {
                     if (v?.ToString() == val) return true;
                 }
@@ -203,5 +201,5 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<RzComboboxSlots>, RzComboboxSlots> GetDescriptor() => Theme.RzCombobox;
-    
+
 }

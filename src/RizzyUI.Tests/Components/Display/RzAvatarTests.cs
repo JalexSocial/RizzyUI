@@ -1,6 +1,5 @@
 
 using Bunit;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace RizzyUI.Tests.Components.Display;

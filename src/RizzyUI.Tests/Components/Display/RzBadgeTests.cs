@@ -1,7 +1,6 @@
 
-using Bunit;
 using Blazicons;
-using Microsoft.AspNetCore.Components;
+using Bunit;
 
 namespace RizzyUI.Tests.Components.Display;
 

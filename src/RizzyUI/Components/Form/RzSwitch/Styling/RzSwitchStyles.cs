@@ -51,7 +51,7 @@ public static class RzSwitchStyles
         slots: new()
         {
             [s => s.Input] = "peer sr-only",
-            [s => s.Track] = 
+            [s => s.Track] =
                 "cursor-pointer " +
                 "inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none " +
                 "bg-input dark:bg-input/80 " + // Default unchecked background
@@ -62,8 +62,8 @@ public static class RzSwitchStyles
                 "peer-checked:[&>span]:translate-x-[calc(100%-2px)] " +
                 // Thumb dark mode color logic applied to track to target child span
                 "dark:peer-checked:[&>span]:bg-primary-foreground",
-            
-            [s => s.Thumb] = 
+
+            [s => s.Thumb] =
                 "pointer-events-none block size-4 rounded-full ring-0 shadow-sm transition-transform " +
                 "bg-background dark:bg-foreground " + // Default thumb color
                 "translate-x-0" // Default position

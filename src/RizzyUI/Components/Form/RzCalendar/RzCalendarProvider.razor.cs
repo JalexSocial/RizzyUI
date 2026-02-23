@@ -1,8 +1,7 @@
 
 using Microsoft.AspNetCore.Components;
-using System.Text.Json;
-using System.Linq;
 using System.Globalization;
+using System.Text.Json;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -97,11 +96,11 @@ public partial class RzCalendarProvider : RzComponent<RzCalendarProvider.Slots>
         {
             // Check if the range is actually populated (non-default)
             var isPopulated = Range.From != default || Range.To.HasValue;
-            
+
             if (isPopulated)
             {
                 var start = Range.From;
-                
+
                 if (Range.To.HasValue)
                 {
                     var end = Range.To.Value;
@@ -110,7 +109,7 @@ public partial class RzCalendarProvider : RzComponent<RzCalendarProvider.Slots>
                     {
                         (start, end) = (end, start);
                     }
-                    
+
                     dateList.Add(start.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
                     dateList.Add(end.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
                 }

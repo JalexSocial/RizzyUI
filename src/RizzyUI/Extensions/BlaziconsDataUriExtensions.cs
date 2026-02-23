@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Blazicons;
 using System.Text;
-using Blazicons;
 
 namespace RizzyUI;
 

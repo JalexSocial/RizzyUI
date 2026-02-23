@@ -1,4 +1,3 @@
-using Blazicons;
 using Microsoft.AspNetCore.Components;
 using TailwindVariants.NET;
 
