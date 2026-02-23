@@ -1,7 +1,7 @@
 namespace RizzyUI;
 
 /// <summary>
-/// Defines the output format produced by <see cref="RzColorPicker"/>.
+/// Defines the output format produced by <see cref="RzInputColor"/>.
 /// </summary>
 public enum ColorFormat
 {

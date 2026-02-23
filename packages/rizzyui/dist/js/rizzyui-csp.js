@@ -6880,20 +6880,40 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
       }
     }));
   }
-  function registerRzColorPicker(Alpine2, require) {
-    Alpine2.data("rzColorPicker", () => ({
-      colorValue: "",
-      swatchStyle: "background-color: transparent;",
+  function registerRzColorPickerProvider(Alpine2, require) {
+    Alpine2.data("rzColorPickerProvider", () => ({
+      colorPicker: {
+        value: "",
+        open: null,
+        setValue: null,
+        getValue: null,
+        updateConfiguration: null
+      },
       config: {},
-      inputId: "",
+      _isSyncingFromInput: false,
+      _isSyncingToInput: false,
+      _inputListenerAttached: false,
       init() {
-        this.inputId = this.$el.dataset.inputId;
-        this.colorValue = this.$el.dataset.initialValue || "";
+        this.colorPicker.open = this.openPicker.bind(this);
+        this.colorPicker.setValue = this.setValue.bind(this);
+        this.colorPicker.getValue = () => this.colorPicker.value;
+        this.colorPicker.updateConfiguration = this.updateConfiguration.bind(this);
+        this.colorPicker.value = this.readValue(this.$el.dataset.initialValue || "");
         this.config = this.readConfig();
-        this.refreshSwatch();
+        this.$watch("colorPicker.value", (next) => {
+          const normalized = this.readValue(next);
+          if (normalized !== next) {
+            this.colorPicker.value = normalized;
+            return;
+          }
+          this.syncInputFromState();
+        });
         const assets = JSON.parse(this.$el.dataset.assets || "[]");
         const nonce = this.$el.dataset.nonce;
         require(assets, nonce).then(() => this.initializeColoris()).catch((e2) => this.handleAssetError(e2));
+      },
+      readValue(value) {
+        return typeof value === "string" ? value.trim() : "";
       },
       readConfig() {
         const raw2 = this.$el.dataset.config;
@@ -6911,28 +6931,34 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         if (!input || !window.Coloris) {
           return;
         }
-        const self2 = this;
         this.config = {
           el: input,
           wrap: false,
           themeMode: "auto",
           onChange: (color, inputEl) => {
+            this.syncStateFromInput(inputEl);
             inputEl.dispatchEvent(new CustomEvent("rz:colorpicker:onchange", {
               bubbles: true,
               composed: true,
               detail: {
-                rzColorPicker: self2,
-                updateConfiguration: self2.updateConfiguration.bind(self2),
-                el: inputEl
+                colorPicker: this.colorPicker,
+                updateConfiguration: this.updateConfiguration.bind(this),
+                el: inputEl,
+                providerEl: this.$el
               }
             }));
           },
           ...this.config
         };
         window.Coloris(this.config);
-        this.colorValue = input.value || this.colorValue;
-        this.refreshSwatch();
-        input.addEventListener("input", () => this.handleInput());
+        this.syncStateFromInput(input);
+        if (!this._inputListenerAttached) {
+          input.addEventListener("input", () => {
+            this.syncStateFromInput(input);
+          });
+          this._inputListenerAttached = true;
+        }
+        this.syncInputFromState();
       },
       openPicker() {
         const input = this.$refs.input;
@@ -6942,24 +6968,45 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
         input.focus();
         input.dispatchEvent(new MouseEvent("click", { bubbles: true }));
       },
+      setValue(value) {
+        this.colorPicker.value = value;
+      },
       updateConfiguration(config) {
         this.config = {
           ...this.config,
           ...config
         };
-        if (!window.Coloris || !this.$refs.input) {
+        const input = this.$refs.input;
+        if (!window.Coloris || !input) {
           return;
         }
-        window.Coloris.setInstance(this.$refs.input, this.config);
+        window.Coloris.setInstance(input, this.config);
       },
-      handleInput() {
+      syncStateFromInput(inputEl) {
+        if (!inputEl || this._isSyncingToInput) {
+          return;
+        }
+        this._isSyncingFromInput = true;
+        this.colorPicker.value = this.readValue(inputEl.value || "");
+        queueMicrotask(() => {
+          this._isSyncingFromInput = false;
+        });
+      },
+      syncInputFromState() {
         const input = this.$refs.input;
-        this.colorValue = input ? input.value : "";
-        this.refreshSwatch();
-      },
-      refreshSwatch() {
-        const normalized = this.colorValue && this.colorValue.trim().length > 0 ? this.colorValue : "transparent";
-        this.swatchStyle = "background-color: " + normalized + ";";
+        if (!input || this._isSyncingFromInput) {
+          return;
+        }
+        const next = this.readValue(this.colorPicker.value);
+        if (input.value === next) {
+          return;
+        }
+        this._isSyncingToInput = true;
+        input.value = next;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        queueMicrotask(() => {
+          this._isSyncingToInput = false;
+        });
       },
       handleAssetError(error2) {
         console.error("Failed to load Coloris assets.", error2);
@@ -6968,66 +7015,122 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
   }
   function registerRzColorSwatch(Alpine2) {
     Alpine2.data("rzColorSwatch", () => ({
+      // ──────────────────────────────────────────────────────────────────────
+      // STATE
+      // ──────────────────────────────────────────────────────────────────────
       value: "",
       withoutTransparency: false,
       isDisabled: false,
+      // Derived inline style string used by the swatch element.
       swatchStyle: "",
+      // ──────────────────────────────────────────────────────────────────────
+      // LIFECYCLE
+      // ──────────────────────────────────────────────────────────────────────
       init() {
         this.value = this.readValue(this.$el.dataset.value);
-        this.withoutTransparency = this.$el.dataset.withoutTransparency === "true";
-        this.isDisabled = this.$el.dataset.disabled === "true";
+        this.withoutTransparency = this.readBool(this.$el.dataset.withoutTransparency);
+        this.isDisabled = this.readBool(this.$el.dataset.disabled);
+        this.$watch("value", (next) => {
+          const normalized = this.readValue(next);
+          if (normalized !== next) {
+            this.value = normalized;
+            return;
+          }
+          this.refreshSwatch();
+        });
+        this.$watch("withoutTransparency", () => {
+          this.refreshSwatch();
+        });
         this.refreshSwatch();
       },
+      // ──────────────────────────────────────────────────────────────────────
+      // PUBLIC API (imperative interop)
+      // ──────────────────────────────────────────────────────────────────────
       getValue() {
         return this.value;
       },
       setValue(value) {
-        this.value = this.readValue(value);
-        this.refreshSwatch();
+        this.value = value;
+      },
+      // Optional helper if parent code needs to toggle checkerboard behavior.
+      setWithoutTransparency(value) {
+        this.withoutTransparency = !!value;
+      },
+      // ──────────────────────────────────────────────────────────────────────
+      // NORMALIZATION / PARSING
+      // ──────────────────────────────────────────────────────────────────────
+      readBool(value) {
+        return value === "true";
       },
       readValue(value) {
-        if (typeof value !== "string") {
-          return "";
-        }
+        if (typeof value !== "string") return "";
         return value.trim();
       },
+      // ──────────────────────────────────────────────────────────────────────
+      // COLOR INSPECTION
+      // ──────────────────────────────────────────────────────────────────────
       isCssColor(value) {
         try {
-          return typeof CSS !== "undefined" && typeof CSS.supports === "function" ? CSS.supports("color", value) : true;
+          if (typeof CSS !== "undefined" && typeof CSS.supports === "function") {
+            return CSS.supports("color", value);
+          }
+          return true;
         } catch {
           return false;
         }
       },
       hasAlpha(value) {
         const normalized = value.trim().toLowerCase();
-        if (normalized === "transparent") {
-          return true;
-        }
-        if (/^#(?:[0-9a-f]{4}|[0-9a-f]{8})$/i.test(normalized)) {
-          return true;
-        }
-        if (/\b(?:rgba|hsla)\s*\(/i.test(normalized)) {
-          return true;
-        }
+        if (normalized === "transparent") return true;
+        if (/^#(?:[0-9a-f]{4}|[0-9a-f]{8})$/i.test(normalized)) return true;
+        if (/\b(?:rgba|hsla)\s*\(/i.test(normalized)) return true;
         if (/\b(?:rgb|hsl|lab|lch|oklab|oklch|color)\s*\([^)]*\/\s*[\d.]+%?\s*\)/i.test(normalized)) {
           return true;
         }
         return false;
       },
+      // ──────────────────────────────────────────────────────────────────────
+      // STYLE COMPUTATION
+      // ──────────────────────────────────────────────────────────────────────
+      getEmptyStyle() {
+        return [
+          "background:",
+          "linear-gradient(",
+          "to bottom right,",
+          "transparent calc(50% - 1px),",
+          "hsl(var(--destructive)) calc(50% - 1px) calc(50% + 1px),",
+          "transparent calc(50% + 1px)",
+          ") no-repeat;"
+        ].join(" ");
+      },
+      getInvalidStyle() {
+        return "background-color: transparent;";
+      },
+      getSolidColorStyle(color) {
+        return `background-color: ${color};`;
+      },
+      getAlphaPreviewStyle(color) {
+        return [
+          `background: linear-gradient(${color}, ${color}),`,
+          "repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%)",
+          "0% 50% / 10px 10px;"
+        ].join(" ");
+      },
       refreshSwatch() {
-        if (!this.value) {
-          this.swatchStyle = "background: linear-gradient(to bottom right, transparent calc(50% - 1px), hsl(var(--destructive)) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)) no-repeat;";
+        const color = this.value;
+        if (!color) {
+          this.swatchStyle = this.getEmptyStyle();
           return;
         }
-        if (!this.isCssColor(this.value)) {
-          this.swatchStyle = "background-color: transparent;";
+        if (!this.isCssColor(color)) {
+          this.swatchStyle = this.getInvalidStyle();
           return;
         }
-        if (!this.withoutTransparency && this.hasAlpha(this.value)) {
-          this.swatchStyle = "background: linear-gradient(" + this.value + ", " + this.value + "), repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 0% 50% / 10px 10px;";
+        if (!this.withoutTransparency && this.hasAlpha(color)) {
+          this.swatchStyle = this.getAlphaPreviewStyle(color);
           return;
         }
-        this.swatchStyle = "background-color: " + this.value + ";";
+        this.swatchStyle = this.getSolidColorStyle(color);
       }
     }));
   }
@@ -12755,7 +12858,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     registerRzCodeViewer(Alpine2, rizzyRequire);
     registerRzCollapsible(Alpine2);
     registerRzCombobox(Alpine2, rizzyRequire);
-    registerRzColorPicker(Alpine2, rizzyRequire);
+    registerRzColorPickerProvider(Alpine2, rizzyRequire);
     registerRzColorSwatch(Alpine2);
     registerRzDateEdit(Alpine2, rizzyRequire);
     registerRzModal(Alpine2);

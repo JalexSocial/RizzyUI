@@ -213,6 +213,7 @@
                 <RzParagraph>
                     <code>RzColorSwatch</code> uses the Alpine component <code>rzColorSwatch</code>. You can access methods through
                     <code>Rizzy.$data(id)</code> and invoke <code>getValue()</code> and <code>setValue(value)</code> at runtime.
+                    When <code>x-model</code> is provided on <code>RzColorSwatch</code>, RizzyUI applies that binding to the internal Alpine root for proper model synchronization.
                 </RzParagraph>
                 <RzCodeViewer Language="@CodeLanguage.JavaScript" class="mb-10">
 const swatch = Rizzy.$data('my-swatch-id');

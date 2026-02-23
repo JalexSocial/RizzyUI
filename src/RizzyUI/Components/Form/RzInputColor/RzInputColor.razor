@@ -1,0 +1,39 @@
+@namespace RizzyUI
+@inherits InputBase<string, RzInputColor.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="input-color">
+    <RzColorPickerProvider Value="@Value"
+                           Format="@Format"
+                           Alpha="@Alpha"
+                           Swatches="@Swatches"
+                           SwatchesOnly="@SwatchesOnly"
+                           CloseButton="@CloseButton"
+                           ClearButton="@ClearButton"
+                           ComponentAssetKeys="@ComponentAssetKeys">
+        <RzInputGroup class="@SlotClasses.GetInputGroup()"
+                      data-slot="@RzInputColor.SlotNames.NameOf(SlotTypes.InputGroup)">
+            <RzColorPickerTrigger>
+                <InputGroupAddon Align="@(ThumbnailPosition == ColorThumbnailPosition.Start ? InputGroupAddonAlign.InlineStart : InputGroupAddonAlign.InlineEnd)"
+                                 class="@SlotClasses.GetThumbnailContainer()"
+                                 data-slot="@RzInputColor.SlotNames.NameOf(SlotTypes.ThumbnailContainer)">
+                    <RzColorSwatch Value="@Value"
+                                   x-model="colorPicker.value"
+                                   class="@SlotClasses.GetThumbnail()"
+                                   data-slot="@RzInputColor.SlotNames.NameOf(SlotTypes.Thumbnail)" />
+                </InputGroupAddon>
+            </RzColorPickerTrigger>
+
+            <InputGroupInput For="@For"
+                             class="@SlotClasses.GetInput()"
+                             id="@InputId"
+                             placeholder="@Placeholder"
+                             value="@Value"
+                             data-slot="@RzInputColor.SlotNames.NameOf(SlotTypes.Input)"
+                             x-model="colorPicker.value" />
+        </RzInputGroup>
+    </RzColorPickerProvider>
+</HtmlElement>

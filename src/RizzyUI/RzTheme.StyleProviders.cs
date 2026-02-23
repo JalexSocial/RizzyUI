@@ -178,8 +178,12 @@ public partial class RzTheme
 	public virtual TvDescriptor<RzComponent<RzCalendarProvider.Slots>, RzCalendarProvider.Slots> RzCalendarProvider { get; set; }	
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzDateEdit"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzDateEdit.Slots>, RzDateEdit.Slots> RzDateEdit { get; set; }
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzColorPicker"/> component. </summary>
-    public virtual TvDescriptor<RzComponent<RzColorPicker.Slots>, RzColorPicker.Slots> RzColorPicker { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzColorPickerProvider"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzColorPickerProvider.Slots>, RzColorPickerProvider.Slots> RzColorPickerProvider { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzColorPickerTrigger"/> component. </summary>
+    public virtual TvDescriptor<RzAsChildComponent<RzColorPickerTrigger.Slots>, RzColorPickerTrigger.Slots> RzColorPickerTrigger { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzInputColor"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzInputColor.Slots>, RzInputColor.Slots> RzInputColor { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzColorSwatch"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzColorSwatch.Slots>, RzColorSwatch.Slots> RzColorSwatch { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzFormSection"/> component. </summary>

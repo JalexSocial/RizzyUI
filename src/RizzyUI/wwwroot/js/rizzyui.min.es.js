@@ -4200,15 +4200,32 @@ function Nl(e, t) {
   }));
 }
 function Ll(e, t) {
-  e.data("rzColorPicker", () => ({
-    colorValue: "",
-    swatchStyle: "background-color: transparent;",
+  e.data("rzColorPickerProvider", () => ({
+    colorPicker: {
+      value: "",
+      open: null,
+      setValue: null,
+      getValue: null,
+      updateConfiguration: null
+    },
     config: {},
-    inputId: "",
+    _isSyncingFromInput: !1,
+    _isSyncingToInput: !1,
+    _inputListenerAttached: !1,
     init() {
-      this.inputId = this.$el.dataset.inputId, this.colorValue = this.$el.dataset.initialValue || "", this.config = this.readConfig(), this.refreshSwatch();
+      this.colorPicker.open = this.openPicker.bind(this), this.colorPicker.setValue = this.setValue.bind(this), this.colorPicker.getValue = () => this.colorPicker.value, this.colorPicker.updateConfiguration = this.updateConfiguration.bind(this), this.colorPicker.value = this.readValue(this.$el.dataset.initialValue || ""), this.config = this.readConfig(), this.$watch("colorPicker.value", (s) => {
+        const r = this.readValue(s);
+        if (r !== s) {
+          this.colorPicker.value = r;
+          return;
+        }
+        this.syncInputFromState();
+      });
       const i = JSON.parse(this.$el.dataset.assets || "[]"), n = this.$el.dataset.nonce;
       t(i, n).then(() => this.initializeColoris()).catch((s) => this.handleAssetError(s));
+    },
+    readValue(i) {
+      return typeof i == "string" ? i.trim() : "";
     },
     readConfig() {
       const i = this.$el.dataset.config;
@@ -4222,44 +4239,55 @@ function Ll(e, t) {
     },
     initializeColoris() {
       const i = this.$refs.input;
-      if (!i || !window.Coloris)
-        return;
-      const n = this;
-      this.config = {
+      !i || !window.Coloris || (this.config = {
         el: i,
         wrap: !1,
         themeMode: "auto",
-        onChange: (s, r) => {
-          r.dispatchEvent(new CustomEvent("rz:colorpicker:onchange", {
+        onChange: (n, s) => {
+          this.syncStateFromInput(s), s.dispatchEvent(new CustomEvent("rz:colorpicker:onchange", {
             bubbles: !0,
             composed: !0,
             detail: {
-              rzColorPicker: n,
-              updateConfiguration: n.updateConfiguration.bind(n),
-              el: r
+              colorPicker: this.colorPicker,
+              updateConfiguration: this.updateConfiguration.bind(this),
+              el: s,
+              providerEl: this.$el
             }
           }));
         },
         ...this.config
-      }, window.Coloris(this.config), this.colorValue = i.value || this.colorValue, this.refreshSwatch(), i.addEventListener("input", () => this.handleInput());
+      }, window.Coloris(this.config), this.syncStateFromInput(i), this._inputListenerAttached || (i.addEventListener("input", () => {
+        this.syncStateFromInput(i);
+      }), this._inputListenerAttached = !0), this.syncInputFromState());
     },
     openPicker() {
       const i = this.$refs.input;
       i && (i.focus(), i.dispatchEvent(new MouseEvent("click", { bubbles: !0 })));
     },
+    setValue(i) {
+      this.colorPicker.value = i;
+    },
     updateConfiguration(i) {
       this.config = {
         ...this.config,
         ...i
-      }, !(!window.Coloris || !this.$refs.input) && window.Coloris.setInstance(this.$refs.input, this.config);
+      };
+      const n = this.$refs.input;
+      !window.Coloris || !n || window.Coloris.setInstance(n, this.config);
     },
-    handleInput() {
+    syncStateFromInput(i) {
+      !i || this._isSyncingToInput || (this._isSyncingFromInput = !0, this.colorPicker.value = this.readValue(i.value || ""), queueMicrotask(() => {
+        this._isSyncingFromInput = !1;
+      }));
+    },
+    syncInputFromState() {
       const i = this.$refs.input;
-      this.colorValue = i ? i.value : "", this.refreshSwatch();
-    },
-    refreshSwatch() {
-      const i = this.colorValue && this.colorValue.trim().length > 0 ? this.colorValue : "transparent";
-      this.swatchStyle = "background-color: " + i + ";";
+      if (!i || this._isSyncingFromInput)
+        return;
+      const n = this.readValue(this.colorPicker.value);
+      i.value !== n && (this._isSyncingToInput = !0, i.value = n, i.dispatchEvent(new Event("input", { bubbles: !0 })), queueMicrotask(() => {
+        this._isSyncingToInput = !1;
+      }));
     },
     handleAssetError(i) {
       console.error("Failed to load Coloris assets.", i);
@@ -4268,22 +4296,54 @@ function Ll(e, t) {
 }
 function Rl(e) {
   e.data("rzColorSwatch", () => ({
+    // ──────────────────────────────────────────────────────────────────────
+    // STATE
+    // ──────────────────────────────────────────────────────────────────────
     value: "",
     withoutTransparency: !1,
     isDisabled: !1,
+    // Derived inline style string used by the swatch element.
     swatchStyle: "",
+    // ──────────────────────────────────────────────────────────────────────
+    // LIFECYCLE
+    // ──────────────────────────────────────────────────────────────────────
     init() {
-      this.value = this.readValue(this.$el.dataset.value), this.withoutTransparency = this.$el.dataset.withoutTransparency === "true", this.isDisabled = this.$el.dataset.disabled === "true", this.refreshSwatch();
+      this.value = this.readValue(this.$el.dataset.value), this.withoutTransparency = this.readBool(this.$el.dataset.withoutTransparency), this.isDisabled = this.readBool(this.$el.dataset.disabled), this.$watch("value", (t) => {
+        const i = this.readValue(t);
+        if (i !== t) {
+          this.value = i;
+          return;
+        }
+        this.refreshSwatch();
+      }), this.$watch("withoutTransparency", () => {
+        this.refreshSwatch();
+      }), this.refreshSwatch();
     },
+    // ──────────────────────────────────────────────────────────────────────
+    // PUBLIC API (imperative interop)
+    // ──────────────────────────────────────────────────────────────────────
     getValue() {
       return this.value;
     },
     setValue(t) {
-      this.value = this.readValue(t), this.refreshSwatch();
+      this.value = t;
+    },
+    // Optional helper if parent code needs to toggle checkerboard behavior.
+    setWithoutTransparency(t) {
+      this.withoutTransparency = !!t;
+    },
+    // ──────────────────────────────────────────────────────────────────────
+    // NORMALIZATION / PARSING
+    // ──────────────────────────────────────────────────────────────────────
+    readBool(t) {
+      return t === "true";
     },
     readValue(t) {
       return typeof t != "string" ? "" : t.trim();
     },
+    // ──────────────────────────────────────────────────────────────────────
+    // COLOR INSPECTION
+    // ──────────────────────────────────────────────────────────────────────
     isCssColor(t) {
       try {
         return typeof CSS < "u" && typeof CSS.supports == "function" ? CSS.supports("color", t) : !0;
@@ -4295,20 +4355,48 @@ function Rl(e) {
       const i = t.trim().toLowerCase();
       return !!(i === "transparent" || /^#(?:[0-9a-f]{4}|[0-9a-f]{8})$/i.test(i) || /\b(?:rgba|hsla)\s*\(/i.test(i) || /\b(?:rgb|hsl|lab|lch|oklab|oklch|color)\s*\([^)]*\/\s*[\d.]+%?\s*\)/i.test(i));
     },
+    // ──────────────────────────────────────────────────────────────────────
+    // STYLE COMPUTATION
+    // ──────────────────────────────────────────────────────────────────────
+    getEmptyStyle() {
+      return [
+        "background:",
+        "linear-gradient(",
+        "to bottom right,",
+        "transparent calc(50% - 1px),",
+        "hsl(var(--destructive)) calc(50% - 1px) calc(50% + 1px),",
+        "transparent calc(50% + 1px)",
+        ") no-repeat;"
+      ].join(" ");
+    },
+    getInvalidStyle() {
+      return "background-color: transparent;";
+    },
+    getSolidColorStyle(t) {
+      return `background-color: ${t};`;
+    },
+    getAlphaPreviewStyle(t) {
+      return [
+        `background: linear-gradient(${t}, ${t}),`,
+        "repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%)",
+        "0% 50% / 10px 10px;"
+      ].join(" ");
+    },
     refreshSwatch() {
-      if (!this.value) {
-        this.swatchStyle = "background: linear-gradient(to bottom right, transparent calc(50% - 1px), hsl(var(--destructive)) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)) no-repeat;";
+      const t = this.value;
+      if (!t) {
+        this.swatchStyle = this.getEmptyStyle();
         return;
       }
-      if (!this.isCssColor(this.value)) {
-        this.swatchStyle = "background-color: transparent;";
+      if (!this.isCssColor(t)) {
+        this.swatchStyle = this.getInvalidStyle();
         return;
       }
-      if (!this.withoutTransparency && this.hasAlpha(this.value)) {
-        this.swatchStyle = "background: linear-gradient(" + this.value + ", " + this.value + "), repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 0% 50% / 10px 10px;";
+      if (!this.withoutTransparency && this.hasAlpha(t)) {
+        this.swatchStyle = this.getAlphaPreviewStyle(t);
         return;
       }
-      this.swatchStyle = "background-color: " + this.value + ";";
+      this.swatchStyle = this.getSolidColorStyle(t);
     }
   }));
 }

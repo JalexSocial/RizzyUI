@@ -1,39 +1,29 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
-using RizzyUI.Extensions;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
-/// Provides a themed color input using the Coloris picker library.
+/// Provides a turnkey color input composed from the color picker provider, trigger, swatch, and input primitives.
 /// </summary>
-public partial class RzColorPicker : InputBase<string, RzColorPicker.Slots>
+public partial class RzInputColor : InputBase<string, RzInputColor.Slots>
 {
     /// <summary>
-    /// Defines the default styling for <see cref="RzColorPicker"/>.
+    /// Defines the default styling for <see cref="RzInputColor"/>.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
         @base: "w-full",
         slots: new()
         {
-            [s => s.InputGroup] = "w-full ",
+            [s => s.InputGroup] = "w-full",
             [s => s.Input] = "",
             [s => s.ThumbnailContainer] = "p-0",
             [s => s.Thumbnail] = "size-8 rounded-md border border-border shadow-sm ring-offset-background"
         }
     );
 
-    private string _assets = "[]";
-    private string _serializedConfig = "{}";
-
-    [Inject]
-    private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
-
     /// <summary>
-    /// Gets the generated input identifier used by Coloris.
+    /// Gets the generated input identifier used for the visible text input.
     /// </summary>
     public string InputId => $"{Id}-input";
 
@@ -87,7 +77,6 @@ public partial class RzColorPicker : InputBase<string, RzColorPicker.Slots>
     {
         base.OnInitialized();
         Placeholder ??= Localizer["RzColorPicker.DefaultPlaceholder"];
-        SerializeConfigAndAssets();
     }
 
     /// <inheritdoc/>
@@ -95,59 +84,20 @@ public partial class RzColorPicker : InputBase<string, RzColorPicker.Slots>
     {
         base.OnParametersSet();
         Placeholder ??= Localizer["RzColorPicker.DefaultPlaceholder"];
-        SerializeConfigAndAssets();
-    }
-
-    private void SerializeConfigAndAssets()
-    {
-        var options = new ColorisOptions
-        {
-            Format = Format.ToString().ToKebabCase(),
-            Alpha = Alpha,
-            Swatches = Swatches,
-            SwatchesOnly = SwatchesOnly,
-            CloseButton = CloseButton,
-            ClearButton = ClearButton,
-            A11y = new ColorisA11yOptions
-            {
-                Open = Localizer["RzColorPicker.A11y.Open"],
-                Close = Localizer["RzColorPicker.A11y.Close"],
-                Clear = Localizer["RzColorPicker.A11y.Clear"],
-                Marker = Localizer["RzColorPicker.A11y.Marker"],
-                HueSlider = Localizer["RzColorPicker.A11y.HueSlider"],
-                AlphaSlider = Localizer["RzColorPicker.A11y.AlphaSlider"],
-                Format = Localizer["RzColorPicker.A11y.Format"],
-                Swatch = Localizer["RzColorPicker.A11y.Swatch"],
-                Input = Localizer["RzColorPicker.A11y.Input"],
-                Instruction = Localizer["RzColorPicker.A11y.Instruction"]
-            }
-        };
-
-        _serializedConfig = JsonSerializer.Serialize(options, new JsonSerializerOptions
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        });
-
-        var assetUrls = ComponentAssetKeys
-            .Select(key => RizzyUIConfig.Value.AssetUrls.TryGetValue(key, out var url) ? url : null)
-            .Where(url => !string.IsNullOrEmpty(url))
-            .ToList();
-        _assets = JsonSerializer.Serialize(assetUrls);
     }
 
     /// <inheritdoc />
-    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzColorPicker;
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzInputColor;
 
     /// <summary>
-    /// Defines the slots available for styling in <see cref="RzColorPicker"/>.
+    /// Defines the slots available for styling in <see cref="RzInputColor"/>.
     /// </summary>
     public sealed partial class Slots : ISlots
     {
         /// <summary>
         /// Gets or sets classes for the root element.
         /// </summary>
-        [Slot("color-picker")]
+        [Slot("input-color")]
         public string? Base { get; set; }
 
         /// <summary>
