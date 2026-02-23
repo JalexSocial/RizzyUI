@@ -463,6 +463,9 @@
   .inset-y-4 {
     inset-block: calc(var(--spacing) * 4);
   }
+  .-top-\[9999px\] {
+    top: calc(9999px * -1);
+  }
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
@@ -525,6 +528,9 @@
   }
   .-left-12 {
     left: calc(var(--spacing) * -12);
+  }
+  .-left-\[9999px\] {
+    left: calc(9999px * -1);
   }
   .left-0 {
     left: calc(var(--spacing) * 0);

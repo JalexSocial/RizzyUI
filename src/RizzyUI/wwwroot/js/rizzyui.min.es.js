@@ -4244,7 +4244,7 @@ function Ll(e, t) {
         wrap: !1,
         themeMode: "auto",
         onChange: (n, s) => {
-          this.syncStateFromInput(s), s.dispatchEvent(new CustomEvent("rz:colorpicker:onchange", {
+          s === this.$refs.input && (this.syncStateFromInput(s), s.dispatchEvent(new CustomEvent("rz:colorpicker:onchange", {
             bubbles: !0,
             composed: !0,
             detail: {
@@ -4253,16 +4253,23 @@ function Ll(e, t) {
               el: s,
               providerEl: this.$el
             }
-          }));
+          })));
         },
         ...this.config
       }, window.Coloris(this.config), this.syncStateFromInput(i), this._inputListenerAttached || (i.addEventListener("input", () => {
         this.syncStateFromInput(i);
       }), this._inputListenerAttached = !0), this.syncInputFromState());
     },
-    openPicker() {
-      const i = this.$refs.input;
-      i && (i.focus(), i.dispatchEvent(new MouseEvent("click", { bubbles: !0 })));
+    openPicker(i) {
+      const n = this.$refs.input;
+      n && (this.positionAnchorInput(n, i), this.syncInputFromState(), n.focus(), n.dispatchEvent(new MouseEvent("click", { bubbles: !0 })));
+    },
+    positionAnchorInput(i, n) {
+      const s = n?.currentTarget;
+      if (!s || typeof s.getBoundingClientRect != "function")
+        return;
+      const r = s.getBoundingClientRect();
+      i.style.left = `${Math.round(r.left)}px`, i.style.top = `${Math.round(r.bottom)}px`;
     },
     setValue(i) {
       this.colorPicker.value = i;
