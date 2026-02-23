@@ -242,7 +242,7 @@ public static class StaticResourcesInfoProviderExtensions
                 routeTemplates.Add(route);
             }
         }
- 
+
         // Return an array of distinct route templates
         return routeTemplates.Distinct().ToArray();
     }

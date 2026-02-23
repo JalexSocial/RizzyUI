@@ -32,10 +32,10 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
             {
                 // Default
                 [ThemeVariant.Default] = new() { [s => s.Base] = "bg-input text-foreground border-input", [s => s.IconContainer] = "text-foreground", [s => s.IconPulse] = "bg-foreground/15", [s => s.CloseButton] = "text-foreground/70 hover:text-foreground" },
-                
+
                 // Inverse
                 [ThemeVariant.Inverse] = new() { [s => s.Base] = "bg-foreground text-background border-foreground", [s => s.IconContainer] = "text-background", [s => s.IconPulse] = "bg-background/15", [s => s.CloseButton] = "text-background hover:opacity-100 opacity-90" },
-                
+
                 // Standard Variants
                 [ThemeVariant.Primary] = new() { [s => s.Base] = "border-primary/50 bg-primary/10 text-primary", [s => s.IconContainer] = "text-primary", [s => s.IconPulse] = "bg-primary/15" },
                 [ThemeVariant.Secondary] = new() { [s => s.Base] = "border-secondary/50 bg-secondary/10 text-secondary-foreground", [s => s.IconContainer] = "text-secondary-foreground", [s => s.IconPulse] = "bg-secondary/15" },
@@ -44,7 +44,7 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
                 [ThemeVariant.Success] = new() { [s => s.Base] = "border-success bg-success/10 text-success-foreground dark:bg-success/15", [s => s.IconContainer] = "text-success", [s => s.IconPulse] = "bg-success/15" },
                 [ThemeVariant.Warning] = new() { [s => s.Base] = "border-warning bg-warning/10 text-warning-foreground dark:bg-warning/15", [s => s.IconContainer] = "text-warning", [s => s.IconPulse] = "bg-warning/15" },
                 [ThemeVariant.Destructive] = new() { [s => s.Base] = "border-destructive bg-destructive/10 text-destructive dark:bg-destructive/15", [s => s.IconContainer] = "text-destructive", [s => s.IconPulse] = "bg-destructive/15" },
-                
+
                 // Ghost
                 [ThemeVariant.Ghost] = new() { [s => s.Base] = "border-transparent bg-transparent text-foreground", [s => s.IconContainer] = "text-foreground", [s => s.IconPulse] = "bg-muted/50" }
             }

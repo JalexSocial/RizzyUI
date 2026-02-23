@@ -1,9 +1,6 @@
 
 #nullable enable
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -276,7 +273,7 @@ public record Styles
     [JsonPropertyName("calendar")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Calendar { get; init; }
-    
+
     // Add other style properties as needed...
 }
 
@@ -288,10 +285,10 @@ public readonly struct DateAny
 {
     private readonly object _value;
     private DateAny(object value) => _value = value;
-    
+
     /// <summary>Represents the current date.</summary>
     public static readonly DateAny Today = new("today");
-    
+
     /// <summary>Creates a DateAny from a DateOnly value.</summary>
     public static implicit operator DateAny(DateOnly date) => new(date);
     /// <summary>Creates a DateAny from a DateTime value (time part is ignored).</summary>
@@ -774,7 +771,7 @@ public sealed class DayOfWeekListConverter : JsonConverter<IReadOnlyList<DayOfWe
         if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException("Expected an array of numbers for DayOfWeek list.");
         var intList = JsonSerializer.Deserialize<List<int>>(ref reader, options);
         if (intList == null) return new List<DayOfWeek>();
-        
+
         foreach (var i in intList)
         {
             if (i < 0 || i > 6) throw new JsonException($"Invalid weekday index: {i}. Expected 0..6.");
@@ -807,7 +804,7 @@ public sealed class DateOnlyRangeListConverter : JsonConverter<IReadOnlyList<Dat
     public override IReadOnlyList<DateOnly> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartArray) throw new JsonException("Expected an array of strings for DateOnly list.");
-        
+
         var stringList = JsonSerializer.Deserialize<List<string>>(ref reader, options);
         if (stringList == null) return new List<DateOnly>();
 
@@ -838,7 +835,7 @@ public sealed class DateOnlyRangeListConverter : JsonConverter<IReadOnlyList<Dat
                     continue;
                 }
             }
-            
+
             if (DateOnly.TryParseExact(entry.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var exactDate))
             {
                 results.Add(exactDate);
@@ -851,7 +848,7 @@ public sealed class DateOnlyRangeListConverter : JsonConverter<IReadOnlyList<Dat
     public override void Write(Utf8JsonWriter writer, IReadOnlyList<DateOnly> value, JsonSerializerOptions options)
     {
         var sortedDates = value.Distinct().OrderBy(d => d).ToList();
-        
+
         writer.WriteStartArray();
         for (int i = 0; i < sortedDates.Count; i++)
         {
@@ -926,7 +923,7 @@ public sealed class PositionConverter : JsonConverter<Position>
             case Position.Left: writer.WriteStringValue("left"); return;
             case Position.Center: writer.WriteStringValue("center"); return;
             case Position.Right: writer.WriteStringValue("right"); return;
-            
+
             case Position.TopLeft: writer.WriteStartArray(); writer.WriteStringValue("top"); writer.WriteStringValue("left"); writer.WriteEndArray(); return;
             case Position.TopCenter: writer.WriteStartArray(); writer.WriteStringValue("top"); writer.WriteStringValue("center"); writer.WriteEndArray(); return;
             case Position.TopRight: writer.WriteStartArray(); writer.WriteStringValue("top"); writer.WriteStringValue("right"); writer.WriteEndArray(); return;
@@ -1136,7 +1133,7 @@ public sealed class DateAnyConverter : JsonConverter<DateAny>
 /// Using this context improves performance and is required for AOT (Ahead-Of-Time) compilation scenarios like Blazor WebAssembly.
 /// </summary>
 [JsonSourceGenerationOptions(
-    WriteIndented = false, 
+    WriteIndented = false,
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
 )]

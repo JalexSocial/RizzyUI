@@ -1,6 +1,5 @@
 
 // src/RizzyUI/Components/Form/RzCheckboxGroup/RzInputCheckbox.razor.cs
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using TailwindVariants.NET;
 
@@ -22,7 +21,7 @@ public partial class RzInputCheckbox : InputBase<bool, RzInputCheckbox.Slots>
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzCheckbox;
-    
+
     /// <summary>
     /// Defines the slots available for styling in the RzInputCheckbox component.
     /// </summary>

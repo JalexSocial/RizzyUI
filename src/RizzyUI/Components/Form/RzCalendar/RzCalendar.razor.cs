@@ -1,9 +1,9 @@
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
+using Rizzy.Utility;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Rizzy.Utility;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -31,17 +31,17 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             // Root container
             // Use !important to override VCP's default theme styles since we are hijacking them with CSS vars
             [s => s.Root] = "w-fit !bg-card border !border-border rounded-md shadow-sm p-3 !text-card-foreground",
-            
+
             // Header & Navigation
             [s => s.Header] = "flex justify-center pt-1 relative items-center gap-1 mb-4",
-            [s => s.HeaderContent] = "text-sm font-medium", 
+            [s => s.HeaderContent] = "text-sm font-medium",
             [s => s.Month] = "text-sm font-medium hover:bg-accent hover:text-accent-foreground rounded-md px-2 py-1 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             [s => s.Year] = "text-sm font-medium hover:bg-accent hover:text-accent-foreground rounded-md px-2 py-1 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-            
+
             // Arrows (Absolute positioning to match Shadcn)
             [s => s.ArrowPrev] = $"absolute left-1 top-0 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 flex items-center justify-center rounded-md border border-input hover:bg-accent hover:text-accent-foreground transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rizzy-vc-arrow",
             [s => s.ArrowNext] = $"absolute right-1 top-0 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 flex items-center justify-center rounded-md border border-input hover:bg-accent hover:text-accent-foreground transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rizzy-vc-arrow",
-            
+
             // Grid Layouts
             [s => s.Grid] = "w-full border-collapse space-y-1",
             [s => s.Weekdays] = "flex",
@@ -53,10 +53,10 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             // Day Cell (Wrapper)
             // 'group' class allows the button to style itself based on this cell's attributes (e.g. data-vc-date-today)
             [s => s.DayCell] = "group relative p-0 text-center text-sm focus-within:relative focus-within:z-20", // " [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md",
-            
+
             // Day Button (Interactive)
             // We use group-data-* modifiers to target the attributes VCP applies to the parent DayCell or self
-            [s => s.DayButton] = 
+            [s => s.DayButton] =
                 // Base
                 "h-9 w-9 p-0 font-normal aria-selected:opacity-100 inline-flex items-center justify-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 " +
                 // Hover (when not selected)
@@ -74,7 +74,7 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
                 "group-data-[vc-date-selected=middle]:bg-accent group-data-[vc-date-selected=middle]:text-accent-foreground group-data-[vc-date-selected=middle]:rounded-none " +
                 // Range Start/End
                 "group-data-[vc-date-selected=first]:bg-primary group-data-[vc-date-selected=first]:text-primary-foreground group-data-[vc-date-selected=first]:rounded-l-md group-data-[vc-date-selected=first]:rounded-r-none " +
-                "group-data-[vc-date-selected=last]:bg-primary group-data-[vc-date-selected=last]:text-primary-foreground group-data-[vc-date-selected=last]:rounded-r-md group-data-[vc-date-selected=last]:rounded-l-none " + 
+                "group-data-[vc-date-selected=last]:bg-primary group-data-[vc-date-selected=last]:text-primary-foreground group-data-[vc-date-selected=last]:rounded-r-md group-data-[vc-date-selected=last]:rounded-l-none " +
                 "group-data-[vc-date-selected=first-and-last]:rounded-md",
 
             // Months/Years View Items
@@ -97,7 +97,7 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
     private string _serializedConfig = "{}";
     private string _assets = "[]";
     private readonly string _calendarId = IdGenerator.UniqueId("vc");
-    
+
     /// <summary>
     /// Gets the unique DOM ID for the calendar instance.
     /// </summary>
@@ -188,8 +188,8 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             // FORCE light theme mode to prevent VCP from using its own OS detection.
             // Our CSS variables will handle the actual light/dark switching because 
             // RizzyUI themes update CSS variables on the :root/.dark element.
-            SelectedTheme = "light", 
-            ThemeAttrDetect = "" 
+            SelectedTheme = "light",
+            ThemeAttrDetect = ""
         };
 
         if (Options != null)
@@ -213,14 +213,14 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
         }
 
         config = config with { SelectionDatesMode = Mode };
-        
-        if (ShowOutsideDays.HasValue) 
+
+        if (ShowOutsideDays.HasValue)
             config = config with { DisplayDatesOutside = ShowOutsideDays.Value };
 
-        if (MinDate.HasValue) 
+        if (MinDate.HasValue)
             config = config with { DateMin = MinDate.Value };
-        
-        if (MaxDate.HasValue) 
+
+        if (MaxDate.HasValue)
             config = config with { DateMax = MaxDate.Value };
 
         var selectedDates = new List<DateOnly>();
@@ -238,10 +238,10 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             if (Range.To.HasValue)
             {
                 var end = DateOnly.FromDateTime(Range.To.Value);
-                selectedDates.Add(end); 
+                selectedDates.Add(end);
             }
         }
-        
+
         if (selectedDates.Count > 0)
         {
             config = config with { SelectedDates = selectedDates };
@@ -272,7 +272,7 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             { "dates", SlotClasses.GetDates() }, // Renamed from Days to Dates to match VCP
             { "date", SlotClasses.GetDayCell() },
             { "dateBtn", SlotClasses.GetDayButton() },
-            
+
             { "months", SlotClasses.GetMonths() },
             { "monthsMonth", SlotClasses.GetMonthsMonth() },
             { "years", SlotClasses.GetYears() },
@@ -287,17 +287,18 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
             { "timeRanges", SlotClasses.GetTimeRanges() },
             { "timeRange", SlotClasses.GetTimeRange() }
         };
-        
+
         var cleanCssClasses = cssClasses.Where(kv => !string.IsNullOrEmpty(kv.Value))
                                         .ToDictionary(kv => kv.Key, kv => kv.Value);
 
-        var configWrapper = new { 
-            options = config, 
+        var configWrapper = new
+        {
+            options = config,
             styles = cleanCssClasses // Renamed from cssClasses to styles to match VCP config structure
         };
 
-        _serializedConfig = JsonSerializer.Serialize(configWrapper, new JsonSerializerOptions 
-        { 
+        _serializedConfig = JsonSerializer.Serialize(configWrapper, new JsonSerializerOptions
+        {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         });
@@ -326,7 +327,7 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
         public string? CalendarContainer { get; set; }
 
         // --- VCP Mapped Slots ---
-        
+
         /// <summary> The slot for the root calendar element (mapped to VCP 'calendar'). </summary>
         [Slot("root")]
         public string? Root { get; set; }
@@ -369,15 +370,15 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
 
         /// <summary> The slot for the days container (mapped to VCP 'dates'). </summary>
         [Slot("dates")]
-        public string? Dates { get; set; } 
+        public string? Dates { get; set; }
 
         /// <summary> The slot for a day cell wrapper (mapped to VCP 'date'). </summary>
         [Slot("day-cell")]
-        public string? DayCell { get; set; } 
+        public string? DayCell { get; set; }
 
         /// <summary> The slot for the day button (mapped to VCP 'dateBtn'). </summary>
         [Slot("day-button")]
-        public string? DayButton { get; set; } 
+        public string? DayButton { get; set; }
 
         /// <summary> The slot for the months selection grid (mapped to VCP 'months'). </summary>
         [Slot("months")]

@@ -37,19 +37,19 @@ public static class Constants
 
         /// <summary>The default event name for dialog closing.</summary>
         public const string DialogClose = "rz:dialog-close";
-        
+
         /// <summary>Fired when dialog is initialized.</summary>
         public const string DialogInitialized = "rz:dialog-initialized";
-        
+
         /// <summary>Fired before dialog opens.</summary>
         public const string DialogBeforeOpen = "rz:dialog-before-open";
-        
+
         /// <summary>Fired after dialog opens.</summary>
         public const string DialogAfterOpen = "rz:dialog-after-open";
-        
+
         /// <summary>Fired before dialog closes.</summary>
         public const string DialogBeforeClose = "rz:dialog-before-close";
-        
+
         /// <summary>Fired after dialog closes.</summary>
         public const string DialogAfterClose = "rz:dialog-after-close";
 

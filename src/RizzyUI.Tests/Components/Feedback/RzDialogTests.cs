@@ -105,11 +105,12 @@ public class RzDialogTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         // Act
         var cut = Render<RzDialog>(parameters => parameters
             .AddChildContent<DialogContent>(content => content
-                .AddChildContent(builder => {
+                .AddChildContent(builder =>
+                {
                     builder.OpenComponent<DialogHeader>(0);
                     builder.AddAttribute(1, "ChildContent", (RenderFragment)(b => b.AddContent(0, "Header")));
                     builder.CloseComponent();
-                    
+
                     builder.OpenComponent<DialogFooter>(2);
                     builder.AddAttribute(3, "ChildContent", (RenderFragment)(b => b.AddContent(0, "Footer")));
                     builder.CloseComponent();

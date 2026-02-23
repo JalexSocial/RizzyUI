@@ -1,7 +1,6 @@
 
-using Bunit;
-using Microsoft.AspNetCore.Components;
 using AngleSharp;
+using Bunit;
 
 namespace RizzyUI.Tests.Components.Feedback;
 

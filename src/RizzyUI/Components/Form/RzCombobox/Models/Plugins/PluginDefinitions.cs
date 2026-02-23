@@ -95,7 +95,7 @@ public class ComboboxClearButtonSettings : IComboboxPluginOptions
     /// Note: Passed as a string literal to JavaScript.
     /// </summary>
     [JsonPropertyName("html")]
-    public string? Html { get; set; } 
+    public string? Html { get; set; }
 }
 
 /// <summary>

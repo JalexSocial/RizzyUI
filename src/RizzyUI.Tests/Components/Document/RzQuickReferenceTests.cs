@@ -35,9 +35,10 @@ public class RzQuickReferenceTests : BunitAlbaContext, IClassFixture<WebAppFixtu
         // We simulate a basic render to ensure markup structure.
         // To properly test heading registration, we would need to simulate child headings adding themselves.
         // For unit testing the structure:
-        
+
         var cut = Render<RzQuickReferenceContainer>(parameters => parameters
-            .Add(p => p.ChildContent, builder => {
+            .Add(p => p.ChildContent, builder =>
+            {
                 builder.OpenComponent<RzHeading>(0);
                 builder.AddAttribute(1, "Level", HeadingLevel.H2);
                 builder.AddAttribute(2, "QuickReferenceTitle", "Intro");
@@ -56,7 +57,7 @@ public class RzQuickReferenceTests : BunitAlbaContext, IClassFixture<WebAppFixtu
         // but let's check basic structure.
         Assert.NotNull(cut.Find("[data-slot='quick-reference-title']"));
         Assert.NotNull(cut.Find("[data-slot='quick-reference-list']"));
-        
+
         // Assert heading is in list
         Assert.Contains("Intro", cut.Markup);
     }

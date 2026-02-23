@@ -1,6 +1,5 @@
 
 using Bunit;
-using Microsoft.AspNetCore.Components;
 
 namespace RizzyUI.Tests.Components.Feedback;
 
