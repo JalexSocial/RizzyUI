@@ -6932,6 +6932,9 @@ function registerRzColorPickerProvider(Alpine2, require2) {
         wrap: false,
         themeMode: "auto",
         onChange: (color, inputEl) => {
+          if (inputEl !== this.$refs.input) {
+            return;
+          }
           this.syncStateFromInput(inputEl);
           inputEl.dispatchEvent(new CustomEvent("rz:colorpicker:onchange", {
             bubbles: true,
@@ -6956,13 +6959,24 @@ function registerRzColorPickerProvider(Alpine2, require2) {
       }
       this.syncInputFromState();
     },
-    openPicker() {
+    openPicker(event2) {
       const input = this.$refs.input;
       if (!input) {
         return;
       }
+      this.positionAnchorInput(input, event2);
+      this.syncInputFromState();
       input.focus();
       input.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    },
+    positionAnchorInput(input, event2) {
+      const trigger2 = event2?.currentTarget;
+      if (!trigger2 || typeof trigger2.getBoundingClientRect !== "function") {
+        return;
+      }
+      const rect = trigger2.getBoundingClientRect();
+      input.style.left = `${Math.round(rect.left)}px`;
+      input.style.top = `${Math.round(rect.bottom)}px`;
     },
     setValue(value) {
       this.colorPicker.value = value;
