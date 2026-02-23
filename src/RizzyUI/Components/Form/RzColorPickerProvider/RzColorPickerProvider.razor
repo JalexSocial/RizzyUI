@@ -11,8 +11,7 @@
          data-assets="@_assets"
          data-config="@_serializedConfig"
          data-initial-value="@Value"
-         data-nonce="@Nonce"
-         class="relative">
+         data-nonce="@Nonce">
         <CascadingValue Value="_context" IsFixed="true">
             @ChildContent
         </CascadingValue>
@@ -21,7 +20,7 @@
                value="@Value"
                x-ref="input"
                tabindex="-1"
-               class="pointer-events-none absolute left-0 top-full h-0 w-0 opacity-0 m-0 p-0"
+               class="pointer-events-none fixed -left-[9999px] -top-[9999px] h-px w-px opacity-0 m-0 p-0"
                aria-hidden="true" />
     </div>
 </HtmlElement>
