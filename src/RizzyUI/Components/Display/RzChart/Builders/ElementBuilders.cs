@@ -46,10 +46,14 @@ public abstract class BaseElementBuilder<T> where T : BaseElementBuilder<T>
     }
 
     public T BackgroundColor(string color) { _baseElement.BackgroundColor = color; return (T)this; }
+    public T BackgroundColor(Color color) { _baseElement.BackgroundColor = color.ToCssColorString(); return (T)this; }
     public T BackgroundColors(params string[] colors) { _baseElement.BackgroundColor = colors; return (T)this; }
+    public T BackgroundColors(params Color[] colors) { _baseElement.BackgroundColor = colors.Select(c => c.ToCssColorString()).ToArray(); return (T)this; }
     public T BorderWidth(int width) { _baseElement.BorderWidth = width; return (T)this; }
     public T BorderColor(string color) { _baseElement.BorderColor = color; return (T)this; }
+    public T BorderColor(Color color) { _baseElement.BorderColor = color.ToCssColorString(); return (T)this; }
     public T BorderColors(params string[] colors) { _baseElement.BorderColor = colors; return (T)this; }
+    public T BorderColors(params Color[] colors) { _baseElement.BorderColor = colors.Select(c => c.ToCssColorString()).ToArray(); return (T)this; }
 }
 
 public class PointElementBuilder : BaseElementBuilder<PointElementBuilder>

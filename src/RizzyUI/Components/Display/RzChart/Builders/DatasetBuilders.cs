@@ -13,9 +13,13 @@ public abstract class BaseDatasetBuilder<T> where T : BaseDatasetBuilder<T>
 
     public T Label(string label) { _dataset.Label = label; return (T)this; }
     public T BackgroundColor(string color) { _dataset.BackgroundColor = color; return (T)this; }
+    public T BackgroundColor(Color color) { _dataset.BackgroundColor = color.ToCssColorString(); return (T)this; }
     public T BackgroundColors(params string[] colors) { _dataset.BackgroundColor = colors; return (T)this; }
+    public T BackgroundColors(params Color[] colors) { _dataset.BackgroundColor = colors.Select(c => c.ToCssColorString()).ToArray(); return (T)this; }
     public T BorderColor(string color) { _dataset.BorderColor = color; return (T)this; }
+    public T BorderColor(Color color) { _dataset.BorderColor = color.ToCssColorString(); return (T)this; }
     public T BorderColors(params string[] colors) { _dataset.BorderColor = colors; return (T)this; }
+    public T BorderColors(params Color[] colors) { _dataset.BorderColor = colors.Select(c => c.ToCssColorString()).ToArray(); return (T)this; }
     public T BorderWidth(int width) { _dataset.BorderWidth = width; return (T)this; }
     public T Clip(int clip) { _dataset.Clip = clip; return (T)this; }
     public T Clip(Action<ClipBuilder> action)
@@ -26,9 +30,13 @@ public abstract class BaseDatasetBuilder<T> where T : BaseDatasetBuilder<T>
     }
     public T Clip(bool enabled) { _dataset.Clip = enabled; return (T)this; }
     public T HoverBackgroundColor(string color) { _dataset.HoverBackgroundColor = color; return (T)this; }
+    public T HoverBackgroundColor(Color color) { _dataset.HoverBackgroundColor = color.ToCssColorString(); return (T)this; }
     public T HoverBackgroundColors(params string[] colors) { _dataset.HoverBackgroundColor = colors; return (T)this; }
+    public T HoverBackgroundColors(params Color[] colors) { _dataset.HoverBackgroundColor = colors.Select(c => c.ToCssColorString()).ToArray(); return (T)this; }
     public T HoverBorderColor(string color) { _dataset.HoverBorderColor = color; return (T)this; }
+    public T HoverBorderColor(Color color) { _dataset.HoverBorderColor = color.ToCssColorString(); return (T)this; }
     public T HoverBorderColors(params string[] colors) { _dataset.HoverBorderColor = colors; return (T)this; }
+    public T HoverBorderColors(params Color[] colors) { _dataset.HoverBorderColor = colors.Select(c => c.ToCssColorString()).ToArray(); return (T)this; }
     public T HoverBorderWidth(int width) { _dataset.HoverBorderWidth = width; return (T)this; }
     public T Parsing(bool enabled) { _dataset.Parsing = enabled; return (T)this; }
     public T Parsing(string key) { _dataset.Parsing = new Parsing { Key = key }; return (T)this; }
@@ -63,11 +71,15 @@ public abstract class PointDatasetBuilder<T> : BaseDatasetBuilder<T> where T : P
     }
     public T Order(int order) { _dataset.Order = order; return (T)this; }
     public T PointBackgroundColor(string color) { _dataset.PointBackgroundColor = color; return (T)this; }
+    public T PointBackgroundColor(Color color) { _dataset.PointBackgroundColor = color.ToCssColorString(); return (T)this; }
     public T PointBorderColor(string color) { _dataset.PointBorderColor = color; return (T)this; }
+    public T PointBorderColor(Color color) { _dataset.PointBorderColor = color.ToCssColorString(); return (T)this; }
     public T PointBorderWidth(int width) { _dataset.PointBorderWidth = width; return (T)this; }
     public T PointHitRadius(int radius) { _dataset.PointHitRadius = radius; return (T)this; }
     public T PointHoverBackgroundColor(string color) { _dataset.PointHoverBackgroundColor = color; return (T)this; }
+    public T PointHoverBackgroundColor(Color color) { _dataset.PointHoverBackgroundColor = color.ToCssColorString(); return (T)this; }
     public T PointHoverBorderColor(string color) { _dataset.PointHoverBorderColor = color; return (T)this; }
+    public T PointHoverBorderColor(Color color) { _dataset.PointHoverBorderColor = color.ToCssColorString(); return (T)this; }
     public T PointHoverBorderWidth(int width) { _dataset.PointHoverBorderWidth = width; return (T)this; }
     public T PointHoverRadius(int radius) { _dataset.PointHoverRadius = radius; return (T)this; }
     public T PointRadius(int radius) { _dataset.PointRadius = radius; return (T)this; }

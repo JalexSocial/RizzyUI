@@ -1,0 +1,383 @@
+@page "/components/chart-bar"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Charts
+@inherits RzComponent
+
+<PageTitle>Chart Bar Examples</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Chart Bar Examples</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Chart Bar Examples" class="scroll-mt-20">Chart Bar Examples</RzHeading>
+            <RzParagraph>
+                This page focuses on bar chart patterns built with <code>RzChart</code> and inline fluent builder configuration.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Bar Chart Border Radius" class="scroll-mt-20">Bar Chart Border Radius</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                        <RzChart Configure=@(c => c
+                            .Data(d => d
+                                .Labels([ "January", "February", "March", "April", "May", "June", "July" ])
+                                .Datasets(ds => {
+                                    ds.Bar()
+                                      .Label("Fully Rounded")
+                                      .Data(65, 59, 80, 81, 56, 55, 40)
+                                      .BackgroundColor("var(--chart-1)")
+                                      .BorderWidth(2)
+                                      .BorderColor("transparent")
+                                      .BorderRadius(100)
+                                      .BorderSkipped(false);
+
+                                    ds.Bar()
+                                      .Label("Small Radius")
+                                      .Data(28, 48, 40, 19, 86, 27, 90)
+                                      .BackgroundColor("var(--chart-2)")
+                                      .BorderWidth(2)
+                                      .BorderColor("transparent")
+                                      .BorderRadius(5);
+                                })
+                            )
+                            .Options(o => o
+                                .Responsive(true)
+                                .MaintainAspectRatio(false)
+                                .Plugins(p => p.Title(t => t.Display(true).Text("Chart.js Bar Chart - Border Radius")))
+                            )) />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzChart Configure=&quot;c =&gt; c
+    .Data(d =&gt; d
+        .Labels([ &quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot; ])
+        .Datasets(ds =&gt; {
+            ds.Bar()
+              .Label(&quot;Fully Rounded&quot;)
+              .Data(65, 59, 80, 81, 56, 55, 40)
+              .BackgroundColor(&quot;var(--chart-1)&quot;)
+              .BorderWidth(2)
+              .BorderColor(&quot;transparent&quot;)
+              .BorderRadius(100)
+              .BorderSkipped(false);
+
+            ds.Bar()
+              .Label(&quot;Small Radius&quot;)
+              .Data(28, 48, 40, 19, 86, 27, 90)
+              .BackgroundColor(&quot;var(--chart-2)&quot;)
+              .BorderWidth(2)
+              .BorderColor(&quot;transparent&quot;)
+              .BorderRadius(5);
+        })
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .MaintainAspectRatio(false)
+        .Plugins(p =&gt; p.Title(t =&gt; t.Display(true).Text(&quot;Chart.js Bar Chart - Border Radius&quot;)))
+    )&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Floating Bars" class="scroll-mt-20">Floating Bars</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                        .Data(d => d
+                            .Labels([ "January", "February", "March", "April", "May", "June", "July" ])
+                            .Datasets(ds => {
+                                ds.Bar()
+                                  .Label("Dataset 1")
+                                  .BackgroundColor("var(--chart-1)")
+                                  .Data(new object[] {
+                                      new[] { -10, 10 },
+                                      new[] { -15, 5 },
+                                      new[] { 5, 25 },
+                                      new[] { 10, 30 },
+                                      new[] { -5, 15 },
+                                      new[] { 0, 20 },
+                                      new[] { -20, 0 }
+                                  });
+
+                                ds.Bar()
+                                  .Label("Dataset 2")
+                                  .BackgroundColor("var(--chart-2)")
+                                  .Data(new object[] {
+                                      new[] { 10, -5 },
+                                      new[] { 5, -15 },
+                                      new[] { 20, 10 },
+                                      new[] { 25, 5 },
+                                      new[] { 15, -10 },
+                                      new[] { 10, -5 },
+                                      new[] { 0, -20 }
+                                  });
+                            })
+                        )
+                        .Options(o => o
+                            .Responsive(true)
+                            .MaintainAspectRatio(false)
+                            .Plugins(p => p.Title(t => t.Display(true).Text("Chart.js Bar Chart - Floating")))
+                        )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzChart Configure=&quot;c =&gt; c
+    .Data(d =&gt; d
+        .Labels([ &quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot; ])
+        .Datasets(ds =&gt; {
+            ds.Bar().Label(&quot;Dataset 1&quot;).BackgroundColor(&quot;var(--chart-1)&quot;)
+              .Data(new object[] { new[] { -10, 10 }, new[] { -15, 5 }, new[] { 5, 25 }, new[] { 10, 30 }, new[] { -5, 15 }, new[] { 0, 20 }, new[] { -20, 0 } });
+
+            ds.Bar().Label(&quot;Dataset 2&quot;).BackgroundColor(&quot;var(--chart-2)&quot;)
+              .Data(new object[] { new[] { 10, -5 }, new[] { 5, -15 }, new[] { 20, 10 }, new[] { 25, 5 }, new[] { 15, -10 }, new[] { 10, -5 }, new[] { 0, -20 } });
+        })
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .MaintainAspectRatio(false)
+        .Plugins(p =&gt; p.Title(t =&gt; t.Display(true).Text(&quot;Chart.js Bar Chart - Floating&quot;)))
+    )&quot; /&gt;</RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Horizontal Bar Chart" class="scroll-mt-20">Horizontal Bar Chart</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                        .Data(d => d
+                            .Labels([ "January", "February", "March", "April", "May", "June", "July" ])
+                            .Datasets(ds => {
+                                ds.Bar().Label("Dataset 1").Data(65, 59, 80, 81, 56, 55, 40).BackgroundColor("var(--chart-1)").IndexAxis(IndexAxis.Y);
+                                ds.Bar().Label("Dataset 2").Data(28, 48, 40, 19, 86, 27, 90).BackgroundColor("var(--chart-2)").IndexAxis(IndexAxis.Y);
+                            })
+                        )
+                        .Options(o => o
+                            .Responsive(true)
+                            .MaintainAspectRatio(false)
+                            .Plugins(p => p
+                                .Legend(l => l.Position(LegendPosition.Right))
+                                .Title(t => t.Display(true).Text("Chart.js Horizontal Bar Chart"))
+                            )
+                        )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzChart Configure=&quot;c =&gt; c
+    .Data(d =&gt; d
+        .Labels([ &quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot; ])
+        .Datasets(ds =&gt; {
+            ds.Bar().Label(&quot;Dataset 1&quot;).Data(65, 59, 80, 81, 56, 55, 40).BackgroundColor(&quot;var(--chart-1)&quot;).IndexAxis(IndexAxis.Y);
+            ds.Bar().Label(&quot;Dataset 2&quot;).Data(28, 48, 40, 19, 86, 27, 90).BackgroundColor(&quot;var(--chart-2)&quot;).IndexAxis(IndexAxis.Y);
+        })
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .MaintainAspectRatio(false)
+        .Plugins(p =&gt; p.Legend(l =&gt; l.Position(LegendPosition.Right)).Title(t =&gt; t.Display(true).Text(&quot;Chart.js Horizontal Bar Chart&quot;)))
+    )&quot; /&gt;</RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Stacked Bar Chart" class="scroll-mt-20">Stacked Bar Chart</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                        .Data(d => d
+                            .Labels([ "January", "February", "March", "April", "May", "June", "July" ])
+                            .Datasets(ds => {
+                                ds.Bar().Label("Dataset 1").Data(65, -59, 80, -81, 56, 55, -40).BackgroundColor("var(--chart-1)");
+                                ds.Bar().Label("Dataset 2").Data(-28, 48, -40, 19, -86, 27, 90).BackgroundColor("var(--chart-2)");
+                                ds.Bar().Label("Dataset 3").Data(18, 38, 20, 9, 66, 17, 70).BackgroundColor("var(--chart-3)");
+                            })
+                        )
+                        .Options(o => o
+                            .Responsive(true)
+                            .MaintainAspectRatio(false)
+                            .Plugins(p => p.Title(t => t.Display(true).Text("Chart.js Bar Chart - Stacked")))
+                            .Scales(s => {
+                                s.ScaleId("x").Stacked(true);
+                                s.ScaleId("y").Stacked(true);
+                            })
+                        )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzChart Configure=&quot;c =&gt; c
+    .Data(d =&gt; d
+        .Labels([ &quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot; ])
+        .Datasets(ds =&gt; {
+            ds.Bar().Label(&quot;Dataset 1&quot;).Data(65, -59, 80, -81, 56, 55, -40).BackgroundColor(&quot;var(--chart-1)&quot;);
+            ds.Bar().Label(&quot;Dataset 2&quot;).Data(-28, 48, -40, 19, -86, 27, 90).BackgroundColor(&quot;var(--chart-2)&quot;);
+            ds.Bar().Label(&quot;Dataset 3&quot;).Data(18, 38, 20, 9, 66, 17, 70).BackgroundColor(&quot;var(--chart-3)&quot;);
+        })
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .MaintainAspectRatio(false)
+        .Plugins(p =&gt; p.Title(t =&gt; t.Display(true).Text(&quot;Chart.js Bar Chart - Stacked&quot;)))
+        .Scales(s =&gt; {
+            s.ScaleId(&quot;x&quot;).Stacked(true);
+            s.ScaleId(&quot;y&quot;).Stacked(true);
+        })
+    )&quot; /&gt;</RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Stacked Bar Chart with Groups" class="scroll-mt-20">Stacked Bar Chart with Groups</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                        .Data(d => d
+                            .Labels([ "January", "February", "March", "April", "May", "June", "July" ])
+                            .Datasets(ds => {
+                                ds.Bar().Label("Dataset 1").Data(65, 59, 80, 81, 56, 55, 40).BackgroundColor("var(--chart-1)").Stack("Stack 0");
+                                ds.Bar().Label("Dataset 2").Data(28, 48, 40, 19, 86, 27, 90).BackgroundColor("var(--chart-2)").Stack("Stack 0");
+                                ds.Bar().Label("Dataset 3").Data(18, 38, 20, 9, 66, 17, 70).BackgroundColor("var(--chart-3)").Stack("Stack 1");
+                            })
+                        )
+                        .Options(o => o
+                            .Responsive(true)
+                            .MaintainAspectRatio(false)
+                            .Plugins(p => p.Title(t => t.Display(true).Text("Chart.js Bar Chart - Stacked Groups")))
+                            .Scales(s => {
+                                s.ScaleId("x").Stacked(true);
+                                s.ScaleId("y").Stacked(true);
+                            })
+                        )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzChart Configure=&quot;c =&gt; c
+    .Data(d =&gt; d
+        .Labels([ &quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot; ])
+        .Datasets(ds =&gt; {
+            ds.Bar().Label(&quot;Dataset 1&quot;).Data(65, 59, 80, 81, 56, 55, 40).BackgroundColor(&quot;var(--chart-1)&quot;).Stack(&quot;Stack 0&quot;);
+            ds.Bar().Label(&quot;Dataset 2&quot;).Data(28, 48, 40, 19, 86, 27, 90).BackgroundColor(&quot;var(--chart-2)&quot;).Stack(&quot;Stack 0&quot;);
+            ds.Bar().Label(&quot;Dataset 3&quot;).Data(18, 38, 20, 9, 66, 17, 70).BackgroundColor(&quot;var(--chart-3)&quot;).Stack(&quot;Stack 1&quot;);
+        })
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .MaintainAspectRatio(false)
+        .Plugins(p =&gt; p.Title(t =&gt; t.Display(true).Text(&quot;Chart.js Bar Chart - Stacked Groups&quot;)))
+        .Scales(s =&gt; {
+            s.ScaleId(&quot;x&quot;).Stacked(true);
+            s.ScaleId(&quot;y&quot;).Stacked(true);
+        })
+    )&quot; /&gt;</RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Vertical Bar Chart" class="scroll-mt-20">Vertical Bar Chart</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                        .Data(d => d
+                            .Labels([ "January", "February", "March", "April", "May", "June", "July" ])
+                            .Datasets(ds => {
+                                ds.Bar().Label("Dataset 1").Data(65, 59, 80, 81, 56, 55, 40).BackgroundColor("var(--chart-1)");
+                                ds.Bar().Label("Dataset 2").Data(28, 48, 40, 19, 86, 27, 90).BackgroundColor("var(--chart-2)");
+                            })
+                        )
+                        .Options(o => o
+                            .Responsive(true)
+                            .MaintainAspectRatio(false)
+                            .Plugins(p => p
+                                .Legend(l => l.Position(LegendPosition.Top))
+                                .Title(t => t.Display(true).Text("Chart.js Bar Chart"))
+                            )
+                        )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzChart Configure=&quot;c =&gt; c
+    .Data(d =&gt; d
+        .Labels([ &quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot; ])
+        .Datasets(ds =&gt; {
+            ds.Bar().Label(&quot;Dataset 1&quot;).Data(65, 59, 80, 81, 56, 55, 40).BackgroundColor(&quot;var(--chart-1)&quot;);
+            ds.Bar().Label(&quot;Dataset 2&quot;).Data(28, 48, 40, 19, 86, 27, 90).BackgroundColor(&quot;var(--chart-2)&quot;);
+        })
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .MaintainAspectRatio(false)
+        .Plugins(p =&gt; p.Legend(l =&gt; l.Position(LegendPosition.Top)).Title(t =&gt; t.Display(true).Text(&quot;Chart.js Bar Chart&quot;)))
+    )&quot; /&gt;</RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Bar() Fluent Builder" class="scroll-mt-20">Bar() Fluent Builder</RzHeading>
+                <RzParagraph>
+                    Use <code>.Bar()</code> inside <code>.Datasets(ds =&gt; ...)</code> to build a bar dataset and chain configuration methods.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                        .Data(d => d
+                            .Labels([ "Q1", "Q2", "Q3", "Q4" ])
+                            .Datasets(ds => {
+                                ds.Bar()
+                                  .Label("Revenue")
+                                  .Data(120, 150, 132, 168)
+                                  .BackgroundColor("var(--chart-4)")
+                                  .BorderColor("var(--chart-5)")
+                                  .BorderWidth(2)
+                                  .BorderRadius(8)
+                                  .Stack("Finance");
+                            })
+                        )
+                        .Options(o => o
+                            .Responsive(true)
+                            .MaintainAspectRatio(false)
+                            .Plugins(p => p.Title(t => t.Display(true).Text("Bar() Fluent Builder Example")))
+                        )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-6">&lt;RzChart Configure=&quot;c =&gt; c
+    .Data(d =&gt; d
+        .Labels([ &quot;Q1&quot;, &quot;Q2&quot;, &quot;Q3&quot;, &quot;Q4&quot; ])
+        .Datasets(ds =&gt; {
+            ds.Bar()
+              .Label(&quot;Revenue&quot;)
+              .Data(120, 150, 132, 168)
+              .BackgroundColor(&quot;var(--chart-4)&quot;)
+              .BorderColor(&quot;var(--chart-5)&quot;)
+              .BorderWidth(2)
+              .BorderRadius(8)
+              .Stack(&quot;Finance&quot;);
+        })
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .MaintainAspectRatio(false)
+        .Plugins(p =&gt; p.Title(t =&gt; t.Display(true).Text(&quot;Bar() Fluent Builder Example&quot;)))
+    )&quot; /&gt;</RzCodeViewer>
+
+                <div class="overflow-x-auto rounded-lg border">
+                    <table class="w-full text-sm">
+                        <thead class="bg-muted/40">
+                            <tr>
+                                <th class="px-4 py-2 text-left font-medium">Method</th>
+                                <th class="px-4 py-2 text-left font-medium">Purpose</th>
+                                <th class="px-4 py-2 text-left font-medium">Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t"><td class="px-4 py-2"><code>Label(string)</code></td><td class="px-4 py-2">Legend/display name for the dataset.</td><td class="px-4 py-2"><code>.Label(&quot;Revenue&quot;)</code></td></tr>
+                            <tr class="border-t"><td class="px-4 py-2"><code>Data(...)</code></td><td class="px-4 py-2">Numeric values or floating ranges for each label.</td><td class="px-4 py-2"><code>.Data(10, 20, 30)</code></td></tr>
+                            <tr class="border-t"><td class="px-4 py-2"><code>BackgroundColor(string)</code></td><td class="px-4 py-2">Fill color of bars.</td><td class="px-4 py-2"><code>.BackgroundColor(&quot;var(--chart-1)&quot;)</code></td></tr>
+                            <tr class="border-t"><td class="px-4 py-2"><code>BorderColor(string)</code></td><td class="px-4 py-2">Stroke color around each bar.</td><td class="px-4 py-2"><code>.BorderColor(&quot;var(--chart-2)&quot;)</code></td></tr>
+                            <tr class="border-t"><td class="px-4 py-2"><code>BorderWidth(int)</code></td><td class="px-4 py-2">Pixel width of bar border.</td><td class="px-4 py-2"><code>.BorderWidth(2)</code></td></tr>
+                            <tr class="border-t"><td class="px-4 py-2"><code>BorderRadius(int)</code></td><td class="px-4 py-2">Rounds bar corners.</td><td class="px-4 py-2"><code>.BorderRadius(8)</code></td></tr>
+                            <tr class="border-t"><td class="px-4 py-2"><code>BorderSkipped(bool)</code></td><td class="px-4 py-2">Controls whether Chart.js skips the base border.</td><td class="px-4 py-2"><code>.BorderSkipped(false)</code></td></tr>
+                            <tr class="border-t"><td class="px-4 py-2"><code>IndexAxis(IndexAxis)</code></td><td class="px-4 py-2">Switches orientation to horizontal with <code>IndexAxis.Y</code>.</td><td class="px-4 py-2"><code>.IndexAxis(IndexAxis.Y)</code></td></tr>
+                            <tr class="border-t"><td class="px-4 py-2"><code>Stack(string)</code></td><td class="px-4 py-2">Assigns dataset to a stack group.</td><td class="px-4 py-2"><code>.Stack(&quot;Stack 0&quot;)</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

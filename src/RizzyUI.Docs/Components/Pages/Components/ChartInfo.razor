@@ -33,35 +33,53 @@
             <RzParagraph>
                 The <code>RzChart</code> component provides a fluent C# API for rendering Chart.js visualizations in SSR workflows.
             </RzParagraph>
+            <RzParagraph>
+                Looking for bar-specific patterns? See the <RzLink Href="/components/chart-bar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Chart Bar Examples</RzLink> page.
+            </RzParagraph>
 
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">Basic Usage</RzHeading>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 flex h-96 w-full max-w-2xl items-center justify-center p-8">
-                        <RzChart Configure="@LineChartConfig" />
+                        <RzChart Configure=@(c => c
+                                               .Data(d => d
+                                                   .Labels("January", "February", "March", "April", "May", "June", "July")
+                                                   .Datasets(ds => ds
+                                                       .Line()
+                                                       .Label("Monthly Sales")
+                                                       .Data(65, 59, 80, 81, 56, 55, 40)
+                                                       .BackgroundColor("var(--chart-1)")
+                                                       .BorderColor("var(--chart-1)")
+                                                       .Tension(0.4)
+                                                   )
+                                               )
+                                               .Options(o => o
+                                                   .Responsive(true)
+                                                   .MaintainAspectRatio(false)
+                                                   .Plugins(p => p.Legend(l => l.Position(LegendPosition.Top)))
+                                               )) />
                     </div>
                 </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Basic chart usage" class="mb-10">
+&lt;RzChart Configure=@@(c =&gt; c
+    .Data(d =&gt; d
+        .Labels(&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;)
+        .Datasets(ds =&gt; ds
+            .Line()
+            .Label(&quot;Monthly Sales&quot;)
+            .Data(65, 59, 80, 81, 56, 55, 40)
+            .BackgroundColor(&quot;var(--chart-1)&quot;)
+            .BorderColor(&quot;var(--chart-1)&quot;)
+            .Tension(0.4)
+        )
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .MaintainAspectRatio(false)
+        .Plugins(p =&gt; p.Legend(l =&gt; l.Position(LegendPosition.Top)))
+    )) /&gt;
+                </RzCodeViewer>
             </section>
         </MainContent>
     </RzArticle>
 </RzQuickReferenceContainer>
-
-@code {
-    private static readonly Action<ChartBuilder> LineChartConfig = c => c
-        .Data(d => d
-            .Labels("January", "February", "March", "April", "May", "June", "July")
-            .Datasets(ds => ds
-                .Line()
-                .Label("Monthly Sales")
-                .Data(65, 59, 80, 81, 56, 55, 40)
-                .BackgroundColor("var(--chart-1)")
-                .BorderColor("var(--chart-1)")
-                .Tension(0.4)
-            )
-        )
-        .Options(o => o
-            .Responsive(true)
-            .MaintainAspectRatio(false)
-            .Plugins(p => p.Legend(l => l.Position(LegendPosition.Top)))
-        );
-}

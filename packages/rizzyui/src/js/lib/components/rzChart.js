@@ -39,6 +39,7 @@ export default function registerRzChart(Alpine, require) {
                 return;
             }
 
+            this.resolveColorValues(rawConfig);
             this.resolveCallbacks(rawConfig);
 
             if (rawConfig.options) {
@@ -61,6 +62,69 @@ export default function registerRzChart(Alpine, require) {
             };
 
             window.addEventListener('rz:theme-change', this.themeChangeHandler);
+        },
+
+
+        resolveColorValues(config) {
+            const walk = (value) => {
+                if (Array.isArray(value)) {
+                    return value.map((item) => walk(item));
+                }
+
+                if (!value || typeof value !== 'object') {
+                    return value;
+                }
+
+                for (const key of Object.keys(value)) {
+                    const currentValue = value[key];
+
+                    if (typeof key === 'string' && key.toLowerCase().includes('color')) {
+                        if (Array.isArray(currentValue)) {
+                            value[key] = currentValue.map((entry) => this._resolveColor(entry));
+                            continue;
+                        }
+
+                        if (currentValue && typeof currentValue === 'object') {
+                            walk(currentValue);
+                            continue;
+                        }
+
+                        value[key] = this._resolveColor(currentValue);
+                        continue;
+                    }
+
+                    if (currentValue && typeof currentValue === 'object') {
+                        walk(currentValue);
+                    }
+                }
+
+                return value;
+            };
+
+            walk(config);
+        },
+
+        _resolveColor(color, el = document.documentElement) {
+            if (typeof color !== 'string') {
+                return color;
+            }
+
+            const value = color.trim();
+
+            if (!value.startsWith('var(')) {
+                return value;
+            }
+
+            const inner = value.slice(4, -1).trim();
+            const [varName, fallback] = inner.split(',').map((part) => part.trim());
+
+            if (!varName) {
+                return value;
+            }
+
+            const resolved = getComputedStyle(el).getPropertyValue(varName).trim();
+
+            return resolved || fallback || value;
         },
 
         resolveCallbacks(config) {

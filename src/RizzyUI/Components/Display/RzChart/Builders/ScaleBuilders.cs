@@ -22,6 +22,7 @@ public class ScaleBuilder
     public ScaleBuilder Type(string type) { _scale!.Type = type; return this; }
     public ScaleBuilder AlignToPixels(bool alignToPixels) { _scale!.AlignToPixels = alignToPixels; return this; }
     public ScaleBuilder BackgroundColor(string color) { _scale!.BackgroundColor = color; return this; }
+    public ScaleBuilder BackgroundColor(Color color) { _scale!.BackgroundColor = color.ToCssColorString(); return this; }
     
     public ScaleBuilder Border(Action<ScaleBorderBuilder> action)
     {
@@ -92,6 +93,7 @@ public class GridBuilder
 
     public GridBuilder Circular(bool circular) { _scaleGrid.Circular = circular; return this; }
     public GridBuilder Color(params string[] color) { _scaleGrid.Color = color; return this; }
+    public GridBuilder Color(params Color[] color) { _scaleGrid.Color = color.Select(c => c.ToCssColorString()).ToArray(); return this; }
     public GridBuilder Display(bool display) { _scaleGrid.Display = display; return this; }
     public GridBuilder DrawOnChartArea(bool drawOnChartArea) { _scaleGrid.DrawOnChartArea = drawOnChartArea; return this; }
     public GridBuilder DrawTicks(bool drawTicks) { _scaleGrid.DrawTicks = drawTicks; return this; }
@@ -100,6 +102,7 @@ public class GridBuilder
     public GridBuilder TickBorderDash(params int[] borderDash) { _scaleGrid.TickBorderDash = borderDash; return this; }
     public GridBuilder TickBorderDashOffset(int offset) { _scaleGrid.TickBorderDashOffset = offset; return this; }
     public GridBuilder TickColor(string color) { _scaleGrid.TickColor = color; return this; }
+    public GridBuilder TickColor(Color color) { _scaleGrid.TickColor = color.ToCssColorString(); return this; }
     public GridBuilder TickLength(int length) { _scaleGrid.TickLength = length; return this; }
     public GridBuilder TickWidth(int width) { _scaleGrid.TickWidth = width; return this; }
     public GridBuilder Z(int z) { _scaleGrid.Z = z; return this; }
@@ -116,6 +119,7 @@ public class ScaleBorderBuilder
 
     public ScaleBorderBuilder Display(bool display) { _scaleBorder.Display = display; return this; }
     public ScaleBorderBuilder Color(string color) { _scaleBorder.Color = color; return this; }
+    public ScaleBorderBuilder Color(Color color) { _scaleBorder.Color = color.ToCssColorString(); return this; }
     public ScaleBorderBuilder Width(int width) { _scaleBorder.Width = width; return this; }
     public ScaleBorderBuilder Dash(params int[] dash) { _scaleBorder.Dash = dash; return this; }
     public ScaleBorderBuilder DashOffset(double dashOffset) { _scaleBorder.DashOffset = dashOffset; return this; }
@@ -136,6 +140,7 @@ public class ScaleTitleBuilder
     public ScaleTitleBuilder Text(string text) { _scaleTitle.Text = text; return this; }
     public ScaleTitleBuilder Text(params string[] text) { _scaleTitle.Text = text; return this; }
     public ScaleTitleBuilder Color(string color) { _scaleTitle.Color = color; return this; }
+    public ScaleTitleBuilder Color(Color color) { _scaleTitle.Color = color.ToCssColorString(); return this; }
     public ScaleTitleBuilder Font(Action<FontBuilder> action)
     {
         _scaleTitle.Font = new ChartFont();
@@ -161,6 +166,7 @@ public class TicksBuilder
     }
 
     public TicksBuilder BackdropColor(string color) { _scaleTicks.BackdropColor = color; return this; }
+    public TicksBuilder BackdropColor(Color color) { _scaleTicks.BackdropColor = color.ToCssColorString(); return this; }
     public TicksBuilder BackdropPadding(int padding) { _scaleTicks.BackdropPadding = new Padding(padding); return this; }
     public TicksBuilder BackdropPadding(Action<PaddingBuilder> action)
     {
@@ -171,6 +177,7 @@ public class TicksBuilder
     public TicksBuilder Callback(string callback) { _scaleTicks.Callback = callback; return this; }
     public TicksBuilder Display(bool display) { _scaleTicks.Display = display; return this; }
     public TicksBuilder Color(string color) { _scaleTicks.Color = color; return this; }
+    public TicksBuilder Color(Color color) { _scaleTicks.Color = color.ToCssColorString(); return this; }
     public TicksBuilder Font(Action<FontBuilder> action)
     {
         _scaleTicks.Font = new ChartFont();
@@ -181,6 +188,7 @@ public class TicksBuilder
     public TicksBuilder Padding(int padding) { _scaleTicks.Padding = padding; return this; }
     public TicksBuilder ShowLabelBackdrop(bool show) { _scaleTicks.ShowLabelBackdrop = show; return this; }
     public TicksBuilder TextStrokeColor(string color) { _scaleTicks.TextStrokeColor = color; return this; }
+    public TicksBuilder TextStrokeColor(Color color) { _scaleTicks.TextStrokeColor = color.ToCssColorString(); return this; }
     public TicksBuilder TextStrokeWidth(int width) { _scaleTicks.TextStrokeWidth = width; return this; }
     public TicksBuilder Z(int z) { _scaleTicks.Z = z; return this; }
     public TicksBuilder Align(TicksAlign align) { _scaleTicks.Align = align; return this; }

@@ -72,6 +72,7 @@ public class TitleBuilder
 
     public TitleBuilder Align(TitleAlign align) { _title.Align = align; return this; }
     public TitleBuilder Color(string color) { _title.Color = color; return this; }
+    public TitleBuilder Color(Color color) { _title.Color = color.ToCssColorString(); return this; }
     public TitleBuilder Display(bool display) { _title.Display = display; return this; }
     public TitleBuilder FullSize(bool fullSize) { _title.FullSize = fullSize; return this; }
     public TitleBuilder Position(TitlePosition position) { _title.Position = position; return this; }
@@ -139,6 +140,7 @@ public class LabelsBuilder
     public LabelsBuilder BoxWidth(int width) { _labels.BoxWidth = width; return this; }
     public LabelsBuilder BoxHeight(int height) { _labels.BoxHeight = height; return this; }
     public LabelsBuilder Color(string color) { _labels.Color = color; return this; }
+    public LabelsBuilder Color(Color color) { _labels.Color = color.ToCssColorString(); return this; }
     public LabelsBuilder Font(Action<FontBuilder> action)
     {
         _labels.Font = new ChartFont();
@@ -167,6 +169,7 @@ public class LegendTitleBuilder
     }
 
     public LegendTitleBuilder Color(string color) { _legendTitle.Color = color; return this; }
+    public LegendTitleBuilder Color(Color color) { _legendTitle.Color = color.ToCssColorString(); return this; }
     public LegendTitleBuilder Display(bool display) { _legendTitle.Display = display; return this; }
     public LegendTitleBuilder Font(Action<FontBuilder> action)
     {
@@ -208,7 +211,9 @@ public class TooltipBuilder
     public TooltipBuilder ItemSort(string itemSort) { _toolTip.ItemSort = itemSort; return this; }
     public TooltipBuilder Filter(string filter) { _toolTip.Filter = filter; return this; }
     public TooltipBuilder BackgroundColor(string color) { _toolTip.BackgroundColor = color; return this; }
+    public TooltipBuilder BackgroundColor(Color color) { _toolTip.BackgroundColor = color.ToCssColorString(); return this; }
     public TooltipBuilder TitleColor(string color) { _toolTip.TitleColor = color; return this; }
+    public TooltipBuilder TitleColor(Color color) { _toolTip.TitleColor = color.ToCssColorString(); return this; }
     public TooltipBuilder TitleFont(Action<FontBuilder> action)
     {
         _toolTip.TitleFont = new ChartFont();
@@ -219,6 +224,7 @@ public class TooltipBuilder
     public TooltipBuilder TitleSpacing(int spacing) { _toolTip.TitleSpacing = spacing; return this; }
     public TooltipBuilder TitleMarginBottom(int marginBottom) { _toolTip.TitleMarginBottom = marginBottom; return this; }
     public TooltipBuilder BodyColor(string color) { _toolTip.BodyColor = color; return this; }
+    public TooltipBuilder BodyColor(Color color) { _toolTip.BodyColor = color.ToCssColorString(); return this; }
     public TooltipBuilder BodyFont(Action<FontBuilder> action)
     {
         _toolTip.BodyFont = new ChartFont();
@@ -228,6 +234,7 @@ public class TooltipBuilder
     public TooltipBuilder BodyAlign(TextAlign align) { _toolTip.BodyAlign = align; return this; }
     public TooltipBuilder BodySpacing(int spacing) { _toolTip.BodySpacing = spacing; return this; }
     public TooltipBuilder FooterColor(string color) { _toolTip.FooterColor = color; return this; }
+    public TooltipBuilder FooterColor(Color color) { _toolTip.FooterColor = color.ToCssColorString(); return this; }
     public TooltipBuilder FooterFont(Action<FontBuilder> action)
     {
         _toolTip.FooterFont = new ChartFont();
@@ -248,12 +255,14 @@ public class TooltipBuilder
     public TooltipBuilder CaretSize(int size) { _toolTip.CaretSize = size; return this; }
     public TooltipBuilder CornerRadius(int radius) { _toolTip.CornerRadius = radius; return this; }
     public TooltipBuilder MultiKeyBackground(string color) { _toolTip.MultiKeyBackground = color; return this; }
+    public TooltipBuilder MultiKeyBackground(Color color) { _toolTip.MultiKeyBackground = color.ToCssColorString(); return this; }
     public TooltipBuilder DisplayColors(bool displayColors) { _toolTip.DisplayColors = displayColors; return this; }
     public TooltipBuilder BoxWidth(int width) { _toolTip.BoxWidth = width; return this; }
     public TooltipBuilder BoxHeight(int height) { _toolTip.BoxHeight = height; return this; }
     public TooltipBuilder BoxPadding(int padding) { _toolTip.BoxPadding = padding; return this; }
     public TooltipBuilder UsePointStyle(bool usePointStyle) { _toolTip.UsePointStyle = usePointStyle; return this; }
     public TooltipBuilder BorderColor(string color) { _toolTip.BorderColor = color; return this; }
+    public TooltipBuilder BorderColor(Color color) { _toolTip.BorderColor = color.ToCssColorString(); return this; }
     public TooltipBuilder BorderWidth(int width) { _toolTip.BorderWidth = width; return this; }
     public TooltipBuilder Rtl(bool rtl) { _toolTip.Rtl = rtl; return this; }
     public TooltipBuilder TextDirection(string direction) { _toolTip.TextDirection = direction; return this; }

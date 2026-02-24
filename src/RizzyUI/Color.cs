@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace RizzyUI;
 
 /// <summary>
@@ -6,12 +8,12 @@ namespace RizzyUI;
 public record Color
 {
     /// <summary>
-    ///     Stores css color value for color (e.g. "fff" or "oklch(0.973 0.071 103.193)")
+    ///     Stores css color value for color (e.g. "#fff" or "oklch(0.973 0.071 103.193)")
     /// </summary>
     private readonly string _cssColorValue;
 
     /// <summary>
-    ///     Stores variable string name (if _type is ColorType.Variable)
+    ///     Stores variable string name (if used as a named Tailwind token)
     /// </summary>
     private readonly string _cssColorName;
 
@@ -23,13 +25,13 @@ public record Color
     public Color(Oklch color, string colorName = "")
     {
         _cssColorName = colorName;
-        _cssColorValue = $"[{ToCssColorString()}]";
+        _cssColorValue = color.ToCssColorString();
     }
 
     /// <summary>
-    ///     Stores a color as a variable
+    ///     Stores a color as a CSS color string (e.g., "var(--my-color)", "oklch(...)")
     /// </summary>
-    /// <param name="colorValue">The CSS color value (e.g., "var(--my-color)", "oklch(...)").</param>
+    /// <param name="colorValue">The CSS color value.</param>
     /// <param name="colorName">The optional CSS variable name for the color.</param>
     public Color(string colorValue, string colorName = "")
     {
@@ -44,7 +46,10 @@ public record Color
     /// <param name="alternateColorName">An optional alternate name for the new color.</param>
     public Color(Color other, string alternateColorName = "")
     {
-        _cssColorName = string.IsNullOrEmpty(alternateColorName) ? other._cssColorName.ToLowerInvariant() : alternateColorName;
+        _cssColorName = string.IsNullOrEmpty(alternateColorName)
+            ? other._cssColorName.ToLowerInvariant()
+            : alternateColorName;
+
         _cssColorValue = other._cssColorValue;
     }
 
@@ -61,7 +66,9 @@ public record Color
     /// <returns>The Tailwind CSS class string.</returns>
     public virtual string ToCssClassString(string utility)
     {
-        return string.IsNullOrEmpty(_cssColorName) ? $"{utility}-[{_cssColorValue}]" : $"{utility}-{_cssColorName}";
+        return string.IsNullOrEmpty(_cssColorName)
+            ? $"{utility}-[{_cssColorValue}]"
+            : $"{utility}-{_cssColorName}";
     }
 }
 
@@ -72,7 +79,7 @@ public record Color
 /// <param name="C">Chroma component.</param>
 /// <param name="H">Hue component.</param>
 /// <param name="Alpha">Alpha (transparency) component.</param>
-// ReSharper disable once IdentifierTypo
+/// ReSharper disable once IdentifierTypo
 public readonly record struct Oklch(float L, float C, float H, float Alpha = 1.0f)
 {
     /// <summary>
@@ -81,9 +88,13 @@ public readonly record struct Oklch(float L, float C, float H, float Alpha = 1.0
     /// <returns>The CSS color string.</returns>
     public string ToCssColorString()
     {
-        return Alpha < 1f
-            ? $"oklch({L} {C} {H})"
-            : $"oklch({L} {C} {H} / {Alpha})";
+        string l = L.ToString(CultureInfo.InvariantCulture);
+        string c = C.ToString(CultureInfo.InvariantCulture);
+        string h = H.ToString(CultureInfo.InvariantCulture);
+        string a = Alpha.ToString(CultureInfo.InvariantCulture);
 
+        return Alpha < 1f
+            ? $"oklch({l} {c} {h} / {a})"
+            : $"oklch({l} {c} {h})";
     }
 }
