@@ -9,11 +9,11 @@ namespace RizzyUI.Charts;
 /// </summary>
 public class ChartJsEnumConverterFactory : JsonConverterFactory
 {
-	public override bool CanConvert(Type typeToConvert) => typeToConvert.IsEnum;
+    public override bool CanConvert(Type typeToConvert) => typeToConvert.IsEnum;
 
-	public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
-	{
-		return (JsonConverter)Activator.CreateInstance(
-			typeof(ChartJsEnumConverter<>).MakeGenericType(typeToConvert))!;
-	}
+    public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
+    {
+        return (JsonConverter)Activator.CreateInstance(
+            typeof(ChartJsEnumConverter<>).MakeGenericType(typeToConvert))!;
+    }
 }
