@@ -26,7 +26,7 @@
             </RzBreadcrumb>
 
             <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">
-                RzSkeleton
+                Skeleton
             </RzHeading>
             <RzParagraph>
                 The RzSkeleton component reproduces the shadcn/ui skeleton pattern as a feedback placeholder for loading states.
@@ -40,7 +40,9 @@
                         <RzSkeleton class="h-5 w-24 rounded-full" />
                     </div>
                 </RzBrowser>
-                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">&lt;RzSkeleton class=&quot;h-5 w-24 rounded-full&quot; /&gt;</RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                    &lt;RzSkeleton class=&quot;h-5 w-24 rounded-full&quot; /&gt;
+                </RzCodeViewer>
             </section>
 
             <section class="my-8 py-2">
@@ -79,9 +81,13 @@
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-                    &lt;RzSkeleton class=&quot;h-4 w-2/3&quot; /&gt;
-                    &lt;RzSkeleton class=&quot;h-4 w-1/2&quot; /&gt;
-                    &lt;RzSkeleton class=&quot;aspect-video w-full&quot; /&gt;
+                        &lt;div class=&quot;space-y-2 p-6&quot;&gt;
+                            &lt;RzSkeleton class=&quot;h-4 w-2/3&quot; /&gt;
+                            &lt;RzSkeleton class=&quot;h-4 w-1/2&quot; /&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;px-6 pb-6&quot;&gt;
+                            &lt;RzSkeleton class=&quot;aspect-video w-full&quot; /&gt;
+                        &lt;/div&gt;
                 </RzCodeViewer>
             </section>
 
@@ -95,9 +101,11 @@
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-                    &lt;RzSkeleton class=&quot;h-4 w-full&quot; /&gt;
-                    &lt;RzSkeleton class=&quot;h-4 w-full&quot; /&gt;
-                    &lt;RzSkeleton class=&quot;h-4 w-3/4&quot; /&gt;
+                    &lt;div class=&quot;mx-auto p-8 mb-5 flex w-full max-w-xs flex-col gap-2&quot;&gt;
+                        &lt;RzSkeleton class=&quot;h-4 w-full&quot; /&gt;
+                        &lt;RzSkeleton class=&quot;h-4 w-full&quot; /&gt;
+                        &lt;RzSkeleton class=&quot;h-4 w-3/4&quot; /&gt;
+                    &lt;/div&gt;
                 </RzCodeViewer>
             </section>
 
@@ -117,9 +125,17 @@
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-                    &lt;RzSkeleton class=&quot;h-4 w-20&quot; /&gt;
-                    &lt;RzSkeleton class=&quot;h-8 w-full&quot; /&gt;
-                    &lt;RzSkeleton class=&quot;h-8 w-24&quot; /&gt;
+                    &lt;div class=&quot;mx-auto p-8 mb-5 flex w-full max-w-xs flex-col gap-7&quot;&gt;
+                        &lt;div class=&quot;flex flex-col gap-3&quot;&gt;
+                            &lt;RzSkeleton class=&quot;h-4 w-20&quot; /&gt;
+                            &lt;RzSkeleton class=&quot;h-8 w-full&quot; /&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;flex flex-col gap-3&quot;&gt;
+                            &lt;RzSkeleton class=&quot;h-4 w-24&quot; /&gt;
+                            &lt;RzSkeleton class=&quot;h-8 w-full&quot; /&gt;
+                        &lt;/div&gt;
+                        &lt;RzSkeleton class=&quot;h-8 w-24&quot; /&gt;
+                    &lt;/div&gt;
                 </RzCodeViewer>
             </section>
 
@@ -138,9 +154,14 @@
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-                    &lt;RzSkeleton class=&quot;h-4 flex-1&quot; /&gt;
-                    &lt;RzSkeleton class=&quot;h-4 w-24&quot; /&gt;
-                    &lt;RzSkeleton class=&quot;h-4 w-20&quot; /&gt;
+                        @@for (var index = 0; index &lt; 5; index++)
+                        {
+                            &lt;div class=&quot;flex gap-4&quot;&gt;
+                                &lt;RzSkeleton class=&quot;h-4 flex-1&quot; /&gt;
+                                &lt;RzSkeleton class=&quot;h-4 w-24&quot; /&gt;
+                                &lt;RzSkeleton class=&quot;h-4 w-20&quot; /&gt;
+                            &lt;/div&gt;
+                        }
                 </RzCodeViewer>
             </section>
 

@@ -1,0 +1,87 @@
+
+@page "/components/chart-interaction"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Charts
+@inherits RzComponent
+
+<PageTitle>Chart Interaction</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Chart Interaction</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Chart Interaction" class="scroll-mt-20">Chart Interaction</RzHeading>
+
+            <section>
+                <RzMarkdown>
+&gt; **Reference [External Link](https://www.chartjs.org/docs/latest/configuration/interactions.html)**
+&gt;
+&gt; Namespace: ```options.interaction```. To configure which events trigger chart interactions, see [events](/components/chart-configuration#events).
+	
+```csharp
+.Options(o => o
+	.Interaction(i => i
+		.Mode(InteractionMode.Index)
+		.Axis(Axis.X)))
+```
+
+```js
+"options": {
+	"interaction": {
+	  "mode": 2,
+	  "axis": "x"
+	}
+  }
+```
+
+## Mode
+Sets which elements appear in the interaction. Default ```'nearest'```
+[External Link](https://www.chartjs.org/docs/latest/configuration/interactions.html#modes)
+```csharp
+.Mode(InteractionMode.Index)
+```
+
+## Intersect
+if true, the interaction mode only applies when the mouse position intersects an item on the chart.
+Default ```true```
+```csharp
+.Intersect(true)
+```
+
+## Axis
+Can be set to ```'x'```, ```'y'```, ```'xy'``` or ```'r'``` to define which directions are used in calculating distances.
+Defaults to ```'x'``` for ```'index'``` mode and ```'xy'``` in dataset and ```'nearest'``` modes.
+```csharp
+.Axis(Axis.X)
+```
+
+## IncludeInvisible
+if ```true```, the invisible points that are outside of the chart area will also be included when evaluating interactions.
+ Default ```false```
+```csharp
+.IncludeInvisible(true)
+```
+                </RzMarkdown>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
