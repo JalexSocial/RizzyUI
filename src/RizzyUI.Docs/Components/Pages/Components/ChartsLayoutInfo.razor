@@ -1,0 +1,70 @@
+
+@page "/components/chart-layout"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Charts
+@inherits RzComponent
+
+<PageTitle>Chart Layout</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Chart Layout</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Chart Layout" class="scroll-mt-20">Chart Layout</RzHeading>
+
+            <section>
+                <RzMarkdown>
+&gt; **Reference [External Link](https://www.chartjs.org/docs/latest/configuration/layout.html)**
+&gt;
+&gt; The layout configuration determines the padding around the chart area (the area where the data is displayed) within the canvas. 
+&gt; This allows you to add space between the chart area and other elements, such as legends, titles, and tooltips, 
+&gt; or to ensure that the chart looks better when embedded in a larger UI.
+&gt;
+&gt; Namespace: ```options.layout```
+
+```csharp
+.Options(o => o
+	.Layout(l => l
+		.AutoPadding(false)))
+```
+
+## AutoPadding
+Apply automatic padding so visible elements are completely drawn. Default ```true```
+```csharp
+.AutoPadding(false)
+```
+
+## Padding
+Padding around the title.
+```csharp
+.Padding(5)
+```
+See padding configuration.
+[Link](/components/chart-padding)
+```csharp
+.Padding(p => p.Top(5).Bottom(10))
+```
+                </RzMarkdown>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

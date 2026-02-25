@@ -81,7 +81,7 @@ public class RizzyCodeBlockRenderer : HtmlObjectRenderer<CodeBlock>
             if (!string.IsNullOrEmpty(language)) classes += $" language-{language}";
 
             // Write the opening tags for a fenced code block.
-            renderer.Write("<pre><code");
+            renderer.Write("<pre class=\"border-muted border\"><code");
             renderer.Write($" class=\"{classes}\"");
             renderer.Write(">");
         }

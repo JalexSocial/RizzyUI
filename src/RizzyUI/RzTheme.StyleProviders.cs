@@ -41,6 +41,8 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<AvatarGroupCount.Slots>, AvatarGroupCount.Slots> AvatarGroupCount { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzBadge"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzBadge.Slots>, RzBadge.Slots> RzBadge { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzChart"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzChart.Slots>, RzChart.Slots> RzChart { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzIndicator"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzIndicator.Slots>, RzIndicator.Slots> RzIndicator { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzProgress"/> component. </summary>

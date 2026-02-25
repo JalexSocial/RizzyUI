@@ -1,0 +1,65 @@
+
+@page "/components/chart-padding"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Charts
+@inherits RzComponent
+
+<PageTitle>Chart Padding Configuration</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Padding Configuration</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Padding Configuration" class="scroll-mt-20">Padding Configuration</RzHeading>
+
+            <section>
+                <RzMarkdown>
+&gt; **Reference [External Link](https://www.chartjs.org/docs/latest/general/padding.html)**
+&gt;
+&gt; Padding values in Chart options can be supplied in a couple of different formats.
+
+## Number
+If this value is a number, it is applied to all sides (left, top, right, bottom).
+[External Link](https://www.chartjs.org/docs/latest/general/padding.html#number)
+```csharp
+.Padding(20)
+```
+
+## Object ```{top, left, bottom, right}```
+If this value is an object, the ```left``` property defines the ```left``` padding. 
+Similarly, the ```right```, ```top``` and ```bottom``` properties can also be specified. Omitted properties default to ```0```.
+[External Link](https://www.chartjs.org/docs/latest/general/padding.html#top-left-bottom-right-object)
+```csharp
+.Padding(p => p.Left(5).Right(10).Top(20).Bottom(15))
+```
+
+## Object ```{x, y}```
+This is a shorthand for defining ```left/right``` and ```top/bottom``` to the same values.
+[External Link](https://www.chartjs.org/docs/latest/general/padding.html#x-y-object)
+```csharp
+.Padding(p => p.X(5).Y(10))
+```
+                </RzMarkdown>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

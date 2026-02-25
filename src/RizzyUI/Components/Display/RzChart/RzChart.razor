@@ -1,0 +1,23 @@
+@namespace RizzyUI
+@inherits RzComponent<RzChart.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="chart">
+    <div data-alpine-root="@Id"
+         x-data="rzChart"
+         data-assets="@_assets"
+         data-nonce="@Nonce"
+         data-config-id="@ConfigScriptId"
+         class="@SlotClasses.GetContainer()"
+         data-slot="@RzChart.SlotNames.NameOf(SlotTypes.Container)">
+        <script type="application/json" id="@ConfigScriptId" nonce="@Nonce">@((MarkupString)_serializedConfig)</script>
+        <canvas x-ref="canvas"
+                aria-label="@AriaLabel"
+                role="img"
+                class="@SlotClasses.GetCanvas()"
+                data-slot="@RzChart.SlotNames.NameOf(SlotTypes.Canvas)"></canvas>
+    </div>
+</HtmlElement>

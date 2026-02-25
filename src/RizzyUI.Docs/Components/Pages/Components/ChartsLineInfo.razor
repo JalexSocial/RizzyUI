@@ -1,0 +1,881 @@
+@page "/components/chart-line"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Charts
+@inherits RzComponent
+
+<PageTitle>Line Chart Examples</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Chart Line Examples</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Line Chart Examples" class="scroll-mt-20">Line Chart Examples</RzHeading>
+            <RzParagraph>
+                This page focuses on line chart patterns built with <code>RzChart</code> and direct inline fluent builder configuration.
+            </RzParagraph>
+
+            <script>
+                window.myLineSegmentStyles = {
+                    borderColor: (ctx) => (ctx.p0.skip || ctx.p1.skip ? "var(--chart-2)" : "var(--chart-1)"),
+                    borderDash: (ctx) => (ctx.p0.skip || ctx.p1.skip ? [6, 6] : undefined)
+                };
+            </script>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Interpolation Modes" class="scroll-mt-20">Interpolation Modes</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                        .Data(d => d
+                            .Labels("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
+                            .Datasets(ds => {
+                                ds.Line()
+                                  .Label("Cubic interpolation (default)")
+                                  .Data(new object[] { 0, 20, 20, 60, 60, 120, null!, 180, 120, 125, 105, 110, 170 })
+                                  .BorderColor("var(--chart-1)")
+                                  .BackgroundColor("var(--chart-1)")
+                                  .CubicInterpolationMode(InterpolationMode.Default)
+                                  .Tension(0.4);
+
+                                ds.Line()
+                                  .Label("Cubic interpolation (monotone)")
+                                  .Data(new object[] { 0, 20, 20, 60, 60, 120, null!, 180, 120, 125, 105, 110, 170 })
+                                  .BorderColor("var(--chart-2)")
+                                  .BackgroundColor("var(--chart-2)")
+                                  .CubicInterpolationMode(InterpolationMode.Monotone)
+                                  .Tension(0.4);
+
+                                ds.Line()
+                                  .Label("Linear interpolation (tension 0)")
+                                  .Data(new object[] { 0, 20, 20, 60, 60, 120, null!, 180, 120, 125, 105, 110, 170 })
+                                  .BorderColor("var(--chart-3)")
+                                  .BackgroundColor("var(--chart-3)")
+                                  .Tension(0);
+                            })
+                        )
+                        .Options(o => o
+                            .Responsive(true)
+                            .Interaction(i => i.Mode(InteractionMode.Index).Intersect(false))
+                            .Plugins(p => p.Title(t => t.Display(true).Text("Chart.js Line Chart - Cubic interpolation mode")))
+                        )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzChart Configure=@@(c =&gt; c
+    .Data(d =&gt; d
+        .Labels(&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;11&quot;, &quot;12&quot;)
+        .Datasets(ds =&gt; {
+            ds.Line()
+              .Label(&quot;Cubic interpolation (default)&quot;)
+              .Data(new object[] { 0, 20, 20, 60, 60, 120, null, 180, 120, 125, 105, 110, 170 })
+              .BorderColor(&quot;var(--chart-1)&quot;)
+              .BackgroundColor(&quot;var(--chart-1)&quot;)
+              .CubicInterpolationMode(InterpolationMode.Default)
+              .Tension(0.4);
+
+            ds.Line()
+              .Label(&quot;Cubic interpolation (monotone)&quot;)
+              .Data(new object[] { 0, 20, 20, 60, 60, 120, null, 180, 120, 125, 105, 110, 170 })
+              .BorderColor(&quot;var(--chart-2)&quot;)
+              .BackgroundColor(&quot;var(--chart-2)&quot;)
+              .CubicInterpolationMode(InterpolationMode.Monotone)
+              .Tension(0.4);
+
+            ds.Line()
+              .Label(&quot;Linear interpolation (tension 0)&quot;)
+              .Data(new object[] { 0, 20, 20, 60, 60, 120, null, 180, 120, 125, 105, 110, 170 })
+              .BorderColor(&quot;var(--chart-3)&quot;)
+              .BackgroundColor(&quot;var(--chart-3)&quot;)
+              .Tension(0);
+        })
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .Interaction(i =&gt; i.Mode(InteractionMode.Index).Intersect(false))
+        .Plugins(p =&gt; p
+            .Title(t =&gt; t.Display(true).Text(&quot;Chart.js Line Chart - Cubic interpolation mode&quot;))
+        )
+    )) /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Line Chart" class="scroll-mt-20">Line Chart</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                        .Data(d => d
+                            .Labels("January", "February", "March", "April", "May", "June", "July")
+                            .Datasets(ds => {
+                                ds.Line()
+                                  .Label("Dataset 1")
+                                  .Data(65, 59, 80, 81, 56, 55, 40)
+                                  .BorderColor("var(--chart-1)")
+                                  .BackgroundColor("var(--chart-1)");
+
+                                ds.Line()
+                                  .Label("Dataset 2")
+                                  .Data(28, 48, 40, 19, 86, 27, 90)
+                                  .BorderColor("var(--chart-2)")
+                                  .BackgroundColor("var(--chart-2)");
+                            })
+                        )
+                        .Options(o => o
+                            .Responsive(true)
+                            .Plugins(p => p
+                                .Legend(l => l.Position(LegendPosition.Top))
+                                .Title(t => t.Display(true).Text("Chart.js Line Chart"))
+                            )
+                        )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzChart Configure=@@(c =&gt; c
+    .Data(d =&gt; d
+        .Labels(&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;)
+        .Datasets(ds =&gt; {
+            ds.Line()
+              .Label(&quot;Dataset 1&quot;)
+              .Data(65, 59, 80, 81, 56, 55, 40)
+              .BorderColor(&quot;var(--chart-1)&quot;)
+              .BackgroundColor(&quot;var(--chart-1)&quot;);
+
+            ds.Line()
+              .Label(&quot;Dataset 2&quot;)
+              .Data(28, 48, 40, 19, 86, 27, 90)
+              .BorderColor(&quot;var(--chart-2)&quot;)
+              .BackgroundColor(&quot;var(--chart-2)&quot;);
+        })
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .Plugins(p =&gt; p
+            .Legend(l =&gt; l.Position(LegendPosition.Top))
+            .Title(t =&gt; t.Display(true).Text(&quot;Chart.js Line Chart&quot;))
+        )
+    )) /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Multi Axis Line Chart" class="scroll-mt-20">Multi Axis Line Chart</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                        .Data(d => d
+                            .Labels("January", "February", "March", "April", "May", "June", "July")
+                            .Datasets(ds => {
+                                ds.Line()
+                                  .Label("Dataset 1")
+                                  .Data(65, 59, 80, 81, 56, 55, 40)
+                                  .BorderColor("var(--chart-1)")
+                                  .BackgroundColor("var(--chart-1)")
+                                  .YAxisID("y");
+
+                                ds.Line()
+                                  .Label("Dataset 2")
+                                  .Data(28, 48, 40, 19, 86, 27, 90)
+                                  .BorderColor("var(--chart-2)")
+                                  .BackgroundColor("var(--chart-2)")
+                                  .YAxisID("y1");
+                            })
+                        )
+                        .Options(o => o
+                            .Responsive(true)
+                            .Interaction(i => i.Mode(InteractionMode.Index).Intersect(false))
+                            .Plugins(p => p.Title(t => t.Display(true).Text("Chart.js Line Chart - Multi Axis")))
+                            .Scales(s => {
+                                s.ScaleId("y").Type("linear").Display(true).Position(AxisPosition.Left);
+                                s.ScaleId("y1").Type("linear").Display(true).Position(AxisPosition.Right).Grid(g => g.DrawOnChartArea(false));
+                            })
+                        )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzChart Configure=@@(c =&gt; c
+    .Data(d =&gt; d
+        .Labels(&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;)
+        .Datasets(ds =&gt; {
+            ds.Line()
+              .Label(&quot;Dataset 1&quot;)
+              .Data(65, 59, 80, 81, 56, 55, 40)
+              .BorderColor(&quot;var(--chart-1)&quot;)
+              .BackgroundColor(&quot;var(--chart-1)&quot;)
+              .YAxisID(&quot;y&quot;);
+
+            ds.Line()
+              .Label(&quot;Dataset 2&quot;)
+              .Data(28, 48, 40, 19, 86, 27, 90)
+              .BorderColor(&quot;var(--chart-2)&quot;)
+              .BackgroundColor(&quot;var(--chart-2)&quot;)
+              .YAxisID(&quot;y1&quot;);
+        })
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .Interaction(i =&gt; i.Mode(InteractionMode.Index).Intersect(false))
+        .Plugins(p =&gt; p
+            .Title(t =&gt; t.Display(true).Text(&quot;Chart.js Line Chart - Multi Axis&quot;))
+        )
+        .Scales(s =&gt; {
+            s.ScaleId(&quot;y&quot;).Type(&quot;linear&quot;).Display(true).Position(AxisPosition.Left);
+            s.ScaleId(&quot;y1&quot;).Type(&quot;linear&quot;).Display(true).Position(AxisPosition.Right).Grid(g =&gt; g.DrawOnChartArea(false));
+        })
+    )) /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Point Styling" class="scroll-mt-20">Point Styling</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                        .Data(d => d
+                            .Labels("Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6")
+                            .Datasets(ds => {
+                                ds.Line()
+                                  .Label("Circle")
+                                  .Data(10, 20, 15, 30, 25, 40)
+                                  .BorderColor("var(--chart-1)")
+                                  .BackgroundColor("var(--chart-1)")
+                                  .PointStyle(PointStyle.Circle)
+                                  .PointRadius(10)
+                                  .PointHoverRadius(15);
+
+                                ds.Line()
+                                  .Label("Triangle")
+                                  .Data(15, 25, 20, 35, 30, 45)
+                                  .BorderColor("var(--chart-2)")
+                                  .BackgroundColor("var(--chart-2)")
+                                  .PointStyle(PointStyle.Triangle)
+                                  .PointRadius(10)
+                                  .PointHoverRadius(15);
+
+                                ds.Line()
+                                  .Label("Rect")
+                                  .Data(20, 30, 25, 40, 35, 50)
+                                  .BorderColor("var(--chart-3)")
+                                  .BackgroundColor("var(--chart-3)")
+                                  .PointStyle(PointStyle.Rect)
+                                  .PointRadius(10)
+                                  .PointHoverRadius(15);
+                            })
+                        )
+                        .Options(o => o
+                            .Responsive(true)
+                            .Plugins(p => p.Title(t => t.Display(true).Text("Chart.js Line Chart - Point Styling")))
+                        )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzChart Configure=@@(c =&gt; c
+    .Data(d =&gt; d
+        .Labels(&quot;Day 1&quot;, &quot;Day 2&quot;, &quot;Day 3&quot;, &quot;Day 4&quot;, &quot;Day 5&quot;, &quot;Day 6&quot;)
+        .Datasets(ds =&gt; {
+            ds.Line()
+              .Label(&quot;Circle&quot;)
+              .Data(10, 20, 15, 30, 25, 40)
+              .BorderColor(&quot;var(--chart-1)&quot;)
+              .BackgroundColor(&quot;var(--chart-1)&quot;)
+              .PointStyle(PointStyle.Circle)
+              .PointRadius(10)
+              .PointHoverRadius(15);
+
+            ds.Line()
+              .Label(&quot;Triangle&quot;)
+              .Data(15, 25, 20, 35, 30, 45)
+              .BorderColor(&quot;var(--chart-2)&quot;)
+              .BackgroundColor(&quot;var(--chart-2)&quot;)
+              .PointStyle(PointStyle.Triangle)
+              .PointRadius(10)
+              .PointHoverRadius(15);
+
+            ds.Line()
+              .Label(&quot;Rect&quot;)
+              .Data(20, 30, 25, 40, 35, 50)
+              .BorderColor(&quot;var(--chart-3)&quot;)
+              .BackgroundColor(&quot;var(--chart-3)&quot;)
+              .PointStyle(PointStyle.Rect)
+              .PointRadius(10)
+              .PointHoverRadius(15);
+        })
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .Plugins(p =&gt; p
+            .Title(t =&gt; t.Display(true).Text(&quot;Chart.js Line Chart - Point Styling&quot;))
+        )
+    )) /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Line Segment Styling" class="scroll-mt-20">Line Segment Styling</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                        .Data(d => d
+                            .Labels("Jan", "Feb", "Mar", "Apr", "May", "Jun")
+                            .Datasets(ds => ds
+                                .Line()
+                                .Label("Dataset 1")
+                                .Data(new object[] { 65, 59, null, 81, 56, 55 })
+                                .BorderColor("var(--chart-1)")
+                                .BackgroundColor("var(--chart-1)")
+                                .Segment("window.myLineSegmentStyles")
+                            )
+                        )
+                        .Options(o => o
+                            .Responsive(true)
+                            .Plugins(p => p.Title(t => t.Display(true).Text("Chart.js Line Chart - Segment Styling")))
+                        )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzChart Configure=@@(c =&gt; c
+    .Data(d =&gt; d
+        .Labels(&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;)
+        .Datasets(ds =&gt; ds
+            .Line()
+            .Label(&quot;Dataset 1&quot;)
+            .Data(new object[] { 65, 59, null, 81, 56, 55 })
+            .BorderColor(&quot;var(--chart-1)&quot;)
+            .BackgroundColor(&quot;var(--chart-1)&quot;)
+            .Segment(&quot;window.myLineSegmentStyles&quot;)
+        )
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .Plugins(p =&gt; p
+            .Title(t =&gt; t.Display(true).Text(&quot;Chart.js Line Chart - Segment Styling&quot;))
+        )
+    )) /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Stepped Line Charts" class="scroll-mt-20">Stepped Line Charts</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                        .Data(d => d
+                            .Labels("Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6")
+                            .Datasets(ds => {
+                                /*
+                                ds.Line()
+                                  .Label("False")
+                                  .Data(10, 20, 15, 30, 25, 40)
+                                  .BorderColor("var(--chart-1)")
+                                  .BackgroundColor("var(--chart-1)")
+                                  .Stepped(false);
+                                */
+                                ds.Line()
+                                  .Label("True")
+                                  .Data(15, 25, 20, 35, 30, 45)
+                                  .BorderColor("var(--chart-2)")
+                                  .BackgroundColor("var(--chart-2)")
+                                  .Stepped(true);
+                                /*
+                                ds.Line()
+                                  .Label("Before")
+                                  .Data(20, 30, 25, 40, 35, 50)
+                                  .BorderColor("var(--chart-3)")
+                                  .BackgroundColor("var(--chart-3)")
+                                  .Stepped("before");
+
+                                ds.Line()
+                                  .Label("After")
+                                  .Data(25, 35, 30, 45, 40, 55)
+                                  .BorderColor("var(--chart-4)")
+                                  .BackgroundColor("var(--chart-4)")
+                                  .Stepped("after");
+
+                                ds.Line()
+                                  .Label("Middle")
+                                  .Data(30, 40, 35, 50, 45, 60)
+                                  .BorderColor("var(--chart-5)")
+                                  .BackgroundColor("var(--chart-5)")
+                                  .Stepped("middle");
+                                */
+                            })
+                        )
+                        .Options(o => o
+                            .Responsive(true)
+                            .Interaction(i => i.Mode(InteractionMode.Index).Intersect(false))
+                            .Plugins(p => p.Title(t => t.Display(true).Text("Chart.js Line Chart - Stepped")))
+                        )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzChart Configure=@@(c =&gt; c
+    .Data(d =&gt; d
+        .Labels(&quot;Day 1&quot;, &quot;Day 2&quot;, &quot;Day 3&quot;, &quot;Day 4&quot;, &quot;Day 5&quot;, &quot;Day 6&quot;)
+        .Datasets(ds =&gt; {
+            ds.Line()
+              .Label(&quot;False&quot;)
+              .Data(10, 20, 15, 30, 25, 40)
+              .BorderColor(&quot;var(--chart-1)&quot;)
+              .BackgroundColor(&quot;var(--chart-1)&quot;)
+              .Stepped(false);
+
+            ds.Line()
+              .Label(&quot;True&quot;)
+              .Data(15, 25, 20, 35, 30, 45)
+              .BorderColor(&quot;var(--chart-2)&quot;)
+              .BackgroundColor(&quot;var(--chart-2)&quot;)
+              .Stepped(true);
+
+            ds.Line()
+              .Label(&quot;Before&quot;)
+              .Data(20, 30, 25, 40, 35, 50)
+              .BorderColor(&quot;var(--chart-3)&quot;)
+              .BackgroundColor(&quot;var(--chart-3)&quot;)
+              .Stepped(&quot;before&quot;);
+
+            ds.Line()
+              .Label(&quot;After&quot;)
+              .Data(25, 35, 30, 45, 40, 55)
+              .BorderColor(&quot;var(--chart-4)&quot;)
+              .BackgroundColor(&quot;var(--chart-4)&quot;)
+              .Stepped(&quot;after&quot;);
+
+            ds.Line()
+              .Label(&quot;Middle&quot;)
+              .Data(30, 40, 35, 50, 45, 60)
+              .BorderColor(&quot;var(--chart-5)&quot;)
+              .BackgroundColor(&quot;var(--chart-5)&quot;)
+              .Stepped(&quot;middle&quot;);
+        })
+    )
+    .Options(o =&gt; o
+        .Responsive(true)
+        .Interaction(i =&gt; i.Mode(InteractionMode.Index).Intersect(false))
+        .Plugins(p =&gt; p
+            .Title(t =&gt; t.Display(true).Text(&quot;Chart.js Line Chart - Stepped&quot;))
+        )
+    )) /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Line Styling" class="scroll-mt-20">Line Styling</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)"><div class="mx-auto mb-5 h-96 w-full max-w-4xl items-center justify-center p-8">
+                    <RzChart Configure=@(c => c
+                                           .Data(d => d
+                                               .Labels("January", "February", "March", "April", "May", "June", "July")
+                                               .Datasets(ds => {
+                                                   ds.Line()
+                                                       .Label("Unfilled")
+                                                       .Data(65, 59, 80, 81, 56, 55, 40)
+                                                       .BorderColor("var(--chart-1)")
+                                                       .BackgroundColor("var(--chart-1)")
+                                                       .Fill(false);
+
+                                                   ds.Line()
+                                                       .Label("Dashed")
+                                                       .Data(28, 48, 40, 19, 86, 27, 90)
+                                                       .BorderColor("var(--chart-2)")
+                                                       .BackgroundColor("var(--chart-2)")
+                                                       .BorderDash(5, 5)
+                                                       .Fill(false);
+
+                                                   ds.Line()
+                                                       .Label("Filled")
+                                                       .Data(18, 48, 77, 9, 100, 27, 40)
+                                                       .BorderColor("var(--chart-3)")
+                                                       .BackgroundColor("var(--chart-3)")
+                                                       .Fill(true);
+                                               })
+                                           )
+                                           .Options(o => o
+                                               .Responsive(true)
+                                               .Interaction(i => i.Mode(InteractionMode.Index).Intersect(false))
+                                               .Plugins(p => p.Title(t => t.Display(true).Text("Chart.js Line Chart - Styling")))
+                                           )) />
+                </div></RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                    &lt;RzChart Configure=@@(c =&gt; c
+                    .Data(d =&gt; d
+                    .Labels(&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;)
+                    .Datasets(ds =&gt; {
+                    ds.Line()
+                    .Label(&quot;Unfilled&quot;)
+                    .Data(65, 59, 80, 81, 56, 55, 40)
+                    .BorderColor(&quot;var(--chart-1)&quot;)
+                    .BackgroundColor(&quot;var(--chart-1)&quot;)
+                    .Fill(false);
+
+                    ds.Line()
+                    .Label(&quot;Dashed&quot;)
+                    .Data(28, 48, 40, 19, 86, 27, 90)
+                    .BorderColor(&quot;var(--chart-2)&quot;)
+                    .BackgroundColor(&quot;var(--chart-2)&quot;)
+                    .BorderDash(5, 5)
+                    .Fill(false);
+
+                    ds.Line()
+                    .Label(&quot;Filled&quot;)
+                    .Data(18, 48, 77, 9, 100, 27, 40)
+                    .BorderColor(&quot;var(--chart-3)&quot;)
+                    .BackgroundColor(&quot;var(--chart-3)&quot;)
+                    .Fill(true);
+                    })
+                    )
+                    .Options(o =&gt; o
+                    .Responsive(true)
+                    .Interaction(i =&gt; i.Mode(InteractionMode.Index).Intersect(false))
+                    .Plugins(p =&gt; p
+                    .Title(t =&gt; t.Display(true).Text(&quot;Chart.js Line Chart - Styling&quot;))
+                    )
+                    )) /&gt;
+                </RzCodeViewer>
+            </section>
+            <section>
+                <RzMarkdown>
+## Common Dataset Options
+These options are common to all datasets.
+
+### BackgroundColor
+The line fill color.
+```csharp
+.BackgroundColor("green")
+```
+```csharp
+.BackgroundColors("rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)")
+```
+
+### BorderColor
+The line color.
+```csharp
+.BorderColor("grey")
+```
+```csharp
+.BorderColors("yellow", "blue")
+```
+
+### BorderWidth
+The line width (in pixels).
+```csharp
+.BorderWidth(1)
+```
+
+### Clip
+How to clip relative to chartArea. Positive value allows overflow, negative value clips that many pixels inside chartArea.
+0 = clip at chartArea.
+```csharp
+.Clip(3)
+```
+Is clip enabled?
+```csharp
+.Clip(false)
+```
+Clipping can also be configured per side: clip: {left: 5, top: false, right: -2, bottom: 0}
+```csharp
+.Clip(c => c.Left(5).Top(false).Right(-2).Bottom(0))
+```
+
+### Hidden
+Configure the visibility of the dataset. Using hidden: true will hide the dataset from being rendered in the Chart.
+```csharp
+.Hidden(true)
+```
+
+### HoverBackgroundColor
+Background color when hovered.
+```csharp
+.HoverBackgroundColor("blue")
+```
+```csharp
+.HoverBackgroundColors("blue", "green")
+```
+
+### HoverBorderColor
+Border color when hovered.
+```csharp
+.HoverBorderColor("grey")
+```
+```csharp
+.HoverBorderColors("grey", "blue")
+```
+
+### HoverBorderWidth
+The line width (in pixels) when hovered.
+```csharp
+.HoverBorderWidth(3)
+```
+
+### Label
+The label for the dataset which appears in the legend and tooltips.
+```csharp
+.Label("First Bar Dataset")
+```
+
+### Parsing
+How to parse the dataset. The parsing can be disabled by specifying parsing: false at chart options or dataset. 
+If parsing is disabled, data must be sorted and in the formats the associated chart type and scales use internally.
+```csharp
+.Parsing(true)
+```
+Parsing with key.
+```csharp
+.Parsing("key")
+```
+Parsing with x and y axis keys.
+```csharp
+.Parsing("xKey", "yKey")
+```
+
+## Point Dataset Options
+
+### BorderCapStyle
+Cap style of the line. Default ```'butt'```
+[External Link](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineCap)
+```csharp
+.BorderCapStyle(CapStyle.Square)
+```
+
+### BorderDash
+Length and spacing of dashes.
+[External Link](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash)
+```csharp
+.BorderDash(15, 3, 3, 3)
+```
+
+### BorderDashOffset
+Offset for line dashes. Default ```0.0```
+[External Link](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset)
+```csharp
+.BorderDashOffset(0.1)
+```
+
+### BorderJoinStyle
+[External Link](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineJoin)
+Line joint style. Default ```'miter'```
+```csharp
+.BorderJoinStyle(JoinStyle.Bevel)
+```
+
+### HoverBorderCapStyle
+Border cap style when hovered.
+[External Link](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineCap)
+```csharp
+.HoverBorderCapStyle(CapStyle.Square)
+```
+
+### HoverBorderDash
+Length and spacing of dashes when hovered.
+[External Link](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash)
+```csharp
+.HoverBorderDash(15, 3, 3, 3)
+```
+
+### HoverBorderDashOffset
+Offset for line dashes when hovered.
+[External Link](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineDashOffset)
+```csharp
+.HoverBorderDashOffset(0.1)
+```
+
+### HoverBorderJoinStyle
+Line joint style when hovered.
+[External Link](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineJoin)
+```csharp
+.HoverBorderJoinStyle(oinStyle.Bevel)
+```
+
+### Fill
+Is enabled? Default ```false```
+```csharp
+.Fill(true)
+```
+How to fill the area under the line. 
+```csharp
+.Fill("stack")
+```
+Fill with configuration.
+```csharp
+.Fill(f => f.Above("Blue").Below("Red"))
+```
+
+### Order
+The drawing order of dataset. Also affects order for stacking, tooltip and legend.
+```csharp
+.Order(1)
+```
+
+### PointBackgroundColor
+The fill color for points.
+```csharp
+.PointBackgroundColor("green")
+```
+
+### PointBorderColor
+The border color for points.
+```csharp
+.PointBorderColor("grey")
+```
+
+### PointBorderWidth
+The width of the point border in pixels. Default ```1```
+```csharp
+.PointBorderWidth(2)
+```
+
+### PointHitRadius
+The pixel size of the non-displayed point that reacts to mouse events. Default ```1```
+```csharp
+.PointHitRadius(2)
+```
+
+### PointHoverBackgroundColor
+Point background color when hovered.
+```csharp
+.PointHoverBackgroundColor("green")
+```
+
+### PointHoverBorderColor
+Point border color when hovered.
+```csharp
+.PointHoverBorderColor("grey")
+```
+
+### PointHoverBorderWidth
+Border width of point when hovered. Default ```1```
+```csharp
+.PointHoverBorderWidth(2)
+```
+
+### PointHoverRadius
+The radius of the point when hovered. Default ```4```
+```csharp
+.PointHoverRadius(5)
+```
+
+### PointRadius
+The radius of the point shape. If set to 0, the point is not rendered. Default ```3```
+```csharp
+.PointRadius(2)
+```
+
+### PointRotation
+The rotation of the point in degrees. Default ```0```
+```csharp
+.PointRotation(1)
+```
+
+### PointStyle
+Is style of the point enabled?
+```csharp
+.PointStyle(true)
+```
+Style of the point. Default ```'circle'```
+```csharp
+.PointStyle(PointStyle.Cross)
+```
+
+### SpanGaps
+If ```true```, lines will be drawn between points with no or null data. If ```false```, points with null data will create a break in the line.
+Can also be a number specifying the maximum gap length to span. The unit of the value depends on the scale used.
+```csharp
+.SpanGaps(true)
+```
+
+### Tension
+Bezier curve tension of the line. Set to ```0``` to draw straightlines. This option is ignored if monotone cubic interpolation is used.
+```csharp
+.Tension(0.1)
+```
+
+## Line Dataset Options
+
+### CubicInterpolationMode
+The following interpolation modes are supported, ```'default'``` and ```'monotone'```.
+```csharp
+.CubicInterpolationMode(InterpolationMode.Monotone)
+```
+
+### Data
+Sets the data for the Dataset.
+```csharp
+.Data(1, 3, 5, 7)
+```
+```csharp
+.Data(1.0, 3.2, 5.0, 7.0)
+```
+```csharp
+.Data(IList&lt;object> data)
+```
+
+### DrawActiveElementsOnTop
+Draw the active points of a dataset over the other points of the dataset. Default ```true```
+```csharp
+.DrawActiveElementsOnTop(false)
+```
+
+### IndexAxis
+The base axis of the dataset. ```'x'``` for horizontal lines and ```'y'``` for vertical lines. Default ```'x'```
+```csharp
+.IndexAxis(IndexAxis.Y)
+```
+
+### Segment
+Line segment styles can be overridden by scriptable options in the segment object.
+To get the segment object from a function, set a funtion name.
+```csharp
+.Segment("segmentStyleFunction")
+```
+```js
+function segmentStyleFunction(ctx) {
+	return {
+        borderColor: ctx => skipped(ctx, 'rgb(0,0,0,0.2)') || down(ctx, 'rgb(192,75,75)'),
+        borderDash: ctx => skipped(ctx, [6, 6]),
+      };
+}
+```
+
+### ShowLine
+If ```false```, the line is not drawn for this dataset. Default ```true```
+```csharp
+.ShowLine(false)
+```
+
+### Stack
+The ID of the group to which this dataset belongs to (when stacked, each group will be a separate stack). Default ```'line'```
+```csharp
+.Stack("line")
+```
+
+### Stepped
+If the stepped value is set to anything other than ```false```, ```'tension'``` will be ignored.
+[External Link](https://www.chartjs.org/docs/latest/charts/line.html#stepped)
+```csharp
+.Stepped(true)
+```
+```csharp
+.Stepped("after")
+```
+
+### XAxisID
+The ID of the x-axis to plot this dataset on.
+```csharp
+.XAxisID("my-x-axis")
+```
+
+### YAxisID
+The ID of the y-axis to plot this dataset on.
+```csharp
+.YAxisID("my-y-axis")
+```
+                    
+                </RzMarkdown>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

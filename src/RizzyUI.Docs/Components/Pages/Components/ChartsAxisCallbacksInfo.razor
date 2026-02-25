@@ -1,0 +1,140 @@
+
+@page "/components/chart-axis-callbacks"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Charts
+@inherits RzComponent
+
+<PageTitle>Chart Axis Callbacks</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Axis Callbacks</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Axis Callbacks" class="scroll-mt-20">Axis Callbacks</RzHeading>
+
+            <section>
+                <RzMarkdown>
+&gt; **Reference [External Link](https://www.chartjs.org/docs/latest/axes/#callbacks)**
+&gt;
+&gt; There are a number of config callbacks that can be used to change parameters in the scale at different points in the update process. 
+&gt; The options are supplied at the top level of the axis options.
+&gt;
+&gt; Namespace: ```options.scales[scaleId]```
+	
+```csharp
+.Options(o => o
+    .Scales(s => s
+		.ScaleId("y")
+        .BeginAtZero(true)
+        .Callbacks(c => c
+            .BeforeUpdate("onBeforeUpdate")
+            .AfterUpdate("onAfterUpdate"))))
+```
+
+## BeforeUpdate
+Callback called before the update process starts.
+```csharp
+.BeforeUpdate("functionName")
+```
+
+## AfterUpdate
+Callback that runs at the end of the update process.
+```csharp
+.AfterUpdate("functionName")
+```
+
+## BeforeSetDimensions
+Callback that runs before dimensions are set.
+```csharp
+.BeforeSetDimensions("functionName")
+```
+
+## AfterSetDimensions
+Callback that runs after dimensions are set.
+```csharp
+.AfterSetDimensions("functionName")
+```
+
+## BeforeDataLimits
+Callback that runs before data limits are determined.
+```csharp
+.BeforeDataLimits("functionName")
+```
+
+## AfterDataLimits
+Callback that runs after data limits are determined.
+```csharp
+.AfterDataLimits("functionName")
+```
+
+## BeforeBuildTicks
+Callback that runs before ticks are created.
+```csharp
+.BeforeBuildTicks("functionName")
+```
+
+## AfterBuildTicks
+Callback that runs after ticks are created. Useful for filtering ticks.
+```csharp
+.AfterBuildTicks("functionName")
+```
+
+## BeforeTickToLabelConversion
+Callback that runs before ticks are converted into strings.
+```csharp
+.BeforeTickToLabelConversion("functionName")
+```
+
+## AfterTickToLabelConversion
+Callback that runs after ticks are converted into strings.
+```csharp
+.AfterTickToLabelConversion("functionName")
+```
+
+## BeforeCalculateLabelRotation
+Callback that runs before tick rotation is determined.
+```csharp
+.BeforeCalculateLabelRotation("functionName")
+```
+
+## AfterCalculateLabelRotation
+Callback that runs after tick rotation is determined.
+```csharp
+.AfterCalculateLabelRotation("functionName")
+```
+
+## BeforeFit
+Callback that runs before the scale fits to the canvas.
+```csharp
+.BeforeFit("functionName")
+```
+
+## AfterFit
+Callback that runs after the scale fits to the canvas.
+```csharp
+.AfterFit("functionName")
+```
+                </RzMarkdown>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

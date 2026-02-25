@@ -514,4 +514,8 @@
   <data name="RzColorPickerTrigger.DefaultAriaLabel" xml:space="preserve">
     <value>Open color picker</value>
   </data>
+  <data name="RzChart.DefaultAriaLabel" xml:space="preserve">
+    <value>Chart</value>
+    <comment>Default ARIA label for RzChart.</comment>
+  </data>
 </root>
