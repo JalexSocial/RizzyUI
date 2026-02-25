@@ -109,17 +109,39 @@ public class Layout
 }
 
 /// <summary>
-/// Simple padding object.
+/// Simple padding object used to define spacing around various chart elements.
 /// </summary>
 public class Padding
 {
+    /// <summary>
+    /// Gets or sets the padding on the left side in pixels.
+    /// </summary>
     public int? Left { get; set; }
+
+    /// <summary>
+    /// Gets or sets the padding on the right side in pixels.
+    /// </summary>
     public int? Right { get; set; }
+
+    /// <summary>
+    /// Gets or sets the padding on the top side in pixels.
+    /// </summary>
     public int? Top { get; set; }
+
+    /// <summary>
+    /// Gets or sets the padding on the bottom side in pixels.
+    /// </summary>
     public int? Bottom { get; set; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Padding"/> class.
+    /// </summary>
     public Padding() { }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Padding"/> class with uniform spacing on all sides.
+    /// </summary>
+    /// <param name="all">The number of pixels to apply to all four sides.</param>
     public Padding(int all)
     {
         Left = Right = Top = Bottom = all;

@@ -87,10 +87,29 @@ public class Title
 /// </summary>
 public class LegendTitle
 {
+    /// <summary>
+    /// Gets or sets the color of the legend title text.
+    /// </summary>
     public string? Color { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the legend title is displayed.
+    /// </summary>
     public bool? Display { get; set; }
+
+    /// <summary>
+    /// Gets or sets the font configuration used for the legend title.
+    /// </summary>
     public ChartFont? Font { get; set; }
+
+    /// <summary>
+    /// Gets or sets the padding to apply around the legend title.
+    /// </summary>
     public Padding? Padding { get; set; }
+
+    /// <summary>
+    /// Gets or sets the string text for the legend title.
+    /// </summary>
     public string? Text { get; set; }
 }
 
@@ -165,23 +184,95 @@ public class Legend
 }
 
 /// <summary>
-/// Configuration for tooltip callback functions.
+/// Defines callback functions for providing custom text and styling within tooltips.
+/// Properties should be set to the name of a globally accessible JavaScript function 
+/// (e.g., "window.myCustomCallback").
 /// </summary>
 public class Callbacks
 {
+    /// <summary>
+    /// Gets or sets the name of the JS function to render text before the title.
+    /// Receives an array of TooltipItems.
+    /// </summary>
     public string? BeforeTitle { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to render the tooltip title.
+    /// Receives an array of TooltipItems.
+    /// </summary>
     public string? Title { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to render text after the title.
+    /// Receives an array of TooltipItems.
+    /// </summary>
     public string? AfterTitle { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to render text before the body section.
+    /// Receives an array of TooltipItems.
+    /// </summary>
     public string? BeforeBody { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to render text before an individual label.
+    /// This is called for each item in the tooltip. Receives a single TooltipItem.
+    /// </summary>
     public string? BeforeLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to render the text for an individual item in the tooltip.
+    /// Receives a single TooltipItem.
+    /// </summary>
     public string? Label { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to return the colors for the tooltip item's box.
+    /// Function should return an object containing backgroundColor and borderColor.
+    /// Receives a single TooltipItem.
+    /// </summary>
     public string? LabelColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to return the color for the text of the label.
+    /// Receives a single TooltipItem.
+    /// </summary>
     public string? LabelTextColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to return the point style used instead of color boxes.
+    /// Only active if usePointStyle is true. Receives a single TooltipItem.
+    /// </summary>
     public string? LabelPointStyle { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to render text after an individual label.
+    /// Receives a single TooltipItem.
+    /// </summary>
     public string? AfterLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to render text after the body section.
+    /// Receives an array of TooltipItems.
+    /// </summary>
     public string? AfterBody { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to render text before the footer section.
+    /// Receives an array of TooltipItems.
+    /// </summary>
     public string? BeforeFooter { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to render the footer of the tooltip.
+    /// Receives an array of TooltipItems.
+    /// </summary>
     public string? Footer { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function to render text after the footer section.
+    /// Receives an array of TooltipItems.
+    /// </summary>
     public string? AfterFooter { get; set; }
 }
 

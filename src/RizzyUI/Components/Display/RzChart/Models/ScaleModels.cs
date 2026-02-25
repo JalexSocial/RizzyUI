@@ -57,20 +57,88 @@ public class Scale
     /// <summary> Axis title configuration. </summary>
     public ScaleTitle? Title { get; set; }
 
-    // --- Lifecycle callbacks ---
+    /// <summary>
+    /// Gets or sets the name of the JS function called before the scale update process starts.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? BeforeUpdate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called at the end of the scale update process.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? AfterUpdate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called before the scale dimensions are set.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? BeforeSetDimensions { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called after the scale dimensions are set.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? AfterSetDimensions { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called before the scale data limits are determined.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? BeforeDataLimits { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called after the scale data limits are determined.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? AfterDataLimits { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called before the scale ticks are created.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? BeforeBuildTicks { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called after the scale ticks are created.
+    /// Useful for filtering or modifying the generated ticks. Receives the axis instance as an argument.
+    /// </summary>
     public string? AfterBuildTicks { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called before ticks are converted into string labels.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? BeforeTickToLabelConversion { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called after ticks are converted into string labels.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? AfterTickToLabelConversion { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called before tick rotation is determined.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? BeforeCalculateLabelRotation { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called after tick rotation is determined.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? AfterCalculateLabelRotation { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called before the scale fits to the canvas.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? BeforeFit { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the JS function called after the scale has been fitted to the canvas.
+    /// Receives the axis instance as an argument.
+    /// </summary>
     public string? AfterFit { get; set; }
 }
 

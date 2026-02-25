@@ -100,7 +100,7 @@ public class TitleBuilder
     public TitleBuilder Align(TitleAlign align) { _title.Align = align; return this; }
     /// <summary> Color of the title text. </summary>
     public TitleBuilder Color(string color) { _title.Color = color; return this; }
-    /// <summary> Color of the title text using a <see cref="Color"/> token. </summary>
+    /// <summary> Color of the title text using a Color token. </summary>
     public TitleBuilder Color(Color color) { _title.Color = color.ToCssColorString(); return this; }
     /// <summary> If true, the title is displayed. </summary>
     public TitleBuilder Display(bool display) { _title.Display = display; return this; }
@@ -200,7 +200,7 @@ public class LabelsBuilder
     public LabelsBuilder BoxHeight(int height) { _labels.BoxHeight = height; return this; }
     /// <summary> Color of the label text and strikethrough. </summary>
     public LabelsBuilder Color(string color) { _labels.Color = color; return this; }
-    /// <summary> Color using a <see cref="Color"/> token. </summary>
+    /// <summary> Color using a <see cref="RizzyUI.Color"/> token. </summary>
     public LabelsBuilder Color(Color color) { _labels.Color = color.ToCssColorString(); return this; }
     /// <summary> Configures the font for the labels. </summary>
     public LabelsBuilder Font(Action<FontBuilder> action)
@@ -426,4 +426,138 @@ public class DecimationBuilder
     public DecimationBuilder Samples(int samples) { _decimation.Samples = samples; return this; }
     /// <summary> Point count at which decimation is triggered. </summary>
     public DecimationBuilder Threshold(int threshold) { _decimation.Threshold = threshold; return this; }
+}
+
+/// <summary>
+/// Provides a fluent API for configuring the built-in Colors plugin in Chart.js.
+/// The Colors plugin automatically cycles through a default color palette for datasets.
+/// </summary>
+public class ColorsBuilder
+{
+    private readonly Colors _colors;
+
+    internal ColorsBuilder(Colors colors)
+    {
+        _colors = colors;
+    }
+
+    /// <summary>
+    /// Sets whether the colors plugin is enabled. 
+    /// When using the UMD version of Chart.js, this plugin is enabled by default.
+    /// </summary>
+    /// <param name="enabled">True to enable automatic coloring, false to disable.</param>
+    /// <returns>The builder instance for chaining.</returns>
+    public ColorsBuilder Enabled(bool enabled) { _colors.Enabled = enabled; return this; }
+
+    /// <summary>
+    /// Sets whether the colors plugin should always override existing dataset colors.
+    /// This is particularly useful for dynamic datasets added at runtime where you want 
+    /// the plugin to manage the palette regardless of initial settings.
+    /// </summary>
+    /// <param name="forceOverride">True to force the plugin to always color datasets.</param>
+    /// <returns>The builder instance for chaining.</returns>
+    public ColorsBuilder ForceOverride(bool forceOverride) { _colors.ForceOverride = forceOverride; return this; }
+}
+
+/// <summary>
+/// Provides a fluent API for configuring the Filler plugin in Chart.js.
+/// The Filler plugin is used by line and radar charts to create area charts by filling the space
+/// between datasets or between a dataset and a boundary.
+/// </summary>
+public class FillerBuilder
+{
+    private readonly Filler _filler;
+
+    internal FillerBuilder(Filler filler)
+    {
+        _filler = filler;
+    }
+
+    /// <summary>
+    /// Sets whether the fill area should be recursively extended to the next visible target 
+    /// if the current target dataset is hidden.
+    /// </summary>
+    /// <param name="propagate">True to enable fill propagation, false to disable.</param>
+    /// <returns>The builder instance for chaining.</returns>
+    public FillerBuilder Propagate(bool propagate) { _filler.Propagate = propagate; return this; }
+
+    /// <summary>
+    /// Sets the draw time for the filler plugin, determining when the fill is rendered 
+    /// relative to other chart elements.
+    /// </summary>
+    /// <param name="drawTime">The point in the render cycle to draw the fill.</param>
+    /// <returns>The builder instance for chaining.</returns>
+    public FillerBuilder DrawTime(DrawTime drawTime) { _filler.DrawTime = drawTime; return this; }
+}
+
+/// <summary>
+/// Provides a fluent API for configuring the title section of the chart legend.
+/// </summary>
+public class LegendTitleBuilder
+{
+    private readonly LegendTitle _legendTitle;
+
+    internal LegendTitleBuilder(LegendTitle legendTitle)
+    {
+        _legendTitle = legendTitle;
+    }
+
+    /// <summary>
+    /// Sets the color of the legend title text using a CSS color string.
+    /// </summary>
+    /// <param name="color">A valid CSS color string (e.g., "hex", "rgb", "hsl").</param>
+    /// <returns>The builder instance for chaining.</returns>
+    public LegendTitleBuilder Color(string color) { _legendTitle.Color = color; return this; }
+
+    /// <summary>
+    /// Sets the color of the legend title text using a RizzyUI <see cref="RizzyUI.Color"/> object.
+    /// </summary>
+    /// <param name="color">The color to apply to the title text.</param>
+    /// <returns>The builder instance for chaining.</returns>
+    public LegendTitleBuilder Color(Color color) { _legendTitle.Color = color.ToCssColorString(); return this; }
+
+    /// <summary>
+    /// Sets whether the legend title is displayed.
+    /// </summary>
+    /// <param name="display">True to show the title, false to hide it.</param>
+    /// <returns>The builder instance for chaining.</returns>
+    public LegendTitleBuilder Display(bool display) { _legendTitle.Display = display; return this; }
+
+    /// <summary>
+    /// Configures the font properties for the legend title text.
+    /// </summary>
+    /// <param name="action">A delegate to configure the font using a <see cref="FontBuilder"/>.</param>
+    /// <returns>The builder instance for chaining.</returns>
+    public LegendTitleBuilder Font(Action<FontBuilder> action)
+    {
+        _legendTitle.Font = new ChartFont();
+        action(new FontBuilder(_legendTitle.Font));
+        return this;
+    }
+
+    /// <summary>
+    /// Sets uniform padding in pixels around the legend title.
+    /// </summary>
+    /// <param name="padding">The number of pixels to apply as padding on all sides.</param>
+    /// <returns>The builder instance for chaining.</returns>
+    public LegendTitleBuilder Padding(int padding) { _legendTitle.Padding = new Padding(padding); return this; }
+
+    /// <summary>
+    /// Configures detailed padding for the legend title.
+    /// </summary>
+    /// <param name="action">A delegate to configure individual sides using a <see cref="PaddingBuilder"/>.</param>
+    /// <returns>The builder instance for chaining.</returns>
+    public LegendTitleBuilder Padding(Action<PaddingBuilder> action)
+    {
+        _legendTitle.Padding = new Padding();
+        action(new PaddingBuilder(_legendTitle.Padding));
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the text string to be displayed as the legend title.
+    /// </summary>
+    /// <param name="text">The title text.</param>
+    /// <returns>The builder instance for chaining.</returns>
+    public LegendTitleBuilder Text(string text) { _legendTitle.Text = text; return this; }
 }

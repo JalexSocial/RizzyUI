@@ -42,6 +42,16 @@
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Charts</a>
+                        </SidebarMenuButton>
+                        <SidebarMenuSub>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>Chart</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-bar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>Chart Bar Examples</span></a></SidebarMenuButton></SidebarMenuItem>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-line" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>Chart Line Examples</span></a></SidebarMenuButton></SidebarMenuItem>
+                        </SidebarMenuSub>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
                             <a href="#" class="font-medium">Interactivity</a>
                         </SidebarMenuButton>
                         <SidebarMenuSub>

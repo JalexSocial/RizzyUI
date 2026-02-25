@@ -87,7 +87,7 @@ public class ScaleBuilder
     /// <summary> If true, the scale will always include 0. Only applicable to Linear scales. </summary>
     public ScaleBuilder BeginAtZero(bool beginAtZero) { _scale!.BeginAtZero = beginAtZero; return this; }
     /// <summary> Value or percentage for adding room in the scale range above/below data. </summary>
-    public OptionsBuilder Grace(string grace) { _scale!.Grace = grace; return this; }
+    public ScaleBuilder Grace(string grace) { _scale!.Grace = grace; return this; }
     /// <summary> Fixed value for added room in the scale range. </summary>
     public ScaleBuilder Grace(int grace) { _scale!.Grace = grace; return this; }
 
@@ -130,7 +130,7 @@ public class GridBuilder
     public GridBuilder Circular(bool circular) { _scaleGrid.Circular = circular; return this; }
     /// <summary> Color(s) for the grid lines. </summary>
     public GridBuilder Color(params string[] color) { _scaleGrid.Color = color; return this; }
-    /// <summary> Color(s) using <see cref="Color"/> tokens. </summary>
+    /// <summary> Color(s) using <see cref="RizzyUI.Color"/> tokens. </summary>
     public GridBuilder Color(params Color[] color) { _scaleGrid.Color = color.Select(c => c.ToCssColorString()).ToArray(); return this; }
     /// <summary> If false, do not display grid lines for this axis. </summary>
     public GridBuilder Display(bool display) { _scaleGrid.Display = display; return this; }
@@ -148,7 +148,7 @@ public class GridBuilder
     public GridBuilder TickBorderDashOffset(int offset) { _scaleGrid.TickBorderDashOffset = offset; return this; }
     /// <summary> Color of the tick lines. </summary>
     public GridBuilder TickColor(string color) { _scaleGrid.TickColor = color; return this; }
-    /// <summary> Tick color using a <see cref="Color"/> token. </summary>
+    /// <summary> Tick color using a <see cref="RizzyUI.Color"/> token. </summary>
     public GridBuilder TickColor(Color color) { _scaleGrid.TickColor = color.ToCssColorString(); return this; }
     /// <summary> Length in pixels that the grid lines draw into the axis area. </summary>
     public GridBuilder TickLength(int length) { _scaleGrid.TickLength = length; return this; }
@@ -174,7 +174,7 @@ public class ScaleBorderBuilder
     public ScaleBorderBuilder Display(bool display) { _scaleBorder.Display = display; return this; }
     /// <summary> Color of the border line. </summary>
     public ScaleBorderBuilder Color(string color) { _scaleBorder.Color = color; return this; }
-    /// <summary> Border color using a <see cref="Color"/> token. </summary>
+    /// <summary> Border color using a <see cref="RizzyUI.Color"/> token. </summary>
     public ScaleBorderBuilder Color(Color color) { _scaleBorder.Color = color.ToCssColorString(); return this; }
     /// <summary> Width of the border line in pixels. </summary>
     public ScaleBorderBuilder Width(int width) { _scaleBorder.Width = width; return this; }
@@ -208,7 +208,7 @@ public class ScaleTitleBuilder
     public ScaleTitleBuilder Text(params string[] text) { _scaleTitle.Text = text; return this; }
     /// <summary> Color of the title text. </summary>
     public ScaleTitleBuilder Color(string color) { _scaleTitle.Color = color; return this; }
-    /// <summary> Title color using a <see cref="Color"/> token. </summary>
+    /// <summary> Title color using a <see cref="RizzyUI.Color"/> token. </summary>
     public ScaleTitleBuilder Color(Color color) { _scaleTitle.Color = color.ToCssColorString(); return this; }
     /// <summary> Configures the font for the scale title. </summary>
     public ScaleTitleBuilder Font(Action<FontBuilder> action)
@@ -242,7 +242,7 @@ public class TicksBuilder
 
     /// <summary> Color of label backdrops. </summary>
     public TicksBuilder BackdropColor(string color) { _scaleTicks.BackdropColor = color; return this; }
-    /// <summary> Backdrop color using a <see cref="Color"/> token. </summary>
+    /// <summary> Backdrop color using a <see cref="RizzyUI.Color"/> token. </summary>
     public TicksBuilder BackdropColor(Color color) { _scaleTicks.BackdropColor = color.ToCssColorString(); return this; }
     /// <summary> Uniform padding of the label backdrop. </summary>
     public TicksBuilder BackdropPadding(int padding) { _scaleTicks.BackdropPadding = new Padding(padding); return this; }
@@ -259,7 +259,7 @@ public class TicksBuilder
     public TicksBuilder Display(bool display) { _scaleTicks.Display = display; return this; }
     /// <summary> Color of the tick labels. </summary>
     public TicksBuilder Color(string color) { _scaleTicks.Color = color; return this; }
-    /// <summary> Label color using a <see cref="Color"/> token. </summary>
+    /// <summary> Label color using a <see cref="RizzyUI.Color"/> token. </summary>
     public TicksBuilder Color(Color color) { _scaleTicks.Color = color.ToCssColorString(); return this; }
     /// <summary> Configures the font for the tick labels. </summary>
     public TicksBuilder Font(Action<FontBuilder> action)
@@ -276,7 +276,7 @@ public class TicksBuilder
     public TicksBuilder ShowLabelBackdrop(bool show) { _scaleTicks.ShowLabelBackdrop = show; return this; }
     /// <summary> Color of the stroke around label text. </summary>
     public TicksBuilder TextStrokeColor(string color) { _scaleTicks.TextStrokeColor = color; return this; }
-    /// <summary> Stroke color using a <see cref="Color"/> token. </summary>
+    /// <summary> Stroke color using a <see cref="RizzyUI.Color"/> token. </summary>
     public TicksBuilder TextStrokeColor(Color color) { _scaleTicks.TextStrokeColor = color.ToCssColorString(); return this; }
     /// <summary> Width of the stroke around label text in pixels. </summary>
     public TicksBuilder TextStrokeWidth(int width) { _scaleTicks.TextStrokeWidth = width; return this; }
