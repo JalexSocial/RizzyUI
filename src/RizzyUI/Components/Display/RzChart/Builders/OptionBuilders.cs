@@ -261,7 +261,7 @@ public class FontBuilder
     /// <summary>
     /// Sets the font weight using a semantic value.
     /// </summary>
-    public FontBuilder Weight(FontWeight weight) { _font.Weight = weight.ToString().ToLowerInvariant(); return this; }
+    public FontBuilder Weight(FontWeight weight) { _font.Weight = ChartJsEnumMapper.ToChartJsString(weight); return this; }
 
     /// <summary>
     /// Sets the font weight using a numeric value (e.g. 400, 700).

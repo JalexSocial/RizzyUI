@@ -1,9 +1,11 @@
+using System.Text.Json.Serialization;
 
 namespace RizzyUI.Charts;
 
 /// <summary>
 /// Base class for all dataset types, containing common visual and functional configuration.
 /// </summary>
+[JsonConverter(typeof(ChartJsBaseDatasetConverter))]
 public class BaseDataset
 {
     /// <summary> The actual data values for the dataset. </summary>

@@ -252,7 +252,7 @@ public class TooltipBuilder
     /// <summary> If true, tooltip only appears when the mouse intersects an element. </summary>
     public TooltipBuilder Intersect(bool intersect) { _toolTip.Intersect = intersect; return this; }
     /// <summary> Positioning mode ('average', 'nearest'). </summary>
-    public TooltipBuilder Position(TooltipPosition position) { _toolTip.Position = position.ToString().ToLowerInvariant(); return this; }
+    public TooltipBuilder Position(TooltipPosition position) { _toolTip.Position = ChartJsEnumMapper.ToChartJsString(position); return this; }
     /// <summary> Positioning mode using a string (allows custom positioner names). </summary>
     public TooltipBuilder Position(string position) { _toolTip.Position = position; return this; }
     /// <summary> Configures callback functions to provide custom text in the tooltip sections. </summary>

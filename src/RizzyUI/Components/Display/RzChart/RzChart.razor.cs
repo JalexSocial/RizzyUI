@@ -82,7 +82,8 @@ public partial class RzChart : RzComponent<RzChart.Slots>
         _serializedConfig = JsonSerializer.Serialize(builder.Chart, new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            Converters = { new ChartJsObjectValueConverter() }
         });
     }
 
