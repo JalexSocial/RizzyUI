@@ -1,0 +1,113 @@
+
+@page "/components/chart-title"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Charts
+@inherits RzComponent
+
+<PageTitle>Chart Title Plugin</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Title Plugin</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Title Plugin" class="scroll-mt-20">Title Plugin</RzHeading>
+
+            <section>
+                <RzMarkdown>
+&gt; **Reference [External Link](https://www.chartjs.org/docs/latest/configuration/title.html)**
+&gt;
+&gt; The chart title defines text to draw at the top of the chart.
+&gt;
+&gt; Namespace: ```options.plugins.title```
+
+```csharp
+.Options(o => o
+    .Plugins(p => p
+        .Title(t => t
+            .Text("Chart Title")
+            .Color("blue")
+            .Position(TitlePosition.Top))))
+```
+
+## Align
+Alignment of the title. default ```'center'```
+```csharp
+.Align(TitleAlign.Center)
+```
+
+## Color
+Color of text.
+```csharp
+.Color("rgb(75, 192, 192)")
+```
+
+## Display
+Is the title shown? default ```false```
+```csharp
+.Display(true)
+```
+
+## FullSize
+Marks that this box should take the full width/height of the canvas. 
+If false, the box is sized and placed above/beside the chart area. default ```false```.
+```csharp
+.FullSize(true)
+```
+
+## Position
+Position of title. default ```'top'```
+```csharp
+.Position(TitlePosition.Top)
+```
+
+## Font
+See font configuration.
+[Link](/components/chart-font)
+```csharp
+.Font(f => f.Family("...").Size(10))
+```
+
+## Padding
+Padding around the title.
+```csharp
+.Padding(5)
+```
+See padding configuration.
+[Link](/components/chart-padding)
+```csharp
+.Padding(p => p.Top(5).Bottom(10))
+```
+
+## Text
+The string title.
+```csharp
+.Text("Chart Title")
+```
+Define multiple title.
+```csharp
+.Text("Title 1", "Title 2")
+```
+                </RzMarkdown>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

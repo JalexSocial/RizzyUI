@@ -103,10 +103,10 @@
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-radar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>Radar Chart</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-scatter" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" x-on:click="close" aria-current="page"><span>Scatter Chart</span></a></SidebarMenuButton></SidebarMenuItem>
                             <RzCollapsible class="group/collapsible" DefaultOpen="false">
-                                <SidebarGroup>
+                                <SidebarGroup class="p-0">
                                     <SidebarGroupLabel AsChild class="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm">
-                                        <CollapsibleTrigger class="pl-0 pr-2">
-                                            <a href="#" class="font-medium">Plugins</a>
+                                        <CollapsibleTrigger>
+                                            <a href="#">Plugins</a>
                                             <Blazicon Svg="MdiIcon.ChevronRight" class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                                         </CollapsibleTrigger>
                                     </SidebarGroupLabel>

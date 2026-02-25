@@ -1,0 +1,93 @@
+
+@page "/components/chart-decimation"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using RizzyUI.Charts
+@inherits RzComponent
+
+<PageTitle>Chart Decimation Plugin</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Decimation Plugin</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Decimation Plugin" class="scroll-mt-20">Decimation Plugin</RzHeading>
+
+            <section>
+                <RzMarkdown>
+&gt; **Reference [External Link](https://www.chartjs.org/docs/latest/configuration/decimation.html)**
+&gt;
+&gt; The decimation plugin can be used with line charts to automatically decimate data at the start of the chart lifecycle. 
+&gt; Before enabling this plugin, review the [requirements](https://www.chartjs.org/docs/latest/configuration/decimation.html#requirements) to ensure that it will work with the chart you want to create.
+&gt;
+&gt; Namespace: ```options.plugins.decimation```
+	
+```csharp
+.Options(o => o
+	.Plugins(p => p
+		.Decimation(d => d
+			.Algorithm(Algorithm.MinMax)
+			.Threshold(5))))
+```
+
+```js
+"options": {
+	"plugins": {
+	  "decimation": {
+		"algorithm": "min-max",
+		"threshold": 5
+	  }
+	}
+  }
+```
+
+## Enabled
+Is decimation enabled? Default ```false```
+```csharp
+.Enabled(true)
+```
+
+## Algorithm
+Decimation algorithm to use. Default ```'min-max'```
+[External Link](https://www.chartjs.org/docs/latest/configuration/decimation.html#decimation-algorithms)
+```csharp
+.Algorithm(Algorithm.Lttb)
+```
+
+## Samples
+If the ```'lttb'``` algorithm is used, this is the number of samples in the output dataset. 
+Defaults to the canvas width to pick ```1``` sample per pixel.
+```csharp
+.Samples(2)
+```
+
+## Threshold
+If the number of samples in the current axis range is above this value, the decimation will be triggered. 
+Defaults to ```4``` times the canvas width.
+The number of point after decimation can be higher than the threshold value.
+```csharp
+.Threshold(5)
+```
+                </RzMarkdown>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
