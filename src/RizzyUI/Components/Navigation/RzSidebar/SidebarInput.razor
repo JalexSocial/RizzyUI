@@ -1,0 +1,16 @@
+
+@namespace RizzyUI
+@inherits InputBase<string, SidebarInput.Slots>
+@using Rizzy
+
+<RzInputTextBase
+    @ref="_elem"
+    ValueExpression="@For"
+    Value="@Value"
+    DisplayName="@DisplayName"
+    @attributes="InputAttributes"
+    class="@SlotClasses.GetBase()"
+    id="@Id"
+    data-sidebar="input"
+    data-slot="sidebar-input"
+/>

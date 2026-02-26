@@ -5,19 +5,19 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// A small badge component, typically used within a <see cref="SidebarMenuItem"/> to display a count or status.
+/// A badge displayed at the trailing end of a SidebarMenuButton.
 /// </summary>
 public partial class SidebarMenuBadge : RzComponent<SidebarMenuBadge.Slots>
 {
     /// <summary>
-    /// Defines the default styling for the SidebarMenuBadge component.
+    /// Defines the default styling and variations for the SidebarMenuBadge component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "ml-auto text-xs"
+        @base: "text-sidebar-foreground pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums select-none peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground peer-data-[size=sm]/menu-button:top-1 peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-2.5 group-data-[collapsible=icon]:hidden"
     );
 
     /// <summary>
-    /// Gets or sets the content to be displayed inside the badge.
+    /// The content of the badge.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -26,20 +26,21 @@ public partial class SidebarMenuBadge : RzComponent<SidebarMenuBadge.Slots>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "span";
+        Element = "div";
     }
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarMenuBadge;
 
     /// <summary>
-    /// Defines the slots available for styling in the SidebarMenuBadge component.
+    /// Defines the slots available for styling the SidebarMenuBadge component.
     /// </summary>
     public sealed partial class Slots : ISlots
     {
         /// <summary>
-        /// The base slot for the component's root element.
+        /// Gets or sets the base CSS classes applied to the component's root element.
         /// </summary>
+        [Slot("sidebar-menu-badge")]
         public string? Base { get; set; }
     }
 }

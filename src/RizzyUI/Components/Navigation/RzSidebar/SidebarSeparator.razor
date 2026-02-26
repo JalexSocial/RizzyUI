@@ -2,4 +2,9 @@
 @namespace RizzyUI
 @inherits RzComponent<SidebarSeparator.Slots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="sidebar-separator" />
+<RzSeparator data-slot="sidebar-separator"
+             data-sidebar="separator"
+             Orientation="Orientation.Horizontal"
+             @attributes="AdditionalAttributes"
+             id="@Id"
+             class="@SlotClasses.GetBase()" />
