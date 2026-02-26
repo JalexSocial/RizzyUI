@@ -1,0 +1,78 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<RzButtonGroup>
+    <RzButtonGroup class="hidden sm:flex">
+        <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small" aria-label="Go Back">
+            <Blazicon Svg="Lucide.ArrowLeft" />
+        </RzButton>
+    </RzButtonGroup>
+
+    <RzButtonGroup>
+        <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small">
+            Archive
+        </RzButton>
+        <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small">
+            Report
+        </RzButton>
+    </RzButtonGroup>
+
+    <RzButtonGroup>
+        <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small">
+            Snooze
+        </RzButton>
+        <RzDropdownMenu Anchor="AnchorPoint.BottomEnd">
+            <DropdownMenuTrigger AsChild>
+                <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small" aria-label="More Options">
+                    <Blazicon Svg="@Lucide.MoveHorizontal" />
+                </RzButton>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent class="w-48">
+                <DropdownMenuGroup>
+                    <DropdownMenuItem>
+                        <Blazicon Svg="Lucide.MailCheck" />
+                        Mark as Read
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <Blazicon Svg="Lucide.Archive" />
+                        Archive
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                    <DropdownMenuItem>
+                        <Blazicon Svg="Lucide.Clock" />
+                        Snooze
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <Blazicon Svg="Lucide.CalendarPlus" />
+                        Add to Calendar
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <Blazicon Svg="Lucide.ListFilter" />
+                        Add to List
+                    </DropdownMenuItem>
+                    <DropdownMenuSub>
+                        <DropdownMenuSubTrigger>
+                            <Blazicon Svg="Lucide.Tag" />
+                            Label As...
+                        </DropdownMenuSubTrigger>
+                        <DropdownMenuSubContent>
+                            <DropdownMenuItem>Personal</DropdownMenuItem>
+                            <DropdownMenuItem>Work</DropdownMenuItem>
+                            <DropdownMenuItem>Other</DropdownMenuItem>
+                        </DropdownMenuSubContent>
+                    </DropdownMenuSub>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                    <DropdownMenuItem Variant="ThemeVariant.Destructive">
+                        <Blazicon Svg="Lucide.Trash2" />
+                        Trash
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
+            </DropdownMenuContent>
+        </RzDropdownMenu>
+    </RzButtonGroup>
+</RzButtonGroup>

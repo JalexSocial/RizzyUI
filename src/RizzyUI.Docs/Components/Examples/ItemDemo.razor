@@ -1,0 +1,28 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<div class="flex w-full max-w-md flex-col gap-6">
+    <RzItem Variant="ItemVariant.Outline">
+        <ItemContent>
+            <ItemTitle>Two-factor authentication</ItemTitle>
+            <ItemDescription class="text-pretty">
+                Verify via email or phone number.
+            </ItemDescription>
+        </ItemContent>
+        <ItemActions>
+            <RzButton Size="Size.Small">Enable</RzButton>
+        </ItemActions>
+    </RzItem>
+    <RzItem Variant="ItemVariant.Outline" Size="Size.Small">
+        <ItemMedia>
+            <Blazicon Svg="Lucide.BadgeCheck" class="size-5" />
+        </ItemMedia>
+        <ItemContent>
+            <ItemTitle>Your profile has been verified.</ItemTitle>
+        </ItemContent>
+        <ItemActions>
+            <Blazicon Svg="Lucide.ChevronRight" class="size-4" />
+        </ItemActions>
+    </RzItem>
+</div>

@@ -1,0 +1,47 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<div class="w-full max-w-md">
+    <EditForm Model="_model">
+        <RzFieldGroup>
+            <RzFieldSet>
+                <FieldLabel For="() => _model.Environment">
+                    Compute Environment
+                </FieldLabel>
+                <FieldDescription>
+                    Select the compute environment for your cluster.
+                </FieldDescription>
+                <RzRadioGroup For="@(() => _model.Environment)" class="mt-4">
+                    <FieldLabel For="() => _model.Environment" class="cursor-pointer">
+                        <Field Orientation="FieldOrientation.Horizontal">
+                            <RadioGroupItem Value="@("kubernetes")" id="kubernetes-r2h" aria-label="Kubernetes" />
+                            <FieldContent>
+                                <FieldTitle>Kubernetes</FieldTitle>
+                                <FieldDescription>
+                                    Run GPU workloads on a K8s configured cluster.
+                                </FieldDescription>
+                            </FieldContent>
+                        </Field>
+                    </FieldLabel>
+                    <FieldLabel For="() => _model.Environment" class="cursor-pointer">
+                        <Field Orientation="FieldOrientation.Horizontal">
+                            <RadioGroupItem Value="@("vm")" id="vm-z4k" aria-label="Virtual Machine" />
+                            <FieldContent>
+                                <FieldTitle>Virtual Machine</FieldTitle>
+                                <FieldDescription>
+                                    Access a VM configured cluster to run workloads.
+                                </FieldDescription>
+                            </FieldContent>
+                        </Field>
+                    </FieldLabel>
+                </RzRadioGroup>
+            </RzFieldSet>
+        </RzFieldGroup>
+    </EditForm>
+</div>
+
+@code {
+    private ChoiceModel _model = new();
+    public class ChoiceModel { public string Environment { get; set; } = "kubernetes"; }
+}

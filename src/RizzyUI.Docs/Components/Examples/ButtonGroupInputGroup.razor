@@ -1,0 +1,45 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<EditForm Model="_model">
+    <RzButtonGroup class="[--radius:9999rem]">
+        <RzButtonGroup>
+            <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Medium" aria-label="Add">
+                <Blazicon Svg="Lucide.Plus" />
+            </RzButton>
+        </RzButtonGroup>
+        <RzButtonGroup class="flex-1">
+            <RzInputGroup>
+                <InputGroupInput For="@(() => _model.Message)" 
+                                 Placeholder="@(_model.VoiceEnabled ? "Record and send audio..." : "Send a message...")" 
+                                 disabled="@_model.VoiceEnabled" />
+                <InputGroupAddon Align="InputGroupAddonAlign.InlineEnd">
+                    <TooltipProvider>
+                        <RzTooltip Anchor="AnchorPoint.Top">
+                            <TooltipTrigger AsChild>
+                                <InputGroupButton 
+                                    x-on:click="_model.VoiceEnabled = !_model.VoiceEnabled"
+                                    class="@(_model.VoiceEnabled ? "bg-primary text-primary-foreground" : "")"
+                                    aria-label="Voice Mode">
+                                    <Blazicon Svg="Lucide.AudioLines" />
+                                </InputGroupButton>
+                            </TooltipTrigger>
+                            <TooltipContent>Voice Mode</TooltipContent>
+                        </RzTooltip>
+                    </TooltipProvider>
+                </InputGroupAddon>
+            </RzInputGroup>
+        </RzButtonGroup>
+    </RzButtonGroup>
+</EditForm>
+
+@code {
+    private ChatModel _model = new();
+
+    public class ChatModel
+    {
+        public string Message { get; set; } = string.Empty;
+        public bool VoiceEnabled { get; set; } = false;
+    }
+}

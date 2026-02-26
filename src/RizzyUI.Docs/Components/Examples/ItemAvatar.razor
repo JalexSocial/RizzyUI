@@ -1,0 +1,33 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<div class="flex w-full max-w-lg flex-col gap-6">
+    <RzItem Variant="ItemVariant.Outline">
+        <ItemMedia>
+            <div class="flex -space-x-2 *:ring-background *:ring-2 *:grayscale">
+                <RzAvatar class="hidden sm:flex">
+                    <AvatarImage ImageSource="https://github.com/shadcn.png" alt="@("@shadcn")" />
+                    <AvatarFallback>CN</AvatarFallback>
+                </RzAvatar>
+                <RzAvatar class="hidden sm:flex">
+                    <AvatarImage ImageSource="https://github.com/maxleiter.png" alt="@("@maxleiter")" />
+                    <AvatarFallback>LR</AvatarFallback>
+                </RzAvatar>
+                <RzAvatar>
+                    <AvatarImage ImageSource="https://github.com/evilrabbit.png" alt="@("@evilrabbit")" />
+                    <AvatarFallback>ER</AvatarFallback>
+                </RzAvatar>
+            </div>
+        </ItemMedia>
+        <ItemContent>
+            <ItemTitle>No Team Members</ItemTitle>
+            <ItemDescription>Invite your team to collaborate.</ItemDescription>
+        </ItemContent>
+        <ItemActions>
+            <RzButton Size="Size.Small" Variant="ThemeVariant.Default" Outline>
+                Invite
+            </RzButton>
+        </ItemActions>
+    </RzItem>
+</div>
