@@ -10,7 +10,26 @@
 				<div class="flex flex-col gap-6 *:[div]:w-full *:[div]:max-w-full">
 					<PaymentMethod/>
 				</div>
-				<div class="order-first flex flex-col gap-6 lg:hidden xl:order-last xl:flex *:[div]:w-full *:[div]:max-w-full"></div>
+				<div class="order-first flex flex-col gap-6 lg:hidden xl:order-last xl:flex *:[div]:w-full *:[div]:max-w-full">
+					<EmptyDemo/>
+					<AlertDemo/>
+				</div>
+				<div class="order-first flex flex-col gap-6 lg:hidden xl:order-last xl:flex *:[div]:w-full *:[div]:max-w-full">
+					
+					<RzItem Variant="ItemVariant.Outline" Size="Size.Small" AsChild="true">
+						<a href="#">
+							<ItemMedia>
+								<Blazicon Svg="MdiIcon.CheckDecagram" class="text-xl" />
+							</ItemMedia>
+							<ItemContent>
+								<ItemTitle>Your profile has been verified.</ItemTitle>
+							</ItemContent>
+							<ItemActions>
+								<Blazicon Svg="MdiIcon.ChevronRight" class="text-lg" />
+							</ItemActions>
+						</a>
+					</RzItem>					
+				</div>				
 			</div>
 		</section>
 	</div>		        
