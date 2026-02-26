@@ -1,0 +1,56 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<RzPopover Anchor="AnchorPoint.BottomStart" Offset="4">
+    <PopoverTrigger>
+        <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Medium">Open popover</RzButton>
+    </PopoverTrigger>
+    <PopoverContent class="w-80">
+        <div class="grid gap-4 p-4">
+            <div class="space-y-2">
+                <h4 class="leading-none font-medium">Dimensions</h4>
+                <p class="text-muted-foreground text-sm">
+                    Set the dimensions for the layer.
+                </p>
+            </div>
+            <EditForm Model="_model">
+                <div class="grid gap-2">
+                    <div class="grid grid-cols-3 items-center gap-4">
+                        <label for="width" class="text-sm font-medium">Width</label>
+                        <RzInputText id="width" For="@(() => _model.Width)" class="col-span-2 h-8" />
+                    </div>
+                    <div class="grid grid-cols-3 items-center gap-4">
+                        <label for="maxWidth" class="text-sm font-medium">Max. width</label>
+                        <RzInputText id="maxWidth" For="@(() => _model.MaxWidth)" class="col-span-2 h-8" />
+                    </div>
+                    <div class="grid grid-cols-3 items-center gap-4">
+                        <label for="height" class="text-sm font-medium">Height</label>
+                        <RzInputText id="height" For="@(() => _model.Height)" class="col-span-2 h-8" />
+                    </div>
+                    <div class="grid grid-cols-3 items-center gap-4">
+                        <label for="maxHeight" class="text-sm font-medium">Max. height</label>
+                        <RzInputText id="maxHeight" For="@(() => _model.MaxHeight)" class="col-span-2 h-8" />
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </PopoverContent>
+</RzPopover>
+
+@code {
+    private DimensionsModel _model = new() 
+    { 
+        Width = "100%", 
+        MaxWidth = "300px", 
+        Height = "25px", 
+        MaxHeight = "none" 
+    };
+
+    public class DimensionsModel
+    {
+        public string Width { get; set; } = string.Empty;
+        public string MaxWidth { get; set; } = string.Empty;
+        public string Height { get; set; } = string.Empty;
+        public string MaxHeight { get; set; } = string.Empty;
+    }
+}

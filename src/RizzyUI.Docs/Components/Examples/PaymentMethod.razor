@@ -1,0 +1,108 @@
+﻿@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<EditForm Model="@_model">
+    <RzCard>
+        <CardHeader>
+            <CardTitle>Payment Method</CardTitle>
+            <CardDescription>
+                Add a new payment method to your account.
+            </CardDescription>
+        </CardHeader>
+        <CardContent class="flex flex-col gap-6">
+            <div class="flex flex-col gap-3">
+                <label for="name" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Name</label>
+                <RzInputText For="@(() => _model.Name)" id="name" Placeholder="First Last" />
+            </div>
+            
+            <fieldset class="flex flex-col gap-3">
+                <legend class="text-sm font-medium">Plan</legend>
+                <p class="text-muted-foreground text-sm">
+                    Select the plan that best fits your needs.
+                </p>
+                <RzRadioGroup For="@(() => _model.PlanId)" class="grid gap-3">
+                    @foreach (var plan in _plans)
+                    {
+                        <label class="has-[[data-state=checked]]:border-ring has-[[data-state=checked]]:bg-primary/5 flex items-start gap-3 rounded-lg border p-3" @key="plan.Id">
+                            <RadioGroupItem Value="@plan.Id" id="@plan.Name" class="data-[state=checked]:border-primary" />
+                            <div class="grid gap-1 font-normal">
+                                <div class="font-medium">@plan.Name</div>
+                                <div class="text-muted-foreground pr-2 text-xs leading-snug text-balance">
+                                    @plan.Description
+                                </div>
+                            </div>
+                        </label>
+                    }
+                </RzRadioGroup>
+            </fieldset>
+
+            <div class="flex flex-col gap-3">
+                <label for="number" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Card number</label>
+                <RzInputText For="@(() => _model.CardNumber)" id="number" Placeholder="" />
+            </div>
+
+            <div class="grid grid-cols-3 gap-4">
+                <div class="flex flex-col gap-3">
+                    <label for="month" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Expires</label>
+                    <RzNativeSelect For="@(() => _model.Month)" id="month" aria-label="Month" class="w-full">
+                        <RzNativeSelectOption Value=@String.Empty>Month</RzNativeSelectOption>
+                        <RzNativeSelectOption Value="1">January</RzNativeSelectOption>
+                        <RzNativeSelectOption Value="2">February</RzNativeSelectOption>
+                        <RzNativeSelectOption Value="3">March</RzNativeSelectOption>
+                        <RzNativeSelectOption Value="4">April</RzNativeSelectOption>
+                        <RzNativeSelectOption Value="5">May</RzNativeSelectOption>
+                        <RzNativeSelectOption Value="6">June</RzNativeSelectOption>
+                        <RzNativeSelectOption Value="7">July</RzNativeSelectOption>
+                        <RzNativeSelectOption Value="8">August</RzNativeSelectOption>
+                        <RzNativeSelectOption Value="9">September</RzNativeSelectOption>
+                        <RzNativeSelectOption Value="10">October</RzNativeSelectOption>
+                        <RzNativeSelectOption Value="11">November</RzNativeSelectOption>
+                        <RzNativeSelectOption Value="12">December</RzNativeSelectOption>
+                    </RzNativeSelect>
+                </div>
+                
+                <div class="flex flex-col gap-3">
+                    <label for="year" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Year</label>
+                    <RzNativeSelect For="@(() => _model.Year)" id="year" aria-label="Year" class="w-full">
+                        <RzNativeSelectOption Value="">Year</RzNativeSelectOption>
+                        @for (int i = 0; i < 10; i++)
+                        {
+                            var year = (DateTime.Now.Year + i).ToString();
+                            <RzNativeSelectOption Value="@year">@year</RzNativeSelectOption>
+                        }
+                    </RzNativeSelect>
+                </div>
+                
+                <div class="flex flex-col gap-3">
+                    <label for="cvc" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">CVC</label>
+                    <RzInputText For="@(() => _model.Cvc)" id="cvc" Placeholder="CVC" />
+                </div>
+            </div>
+        </CardContent>
+        <CardFooter>
+            <RzButton Variant="ThemeVariant.Primary" class="w-full">Continue</RzButton>
+        </CardFooter>
+    </RzCard>
+</EditForm>
+
+@code {
+    private PaymentModel _model = new() { PlanId = "starter" };
+
+    private class PaymentModel
+    {
+        public string Name { get; set; } = string.Empty;
+        public string PlanId { get; set; } = string.Empty;
+        public string CardNumber { get; set; } = string.Empty;
+        public string Month { get; set; } = string.Empty;
+        public string Year { get; set; } = string.Empty;
+        public string Cvc { get; set; } = string.Empty;
+    }
+
+    private record Plan(string Id, string Name, string Description, string Price);
+
+    private readonly List<Plan> _plans = new()
+    {
+        new Plan("starter", "Starter Plan", "Perfect for small businesses.", "$10"),
+        new Plan("pro", "Pro Plan", "Advanced features with more storage.", "$20")
+    };
+}

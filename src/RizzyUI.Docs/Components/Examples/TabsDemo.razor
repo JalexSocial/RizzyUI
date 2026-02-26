@@ -1,0 +1,71 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<RzTabs DefaultValue="overview" class="w-[400px]">
+    <TabsList>
+        <TabsTrigger Value="overview">Overview</TabsTrigger>
+        <TabsTrigger Value="analytics">Analytics</TabsTrigger>
+        <TabsTrigger Value="reports">Reports</TabsTrigger>
+        <TabsTrigger Value="settings">Settings</TabsTrigger>
+    </TabsList>
+    
+    <TabsContent Value="overview">
+        <RzCard>
+            <CardHeader>
+                <CardTitle>Overview</CardTitle>
+                <CardDescription>
+                    View your key metrics and recent project activity. Track progress
+                    across all your active projects.
+                </CardDescription>
+            </CardHeader>
+            <CardContent class="text-muted-foreground text-sm">
+                You have 12 active projects and 3 pending tasks.
+            </CardContent>
+        </RzCard>
+    </TabsContent>
+    
+    <TabsContent Value="analytics">
+        <RzCard>
+            <CardHeader>
+                <CardTitle>Analytics</CardTitle>
+                <CardDescription>
+                    Track performance and user engagement metrics. Monitor trends and
+                    identify growth opportunities.
+                </CardDescription>
+            </CardHeader>
+            <CardContent class="text-muted-foreground text-sm">
+                Page views are up 25% compared to last month.
+            </CardContent>
+        </RzCard>
+    </TabsContent>
+    
+    <TabsContent Value="reports">
+        <RzCard>
+            <CardHeader>
+                <CardTitle>Reports</CardTitle>
+                <CardDescription>
+                    Generate and download your detailed reports. Export data in
+                    multiple formats for analysis.
+                </CardDescription>
+            </CardHeader>
+            <CardContent class="text-muted-foreground text-sm">
+                You have 5 reports ready and available to export.
+            </CardContent>
+        </RzCard>
+    </TabsContent>
+    
+    <TabsContent Value="settings">
+        <RzCard>
+            <CardHeader>
+                <CardTitle>Settings</CardTitle>
+                <CardDescription>
+                    Manage your account preferences and options. Customize your
+                    experience to fit your needs.
+                </CardDescription>
+            </CardHeader>
+            <CardContent class="text-muted-foreground text-sm">
+                Configure notifications, security, and themes.
+            </CardContent>
+        </RzCard>
+    </TabsContent>
+</RzTabs>

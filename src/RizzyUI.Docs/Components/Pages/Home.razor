@@ -1,6 +1,20 @@
 ﻿@page "/"
+@using RizzyUI.Docs.Examples
 
 <PageTitle>Home</PageTitle>
+
+<section class="my-8 py-2">
+	<div class="container overflow-hidden">
+		<section class="theme-container hidden md:block">
+			<div class="theme-container mx-auto grid gap-8 py-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-6 2xl:gap-8">
+				<div class="flex flex-col gap-6 *:[div]:w-full *:[div]:max-w-full">
+					<PaymentMethod/>
+				</div>
+				<div class="order-first flex flex-col gap-6 lg:hidden xl:order-last xl:flex *:[div]:w-full *:[div]:max-w-full"></div>
+			</div>
+		</section>
+	</div>		        
+</section>
 
 <RzQuickReferenceContainer>
     <RzArticle ProseWidth="ProseWidth.UltraWide">
@@ -15,16 +29,16 @@
                 RizzyUI Overview
             </RzHeading>
 			
-            <RzParagraph>
-                RizzyUI is a specialized HTMX-compatible component library crafted for ASP.NET developers who want to use a component model in their server-side rendered (SSR) applications. By integrating Razor components from Blazor, leveraging Tailwind CSS for styling, and utilizing Alpine.js for interactivity, RizzyUI provides a UI kit for building robust and maintainable web applications within the ASP.NET ecosystem.
+	        <RzParagraph>
+		        RizzyUI is a specialized HTMX-compatible component library crafted for ASP.NET developers who want to use a component model in their server-side rendered (SSR) applications. By integrating Razor components from Blazor, leveraging Tailwind CSS for styling, and utilizing Alpine.js for interactivity, RizzyUI provides a UI kit for building robust and maintainable web applications within the ASP.NET ecosystem.
                 
-                <RzAlert Variant="ThemeVariant.Information" class="my-5">
-	                <AlertDescription>This <strong>entire</strong> site is built using RizzyUI components.</AlertDescription>
-                </RzAlert>
+		        <RzAlert Variant="ThemeVariant.Information" class="my-5">
+			        <AlertDescription>This <strong>entire</strong> site is built using RizzyUI components.</AlertDescription>
+		        </RzAlert>
 
-            </RzParagraph>
-
-            <section class="my-8 py-2">
+	        </RzParagraph>
+	        
+	        <section class="my-8 py-2">
 
 	            <RzHeading Level="HeadingLevel.H2"
 	                     QuickReferenceTitle="Technological Foundations"

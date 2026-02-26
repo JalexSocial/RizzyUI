@@ -1,0 +1,22 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<div class="max-w-sm flex flex-col gap-4">
+    <EditForm Model="_model">
+        <div class="flex items-center gap-2">
+            <RzInputCheckbox id="terms-checkbox" For="@(() => _model.Terms)" />
+            <label for="terms-checkbox" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Accept terms and conditions
+            </label>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private CheckboxModel _model = new();
+
+    public class CheckboxModel
+    {
+        public bool Terms { get; set; }
+    }
+}

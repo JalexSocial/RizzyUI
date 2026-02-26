@@ -1,0 +1,18 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<EditForm Model="_model">
+    <div class="flex items-center space-x-2">
+        <RzSwitch id="airplane-mode" For="@(() => _model.AirplaneMode)" />
+        <label for="airplane-mode" class="text-sm font-medium">Airplane Mode</label>
+    </div>
+</EditForm>
+
+@code {
+    private SwitchModel _model = new();
+
+    public class SwitchModel
+    {
+        public bool AirplaneMode { get; set; }
+    }
+}

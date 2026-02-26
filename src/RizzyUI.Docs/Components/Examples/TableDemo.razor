@@ -1,0 +1,48 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<div class="w-full">
+    <RzTable Items="@_invoices" TItem="Invoice" Striped Hoverable>
+        <TableHeader>
+            <TableRow>
+                <TableHeaderCell For="p => p.Id" class="w-[100px]">Invoice</TableHeaderCell>
+                <TableHeaderCell For="p => p.Status">Status</TableHeaderCell>
+                <TableHeaderCell For="p => p.Method">Method</TableHeaderCell>
+                <TableHeaderCell For="p => p.Amount" class="text-right">Amount</TableHeaderCell>
+            </TableRow>
+        </TableHeader>
+
+        <TableBody Id="invoices-table-body">
+            <RowTemplate Context="invoice">
+                <TableRow>
+                    <TableCell class="font-medium">@invoice.Id</TableCell>
+                    <TableCell>@invoice.Status</TableCell>
+                    <TableCell>@invoice.Method</TableCell>
+                    <TableCell class="text-right">@invoice.Amount.ToString("C")</TableCell>
+                </TableRow>
+            </RowTemplate>
+        </TableBody>
+
+        <TableFooter>
+            <TableRow>
+                <TableCell Colspan="3">Total</TableCell>
+                <TableCell class="text-right">$2,500.00</TableCell>
+            </TableRow>
+        </TableFooter>
+    </RzTable>
+</div>
+
+@code {
+    public record Invoice(string Id, string Status, string Method, decimal Amount);
+
+    private List<Invoice> _invoices = new()
+    {
+        new Invoice("INV001", "Paid", "Credit Card", 250.00m),
+        new Invoice("INV002", "Pending", "PayPal", 150.00m),
+        new Invoice("INV003", "Unpaid", "Bank Transfer", 350.00m),
+        new Invoice("INV004", "Paid", "Credit Card", 450.00m),
+        new Invoice("INV005", "Paid", "PayPal", 550.00m),
+        new Invoice("INV006", "Pending", "Bank Transfer", 200.00m),
+        new Invoice("INV007", "Unpaid", "Credit Card", 300.00m)
+    };
+}
