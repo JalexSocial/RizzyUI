@@ -8462,7 +8462,7 @@ function Wc(e) {
 }
 function qc(e) {
   e.data("rzSidebar", () => ({
-    open: !1,
+    open: !0,
     openMobile: !1,
     isMobile: !1,
     collapsible: "offcanvas",
@@ -8470,66 +8470,87 @@ function qc(e) {
     cookieName: "sidebar_state",
     mobileBreakpoint: 768,
     /**
-     * Executes the `init` operation.
-     * @returns {any} Returns the result of `init` when applicable.
+     * Initializes the component, loading configuration from data attributes,
+     * restoring persisted state from cookies, and setting up event listeners.
      */
     init() {
       this.collapsible = this.$el.dataset.collapsible || "offcanvas", this.shortcut = this.$el.dataset.shortcut || "b", this.cookieName = this.$el.dataset.cookieName || "sidebar_state", this.mobileBreakpoint = parseInt(this.$el.dataset.mobileBreakpoint) || 768;
-      const t = this.cookieName ? document.cookie.split("; ").find((n) => n.startsWith(`${this.cookieName}=`))?.split("=")[1] : null, i = this.$el.dataset.defaultOpen === "true";
-      this.open = t != null ? t === "true" : i, this.checkIfMobile(), window.addEventListener("keydown", (n) => {
+      const t = this.$el.dataset.defaultOpen === "true", i = this.cookieName ? document.cookie.split("; ").find((n) => n.startsWith(`${this.cookieName}=`))?.split("=")[1] : null;
+      this.open = i != null ? i === "true" : t, this.checkIfMobile(), window.addEventListener("keydown", (n) => {
         (n.ctrlKey || n.metaKey) && n.key.toLowerCase() === this.shortcut.toLowerCase() && (n.preventDefault(), this.toggle());
       }), this.$watch("open", (n) => {
-        this.cookieName && (document.cookie = `${this.cookieName}=${n}; path=/; max-age=31536000`);
+        this.cookieName && (document.cookie = `${this.cookieName}=${n}; path=/; max-age=604800`);
+      }), this.$watch("isMobile", () => {
+        this.openMobile = !1;
       });
     },
     /**
-     * Executes the `checkIfMobile` operation.
-     * @returns {any} Returns the result of `checkIfMobile` when applicable.
+     * Checks if the current viewport width is below the configured mobile breakpoint.
      */
     checkIfMobile() {
       this.isMobile = window.innerWidth < this.mobileBreakpoint;
     },
     /**
-     * Executes the `toggle` operation.
-     * @returns {any} Returns the result of `toggle` when applicable.
+     * Toggles the sidebar's visibility depending on the current viewport mode.
      */
     toggle() {
       this.isMobile ? this.openMobile = !this.openMobile : this.open = !this.open;
     },
     /**
-     * Executes the `close` operation.
-     * @returns {any} Returns the result of `close` when applicable.
+     * Explicitly sets the open state for the desktop sidebar.
+     * @param {boolean} value 
+     */
+    setOpen(t) {
+      this.open = t;
+    },
+    /**
+     * Explicitly sets the open state for the mobile sidebar.
+     * @param {boolean} value 
+     */
+    setOpenMobile(t) {
+      this.openMobile = t;
+    },
+    /**
+     * Closes the sidebar for both mobile and desktop states.
      */
     close() {
       this.isMobile && (this.openMobile = !1);
     },
     /**
-     * Executes the `isMobileOpen` operation.
-     * @returns {any} Returns the result of `isMobileOpen` when applicable.
+     * Returns whether the mobile sidebar is currently open.
+     * @returns {boolean}
      */
     isMobileOpen() {
       return this.openMobile;
     },
     /**
-     * Executes the `desktopState` operation.
-     * @returns {any} Returns the result of `desktopState` when applicable.
+     * Gets the desktop state string representation for Tailwind data attributes.
+     * @returns {string} "expanded" or "collapsed"
      */
-    desktopState() {
+    get desktopState() {
       return this.open ? "expanded" : "collapsed";
     },
     /**
-     * Executes the `mobileState` operation.
-     * @returns {any} Returns the result of `mobileState` when applicable.
+     * Gets the current overall state string representation.
+     * @returns {string} "expanded" or "collapsed"
      */
-    mobileState() {
+    get state() {
+      return this.open ? "expanded" : "collapsed";
+    },
+    /**
+     * Gets the mobile state string representation for Tailwind data attributes.
+     * @returns {string} "open" or "closed"
+     */
+    get mobileState() {
       return this.openMobile ? "open" : "closed";
     },
     /**
-     * Executes the `getCollapsibleAttribute` operation.
-     * @returns {any} Returns the result of `getCollapsibleAttribute` when applicable.
+     * Retrieves the collapsible attribute value when the sidebar is collapsed.
+     * Used to toggle the CSS width configurations dynamically.
+     * @returns {string}
      */
     getCollapsibleAttribute() {
-      return this.desktopState() === "collapsed" ? this.collapsible : "";
+      return this.state === "collapsed" ? this.collapsible : "";
     }
   }));
 }

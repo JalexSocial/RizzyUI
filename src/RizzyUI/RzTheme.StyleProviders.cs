@@ -493,7 +493,30 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<SidebarSeparator.Slots>, SidebarSeparator.Slots> SidebarSeparator { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.SidebarTrigger"/> component. </summary>
     public virtual TvDescriptor<RzComponent<SidebarTrigger.Slots>, SidebarTrigger.Slots> SidebarTrigger { get; set; }
+    /// <summary>
+    /// Gets or sets the styling descriptor for the SidebarInput component.
+    /// </summary>
+    public virtual TvDescriptor<RzComponent<SidebarInput.Slots>, SidebarInput.Slots> SidebarInput { get; set; }
 
+    /// <summary>
+    /// Gets or sets the styling descriptor for the SidebarGroupAction component.
+    /// </summary>
+    public virtual TvDescriptor<RzAsChildComponent<SidebarGroupAction.Slots>, SidebarGroupAction.Slots> SidebarGroupAction { get; set; }
+
+    /// <summary>
+    /// Gets or sets the styling descriptor for the SidebarMenuSkeleton component.
+    /// </summary>
+    public virtual TvDescriptor<RzComponent<SidebarMenuSkeleton.Slots>, SidebarMenuSkeleton.Slots> SidebarMenuSkeleton { get; set; }
+
+    /// <summary>
+    /// Gets or sets the styling descriptor for the SidebarMenuSubItem component.
+    /// </summary>
+    public virtual TvDescriptor<RzComponent<SidebarMenuSubItem.Slots>, SidebarMenuSubItem.Slots> SidebarMenuSubItem { get; set; }
+
+    /// <summary>
+    /// Gets or sets the styling descriptor for the SidebarMenuSubButton component.
+    /// </summary>
+    public virtual TvDescriptor<RzAsChildComponent<SidebarMenuSubButton.Slots>, SidebarMenuSubButton.Slots> SidebarMenuSubButton { get; set; }
     #endregion
 
     #region Theme Components

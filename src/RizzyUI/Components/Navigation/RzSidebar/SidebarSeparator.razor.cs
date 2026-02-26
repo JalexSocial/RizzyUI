@@ -1,37 +1,32 @@
+
 using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
-/// A visual separator line used to divide sections within the sidebar.
+/// A visual divider within the sidebar.
 /// </summary>
 public partial class SidebarSeparator : RzComponent<SidebarSeparator.Slots>
 {
     /// <summary>
-    /// Defines the default styling for the SidebarSeparator component.
+    /// Defines the default styling and variations for the SidebarSeparator component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "border-sidebar-border mx-2 w-auto border-t"
+        @base: "bg-sidebar-border mx-2 w-auto"
     );
-
-    /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Element = "hr";
-    }
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarSeparator;
 
     /// <summary>
-    /// Defines the slots available for styling in the SidebarSeparator component.
+    /// Defines the slots available for styling the SidebarSeparator component.
     /// </summary>
     public sealed partial class Slots : ISlots
     {
         /// <summary>
-        /// The base slot for the component's root element.
+        /// Gets or sets the base CSS classes applied to the component's root element.
         /// </summary>
+        [Slot("sidebar-separator")]
         public string? Base { get; set; }
     }
 }

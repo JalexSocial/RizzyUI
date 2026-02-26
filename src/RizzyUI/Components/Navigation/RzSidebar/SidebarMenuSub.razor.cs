@@ -5,20 +5,19 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// A container for creating a nested, collapsible sub-menu within a <see cref="SidebarMenu"/>.
-/// This component is intended to wrap a trigger and content for the sub-menu.
+/// A list container for nested submenu items.
 /// </summary>
 public partial class SidebarMenuSub : RzComponent<SidebarMenuSub.Slots>
 {
     /// <summary>
-    /// Defines the default styling for the SidebarMenuSub component.
+    /// Defines the default styling and variations for the SidebarMenuSub component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "border-sidebar-border flex min-w-0 flex-col gap-1 border-l ml-3.5 pl-2.5 py-0.5 w-auto"
+        @base: "border-sidebar-border mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5 group-data-[collapsible=icon]:hidden"
     );
 
     /// <summary>
-    /// Gets or sets the content of the sub-menu, which should include a trigger and content sections.
+    /// The submenu items.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -34,13 +33,14 @@ public partial class SidebarMenuSub : RzComponent<SidebarMenuSub.Slots>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarMenuSub;
 
     /// <summary>
-    /// Defines the slots available for styling in the SidebarMenuSub component.
+    /// Defines the slots available for styling the SidebarMenuSub component.
     /// </summary>
     public sealed partial class Slots : ISlots
     {
         /// <summary>
-        /// The base slot for the component's root element.
+        /// Gets or sets the base CSS classes applied to the component's root element.
         /// </summary>
+        [Slot("sidebar-menu-sub")]
         public string? Base { get; set; }
     }
 }

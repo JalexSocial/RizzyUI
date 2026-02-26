@@ -5,34 +5,42 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// A container for the content within a <see cref="SidebarGroup"/>, typically a <see cref="SidebarMenu"/>.
+/// The container for the actual items (like SidebarMenu) within a SidebarGroup.
 /// </summary>
 public partial class SidebarGroupContent : RzComponent<SidebarGroupContent.Slots>
 {
     /// <summary>
-    /// Defines the default styling for the SidebarGroupContent component.
+    /// Defines the default styling and variations for the SidebarGroupContent component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
         @base: "w-full text-sm"
     );
 
     /// <summary>
-    /// Gets or sets the content to be rendered, usually a <see cref="SidebarMenu"/>.
+    /// The content to display inside the group.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Element = "div";
+    }
+
+    /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarGroupContent;
 
     /// <summary>
-    /// Defines the slots available for styling in the SidebarGroupContent component.
+    /// Defines the slots available for styling the SidebarGroupContent component.
     /// </summary>
     public sealed partial class Slots : ISlots
     {
         /// <summary>
-        /// The base slot for the component's root element.
+        /// Gets or sets the base CSS classes applied to the component's root element.
         /// </summary>
+        [Slot("sidebar-group-content")]
         public string? Base { get; set; }
     }
 }

@@ -12,6 +12,7 @@
              x-on:click="toggle"
              aria-controls="@ParentProvider?.Id"
              x-bind:aria-expanded="isMobileOpen"
+             data-sidebar="trigger"
              data-slot="sidebar-trigger">
 	@if (ChildContent == null)
 	{

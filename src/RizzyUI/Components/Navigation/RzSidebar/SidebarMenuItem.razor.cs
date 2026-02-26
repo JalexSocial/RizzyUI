@@ -5,20 +5,19 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// Represents a single item in a <see cref="SidebarMenu"/>, acting as a wrapper for a
-/// <see cref="SidebarMenuButton"/> and other optional elements like <see cref="SidebarMenuAction"/>.
+/// A list item within a SidebarMenu.
 /// </summary>
 public partial class SidebarMenuItem : RzComponent<SidebarMenuItem.Slots>
 {
     /// <summary>
-    /// Defines the default styling for the SidebarMenuItem component.
+    /// Defines the default styling and variations for the SidebarMenuItem component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "relative group/menu-item"
+        @base: "group/menu-item relative"
     );
 
     /// <summary>
-    /// Gets or sets the content of the menu item.
+    /// The content of the menu item, typically a SidebarMenuButton.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -34,13 +33,14 @@ public partial class SidebarMenuItem : RzComponent<SidebarMenuItem.Slots>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarMenuItem;
 
     /// <summary>
-    /// Defines the slots available for styling in the SidebarMenuItem component.
+    /// Defines the slots available for styling the SidebarMenuItem component.
     /// </summary>
     public sealed partial class Slots : ISlots
     {
         /// <summary>
-        /// The base slot for the component's root element.
+        /// Gets or sets the base CSS classes applied to the component's root element.
         /// </summary>
+        [Slot("sidebar-menu-item")]
         public string? Base { get; set; }
     }
 }

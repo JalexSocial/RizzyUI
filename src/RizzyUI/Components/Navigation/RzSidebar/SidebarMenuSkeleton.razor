@@ -1,0 +1,16 @@
+
+@namespace RizzyUI
+@inherits RzComponent<SidebarMenuSkeleton.Slots>
+
+<HtmlElement Element="@EffectiveElement" id="@Id" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" data-sidebar="menu-skeleton" data-slot="sidebar-menu-skeleton">
+    <style nonce="@Nonce">
+        #@Id {
+            --skeleton-width: @_width;
+        }
+    </style>
+    @if (ShowIcon)
+    {
+        <RzSkeleton class="@SlotClasses.GetIcon()" data-sidebar="menu-skeleton-icon" />
+    }
+    <RzSkeleton class="@SlotClasses.GetText()" style="max-width: var(--skeleton-width);" data-sidebar="menu-skeleton-text" />
+</HtmlElement>

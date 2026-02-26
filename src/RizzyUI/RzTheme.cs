@@ -336,7 +336,12 @@ public partial class RzTheme
         SidebarRail = RizzyUI.SidebarRail.DefaultDescriptor;
         SidebarSeparator = RizzyUI.SidebarSeparator.DefaultDescriptor;
         SidebarTrigger = RizzyUI.SidebarTrigger.DefaultDescriptor;
-
+        SidebarInput = RizzyUI.SidebarInput.DefaultDescriptor;
+        SidebarGroupAction = RizzyUI.SidebarGroupAction.DefaultDescriptor;
+        SidebarMenuSkeleton = RizzyUI.SidebarMenuSkeleton.DefaultDescriptor;
+        SidebarMenuSubItem = RizzyUI.SidebarMenuSubItem.DefaultDescriptor;
+        SidebarMenuSubButton = RizzyUI.SidebarMenuSubButton.DefaultDescriptor;
+        
         // RzSpinner Family
         RzSpinner = RizzyUI.RzSpinner.DefaultDescriptor;
 

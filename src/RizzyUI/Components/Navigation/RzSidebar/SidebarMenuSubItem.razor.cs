@@ -5,19 +5,19 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// A footer container within the sidebar, typically containing user profile information or global settings links.
+/// A list item inside a SidebarMenuSub.
 /// </summary>
-public partial class SidebarFooter : RzComponent<SidebarFooter.Slots>
+public partial class SidebarMenuSubItem : RzComponent<SidebarMenuSubItem.Slots>
 {
     /// <summary>
-    /// Defines the default styling and variations for the SidebarFooter component.
+    /// Defines the default styling and variations for the SidebarMenuSubItem component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "flex flex-col gap-2 p-2 shrink-0"
+        @base: "group/menu-sub-item relative"
     );
 
     /// <summary>
-    /// The content of the footer.
+    /// The content of the submenu item.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -26,21 +26,21 @@ public partial class SidebarFooter : RzComponent<SidebarFooter.Slots>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Element = "div";
+        Element = "li";
     }
 
     /// <inheritdoc/>
-    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarFooter;
+    protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.SidebarMenuSubItem;
 
     /// <summary>
-    /// Defines the slots available for styling the SidebarFooter component.
+    /// Defines the slots available for styling the SidebarMenuSubItem component.
     /// </summary>
     public sealed partial class Slots : ISlots
     {
         /// <summary>
         /// Gets or sets the base CSS classes applied to the component's root element.
         /// </summary>
-        [Slot("sidebar-footer")]
+        [Slot("sidebar-menu-sub-item")]
         public string? Base { get; set; }
     }
 }
