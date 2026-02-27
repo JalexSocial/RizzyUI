@@ -3,7 +3,7 @@
 @using RizzyUI
 
 <div class="grid w-full max-w-sm gap-6">
-    <EditForm Model="_model">
+    <EditForm Model="_model" x-data @submit.prevent>
         <RzInputGroup class="[--radius:9999px]">
             <InputGroupInput id="input-secure" For="@(() => _model.Url)" class="!pl-0.5" />
             <RzPopover Anchor="AnchorPoint.BottomStart">

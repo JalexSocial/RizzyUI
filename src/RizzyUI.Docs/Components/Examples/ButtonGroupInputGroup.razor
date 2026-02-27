@@ -2,7 +2,7 @@
 @namespace RizzyUI.Docs.Examples
 @using RizzyUI
 
-<EditForm Model="_model">
+<EditForm Model="_model" x-data @submit.prevent>
     <RzButtonGroup class="[--radius:9999rem]">
         <RzButtonGroup>
             <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Medium" aria-label="Add">

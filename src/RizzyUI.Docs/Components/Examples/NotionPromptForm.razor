@@ -2,7 +2,7 @@
 @namespace RizzyUI.Docs.Examples
 @using RizzyUI
 
-<EditForm Model="_model">
+<EditForm Model="_model" x-data @submit.prevent>
     <Field>
         <FieldLabel For="() => _model.Prompt" class="sr-only">Prompt</FieldLabel>
         <RzInputGroup class="rounded-xl">
