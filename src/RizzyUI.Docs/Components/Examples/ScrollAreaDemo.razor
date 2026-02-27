@@ -1,0 +1,13 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<div class="h-72 w-48 rounded-md border overflow-y-auto no-scrollbar">
+    <div class="p-4">
+        <h4 class="mb-4 text-sm leading-none font-medium">Tags</h4>
+        @for (int i = 50; i > 0; i--)
+        {
+            <div class="text-sm">v1.2.0-beta.@i</div>
+            <RzSeparator class="my-2" />
+        }
+    </div>
+</div>

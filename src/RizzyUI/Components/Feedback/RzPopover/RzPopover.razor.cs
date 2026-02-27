@@ -14,7 +14,7 @@ public partial class RzPopover : RzComponent<RzPopover.Slots>
     /// Defines the default styling for the RzPopover component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "relative inline-block text-left"
+        @base: "contents"
     );
 
     /// <summary>

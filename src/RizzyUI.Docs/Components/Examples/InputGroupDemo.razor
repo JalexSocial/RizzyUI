@@ -1,0 +1,80 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<div class="grid w-full max-w-sm gap-6">
+    <EditForm Model="_model">
+        <RzInputGroup>
+            <InputGroupInput For="@(() => _model.Search)" Placeholder="Search..." />
+            <InputGroupAddon>
+                <Blazicon Svg="Lucide.Search" />
+            </InputGroupAddon>
+            <InputGroupAddon Align="InputGroupAddonAlign.InlineEnd">
+                <InputGroupText>12 results</InputGroupText>
+            </InputGroupAddon>
+        </RzInputGroup>
+
+        <RzInputGroup class="mt-6">
+            <InputGroupInput For="@(() => _model.Domain)" Placeholder="example.com" class="!pl-1" />
+            <InputGroupAddon>
+                <InputGroupText>https://</InputGroupText>
+            </InputGroupAddon>
+            <InputGroupAddon Align="InputGroupAddonAlign.InlineEnd">
+                <TooltipProvider>
+                    <RzTooltip Anchor="AnchorPoint.Top">
+                        <TooltipTrigger AsChild>
+                            <InputGroupButton class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall" aria-label="Info">
+                                <Blazicon Svg="Lucide.Info" />
+                            </InputGroupButton>
+                        </TooltipTrigger>
+                        <TooltipContent>This is content in a tooltip.</TooltipContent>
+                    </RzTooltip>
+                </TooltipProvider>
+            </InputGroupAddon>
+        </RzInputGroup>
+
+        <RzInputGroup class="mt-6">
+            <InputGroupTextarea For="@(() => _model.Prompt)" Placeholder="Ask, Search or Chat..." />
+            <InputGroupAddon Align="InputGroupAddonAlign.BlockEnd">
+                <InputGroupButton Variant="ThemeVariant.Default" Outline class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall" aria-label="Add">
+                    <Blazicon Svg="Lucide.Plus" />
+                </InputGroupButton>
+                <RzDropdownMenu Anchor="AnchorPoint.TopStart">
+                    <DropdownMenuTrigger AsChild>
+                        <InputGroupButton Variant="ThemeVariant.Ghost">Auto</InputGroupButton>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem>Auto</DropdownMenuItem>
+                        <DropdownMenuItem>Agent</DropdownMenuItem>
+                        <DropdownMenuItem>Manual</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </RzDropdownMenu>
+                <InputGroupText class="ml-auto">52% used</InputGroupText>
+                <RzSeparator Orientation="Orientation.Vertical" class="!h-4" />
+                <InputGroupButton Variant="ThemeVariant.Default" class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall">
+                    <Blazicon Svg="Lucide.ArrowUp" />
+                    <span class="sr-only">Send</span>
+                </InputGroupButton>
+            </InputGroupAddon>
+        </RzInputGroup>
+
+        <RzInputGroup class="mt-6">
+            <InputGroupInput For="@(() => _model.Username)" Placeholder="@("@shadcn")" />
+            <InputGroupAddon Align="InputGroupAddonAlign.InlineEnd">
+                <div class="bg-primary text-foreground flex size-4 items-center justify-center rounded-full">
+                    <Blazicon Svg="Lucide.Check" class="size-3 text-white" />
+                </div>
+            </InputGroupAddon>
+        </RzInputGroup>
+    </EditForm>
+</div>
+
+@code {
+    private DemoModel _model = new();
+    public class DemoModel {
+        public string Search { get; set; } = string.Empty;
+        public string Domain { get; set; } = string.Empty;
+        public string Prompt { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
+    }
+}

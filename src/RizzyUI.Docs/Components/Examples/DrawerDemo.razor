@@ -1,0 +1,37 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<RzButton Variant="ThemeVariant.Default" Outline onclick="window.dispatchEvent(new Event('drawer-demo'))">
+    Open Drawer
+</RzButton>
+
+<RzSheet EventTriggerName="drawer-demo">
+    <SheetContent Side="SheetSide.Bottom">
+        <SheetHeader class="text-center sm:text-center">
+            <SheetTitle>Move Goal</SheetTitle>
+            <SheetDescription>Set your daily activity goal.</SheetDescription>
+        </SheetHeader>
+        <div class="p-4 pb-0">
+            <div class="flex items-center justify-center space-x-2">
+                <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Medium" class="size-8 shrink-0 rounded-full">
+                    <Blazicon Svg="Lucide.Minus" class="size-4" />
+                    <span class="sr-only">Decrease</span>
+                </RzButton>
+                <div class="flex-1 text-center">
+                    <div class="text-7xl font-bold tracking-tighter">350</div>
+                    <div class="text-muted-foreground text-[0.70rem] uppercase">Calories/day</div>
+                </div>
+                <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Medium" class="size-8 shrink-0 rounded-full">
+                    <Blazicon Svg="Lucide.Plus" class="size-4" />
+                    <span class="sr-only">Increase</span>
+                </RzButton>
+            </div>
+        </div>
+        <SheetFooter>
+            <RzButton class="w-full">Submit</RzButton>
+            <SheetClose>
+                <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Medium" class="w-full mt-2">Cancel</RzButton>
+            </SheetClose>
+        </SheetFooter>
+    </SheetContent>
+</RzSheet>

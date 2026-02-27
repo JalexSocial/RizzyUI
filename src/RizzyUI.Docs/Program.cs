@@ -5,6 +5,7 @@ using Rizzy.Htmx;
 using RizzyUI;
 using RizzyUI.Docs.Components;
 using System.Globalization;
+using RizzyUI.Docs;
 
 var builder = WebApplication.CreateBuilder(args);
 

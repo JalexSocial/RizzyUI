@@ -1,0 +1,19 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<EditForm Model="_model">
+    <FieldLabel For="() => _model.Agreed">
+        <RzField Orientation="Orientation.Horizontal">
+            <RzInputCheckbox id="checkbox-demo" For="@(() => _model.Agreed)" />
+            <FieldLabel For="(() => _model.Agreed)" class="line-clamp-1">
+                I agree to the terms and conditions
+            </FieldLabel>
+        </RzField>
+    </FieldLabel>
+</EditForm>
+
+@code {
+    private AgreementModel _model = new() { Agreed = true };
+    public class AgreementModel { public bool Agreed { get; set; } }
+}

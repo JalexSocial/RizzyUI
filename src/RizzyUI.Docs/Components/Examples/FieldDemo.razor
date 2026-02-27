@@ -1,0 +1,102 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<div class="w-full max-w-md rounded-xl border p-6">
+    <EditForm Model="_model">
+        <RzFieldGroup>
+            <RzFieldSet>
+                <FieldLegend>Payment Method</FieldLegend>
+                <FieldDescription>
+                    All transactions are secure and encrypted
+                </FieldDescription>
+                <RzFieldGroup>
+                    <Field>
+                        <FieldLabel For="() => _model.NameOnCard">Name on Card</FieldLabel>
+                        <RzInputText id="card-name" For="@(() => _model.NameOnCard)" Placeholder="John Doe" />
+                    </Field>
+                    <div class="grid grid-cols-3 gap-4">
+                        <Field class="col-span-2">
+                            <FieldLabel For="() => _model.CardNumber">Card Number</FieldLabel>
+                            <RzInputText id="card-number" For="@(() => _model.CardNumber)" Placeholder="1234 5678 9012 3456" />
+                            <FieldDescription>Enter your 16-digit number.</FieldDescription>
+                        </Field>
+                        <Field class="col-span-1">
+                            <FieldLabel For="() => _model.Cvv">CVV</FieldLabel>
+                            <RzInputText id="cvv" For="@(() => _model.Cvv)" Placeholder="123" />
+                        </Field>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <Field>
+                            <FieldLabel For="() => _model.ExpMonth">Month</FieldLabel>
+                            <RzNativeSelect id="exp-month" For="@(() => _model.ExpMonth)">
+                                <RzNativeSelectOption Value="@("")">MM</RzNativeSelectOption>
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    var val = i.ToString("D2");
+                                    <RzNativeSelectOption Value="@val">@val</RzNativeSelectOption>
+                                }
+                            </RzNativeSelect>
+                        </Field>
+                        <Field>
+                            <FieldLabel For="() => _model.ExpYear">Year</FieldLabel>
+                            <RzNativeSelect id="exp-year" For="@(() => _model.ExpYear)">
+                                <RzNativeSelectOption Value="@("")">YYYY</RzNativeSelectOption>
+                                <RzNativeSelectOption Value="@("2024")">2024</RzNativeSelectOption>
+                                <RzNativeSelectOption Value="@("2025")">2025</RzNativeSelectOption>
+                                <RzNativeSelectOption Value="@("2026")">2026</RzNativeSelectOption>
+                                <RzNativeSelectOption Value="@("2027")">2027</RzNativeSelectOption>
+                            </RzNativeSelect>
+                        </Field>
+                    </div>
+                </RzFieldGroup>
+            </RzFieldSet>
+            
+            <RzFieldSeparator />
+            
+            <RzFieldSet>
+                <FieldLegend>Billing Address</FieldLegend>
+                <FieldDescription>
+                    The billing address associated with your payment method
+                </FieldDescription>
+                <RzFieldGroup>
+                    <Field Orientation="FieldOrientation.Horizontal">
+                        <RzInputCheckbox id="same-as-shipping" For="@(() => _model.SameAsShipping)" />
+                        <FieldLabel For="() => _model.SameAsShipping" class="font-normal">
+                            Same as shipping address
+                        </FieldLabel>
+                    </Field>
+                </RzFieldGroup>
+            </RzFieldSet>
+            
+            <FieldSeparator />
+            
+            <RzFieldSet>
+                <RzFieldGroup>
+                    <Field>
+                        <FieldLabel For="() => _model.Comments">Comments</FieldLabel>
+                        <RzInputTextArea id="comments" For="@(() => _model.Comments)" Placeholder="Add any additional comments" />
+                    </Field>
+                </RzFieldGroup>
+            </RzFieldSet>
+            
+            <Field Orientation="FieldOrientation.Horizontal" class="gap-2">
+                <RzButton type="submit">Submit</RzButton>
+                <RzButton Variant="ThemeVariant.Default" Outline type="button">Cancel</RzButton>
+            </Field>
+        </RzFieldGroup>
+    </EditForm>
+</div>
+
+@code {
+    private PaymentModel _model = new();
+    public class PaymentModel {
+        public string NameOnCard { get; set; } = string.Empty;
+        public string CardNumber { get; set; } = string.Empty;
+        public string Cvv { get; set; } = string.Empty;
+        public string ExpMonth { get; set; } = string.Empty;
+        public string ExpYear { get; set; } = string.Empty;
+        public bool SameAsShipping { get; set; } = true;
+        public string Comments { get; set; } = string.Empty;
+    }
+}

@@ -1,0 +1,82 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<EditForm Model="_model">
+    <RzFieldSet>
+        <RzFieldGroup>
+            <RzFieldSet>
+                <FieldLegend>Compute Environment</FieldLegend>
+                <FieldDescription>
+                    Select the compute environment for your cluster.
+                </FieldDescription>
+                <RzRadioGroup For="@(() => _model.Environment)" class="mt-4">
+                    <FieldLabel For="() => _model.Environment" class="cursor-pointer">
+                        <Field Orientation="FieldOrientation.Horizontal">
+                            <FieldContent>
+                                <FieldTitle>Kubernetes</FieldTitle>
+                                <FieldDescription>
+                                    Run GPU workloads on a K8s configured cluster. This is the
+                                    default.
+                                </FieldDescription>
+                            </FieldContent>
+                            <RadioGroupItem Value="@("kubernetes")" id="kubernetes-r2h" aria-label="Kubernetes" />
+                        </Field>
+                    </FieldLabel>
+                    <FieldLabel For="(() => _model.Environment)" class="cursor-pointer">
+                        <Field Orientation="@FieldOrientation.Horizontal">
+                            <FieldContent>
+                                <FieldTitle>Virtual Machine</FieldTitle>
+                                <FieldDescription>
+                                    Access a VM configured cluster to run workloads. (Coming soon)
+                                </FieldDescription>
+                            </FieldContent>
+                            <RadioGroupItem Value="@("vm")" id="vm-z4k" aria-label="Virtual Machine" />
+                        </Field>
+                    </FieldLabel>
+                </RzRadioGroup>
+            </RzFieldSet>
+
+            <RzFieldSeparator />
+
+            <RzField Orientation="Orientation.Horizontal">
+                <FieldContent>
+                    <FieldLabel For="() => _model.GpuCount">Number of GPUs</FieldLabel>
+                    <FieldDescription>You can add more later.</FieldDescription>
+                </FieldContent>
+                <RzButtonGroup>
+                    <RzInputNumber id="gpu-count" For="@(() => _model.GpuCount)" class="h-7 !w-14 font-mono" />
+                    <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small" aria-label="Decrement" x-on:click="_model.GpuCount = Math.Max(1, _model.GpuCount - 1)">
+                        <Blazicon Svg="@Lucide.Minus" />
+                    </RzButton>
+                    <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small" aria-label="Increment" x-on:click="_model.GpuCount = Math.Min(99, _model.GpuCount + 1)">
+                        <Blazicon Svg="@Lucide.Plus" />
+                    </RzButton>
+                </RzButtonGroup>
+            </RzField>
+
+            <RzFieldSeparator />
+
+            <RzField Orientation="Orientation.Horizontal">
+                <FieldContent>
+                    <FieldLabel For="() => _model.WallpaperTinting">Wallpaper Tinting</FieldLabel>
+                    <FieldDescription>
+                        Allow the wallpaper to be tinted.
+                    </FieldDescription>
+                </FieldContent>
+                <RzSwitch id="tinting" For="@(() => _model.WallpaperTinting)" />
+            </RzField>
+        </RzFieldGroup>
+    </RzFieldSet>
+</EditForm>
+
+@code {
+    private SettingsModel _model = new();
+
+    public class SettingsModel
+    {
+        public string Environment { get; set; } = "kubernetes";
+        public int GpuCount { get; set; } = 8;
+        public bool WallpaperTinting { get; set; } = true;
+    }
+}

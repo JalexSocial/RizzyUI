@@ -1,0 +1,19 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<div class="w-full max-w-md">
+    <RzField>
+        <FieldTitle>Price Range</FieldTitle>
+        <FieldDescription>
+            Set your budget range ($<span class="font-medium tabular-nums">@_values[0]</span> - <span class="font-medium tabular-nums">@_values[1]</span>).
+        </FieldDescription>
+        <div class="mt-2 w-full">
+            <input type="range" class="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer" />
+        </div>
+    </RzField>
+</div>
+
+@code {
+    private int[] _values = new[] { 200, 800 };
+}

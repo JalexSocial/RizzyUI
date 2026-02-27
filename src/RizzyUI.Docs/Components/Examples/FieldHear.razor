@@ -1,0 +1,60 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<RzCard class="py-4 shadow-none">
+    <CardContent class="px-4">
+        <EditForm Model="_model">
+            <RzFieldGroup>
+                <RzFieldSet class="gap-4">
+                    <FieldLegend>How did you hear about us?</FieldLegend>
+                    <FieldDescription class="line-clamp-1">
+                        Select the option that best describes how you heard about us.
+                    </FieldDescription>
+                    <RzFieldGroup class="flex flex-row flex-wrap gap-2 [--radius:9999rem]">
+                        
+                        <FieldLabel For="(() => _model.SocialMedia)" class="!w-fit">
+                            <Field Orientation="FieldOrientation.Horizontal" class="gap-1.5 overflow-hidden px-3! py-1.5! transition-all duration-100 ease-linear">
+                                <RzInputCheckbox id="social-media" For="@(() => _model.SocialMedia)" class="-ml-6 -translate-x-1 rounded-full transition-all duration-100 ease-linear data-[state=checked]:ml-0 data-[state=checked]:translate-x-0" />
+                                <FieldTitle>Social Media</FieldTitle>
+                            </Field>
+                        </FieldLabel>
+
+                        <FieldLabel For="(() => _model.SearchEngine)" class="!w-fit">
+                            <Field Orientation="FieldOrientation.Horizontal" class="gap-1.5 overflow-hidden px-3! py-1.5! transition-all duration-100 ease-linear">
+                                <RzInputCheckbox id="search-engine" For="@(() => _model.SearchEngine)" class="-ml-6 -translate-x-1 rounded-full transition-all duration-100 ease-linear data-[state=checked]:ml-0 data-[state=checked]:translate-x-0" />
+                                <FieldTitle>Search Engine</FieldTitle>
+                            </Field>
+                        </FieldLabel>
+
+                        <FieldLabel For="(() => _model.Referral)" class="!w-fit">
+                            <Field Orientation="FieldOrientation.Horizontal" class="gap-1.5 overflow-hidden px-3! py-1.5! transition-all duration-100 ease-linear">
+                                <RzInputCheckbox id="referral" For="@(() => _model.Referral)" class="-ml-6 -translate-x-1 rounded-full transition-all duration-100 ease-linear data-[state=checked]:ml-0 data-[state=checked]:translate-x-0" />
+                                <FieldTitle>Referral</FieldTitle>
+                            </Field>
+                        </FieldLabel>
+
+                        <FieldLabel For="(() => _model.Other)" class="!w-fit">
+                            <Field Orientation="FieldOrientation.Horizontal" class="gap-1.5 overflow-hidden px-3! py-1.5! transition-all duration-100 ease-linear">
+                                <RzInputCheckbox id="other" For="@(() => _model.Other)" class="-ml-6 -translate-x-1 rounded-full transition-all duration-100 ease-linear data-[state=checked]:ml-0 data-[state=checked]:translate-x-0" />
+                                <FieldTitle>Other</FieldTitle>
+                            </Field>
+                        </FieldLabel>
+
+                    </RzFieldGroup>
+                </RzFieldSet>
+            </RzFieldGroup>
+        </EditForm>
+    </CardContent>
+</RzCard>
+
+@code {
+    private HearModel _model = new();
+
+    public class HearModel
+    {
+        public bool SocialMedia { get; set; } = true;
+        public bool SearchEngine { get; set; }
+        public bool Referral { get; set; }
+        public bool Other { get; set; }
+    }
+}

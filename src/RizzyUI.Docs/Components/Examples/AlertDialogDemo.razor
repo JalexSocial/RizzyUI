@@ -1,0 +1,22 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<RzButton Variant="ThemeVariant.Accent" Outline onclick="window.dispatchEvent(new Event('alert-dialog-demo'))">
+    Show Dialog
+</RzButton>
+
+<RzAlertDialog EventTriggerName="alert-dialog-demo">
+    <AlertDialogContent>
+        <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                account from our servers.
+            </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+    </AlertDialogContent>
+</RzAlertDialog>

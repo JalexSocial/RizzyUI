@@ -1,0 +1,45 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<RzButton Variant="ThemeVariant.Default" Outline onclick="window.dispatchEvent(new Event('dialog-demo'))">
+    Open Dialog
+</RzButton>
+
+<RzDialog EventTriggerName="dialog-demo">
+    <DialogContent Size="ModalSize.Small">
+        <DialogHeader>
+            <DialogTitle>Edit profile</DialogTitle>
+            <DialogDescription>
+                Make changes to your profile here. Click save when you're done.
+            </DialogDescription>
+        </DialogHeader>
+        <EditForm Model="_model">
+            <div class="grid gap-4 py-4">
+                <div class="grid gap-2">
+                    <label for="name" class="text-sm font-medium">Name</label>
+                    <RzInputText id="name" For="@(() => _model.Name)" />
+                </div>
+                <div class="grid gap-2">
+                    <label for="username" class="text-sm font-medium">Username</label>
+                    <RzInputText id="username" For="@(() => _model.Username)" />
+                </div>
+            </div>
+        </EditForm>
+        <DialogFooter>
+            <DialogClose>
+                <RzButton Variant="ThemeVariant.Default" Outline>Cancel</RzButton>
+            </DialogClose>
+            <RzButton>Save changes</RzButton>
+        </DialogFooter>
+    </DialogContent>
+</RzDialog>
+
+@code {
+    private ProfileModel _model = new() { Name = "Pedro Duarte", Username = "@peduarte" };
+
+    public class ProfileModel
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
+    }
+}

@@ -1,0 +1,19 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<EditForm Model="_model" class="w-full max-w-sm">
+    <div class="flex flex-col gap-1.5">
+        <label for="input-demo-api-key" class="text-sm font-medium">API Key</label>
+        <RzInputText id="input-demo-api-key" Role="@TextRole.Password" For="@(() => _model.ApiKey)" Placeholder="sk-..." />
+        <p class="text-[0.8rem] text-muted-foreground">Your API key is encrypted and stored securely.</p>
+    </div>
+</EditForm>
+
+@code {
+    private InputModel _model = new();
+
+    public class InputModel
+    {
+        public string ApiKey { get; set; } = string.Empty;
+    }
+}

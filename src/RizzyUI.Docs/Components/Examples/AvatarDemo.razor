@@ -1,0 +1,31 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<div class="flex flex-row flex-wrap items-center gap-6 md:gap-12">
+    <RzAvatar>
+        <AvatarImage ImageSource="https://github.com/shadcn.png" alt="@("@shadcn")" class="grayscale" />
+        <AvatarFallback>CN</AvatarFallback>
+    </RzAvatar>
+    
+    <RzAvatar>
+        <AvatarImage ImageSource="https://github.com/evilrabbit.png" alt="@("@evilrabbit")" />
+        <AvatarFallback>ER</AvatarFallback>
+        <AvatarBadge class="bg-green-600 dark:bg-green-800" />
+    </RzAvatar>
+    
+    <AvatarGroup class="grayscale">
+        <RzAvatar>
+            <AvatarImage ImageSource="https://github.com/shadcn.png" alt="@("@shadcn")" />
+            <AvatarFallback>CN</AvatarFallback>
+        </RzAvatar>
+        <RzAvatar>
+            <AvatarImage ImageSource="https://github.com/maxleiter.png" alt="@("@maxleiter")" />
+            <AvatarFallback>LR</AvatarFallback>
+        </RzAvatar>
+        <RzAvatar>
+            <AvatarImage ImageSource="https://github.com/evilrabbit.png" alt="@("@evilrabbit")" />
+            <AvatarFallback>ER</AvatarFallback>
+        </RzAvatar>
+        <AvatarGroupCount>+3</AvatarGroupCount>
+    </AvatarGroup>
+</div>

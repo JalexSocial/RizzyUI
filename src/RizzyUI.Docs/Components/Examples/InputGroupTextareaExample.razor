@@ -1,0 +1,34 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<div class="grid w-full max-w-md gap-4">
+    <EditForm Model="_model">
+        <RzInputGroup>
+            <InputGroupTextarea For="@(() => _model.Code)" Placeholder="console.log('Hello, world!');" class="min-h-[180px]" />
+            <InputGroupAddon Align="InputGroupAddonAlign.BlockEnd" class="border-t">
+                <InputGroupText>Line 1, Column 1</InputGroupText>
+                <InputGroupButton Size="InputGroupButtonSize.Small" class="ml-auto" Variant="ThemeVariant.Default">
+                    Run <Blazicon Svg="Lucide.CornerDownLeft" />
+                </InputGroupButton>
+            </InputGroupAddon>
+            <InputGroupAddon Align="InputGroupAddonAlign.BlockStart" class="border-b">
+                <InputGroupText class="font-mono font-medium">
+                    <Blazicon Svg="Lucide.CodeXml" />
+                    script.js
+                </InputGroupText>
+                <InputGroupButton class="ml-auto">
+                    <Blazicon Svg="Lucide.RefreshCcw" />
+                </InputGroupButton>
+                <InputGroupButton Variant="ThemeVariant.Ghost">
+                    <Blazicon Svg="Lucide.Copy" />
+                </InputGroupButton>
+            </InputGroupAddon>
+        </RzInputGroup>
+    </EditForm>
+</div>
+
+@code {
+    private CodeModel _model = new();
+    public class CodeModel { public string Code { get; set; } = string.Empty; }
+}

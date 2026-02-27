@@ -1,0 +1,79 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<EditForm Model="_model" x-data @submit.prevent>
+    <Field>
+        <FieldLabel For="() => _model.Prompt" class="sr-only">Prompt</FieldLabel>
+        <RzInputGroup class="rounded-xl">
+            <InputGroupTextarea id="notion-prompt" For="@(() => _model.Prompt)" Placeholder="Ask, search, or make anything..." />
+            
+            <InputGroupAddon Align="InputGroupAddonAlign.BlockStart" class="pt-3">
+                <RzPopover Anchor="AnchorPoint.BottomStart">
+                    <TooltipProvider>
+                        <RzTooltip Anchor="AnchorPoint.Top">
+                            <TooltipTrigger AsChild>
+                                <PopoverTrigger AsChild>
+                                    <InputGroupButton Variant="ThemeVariant.Default" Outline Size="InputGroupButtonSize.Small">
+                                        <Blazicon Svg="Lucide.AtSign" /> Add context
+                                    </InputGroupButton>
+                                </PopoverTrigger>
+                            </TooltipTrigger>
+                            <TooltipContent>Mention a person, page, or date</TooltipContent>
+                        </RzTooltip>
+                    </TooltipProvider>
+                    <PopoverContent class="p-0 w-64">
+                        <div class="p-2 text-xs text-muted-foreground">Select pages or users...</div>
+                    </PopoverContent>
+                </RzPopover>
+            </InputGroupAddon>
+
+            <InputGroupAddon Align="InputGroupAddonAlign.BlockEnd" class="gap-1">
+                <TooltipProvider>
+                    <RzTooltip Anchor="AnchorPoint.Top">
+                        <TooltipTrigger AsChild>
+                            <InputGroupButton Size="InputGroupButtonSize.IconSmall" class="rounded-full" aria-label="Attach file">
+                                <Blazicon Svg="Lucide.Paperclip" />
+                            </InputGroupButton>
+                        </TooltipTrigger>
+                        <TooltipContent>Attach file</TooltipContent>
+                    </RzTooltip>
+                </TooltipProvider>
+
+                <RzDropdownMenu Anchor="AnchorPoint.TopStart">
+                    <DropdownMenuTrigger AsChild>
+                        <InputGroupButton Size="InputGroupButtonSize.Small" class="rounded-full">
+                            Auto
+                        </InputGroupButton>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent class="w-48">
+                        <DropdownMenuItem>Auto</DropdownMenuItem>
+                        <DropdownMenuItem>Agent Mode</DropdownMenuItem>
+                        <DropdownMenuItem>Plan Mode</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </RzDropdownMenu>
+
+                <RzDropdownMenu Anchor="AnchorPoint.TopEnd">
+                    <DropdownMenuTrigger AsChild>
+                        <InputGroupButton Size="InputGroupButtonSize.Small" class="rounded-full">
+                            <Blazicon Svg="Lucide.Globe" /> All Sources
+                        </InputGroupButton>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent class="w-72">
+                        <DropdownMenuItem>Web Search</DropdownMenuItem>
+                        <DropdownMenuItem>Apps and Integrations</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </RzDropdownMenu>
+
+                <InputGroupButton aria-label="Send" class="ml-auto rounded-full" Variant="ThemeVariant.Default" Size="InputGroupButtonSize.IconSmall">
+                    <Blazicon Svg="Lucide.ArrowUp" />
+                </InputGroupButton>
+            </InputGroupAddon>
+        </RzInputGroup>
+    </Field>
+</EditForm>
+
+@code {
+    private PromptModel _model = new();
+    public class PromptModel { public string Prompt { get; set; } = string.Empty; }
+}

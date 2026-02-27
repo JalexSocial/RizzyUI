@@ -1,0 +1,37 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<div class="grid w-full max-w-sm gap-6">
+    <EditForm Model="_model" x-data @submit.prevent>
+        <RzInputGroup class="[--radius:9999px]">
+            <InputGroupInput id="input-secure" For="@(() => _model.Url)" class="!pl-0.5" />
+            <RzPopover Anchor="AnchorPoint.BottomStart">
+                <PopoverTrigger AsChild>
+                    <InputGroupAddon Align="InputGroupAddonAlign.InlineStart">
+                        <InputGroupButton Variant="ThemeVariant.Secondary" Size="InputGroupButtonSize.IconExtraSmall" aria-label="Info">
+                            <Blazicon Svg="Lucide.Info" />
+                        </InputGroupButton>
+                    </InputGroupAddon>
+                </PopoverTrigger>
+                <PopoverContent class="flex flex-col gap-1 rounded-xl text-sm">
+                    <p class="font-medium">Your connection is not secure.</p>
+                    <p>You should not enter any sensitive information on this site.</p>
+                </PopoverContent>
+            </RzPopover>
+            <InputGroupAddon class="text-muted-foreground !pl-1">
+                <InputGroupText>https://</InputGroupText>
+            </InputGroupAddon>
+            <InputGroupAddon Align="InputGroupAddonAlign.InlineEnd">
+                <InputGroupButton x-on:click="_model.IsFavorite = !_model.IsFavorite" Size="InputGroupButtonSize.IconExtraSmall" aria-label="Favorite">
+                    <Blazicon Svg="Lucide.Star" class="@(_model.IsFavorite ? "fill-primary stroke-primary" : "")" />
+                </InputGroupButton>
+            </InputGroupAddon>
+        </RzInputGroup>
+    </EditForm>
+</div>
+
+@code {
+    private SecureModel _model = new();
+    public class SecureModel { public string Url { get; set; } = string.Empty; public bool IsFavorite { get; set; } }
+}

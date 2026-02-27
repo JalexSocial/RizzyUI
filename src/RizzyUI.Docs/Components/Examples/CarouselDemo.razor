@@ -1,0 +1,21 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<RzCarousel class="w-full max-w-[12rem] sm:max-w-xs">
+    <CarouselContent>
+        @for (int i = 1; i <= 5; i++)
+        {
+            <CarouselItem>
+                <div class="p-1">
+                    <RzCard>
+                        <CardContent class="flex aspect-square items-center justify-center p-6">
+                            <span class="text-4xl font-semibold">@i</span>
+                        </CardContent>
+                    </RzCard>
+                </div>
+            </CarouselItem>
+        }
+    </CarouselContent>
+    <CarouselPrevious />
+    <CarouselNext />
+</RzCarousel>

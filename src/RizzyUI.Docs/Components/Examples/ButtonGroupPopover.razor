@@ -1,0 +1,39 @@
+
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<RzButtonGroup>
+    <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small">
+        <Blazicon Svg="Lucide.Bot" /> Copilot
+    </RzButton>
+    <RzPopover Anchor="AnchorPoint.BottomEnd">
+        <PopoverTrigger AsChild>
+            <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small" aria-label="Open Popover">
+                <Blazicon Svg="Lucide.ChevronDown" />
+            </RzButton>
+        </PopoverTrigger>
+        <PopoverContent class="gap-0 rounded-xl p-0 text-sm">
+            <div class="px-4 py-3">
+                <div class="text-sm font-medium">Agent Tasks</div>
+            </div>
+            <RzSeparator />
+            <div class="p-4 text-sm">
+                <EditForm Model="_model">
+                    <RzInputTextArea For="@(() => _model.TaskDescription)" 
+                                    Placeholder="Describe your task in natural language." 
+                                    class="mb-4 resize-none" />
+                </EditForm>
+                <p class="font-medium">Start a new task with Copilot</p>
+                <p class="text-muted-foreground">
+                    Describe your task in natural language. Copilot will work in the
+                    background and open a pull request for your review.
+                </p>
+            </div>
+        </PopoverContent>
+    </RzPopover>
+</RzButtonGroup>
+
+@code {
+    private PopoverModel _model = new();
+    public class PopoverModel { public string TaskDescription { get; set; } = string.Empty; }
+}

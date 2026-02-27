@@ -1,0 +1,15 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<EditForm Model="_model">
+    <RzInputTextArea For="@(() => _model.Message)" Placeholder="Type your message here." />
+</EditForm>
+
+@code {
+    private TextareaModel _model = new();
+
+    public class TextareaModel
+    {
+        public string Message { get; set; } = string.Empty;
+    }
+}

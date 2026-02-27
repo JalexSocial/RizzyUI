@@ -1,0 +1,21 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<EditForm Model="@_model">
+    <RzNativeSelect @bind-Value="_model.Fruit" For="@(() => _model.Fruit)">
+        <RzNativeSelectOption Value="@("apple")">Apple</RzNativeSelectOption>
+        <RzNativeSelectOption Value="@("banana")">Banana</RzNativeSelectOption>
+        <RzNativeSelectOption Value="@("blueberry")">Blueberry</RzNativeSelectOption>
+        <RzNativeSelectOption Value="@("grapes")">Grapes</RzNativeSelectOption>
+        <RzNativeSelectOption Value="@("pineapple")">Pineapple</RzNativeSelectOption>
+    </RzNativeSelect>
+</EditForm>
+
+@code {
+    private SelectModel _model = new();
+
+    public class SelectModel
+    {
+        public string Fruit { get; set; } = string.Empty;
+    }
+}

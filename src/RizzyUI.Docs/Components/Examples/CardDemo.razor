@@ -1,0 +1,47 @@
+@namespace RizzyUI.Docs.Examples
+@using RizzyUI
+
+<RzCard class="w-full max-w-sm">
+    <CardHeader>
+        <CardTitle>Login to your account</CardTitle>
+        <CardDescription>
+            Enter your email below to login to your account
+        </CardDescription>
+        <CardAction>
+            <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Medium">Sign Up</RzButton>
+        </CardAction>
+    </CardHeader>
+    <CardContent>
+        <EditForm Model="_model">
+            <div class="flex flex-col gap-6">
+                <div class="grid gap-2">
+                    <label for="email" class="text-sm font-medium">Email</label>
+                    <RzInputText id="email" Role="@TextRole.Email" For="@(() => _model.Email)" Placeholder="m@example.com" />
+                </div>
+                <div class="grid gap-2">
+                    <div class="flex items-center">
+                        <label for="password" class="text-sm font-medium">Password</label>
+                        <a href="#" class="ml-auto inline-block text-sm underline-offset-4 hover:underline">
+                            Forgot your password?
+                        </a>
+                    </div>
+                    <RzInputText id="password" Role="@TextRole.Password" For="@(() => _model.Password)" />
+                </div>
+            </div>
+        </EditForm>
+    </CardContent>
+    <CardFooter class="flex-col gap-2">
+        <RzButton class="w-full">Login</RzButton>
+        <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Medium" class="w-full">Login with Google</RzButton>
+    </CardFooter>
+</RzCard>
+
+@code {
+    private LoginModel _model = new();
+
+    public class LoginModel
+    {
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+}
