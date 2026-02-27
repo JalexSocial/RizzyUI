@@ -37,9 +37,9 @@
                 </RzRadioGroup>
             </RzFieldSet>
 
-            <RzFieldSeparator />
+            <FieldSeparator />
 
-            <RzField Orientation="Orientation.Horizontal">
+            <Field Orientation="FieldOrientation.Horizontal">
                 <FieldContent>
                     <FieldLabel For="() => _model.GpuCount">Number of GPUs</FieldLabel>
                     <FieldDescription>You can add more later.</FieldDescription>
@@ -53,11 +53,11 @@
                         <Blazicon Svg="@Lucide.Plus" />
                     </RzButton>
                 </RzButtonGroup>
-            </RzField>
+            </Field>
 
-            <RzFieldSeparator />
+            <FieldSeparator />
 
-            <RzField Orientation="Orientation.Horizontal">
+            <Field Orientation="FieldOrientation.Horizontal">
                 <FieldContent>
                     <FieldLabel For="() => _model.WallpaperTinting">Wallpaper Tinting</FieldLabel>
                     <FieldDescription>
@@ -65,7 +65,7 @@
                     </FieldDescription>
                 </FieldContent>
                 <RzSwitch id="tinting" For="@(() => _model.WallpaperTinting)" />
-            </RzField>
+            </Field>
         </RzFieldGroup>
     </RzFieldSet>
 </EditForm>
