@@ -2,8 +2,16 @@ var flushPending = false;
 var flushing = false;
 var queue = [];
 var lastFlushedIndex = -1;
+var transactionActive = false;
 function scheduler(callback) {
   queueJob(callback);
+}
+function startTransaction() {
+  transactionActive = true;
+}
+function commitTransaction() {
+  transactionActive = false;
+  queueFlush();
 }
 function queueJob(job) {
   if (!queue.includes(job))
@@ -17,6 +25,8 @@ function dequeueJob(job) {
 }
 function queueFlush() {
   if (!flushing && !flushPending) {
+    if (transactionActive)
+      return;
     flushPending = true;
     queueMicrotask(flushJobs);
   }
@@ -88,16 +98,26 @@ function watch(getter, callback) {
     let value = getter();
     JSON.stringify(value);
     if (!firstTime) {
-      queueMicrotask(() => {
-        callback(value, oldValue);
-        oldValue = value;
-      });
-    } else {
-      oldValue = value;
+      if (typeof value === "object" || value !== oldValue) {
+        let previousValue = oldValue;
+        queueMicrotask(() => {
+          callback(value, previousValue);
+        });
+      }
     }
+    oldValue = value;
     firstTime = false;
   });
   return () => release(effectReference);
+}
+async function transaction(callback) {
+  startTransaction();
+  try {
+    await callback();
+    await Promise.resolve();
+  } finally {
+    commitTransaction();
+  }
 }
 var onAttributeAddeds = [];
 var onElRemoveds = [];
@@ -414,7 +434,14 @@ function tryCatch(el, expression, callback, ...args) {
     handleError(e2, el, expression);
   }
 }
-function handleError(error2, el, expression = void 0) {
+function handleError(...args) {
+  return errorHandler(...args);
+}
+var errorHandler = normalErrorHandler;
+function setErrorHandler(handler4) {
+  errorHandler = handler4;
+}
+function normalErrorHandler(error2, el, expression = void 0) {
   error2 = Object.assign(
     error2 ?? { message: "No error message given." },
     { el, expression }
@@ -446,6 +473,10 @@ var theEvaluatorFunction = normalEvaluator;
 function setEvaluator(newEvaluator) {
   theEvaluatorFunction = newEvaluator;
 }
+var theRawEvaluatorFunction;
+function setRawEvaluator(newEvaluator) {
+  theRawEvaluatorFunction = newEvaluator;
+}
 function normalEvaluator(el, expression) {
   let overriddenMagics = {};
   injectMagics(overriddenMagics, el);
@@ -456,6 +487,10 @@ function normalEvaluator(el, expression) {
 function generateEvaluatorFromFunction(dataStack, func) {
   return (receiver = () => {
   }, { scope: scope2 = {}, params = [], context } = {}) => {
+    if (!shouldAutoEvaluateFunctions) {
+      runIfTypeOfFunction(receiver, func, mergeProxies([scope2, ...dataStack]), params);
+      return;
+    }
     let result = func.apply(mergeProxies([scope2, ...dataStack]), params);
     runIfTypeOfFunction(receiver, result);
   };
@@ -519,6 +554,38 @@ function runIfTypeOfFunction(receiver, value, scope2, params, el) {
     value.then((i2) => receiver(i2));
   } else {
     receiver(value);
+  }
+}
+function evaluateRaw(...args) {
+  return theRawEvaluatorFunction(...args);
+}
+function normalRawEvaluator(el, expression, extras = {}) {
+  let overriddenMagics = {};
+  injectMagics(overriddenMagics, el);
+  let dataStack = [overriddenMagics, ...closestDataStack(el)];
+  let scope2 = mergeProxies([extras.scope ?? {}, ...dataStack]);
+  let params = extras.params ?? [];
+  if (expression.includes("await")) {
+    let AsyncFunction = Object.getPrototypeOf(async function() {
+    }).constructor;
+    let rightSideSafeExpression = /^[\n\s]*if.*\(.*\)/.test(expression.trim()) || /^(let|const)\s/.test(expression.trim()) ? `(async()=>{ ${expression} })()` : expression;
+    let func = new AsyncFunction(
+      ["scope"],
+      `with (scope) { let __result = ${rightSideSafeExpression}; return __result }`
+    );
+    let result = func.call(extras.context, scope2);
+    return result;
+  } else {
+    let rightSideSafeExpression = /^[\n\s]*if.*\(.*\)/.test(expression.trim()) || /^(let|const)\s/.test(expression.trim()) ? `(()=>{ ${expression} })()` : expression;
+    let func = new Function(
+      ["scope"],
+      `with (scope) { let __result = ${rightSideSafeExpression}; return __result }`
+    );
+    let result = func.call(extras.context, scope2);
+    if (typeof result === "function" && shouldAutoEvaluateFunctions) {
+      return result.apply(scope2, params);
+    }
+    return result;
   }
 }
 var prefixAsString = "x-";
@@ -648,6 +715,8 @@ function outNonAlpineAttributes({ name }) {
 var alpineAttributeRegex = () => new RegExp(`^${prefixAsString}([^:^.]+)\\b`);
 function toParsedDirectives(transformedAttributeMap, originalAttributeOverride) {
   return ({ name, value }) => {
+    if (name === value)
+      value = "";
     let typeMatch = name.match(alpineAttributeRegex());
     let valueMatch = name.match(/:([a-zA-Z0-9\-_:]+)/);
     let modifiers = name.match(/\.[^.\]]+(?=[^\]]*$)/g) || [];
@@ -765,6 +834,9 @@ function findClosest(el, callback) {
     return el;
   if (el._x_teleportBack)
     el = el._x_teleportBack;
+  if (el.parentNode instanceof ShadowRoot) {
+    return findClosest(el.parentNode.host, callback);
+  }
   if (!el.parentElement)
     return;
   return findClosest(el.parentElement, callback);
@@ -1596,7 +1668,10 @@ var Alpine$1 = {
   get raw() {
     return raw;
   },
-  version: "3.15.0",
+  get transaction() {
+    return transaction;
+  },
+  version: "3.15.8",
   flushAndStopDeferringMutations,
   dontAutoEvaluateFunctions,
   disableEffectScheduling,
@@ -1610,13 +1685,17 @@ var Alpine$1 = {
   onlyDuringClone,
   addRootSelector,
   addInitSelector,
+  setErrorHandler,
   interceptClone,
   addScopeToNode,
   deferMutations,
   mapAttributes,
   evaluateLater,
   interceptInit,
+  initInterceptors,
+  injectMagics,
   setEvaluator,
+  setRawEvaluator,
   mergeProxies,
   extractProp,
   findClosest,
@@ -1635,6 +1714,7 @@ var Alpine$1 = {
   throttle,
   debounce,
   evaluate: evaluate$1,
+  evaluateRaw,
   initTree,
   nextTick,
   prefixed: prefix,
@@ -2249,7 +2329,7 @@ function createInstrumentations() {
     shallowReadonlyInstrumentations2
   ];
 }
-var [mutableInstrumentations, readonlyInstrumentations, shallowInstrumentations, shallowReadonlyInstrumentations] = /* @__PURE__ */ createInstrumentations();
+var [mutableInstrumentations, readonlyInstrumentations] = /* @__PURE__ */ createInstrumentations();
 function createInstrumentationGetter(isReadonly, shallow) {
   const instrumentations = isReadonly ? readonlyInstrumentations : mutableInstrumentations;
   return (target, key, receiver) => {
@@ -2596,6 +2676,14 @@ function on(el, event2, modifiers, callback) {
     handler4 = wrapHandler(handler4, (next, e2) => {
       e2.target === el && next(e2);
     });
+  if (event2 === "submit") {
+    handler4 = wrapHandler(handler4, (next, e2) => {
+      if (e2.target._x_pendingModelUpdates) {
+        e2.target._x_pendingModelUpdates.forEach((fn) => fn());
+      }
+      next(e2);
+    });
+  }
   if (isKeyEvent(event2) || isClickEvent(event2)) {
     handler4 = wrapHandler(handler4, (next, e2) => {
       if (isListeningForASpecificKeyThatHasntBeenPressed(e2, modifiers)) {
@@ -2633,7 +2721,7 @@ function isClickEvent(event2) {
 }
 function isListeningForASpecificKeyThatHasntBeenPressed(e2, modifiers) {
   let keyModifiers = modifiers.filter((i2) => {
-    return !["window", "document", "prevent", "stop", "once", "capture", "self", "away", "outside", "passive", "preserve-scroll"].includes(i2);
+    return !["window", "document", "prevent", "stop", "once", "capture", "self", "away", "outside", "passive", "preserve-scroll", "blur", "change", "lazy"].includes(i2);
   });
   if (keyModifiers.includes("debounce")) {
     let debounceIndex = keyModifiers.indexOf("debounce");
@@ -2730,11 +2818,43 @@ directive("model", (el, { modifiers, expression }, { effect: effect3, cleanup: c
         el.setAttribute("name", expression);
     });
   }
-  let event2 = el.tagName.toLowerCase() === "select" || ["checkbox", "radio"].includes(el.type) || modifiers.includes("lazy") ? "change" : "input";
-  let removeListener = isCloning ? () => {
-  } : on(el, event2, modifiers, (e2) => {
-    setValue(getInputValue(el, modifiers, e2, getValue()));
-  });
+  let hasChangeModifier = modifiers.includes("change") || modifiers.includes("lazy");
+  let hasBlurModifier = modifiers.includes("blur");
+  let hasEnterModifier = modifiers.includes("enter");
+  let hasExplicitEventModifiers = hasChangeModifier || hasBlurModifier || hasEnterModifier;
+  let removeListener;
+  if (isCloning) {
+    removeListener = () => {
+    };
+  } else if (hasExplicitEventModifiers) {
+    let listeners = [];
+    let syncValue = (e2) => setValue(getInputValue(el, modifiers, e2, getValue()));
+    if (hasChangeModifier) {
+      listeners.push(on(el, "change", modifiers, syncValue));
+    }
+    if (hasBlurModifier) {
+      listeners.push(on(el, "blur", modifiers, syncValue));
+      if (el.form) {
+        let syncCallback = () => syncValue({ target: el });
+        if (!el.form._x_pendingModelUpdates)
+          el.form._x_pendingModelUpdates = [];
+        el.form._x_pendingModelUpdates.push(syncCallback);
+        cleanup2(() => el.form._x_pendingModelUpdates.splice(el.form._x_pendingModelUpdates.indexOf(syncCallback), 1));
+      }
+    }
+    if (hasEnterModifier) {
+      listeners.push(on(el, "keydown", modifiers, (e2) => {
+        if (e2.key === "Enter")
+          syncValue(e2);
+      }));
+    }
+    removeListener = () => listeners.forEach((remove) => remove());
+  } else {
+    let event2 = el.tagName.toLowerCase() === "select" || ["checkbox", "radio"].includes(el.type) ? "change" : "input";
+    removeListener = on(el, event2, modifiers, (e2) => {
+      setValue(getInputValue(el, modifiers, e2, getValue()));
+    });
+  }
   if (modifiers.includes("fill")) {
     if ([void 0, null, ""].includes(getValue()) || isCheckbox(el) && Array.isArray(getValue()) || el.tagName.toLowerCase() === "select" && el.multiple) {
       setValue(
@@ -3261,6 +3381,7 @@ function warnMissingPluginDirective(name, directiveName, slug) {
   directive(directiveName, (el) => warn(`You can't use [x-${directiveName}] without first installing the "${name}" plugin here: https://alpinejs.dev/plugins/${slug}`, el));
 }
 alpine_default.setEvaluator(normalEvaluator);
+alpine_default.setRawEvaluator(normalRawEvaluator);
 alpine_default.setReactivityEngine({ reactive: reactive2, effect: effect2, release: stop, raw: toRaw });
 var src_default$3 = alpine_default;
 var module_default$3 = src_default$3;
@@ -3716,7 +3837,7 @@ function _defineProperty(obj, key, value) {
   }
   return obj;
 }
-var activeFocusTraps = /* @__PURE__ */ function() {
+var activeFocusTraps = /* @__PURE__ */ (function() {
   var trapQueue = [];
   return {
     activateTrap: function activateTrap(trap) {
@@ -3744,7 +3865,7 @@ var activeFocusTraps = /* @__PURE__ */ function() {
       }
     }
   };
-}();
+})();
 var isSelectableInput = function isSelectableInput2(node) {
   return node.tagName && node.tagName.toLowerCase() === "input" && typeof node.select === "function";
 };
@@ -4765,7 +4886,7 @@ var N = n(function(t2) {
     t2.wrapper.remove();
   }, t2.speed);
 }, "slideOut");
-var m = function() {
+var m = (function() {
   function e2(s2) {
     var i2 = this;
     t(this, e2);
@@ -4871,7 +4992,7 @@ var m = function() {
     }
   } }]);
   return e2;
-}();
+})();
 n(m, "Notify");
 var w = m;
 globalThis.Notify = w;
@@ -6576,8 +6697,9 @@ function getOppositeAxis(axis) {
 function getAxisLength(axis) {
   return axis === "y" ? "height" : "width";
 }
+const yAxisSides = /* @__PURE__ */ new Set(["top", "bottom"]);
 function getSideAxis(placement) {
-  return ["top", "bottom"].includes(getSide(placement)) ? "y" : "x";
+  return yAxisSides.has(getSide(placement)) ? "y" : "x";
 }
 function getAlignmentAxis(placement) {
   return getOppositeAxis(getSideAxis(placement));
@@ -6602,19 +6724,19 @@ function getExpandedPlacements(placement) {
 function getOppositeAlignmentPlacement(placement) {
   return placement.replace(/start|end/g, (alignment) => oppositeAlignmentMap[alignment]);
 }
+const lrPlacement = ["left", "right"];
+const rlPlacement = ["right", "left"];
+const tbPlacement = ["top", "bottom"];
+const btPlacement = ["bottom", "top"];
 function getSideList(side, isStart, rtl) {
-  const lr = ["left", "right"];
-  const rl = ["right", "left"];
-  const tb = ["top", "bottom"];
-  const bt = ["bottom", "top"];
   switch (side) {
     case "top":
     case "bottom":
-      if (rtl) return isStart ? rl : lr;
-      return isStart ? lr : rl;
+      if (rtl) return isStart ? rlPlacement : lrPlacement;
+      return isStart ? lrPlacement : rlPlacement;
     case "left":
     case "right":
-      return isStart ? tb : bt;
+      return isStart ? tbPlacement : btPlacement;
     default:
       return [];
   }
@@ -6723,89 +6845,6 @@ function computeCoordsFromPlacement(_ref, placement, rtl) {
   }
   return coords;
 }
-const computePosition$1 = async (reference, floating, config) => {
-  const {
-    placement = "bottom",
-    strategy = "absolute",
-    middleware = [],
-    platform: platform2
-  } = config;
-  const validMiddleware = middleware.filter(Boolean);
-  const rtl = await (platform2.isRTL == null ? void 0 : platform2.isRTL(floating));
-  let rects = await platform2.getElementRects({
-    reference,
-    floating,
-    strategy
-  });
-  let {
-    x,
-    y
-  } = computeCoordsFromPlacement(rects, placement, rtl);
-  let statefulPlacement = placement;
-  let middlewareData = {};
-  let resetCount = 0;
-  for (let i2 = 0; i2 < validMiddleware.length; i2++) {
-    const {
-      name,
-      fn
-    } = validMiddleware[i2];
-    const {
-      x: nextX,
-      y: nextY,
-      data: data2,
-      reset: reset2
-    } = await fn({
-      x,
-      y,
-      initialPlacement: placement,
-      placement: statefulPlacement,
-      strategy,
-      middlewareData,
-      rects,
-      platform: platform2,
-      elements: {
-        reference,
-        floating
-      }
-    });
-    x = nextX != null ? nextX : x;
-    y = nextY != null ? nextY : y;
-    middlewareData = {
-      ...middlewareData,
-      [name]: {
-        ...middlewareData[name],
-        ...data2
-      }
-    };
-    if (reset2 && resetCount <= 50) {
-      resetCount++;
-      if (typeof reset2 === "object") {
-        if (reset2.placement) {
-          statefulPlacement = reset2.placement;
-        }
-        if (reset2.rects) {
-          rects = reset2.rects === true ? await platform2.getElementRects({
-            reference,
-            floating,
-            strategy
-          }) : reset2.rects;
-        }
-        ({
-          x,
-          y
-        } = computeCoordsFromPlacement(rects, statefulPlacement, rtl));
-      }
-      i2 = -1;
-    }
-  }
-  return {
-    x,
-    y,
-    placement: statefulPlacement,
-    strategy,
-    middlewareData
-  };
-};
 async function detectOverflow(state, options) {
   var _await$platform$isEle;
   if (options === void 0) {
@@ -6862,6 +6901,93 @@ async function detectOverflow(state, options) {
     right: (elementClientRect.right - clippingClientRect.right + paddingObject.right) / offsetScale.x
   };
 }
+const computePosition$1 = async (reference, floating, config) => {
+  const {
+    placement = "bottom",
+    strategy = "absolute",
+    middleware = [],
+    platform: platform2
+  } = config;
+  const validMiddleware = middleware.filter(Boolean);
+  const rtl = await (platform2.isRTL == null ? void 0 : platform2.isRTL(floating));
+  let rects = await platform2.getElementRects({
+    reference,
+    floating,
+    strategy
+  });
+  let {
+    x,
+    y
+  } = computeCoordsFromPlacement(rects, placement, rtl);
+  let statefulPlacement = placement;
+  let middlewareData = {};
+  let resetCount = 0;
+  for (let i2 = 0; i2 < validMiddleware.length; i2++) {
+    var _platform$detectOverf;
+    const {
+      name,
+      fn
+    } = validMiddleware[i2];
+    const {
+      x: nextX,
+      y: nextY,
+      data: data2,
+      reset: reset2
+    } = await fn({
+      x,
+      y,
+      initialPlacement: placement,
+      placement: statefulPlacement,
+      strategy,
+      middlewareData,
+      rects,
+      platform: {
+        ...platform2,
+        detectOverflow: (_platform$detectOverf = platform2.detectOverflow) != null ? _platform$detectOverf : detectOverflow
+      },
+      elements: {
+        reference,
+        floating
+      }
+    });
+    x = nextX != null ? nextX : x;
+    y = nextY != null ? nextY : y;
+    middlewareData = {
+      ...middlewareData,
+      [name]: {
+        ...middlewareData[name],
+        ...data2
+      }
+    };
+    if (reset2 && resetCount <= 50) {
+      resetCount++;
+      if (typeof reset2 === "object") {
+        if (reset2.placement) {
+          statefulPlacement = reset2.placement;
+        }
+        if (reset2.rects) {
+          rects = reset2.rects === true ? await platform2.getElementRects({
+            reference,
+            floating,
+            strategy
+          }) : reset2.rects;
+        }
+        ({
+          x,
+          y
+        } = computeCoordsFromPlacement(rects, statefulPlacement, rtl));
+      }
+      i2 = -1;
+    }
+  }
+  return {
+    x,
+    y,
+    placement: statefulPlacement,
+    strategy,
+    middlewareData
+  };
+};
 const arrow$1 = (options) => ({
   name: "arrow",
   options,
@@ -6963,7 +7089,7 @@ const flip$1 = function(options) {
         fallbackPlacements.push(...getOppositeAxisPlacements(initialPlacement, flipAlignment, fallbackAxisSideDirection, rtl));
       }
       const placements = [initialPlacement, ...fallbackPlacements];
-      const overflow = await detectOverflow(state, detectOverflowOptions);
+      const overflow = await platform2.detectOverflow(state, detectOverflowOptions);
       const overflows = [];
       let overflowsData = ((_middlewareData$flip = middlewareData.flip) == null ? void 0 : _middlewareData$flip.overflows) || [];
       if (checkMainAxis) {
@@ -6982,10 +7108,10 @@ const flip$1 = function(options) {
         const nextIndex = (((_middlewareData$flip2 = middlewareData.flip) == null ? void 0 : _middlewareData$flip2.index) || 0) + 1;
         const nextPlacement = placements[nextIndex];
         if (nextPlacement) {
-          var _overflowsData$;
           const ignoreCrossAxisOverflow = checkCrossAxis === "alignment" ? initialSideAxis !== getSideAxis(nextPlacement) : false;
-          const hasInitialMainAxisOverflow = ((_overflowsData$ = overflowsData[0]) == null ? void 0 : _overflowsData$.overflows[0]) > 0;
-          if (!ignoreCrossAxisOverflow || hasInitialMainAxisOverflow) {
+          if (!ignoreCrossAxisOverflow || // We leave the current main axis only if every placement on that axis
+          // overflows the main axis.
+          overflowsData.every((d2) => getSideAxis(d2.placement) === initialSideAxis ? d2.overflows[0] > 0 : true)) {
             return {
               data: {
                 index: nextIndex,
@@ -7033,6 +7159,7 @@ const flip$1 = function(options) {
     }
   };
 };
+const originSides = /* @__PURE__ */ new Set(["left", "top"]);
 async function convertValueToCoords(state, options) {
   const {
     placement,
@@ -7043,7 +7170,7 @@ async function convertValueToCoords(state, options) {
   const side = getSide(placement);
   const alignment = getAlignment(placement);
   const isVertical = getSideAxis(placement) === "y";
-  const mainAxisMulti = ["left", "top"].includes(side) ? -1 : 1;
+  const mainAxisMulti = originSides.has(side) ? -1 : 1;
   const crossAxisMulti = rtl && isVertical ? -1 : 1;
   const rawValue = evaluate(options, state);
   let {
@@ -7111,7 +7238,8 @@ const shift$1 = function(options) {
       const {
         x,
         y,
-        placement
+        placement,
+        platform: platform2
       } = state;
       const {
         mainAxis: checkMainAxis = true,
@@ -7134,7 +7262,7 @@ const shift$1 = function(options) {
         x,
         y
       };
-      const overflow = await detectOverflow(state, detectOverflowOptions);
+      const overflow = await platform2.detectOverflow(state, detectOverflowOptions);
       const crossAxis = getSideAxis(getSide(placement));
       const mainAxis = getOppositeAxis(crossAxis);
       let mainAxisCoord = coords[mainAxis];
@@ -7213,6 +7341,7 @@ function isShadowRoot(value) {
   }
   return value instanceof ShadowRoot || value instanceof getWindow(value).ShadowRoot;
 }
+const invalidOverflowDisplayValues = /* @__PURE__ */ new Set(["inline", "contents"]);
 function isOverflowElement(element) {
   const {
     overflow,
@@ -7220,24 +7349,29 @@ function isOverflowElement(element) {
     overflowY,
     display
   } = getComputedStyle$1(element);
-  return /auto|scroll|overlay|hidden|clip/.test(overflow + overflowY + overflowX) && !["inline", "contents"].includes(display);
+  return /auto|scroll|overlay|hidden|clip/.test(overflow + overflowY + overflowX) && !invalidOverflowDisplayValues.has(display);
 }
+const tableElements = /* @__PURE__ */ new Set(["table", "td", "th"]);
 function isTableElement(element) {
-  return ["table", "td", "th"].includes(getNodeName(element));
+  return tableElements.has(getNodeName(element));
 }
+const topLayerSelectors = [":popover-open", ":modal"];
 function isTopLayer(element) {
-  return [":popover-open", ":modal"].some((selector) => {
+  return topLayerSelectors.some((selector) => {
     try {
       return element.matches(selector);
-    } catch (e2) {
+    } catch (_e) {
       return false;
     }
   });
 }
+const transformProperties = ["transform", "translate", "scale", "rotate", "perspective"];
+const willChangeValues = ["transform", "translate", "scale", "rotate", "perspective", "filter"];
+const containValues = ["paint", "layout", "strict", "content"];
 function isContainingBlock(elementOrCss) {
   const webkit = isWebKit();
   const css = isElement(elementOrCss) ? getComputedStyle$1(elementOrCss) : elementOrCss;
-  return ["transform", "translate", "scale", "rotate", "perspective"].some((value) => css[value] ? css[value] !== "none" : false) || (css.containerType ? css.containerType !== "normal" : false) || !webkit && (css.backdropFilter ? css.backdropFilter !== "none" : false) || !webkit && (css.filter ? css.filter !== "none" : false) || ["transform", "translate", "scale", "rotate", "perspective", "filter"].some((value) => (css.willChange || "").includes(value)) || ["paint", "layout", "strict", "content"].some((value) => (css.contain || "").includes(value));
+  return transformProperties.some((value) => css[value] ? css[value] !== "none" : false) || (css.containerType ? css.containerType !== "normal" : false) || !webkit && (css.backdropFilter ? css.backdropFilter !== "none" : false) || !webkit && (css.filter ? css.filter !== "none" : false) || willChangeValues.some((value) => (css.willChange || "").includes(value)) || containValues.some((value) => (css.contain || "").includes(value));
 }
 function getContainingBlock(element) {
   let currentNode = getParentNode(element);
@@ -7255,8 +7389,9 @@ function isWebKit() {
   if (typeof CSS === "undefined" || !CSS.supports) return false;
   return CSS.supports("-webkit-backdrop-filter", "none");
 }
+const lastTraversableNodeNames = /* @__PURE__ */ new Set(["html", "body", "#document"]);
 function isLastTraversableNode(node) {
-  return ["html", "body", "#document"].includes(getNodeName(node));
+  return lastTraversableNodeNames.has(getNodeName(node));
 }
 function getComputedStyle$1(element) {
   return getWindow(element).getComputedStyle(element);
@@ -7440,15 +7575,9 @@ function getWindowScrollBarX(element, rect) {
   }
   return rect.left + leftScroll;
 }
-function getHTMLOffset(documentElement, scroll, ignoreScrollbarX) {
-  if (ignoreScrollbarX === void 0) {
-    ignoreScrollbarX = false;
-  }
+function getHTMLOffset(documentElement, scroll) {
   const htmlRect = documentElement.getBoundingClientRect();
-  const x = htmlRect.left + scroll.scrollLeft - (ignoreScrollbarX ? 0 : (
-    // RTL <body> scrollbar.
-    getWindowScrollBarX(documentElement, htmlRect)
-  ));
+  const x = htmlRect.left + scroll.scrollLeft - getWindowScrollBarX(documentElement, htmlRect);
   const y = htmlRect.top + scroll.scrollTop;
   return {
     x,
@@ -7486,7 +7615,7 @@ function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
       offsets.y = offsetRect.y + offsetParent.clientTop;
     }
   }
-  const htmlOffset = documentElement && !isOffsetParentAnElement && !isFixed ? getHTMLOffset(documentElement, scroll, true) : createCoords(0);
+  const htmlOffset = documentElement && !isOffsetParentAnElement && !isFixed ? getHTMLOffset(documentElement, scroll) : createCoords(0);
   return {
     width: rect.width * scale.x,
     height: rect.height * scale.y,
@@ -7515,6 +7644,7 @@ function getDocumentRect(element) {
     y
   };
 }
+const SCROLLBAR_MAX = 25;
 function getViewportRect(element, strategy) {
   const win = getWindow(element);
   const html = getDocumentElement(element);
@@ -7532,6 +7662,19 @@ function getViewportRect(element, strategy) {
       y = visualViewport.offsetTop;
     }
   }
+  const windowScrollbarX = getWindowScrollBarX(html);
+  if (windowScrollbarX <= 0) {
+    const doc = html.ownerDocument;
+    const body = doc.body;
+    const bodyStyles = getComputedStyle(body);
+    const bodyMarginInline = doc.compatMode === "CSS1Compat" ? parseFloat(bodyStyles.marginLeft) + parseFloat(bodyStyles.marginRight) || 0 : 0;
+    const clippingStableScrollbarWidth = Math.abs(html.clientWidth - body.clientWidth - bodyMarginInline);
+    if (clippingStableScrollbarWidth <= SCROLLBAR_MAX) {
+      width -= clippingStableScrollbarWidth;
+    }
+  } else if (windowScrollbarX <= SCROLLBAR_MAX) {
+    width += windowScrollbarX;
+  }
   return {
     width,
     height,
@@ -7539,6 +7682,7 @@ function getViewportRect(element, strategy) {
     y
   };
 }
+const absoluteOrFixed = /* @__PURE__ */ new Set(["absolute", "fixed"]);
 function getInnerBoundingClientRect(element, strategy) {
   const clientRect = getBoundingClientRect(element, true, strategy === "fixed");
   const top = clientRect.top + element.clientTop;
@@ -7596,7 +7740,7 @@ function getClippingElementAncestors(element, cache) {
     if (!currentNodeIsContaining && computedStyle.position === "fixed") {
       currentContainingBlockComputedStyle = null;
     }
-    const shouldDropCurrentNode = elementIsFixed ? !currentNodeIsContaining && !currentContainingBlockComputedStyle : !currentNodeIsContaining && computedStyle.position === "static" && !!currentContainingBlockComputedStyle && ["absolute", "fixed"].includes(currentContainingBlockComputedStyle.position) || isOverflowElement(currentNode) && !currentNodeIsContaining && hasFixedPositionAncestor(element, currentNode);
+    const shouldDropCurrentNode = elementIsFixed ? !currentNodeIsContaining && !currentContainingBlockComputedStyle : !currentNodeIsContaining && computedStyle.position === "static" && !!currentContainingBlockComputedStyle && absoluteOrFixed.has(currentContainingBlockComputedStyle.position) || isOverflowElement(currentNode) && !currentNodeIsContaining && hasFixedPositionAncestor(element, currentNode);
     if (shouldDropCurrentNode) {
       result = result.filter((ancestor) => ancestor !== currentNode);
     } else {
@@ -9995,6 +10139,8 @@ function registerRzPopover(Alpine2) {
     ariaExpanded: "false",
     triggerEl: null,
     contentEl: null,
+    _documentClickHandler: null,
+    _windowKeydownHandler: null,
     /**
      * Executes the `init` operation.
      * @returns {any} Returns the result of `init` when applicable.
@@ -10002,12 +10148,26 @@ function registerRzPopover(Alpine2) {
     init() {
       this.triggerEl = this.$refs.trigger;
       this.contentEl = this.$refs.content;
+      this._documentClickHandler = (event2) => this.handleDocumentClick(event2);
+      this._windowKeydownHandler = (event2) => this.handleWindowKeydown(event2);
+      document.addEventListener("click", this._documentClickHandler);
+      window.addEventListener("keydown", this._windowKeydownHandler);
       this.$watch("open", (value) => {
         this.ariaExpanded = value.toString();
         if (value) {
           this.$nextTick(() => this.updatePosition());
         }
       });
+    },
+    destroy() {
+      if (this._documentClickHandler) {
+        document.removeEventListener("click", this._documentClickHandler);
+        this._documentClickHandler = null;
+      }
+      if (this._windowKeydownHandler) {
+        window.removeEventListener("keydown", this._windowKeydownHandler);
+        this._windowKeydownHandler = null;
+      }
     },
     /**
      * Executes the `updatePosition` operation.
@@ -10053,23 +10213,20 @@ function registerRzPopover(Alpine2) {
     toggle() {
       this.open = !this.open;
     },
-    /**
-     * Executes the `handleOutsideClick` operation.
-     * @returns {any} Returns the result of `handleOutsideClick` when applicable.
-     */
-    handleOutsideClick() {
+    handleDocumentClick(event2) {
       if (!this.open) return;
+      const target = event2.target;
+      const clickedInsideRoot = this.$el.contains(target);
+      const clickedInsideContent = this.contentEl?.contains?.(target) ?? false;
+      if (clickedInsideRoot || clickedInsideContent) {
+        return;
+      }
       this.open = false;
     },
-    /**
-     * Executes the `handleWindowEscape` operation.
-     * @returns {any} Returns the result of `handleWindowEscape` when applicable.
-     */
-    handleWindowEscape() {
-      if (this.open) {
-        this.open = false;
-        this.$nextTick(() => this.triggerEl?.focus());
-      }
+    handleWindowKeydown(event2) {
+      if (event2.key !== "Escape" || !this.open) return;
+      this.open = false;
+      this.$nextTick(() => this.triggerEl?.focus());
     }
   }));
 }

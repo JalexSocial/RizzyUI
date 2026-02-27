@@ -6,7 +6,9 @@ export default function(Alpine) {
         ariaExpanded: 'false',
         triggerEl: null,
         contentEl: null,
-
+        _documentClickHandler: null,
+        _windowKeydownHandler: null,
+        
         /**
          * Executes the `init` operation.
          * @returns {any} Returns the result of `init` when applicable.
@@ -15,6 +17,12 @@ export default function(Alpine) {
             this.triggerEl = this.$refs.trigger;
             this.contentEl = this.$refs.content;
 
+            this._documentClickHandler = (event) => this.handleDocumentClick(event);
+            this._windowKeydownHandler = (event) => this.handleWindowKeydown(event);
+
+            document.addEventListener('click', this._documentClickHandler);
+            window.addEventListener('keydown', this._windowKeydownHandler);
+            
             this.$watch('open', (value) => {
                 this.ariaExpanded = value.toString();
                 if (value) {
@@ -23,6 +31,18 @@ export default function(Alpine) {
             });
         },
 
+        destroy() {
+            if (this._documentClickHandler) {
+                document.removeEventListener('click', this._documentClickHandler);
+                this._documentClickHandler = null;
+            }
+
+            if (this._windowKeydownHandler) {
+                window.removeEventListener('keydown', this._windowKeydownHandler);
+                this._windowKeydownHandler = null;
+            }
+        },
+        
         /**
          * Executes the `updatePosition` operation.
          * @returns {any} Returns the result of `updatePosition` when applicable.
@@ -75,24 +95,26 @@ export default function(Alpine) {
             this.open = !this.open;
         },
 
-        /**
-         * Executes the `handleOutsideClick` operation.
-         * @returns {any} Returns the result of `handleOutsideClick` when applicable.
-         */
-        handleOutsideClick() {
+        handleDocumentClick(event) {
             if (!this.open) return;
+
+            const target = event.target;
+
+            const clickedInsideRoot = this.$el.contains(target);
+            const clickedInsideContent = this.contentEl?.contains?.(target) ?? false;
+
+            if (clickedInsideRoot || clickedInsideContent) {
+                return;
+            }
+
             this.open = false;
         },
 
-        /**
-         * Executes the `handleWindowEscape` operation.
-         * @returns {any} Returns the result of `handleWindowEscape` when applicable.
-         */
-        handleWindowEscape() {
-            if (this.open) {
-                this.open = false;
-                this.$nextTick(() => this.triggerEl?.focus());
-            }
+        handleWindowKeydown(event) {
+            if (event.key !== 'Escape' || !this.open) return;
+
+            this.open = false;
+            this.$nextTick(() => this.triggerEl?.focus());
         }
     }));
 }
