@@ -1,4 +1,3 @@
-
 {
   "name": "@jalexsocial/rizzyui",
   "version": "0.6.2",
@@ -66,7 +65,7 @@
   },
   "homepage": "https://github.com/jalexsocial/RizzyUI#readme",
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.7",
+    "@tailwindcss/cli": "^4.2.1",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "esbuild": "^0.25.4",
@@ -81,18 +80,18 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@alpinejs/collapse": "^3.15.0",
-    "@alpinejs/csp": "^3.15.0",
-    "@alpinejs/focus": "^3.15.0",
-    "@alpinejs/intersect": "^3.15.0",
+    "@alpinejs/collapse": "^3.15.8",
+    "@alpinejs/csp": "^3.15.8",
+    "@alpinejs/focus": "^3.15.8",
+    "@alpinejs/intersect": "^3.15.8",
     "@floating-ui/dom": "^1.7.0",
     "@tailwindcss/forms": "^0.5.10",
-    "alpinejs": "^3.15.0",
+    "alpinejs": "^3.15.8",
     "async-alpine": "^2.0.3",
     "htmx.org": "^2.0.4",
     "shadcn-prose": "^1.0.8",
     "simple-notify": "^1.0.6",
-    "tailwindcss": "^4.1.7",
+    "tailwindcss": "^4.2.1",
     "tailwindcss-inset": "^1.0.0"
   }
 }
