@@ -3,7 +3,7 @@
 @using RizzyUI
 
 <div class="grid w-full max-w-sm gap-6">
-    <EditForm Model="_model">
+    <EditForm Model="_model" x-data @submit.prevent>
         <RzInputGroup>
             <InputGroupInput For="@(() => _model.Search)" Placeholder="Search..." />
             <InputGroupAddon>

@@ -10,31 +10,28 @@
                 <FieldDescription>
                     Select the compute environment for your cluster.
                 </FieldDescription>
-                <RzRadioGroup For="@(() => _model.Environment)" class="mt-4">
-                    <FieldLabel For="() => _model.Environment" class="cursor-pointer">
-                        <Field Orientation="FieldOrientation.Horizontal">
-                            <FieldContent>
-                                <FieldTitle>Kubernetes</FieldTitle>
-                                <FieldDescription>
-                                    Run GPU workloads on a K8s configured cluster. This is the
-                                    default.
-                                </FieldDescription>
-                            </FieldContent>
-                            <RadioGroupItem Value="@("kubernetes")" id="kubernetes-r2h" aria-label="Kubernetes" />
-                        </Field>
-                    </FieldLabel>
-                    <FieldLabel For="(() => _model.Environment)" class="cursor-pointer">
-                        <Field Orientation="@FieldOrientation.Horizontal">
-                            <FieldContent>
-                                <FieldTitle>Virtual Machine</FieldTitle>
-                                <FieldDescription>
+                <RzRadioGroup For="@(() => _model.Environment)" DisplayName="Environment">
+                    <RadioGroupItem TValue="string" Value="@("kubernetes")">
+                        <div class="bg-background relative flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
+                            <div class="grid gap-1.5 leading-none">
+                                <span class="font-medium">Kubernetes</span>
+                                <p class="text-muted-foreground text-sm">
+                                    Run GPU workloads on a K8s configured cluster. This is the default.
+                                </p>
+                            </div>
+                        </div>
+                    </RadioGroupItem>
+                    <RadioGroupItem TValue="string" Value="@("vm")">
+                        <div class="bg-background relative flex w-full cursor-pointer items-start space-x-3 rounded-lg border p-4 shadow-sm transition-colors group-has-[.peer:checked]:border-primary hover:bg-accent">
+                            <div class="grid gap-1.5 leading-none">
+                                <span class="font-medium">Virtual Machine</span>
+                                <p class="text-muted-foreground text-sm">
                                     Access a VM configured cluster to run workloads. (Coming soon)
-                                </FieldDescription>
-                            </FieldContent>
-                            <RadioGroupItem Value="@("vm")" id="vm-z4k" aria-label="Virtual Machine" />
-                        </Field>
-                    </FieldLabel>
-                </RzRadioGroup>
+                                </p>
+                            </div>
+                        </div>
+                    </RadioGroupItem>
+                </RzRadioGroup>                
             </RzFieldSet>
 
             <FieldSeparator />
