@@ -3,13 +3,13 @@
 @using RizzyUI
 
 <RzButtonGroup>
-    <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small">
+    <RzButton Variant="ThemeVariant.Default" Outline Size="Size.ExtraSmall">
         <Blazicon Svg="Lucide.Bot" /> Copilot
     </RzButton>
     <RzPopover Anchor="AnchorPoint.BottomEnd">
         <PopoverTrigger AsChild>
-            <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small" aria-label="Open Popover">
-                <Blazicon Svg="Lucide.ChevronDown" />
+            <RzButton Variant="ThemeVariant.Default" Outline Size="Size.ExtraSmall" aria-label="Open Popover">
+                <Blazicon Svg="@Lucide.ChevronDown" />
             </RzButton>
         </PopoverTrigger>
         <PopoverContent class="gap-0 rounded-xl p-0 text-sm">
