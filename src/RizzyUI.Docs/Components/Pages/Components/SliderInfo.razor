@@ -1,0 +1,148 @@
+@page "/components/slider"
+@using RizzyUI
+
+<PageTitle>Slider</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Slider</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">Slider</RzHeading>
+            <RzParagraph>
+                RzSlider provides single-value and range selection with shadcn-style slider anatomy: root, track, range, and thumbs. It renders initial value state on the server, uses Alpine for drag/click/keyboard behavior, and posts values through hidden inputs for SSR form workflows.
+            </RzParagraph>
+
+            <RzAlert Variant="ThemeVariant.Information" class="my-6">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    RzSlider initializes with <code>x-data="rzSlider"</code>. Thumb positions and hidden inputs are server-rendered first for SSR stability, then Alpine enhances interaction. There are no Blazor live callbacks; hidden inputs are the form-post contract.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">Basic Usage</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">Single-thumb slider for selecting one value.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 max-w-xl">
+                        <RzSlider Name="Volume" DefaultValue="@(new double[] { 35 })" Min="0" Max="100" Step="1" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzSlider Name=&quot;Volume&quot; DefaultValue=&quot;@(new double[] { 35 })&quot; Min=&quot;0&quot; Max=&quot;100&quot; Step=&quot;1&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Range Slider" class="scroll-mt-20">Range Slider</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">Two-thumb slider with minimum spacing.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 max-w-xl">
+                        <RzSlider Name="Price" DefaultValue="@(new double[] { 20, 80 })" Min="0" Max="100" Step="1" MinStepsBetweenThumbs="5" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzSlider Name=&quot;Price&quot; DefaultValue=&quot;@(new double[] { 20, 80 })&quot; Min=&quot;0&quot; Max=&quot;100&quot; Step=&quot;1&quot; MinStepsBetweenThumbs=&quot;5&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Vertical Orientation" class="scroll-mt-20">Vertical Orientation</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">Vertical slider variant for narrow layouts.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 h-64 flex items-stretch">
+                        <RzSlider Name="Gain" DefaultValue="@(new double[] { 60 })" Orientation="SliderOrientation.Vertical" Min="0" Max="100" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzSlider Name=&quot;Gain&quot; DefaultValue=&quot;@(new double[] { 60 })&quot; Orientation=&quot;SliderOrientation.Vertical&quot; Min=&quot;0&quot; Max=&quot;100&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Disabled State" class="scroll-mt-20">Disabled State</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">Render a non-interactive slider for read-only scenarios.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 max-w-xl">
+                        <RzSlider Name="ReadOnly" DefaultValue="@(new double[] { 45, 70 })" Disabled="true" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzSlider Name=&quot;ReadOnly&quot; DefaultValue=&quot;@(new double[] { 45, 70 })&quot; Disabled=&quot;true&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Form Post Example" class="scroll-mt-20">Form Post Example</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">Hidden inputs are emitted using indexed names for model binding compatibility.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 max-w-xl">
+                        <form method="post" action="/components/slider">
+                            <RzSlider Name="PriceRange" DefaultValue="@(new double[] { 15, 65 })" UseIndexedNames="true" />
+                            <RzButton Type="ButtonType.Submit" class="mt-4">Submit</RzButton>
+                        </form>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;form method=&quot;post&quot; action=&quot;/components/slider&quot;&gt;
+    &lt;RzSlider Name=&quot;PriceRange&quot; DefaultValue=&quot;@(new double[] { 15, 65 })&quot; UseIndexedNames=&quot;true&quot; /&gt;
+    &lt;RzButton Type=&quot;ButtonType.Submit&quot; class=&quot;mt-4&quot;&gt;Submit&lt;/RzButton&gt;
+&lt;/form&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Parameters" class="scroll-mt-20">Parameters</RzHeading>
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr>
+                            <th class="text-left p-2">Parameter</th>
+                            <th class="text-left p-2">Type</th>
+                            <th class="text-left p-2">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="p-2">Value</td><td class="p-2">double[]?</td><td class="p-2">Server-provided current values.</td></tr>
+                        <tr><td class="p-2">DefaultValue</td><td class="p-2">double[]?</td><td class="p-2">Fallback initial values when Value is null.</td></tr>
+                        <tr><td class="p-2">Min</td><td class="p-2">double</td><td class="p-2">Minimum allowed slider value.</td></tr>
+                        <tr><td class="p-2">Max</td><td class="p-2">double</td><td class="p-2">Maximum allowed slider value.</td></tr>
+                        <tr><td class="p-2">Step</td><td class="p-2">double</td><td class="p-2">Value increment used for snapping.</td></tr>
+                        <tr><td class="p-2">Orientation</td><td class="p-2">SliderOrientation</td><td class="p-2">Horizontal or vertical layout.</td></tr>
+                        <tr><td class="p-2">Disabled</td><td class="p-2">bool</td><td class="p-2">Disables pointer and keyboard interactions.</td></tr>
+                        <tr><td class="p-2">Inverted</td><td class="p-2">bool</td><td class="p-2">Inverts value-to-position mapping.</td></tr>
+                        <tr><td class="p-2">MinStepsBetweenThumbs</td><td class="p-2">double</td><td class="p-2">Minimum distance between adjacent thumbs.</td></tr>
+                        <tr><td class="p-2">Name</td><td class="p-2">string?</td><td class="p-2">Base name for hidden form inputs.</td></tr>
+                        <tr><td class="p-2">UseIndexedNames</td><td class="p-2">bool</td><td class="p-2">Use names like Name[0], Name[1].</td></tr>
+                        <tr><td class="p-2">AriaLabel</td><td class="p-2">string?</td><td class="p-2">Default single-thumb label.</td></tr>
+                        <tr><td class="p-2">AriaLabels</td><td class="p-2">string[]?</td><td class="p-2">Per-thumb labels for range mode.</td></tr>
+                        <tr><td class="p-2">AriaLabelledBy</td><td class="p-2">string?</td><td class="p-2">ID reference for visible external label.</td></tr>
+                        <tr><td class="p-2">AriaDescribedBy</td><td class="p-2">string?</td><td class="p-2">ID reference for external helper text.</td></tr>
+                        <tr><td class="p-2">ComponentAssetKeys</td><td class="p-2">string[]</td><td class="p-2">Logical asset keys resolved via RizzyUIConfig.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
+                <RzParagraph>RzSlider uses an internal Alpine API for pointer and keyboard behavior; no public client API is intended for direct consumption.</RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

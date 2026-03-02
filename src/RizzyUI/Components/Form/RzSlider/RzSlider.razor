@@ -1,0 +1,71 @@
+@namespace RizzyUI
+@using RizzyUI.Extensions
+@inherits RzComponent<RzSlider.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="slider"
+             data-orientation="@Orientation.ToString().ToKebabCase()"
+             data-disabled="@Disabled.ToString().ToLowerInvariant()">
+    <div data-alpine-root="@Id"
+         x-data="rzSlider"
+         data-assets="@_assets"
+         data-nonce="@Nonce"
+         data-min="@Min"
+         data-max="@Max"
+         data-step="@Step"
+         data-orientation="@Orientation.ToString().ToKebabCase()"
+         data-disabled="@Disabled.ToString().ToLowerInvariant()"
+         data-inverted="@Inverted.ToString().ToLowerInvariant()"
+         data-min-steps-between-thumbs="@MinStepsBetweenThumbs"
+         data-name="@Name"
+         data-use-indexed-names="@UseIndexedNames.ToString().ToLowerInvariant()"
+         data-values="@_serializedValues"
+         data-thumb-count="@EffectiveValues.Length"
+         class="relative flex size-full"
+         x-on:pointerup.window="handlePointerUp"
+         x-on:pointermove.window="handlePointerMove"
+         x-on:pointercancel.window="handlePointerUp">
+        <div class="@SlotClasses.GetTrack()"
+             data-slot="@RzSlider.SlotNames.NameOf(SlotTypes.Track)"
+             x-ref="track"
+             x-on:pointerdown="handleTrackPointerDown">
+            <div class="@SlotClasses.GetRange()"
+                 data-slot="@RzSlider.SlotNames.NameOf(SlotTypes.Range)"
+                 x-ref="range"></div>
+        </div>
+
+        @for (var index = 0; index < EffectiveValues.Length; index++)
+        {
+            <div class="@SlotClasses.GetThumb()"
+                 data-slot="@RzSlider.SlotNames.NameOf(SlotTypes.Thumb)"
+                 data-thumb-index="@index"
+                 x-ref="thumbs"
+                 role="slider"
+                 tabindex="@(Disabled ? -1 : (TabIndex ?? 0))"
+                 aria-disabled="@Disabled.ToString().ToLowerInvariant()"
+                 aria-valuemin="@Min"
+                 aria-valuemax="@Max"
+                 aria-valuenow="@EffectiveValues[index]"
+                 aria-orientation="@Orientation.ToString().ToLowerInvariant()"
+                 aria-label="@GetThumbAriaLabel(index)"
+                 aria-labelledby="@AriaLabelledBy"
+                 aria-describedby="@AriaDescribedBy"
+                 x-on:pointerdown="handlePointerDown"
+                 x-on:keydown="handleThumbKeyDown"></div>
+        }
+
+        @for (var index = 0; index < EffectiveValues.Length; index++)
+        {
+            <input type="hidden"
+                   class="@SlotClasses.GetInput()"
+                   data-slot="@RzSlider.SlotNames.NameOf(SlotTypes.Input)"
+                   data-slider-input="true"
+                   data-input-index="@index"
+                   name="@GetInputName(index)"
+                   value="@EffectiveValues[index].ToString(System.Globalization.CultureInfo.InvariantCulture)" />
+        }
+    </div>
+</HtmlElement>

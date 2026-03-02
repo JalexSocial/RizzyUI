@@ -518,4 +518,13 @@
     <value>Chart</value>
     <comment>Default ARIA label for RzChart.</comment>
   </data>
+  <data name="RzSlider.DefaultAriaLabel" xml:space="preserve">
+    <value>Slider</value>
+  </data>
+  <data name="RzSlider.MinimumThumbAriaLabel" xml:space="preserve">
+    <value>Minimum value</value>
+  </data>
+  <data name="RzSlider.MaximumThumbAriaLabel" xml:space="preserve">
+    <value>Maximum value</value>
+  </data>
 </root>

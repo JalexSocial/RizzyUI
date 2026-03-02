@@ -87,6 +87,7 @@ public static class ServiceCollectionExtensions
             config.AssetUrls.TryAdd("TomSelect", "https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/js/tom-select.complete.min.js");
             config.AssetUrls.TryAdd("Coloris", "https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js");
             config.AssetUrls.TryAdd("ChartJs", "https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js");
+            config.AssetUrls.TryAdd("SliderScript", Constants.ContentUrl("js/rizzyui.js"));
 
             config.AssetUrls.TryAdd("VanillaCalendarPro", "https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/index.js");
             config.AssetUrls.TryAdd("VanillaCalendarCss", "https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/styles/index.css");
