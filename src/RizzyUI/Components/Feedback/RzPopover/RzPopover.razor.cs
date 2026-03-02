@@ -87,6 +87,11 @@ public partial class RzPopover : RzComponent<RzPopover.Slots>
     [Parameter]
     public string? AriaLabel { get; set; }
 
+    /// <summary>
+    /// Gets the deterministic ID used by the floating content element.
+    /// </summary>
+    protected string ContentId => $"{Id}-content";
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
@@ -112,6 +117,7 @@ public partial class RzPopover : RzComponent<RzPopover.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("popover")]
         public string? Base { get; set; }
     }
 }

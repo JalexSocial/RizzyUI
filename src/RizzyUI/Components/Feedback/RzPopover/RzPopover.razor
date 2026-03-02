@@ -5,10 +5,11 @@
 <CascadingValue Value="this" IsFixed="true">
 	<HtmlElement Element="@EffectiveElement"
 	             id="@Id"
-	             class="@SlotClasses.GetBase()"
 	             @attributes="@AdditionalAttributes"
+	             class="@SlotClasses.GetBase()"
 	             x-data="rzPopover"
 	             data-alpine-root="@Id"
+	             data-content-id="@ContentId"
 	             data-anchor="@Anchor.ToString().ToKebabCase()"
 	             data-offset="@Offset"
 	             data-cross-axis-offset="@CrossAxisOffset"

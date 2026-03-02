@@ -1,4 +1,3 @@
-
 using Bunit;
 
 namespace RizzyUI.Tests.Components.Feedback;
@@ -12,20 +11,18 @@ public class RzPopoverTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void RzPopover_RendersRootWithAlpineData()
     {
-        // Arrange
         var id = "popover-test";
 
-        // Act
         var cut = Render<RzPopover>(parameters => parameters
             .Add(p => p.Id, id)
             .AddChildContent<PopoverTrigger>(t => t.AddChildContent("Open"))
             .AddChildContent<PopoverContent>(c => c.AddChildContent("Content"))
         );
 
-        // Assert
         var root = cut.Find($"div#{id}");
         Assert.Equal("rzPopover", root.GetAttribute("x-data"));
         Assert.Equal(id, root.GetAttribute("data-alpine-root"));
+        Assert.Equal($"{id}-content", root.GetAttribute("data-content-id"));
     }
 
     [Theory]
@@ -34,14 +31,12 @@ public class RzPopoverTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [InlineData(AnchorPoint.LeftStart, "left-start")]
     public void AnchorParameter_SetsDataAttribute(AnchorPoint anchor, string expectedValue)
     {
-        // Act
         var cut = Render<RzPopover>(parameters => parameters
             .Add(p => p.Anchor, anchor)
             .AddChildContent<PopoverTrigger>(t => t.AddChildContent("Open"))
             .AddChildContent<PopoverContent>(c => c.AddChildContent("Content"))
         );
 
-        // Assert
         var root = cut.Find("[data-slot='popover']");
         Assert.Equal(expectedValue, root.GetAttribute("data-anchor"));
     }
@@ -49,14 +44,12 @@ public class RzPopoverTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void OffsetParameter_SetsDataAttribute()
     {
-        // Act
         var cut = Render<RzPopover>(parameters => parameters
             .Add(p => p.Offset, 10)
             .AddChildContent<PopoverTrigger>(t => t.AddChildContent("Open"))
             .AddChildContent<PopoverContent>(c => c.AddChildContent("Content"))
         );
 
-        // Assert
         var root = cut.Find("[data-slot='popover']");
         Assert.Equal("10", root.GetAttribute("data-offset"));
     }
@@ -64,31 +57,33 @@ public class RzPopoverTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void PopoverTrigger_RendersButtonWithEvents()
     {
-        // Act
         var cut = Render<RzPopover>(parameters => parameters
             .AddChildContent<PopoverTrigger>(t => t.AddChildContent("Trigger"))
             .AddChildContent<PopoverContent>(c => c.AddChildContent("Content"))
         );
 
-        // Assert
         var btn = cut.Find("button[data-slot='popover-trigger']");
         Assert.Equal("toggle", btn.GetAttribute("x-on:click"));
         Assert.Equal("dialog", btn.GetAttribute("aria-haspopup"));
+        Assert.Equal("true", btn.GetAttribute("data-trigger"));
     }
 
     [Fact]
-    public void PopoverContent_RendersWithAlpineDirectives()
+    public void PopoverContent_RendersInsideTeleportTemplate()
     {
-        // Act
         var cut = Render<RzPopover>(parameters => parameters
             .AddChildContent<PopoverTrigger>(t => t.AddChildContent("Trigger"))
             .AddChildContent<PopoverContent>(c => c.AddChildContent("Popup Content"))
         );
 
-        // Assert
-        var content = cut.Find("[data-slot='popover-content']");
-        Assert.NotNull(content);
-        Assert.Equal("open", content.GetAttribute("x-show"));
-        Assert.Contains("Popup Content", content.InnerHtml);
+        var template = cut.Find("template[x-teleport='body']");
+        Assert.Equal("contentTemplate", template.GetAttribute("x-ref"));
+
+        Assert.Contains("x-show=\"open\"", cut.Markup);
+        Assert.Contains("x-bind:data-state=\"dataState\"", cut.Markup);
+        Assert.DoesNotContain("open ? 'open' : 'closed'", cut.Markup);
+        Assert.DoesNotContain("x-ref=\"content\"", cut.Markup);
+        Assert.DoesNotContain("aria-modal", cut.Markup);
+        Assert.Contains("Popup Content", cut.Markup);
     }
 }
