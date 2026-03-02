@@ -354,6 +354,9 @@ public partial class RzTheme
         // RzSwitch Family
         RzSwitch = RizzyUI.RzSwitchStyles.DefaultDescriptor;
 
+        // RzSlider Family
+        RzSlider = RizzyUI.RzSlider.DefaultDescriptor;
+
         // RzToggle Family
         RzToggle = RizzyUI.RzToggle.DefaultDescriptor;
 

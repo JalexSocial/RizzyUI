@@ -37,6 +37,7 @@ import registerRzPrependInput from './components/rzPrependInput.js';
 import registerRzProgress from './components/rzProgress.js';
 import registerRzQuickReferenceContainer from './components/rzQuickReferenceContainer.js';
 import registerRzScrollArea from './components/rzScrollArea.js';
+import registerRzSlider from './components/rzSlider.js';
 import registerRzSheet from './components/rzSheet.js';
 import registerRzTabs from './components/rzTabs.js';
 import registerRzToggle from './components/rzToggle.js';
@@ -188,6 +189,7 @@ function registerComponents(Alpine) {
     registerRzProgress(Alpine);
     registerRzQuickReferenceContainer(Alpine);
     registerRzScrollArea(Alpine);
+    registerRzSlider(Alpine);
     registerRzSheet(Alpine);
     registerRzTabs(Alpine);
     registerRzToggle(Alpine);

@@ -1,39 +1,99 @@
-import { computePosition, offset, flip, shift } from '@floating-ui/dom';
+import { autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
 
 export default function(Alpine) {
     Alpine.data('rzPopover', () => ({
         open: false,
         ariaExpanded: 'false',
+        dataState: 'closed',
+        contentStyle: '',
         triggerEl: null,
         contentEl: null,
         _documentClickHandler: null,
         _windowKeydownHandler: null,
-        
-        /**
-         * Executes the `init` operation.
-         * @returns {any} Returns the result of `init` when applicable.
-         */
+        _cleanupAutoUpdate: null,
+
         init() {
-            this.triggerEl = this.$refs.trigger;
-            this.contentEl = this.$refs.content;
+            this.triggerEl = this.resolveTriggerElement();
 
-            this._documentClickHandler = (event) => this.handleDocumentClick(event);
-            this._windowKeydownHandler = (event) => this.handleWindowKeydown(event);
-
-            document.addEventListener('click', this._documentClickHandler);
-            window.addEventListener('keydown', this._windowKeydownHandler);
-            
             this.$watch('open', (value) => {
                 this.ariaExpanded = value.toString();
+                this.dataState = value ? 'open' : 'closed';
+
                 if (value) {
-                    this.$nextTick(() => this.updatePosition());
+                    this.openPopover();
+                    return;
                 }
+
+                this.closePopover();
             });
         },
 
         destroy() {
+            this.teardownAutoUpdate();
+            this.detachGlobalListeners();
+        },
+
+        toggle() {
+            this.open = !this.open;
+        },
+
+        async openPopover() {
+            this.triggerEl = this.resolveTriggerElement();
+            this.attachGlobalListeners();
+            this.contentStyle = this.getInitialContentStyle();
+
+            await this.$nextTick();
+            this.contentEl = this.resolveContentElement();
+            if (!this.triggerEl || !this.contentEl) {
+                return;
+            }
+
+            await this.updatePosition();
+            this.startAutoUpdate();
+        },
+
+        closePopover() {
+            this.teardownAutoUpdate();
+            this.detachGlobalListeners();
+            this.contentStyle = '';
+            this.contentEl = null;
+        },
+
+        resolveTriggerElement() {
+            const directChildTrigger = Array.from(this.$el.children)
+                .find((child) => child?.hasAttribute?.('data-trigger'));
+
+            if (directChildTrigger) {
+                return directChildTrigger;
+            }
+
+            return this.$el.querySelector('[data-trigger]');
+        },
+
+        resolveContentElement() {
+            const contentId = this.$el.dataset.contentId;
+            if (!contentId) {
+                return null;
+            }
+
+            return document.getElementById(contentId);
+        },
+
+        attachGlobalListeners() {
+            if (!this._documentClickHandler) {
+                this._documentClickHandler = (event) => this.handleDocumentClick(event);
+                document.addEventListener('pointerdown', this._documentClickHandler);
+            }
+
+            if (!this._windowKeydownHandler) {
+                this._windowKeydownHandler = (event) => this.handleWindowKeydown(event);
+                window.addEventListener('keydown', this._windowKeydownHandler);
+            }
+        },
+
+        detachGlobalListeners() {
             if (this._documentClickHandler) {
-                document.removeEventListener('click', this._documentClickHandler);
+                document.removeEventListener('pointerdown', this._documentClickHandler);
                 this._documentClickHandler = null;
             }
 
@@ -42,30 +102,60 @@ export default function(Alpine) {
                 this._windowKeydownHandler = null;
             }
         },
-        
-        /**
-         * Executes the `updatePosition` operation.
-         * @returns {any} Returns the result of `updatePosition` when applicable.
-         */
-        updatePosition() {
-            if (!this.triggerEl || !this.contentEl) return;
+
+        startAutoUpdate() {
+            this.teardownAutoUpdate();
+            if (!this.triggerEl || !this.contentEl) {
+                return;
+            }
+
+            this._cleanupAutoUpdate = autoUpdate(this.triggerEl, this.contentEl, () => {
+                void this.updatePosition();
+            });
+        },
+
+        teardownAutoUpdate() {
+            if (this._cleanupAutoUpdate) {
+                this._cleanupAutoUpdate();
+                this._cleanupAutoUpdate = null;
+            }
+        },
+
+        parseNumber(value, fallback = null) {
+            if (value === undefined || value === null || value === '') {
+                return fallback;
+            }
+
+            const parsed = Number(value);
+            return Number.isNaN(parsed) ? fallback : parsed;
+        },
+
+        getInitialContentStyle() {
+            const strategy = this.$el.dataset.strategy || 'absolute';
+            return `position: ${strategy}; left: 0px; top: 0px; visibility: hidden;`;
+        },
+
+        async updatePosition() {
+            if (!this.triggerEl || !this.contentEl || !this.open) {
+                return;
+            }
 
             const anchor = this.$el.dataset.anchor || 'bottom';
-            const mainOffset = parseInt(this.$el.dataset.offset) || 0;
-            const crossAxisOffset = parseInt(this.$el.dataset.crossAxisOffset) || 0;
-            const alignmentAxisOffset = parseInt(this.$el.dataset.alignmentAxisOffset) || null;
+            const mainOffset = this.parseNumber(this.$el.dataset.offset, 0);
+            const crossAxisOffset = this.parseNumber(this.$el.dataset.crossAxisOffset, 0);
+            const alignmentAxisOffset = this.parseNumber(this.$el.dataset.alignmentAxisOffset, null);
             const strategy = this.$el.dataset.strategy || 'absolute';
             const enableFlip = this.$el.dataset.enableFlip !== 'false';
             const enableShift = this.$el.dataset.enableShift !== 'false';
-            const shiftPadding = parseInt(this.$el.dataset.shiftPadding) || 8;
+            const shiftPadding = this.parseNumber(this.$el.dataset.shiftPadding, 8);
 
-            let middleware = [];
-
-            middleware.push(offset({
-                mainAxis: mainOffset,
-                crossAxis: crossAxisOffset,
-                alignmentAxis: alignmentAxisOffset
-            }));
+            const middleware = [
+                offset({
+                    mainAxis: mainOffset,
+                    crossAxis: crossAxisOffset,
+                    alignmentAxis: alignmentAxisOffset
+                })
+            ];
 
             if (enableFlip) {
                 middleware.push(flip());
@@ -75,46 +165,45 @@ export default function(Alpine) {
                 middleware.push(shift({ padding: shiftPadding }));
             }
 
-            computePosition(this.triggerEl, this.contentEl, {
+            const { x, y } = await computePosition(this.triggerEl, this.contentEl, {
                 placement: anchor,
-                strategy: strategy,
-                middleware: middleware,
-            }).then(({ x, y }) => {
-                Object.assign(this.contentEl.style, {
-                    left: `${x}px`,
-                    top: `${y}px`,
-                });
+                strategy,
+                middleware,
             });
-        },
 
-        /**
-         * Executes the `toggle` operation.
-         * @returns {any} Returns the result of `toggle` when applicable.
-         */
-        toggle() {
-            this.open = !this.open;
+            this.contentStyle = `position: ${strategy}; left: ${x}px; top: ${y}px; visibility: visible;`;
         },
 
         handleDocumentClick(event) {
-            if (!this.open) return;
+            if (!this.open) {
+                return;
+            }
 
             const target = event.target;
-
-            const clickedInsideRoot = this.$el.contains(target);
+            const clickedInsideTrigger = this.triggerEl?.contains?.(target) ?? false;
             const clickedInsideContent = this.contentEl?.contains?.(target) ?? false;
 
-            if (clickedInsideRoot || clickedInsideContent) {
+            if (clickedInsideTrigger || clickedInsideContent) {
                 return;
             }
 
             this.open = false;
+            this.$nextTick(() => this.restoreTriggerFocus());
         },
 
         handleWindowKeydown(event) {
-            if (event.key !== 'Escape' || !this.open) return;
+            if (event.key !== 'Escape' || !this.open) {
+                return;
+            }
 
             this.open = false;
-            this.$nextTick(() => this.triggerEl?.focus());
+            this.$nextTick(() => this.restoreTriggerFocus());
+        },
+
+        restoreTriggerFocus() {
+            if (this.triggerEl?.isConnected) {
+                this.triggerEl.focus();
+            }
         }
     }));
 }
