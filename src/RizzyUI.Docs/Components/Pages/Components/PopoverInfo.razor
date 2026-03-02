@@ -36,7 +36,7 @@
             <RzAlert Variant="ThemeVariant.Information" class="my-5">
                 <AlertTitle>Under the Hood</AlertTitle>
                 <AlertDescription>
-                    RzPopover uses an Alpine.js component (<code>x-data="rzPopover"</code>) for managing open/close state and user interactions. Placement is handled by <b>floating-ui</b>, which keeps the popover visible and anchored—even if the viewport or scroll position changes.
+                    RzPopover uses an Alpine.js component (<code>x-data="rzPopover"</code>) for managing open/close state and user interactions. Placement is handled by <b>floating-ui</b> with an active auto-update lifecycle, which keeps the popover visible and anchored as the viewport, scroll containers, and content size change. The panel is also rendered out-of-band (teleported) so nested prose/layout wrappers cannot clip or restyle it unexpectedly.
                 </AlertDescription>
             </RzAlert>
 
@@ -45,7 +45,7 @@
                     Basic Popover
                 </RzHeading>
                 <RzParagraph>
-                    Here’s a basic popover attached to a button. The popover contains a small form, but you can embed any interactive content you need—everything from menus to custom panels. Positioning and accessibility are automatic.
+                    Here’s a basic popover attached to a button. The popover contains a small form, but you can embed any interactive content you need—everything from menus to custom panels. Positioning and accessibility are automatic, including outside-click close, Escape close, and focus return to the trigger.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">

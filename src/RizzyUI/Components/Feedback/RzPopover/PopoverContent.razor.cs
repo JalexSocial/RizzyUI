@@ -13,7 +13,7 @@ public partial class PopoverContent : RzComponent<PopoverContent.Slots>
     /// Defines the default styling for the PopoverContent component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "fixed z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none"
+        @base: "z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none"
     );
 
     /// <summary>
@@ -59,6 +59,7 @@ public partial class PopoverContent : RzComponent<PopoverContent.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("popover-content")]
         public string? Base { get; set; }
     }
 }

@@ -8,7 +8,7 @@
 }
 else
 {
-    <HtmlElement Element="@EffectiveElement" type="button" @attributes="GetComponentAttributes()">
+    <HtmlElement Element="@EffectiveElement" type="button" @attributes="@GetComponentAttributes()">
         @ChildContent
     </HtmlElement>
 }
