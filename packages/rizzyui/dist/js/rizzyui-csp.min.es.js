@@ -3096,7 +3096,7 @@ var un = /* @__PURE__ */ (function() {
       n !== -1 && e.splice(n, 1), e.length > 0 && e[e.length - 1].unpause();
     }
   };
-})(), dl = function(t) {
+})(), hl = function(t) {
   return t.tagName && t.tagName.toLowerCase() === "input" && typeof t.select == "function";
 }, fl = function(t) {
   return t.key === "Escape" || t.key === "Esc" || t.keyCode === 27;
@@ -3235,7 +3235,7 @@ var un = /* @__PURE__ */ (function() {
       }
       v.focus({
         preventScroll: !!s.preventScroll
-      }), r.mostRecentlyFocusedNode = v, dl(v) && v.select();
+      }), r.mostRecentlyFocusedNode = v, hl(v) && v.select();
     }
   }, y = function(v) {
     var w = c("setReturnFocus", v);
