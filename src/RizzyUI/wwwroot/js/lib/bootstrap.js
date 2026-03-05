@@ -3,7 +3,7 @@ import collapse from '@alpinejs/collapse';
 import intersect from '@alpinejs/intersect';
 import focus from '@alpinejs/focus';
 import AsyncAlpine from 'async-alpine';
-
+import { ValidationService } from "aspnet-client-validation";
 import toast from "./notify/toast";
 import { registerComponents, require } from './components.js';
 import $data from './alpineData.js';
@@ -47,12 +47,19 @@ export function bootstrapRizzyUI(Alpine) {
     registerComponents(Alpine);
     registerMobileDirective(Alpine);
     registerSyncDirective(Alpine);
+    
+    // 4. Setup Validation Service
+    // We set up validation in bootstrap to ensure it's ready before any components may use it.
+    // This also allows us to export the service on the global object for direct use if needed.
+    const validation = new ValidationService();
+    validation.bootstrap({ watch: true });
 
     // 4. Construct the Global Object
     cachedRizzyUI = {
         Alpine,
         require,
         toast,
+        validation,
         $data,
         props,
         registerAsyncComponent,
