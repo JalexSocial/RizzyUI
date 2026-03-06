@@ -316,7 +316,16 @@
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/markdown" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Markdown</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
                     </SidebarMenuItem>
-                                        <SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Text Animation</a>
+                        </SidebarMenuButton>
+                        <SidebarMenuSub>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/aurora-text" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Aurora Text</span></a></SidebarMenuButton></SidebarMenuItem>
+                        </SidebarMenuSub>
+                    </SidebarMenuItem>                    
+                    
+                    <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
                             <a href="#" class="font-medium">Utility</a>
                         </SidebarMenuButton>

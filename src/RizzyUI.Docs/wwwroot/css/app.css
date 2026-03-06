@@ -2923,8 +2923,14 @@
     --tw-gradient-to: var(--secondary);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
+  .bg-size-\[200\%_auto\] {
+    background-size: 200% auto;
+  }
   .\[background-clip\:padding-box\] {
     background-clip: padding-box;
+  }
+  .bg-clip-text {
+    background-clip: text;
   }
   .mask-repeat {
     mask-repeat: repeat;
@@ -13213,6 +13219,33 @@ pre:has(> code) {
   &:is(.dark *) {
     background: repeating-linear-gradient( 90deg, var(--color-muted) 0, var(--color-muted) 5%, transparent 0, transparent 50% ), repeating-linear-gradient( 180deg, var(--color-muted) 0, var(--color-muted) 5%, transparent 0, transparent 50% );
     background-color: var(--color-background);
+  }
+}
+@layer components {
+  .animate-aurora {
+    animation: aurora 8s ease-in-out infinite;
+  }
+}
+@keyframes aurora {
+  0% {
+    background-position: 0% 50%;
+    transform: rotate(-2deg) scale(0.95);
+  }
+  25% {
+    background-position: 100% 50%;
+    transform: rotate(1deg) scale(1.05);
+  }
+  50% {
+    background-position: 200% 50%;
+    transform: rotate(-1deg) scale(0.95);
+  }
+  75% {
+    background-position: 100% 50%;
+    transform: rotate(2deg) scale(1.05);
+  }
+  100% {
+    background-position: 0% 50%;
+    transform: rotate(-2deg) scale(0.95);
   }
 }
 @layer base {

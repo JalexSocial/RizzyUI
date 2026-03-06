@@ -1020,3 +1020,31 @@ pre:has(> code) {
         background-color: var(--color-background);
     }
 }
+@layer components {
+    .animate-aurora {
+        animation: aurora 8s ease-in-out infinite;
+    }
+}
+
+@keyframes aurora {
+    0% {
+        background-position: 0% 50%;
+        transform: rotate(-2deg) scale(0.95);
+    }
+    25% {
+        background-position: 100% 50%;
+        transform: rotate(1deg) scale(1.05);
+    }
+    50% {
+        background-position: 200% 50%;
+        transform: rotate(-1deg) scale(0.95);
+    }
+    75% {
+        background-position: 100% 50%;
+        transform: rotate(2deg) scale(1.05);
+    }
+    100% {
+        background-position: 0% 50%;
+        transform: rotate(-2deg) scale(0.95);
+    }
+}

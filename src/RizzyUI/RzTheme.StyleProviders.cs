@@ -546,6 +546,8 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzKbd.Slots>, RzKbd.Slots> RzKbd { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzKbdGroup"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzKbdGroup.Slots>, RzKbdGroup.Slots> RzKbdGroup { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzAuroraText"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzAuroraText.Slots>, RzAuroraText.Slots> RzAuroraText { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzParagraph"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzParagraph.Slots>, RzParagraph.Slots> RzParagraph { get; set; }
 

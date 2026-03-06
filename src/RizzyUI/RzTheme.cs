@@ -388,6 +388,7 @@ public partial class RzTheme
         RzHeading = RizzyUI.RzHeading.DefaultDescriptor;
         RzKbd = RizzyUI.RzKbd.DefaultDescriptor;
         RzKbdGroup = RizzyUI.RzKbdGroup.DefaultDescriptor;
+        RzAuroraText = RizzyUI.RzAuroraText.DefaultDescriptor;
         RzParagraph = RizzyUI.RzParagraph.DefaultDescriptor;
     }
 
