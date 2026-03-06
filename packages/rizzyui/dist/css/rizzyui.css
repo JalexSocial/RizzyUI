@@ -529,6 +529,9 @@
   .right-4 {
     right: calc(var(--spacing) * 4);
   }
+  .right-8 {
+    right: calc(var(--spacing) * 8);
+  }
   .right-full {
     right: 100%;
   }
@@ -1154,6 +1157,12 @@
   }
   .w-9 {
     width: calc(var(--spacing) * 9);
+  }
+  .w-10 {
+    width: calc(var(--spacing) * 10);
+  }
+  .w-12 {
+    width: calc(var(--spacing) * 12);
   }
   .w-48 {
     width: calc(var(--spacing) * 48);
@@ -5522,6 +5531,14 @@
     &:hover {
       @media (hover: hover) {
         --tw-shadow: 0 0 0 1px var(--tw-shadow-color, hsl(var(--sidebar-accent)));
+        box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+      }
+    }
+  }
+  .hover\:shadow-lg {
+    &:hover {
+      @media (hover: hover) {
+        --tw-shadow: var(--shadow-lg);
         box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
       }
     }

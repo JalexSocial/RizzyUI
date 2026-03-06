@@ -5,6 +5,7 @@
 <HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="article">
 	<div class="@SlotClasses.GetInnerContainer()" data-slot="article-inner-container">
 		<article class="@SlotClasses.GetArticle()" data-slot="article-content">
+			<RzBackToTop/>
 			@MainContent
 		</article>
 
