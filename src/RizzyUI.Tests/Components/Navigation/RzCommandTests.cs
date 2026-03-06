@@ -9,7 +9,7 @@ public class RzCommandTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void RzCommand_RendersDataSlotAriaAndAlpineAttributes()
     {
-        var cut = Render<RzCommand>(p => p
+        var cut = Render<global::RizzyUI.RzCommand>(p => p
             .Add(x => x.Loop, true)
             .Add(x => x.ShouldFilter, false)
             .Add(x => x.ServerFiltering, true)
@@ -33,7 +33,7 @@ public class RzCommandTests : BunitAlbaContext, IClassFixture<WebAppFixture>
             new CommandItemData { Value = "new", Name = "New file" }
         };
 
-        var cut = Render<RzCommand>(p => p.Add(x => x.Items, items));
+        var cut = Render<global::RizzyUI.RzCommand>(p => p.Add(x => x.Items, items));
 
         var script = cut.Find($"script#{cut.Instance.Id}-data");
         Assert.Equal("application/json", script.GetAttribute("type"));
@@ -43,7 +43,7 @@ public class RzCommandTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void RzCommand_WhenItemsUrlProvided_DoesNotRenderInlineJson()
     {
-        var cut = Render<RzCommand>(p => p
+        var cut = Render<global::RizzyUI.RzCommand>(p => p
             .Add(x => x.ItemsUrl, "/api/commands")
             .Add(x => x.Items, [new CommandItemData { Value = "x", Name = "X" }]));
 

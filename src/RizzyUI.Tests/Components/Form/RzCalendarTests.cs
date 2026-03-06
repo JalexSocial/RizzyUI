@@ -9,7 +9,7 @@ public class RzCalendarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void RzCalendar_RendersDataSlotAndAlpineBootstrapMarkup()
     {
-        var cut = Render<RzCalendar>();
+        var cut = Render<global::RizzyUI.RzCalendar>();
 
         var root = cut.Find("[data-slot='calendar']");
         Assert.NotNull(root);
@@ -26,7 +26,7 @@ public class RzCalendarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void RzCalendar_RendersConfiguredSelectionModeAndDatesInConfig()
     {
-        var cut = Render<RzCalendar>(p => p
+        var cut = Render<global::RizzyUI.RzCalendar>(p => p
             .Add(x => x.Mode, SelectionDatesMode.Multiple)
             .Add(x => x.Values, [new DateOnly(2026, 1, 1), new DateOnly(2026, 1, 2)])
             .Add(x => x.ShowOutsideDays, false));
@@ -40,7 +40,7 @@ public class RzCalendarTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     [Fact]
     public void RzCalendar_PartialConfiguration_StillRendersSsrContract()
     {
-        var cut = Render<RzCalendar>(p => p
+        var cut = Render<global::RizzyUI.RzCalendar>(p => p
             .Add(x => x.MinDate, new DateOnly(2026, 2, 1))
             .Add(x => x.MaxDate, new DateOnly(2026, 2, 28))
             .AddUnmatched("class", "calendar-shell"));
