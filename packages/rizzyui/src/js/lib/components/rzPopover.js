@@ -55,7 +55,6 @@ export default function(Alpine) {
         closePopover() {
             this.teardownAutoUpdate();
             this.detachGlobalListeners();
-            this.contentStyle = '';
             this.contentEl = null;
         },
 
