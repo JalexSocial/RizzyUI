@@ -1,4 +1,4 @@
-﻿
+
 @inherits LayoutComponentBase
 @using System.Reflection
 @using RizzyUI
@@ -316,7 +316,7 @@
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/markdown" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Markdown</span></a></SidebarMenuButton></SidebarMenuItem>
                         </SidebarMenuSub>
                     </SidebarMenuItem>
-                    <SidebarMenuItem>
+                                        <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
                             <a href="#" class="font-medium">Utility</a>
                         </SidebarMenuButton>
@@ -325,7 +325,12 @@
                                 <SidebarMenuButton AsChild>
                                     <a href="/components/clipboard" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Clipboard</span></a>
                                 </SidebarMenuButton>
-                            </SidebarMenuItem>                            
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton AsChild>
+                                    <a href="/components/back-to-top" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Back To Top</span></a>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
                         </SidebarMenuSub>
                     </SidebarMenuItem>                    
                 </SidebarMenu>

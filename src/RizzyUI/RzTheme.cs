@@ -80,6 +80,9 @@ public partial class RzTheme
         ClipboardTrigger = RizzyUI.ClipboardTrigger.DefaultDescriptor;
         ClipboardFeedback = RizzyUI.ClipboardFeedback.DefaultDescriptor;
 
+        // RzBackToTop
+        RzBackToTop = RizzyUI.RzBackToTop.DefaultDescriptor;
+
         // RzButtonGroup Family
         RzButtonGroup = RizzyUI.RzButtonGroup.DefaultDescriptor;
         ButtonGroupSeparator = RizzyUI.ButtonGroupSeparator.DefaultDescriptor;

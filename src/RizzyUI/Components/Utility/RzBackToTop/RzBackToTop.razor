@@ -1,0 +1,26 @@
+@namespace RizzyUI
+@using Blazicons
+@inherits RzAsChildComponent<RzBackToTop.Slots>
+
+@if (AsChild)
+{
+    @RenderAsChild()
+}
+else
+{
+    <HtmlElement Element="@EffectiveElement"
+                 type="@(IsButtonElement ? "button" : null)"
+                 @attributes="@GetComponentAttributes()">
+        @if (ChildContent is not null)
+        {
+            @ChildContent
+        }
+        else
+        {
+            <Blazicon Svg="Lucide.ArrowUp"
+                      class="@SlotClasses.GetIcon()"
+                      data-slot="@RzBackToTop.SlotNames.NameOf(SlotTypes.Icon)"
+                      aria-hidden="true" />
+        }
+    </HtmlElement>
+}

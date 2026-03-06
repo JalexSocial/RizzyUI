@@ -1,0 +1,104 @@
+@page "/components/back-to-top"
+@using Blazicons
+@using RizzyUI
+
+<PageTitle>Back To Top</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Back To Top</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Back To Top" class="scroll-mt-20">Back To Top</RzHeading>
+            <RzParagraph>
+                <code>RzBackToTop</code> renders a floating action that appears after crossing a scroll threshold and uses Alpine to smoothly return the viewport to the top.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">Basic Usage</RzHeading>
+                <RzParagraph>The default button appears after <code>Threshold</code> pixels of scroll.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative min-h-[150vh] p-8">
+                        <RzParagraph>Scroll down to reveal the floating button.</RzParagraph>
+                        <RzBackToTop />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class=&quot;relative min-h-[150vh] p-8&quot;&gt;
+    &lt;RzBackToTop /&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="AsChild" class="scroll-mt-20">AsChild Usage</RzHeading>
+                <RzParagraph>Use <code>AsChild</code> to project the behavior onto a custom host element.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative min-h-[150vh] p-8">
+                        <RzParagraph>Scroll down to reveal the custom host.</RzParagraph>
+                        <RzBackToTop AsChild Threshold="250">
+                            <button class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-input bg-background text-foreground shadow-md hover:bg-accent hover:text-accent-foreground" aria-label="Back to top">
+                                <Blazicon Svg="Lucide.ArrowUp" aria-hidden="true" class="size-5" />
+                            </button>
+                        </RzBackToTop>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzBackToTop AsChild Threshold=&quot;250&quot;&gt;
+    &lt;button class=&quot;inline-flex h-12 w-12 items-center justify-center rounded-full border border-input bg-background text-foreground shadow-md hover:bg-accent hover:text-accent-foreground&quot; aria-label=&quot;Back to top&quot;&gt;
+        &lt;Blazicon Svg=&quot;Lucide.ArrowUp&quot; aria-hidden=&quot;true&quot; class=&quot;size-5&quot; /&gt;
+    &lt;/button&gt;
+&lt;/RzBackToTop&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                    <tr class="align-top"><td class="px-4 py-4"><code>ChildContent</code></td><td class="px-4 py-4">Optional content. If omitted, the component renders an arrow icon.</td><td class="px-4 py-4"><code>RenderFragment?</code></td><td class="px-4 py-4"><code>null</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Threshold</code></td><td class="px-4 py-4">Scroll offset in pixels before showing the control.</td><td class="px-4 py-4"><code>int</code></td><td class="px-4 py-4"><code>300</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Variant</code></td><td class="px-4 py-4">Applies theme color styling.</td><td class="px-4 py-4"><code>ThemeVariant</code></td><td class="px-4 py-4"><code>ThemeVariant.Default</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Size</code></td><td class="px-4 py-4">Controls button and icon sizing.</td><td class="px-4 py-4"><code>Size</code></td><td class="px-4 py-4"><code>Size.Medium</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Outline</code></td><td class="px-4 py-4">Applies outline styling as a compound variant.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>false</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>AriaLabel</code></td><td class="px-4 py-4">Accessible label for assistive technology.</td><td class="px-4 py-4"><code>string?</code></td><td class="px-4 py-4"><code>"Back to top"</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>AsChild</code></td><td class="px-4 py-4">Merges behavior and classes onto a supplied child element.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>false</code></td></tr>
+                </tbody></table></div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
+                <RzParagraph>The interactive behavior is powered by Alpine data component <code>rzBackToTop</code>.</RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">State</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Member</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Description</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                    <tr class="align-top"><td class="px-4 py-4"><code>visible</code></td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4">Controls whether the floating action is displayed.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>threshold</code></td><td class="px-4 py-4"><code>number</code></td><td class="px-4 py-4">Resolved from <code>data-threshold</code>.</td></tr>
+                </tbody></table></div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Methods</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Signature</th><th scope="col" class="px-4 py-3">Description</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                    <tr class="align-top"><td class="px-4 py-4"><code>init</code></td><td class="px-4 py-4"><code>()</code></td><td class="px-4 py-4">Reads threshold, binds a passive scroll listener, and performs an immediate visibility evaluation.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>scrollToTop</code></td><td class="px-4 py-4"><code>()</code></td><td class="px-4 py-4">Scrolls to the top using <code>smooth</code> behavior unless reduced motion is preferred.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>destroy</code></td><td class="px-4 py-4"><code>()</code></td><td class="px-4 py-4">Removes the window scroll listener.</td></tr>
+                </tbody></table></div>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

@@ -172,6 +172,8 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<ClipboardTrigger.Slots>, ClipboardTrigger.Slots> ClipboardTrigger { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.ClipboardFeedback"/> component. </summary>
     public virtual TvDescriptor<RzComponent<ClipboardFeedback.Slots>, ClipboardFeedback.Slots> ClipboardFeedback { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzBackToTop"/> component. </summary>
+    public virtual TvDescriptor<RzAsChildComponent<RzBackToTop.Slots>, RzBackToTop.Slots> RzBackToTop { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzButton"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzButton.Slots>, RzButton.Slots> RzButton { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzButtonGroup"/> component. </summary>
