@@ -61,6 +61,13 @@ public static class Constants
 
         /// <summary>Fired when OTP input changes and all slots are filled.</summary>
         public const string InputOTPOnChange = "rz:inputotp:onchange";
+
+        /// <summary>Fired when clipboard copy succeeds.</summary>
+        public const string Copy = "rz:copy";
+
+        /// <summary>Fired when clipboard copy fails.</summary>
+        public const string CopyFailed = "rz:copy-failed";
+
     }
 
     /// <summary>

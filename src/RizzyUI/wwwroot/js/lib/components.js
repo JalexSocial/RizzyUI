@@ -14,6 +14,7 @@ import registerRzCalendarProvider from './components/rzCalendarProvider.js';
 import registerRzCarousel from './components/rzCarousel.js';
 import registerRzCodeViewer from './components/rzCodeViewer.js';
 import registerRzCollapsible from './components/rzCollapsible.js';
+import registerRzClipboard from './components/rzClipboard.js';
 import registerRzCombobox from './components/rzCombobox.js';
 import registerRzColorPickerProvider from './components/rzColorPickerProvider.js';
 import registerRzColorSwatch from './components/rzColorSwatch.js';
@@ -166,6 +167,7 @@ function registerComponents(Alpine) {
     registerRzCarousel(Alpine, rizzyRequire);
     registerRzCodeViewer(Alpine, rizzyRequire);
     registerRzCollapsible(Alpine);
+    registerRzClipboard(Alpine);
     registerRzCombobox(Alpine, rizzyRequire);
     registerRzColorPickerProvider(Alpine, rizzyRequire);
     registerRzColorSwatch(Alpine);

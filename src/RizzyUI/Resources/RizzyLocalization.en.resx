@@ -527,4 +527,7 @@
   <data name="RzSlider.MaximumThumbAriaLabel" xml:space="preserve">
     <value>Maximum value</value>
   </data>
+  <data name="RzClipboard.DefaultAriaLabel" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
 </root>

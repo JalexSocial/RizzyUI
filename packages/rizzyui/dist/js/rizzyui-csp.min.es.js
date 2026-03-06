@@ -5558,7 +5558,68 @@ function rc(e) {
     }
   }));
 }
-function ac(e, t) {
+function ac(e) {
+  e.data("rzClipboard", () => ({
+    value: null,
+    targetSelector: null,
+    preferValue: !1,
+    feedbackDuration: 1200,
+    useFallback: !0,
+    disabled: !1,
+    copied: !1,
+    timeoutHandle: null,
+    get notCopied() {
+      return !this.copied;
+    },
+    init() {
+      this.value = this.$el.dataset.copyValue || null, this.targetSelector = this.$el.dataset.targetSelector || null, this.preferValue = this.$el.dataset.preferValue === "true", this.feedbackDuration = parseInt(this.$el.dataset.feedbackDuration, 10) || 1200, this.useFallback = this.$el.dataset.useFallback === "true", this.disabled = this.$el.dataset.disabled === "true";
+    },
+    getTextToCopy() {
+      if (this.preferValue && this.value) return this.value;
+      if (this.targetSelector) {
+        const t = document.querySelector(this.targetSelector);
+        if (t)
+          return t.value !== void 0 ? t.value : t.textContent;
+      }
+      return this.value;
+    },
+    async copy() {
+      if (this.disabled) return;
+      const t = this.getTextToCopy(), i = t ? t.trim() : "";
+      if (!i) {
+        this.dispatchFailed("empty-text");
+        return;
+      }
+      try {
+        navigator.clipboard && window.isSecureContext ? (await navigator.clipboard.writeText(i), this.onSuccess(i)) : this.useFallback ? this.fallbackCopy(i) ? this.onSuccess(i) : this.dispatchFailed("clipboard-unavailable") : this.dispatchFailed("clipboard-unavailable");
+      } catch (n) {
+        this.dispatchFailed("permission-denied", n);
+      }
+    },
+    onSuccess(t) {
+      this.copied = !0, this.$dispatch("rz:copy", { id: this.$el.dataset.alpineRoot, text: t }), this.timeoutHandle && clearTimeout(this.timeoutHandle), this.timeoutHandle = setTimeout(() => {
+        this.copied = !1;
+      }, this.feedbackDuration);
+    },
+    fallbackCopy(t) {
+      const i = document.createElement("textarea");
+      i.value = t, i.style.position = "fixed", i.style.left = "-999999px", i.style.top = "-999999px", document.body.appendChild(i), i.focus(), i.select();
+      try {
+        return document.execCommand("copy"), i.remove(), !0;
+      } catch {
+        return i.remove(), !1;
+      }
+    },
+    dispatchFailed(t, i = null) {
+      this.$dispatch("rz:copy-failed", {
+        id: this.$el.dataset.alpineRoot,
+        reason: t,
+        error: i
+      });
+    }
+  }));
+}
+function oc(e, t) {
   e.data("rzCombobox", () => ({
     tomSelect: null,
     /**
@@ -5611,7 +5672,7 @@ function ac(e, t) {
     }
   }));
 }
-function oc(e, t) {
+function lc(e, t) {
   e.data("rzColorPickerProvider", () => ({
     colorPicker: {
       value: "",
@@ -5713,7 +5774,7 @@ function oc(e, t) {
     }
   }));
 }
-function lc(e) {
+function cc(e) {
   e.data("rzColorSwatch", () => ({
     // ──────────────────────────────────────────────────────────────────────
     // STATE
@@ -5819,7 +5880,7 @@ function lc(e) {
     }
   }));
 }
-function cc(e, t) {
+function uc(e, t) {
   e.data("rzDateEdit", () => ({
     options: {},
     placeholder: "",
@@ -5846,7 +5907,7 @@ function cc(e, t) {
     }
   }));
 }
-function uc(e) {
+function dc(e) {
   e.data("rzModal", () => ({
     modalOpen: !1,
     // Main state variable
@@ -5942,12 +6003,12 @@ function uc(e) {
 const Lt = Math.min, yt = Math.max, Ce = Math.round, ge = Math.floor, X = (e) => ({
   x: e,
   y: e
-}), dc = {
+}), hc = {
   left: "right",
   right: "left",
   bottom: "top",
   top: "bottom"
-}, hc = {
+}, fc = {
   start: "end",
   end: "start"
 };
@@ -5969,48 +6030,48 @@ function pr(e) {
 function Vi(e) {
   return e === "y" ? "height" : "width";
 }
-const fc = /* @__PURE__ */ new Set(["top", "bottom"]);
+const pc = /* @__PURE__ */ new Set(["top", "bottom"]);
 function st(e) {
-  return fc.has(Et(e)) ? "y" : "x";
+  return pc.has(Et(e)) ? "y" : "x";
 }
 function Ui(e) {
   return pr(st(e));
 }
-function pc(e, t, i) {
+function mc(e, t, i) {
   i === void 0 && (i = !1);
   const n = ae(e), s = Ui(e), r = Vi(s);
   let a = s === "x" ? n === (i ? "end" : "start") ? "right" : "left" : n === "start" ? "bottom" : "top";
   return t.reference[r] > t.floating[r] && (a = Ae(a)), [a, Ae(a)];
 }
-function mc(e) {
+function gc(e) {
   const t = Ae(e);
   return [mi(e), t, mi(t)];
 }
 function mi(e) {
-  return e.replace(/start|end/g, (t) => hc[t]);
+  return e.replace(/start|end/g, (t) => fc[t]);
 }
-const In = ["left", "right"], En = ["right", "left"], gc = ["top", "bottom"], vc = ["bottom", "top"];
-function yc(e, t, i) {
+const In = ["left", "right"], En = ["right", "left"], vc = ["top", "bottom"], yc = ["bottom", "top"];
+function bc(e, t, i) {
   switch (e) {
     case "top":
     case "bottom":
       return i ? t ? En : In : t ? In : En;
     case "left":
     case "right":
-      return t ? gc : vc;
+      return t ? vc : yc;
     default:
       return [];
   }
 }
-function bc(e, t, i, n) {
+function wc(e, t, i, n) {
   const s = ae(e);
-  let r = yc(Et(e), i === "start", n);
+  let r = bc(Et(e), i === "start", n);
   return s && (r = r.map((a) => a + "-" + s), t && (r = r.concat(r.map(mi)))), r;
 }
 function Ae(e) {
-  return e.replace(/left|right|bottom|top/g, (t) => dc[t]);
+  return e.replace(/left|right|bottom|top/g, (t) => hc[t]);
 }
-function wc(e) {
+function xc(e) {
   return {
     top: 0,
     right: 0,
@@ -6020,7 +6081,7 @@ function wc(e) {
   };
 }
 function mr(e) {
-  return typeof e != "number" ? wc(e) : {
+  return typeof e != "number" ? xc(e) : {
     top: e,
     right: e,
     bottom: e,
@@ -6093,7 +6154,7 @@ function _n(e, t, i) {
   }
   return y;
 }
-async function xc(e, t) {
+async function Ic(e, t) {
   var i;
   t === void 0 && (t = {});
   const {
@@ -6138,7 +6199,7 @@ async function xc(e, t) {
     right: (E.right - h.right + u.right) / w.x
   };
 }
-const Ic = async (e, t, i) => {
+const Ec = async (e, t, i) => {
   const {
     placement: n = "bottom",
     strategy: s = "absolute",
@@ -6173,7 +6234,7 @@ const Ic = async (e, t, i) => {
       rects: f,
       platform: {
         ...a,
-        detectOverflow: (d = a.detectOverflow) != null ? d : xc
+        detectOverflow: (d = a.detectOverflow) != null ? d : Ic
       },
       elements: {
         reference: e,
@@ -6202,7 +6263,7 @@ const Ic = async (e, t, i) => {
     strategy: s,
     middlewareData: y
   };
-}, Ec = (e) => ({
+}, _c = (e) => ({
   name: "arrow",
   options: e,
   async fn(t) {
@@ -6239,7 +6300,7 @@ const Ic = async (e, t, i) => {
       reset: z
     };
   }
-}), _c = function(e) {
+}), Tc = function(e) {
   return e === void 0 && (e = {}), {
     name: "flip",
     options: e,
@@ -6263,12 +6324,12 @@ const Ic = async (e, t, i) => {
       } = re(e, t);
       if ((i = r.arrow) != null && i.alignmentOffset)
         return {};
-      const h = Et(s), p = st(o), v = Et(o) === o, w = await (l.isRTL == null ? void 0 : l.isRTL(f.floating)), E = I || (v || !d ? [Ae(o)] : mc(o)), g = u !== "none";
-      !I && g && E.push(...bc(o, d, u, w));
+      const h = Et(s), p = st(o), v = Et(o) === o, w = await (l.isRTL == null ? void 0 : l.isRTL(f.floating)), E = I || (v || !d ? [Ae(o)] : gc(o)), g = u !== "none";
+      !I && g && E.push(...wc(o, d, u, w));
       const x = [o, ...E], _ = await l.detectOverflow(t, c), S = [];
       let T = ((n = r.flip) == null ? void 0 : n.overflows) || [];
       if (m && S.push(_[h]), b) {
-        const D = pc(s, a, w);
+        const D = mc(s, a, w);
         S.push(_[D[0]], _[D[1]]);
       }
       if (T = [...T, {
@@ -6320,13 +6381,13 @@ const Ic = async (e, t, i) => {
       return {};
     }
   };
-}, Tc = /* @__PURE__ */ new Set(["left", "top"]);
-async function Sc(e, t) {
+}, Sc = /* @__PURE__ */ new Set(["left", "top"]);
+async function Cc(e, t) {
   const {
     placement: i,
     platform: n,
     elements: s
-  } = e, r = await (n.isRTL == null ? void 0 : n.isRTL(s.floating)), a = Et(i), o = ae(i), l = st(i) === "y", f = Tc.has(a) ? -1 : 1, m = r && l ? -1 : 1, b = re(t, e);
+  } = e, r = await (n.isRTL == null ? void 0 : n.isRTL(s.floating)), a = Et(i), o = ae(i), l = st(i) === "y", f = Sc.has(a) ? -1 : 1, m = r && l ? -1 : 1, b = re(t, e);
   let {
     mainAxis: I,
     crossAxis: y,
@@ -6348,7 +6409,7 @@ async function Sc(e, t) {
     y: y * m
   };
 }
-const Cc = function(e) {
+const Ac = function(e) {
   return e === void 0 && (e = 0), {
     name: "offset",
     options: e,
@@ -6359,7 +6420,7 @@ const Cc = function(e) {
         y: r,
         placement: a,
         middlewareData: o
-      } = t, l = await Sc(t, e);
+      } = t, l = await Cc(t, e);
       return a === ((i = o.offset) == null ? void 0 : i.placement) && (n = o.arrow) != null && n.alignmentOffset ? {} : {
         x: s + l.x,
         y: r + l.y,
@@ -6370,7 +6431,7 @@ const Cc = function(e) {
       };
     }
   };
-}, Ac = function(e) {
+}, $c = function(e) {
   return e === void 0 && (e = {}), {
     name: "shift",
     options: e,
@@ -6454,7 +6515,7 @@ function Z(e) {
 function Tn(e) {
   return !Re() || typeof ShadowRoot > "u" ? !1 : e instanceof ShadowRoot || e instanceof B(e).ShadowRoot;
 }
-const $c = /* @__PURE__ */ new Set(["inline", "contents"]);
+const Oc = /* @__PURE__ */ new Set(["inline", "contents"]);
 function oe(e) {
   const {
     overflow: t,
@@ -6462,15 +6523,15 @@ function oe(e) {
     overflowY: n,
     display: s
   } = W(e);
-  return /auto|scroll|overlay|hidden|clip/.test(t + n + i) && !$c.has(s);
+  return /auto|scroll|overlay|hidden|clip/.test(t + n + i) && !Oc.has(s);
 }
-const Oc = /* @__PURE__ */ new Set(["table", "td", "th"]);
-function kc(e) {
-  return Oc.has(Ut(e));
+const kc = /* @__PURE__ */ new Set(["table", "td", "th"]);
+function Dc(e) {
+  return kc.has(Ut(e));
 }
-const Dc = [":popover-open", ":modal"];
+const Nc = [":popover-open", ":modal"];
 function Fe(e) {
-  return Dc.some((t) => {
+  return Nc.some((t) => {
     try {
       return e.matches(t);
     } catch {
@@ -6478,12 +6539,12 @@ function Fe(e) {
     }
   });
 }
-const Nc = ["transform", "translate", "scale", "rotate", "perspective"], Lc = ["transform", "translate", "scale", "rotate", "perspective", "filter"], Pc = ["paint", "layout", "strict", "content"];
+const Lc = ["transform", "translate", "scale", "rotate", "perspective"], Pc = ["transform", "translate", "scale", "rotate", "perspective", "filter"], Mc = ["paint", "layout", "strict", "content"];
 function Bi(e) {
   const t = Hi(), i = j(e) ? W(e) : e;
-  return Nc.some((n) => i[n] ? i[n] !== "none" : !1) || (i.containerType ? i.containerType !== "normal" : !1) || !t && (i.backdropFilter ? i.backdropFilter !== "none" : !1) || !t && (i.filter ? i.filter !== "none" : !1) || Lc.some((n) => (i.willChange || "").includes(n)) || Pc.some((n) => (i.contain || "").includes(n));
+  return Lc.some((n) => i[n] ? i[n] !== "none" : !1) || (i.containerType ? i.containerType !== "normal" : !1) || !t && (i.backdropFilter ? i.backdropFilter !== "none" : !1) || !t && (i.filter ? i.filter !== "none" : !1) || Pc.some((n) => (i.willChange || "").includes(n)) || Mc.some((n) => (i.contain || "").includes(n));
 }
-function Mc(e) {
+function Rc(e) {
   let t = ct(e);
   for (; Z(t) && !Pt(t); ) {
     if (Bi(t))
@@ -6497,9 +6558,9 @@ function Mc(e) {
 function Hi() {
   return typeof CSS > "u" || !CSS.supports ? !1 : CSS.supports("-webkit-backdrop-filter", "none");
 }
-const Rc = /* @__PURE__ */ new Set(["html", "body", "#document"]);
+const Fc = /* @__PURE__ */ new Set(["html", "body", "#document"]);
 function Pt(e) {
-  return Rc.has(Ut(e));
+  return Fc.has(Ut(e));
 }
 function W(e) {
   return B(e).getComputedStyle(e);
@@ -6570,15 +6631,15 @@ function kt(e) {
     y: o
   };
 }
-const Fc = /* @__PURE__ */ X(0);
+const zc = /* @__PURE__ */ X(0);
 function br(e) {
   const t = B(e);
-  return !Hi() || !t.visualViewport ? Fc : {
+  return !Hi() || !t.visualViewport ? zc : {
     x: t.visualViewport.offsetLeft,
     y: t.visualViewport.offsetTop
   };
 }
-function zc(e, t, i) {
+function Vc(e, t, i) {
   return t === void 0 && (t = !1), !i || t && i !== B(e) ? !1 : t;
 }
 function _t(e, t, i, n) {
@@ -6586,7 +6647,7 @@ function _t(e, t, i, n) {
   const s = e.getBoundingClientRect(), r = qi(e);
   let a = X(1);
   t && (n ? j(n) && (a = kt(n)) : a = kt(e));
-  const o = zc(r, i, n) ? br(r) : X(0);
+  const o = Vc(r, i, n) ? br(r) : X(0);
   let l = (s.left + o.x) / a.x, f = (s.top + o.y) / a.y, m = s.width / a.x, b = s.height / a.y;
   if (r) {
     const I = B(r), y = n && j(n) ? B(n) : n;
@@ -6614,7 +6675,7 @@ function wr(e, t) {
     y: s
   };
 }
-function Vc(e) {
+function Uc(e) {
   let {
     elements: t,
     rect: i,
@@ -6641,10 +6702,10 @@ function Vc(e) {
     y: i.y * f.y - l.scrollTop * f.y + m.y + I.y
   };
 }
-function Uc(e) {
+function Bc(e) {
   return Array.from(e.getClientRects());
 }
-function Bc(e) {
+function Hc(e) {
   const t = Q(e), i = ze(e), n = e.ownerDocument.body, s = yt(t.scrollWidth, t.clientWidth, n.scrollWidth, n.clientWidth), r = yt(t.scrollHeight, t.clientHeight, n.scrollHeight, n.clientHeight);
   let a = -i.scrollLeft + Ve(e);
   const o = -i.scrollTop;
@@ -6656,7 +6717,7 @@ function Bc(e) {
   };
 }
 const Sn = 25;
-function Hc(e, t) {
+function qc(e, t) {
   const i = B(e), n = Q(e), s = i.visualViewport;
   let r = n.clientWidth, a = n.clientHeight, o = 0, l = 0;
   if (s) {
@@ -6676,8 +6737,8 @@ function Hc(e, t) {
     y: l
   };
 }
-const qc = /* @__PURE__ */ new Set(["absolute", "fixed"]);
-function jc(e, t) {
+const jc = /* @__PURE__ */ new Set(["absolute", "fixed"]);
+function Wc(e, t) {
   const i = _t(e, !0, t === "fixed"), n = i.top + e.clientTop, s = i.left + e.clientLeft, r = Z(e) ? kt(e) : X(1), a = e.clientWidth * r.x, o = e.clientHeight * r.y, l = s * r.x, f = n * r.y;
   return {
     width: a,
@@ -6689,11 +6750,11 @@ function jc(e, t) {
 function Cn(e, t, i) {
   let n;
   if (t === "viewport")
-    n = Hc(e, i);
+    n = qc(e, i);
   else if (t === "document")
-    n = Bc(Q(e));
+    n = Hc(Q(e));
   else if (j(t))
-    n = jc(t, i);
+    n = Wc(t, i);
   else {
     const s = br(e);
     n = {
@@ -6709,7 +6770,7 @@ function xr(e, t) {
   const i = ct(e);
   return i === t || !j(i) || Pt(i) ? !1 : W(i).position === "fixed" || xr(i, t);
 }
-function Wc(e, t) {
+function Yc(e, t) {
   const i = t.get(e);
   if (i)
     return i;
@@ -6718,18 +6779,18 @@ function Wc(e, t) {
   let a = r ? ct(e) : e;
   for (; j(a) && !Pt(a); ) {
     const o = W(a), l = Bi(a);
-    !l && o.position === "fixed" && (s = null), (r ? !l && !s : !l && o.position === "static" && !!s && qc.has(s.position) || oe(a) && !l && xr(e, a)) ? n = n.filter((m) => m !== a) : s = o, a = ct(a);
+    !l && o.position === "fixed" && (s = null), (r ? !l && !s : !l && o.position === "static" && !!s && jc.has(s.position) || oe(a) && !l && xr(e, a)) ? n = n.filter((m) => m !== a) : s = o, a = ct(a);
   }
   return t.set(e, n), n;
 }
-function Yc(e) {
+function Kc(e) {
   let {
     element: t,
     boundary: i,
     rootBoundary: n,
     strategy: s
   } = e;
-  const a = [...i === "clippingAncestors" ? Fe(t) ? [] : Wc(t, this._c) : [].concat(i), n], o = a[0], l = a.reduce((f, m) => {
+  const a = [...i === "clippingAncestors" ? Fe(t) ? [] : Yc(t, this._c) : [].concat(i), n], o = a[0], l = a.reduce((f, m) => {
     const b = Cn(t, m, s);
     return f.top = yt(b.top, f.top), f.right = Lt(b.right, f.right), f.bottom = Lt(b.bottom, f.bottom), f.left = yt(b.left, f.left), f;
   }, Cn(t, o, s));
@@ -6740,7 +6801,7 @@ function Yc(e) {
     y: l.top
   };
 }
-function Kc(e) {
+function Jc(e) {
   const {
     width: t,
     height: i
@@ -6750,7 +6811,7 @@ function Kc(e) {
     height: i
   };
 }
-function Jc(e, t, i) {
+function Gc(e, t, i) {
   const n = Z(t), s = Q(t), r = i === "fixed", a = _t(e, !0, r, t);
   let o = {
     scrollLeft: 0,
@@ -6799,14 +6860,14 @@ function Ir(e, t) {
     return i;
   }
   let n = An(e, t);
-  for (; n && kc(n) && Ye(n); )
+  for (; n && Dc(n) && Ye(n); )
     n = An(n, t);
-  return n && Pt(n) && Ye(n) && !Bi(n) ? i : n || Mc(e) || i;
+  return n && Pt(n) && Ye(n) && !Bi(n) ? i : n || Rc(e) || i;
 }
-const Gc = async function(e) {
+const Xc = async function(e) {
   const t = this.getOffsetParent || Ir, i = this.getDimensions, n = await i(e.floating);
   return {
-    reference: Jc(e.reference, await t(e.floating), e.strategy),
+    reference: Gc(e.reference, await t(e.floating), e.strategy),
     floating: {
       x: 0,
       y: 0,
@@ -6815,25 +6876,25 @@ const Gc = async function(e) {
     }
   };
 };
-function Xc(e) {
+function Zc(e) {
   return W(e).direction === "rtl";
 }
-const Zc = {
-  convertOffsetParentRelativeRectToViewportRelativeRect: Vc,
+const Qc = {
+  convertOffsetParentRelativeRectToViewportRelativeRect: Uc,
   getDocumentElement: Q,
-  getClippingRect: Yc,
+  getClippingRect: Kc,
   getOffsetParent: Ir,
-  getElementRects: Gc,
-  getClientRects: Uc,
-  getDimensions: Kc,
+  getElementRects: Xc,
+  getClientRects: Bc,
+  getDimensions: Jc,
   getScale: kt,
   isElement: j,
-  isRTL: Xc
+  isRTL: Zc
 };
 function Er(e, t) {
   return e.x === t.x && e.y === t.y && e.width === t.width && e.height === t.height;
 }
-function Qc(e, t) {
+function tu(e, t) {
   let i = null, n;
   const s = Q(e);
   function r() {
@@ -6893,7 +6954,7 @@ function _r(e, t, i, n) {
       passive: !0
     }), r && h.addEventListener("resize", i);
   });
-  const b = f && o ? Qc(f, i) : null;
+  const b = f && o ? tu(f, i) : null;
   let I = -1, y = null;
   a && (y = new ResizeObserver((h) => {
     let [p] = h;
@@ -6915,20 +6976,20 @@ function _r(e, t, i, n) {
     }), b?.(), (h = y) == null || h.disconnect(), y = null, l && cancelAnimationFrame(u);
   };
 }
-const Tt = Cc, St = Ac, Ct = _c, tu = Ec, At = (e, t, i) => {
+const Tt = Ac, St = $c, Ct = Tc, eu = _c, At = (e, t, i) => {
   const n = /* @__PURE__ */ new Map(), s = {
-    platform: Zc,
+    platform: Qc,
     ...i
   }, r = {
     ...s.platform,
     _c: n
   };
-  return Ic(e, t, {
+  return Ec(e, t, {
     ...s,
     platform: r
   });
 };
-function eu(e) {
+function iu(e) {
   e.data("rzDropdownMenu", () => ({
     // --- STATE ---
     open: !1,
@@ -7320,7 +7381,7 @@ function eu(e) {
     }
   }));
 }
-function iu(e) {
+function nu(e) {
   e.data("rzDarkModeToggle", () => ({
     // Proxy all properties to the reactive store
     get mode() {
@@ -7354,7 +7415,7 @@ function iu(e) {
     }
   }));
 }
-function nu(e) {
+function su(e) {
   e.data("rzEmbeddedPreview", () => ({
     iframe: null,
     onDarkModeToggle: null,
@@ -7419,7 +7480,7 @@ function nu(e) {
   }));
 }
 const $n = 160;
-function su(e) {
+function ru(e) {
   e.data("rzEventViewer", () => ({
     eventNames: [],
     entries: [],
@@ -7659,7 +7720,7 @@ function su(e) {
     }
   }));
 }
-function ru(e) {
+function au(e) {
   e.data("rzFileInput", () => ({
     files: [],
     hasFiles: !1,
@@ -7734,11 +7795,11 @@ function ru(e) {
     }
   }));
 }
-function au(e) {
+function ou(e) {
   e.data("rzEmpty", () => {
   });
 }
-function ou(e) {
+function lu(e) {
   e.data("rzHeading", () => ({
     observer: null,
     headingId: "",
@@ -7768,7 +7829,7 @@ function ou(e) {
     }
   }));
 }
-function lu(e) {
+function cu(e) {
   e.data("rzIndicator", () => ({
     visible: !1,
     /**
@@ -7796,7 +7857,7 @@ function lu(e) {
     }
   }));
 }
-function cu(e) {
+function uu(e) {
   e.data("rzInputGroupAddon", () => ({
     /**
      * Executes the `handleClick` operation.
@@ -7811,7 +7872,7 @@ function cu(e) {
     }
   }));
 }
-function uu(e) {
+function du(e) {
   e.data("rzInputOTP", () => ({
     value: "",
     length: 0,
@@ -8091,7 +8152,7 @@ function uu(e) {
     }
   }));
 }
-function du(e, t) {
+function hu(e, t) {
   e.data("rzMarkdown", () => ({
     /**
      * Executes the `init` operation.
@@ -8110,7 +8171,7 @@ function du(e, t) {
     }
   }));
 }
-function hu(e) {
+function fu(e) {
   e.data("rzMenubar", () => ({
     currentMenuValue: "",
     currentTrigger: null,
@@ -8292,7 +8353,7 @@ function hu(e) {
     }
   }));
 }
-function fu(e, t) {
+function pu(e, t) {
   e.data("rzNavigationMenu", () => ({
     activeItemId: null,
     open: !1,
@@ -8415,7 +8476,7 @@ function fu(e, t) {
     }
   }));
 }
-function pu(e) {
+function mu(e) {
   e.data("rzPopover", () => ({
     open: !1,
     ariaExpanded: "false",
@@ -8510,7 +8571,7 @@ function pu(e) {
     }
   }));
 }
-function mu(e) {
+function gu(e) {
   e.data("rzPrependInput", () => ({
     prependContainer: null,
     textInput: null,
@@ -8547,7 +8608,7 @@ function mu(e) {
     }
   }));
 }
-function gu(e) {
+function vu(e) {
   e.data("rzProgress", () => ({
     currentVal: 0,
     minVal: 0,
@@ -8627,7 +8688,7 @@ function gu(e) {
     }
   }));
 }
-function vu(e) {
+function yu(e) {
   e.data("rzQuickReferenceContainer", () => ({
     headings: [],
     // Array of heading IDs
@@ -8664,7 +8725,7 @@ function vu(e) {
     }
   }));
 }
-function yu(e) {
+function bu(e) {
   e.data("rzScrollArea", () => ({
     hideTimer: null,
     type: "hover",
@@ -8842,7 +8903,7 @@ function yu(e) {
     }
   }));
 }
-function bu(e) {
+function wu(e) {
   e.data("rzSlider", () => ({
     min: 0,
     max: 100,
@@ -8995,7 +9056,7 @@ function bu(e) {
     }
   }));
 }
-function wu(e) {
+function xu(e) {
   e.data("rzSheet", () => ({
     open: !1,
     /**
@@ -9035,7 +9096,7 @@ function wu(e) {
     }
   }));
 }
-function xu(e) {
+function Iu(e) {
   e.data("rzTabs", () => ({
     selectedTab: "",
     _triggers: [],
@@ -9171,7 +9232,7 @@ function xu(e) {
     }
   }));
 }
-function Iu(e) {
+function Eu(e) {
   e.data("rzToggle", () => ({
     pressed: !1,
     disabled: !1,
@@ -9219,7 +9280,7 @@ function Iu(e) {
     }
   }));
 }
-function Eu(e) {
+function _u(e) {
   e.data("rzTooltip", () => ({
     open: !1,
     ariaExpanded: "false",
@@ -9448,7 +9509,7 @@ function Eu(e) {
           alignmentAxis: this.alignmentAxisOffset
         })
       ];
-      this.enableFlip && t.push(Ct()), this.enableShift && t.push(St({ padding: this.shiftPadding })), this.arrowEl && t.push(tu({ element: this.arrowEl })), At(this.triggerEl, this.contentEl, {
+      this.enableFlip && t.push(Ct()), this.enableShift && t.push(St({ padding: this.shiftPadding })), this.arrowEl && t.push(eu({ element: this.arrowEl })), At(this.triggerEl, this.contentEl, {
         placement: this.anchor,
         strategy: this.strategy,
         middleware: t
@@ -9465,7 +9526,7 @@ function Eu(e) {
     }
   }));
 }
-function _u(e) {
+function Tu(e) {
   e.data("rzSidebar", () => ({
     open: !0,
     openMobile: !1,
@@ -9559,7 +9620,7 @@ function _u(e) {
     }
   }));
 }
-function Tu(e) {
+function Su(e) {
   e.data("rzCommand", () => ({
     // --- STATE ---
     search: "",
@@ -9973,7 +10034,7 @@ function Tu(e) {
     }
   }));
 }
-function Su(e) {
+function Cu(e) {
   e.data("rzCommandItem", () => ({
     parent: null,
     itemData: {},
@@ -10029,7 +10090,7 @@ function Su(e) {
     }
   }));
 }
-function Cu(e) {
+function Au(e) {
   e.data("rzCommandList", () => ({
     parent: null,
     dataItemTemplate: null,
@@ -10114,7 +10175,7 @@ function Cu(e) {
     }
   }));
 }
-function Au(e) {
+function $u(e) {
   e.data("rzCommandGroup", () => ({
     parent: null,
     heading: "",
@@ -10135,7 +10196,7 @@ function Au(e) {
     }
   }));
 }
-function $u(e, t) {
+function Ou(e, t) {
   e.data("rzChart", () => ({
     chartInstance: null,
     themeChangeHandler: null,
@@ -10243,7 +10304,7 @@ function $u(e, t) {
     }
   }));
 }
-async function Ou(e) {
+async function ku(e) {
   e = [...e].sort();
   const t = e.join("|"), n = new TextEncoder().encode(t), s = await crypto.subtle.digest("SHA-256", n);
   return Array.from(new Uint8Array(s)).map((a) => a.toString(16).padStart(2, "0")).join("");
@@ -10252,7 +10313,7 @@ function J(e, t, i) {
   let n, s;
   typeof t == "function" ? n = { success: t } : t && typeof t == "object" ? n = t : typeof t == "string" && (s = t), !s && typeof i == "string" && (s = i);
   const r = Array.isArray(e) ? e : [e];
-  return Ou(r).then((a) => (rt.isDefined(a) || rt(r, a, {
+  return ku(r).then((a) => (rt.isDefined(a) || rt(r, a, {
     // keep scripts ordered unless you explicitly change this later
     async: !1,
     // pass CSP nonce to both script and style tags as your loader expects
@@ -10283,10 +10344,10 @@ function J(e, t, i) {
     });
   })));
 }
-function ku(e) {
-  Gl(e), Xl(e), Zl(e), Ql(e), tc(e), ec(e, J), ic(e), nc(e, J), sc(e, J), rc(e), ac(e, J), oc(e, J), lc(e), cc(e, J), uc(e), eu(e), iu(e), nu(e), su(e), ru(e), au(e), ou(e), lu(e), cu(e), uu(e), du(e, J), hu(e), fu(e), pu(e), mu(e), gu(e), vu(e), yu(e), bu(e), wu(e), xu(e), Iu(e), Eu(e), _u(e), Tu(e), Su(e), Cu(e), Au(e), $u(e, J);
-}
 function Du(e) {
+  Gl(e), Xl(e), Zl(e), Ql(e), tc(e), ec(e, J), ic(e), nc(e, J), sc(e, J), rc(e), ac(e), oc(e, J), lc(e, J), cc(e), uc(e, J), dc(e), iu(e), nu(e), su(e), ru(e), au(e), ou(e), lu(e), cu(e), uu(e), du(e), hu(e, J), fu(e), pu(e), mu(e), gu(e), vu(e), yu(e), bu(e), wu(e), xu(e), Iu(e), Eu(e), _u(e), Tu(e), Su(e), Cu(e), Au(e), $u(e), Ou(e, J);
+}
+function Nu(e) {
   if (!(e instanceof Element))
     return console.warn("[Rizzy.props] Invalid input. Expected an Alpine.js root element (this.$el)."), {};
   const t = e.dataset.propsId;
@@ -10303,7 +10364,7 @@ function Du(e) {
 }
 const ve = /* @__PURE__ */ new Map(), ye = /* @__PURE__ */ new Map();
 let On = !1;
-function Nu(e) {
+function Lu(e) {
   return ye.has(e) || ye.set(
     e,
     import(e).catch((t) => {
@@ -10315,7 +10376,7 @@ function kn(e, t) {
   const i = globalThis.Alpine;
   return i && typeof i.asyncData == "function" ? (i.asyncData(
     e,
-    () => Nu(t).catch((n) => (console.error(
+    () => Lu(t).catch((n) => (console.error(
       `[RizzyUI] Failed to load Alpine module '${e}' from '${t}'.`,
       n
     ), () => ({
@@ -10326,7 +10387,7 @@ function kn(e, t) {
     `[RizzyUI] Could not register async component '${e}'. AsyncAlpine not available.`
   ), !1);
 }
-function Lu(e, t) {
+function Pu(e, t) {
   if (!e || !t) {
     console.error("[RizzyUI] registerAsyncComponent requires both name and path.");
     return;
@@ -10358,7 +10419,7 @@ function Lu(e, t) {
     { once: !0 }
   ));
 }
-function Pu(e) {
+function Mu(e) {
   e.directive("mobile", (t, { modifiers: i, expression: n }, { cleanup: s }) => {
     const r = i.find((h) => h.startsWith("bp-")), a = r ? parseInt(r.slice(3), 10) : 768, o = !!(n && n.length > 0);
     if (typeof window > "u" || !window.matchMedia) {
@@ -10389,7 +10450,7 @@ function Pu(e) {
     });
   });
 }
-function Mu(e) {
+function Ru(e) {
   const t = (i, { expression: n, modifiers: s }, { cleanup: r, effect: a }) => {
     if (!n || typeof n != "string") return;
     const o = (d, c, h) => {
@@ -10453,7 +10514,7 @@ function Mu(e) {
   };
   e.directive("syncprop", t);
 }
-class Ru {
+class Fu {
   constructor() {
     this.storageKey = "darkMode", this.eventName = "rz:theme-change", this.darkClass = "dark", this._mode = "auto", this._mq = null, this._initialized = !1, this._onMqChange = null, this._onStorage = null, this._lastSnapshot = { mode: null, effectiveDark: null, prefersDark: null };
   }
@@ -10537,8 +10598,8 @@ class Ru {
     ));
   }
 }
-const U = new Ru();
-function Fu(e) {
+const U = new Fu();
+function zu(e) {
   U.init(), e.store("theme", {
     // Reactive state mirrors
     // We mirror ALL derived properties to ensure Alpine reactivity works 
@@ -10589,11 +10650,11 @@ function Fu(e) {
   });
 }
 let Jt = null;
-function zu(e) {
+function Vu(e) {
   if (Jt) return Jt;
   e.plugin(Ko), e.plugin(Qo), e.plugin(wl), e.plugin($l), typeof document < "u" && document.addEventListener("alpine:init", () => {
-    Fu(e);
-  }), ku(e), Pu(e), Mu(e);
+    zu(e);
+  }), Du(e), Mu(e), Ru(e);
   const t = new kl.ValidationService();
   return t.bootstrap({ watch: !0 }), Jt = {
     Alpine: e,
@@ -10601,15 +10662,15 @@ function zu(e) {
     toast: ql,
     validation: t,
     $data: Kl,
-    props: Du,
-    registerAsyncComponent: Lu,
+    props: Nu,
+    registerAsyncComponent: Pu,
     theme: U
   }, typeof window < "u" && (U.init(), window.Alpine = e, window.Rizzy = { ...window.Rizzy || {}, ...Jt }, document.dispatchEvent(new CustomEvent("rz:init", {
     detail: { Rizzy: window.Rizzy }
   }))), Jt;
 }
-const Vu = zu(Js);
+const Uu = Vu(Js);
 Js.start();
 export {
-  Vu as default
+  Uu as default
 };
