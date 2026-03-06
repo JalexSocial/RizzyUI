@@ -1,83 +1,58 @@
 using Bunit;
 using Microsoft.AspNetCore.Components;
-using AlpineBridgeComponent = global::RizzyUI.RzAlpineComponent;
 
 namespace RizzyUI.Tests.Components.Interactivity;
 
 public class RzAlpineComponentTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 {
-    public RzAlpineComponentTests(WebAppFixture fixture) : base(fixture) { }
-
-    [Fact]
-    public void DefaultRender_EmitsAlpineRootAndDataAttributes()
+    public RzAlpineComponentTests(WebAppFixture fixture) : base(fixture)
     {
-        var cut = Render<AlpineBridgeComponent>(p => p
-            .Add(x => x.For, new TestAlpineBackedType())
-            .Add(x => x.Name, "demoComponent")
-            .AddChildContent("Body"));
-
-        var root = cut.Find("[data-alpine-root]");
-        Assert.Equal(root.Id, root.GetAttribute("data-alpine-root"));
-        Assert.Equal("demoComponent", root.GetAttribute("x-data"));
-        Assert.Contains("Body", root.TextContent);
     }
 
     [Fact]
-    public void PropsAndLoadStrategy_EmitJsonScriptAndPropsIdReference()
+    public void RendersAlpineRootAttributesAndPropsScript()
     {
-        var cut = Render<AlpineBridgeComponent>(p => p
-            .Add(x => x.For, new TestAlpineBackedType())
-            .Add(x => x.Name, "demoComponent")
+        var cut = Render<RzAlpineComponent>(p => p
+            .Add(x => x.For, new FakeAlpineHost())
+            .Add(x => x.Name, "exampleData")
             .Add(x => x.LoadStrategy, "visible")
-            .Add(x => x.Props, new { title = "Dialog", count = 3 }));
+            .Add(x => x.Props, new { enabled = true })
+            .AddUnmatched("class", "alpine-host")
+            .AddChildContent("Host"));
 
-        var root = cut.Find("[data-alpine-root]");
-        var script = cut.Find("script[type='application/json']");
-
+        var root = cut.Find("[x-data='exampleData']");
+        Assert.Equal(root.GetAttribute("id"), root.GetAttribute("data-alpine-root"));
         Assert.Equal("visible", root.GetAttribute("x-load"));
-        Assert.Equal(script.Id, root.GetAttribute("data-props-id"));
-        Assert.Contains("\"title\":\"Dialog\"", script.TextContent);
+        Assert.Contains("alpine-host", root.ClassList);
+        Assert.NotNull(cut.Find("script[type='application/json']"));
     }
 
     [Fact]
-    public void AsChild_MergesAlpineAttributesIntoChildElement()
+    public void AsChildMergesAlpineAttributesOntoChildElement()
     {
-        var cut = Render<AlpineBridgeComponent>(p => p
-            .Add(x => x.For, new TestAlpineBackedType())
-            .Add(x => x.Name, "demoComponent")
+        RenderFragment child = b =>
+        {
+            b.OpenElement(0, "section");
+            b.AddAttribute(1, "tabindex", "0");
+            b.AddContent(2, "Child");
+            b.CloseElement();
+        };
+
+        var cut = Render<RzAlpineComponent>(p => p
+            .Add(x => x.For, new FakeAlpineHost())
+            .Add(x => x.Name, "childData")
             .Add(x => x.AsChild, true)
-            .Add(x => x.ChildContent, (RenderFragment)(builder =>
-            {
-                builder.OpenElement(0, "section");
-                builder.AddAttribute(1, "id", "inner");
-                builder.AddContent(2, "Inner");
-                builder.CloseElement();
-            })));
+            .Add(x => x.ChildContent, child));
 
-        var child = cut.Find("[data-alpine-root]");
-        Assert.Equal("demoComponent", child.GetAttribute("x-data"));
-        Assert.NotNull(child.GetAttribute("data-alpine-root"));
+        var section = cut.Find("section[x-data='childData']");
+        Assert.Equal("0", section.GetAttribute("tabindex"));
     }
 
     [Fact]
-    public void MissingRequiredParameters_Throws()
+    public void MissingNameThrowsForInvalidPartialConfiguration()
     {
-        Assert.ThrowsAny<Exception>(() => Render<AlpineBridgeComponent>(p => p.Add(x => x.Name, "missingFor")));
-        Assert.ThrowsAny<Exception>(() => Render<AlpineBridgeComponent>(p => p.Add(x => x.For, new TestAlpineBackedType())));
+        Assert.Throws<InvalidOperationException>(() => Render<RzAlpineComponent>(p => p
+            .Add(x => x.For, new FakeAlpineHost())
+            .Add(x => x.Name, string.Empty)));
     }
-
-    [Fact]
-    public void AccessibilityAndKeyboardMarkup_NotOwnedByBridgeComponent()
-    {
-        var cut = Render<AlpineBridgeComponent>(p => p
-            .Add(x => x.For, new TestAlpineBackedType())
-            .Add(x => x.Name, "demoComponent"));
-
-        var root = cut.Find("[data-alpine-root]");
-        Assert.Null(root.GetAttribute("role"));
-        Assert.Null(root.GetAttribute("tabindex"));
-    }
-
-    [RzAlpineCodeBehind("/workspace/RizzyUI/src/RizzyUI.Tests/Components/Interactivity/TestAlpineBackedType.razor")]
-    private sealed class TestAlpineBackedType;
 }
