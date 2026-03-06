@@ -34,38 +34,14 @@
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">Basic Usage</RzHeading>
                 <RzParagraph>The default button appears after <code>Threshold</code> pixels of scroll.</RzParagraph>
-                <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative min-h-[150vh] p-8">
-                        <RzParagraph>Scroll down to reveal the floating button.</RzParagraph>
-                        <RzBackToTop />
-                    </div>
-                </RzBrowser>
+                <div class="not-prose relative min-h-[150vh] rounded-md border border-zinc-200 bg-zinc-50 p-8 dark:border-zinc-800 dark:bg-zinc-950">
+                    <p class="text-sm text-zinc-600 dark:text-zinc-300">Scroll down to reveal the floating button.</p>
+                    <RzBackToTop />
+                </div>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;div class=&quot;relative min-h-[150vh] p-8&quot;&gt;
     &lt;RzBackToTop /&gt;
 &lt;/div&gt;
-                </RzCodeViewer>
-            </section>
-
-            <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="AsChild" class="scroll-mt-20">AsChild Usage</RzHeading>
-                <RzParagraph>Use <code>AsChild</code> to project the behavior onto a custom host element.</RzParagraph>
-                <RzBrowser Layout="typeof(PreviewLayout)">
-                    <div class="relative min-h-[150vh] p-8">
-                        <RzParagraph>Scroll down to reveal the custom host.</RzParagraph>
-                        <RzBackToTop AsChild Threshold="250">
-                            <button class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-input bg-background text-foreground shadow-md hover:bg-accent hover:text-accent-foreground" aria-label="Back to top">
-                                <Blazicon Svg="Lucide.ArrowUp" aria-hidden="true" class="size-5" />
-                            </button>
-                        </RzBackToTop>
-                    </div>
-                </RzBrowser>
-                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzBackToTop AsChild Threshold=&quot;250&quot;&gt;
-    &lt;button class=&quot;inline-flex h-12 w-12 items-center justify-center rounded-full border border-input bg-background text-foreground shadow-md hover:bg-accent hover:text-accent-foreground&quot; aria-label=&quot;Back to top&quot;&gt;
-        &lt;Blazicon Svg=&quot;Lucide.ArrowUp&quot; aria-hidden=&quot;true&quot; class=&quot;size-5&quot; /&gt;
-    &lt;/button&gt;
-&lt;/RzBackToTop&gt;
                 </RzCodeViewer>
             </section>
 
