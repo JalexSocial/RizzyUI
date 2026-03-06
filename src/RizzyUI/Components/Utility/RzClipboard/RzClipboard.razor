@@ -1,0 +1,15 @@
+@namespace RizzyUI
+@inherits RzAsChildComponent<RzClipboard.Slots>
+
+@if (AsChild)
+{
+    @RenderAsChild()
+}
+else
+{
+    <HtmlElement Element="@EffectiveElement"
+                 type="@(EffectiveElement == "button" ? "button" : null)"
+                 @attributes="@GetComponentAttributes()">
+        @ChildContent
+    </HtmlElement>
+}

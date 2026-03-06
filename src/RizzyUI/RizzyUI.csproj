@@ -99,4 +99,10 @@
       <UpToDateCheckInput Remove="Components\Form\RzToggle\RzToggleField.razor" />
     </ItemGroup>
 
+    <ItemGroup>
+      <AdditionalFiles Include="Components\Utility\RzClipboard\ClipboardFeedback.razor" />
+      <AdditionalFiles Include="Components\Utility\RzClipboard\ClipboardTrigger.razor" />
+      <AdditionalFiles Include="Components\Utility\RzClipboard\RzClipboard.razor" />
+    </ItemGroup>
+
 </Project>

@@ -166,6 +166,12 @@ public partial class RzTheme
 
     #region Form Components
 
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzClipboard"/> component. </summary>
+    public virtual TvDescriptor<RzAsChildComponent<RzClipboard.Slots>, RzClipboard.Slots> RzClipboard { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.ClipboardTrigger"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<ClipboardTrigger.Slots>, ClipboardTrigger.Slots> ClipboardTrigger { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.ClipboardFeedback"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<ClipboardFeedback.Slots>, ClipboardFeedback.Slots> ClipboardFeedback { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzButton"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzButton.Slots>, RzButton.Slots> RzButton { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzButtonGroup"/> component. </summary>

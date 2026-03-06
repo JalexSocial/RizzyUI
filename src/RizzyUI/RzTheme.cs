@@ -75,6 +75,11 @@ public partial class RzTheme
         // RzButton Family
         RzButton = RizzyUI.RzButton.DefaultDescriptor;
 
+        // RzClipboard Family
+        RzClipboard = RizzyUI.RzClipboard.DefaultDescriptor;
+        ClipboardTrigger = RizzyUI.ClipboardTrigger.DefaultDescriptor;
+        ClipboardFeedback = RizzyUI.ClipboardFeedback.DefaultDescriptor;
+
         // RzButtonGroup Family
         RzButtonGroup = RizzyUI.RzButtonGroup.DefaultDescriptor;
         ButtonGroupSeparator = RizzyUI.ButtonGroupSeparator.DefaultDescriptor;

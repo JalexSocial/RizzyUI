@@ -1,0 +1,287 @@
+@page "/components/clipboard"
+@using Blazicons
+@using RizzyUI
+
+<PageTitle>Clipboard</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Clipboard</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Clipboard" class="scroll-mt-20">Clipboard</RzHeading>
+            <RzParagraph>
+                <b>RzClipboard</b> is an SSR-first primitive for one-click copy actions. Compose it with
+                <code>ClipboardTrigger</code> and <code>ClipboardFeedback</code> to keep idle and copied states independent while preserving layout stability.
+            </RzParagraph>
+
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    Interactivity is powered by Alpine via <code>x-data="rzClipboard"</code>. The component first attempts
+                    <code>navigator.clipboard.writeText</code> and can optionally fall back to <code>document.execCommand('copy')</code>
+                    for broader compatibility in constrained environments.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Buttons" class="scroll-mt-20">Buttons</RzHeading>
+                <RzParagraph>Equivalent patterns for icon-only and text buttons with center-aligned, equally sized feedback content.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex max-w-xl flex-col gap-3 p-8">
+                        <div class="flex items-center gap-3">
+                            <RzClipboard Value="Icon button clicked!" AriaLabel="Copy icon button text" AsChild>
+                                <RzButton Variant=ThemeVariant.Secondary Outline Size=Size.Small class="w-10 justify-center">
+                                    <ClipboardTrigger>
+                                        <span class="inline-flex size-5 items-center justify-center"><Blazicon Svg="@MdiIcon.ContentCopy" aria-hidden="true" /></span>
+                                        <span class="sr-only">Copy</span>
+                                    </ClipboardTrigger>
+                                    <ClipboardFeedback>
+                                        <span class="inline-flex size-5 items-center justify-center text-success"><Blazicon Svg="@MdiIcon.Check" aria-hidden="true" /></span>
+                                        <span class="sr-only">Copied</span>
+                                    </ClipboardFeedback>
+                                </RzButton>
+                            </RzClipboard>
+
+                            <RzClipboard Value="Hello, World!" AsChild>
+                                <RzButton Variant=ThemeVariant.Primary Outline class="w-44 justify-center">
+                                    <ClipboardTrigger>
+                                        <span class="inline-flex w-28 items-center justify-center gap-2"><Blazicon Svg="@MdiIcon.ContentCopy" aria-hidden="true" />Copy Content</span>
+                                    </ClipboardTrigger>
+                                    <ClipboardFeedback>
+                                        <span class="inline-flex w-28 items-center justify-center gap-2"><Blazicon Svg="@MdiIcon.Check" aria-hidden="true" />Copied!</span>
+                                    </ClipboardFeedback>
+                                </RzButton>
+                            </RzClipboard>
+                        </div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzClipboard Value=&quot;Icon button clicked!&quot; AriaLabel=&quot;Copy icon button text&quot; AsChild&gt;
+    &lt;RzButton Variant=ThemeVariant.Secondary Outline Size=Size.Small class=&quot;w-10 justify-center&quot;&gt;
+        &lt;ClipboardTrigger&gt;
+            &lt;span class=&quot;inline-flex size-5 items-center justify-center&quot;&gt;&lt;Blazicon Svg=&quot;@MdiIcon.ContentCopy&quot; aria-hidden=&quot;true&quot; /&gt;&lt;/span&gt;
+            &lt;span class=&quot;sr-only&quot;&gt;Copy&lt;/span&gt;
+        &lt;/ClipboardTrigger&gt;
+        &lt;ClipboardFeedback&gt;
+            &lt;span class=&quot;inline-flex size-5 items-center justify-center text-success&quot;&gt;&lt;Blazicon Svg=&quot;@MdiIcon.Check&quot; aria-hidden=&quot;true&quot; /&gt;&lt;/span&gt;
+            &lt;span class=&quot;sr-only&quot;&gt;Copied&lt;/span&gt;
+        &lt;/ClipboardFeedback&gt;
+    &lt;/RzButton&gt;
+&lt;/RzClipboard&gt;
+
+&lt;RzClipboard Value=&quot;Hello, World!&quot; AsChild&gt;
+    &lt;RzButton Variant=ThemeVariant.Primary Outline class=&quot;w-44 justify-center&quot;&gt;
+        &lt;ClipboardTrigger&gt;
+            &lt;span class=&quot;inline-flex w-28 items-center justify-center gap-2&quot;&gt;&lt;Blazicon Svg=&quot;@MdiIcon.ContentCopy&quot; aria-hidden=&quot;true&quot; /&gt;Copy Content&lt;/span&gt;
+        &lt;/ClipboardTrigger&gt;
+        &lt;ClipboardFeedback&gt;
+            &lt;span class=&quot;inline-flex w-28 items-center justify-center gap-2&quot;&gt;&lt;Blazicon Svg=&quot;@MdiIcon.Check&quot; aria-hidden=&quot;true&quot; /&gt;Copied!&lt;/span&gt;
+        &lt;/ClipboardFeedback&gt;
+    &lt;/RzButton&gt;
+&lt;/RzClipboard&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Code Block" class="scroll-mt-20">Code Block</RzHeading>
+                <RzParagraph>Attach copy behavior to a compact command block action.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto max-w-xl p-8">
+                        <div class="relative rounded-lg border border-zinc-200/75 bg-zinc-50 dark:border-zinc-700/75 dark:bg-zinc-800/75">
+                            <div class="flex items-center justify-between">
+                                <code class="grow p-4 text-sm text-zinc-700 dark:text-zinc-300">npm install alpinejs</code>
+                                <RzClipboard Value="npm install alpinejs" AriaLabel="Copy npm command" AsChild>
+                                    <RzButton Variant=ThemeVariant.Ghost Size=Size.Small class="mx-2 w-10 justify-center">
+                                        <ClipboardTrigger>
+                                            <span class="inline-flex size-5 items-center justify-center"><Blazicon Svg="@MdiIcon.ContentCopy" aria-hidden="true" /></span>
+                                            <span class="sr-only">Copy code</span>
+                                        </ClipboardTrigger>
+                                        <ClipboardFeedback>
+                                            <span class="inline-flex size-5 items-center justify-center text-success"><Blazicon Svg="@MdiIcon.Check" aria-hidden="true" /></span>
+                                            <span class="sr-only">Copied code</span>
+                                        </ClipboardFeedback>
+                                    </RzButton>
+                                </RzClipboard>
+                            </div>
+                        </div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class=&quot;relative rounded-lg border border-zinc-200/75 bg-zinc-50&quot;&gt;
+    &lt;div class=&quot;flex items-center justify-between&quot;&gt;
+        &lt;code class=&quot;grow p-4 text-sm&quot;&gt;npm install alpinejs&lt;/code&gt;
+        &lt;RzClipboard Value=&quot;npm install alpinejs&quot; AriaLabel=&quot;Copy npm command&quot; AsChild&gt;
+            &lt;RzButton Variant=ThemeVariant.Ghost Size=Size.Small class=&quot;mx-2 w-10 justify-center&quot;&gt;
+                &lt;ClipboardTrigger&gt;
+                    &lt;span class=&quot;inline-flex size-5 items-center justify-center&quot;&gt;&lt;Blazicon Svg=&quot;@MdiIcon.ContentCopy&quot; aria-hidden=&quot;true&quot; /&gt;&lt;/span&gt;
+                    &lt;span class=&quot;sr-only&quot;&gt;Copy code&lt;/span&gt;
+                &lt;/ClipboardTrigger&gt;
+                &lt;ClipboardFeedback&gt;
+                    &lt;span class=&quot;inline-flex size-5 items-center justify-center text-success&quot;&gt;&lt;Blazicon Svg=&quot;@MdiIcon.Check&quot; aria-hidden=&quot;true&quot; /&gt;&lt;/span&gt;
+                    &lt;span class=&quot;sr-only&quot;&gt;Copied code&lt;/span&gt;
+                &lt;/ClipboardFeedback&gt;
+            &lt;/RzButton&gt;
+        &lt;/RzClipboard&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Input" class="scroll-mt-20">Input</RzHeading>
+                <RzParagraph>Use <code>TargetSelector</code> to copy from an input value.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto max-w-xl p-8">
+                        <label for="website-url" class="mb-2 block text-sm font-semibold text-zinc-900 dark:text-zinc-100">Website URL</label>
+                        <div class="relative">
+                            <input id="website-url" type="text" value="https://rizzyui.jalex.io/" readonly class="w-full rounded-lg border border-zinc-200/75 bg-white px-4 py-2.5 pe-20 text-sm leading-5 text-zinc-900 dark:border-zinc-700/75 dark:bg-transparent dark:text-zinc-100" />
+                            <div class="absolute inset-y-0 end-0 flex items-center justify-center px-2">
+                                <RzClipboard TargetSelector="#website-url" AriaLabel="Copy website URL" AsChild>
+                                    <RzButton Variant=ThemeVariant.Secondary Outline Size=Size.Small class="w-20 justify-center">
+                                        <ClipboardTrigger><span class="inline-flex w-12 justify-center">Copy</span></ClipboardTrigger>
+                                        <ClipboardFeedback><span class="inline-flex w-12 justify-center text-success">Copied!</span></ClipboardFeedback>
+                                    </RzButton>
+                                </RzClipboard>
+                            </div>
+                        </div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;input id=&quot;website-url&quot; value=&quot;https://rizzyui.jalex.io/&quot; readonly /&gt;
+&lt;RzClipboard TargetSelector=&quot;#website-url&quot; AriaLabel=&quot;Copy website URL&quot; AsChild&gt;
+    &lt;RzButton Variant=ThemeVariant.Secondary Outline Size=Size.Small class=&quot;w-20 justify-center&quot;&gt;
+        &lt;ClipboardTrigger&gt;&lt;span class=&quot;inline-flex w-12 justify-center&quot;&gt;Copy&lt;/span&gt;&lt;/ClipboardTrigger&gt;
+        &lt;ClipboardFeedback&gt;&lt;span class=&quot;inline-flex w-12 justify-center text-success&quot;&gt;Copied!&lt;/span&gt;&lt;/ClipboardFeedback&gt;
+    &lt;/RzButton&gt;
+&lt;/RzClipboard&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="API Key" class="scroll-mt-20">API Key</RzHeading>
+                <RzParagraph>Copy sensitive-looking tokens from compact list rows.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto max-w-xl p-8">
+                        <div class="flex items-center justify-between gap-4 rounded-lg border border-zinc-200/75 p-4 dark:border-zinc-700/75">
+                            <div class="min-w-0 flex-1">
+                                <div class="text-sm font-medium text-zinc-900 dark:text-zinc-100">API Key</div>
+                                <div class="mt-0.5 truncate font-mono text-xs text-zinc-600 dark:text-zinc-400">db_1234567890abcdefghijklmnopqrstuvwxyz</div>
+                            </div>
+                            <RzClipboard Value="db_1234567890abcdefghijklmnopqrstuvwxyz" AriaLabel="Copy API key" AsChild>
+                                <RzButton Variant=ThemeVariant.Secondary Outline Size=Size.Small class="w-10 justify-center">
+                                    <ClipboardTrigger>
+                                        <span class="inline-flex size-5 items-center justify-center"><Blazicon Svg="@MdiIcon.ContentCopy" aria-hidden="true" /></span>
+                                        <span class="sr-only">Copy API key</span>
+                                    </ClipboardTrigger>
+                                    <ClipboardFeedback>
+                                        <span class="inline-flex size-5 items-center justify-center text-success"><Blazicon Svg="@MdiIcon.Check" aria-hidden="true" /></span>
+                                        <span class="sr-only">Copied API key</span>
+                                    </ClipboardFeedback>
+                                </RzButton>
+                            </RzClipboard>
+                        </div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzClipboard Value=&quot;db_1234567890abcdefghijklmnopqrstuvwxyz&quot; AriaLabel=&quot;Copy API key&quot; AsChild&gt;
+    &lt;RzButton Variant=ThemeVariant.Secondary Outline Size=Size.Small class=&quot;w-10 justify-center&quot;&gt;
+        &lt;ClipboardTrigger&gt;
+            &lt;span class=&quot;inline-flex size-5 items-center justify-center&quot;&gt;&lt;Blazicon Svg=&quot;@MdiIcon.ContentCopy&quot; aria-hidden=&quot;true&quot; /&gt;&lt;/span&gt;
+            &lt;span class=&quot;sr-only&quot;&gt;Copy API key&lt;/span&gt;
+        &lt;/ClipboardTrigger&gt;
+        &lt;ClipboardFeedback&gt;
+            &lt;span class=&quot;inline-flex size-5 items-center justify-center text-success&quot;&gt;&lt;Blazicon Svg=&quot;@MdiIcon.Check&quot; aria-hidden=&quot;true&quot; /&gt;&lt;/span&gt;
+            &lt;span class=&quot;sr-only&quot;&gt;Copied API key&lt;/span&gt;
+        &lt;/ClipboardFeedback&gt;
+    &lt;/RzButton&gt;
+&lt;/RzClipboard&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component API" class="scroll-mt-20">Component API</RzHeading>
+                <RzParagraph>The following tables document the complete parameter surface for the clipboard component family.</RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">RzClipboard</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                    <tr class="align-top"><td class="px-4 py-4"><code>ChildContent</code></td><td class="px-4 py-4">Composition content containing <code>ClipboardTrigger</code> and <code>ClipboardFeedback</code>.</td><td class="px-4 py-4"><code>RenderFragment</code></td><td class="px-4 py-4">Required</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Value</code></td><td class="px-4 py-4">Direct text source for the clipboard operation.</td><td class="px-4 py-4"><code>string?</code></td><td class="px-4 py-4"><code>null</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>TargetSelector</code></td><td class="px-4 py-4">CSS selector used to resolve copy text from another DOM element.</td><td class="px-4 py-4"><code>string?</code></td><td class="px-4 py-4"><code>null</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>PreferValue</code></td><td class="px-4 py-4">When both <code>Value</code> and <code>TargetSelector</code> are set, chooses <code>Value</code> first.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>false</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>FeedbackDuration</code></td><td class="px-4 py-4">How long (ms) the copied state remains visible before reset.</td><td class="px-4 py-4"><code>int</code></td><td class="px-4 py-4"><code>1200</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Disabled</code></td><td class="px-4 py-4">Prevents copy behavior and applies disabled accessibility state.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>false</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>UseFallback</code></td><td class="px-4 py-4">Enables fallback copy using <code>document.execCommand('copy')</code>.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>true</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>AriaLabel</code></td><td class="px-4 py-4">Accessible name used by assistive technology for icon-only hosts.</td><td class="px-4 py-4"><code>string?</code></td><td class="px-4 py-4"><code>"Copy to clipboard"</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>AsChild</code></td><td class="px-4 py-4">Merges behavior and classes onto a supplied child host (recommended for button styling).</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>false</code></td></tr>
+                </tbody></table></div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">ClipboardTrigger</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                    <tr class="align-top"><td class="px-4 py-4"><code>ChildContent</code></td><td class="px-4 py-4">Content shown when <code>copied == false</code>.</td><td class="px-4 py-4"><code>RenderFragment</code></td><td class="px-4 py-4">Required</td></tr>
+                </tbody></table></div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">ClipboardFeedback</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                    <tr class="align-top"><td class="px-4 py-4"><code>ChildContent</code></td><td class="px-4 py-4">Content shown when <code>copied == true</code>. Uses <code>aria-live="polite"</code>.</td><td class="px-4 py-4"><code>RenderFragment</code></td><td class="px-4 py-4">Required</td></tr>
+                </tbody></table></div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
+                <RzParagraph>The underlying Alpine data component is <code>rzClipboard</code>. This is useful when integrating with HTMX or custom event listeners.</RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">State and Configuration</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Member</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Description</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                    <tr class="align-top"><td class="px-4 py-4"><code>value</code></td><td class="px-4 py-4"><code>string | null</code></td><td class="px-4 py-4">Resolved from <code>data-copy-value</code>.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>targetSelector</code></td><td class="px-4 py-4"><code>string | null</code></td><td class="px-4 py-4">Resolved from <code>data-target-selector</code>.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>preferValue</code></td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4">Uses <code>value</code> first when both sources exist.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>feedbackDuration</code></td><td class="px-4 py-4"><code>int</code></td><td class="px-4 py-4">Controls copied-state timeout.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>useFallback</code></td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4">Enables execCommand fallback path.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>disabled</code></td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4">Prevents copy action when true.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>copied</code></td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4">Current visual state used by trigger/feedback.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>notCopied</code></td><td class="px-4 py-4"><code>getter</code></td><td class="px-4 py-4">Convenience inverse of <code>copied</code>.</td></tr>
+                </tbody></table></div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Methods</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Signature</th><th scope="col" class="px-4 py-3">Description</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                    <tr class="align-top"><td class="px-4 py-4"><code>init</code></td><td class="px-4 py-4"><code>()</code></td><td class="px-4 py-4">Reads data attributes and initializes runtime state.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>getTextToCopy</code></td><td class="px-4 py-4"><code>() => string?</code></td><td class="px-4 py-4">Resolves text using <code>PreferValue</code>, <code>TargetSelector</code>, then <code>Value</code>.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>copy</code></td><td class="px-4 py-4"><code>()</code></td><td class="px-4 py-4">Performs copy and dispatches success/failure events.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>onSuccess</code></td><td class="px-4 py-4"><code>(text)</code></td><td class="px-4 py-4">Sets copied state, dispatches event, schedules reset timer.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>fallbackCopy</code></td><td class="px-4 py-4"><code>(text) => bool</code></td><td class="px-4 py-4">Attempts legacy <code>execCommand('copy')</code> flow.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>dispatchFailed</code></td><td class="px-4 py-4"><code>(reason, error?)</code></td><td class="px-4 py-4">Dispatches <code>rz:copy-failed</code> with reason payload.</td></tr>
+                </tbody></table></div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Events</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Event</th><th scope="col" class="w-1/5 px-4 py-3">Payload</th><th scope="col" class="px-4 py-3">Description</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                    <tr class="align-top"><td class="px-4 py-4"><code>rz:copy</code></td><td class="px-4 py-4"><code>{ id, text }</code></td><td class="px-4 py-4">Fired after a successful clipboard write.</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>rz:copy-failed</code></td><td class="px-4 py-4"><code>{ id, reason, error }</code></td><td class="px-4 py-4">Fired when copy fails (empty text, unavailable clipboard, permission denied).</td></tr>
+                </tbody></table></div>
+
+                <RzParagraph>
+                    Styling hooks are available through <code>data-slot="clipboard"</code>, <code>data-slot="clipboard-trigger"</code>, and
+                    <code>data-slot="clipboard-feedback"</code>. For polished layouts, keep trigger and feedback content centered with equal width/height classes.
+                </RzParagraph>
+            </section>
+
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
