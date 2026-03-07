@@ -318,6 +318,9 @@ public partial class RzTheme
         // RzSeparator Family
         RzSeparator = RizzyUI.RzSeparator.DefaultDescriptor;
 
+        // RzTypingAnimation Family
+        RzTypingAnimation = RizzyUI.RzTypingAnimation.DefaultDescriptor;
+
         // RzSheet Family
         RzSheet = RizzyUI.RzSheet.DefaultDescriptor;
         SheetContent = RizzyUI.SheetContent.DefaultDescriptor;

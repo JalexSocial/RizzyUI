@@ -1,0 +1,202 @@
+@page "/components/typing-animation"
+@using RizzyUI
+
+<PageTitle>Typing Animation</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Typing Animation</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">Typing Animation</RzHeading>
+            <RzParagraph>
+                <code>RzTypingAnimation</code> renders typewriter-style text for one string or a sequence of words. It is a single component backed by Alpine.js that emits stable SSR markup with a predictable root <code>Id</code>, making it straightforward to replace with HTMX partial swaps.
+            </RzParagraph>
+
+            <RzAlert Variant="ThemeVariant.Information" class="my-6">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    The component initializes <code>x-data="rzTypingAnimation"</code> on a direct Alpine child container, uses a hidden source span when <code>Words</code> is not supplied, gates optional startup with <code>IntersectionObserver</code>, and runs a timer-based typing/deleting loop. There is no teleport strategy and no Blazor runtime interactivity.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">Basic Usage</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex min-h-36 items-center justify-center p-6 text-4xl font-bold">
+                        <RzTypingAnimation>Hello World! 👋</RzTypingAnimation>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzTypingAnimation&gt;Hello World! 👋&lt;/RzTypingAnimation&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Multiple Words and Looping" class="scroll-mt-20">Multiple Words and Looping</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex min-h-36 items-center justify-center p-6 text-4xl font-bold">
+                        <RzTypingAnimation Words="@(["Design 🎨", "Build 🔨", "Ship 🚀"])" Loop="true" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzTypingAnimation Words=&quot;@@([&quot;Design 🎨&quot;, &quot;Build 🔨&quot;, &quot;Ship 🚀&quot;])&quot; Loop=&quot;true&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Timing Controls" class="scroll-mt-20">Timing Controls</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex min-h-36 items-center justify-center p-6 text-3xl font-semibold">
+                        <RzTypingAnimation Words="@(["Fast typing", "Slow delete"])" TypeSpeed="50" DeleteSpeed="150" PauseDelay="2000" Delay="300" Loop="true" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzTypingAnimation
+    Words=&quot;@@([&quot;Fast typing&quot;, &quot;Slow delete&quot;])&quot;
+    TypeSpeed=&quot;50&quot;
+    DeleteSpeed=&quot;150&quot;
+    PauseDelay=&quot;2000&quot;
+    Delay=&quot;300&quot;
+    Loop=&quot;true&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Cursor Options" class="scroll-mt-20">Cursor Options</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto grid max-w-2xl gap-4 p-6 text-xl font-semibold">
+                        <RzTypingAnimation Words="@(["No cursor"])" ShowCursor="false" />
+                        <RzTypingAnimation Words="@(["Blink on"])" BlinkCursor="true" Loop="true" />
+                        <RzTypingAnimation Words="@(["Blink off"])" BlinkCursor="false" Loop="true" />
+                        <div class="grid gap-2 text-lg">
+                            <RzTypingAnimation Words="@(["Line cursor"])" CursorStyle="TypingAnimationCursorStyle.Line" Loop="true" />
+                            <RzTypingAnimation Words="@(["Block cursor"])" CursorStyle="TypingAnimationCursorStyle.Block" Loop="true" />
+                            <RzTypingAnimation Words="@(["Underscore cursor"])" CursorStyle="TypingAnimationCursorStyle.Underscore" Loop="true" />
+                        </div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzTypingAnimation Words=&quot;@@([&quot;No cursor&quot;])&quot; ShowCursor=&quot;false&quot; /&gt;
+&lt;RzTypingAnimation Words=&quot;@@([&quot;Blink on&quot;])&quot; BlinkCursor=&quot;true&quot; Loop=&quot;true&quot; /&gt;
+&lt;RzTypingAnimation Words=&quot;@@([&quot;Blink off&quot;])&quot; BlinkCursor=&quot;false&quot; Loop=&quot;true&quot; /&gt;
+&lt;RzTypingAnimation Words=&quot;@@([&quot;Line cursor&quot;])&quot; CursorStyle=&quot;TypingAnimationCursorStyle.Line&quot; Loop=&quot;true&quot; /&gt;
+&lt;RzTypingAnimation Words=&quot;@@([&quot;Block cursor&quot;])&quot; CursorStyle=&quot;TypingAnimationCursorStyle.Block&quot; Loop=&quot;true&quot; /&gt;
+&lt;RzTypingAnimation Words=&quot;@@([&quot;Underscore cursor&quot;])&quot; CursorStyle=&quot;TypingAnimationCursorStyle.Underscore&quot; Loop=&quot;true&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Start on View" class="scroll-mt-20">Start on View</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto min-h-[32rem] p-6">
+                        <div class="h-56"></div>
+                        <RzTypingAnimation Words="@(["Starts when visible"])" StartOnView="true" class="text-2xl font-semibold" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class=&quot;min-h-[32rem]&quot;&gt;
+    &lt;div class=&quot;h-56&quot;&gt;&lt;/div&gt;
+    &lt;RzTypingAnimation Words=&quot;@@([&quot;Starts when visible&quot;])&quot; StartOnView=&quot;true&quot; /&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="HTMX Integration" class="scroll-mt-20">HTMX Integration</RzHeading>
+                <RzAlert Variant="ThemeVariant.Warning" class="mb-4">
+                    <AlertTitle>Docs limitation</AlertTitle>
+                    <AlertDescription>This static docs site does not execute a real endpoint call here, but the markup below is the production HTMX replacement pattern.</AlertDescription>
+                </RzAlert>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="space-y-4 p-6">
+                        <div id="typing-animation-region">
+                            <RzTypingAnimation Words="@(["Initial", "Server state"])" Loop="true" />
+                        </div>
+                        <RzButton hx-get="/components/typing-animation/partial"
+                                  hx-target="#typing-animation-region"
+                                  hx-swap="outerHTML">
+                            Replace Animation via HTMX
+                        </RzButton>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-4">
+&lt;div id=&quot;typing-animation-region&quot;&gt;
+    &lt;RzTypingAnimation Words=&quot;@@([&quot;Initial&quot;, &quot;Server state&quot;])&quot; Loop=&quot;true&quot; /&gt;
+&lt;/div&gt;
+
+&lt;RzButton
+    hx-get=&quot;/components/typing-animation/partial&quot;
+    hx-target=&quot;#typing-animation-region&quot;
+    hx-swap=&quot;outerHTML&quot;&gt;
+    Replace Animation via HTMX
+&lt;/RzButton&gt;
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
+app.MapGet("/components/typing-animation/partial", () =&gt;
+{
+    return Results.Content(
+        "&lt;div id=\"typing-animation-region\"&gt;&lt;span&gt;...server-rendered RzTypingAnimation output...&lt;/span&gt;&lt;/div&gt;",
+        "text/html");
+});
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Non-Loop Final Word Behavior" class="scroll-mt-20">Non-Loop Final Word Behavior</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex min-h-36 items-center justify-center p-6 text-2xl font-semibold">
+                        <RzTypingAnimation Words="@(["Plan", "Build", "Done"])" Loop="false" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzTypingAnimation Words=&quot;@@([&quot;Plan&quot;, &quot;Build&quot;, &quot;Done&quot;])&quot; Loop=&quot;false&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="w-1/5 px-4 py-3">Property</th><th scope="col" class="w-2/5 px-4 py-3">Description</th><th scope="col" class="w-1/5 px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                    <tr class="align-top"><td class="px-4 py-4"><code>ChildContent</code></td><td class="px-4 py-4">Text source used when <code>Words</code> is not supplied.</td><td class="px-4 py-4"><code>RenderFragment?</code></td><td class="px-4 py-4"><code>null</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Words</code></td><td class="px-4 py-4">Sequence of words or phrases to animate.</td><td class="px-4 py-4"><code>IReadOnlyList&lt;string&gt;?</code></td><td class="px-4 py-4"><code>null</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Duration</code></td><td class="px-4 py-4">Base typing speed in milliseconds per character.</td><td class="px-4 py-4"><code>int</code></td><td class="px-4 py-4"><code>100</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>TypeSpeed</code></td><td class="px-4 py-4">Optional typing-speed override.</td><td class="px-4 py-4"><code>int?</code></td><td class="px-4 py-4"><code>null</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>DeleteSpeed</code></td><td class="px-4 py-4">Optional delete-speed override, defaults to half typing speed.</td><td class="px-4 py-4"><code>int?</code></td><td class="px-4 py-4"><code>null</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Delay</code></td><td class="px-4 py-4">Initial delay before first typing tick.</td><td class="px-4 py-4"><code>int</code></td><td class="px-4 py-4"><code>0</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>PauseDelay</code></td><td class="px-4 py-4">Pause duration after a word is fully typed.</td><td class="px-4 py-4"><code>int</code></td><td class="px-4 py-4"><code>1000</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Loop</code></td><td class="px-4 py-4">Repeats the sequence continuously when true.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>false</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>StartOnView</code></td><td class="px-4 py-4">Defers starting until visible in the viewport.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>true</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>ShowCursor</code></td><td class="px-4 py-4">Renders the cursor slot when true.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>true</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>BlinkCursor</code></td><td class="px-4 py-4">Applies blink animation class to the visible cursor.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>true</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>CursorStyle</code></td><td class="px-4 py-4">Controls line, block, or underscore cursor glyph.</td><td class="px-4 py-4"><code>TypingAnimationCursorStyle</code></td><td class="px-4 py-4"><code>TypingAnimationCursorStyle.Line</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Element</code></td><td class="px-4 py-4">Overrides the outer root element tag.</td><td class="px-4 py-4"><code>string?</code></td><td class="px-4 py-4"><code>"span"</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Id</code></td><td class="px-4 py-4">Stable id used for Alpine root mapping and replacement targeting.</td><td class="px-4 py-4"><code>string?</code></td><td class="px-4 py-4"><code>auto-generated</code></td></tr>
+                </tbody></table></div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Interoperability Note" class="scroll-mt-20">Interoperability Note</RzHeading>
+                <RzParagraph>
+                    The Alpine state machine is internal implementation detail. Supported integration is SSR replacement (for example, HTMX swaps) or full server rerender, not direct consumer calls into Alpine methods.
+                </RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

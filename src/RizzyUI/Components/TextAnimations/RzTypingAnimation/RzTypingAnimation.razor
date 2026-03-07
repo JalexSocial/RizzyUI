@@ -1,0 +1,56 @@
+@namespace RizzyUI
+@using RizzyUI.Extensions
+@inherits RzComponent<RzTypingAnimation.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="typing-animation">
+    <div class="@SlotClasses.GetAlpineRoot()"
+         data-slot="@RzTypingAnimation.SlotNames.NameOf(SlotTypes.AlpineRoot)"
+         data-alpine-root="@Id"
+         x-data="rzTypingAnimation"
+         data-assets="@_assets"
+         data-nonce="@Nonce"
+         data-config="@_configJson">
+        @if (ShouldRenderSourceSlot)
+        {
+            <span class="@SlotClasses.GetSource()"
+                  data-slot="@RzTypingAnimation.SlotNames.NameOf(SlotTypes.Source)"
+                  hidden
+                  aria-hidden="true"
+                  x-ref="source">@ChildContent</span>
+        }
+
+        <span class="@SlotClasses.GetText()"
+              data-slot="@RzTypingAnimation.SlotNames.NameOf(SlotTypes.Text)"
+              x-ref="text"
+              x-text="displayText"></span>
+
+        @if (ShouldRenderCursor)
+        {
+            <span class="@SlotClasses.GetCursor()"
+                  data-slot="@RzTypingAnimation.SlotNames.NameOf(SlotTypes.Cursor)"
+                  data-cursor-style="@CursorStyle.ToString().ToKebabCase()"
+                  x-ref="cursor"
+                  x-show="cursorVisible"
+                  x-bind:class="cursorBlinkClass"
+                  x-text="cursorChar"
+                  aria-hidden="true"></span>
+        }
+    </div>
+    <noscript>
+        <span class="@SlotClasses.GetNoScript()"
+              data-slot="@RzTypingAnimation.SlotNames.NameOf(SlotTypes.NoScript)">
+            @if (NoScriptFallbackWord is not null)
+            {
+                @NoScriptFallbackWord
+            }
+            else
+            {
+                @ChildContent
+            }
+        </span>
+    </noscript>
+</HtmlElement>

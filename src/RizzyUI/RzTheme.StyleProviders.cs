@@ -51,6 +51,8 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<RzProgress.Slots>, RzProgress.Slots> RzProgress { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzSeparator"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzSeparator.Slots>, RzSeparator.Slots> RzSeparator { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzTypingAnimation"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzTypingAnimation.Slots>, RzTypingAnimation.Slots> RzTypingAnimation { get; set; }
 
     #endregion
 

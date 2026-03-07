@@ -51,6 +51,7 @@ import registerRzCommandItem from './components/rzCommandItem.js';
 import registerRzCommandList from './components/rzCommandList.js';
 import registerRzCommandGroup from './components/rzCommandGroup.js';
 import registerRzChart from './components/rzChart.js';
+import registerRzTypingAnimation from './components/rzTypingAnimation.js';
 
 /**
  * generateBundleId(paths)
@@ -206,6 +207,7 @@ function registerComponents(Alpine) {
     registerRzCommandList(Alpine);
     registerRzCommandGroup(Alpine);
     registerRzChart(Alpine, rizzyRequire);
+    registerRzTypingAnimation(Alpine);
 }
 
 export { registerComponents, rizzyRequire as require };
