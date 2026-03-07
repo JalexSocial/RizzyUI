@@ -1,0 +1,46 @@
+@namespace RizzyUI
+@using RizzyUI.Extensions
+@inherits RzComponent<RzConfetti.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="confetti">
+    <div data-alpine-root="@Id"
+         x-data="rzConfetti"
+         data-assets="@_assets"
+         data-nonce="@Nonce"
+         data-trigger="@Trigger.ToString().ToKebabCase()"
+         data-mode="@Mode.ToString().ToKebabCase()"
+         data-preset="@Preset.ToString().ToKebabCase()"
+         data-disabled="@Disabled.ToString().ToLowerInvariant()"
+         data-once="@Once.ToString().ToLowerInvariant()"
+         data-cooldown-ms="@CooldownMs"
+         data-burst-count="@BurstCount"
+         data-burst-interval-ms="@BurstIntervalMs"
+         data-event-name="@EffectiveEventName"
+         data-launch-from-element-center="@LaunchFromElementCenter.ToString().ToLowerInvariant()"
+         data-launch-from-pointer="@LaunchFromPointer.ToString().ToLowerInvariant()"
+         data-resize-canvas="@ResizeCanvas.ToString().ToLowerInvariant()"
+         data-use-worker="@UseWorker.ToString().ToLowerInvariant()"
+         data-z-index="@ZIndex"
+         data-options="@_optionsJson"
+         class="@SlotClasses.GetAlpineRoot()"
+         data-slot="@RzConfetti.SlotNames.NameOf(SlotTypes.AlpineRoot)"
+         x-on:click="fireFromClick"
+         x-on:pointerenter="fireFromHover">
+        @if (Mode == ConfettiMode.Scoped)
+        {
+            <canvas x-ref="canvas"
+                    aria-hidden="true"
+                    class="@SlotClasses.GetCanvas()"
+                    data-slot="@RzConfetti.SlotNames.NameOf(SlotTypes.Canvas)"></canvas>
+        }
+
+        <div class="@SlotClasses.GetContent()"
+             data-slot="@RzConfetti.SlotNames.NameOf(SlotTypes.Content)">
+            @ChildContent
+        </div>
+    </div>
+</HtmlElement>
