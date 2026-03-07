@@ -1020,6 +1020,33 @@ pre:has(> code) {
         background-color: var(--color-background);
     }
 }
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(-100% - var(--rz-marquee-gap)));
+    }
+}
+
+@keyframes marquee-vertical {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(calc(-100% - var(--rz-marquee-gap)));
+    }
+}
+
+@layer utilities {
+    .animate-marquee {
+        animation: marquee var(--rz-marquee-duration) linear infinite;
+    }
+
+    .animate-marquee-vertical {
+        animation: marquee-vertical var(--rz-marquee-duration) linear infinite;
 @layer components {
     .animate-aurora {
         animation: aurora 8s ease-in-out infinite;
