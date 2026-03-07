@@ -320,6 +320,13 @@
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
+                            <a href="#" class="font-medium">Special Effects</a>
+                        </SidebarMenuButton>
+                        <SidebarMenuSub>
+                            <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/shine-border" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Shine Border</span></a></SidebarMenuButton></SidebarMenuItem>
+                        </SidebarMenuSub>
+                    </SidebarMenuItem>     
+                    <SidebarMenuItem>
                             <a href="#" class="font-medium">Text Animation</a>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
@@ -344,7 +351,7 @@
 
     <!-- Main Content Area -->
     <SidebarInset>
-        <header class="bg-secondary/75 flex h-16 shrink-0 items-center items-center justify-between gap-2 border-b px-4 py-2 backdrop-blur-xl transition-[width,height] ease-in-out group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+        <header class="bg-secondary/75 flex h-16 shrink-0 items-center items-center justify-between gap-2 border-b px-4 py-2 backdrop-blur-xl transition-[width,height] ease-in-out group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 sticky top-0 z-50">
             <div class="flex items-center gap-2">
                 <SidebarTrigger />
                 <RzSeparator Orientation="Orientation.Vertical" class="mr-2 h-10" />
@@ -362,7 +369,7 @@
             </div>
         </header>
 
-        <main class="flex flex-1 flex-col overflow-y-auto min-h-0" id="content">
+        <main class="flex flex-1 flex-col min-h-0" id="content">
             <div class="flex flex-1 flex-col gap-4 p-4">
                 @Body
             </div>

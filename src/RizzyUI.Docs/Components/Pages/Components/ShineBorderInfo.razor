@@ -1,0 +1,169 @@
+@page "/components/shine-border"
+@using RizzyUI
+
+<PageTitle>Shine Border</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Shine Border</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">Shine Border</RzHeading>
+            <RzParagraph>
+                RzShineBorder is a decorative animated overlay for cards, panels, and callouts. It does not wrap content, and should be placed inside a relatively positioned host container that also clips overflow. The effect is fully SSR-rendered and CSS-driven.
+            </RzParagraph>
+
+            <RzAlert Variant="ThemeVariant.Information" class="my-6">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    This component uses an Alpine data object to compute the border style values in a CSP-safe way, then relies on CSS radial-gradients, masking/compositing, and inherited host radius via <code>rounded-[inherit]</code>. For predictable visuals, render it inside a host with <code>relative overflow-hidden</code>.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">Basic Usage</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">Place the border as an overlay child inside a relative, overflow-hidden container.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="min-h-60">
+                        <div class="mx-auto my-5 max-w-sm overflow-hidden rounded-xl border bg-card p-6 relative">
+                            <RzShineBorder />
+                            <RzHeading Level="HeadingLevel.H3" class="mb-2">Project Summary</RzHeading>
+                            <RzParagraph class="mb-0 text-sm">Decorative shine border over a static card container.</RzParagraph>
+                        </div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class=&quot;relative overflow-hidden rounded-xl border bg-card p-6&quot;&gt;
+    &lt;RzShineBorder /&gt;
+    &lt;RzHeading Level=&quot;HeadingLevel.H3&quot;&gt;Project Summary&lt;/RzHeading&gt;
+    &lt;RzParagraph class=&quot;mb-0 text-sm&quot;&gt;Decorative shine border over a static card container.&lt;/RzParagraph&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Multicolor Shine" class="scroll-mt-20">Multicolor Shine</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">Use multiple colors to create a more vibrant sweep around the host edge.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="min-h-60">
+                        <div class="mx-auto my-5 max-w-sm overflow-hidden rounded-xl border bg-card p-6 relative">
+                            <RzShineBorder ShineColors="@(new[] { "#A07CFE", "#FE8FB5", "#FFBE7B" })" />
+                            <RzHeading Level="HeadingLevel.H3" class="mb-2">Login Panel</RzHeading>
+                            <RzParagraph class="mb-0 text-sm">Color order affects how the sweep appears during the animation.</RzParagraph>
+                        </div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzShineBorder ShineColors=&quot;@@(new[] { &quot;&quot;#A07CFE&quot;&quot;, &quot;&quot;#FE8FB5&quot;&quot;, &quot;&quot;#FFBE7B&quot;&quot; })&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Width and Speed" class="scroll-mt-20">Width and Speed Customization</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">Tune border thickness and animation loop duration for subtle or strong emphasis.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="min-h-60">
+                        <div class="mx-auto my-5 grid max-w-3xl gap-4 md:grid-cols-2">
+                            <div class="relative overflow-hidden rounded-xl border bg-card p-6">
+                                <RzShineBorder BorderWidth="2" Duration="8"/>
+                                <RzHeading Level="HeadingLevel.H4" class="mb-2">Faster</RzHeading>
+                                <RzParagraph class="mb-0 text-sm">Thicker border with a shorter loop.</RzParagraph>
+                            </div>
+                            <div class="relative overflow-hidden rounded-xl border bg-card p-6">
+                                <RzShineBorder BorderWidth="1" Duration="20"/>
+                                <RzHeading Level="HeadingLevel.H4" class="mb-2">Slower</RzHeading>
+                                <RzParagraph class="mb-0 text-sm">Default thickness with a slower sweep.</RzParagraph>
+                            </div>
+                        </div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzShineBorder BorderWidth=&quot;2&quot; Duration=&quot;8&quot; /&gt;
+&lt;RzShineBorder BorderWidth=&quot;1&quot; Duration=&quot;20&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Theme-Aware" class="scroll-mt-20">Theme-Aware Integration</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">Choose colors from your design system at usage time; no client-side theme hook is required by the component.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="min-h-50">
+                        <div class="mx-auto my-5 grid max-w-3xl gap-4 md:grid-cols-2">
+                            <div class="relative overflow-hidden rounded-xl border bg-background p-6">
+                                <RzShineBorder ShineColor="var(--foreground)"/>
+                                <RzHeading Level="HeadingLevel.H4" class="mb-2">Foreground token</RzHeading>
+                                <RzParagraph class="mb-0 text-sm">Uses semantic foreground color from the active theme.</RzParagraph>
+                            </div>
+                            <div class="relative overflow-hidden rounded-xl border bg-background p-6">
+                                <RzShineBorder ShineColors="@(new[] { "var(--primary)", "var(--accent)", "var(--secondary)" })"/>
+                                <RzHeading Level="HeadingLevel.H4" class="mb-2">Semantic trio</RzHeading>
+                                <RzParagraph class="mb-0 text-sm">Multi-stop shine driven by semantic design tokens.</RzParagraph>
+                            </div>
+                        </div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzShineBorder ShineColor=&quot;var(--foreground)&quot; /&gt;
+&lt;RzShineBorder ShineColors=&quot;@@(new[] { &quot;&quot;var(--primary)&quot;&quot;, &quot;&quot;var(--accent)&quot;&quot;, &quot;&quot;var(--secondary)&quot;&quot; })&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">BorderWidth</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Decorative border thickness in pixels.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">double</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">1</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Duration</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Animation loop duration in seconds.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">double</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">14</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ShineColor</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Single CSS color for the shine. Used when <code>ShineColors</code> is not provided; otherwise the component falls back to border token colors.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ShineColors</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Multi-stop colors in order. Non-empty values take precedence over <code>ShineColor</code>.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">IEnumerable&lt;string&gt;?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">RespectReducedMotion</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Uses <code>motion-safe:animate-shine</code> when true, <code>animate-shine</code> when false.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">class</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Merged onto the root slot classes.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">style</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Applied to the root overlay element via unmatched attributes.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">id</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Optional explicit element id; otherwise generated.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">auto</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
+                <RzParagraph>
+                    RzShineBorder initializes with <code>x-data="rzShineBorder"</code> on an internal child element to compute style values from data attributes. It does not expose a public interactive API beyond its component parameters.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Events" class="scroll-mt-20">Events and Interoperability</RzHeading>
+                <RzParagraph>
+                    This component emits no events and is decorative-only. Consumers compose it with host containers to control layout and theme context.
+                </RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

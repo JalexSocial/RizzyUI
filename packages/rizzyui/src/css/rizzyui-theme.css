@@ -184,6 +184,19 @@
     --clr-text: var(--popover-foreground);
     --clr-border: var(--input);
     --clr-shadow: 0 10px 30px color-mix(in oklab, var(--foreground) 16%, transparent);    
+    --animate-shine: shine var(--duration) infinite linear;
+
+    @keyframes shine {
+        0% {
+            background-position: 0% 0%;
+        }
+        50% {
+            background-position: 100% 100%;
+        }
+        to {
+            background-position: 0% 0%;
+        }
+    }
 }
 
 @layer base {

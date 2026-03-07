@@ -1,0 +1,22 @@
+@namespace RizzyUI
+@inherits RzComponent<RzShineBorder.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="shine-border"
+             aria-hidden="true"
+             style="@RootStyle">
+    <div data-alpine-root="@Id"
+         x-data="rzShineBorder"
+         data-assets="@_assets"
+         data-nonce="@Nonce"
+         data-border-width="@BorderWidth"
+         data-duration="@Duration"
+         data-shine-color="@ShineColor"
+         data-shine-colors="@_serializedShineColors"
+         x-bind:style="computedStyle"
+         class="@SlotClasses.GetOverlay()"
+         data-slot="@RzShineBorder.SlotNames.NameOf(SlotTypes.Overlay)"></div>
+</HtmlElement>
