@@ -1,0 +1,145 @@
+@page "/components/number-ticker"
+@using RizzyUI
+
+<PageTitle>Number Ticker</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Number Ticker</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" class="scroll-mt-20">Number Ticker</RzHeading>
+            <RzParagraph>
+                <b>RzNumberTicker</b> renders a correct SSR-first numeric value and progressively enhances it with Alpine-based count animation.
+                It is a single component (not a primitive family), and client behavior is handled by <code>x-data="rzNumberTicker"</code> instead
+                of Blazor interactivity.
+            </RzParagraph>
+
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    The server always renders the final formatted value first. When JavaScript is available, Alpine reads the data attributes,
+                    optionally waits for viewport entry, and animates toward the destination value.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">Basic Usage</RzHeading>
+                <RzParagraph>Default count-up behavior to an integer target.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8">
+                        <RzNumberTicker Value="100" class="text-6xl font-semibold tracking-tight" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzNumberTicker Value="100" class="text-6xl font-semibold tracking-tight" /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Decimal Formatting" class="scroll-mt-20">Decimal Formatting</RzHeading>
+                <RzParagraph>Control fraction digits, culture, and grouping.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto flex flex-col gap-4 p-8">
+                        <RzNumberTicker Value="12345.67m" DecimalPlaces="2" Culture="en-US" class="text-4xl font-medium" />
+                        <RzNumberTicker Value="12345.67m" DecimalPlaces="2" Culture="de-DE" UseGrouping="false" class="text-4xl font-medium" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzNumberTicker Value="12345.67m" DecimalPlaces="2" Culture="en-US" class="text-4xl font-medium" /&gt;
+&lt;RzNumberTicker Value="12345.67m" DecimalPlaces="2" Culture="de-DE" UseGrouping="false" class="text-4xl font-medium" /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Countdown with Delay" class="scroll-mt-20">Countdown with Delay</RzHeading>
+                <RzParagraph>
+                    In down mode the ticker starts at <code>Value</code> and animates to <code>StartValue</code>.
+                    This matches the original MagicUI behavior.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8">
+                        <RzNumberTicker Value="100" StartValue="80" Direction="NumberTickerDirection.Down" Delay="0.4" class="text-5xl font-semibold" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzNumberTicker Value="100" StartValue="80" Direction="NumberTickerDirection.Down" Delay="0.4" class="text-5xl font-semibold" /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Dashboard and HTMX Partial Integration" class="scroll-mt-20">Dashboard / HTMX Partial Integration</RzHeading>
+                <RzParagraph>This card-style snippet is representative of markup you could return from an HTMX endpoint.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto max-w-md rounded-lg border border-border bg-card p-6 shadow-sm">
+                        <p class="text-sm text-muted-foreground">Monthly recurring revenue</p>
+                        <RzNumberTicker Value="48210" DecimalPlaces="0" class="mt-2 text-4xl font-bold" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class="max-w-md rounded-lg border border-border bg-card p-6 shadow-sm"&gt;
+    &lt;p class="text-sm text-muted-foreground"&gt;Monthly recurring revenue&lt;/p&gt;
+    &lt;RzNumberTicker Value="48210" DecimalPlaces="0" class="mt-2 text-4xl font-bold" /&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+                <RzParagraph>Docs note: this preview does not execute a live HTMX endpoint, it only demonstrates component-safe SSR markup.</RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Server-First Static Mode" class="scroll-mt-20">Server-First / No Animation</RzHeading>
+                <RzParagraph>Use static mode for precision-sensitive dashboards or intentionally non-animated metrics.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8">
+                        <RzNumberTicker Value="987654321.1234m" DecimalPlaces="4" DisableAnimation="true" class="text-4xl font-semibold" />
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzNumberTicker Value="987654321.1234m" DecimalPlaces="4" DisableAnimation="true" class="text-4xl font-semibold" /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Parameters" class="scroll-mt-20">Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th scope="col" class="px-4 py-3">Property</th><th scope="col" class="px-4 py-3">Description</th><th scope="col" class="px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Default</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                    <tr class="align-top"><td class="px-4 py-4"><code>Value</code></td><td class="px-4 py-4">Destination numeric value.</td><td class="px-4 py-4"><code>decimal</code></td><td class="px-4 py-4">Required</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>StartValue</code></td><td class="px-4 py-4">Start value for up mode and destination for down mode.</td><td class="px-4 py-4"><code>decimal</code></td><td class="px-4 py-4"><code>0</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Direction</code></td><td class="px-4 py-4">Animation direction.</td><td class="px-4 py-4"><code>NumberTickerDirection</code></td><td class="px-4 py-4"><code>Up</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Delay</code></td><td class="px-4 py-4">Delay in seconds before animation starts.</td><td class="px-4 py-4"><code>double</code></td><td class="px-4 py-4"><code>0</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>DecimalPlaces</code></td><td class="px-4 py-4">Minimum and maximum fraction digits.</td><td class="px-4 py-4"><code>int</code></td><td class="px-4 py-4"><code>0</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>Culture</code></td><td class="px-4 py-4">Culture name for number formatting.</td><td class="px-4 py-4"><code>string?</code></td><td class="px-4 py-4">Current culture</td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>UseGrouping</code></td><td class="px-4 py-4">Enables thousands separators.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>true</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>TriggerOnView</code></td><td class="px-4 py-4">Delays start until viewport entry.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>true</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>AnimateOnce</code></td><td class="px-4 py-4">Runs viewport animation once.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>true</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>DisableAnimation</code></td><td class="px-4 py-4">Keeps server text static.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>false</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>AriaLabel</code></td><td class="px-4 py-4">Optional accessible name.</td><td class="px-4 py-4"><code>string?</code></td><td class="px-4 py-4"><code>null</code></td></tr>
+                    <tr class="align-top"><td class="px-4 py-4"><code>ComponentAssetKeys</code></td><td class="px-4 py-4">Asset keys resolved to URLs for Alpine loader compatibility.</td><td class="px-4 py-4"><code>string[]</code></td><td class="px-4 py-4"><code>[]</code></td></tr>
+                </tbody></table></div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Client Behavior" class="scroll-mt-20">Client Behavior</RzHeading>
+                <RzParagraph>
+                    The underlying Alpine data key is <code>rzNumberTicker</code>. There are no public custom methods, no custom browser events,
+                    and no required external runtime assets. The component is safe for SSR and partial rendering.
+                </RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

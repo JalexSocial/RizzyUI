@@ -1,0 +1,31 @@
+@namespace RizzyUI
+@using RizzyUI.Extensions
+@inherits RzComponent<RzNumberTicker.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="number-ticker"
+             aria-label="@AriaLabel">
+    <div class="@SlotClasses.GetBody()"
+         data-slot="@RzNumberTicker.SlotNames.NameOf(SlotTypes.Body)"
+         data-alpine-root="@Id"
+         x-data="rzNumberTicker"
+         data-assets="@_assets"
+         data-nonce="@Nonce"
+         data-value="@Value"
+         data-start-value="@StartValue"
+         data-direction="@Direction.ToString().ToKebabCase()"
+         data-delay="@EffectiveDelay"
+         data-decimal-places="@EffectiveDecimalPlaces"
+         data-culture="@EffectiveCultureName"
+         data-use-grouping="@UseGrouping.ToString().ToLowerInvariant()"
+         data-trigger-on-view="@TriggerOnView.ToString().ToLowerInvariant()"
+         data-animate-once="@AnimateOnce.ToString().ToLowerInvariant()"
+         data-disable-animation="@DisableAnimation.ToString().ToLowerInvariant()">
+        <span class="@SlotClasses.GetValue()"
+              data-slot="@RzNumberTicker.SlotNames.NameOf(SlotTypes.Value)"
+              x-ref="value">@FormattedValue</span>
+    </div>
+</HtmlElement>
