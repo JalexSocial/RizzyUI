@@ -1078,6 +1078,9 @@ pre:has(> code) {
 
     .animate-marquee-vertical {
         animation: marquee-vertical var(--rz-marquee-duration) linear infinite;
+    }
+}
+
 @layer components {
     .animate-aurora {
         animation: aurora 8s ease-in-out infinite;
