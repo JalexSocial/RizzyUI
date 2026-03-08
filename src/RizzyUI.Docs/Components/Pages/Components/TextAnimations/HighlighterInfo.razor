@@ -1,0 +1,194 @@
+@page "/components/highlighter"
+@namespace RizzyUI.Docs.Components.Pages.Components.TextAnimations
+
+@using RizzyUI
+
+<PageTitle>Highlighter</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Highlighter</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Highlighter" class="scroll-mt-20">Highlighter</RzHeading>
+            <RzParagraph>
+                <code>RzHighlighter</code> decorates inline text with rough, animated highlight or underline effects. It keeps content SSR-first and semantically normal while Alpine (<code>x-data="rzHighlighter"</code>) handles client-side drawing.
+            </RzParagraph>
+
+            <RzAlert Variant="ThemeVariant.Information" class="my-5">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    The text is always server-rendered and readable without JavaScript. When JS is available, the Alpine instance loads annotation assets from <code>ComponentAssetKeys</code> and draws the effect around the <code>x-ref="target"</code> content span.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">Basic Usage</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 text-center leading-relaxed">
+                        Build delightful copy with <RzHighlighter>small visual emphasis</RzHighlighter> in a sentence.
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+Build delightful copy with &lt;RzHighlighter&gt;small visual emphasis&lt;/RzHighlighter&gt; in a sentence.
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Underline Action" class="scroll-mt-20">Underline Action</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 text-center leading-relaxed">
+                        Use an <RzHighlighter Action="HighlighterAction.Underline" Color="#ff9800">animated underline</RzHighlighter> when a filled highlight feels heavy.
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+Use an &lt;RzHighlighter Action="HighlighterAction.Underline" Color="#ff9800"&gt;animated underline&lt;/RzHighlighter&gt; when a filled highlight feels heavy.
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Color and Timing" class="scroll-mt-20">Color and Timing Customization</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 flex flex-col gap-4 items-center leading-relaxed">
+                        <p><RzHighlighter Color="var(--highlight-3)" StrokeWidth="1.2" AnimationDuration="500">Gentle and quick</RzHighlighter></p>
+                        <p><RzHighlighter Color="var(--highlight-4)" StrokeWidth="2" AnimationDuration="900" Iterations="3">Bold and expressive</RzHighlighter></p>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzHighlighter Color="var(--highlight-3)" StrokeWidth="1.2" AnimationDuration="500"&gt;Gentle and quick&lt;/RzHighlighter&gt;
+&lt;RzHighlighter Color="var(--highlight-4)" StrokeWidth="2" AnimationDuration="900" Iterations="3"&gt;Bold and expressive&lt;/RzHighlighter&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Start On View" class="scroll-mt-20">Start On View</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 h-[420px] overflow-y-auto border rounded-md w-full max-w-2xl">
+                        <p>Scroll down to trigger the annotation once the content enters view.</p>
+                        <div class="h-64"></div>
+                        <p>
+                            <RzHighlighter StartOnView="true" ViewMargin="-15%">This text animates when visible.</RzHighlighter>
+                        </p>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzHighlighter StartOnView="true" ViewMargin="-15%"&gt;This text animates when visible.&lt;/RzHighlighter&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Multiline Text" class="scroll-mt-20">Multiline Text</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 max-w-sm text-left leading-relaxed">
+                        <RzHighlighter Multiline="true">
+                            Multiline highlighting works for wrapped prose, but keep spans short so decoration remains legible.
+                        </RzHighlighter>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzHighlighter Multiline="true"&gt;
+    Multiline highlighting works for wrapped prose, but keep spans short so decoration remains legible.
+&lt;/RzHighlighter&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Rich Typography" class="scroll-mt-20">Integration in Rich Typography</RzHeading>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 max-w-2xl">
+                        <RzParagraph>
+                            Combine <RzHighlighter Color="var(--highlight-2)">inline emphasis</RzHighlighter> with your normal typography flow, and reserve
+                            <RzHighlighter Action="HighlighterAction.Underline" Color="#f97316">strong accents</RzHighlighter> for key phrases.
+                        </RzParagraph>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzParagraph&gt;
+    Combine &lt;RzHighlighter Color="var(--highlight-2)"&gt;inline emphasis&lt;/RzHighlighter&gt; with your normal typography flow, and reserve
+    &lt;RzHighlighter Action="HighlighterAction.Underline" Color="#f97316"&gt;strong accents&lt;/RzHighlighter&gt; for key phrases.
+&lt;/RzParagraph&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Hightlight Colors" class="scroll-mt-20">Hightlight Color Variables</RzHeading>
+                <RzParagraph>
+                    The following CSS 5 color variables have light and dark mode equivalents and can be used in any of the highlighters.  For example, if you want to use `highlight-1` then pass `var(--highlight-1)` as the color parameter variable.
+                </RzParagraph>                
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                        <tr><th class="px-4 py-3">Color</th><th class="px-4 py-3">Variable Name</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                        <tr><td class="px-4 py-3"><RzColorSwatch Value="var(--highlight-1)"/></td><td class="px-4 py-3"><code>--highlight-1</code></td></tr>
+                        <tr><td class="px-4 py-3"><RzColorSwatch Value="var(--highlight-2)"/></td><td class="px-4 py-3"><code>--highlight-2</code></td></tr>
+                        <tr><td class="px-4 py-3"><RzColorSwatch Value="var(--highlight-3)"/></td><td class="px-4 py-3"><code>--highlight-3</code></td></tr>
+                        <tr><td class="px-4 py-3"><RzColorSwatch Value="var(--highlight-4)"/></td><td class="px-4 py-3"><code>--highlight-4</code></td></tr>
+                        <tr><td class="px-4 py-3"><RzColorSwatch Value="var(--highlight-5)"/></td><td class="px-4 py-3"><code>--highlight-5</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>                
+                
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Parameters" class="scroll-mt-20">Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                        <tr><th class="px-4 py-3">Property</th><th class="px-4 py-3">Type</th><th class="px-4 py-3">Default</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                        <tr><td class="px-4 py-3"><code>ChildContent</code></td><td class="px-4 py-3"><code>RenderFragment?</code></td><td class="px-4 py-3"><code>null</code></td></tr>
+                        <tr><td class="px-4 py-3"><code>Action</code></td><td class="px-4 py-3"><code>HighlighterAction</code></td><td class="px-4 py-3"><code>Highlight</code></td></tr>
+                        <tr><td class="px-4 py-3"><code>Color</code></td><td class="px-4 py-3"><code>string?</code></td><td class="px-4 py-3"><code>var(--highlight-1)</code></td></tr>
+                        <tr><td class="px-4 py-3"><code>StrokeWidth</code></td><td class="px-4 py-3"><code>double</code></td><td class="px-4 py-3"><code>1.5</code></td></tr>
+                        <tr><td class="px-4 py-3"><code>AnimationDuration</code></td><td class="px-4 py-3"><code>int</code></td><td class="px-4 py-3"><code>600</code></td></tr>
+                        <tr><td class="px-4 py-3"><code>Iterations</code></td><td class="px-4 py-3"><code>int</code></td><td class="px-4 py-3"><code>2</code></td></tr>
+                        <tr><td class="px-4 py-3"><code>Padding</code></td><td class="px-4 py-3"><code>int</code></td><td class="px-4 py-3"><code>2</code></td></tr>
+                        <tr><td class="px-4 py-3"><code>Multiline</code></td><td class="px-4 py-3"><code>bool</code></td><td class="px-4 py-3"><code>true</code></td></tr>
+                        <tr><td class="px-4 py-3"><code>StartOnView</code></td><td class="px-4 py-3"><code>bool</code></td><td class="px-4 py-3"><code>false</code></td></tr>
+                        <tr><td class="px-4 py-3"><code>ViewMargin</code></td><td class="px-4 py-3"><code>string?</code></td><td class="px-4 py-3"><code>-10%</code></td></tr>
+                        <tr><td class="px-4 py-3"><code>ComponentAssetKeys</code></td><td class="px-4 py-3"><code>string[]</code></td><td class="px-4 py-3"><code>["RzHighlighterCoreScript"]</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                        <tr><th class="px-4 py-3">Key</th><th class="px-4 py-3">Value</th><th class="px-4 py-3">Purpose</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                        <tr><td class="px-4 py-3"><code>x-data</code></td><td class="px-4 py-3"><code>rzHighlighter</code></td><td class="px-4 py-3">Initializes the internal Alpine module.</td></tr>
+                        <tr><td class="px-4 py-3"><code>x-ref</code></td><td class="px-4 py-3"><code>target</code></td><td class="px-4 py-3">Annotation target element.</td></tr>
+                        <tr><td class="px-4 py-3"><code>data-*</code></td><td class="px-4 py-3"><code>action/color/stroke-width/...</code></td><td class="px-4 py-3">Server-emitted config read by Alpine.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <RzParagraph>
+                This component has no public events. It is safe in HTMX-updated regions because it initializes from rendered attributes on each load.
+            </RzParagraph>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

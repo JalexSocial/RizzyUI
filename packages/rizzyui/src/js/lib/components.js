@@ -29,6 +29,7 @@ import registerRzEventViewer from './components/rzEventViewer.js';
 import registerRzFileInput from './components/rzFileInput.js';
 import registerRzEmpty from './components/rzEmpty.js';
 import registerRzHeading from './components/rzHeading.js';
+import registerRzHighlighter from './components/rzHighlighter.js';
 import registerRzIndicator from './components/rzIndicator.js';
 import registerRzInputGroupAddon from './components/rzInputGroupAddon.js';
 import registerRzInputOTP from './components/rzInputOTP.js';
@@ -187,6 +188,7 @@ function registerComponents(Alpine) {
     registerRzFileInput(Alpine);
     registerRzEmpty(Alpine);
     registerRzHeading(Alpine);
+    registerRzHighlighter(Alpine, rizzyRequire);
     registerRzIndicator(Alpine);
     registerRzInputGroupAddon(Alpine);
     registerRzInputOTP(Alpine);

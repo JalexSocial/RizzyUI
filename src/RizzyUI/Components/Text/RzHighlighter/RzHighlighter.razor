@@ -1,0 +1,26 @@
+@namespace RizzyUI
+@inherits RzComponent<RzHighlighter.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="highlighter">
+    <div data-alpine-root="@Id"
+         x-data="rzHighlighter"
+         data-action="@EffectiveAction"
+         data-color="@EffectiveColor"
+         data-stroke-width="@EffectiveStrokeWidth"
+         data-animation-duration="@EffectiveAnimationDuration"
+         data-iterations="@EffectiveIterations"
+         data-padding="@EffectivePadding"
+         data-multiline="@Multiline.ToString().ToLowerInvariant()"
+         data-start-on-view="@StartOnView.ToString().ToLowerInvariant()"
+         data-view-margin="@EffectiveViewMargin"
+         data-assets="@_assets"
+         data-nonce="@Nonce">
+        <span class="@SlotClasses.GetContent()"
+              data-slot="@RzHighlighter.SlotNames.NameOf(SlotTypes.Content)"
+              x-ref="target">@ChildContent</span>
+    </div>
+</HtmlElement>

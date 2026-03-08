@@ -89,6 +89,7 @@ public static class ServiceCollectionExtensions
             config.AssetUrls.TryAdd("ChartJs", "https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js");
             config.AssetUrls.TryAdd("CanvasConfetti", "https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js");
             config.AssetUrls.TryAdd("SliderScript", Constants.ContentUrl("js/rizzyui.js"));
+            config.AssetUrls.TryAdd("RzHighlighterCoreScript", "https://cdn.jsdelivr.net/npm/rough-notation/lib/rough-notation.iife.js");
 
             config.AssetUrls.TryAdd("VanillaCalendarPro", "https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/index.js");
             config.AssetUrls.TryAdd("VanillaCalendarCss", "https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/styles/index.css");
