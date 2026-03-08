@@ -55,7 +55,7 @@ public class RzThemeProvider : ComponentBase
         var nonce = RizzyNonceProvider.GetNonce(); // Get nonce once for efficiency
 
         // Render HeadContent to inject style and script into <head>
-        builder.OpenComponent<RzHeadContent>(0);
+        builder.OpenComponent<HeadContent>(0);
         builder.AddAttribute(1, "ChildContent", (RenderFragment)(headBuilder =>
         {
             // Inject the style tag with theme variables
