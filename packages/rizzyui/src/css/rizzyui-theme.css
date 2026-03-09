@@ -203,12 +203,13 @@
             background-position: var(--bg-size, 300%) 0;
         }
     }    
+    
     --highlight-1: var(--highlight-1);
     --highlight-2: var(--highlight-2);
     --highlight-3: var(--highlight-3);
     --highlight-4: var(--highlight-4);
     --highlight-5: var(--highlight-5);    
-    --clr-shadow: 0 10px 30px color-mix(in oklab, var(--foreground) 16%, transparent);    
+        
     --animate-shine: shine var(--duration) infinite linear;
 
     @keyframes shine {
