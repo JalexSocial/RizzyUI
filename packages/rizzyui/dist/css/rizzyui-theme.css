@@ -52,6 +52,11 @@
     --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
     --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
     --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+    --highlight-1: oklch(80.8% 0.114 19.571);
+    --highlight-2: oklch(83.7% 0.128 66.29);
+    --highlight-3: oklch(90.5% 0.182 98.111);
+    --highlight-4: oklch(87.1% 0.15 154.449);
+    --highlight-5: oklch(82.8% 0.111 230.318);    
 }
 
 .dark {
@@ -102,6 +107,12 @@
 
     --scrollbar-track: var(--color-border);
     --scrollbar-thumb: var(--color-muted-foreground);    
+    
+    --highlight-1: oklch(44.4% 0.177 26.899);
+    --highlight-2: oklch(47% 0.157 37.304);
+    --highlight-3: oklch(0.601 0.126 66.573);
+    --highlight-4: oklch(44.8% 0.119 151.328);
+    --highlight-5: oklch(44.3% 0.11 240.79);
 }
 
 @theme inline {
@@ -183,7 +194,35 @@
     --clr-bg: var(--popover);
     --clr-text: var(--popover-foreground);
     --clr-border: var(--input);
-    --clr-shadow: 0 10px 30px color-mix(in oklab, var(--foreground) 16%, transparent);    
+    --clr-shadow: 0 10px 30px color-mix(in oklab, var(--foreground) 16%, transparent);
+
+    --animate-gradient: gradient 8s linear infinite;
+
+    @keyframes gradient {
+        to {
+            background-position: var(--bg-size, 300%) 0;
+        }
+    }    
+    
+    --highlight-1: var(--highlight-1);
+    --highlight-2: var(--highlight-2);
+    --highlight-3: var(--highlight-3);
+    --highlight-4: var(--highlight-4);
+    --highlight-5: var(--highlight-5);    
+        
+    --animate-shine: shine var(--duration) infinite linear;
+
+    @keyframes shine {
+        0% {
+            background-position: 0% 0%;
+        }
+        50% {
+            background-position: 100% 100%;
+        }
+        to {
+            background-position: 0% 0%;
+        }
+    }
 }
 
 @layer base {
@@ -1020,6 +1059,36 @@ pre:has(> code) {
         background-color: var(--color-background);
     }
 }
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(-100% - var(--rz-marquee-gap)));
+    }
+}
+
+@keyframes marquee-vertical {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(calc(-100% - var(--rz-marquee-gap)));
+    }
+}
+
+@layer utilities {
+    .animate-marquee {
+        animation: marquee var(--rz-marquee-duration) linear infinite;
+    }
+
+    .animate-marquee-vertical {
+        animation: marquee-vertical var(--rz-marquee-duration) linear infinite;
+    }
+}
+
 @layer components {
     .animate-aurora {
         animation: aurora 8s ease-in-out infinite;

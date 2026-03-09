@@ -29,8 +29,6 @@ export default function(Alpine) {
                     this.observer = new IntersectionObserver(callback, options);
                     // Begin observing the heading element
                     this.observer.observe(this.$el);
-                } else {
-                    console.warn("rzHeading: Could not find 'setCurrentHeading' function in parent scope.");
                 }
             },
             /**
