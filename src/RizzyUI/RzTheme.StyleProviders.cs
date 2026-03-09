@@ -550,6 +550,8 @@ public partial class RzTheme
 
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.ItemTitle"/> component. </summary>
     public virtual TvDescriptor<RzComponent<ItemTitle.Slots>, ItemTitle.Slots> ItemTitle { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzAnimatedGradientText"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzAnimatedGradientText.Slots>, RzAnimatedGradientText.Slots> RzAnimatedGradientText { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzHighlighter"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzHighlighter.Slots>, RzHighlighter.Slots> RzHighlighter { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzHeading"/> component. </summary>
