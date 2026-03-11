@@ -7,7 +7,7 @@
                  @attributes="@AdditionalAttributes"
                  id="@Id"
                  class="@SlotClasses.GetBase()"
-                 x-data="rzDropdownSubmenu"
+                 x-data="rzDropdownSubmenu" x-load="@LoadStrategyOrNull"
                  data-alpine-root="@Id"
                  data-parent-id="@ParentDropdownMenu?.Id"
                  data-sub-anchor="@Anchor.ToString().ToKebabCase()"

@@ -6,7 +6,7 @@
                  id="@Id"
                  @attributes="@AdditionalAttributes"
                  class="@SlotClasses.GetBase()"
-                 x-data="rzTooltip"
+                 x-data="rzTooltip" x-load="@LoadStrategyOrNull"
                  data-alpine-root="@Id"
                  data-anchor="@EffectiveAnchor"
                  data-offset="@Offset"

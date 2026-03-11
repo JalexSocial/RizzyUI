@@ -2,7 +2,7 @@
 @namespace RizzyUI
 @inherits RzComponent<RzIndicator.Slots>
 
-<div x-data="rzIndicator"
+<div x-data="rzIndicator" x-load="@LoadStrategyOrNull"
      @attributes="@AdditionalAttributes"
      data-alpine-root="@Id"
      id="@Id"

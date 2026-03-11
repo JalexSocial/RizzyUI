@@ -1,6 +1,6 @@
 // packages/rizzyui/src/js/lib/components/rzCommandGroup.js
-export default function(Alpine) {
-    Alpine.data('rzCommandGroup', () => ({
+export default function rzCommandGroup() {
+    return {
         parent: null,
         heading: '',
         headingId: '',
@@ -15,7 +15,7 @@ export default function(Alpine) {
                 console.error('CommandGroup must be a child of RzCommand.');
                 return;
             }
-            this.parent = Alpine.$data(parentEl);
+            this.parent = window.Alpine.$data(parentEl);
 
             this.heading = this.$el.dataset.heading;
 
@@ -27,5 +27,5 @@ export default function(Alpine) {
                 this.parent.registerGroupTemplate(this.heading, templateContent, headingId);
             }
         }
-    }));
+    };
 }

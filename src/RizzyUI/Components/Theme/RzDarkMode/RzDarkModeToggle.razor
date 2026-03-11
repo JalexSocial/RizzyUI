@@ -9,7 +9,7 @@
              class="@SlotClasses.GetBase()"
              type="button"
              aria-label="@Localizer["RzDarkModeToggle.AriaLabel"]"
-             x-data="rzDarkModeToggle"
+             x-data="rzDarkModeToggle" x-load="@LoadStrategyOrNull"
              x-on:click="toggle"
              data-alpine-root="@Id"
              :aria-pressed="isDark">

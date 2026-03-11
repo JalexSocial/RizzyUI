@@ -11,7 +11,7 @@
     <div class="@SlotClasses.GetBody()"
          data-slot="@RzNumberTicker.SlotNames.NameOf(SlotTypes.Body)"
          data-alpine-root="@Id"
-         x-data="rzNumberTicker"
+         x-data="rzNumberTicker" x-load="@LoadStrategyOrNull"
          data-assets="@_assets"
          data-nonce="@Nonce"
          data-value="@Value"

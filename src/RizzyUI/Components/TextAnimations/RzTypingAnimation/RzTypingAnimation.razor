@@ -10,7 +10,7 @@
     <div class="@SlotClasses.GetAlpineRoot()"
          data-slot="@RzTypingAnimation.SlotNames.NameOf(SlotTypes.AlpineRoot)"
          data-alpine-root="@Id"
-         x-data="rzTypingAnimation"
+         x-data="rzTypingAnimation" x-load="@LoadStrategyOrNull"
          data-assets="@_assets"
          data-nonce="@Nonce"
          data-config="@_configJson">

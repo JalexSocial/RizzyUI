@@ -11,7 +11,7 @@
 			<rz-proxy id="rz-ref-@Id" x-ref="@(attribute)" data-for="@Id"></rz-proxy>
 		}
 	}	
-	<div x-data="rzModal"
+	<div x-data="rzModal" x-load="@LoadStrategyOrNull"
 	     id="@Id"
 	     data-slot="dialog"
 	     data-alpine-root="@Id"

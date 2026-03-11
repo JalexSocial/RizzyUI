@@ -7,7 +7,7 @@
              class="@SlotClasses.GetBase()"
              data-slot="chart">
     <div data-alpine-root="@Id"
-         x-data="rzChart"
+         x-data="rzChart" x-load="@LoadStrategyOrNull"
          data-assets="@_assets"
          data-nonce="@Nonce"
          data-config-id="@ConfigScriptId"

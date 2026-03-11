@@ -7,7 +7,7 @@
              class="@SlotClasses.GetBase()"
              data-slot="color-picker-provider">
     <div data-alpine-root="@Id"
-         x-data="rzColorPickerProvider"
+         x-data="rzColorPickerProvider" x-load="@LoadStrategyOrNull"
          data-assets="@_assets"
          data-config="@_serializedConfig"
          data-initial-value="@Value"

@@ -668,6 +668,7 @@ If a RizzyUI component uses Alpine.js, its root `<HtmlElement>` in the `.razor` 
 <HtmlElement Element="@EffectiveElement" id="@Id" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()">
     <div data-alpine-root="@Id" @* Crucial: Must match the Blazor component's @Id *@
          x-data="rzFancyThing"   @* Alpine component name, e.g., 'rzComponentName' *@
+         x-load="@LoadStrategy"   @* Shared RzComponent parameter (default: "eager") *@
          data-assets="@_assets"   @* Serialized JSON string of asset URLs for this component *@
          data-nonce="@Nonce">     @* CSP nonce for inline scripts/styles loaded by this component *@
         @* Alpine-interactive content, x-ref, x-on:, :class, etc. goes here *@
@@ -677,8 +678,10 @@ If a RizzyUI component uses Alpine.js, its root `<HtmlElement>` in the `.razor` 
 
 * `data-alpine-root="@Id"`: This attribute is **essential**. It MUST exactly match the Blazor component's `@Id`. It's used by the `Rizzy.$data()` helper to locate the Alpine component's scope.
 * `x-data="rzComponentName"`: Specifies the name of the Alpine.js component to initialize on this `div`. The name should follow the `rzComponentName` convention, where `rz` corresponds to `Rz` prefixed Blazor components.
+* `x-load="@LoadStrategy"`: Required on the same element as `x-data` for Async Alpine loading. `LoadStrategy` is inherited from `RzComponent` and defaults to `"eager"`; emit `x-load` only when `LoadStrategy` is non-empty.
 * `data-assets="@_assets"`: A JSON stringified array of asset URLs (JavaScript/CSS) that this specific Alpine component instance needs. This is populated from the C# code-behind.
 * `data-nonce="@Nonce"`: The CSP nonce value, passed from the C# `RzComponent` base. This is used by the `require` utility to load assets in a CSP-compliant manner.
+* Async Alpine is the source of truth for component loading; do not rely on bootstrap-time preload for component activation correctness.
 
 ### 10.3 Asset Declaration and Loading (Centralized)
 

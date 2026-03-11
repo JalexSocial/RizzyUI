@@ -84,6 +84,12 @@ public abstract partial class RzComponent : ComponentBase
     public string Id { get; set; } = IdGenerator.UniqueId("rz");
 
     /// <summary>
+    /// An optional loading strategy for `async-alpine`, corresponding to the `x-load` attribute (e.g., "visible", "idle").
+    /// </summary>
+    [Parameter]
+    public string LoadStrategy { get; set; } = "eager";
+
+    /// <summary>
     /// Captures unmatched HTML attributes passed to the component. These attributes are typically
     /// applied to the root element rendered by the component. Use the `class` attribute here
     /// for additional CSS classes; they will be merged with the component's base classes.
@@ -112,6 +118,11 @@ public abstract partial class RzComponent : ComponentBase
     /// Actual HTML element tag name to be rendered as the root of this component.
     /// </summary>
     protected string EffectiveElement => string.IsNullOrEmpty(Element) ? "div" : Element;
+
+    /// <summary>
+    /// Gets the effective async-alpine load strategy, or <see langword="null"/> to omit the `x-load` attribute.
+    /// </summary>
+    protected string? LoadStrategyOrNull => string.IsNullOrWhiteSpace(LoadStrategy) ? null : LoadStrategy;
 
     /// <summary>
     /// Initializes the component and resolves the effective theme.

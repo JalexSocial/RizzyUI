@@ -3,7 +3,7 @@
 @inherits RzComponent<RzMarkdown.Slots>
 
 <HtmlElement Element="div" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" id="@Id" data-slot="markdown">
-	<div data-alpine-root="@Id" data-assets="@_assets" data-nonce="@Nonce" x-data="rzMarkdown">
+	<div data-alpine-root="@Id" data-assets="@_assets" data-nonce="@Nonce" x-data="rzMarkdown" x-load="@LoadStrategyOrNull">
 	@OutputHtml
 	</div>
 </HtmlElement>

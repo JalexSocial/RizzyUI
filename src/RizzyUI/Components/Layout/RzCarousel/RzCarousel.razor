@@ -13,7 +13,7 @@
 		<script type="application/json" id="@Id-config">
 			@((MarkupString)_serializedConfig)
 		</script>
-		<div x-data="rzCarousel"
+		<div x-data="rzCarousel" x-load="@LoadStrategyOrNull"
 		     data-config="@Id-config"
 		     data-alpine-root="@Id"
 		     data-assets="@_assets"

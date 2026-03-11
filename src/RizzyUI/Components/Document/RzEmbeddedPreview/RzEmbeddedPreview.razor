@@ -3,7 +3,7 @@
 @inherits RzComponent<RzEmbeddedPreview.Slots>
 
 <HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()">
-	<iframe x-data="rzEmbeddedPreview"
+	<iframe x-data="rzEmbeddedPreview" x-load="@LoadStrategyOrNull"
 	        id="@Id"
 	        data-alpine-root="@Id"
 	        class="@SlotClasses.GetIFrame()"

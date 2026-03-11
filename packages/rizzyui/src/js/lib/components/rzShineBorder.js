@@ -1,5 +1,5 @@
-export default function (Alpine) {
-    Alpine.data('rzShineBorder', () => ({
+export default function rzShineBorder() {
+    return {
         computedStyle: '',
 
         init() {
@@ -53,5 +53,5 @@ export default function (Alpine) {
                 return fallback;
             }
         },
-    }));
+    };
 }

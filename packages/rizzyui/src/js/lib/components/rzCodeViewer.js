@@ -1,12 +1,13 @@
+import { require } from '../../runtime/rizzyRequire.js';
+
 
 // --------------------------------------------------------------------------------
-// Alpine.js component: rzCodeViewer
+// window.Alpine.js component: rzCodeViewer
 // This component handles code display, syntax highlighting, copy-to-clipboard,
 // and expand/collapse functionality.
 // --------------------------------------------------------------------------------
-export default function(Alpine, require) {
-    Alpine.data('rzCodeViewer', () => {
-        return {
+export default function rzCodeViewer() {
+    return {
             expand: false,
             border: true,
             copied: false,
@@ -69,6 +70,5 @@ export default function(Alpine, require) {
             getExpandButtonCss() {
                 return this.expand ? 'rotate-180' : 'rotate-0';
             }
-        };
-    });
+    };
 }

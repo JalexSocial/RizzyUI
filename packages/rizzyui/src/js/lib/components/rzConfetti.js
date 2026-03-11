@@ -1,4 +1,5 @@
 import confettiModule from 'canvas-confetti';
+import { require } from '../../runtime/rizzyRequire.js';
 
 const DEFAULT_CUSTOM_EVENT = 'rz:confetti';
 
@@ -23,8 +24,8 @@ function wait(ms) {
     return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
 
-export default function registerRzConfetti(Alpine, require) {
-    Alpine.data('rzConfetti', () => ({
+export default function rzConfetti() {
+    return {
         confettiFactory: null,
         trigger: 'click',
         mode: 'element-origin',
@@ -304,5 +305,5 @@ export default function registerRzConfetti(Alpine, require) {
                 delete this.$el.rzConfetti;
             }
         }
-    }));
+    };
 }

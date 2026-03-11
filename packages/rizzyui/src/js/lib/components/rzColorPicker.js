@@ -1,5 +1,7 @@
-export default function(Alpine, require) {
-    Alpine.data('rzColorPicker', () => ({
+import { require } from '../../runtime/rizzyRequire.js';
+
+export default function rzColorPicker() {
+    return {
         colorValue: '',
         swatchStyle: 'background-color: transparent;',
         config: {},
@@ -104,5 +106,5 @@ export default function(Alpine, require) {
         handleAssetError(error) {
             console.error('Failed to load Coloris assets.', error);
         }
-    }));
+    };
 }

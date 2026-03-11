@@ -8,7 +8,7 @@
                  id="@Id" 
                  class="@SlotClasses.GetBase()"
                  data-slot="@RzTabs.SlotNames.NameOf(SlotTypes.Base)">
-        <div x-data="rzTabs"
+        <div x-data="rzTabs" x-load="@LoadStrategyOrNull"
              data-alpine-root="@Id"
              data-default-value="@DefaultValue"
              class="contents">

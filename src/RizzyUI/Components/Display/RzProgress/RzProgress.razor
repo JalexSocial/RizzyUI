@@ -8,7 +8,7 @@
              data-slot="progress"
              class="@SlotClasses.GetBase()">
 
-	             <div x-data="rzProgress"
+	             <div x-data="rzProgress" x-load="@LoadStrategyOrNull"
 	                  data-alpine-root="@Id"
 	                  data-label="@Label"
 	                  data-current-val="@CurrentValue"

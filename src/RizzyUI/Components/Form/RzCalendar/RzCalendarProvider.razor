@@ -4,7 +4,7 @@
 
 <div id="@Id"
      class="@SlotClasses.GetBase()"
-     x-data="rzCalendarProvider"
+     x-data="rzCalendarProvider" x-load="@LoadStrategyOrNull"
      data-mode="@ToVcpMode(Mode)"
      data-initial-dates="@_serializedDates"
      data-locale="@(Locale ?? "en-US")"

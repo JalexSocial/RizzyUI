@@ -2,7 +2,7 @@
 @inherits RzComponent<RzAlertDialog.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
-    <div x-data="rzModal"
+    <div x-data="rzModal" x-load="@LoadStrategyOrNull"
          id="@Id"
          data-slot="alert-dialog"
          data-alpine-root="@Id"

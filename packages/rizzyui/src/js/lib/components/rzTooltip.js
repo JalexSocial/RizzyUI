@@ -1,7 +1,7 @@
 import { autoUpdate, computePosition, offset, flip, shift, arrow } from '@floating-ui/dom';
 
-export default function(Alpine) {
-    Alpine.data('rzTooltip', () => ({
+export default function rzTooltip() {
+    return {
         open: false,
         ariaExpanded: 'false',
         state: 'closed',
@@ -409,5 +409,5 @@ export default function(Alpine) {
                 this.arrowEl.style[staticSide] = '-5px';
             });
         },
-    }));
+    };
 }

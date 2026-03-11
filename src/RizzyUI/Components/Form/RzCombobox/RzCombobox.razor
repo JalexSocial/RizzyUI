@@ -13,7 +13,7 @@
              data-slot="@RzComboboxSlotNames.NameOf(RzComboboxSlotTypes.Base)"
              @attributes="@AdditionalAttributes">
     
-    <div x-data="rzCombobox"
+    <div x-data="rzCombobox" x-load="@LoadStrategyOrNull"
          id="@Id"
          data-alpine-root="@Id"
          data-config-id="@ConfigScriptId"

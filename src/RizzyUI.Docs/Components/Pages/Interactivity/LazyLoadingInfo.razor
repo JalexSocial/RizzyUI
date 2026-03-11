@@ -46,7 +46,7 @@
                     The <em>LoadStrategy</em> Parameter
                 </RzHeading>
                 <RzParagraph>
-                    RizzyUI makes lazy loading simple through the <code>LoadStrategy</code> parameter on the <code>&lt;RzAlpineComponent&gt;</code>. This parameter tells <code>async-alpine</code> <em>when</em> to download and initialize your component's <code>.razor.js</code> module.
+                    RizzyUI makes lazy loading simple through the shared <code>LoadStrategy</code> parameter inherited from <code>RzComponent</code> (including <code>&lt;RzAlpineComponent&gt;</code>). This parameter tells <code>async-alpine</code> <em>when</em> to download and initialize your component's <code>.razor.js</code> module.
                 </RzParagraph>
                 <RzParagraph>
                     If you don't provide a <code>LoadStrategy</code>, the component defaults to **eager** loading, meaning its JavaScript is fetched as soon as possible. This is the right choice for critical, "above-the-fold" components like a main navigation menu.

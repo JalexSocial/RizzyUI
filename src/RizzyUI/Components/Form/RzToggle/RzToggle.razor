@@ -12,7 +12,7 @@
              data-disabled="@Disabled.ToString().ToLowerInvariant()"
              data-slot="toggle"
              data-alpine-root="@Id"
-             x-data="rzToggle"
+             x-data="rzToggle" x-load="@LoadStrategyOrNull"
              x-on:click="toggle"
              x-bind:data-state="state"
              x-bind:aria-pressed="ariaPressed"

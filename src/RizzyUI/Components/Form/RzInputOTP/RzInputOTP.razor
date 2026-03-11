@@ -7,7 +7,7 @@
              class="@GetContainerClasses()"
              data-slot="input-otp">
     <div data-alpine-root="@Id"
-         x-data="rzInputOTP"
+         x-data="rzInputOTP" x-load="@LoadStrategyOrNull"
          class="flex items-center gap-2"
          data-assets="@_assets"
          data-nonce="@Nonce"

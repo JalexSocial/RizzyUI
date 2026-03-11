@@ -1,5 +1,5 @@
-export default function (Alpine) {
-    Alpine.data('rzTypingAnimation', () => ({
+export default function rzTypingAnimation() {
+    return {
         config: null,
         words: [],
         segmentedWords: [],
@@ -254,5 +254,5 @@ export default function (Alpine) {
                 this.observer = null;
             }
         }
-    }));
+    };
 }
