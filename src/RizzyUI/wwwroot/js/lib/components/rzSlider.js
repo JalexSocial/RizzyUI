@@ -1,7 +1,7 @@
-import { require } from '../components.js';
+import { require } from '../../runtime/rizzyRequire.js';
 
-export default function (Alpine) {
-    Alpine.data('rzSlider', () => ({
+export default function rzSlider() {
+    return {
         min: 0,
         max: 100,
         step: 1,
@@ -327,5 +327,5 @@ export default function (Alpine) {
                 return fallback;
             }
         }
-    }));
+    };
 }

@@ -155,6 +155,8 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
                     var attributes = heading.GetAttributes();
                     attributes.Id ??= IdGenerator.UniqueId("heading");
                     attributes.AddProperty("x-data", "rzHeading");
+                    if (!string.IsNullOrWhiteSpace(LoadStrategy))
+                        attributes.AddProperty("x-load", LoadStrategy);
 
                     var headingLevel = level switch
                     {

@@ -1,0 +1,11 @@
+@namespace RizzyUI
+@inherits RzComponent<RzAnimatedGradientText.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             style="@StyleVariables"
+             data-slot="animated-gradient-text">
+    @ChildContent
+</HtmlElement>

@@ -5,7 +5,7 @@
 <HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()">
 	<div data-alpine-root="@Id" data-headings="@_headingItemsSerialized"
 	     data-currentheadingid="@(_currentHeadingId)"
-	     x-data="rzQuickReferenceContainer">
+	     x-data="rzQuickReferenceContainer" x-load="@LoadStrategyOrNull">
 		<CascadingValue Value="this" IsFixed="true">
 			@ChildContent
 		</CascadingValue>		

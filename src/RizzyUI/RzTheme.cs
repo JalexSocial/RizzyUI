@@ -51,6 +51,11 @@ public partial class RzTheme
         // RzChart Family
         RzChart = RizzyUI.RzChart.DefaultDescriptor;
 
+        // RzMarquee Family
+        RzMarquee = RizzyUI.RzMarquee.DefaultDescriptor;
+        // RzConfetti
+        RzConfetti = RizzyUI.RzConfetti.DefaultDescriptor;
+
         // RzBreadcrumb Family
         RzBreadcrumb = RizzyUI.RzBreadcrumb.DefaultDescriptor;
         BreadcrumbList = RizzyUI.BreadcrumbList.DefaultDescriptor;
@@ -236,6 +241,9 @@ public partial class RzTheme
         // RzIndicator Family
         RzIndicator = RizzyUI.RzIndicator.DefaultDescriptor;
 
+        // RzNumberTicker
+        RzNumberTicker = RizzyUI.RzNumberTicker.DefaultDescriptor;
+
         // RzInput Family
         RzInput = RizzyUI.FormInputStyles.DefaultDescriptor;
         RzInputText = RizzyUI.RzInputText.DefaultDescriptor;
@@ -315,6 +323,9 @@ public partial class RzTheme
         // RzSeparator Family
         RzSeparator = RizzyUI.RzSeparator.DefaultDescriptor;
 
+        // RzTypingAnimation Family
+        RzTypingAnimation = RizzyUI.RzTypingAnimation.DefaultDescriptor;
+
         // RzSheet Family
         RzSheet = RizzyUI.RzSheet.DefaultDescriptor;
         SheetContent = RizzyUI.SheetContent.DefaultDescriptor;
@@ -356,6 +367,9 @@ public partial class RzTheme
         // RzSkeleton Family
         RzSkeleton = RizzyUI.RzSkeleton.DefaultDescriptor;
 
+        // RzShineBorder Family
+        RzShineBorder = RizzyUI.RzShineBorder.DefaultDescriptor;
+
         // RzSteps Family
         RzSteps = RizzyUI.RzSteps.DefaultDescriptor;
 
@@ -385,9 +399,12 @@ public partial class RzTheme
         TabsContent = RizzyUI.TabsContent.DefaultDescriptor;
 
         // Typography Family
+        RzAnimatedGradientText = RizzyUI.RzAnimatedGradientText.DefaultDescriptor;
         RzHeading = RizzyUI.RzHeading.DefaultDescriptor;
+        RzHighlighter = RizzyUI.RzHighlighter.DefaultDescriptor;
         RzKbd = RizzyUI.RzKbd.DefaultDescriptor;
         RzKbdGroup = RizzyUI.RzKbdGroup.DefaultDescriptor;
+        RzAuroraText = RizzyUI.RzAuroraText.DefaultDescriptor;
         RzParagraph = RizzyUI.RzParagraph.DefaultDescriptor;
     }
 

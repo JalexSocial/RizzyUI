@@ -1,7 +1,7 @@
 const PREVIEW_MAX_LENGTH = 160;
 
-export default function (Alpine) {
-    Alpine.data('rzEventViewer', () => ({
+export default function rzEventViewer() {
+    return {
         eventNames: [],
         entries: [],
         error: null,
@@ -411,5 +411,5 @@ export default function (Alpine) {
                 this.copied = false;
             }
         }
-    }));
+    };
 }

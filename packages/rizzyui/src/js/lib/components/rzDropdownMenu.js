@@ -2,11 +2,11 @@
 // packages/rizzyui/src/js/lib/components/rzDropdownMenu.js
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 
-export default function(Alpine) {
+export default function rzDropdownMenu() {
     /**
      * Manages the state and behavior of the root dropdown menu.
      */
-    Alpine.data('rzDropdownMenu', () => ({
+    return ({
         // --- STATE ---
         open: false,
         isModal: true,
@@ -194,7 +194,7 @@ export default function(Alpine) {
             const item = event.currentTarget;
             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
             if (item.getAttribute('aria-haspopup') === 'menu') {
-                Alpine.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
+                window.Alpine.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
                 return;
             }
             this.open = false;
@@ -259,16 +259,18 @@ export default function(Alpine) {
                 `[x-data^="rzDropdownSubmenu"][data-parent-id="${this.selfId}"]`
             );
 
-            roots.forEach(el => Alpine.$data(el)?.closeSubmenu?.());
+            roots.forEach(el => window.Alpine.$data(el)?.closeSubmenu?.());
             this.isSubmenuActive = false;
         }
 
-    }));
+    });
+}
 
-    /**
-     * Manages the state and behavior of a nested submenu.
-     */
-    Alpine.data('rzDropdownSubmenu', () => ({
+/**
+ * Manages the state and behavior of a nested submenu.
+ */
+export function rzDropdownSubmenu() {
+    return ({
         // --- STATE ---
         open: false,
         ariaExpanded: 'false',
@@ -295,7 +297,7 @@ export default function(Alpine) {
             if (parentId) {
                 const parentEl = document.getElementById(parentId);
                 if (parentEl) {
-                    this.parentDropdown = Alpine.$data(parentEl);
+                    this.parentDropdown = window.Alpine.$data(parentEl);
                 }
             }
             if (!this.parentDropdown) {
@@ -330,7 +332,7 @@ export default function(Alpine) {
                             `[x-data^="rzDropdownSubmenu"][data-parent-id="${this.parentDropdown.selfId}"]`
                         );
 
-                        const anyOpen = Array.from(roots).some(el => Alpine.$data(el)?.open);
+                        const anyOpen = Array.from(roots).some(el => window.Alpine.$data(el)?.open);
                         if (!anyOpen) this.parentDropdown.isSubmenuActive = false;
                     });
 
@@ -383,7 +385,7 @@ export default function(Alpine) {
         handleContentMouseLeave() {
             const childSubmenus = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
             if (childSubmenus) {
-                const isAnyChildOpen = Array.from(childSubmenus).some(el => Alpine.$data(el)?.open);
+                const isAnyChildOpen = Array.from(childSubmenus).some(el => window.Alpine.$data(el)?.open);
                 if (isAnyChildOpen) {
                     return;
                 }
@@ -412,7 +414,7 @@ export default function(Alpine) {
         closeSubmenu() {
             const childSubmenus = this.contentEl?.querySelectorAll('[x-data^="rzDropdownSubmenu"]');
             childSubmenus?.forEach(el => {
-                Alpine.$data(el)?.closeSubmenu();
+                window.Alpine.$data(el)?.closeSubmenu();
             });
             this.open = false;
         },
@@ -427,7 +429,7 @@ export default function(Alpine) {
                 el => el.hasAttribute('x-data') && el.getAttribute('x-data').startsWith('rzDropdownSubmenu') && el.id !== this.selfId
             );
             siblings.forEach(el => {
-                Alpine.$data(el)?.closeSubmenu();
+                window.Alpine.$data(el)?.closeSubmenu();
             });
         },
 
@@ -525,7 +527,7 @@ export default function(Alpine) {
             if (item.getAttribute('aria-disabled') === 'true' || item.hasAttribute('disabled')) return;
 
             if (item.getAttribute('aria-haspopup') === 'menu') {
-                Alpine.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
+                window.Alpine.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.toggleSubmenu();
                 return;
             }
 
@@ -551,7 +553,7 @@ export default function(Alpine) {
             }
 
             if (item.getAttribute('aria-haspopup') === 'menu') {
-                Alpine.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.openSubmenu();
+                window.Alpine.$data(item.closest('[x-data^="rzDropdownSubmenu"]'))?.openSubmenu();
             } else {
                 this.closeSiblingSubmenus();
             }
@@ -578,5 +580,5 @@ export default function(Alpine) {
                 this.$nextTick(() => this.triggerEl?.focus());
             }
         }
-    }));
+    });
 }

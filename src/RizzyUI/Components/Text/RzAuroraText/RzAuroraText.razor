@@ -1,0 +1,23 @@
+@namespace RizzyUI
+@inherits RzComponent<RzAuroraText.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="aurora-text"
+             aria-label="@ComputedAriaLabel"
+             aria-hidden="@RootAriaHidden">
+    @if (ShouldRenderScreenReaderContent)
+    {
+        <span class="@SlotClasses.GetSrText()" data-slot="@RzAuroraText.SlotNames.NameOf(SlotTypes.SrText)">
+            @ChildContent
+        </span>
+    }
+    <span class="@SlotClasses.GetText()"
+          data-slot="@RzAuroraText.SlotNames.NameOf(SlotTypes.Text)"
+          style="@TextStyle"
+          aria-hidden="true">
+        @ChildContent
+    </span>
+</HtmlElement>

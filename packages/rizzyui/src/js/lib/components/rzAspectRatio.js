@@ -1,6 +1,6 @@
 
-export default function(Alpine) {
-    Alpine.data('rzAspectRatio', () => ({
+export default function rzAspectRatio() {
+    return {
         /**
          * Executes the `init` operation.
          * @returns {any} Returns the result of `init` when applicable.
@@ -15,5 +15,5 @@ export default function(Alpine) {
                 this.$el.style.paddingBottom = '100%';
             }
         }
-    }));
+    };
 }

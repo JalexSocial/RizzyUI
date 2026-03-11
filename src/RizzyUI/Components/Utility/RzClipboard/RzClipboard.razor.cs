@@ -88,6 +88,7 @@ public partial class RzClipboard : RzAsChildComponent<RzClipboard.Slots>
             ["data-alpine-root"] = Id,
             ["data-slot"] = SlotNames.NameOf(SlotTypes.Base),
             ["x-data"] = "rzClipboard",
+            ["x-load"] = LoadStrategyOrNull,
             ["data-copy-value"] = Value,
             ["data-target-selector"] = TargetSelector,
             ["data-prefer-value"] = PreferValue.ToString().ToLowerInvariant(),

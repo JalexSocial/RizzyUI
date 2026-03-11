@@ -1,5 +1,5 @@
-export default function(Alpine) {
-    Alpine.data('rzCommandList', () => ({
+export default function rzCommandList() {
+    return {
         parent: null,
         dataItemTemplate: null,
         rowCache: new Map(),
@@ -17,7 +17,7 @@ export default function(Alpine) {
                 return;
             }
 
-            this.parent = Alpine.$data(parentEl);
+            this.parent = window.Alpine.$data(parentEl);
             if (this.parent.dataItemTemplateId) {
                 this.dataItemTemplate = document.getElementById(this.parent.dataItemTemplateId);
             }
@@ -63,8 +63,8 @@ export default function(Alpine) {
                 itemEl = clone.firstElementChild;
 
                 if (itemEl) {
-                    Alpine.addScopeToNode(itemEl, { item });
-                    Alpine.initTree(itemEl);
+                    window.Alpine.addScopeToNode(itemEl, { item });
+                    window.Alpine.initTree(itemEl);
                 }
             } else if (item.templateContent) {
                 const clone = item.templateContent.cloneNode(true);
@@ -192,5 +192,5 @@ export default function(Alpine) {
                 window.htmx.process(container);
             }
         }
-    }));
+    };
 }

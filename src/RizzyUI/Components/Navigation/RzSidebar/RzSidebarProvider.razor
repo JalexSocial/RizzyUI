@@ -8,7 +8,7 @@
 	             id="@Id"
 	             class="@SlotClasses.GetBase()"
 	             data-slot="sidebar-wrapper"
-	             x-data="rzSidebar"
+	             x-data="rzSidebar" x-load="@LoadStrategyOrNull"
 	             x-mobile="isMobile"
 	             data-alpine-root="@Id"
 	             data-default-open="@DefaultOpen.ToString().ToLowerInvariant()"

@@ -10,7 +10,7 @@
              aria-label="@EffectiveAriaLabel"
              aria-disabled="@(Disabled ? "true" : null)">
     <div data-alpine-root="@Id"
-         x-data="rzColorSwatch"
+         x-data="rzColorSwatch" x-load="@LoadStrategyOrNull"
          x-modelable="value"
          x-model="@SwatchModelBinding"
          data-value="@Value"

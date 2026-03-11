@@ -1,5 +1,5 @@
-export default function (Alpine) {
-    Alpine.data('rzBackToTop', () => ({
+export default function rzBackToTop() {
+    return {
         visible: false,
         threshold: 300,
         _rafPending: false,
@@ -34,5 +34,5 @@ export default function (Alpine) {
                 window.removeEventListener('scroll', this._onScroll);
             }
         }
-    }));
+    };
 }

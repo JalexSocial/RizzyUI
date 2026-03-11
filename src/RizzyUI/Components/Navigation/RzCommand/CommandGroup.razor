@@ -5,7 +5,7 @@
 <CascadingValue Value="this" IsFixed="true">
     <div @attributes="AdditionalAttributes"
          id="@Id"
-         x-data="rzCommandGroup"
+         x-data="rzCommandGroup" x-load="@LoadStrategyOrNull"
          data-slot="command-group"
          data-alpine-root="@Id"
          data-heading="@Heading"

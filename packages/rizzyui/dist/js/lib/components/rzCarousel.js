@@ -1,5 +1,7 @@
+import { require } from '../../runtime/rizzyRequire.js';
 
-export default function (Alpine, require) {
+
+export default function rzCarousel() {
     // Helper: read JSON from <script type="application/json" id="...">
     function parseJsonFromScriptId(id) {
         if (!id) return {};
@@ -16,7 +18,7 @@ export default function (Alpine, require) {
         }
     }
 
-    Alpine.data('rzCarousel', () => ({
+    return ({
         emblaApi: null,
         canScrollPrev: false,
         canScrollNext: false,
@@ -146,5 +148,5 @@ export default function (Alpine, require) {
         scrollPrev() { this.emblaApi?.scrollPrev(); },
         scrollNext() { this.emblaApi?.scrollNext(); },
         scrollTo(index) { this.emblaApi?.scrollTo(index); }
-    }));
+    });
 }

@@ -8,7 +8,7 @@
                  id="@Id" 
                  class="@SlotClasses.GetBase()"
                  data-slot="sheet"
-                 x-data="rzSheet"
+                 x-data="rzSheet" x-load="@LoadStrategyOrNull"
                  data-alpine-root="@Id"
                  data-default-open="@DefaultOpen.ToString().ToLowerInvariant()">
         @ChildContent

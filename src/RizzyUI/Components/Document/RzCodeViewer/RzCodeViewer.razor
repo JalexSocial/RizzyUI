@@ -9,7 +9,7 @@
          data-nonce="@Nonce"
          data-copy-title="@CopyButtonTitle"
          data-copied-title="@CopiedButtonTitle"
-         x-data="rzCodeViewer">
+         x-data="rzCodeViewer" x-load="@LoadStrategyOrNull">
     
         <div class="@SlotClasses.GetHeader()">
             <span class="@SlotClasses.GetHeaderTitle()">@ViewerTitle</span>

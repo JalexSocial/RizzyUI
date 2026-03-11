@@ -1,13 +1,14 @@
-
-/**
- * @file RizzyUI CSP-Compliant Entry Point
- * @module rizzyui-csp
- */
 import Alpine from '@alpinejs/csp';
 import { bootstrapRizzyUI } from './lib/bootstrap.js';
 
 const RizzyUI = bootstrapRizzyUI(Alpine);
 
-Alpine.start();
+RizzyUI.ready
+    .then(() => {
+        Alpine.start();
+    })
+    .catch(error => {
+        console.error('[RizzyUI] Failed to initialize CSP runtime.', error);
+    });
 
 export default RizzyUI;

@@ -9,14 +9,14 @@
              class="@SlotClasses.GetBase()"
              role="group" aria-label="Date picker">
 	
-	<div x-data="rzDateEdit"
+	<div x-data="rzDateEdit" x-load="@LoadStrategyOrNull"
 	     data-alpine-root="@Id"
 	     data-config="@_serializedConfig"
 	     data-uid="@_uid"
 	     data-assets="@_assets"
 	     data-nonce="@Nonce">
 
-		<div class="@SlotClasses.GetInputWrapper()" x-data="rzPrependInput" x-ref="pickerWrapper">
+		<div class="@SlotClasses.GetInputWrapper()" x-data="rzPrependInput" x-load="@LoadStrategyOrNull" x-ref="pickerWrapper">
 			@if (!string.IsNullOrEmpty(PrependText) || PrependIcon != null)
 			{
 				<div x-ref="prependContainer" class="@SlotClasses.GetPrependElement()">

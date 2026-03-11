@@ -3,7 +3,7 @@
 @inherits RzComponent<RzBrowser.Slots>
 
 <HtmlElement Element="@EffectiveElement" @attributes="@AdditionalAttributes" id="@Id" class="@SlotClasses.GetBase()" data-slot="browser">
-    <div x-data="rzBrowser" data-alpine-root="@Id">
+    <div x-data="rzBrowser" x-load="@LoadStrategyOrNull" data-alpine-root="@Id">
         
         <div class="@SlotClasses.GetTopBar()" data-slot="browser-top-bar">
             <div class="@SlotClasses.GetTrafficLightsContainer()" aria-hidden="true" data-slot="browser-traffic-lights">

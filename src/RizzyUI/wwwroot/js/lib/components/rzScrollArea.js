@@ -1,5 +1,5 @@
-export default function registerRzScrollArea(Alpine) {
-    Alpine.data('rzScrollArea', () => ({
+export default function rzScrollArea() {
+    return {
         hideTimer: null,
         type: 'hover',
         orientation: 'vertical',
@@ -276,5 +276,5 @@ export default function registerRzScrollArea(Alpine) {
             this._dragAxis = null;
             window.removeEventListener('pointermove', this.onPointerMove);
         },
-    }));
+    };
 }

@@ -1,0 +1,219 @@
+@page "/components/marquee"
+@using RizzyUI
+
+<PageTitle>Marquee</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Marquee</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Marquee" class="scroll-mt-20">Marquee</RzHeading>
+            <RzParagraph>
+                RzMarquee is a CSS-only, SSR-safe infinite scrolling primitive for arbitrary Razor content. It duplicates segments on the server and animates those strips with theme utilities, so you can compose card rails, vertical feeds, logo bands, and perspective effects without introducing Blazor interactivity.
+            </RzParagraph>
+
+            <RzAlert Variant="ThemeVariant.Information" class="not-prose my-6">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    RzMarquee renders repeated segments during SSR. The first segment remains interactive, while clones are emitted with <code>aria-hidden="true"</code> and <code>inert</code>. Motion comes from CSS keyframes and custom properties, not Alpine.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">Basic Usage</RzHeading>
+                <RzParagraph>
+                    This follows the core two-row testimonial pattern: one marquee in the default direction and a second in reverse, with edge fades supplied by outer composition.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative mx-auto w-full max-w-5xl overflow-hidden rounded-xl border p-2">
+                        <RzMarquee PauseOnHover Duration="20s">
+                            <figure class="w-64 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-4"><figcaption class="text-sm font-medium">Jack</figcaption><p class="text-xs text-muted-foreground">@@jack</p><blockquote class="mt-2 text-sm">I've never seen anything like this before.</blockquote></figure>
+                            <figure class="w-64 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-4"><figcaption class="text-sm font-medium">Jill</figcaption><p class="text-xs text-muted-foreground">@@jill</p><blockquote class="mt-2 text-sm">I don't know what to say. I'm speechless.</blockquote></figure>
+                            <figure class="w-64 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-4"><figcaption class="text-sm font-medium">John</figcaption><p class="text-xs text-muted-foreground">@@john</p><blockquote class="mt-2 text-sm">This is amazing. I love it.</blockquote></figure>
+                        </RzMarquee>
+                        <RzMarquee PauseOnHover Reverse Duration="20s">
+                            <figure class="w-64 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-4"><figcaption class="text-sm font-medium">Jane</figcaption><p class="text-xs text-muted-foreground">@@jane</p><blockquote class="mt-2 text-sm">The scrolling feels silky smooth.</blockquote></figure>
+                            <figure class="w-64 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-4"><figcaption class="text-sm font-medium">Jenny</figcaption><p class="text-xs text-muted-foreground">@@jenny</p><blockquote class="mt-2 text-sm">Great for social proof sections.</blockquote></figure>
+                            <figure class="w-64 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-4"><figcaption class="text-sm font-medium">James</figcaption><p class="text-xs text-muted-foreground">@@james</p><blockquote class="mt-2 text-sm">No JavaScript needed for motion.</blockquote></figure>
+                        </RzMarquee>
+                        <div class="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class=&quot;relative overflow-hidden rounded-xl border p-2&quot;&gt;
+    &lt;RzMarquee PauseOnHover Duration=&quot;20s&quot;&gt;
+        &lt;figure class=&quot;w-64 shrink-0 rounded-xl border bg-muted/40 p-4&quot;&gt;...&lt;/figure&gt;
+        &lt;figure class=&quot;w-64 shrink-0 rounded-xl border bg-muted/40 p-4&quot;&gt;...&lt;/figure&gt;
+        &lt;figure class=&quot;w-64 shrink-0 rounded-xl border bg-muted/40 p-4&quot;&gt;...&lt;/figure&gt;
+    &lt;/RzMarquee&gt;
+    &lt;RzMarquee PauseOnHover Reverse Duration=&quot;20s&quot;&gt;
+        &lt;figure class=&quot;w-64 shrink-0 rounded-xl border bg-muted/40 p-4&quot;&gt;...&lt;/figure&gt;
+        &lt;figure class=&quot;w-64 shrink-0 rounded-xl border bg-muted/40 p-4&quot;&gt;...&lt;/figure&gt;
+        &lt;figure class=&quot;w-64 shrink-0 rounded-xl border bg-muted/40 p-4&quot;&gt;...&lt;/figure&gt;
+    &lt;/RzMarquee&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Vertical Marquee" class="scroll-mt-20">Vertical Marquee</RzHeading>
+                <RzParagraph>
+                    Vertical marquees need a bounded height. This composition mirrors the original vertical demo by pairing two opposite columns inside a masked container.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative mx-auto flex h-[28rem] w-full max-w-3xl flex-row items-center justify-center gap-4 overflow-hidden rounded-xl border p-3">
+                        <RzMarquee Orientation="MarqueeOrientation.Vertical" PauseOnHover Duration="20s" class="h-full">
+                            <figure class="w-40 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-3"><figcaption class="text-sm font-medium">Jack</figcaption><p class="text-xs text-muted-foreground">@@jack</p><blockquote class="mt-2 text-xs">Great vertical rhythm.</blockquote></figure>
+                            <figure class="w-40 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-3"><figcaption class="text-sm font-medium">Jill</figcaption><p class="text-xs text-muted-foreground">@@jill</p><blockquote class="mt-2 text-xs">Perfect for compact feeds.</blockquote></figure>
+                        </RzMarquee>
+                        <RzMarquee Orientation="MarqueeOrientation.Vertical" PauseOnHover Reverse Duration="20s" class="h-full">
+                            <figure class="w-40 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-3"><figcaption class="text-sm font-medium">John</figcaption><p class="text-xs text-muted-foreground">@@john</p><blockquote class="mt-2 text-xs">Composes cleanly with gradients.</blockquote></figure>
+                            <figure class="w-40 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-3"><figcaption class="text-sm font-medium">Jane</figcaption><p class="text-xs text-muted-foreground">@@jane</p><blockquote class="mt-2 text-xs">PauseOnHover improves readability.</blockquote></figure>
+                        </RzMarquee>
+                        <div class="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background"></div>
+                        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background"></div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class=&quot;relative h-[28rem] overflow-hidden rounded-xl border p-3&quot;&gt;
+    &lt;RzMarquee Orientation=&quot;MarqueeOrientation.Vertical&quot; PauseOnHover Duration=&quot;20s&quot; class=&quot;h-full&quot;&gt;...&lt;/RzMarquee&gt;
+    &lt;RzMarquee Orientation=&quot;MarqueeOrientation.Vertical&quot; PauseOnHover Reverse Duration=&quot;20s&quot; class=&quot;h-full&quot;&gt;...&lt;/RzMarquee&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Logo Cloud" class="scroll-mt-20">Logo Cloud</RzHeading>
+                <RzParagraph>
+                    The marquee primitive intentionally avoids visual styling concerns. This logo rail shows how spacing, fades, and outer container treatment are handled by consumers.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative mx-auto flex w-full max-w-5xl flex-col items-center justify-center overflow-hidden rounded-xl border py-14 md:shadow-xl">
+                        <RzMarquee Gap="3rem" Duration="24s">
+                            <img src="https://cdn.simpleicons.org/anthropic/000/fff" alt="Anthropic" class="size-14 shrink-0" />
+                            <img src="https://cdn.simpleicons.org/apple/000/fff" alt="Apple" class="size-14 shrink-0" />
+                            <img src="https://cdn.simpleicons.org/google/000/fff" alt="Google" class="size-14 shrink-0" />
+                            <img src="https://cdn.simpleicons.org/facebook/000/fff" alt="Facebook" class="size-14 shrink-0" />
+                            <img src="https://cdn.simpleicons.org/github/000/fff" alt="Github" class="size-14 shrink-0" />
+                            <img src="https://cdn.simpleicons.org/twitch/000/fff" alt="Twitch" class="size-14 shrink-0" />
+                        </RzMarquee>
+                        <div class="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-background"></div>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-background"></div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzMarquee Gap=&quot;3rem&quot; Duration=&quot;24s&quot;&gt;
+    &lt;img src=&quot;...&quot; alt=&quot;Microsoft&quot; class=&quot;size-14 shrink-0&quot; /&gt;
+    &lt;img src=&quot;...&quot; alt=&quot;Apple&quot; class=&quot;size-14 shrink-0&quot; /&gt;
+    &lt;img src=&quot;...&quot; alt=&quot;Google&quot; class=&quot;size-14 shrink-0&quot; /&gt;
+&lt;/RzMarquee&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="3D Perspective" class="scroll-mt-20">3D Perspective</RzHeading>
+                <RzParagraph>
+                    Perspective transformations are a parent-layout concern. This demo recreates the signature 3D wall by nesting four vertical marquees in a transformed wrapper.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative mx-auto flex h-96 w-full max-w-6xl flex-row items-center justify-center gap-4 overflow-hidden rounded-xl border [perspective:300px]">
+                        <div class="flex flex-row items-center gap-4" style="transform:translateX(-100px) translateY(0px) translateZ(-100px) rotateX(20deg) rotateY(-10deg) rotateZ(20deg);">
+                            <RzMarquee Orientation="MarqueeOrientation.Vertical" PauseOnHover Duration="20s"><div class="w-40 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-3 text-xs">Column A</div><div class="w-40 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-3 text-xs">Column A</div></RzMarquee>
+                            <RzMarquee Orientation="MarqueeOrientation.Vertical" PauseOnHover Reverse Duration="20s"><div class="w-40 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-3 text-xs">Column B</div><div class="w-40 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-3 text-xs">Column B</div></RzMarquee>
+                            <RzMarquee Orientation="MarqueeOrientation.Vertical" PauseOnHover Reverse Duration="20s"><div class="w-40 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-3 text-xs">Column C</div><div class="w-40 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-3 text-xs">Column C</div></RzMarquee>
+                            <RzMarquee Orientation="MarqueeOrientation.Vertical" PauseOnHover Duration="20s"><div class="w-40 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-3 text-xs">Column D</div><div class="w-40 shrink-0 rounded-xl border border-border/60 bg-muted/40 p-3 text-xs">Column D</div></RzMarquee>
+                        </div>
+                        <div class="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background"></div>
+                        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background"></div>
+                        <div class="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;div class=&quot;relative h-96 overflow-hidden [perspective:300px]&quot;&gt;
+    &lt;div class=&quot;flex gap-4&quot; style=&quot;transform:translateX(-100px) translateZ(-100px) rotateX(20deg) rotateY(-10deg) rotateZ(20deg);&quot;&gt;
+        &lt;RzMarquee Orientation=&quot;MarqueeOrientation.Vertical&quot; PauseOnHover Duration=&quot;20s&quot;&gt;...&lt;/RzMarquee&gt;
+        &lt;RzMarquee Orientation=&quot;MarqueeOrientation.Vertical&quot; PauseOnHover Reverse Duration=&quot;20s&quot;&gt;...&lt;/RzMarquee&gt;
+        &lt;RzMarquee Orientation=&quot;MarqueeOrientation.Vertical&quot; PauseOnHover Reverse Duration=&quot;20s&quot;&gt;...&lt;/RzMarquee&gt;
+        &lt;RzMarquee Orientation=&quot;MarqueeOrientation.Vertical&quot; PauseOnHover Duration=&quot;20s&quot;&gt;...&lt;/RzMarquee&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                </RzCodeViewer>
+            </section>
+
+            
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Interactive Child Content and Accessibility" class="scroll-mt-20">Interactive Child Content and Accessibility</RzHeading>
+                <RzParagraph>
+                    Focusable children remain usable in the first segment while cloned segments are hidden from assistive technologies and excluded from tab order. Pair this with <code>PauseOnHover</code> so keyboard users can pause motion via focus-within.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <RzMarquee PauseOnHover Duration="22s" class="mx-auto w-full max-w-4xl rounded-lg border" aria-label="Quick actions">
+                        <a href="/docs" class="inline-flex shrink-0 items-center rounded-md border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-accent">Read docs</a>
+                        <a href="/release-notes" class="inline-flex shrink-0 items-center rounded-md border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-accent">Release notes</a>
+                        <a href="/status" class="inline-flex shrink-0 items-center rounded-md border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-accent">System status</a>
+                    </RzMarquee>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzMarquee PauseOnHover Duration=&quot;22s&quot; aria-label=&quot;Quick actions&quot;&gt;
+    &lt;a href=&quot;/docs&quot;&gt;Read docs&lt;/a&gt;
+    &lt;a href=&quot;/release-notes&quot;&gt;Release notes&lt;/a&gt;
+    &lt;a href=&quot;/status&quot;&gt;System status&lt;/a&gt;
+&lt;/RzMarquee&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="bg-zinc-100/75 text-left font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Orientation</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Selects horizontal or vertical motion.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">MarqueeOrientation</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">MarqueeOrientation.Horizontal</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Reverse</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Reverses animation direction.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">PauseOnHover</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Pauses animation on hover and focus-within.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Repeat</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Number of rendered segments. Values lower than 2 are clamped when content exists.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">int</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">4</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Duration</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">CSS duration for one full segment cycle.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">&quot;40s&quot;</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Gap</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">CSS gap between child items and repeated segments.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">&quot;1rem&quot;</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Logical segment content repeated by the marquee.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Interoperability" class="scroll-mt-20">Interoperability</RzHeading>
+                <RzParagraph>
+                    RzMarquee does not expose an Alpine API. It emits no <code>x-data</code>, no <code>data-alpine-root</code>, and no component asset dependencies. Pass-through attributes support HTMX patterns, and the root emits <code>data-orientation</code>, <code>data-reverse</code>, and <code>data-pauses-on-hover</code> markers for diagnostics and tests.
+                </RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

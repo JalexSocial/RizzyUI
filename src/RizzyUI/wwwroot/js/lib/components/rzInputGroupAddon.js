@@ -1,5 +1,5 @@
-﻿export default function(Alpine) {
-    Alpine.data('rzInputGroupAddon', () => ({
+﻿export default function rzInputGroupAddon() {
+    return {
         /**
          * Executes the `handleClick` operation.
          * @param {any} event Input value for this method.
@@ -15,5 +15,5 @@
                 input?.focus();
             }
         }
-    }));
+    };
 }

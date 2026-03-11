@@ -7,7 +7,7 @@
                  @attributes="@AdditionalAttributes" 
                  id="@Id" 
                  class="@SlotClasses.GetBase()"
-                 x-data="rzCollapsible"
+                 x-data="rzCollapsible" x-load="@LoadStrategyOrNull"
                  data-alpine-root="@Id"
                  data-default-open="@DefaultOpen.ToString().ToLowerInvariant()"
                  x-bind:data-state="state"

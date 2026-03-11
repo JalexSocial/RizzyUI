@@ -9,7 +9,7 @@
                  id="@Id" 
                  class="@SlotClasses.GetBase()"
                  data-slot="command"
-                 x-data="rzCommand"
+                 x-data="rzCommand" x-load="@LoadStrategyOrNull"
                  data-alpine-root="@Id"
                  data-loop="@(Loop.ToString().ToLowerInvariant())"
                  data-should-filter="@(ShouldFilter.ToString().ToLowerInvariant())"

@@ -10,7 +10,7 @@
                  aria-label="@AriaLabel"
                  data-orientation="@Orientation.ToString().ToLowerInvariant()"
                  dir="ltr"
-                 x-data="rzNavigationMenu"
+                 x-data="rzNavigationMenu" x-load="@LoadStrategyOrNull"
                  data-alpine-root="@Id"
                  x-on:keydown.escape.window="closeMenu"
                  data-slot="navigation-menu">

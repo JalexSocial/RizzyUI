@@ -109,6 +109,7 @@ public partial class RzBackToTop : RzAsChildComponent<RzBackToTop.Slots>
             ["data-slot"] = SlotNames.NameOf(SlotTypes.Base),
             ["data-alpine-root"] = Id,
             ["x-data"] = "rzBackToTop",
+            ["x-load"] = LoadStrategyOrNull,
             ["data-threshold"] = Threshold,
             ["x-cloak"] = string.Empty,
             ["x-show"] = "visible",

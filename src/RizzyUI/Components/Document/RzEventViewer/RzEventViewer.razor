@@ -8,7 +8,7 @@
              class="@SlotClasses.GetBase()"
              data-slot="event-viewer">
     <div data-alpine-root="@Id"
-         x-data="rzEventViewer"
+         x-data="rzEventViewer" x-load="@LoadStrategyOrNull"
          data-assets="@_assets"
          data-nonce="@Nonce"
          data-event-name="@EventName"

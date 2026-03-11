@@ -1,12 +1,11 @@
 
 // --------------------------------------------------------------------------------
-// Alpine.js component: rzEmbeddedPreview
+// window.Alpine.js component: rzEmbeddedPreview
 // Manages an iframe preview and adjusts its height dynamically.
 // It also passes dark mode settings to the iframe via postMessage.
 // --------------------------------------------------------------------------------
-export default function(Alpine) {
-    Alpine.data('rzEmbeddedPreview', () => {
-        return {
+export default function rzEmbeddedPreview() {
+    return {
             iframe: null,
             onDarkModeToggle: null,
             /**
@@ -77,6 +76,5 @@ export default function(Alpine) {
             destroy() {
                 window.removeEventListener('darkModeToggle', this.onDarkModeToggle);
             }
-        };
-    });
+    };
 }

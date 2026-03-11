@@ -3,7 +3,7 @@
 @inherits RzComponent<CommandItem.Slots>
 
 <div id="@Id"
-     x-data="rzCommandItem"
+     x-data="rzCommandItem" x-load="@LoadStrategyOrNull"
      data-alpine-root="@Id"
      data-value="@Value"
      data-name="@Name"

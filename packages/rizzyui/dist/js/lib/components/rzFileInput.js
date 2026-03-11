@@ -1,6 +1,6 @@
 // packages/rizzyui/src/js/lib/components/rzFileInput.js
-export default function registerRzFileInput(Alpine) {
-    Alpine.data('rzFileInput', () => ({
+export default function rzFileInput() {
+    return {
         files: [],
         hasFiles: false,
         isDragging: false,
@@ -131,5 +131,5 @@ export default function registerRzFileInput(Alpine) {
         destroy() {
             this.revokePreviews();
         },
-    }));
+    };
 }

@@ -1,7 +1,7 @@
 import { autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
 
-export default function(Alpine) {
-    Alpine.data('rzPopover', () => ({
+export default function rzPopover() {
+    return {
         open: false,
         ariaExpanded: 'false',
         dataState: 'closed',
@@ -55,7 +55,6 @@ export default function(Alpine) {
         closePopover() {
             this.teardownAutoUpdate();
             this.detachGlobalListeners();
-            this.contentStyle = '';
             this.contentEl = null;
         },
 
@@ -205,5 +204,5 @@ export default function(Alpine) {
                 this.triggerEl.focus();
             }
         }
-    }));
+    };
 }

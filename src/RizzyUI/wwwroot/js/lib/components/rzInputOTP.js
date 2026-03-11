@@ -1,5 +1,5 @@
-export default function (Alpine) {
-    Alpine.data('rzInputOTP', () => ({
+export default function rzInputOTP() {
+    return {
         value: '',
         length: 0,
         activeIndex: 0,
@@ -521,5 +521,5 @@ export default function (Alpine) {
             if (index > this.length - 1) return this.length - 1;
             return index;
         }
-    }));
+    };
 }

@@ -16,7 +16,7 @@
              data-type="@Type.ToString().ToLowerInvariant()"
              data-scroll-hide-delay="@ScrollHideDelay">
     <div class="contents"
-         x-data="rzScrollArea"
+         x-data="rzScrollArea" x-load="@LoadStrategyOrNull"
          data-alpine-root="@Id"
          data-assets="[]"
          data-nonce="@Nonce"

@@ -1,5 +1,7 @@
-export default function registerRzChart(Alpine, require) {
-    Alpine.data('rzChart', () => ({
+import { require } from '../../runtime/rizzyRequire.js';
+
+export default function rzChart() {
+    return {
         chartInstance: null,
         themeChangeHandler: null,
 
@@ -178,5 +180,5 @@ export default function registerRzChart(Alpine, require) {
                 this.chartInstance = null;
             }
         }
-    }));
+    };
 }

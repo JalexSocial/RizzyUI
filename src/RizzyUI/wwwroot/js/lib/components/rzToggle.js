@@ -1,5 +1,5 @@
-export default function (Alpine) {
-    Alpine.data('rzToggle', () => ({
+export default function rzToggle() {
+    return {
         pressed: false,
         disabled: false,
         controlled: false,
@@ -54,5 +54,5 @@ export default function (Alpine) {
         dataDisabled() {
             return this.disabled ? "" : null;
         }
-    }));
+    };
 }

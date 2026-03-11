@@ -10,7 +10,7 @@
              data-orientation="@Orientation.ToString().ToKebabCase()"
              data-disabled="@Disabled.ToString().ToLowerInvariant()">
     <div data-alpine-root="@Id"
-         x-data="rzSlider"
+         x-data="rzSlider" x-load="@LoadStrategyOrNull"
          data-assets="@_assets"
          data-nonce="@Nonce"
          data-min="@Min"

@@ -7,7 +7,7 @@
                  @attributes="@AdditionalAttributes"
                  class="@SlotClasses.GetBase()"
                  role="menubar"
-                 x-data="rzMenubar"
+                 x-data="rzMenubar" x-load="@LoadStrategyOrNull"
                  data-alpine-root="@Id"
                  data-slot="menubar">
         @ChildContent

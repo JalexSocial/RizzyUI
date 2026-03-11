@@ -42,8 +42,8 @@
 //
 // ──────────────────────────────────────────────────────────────────────────────
 
-export default function registerRzColorSwatch(Alpine) {
-    Alpine.data('rzColorSwatch', () => ({
+export default function rzColorSwatch() {
+    return {
         // ──────────────────────────────────────────────────────────────────────
         // STATE
         // ──────────────────────────────────────────────────────────────────────
@@ -214,5 +214,5 @@ export default function registerRzColorSwatch(Alpine) {
 
             this.swatchStyle = this.getSolidColorStyle(color);
         }
-    }));
+    };
 }

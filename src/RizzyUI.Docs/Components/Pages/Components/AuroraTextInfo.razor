@@ -1,0 +1,140 @@
+@page "/components/aurora-text"
+@namespace RizzyUI.Docs.Components.Pages.Components
+
+@using RizzyUI
+
+<PageTitle>Aurora Text</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Aurora Text</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Aurora Text" class="scroll-mt-20">Aurora Text</RzHeading>
+            <RzParagraph>
+                The <code>RzAuroraText</code> component adds an animated aurora-style gradient to inline text. It is a single SSR-friendly presentational wrapper with configurable gradient colors and speed, and it does not require Alpine.js or Blazor interactivity.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">Basic Usage</RzHeading>
+                <RzParagraph>Wrap a short word or phrase inside surrounding typography.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <span class="font-bold text-4xl md:text-7xl">Ship <RzAuroraText>beautiful</RzAuroraText></span>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;span class="font-bold text-4xl md:text-7xl"&gt;
+    Ship &lt;RzAuroraText&gt;beautiful&lt;/RzAuroraText&gt;
+&lt;/span&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Custom Colors" class="scroll-mt-20">Custom Colors</RzHeading>
+                <RzParagraph>Provide CSS colors in order to tune the gradient palette.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex justify-center items-center min-h-20">
+                        <RzHeading Level="HeadingLevel.H2">
+                            Brand <RzAuroraText Colors="@(new[] { "#F97316", "#FACC15", "#10B981", "#06B6D4" })">energy</RzAuroraText>
+                        </RzHeading>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzAuroraText Colors="new[] { ""#F97316"", ""#FACC15"", ""#10B981"", ""#06B6D4"" }"&gt;
+    energy
+&lt;/RzAuroraText&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Speed Tuning" class="scroll-mt-20">Speed Tuning</RzHeading>
+                <RzParagraph>Use <code>Speed</code> to control how quickly the aurora animation moves.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex flex-col gap-3 items-center min-h-20">
+                        <RzParagraph><RzAuroraText Speed="0.5">Slow Aurora</RzAuroraText></RzParagraph>
+                        <RzParagraph><RzAuroraText>Default Aurora</RzAuroraText></RzParagraph>
+                        <RzParagraph><RzAuroraText Speed="2">Fast Aurora</RzAuroraText></RzParagraph>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzAuroraText Speed="0.5"&gt;Slow Aurora&lt;/RzAuroraText&gt;
+&lt;RzAuroraText&gt;Default Aurora&lt;/RzAuroraText&gt;
+&lt;RzAuroraText Speed="2"&gt;Fast Aurora&lt;/RzAuroraText&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Typography Integration" class="scroll-mt-20">Typography Integration</RzHeading>
+                <RzParagraph>Because it renders an inline element by default, it composes naturally inside headings and paragraphs.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex flex-col gap-4 items-center min-h-20">
+                        <RzHeading Level="HeadingLevel.H3">Build <RzAuroraText>delightful</RzAuroraText> interfaces</RzHeading>
+                        <RzParagraph>The team shipped <RzAuroraText>remarkable polish</RzAuroraText> in this release.</RzParagraph>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzHeading Level="HeadingLevel.H3"&gt;Build &lt;RzAuroraText&gt;delightful&lt;/RzAuroraText&gt; interfaces&lt;/RzHeading&gt;
+&lt;RzParagraph&gt;The team shipped &lt;RzAuroraText&gt;remarkable polish&lt;/RzAuroraText&gt; in this release.&lt;/RzParagraph&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">Accessibility / Decorative Mode</RzHeading>
+                <RzParagraph>By default, the component renders a screen-reader-only text copy and hides the visual animated node from assistive technologies. Use <code>Decorative</code> only when nearby content already communicates the same meaning.</RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 flex flex-col gap-3 items-center min-h-20">
+                        <RzParagraph><RzAuroraText>Accessible Highlight</RzAuroraText></RzParagraph>
+                        <RzParagraph>Decorative flourish <RzAuroraText Decorative="true">✨</RzAuroraText></RzParagraph>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzAuroraText&gt;Accessible Highlight&lt;/RzAuroraText&gt;
+&lt;RzAuroraText Decorative="true"&gt;✨&lt;/RzAuroraText&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Parameters" class="scroll-mt-20">Component Parameters</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code>ChildContent</code></td><td class="px-4 py-4">Inline text or markup to render with the aurora effect.</td><td class="px-4 py-4"><code>RenderFragment?</code></td><td class="px-4 py-4"><code>null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>Colors</code></td><td class="px-4 py-4">Ordered CSS color values used to build the gradient.</td><td class="px-4 py-4"><code>string[]?</code></td><td class="px-4 py-4"><code>["#FF0080", "#7928CA", "#0070F3", "#38bdf8"]</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>Speed</code></td><td class="px-4 py-4">Relative animation speed multiplier. Non-positive values normalize to <code>1</code>.</td><td class="px-4 py-4"><code>double</code></td><td class="px-4 py-4"><code>1</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>AriaLabel</code></td><td class="px-4 py-4">Optional explicit accessible name for non-text content.</td><td class="px-4 py-4"><code>string?</code></td><td class="px-4 py-4"><code>null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>Decorative</code></td><td class="px-4 py-4">Hides the component from assistive technologies when true.</td><td class="px-4 py-4"><code>bool</code></td><td class="px-4 py-4"><code>false</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>class</code></td><td class="px-4 py-4">Additional root classes merged through <code>AdditionalAttributes</code>.</td><td class="px-4 py-4"><code>string?</code></td><td class="px-4 py-4"><code>null</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <RzParagraph>This component has no Alpine API because the aurora effect is CSS-only.</RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

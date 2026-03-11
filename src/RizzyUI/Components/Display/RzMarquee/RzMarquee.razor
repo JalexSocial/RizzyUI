@@ -1,0 +1,23 @@
+@namespace RizzyUI
+@inherits RzComponent<RzMarquee.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@RootAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="marquee"
+             data-orientation="@OrientationData"
+             data-reverse="@Reverse.ToString().ToLowerInvariant()"
+             data-pauses-on-hover="@PauseOnHover.ToString().ToLowerInvariant()"
+             style="@RootStyle">
+    @for (var i = 0; i < EffectiveRepeat; i++)
+    {
+        <div class="@SlotClasses.GetSegment()"
+             data-slot="@RzMarquee.SlotNames.NameOf(SlotTypes.Segment)"
+             data-segment-index="@i"
+             aria-hidden="@(i == 0 ? null : "true")"
+             inert="@(i == 0 ? null : string.Empty)">
+            @ChildContent
+        </div>
+    }
+</HtmlElement>

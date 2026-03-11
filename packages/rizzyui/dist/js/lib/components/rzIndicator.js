@@ -1,6 +1,6 @@
 
-export default function(Alpine) {
-    Alpine.data('rzIndicator', () => ({
+export default function rzIndicator() {
+    return {
         visible: false,
         /**
          * Executes the `init` operation.
@@ -38,5 +38,5 @@ export default function(Alpine) {
         setVisible(value) {
             this.visible = value;
         }
-    }));
+    };
 }

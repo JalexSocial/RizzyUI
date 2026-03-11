@@ -1,11 +1,10 @@
 
 // --------------------------------------------------------------------------------
-// Alpine.js component: rzAlert
+// window.Alpine.js component: rzAlert
 // This component manages an alert's visibility and provides a dismiss method.
 // --------------------------------------------------------------------------------
-export default function(Alpine) {
-    Alpine.data('rzAlert', () => {
-        return {
+export default function rzAlert() {
+    return {
             parentElement: null,
             showAlert: true,
             /**
@@ -29,6 +28,5 @@ export default function(Alpine) {
                 }, 205);
                 
             }
-        };
-    });
+    };
 }

@@ -38,11 +38,6 @@ public partial class RzAlpineComponent : RzAsChildComponent
     [Parameter] public object? Props { get; set; }
 
     /// <summary>
-    /// An optional loading strategy for `async-alpine`, corresponding to the `x-load` attribute (e.g., "visible", "idle").
-    /// </summary>
-    [Parameter] public string? LoadStrategy { get; set; }
-
-    /// <summary>
     /// The child content to be rendered within the Alpine-enabled element.
     /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -80,8 +75,12 @@ public partial class RzAlpineComponent : RzAsChildComponent
             ["class"] = AdditionalAttributes?.GetValueOrDefault("class", string.Empty)?.ToString(),
             ["data-alpine-root"] = Id,
             ["x-data"] = Name,
-            ["x-load"] = string.IsNullOrWhiteSpace(LoadStrategy) ? string.Empty : LoadStrategy,
         };
+
+        if (!string.IsNullOrWhiteSpace(LoadStrategy))
+        {
+            attributes["x-load"] = LoadStrategy;
+        }
 
         if (Props is not null)
         {
