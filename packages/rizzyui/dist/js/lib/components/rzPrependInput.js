@@ -1,11 +1,10 @@
 
 // --------------------------------------------------------------------------------
-// Alpine.js component: rzPrependInput
+// window.Alpine.js component: rzPrependInput
 // Adjusts the padding of an input element based on the width of a prepend element.
 // --------------------------------------------------------------------------------
-export default function(Alpine) {
-    Alpine.data('rzPrependInput', () => {
-        return {
+export default function rzPrependInput() {
+    return {
             prependContainer: null,
             textInput: null,
             /**
@@ -49,6 +48,5 @@ export default function(Alpine) {
                 inputElem.style.paddingLeft = leftPadding + 'px';
                 inputElem.classList.remove('text-transparent');
             }
-        };
-    });
+    };
 }

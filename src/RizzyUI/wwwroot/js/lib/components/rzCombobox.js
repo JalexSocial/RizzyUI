@@ -1,6 +1,8 @@
+import { require } from '../../runtime/rizzyRequire.js';
 
-export default function(Alpine, require) {
-    Alpine.data('rzCombobox', () => ({
+
+export default function rzCombobox() {
+    return {
         tomSelect: null,
 
         /**
@@ -53,8 +55,8 @@ export default function(Alpine, require) {
                     item: parsedItem
                 };
 
-                if (Alpine && typeof Alpine.addScopeToNode === 'function') {
-                    Alpine.addScopeToNode(div, scope);
+                if (Alpine && typeof window.Alpine.addScopeToNode === 'function') {
+                    window.Alpine.addScopeToNode(div, scope);
                 } else {
                     div._x_dataStack = [scope];
                 }
@@ -92,5 +94,5 @@ export default function(Alpine, require) {
                 this.tomSelect = null;
             }
         }
-    }));
+    };
 }

@@ -1,5 +1,7 @@
-export default function(Alpine, require) {
-    Alpine.data('rzCalendar', () => ({
+import { require } from '../../runtime/rizzyRequire.js';
+
+export default function rzCalendar() {
+    return {
         calendar: null,
         initialized: false,
 
@@ -137,5 +139,5 @@ export default function(Alpine, require) {
                 this.dispatchCalendarEvent('destroy', {});
             }
         }
-    }));
+    };
 }

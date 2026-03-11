@@ -1,5 +1,7 @@
-export default function (Alpine, require) {
-    Alpine.data('rzHighlighter', () => ({
+import { require } from '../../runtime/rizzyRequire.js';
+
+export default function rzHighlighter() {
+    return {
         annotation: null,
         resizeObserver: null,
         intersectionObserver: null,
@@ -186,5 +188,5 @@ export default function (Alpine, require) {
             const parsed = Number.parseFloat(value);
             return Number.isNaN(parsed) ? fallback : parsed;
         }
-    }));
+    };
 }

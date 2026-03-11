@@ -1,6 +1,6 @@
 // packages/rizzyui/src/js/lib/components/rzCommand.js
-export default function(Alpine) {
-    Alpine.data('rzCommand', () => ({
+export default function rzCommand() {
+    return {
         // --- STATE ---
         search: '',
         selectedValue: null,
@@ -590,5 +590,5 @@ export default function(Alpine) {
                 if (lastEnabledIndex > -1) this.selectedIndex = lastEnabledIndex;
             }
         }
-    }));
+    };
 }

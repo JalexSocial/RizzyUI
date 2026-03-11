@@ -1,5 +1,5 @@
-export default function (Alpine) {
-    Alpine.data('rzClipboard', () => ({
+export default function rzClipboard() {
+    return {
         value: null,
         targetSelector: null,
         preferValue: false,
@@ -100,5 +100,5 @@ export default function (Alpine) {
                 error: error,
             });
         },
-    }));
+    };
 }

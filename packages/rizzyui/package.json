@@ -24,23 +24,18 @@
     "dist"
   ],
   "scripts": {
-    "minify:antiforgery": "esbuild src/js/antiforgerySnippet.js --minify --outfile=dist/js/antiforgerySnippet.min.js",
-    "build:js:dev": "cross-env MINIFY=false vite build --mode development",
-    "build:js:prod": "cross-env MINIFY=true vite build",
-    "build:js": "run-s build:js:dev build:js:prod",
-    "build:css:dev": "npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.css",
-    "build:css:prod": "npx @tailwindcss/cli -i ./src/css/rizzyui-plugin.css -o ./dist/css/rizzyui.min.css --minify",
-    "build:css": "run-s copy:lib build:css:dev build:css:prod",
+    "build": "node ./build/build-all.mjs",
+    "build:clean": "node ./build/clean-generated.mjs",
+    "build:js": "node ./build/build-js.mjs",
+    "build:assets": "node ./build/build-assets.mjs",
+    "build:antiforgery": "node ./build/build-antiforgery.mjs",
+    "build:css": "node ./build/build-css.mjs",
     "build:safelist": "node ./build/parse-tailwind-css.js",
-    "copy:theme": "copyfiles -u 2 src/css/rizzyui-theme.css dist/css",
-    "copy:lib": "copyfiles -u 3 src/js/lib/**/* dist/js/lib",
-    "copy:antiforgery": "copyfiles -f src/js/antiforgerySnippet.js dist/js",
-    "copy:dist": "copyfiles -u 1 dist/**/* ../../src/RizzyUI/wwwroot/",
-    "copy:assets": "run-s copy:theme copy:lib copy:antiforgery",
-    "build": "run-s build:js copy:lib copy:antiforgery minify:antiforgery build:css copy:theme build:safelist copy:dist",
+    "build:copy": "node ./build/copy-dist.mjs",
     "dev": "vite",
     "preview": "vite preview --outDir dist",
-    "analyze": "vite build"
+    "analyze": "vite build",
+    "clean": "node ./build/clean-generated.mjs"
   },
   "repository": {
     "type": "git",
@@ -62,15 +57,11 @@
   "homepage": "https://github.com/jalexsocial/RizzyUI#readme",
   "devDependencies": {
     "@tailwindcss/cli": "^4.2.1",
-    "copyfiles": "^2.4.1",
-    "cross-env": "^7.0.3",
     "esbuild": "^0.25.4",
     "eslint": "^9.27.0",
-    "npm-run-all": "^4.1.5",
     "postcss": "^8.5.3",
     "postcss-selector-parser": "^7.1.0",
     "repomix": "^0.3.6",
-    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-visualizer": "^5.14.0",
     "tw-animate-css": "^1.3.4",
     "vite": "^6.3.5"

@@ -1,7 +1,7 @@
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 
-export default function(Alpine) {
-    Alpine.data('rzMenubar', () => ({
+export default function rzMenubar() {
+    return {
         currentMenuValue: '',
         currentTrigger: null,
         openPath: [],
@@ -349,5 +349,5 @@ export default function(Alpine) {
         handleWindowBlur() {
             this.closeMenus();
         }
-    }));
+    };
 }

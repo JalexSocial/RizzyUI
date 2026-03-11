@@ -1,6 +1,6 @@
 
 // --------------------------------------------------------------------------------
-// Alpine.js component: rzModal
+// window.Alpine.js component: rzModal
 // Manages the state and behavior of a dialog.
 // Can be triggered by a window event, closed via button, escape key,
 // or outside click. Supports HTMX content swapping within its body/footer.
@@ -8,8 +8,8 @@
 // Dispatches lifecycle events: rz:modal-initialized, rz:modal-before-open,
 // rz:modal-after-open, rz:modal-before-close, rz:modal-after-close.
 // --------------------------------------------------------------------------------
-export default function(Alpine) {
-    Alpine.data('rzModal', () => ({
+export default function rzModal() {
+    return {
         modalOpen: false, // Main state variable
         eventTriggerName: '',
         closeEventName: 'rz:modal-close', // Default value, corresponds to Constants.Events.ModalClose
@@ -172,5 +172,5 @@ export default function(Alpine) {
                 this.closeModalInternally('backdrop');
             }
         }
-    }));
+    };
 }

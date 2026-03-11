@@ -1,7 +1,7 @@
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 
-export default function (Alpine, $data) {
-  Alpine.data('rzNavigationMenu', () => ({
+export default function rzNavigationMenu() {
+    return {
     activeItemId : null,
     open         : false,
     closeTimeout : null,
@@ -26,7 +26,7 @@ export default function (Alpine, $data) {
         el.style.display = 'none';
       });
 
-      // Defer ref assignment until the DOM is fully patched by Alpine.
+      // Defer ref assignment until the DOM is fully patched by window.Alpine.
       this.$nextTick(() => {
         this.list = this.$refs.list;
       });
@@ -200,5 +200,5 @@ export default function (Alpine, $data) {
         this.isClosing = false;
       }, 150);
     },
-  }));
+  };
 }

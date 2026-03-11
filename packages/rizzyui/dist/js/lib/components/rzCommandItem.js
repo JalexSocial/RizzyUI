@@ -1,6 +1,6 @@
 // packages/rizzyui/src/js/lib/components/rzCommandItem.js
-export default function(Alpine) {
-    Alpine.data('rzCommandItem', () => ({
+export default function rzCommandItem() {
+    return {
         parent: null,
         itemData: {},
 
@@ -47,7 +47,7 @@ export default function(Alpine) {
                 console.error('CommandItem must be a child of RzCommand.');
                 return;
             }
-            this.parent = Alpine.$data(parentEl);
+            this.parent = window.Alpine.$data(parentEl);
 
             const template = this.$el.querySelector('template');
             const templateContent = template?.content ? template.content.cloneNode(true) : null;
@@ -77,5 +77,5 @@ export default function(Alpine) {
                 this.parent.unregisterItem(this.itemData.id);
             }
         }
-    }));
+    };
 }

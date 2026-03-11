@@ -1,5 +1,5 @@
-export default function registerRzNumberTicker(Alpine) {
-    Alpine.data('rzNumberTicker', () => ({
+export default function rzNumberTicker() {
+    return {
         targetValue: 0,
         startValue: 0,
         currentValue: 0,
@@ -247,5 +247,5 @@ export default function registerRzNumberTicker(Alpine) {
 
             return fallback;
         },
-    }));
+    };
 }

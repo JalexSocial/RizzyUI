@@ -1,11 +1,12 @@
+import { require } from '../../runtime/rizzyRequire.js';
+
 
 // --------------------------------------------------------------------------------
-// Alpine.js component: rzMarkdown
+// window.Alpine.js component: rzMarkdown
 // Initializes Markdown rendering with syntax highlighting.
 // --------------------------------------------------------------------------------
-export default function(Alpine, require) {
-    Alpine.data('rzMarkdown', () => {
-        return {
+export default function rzMarkdown() {
+    return {
             /**
              * Executes the `init` operation.
              * @returns {any} Returns the result of `init` when applicable.
@@ -25,6 +26,5 @@ export default function(Alpine, require) {
                 }, nonce);
 
             }
-        };
-    });
+    };
 }

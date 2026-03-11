@@ -1,11 +1,10 @@
 
 // --------------------------------------------------------------------------------
-// Alpine.js component: rzHeading
+// window.Alpine.js component: rzHeading
 // Observes heading elements to automatically update the current heading in the quick-reference.
 // --------------------------------------------------------------------------------
-export default function(Alpine) {
-    Alpine.data('rzHeading', () => {
-        return {
+export default function rzHeading() {
+    return {
             observer: null,
             headingId: '',
             /**
@@ -39,6 +38,5 @@ export default function(Alpine) {
                 if (this.observer != null)
                     this.observer.disconnect();
             }
-        };
-    });
+    };
 }
