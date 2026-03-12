@@ -19,6 +19,15 @@
 
 3. **Documentation is Mandatory**
 
+4. **SSR interaction event policy (mandatory)**
+
+   * For browser-observable interactions in SSR components, prefer Alpine `$dispatch(...)` or `CustomEvent` helpers that emit `rz:` namespaced events.
+   * Do **not** use `EventCallback` for browser-only post-render interaction flows.
+   * Event payloads must use serializable primitives and stable identifiers.
+   * Never emit full `TItem` instances or server object graphs in browser event payloads.
+   * For table-like stateful primitives, emit granular events and a table-level aggregate state event when useful (for example `rz:table:on-state-change`).
+
+
    * **Every** new component must have a corresponding documentation page in `src/RizzyUI.Docs/Components/Pages/Components/`.
    * **Every** modified component must have its documentation page updated to reflect API, parameter, or behavior changes.
    * **Every** new component must be added to the navigation menu in `src/RizzyUI.Docs/Components/Layout/ComponentList.razor`.

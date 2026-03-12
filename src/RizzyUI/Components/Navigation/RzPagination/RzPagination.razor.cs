@@ -12,7 +12,7 @@ public partial class RzPagination : RzComponent<RzPagination.Slots>
     /// Defines the default styling for the RzPagination component.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<Slots>, Slots> DefaultDescriptor = new(
-        @base: "mx-auto flex w-full justify-center"
+        @base: "flex"
     );
 
     /// <summary>

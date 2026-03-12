@@ -1,48 +1,48 @@
-@namespace RizzyUI.Docs.Examples
 @using RizzyUI
 
-<div class="w-full">
-    <RzTable Items="@_invoices" TItem="Invoice" Striped Hoverable>
-        <TableHeader>
-            <TableRow>
-                <TableHeaderCell For="p => p.Id" class="w-[100px]">Invoice</TableHeaderCell>
-                <TableHeaderCell For="p => p.Status">Status</TableHeaderCell>
-                <TableHeaderCell For="p => p.Method">Method</TableHeaderCell>
-                <TableHeaderCell For="p => p.Amount" class="text-right">Amount</TableHeaderCell>
-            </TableRow>
-        </TableHeader>
+<RzTable Border Id="orders-demo-table">
+    <TableCaption>Recent orders</TableCaption>
 
-        <TableBody Id="invoices-table-body">
-            <RowTemplate Context="invoice">
-                <TableRow>
-                    <TableCell class="font-medium">@invoice.Id</TableCell>
-                    <TableCell>@invoice.Status</TableCell>
-                    <TableCell>@invoice.Method</TableCell>
-                    <TableCell class="text-right">@invoice.Amount.ToString("C")</TableCell>
-                </TableRow>
-            </RowTemplate>
-        </TableBody>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Customer</TableHeaderCell>
+            <TableHeaderCell>Status</TableHeaderCell>
+            <TableHeaderCell class="text-right">Total</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
 
-        <TableFooter>
-            <TableRow>
-                <TableCell Colspan="3">Total</TableCell>
-                <TableCell class="text-right">$2,500.00</TableCell>
-            </TableRow>
-        </TableFooter>
-    </RzTable>
-</div>
+    <TableBody>
+        <TableRow>
+            <TableCell>Ada Lovelace</TableCell>
+            <TableCell>Paid</TableCell>
+            <TableCell class="text-right">$129.00</TableCell>
+        </TableRow>
+        <TableRow>
+            <TableCell>Grace Hopper</TableCell>
+            <TableCell>Paid</TableCell>
+            <TableCell class="text-right">$88.49</TableCell>
+        </TableRow>
+        <TableRow Selected="true">
+            <TableCell>Linus Torvalds</TableCell>
+            <TableCell>Pending</TableCell>
+            <TableCell class="text-right">$312.15</TableCell>
+        </TableRow>
+    </TableBody>
 
-@code {
-    public record Invoice(string Id, string Status, string Method, decimal Amount);
-
-    private List<Invoice> _invoices = new()
-    {
-        new Invoice("INV001", "Paid", "Credit Card", 250.00m),
-        new Invoice("INV002", "Pending", "PayPal", 150.00m),
-        new Invoice("INV003", "Unpaid", "Bank Transfer", 350.00m),
-        new Invoice("INV004", "Paid", "Credit Card", 450.00m),
-        new Invoice("INV005", "Paid", "PayPal", 550.00m),
-        new Invoice("INV006", "Pending", "Bank Transfer", 200.00m),
-        new Invoice("INV007", "Unpaid", "Credit Card", 300.00m)
-    };
-}
+    <TableFooter>
+        <TableRow>
+            <TableCell Colspan="3">
+                <TablePagination class="justify-end p-2">
+                    <RzPagination AriaLabel="Order pages">
+                        <PaginationList>
+                            <PaginationItem><PaginationPrevious Href="#" /></PaginationItem>
+                            <PaginationItem><PaginationLink Href="#" IsActive="true">1</PaginationLink></PaginationItem>
+                            <PaginationItem><PaginationLink Href="#">2</PaginationLink></PaginationItem>
+                            <PaginationItem><PaginationNext Href="#" /></PaginationItem>
+                        </PaginationList>
+                    </RzPagination>
+                </TablePagination>
+            </TableCell>
+        </TableRow>
+    </TableFooter>
+</RzTable>

@@ -874,6 +874,9 @@
   .table {
     display: table;
   }
+  .table-caption {
+    display: table-caption;
+  }
   .table-cell {
     display: table-cell;
   }
@@ -5955,6 +5958,11 @@
           color: var(--sidebar-accent-foreground);
         }
       }
+    }
+  }
+  .data-\[state\=selected\]\:bg-muted {
+    &[data-state="selected"] {
+      background-color: var(--muted);
     }
   }
   .data-\[state\=visible\]\:opacity-100 {

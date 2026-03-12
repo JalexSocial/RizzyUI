@@ -15,7 +15,7 @@ public interface IHasTableHeaderStylingProperties
 }
 
 /// <summary>
-/// Represents the header (`&lt;thead&gt;`) section of an <see cref="RzTable{TItem}"/>.
+/// Represents the header (`&lt;thead&gt;`) section of an <see cref="RzTable"/>.
 /// </summary>
 public partial class TableHeader : RzComponent<TableHeaderSlots>, IHasTableHeaderStylingProperties
 {
@@ -26,7 +26,7 @@ public partial class TableHeader : RzComponent<TableHeaderSlots>, IHasTableHeade
     protected object? ParentRzTable { get; set; }
 
     /// <summary>
-    /// Gets or sets the header content, typically one or more <see cref="TableHeaderCell{TItem}"/> components.
+    /// Gets or sets the header content, typically one or more <see cref="TableHeaderCell"/> components.
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment? ChildContent { get; set; }
 

@@ -1,27 +1,13 @@
-
 using Microsoft.AspNetCore.Components;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
 
 /// <summary>
-/// Represents a single cell (`&lt;td&gt;`) within a <see cref="TableRow{TItem}"/>.
+/// Represents a single cell (<c>td</c>) within a table row.
 /// </summary>
-/// <typeparam name="TItem">The type of data item for the row.</typeparam>
-public partial class TableCell<TItem> : RzComponent<TableCellSlots>
+public partial class TableCell : RzComponent<TableCellSlots>
 {
-    /// <summary>
-    /// Gets or sets the parent <see cref="RzTable{TItem}"/> component.
-    /// </summary>
-    [CascadingParameter(Name = "ParentRzTable")]
-    protected RzTable<TItem>? ParentRzTable { get; set; }
-
-    /// <summary>
-    /// Gets or sets the parent <see cref="TableRow{TItem}"/> component.
-    /// </summary>
-    [CascadingParameter(Name = "ParentTableRow")]
-    protected TableRow<TItem>? ParentRzTableRow { get; set; }
-
     /// <summary>
     /// Gets or sets the content to be rendered inside the cell.
     /// </summary>
@@ -33,12 +19,7 @@ public partial class TableCell<TItem> : RzComponent<TableCellSlots>
     [Parameter] public int? Colspan { get; set; }
 
     /// <summary>
-    /// Gets or sets a unique key for the column, used for identification.
-    /// </summary>
-    [Parameter] public string? ColumnKey { get; set; }
-
-    /// <summary>
-    /// Gets the combined attributes for the cell, including any `colspan`.
+    /// Gets the combined attributes for the cell, including any <c>colspan</c>.
     /// </summary>
     protected Dictionary<string, object> CombinedAttributes
     {
@@ -49,6 +30,7 @@ public partial class TableCell<TItem> : RzComponent<TableCellSlots>
             {
                 attributes["colspan"] = Colspan.Value.ToString();
             }
+
             return attributes;
         }
     }

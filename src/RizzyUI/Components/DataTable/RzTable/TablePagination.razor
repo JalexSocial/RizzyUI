@@ -1,66 +1,6 @@
 @namespace RizzyUI
-@typeparam TItem
 @inherits RzComponent<TablePaginationSlots>
 
-<HtmlElement Element="@EffectiveElement" @attributes="AdditionalAttributes" id="@Id" data-slot="table-pagination" class="@SlotClasses.GetBase()" aria-label="@NavigationAriaLabel">
-    @if (EffectivePaginationState.TotalPages > 1)
-    {
-        <RzPagination AriaLabel="@NavigationAriaLabel" class="@SlotClasses.GetBase()">
-            <PaginationList class="@SlotClasses.GetList()">
-                <PaginationItem>
-                    @if (CanGoPrevious)
-                    {
-                        <PaginationPrevious Href="@GetPageUrl(EffectivePaginationState.CurrentPage - 1)"
-                                            Label="@PreviousButtonLabel"
-                                            AriaLabel="@PreviousButtonLabel"
-                                            class="@SlotClasses.GetLink()"
-                                            @attributes="GetPageLinkHxAttributes(EffectivePaginationState.CurrentPage - 1)" />
-                    }
-                    else
-                    {
-                        <span class="@SlotClasses.GetLinkDisabled()" data-slot="table-pagination-link-disabled" aria-disabled="true">
-                            @PreviousButtonLabel
-                        </span>
-                    }
-                </PaginationItem>
-
-                @foreach (var link in GetPageLinks())
-                {
-                    <PaginationItem>
-                        @if (link.IsEllipsis)
-                        {
-                            <PaginationEllipsis class="@SlotClasses.GetEllipsis()" ScreenReaderText="@Localizer["PaginationEllipsis.MorePages"]" />
-                        }
-                        else
-                        {
-                            <PaginationLink Href="@GetPageUrl(link.PageNumber)"
-                                            class="@(link.IsCurrent ? SlotClasses.GetLinkCurrent() : SlotClasses.GetLink())"
-                                            IsActive="@link.IsCurrent"
-                                            AriaLabel="@($"Go to page {link.PageNumber}")"
-                                            @attributes="link.IsCurrent ? null : GetPageLinkHxAttributes(link.PageNumber)">
-                                @link.Text
-                            </PaginationLink>
-                        }
-                    </PaginationItem>
-                }
-
-                <PaginationItem>
-                    @if (CanGoNext)
-                    {
-                        <PaginationNext Href="@GetPageUrl(EffectivePaginationState.CurrentPage + 1)"
-                                        Label="@NextButtonLabel"
-                                        AriaLabel="@NextButtonLabel"
-                                        class="@SlotClasses.GetLink()"
-                                        @attributes="GetPageLinkHxAttributes(EffectivePaginationState.CurrentPage + 1)" />
-                    }
-                    else
-                    {
-                        <span class="@SlotClasses.GetLinkDisabled()" data-slot="table-pagination-link-disabled" aria-disabled="true">
-                            @NextButtonLabel
-                        </span>
-                    }
-                </PaginationItem>
-            </PaginationList>
-        </RzPagination>
-    }
+<HtmlElement Element="@EffectiveElement" id="@Id" @attributes="@AdditionalAttributes" class="@SlotClasses.GetBase()" data-slot="table-pagination">
+    @ChildContent
 </HtmlElement>

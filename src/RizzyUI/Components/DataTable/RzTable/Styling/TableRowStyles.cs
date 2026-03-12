@@ -1,4 +1,3 @@
-
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -9,7 +8,7 @@ namespace RizzyUI;
 public sealed partial class TableRowSlots : ISlots
 {
     /// <summary>
-    /// The base slot for the `&lt;tr&gt;` element.
+    /// The base slot for the <c>tr</c> element.
     /// </summary>
     [Slot("table-row")]
     public string? Base { get; set; }
@@ -21,20 +20,19 @@ public sealed partial class TableRowSlots : ISlots
 public static class TableRowStyles
 {
     /// <summary>
-    /// The default TvDescriptor for the TableRow component.
+    /// The default descriptor for row styling.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<TableRowSlots>, TableRowSlots> DefaultDescriptor = new(
-        @base: "border-b transition-colors",
+        @base: "border-b transition-colors data-[state=selected]:bg-muted",
         variants: new()
         {
-            [c => ((IHasTableRowStylingProperties)c).IsEven] = new Variant<bool, TableRowSlots>
+            [c => ((IHasTableRowStylingProperties)c).Hoverable] = new Variant<bool, TableRowSlots>
             {
-                [true] = "bg-secondary",
-                [false] = "bg-background"
+                [true] = new() { [s => s.Base] = "hover:bg-muted/50" }
             },
-            [c => ((IHasTableRowStylingProperties)c).IsHoverable] = new Variant<bool, TableRowSlots>
+            [c => ((IHasTableRowStylingProperties)c).IsSelected] = new Variant<bool, TableRowSlots>
             {
-                [true] = "hover:bg-muted/50"
+                [true] = new() { [s => s.Base] = "bg-muted hover:bg-muted" }
             }
         }
     );
