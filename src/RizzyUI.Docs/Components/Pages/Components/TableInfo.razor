@@ -21,17 +21,277 @@
 
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Table" class="scroll-mt-20">Table</RzHeading>
             <RzParagraph>
-                <code>RzTable</code> is a minimal SSR table family aligned with the shadcn/ui table markup model.
-                Use it to compose semantic table sections and bring your own data shaping, sorting, and pagination behavior.
+                <code>RzTable</code> is a composable SSR table family aligned with semantic HTML table markup.
+                It provides a responsive container, consistent table anatomy components, and style variants for common data presentation patterns.
             </RzParagraph>
 
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Example" class="scroll-mt-20">Example</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Usage" class="scroll-mt-20">Usage</RzHeading>
+                <RzParagraph>
+                    Compose table UI by nesting anatomy components such as <code>TableHeader</code>, <code>TableBody</code>, <code>TableRow</code>, and <code>TableCell</code> inside <code>RzTable</code>.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-8">
+&lt;RzTable Border&gt;
+    &lt;TableCaption&gt;A list of your recent invoices.&lt;/TableCaption&gt;
+    &lt;TableHeader&gt;
+        &lt;TableRow&gt;
+            &lt;TableHeaderCell&gt;Invoice&lt;/TableHeaderCell&gt;
+            &lt;TableHeaderCell&gt;Status&lt;/TableHeaderCell&gt;
+            &lt;TableHeaderCell class=&quot;text-right&quot;&gt;Amount&lt;/TableHeaderCell&gt;
+        &lt;/TableRow&gt;
+    &lt;/TableHeader&gt;
+    &lt;TableBody&gt;
+        &lt;TableRow&gt;
+            &lt;TableCell class=&quot;font-medium&quot;&gt;INV001&lt;/TableCell&gt;
+            &lt;TableCell&gt;Paid&lt;/TableCell&gt;
+            &lt;TableCell class=&quot;text-right&quot;&gt;$250.00&lt;/TableCell&gt;
+        &lt;/TableRow&gt;
+    &lt;/TableBody&gt;
+&lt;/RzTable&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Examples" class="scroll-mt-20">Examples</RzHeading>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Basic table with caption" class="scroll-mt-20 mt-6">Basic table with caption</RzHeading>
+                <RzParagraph>
+                    A standard table composition using header, body, selected row styling, and footer pagination controls.
+                </RzParagraph>
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="p-4">
                         <TableDemo />
                     </div>
                 </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-8">
+&lt;RzTable Border Id=&quot;orders-demo-table&quot;&gt;
+    &lt;TableCaption&gt;Recent orders&lt;/TableCaption&gt;
+    &lt;TableHeader&gt;
+        &lt;TableRow&gt;
+            &lt;TableHeaderCell&gt;Customer&lt;/TableHeaderCell&gt;
+            &lt;TableHeaderCell&gt;Status&lt;/TableHeaderCell&gt;
+            &lt;TableHeaderCell class=&quot;text-right&quot;&gt;Total&lt;/TableHeaderCell&gt;
+        &lt;/TableRow&gt;
+    &lt;/TableHeader&gt;
+    &lt;TableBody&gt;
+        &lt;TableRow&gt;
+            &lt;TableCell&gt;Ada Lovelace&lt;/TableCell&gt;
+            &lt;TableCell&gt;Paid&lt;/TableCell&gt;
+            &lt;TableCell class=&quot;text-right&quot;&gt;$129.00&lt;/TableCell&gt;
+        &lt;/TableRow&gt;
+        &lt;TableRow Selected=&quot;true&quot;&gt;
+            &lt;TableCell&gt;Linus Torvalds&lt;/TableCell&gt;
+            &lt;TableCell&gt;Pending&lt;/TableCell&gt;
+            &lt;TableCell class=&quot;text-right&quot;&gt;$312.15&lt;/TableCell&gt;
+        &lt;/TableRow&gt;
+    &lt;/TableBody&gt;
+    &lt;TableFooter&gt;
+        &lt;TableRow&gt;
+            &lt;TableCell Colspan=&quot;3&quot;&gt;
+                &lt;TablePagination class=&quot;justify-end p-2&quot;&gt;
+                    ...
+                &lt;/TablePagination&gt;
+            &lt;/TableCell&gt;
+        &lt;/TableRow&gt;
+    &lt;/TableFooter&gt;
+&lt;/RzTable&gt;
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Table with totals footer" class="scroll-mt-20 mt-6">Table with totals footer</RzHeading>
+                <RzParagraph>
+                    Use <code>TableFooter</code> and <code>TableCell Colspan</code> for summary rows.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="p-4">
+                        <RzTable Border>
+                            <TableCaption>A list of recent invoices.</TableCaption>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHeaderCell>Invoice</TableHeaderCell>
+                                    <TableHeaderCell>Status</TableHeaderCell>
+                                    <TableHeaderCell>Method</TableHeaderCell>
+                                    <TableHeaderCell class="text-right">Amount</TableHeaderCell>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell class="font-medium">INV001</TableCell>
+                                    <TableCell>Paid</TableCell>
+                                    <TableCell>Credit Card</TableCell>
+                                    <TableCell class="text-right">$250.00</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell class="font-medium">INV002</TableCell>
+                                    <TableCell>Pending</TableCell>
+                                    <TableCell>PayPal</TableCell>
+                                    <TableCell class="text-right">$150.00</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell class="font-medium">INV003</TableCell>
+                                    <TableCell>Unpaid</TableCell>
+                                    <TableCell>Bank Transfer</TableCell>
+                                    <TableCell class="text-right">$350.00</TableCell>
+                                </TableRow>
+                            </TableBody>
+                            <TableFooter>
+                                <TableRow>
+                                    <TableCell Colspan="3" class="font-medium">Total</TableCell>
+                                    <TableCell class="text-right">$750.00</TableCell>
+                                </TableRow>
+                            </TableFooter>
+                        </RzTable>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-8">
+&lt;RzTable Border&gt;
+    &lt;TableCaption&gt;A list of recent invoices.&lt;/TableCaption&gt;
+    &lt;TableHeader&gt;
+        &lt;TableRow&gt;
+            &lt;TableHeaderCell&gt;Invoice&lt;/TableHeaderCell&gt;
+            &lt;TableHeaderCell&gt;Status&lt;/TableHeaderCell&gt;
+            &lt;TableHeaderCell&gt;Method&lt;/TableHeaderCell&gt;
+            &lt;TableHeaderCell class=&quot;text-right&quot;&gt;Amount&lt;/TableHeaderCell&gt;
+        &lt;/TableRow&gt;
+    &lt;/TableHeader&gt;
+    &lt;TableBody&gt;...&lt;/TableBody&gt;
+    &lt;TableFooter&gt;
+        &lt;TableRow&gt;
+            &lt;TableCell Colspan=&quot;3&quot; class=&quot;font-medium&quot;&gt;Total&lt;/TableCell&gt;
+            &lt;TableCell class=&quot;text-right&quot;&gt;$750.00&lt;/TableCell&gt;
+        &lt;/TableRow&gt;
+    &lt;/TableFooter&gt;
+&lt;/RzTable&gt;
+                </RzCodeViewer>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Fixed header" class="scroll-mt-20 mt-6">Fixed header</RzHeading>
+                <RzParagraph>
+                    Enable <code>FixedHeader</code> on <code>RzTable</code> to keep header content visible while body rows scroll.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="p-4">
+                        <RzTable Border FixedHeader class="max-h-64">
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHeaderCell>Customer</TableHeaderCell>
+                                    <TableHeaderCell>Plan</TableHeaderCell>
+                                    <TableHeaderCell class="text-right">MRR</TableHeaderCell>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                @for (var i = 1; i <= 12; i++)
+                                {
+                                    <TableRow>
+                                        <TableCell class="font-medium">Customer @i</TableCell>
+                                        <TableCell>Pro</TableCell>
+                                        <TableCell class="text-right">@($"${i * 19}.00")</TableCell>
+                                    </TableRow>
+                                }
+                            </TableBody>
+                        </RzTable>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-8">
+&lt;RzTable Border FixedHeader class=&quot;max-h-64&quot;&gt;
+    &lt;TableHeader&gt;...&lt;/TableHeader&gt;
+    &lt;TableBody&gt;...&lt;/TableBody&gt;
+&lt;/RzTable&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component API" class="scroll-mt-20">Component API</RzHeading>
+                <RzParagraph>
+                    The table family is intentionally small and composable. Use standard HTML attributes through <code>AdditionalAttributes</code> for advanced scenarios.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="RzTable" class="scroll-mt-20 mt-6">RzTable</RzHeading>
+                <div class="not-prose mt-4 mb-8 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Table sections and rows rendered inside the table element.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500">Required</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Border</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Adds table chrome (border and rounded container).</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">FixedHeader</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Applies sticky styling to the table header and fixed footer styling when present.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Table anatomy components" class="scroll-mt-20 mt-6">Table anatomy components</RzHeading>
+                <div class="not-prose mt-4 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/4 px-4 py-3">Component</th>
+                                <th scope="col" class="w-2/4 px-4 py-3">Purpose</th>
+                                <th scope="col" class="px-4 py-3">Notable API</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableCaption</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Renders semantic <code>&lt;caption&gt;</code> content for table context.</td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code> (required)</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableHeader</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Renders semantic <code>&lt;thead&gt;</code> and receives fixed-header styling from <code>RzTable</code>.</td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code> (required)</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableBody</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Renders semantic <code>&lt;tbody&gt;</code> rows.</td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code> (required)</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableFooter</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Renders semantic <code>&lt;tfoot&gt;</code> for totals or controls.</td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code> (required)</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableRow</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Represents a semantic <code>&lt;tr&gt;</code>.</td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Selected</code>, <code class="font-mono">HoverableOverride</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableHeaderCell</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Semantic <code>&lt;th&gt;</code>; sets <code>scope=&quot;col&quot;</code> by default.</td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code> (required)</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TableCell</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Semantic <code>&lt;td&gt;</code> for row content.</td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code>, <code class="font-mono">Colspan</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TablePagination</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Layout wrapper for pagination controls inside a table cell.</td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">ChildContent</code> (required)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
         </MainContent>
     </RzArticle>
