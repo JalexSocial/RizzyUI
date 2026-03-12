@@ -4,12 +4,12 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-/// Provides a wrapper region for table pagination controls.
+/// Represents a caption (<c>caption</c>) for an <see cref="RzTable"/>.
 /// </summary>
-public partial class TablePagination : RzComponent<TablePaginationSlots>
+public partial class TableCaption : RzComponent<TableCaptionSlots>
 {
     /// <summary>
-    /// Gets or sets content rendered inside the pagination wrapper.
+    /// Gets or sets caption content.
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment? ChildContent { get; set; }
 
@@ -17,13 +17,12 @@ public partial class TablePagination : RzComponent<TablePaginationSlots>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
         if (string.IsNullOrEmpty(Element))
         {
-            Element = "div";
+            Element = "caption";
         }
     }
 
     /// <inheritdoc/>
-    protected override TvDescriptor<RzComponent<TablePaginationSlots>, TablePaginationSlots> GetDescriptor() => Theme.TablePagination;
+    protected override TvDescriptor<RzComponent<TableCaptionSlots>, TableCaptionSlots> GetDescriptor() => Theme.TableCaption;
 }

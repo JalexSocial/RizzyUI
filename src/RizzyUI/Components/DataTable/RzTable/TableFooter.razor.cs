@@ -15,7 +15,7 @@ public interface IHasTableFooterStylingProperties
 }
 
 /// <summary>
-/// Represents the footer (`&lt;tfoot&gt;`) section of an <see cref="RzTable{TItem}"/>.
+/// Represents the footer (`&lt;tfoot&gt;`) section of an <see cref="RzTable"/>.
 /// </summary>
 public partial class TableFooter : RzComponent<TableFooterSlots>, IHasTableFooterStylingProperties
 {
@@ -26,7 +26,7 @@ public partial class TableFooter : RzComponent<TableFooterSlots>, IHasTableFoote
     protected object? ParentRzTable { get; set; }
 
     /// <summary>
-    /// Gets or sets the footer content, typically one or more <see cref="TableCell{TItem}"/> components.
+    /// Gets or sets the footer content, typically one or more <see cref="TableCell"/> components.
     /// </summary>
     [Parameter, EditorRequired] public RenderFragment? ChildContent { get; set; }
 

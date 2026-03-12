@@ -10,21 +10,23 @@ public partial class RzTheme
 {
     #region Data Table Components
 
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableBody{TItem}"/> component. </summary>
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableBody"/> component. </summary>
     public virtual TvDescriptor<RzComponent<TableBodySlots>, TableBodySlots> TableBody { get; set; }
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableCell{TItem}"/> component. </summary>
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableCell"/> component. </summary>
     public virtual TvDescriptor<RzComponent<TableCellSlots>, TableCellSlots> TableCell { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableHeader"/> component. </summary>
     public virtual TvDescriptor<RzComponent<TableHeaderSlots>, TableHeaderSlots> TableHeader { get; set; }
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableHeaderCell{TItem}"/> component. </summary>
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableHeaderCell"/> component. </summary>
     public virtual TvDescriptor<RzComponent<TableHeaderCellSlots>, TableHeaderCellSlots> TableHeaderCell { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableFooter"/> component. </summary>
     public virtual TvDescriptor<RzComponent<TableFooterSlots>, TableFooterSlots> TableFooter { get; set; }
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TablePagination{TItem}"/> component. </summary>
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TablePagination"/> component. </summary>
     public virtual TvDescriptor<RzComponent<TablePaginationSlots>, TablePaginationSlots> TablePagination { get; set; }
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableRow{TItem}"/> component. </summary>
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableCaption"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<TableCaptionSlots>, TableCaptionSlots> TableCaption { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.TableRow"/> component. </summary>
     public virtual TvDescriptor<RzComponent<TableRowSlots>, TableRowSlots> TableRow { get; set; }
-    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzTable{TItem}"/> component. </summary>
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzTable"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzTableSlots>, RzTableSlots> RzTable { get; set; }
 
     #endregion
