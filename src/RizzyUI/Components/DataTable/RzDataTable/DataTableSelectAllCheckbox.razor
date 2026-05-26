@@ -1,0 +1,13 @@
+@namespace RizzyUI
+@inherits RzComponent<DataTableSelectAllCheckbox.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="data-table-select-all-checkbox"
+             aria-label="@AriaLabel"
+             x-bind:checked="@CheckedExpr"
+             x-bind:disabled="@DisabledExpr"
+             x-effect="@IndeterminateExpr"
+             x-on:change="@ChangeExpr" />

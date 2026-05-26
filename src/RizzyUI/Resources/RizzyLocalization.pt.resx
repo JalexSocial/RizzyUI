@@ -183,4 +183,10 @@
   <data name="RzBrowser.PreviewIFrameTitle" xml:space="preserve">
     <value>Visualização do Componente</value>
   </data>
+  <data name="DataTableSelectAllCheckbox.DefaultAriaLabel" xml:space="preserve">
+    <value>Select rows</value>
+  </data>
+  <data name="DataTableRowSelectCheckbox.DefaultAriaLabel" xml:space="preserve">
+    <value>Select row</value>
+  </data>
 </root>

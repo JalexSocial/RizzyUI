@@ -20,7 +20,7 @@ public class RzHighlighterTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 
         var alpineRoot = cut.Find("div[data-alpine-root='hl-default']");
         Assert.Equal("highlight", alpineRoot.GetAttribute("data-action"));
-        Assert.Equal("#ffd1dc", alpineRoot.GetAttribute("data-color"));
+        Assert.Equal("var(--highlight-1)", alpineRoot.GetAttribute("data-color"));
         Assert.Equal("1.5", alpineRoot.GetAttribute("data-stroke-width"));
         Assert.Equal("600", alpineRoot.GetAttribute("data-animation-duration"));
         Assert.Equal("2", alpineRoot.GetAttribute("data-iterations"));
@@ -89,7 +89,7 @@ public class RzHighlighterTests : BunitAlbaContext, IClassFixture<WebAppFixture>
             .Add(x => x.ComponentAssetKeys, []));
 
         var alpineRoot = cut.Find("[data-alpine-root]");
-        Assert.Equal("#ffd1dc", alpineRoot.GetAttribute("data-color"));
+        Assert.Equal("var(--highlight-1)", alpineRoot.GetAttribute("data-color"));
         Assert.Equal("0.1", alpineRoot.GetAttribute("data-stroke-width"));
         Assert.Equal("0", alpineRoot.GetAttribute("data-animation-duration"));
         Assert.Equal("1", alpineRoot.GetAttribute("data-iterations"));

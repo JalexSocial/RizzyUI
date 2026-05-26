@@ -1,0 +1,14 @@
+@namespace RizzyUI
+@using Blazicons
+@inherits RzComponent<DataTableSortIcon.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="data-table-sort-icon"
+             x-show="@CanExpr">
+    <span class="@SlotClasses.GetAscending()" data-slot="@DataTableSortIcon.SlotNames.NameOf(SlotTypes.Ascending)" aria-hidden="true" x-show="@AscExpr"><Blazicon Svg="AscendingIcon" /></span>
+    <span class="@SlotClasses.GetDescending()" data-slot="@DataTableSortIcon.SlotNames.NameOf(SlotTypes.Descending)" aria-hidden="true" x-show="@DescExpr"><Blazicon Svg="DescendingIcon" /></span>
+    <span class="@SlotClasses.GetUnsorted()" data-slot="@DataTableSortIcon.SlotNames.NameOf(SlotTypes.Unsorted)" aria-hidden="true" x-show="@NoneExpr"><Blazicon Svg="UnsortedIcon" /></span>
+</HtmlElement>
