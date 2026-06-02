@@ -9,9 +9,19 @@
         </SideContent>
         <MainContent>
             <RzBreadcrumb>
-                <RzBreadcrumbItem Href="/" Label="Home"/>
-                <RzBreadcrumbItem Href="/components/markdown" Label="Markdown"/>
-                <RzBreadcrumbItem Label="Markdown Demo"/>
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/">Home</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components/markdown">Markdown</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Markdown Demo</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
             </RzBreadcrumb>
             <RzMarkdown ProseWidth="ProseWidth.Wide">
 # Markdown Demo

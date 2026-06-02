@@ -49,7 +49,7 @@
                             .Datasets(ds => {
                                 ds.Line()
                                   .Label("Cubic interpolation (default)")
-                                  .Data(new object[] { 0, 20, 20, 60, 60, 120, null!, 180, 120, 125, 105, 110, 170 })
+                                  .Data(new double?[] { 0, 20, 20, 60, 60, 120, null, 180, 120, 125, 105, 110, 170 })
                                   .BorderColor("var(--chart-1)")
                                   .BackgroundColor("var(--chart-1)")
                                   .CubicInterpolationMode(InterpolationMode.Default)
@@ -57,7 +57,7 @@
 
                                 ds.Line()
                                   .Label("Cubic interpolation (monotone)")
-                                  .Data(new object[] { 0, 20, 20, 60, 60, 120, null!, 180, 120, 125, 105, 110, 170 })
+                                  .Data(new double?[] { 0, 20, 20, 60, 60, 120, null, 180, 120, 125, 105, 110, 170 })
                                   .BorderColor("var(--chart-2)")
                                   .BackgroundColor("var(--chart-2)")
                                   .CubicInterpolationMode(InterpolationMode.Monotone)
@@ -65,7 +65,7 @@
 
                                 ds.Line()
                                   .Label("Linear interpolation (tension 0)")
-                                  .Data(new object[] { 0, 20, 20, 60, 60, 120, null!, 180, 120, 125, 105, 110, 170 })
+                                  .Data(new double?[] { 0, 20, 20, 60, 60, 120, null, 180, 120, 125, 105, 110, 170 })
                                   .BorderColor("var(--chart-3)")
                                   .BackgroundColor("var(--chart-3)")
                                   .Tension(0);
@@ -84,7 +84,7 @@
         .Datasets(ds =&gt; {
             ds.Line()
               .Label(&quot;Cubic interpolation (default)&quot;)
-              .Data(new object[] { 0, 20, 20, 60, 60, 120, null, 180, 120, 125, 105, 110, 170 })
+              .Data(new double?[] { 0, 20, 20, 60, 60, 120, null, 180, 120, 125, 105, 110, 170 })
               .BorderColor(&quot;var(--chart-1)&quot;)
               .BackgroundColor(&quot;var(--chart-1)&quot;)
               .CubicInterpolationMode(InterpolationMode.Default)
@@ -92,7 +92,7 @@
 
             ds.Line()
               .Label(&quot;Cubic interpolation (monotone)&quot;)
-              .Data(new object[] { 0, 20, 20, 60, 60, 120, null, 180, 120, 125, 105, 110, 170 })
+              .Data(new double?[] { 0, 20, 20, 60, 60, 120, null, 180, 120, 125, 105, 110, 170 })
               .BorderColor(&quot;var(--chart-2)&quot;)
               .BackgroundColor(&quot;var(--chart-2)&quot;)
               .CubicInterpolationMode(InterpolationMode.Monotone)
@@ -100,7 +100,7 @@
 
             ds.Line()
               .Label(&quot;Linear interpolation (tension 0)&quot;)
-              .Data(new object[] { 0, 20, 20, 60, 60, 120, null, 180, 120, 125, 105, 110, 170 })
+              .Data(new double?[] { 0, 20, 20, 60, 60, 120, null, 180, 120, 125, 105, 110, 170 })
               .BorderColor(&quot;var(--chart-3)&quot;)
               .BackgroundColor(&quot;var(--chart-3)&quot;)
               .Tension(0);
@@ -329,7 +329,7 @@
                             .Datasets(ds => ds
                                 .Line()
                                 .Label("Dataset 1")
-                                .Data(new object[] { 65, 59, null, 81, 56, 55 })
+                                .Data(new double?[] { 65, 59, null, 81, 56, 55 })
                                 .BorderColor("var(--chart-1)")
                                 .BackgroundColor("var(--chart-1)")
                                 .Segment("window.myLineSegmentStyles")
@@ -347,7 +347,7 @@
         .Datasets(ds =&gt; ds
             .Line()
             .Label(&quot;Dataset 1&quot;)
-            .Data(new object[] { 65, 59, null, 81, 56, 55 })
+            .Data(new double?[] { 65, 59, null, 81, 56, 55 })
             .BorderColor(&quot;var(--chart-1)&quot;)
             .BackgroundColor(&quot;var(--chart-1)&quot;)
             .Segment(&quot;window.myLineSegmentStyles&quot;)

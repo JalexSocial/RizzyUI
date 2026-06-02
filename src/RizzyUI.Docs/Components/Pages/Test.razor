@@ -21,14 +21,14 @@
                         </CardDescription>
                     </CardHeader>
                     <CardContent class="grid gap-6">
-                        <RzField>
-	                        <RzFieldLabel For="@(() => _demoModel.Name)">Name</RzFieldLabel>
+                        <Field>
+	                        <FieldLabel For="@(() => _demoModel.Name)">Name</FieldLabel>
 	                        <RzInputText For="@(() => _demoModel.Name)" />
-                        </RzField>
-                        <RzField>
-	                        <RzFieldLabel For="@(() => _demoModel.Username)">Username</RzFieldLabel>
+                        </Field>
+                        <Field>
+	                        <FieldLabel For="@(() => _demoModel.Username)">Username</FieldLabel>
 	                        <RzInputText For="@(() => _demoModel.Username)" />
-                        </RzField>
+                        </Field>
                     </CardContent>
                     <CardFooter>
                         <RzButton>Save changes</RzButton>
@@ -44,14 +44,14 @@
                         </CardDescription>
                     </CardHeader>
                     <CardContent class="grid gap-6">
-                        <RzField>
-	                        <RzFieldLabel For="@(() => _demoModel.CurrentPassword)">Current password</RzFieldLabel>
+                        <Field>
+	                        <FieldLabel For="@(() => _demoModel.CurrentPassword)">Current password</FieldLabel>
 	                        <RzInputText For="@(() => _demoModel.CurrentPassword)" Role="TextRole.Password" />
-                        </RzField>
-                        <RzField>
-	                        <RzFieldLabel For="@(() => _demoModel.NewPassword)">New password</RzFieldLabel>
+                        </Field>
+                        <Field>
+	                        <FieldLabel For="@(() => _demoModel.NewPassword)">New password</FieldLabel>
 	                        <RzInputText For="@(() => _demoModel.NewPassword)" Role="TextRole.Password" />
-                        </RzField>
+                        </Field>
                     </CardContent>
                     <CardFooter>
                         <RzButton>Save password</RzButton>

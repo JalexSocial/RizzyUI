@@ -1,14 +1,12 @@
-
 using Bunit;
 
 namespace RizzyUI.Tests.Components.Display
 {
-    public class RzSeparatorTests : TestContext
+    public class RzSeparatorTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     {
-        public RzSeparatorTests()
+        public RzSeparatorTests(WebAppFixture fixture)
+            : base(fixture)
         {
-            // Register RizzyUI services. This includes TwMerge and the default RzTheme.
-            Services.AddRizzyUI();
         }
 
         [Fact]

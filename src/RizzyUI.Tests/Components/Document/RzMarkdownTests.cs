@@ -24,7 +24,9 @@ public class RzMarkdownTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 
         // Assert
         var root = cut.Find("[data-slot='markdown']");
-        var alpineDiv = root.FirstElementChild;
+        var alpineDiv = root.FirstElementChild
+            ?? throw new InvalidOperationException("Expected the markdown root to render an Alpine child element.");
+
         Assert.Equal("rzMarkdown", alpineDiv.GetAttribute("x-data"));
 
         var html = alpineDiv.ToHtml() ?? string.Empty;

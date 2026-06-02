@@ -76,13 +76,13 @@
                     Usage in a Field
                 </RzHeading>
                 <RzParagraph>
-                    Combine with <code>RzField</code> components for labels and error messages.
+                    Combine with <code>Field</code> components for labels and error messages.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 w-full max-w-sm p-8">
                         <EditForm Model="_model">
-                            <RzField>
+                            <Field>
                                 <FieldLabel For="@(() => _model.SelectedCar)">Car Brand</FieldLabel>
                                 <RzNativeSelect @bind-Value="_model.SelectedCar" For="@(() => _model.SelectedCar)" id="car-select">
                                     <option value="">Select a car</option>
@@ -98,13 +98,13 @@
                                     </RzNativeSelectOptGroup>
                                 </RzNativeSelect>
                                 <FieldDescription>Please select your preferred car brand.</FieldDescription>
-                            </RzField>
+                            </Field>
                         </EditForm>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzField&gt;
+&lt;Field&gt;
     &lt;FieldLabel For=&quot;@@(() =&gt; _model.SelectedCar)&quot;&gt;Car Brand&lt;/FieldLabel&gt;
     &lt;RzNativeSelect @@bind-Value=&quot;_model.SelectedCar&quot; For=&quot;@@(() =&gt; _model.SelectedCar)&quot; id=&quot;car-select&quot;&gt;
         &lt;option value=&quot;&quot;&gt;Select a car&lt;/option&gt;
@@ -120,7 +120,7 @@
         &lt;/RzNativeSelectOptGroup&gt;
     &lt;/RzNativeSelect&gt;
     &lt;FieldDescription&gt;Please select your preferred car brand.&lt;/FieldDescription&gt;
-&lt;/RzField&gt;
+&lt;/Field&gt;
                 </RzCodeViewer>
             </section>
 
@@ -133,7 +133,7 @@
                     <code>RzNativeSelect&lt;TValue&gt;</code> renders a real native <code>&lt;select&gt;</code> through <code>InputSelect&lt;TValue&gt;</code>, so it keeps browser and assistive-technology semantics for labels, values, disabled state, required state, and validation.
                 </RzParagraph>
                 <RzParagraph>
-                    Prefer a visible <code>&lt;label for="..."&gt;</code> association through <code>RzField</code> and <code>FieldLabel</code>. If you provide explicit <code>aria-label</code>, <code>aria-labelledby</code>, or <code>aria-describedby</code>, those attributes are forwarded to the inner select. Use <code>AriaDescribedBy</code> to append component-specific hint or error ids without replacing existing description ids.
+                    Prefer a visible <code>&lt;label for="..."&gt;</code> association through <code>Field</code> and <code>FieldLabel</code>. If you provide explicit <code>aria-label</code>, <code>aria-labelledby</code>, or <code>aria-describedby</code>, those attributes are forwarded to the inner select. Use <code>AriaDescribedBy</code> to append component-specific hint or error ids without replacing existing description ids.
                 </RzParagraph>
                 <RzParagraph>
                     Keyboard interaction remains fully native and is not intercepted: Arrow keys move through options, Home/End jump, Enter/Space commit according to browser behavior, Escape closes an open list in supporting UAs, and typeahead follows platform-native rules.
@@ -154,7 +154,7 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 w-full max-w-sm p-8">
                         <EditForm Model="_model">
-                            <RzField>
+                            <Field>
                                 <FieldLabel For="@(() => _model.SelectedCar)">Car Brand</FieldLabel>
                                 <RzNativeSelect @bind-Value="_model.SelectedCar"
                                                 For="@(() => _model.SelectedCar)"
@@ -166,12 +166,12 @@
                                 </RzNativeSelect>
                                 <FieldDescription><span id="car-help">Choose the brand you drive most.</span></FieldDescription>
                                 <RzParagraph class="mt-2 text-destructive"><span id="car-error">Please choose a supported brand.</span></RzParagraph>
-                            </RzField>
+                            </Field>
                         </EditForm>
                     </div>
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
-&lt;RzField&gt;
+&lt;Field&gt;
     &lt;FieldLabel For=&quot;@@(() =&gt; _model.SelectedCar)&quot;&gt;Car Brand&lt;/FieldLabel&gt;
     &lt;RzNativeSelect @@bind-Value=&quot;_model.SelectedCar&quot;
                     For=&quot;@@(() =&gt; _model.SelectedCar)&quot;
@@ -183,7 +183,7 @@
     &lt;/RzNativeSelect&gt;
     &lt;FieldDescription&gt;&lt;span id=&quot;car-help&quot;&gt;Choose the brand you drive most.&lt;/span&gt;&lt;/FieldDescription&gt;
     &lt;span id=&quot;car-error&quot;&gt;Please choose a supported brand.&lt;/span&gt;
-&lt;/RzField&gt;
+&lt;/Field&gt;
                 </RzCodeViewer>
             </section>
 
