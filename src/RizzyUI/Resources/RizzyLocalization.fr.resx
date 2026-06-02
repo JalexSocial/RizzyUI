@@ -189,4 +189,10 @@
   <data name="DataTableRowSelectCheckbox.DefaultAriaLabel" xml:space="preserve">
     <value>Select row</value>
   </data>
+  <data name="RzToastProvider.CloseButtonAriaLabel" xml:space="preserve">
+    <value>Ignorer la notification</value>
+  </data>
+  <data name="RzToastProvider.RegionAriaLabel" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
 </root>

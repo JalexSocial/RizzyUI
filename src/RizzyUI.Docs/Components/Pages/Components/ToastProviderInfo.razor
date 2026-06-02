@@ -1,0 +1,121 @@
+@page "/components/toast-provider"
+@using RizzyUI
+
+<PageTitle>RzToastProvider</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Toast Provider</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="RzToastProvider" class="scroll-mt-20">RzToastProvider</RzHeading>
+            <RzParagraph>
+                RzToastProvider renders the SSR foundation for RizzyUI toast notifications. It emits one viewport and stack for every canonical position plus a JSON class map consumed by the JavaScript runtime in a later implementation phase.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic setup" class="scroll-mt-20">Basic setup</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">
+                    Place one provider in the root layout. The provider does not render individual toast messages on the server and does not require Blazor interactivity.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="relative min-h-48 overflow-hidden rounded-md border bg-muted/20 p-6">
+                        <RzToastProvider Id="docs-toast-provider" Position="ToastPosition.TopRight" />
+                        <p class="text-sm text-muted-foreground">Provider markup is present for all positions; toast items are created by the JavaScript runtime.</p>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                    &lt;RzToastProvider Position=&quot;ToastPosition.TopRight&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Parameters" class="scroll-mt-20">Parameters</RzHeading>
+                <RzTable>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderCell>Parameter</TableHeaderCell>
+                            <TableHeaderCell>Type</TableHeaderCell>
+                            <TableHeaderCell>Default</TableHeaderCell>
+                            <TableHeaderCell>Description</TableHeaderCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        @foreach (var parameter in Parameters)
+                        {
+                            <TableRow>
+                                <TableCell><code>@parameter.Name</code></TableCell>
+                                <TableCell><code>@parameter.Type</code></TableCell>
+                                <TableCell><code>@parameter.DefaultValue</code></TableCell>
+                                <TableCell>@parameter.Description</TableCell>
+                            </TableRow>
+                        }
+                    </TableBody>
+                </RzTable>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">Accessibility</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">
+                    The provider root renders <code>role="region"</code> with a localized label. JavaScript-rendered toasts use polite <code>role="status"</code> announcements for default, info, success, warning, and loading notifications, and assertive <code>role="alert"</code> announcements for error notifications.
+                </RzParagraph>
+                <RzParagraph TextColor="SemanticColor.Foreground">
+                    Toasts do not steal focus. Action and close buttons are keyboard reachable when rendered by the runtime. Escape dismisses only a focused toast when <code>CloseOnEscape</code> is enabled.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Events and API" class="scroll-mt-20">Events and API</RzHeading>
+                <RzParagraph TextColor="SemanticColor.Foreground">
+                    The server provider emits configuration for the future <code>Rizzy.toast</code> runtime and the <code>rz:toast</code>, <code>rz:toast:show</code>, <code>rz:toast:update</code>, <code>rz:toast:dismiss</code>, and <code>rz:toast:clear</code> input events. This page documents the server-side foundation only; runtime behavior is implemented separately.
+                </RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private static readonly IReadOnlyList<ParameterRow> Parameters =
+    [
+        new("Position", "ToastPosition", "TopRight", "Default position for new toasts; all stacks are still rendered."),
+        new("DefaultStatus", "ToastStatus", "Info", "Default semantic status."),
+        new("Tone", "ToastTone", "Subtle", "Default visual tone."),
+        new("Animation", "ToastAnimation", "Fade", "Default animation preset."),
+        new("OverflowStrategy", "ToastOverflowStrategy", "DismissOldest", "Behavior when a stack reaches MaxVisible."),
+        new("Duration", "int", "4000", "Default auto-dismiss duration in milliseconds."),
+        new("Speed", "int", "300", "Transition speed in milliseconds."),
+        new("MaxVisible", "int", "5", "Maximum visible toast count per position stack."),
+        new("NewestOnTop", "bool", "true", "Whether new toasts are inserted before older toasts."),
+        new("Dismissible", "bool", "true", "Whether toasts include close buttons by default."),
+        new("ShowIcon", "bool", "true", "Whether status icons are shown by default."),
+        new("ShowProgress", "bool", "true", "Whether progress indicators are shown by default."),
+        new("PauseOnHover", "bool", "true", "Whether timers pause during pointer hover."),
+        new("PauseOnFocus", "bool", "true", "Whether timers pause while focus is inside a toast."),
+        new("PauseOnWindowBlur", "bool", "false", "Whether timers pause while the window is blurred."),
+        new("CloseOnEscape", "bool", "true", "Whether Escape dismisses a focused toast."),
+        new("PreventDuplicates", "bool", "false", "Whether duplicate toast requests are suppressed."),
+        new("CloseButtonAriaLabel", "string?", "localized", "Label for JavaScript-rendered close buttons."),
+        new("RegionAriaLabel", "string?", "localized", "Label for the provider region.")
+    ];
+
+    private sealed record ParameterRow(string Name, string Type, string DefaultValue, string Description);
+}

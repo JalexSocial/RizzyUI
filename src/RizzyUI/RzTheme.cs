@@ -32,6 +32,7 @@ public partial class RzTheme
         RzAlert = RizzyUI.RzAlert.DefaultDescriptor;
         AlertTitle = RizzyUI.AlertTitle.DefaultDescriptor;
         AlertDescription = RizzyUI.AlertDescription.DefaultDescriptor;
+        RzToastProvider = RizzyUI.RzToastProviderStyles.DefaultDescriptor;
 
         // RzArticle Family
         RzArticle = RizzyUI.RzArticle.DefaultDescriptor;
