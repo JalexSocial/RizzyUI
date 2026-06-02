@@ -4,9 +4,11 @@
   "description": "",
   "main": "",
   "scripts": {
+    "pretest": "node ./tests/accessibility/scripts/copy-tom-select-assets.mjs",
     "test": "node ./tests/accessibility/scripts/run-playwright.mjs",
     "build:css": "npx @tailwindcss/cli -i ./Assets/css/app.css -o ./wwwroot/css/app.css",
-    "test:a11y": "node ./tests/accessibility/scripts/run-playwright.mjs tests/accessibility",
+    "pretest:a11y": "node ./tests/accessibility/scripts/copy-tom-select-assets.mjs",
+    "test:a11y": "node ./tests/accessibility/scripts/run-playwright.mjs",
     "prebuild:css": "npm install --prefix ../../packages/rizzyui"
   },
   "keywords": [],
@@ -23,6 +25,7 @@
     "style-loader": "^3.3.3",
     "tailwindcss": "^4.2.1",
     "tailwindcss-inset": "^1.0.0",
+    "tom-select": "2.4.3",
     "tw-animate-css": "^1.3.4",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
