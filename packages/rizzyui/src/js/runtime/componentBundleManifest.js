@@ -38,6 +38,8 @@ export const componentBundleManifest = Object.freeze({
     rzCalendarProvider: 'calendar-runtime',
     rzDateEdit: 'calendar-runtime',
 
+    rzDataTable: 'table-runtime',
+
     rzColorPicker: 'color-runtime',
     rzColorPickerProvider: 'color-runtime',
     rzColorSwatch: 'color-runtime',

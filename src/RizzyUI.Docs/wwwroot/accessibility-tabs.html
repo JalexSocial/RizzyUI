@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Accessibility Tabs Fixture</title></head>
+<body>
+<main>
+  <h1>Tabs Accessibility Fixture</h1>
+  <button id="before-tabs">Before tabs</button>
+
+  <section id="settings-tabs" data-default-value="account">
+    <div id="settings-tablist" role="tablist" aria-label="Account sections" aria-orientation="horizontal">
+      <button id="settings-tabs-account-trigger" type="button" role="tab" data-value="account" aria-controls="settings-tabs-account-content" aria-selected="false" tabindex="-1" data-state="inactive">Account</button>
+      <button id="settings-tabs-disabled-trigger" type="button" role="tab" data-value="disabled" aria-controls="settings-tabs-disabled-content" aria-disabled="true" disabled aria-selected="false" tabindex="-1" data-state="inactive">Disabled</button>
+      <button id="settings-tabs-password-trigger" type="button" role="tab" data-value="password" aria-controls="settings-tabs-password-content" aria-selected="false" tabindex="-1" data-state="inactive">Password</button>
+      <button id="settings-tabs-billing-trigger" type="button" role="tab" data-value="billing" aria-controls="settings-tabs-billing-content" aria-selected="false" tabindex="-1" data-state="inactive">Billing</button>
+    </div>
+    <div id="settings-tabs-account-content" role="tabpanel" aria-labelledby="settings-tabs-account-trigger" data-value="account" tabindex="-1" hidden aria-hidden="true" data-state="inactive">Account panel <a href="#account-link" id="account-link">Account details</a></div>
+    <div id="settings-tabs-disabled-content" role="tabpanel" aria-labelledby="settings-tabs-disabled-trigger" data-value="disabled" tabindex="-1" hidden aria-hidden="true" data-state="inactive">Disabled panel</div>
+    <div id="settings-tabs-password-content" role="tabpanel" aria-labelledby="settings-tabs-password-trigger" data-value="password" tabindex="-1" hidden aria-hidden="true" data-state="inactive">Password panel <a href="#password-link" id="password-link">Password details</a></div>
+    <div id="settings-tabs-billing-content" role="tabpanel" aria-labelledby="settings-tabs-billing-trigger" data-value="billing" tabindex="-1" hidden aria-hidden="true" data-state="inactive">Billing panel <a href="#billing-link" id="billing-link">Billing details</a></div>
+  </section>
+
+  <section id="vertical-tabs" data-default-value="overview">
+    <div id="vertical-tablist" role="tablist" aria-label="Profile sections" aria-orientation="vertical">
+      <button id="vertical-tabs-overview-trigger" type="button" role="tab" data-value="overview" aria-controls="vertical-tabs-overview-content" aria-selected="false" tabindex="-1" data-state="inactive">Overview</button>
+      <button id="vertical-tabs-activity-trigger" type="button" role="tab" data-value="activity" aria-controls="vertical-tabs-activity-content" aria-selected="false" tabindex="-1" data-state="inactive">Activity</button>
+    </div>
+    <div id="vertical-tabs-overview-content" role="tabpanel" aria-labelledby="vertical-tabs-overview-trigger" data-value="overview" tabindex="-1" hidden aria-hidden="true" data-state="inactive">Overview panel</div>
+    <div id="vertical-tabs-activity-content" role="tabpanel" aria-labelledby="vertical-tabs-activity-trigger" data-value="activity" tabindex="-1" hidden aria-hidden="true" data-state="inactive">Activity panel</div>
+  </section>
+
+  <button id="after-tabs">After tabs</button>
+
+  <script>
+    function wireTabs(root) {
+      let selectedTab = '';
+      const triggers = () => [...root.querySelectorAll('[role="tab"]')];
+      const panels = () => [...root.querySelectorAll('[role="tabpanel"]')];
+      const isDisabled = (el) => el?.getAttribute('aria-disabled') === 'true' || el?.hasAttribute('disabled') || el?.disabled === true;
+      const enabledTriggers = () => triggers().filter((trigger) => !isDisabled(trigger));
+
+      function update() {
+        triggers().forEach((trigger) => {
+          const active = trigger.dataset.value === selectedTab && !isDisabled(trigger);
+          trigger.setAttribute('aria-selected', String(active));
+          trigger.setAttribute('tabindex', active ? '0' : '-1');
+          trigger.setAttribute('data-state', active ? 'active' : 'inactive');
+        });
+        panels().forEach((panel) => {
+          const active = panel.dataset.value === selectedTab;
+          panel.hidden = !active;
+          panel.setAttribute('aria-hidden', String(!active));
+          panel.setAttribute('tabindex', active ? '0' : '-1');
+          panel.setAttribute('data-state', active ? 'active' : 'inactive');
+        });
+      }
+
+      function activateTrigger(trigger, focusTrigger = false) {
+        if (!trigger || isDisabled(trigger) || !trigger.dataset.value) return;
+        if (selectedTab !== trigger.dataset.value) {
+          selectedTab = trigger.dataset.value;
+          root.dispatchEvent(new CustomEvent('rz:tabs-change', { bubbles: true, detail: { value: selectedTab } }));
+        }
+        update();
+        if (focusTrigger) trigger.focus();
+      }
+
+      const defaultValue = root.dataset.defaultValue;
+      selectedTab = enabledTriggers().find((trigger) => trigger.dataset.value === defaultValue)?.dataset.value ?? enabledTriggers()[0]?.dataset.value ?? '';
+      update();
+
+      triggers().forEach((trigger) => trigger.addEventListener('click', () => activateTrigger(trigger)));
+      root.querySelector('[role="tablist"]')?.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
+        const isVertical = event.currentTarget.getAttribute('aria-orientation') === 'vertical';
+        const handledForOrientation = event.key === 'Home' || event.key === 'End' || (isVertical && ['ArrowUp', 'ArrowDown'].includes(event.key)) || (!isVertical && ['ArrowLeft', 'ArrowRight'].includes(event.key));
+        if (!handledForOrientation) return;
+        const available = enabledTriggers();
+        if (!available.length) return;
+        let currentIndex = available.indexOf(event.target);
+        if (currentIndex === -1) currentIndex = Math.max(available.findIndex((trigger) => trigger.dataset.value === selectedTab), 0);
+        let newIndex = currentIndex;
+        if (event.key === (isVertical ? 'ArrowUp' : 'ArrowLeft')) newIndex = currentIndex - 1 < 0 ? available.length - 1 : currentIndex - 1;
+        if (event.key === (isVertical ? 'ArrowDown' : 'ArrowRight')) newIndex = (currentIndex + 1) % available.length;
+        if (event.key === 'Home') newIndex = 0;
+        if (event.key === 'End') newIndex = available.length - 1;
+        event.preventDefault();
+        activateTrigger(available[newIndex], true);
+      });
+    }
+
+    window.tabsEvents = [];
+    document.addEventListener('rz:tabs-change', (event) => window.tabsEvents.push(event.detail.value));
+    wireTabs(document.getElementById('settings-tabs'));
+    wireTabs(document.getElementById('vertical-tabs'));
+  </script>
+</main>
+</body>
+</html>

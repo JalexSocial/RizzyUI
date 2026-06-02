@@ -36,8 +36,9 @@
                 Dropdown menus provide a user-friendly and space-efficient way to display a list of options or actions.
                 When the trigger element is activated (via click or keyboard events), the dropdown menu appears with a smooth transition.
                 The component supports any renderable trigger (such as a Button, RzAvatar, etc.), multiple menu groups, labels, separators, and nested sub-menus.
-                Dynamic alignment is handled via the <code>Anchor</code> property on <code>RzDropdownMenu</code> and <code>DropdownMenuSub</code>. Full keyboard accessibility is supported.
-                All interactivity is handled via Alpine.js (using the <code>rzDropdownMenu</code> and <code>rzDropdownSubmenu</code> data objects), ensuring a CSP-compliant, accessible experience.
+                Dynamic alignment is handled via the <code>Anchor</code> property on <code>RzDropdownMenu</code> and <code>DropdownMenuSub</code>. This component follows the <strong>menu widget</strong> accessibility pattern (command/action menu), not a disclosure-navigation list.
+                The trigger exposes <code>aria-haspopup="menu"</code>, <code>aria-expanded</code>, and <code>aria-controls</code>; the content uses <code>role="menu"</code>; and items use menuitem semantics with roving focus keyboard navigation (Arrow keys, Home, End) while skipping disabled items.
+                Dismissal behavior (Escape and outside pointer interaction) is coordinated through the shared <code>dismissableLayer</code> primitive so only the top-most open layer closes. All interactivity is handled via Alpine.js (using the <code>rzDropdownMenu</code> and <code>rzDropdownSubmenu</code> data objects), ensuring a CSP-compliant, accessible experience.
             </RzParagraph>
 
             <!-- Example 1: Dropdown with RzAvatar Trigger -->
@@ -555,6 +556,80 @@
                         </tbody>
                     </table>
                 </div>
+            </section>
+
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">
+                    Accessibility
+                </RzHeading>
+                <RzParagraph>
+                    <code>RzDropdownMenu</code> implements a menu-widget pattern for action menus. The trigger reflects open and closed state, the menu content is linked to the trigger, and menu entries are exposed as interactive menu items. Labels and separators are used for grouping and are not part of item focus navigation. Disabled items remain visible but are skipped during keyboard movement.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="scroll-mt-20">Keyboard Interaction</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Key</th>
+                                <th scope="col" class="px-4 py-3">Behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code>Enter</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">On the trigger, opens the menu. On a standard menu item, activates the item and closes the menu.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>Space</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">On the trigger, opens the menu.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>ArrowDown</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to the next enabled menu item.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>ArrowUp</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to the previous enabled menu item.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>Home</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to the first enabled menu item.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>End</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to the last enabled menu item.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>Escape</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the open menu layer. For root close, focus returns to the trigger.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>Tab</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the root menu and returns focus to the trigger.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" class="scroll-mt-20">Pointer and Dismissal</RzHeading>
+                <RzParagraph>
+                    Clicking the trigger opens the dropdown. Clicking the trigger again closes it. Clicking outside an open menu closes it, while clicking inside menu content does not count as an outside interaction. Selecting a regular menu item closes the menu. Submenu triggers open nested content without closing the parent menu.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="scroll-mt-20">Focus Management</RzHeading>
+                <RzParagraph>
+                    Keyboard opening paths move focus into menu items and roving focus manages Arrow key movement between enabled entries. Disabled items, separators, labels, and hidden entries are excluded from focus movement. When the root menu closes through Escape, Tab, outside click, or item selection, focus is restored to the trigger.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="scroll-mt-20">SSR and Alpine Runtime</RzHeading>
+                <RzParagraph>
+                    Dropdown behavior is SSR-compatible and Alpine-powered. You can use it in SSR pages without Blazor interactive render modes. Runtime interaction is handled by Alpine and shared client-side primitives, not by <code>EventCallback</code>, <code>@@onclick</code>, or <code>@@bind</code>.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" class="scroll-mt-20">Author Guidance</RzHeading>
+                <ul>
+                    <li>Use clear trigger text, or provide an accessible label for icon-only triggers.</li>
+                    <li>Keep menu item labels short and action-oriented.</li>
+                    <li>Use labels and separators for grouping only, not as interactive actions.</li>
+                    <li>Do not rely on disabled items as the only way to communicate critical information.</li>
+                    <li>Avoid complex form workflows inside dropdown menus.</li>
+                    <li>Name destructive actions clearly, such as <code>Delete project</code> instead of <code>Delete</code>.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" class="scroll-mt-20">Accessible Structure Example</RzHeading>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzDropdownMenu&gt;
+    &lt;DropdownMenuTrigger AsChild&gt;
+        &lt;RzButton aria-label=&quot;Open account actions&quot;&gt;Account&lt;/RzButton&gt;
+    &lt;/DropdownMenuTrigger&gt;
+    &lt;DropdownMenuContent&gt;
+        &lt;DropdownMenuLabel&gt;Account&lt;/DropdownMenuLabel&gt;
+        &lt;DropdownMenuItem&gt;Profile&lt;/DropdownMenuItem&gt;
+        &lt;DropdownMenuItem&gt;Billing&lt;/DropdownMenuItem&gt;
+        &lt;DropdownMenuSeparator /&gt;
+        &lt;DropdownMenuItem Disabled=&quot;true&quot;&gt;API Tokens&lt;/DropdownMenuItem&gt;
+        &lt;DropdownMenuItem&gt;Sign out&lt;/DropdownMenuItem&gt;
+    &lt;/DropdownMenuContent&gt;
+&lt;/RzDropdownMenu&gt;
+                </RzCodeViewer>
             </section>
 
 

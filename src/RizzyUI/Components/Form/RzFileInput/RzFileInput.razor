@@ -11,6 +11,12 @@
          x-data="rzFileInput" x-load="@LoadStrategyOrNull"
          data-assets="@_assets"
          data-nonce="@Nonce"
+         data-disabled="@Disabled.ToString().ToLowerInvariant()"
+         data-remove-label-template="@(Localize("RzFileInput.RemoveLabelTemplate", "Remove {0}"))"
+         data-preview-alt-template="@(Localize("RzFileInput.PreviewAltTemplate", "Preview of {0}"))"
+         data-selected-count-template="@(Localize("RzFileInput.SelectedCountTemplate", "{0} file(s) selected"))"
+         data-removed-template="@(Localize("RzFileInput.RemovedTemplate", "Removed {0}"))"
+         data-cleared-text="@(Localize("RzFileInput.ClearedText", "No files selected"))"
          class="@SlotClasses.GetContainer()"
          data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.Container)"
          x-bind:data-dragging="draggingState"
@@ -25,16 +31,28 @@
                accept="@Accept"
                disabled="@Disabled"
                aria-label="@AriaLabel"
+               aria-describedby="@DescriptionId @StatusId"
+               aria-controls="@ListId"
+               aria-invalid="@IsInvalid.ToString().ToLowerInvariant()"
                class="@SlotClasses.GetNativeInput()"
                data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.NativeInput)"
                x-on:change="handleFileChange" />
 
+        <span id="@DescriptionId"
+              class="@SlotClasses.GetDescription()"
+              data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.Description)">
+            @Localize("RzFileInput.Description", "Choose files with the native file picker, or drag and drop files onto the dropzone when available.")
+        </span>
+
         <div class="@SlotClasses.GetTrigger()"
              data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.Trigger)"
              role="button"
-             tabindex="0"
+             tabindex="@(Disabled ? "-1" : "0")"
              aria-controls="@ListId"
+             aria-describedby="@DescriptionId @StatusId"
+             aria-disabled="@Disabled.ToString().ToLowerInvariant()"
              aria-label="@AriaLabel"
+             x-bind:data-dragging="draggingState"
              x-on:click="trigger"
              x-on:keydown.enter.prevent="trigger"
              x-on:keydown.space.prevent="trigger">
@@ -48,11 +66,11 @@
                       data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.TriggerContent)">
                     @if (Variant == FileInputVariant.Dropzone)
                     {
-                        @Localizer["RzFileInput.DropzoneText"]
+                        @Localize("RzFileInput.DropzoneText", "Drag and drop files here or click to upload")
                     }
                     else
                     {
-                        @Localizer["RzFileInput.ButtonText"]
+                        @Localize("RzFileInput.ButtonText", "Choose files")
                     }
                 </span>
             }
@@ -61,6 +79,7 @@
         <ul id="@ListId"
             class="@SlotClasses.GetList()"
             data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.List)"
+            aria-label="@(Localize("RzFileInput.ListLabel", "Selected files"))"
             x-show="hasFiles"
             x-cloak>
             <template x-for="(file, index) in files" :key="file.name + '-' + index">
@@ -68,7 +87,7 @@
                     data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.Item)">
                     <img x-show="file.isImage"
                          x-bind:src="file.previewUrl"
-                         x-bind:alt="file.name"
+                         x-bind:alt="getPreviewAlt(file)"
                          class="@SlotClasses.GetPreviewImage()"
                          data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.PreviewImage)" />
                     <div class="@SlotClasses.GetInfo()"
@@ -84,12 +103,20 @@
                             class="@SlotClasses.GetRemoveButton()"
                             data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.RemoveButton)"
                             x-bind:data-index="index"
-                            aria-label="@Localizer["RzFileInput.RemoveLabel"]"
+                            x-bind:aria-label="getRemoveLabel(file)"
                             x-on:click="removeFileByIndex">
                         <Blazicon Svg="Lucide.X" aria-hidden="true" />
                     </button>
                 </li>
             </template>
         </ul>
+
+        <span id="@StatusId"
+              class="@SlotClasses.GetStatus()"
+              data-slot="@RzFileInput.SlotNames.NameOf(SlotTypes.Status)"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              x-text="statusText"></span>
     </div>
 </HtmlElement>

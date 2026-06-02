@@ -1,0 +1,29 @@
+@namespace RizzyUI
+@typeparam TItem
+@inherits RzComponent<RzDataTableSlots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="datatable">
+    <div data-alpine-root="@Id"
+         x-data="rzDataTable"
+         x-load="@LoadStrategyOrNull"
+         data-assets="@_assets"
+         data-nonce="@Nonce"
+         data-config-id="@ConfigScriptId">
+        <script type="application/json"
+                id="@ConfigScriptId"
+                nonce="@Nonce">@((MarkupString)_configJson)</script>
+        <CascadingValue Value="this" Name="ParentRzDataTable" IsFixed="true">
+            @ChildContent
+        </CascadingValue>
+        <div class="@SlotClasses.GetAnnouncement()"
+             data-slot="announcement"
+             role="status"
+             aria-live="polite"
+             aria-atomic="true"
+             x-text="announcement.message"></div>
+    </div>
+</HtmlElement>

@@ -166,6 +166,35 @@
                 </RzCodeViewer>
             </section>
 
+
+                        <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">
+                    Accessibility
+                </RzHeading>
+                <RzParagraph>
+                    <code>RzSheet</code> supports modal and non-modal modes. Modal mode uses <code>role="dialog"</code> with <code>aria-modal="true"</code>, traps focus with <code>focusScope</code>, and restores focus to the trigger after close. Non-modal mode uses <code>role="complementary"</code>, omits <code>aria-modal</code>, and does not trap focus.
+                </RzParagraph>
+                <RzParagraph>
+                    For accessible names, use <code>SheetTitle</code> (automatic <code>aria-labelledby</code>) or provide <code>AriaLabel</code> on <code>SheetContent</code>. Use <code>SheetDescription</code> (or <code>AriaDescribedBy</code>) to provide additional context.
+                </RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr><th scope="col" class="w-1/4 px-4 py-3">Key</th><th scope="col" class="w-1/4 px-4 py-3">Modal</th><th scope="col" class="px-4 py-3">Non-Modal</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono">Enter / Space</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens from trigger; closes from close button.</td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens from trigger; closes from close button.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono">Tab / Shift+Tab</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Wraps within sheet content while open.</td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves through full page tab order.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono">Escape</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes top-most sheet via <code>dismissableLayer</code>.</td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes top-most sheet via <code>dismissableLayer</code> when dismissal is enabled.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <RzParagraph>
+                    Known limitation: nested sheets and mixed modal/non-modal stacking are not fully supported yet.
+                </RzParagraph>
+            </section>
+
+
             <!-- Component Parameters -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
@@ -199,6 +228,21 @@
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
                             </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Modal</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Controls sheet semantics and focus behavior. When <code>true</code>, the sheet behaves as a modal dialog with focus trapping.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">DismissOnOutsideClick</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">When <code>true</code>, pointer interactions outside the sheet dismiss it.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td>
+                            </tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Accessible name fallback when no <code>SheetTitle</code> is rendered.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabelledBy</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Explicit ID reference for <code>aria-labelledby</code>.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">auto from SheetTitle</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaDescribedBy</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Explicit ID reference for <code>aria-describedby</code>.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">auto from SheetDescription</code></td></tr>
                         </tbody>
                     </table>
                 </div>

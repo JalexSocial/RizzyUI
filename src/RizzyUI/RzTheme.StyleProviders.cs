@@ -28,6 +28,20 @@ public partial class RzTheme
     public virtual TvDescriptor<RzComponent<TableRowSlots>, TableRowSlots> TableRow { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzTable"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzTableSlots>, RzTableSlots> RzTable { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzDataTable{TItem}"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<RzDataTableSlots>, RzDataTableSlots> RzDataTable { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.DataTableSortToggle"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<DataTableSortToggle.Slots>, DataTableSortToggle.Slots> DataTableSortToggle { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.DataTableSortIcon"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<DataTableSortIcon.Slots>, DataTableSortIcon.Slots> DataTableSortIcon { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.DataTableSelectAllCheckbox"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<DataTableSelectAllCheckbox.Slots>, DataTableSelectAllCheckbox.Slots> DataTableSelectAllCheckbox { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.DataTableRowSelectCheckbox"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<DataTableRowSelectCheckbox.Slots>, DataTableRowSelectCheckbox.Slots> DataTableRowSelectCheckbox { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.DataTableSelectionHeaderCell"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<DataTableSelectionHeaderCell.Slots>, DataTableSelectionHeaderCell.Slots> DataTableSelectionHeaderCell { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.DataTableSelectionCell"/> component. </summary>
+    public virtual TvDescriptor<RzComponent<DataTableSelectionCell.Slots>, DataTableSelectionCell.Slots> DataTableSelectionCell { get; set; }
 
     #endregion
 

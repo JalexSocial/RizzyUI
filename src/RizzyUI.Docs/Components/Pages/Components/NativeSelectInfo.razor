@@ -124,6 +124,95 @@
                 </RzCodeViewer>
             </section>
 
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">
+                    Accessibility
+                </RzHeading>
+                <RzParagraph>
+                    <code>RzNativeSelect&lt;TValue&gt;</code> renders a real native <code>&lt;select&gt;</code> through <code>InputSelect&lt;TValue&gt;</code>, so it keeps browser and assistive-technology semantics for labels, values, disabled state, required state, and validation.
+                </RzParagraph>
+                <RzParagraph>
+                    Prefer a visible <code>&lt;label for="..."&gt;</code> association through <code>RzField</code> and <code>FieldLabel</code>. If you provide explicit <code>aria-label</code>, <code>aria-labelledby</code>, or <code>aria-describedby</code>, those attributes are forwarded to the inner select. Use <code>AriaDescribedBy</code> to append component-specific hint or error ids without replacing existing description ids.
+                </RzParagraph>
+                <RzParagraph>
+                    Keyboard interaction remains fully native and is not intercepted: Arrow keys move through options, Home/End jump, Enter/Space commit according to browser behavior, Escape closes an open list in supporting UAs, and typeahead follows platform-native rules.
+                </RzParagraph>
+                <RzParagraph>
+                    Use <code>RzNativeSelect</code> when native select behavior is preferred. Use <code>RzCombobox</code> when you need custom filtering, async loading, or advanced popup/list behaviors beyond native select capabilities.
+                </RzParagraph>
+            </section>
+
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Labeling and Descriptions" class="scroll-mt-20">
+                    Labeling and Descriptions
+                </RzHeading>
+                <RzParagraph>
+                    Native select labeling should primarily use a visible <code>&lt;label for="..."&gt;</code>. You can additionally forward <code>aria-label</code>, <code>aria-labelledby</code>, and <code>aria-describedby</code>. Use <code>AriaDescribedBy</code> when you need to append extra hint or validation IDs.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <RzField>
+                                <FieldLabel For="@(() => _model.SelectedCar)">Car Brand</FieldLabel>
+                                <RzNativeSelect @bind-Value="_model.SelectedCar"
+                                                For="@(() => _model.SelectedCar)"
+                                                id="car-brand"
+                                                aria-describedby="car-help"
+                                                AriaDescribedBy="car-error">
+                                    <RzNativeSelectOption Value="@("audi")">Audi</RzNativeSelectOption>
+                                    <RzNativeSelectOption Value="@("bmw")">BMW</RzNativeSelectOption>
+                                </RzNativeSelect>
+                                <FieldDescription><span id="car-help">Choose the brand you drive most.</span></FieldDescription>
+                                <RzParagraph class="mt-2 text-destructive"><span id="car-error">Please choose a supported brand.</span></RzParagraph>
+                            </RzField>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzField&gt;
+    &lt;FieldLabel For=&quot;@@(() =&gt; _model.SelectedCar)&quot;&gt;Car Brand&lt;/FieldLabel&gt;
+    &lt;RzNativeSelect @@bind-Value=&quot;_model.SelectedCar&quot;
+                    For=&quot;@@(() =&gt; _model.SelectedCar)&quot;
+                    id=&quot;car-brand&quot;
+                    aria-describedby=&quot;car-help&quot;
+                    AriaDescribedBy=&quot;car-error&quot;&gt;
+        &lt;RzNativeSelectOption Value=&quot;@@(&quot;audi&quot;)&quot;&gt;Audi&lt;/RzNativeSelectOption&gt;
+        &lt;RzNativeSelectOption Value=&quot;@@(&quot;bmw&quot;)&quot;&gt;BMW&lt;/RzNativeSelectOption&gt;
+    &lt;/RzNativeSelect&gt;
+    &lt;FieldDescription&gt;&lt;span id=&quot;car-help&quot;&gt;Choose the brand you drive most.&lt;/span&gt;&lt;/FieldDescription&gt;
+    &lt;span id=&quot;car-error&quot;&gt;Please choose a supported brand.&lt;/span&gt;
+&lt;/RzField&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Keyboard Behavior" class="scroll-mt-20">
+                    Keyboard Behavior
+                </RzHeading>
+                <RzParagraph>
+                    <code>RzNativeSelect</code> does not override browser behavior. Keyboard support follows each browser and platform's native select implementation.
+                </RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/4 px-4 py-3">Key</th>
+                                <th scope="col" class="px-4 py-3">Native behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code>Arrow Up / Arrow Down</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves through available options according to native select behavior.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>Home / End</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Jumps to first or last option when supported by the browser.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>Enter / Space</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens/closes or commits selection using platform-native rules.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>Escape</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the open options UI in browsers that expose a popup list.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>Typeahead</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves to matching options using native incremental search behavior.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
                     Component Parameters
@@ -137,6 +226,7 @@
                             <tr class="align-top"><td class="p-4"><code>For</code></td><td class="p-4"><code>Expression&lt;Func&lt;TValue&gt;&gt;</code></td><td class="p-4">Required</td><td class="p-4">An expression that identifies the bound value.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Value</code></td><td class="p-4"><code>TValue?</code></td><td class="p-4"><code>default</code></td><td class="p-4">The current value of the select.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4"><code>null</code></td><td class="p-4">The options to display within the select element.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>AriaDescribedBy</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Appends additional description ids to the inner select's <code>aria-describedby</code> without removing consumer-provided values.</td></tr>
                         </tbody>
                     </table>
                 </div>

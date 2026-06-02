@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -22,6 +23,13 @@ public partial class RzNativeSelect<TValue> : InputBase<TValue, RzNativeSelectSl
     /// </summary>
     [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
 
+
+    /// <summary>
+    /// Gets or sets an additional aria-describedby value to append to descriptions already present in attributes.
+    /// </summary>
+    [Parameter]
+    public string? AriaDescribedBy { get; set; }
+
     /// <summary>
     /// Gets the input attributes with 'class' and 'style' removed to prevent duplication on the inner select element,
     /// as these are applied to the wrapper via AdditionalAttributes.
@@ -33,18 +41,40 @@ public partial class RzNativeSelect<TValue> : InputBase<TValue, RzNativeSelectSl
             var attrs = new Dictionary<string, object?>(InputAttributes);
             attrs.Remove("class");
             attrs.Remove("style");
+
+            if (TryGetAttributeString(attrs, "aria-describedby", out var existingDescribedBy))
+            {
+                attrs["aria-describedby"] = JoinSpaceSeparatedTokens(existingDescribedBy, AriaDescribedBy);
+            }
+            else if (!string.IsNullOrWhiteSpace(AriaDescribedBy))
+            {
+                attrs["aria-describedby"] = AriaDescribedBy;
+            }
+
             return attrs;
         }
     }
 
-    /// <inheritdoc/>
-    protected override void OnInitialized()
+
+    private static string JoinSpaceSeparatedTokens(string? first, string? second)
     {
-        base.OnInitialized();
-        // No specific AriaLabel default needed as InputBase doesn't enforce it, but we can set one if desired.
-        // If specific ARIA handling is needed, it can be added here.
+        var firstTokens = (first ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var secondTokens = (second ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        return string.Join(' ', firstTokens.Concat(secondTokens).Distinct(StringComparer.Ordinal));
     }
 
+    private static bool TryGetAttributeString(Dictionary<string, object?> attributes, string name, [NotNullWhen(true)] out string? value)
+    {
+        if (attributes.TryGetValue(name, out var rawValue) && rawValue is not null)
+        {
+            value = rawValue.ToString();
+            return !string.IsNullOrWhiteSpace(value);
+        }
+
+        value = null;
+        return false;
+    }
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<RzNativeSelectSlots>, RzNativeSelectSlots> GetDescriptor() => Theme.RzNativeSelect;
 }

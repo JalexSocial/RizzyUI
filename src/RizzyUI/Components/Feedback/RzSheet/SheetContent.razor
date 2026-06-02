@@ -8,6 +8,7 @@
 		<div class="@SlotClasses.GetOverlay()" 
              x-on:click="close" 
              x-bind:data-state="state"
+             data-slot="sheet-overlay"
 		     x-transition:enter="ease-in-out duration-500"
 		     x-transition:enter-start="opacity-0"
 		     x-transition:enter-end="opacity-100"
@@ -17,13 +18,20 @@
 		<div @attributes="AdditionalAttributes"
 		     id="@Id"
 		     class="@SlotClasses.GetBase()"
+		     data-rz-sheet-panel="true"
 		     data-slot="sheet-content"
-		     x-trap.inert="open"
-		     x-bind:data-state="state"
+		     tabindex="-1"
+		     x-bind:role="modal ? 'dialog' : 'complementary'"
+		     x-bind:aria-modal="modal ? 'true' : null"
+		     x-bind:aria-hidden="open ? 'false' : 'true'"
+		     aria-labelledby="@AriaLabelledBy"
+		     aria-describedby="@AriaDescribedBy"
+		     aria-label="@AriaLabel"
+				     x-bind:data-state="state"
              x-transition:enter="transition ease-in-out duration-500"
              x-transition:leave="transition ease-in-out duration-300">
 			@ChildContent
-			<button type="button" class="@SlotClasses.GetCloseButton()" x-on:click="close">
+			<button type="button" aria-label="@Localizer["RzSheet.CloseButtonAriaLabel"]" class="@SlotClasses.GetCloseButton()" x-on:click="close">
 				<Blazicon Svg="Lucide.X" class="@SlotClasses.GetCloseButtonIcon()" />
 				<span class="sr-only">@Localizer["RzSheet.CloseButtonText"]</span>
 			</button>

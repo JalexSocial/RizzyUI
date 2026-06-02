@@ -1,44 +1,96 @@
-// packages/rizzyui/src/js/lib/components/rzSheet.js
+import { createFocusScope } from '../../runtime/a11y/focusScope.js';
+import { registerDismissableLayer } from '../../runtime/a11y/dismissableLayer.js';
+
 export default function rzSheet() {
     return {
         open: false,
+        modal: true,
+        dismissOnOutsideClick: true,
+        focusScope: null,
+        unregisterLayer: null,
 
-        /**
-         * Executes the `init` operation.
-         * @returns {any} Returns the result of `init` when applicable.
-         */
         init() {
             this.open = this.$el.dataset.defaultOpen === 'true';
+            this.modal = this.$el.dataset.modal !== 'false';
+            this.dismissOnOutsideClick = this.$el.dataset.dismissOnOutsideClick !== 'false';
+
+            this.$watch('open', (isOpen) => {
+                if (isOpen) {
+                    this.registerInteractions();
+                    this.applyClosedState(false);
+                    return;
+                }
+
+                this.teardownInteractions();
+                this.applyClosedState(true);
+            });
+
+            this.applyClosedState(!this.open);
+            if (this.open) {
+                this.registerInteractions();
+            }
         },
 
-        /**
-         * Executes the `toggle` operation.
-         * @returns {any} Returns the result of `toggle` when applicable.
-         */
+        registerInteractions() {
+            const panel = this.getPanel();
+            if (!panel) {
+                return;
+            }
+
+            if (!this.unregisterLayer) {
+                this.unregisterLayer = registerDismissableLayer({
+                    root: panel,
+                    onDismiss: ({ reason }) => {
+                        if (!this.open) return;
+                        if (reason === 'outside-pointer' && !this.dismissOnOutsideClick) return;
+                        this.close();
+                    }
+                });
+            }
+
+            if (this.modal && !this.focusScope) {
+                this.focusScope = createFocusScope(panel, { fallbackFocus: panel });
+                this.focusScope.activate();
+            }
+        },
+
+        teardownInteractions() {
+            if (this.focusScope) {
+                this.focusScope.deactivate();
+                this.focusScope = null;
+            }
+
+            if (this.unregisterLayer) {
+                this.unregisterLayer();
+                this.unregisterLayer = null;
+            }
+        },
+
+        applyClosedState(closed) {
+            const panel = this.getPanel();
+            if (!panel) {
+                return;
+            }
+
+            panel.setAttribute('aria-hidden', closed ? 'true' : 'false');
+        },
+
+        getPanel() {
+            return this.$root.querySelector('[data-rz-sheet-panel]');
+        },
+
         toggle() {
             this.open = !this.open;
         },
 
-        /**
-         * Executes the `close` operation.
-         * @returns {any} Returns the result of `close` when applicable.
-         */
         close() {
             this.open = false;
         },
 
-        /**
-         * Executes the `show` operation.
-         * @returns {any} Returns the result of `show` when applicable.
-         */
         show() {
             this.open = true;
         },
 
-        /**
-         * Executes the `state` operation.
-         * @returns {any} Returns the result of `state` when applicable.
-         */
         state() {
             return this.open ? 'open' : 'closed';
         }

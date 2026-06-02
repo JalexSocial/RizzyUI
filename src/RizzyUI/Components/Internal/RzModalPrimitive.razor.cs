@@ -13,6 +13,12 @@ public partial class RzModalPrimitive : RzComponent
     [Parameter]
     public string Role { get; set; } = "dialog";
 
+
+    /// <summary>
+    /// Gets or sets whether the panel behaves as a true modal dialog.
+    /// </summary>
+    [Parameter]
+    public bool IsModal { get; set; } = true;
     /// <summary>
     /// Gets or sets the optional ARIA label for the modal panel.
     /// </summary>

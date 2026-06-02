@@ -11,7 +11,7 @@ public class RzCommandDialogTests : BunitAlbaContext, IClassFixture<WebAppFixtur
     {
         var cut = Render<RzCommandDialog>();
 
-        Assert.Contains("rzDialog", cut.Markup, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("rzModal", cut.Markup, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("rzCommand", cut.Markup, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("sr-only", cut.Markup);
     }

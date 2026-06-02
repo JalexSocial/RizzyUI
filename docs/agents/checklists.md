@@ -1,6 +1,8 @@
 ## 16. Final checklist for the LLM
 
 * CRITICAL - Only generate or modify code directly related to the task requested. You are not permitted to modify code outside the scope of the request.
+* **Existing-component accessibility refactors:** Before editing, inspect existing Razor/C#, JavaScript/Alpine, tests, and docs. Preserve compliant keyboard handling, focus handling, ARIA relationships, live-region behavior, id generation, `rz:` events, public parameters, data attributes, CSS hooks, slot names, localization keys, docs examples, and generated ids unless replacement is necessary and covered by tests.
+* **No accidental replacement components:** Do not create new components during accessibility hardening unless the prompt explicitly requests new component creation. Update existing components in place, for example `RzNativeSelect`, `RzCombobox`, `RzNavigationMenu`, `RzAlert`, `RzTooltip`, or `RzDataTable`.
 * **Component Naming:** Ensure only root-level components are prefixed with `Rz`.
 * Prepend the cross-file edit instructions for theme, localization, asset management, and **documentation navigation** if needed (see `docs/agents/output.md`).
 * Provide an `output` block for new or replaced component-specific files **and documentation pages** only (see `docs/agents/output.md` and `docs/agents/documentation.md`).
@@ -63,6 +65,7 @@
 * **[ ] 15. `data-slot` on Root Element:** The root `HtmlElement` has a `data-slot="component-name"` attribute with a hardcoded, kebab-case name.
 * **[ ] 16. `data-slot` on Internal Elements:** Every internal element with a `class="@SlotClasses.Get...()"` attribute also has a corresponding `data-slot="@...SlotNames.NameOf(...)"` attribute.
 * **[ ] 17. Alpine Directives Preserved:** All non-class Alpine directives are present in the `.razor` file on their original elements.
+* **[ ] 17a. Existing Accessibility Behavior Preserved:** For existing-component refactors, compliant keyboard handling, focus handling, ARIA relationships, live-region behavior, generated IDs, `rz:` events, and public hooks were preserved or deliberately migrated with characterization tests.
 
 #### **Part B: Documentation Verification Checklist**
 
@@ -70,6 +73,7 @@
 * **[ ] 19. Structure Compliance:** The documentation page uses `RzQuickReferenceContainer`, `RzBreadcrumb`, and `RzCodeViewer` correctly.
 * **[ ] 20. Content Compliance:** The documentation includes a Parameters table and (if applicable) Alpine API/Event details.
 * **[ ] 21. Navigation Updated:** The new component is listed in `src/RizzyUI.Docs/Components/Layout/ComponentList.razor`.
+* **[ ] 21a. Refactor Documentation Accuracy:** Existing component docs were updated in place and still describe the implemented keyboard, focus, ARIA, announcement, event, and SSR/CSP behavior accurately.
 
 #### **Part C: Human Developer Validation Checklist**
 
@@ -78,3 +82,4 @@
 * **[ ] 24. Build Success:** Does the entire `RizzyUI` solution build without errors?
 * **[ ] 25. Unit Tests:** Do all existing unit tests for the component pass?
 * **[ ] 26. Demo Application:** Visually confirm that the component renders and behaves exactly as it did before the refactor in the `RizzyUI.Docs` application.
+* **[ ] 27. Final Response Preservation Summary:** For accessibility refactors, did the final response state what existing behavior was preserved, what behavior was replaced, and why?

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accessibility Dialog Fixture</title>
+</head>
+<body>
+  <main id="main">
+  <h1>Dialog Accessibility Fixture</h1>
+  <button id="dialog-trigger">Open Account Preferences</button>
+
+  <div id="dialog-underlay" hidden>
+    <div id="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-description" tabindex="-1">
+      <h2 id="dialog-title">Account Preferences</h2>
+      <p id="dialog-description">Update your account preferences and close when finished.</p>
+      <input id="dialog-input" type="text" placeholder="Display name" />
+      <button id="dialog-nested-popover">Open popover</button>
+      <button id="dialog-close" type="button" aria-label="Close dialog">Close</button>
+    </div>
+  </div>
+
+  <button id="dialog-trigger-label-only">Open Support Details</button>
+  <div id="label-only-underlay" hidden>
+    <div id="label-only-dialog" role="dialog" aria-modal="true" aria-label="Support details" tabindex="-1">
+      <button id="label-only-close" type="button" aria-label="Close support details dialog">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const createDialog = ({ triggerId, underlayId, dialogId, closeId }) => {
+      const trigger = document.getElementById(triggerId);
+      const underlay = document.getElementById(underlayId);
+      const dialog = document.getElementById(dialogId);
+      const close = document.getElementById(closeId);
+      const focusables = () => Array.from(dialog.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter((node) => !node.hasAttribute('disabled'));
+      let invoker = null;
+      let open = false;
+
+      const onKeydown = (event) => {
+        if (!open) return;
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          closeDialog();
+          return;
+        }
+
+        if (event.key !== 'Tab') return;
+        const items = focusables();
+        if (!items.length) return;
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+          return;
+        }
+        if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      };
+
+      const onOutsideClick = (event) => {
+        if (!open) return;
+        if (!dialog.contains(event.target)) {
+          closeDialog();
+        }
+      };
+
+      const openDialog = (event) => {
+        invoker = event.currentTarget;
+        underlay.hidden = false;
+        open = true;
+        document.addEventListener('keydown', onKeydown);
+        document.addEventListener('mousedown', onOutsideClick);
+        const items = focusables();
+        (items[0] ?? dialog).focus();
+      };
+
+      const closeDialog = () => {
+        underlay.hidden = true;
+        open = false;
+        document.removeEventListener('keydown', onKeydown);
+        document.removeEventListener('mousedown', onOutsideClick);
+        if (invoker && invoker.isConnected) invoker.focus();
+      };
+
+      trigger.addEventListener('click', openDialog);
+      close.addEventListener('click', closeDialog);
+      return { trigger, dialog, close: closeDialog };
+    };
+
+    createDialog({ triggerId: 'dialog-trigger', underlayId: 'dialog-underlay', dialogId: 'dialog', closeId: 'dialog-close' });
+    createDialog({ triggerId: 'dialog-trigger-label-only', underlayId: 'label-only-underlay', dialogId: 'label-only-dialog', closeId: 'label-only-close' });
+  </script>
+  </main>
+</body>
+</html>

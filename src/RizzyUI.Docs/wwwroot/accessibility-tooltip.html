@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accessibility Tooltip Fixture</title>
+  <style>
+    [data-slot="tooltip-content"][data-state="closed"] { display: none; }
+    [data-slot="tooltip-content"] { position: absolute; margin-top: 0.25rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Tooltip Accessibility Fixture</h1>
+  <button id="before-tooltip">Before tooltip</button>
+
+  <span id="help-tooltip"
+        data-slot="tooltip"
+        data-delay-duration="0"
+        data-skip-delay-duration="0"
+        data-disable-hoverable-content="false"
+        data-open="false"
+        data-open-controlled="false">
+    <button id="help-tooltip-trigger"
+            type="button"
+            data-slot="tooltip-trigger"
+            aria-controls="help-tooltip-content"
+            aria-describedby="help-tooltip-content"
+            data-state="closed">Focusable tooltip</button>
+    <span id="help-tooltip-content"
+          data-slot="tooltip-content"
+          role="tooltip"
+          aria-labelledby="help-tooltip-trigger"
+          aria-hidden="true"
+          data-state="closed">Helpful tooltip text</span>
+  </span>
+
+  <span id="controlled-tooltip"
+        data-slot="tooltip"
+        data-delay-duration="0"
+        data-skip-delay-duration="0"
+        data-disable-hoverable-content="true"
+        data-open="true"
+        data-open-controlled="true">
+    <button id="controlled-tooltip-trigger"
+            type="button"
+            data-slot="tooltip-trigger"
+            aria-controls="controlled-tooltip-content"
+            aria-describedby="controlled-tooltip-content"
+            data-state="open">Controlled tooltip</button>
+    <span id="controlled-tooltip-content"
+          data-slot="tooltip-content"
+          role="tooltip"
+          aria-labelledby="controlled-tooltip-trigger"
+          aria-hidden="false"
+          data-state="open">Controlled tooltip text</span>
+  </span>
+
+  <button id="after-tooltip">After tooltip</button>
+
+  <script>
+    function wireTooltip(root) {
+      const trigger = root.querySelector('[data-slot="tooltip-trigger"]');
+      const content = root.querySelector('[data-slot="tooltip-content"]');
+      const controlled = root.dataset.openControlled === 'true';
+      let open = root.dataset.open === 'true';
+      let openDelayTimer = null;
+      let closeDelayTimer = null;
+
+      const apply = () => {
+        const nextOpen = controlled ? root.dataset.open === 'true' : open;
+        open = nextOpen;
+        trigger.dataset.state = nextOpen ? 'open' : 'closed';
+        content.dataset.state = nextOpen ? 'open' : 'closed';
+        content.setAttribute('aria-hidden', String(!nextOpen));
+      };
+
+      const clearTimers = () => {
+        if (openDelayTimer) window.clearTimeout(openDelayTimer);
+        if (closeDelayTimer) window.clearTimeout(closeDelayTimer);
+        openDelayTimer = null;
+        closeDelayTimer = null;
+      };
+
+      const queueOpen = () => {
+        if (open) return;
+        if (closeDelayTimer) window.clearTimeout(closeDelayTimer);
+        const delay = Number(root.dataset.delayDuration || '0');
+        if (delay <= 0) {
+          open = true;
+          apply();
+          return;
+        }
+        openDelayTimer = window.setTimeout(() => {
+          open = true;
+          openDelayTimer = null;
+          apply();
+        }, delay);
+      };
+
+      const queueClose = () => {
+        if (!open && !openDelayTimer) return;
+        if (openDelayTimer) window.clearTimeout(openDelayTimer);
+        openDelayTimer = null;
+        const delay = Number(root.dataset.closeDelayDuration || '0');
+        if (delay <= 0) {
+          open = false;
+          apply();
+          return;
+        }
+        closeDelayTimer = window.setTimeout(() => {
+          open = false;
+          closeDelayTimer = null;
+          apply();
+        }, delay);
+      };
+
+      const closeFromEscape = (event) => {
+        if (event.key !== 'Escape') return;
+        event.preventDefault();
+        clearTimers();
+        open = false;
+        apply();
+        trigger.focus();
+      };
+
+      trigger.addEventListener('pointerenter', queueOpen);
+      trigger.addEventListener('pointerleave', queueClose);
+      trigger.addEventListener('focus', queueOpen);
+      trigger.addEventListener('blur', queueClose);
+      trigger.addEventListener('keydown', closeFromEscape);
+      content.addEventListener('pointerenter', () => {
+        if (root.dataset.disableHoverableContent === 'true') return;
+        if (closeDelayTimer) window.clearTimeout(closeDelayTimer);
+        closeDelayTimer = null;
+      });
+      content.addEventListener('pointerleave', () => {
+        if (root.dataset.disableHoverableContent !== 'true') queueClose();
+      });
+      content.addEventListener('keydown', closeFromEscape);
+      apply();
+    }
+
+    document.querySelectorAll('[data-slot="tooltip"]').forEach(wireTooltip);
+  </script>
+</main>
+</body>
+</html>

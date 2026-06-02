@@ -11,7 +11,7 @@
              aria-label="@AriaLabel"
              x-on:click="toggle"
              aria-controls="@ParentProvider?.Id"
-             x-bind:aria-expanded="isMobileOpen"
+             x-bind:aria-expanded="triggerExpanded"
              data-sidebar="trigger"
              data-slot="sidebar-trigger">
 	@if (ChildContent == null)

@@ -28,6 +28,20 @@
         }
     }));
 
+
+
+    Alpine.data('comboboxBasicDemo', () => ({
+        selectedFruit: 'None',
+
+        init() {
+            this.selectedFruit = this.$el.dataset.initialSelected || 'None';
+        },
+
+        handleComboboxChange(event) {
+            this.selectedFruit = event.detail?.text || 'None';
+        }
+    }));
+
     Alpine.data('modalPageController', () => ({
         // Dispatch function for basic modal
         showBasicModal() {

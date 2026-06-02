@@ -9,6 +9,7 @@ export const bundleLoaderRegistry = Object.freeze({
     'command-runtime': () => import('../bundles/command-runtime.js'),
     'advanced-input-runtime': () => import('../bundles/advanced-input-runtime.js'),
     'calendar-runtime': () => import('../bundles/calendar-runtime.js'),
+    'table-runtime': () => import('../bundles/table-runtime.js'),
     'color-runtime': () => import('../bundles/color-runtime.js'),
     'content-visual-runtime': () => import('../bundles/content-visual-runtime.js'),
     'dialogs-panels-runtime': () => import('../bundles/dialogs-panels-runtime.js'),

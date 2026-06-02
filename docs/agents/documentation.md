@@ -149,6 +149,23 @@ Every H2 section should follow this mini-template:
 *   **Event Names & Interoperability:**
     *   Document event names, default values, and how HTMX/server code triggers them.
 
+### 12.5.1 Existing Component Accessibility Documentation Updates
+
+When an existing component is refactored for accessibility, update its existing documentation page. Do not create a replacement documentation page or a replacement component unless the prompt explicitly authorizes new component creation.
+
+Use actual existing page names, for example:
+
+* `NativeSelectInfo.razor` for `src/RizzyUI/Components/Form/RzNativeSelect/`
+* `ComboboxInfo.razor` for `src/RizzyUI/Components/Form/RzCombobox/`
+* `NavigationMenuInfo.razor` for `src/RizzyUI/Components/Navigation/RzNavigationMenu/`
+* `AlertInfo.razor` for `src/RizzyUI/Components/Feedback/RzAlert/`
+* `TooltipInfo.razor` for `src/RizzyUI/Components/Feedback/RzTooltip/`
+* `DataTableInfo.razor` for `src/RizzyUI/Components/DataTable/RzDataTable/`
+
+Before editing docs, inspect the current component implementation, JavaScript/Alpine behavior, existing tests, and current docs examples. Preserve documented behavior that remains compliant. Do not silently remove API tables, examples, keyboard descriptions, ARIA relationships, `rz:` event names, HTMX hooks, localization notes, known limitations, or test references.
+
+When behavior is deliberately replaced, the docs must state the new behavior and should remove or update obsolete claims. Use `docs/templates/component-accessibility-template.md` for accessibility contract sections and reference shared primitives from `docs/internal/runtime-primitives/README.md` only when the component actually uses them.
+
 ### 12.6 Example Quality Standards
 
 *   **Happy Path:** Basic examples must show the trigger, content surface, close mechanism, and exit strategies (Escape, backdrop).
@@ -166,3 +183,9 @@ Every H2 section should follow this mini-template:
 *   Any new component must be added to the side navigation in `src/RizzyUI.Docs/Components/Layout/ComponentList.razor`.
 *   This ensures the new documentation page is discoverable.
 
+
+### 12.9 Accessibility Documentation Template
+
+*   Use `docs/templates/component-accessibility-template.md` when adding or updating accessibility contract sections in component docs.
+*   Preserve the template heading structure so accessibility coverage remains consistent across components.
+*   Ensure documented claims map to implemented SSR behavior and corresponding automated/manual validation evidence.

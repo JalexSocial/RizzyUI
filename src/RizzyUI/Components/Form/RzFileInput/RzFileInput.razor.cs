@@ -21,6 +21,7 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
         {
             [s => s.Container] = "w-full space-y-3",
             [s => s.NativeInput] = "sr-only",
+            [s => s.Description] = "sr-only",
             [s => s.Trigger] = "inline-flex min-h-9 cursor-pointer items-center justify-center rounded-md border border-input px-4 py-2 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             [s => s.TriggerContent] = "text-sm leading-none",
             [s => s.List] = "mt-2 space-y-2",
@@ -29,7 +30,8 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
             [s => s.Info] = "min-w-0 flex-1",
             [s => s.FileName] = "block truncate text-sm font-medium",
             [s => s.FileSize] = "block text-xs text-muted-foreground",
-            [s => s.RemoveButton] = "inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            [s => s.RemoveButton] = "inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            [s => s.Status] = "sr-only"
         },
         variants: new()
         {
@@ -129,6 +131,16 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
     public string ListId => $"{Id}-list";
 
     /// <summary>
+    /// Gets the generated identifier for the persistent screen-reader instructions.
+    /// </summary>
+    public string DescriptionId => $"{Id}-description";
+
+    /// <summary>
+    /// Gets the generated identifier for polite selection status announcements.
+    /// </summary>
+    public string StatusId => $"{Id}-status";
+
+    /// <summary>
     /// Gets the name value rendered onto the native input.
     /// </summary>
     public string NameAttributeValue => Name ?? FieldName ?? Id;
@@ -147,7 +159,7 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
         if (string.IsNullOrEmpty(Element))
             Element = "div";
 
-        AriaLabel ??= Localizer["RzFileInput.DefaultAriaLabel"];
+        AriaLabel ??= Localize("RzFileInput.DefaultAriaLabel", "File input");
         UpdateValidationState();
         UpdateAssets();
     }
@@ -156,9 +168,15 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        AriaLabel ??= Localizer["RzFileInput.DefaultAriaLabel"];
+        AriaLabel ??= Localize("RzFileInput.DefaultAriaLabel", "File input");
         UpdateValidationState();
         UpdateAssets();
+    }
+
+    private string Localize(string key, string fallback)
+    {
+        var value = Localizer[key];
+        return string.Equals(value, key, StringComparison.Ordinal) ? fallback : value;
     }
 
     private void UpdateValidationState()
@@ -207,6 +225,12 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
         /// </summary>
         [Slot("native-input")]
         public string? NativeInput { get; set; }
+
+        /// <summary>
+        /// Gets or sets classes for persistent screen-reader instructions.
+        /// </summary>
+        [Slot("description")]
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets classes for the visible trigger.
@@ -261,5 +285,11 @@ public partial class RzFileInput : RzComponent<RzFileInput.Slots>, IHasFormInput
         /// </summary>
         [Slot("remove-button")]
         public string? RemoveButton { get; set; }
+
+        /// <summary>
+        /// Gets or sets classes for the polite live-region status text.
+        /// </summary>
+        [Slot("status")]
+        public string? Status { get; set; }
     }
 }

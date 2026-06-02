@@ -6,9 +6,9 @@ using TailwindVariants.NET;
 namespace RizzyUI;
 
 /// <summary>
-///     Represents an alert component that displays a message with optional icon, variant, and dismiss functionality.
-///     Styling is handled by the active theme. Content within the alert is implicitly announced by assistive technologies
-///     due to the `role="alert"` attribute on the container.
+///     Represents an inline alert or status component that displays a message with optional icon, variant, and dismiss functionality.
+///     Styling is handled by the active theme. Urgent alerts use assertive live-region semantics by default, while
+///     nonurgent updates can opt into polite status semantics with <see cref="LiveRegionMode"/>.
 /// </summary>
 public partial class RzAlert : RzComponent<RzAlert.Slots>
 {
@@ -63,6 +63,14 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
     [Parameter]
     public bool Dismissable { get; set; }
 
+    /// <summary>
+    /// Gets or sets the live-region semantics used by assistive technologies.
+    /// Use <see cref="RzAlertLiveRegionMode.Alert"/> for urgent updates that should be announced assertively and
+    /// <see cref="RzAlertLiveRegionMode.Status"/> for nonurgent updates that should be announced politely.
+    /// </summary>
+    [Parameter]
+    public RzAlertLiveRegionMode LiveRegionMode { get; set; } = RzAlertLiveRegionMode.Alert;
+
     /// <summary> Gets or sets the content to be displayed inside the alert, typically including <see cref="AlertTitle"/> and <see cref="AlertDescription"/>. </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -70,6 +78,16 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
     /// <summary> Gets or sets whether to display a pulsing animation behind the icon for emphasis. </summary>
     [Parameter]
     public bool Pulse { get; set; }
+
+    /// <summary>
+    /// Gets the ARIA role emitted on the root live region.
+    /// </summary>
+    protected string LiveRegionRole => LiveRegionMode == RzAlertLiveRegionMode.Status ? "status" : "alert";
+
+    /// <summary>
+    /// Gets the aria-live politeness value emitted on the root live region.
+    /// </summary>
+    protected string AriaLivePoliteness => LiveRegionMode == RzAlertLiveRegionMode.Status ? "polite" : "assertive";
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -149,4 +167,20 @@ public partial class RzAlert : RzComponent<RzAlert.Slots>
         [Slot("alert-close-button-icon")]
         public string? CloseButtonIcon { get; set; }
     }
+}
+
+/// <summary>
+/// Defines the live-region behavior for an <see cref="RzAlert"/>.
+/// </summary>
+public enum RzAlertLiveRegionMode
+{
+    /// <summary>
+    /// Uses role="alert" and aria-live="assertive" for urgent messages that require immediate attention.
+    /// </summary>
+    Alert,
+
+    /// <summary>
+    /// Uses role="status" and aria-live="polite" for nonurgent messages that should not interrupt the current task.
+    /// </summary>
+    Status
 }

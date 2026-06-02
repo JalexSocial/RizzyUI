@@ -10,7 +10,9 @@
                  data-slot="sheet"
                  x-data="rzSheet" x-load="@LoadStrategyOrNull"
                  data-alpine-root="@Id"
-                 data-default-open="@DefaultOpen.ToString().ToLowerInvariant()">
+                 data-default-open="@DefaultOpen.ToString().ToLowerInvariant()"
+                 data-modal="@Modal.ToString().ToLowerInvariant()"
+                 data-dismiss-on-outside-click="@DismissOnOutsideClick.ToString().ToLowerInvariant()">
         @ChildContent
     </HtmlElement>
 </CascadingValue>

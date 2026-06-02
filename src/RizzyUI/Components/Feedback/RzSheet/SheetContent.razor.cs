@@ -52,6 +52,25 @@ public partial class SheetContent : RzComponent<SheetContent.Slots>
     [Parameter]
     public SheetSide Side { get; set; } = SheetSide.Right;
 
+
+    /// <summary>
+    /// Gets or sets an explicit accessible name when a <see cref="SheetTitle"/> is not present.
+    /// </summary>
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the id of the element that labels the sheet.
+    /// </summary>
+    [Parameter]
+    public string? AriaLabelledBy { get; set; }
+
+    /// <summary>
+    /// Gets or sets the id of the element that describes the sheet.
+    /// </summary>
+    [Parameter]
+    public string? AriaDescribedBy { get; set; }
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
@@ -60,6 +79,16 @@ public partial class SheetContent : RzComponent<SheetContent.Slots>
         {
             throw new InvalidOperationException($"{nameof(SheetContent)} must be used within an {nameof(RzSheet)}.");
         }
+    }
+
+
+    /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        AriaLabelledBy ??= ParentSheet?.AriaLabelId;
+        AriaDescribedBy ??= ParentSheet?.AriaDescriptionId;
     }
 
     /// <inheritdoc />

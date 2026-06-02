@@ -4,6 +4,7 @@ export default function rzTooltip() {
     return {
         open: false,
         ariaExpanded: 'false',
+        ariaHidden: 'true',
         state: 'closed',
         side: 'top',
         triggerEl: null,
@@ -38,6 +39,7 @@ export default function rzTooltip() {
 
             this.open = this.getBooleanDataset('open', this.getBooleanDataset('defaultOpen', false));
             this.ariaExpanded = this.open.toString();
+            this.ariaHidden = (!this.open).toString();
             this.state = this.open ? 'open' : 'closed';
 
             this.triggerEl = this.$refs.trigger || this.$el.querySelector('[data-slot="tooltip-trigger"]');
@@ -52,6 +54,7 @@ export default function rzTooltip() {
 
                 this.open = nextOpen;
                 this.ariaExpanded = nextOpen.toString();
+                this.ariaHidden = (!nextOpen).toString();
                 this.state = nextOpen ? 'open' : 'closed';
 
                 if (this.triggerEl) {
@@ -155,6 +158,7 @@ export default function rzTooltip() {
             if (this.contentEl) {
                 this.contentEl.addEventListener('pointerenter', this.handleContentPointerEnter.bind(this));
                 this.contentEl.addEventListener('pointerleave', this.handleContentPointerLeave.bind(this));
+                this.contentEl.addEventListener('keydown', this.handleContentKeydown.bind(this));
             }
         },
 
@@ -338,6 +342,19 @@ export default function rzTooltip() {
          */
         handleTriggerKeydown(event) {
             if (event.key === 'Escape') {
+                event.preventDefault?.();
+                this.handleWindowEscape();
+            }
+        },
+
+        /**
+         * Executes the `handleContentKeydown` operation.
+         * @param {any} event Input value for this method.
+         * @returns {any} Returns the result of `handleContentKeydown` when applicable.
+         */
+        handleContentKeydown(event) {
+            if (event.key === 'Escape') {
+                event.preventDefault?.();
                 this.handleWindowEscape();
             }
         },

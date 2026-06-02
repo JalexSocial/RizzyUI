@@ -70,6 +70,6 @@ public class RzArticleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         // Assert
         var aside = cut.Find("[data-slot='article-aside']");
         Assert.Contains("sticky", aside.ClassList);
-        Assert.Contains("top-0", aside.ClassList);
+        Assert.Contains("top-10", aside.ClassList);
     }
 }

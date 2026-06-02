@@ -495,11 +495,32 @@
   <data name="RzFileInput.DefaultAriaLabel" xml:space="preserve">
     <value>File input</value>
   </data>
+  <data name="RzFileInput.Description" xml:space="preserve">
+    <value>Choose files with the native file picker, or drag and drop files onto the dropzone when available.</value>
+  </data>
   <data name="RzFileInput.DropzoneText" xml:space="preserve">
     <value>Drag and drop files here or click to upload</value>
-  <data name="RzFileInput.RemoveLabel" xml:space="preserve">
   </data>
+  <data name="RzFileInput.ListLabel" xml:space="preserve">
+    <value>Selected files</value>
+  </data>
+  <data name="RzFileInput.RemoveLabel" xml:space="preserve">
     <value>Remove file</value>
+  </data>
+  <data name="RzFileInput.RemoveLabelTemplate" xml:space="preserve">
+    <value>Remove {0}</value>
+  </data>
+  <data name="RzFileInput.PreviewAltTemplate" xml:space="preserve">
+    <value>Preview of {0}</value>
+  </data>
+  <data name="RzFileInput.SelectedCountTemplate" xml:space="preserve">
+    <value>{0} file(s) selected</value>
+  </data>
+  <data name="RzFileInput.RemovedTemplate" xml:space="preserve">
+    <value>Removed {0}</value>
+  </data>
+  <data name="RzFileInput.ClearedText" xml:space="preserve">
+    <value>No files selected</value>
   </data>
   <data name="RzInputOTP.DefaultAriaLabel" xml:space="preserve">
     <value>One-time verification code</value>
@@ -532,4 +553,11 @@
   </data>
   <data name="RzBackToTop.DefaultAriaLabel" xml:space="preserve">
     <value>Back to top</value>
-  </data></root>
+  </data>
+  <data name="DataTableSelectAllCheckbox.DefaultAriaLabel" xml:space="preserve">
+    <value>Select rows</value>
+  </data>
+  <data name="DataTableRowSelectCheckbox.DefaultAriaLabel" xml:space="preserve">
+    <value>Select row</value>
+  </data>
+</root>

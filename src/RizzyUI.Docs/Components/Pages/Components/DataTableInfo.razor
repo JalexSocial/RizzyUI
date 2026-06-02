@@ -1,0 +1,1095 @@
+@page "/components/datatable"
+@using System.Text.Encodings.Web
+@using RizzyUI.Docs.Components.Examples
+
+<PageTitle>DataTable</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem><BreadcrumbLink Href="/">Docs</BreadcrumbLink></BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem><BreadcrumbLink Href="/components">Components</BreadcrumbLink></BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem><BreadcrumbPage>DataTable</BreadcrumbPage></BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="DataTable" class="scroll-mt-20">DataTable</RzHeading>
+            <RzParagraph>
+                <code>RzDataTable&lt;TItem&gt;</code> is an SSR-first shell that serializes <code>Items</code>, <code>Config</code>, and <code>RowIdSelector</code> metadata into an inert JSON script, then lets the Alpine runtime named <code>rzDataTable</code> create a TanStack Table instance for consumer-authored table markup.
+                You provide the semantic table composition through <code>ChildContent</code>, usually with <code>RzTable</code>, table subcomponents, Alpine loops, and <code>x-flexrender</code> for TanStack header, cell, and footer renderers.
+            </RzParagraph>
+
+            <RzAlert class="my-4">
+                <AlertTitle>Under the hood</AlertTitle>
+                <AlertDescription>
+                    The component renders a server-side shell with <code>data-slot="datatable"</code>, an Alpine host using <code>x-data="rzDataTable"</code>, a lazy-load directive from <code>LoadStrategy</code>, and <code>data-config-id</code> that points to the JSON configuration script.
+                    TanStack Table remains the source of truth for sorting, filtering, pagination, row selection, and column visibility; Alpine exposes synchronized projections such as <code>headerGroups</code>, <code>rows</code>, <code>footerGroups</code>, and helper APIs.
+                </AlertDescription>
+            </RzAlert>
+
+            <RzAlert class="my-4">
+                <AlertTitle>Accessibility mode decision</AlertTitle>
+                <AlertDescription>
+                    <code>RzDataTable&lt;TItem&gt;</code> is documented as an enhanced semantic table-composition component, not a full ARIA grid.
+                    Read the <a href="/components/datatable/accessibility-mode" class="underline underline-offset-4">DataTable accessibility mode design note</a> for the current behavior inventory, preservation rules, future file targets, and test categories.
+                </AlertDescription>
+            </RzAlert>
+
+            <RzAlert class="my-4">
+                <AlertTitle>SSR and CSP note</AlertTitle>
+                <AlertDescription>
+                    The shell is server rendered and does not use Blazor event callbacks for browser interaction.
+                    The examples intentionally use inline Alpine expressions over TanStack objects for readability and target the standard <code>rizzyui</code> runtime; CSP deployments using <code>rizzyui-csp</code> must move those expressions into approved CSP-safe Alpine APIs before shipping.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic usage" class="scroll-mt-20">Basic usage</RzHeading>
+                    <div>
+                        <RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+                            <RzTable Border>
+                                <TableHeader>
+                                    <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                                        <TableRow>
+                                            <template x-for="header in headerGroup.headers" :key="header.id">
+                                                <TableHeaderCell x-bind:colspan="header.colSpan">
+                                                    <template x-if="!header.isPlaceholder">
+                                                        <span x-flexrender="_flex.header(header)"></span>
+                                                    </template>
+                                                </TableHeaderCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableHeader>
+                                <TableBody>
+                                    <template x-for="row in rows" :key="row.id">
+                                        <TableRow>
+                                            <template x-for="cell in row.cells" :key="cell.id">
+                                                <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableBody>
+                            </RzTable>
+                        </RzDataTable>
+                    </div>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_basicUsageCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Empty state" class="scroll-mt-20">Empty state</RzHeading>
+                <RzParagraph>Empty state is consumer-authored and driven by <code>isEmpty</code>.</RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_emptyStateCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Global filter" class="scroll-mt-20">Global filter</RzHeading>
+                    <div>
+                        <RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+                            <label for="datatable-filter" class="text-sm font-medium">Filter users</label>
+                            <input id="datatable-filter" class="border px-2 py-1 rounded" placeholder="Search name" x-on:input="filter.setGlobalFilter($event.target.value)" />
+
+                            <RzTable Border>
+                                <TableHeader>
+                                    <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                                        <TableRow>
+                                            <template x-for="header in headerGroup.headers" :key="header.id">
+                                                <TableHeaderCell x-bind:colspan="header.colSpan">
+                                                    <template x-if="!header.isPlaceholder">
+                                                        <span x-flexrender="_flex.header(header)"></span>
+                                                    </template>
+                                                </TableHeaderCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableHeader>
+                                <TableBody>
+                                    <template x-if="isEmpty">
+                                        <TableRow>
+                                            <TableCell colspan="2" class="text-center">No results found.</TableCell>
+                                        </TableRow>
+                                    </template>
+                                    <template x-for="row in rows" :key="row.id">
+                                        <TableRow>
+                                            <template x-for="cell in row.cells" :key="cell.id">
+                                                <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableBody>
+                            </RzTable>
+                        </RzDataTable>
+                    </div>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_globalFilterCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Pagination with previous and next" class="scroll-mt-20">Pagination with previous and next</RzHeading>
+                    <div>
+                        <RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+                            <RzTable Border>
+                                <TableHeader>
+                                    <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                                        <TableRow>
+                                            <template x-for="header in headerGroup.headers" :key="header.id">
+                                                <TableHeaderCell x-bind:colspan="header.colSpan">
+                                                    <template x-if="!header.isPlaceholder">
+                                                        <span x-flexrender="_flex.header(header)"></span>
+                                                    </template>
+                                                </TableHeaderCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableHeader>
+                                <TableBody>
+                                    <template x-for="row in rows" :key="row.id">
+                                        <TableRow>
+                                            <template x-for="cell in row.cells" :key="cell.id">
+                                                <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableBody>
+                            </RzTable>
+
+                            <div class="flex items-center justify-between gap-4">
+                                <p class="text-sm text-muted-foreground">
+                                    Page <span x-text="pagination.pageIndex + 1"></span> of <span x-text="pagination.pageCount"></span>
+                                </p>
+
+                                <RzPagination x-show="pagination.pageCount > 1">
+                                    <PaginationList>
+                                        <PaginationItem>
+                                            <PaginationPrevious Href="#"
+                                                                x-on:click.prevent="pagination.previousPage()"
+                                                                x-bind:aria-disabled="!pagination.canPreviousPage"
+                                                                x-bind:tabindex="pagination.canPreviousPage ? null : -1"
+                                                                x-bind:class="!pagination.canPreviousPage ? 'pointer-events-none opacity-50' : ''" />
+                                        </PaginationItem>
+                                        <PaginationItem>
+                                            <PaginationNext Href="#"
+                                                            x-on:click.prevent="pagination.nextPage()"
+                                                            x-bind:aria-disabled="!pagination.canNextPage"
+                                                            x-bind:tabindex="pagination.canNextPage ? null : -1"
+                                                            x-bind:class="!pagination.canNextPage ? 'pointer-events-none opacity-50' : ''" />
+                                        </PaginationItem>
+                                    </PaginationList>
+                                </RzPagination>
+                            </div>
+                        </RzDataTable>
+                    </div>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_paginationPreviousNextCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Pagination with page links" class="scroll-mt-20">Pagination with page links</RzHeading>
+                    <div>
+                        <RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+                            <RzTable Border>
+                                <TableHeader>
+                                    <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                                        <TableRow>
+                                            <template x-for="header in headerGroup.headers" :key="header.id">
+                                                <TableHeaderCell x-bind:colspan="header.colSpan">
+                                                    <template x-if="!header.isPlaceholder">
+                                                        <span x-flexrender="_flex.header(header)"></span>
+                                                    </template>
+                                                </TableHeaderCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableHeader>
+                                <TableBody>
+                                    <template x-for="row in rows" :key="row.id">
+                                        <TableRow>
+                                            <template x-for="cell in row.cells" :key="cell.id">
+                                                <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableBody>
+                            </RzTable>
+
+                            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                <p class="text-sm text-muted-foreground">
+                                    Showing <span x-text="pagination.startRow"></span> to <span x-text="pagination.endRow"></span> of <span x-text="pagination.totalRows"></span> results
+                                </p>
+
+                                <RzPagination x-show="pagination.pageCount > 1">
+                                    <PaginationList>
+                                        <PaginationItem>
+                                            <PaginationPrevious Href="#"
+                                                                x-on:click.prevent="pagination.previousPage()"
+                                                                x-bind:aria-disabled="!pagination.canPreviousPage"
+                                                                x-bind:tabindex="pagination.canPreviousPage ? null : -1"
+                                                                x-bind:class="!pagination.canPreviousPage ? 'pointer-events-none opacity-50' : ''" />
+                                        </PaginationItem>
+
+                                        <template x-for="item in pagination.items" :key="item.id">
+                                            <PaginationItem>
+                                                <template x-if="item.kind === 'page'">
+                                                    <PaginationLink Href="#"
+                                                                    x-text="item.label"
+                                                                    x-on:click.prevent="pagination.setPageIndex(item.pageIndex)"
+                                                                    x-bind:aria-current="item.isActive ? 'page' : null"
+                                                                    x-bind:class="item.isActive ? 'pointer-events-none bg-accent text-accent-foreground' : ''" />
+                                                </template>
+                                                <template x-if="item.kind === 'ellipsis'">
+                                                    <PaginationEllipsis />
+                                                </template>
+                                            </PaginationItem>
+                                        </template>
+
+                                        <PaginationItem>
+                                            <PaginationNext Href="#"
+                                                            x-on:click.prevent="pagination.nextPage()"
+                                                            x-bind:aria-disabled="!pagination.canNextPage"
+                                                            x-bind:tabindex="pagination.canNextPage ? null : -1"
+                                                            x-bind:class="!pagination.canNextPage ? 'pointer-events-none opacity-50' : ''" />
+                                        </PaginationItem>
+                                    </PaginationList>
+                                </RzPagination>
+                            </div>
+                        </RzDataTable>
+                    </div>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_paginationPageLinksCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Column visibility" class="scroll-mt-20">Column visibility</RzHeading>
+                    <div class="min-h-96">
+                        <RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+                            <div class="flex flex-col gap-2">
+                                <label class="inline-flex items-center gap-2 text-sm font-medium">
+                                    <input type="checkbox"
+                                           x-bind:checked="columns.getIsAllColumnsVisible()"
+                                           x-effect="$el.indeterminate = columns.getIsSomeColumnsVisible() && !columns.getIsAllColumnsVisible()"
+                                           x-on:change="columns.toggleAllColumnsVisible($event.target.checked)" />
+                                    Toggle all columns
+                                </label>
+
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <template x-for="column in columns.leaf" :key="column.id">
+                                        <label class="inline-flex items-center gap-2 text-sm">
+                                            <input type="checkbox"
+                                                   x-bind:checked="columns.getIsVisible(column)"
+                                                   x-bind:disabled="!columns.getCanHide(column)"
+                                                   x-on:change="columns.toggleVisibility(column, $event.target.checked)" />
+                                            <span x-text="column.id"></span>
+                                        </label>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <RzTable Border>
+                                <TableHeader>
+                                    <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                                        <TableRow>
+                                            <template x-for="header in headerGroup.headers" :key="header.id">
+                                                <TableHeaderCell x-bind:colspan="header.colSpan">
+                                                    <template x-if="!header.isPlaceholder">
+                                                        <span x-flexrender="_flex.header(header)"></span>
+                                                    </template>
+                                                </TableHeaderCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableHeader>
+                                <TableBody>
+                                    <template x-for="row in rows" :key="row.id">
+                                        <TableRow>
+                                            <template x-for="cell in row.cells" :key="cell.id">
+                                                <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableBody>
+                            </RzTable>
+                        </RzDataTable>
+                    </div>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_columnVisibilityCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Sorting" class="scroll-mt-20">Sorting</RzHeading>
+                <RzParagraph>
+                    <code>DataTableSortIcon</code> supports custom icons via <code>AscendingIcon</code>, <code>DescendingIcon</code>, and <code>UnsortedIcon</code>.
+                </RzParagraph>
+                    <div class="min-h-96">
+                        <RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+                            <RzTable Border>
+                                <TableHeader>
+                                    <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                                        <TableRow>
+                                            <template x-for="header in headerGroup.headers" :key="header.id">
+                                                <TableHeaderCell x-bind:colspan="header.colSpan"
+                                                                 x-bind:aria-sort="sort.ariaSort(header)">
+                                                    <template x-if="!header.isPlaceholder">
+                                                        <div class="inline-flex items-center gap-2">
+                                                            <span x-flexrender="_flex.header(header)"></span>
+                                                            <DataTableSortToggle HeaderExpr="header" RenderLabel="false" />
+                                                        </div>
+                                                    </template>
+                                                </TableHeaderCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableHeader>
+                                <TableBody>
+                                    <template x-for="row in rows" :key="row.id">
+                                        <TableRow>
+                                            <template x-for="cell in row.cells" :key="cell.id">
+                                                <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableBody>
+                            </RzTable>
+                        </RzDataTable>
+                    </div>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_sortingHelpersCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Row selection" class="scroll-mt-20">Row selection</RzHeading>
+                    <div class="min-h-96">
+                        <RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+                            <p class="text-sm text-muted-foreground">
+                                Selected rows: <span x-text="selectedRowCount"></span>
+                            </p>
+
+                            <RzTable Border>
+                                <TableHeader>
+                                    <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                                        <TableRow>
+                                            <TableHeaderCell class="w-10 text-center">
+                                                <DataTableSelectAllCheckbox Scope="DataTableSelectionScope.Page" />
+                                            </TableHeaderCell>
+                                            <template x-for="header in headerGroup.headers" :key="header.id">
+                                                <TableHeaderCell x-bind:colspan="header.colSpan">
+                                                    <template x-if="!header.isPlaceholder">
+                                                        <span x-flexrender="_flex.header(header)"></span>
+                                                    </template>
+                                                </TableHeaderCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableHeader>
+                                <TableBody>
+                                    <template x-for="row in rows" :key="row.id">
+                                        <TableRow>
+                                            <TableCell class="w-10 text-center">
+                                                <DataTableRowSelectCheckbox RowExpr="row.row" />
+                                            </TableCell>
+                                            <template x-for="cell in row.cells" :key="cell.id">
+                                                <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableBody>
+                            </RzTable>
+                        </RzDataTable>
+                    </div>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_rowSelectionCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Row selection column" class="scroll-mt-20">Row selection column</RzHeading>
+                    <div class="min-h-96">
+                        <RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+                            <RzTable Border>
+                                <TableHeader>
+                                    <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                                        <TableRow>
+                                            <DataTableSelectionHeaderCell Scope="DataTableSelectionScope.Page" />
+
+                                            <template x-for="header in headerGroup.headers" :key="header.id">
+                                                <TableHeaderCell x-bind:colspan="header.colSpan"
+                                                                 x-bind:aria-sort="sort.ariaSort(header)">
+                                                    <template x-if="!header.isPlaceholder">
+                                                        <div class="inline-flex items-center gap-2">
+                                                            <span x-flexrender="_flex.header(header)"></span>
+                                                            <DataTableSortToggle HeaderExpr="header" RenderLabel="false" />
+                                                        </div>
+                                                    </template>
+                                                </TableHeaderCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableHeader>
+
+                                <TableBody>
+                                    <template x-for="row in rows" :key="row.id">
+                                        <TableRow>
+                                            <DataTableSelectionCell RowExpr="row.row" />
+
+                                            <template x-for="cell in row.cells" :key="cell.id">
+                                                <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableBody>
+                            </RzTable>
+                        </RzDataTable>
+                    </div>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_rowSelectionColumnCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Architecture and author responsibilities" class="scroll-mt-20">Architecture and author responsibilities</RzHeading>
+                <RzParagraph>
+                    <code>RzDataTable&lt;TItem&gt;</code> owns data transport and TanStack state; it does not generate the visible table, rows, or cells for you.
+                    Author the table in <code>ChildContent</code> and bind it to the runtime projections.
+                </RzParagraph>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>Use <code>RzTable</code>, <code>TableHeader</code>, <code>TableBody</code>, <code>TableRow</code>, <code>TableHeaderCell</code>, and <code>TableCell</code> when you want native table semantics.</li>
+                    <li>Loop over <code>headerGroups</code>, <code>rows</code>, and <code>footerGroups</code> with Alpine <code>template x-for</code> blocks and stable keys.</li>
+                    <li>Render TanStack content with <code>x-flexrender="_flex.header(header)"</code>, <code>x-flexrender="_flex.cell(cell)"</code>, or <code>x-flexrender="_flex.footer(footer)"</code> on the authored element that should receive the rendered content.</li>
+                    <li>Keep <code>RowIdSelector</code> stable and unique because the server and runtime both reject duplicate or empty row ids.</li>
+                    <li>Add accessible labels, captions, filter labels, pagination labels, and current/disabled states in your authored markup when the helper components do not provide them automatically.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">Accessibility</RzHeading>
+                <RzParagraph>
+                    DataTable follows an enhanced semantic table-composition model. It preserves native table semantics from the authored markup and augments focused controls for sorting, selection, filtering, pagination, and column visibility. It intentionally does not implement the WAI-ARIA grid pattern.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3">Semantic table composition</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>The DataTable root is a neutral shell; it does not add <code>role="grid"</code>, generated row roles, generated cell roles, or an active-descendant model.</li>
+                    <li>When you use <code>RzTable</code> and table subcomponents, the rendered structure remains a real <code>table</code> with native <code>thead</code>, <code>tbody</code>, <code>tr</code>, <code>th</code>, <code>td</code>, <code>caption</code>, and <code>tfoot</code> elements.</li>
+                    <li>Sortable headers should keep <code>TableHeaderCell</code> semantics and bind <code>x-bind:aria-sort="sort.ariaSort(header)"</code> on the header cell that represents the sorted column.</li>
+                    <li>Selection should use native checkbox inputs through <code>DataTableSelectAllCheckbox</code>, <code>DataTableRowSelectCheckbox</code>, <code>DataTableSelectionHeaderCell</code>, or <code>DataTableSelectionCell</code>.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3">Sorting, selection, pagination, filtering, and visibility</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><strong>Sorting:</strong> <code>DataTableSortToggle</code> renders a native <code>button</code>, binds disabled state to <code>!sort.can(header)</code>, binds its accessible name to <code>sort.nextLabel(header)</code>, exposes <code>data-sort-direction</code>, and calls <code>sort.toggle(header)</code>.</li>
+                    <li><strong>Selection:</strong> selection helpers render native checkboxes with <code>aria-label</code>, checked/disabled bindings, indeterminate state effects, and change handlers that update TanStack row selection state.</li>
+                    <li><strong>Pagination:</strong> the runtime exposes page state and methods. Examples bind unavailable links with <code>aria-disabled</code>, remove them from the tab order with <code>tabindex="-1"</code>, and mark the active page with <code>aria-current="page"</code>.</li>
+                    <li><strong>Filtering:</strong> the runtime exposes <code>filter.globalFilter</code> and <code>filter.setGlobalFilter(value)</code>. Authors must provide the visible label or accessible name for filter inputs.</li>
+                    <li><strong>Column visibility:</strong> the runtime exposes <code>columns.*</code> state and helpers. Authors must label visibility toggles and preserve checkbox semantics.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Keyboard interaction" class="scroll-mt-20">Keyboard Interaction</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><kbd>Tab</kbd> and <kbd>Shift</kbd> + <kbd>Tab</kbd> move through authored focusable controls in DOM order, such as sort buttons, selection checkboxes, filter inputs, column visibility checkboxes, and pagination links.</li>
+                    <li><kbd>Enter</kbd> or <kbd>Space</kbd> activates native sort buttons rendered by <code>DataTableSortToggle</code>.</li>
+                    <li><kbd>Space</kbd> toggles native selection and visibility checkboxes.</li>
+                    <li><kbd>Enter</kbd> activates pagination links when the authored link is enabled; disabled examples use <code>aria-disabled="true"</code> and <code>tabindex="-1"</code>.</li>
+                    <li>Arrow-key cell navigation, Home/End grid navigation, Page Up/Page Down grid navigation, roving <code>tabindex</code>, and <code>aria-activedescendant</code> are not implemented by <code>RzDataTable&lt;TItem&gt;</code>.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Focus management" class="scroll-mt-20">Focus Management</RzHeading>
+                <RzParagraph>
+                    DataTable does not move focus after sorting, filtering, pagination, selection, or column visibility changes. Focus remains with the native control that the user operated unless your authored markup or browser behavior changes it.
+                </RzParagraph>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>No focus trap is created.</li>
+                    <li>No initial focus target is assigned by the DataTable shell.</li>
+                    <li>No focus restoration is attempted after state changes.</li>
+                    <li>Because authors own <code>ChildContent</code>, authors also own any additional focus behavior introduced by custom controls.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Screen reader behavior" class="scroll-mt-20">Screen Reader Behavior</RzHeading>
+                <RzParagraph>
+                    The DataTable shell includes a visually hidden status region with <code>role="status"</code>, <code>aria-live="polite"</code>, and <code>aria-atomic="true"</code>. The runtime updates it only when a relevant state slice actually changes.
+                </RzParagraph>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>Sorting changes announce summaries such as an active ascending or descending sort, or that sorting has been cleared.</li>
+                    <li>Pagination changes announce the page number, page count, visible row range, and total rows.</li>
+                    <li>Filtering changes announce whether filters are applied and the current matching-row count.</li>
+                    <li>Selection changes announce the selected-row count.</li>
+                    <li>Column visibility changes announce how many columns are visible.</li>
+                    <li>Announcements are polite, not assertive, and repeated identical messages are suppressed.</li>
+                    <li>The runtime also dispatches <code>rz:datatable:announcement</code> with serializable detail containing <code>message</code>, <code>politeness</code>, and <code>reason</code>.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="SSR and CSP behavior" class="scroll-mt-20">SSR/CSP Behavior</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>The server output contains the shell, <code>data-config-id</code>, and an inert <code>script type="application/json"</code> with serialized transport data.</li>
+                    <li>The Alpine runtime <code>rzDataTable</code> reads that config by id, creates the TanStack Table instance, and dispatches browser <code>rz:</code> custom events.</li>
+                    <li>No Blazor <code>EventCallback</code>, <code>@@onclick</code>, <code>@@onchange</code>, <code>@@bind</code>, or interactive circuit is required for DataTable behavior.</li>
+                    <li>The inline Alpine expressions shown in these examples are documentation examples for the standard runtime. For strict CSP usage, keep the same runtime contract but move expressions into CSP-safe Alpine factories or helpers.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Known limitations" class="scroll-mt-20">Known Limitations</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><code>RzDataTable&lt;TItem&gt;</code> is not an ARIA grid and should not be documented or consumed as one.</li>
+                    <li>Grid-style cell navigation, roving focus, active-descendant focus, row/column count ARIA, and cell-level selection semantics are not provided.</li>
+                    <li>The shell cannot verify every possible <code>ChildContent</code> composition, so authors must preserve semantic table structure, labels, captions, and relationships in custom markup.</li>
+                    <li>Generated <code>rowSelection</code> cell renderers produce checkbox HTML for convenience; use the Razor selection helper components when you need more control over surrounding table semantics or labels.</li>
+                    <li>The runtime is client-side TanStack state only. It does not perform server paging, server filtering, or server sorting by itself.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component parameters" class="scroll-mt-20">Component parameters</RzHeading>
+                <RzParagraph>Configure <code>RzDataTable&lt;TItem&gt;</code> with row data, a stable row id selector, and a TanStack-oriented configuration object.</RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Items</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Required source rows serialized into the DataTable transport.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">IReadOnlyList&lt;TItem&gt;</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Array.Empty&lt;TItem&gt;()</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Config</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Required table configuration containing <code>Columns</code>, <code>Features</code>, and <code>InitialState</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RzDataTableConfig&lt;TItem&gt;</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">required</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">RowIdSelector</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Required member-access expression used to derive stable row ids. Values must be non-empty and unique.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Expression&lt;Func&lt;TItem, object?&gt;&gt;</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">required</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Author-provided markup that renders headers, rows, cells, controls, empty states, and pagination from Alpine projections.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">LoadStrategy</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Inherited Alpine loading strategy rendered as <code>x-load</code> when non-empty.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">"eager"</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
+                <RzParagraph><strong>Rendering state</strong>: <code>headerGroups</code>, <code>rows</code>, <code>footerGroups</code>, <code>hasRows</code>, <code>isEmpty</code>, and <code>selectedRowCount</code>.</RzParagraph>
+                <RzParagraph><strong>Advanced/internal</strong>: <code>table</code> (escape hatch), <code>_stateVersion</code>, and <code>_flex</code>.</RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3">Sorting API (<code>sort.*</code>)</RzHeading>
+                <ul>
+                    <li><code>sort.can(header)</code> — whether a header can sort. <a href="https://tanstack.com/table/latest/docs/api/features/sorting#getcansort" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                    <li><code>sort.direction(header)</code> — current sort direction for the header.</li>
+                    <li><code>sort.toggle(header)</code> — toggles sorting for the header. <a href="https://tanstack.com/table/latest/docs/api/features/sorting#togglesorting" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                    <li><code>sort.ariaSort(header)</code> — mapped ARIA value from current sort state.</li>
+                    <li><code>sort.nextLabel(header)</code> — convenience label for the next sort action.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3">Selection API (<code>selection.*</code>)</RzHeading>
+                <ul>
+                    <li><code>selection.canSelect(row)</code> / <code>selection.isSelected(row)</code> / <code>selection.isSomeSelected(row)</code> — row-level selection queries. <a href="https://tanstack.com/table/latest/docs/api/features/row-selection#getcanselect" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                    <li><code>selection.setRowSelected(row, value)</code> — set row selection state. <a href="https://tanstack.com/table/latest/docs/api/features/row-selection#toggleselected" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                    <li><code>selection.setRowSelectedById(rowId, value)</code> — set row selection from a stable serialized row id, used by generated <code>rowSelection</code> cells.</li>
+                    <li><code>selection.allPageRowsSelected()</code>, <code>selection.somePageRowsSelected()</code>, <code>selection.setAllPageRows(value)</code> — page-scoped selection helpers. <a href="https://tanstack.com/table/latest/docs/api/features/row-selection#getisallpagerowsselected" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                    <li><code>selection.allRowsSelected()</code>, <code>selection.someRowsSelected()</code>, <code>selection.setAllRows(value)</code> — table-wide selection helpers. <a href="https://tanstack.com/table/latest/docs/api/features/row-selection#getisallrowsselected" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3">Pagination API (<code>pagination.*</code>)</RzHeading>
+                <ul>
+                    <li>State: <code>pagination.pageIndex</code>, <code>pagination.pageSize</code>, <code>pagination.pageCount</code>, <code>pagination.canPreviousPage</code>, <code>pagination.canNextPage</code>, <code>pagination.totalRows</code>, <code>pagination.startRow</code>, <code>pagination.endRow</code>, <code>pagination.items</code>.</li>
+                    <li>Actions: <code>pagination.previousPage()</code>, <code>pagination.nextPage()</code>, <code>pagination.firstPage()</code>, <code>pagination.lastPage()</code>, <code>pagination.setPageIndex(index)</code>, <code>pagination.setPageSize(size)</code>. <a href="https://tanstack.com/table/latest/docs/api/features/pagination#table-api" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3">Filtering API (<code>filter.*</code>)</RzHeading>
+                <ul>
+                    <li><code>filter.globalFilter</code> — reactive mirror of global filter state. <a href="https://tanstack.com/table/latest/docs/api/features/global-filtering#state" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                    <li><code>filter.setGlobalFilter(value)</code> — sets global filter text. <a href="https://tanstack.com/table/latest/docs/api/features/global-filtering#setglobalfilter" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3">Columns API (<code>columns.*</code>)</RzHeading>
+                <ul>
+                    <li>Reactive state: <code>columns.all</code>, <code>columns.leaf</code>, <code>columns.visibleLeaf</code>, <code>columns.columnVisibility</code>. <a href="https://tanstack.com/table/latest/docs/api/features/column-visibility#state" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                    <li>Table-level methods: <code>columns.getColumn(id)</code>, <code>columns.getAllColumns()</code>, <code>columns.getAllLeafColumns()</code>, <code>columns.getVisibleLeafColumns()</code>, <code>columns.setColumnVisibility(updater)</code>, <code>columns.resetColumnVisibility()</code>, <code>columns.toggleAllColumnsVisible(value)</code>, <code>columns.getIsAllColumnsVisible()</code>, <code>columns.getIsSomeColumnsVisible()</code>. <a href="https://tanstack.com/table/latest/docs/api/features/column-visibility#table-api" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                    <li>Column-level methods: <code>columns.getCanHide(column)</code>, <code>columns.getIsVisible(column)</code>, <code>columns.toggleVisibility(column, value)</code>. <a href="https://tanstack.com/table/latest/docs/api/features/column-visibility#column-api" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                </ul>
+            </section>
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Events" class="scroll-mt-20">Event names</RzHeading>
+                <ul>
+                    <li><code>rz:datatable:ready</code></li>
+                    <li><code>rz:datatable:state-changed</code></li>
+                    <li><code>rz:datatable:selection-changed</code></li>
+                    <li><code>rz:datatable:row-selection-input-changed</code></li>
+                    <li><code>rz:datatable:page-changed</code></li>
+                    <li><code>rz:datatable:sort-changed</code></li>
+                    <li><code>rz:datatable:filter-changed</code></li>
+                    <li><code>rz:datatable:column-visibility-changed</code></li>
+                    <li><code>rz:datatable:announcement</code></li>
+                </ul>
+                <RzParagraph>
+                    The aggregate state event fires after any TanStack state update. Granular events fire only when their state slice changes, and payloads use serializable primitives such as component ids, row ids, selected row ids, pagination objects, sorting descriptors, filter values, and column ids.
+                </RzParagraph>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private readonly IReadOnlyList<UserRow> _users =
+    [
+        new("1", "Ada Lovelace", "ada.lovelace@example.com"),
+        new("2", "Ada Byron", "ada.byron@example.com"),
+        new("3", "Adele Lawson", "adele.lawson@example.com"),
+        new("4", "Adeline Stone", "adeline.stone@example.com"),
+        new("5", "Alan Turing", "alan.turing@example.com"),
+        new("6", "Alana Turner", "alana.turner@example.com"),
+        new("7", "Grace Hopper", "grace.hopper@example.com"),
+        new("8", "Grace Holloway", "grace.holloway@example.com"),
+        new("9", "Gracie Holmes", "gracie.holmes@example.com"),
+        new("10", "Linus Torvalds", "linus.torvalds@example.com"),
+        new("11", "Lina Torres", "lina.torres@example.com"),
+        new("12", "Lindsey Torres", "lindsey.torres@example.com"),
+        new("13", "Margaret Hamilton", "margaret.hamilton@example.com"),
+        new("14", "Maria Hamilton", "maria.hamilton@example.com"),
+        new("15", "Marian Curry", "marian.curry@example.com"),
+        new("16", "Marie Curie", "marie.curie@example.com"),
+        new("17", "Katherine Johnson", "katherine.johnson@example.com"),
+        new("18", "Kathy Johns", "kathy.johns@example.com"),
+        new("19", "Kate Johnston", "kate.johnston@example.com"),
+        new("20", "Mary Jackson", "mary.jackson@example.com"),
+        new("21", "Mara Jackson", "mara.jackson@example.com"),
+        new("22", "John Carmack", "john.carmack@example.com"),
+        new("23", "Jon Carter", "jon.carter@example.com"),
+        new("24", "Jonah Carter", "jonah.carter@example.com"),
+        new("25", "Dennis Ritchie", "dennis.ritchie@example.com"),
+        new("26", "Denise Richards", "denise.richards@example.com"),
+    ];
+
+    private readonly RzDataTableConfig<UserRow> _config = new()
+    {
+        Columns =
+        [
+            new RzDataTableColumn<UserRow> { Accessor = x => x.Name, Header = "Name" },
+            new RzDataTableColumn<UserRow> { Accessor = x => x.Email, Header = "Email" },
+        ],
+        Features = new RzDataTableFeatures
+        {
+            EnableFiltering = true,
+            EnableGlobalFilter = true,
+            EnableHiding = true,
+            EnableRowSelection = true,
+        },
+    };
+
+    private static string EncodeCode(string code) => HtmlEncoder.Default.Encode(code);
+
+    private const string _basicUsageCode =
+"""
+<RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+    <RzTable Border>
+        <TableHeader>
+            <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                <TableRow>
+                    <template x-for="header in headerGroup.headers" :key="header.id">
+                        <TableHeaderCell x-bind:colspan="header.colSpan">
+                            <template x-if="!header.isPlaceholder">
+                                <span x-flexrender="_flex.header(header)"></span>
+                            </template>
+                        </TableHeaderCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableHeader>
+        <TableBody>
+            <template x-for="row in rows" :key="row.id">
+                <TableRow>
+                    <template x-for="cell in row.cells" :key="cell.id">
+                        <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableBody>
+    </RzTable>
+</RzDataTable>
+""";
+
+    private const string _emptyStateCode =
+"""
+<template x-if="isEmpty">
+    <TableRow>
+        <TableCell colspan="100" class="text-center">
+            No results found.
+        </TableCell>
+    </TableRow>
+</template>
+""";
+
+    private const string _globalFilterCode =
+"""
+<RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+    <label for="datatable-filter" class="text-sm font-medium">Filter users</label>
+    <input id="datatable-filter" class="border px-2 py-1 rounded" placeholder="Search name" x-on:input="filter.setGlobalFilter($event.target.value)" />
+
+    <RzTable Border>
+        <TableHeader>
+            <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                <TableRow>
+                    <template x-for="header in headerGroup.headers" :key="header.id">
+                        <TableHeaderCell x-bind:colspan="header.colSpan">
+                            <template x-if="!header.isPlaceholder">
+                                <span x-flexrender="_flex.header(header)"></span>
+                            </template>
+                        </TableHeaderCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableHeader>
+        <TableBody>
+            <template x-if="isEmpty">
+                <TableRow>
+                    <TableCell colspan="2" class="text-center">No results found.</TableCell>
+                </TableRow>
+            </template>
+            <template x-for="row in rows" :key="row.id">
+                <TableRow>
+                    <template x-for="cell in row.cells" :key="cell.id">
+                        <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableBody>
+    </RzTable>
+</RzDataTable>
+""";
+
+    private const string _paginationPreviousNextCode =
+"""
+<RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+    <RzTable Border>
+        <TableHeader>
+            <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                <TableRow>
+                    <template x-for="header in headerGroup.headers" :key="header.id">
+                        <TableHeaderCell x-bind:colspan="header.colSpan">
+                            <template x-if="!header.isPlaceholder">
+                                <span x-flexrender="_flex.header(header)"></span>
+                            </template>
+                        </TableHeaderCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableHeader>
+        <TableBody>
+            <template x-for="row in rows" :key="row.id">
+                <TableRow>
+                    <template x-for="cell in row.cells" :key="cell.id">
+                        <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableBody>
+    </RzTable>
+
+    <div class="flex items-center justify-between gap-4">
+        <p class="text-sm text-muted-foreground">
+            Page <span x-text="pagination.pageIndex + 1"></span> of <span x-text="pagination.pageCount"></span>
+        </p>
+
+        <RzPagination x-show="pagination.pageCount > 1">
+            <PaginationList>
+                <PaginationItem>
+                    <PaginationPrevious Href="#"
+                                        x-on:click.prevent="pagination.previousPage()"
+                                        x-bind:aria-disabled="!pagination.canPreviousPage"
+                                        x-bind:tabindex="pagination.canPreviousPage ? null : -1"
+                                        x-bind:class="!pagination.canPreviousPage ? 'pointer-events-none opacity-50' : ''" />
+                </PaginationItem>
+                <PaginationItem>
+                    <PaginationNext Href="#"
+                                    x-on:click.prevent="pagination.nextPage()"
+                                    x-bind:aria-disabled="!pagination.canNextPage"
+                                    x-bind:tabindex="pagination.canNextPage ? null : -1"
+                                    x-bind:class="!pagination.canNextPage ? 'pointer-events-none opacity-50' : ''" />
+                </PaginationItem>
+            </PaginationList>
+        </RzPagination>
+    </div>
+</RzDataTable>
+""";
+
+    private const string _paginationPageLinksCode =
+"""
+<RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+    <RzTable Border>
+        <TableHeader>
+            <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                <TableRow>
+                    <template x-for="header in headerGroup.headers" :key="header.id">
+                        <TableHeaderCell x-bind:colspan="header.colSpan">
+                            <template x-if="!header.isPlaceholder">
+                                <span x-flexrender="_flex.header(header)"></span>
+                            </template>
+                        </TableHeaderCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableHeader>
+        <TableBody>
+            <template x-for="row in rows" :key="row.id">
+                <TableRow>
+                    <template x-for="cell in row.cells" :key="cell.id">
+                        <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableBody>
+    </RzTable>
+
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p class="text-sm text-muted-foreground">
+            Showing <span x-text="pagination.startRow"></span> to <span x-text="pagination.endRow"></span> of <span x-text="pagination.totalRows"></span> results
+        </p>
+
+        <RzPagination x-show="pagination.pageCount > 1">
+            <PaginationList>
+                <PaginationItem>
+                    <PaginationPrevious Href="#"
+                                        x-on:click.prevent="pagination.previousPage()"
+                                        x-bind:aria-disabled="!pagination.canPreviousPage"
+                                        x-bind:tabindex="pagination.canPreviousPage ? null : -1"
+                                        x-bind:class="!pagination.canPreviousPage ? 'pointer-events-none opacity-50' : ''" />
+                </PaginationItem>
+
+                <template x-for="item in pagination.items" :key="item.id">
+                    <PaginationItem>
+                        <template x-if="item.kind === 'page'">
+                            <PaginationLink Href="#"
+                                            x-text="item.label"
+                                            x-on:click.prevent="pagination.setPageIndex(item.pageIndex)"
+                                            x-bind:aria-current="item.isActive ? 'page' : null"
+                                            x-bind:class="item.isActive ? 'pointer-events-none bg-accent text-accent-foreground' : ''" />
+                        </template>
+                        <template x-if="item.kind === 'ellipsis'">
+                            <PaginationEllipsis />
+                        </template>
+                    </PaginationItem>
+                </template>
+
+                <PaginationItem>
+                    <PaginationNext Href="#"
+                                    x-on:click.prevent="pagination.nextPage()"
+                                    x-bind:aria-disabled="!pagination.canNextPage"
+                                    x-bind:tabindex="pagination.canNextPage ? null : -1"
+                                    x-bind:class="!pagination.canNextPage ? 'pointer-events-none opacity-50' : ''" />
+                </PaginationItem>
+            </PaginationList>
+        </RzPagination>
+    </div>
+</RzDataTable>
+""";
+
+    private const string _columnVisibilityCode =
+"""
+<RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+    <div class="flex flex-col gap-2">
+        <label class="inline-flex items-center gap-2 text-sm font-medium">
+            <input type="checkbox"
+                   x-bind:checked="columns.getIsAllColumnsVisible()"
+                   x-effect="$el.indeterminate = columns.getIsSomeColumnsVisible() && !columns.getIsAllColumnsVisible()"
+                   x-on:change="columns.toggleAllColumnsVisible($event.target.checked)" />
+            Toggle all columns
+        </label>
+
+        <div class="flex flex-wrap items-center gap-3">
+            <template x-for="column in columns.leaf" :key="column.id">
+                <label class="inline-flex items-center gap-2 text-sm">
+                    <input type="checkbox"
+                           x-bind:checked="columns.getIsVisible(column)"
+                           x-bind:disabled="!columns.getCanHide(column)"
+                           x-on:change="columns.toggleVisibility(column, $event.target.checked)" />
+                    <span x-text="column.id"></span>
+                </label>
+            </template>
+        </div>
+    </div>
+
+    <RzTable Border>
+        <TableHeader>
+            <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                <TableRow>
+                    <template x-for="header in headerGroup.headers" :key="header.id">
+                        <TableHeaderCell x-bind:colspan="header.colSpan">
+                            <template x-if="!header.isPlaceholder">
+                                <span x-flexrender="_flex.header(header)"></span>
+                            </template>
+                        </TableHeaderCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableHeader>
+        <TableBody>
+            <template x-for="row in rows" :key="row.id">
+                <TableRow>
+                    <template x-for="cell in row.cells" :key="cell.id">
+                        <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableBody>
+    </RzTable>
+</RzDataTable>
+""";
+
+    private const string _rowSelectionCode =
+"""
+<RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+    <p class="text-sm text-muted-foreground">
+        Selected rows: <span x-text="selectedRowCount"></span>
+    </p>
+
+    <RzTable Border>
+        <TableHeader>
+            <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                <TableRow>
+                    <TableHeaderCell class="w-10 text-center">
+                        <DataTableSelectAllCheckbox Scope="DataTableSelectionScope.Page" />
+                    </TableHeaderCell>
+                    <template x-for="header in headerGroup.headers" :key="header.id">
+                        <TableHeaderCell x-bind:colspan="header.colSpan">
+                            <template x-if="!header.isPlaceholder">
+                                <span x-flexrender="_flex.header(header)"></span>
+                            </template>
+                        </TableHeaderCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableHeader>
+        <TableBody>
+            <template x-for="row in rows" :key="row.id">
+                <TableRow>
+                    <TableCell class="w-10 text-center">
+                        <DataTableRowSelectCheckbox RowExpr="row.row" />
+                    </TableCell>
+                    <template x-for="cell in row.cells" :key="cell.id">
+                        <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableBody>
+    </RzTable>
+</RzDataTable>
+""";
+
+    private const string _sortingHelpersCode =
+"""
+<RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+    <RzTable Border>
+        <TableHeader>
+            <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                <TableRow>
+                    <template x-for="header in headerGroup.headers" :key="header.id">
+                        <TableHeaderCell x-bind:colspan="header.colSpan"
+                                         x-bind:aria-sort="sort.ariaSort(header)">
+                            <template x-if="!header.isPlaceholder">
+                                <div class="inline-flex items-center gap-2">
+                                    <span x-flexrender="_flex.header(header)"></span>
+                                    <DataTableSortToggle HeaderExpr="header" RenderLabel="false" />
+                                </div>
+                            </template>
+                        </TableHeaderCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableHeader>
+        <TableBody>
+            <template x-for="row in rows" :key="row.id">
+                <TableRow>
+                    <template x-for="cell in row.cells" :key="cell.id">
+                        <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableBody>
+    </RzTable>
+</RzDataTable>
+""";
+
+    private const string _rowSelectionColumnCode =
+"""
+<RzDataTable Items="_users" Config="_config" RowIdSelector="x => x.Id">
+    <RzTable Border>
+        <TableHeader>
+            <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                <TableRow>
+                    <DataTableSelectionHeaderCell Scope="DataTableSelectionScope.Page" />
+
+                    <template x-for="header in headerGroup.headers" :key="header.id">
+                        <TableHeaderCell x-bind:colspan="header.colSpan"
+                                         x-bind:aria-sort="sort.ariaSort(header)">
+                            <template x-if="!header.isPlaceholder">
+                                <div class="inline-flex items-center gap-2">
+                                    <span x-flexrender="_flex.header(header)"></span>
+                                    <DataTableSortToggle HeaderExpr="header" RenderLabel="false" />
+                                </div>
+                            </template>
+                        </TableHeaderCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableHeader>
+
+        <TableBody>
+            <template x-for="row in rows" :key="row.id">
+                <TableRow>
+                    <DataTableSelectionCell RowExpr="row.row" />
+
+                    <template x-for="cell in row.cells" :key="cell.id">
+                        <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableBody>
+    </RzTable>
+</RzDataTable>
+""";
+
+    private sealed record UserRow(string Id, string Name, string Email);
+}

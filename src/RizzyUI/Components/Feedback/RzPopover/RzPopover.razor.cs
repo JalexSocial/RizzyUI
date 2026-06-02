@@ -80,6 +80,22 @@ public partial class RzPopover : RzComponent<RzPopover.Slots>
     [Parameter]
     public int ShiftPadding { get; set; } = 8;
 
+
+    /// <summary>
+    /// Gets or sets the aria-haspopup value applied to the trigger element.
+    /// Use values such as "menu", "listbox", or "dialog" for specialized popups.
+    /// Defaults to "true" for a generic disclosure popover.
+    /// </summary>
+    [Parameter]
+    public string AriaHasPopup { get; set; } = "true";
+
+    /// <summary>
+    /// Gets or sets whether opening the popover should move focus to the first interactive element in content.
+    /// Defaults to false, which keeps focus on the trigger for non-modal popovers.
+    /// </summary>
+    [Parameter]
+    public bool FocusFirstElementOnOpen { get; set; }
+
     /// <summary>
     /// Gets or sets the ARIA label for the popover container, providing an accessible name.
     /// If not set, a default localized label will be applied.

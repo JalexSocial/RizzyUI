@@ -65,6 +65,12 @@ public partial class DialogContent : RzComponent<DialogContent.Slots>
     [Parameter]
     public ModalSize Size { get; set; } = ModalSize.Large;
 
+
+    /// <summary>
+    /// Gets or sets an explicit accessible name for the dialog when no <see cref="DialogTitle"/> is rendered.
+    /// </summary>
+    [Parameter]
+    public string? AriaLabel { get; set; }
     /// <inheritdoc/>
     protected override void OnInitialized()
     {

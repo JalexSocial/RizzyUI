@@ -5,8 +5,8 @@
 
 <CascadingValue Value="this" IsFixed="true">
 	<HtmlElement Element="@EffectiveElement"
-	             role="alert"
-	             aria-live="assertive"
+	             role="@LiveRegionRole"
+	             aria-live="@AriaLivePoliteness"
                  @attributes="@AdditionalAttributes"
                  id="@Id"
                  data-slot="alert"

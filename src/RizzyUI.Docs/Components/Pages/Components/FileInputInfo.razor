@@ -90,6 +90,25 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">Accessibility</RzHeading>
+                <RzParagraph>
+                    <code>RzFileInput</code> keeps a native <code>&lt;input type=&quot;file&quot;&gt;</code> in the DOM for browser semantics and standard form posts. The visible trigger and dropzone reference persistent instructions and the selected-file status region with <code>aria-describedby</code>, while the native input exposes <code>aria-invalid</code> when validation state is available through <code>For</code>.
+                </RzParagraph>
+                <RzParagraph>
+                    Keyboard users can focus the custom trigger when enabled and press <kbd>Enter</kbd> or <kbd>Space</kbd> to open the native file picker. The native input remains labeled by <code>AriaLabel</code>, uses <code>Name</code> for SSR form submission, and honors <code>Multiple</code>, <code>Accept</code>, and <code>Disabled</code>. When disabled, the native input is disabled and the custom trigger is marked <code>aria-disabled=&quot;true&quot;</code> and removed from the tab order.
+                </RzParagraph>
+                <RzParagraph>
+                    Pointer users may drag files onto the component when the browser exposes drag-and-drop files. Drag state is reflected with <code>data-dragging</code> for styling only; keyboard and assistive-technology users should use the trigger or the native file picker because operating-system drag/drop is not consistently exposed to screen readers.
+                </RzParagraph>
+                <RzParagraph>
+                    Selected files render in a list labeled “Selected files”. Image previews use file-specific alt text, and each remove button receives a file-specific accessible name such as “Remove invoice.pdf”. Selection and removal changes update a restrained polite live region and dispatch <code>rz:file-input:state-change</code> with serializable file names and counts. Initial hydration does not announce existing state to avoid unnecessary screen-reader noise.
+                </RzParagraph>
+                <RzParagraph>
+                    The Alpine runtime is loaded through the existing async bundle manifest for both standard and CSP-friendly shells. It does not require a Blazor circuit, does not steal focus after selection or removal, and revokes generated preview URLs during synchronization and teardown.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">Component Parameters</RzHeading>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
                     <table class="w-full text-sm">
@@ -102,7 +121,7 @@
                             <tr class="align-top"><td class="p-4"><code>Accept</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Accepted MIME types/extensions (for example <code>image/*</code>).</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Variant</code></td><td class="p-4"><code>FileInputVariant</code></td><td class="p-4"><code>Default</code></td><td class="p-4">Choose compact button style or dropzone style.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>Disabled</code></td><td class="p-4"><code>bool</code></td><td class="p-4"><code>false</code></td><td class="p-4">Disables file selection and drag/drop interactions.</td></tr>
-                            <tr class="align-top"><td class="p-4"><code>AriaLabel</code></td><td class="p-4"><code>string?</code></td><td class="p-4">"File input"</td><td class="p-4">Accessible label applied to trigger and native input.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>AriaLabel</code></td><td class="p-4"><code>string?</code></td><td class="p-4">"File input"</td><td class="p-4">Accessible label applied to the custom trigger and native input. Provide a task-specific label when multiple file inputs are on the same page.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>For</code></td><td class="p-4"><code>Expression&lt;Func&lt;object?&gt;&gt;?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Optional model expression used to mirror validation state styles.</td></tr>
                         </tbody>
                     </table>

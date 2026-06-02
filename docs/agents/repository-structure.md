@@ -19,6 +19,7 @@ The main Razor Class Library (RCL) containing all UI components and logic.
 The NPM package responsible for building the CSS (Tailwind) and JavaScript (Alpine.js) bundles distributed with the library.
 
 * **`src/js/lib/components/`**: Individual Alpine.js component definitions (e.g., `rzAccordion.js`, `rzTabs.js`). These map to the `x-data` attributes used in Razor components.
+* **`src/js/runtime/a11y/`**: Shared accessibility primitives used across multiple runtime features. Keep one primitive per file, use named exports, and expose them through `src/js/runtime/a11y/index.js`.
 * **`src/js/rizzyui.js`**: The main entry point that bootstraps Alpine.js and registers components.
 * **`src/css/`**: Tailwind CSS source files.
 

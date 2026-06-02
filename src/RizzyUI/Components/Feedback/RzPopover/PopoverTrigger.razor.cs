@@ -61,7 +61,7 @@ public partial class PopoverTrigger : RzAsChildComponent<PopoverTrigger.Slots>
             ["id"] = TriggerId,
             ["class"] = AsChild ? null : SlotClasses.GetBase(),
             ["x-on:click"] = "toggle",
-            ["aria-haspopup"] = "dialog",
+            ["aria-haspopup"] = ParentPopover?.AriaHasPopup ?? "true",
             ["aria-controls"] = ContentId,
             ["x-bind:aria-expanded"] = "ariaExpanded",
             ["data-slot"] = "popover-trigger",

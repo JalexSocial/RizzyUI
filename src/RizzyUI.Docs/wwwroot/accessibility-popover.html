@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accessibility Popover Fixture</title>
+</head>
+<body>
+<main>
+  <h1>Popover Accessibility Fixture</h1>
+
+  <button id="popover-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="popover-content">Open popover</button>
+  <div id="popover-content" hidden aria-labelledby="popover-trigger">
+    <input id="popover-input" type="text" />
+    <button id="popover-action">Action</button>
+  </div>
+
+  <button id="outside-before">Outside before</button>
+  <button id="outside-after">Outside after</button>
+
+  <button id="dialog-popover-trigger" aria-haspopup="dialog" aria-expanded="false" aria-controls="dialog-popover-content">Open dialog popover</button>
+  <div id="dialog-popover-content" role="dialog" aria-label="Dialog popover content" hidden>
+    <button id="dialog-popover-close">Close</button>
+  </div>
+
+  <script>
+    const wirePopover = ({ triggerId, contentId, role }) => {
+      const trigger = document.getElementById(triggerId);
+      const content = document.getElementById(contentId);
+      let open = false;
+
+      const focusables = () => Array.from(content.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter((node) => !node.hasAttribute('disabled'));
+
+      const update = () => {
+        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        content.hidden = !open;
+      };
+
+      const close = () => {
+        if (!open) return;
+        open = false;
+        update();
+        if (trigger.isConnected) trigger.focus();
+      };
+
+      const onPointerDown = (event) => {
+        if (!open) return;
+        if (trigger.contains(event.target) || content.contains(event.target)) return;
+        close();
+      };
+
+      const onKeyDown = (event) => {
+        if (event.key !== 'Escape' || !open) return;
+        close();
+      };
+
+      trigger.addEventListener('click', () => {
+        open = !open;
+        update();
+      });
+
+      trigger.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          open = !open;
+          update();
+        }
+      });
+
+      document.addEventListener('pointerdown', onPointerDown);
+      document.addEventListener('keydown', onKeyDown);
+
+      if (role) content.setAttribute('role', role);
+    };
+
+    wirePopover({ triggerId: 'popover-trigger', contentId: 'popover-content' });
+    wirePopover({ triggerId: 'dialog-popover-trigger', contentId: 'dialog-popover-content', role: 'dialog' });
+  </script>
+</main>
+</body>
+</html>

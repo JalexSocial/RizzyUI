@@ -215,6 +215,121 @@
                 </RzCodeViewer>
             </section>
 
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">
+                    Accessibility
+                </RzHeading>
+                <RzParagraph>
+                    RzTabs follows the WAI-ARIA Authoring Practices Guide Tabs pattern with automatic activation. A <code>TabsList</code> renders the <code>tablist</code>, each <code>TabsTrigger</code> renders a <code>tab</code>, and each <code>TabsContent</code> renders the associated <code>tabpanel</code>.
+                </RzParagraph>
+                <RzParagraph>
+                    Tabs are best for switching between related panels without leaving the current page. Keep tab labels short, unique, and descriptive so assistive technology users can understand the available panels before activating them.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Semantics" class="scroll-mt-20">
+                    Semantics
+                </RzHeading>
+                <ul>
+                    <li><code>TabsList</code> renders <code>role=&quot;tablist&quot;</code> with an accessible name from <code>AriaLabel</code>.</li>
+                    <li><code>TabsList</code> exposes <code>aria-orientation</code> as <code>horizontal</code> or <code>vertical</code>.</li>
+                    <li>Each <code>TabsTrigger</code> renders <code>role=&quot;tab&quot;</code>, stable <code>id</code>, <code>aria-controls</code>, <code>aria-selected</code>, <code>tabindex</code>, and <code>data-state</code>.</li>
+                    <li>Each <code>TabsContent</code> renders <code>role=&quot;tabpanel&quot;</code>, stable <code>id</code>, and <code>aria-labelledby</code> pointing back to its tab.</li>
+                    <li>Inactive panels are hidden with <code>hidden</code> and <code>aria-hidden=&quot;true&quot;</code>; the active panel removes those hidden states.</li>
+                    <li>Disabled tabs expose <code>aria-disabled=&quot;true&quot;</code> and are skipped by keyboard activation.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Keyboard interaction" class="scroll-mt-20">
+                    Keyboard interaction
+                </RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Key</th>
+                                <th scope="col" class="w-1/4 px-4 py-3">When focus is on</th>
+                                <th scope="col" class="px-4 py-3">Behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Tab</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>TabsTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Leaves the tablist and moves to the next focusable element in page order. Focus is not trapped.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Shift + Tab</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>TabsTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves to the previous focusable element in page order.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ArrowRight</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Horizontal <code>TabsList</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to and automatically activates the next enabled tab, wrapping to the first enabled tab.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ArrowLeft</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Horizontal <code>TabsList</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to and automatically activates the previous enabled tab, wrapping to the last enabled tab.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ArrowDown</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Vertical <code>TabsList</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to and automatically activates the next enabled tab, wrapping to the first enabled tab.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ArrowUp</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Vertical <code>TabsList</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to and automatically activates the previous enabled tab, wrapping to the last enabled tab.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Home</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>TabsTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to and automatically activates the first enabled tab.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">End</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>TabsTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to and automatically activates the last enabled tab.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Enter</code> or <code class="font-mono font-medium text-sky-600 dark:text-sky-400">Space</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>TabsTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Activates the focused native button tab. The current API uses automatic activation, so these keys are not required after arrow navigation.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Activation and focus" class="scroll-mt-20">
+                    Activation and focus
+                </RzHeading>
+                <ul>
+                    <li>RzTabs uses automatic activation: arrow navigation changes the active panel immediately and moves focus to the newly active tab.</li>
+                    <li>Only one enabled tab participates in sequential keyboard navigation with <code>tabindex=&quot;0&quot;</code>; inactive and disabled tabs use <code>tabindex=&quot;-1&quot;</code>.</li>
+                    <li><code>DefaultValue</code> selects the initial tab when it matches an enabled trigger. If it is missing or disabled, the first enabled trigger is selected.</li>
+                    <li>Focus is never trapped. Users can tab out of the tablist into active panel content or the rest of the page.</li>
+                    <li>Panels remain associated with tabs by stable IDs generated from the parent <code>RzTabs</code> ID and each tab <code>Value</code>.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Screen-reader behavior" class="scroll-mt-20">
+                    Screen-reader behavior
+                </RzHeading>
+                <ul>
+                    <li>Screen readers can announce the tablist name, each tab label, selected state, disabled state, and the currently active panel relationship.</li>
+                    <li>RzTabs does not use live-region announcements for normal tab changes because <code>aria-selected</code>, focus movement, and the labelled panel communicate the change without extra announcement noise.</li>
+                    <li>Authors should provide meaningful panel headings or introductory text inside complex tab panels.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="SSR and CSP notes" class="scroll-mt-20">
+                    SSR and CSP notes
+                </RzHeading>
+                <ul>
+                    <li>The component renders SSR-safe roles, IDs, and ARIA relationships before Alpine initializes.</li>
+                    <li>Alpine updates selection, roving tabindex, hidden states, and <code>rz:tabs-change</code> events on the client without Blazor interactivity.</li>
+                    <li>The runtime is registered through the <code>core-common</code> bundle and works with the default and CSP runtime entrypoints.</li>
+                </ul>
+            </section>
+
             <!-- Component Parameters -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
@@ -283,7 +398,7 @@
                     Alpine API
                 </RzHeading>
                 <RzParagraph>
-                    This page uses the <code>rzTabs</code> Alpine <code>x-data</code> component.
+                    This page uses the <code>rzTabs</code> Alpine <code>x-data</code> component. The runtime keeps tab selection, roving tabindex, panel visibility, and keyboard focus in sync after server rendering.
                 </RzParagraph>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">
@@ -291,7 +406,9 @@
                             <tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">refreshTriggers</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Refreshes trigger registrations and selected state handling.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">refreshTriggers</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Refreshes trigger registrations when tab markup changes.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">activateTrigger</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">trigger, focusTrigger</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Selects an enabled trigger, optionally moves focus, and dispatches <code>rz:tabs-change</code> when the value changes.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">onListKeydown</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">KeyboardEvent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Handles orientation-aware arrow navigation, Home, and End for automatic activation.</td></tr>
                         </tbody>
                     </table>
                 </div>

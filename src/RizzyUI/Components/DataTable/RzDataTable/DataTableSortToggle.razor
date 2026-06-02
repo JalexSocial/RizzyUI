@@ -1,0 +1,26 @@
+@namespace RizzyUI
+@inherits RzComponent<DataTableSortToggle.Slots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-slot="data-table-sort-toggle"
+             x-bind:disabled="@DisabledExpr"
+             x-bind:aria-label="@AriaLabelExpr"
+             x-bind:data-sort-direction="@DirectionExpr"
+             x-on:click="@ClickExpr">
+    @if (ChildContent is not null)
+    {
+        @ChildContent
+    }
+    else if (RenderLabel)
+    {
+        <span class="@SlotClasses.GetLabel()" data-slot="@DataTableSortToggle.SlotNames.NameOf(SlotTypes.Label)" x-flexrender="@HeaderFlexExpr"></span>
+    }
+
+    @if (RenderIcon)
+    {
+        <DataTableSortIcon HeaderExpr="@HeaderExpr" />
+    }
+</HtmlElement>

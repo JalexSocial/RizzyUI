@@ -33,6 +33,22 @@
    * Never emit full `TItem` instances or server object graphs in browser event payloads.
    * For table-like stateful primitives, emit granular events and a table-level aggregate state event when useful (for example `rz:table:on-state-change`).
 
+5. **Accessibility contract for root-level interactive components (mandatory)**
+
+   * Must treat accessibility behavior as a public API contract for every root-level interactive component.
+   * During accessibility hardening or refactors, preserve existing compliant behavior before adding or replacing behavior. Inspect the component's Razor, C#, JavaScript/Alpine, tests, and docs before changing it.
+   * Must document keyboard behavior in component documentation, including supported keys and the exact effect of each key.
+   * Must define explicit ARIA semantics in SSR-safe HTML, including required roles, states, properties, and ID-based relationships (`aria-controls`, `aria-labelledby`, `aria-activedescendant`, etc.) when applicable.
+   * Must implement predictable focus management for initial focus, roving focus patterns, focus traps (when applicable), and focus restoration after dismiss/close flows.
+   * Must document and implement a screen-reader announcement strategy, including when announcements occur, when they are `polite` versus `assertive`, and when announcements should be suppressed to avoid noise.
+   * Must include component tests that prove keyboard behavior, ARIA semantics, focus management, and announcement behavior for every interactive component.
+   * Must document known accessibility limitations and assistive technology quirks when discovered, including temporary mitigations where available.
+   * For APG-derived widgets, must name the adopted WAI-ARIA Authoring Practices Guide (APG) pattern and explain any intentional deviations.
+   * Must not implement accessibility logic with Blazor interactive runtime features such as `EventCallback`, `@onclick`, `@onchange`, `@onsubmit`, or `@bind`.
+   * Must implement client interactions using SSR-safe HTML plus shared Alpine/JavaScript primitives defined for RizzyUI Phase 1, while preserving CSP-safe constraints.
+   * Must always preserve SSR-only and CSP requirements for accessibility behavior and event handling.
+   * Must not create replacement components during accessibility hardening unless the prompt explicitly authorizes new component creation. Update the existing component in place, for example `RzNativeSelect`, `RzCombobox`, `RzNavigationMenu`, `RzAlert`, `RzTooltip`, or `RzDataTable`.
+
 ---
 
 ## Precedence (Mandatory)
@@ -105,6 +121,15 @@ The following files contain expanded rules. Each file focuses on a specific doma
 - `docs/agents/testing.md`
 - `docs/agents/checklists.md`
 
+### Existing Component Accessibility Refactor
+- `AGENTS.md`
+- `docs/agents/component-authoring.md`
+- `docs/agents/accessibility.md`
+- `docs/agents/alpine.md`
+- `docs/agents/documentation.md`
+- `docs/agents/testing.md`
+- `docs/agents/checklists.md`
+
 ### Component with Alpine Behavior
 - `AGENTS.md`
 - `docs/agents/component-authoring.md`
@@ -169,13 +194,18 @@ The main Razor Class Library (RCL) containing all UI components and logic.
 
 ### `packages/rizzyui` (Client Assets)
 
-The NPM package responsible for building the CSS (Tailwind) and JavaScript (Alpine.js) bundles distributed with the library.
+The NPM package responsible for building the CSS (Tailwind) and JavaScript bundles distributed with the library.
 
-* **`src/js/lib/components/`**: Individual Alpine.js component definitions (e.g., `rzAccordion.js`, `rzTabs.js`). These map to the `x-data` attributes used in Razor components.
-* **`src/js/rizzyui.js`**: The main entry point that bootstraps Alpine.js and registers components.
+* **`src/js/lib/components/`**: Individual Alpine component factories. Each file usually maps to a single `x-data` name.
+* **`src/js/bundles/`**: Bundle entry modules that re-export owned Alpine components as a feature cluster.
+* **`src/js/runtime/componentBundleManifest.js`**: Canonical Alpine component-to-bundle ownership map.
+* **`src/js/runtime/bundleLoaderRegistry.js`**: Dynamic import registry for bundle loading.
+* **`src/js/runtime/asyncBundleRegistrar.js`**: Async Alpine integration that resolves a component name to its owning bundle.
+* **`src/js/rizzyui.js`**: Standard shell runtime entrypoint.
+* **`src/js/rizzyui-csp.js`**: CSP-safe shell runtime entrypoint.
 * **`src/css/`**: Tailwind CSS source files.
 
-** DO NOT ** directly alter files in `packages/rizzyui/dist` and `src/RizzyUI/wwwroot` as files from those directory are build assets from running `npm run build` in `packages/rizzyui`
+**Do not directly alter files in `packages/rizzyui/dist` or `src/RizzyUI/wwwroot`.** Those are build outputs produced from the `packages/rizzyui` source tree.
 
 ### `src/RizzyUI.Docs` (Documentation)
 
@@ -247,6 +277,8 @@ For the full syntax, examples, and cross-file edit rules, read `docs/agents/outp
 ## 16. Final checklist for the LLM
 
 * CRITICAL - Only generate or modify code directly related to the task requested. You are not permitted to modify code outside the scope of the request.
+* **Existing-component accessibility refactors:** Inspect existing Razor/C#, JavaScript/Alpine, tests, and docs before editing. Preserve compliant keyboard handling, focus handling, ARIA relationships, live-region behavior, id generation, `rz:` events, public parameters, data attributes, CSS hooks, slot names, localization keys, docs examples, and generated ids unless replacement is required and covered by characterization tests.
+* **No accidental replacement components:** Accessibility hardening must not create a parallel or successor component unless explicitly requested. Refactor existing components in place, using real component paths such as `src/RizzyUI/Components/Form/RzNativeSelect/`, `src/RizzyUI/Components/Form/RzCombobox/`, `src/RizzyUI/Components/Navigation/RzNavigationMenu/`, `src/RizzyUI/Components/Feedback/RzAlert/`, `src/RizzyUI/Components/Feedback/RzTooltip/`, and `src/RizzyUI/Components/DataTable/RzDataTable/`.
 * **Component Naming:** Ensure only root-level components are prefixed with `Rz`.
 * Prepend the cross-file edit instructions for theme, localization, asset management, and **documentation navigation** if needed (`docs/agents/output.md`).
 * Provide an `output` block for new or replaced component-specific files **and documentation pages** only (`docs/agents/output.md` and `docs/agents/documentation.md`).
@@ -271,6 +303,14 @@ For the full syntax, examples, and cross-file edit rules, read `docs/agents/outp
 * Include unit tests *only* when specifically requested (`docs/agents/testing.md`).
 * Adhere to all specified conventions and avoid manual concatenation of class strings.
 * Do not include comments in Razor markup or using statements. Any comments in code blocks should be production-ready.
+* If Alpine is used, ensure the Alpine root element includes `x-data` and `x-load="@LoadStrategy"` on the same element.
+* Emit `x-load` only when `LoadStrategy` is non-empty.
+* Ensure the component’s Alpine name is added to `componentBundleManifest.js`.
+* Ensure the component is exported from exactly one bundle file in `packages/rizzyui/src/js/bundles/`.
+* Do not reintroduce eager global component registration.
+* Do not modify build artifacts in `packages/rizzyui/dist` or `src/RizzyUI/wwwroot`.
+* If the component has no meaningful client-side behavior, prefer no Alpine runtime at all and do not add it to the bundle graph.
+* Final responses for accessibility refactors must state what existing behavior was preserved, what behavior was replaced, and why.
 
 **SSR-only enforcement (CRITICAL):**
 
@@ -278,7 +318,7 @@ For the full syntax, examples, and cross-file edit rules, read `docs/agents/outp
 
 **Agent-only enforcement (CRITICAL):**
 
-* AGENTS ONLY — run `npm install` in any directory containing `packages.json` (and do not skip equivalent Node manifest directories) except if it has a path prefixed with `src/RizzyUI/wwwroot/vendor/`.  
+* AGENTS ONLY — run `npm install` in any directory containing `packages.json` (and do not skip equivalent Node manifest directories) except if it has a path prefixed with `src/RizzyUI/wwwroot/vendor/`.
 
 ---
 
@@ -324,3 +364,5 @@ For the full syntax, examples, and cross-file edit rules, read `docs/agents/outp
 * **[ ] 24. Build Success:** Does the entire `RizzyUI` solution build without errors?
 * **[ ] 25. Unit Tests:** Do all existing unit tests for the component pass?
 * **[ ] 26. Demo Application:** Visually confirm that the component renders and behaves exactly as it did before the refactor in the `RizzyUI.Docs` application.
+
+```

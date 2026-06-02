@@ -292,6 +292,74 @@
             </section>
             
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">
+                    Accessibility
+                </RzHeading>
+                <RzParagraph>
+                    <strong>Pattern:</strong> <code>RzNavigationMenu</code> implements a disclosure/popover-style site navigation pattern (not an application <code>role=&quot;menu&quot;</code> pattern).
+                    Top-level triggers control associated popover content panels while preserving normal page tab order.
+                </RzParagraph>
+                <ul>
+                    <li><strong>Semantics:</strong> the root renders as <code>&lt;nav&gt;</code> with an accessible name via <code>aria-label</code>. Triggers expose <code>aria-expanded</code> and <code>aria-controls</code> bound to panel IDs.</li>
+                    <li><strong>Keyboard:</strong> triggers are buttons, so <kbd>Enter</kbd>/<kbd>Space</kbd> activate by default. <kbd>ArrowLeft</kbd>/<kbd>ArrowRight</kbd> move between top-level triggers and links, and <kbd>ArrowDown</kbd> moves into associated content when content exists.</li>
+                    <li><strong>Focus behavior:</strong> focus is never trapped. <kbd>ArrowDown</kbd> focuses the first focusable descendant in the active content, or the content container when no focusable descendant exists. When <kbd>Escape</kbd> closes an open panel while focus is inside that panel, focus is restored to the controlling trigger.</li>
+                    <li><strong>Screen readers:</strong> expanded/collapsed state is announced through <code>aria-expanded</code>, and control relationships are announced through <code>aria-controls</code>.</li>
+                    <li><strong>SSR/CSP:</strong> all behavior is SSR-rendered HTML plus Alpine runtime hooks; no Blazor interactive event callbacks are required.</li>
+                    <li><strong>Current-link guidance:</strong> set <code>aria-current=&quot;page&quot;</code> on the active <code>NavigationMenuLink</code> target to expose the current page to assistive technologies.</li>
+                    <li><strong>Known limitations:</strong> this component does not implement full APG menubar arrow-key roving focus semantics and intentionally avoids <code>role=&quot;menu&quot;</code>/<code>role=&quot;menuitem&quot;</code>. <kbd>ArrowUp</kbd>, <kbd>Home</kbd>, and <kbd>End</kbd> are not special navigation keys for this disclosure pattern.</li>
+                </ul>
+
+                <div class="not-prose mt-6 mb-4 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Key</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">When focus is on</th>
+                                <th scope="col" class="px-4 py-3">Behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><kbd>Enter</kbd> / <kbd>Space</kbd></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Top-level <code>NavigationMenuTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Activates the trigger button and toggles its associated content panel.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><kbd>ArrowLeft</kbd></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Top-level <code>NavigationMenuTrigger</code> or top-level <code>NavigationMenuLink</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to the previous top-level trigger/link; wraps to the last top-level item from the first.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><kbd>ArrowRight</kbd></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Top-level <code>NavigationMenuTrigger</code> or top-level <code>NavigationMenuLink</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to the next top-level trigger/link; wraps to the first top-level item from the last.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><kbd>ArrowDown</kbd></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Top-level trigger/link with associated content</td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens the associated content if needed and moves focus into it. The first focusable descendant is focused when present; otherwise the content container receives focus.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><kbd>ArrowDown</kbd></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Top-level link without associated content</td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">No special action; focus remains unchanged.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><kbd>Escape</kbd></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Open navigation content</td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the active panel and restores focus to the controlling trigger when focus was inside panel content.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Any focusable element</td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Uses normal document tab order; focus is not trapped within the navigation menu.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
                     Component Parameters
                 </RzHeading>
