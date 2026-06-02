@@ -19,6 +19,12 @@ public sealed partial class RzDataTableSlots : ISlots
     /// </summary>
     [Slot("datatable")]
     public string? Base { get; set; }
+
+    /// <summary>
+    /// Visually hidden live-region slot for polite DataTable state announcements.
+    /// </summary>
+    [Slot("announcement")]
+    public string? Announcement { get; set; }
 }
 
 /// <summary>
@@ -30,6 +36,10 @@ public static class RzDataTableStyles
     /// Default descriptor for the unstyled DataTable shell.
     /// </summary>
     public static readonly TvDescriptor<RzComponent<RzDataTableSlots>, RzDataTableSlots> DefaultDescriptor = new(
-        @base: "not-prose"
+        @base: "not-prose",
+        slots: new()
+        {
+            [s => s.Announcement] = "sr-only",
+        }
     );
 }

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Accessibility Dropdown Menu Fixture</title></head>
+<body>
+<main>
+  <h1>Dropdown Menu Accessibility Fixture</h1>
+  <button id="trigger" aria-haspopup="menu" aria-expanded="false" aria-controls="menu">Open menu</button>
+  <ul id="menu" role="menu" aria-labelledby="trigger" hidden>
+    <li role="none"><button role="menuitem" id="item-profile">Profile</button></li>
+    <li role="none"><button role="menuitem" id="item-disabled" aria-disabled="true" disabled>Disabled</button></li>
+    <li role="none"><button role="menuitem" id="item-settings">Settings</button></li>
+    <li role="none">
+      <button role="menuitem" id="item-more" aria-haspopup="menu" aria-expanded="false" aria-controls="submenu">More</button>
+      <ul id="submenu" role="menu" aria-labelledby="item-more" hidden>
+        <li role="none"><button role="menuitem" id="sub-email">Email</button></li>
+        <li role="none"><button role="menuitem" id="sub-message">Message</button></li>
+      </ul>
+    </li>
+  </ul>
+  <button id="outside">Outside</button>
+
+  <script>
+    const trigger = document.getElementById('trigger');
+    const menu = document.getElementById('menu');
+    const more = document.getElementById('item-more');
+    const submenu = document.getElementById('submenu');
+    const enabledItems = () => [...menu.querySelectorAll('[role="menuitem"]')].filter((el) => !el.disabled && el.getAttribute('aria-disabled') !== 'true' && !submenu.contains(el));
+    const subItems = () => [...submenu.querySelectorAll('[role="menuitem"]')].filter((el) => !el.disabled && el.getAttribute('aria-disabled') !== 'true');
+    let open = false;
+    let active = 0;
+    let subOpen = false;
+    let subActive = 0;
+
+    function update() {
+      trigger.setAttribute('aria-expanded', String(open));
+      menu.hidden = !open;
+      more.setAttribute('aria-expanded', String(subOpen));
+      submenu.hidden = !subOpen;
+      const items = enabledItems();
+      items.forEach((it, i) => it.setAttribute('tabindex', i === active ? '0' : '-1'));
+      const sItems = subItems();
+      sItems.forEach((it, i) => it.setAttribute('tabindex', i === subActive ? '0' : '-1'));
+    }
+
+    function closeAll(){open=false;subOpen=false;update();trigger.focus();}
+    function closeSubmenu(){subOpen=false;update();more.focus();}
+    function openMenu(){open=true;subOpen=false;active=0;update();enabledItems()[0]?.focus();}
+
+    trigger.addEventListener('click', () => open ? closeAll() : openMenu());
+    trigger.addEventListener('keydown', (e) => { if (['Enter',' ','ArrowDown'].includes(e.key)) { e.preventDefault(); openMenu(); } });
+
+    document.addEventListener('pointerdown', (e) => {
+      if (!open) return;
+      if (menu.contains(e.target) || trigger.contains(e.target)) return;
+      if (subOpen && submenu.contains(e.target)) return;
+      if (subOpen) { closeSubmenu(); return; }
+      closeAll();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      if (subOpen) { e.preventDefault(); closeSubmenu(); return; }
+      if (open) { e.preventDefault(); closeAll(); }
+    });
+
+    menu.addEventListener('keydown', (e) => {
+      if (!open || subOpen) return;
+      const items = enabledItems();
+      if (e.key === 'ArrowDown') { e.preventDefault(); active = (active + 1) % items.length; update(); items[active]?.focus(); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); active = (active - 1 + items.length) % items.length; update(); items[active]?.focus(); }
+      if (e.key === 'Home') { e.preventDefault(); active = 0; update(); items[active]?.focus(); }
+      if (e.key === 'End') { e.preventDefault(); active = items.length - 1; update(); items[active]?.focus(); }
+      if (e.key === 'ArrowRight' && document.activeElement === more) { e.preventDefault(); subOpen = true; subActive = 0; update(); subItems()[0]?.focus(); }
+    });
+
+    submenu.addEventListener('keydown', (e) => {
+      if (!subOpen) return;
+      const items = subItems();
+      if (e.key === 'ArrowDown') { e.preventDefault(); subActive = (subActive + 1) % items.length; update(); items[subActive]?.focus(); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); subActive = (subActive - 1 + items.length) % items.length; update(); items[subActive]?.focus(); }
+      if (e.key === 'Home') { e.preventDefault(); subActive = 0; update(); items[subActive]?.focus(); }
+      if (e.key === 'End') { e.preventDefault(); subActive = items.length - 1; update(); items[subActive]?.focus(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); closeSubmenu(); }
+    });
+
+    update();
+  </script>
+</main>
+</body>
+</html>

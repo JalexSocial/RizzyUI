@@ -28,7 +28,7 @@
 
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="RzAlert" class="scroll-mt-20">RzAlert</RzHeading>
             <RzParagraph>
-	            RzAlerts allow you to communicate important information to users and offer feedback on their actions.
+	            RzAlert renders inline feedback for important page messages, validation outcomes, and saved-status confirmations. It uses Alpine for optional dismissal only; the component remains SSR-rendered and does not require Blazor runtime interactivity.
             </RzParagraph>
 			
             <section class="my-8 py-2">
@@ -144,6 +144,29 @@
 	            </RzCodeViewer>
 
             </section>
+
+            <section class="my-8 py-2">
+	            <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Polite Status Alerts" class="scroll-mt-20">Polite Status Alerts</RzHeading>
+	            <RzParagraph TextColor="SemanticColor.Foreground">
+		            Use <code>LiveRegionMode="RzAlertLiveRegionMode.Status"</code> for nonurgent inline status messages such as saved confirmations. This renders polite <code>role="status"</code> semantics instead of interruptive alert semantics.
+	            </RzParagraph>
+
+	            <RzBrowser Layout="typeof(PreviewLayout)">
+		            <div class="mx-auto flex flex-col items-start justify-center gap-4 rounded-md p-8">
+			            <RzAlert Variant="ThemeVariant.Success" LiveRegionMode="RzAlertLiveRegionMode.Status">
+				            <AlertTitle>Preferences saved</AlertTitle>
+				            <AlertDescription>Your notification settings were saved successfully.</AlertDescription>
+			            </RzAlert>
+		            </div>
+	            </RzBrowser>
+
+	            <RzCodeViewer Language=@CodeLanguage.Razor class="mb-10">
+                    &lt;RzAlert Variant=&quot;ThemeVariant.Success&quot; LiveRegionMode=&quot;RzAlertLiveRegionMode.Status&quot;&gt;
+                        &lt;AlertTitle&gt;Preferences saved&lt;/AlertTitle&gt;
+                        &lt;AlertDescription&gt;Your notification settings were saved successfully.&lt;/AlertDescription&gt;
+                    &lt;/RzAlert&gt;
+	            </RzCodeViewer>
+            </section>
 			
             <section class="my-8 py-2">
 
@@ -233,6 +256,12 @@
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
                             </tr>
                             <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">LiveRegionMode</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RzAlertLiveRegionMode</code> – Selects the assistive technology announcement behavior. Use <code>Alert</code> for urgent assertive messages and <code>Status</code> for nonurgent polite updates.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RzAlertLiveRegionMode</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">RzAlertLiveRegionMode.Alert</code></td>
+                            </tr>
+                            <tr class="align-top">
                                 <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
                                 <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>RenderFragment?</code> – The content to be displayed inside the alert, typically including <code>AlertTitle</code> and <code>AlertDescription</code> components.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
@@ -303,6 +332,24 @@
                 </div>
             </section>
 
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">
+                    Accessibility
+                </RzHeading>
+                <RzParagraph>
+                    By default, RzAlert renders <code>role="alert"</code> with <code>aria-live="assertive"</code> for urgent messages that require immediate attention. The live region is atomic so assistive technologies announce the complete alert message when it appears or changes.
+                </RzParagraph>
+                <RzParagraph>
+                    For nonurgent confirmations or status updates, set <code>LiveRegionMode="RzAlertLiveRegionMode.Status"</code>. Status mode renders <code>role="status"</code> with <code>aria-live="polite"</code>, which avoids interrupting the current screen reader task and reduces announcement noise. Do not place the same message in another live region at the same time.
+                </RzParagraph>
+                <RzParagraph>
+                    When <code>Dismissable</code> is enabled, the close control remains a real <code>button</code> with the localized accessible name from <code>RzAlert.CloseButtonAriaLabel</code>. Keyboard behavior follows native button semantics: <kbd>Tab</kbd> can move focus to the close button, and <kbd>Enter</kbd> or <kbd>Space</kbd> activates it. Activating the button calls the <code>dismiss</code> Alpine method, hides the alert locally, and does not move focus, trap focus, or restore focus because an inline alert is not a modal surface. The decorative icon container and close icon are hidden from assistive technologies with <code>aria-hidden="true"</code>.
+                </RzParagraph>
+                <RzParagraph>
+                    RzAlert is not a toast system. Use it for inline page feedback that is present in the document flow. Do not use it for transient queued notifications, timed popups, or viewport-positioned toast stacks.
+                </RzParagraph>
+            </section>
+
 
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">
@@ -317,7 +364,7 @@
                             <tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">dismiss</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Dismisses the alert and updates local visible state.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">dismiss</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Dismisses the alert and updates local visible state without moving focus.</td></tr>
                         </tbody>
                     </table>
                 </div>

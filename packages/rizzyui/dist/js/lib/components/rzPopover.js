@@ -1,3 +1,4 @@
+import { registerDismissableLayer } from '../../runtime/a11y/dismissableLayer.js';
 import { autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
 
 export default function rzPopover() {
@@ -8,9 +9,8 @@ export default function rzPopover() {
         contentStyle: '',
         triggerEl: null,
         contentEl: null,
-        _documentClickHandler: null,
-        _windowKeydownHandler: null,
         _cleanupAutoUpdate: null,
+        _unregisterLayer: null,
 
         init() {
             this.triggerEl = this.resolveTriggerElement();
@@ -30,16 +30,18 @@ export default function rzPopover() {
 
         destroy() {
             this.teardownAutoUpdate();
-            this.detachGlobalListeners();
+            this.unregisterLayer();
         },
 
         toggle() {
             this.open = !this.open;
+            if (!this.open) {
+                this.$nextTick(() => this.restoreTriggerFocus());
+            }
         },
 
         async openPopover() {
             this.triggerEl = this.resolveTriggerElement();
-            this.attachGlobalListeners();
             this.contentStyle = this.getInitialContentStyle();
 
             await this.$nextTick();
@@ -48,14 +50,42 @@ export default function rzPopover() {
                 return;
             }
 
+            this.registerLayer();
             await this.updatePosition();
             this.startAutoUpdate();
+
+            if (this.shouldFocusFirstElementOnOpen()) {
+                this.focusFirstInteractiveElement();
+            }
         },
 
         closePopover() {
             this.teardownAutoUpdate();
-            this.detachGlobalListeners();
+            this.unregisterLayer();
             this.contentEl = null;
+        },
+
+        registerLayer() {
+            this.unregisterLayer();
+            if (!this.contentEl) {
+                return;
+            }
+
+            this._unregisterLayer = registerDismissableLayer({
+                id: this.$el.id || undefined,
+                root: this.contentEl,
+                onDismiss: () => {
+                    this.open = false;
+                    this.$nextTick(() => this.restoreTriggerFocus());
+                }
+            });
+        },
+
+        unregisterLayer() {
+            if (this._unregisterLayer) {
+                this._unregisterLayer();
+                this._unregisterLayer = null;
+            }
         },
 
         resolveTriggerElement() {
@@ -71,34 +101,30 @@ export default function rzPopover() {
 
         resolveContentElement() {
             const contentId = this.$el.dataset.contentId;
-            if (!contentId) {
-                return null;
-            }
-
-            return document.getElementById(contentId);
+            return contentId ? document.getElementById(contentId) : null;
         },
 
-        attachGlobalListeners() {
-            if (!this._documentClickHandler) {
-                this._documentClickHandler = (event) => this.handleDocumentClick(event);
-                document.addEventListener('pointerdown', this._documentClickHandler);
-            }
-
-            if (!this._windowKeydownHandler) {
-                this._windowKeydownHandler = (event) => this.handleWindowKeydown(event);
-                window.addEventListener('keydown', this._windowKeydownHandler);
-            }
+        shouldFocusFirstElementOnOpen() {
+            return this.$el.dataset.focusFirstElementOnOpen === 'true';
         },
 
-        detachGlobalListeners() {
-            if (this._documentClickHandler) {
-                document.removeEventListener('pointerdown', this._documentClickHandler);
-                this._documentClickHandler = null;
+        focusFirstInteractiveElement() {
+            if (!this.contentEl) {
+                return;
             }
 
-            if (this._windowKeydownHandler) {
-                window.removeEventListener('keydown', this._windowKeydownHandler);
-                this._windowKeydownHandler = null;
+            const selector = [
+                'button:not([disabled])',
+                '[href]',
+                'input:not([disabled]):not([type="hidden"])',
+                'select:not([disabled])',
+                'textarea:not([disabled])',
+                '[tabindex]:not([tabindex="-1"])'
+            ].join(',');
+
+            const target = this.contentEl.querySelector(selector);
+            if (target && typeof target.focus === 'function') {
+                target.focus();
             }
         },
 
@@ -171,32 +197,6 @@ export default function rzPopover() {
             });
 
             this.contentStyle = `position: ${strategy}; left: ${x}px; top: ${y}px; visibility: visible;`;
-        },
-
-        handleDocumentClick(event) {
-            if (!this.open) {
-                return;
-            }
-
-            const target = event.target;
-            const clickedInsideTrigger = this.triggerEl?.contains?.(target) ?? false;
-            const clickedInsideContent = this.contentEl?.contains?.(target) ?? false;
-
-            if (clickedInsideTrigger || clickedInsideContent) {
-                return;
-            }
-
-            this.open = false;
-            this.$nextTick(() => this.restoreTriggerFocus());
-        },
-
-        handleWindowKeydown(event) {
-            if (event.key !== 'Escape' || !this.open) {
-                return;
-            }
-
-            this.open = false;
-            this.$nextTick(() => this.restoreTriggerFocus());
         },
 
         restoreTriggerFocus() {

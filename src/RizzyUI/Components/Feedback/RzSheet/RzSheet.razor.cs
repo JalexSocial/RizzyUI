@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
+using Rizzy.Utility;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -18,6 +19,16 @@ public partial class RzSheet : RzComponent<RzSheet.Slots>
     );
 
     /// <summary>
+    /// Gets the unique identifier used for <c>aria-labelledby</c> when a <see cref="SheetTitle"/> is rendered.
+    /// </summary>
+    internal string AriaLabelId { get; } = IdGenerator.UniqueId("rzshtttl");
+
+    /// <summary>
+    /// Gets the unique identifier used for <c>aria-describedby</c> when a <see cref="SheetDescription"/> is rendered.
+    /// </summary>
+    internal string AriaDescriptionId { get; } = IdGenerator.UniqueId("rzshtdesc");
+
+    /// <summary>
     /// Gets or sets the content of the sheet, which should include a <see cref="SheetTrigger"/>
     /// and a <see cref="SheetContent"/>. Required.
     /// </summary>
@@ -30,6 +41,19 @@ public partial class RzSheet : RzComponent<RzSheet.Slots>
     /// </summary>
     [Parameter]
     public bool DefaultOpen { get; set; }
+
+
+    /// <summary>
+    /// Gets or sets whether the sheet is modal. Modal sheets trap keyboard focus and expose <c>aria-modal="true"</c>.
+    /// </summary>
+    [Parameter]
+    public bool Modal { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether outside pointer interactions dismiss the sheet.
+    /// </summary>
+    [Parameter]
+    public bool DismissOnOutsideClick { get; set; } = true;
 
     /// <inheritdoc />
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzSheet;

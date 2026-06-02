@@ -1274,6 +1274,40 @@
                 </RzBrowser>
             </section>            
             
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">
+                    Accessibility
+                </RzHeading>
+                <RzParagraph>
+                    The sidebar follows a responsive accessibility contract. On desktop it behaves as a persistent layout/navigation region and does not trap focus. On mobile it is rendered through <code>RzSheet</code> as a modal offcanvas panel, so focus moves into the panel while it is open and returns to the invoking control when the sheet closes.
+                </RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr><th class="p-4">Interaction</th><th class="p-4">Behavior</th></tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top"><td class="p-4"><kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>B</kbd></td><td class="p-4">Toggles the desktop collapsed state or the mobile offcanvas state. Change the final key with <code>KeyboardShortcut</code>.</td></tr>
+                            <tr class="align-top"><td class="p-4"><kbd>Escape</kbd></td><td class="p-4">Closes the mobile offcanvas panel through the underlying sheet dismissable-layer behavior. Desktop mode is persistent and is not closed by Escape.</td></tr>
+                            <tr class="align-top"><td class="p-4">Outside click</td><td class="p-4">Dismisses the mobile offcanvas panel through the sheet overlay. Desktop mode remains reachable and does not apply a focus trap.</td></tr>
+                            <tr class="align-top"><td class="p-4"><kbd>Tab</kbd></td><td class="p-4">Moves naturally through the page on desktop. In mobile modal mode, tab focus is contained by the sheet focus scope until the panel closes.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <RzParagraph>
+                    <code>SidebarTrigger</code> renders a button with an accessible label, <code>aria-controls</code> pointing at the provider root, and a runtime-bound <code>aria-expanded</code> value that reflects the current desktop or mobile state. Active sidebar menu buttons set <code>aria-current="page"</code> when <code>IsActive</code> is true and no consumer-provided <code>aria-current</code> value is already present.
+                </RzParagraph>
+                <RzParagraph>
+                    The runtime is SSR and CSP safe: state is initialized from data attributes, Alpine bindings own browser-only interactions, and no Blazor event callback or circuit is required. The <code>rzSidebar</code> runtime emits serializable <code>rz:sidebar:state-change</code>, <code>rz:sidebar:breakpoint-change</code>, <code>rz:sidebar:mobile-open</code>, and <code>rz:sidebar:mobile-close</code> events for observation.
+                </RzParagraph>
+                <RzAlert Variant="ThemeVariant.Warning" class="my-5">
+                    <AlertTitle>Limitations</AlertTitle>
+                    <AlertDescription>
+                        The sidebar does not infer the current route. Provide <code>IsActive</code> or your own <code>aria-current</code> value on menu buttons and links when representing the current page. Desktop collapse state is persisted with the configured cookie name only when persistence is enabled.
+                    </AlertDescription>
+                </RzAlert>
+            </section>
+
             <!-- Parameter Tables -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Parameters" class="scroll-mt-20">
@@ -1332,8 +1366,24 @@
                         </thead>
                         <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">toggle</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Toggles sidebar state based on viewport mode.</td></tr>
-                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">close</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the sidebar.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">setOpen</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Sets the desktop expanded/collapsed state and updates the persistence cookie when enabled.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">setOpenMobile</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Sets the mobile offcanvas open state.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">close</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the mobile sidebar when the runtime is in mobile mode.</td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">isMobileOpen</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Returns whether the mobile sidebar is open.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">destroy</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Removes global keydown and resize listeners when Alpine tears down the component.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Events</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr><th scope="col" class="w-1/4 px-4 py-3">Event</th><th scope="col" class="px-4 py-3">Payload</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code>rz:sidebar:state-change</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Emitted after desktop or mobile state changes with <code>open</code>, <code>openMobile</code>, <code>isMobile</code>, <code>desktopState</code>, <code>mobileState</code>, and <code>collapsible</code>.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>rz:sidebar:breakpoint-change</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Emitted when the viewport crosses the configured mobile breakpoint and mobile state is reset closed.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code>rz:sidebar:mobile-open</code> / <code>rz:sidebar:mobile-close</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Emitted when the mobile offcanvas opens or closes.</td></tr>
                         </tbody>
                     </table>
                 </div>

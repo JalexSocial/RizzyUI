@@ -31,7 +31,7 @@ public class RzDropdownMenuTests : BunitAlbaContext, IClassFixture<WebAppFixture
     }
 
     [Fact]
-    public void DropdownMenuTrigger_RendersCorrectly()
+    public void DropdownMenuTrigger_RendersMenuWidgetAriaAttributes()
     {
         // Act
         var cut = Render<RzDropdownMenu>(parameters => parameters
@@ -43,6 +43,9 @@ public class RzDropdownMenuTests : BunitAlbaContext, IClassFixture<WebAppFixture
         var trigger = cut.Find("[data-slot='dropdown-menu-trigger']");
         Assert.Equal("toggle", trigger.GetAttribute("x-on:click"));
         Assert.Equal("menu", trigger.GetAttribute("aria-haspopup"));
+        Assert.Equal("toggle", trigger.GetAttribute("x-on:click"));
+        Assert.NotNull(trigger.GetAttribute("aria-controls"));
+        Assert.Equal("ariaExpanded", trigger.GetAttribute("x-bind:aria-expanded"));
     }
 
     [Fact]

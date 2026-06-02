@@ -72,7 +72,9 @@ public partial class TabsTrigger : RzAsChildComponent<TabsTrigger.Slots>
             ["data-value"] = Value,
             ["aria-controls"] = ContentId,
             ["aria-disabled"] = Disabled ? "true" : null,
-            // Alpine bindings
+            ["aria-selected"] = "false",
+            ["tabindex"] = "-1",
+            ["data-state"] = "inactive",
             ["x-on:click"] = "onTriggerClick",
             ["x-bind:aria-selected"] = "_attrAriaSelected",
             ["x-bind:tabindex"] = "_attrTabIndex",

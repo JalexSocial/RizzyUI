@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Overlay Regression Fixture</title>
+</head>
+<body>
+<main>
+  <h1>Overlay Regression Fixture</h1>
+  <button id="dialog-trigger">Open dialog regression</button>
+  <button id="sheet-trigger">Open sheet regression</button>
+  <button id="popover-trigger" aria-haspopup="dialog" aria-expanded="false" aria-controls="popover-content">Open popover regression</button>
+  <button id="outside-target">Outside target</button>
+
+  <div id="dialog-underlay" hidden>
+    <section id="dialog-panel" role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-description" tabindex="-1">
+      <h2 id="dialog-title">Dialog overlay regression</h2>
+      <p id="dialog-description">Contains nested dropdown and navigation menu overlays.</p>
+
+      <button id="dialog-menu-trigger" aria-haspopup="menu" aria-expanded="false" aria-controls="dialog-menu">Open dialog menu</button>
+      <ul id="dialog-menu" role="menu" aria-labelledby="dialog-menu-trigger" hidden>
+        <li role="none"><button id="dialog-menu-profile" role="menuitem">Profile</button></li>
+        <li role="none"><button id="dialog-menu-settings" role="menuitem">Settings</button></li>
+      </ul>
+
+      <nav id="dialog-navigation" aria-label="Dialog navigation" data-rz-init="navigation-menu" data-init-count="0">
+        <ul id="dialog-navigation-list">
+          <li data-slot="navigation-menu-item">
+            <button id="dialog-navigation-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="dialog-navigation-content" data-state="closed" data-slot="navigation-menu-trigger">Products</button>
+            <div id="dialog-navigation-content" data-item-id="products" data-popover data-slot="navigation-menu-content" hidden>
+              <a id="dialog-navigation-link" href="#products" data-slot="navigation-menu-link">Products overview</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+
+      <button id="dialog-close" type="button" aria-label="Close dialog regression">Close</button>
+    </section>
+  </div>
+
+  <div id="sheet-underlay" hidden>
+    <aside id="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title" tabindex="-1">
+      <h2 id="sheet-title">Sheet overlay regression</h2>
+      <label id="sheet-combobox-label" for="sheet-combobox-input">Favorite fruit</label>
+      <div id="sheet-combobox" data-rz-init="combobox" data-init-count="0">
+        <input id="sheet-combobox-input" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sheet-combobox-listbox" aria-labelledby="sheet-combobox-label" aria-describedby="sheet-combobox-help" autocomplete="off" />
+        <p id="sheet-combobox-help">Type to filter options.</p>
+        <ul id="sheet-combobox-listbox" role="listbox" aria-label="Favorite fruit options" hidden>
+          <li id="sheet-combobox-apple" role="option">Apple</li>
+          <li id="sheet-combobox-orange" role="option">Orange</li>
+        </ul>
+      </div>
+      <button id="sheet-close" type="button" aria-label="Close sheet regression">Close</button>
+    </aside>
+  </div>
+
+  <div id="popover-content" role="dialog" aria-label="Popover overlay regression" aria-labelledby="popover-heading" hidden>
+    <h2 id="popover-heading">Popover form controls</h2>
+    <label for="popover-native-select">Native select</label>
+    <select id="popover-native-select">
+      <option>One</option>
+      <option>Two</option>
+    </select>
+    <label id="popover-combobox-label" for="popover-combobox-input">Popover combobox</label>
+    <div id="popover-combobox" data-rz-init="combobox" data-init-count="0">
+      <input id="popover-combobox-input" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="popover-combobox-listbox" aria-labelledby="popover-combobox-label" autocomplete="off" />
+      <ul id="popover-combobox-listbox" role="listbox" aria-label="Popover combobox options" hidden>
+        <li id="popover-combobox-alpha" role="option">Alpha</li>
+        <li id="popover-combobox-beta" role="option">Beta</li>
+      </ul>
+    </div>
+    <button id="popover-close" type="button">Close popover</button>
+  </div>
+</main>
+
+<script>
+  const layerStack = [];
+  const focusables = (root) => Array.from(root.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter((node) => !node.disabled && !node.hidden);
+  const getTopLayer = () => layerStack[layerStack.length - 1] || null;
+  const registerLayer = (id, root, onDismiss) => {
+    const layer = { id, root, onDismiss };
+    layerStack.push(layer);
+    return () => {
+      const index = layerStack.indexOf(layer);
+      if (index >= 0) layerStack.splice(index, 1);
+    };
+  };
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || event.defaultPrevented) return;
+    const layer = getTopLayer();
+    if (!layer) return;
+    event.preventDefault();
+    event.stopPropagation();
+    layer.root.dispatchEvent(new CustomEvent('rz:dismiss', { bubbles: true, cancelable: true, detail: { reason: 'escape', layerId: layer.id, originalEvent: event } }));
+    layer.onDismiss('escape');
+  }, true);
+
+  document.addEventListener('pointerdown', (event) => {
+    const layer = getTopLayer();
+    if (!layer || layer.root.contains(event.target)) return;
+    event.preventDefault();
+    layer.root.dispatchEvent(new CustomEvent('rz:dismiss', { bubbles: true, cancelable: true, detail: { reason: 'outside-pointer', layerId: layer.id, originalEvent: event } }));
+    layer.onDismiss('outside-pointer');
+  }, true);
+
+  function wireModal({ triggerId, underlayId, panelId, closeId }) {
+    const trigger = document.getElementById(triggerId);
+    const underlay = document.getElementById(underlayId);
+    const panel = document.getElementById(panelId);
+    const closeButton = document.getElementById(closeId);
+    let unregister = null;
+    let invoker = null;
+
+    const open = () => {
+      invoker = document.activeElement;
+      underlay.hidden = false;
+      unregister = registerLayer(panelId, panel, close);
+      focusables(panel)[0]?.focus();
+    };
+    const close = () => {
+      underlay.hidden = true;
+      unregister?.();
+      unregister = null;
+      if (invoker && invoker.isConnected) invoker.focus();
+    };
+    panel.addEventListener('keydown', (event) => {
+      if (event.key !== 'Tab') return;
+      const items = focusables(panel);
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    });
+    trigger.addEventListener('click', open);
+    closeButton.addEventListener('click', close);
+  }
+
+  function wireDropdown() {
+    const trigger = document.getElementById('dialog-menu-trigger');
+    const menu = document.getElementById('dialog-menu');
+    const items = () => Array.from(menu.querySelectorAll('[role="menuitem"]'));
+    let unregister = null;
+    const close = () => {
+      menu.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      unregister?.();
+      unregister = null;
+      trigger.focus();
+    };
+    const open = () => {
+      menu.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      unregister = registerLayer('dialog-menu', menu, close);
+      items()[0]?.focus();
+    };
+    trigger.addEventListener('click', () => menu.hidden ? open() : close());
+    trigger.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === 'ArrowDown') { event.preventDefault(); open(); }
+    });
+    menu.addEventListener('keydown', (event) => {
+      const all = items();
+      const index = all.indexOf(document.activeElement);
+      if (event.key === 'ArrowDown') { event.preventDefault(); all[(index + 1) % all.length]?.focus(); }
+      if (event.key === 'ArrowUp') { event.preventDefault(); all[(index - 1 + all.length) % all.length]?.focus(); }
+    });
+  }
+
+  function wireNavigationMenu() {
+    const root = document.getElementById('dialog-navigation');
+    if (root.dataset.initialized === 'true') return;
+    root.dataset.initialized = 'true';
+    root.dataset.initCount = String(Number(root.dataset.initCount || '0') + 1);
+    const trigger = document.getElementById('dialog-navigation-trigger');
+    const content = document.getElementById('dialog-navigation-content');
+    const link = document.getElementById('dialog-navigation-link');
+    const open = () => {
+      content.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      trigger.dataset.state = 'open';
+      link.focus();
+    };
+    const close = () => {
+      content.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.dataset.state = 'closed';
+      trigger.focus();
+    };
+    trigger.addEventListener('click', () => content.hidden ? open() : close());
+    trigger.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown') { event.preventDefault(); open(); }
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !content.hidden && content.contains(document.activeElement)) {
+        event.preventDefault();
+        event.stopPropagation();
+        close();
+      }
+    }, true);
+  }
+
+  function wireCombobox(rootId) {
+    const root = document.getElementById(rootId);
+    if (root.dataset.initialized === 'true') return;
+    root.dataset.initialized = 'true';
+    root.dataset.initCount = String(Number(root.dataset.initCount || '0') + 1);
+    const input = root.querySelector('[role="combobox"]');
+    const listbox = document.getElementById(input.getAttribute('aria-controls'));
+    const firstOption = listbox.querySelector('[role="option"]');
+    let suppressNextFocusOpen = false;
+    const open = () => {
+      if (suppressNextFocusOpen) { suppressNextFocusOpen = false; return; }
+      listbox.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+      input.setAttribute('aria-activedescendant', firstOption.id);
+    };
+    const close = () => {
+      listbox.hidden = true;
+      input.setAttribute('aria-expanded', 'false');
+      input.removeAttribute('aria-activedescendant');
+      suppressNextFocusOpen = true;
+      input.focus();
+    };
+    listbox.querySelectorAll('[role="option"]').forEach((option) => option.addEventListener('click', close));
+    input.addEventListener('focus', open);
+    input.addEventListener('input', open);
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !listbox.hidden) { event.preventDefault(); event.stopPropagation(); close(); }
+    });
+  }
+
+  function wirePopover() {
+    const trigger = document.getElementById('popover-trigger');
+    const content = document.getElementById('popover-content');
+    const closeButton = document.getElementById('popover-close');
+    let unregister = null;
+    const close = () => {
+      content.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      unregister?.();
+      unregister = null;
+      trigger.focus();
+    };
+    const open = () => {
+      content.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      unregister = registerLayer('popover-content', content, close);
+      document.getElementById('popover-native-select').focus();
+    };
+    trigger.addEventListener('click', () => content.hidden ? open() : close());
+    closeButton.addEventListener('click', close);
+  }
+
+  wireModal({ triggerId: 'dialog-trigger', underlayId: 'dialog-underlay', panelId: 'dialog-panel', closeId: 'dialog-close' });
+  wireModal({ triggerId: 'sheet-trigger', underlayId: 'sheet-underlay', panelId: 'sheet-panel', closeId: 'sheet-close' });
+  wireDropdown();
+  wireNavigationMenu();
+  wireCombobox('sheet-combobox');
+  wireCombobox('popover-combobox');
+  wirePopover();
+
+  window.simulateEnhancedNavigation = () => {
+    wireNavigationMenu();
+    wireCombobox('sheet-combobox');
+    wireCombobox('popover-combobox');
+  };
+</script>
+</body>
+</html>

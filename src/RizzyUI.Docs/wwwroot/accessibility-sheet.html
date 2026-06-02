@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Accessibility Sheet Fixture</title></head>
+<body>
+<main>
+  <h1>Sheet Accessibility Fixture</h1>
+
+  <button id="modal-trigger">Open modal sheet</button>
+  <button id="modal-left-trigger">Open left modal sheet</button>
+  <button id="modal-right-trigger">Open right modal sheet</button>
+  <button id="nonmodal-trigger">Open non-modal sheet</button>
+  <button id="nonmodal-label-trigger">Open non-modal label-only sheet</button>
+  <button id="outside-target">Outside target</button>
+
+  <div id="modal-underlay" hidden>
+    <aside id="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1" data-side="right">
+      <h2 id="modal-title">Profile settings</h2>
+      <input id="modal-first" />
+      <button id="modal-last">Last focusable</button>
+      <button id="modal-close" aria-label="Close modal sheet">Close</button>
+    </aside>
+  </div>
+
+  <div id="nonmodal-underlay" hidden>
+    <aside id="nonmodal-sheet" role="complementary" aria-labelledby="nonmodal-title" tabindex="-1">
+      <h2 id="nonmodal-title">Navigation drawer</h2>
+      <a href="#" id="nonmodal-link">Menu link</a>
+      <button id="nonmodal-close" aria-label="Close non-modal sheet">Close</button>
+    </aside>
+  </div>
+
+  <div id="nonmodal-label-underlay" hidden>
+    <aside id="nonmodal-label-sheet" role="complementary" aria-label="Quick links" tabindex="-1">
+      <a href="#" id="nonmodal-label-link">Quick link</a>
+      <button id="nonmodal-label-close" aria-label="Close quick links sheet">Close</button>
+    </aside>
+  </div>
+
+  <script>
+    const wireSheet = ({ triggerId, underlayId, panelId, closeId, modal, dismissOnOutside = true, side = 'right' }) => {
+      const trigger = document.getElementById(triggerId);
+      const underlay = document.getElementById(underlayId);
+      const panel = document.getElementById(panelId);
+      const close = document.getElementById(closeId);
+      let invoker = null;
+      let open = false;
+
+      panel.dataset.side = side;
+
+      const focusables = () => Array.from(panel.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter((node) => !node.hasAttribute('disabled'));
+      const keydown = (e) => {
+        if (!open) return;
+        if (e.key === 'Escape') { e.preventDefault(); closeSheet(); return; }
+        if (!modal || e.key !== 'Tab') return;
+        const items = focusables(); if (!items.length) return;
+        const first = items[0]; const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      };
+      const outside = (e) => { if (open && dismissOnOutside && !panel.contains(e.target)) closeSheet(); };
+      const openSheet = (e) => {
+        invoker = e.currentTarget;
+        open = true;
+        underlay.hidden = false;
+        panel.setAttribute('aria-hidden', 'false');
+        document.addEventListener('keydown', keydown);
+        document.addEventListener('mousedown', outside);
+        if (modal) (focusables()[0] ?? panel).focus();
+      };
+      const closeSheet = () => {
+        open = false;
+        underlay.hidden = true;
+        panel.setAttribute('aria-hidden', 'true');
+        document.removeEventListener('keydown', keydown);
+        document.removeEventListener('mousedown', outside);
+        if (invoker && invoker.isConnected) invoker.focus();
+      };
+
+      trigger.addEventListener('click', openSheet);
+      close.addEventListener('click', closeSheet);
+    };
+
+    wireSheet({ triggerId: 'modal-trigger', underlayId: 'modal-underlay', panelId: 'modal-sheet', closeId: 'modal-close', modal: true, side: 'right' });
+    wireSheet({ triggerId: 'modal-left-trigger', underlayId: 'modal-underlay', panelId: 'modal-sheet', closeId: 'modal-close', modal: true, side: 'left' });
+    wireSheet({ triggerId: 'modal-right-trigger', underlayId: 'modal-underlay', panelId: 'modal-sheet', closeId: 'modal-close', modal: true, side: 'right' });
+    wireSheet({ triggerId: 'nonmodal-trigger', underlayId: 'nonmodal-underlay', panelId: 'nonmodal-sheet', closeId: 'nonmodal-close', modal: false, dismissOnOutside: true });
+    wireSheet({ triggerId: 'nonmodal-label-trigger', underlayId: 'nonmodal-label-underlay', panelId: 'nonmodal-label-sheet', closeId: 'nonmodal-label-close', modal: false, dismissOnOutside: true });
+  </script>
+</main>
+</body>
+</html>

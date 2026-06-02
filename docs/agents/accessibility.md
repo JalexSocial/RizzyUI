@@ -2,6 +2,18 @@
 
 Ensuring components are accessible is paramount. LLMs must generate components that strive to adhere to WCAG standards where applicable.
 
+### 8.0 Preservation-first refactoring
+
+For existing components, accessibility behavior is part of the public contract. Before changing behavior, inspect the component's Razor, C#, JavaScript/Alpine runtime, tests, and documentation. Preserve behavior that already complies with `AGENTS.md`, this accessibility guide, and the component's documented contract.
+
+Do not remove or replace compliant keyboard handling, focus handling, ARIA relationships, live-region behavior, id generation, `rz:` namespaced events, public parameters, data attributes, CSS hooks, slot names, localization keys, docs examples, or generated IDs merely because a shared primitive now exists. Shared primitives in `docs/internal/runtime-primitives/` and `packages/rizzyui/src/js/runtime/a11y/` are tools for consistency, not permission to discard working component behavior.
+
+Replace existing behavior only when it is incomplete, inconsistent, duplicated, inaccessible, untested, or incompatible with the SSR-only and CSP-safe RizzyUI contract. When migrating behavior into a shared primitive, add characterization tests first if existing coverage is missing, then verify the same keyboard, focus, ARIA, announcement, event, and ID behavior still works.
+
+Accessibility hardening must target existing components in place unless the prompt explicitly authorizes new component creation. Use existing names and paths such as `RzNativeSelect`, `RzCombobox`, `RzNavigationMenu`, `RzAlert`, `RzTooltip`, and `RzDataTable`; do not invent replacement components, alternate names, or successor APIs during hardening work.
+
+Mature third-party integrations are also part of the component architecture. Do not replace `RzCombobox`'s Tom Select integration, or similar mature integrations, unless a separate migration has been approved.
+
 * **Semantic HTML:**
 
   * Use the most appropriate HTML element for the component's role. The `Element` property in `RzComponent` (defaulting to "div") should be overridden in `OnInitialized()` if a more semantic tag like `<nav>`, `<button>`, `<aside>`, etc., is suitable.

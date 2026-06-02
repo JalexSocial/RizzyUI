@@ -126,4 +126,48 @@ public class RzDialogTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Contains("Header", templateHtml);
         Assert.Contains("Footer", templateHtml);
     }
+
+    [Fact]
+    public void DialogContent_RendersAccessibleDialogSemantics()
+    {
+        var cut = Render<RzDialog>(parameters => parameters
+            .AddChildContent<DialogTrigger>(trigger => trigger.AddChildContent("Open"))
+            .AddChildContent<DialogContent>(content => content.AddChildContent(@"<DialogHeader><DialogTitle>Dialog heading</DialogTitle><DialogDescription>Dialog description</DialogDescription></DialogHeader>"))
+        );
+
+        var html = cut.Find("template").ToHtml() ?? string.Empty;
+        Assert.Contains("role=\"dialog\"", html);
+        Assert.Contains("aria-modal=\"true\"", html);
+        Assert.Contains("aria-labelledby=\"", html);
+        Assert.Contains("aria-describedby=\"", html);
+        Assert.Contains("Dialog heading", html);
+        Assert.Contains("Dialog description", html);
+    }
+
+    [Fact]
+    public void DialogContent_DefaultCloseButton_HasAccessibleNameAndButtonType()
+    {
+        var cut = Render<RzDialog>(parameters => parameters
+            .AddChildContent<DialogTrigger>(trigger => trigger.AddChildContent("Open"))
+            .AddChildContent<DialogContent>(content => content.AddChildContent("Body"))
+        );
+
+        var html = cut.Find("template").ToHtml() ?? string.Empty;
+        Assert.Contains("data-slot=\"dialog-close\"", html);
+        Assert.Contains("type=\"button\"", html);
+        Assert.Contains("aria-label=\"", html);
+    }
+
+    [Fact]
+    public void DialogTrigger_EmitsDialogTriggerDataAttribute()
+    {
+        var cut = Render<RzDialog>(parameters => parameters
+            .Add(p => p.Id, "dialog-under-test")
+            .AddChildContent<DialogTrigger>(trigger => trigger.AddChildContent("Open"))
+            .AddChildContent<DialogContent>(content => content.AddChildContent("Body"))
+        );
+
+        var trigger = cut.Find("button[data-slot='dialog-trigger']");
+        Assert.Equal("dialog-under-test", trigger.GetAttribute("data-dialog-trigger"));
+    }
 }

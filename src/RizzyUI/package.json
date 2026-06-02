@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test ../../tools/accessibility-inventory/__tests__/check-accessibility-inventory.test.mjs",
+    "check-accessibility-inventory": "node ../../tools/accessibility-inventory/check-accessibility-inventory.mjs",
     "llm": "repomix --instruction-file-path \"../../AGENTS.md\" --include \"**/*.razor,**/*.razor.cs,**/*.cs,**/js/*.js\" --ignore \"obj/,bin/,**/js/vendor/*.*,wwwroot/**/*.*\" --remove-empty-lines --style \"xml\" --output \"llmquery.txt\""
   },
   "keywords": [],

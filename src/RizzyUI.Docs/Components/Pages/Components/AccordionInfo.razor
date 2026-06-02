@@ -34,7 +34,6 @@
 	            RzAccordions allow you to organize a stack of items that can be expanded or collapsed, revealing or hiding additional content. RzAccordion examples use the Alpine JS's collapse plugin, which provides a smooth collapse/expand animation. If you prefer not to use this plugin, you can remove the "x-collapse" directive from each item, but you will lose this animation.
             </RzParagraph>
 
-            <!-- Default RzAccordion (Multiple sections open) -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Default RzAccordion" class="scroll-mt-20">
                     Default RzAccordion (Multiple Open)
@@ -110,7 +109,6 @@
                 </RzCodeViewer>
             </section>
 
-            <!-- Single Open RzAccordion (Only one section open) -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Single Open RzAccordion" class="scroll-mt-20">
                     Single Open RzAccordion
@@ -186,7 +184,179 @@
                 </RzCodeViewer>
             </section>
 
-            <!-- Parameters Table -->
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">
+                    Accessibility
+                </RzHeading>
+                <RzParagraph>
+                    RzAccordion follows an accordion disclosure pattern. The <code>RzAccordion</code> component groups one or more <code>AccordionItem</code> sections. Each item's <code>AccordionTrigger</code> is the interactive control that opens or closes the section, and <code>AccordionContent</code> contains the expandable content associated with that trigger.
+                </RzParagraph>
+                <RzParagraph>
+                    Use <code>AccordionType.Multiple</code> when users may need to compare content across several open panels. Use <code>AccordionType.Single</code> when only one panel should remain open at a time.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Semantics" class="scroll-mt-20">
+                    Semantics
+                </RzHeading>
+                <ul>
+                    <li><code>AccordionTrigger</code> renders as a native <code>button</code> inside a semantic heading for each <code>AccordionItem</code>.</li>
+                    <li>The trigger exposes its expanded or collapsed state with <code>aria-expanded</code>.</li>
+                    <li>The trigger is associated with its panel through <code>aria-controls</code>.</li>
+                    <li>The content panel renders with <code>role=&quot;region&quot;</code> and references its trigger with <code>aria-labelledby</code>.</li>
+                    <li>Panels remain in normal document order after their triggers. Interactive controls inside open <code>AccordionContent</code> remain reachable with normal Tab navigation.</li>
+                    <li>The Alpine collapse animation does not change the trigger-to-panel semantic relationship.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Keyboard interaction" class="scroll-mt-20">
+                    Keyboard interaction
+                </RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Key</th>
+                                <th scope="col" class="w-1/4 px-4 py-3">When focus is on</th>
+                                <th scope="col" class="px-4 py-3">Behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Tab</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Any focusable element</td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves to the next focusable element in page order.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Shift + Tab</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Any focusable element</td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves to the previous focusable element in page order.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Enter</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AccordionTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Expands or collapses the associated section through native button activation.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Space</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AccordionTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Expands or collapses the associated section through native button activation.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ArrowDown</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AccordionTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to the next enabled trigger, wrapping to the first trigger.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ArrowUp</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AccordionTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to the previous enabled trigger, wrapping to the last trigger.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Home</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AccordionTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to the first enabled trigger.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">End</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>AccordionTrigger</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus to the last enabled trigger.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Focus management" class="scroll-mt-20">
+                    Focus management
+                </RzHeading>
+                <ul>
+                    <li>The Accordion does not trap focus.</li>
+                    <li>Focus remains on the trigger after the user expands or collapses a section.</li>
+                    <li>Tabbing into an open <code>AccordionContent</code> panel follows normal document order.</li>
+                    <li>Collapsed content is hidden with Alpine collapse behavior and should not expose its inner focusable controls to keyboard users while closed.</li>
+                    <li>In <code>AccordionType.Single</code>, opening one item may collapse another item, but focus remains on the trigger the user activated.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Screen-reader behavior" class="scroll-mt-20">
+                    Screen-reader behavior
+                </RzHeading>
+                <ul>
+                    <li>Screen readers can announce each trigger's label and expanded or collapsed state from the native button and <code>aria-expanded</code>.</li>
+                    <li>After a trigger is expanded, the associated content becomes available in the document after that trigger.</li>
+                    <li>Interactive content inside <code>AccordionContent</code>, such as links and form controls, should provide its own accessible name and semantics.</li>
+                    <li>RzAccordion does not use live-region announcements for ordinary expand and collapse changes because the trigger state communicates the change without extra announcement noise.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Single vs multiple mode" class="scroll-mt-20">
+                    Single vs multiple mode
+                </RzHeading>
+                <RzParagraph>
+                    In <code>AccordionType.Multiple</code>, several panels may be open at the same time, so keyboard and screen-reader users may move through content from multiple expanded panels. In <code>AccordionType.Single</code>, opening a new panel collapses the previously open panel. This reduces visible content, but authors should make it clear from surrounding copy or trigger labels that only one section remains open.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Authoring guidance" class="scroll-mt-20">
+                    Authoring guidance
+                </RzHeading>
+                <ul>
+                    <li>Keep <code>AccordionTrigger</code> text concise and descriptive.</li>
+                    <li>Do not put complex interactive controls inside <code>AccordionTrigger</code>; place links, buttons, and form controls inside <code>AccordionContent</code>.</li>
+                    <li>Avoid using an Accordion for critical alerts, confirmations, or modal workflows.</li>
+                    <li>Avoid deeply nested accordions unless the content structure genuinely requires them.</li>
+                    <li>If content contains links or form controls, ensure those inner controls have accessible names.</li>
+                    <li>Do not rely only on color or icons to communicate expanded or collapsed state.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Accessible authoring example" class="scroll-mt-20">
+                    Accessible authoring example
+                </RzHeading>
+                <RzParagraph>
+                    This example uses descriptive trigger text and places the focusable link inside <code>AccordionContent</code>, not inside the trigger.
+                </RzParagraph>
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5">
+                        <RzAccordion Type="AccordionType.Multiple">
+                            <AccordionItem>
+                                <AccordionTrigger>Review account security settings</AccordionTrigger>
+                                <AccordionContent>
+                                    <p>
+                                        Check your authentication methods and recovery options before changing account access.
+                                        <a href="/components/button" class="underline underline-offset-2 text-primary">Review button guidance</a> for action styling patterns.
+                                    </p>
+                                </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem>
+                                <AccordionTrigger>Update notification preferences</AccordionTrigger>
+                                <AccordionContent>
+                                    <p>
+                                        Choose which updates should send email or in-app notifications. Keep labels specific for each preference control.
+                                    </p>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </RzAccordion>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzAccordion Type=&quot;AccordionType.Multiple&quot;&gt;
+    &lt;AccordionItem&gt;
+        &lt;AccordionTrigger&gt;Review account security settings&lt;/AccordionTrigger&gt;
+        &lt;AccordionContent&gt;
+            &lt;p&gt;
+                Check your authentication methods and recovery options before changing account access.
+                &lt;a href=&quot;/components/button&quot; class=&quot;underline underline-offset-2 text-primary&quot;&gt;Review button guidance&lt;/a&gt; for action styling patterns.
+            &lt;/p&gt;
+        &lt;/AccordionContent&gt;
+    &lt;/AccordionItem&gt;
+    &lt;AccordionItem&gt;
+        &lt;AccordionTrigger&gt;Update notification preferences&lt;/AccordionTrigger&gt;
+        &lt;AccordionContent&gt;
+            &lt;p&gt;
+                Choose which updates should send email or in-app notifications. Keep labels specific for each preference control.
+            &lt;/p&gt;
+        &lt;/AccordionContent&gt;
+    &lt;/AccordionItem&gt;
+&lt;/RzAccordion&gt;
+                </RzCodeViewer>
+            </section>
+
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
                     RzAccordion Component Parameters
@@ -228,7 +398,6 @@
                 </div>
             </section>
 
-            <!-- AccordionItem Parameters Table -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="AccordionItem Parameters" class="scroll-mt-20">
                     AccordionItem Component Parameters
@@ -278,12 +447,15 @@
             </section>
 
 
+
+
+
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">
                     Alpine API
                 </RzHeading>
                 <RzParagraph>
-                    This page uses the <code>rzAccordion</code> Alpine <code>x-data</code> component.
+                    This page uses the <code>rzAccordion</code> parent Alpine <code>x-data</code> component and the <code>accordionItem</code> item-level Alpine component. The item runtime manages toggle state, keeps the existing single or multiple behavior, updates <code>aria-expanded</code>, and handles optional arrow-key focus movement.
                 </RzParagraph>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">

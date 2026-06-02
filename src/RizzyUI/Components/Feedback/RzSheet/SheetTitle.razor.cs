@@ -17,6 +17,12 @@ public partial class SheetTitle : RzComponent<SheetTitle.Slots>
     );
 
     /// <summary>
+    /// Gets the parent <see cref="RzSheet"/> component.
+    /// </summary>
+    [CascadingParameter]
+    protected RzSheet? ParentSheet { get; set; }
+
+    /// <summary>
     /// Gets or sets the content to be rendered as the title.
     /// </summary>
     [Parameter]

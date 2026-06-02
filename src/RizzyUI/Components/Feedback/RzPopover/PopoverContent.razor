@@ -16,8 +16,9 @@
          x-transition:leave="transition ease-in duration-150"
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 translate-y-1"
-         role="dialog"
-         aria-labelledby="@TriggerId"
+         role="@Role"
+         aria-label="@AriaLabel"
+         aria-labelledby="@AriaLabelledBy"
          class="@SlotClasses.GetBase()"
          data-slot="popover-content">
         @ChildContent

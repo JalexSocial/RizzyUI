@@ -82,6 +82,12 @@ public partial class SidebarMenuButton : RzAsChildComponent<SidebarMenuButton.Sl
             ["data-active"] = IsActive ? "true" : "false",
             ["data-slot"] = "sidebar-menu-button"
         };
+
+        if (IsActive && !attributes.ContainsKey("aria-current"))
+        {
+            attributes["aria-current"] = "page";
+        }
+
         return attributes;
     }
 

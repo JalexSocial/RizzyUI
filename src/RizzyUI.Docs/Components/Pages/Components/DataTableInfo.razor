@@ -22,20 +22,31 @@
 
             <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="DataTable" class="scroll-mt-20">DataTable</RzHeading>
             <RzParagraph>
-                <code>RzDataTable&lt;TItem&gt;</code> is an SSR-first shell for TanStack Table and Alpine state orchestration.
-                It validates and normalizes table config, serializes transport JSON, and exposes helper APIs and events while you author table markup with <code>RzTable</code> and table family components.
-            </RzParagraph>
-
-            <RzParagraph>
-                Render loops should target reactive projections such as <code>headerGroups</code>, <code>rows</code>, and <code>footerGroups</code> plus namespaced helpers such as <code>pagination.*</code>.
-                TanStack Table remains the source of truth for behavior and state, while Alpine consumes synchronized render projections.
+                <code>RzDataTable&lt;TItem&gt;</code> is an SSR-first shell that serializes <code>Items</code>, <code>Config</code>, and <code>RowIdSelector</code> metadata into an inert JSON script, then lets the Alpine runtime named <code>rzDataTable</code> create a TanStack Table instance for consumer-authored table markup.
+                You provide the semantic table composition through <code>ChildContent</code>, usually with <code>RzTable</code>, table subcomponents, Alpine loops, and <code>x-flexrender</code> for TanStack header, cell, and footer renderers.
             </RzParagraph>
 
             <RzAlert class="my-4">
-                <AlertTitle>CSP limitation</AlertTitle>
+                <AlertTitle>Under the hood</AlertTitle>
                 <AlertDescription>
-                    The examples below intentionally use inline Alpine expressions over TanStack objects for readability.
-                    They target the standard <code>rizzyui</code> runtime and will not work under <code>rizzyui-csp</code> without refactoring to CSP-safe Alpine API patterns.
+                    The component renders a server-side shell with <code>data-slot="datatable"</code>, an Alpine host using <code>x-data="rzDataTable"</code>, a lazy-load directive from <code>LoadStrategy</code>, and <code>data-config-id</code> that points to the JSON configuration script.
+                    TanStack Table remains the source of truth for sorting, filtering, pagination, row selection, and column visibility; Alpine exposes synchronized projections such as <code>headerGroups</code>, <code>rows</code>, <code>footerGroups</code>, and helper APIs.
+                </AlertDescription>
+            </RzAlert>
+
+            <RzAlert class="my-4">
+                <AlertTitle>Accessibility mode decision</AlertTitle>
+                <AlertDescription>
+                    <code>RzDataTable&lt;TItem&gt;</code> is documented as an enhanced semantic table-composition component, not a full ARIA grid.
+                    Read the <a href="/components/datatable/accessibility-mode" class="underline underline-offset-4">DataTable accessibility mode design note</a> for the current behavior inventory, preservation rules, future file targets, and test categories.
+                </AlertDescription>
+            </RzAlert>
+
+            <RzAlert class="my-4">
+                <AlertTitle>SSR and CSP note</AlertTitle>
+                <AlertDescription>
+                    The shell is server rendered and does not use Blazor event callbacks for browser interaction.
+                    The examples intentionally use inline Alpine expressions over TanStack objects for readability and target the standard <code>rizzyui</code> runtime; CSP deployments using <code>rizzyui-csp</code> must move those expressions into approved CSP-safe Alpine APIs before shipping.
                 </AlertDescription>
             </RzAlert>
 
@@ -450,28 +461,152 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Architecture and author responsibilities" class="scroll-mt-20">Architecture and author responsibilities</RzHeading>
+                <RzParagraph>
+                    <code>RzDataTable&lt;TItem&gt;</code> owns data transport and TanStack state; it does not generate the visible table, rows, or cells for you.
+                    Author the table in <code>ChildContent</code> and bind it to the runtime projections.
+                </RzParagraph>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>Use <code>RzTable</code>, <code>TableHeader</code>, <code>TableBody</code>, <code>TableRow</code>, <code>TableHeaderCell</code>, and <code>TableCell</code> when you want native table semantics.</li>
+                    <li>Loop over <code>headerGroups</code>, <code>rows</code>, and <code>footerGroups</code> with Alpine <code>template x-for</code> blocks and stable keys.</li>
+                    <li>Render TanStack content with <code>x-flexrender="_flex.header(header)"</code>, <code>x-flexrender="_flex.cell(cell)"</code>, or <code>x-flexrender="_flex.footer(footer)"</code> on the authored element that should receive the rendered content.</li>
+                    <li>Keep <code>RowIdSelector</code> stable and unique because the server and runtime both reject duplicate or empty row ids.</li>
+                    <li>Add accessible labels, captions, filter labels, pagination labels, and current/disabled states in your authored markup when the helper components do not provide them automatically.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">Accessibility</RzHeading>
+                <RzParagraph>
+                    DataTable follows an enhanced semantic table-composition model. It preserves native table semantics from the authored markup and augments focused controls for sorting, selection, filtering, pagination, and column visibility. It intentionally does not implement the WAI-ARIA grid pattern.
+                </RzParagraph>
+
+                <RzHeading Level="HeadingLevel.H3">Semantic table composition</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>The DataTable root is a neutral shell; it does not add <code>role="grid"</code>, generated row roles, generated cell roles, or an active-descendant model.</li>
+                    <li>When you use <code>RzTable</code> and table subcomponents, the rendered structure remains a real <code>table</code> with native <code>thead</code>, <code>tbody</code>, <code>tr</code>, <code>th</code>, <code>td</code>, <code>caption</code>, and <code>tfoot</code> elements.</li>
+                    <li>Sortable headers should keep <code>TableHeaderCell</code> semantics and bind <code>x-bind:aria-sort="sort.ariaSort(header)"</code> on the header cell that represents the sorted column.</li>
+                    <li>Selection should use native checkbox inputs through <code>DataTableSelectAllCheckbox</code>, <code>DataTableRowSelectCheckbox</code>, <code>DataTableSelectionHeaderCell</code>, or <code>DataTableSelectionCell</code>.</li>
+                </ul>
+
+                <RzHeading Level="HeadingLevel.H3">Sorting, selection, pagination, filtering, and visibility</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><strong>Sorting:</strong> <code>DataTableSortToggle</code> renders a native <code>button</code>, binds disabled state to <code>!sort.can(header)</code>, binds its accessible name to <code>sort.nextLabel(header)</code>, exposes <code>data-sort-direction</code>, and calls <code>sort.toggle(header)</code>.</li>
+                    <li><strong>Selection:</strong> selection helpers render native checkboxes with <code>aria-label</code>, checked/disabled bindings, indeterminate state effects, and change handlers that update TanStack row selection state.</li>
+                    <li><strong>Pagination:</strong> the runtime exposes page state and methods. Examples bind unavailable links with <code>aria-disabled</code>, remove them from the tab order with <code>tabindex="-1"</code>, and mark the active page with <code>aria-current="page"</code>.</li>
+                    <li><strong>Filtering:</strong> the runtime exposes <code>filter.globalFilter</code> and <code>filter.setGlobalFilter(value)</code>. Authors must provide the visible label or accessible name for filter inputs.</li>
+                    <li><strong>Column visibility:</strong> the runtime exposes <code>columns.*</code> state and helpers. Authors must label visibility toggles and preserve checkbox semantics.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Keyboard interaction" class="scroll-mt-20">Keyboard Interaction</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><kbd>Tab</kbd> and <kbd>Shift</kbd> + <kbd>Tab</kbd> move through authored focusable controls in DOM order, such as sort buttons, selection checkboxes, filter inputs, column visibility checkboxes, and pagination links.</li>
+                    <li><kbd>Enter</kbd> or <kbd>Space</kbd> activates native sort buttons rendered by <code>DataTableSortToggle</code>.</li>
+                    <li><kbd>Space</kbd> toggles native selection and visibility checkboxes.</li>
+                    <li><kbd>Enter</kbd> activates pagination links when the authored link is enabled; disabled examples use <code>aria-disabled="true"</code> and <code>tabindex="-1"</code>.</li>
+                    <li>Arrow-key cell navigation, Home/End grid navigation, Page Up/Page Down grid navigation, roving <code>tabindex</code>, and <code>aria-activedescendant</code> are not implemented by <code>RzDataTable&lt;TItem&gt;</code>.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Focus management" class="scroll-mt-20">Focus Management</RzHeading>
+                <RzParagraph>
+                    DataTable does not move focus after sorting, filtering, pagination, selection, or column visibility changes. Focus remains with the native control that the user operated unless your authored markup or browser behavior changes it.
+                </RzParagraph>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>No focus trap is created.</li>
+                    <li>No initial focus target is assigned by the DataTable shell.</li>
+                    <li>No focus restoration is attempted after state changes.</li>
+                    <li>Because authors own <code>ChildContent</code>, authors also own any additional focus behavior introduced by custom controls.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Screen reader behavior" class="scroll-mt-20">Screen Reader Behavior</RzHeading>
+                <RzParagraph>
+                    The DataTable shell includes a visually hidden status region with <code>role="status"</code>, <code>aria-live="polite"</code>, and <code>aria-atomic="true"</code>. The runtime updates it only when a relevant state slice actually changes.
+                </RzParagraph>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>Sorting changes announce summaries such as an active ascending or descending sort, or that sorting has been cleared.</li>
+                    <li>Pagination changes announce the page number, page count, visible row range, and total rows.</li>
+                    <li>Filtering changes announce whether filters are applied and the current matching-row count.</li>
+                    <li>Selection changes announce the selected-row count.</li>
+                    <li>Column visibility changes announce how many columns are visible.</li>
+                    <li>Announcements are polite, not assertive, and repeated identical messages are suppressed.</li>
+                    <li>The runtime also dispatches <code>rz:datatable:announcement</code> with serializable detail containing <code>message</code>, <code>politeness</code>, and <code>reason</code>.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="SSR and CSP behavior" class="scroll-mt-20">SSR/CSP Behavior</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>The server output contains the shell, <code>data-config-id</code>, and an inert <code>script type="application/json"</code> with serialized transport data.</li>
+                    <li>The Alpine runtime <code>rzDataTable</code> reads that config by id, creates the TanStack Table instance, and dispatches browser <code>rz:</code> custom events.</li>
+                    <li>No Blazor <code>EventCallback</code>, <code>@@onclick</code>, <code>@@onchange</code>, <code>@@bind</code>, or interactive circuit is required for DataTable behavior.</li>
+                    <li>The inline Alpine expressions shown in these examples are documentation examples for the standard runtime. For strict CSP usage, keep the same runtime contract but move expressions into CSP-safe Alpine factories or helpers.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Known limitations" class="scroll-mt-20">Known Limitations</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><code>RzDataTable&lt;TItem&gt;</code> is not an ARIA grid and should not be documented or consumed as one.</li>
+                    <li>Grid-style cell navigation, roving focus, active-descendant focus, row/column count ARIA, and cell-level selection semantics are not provided.</li>
+                    <li>The shell cannot verify every possible <code>ChildContent</code> composition, so authors must preserve semantic table structure, labels, captions, and relationships in custom markup.</li>
+                    <li>Generated <code>rowSelection</code> cell renderers produce checkbox HTML for convenience; use the Razor selection helper components when you need more control over surrounding table semantics or labels.</li>
+                    <li>The runtime is client-side TanStack state only. It does not perform server paging, server filtering, or server sorting by itself.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component parameters" class="scroll-mt-20">Component parameters</RzHeading>
-                <RzParagraph>Think of <code>RzDataTable&lt;TItem&gt;</code> as a two-part setup: (1) data and stable ids, then (2) table behavior.</RzParagraph>
-                <ol class="list-decimal pl-6 space-y-3">
-                    <li>
-                        <strong>Items</strong> (<code>IReadOnlyList&lt;TItem&gt;</code>, required): the row data source used to build TanStack rows.
-                    </li>
-                    <li>
-                        <strong>RowIdSelector</strong> (<code>Expression&lt;Func&lt;TItem, object?&gt;&gt;</code>, required): maps each item to a stable non-empty unique id.
-                    </li>
-                    <li>
-                        <strong>Config</strong> (<code>RzDataTableConfig&lt;TItem&gt;</code>, required): full table configuration.
-                        <ul class="list-disc pl-6 mt-2 space-y-1">
-                            <li><code>Columns</code>: column definitions (accessor, header, and optional custom cell behavior).</li>
-                            <li><code>Features</code>: capability flags (sorting, filtering/global filter, pagination, row selection, column visibility/hiding, etc.).</li>
-                            <li><code>InitialState</code> (optional): initial TanStack state slices such as sorting, pagination, filters, selection, and column visibility.</li>
-                            <li><code>LoadStrategy</code> / runtime-oriented options (optional): how and when Alpine assets initialize.</li>
-                        </ul>
-                    </li>
-                    <li>
-                        <strong>ChildContent</strong> (<code>RenderFragment?</code>): consumer-authored table markup, typically with <code>RzTable</code> + Alpine loops over <code>headerGroups</code> and <code>rows</code>.
-                    </li>
-                </ol>
+                <RzParagraph>Configure <code>RzDataTable&lt;TItem&gt;</code> with row data, a stable row id selector, and a TanStack-oriented configuration object.</RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Items</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Required source rows serialized into the DataTable transport.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">IReadOnlyList&lt;TItem&gt;</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">Array.Empty&lt;TItem&gt;()</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Config</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Required table configuration containing <code>Columns</code>, <code>Features</code>, and <code>InitialState</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RzDataTableConfig&lt;TItem&gt;</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">required</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">RowIdSelector</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Required member-access expression used to derive stable row ids. Values must be non-empty and unique.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Expression&lt;Func&lt;TItem, object?&gt;&gt;</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">required</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Author-provided markup that renders headers, rows, cells, controls, empty states, and pagination from Alpine projections.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">LoadStrategy</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Inherited Alpine loading strategy rendered as <code>x-load</code> when non-empty.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">"eager"</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <section class="my-8 py-2">
@@ -492,6 +627,7 @@
                 <ul>
                     <li><code>selection.canSelect(row)</code> / <code>selection.isSelected(row)</code> / <code>selection.isSomeSelected(row)</code> — row-level selection queries. <a href="https://tanstack.com/table/latest/docs/api/features/row-selection#getcanselect" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
                     <li><code>selection.setRowSelected(row, value)</code> — set row selection state. <a href="https://tanstack.com/table/latest/docs/api/features/row-selection#toggleselected" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
+                    <li><code>selection.setRowSelectedById(rowId, value)</code> — set row selection from a stable serialized row id, used by generated <code>rowSelection</code> cells.</li>
                     <li><code>selection.allPageRowsSelected()</code>, <code>selection.somePageRowsSelected()</code>, <code>selection.setAllPageRows(value)</code> — page-scoped selection helpers. <a href="https://tanstack.com/table/latest/docs/api/features/row-selection#getisallpagerowsselected" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
                     <li><code>selection.allRowsSelected()</code>, <code>selection.someRowsSelected()</code>, <code>selection.setAllRows(value)</code> — table-wide selection helpers. <a href="https://tanstack.com/table/latest/docs/api/features/row-selection#getisallrowsselected" target="_blank" rel="noopener noreferrer">[Ref]</a></li>
                 </ul>
@@ -521,11 +657,16 @@
                     <li><code>rz:datatable:ready</code></li>
                     <li><code>rz:datatable:state-changed</code></li>
                     <li><code>rz:datatable:selection-changed</code></li>
+                    <li><code>rz:datatable:row-selection-input-changed</code></li>
                     <li><code>rz:datatable:page-changed</code></li>
                     <li><code>rz:datatable:sort-changed</code></li>
                     <li><code>rz:datatable:filter-changed</code></li>
                     <li><code>rz:datatable:column-visibility-changed</code></li>
+                    <li><code>rz:datatable:announcement</code></li>
                 </ul>
+                <RzParagraph>
+                    The aggregate state event fires after any TanStack state update. Granular events fire only when their state slice changes, and payloads use serializable primitives such as component ids, row ids, selected row ids, pagination objects, sorting descriptors, filter values, and column ids.
+                </RzParagraph>
             </section>
         </MainContent>
     </RzArticle>

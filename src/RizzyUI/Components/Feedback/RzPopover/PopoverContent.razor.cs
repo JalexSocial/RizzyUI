@@ -28,6 +28,27 @@ public partial class PopoverContent : RzComponent<PopoverContent.Slots>
     [Parameter, EditorRequired]
     public RenderFragment ChildContent { get; set; } = default!;
 
+
+    /// <summary>
+    /// Gets or sets the role of the popover content region.
+    /// Leave null for generic content; set to values like "dialog" or "menu" when appropriate.
+    /// </summary>
+    [Parameter]
+    public string? Role { get; set; }
+
+    /// <summary>
+    /// Gets or sets an explicit accessible label for the popover content.
+    /// </summary>
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the id of an element that labels the popover content.
+    /// Defaults to the trigger id when <see cref="AriaLabel"/> is not provided.
+    /// </summary>
+    [Parameter]
+    public string? AriaLabelledBy { get; set; }
+
     /// <summary>
     /// Gets the ID for the content element.
     /// </summary>
@@ -46,6 +67,8 @@ public partial class PopoverContent : RzComponent<PopoverContent.Slots>
         {
             throw new InvalidOperationException($"{nameof(PopoverContent)} must be used within an {nameof(RzPopover)}.");
         }
+
+        AriaLabelledBy ??= string.IsNullOrWhiteSpace(AriaLabel) ? TriggerId : null;
     }
 
     /// <inheritdoc />

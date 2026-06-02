@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Accessibility DataTable Fixture</title></head>
+<body>
+<main>
+  <h1>DataTable Accessibility Fixture</h1>
+  <button id="before-table">Before table</button>
+
+  <section id="users-table-region" aria-labelledby="users-table-heading">
+    <h2 id="users-table-heading">Users</h2>
+    <label for="users-filter">Filter users</label>
+    <input id="users-filter" type="search" autocomplete="off" aria-controls="users-table" />
+
+    <fieldset id="column-controls">
+      <legend>Column visibility</legend>
+      <label><input id="toggle-email" type="checkbox" data-column-toggle="email" checked /> Email column</label>
+      <label><input id="toggle-role" type="checkbox" data-column-toggle="role" checked /> Role column</label>
+    </fieldset>
+
+    <p id="result-count" role="status" aria-live="polite" aria-atomic="true">Showing 1 to 2 of 4 results</p>
+    <div id="datatable-announcement" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <table id="users-table" aria-describedby="result-count">
+      <caption>Team members</caption>
+      <thead>
+        <tr>
+          <th scope="col"><input id="select-visible" type="checkbox" aria-label="Select visible rows" /></th>
+          <th id="name-header" scope="col" aria-sort="none"><button id="sort-name" type="button" data-sort="name" aria-label="Sort ascending">Name</button></th>
+          <th id="email-header" scope="col" data-column="email"><button id="sort-email" type="button" data-sort="email" aria-label="Sort ascending">Email</button></th>
+          <th id="role-header" scope="col" data-column="role">Role</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <nav aria-label="Users pages">
+      <button id="previous-page" type="button">Previous page</button>
+      <span id="page-summary">Page 1 of 2</span>
+      <button id="next-page" type="button">Next page</button>
+    </nav>
+  </section>
+
+  <button id="after-table">After table</button>
+
+  <script>
+    const allRows = [
+      { id: 'ada', name: 'Ada Lovelace', email: 'ada@example.com', role: 'Analyst' },
+      { id: 'grace', name: 'Grace Hopper', email: 'grace@example.com', role: 'Engineer' },
+      { id: 'katherine', name: 'Katherine Johnson', email: 'katherine@example.com', role: 'Mathematician' },
+      { id: 'dorothy', name: 'Dorothy Vaughan', email: 'dorothy@example.com', role: 'Manager' }
+    ];
+    const state = { pageIndex: 0, pageSize: 2, globalFilter: '', sorting: [], rowSelection: {}, columnVisibility: { email: true, role: true } };
+    const tbody = document.querySelector('#users-table tbody');
+    const announcement = document.getElementById('datatable-announcement');
+    const resultCount = document.getElementById('result-count');
+    const pageSummary = document.getElementById('page-summary');
+    const selectVisible = document.getElementById('select-visible');
+    const previousPage = document.getElementById('previous-page');
+    const nextPage = document.getElementById('next-page');
+    window.dataTableEvents = [];
+
+    function dispatch(name, detail) {
+      const event = new CustomEvent(name, { bubbles: true, detail });
+      document.getElementById('users-table-region').dispatchEvent(event);
+      window.dataTableEvents.push({ type: name, detail });
+    }
+
+    function filteredRows() {
+      const filter = state.globalFilter.trim().toLowerCase();
+      if (!filter) return [...allRows];
+      return allRows.filter((row) => [row.name, row.email, row.role].some((value) => value.toLowerCase().includes(filter)));
+    }
+
+    function sortedRows(rows) {
+      if (!state.sorting.length) return rows;
+      const [sort] = state.sorting;
+      return [...rows].sort((a, b) => String(a[sort.id]).localeCompare(String(b[sort.id])) * (sort.desc ? -1 : 1));
+    }
+
+    function pageRows() {
+      const rows = sortedRows(filteredRows());
+      const start = state.pageIndex * state.pageSize;
+      return rows.slice(start, start + state.pageSize);
+    }
+
+    function setAnnouncement(reason, message) {
+      announcement.textContent = message;
+      dispatch('rz:datatable:announcement', { componentId: 'users-table', message, politeness: 'polite', reason });
+    }
+
+    function dispatchState(reason) {
+      const visibleColumnIds = ['select', 'name', ...Object.entries(state.columnVisibility).filter(([, visible]) => visible).map(([id]) => id)];
+      const selectedRowIds = Object.entries(state.rowSelection).filter(([, selected]) => selected).map(([id]) => id);
+      const payload = { componentId: 'users-table', sorting: state.sorting, pagination: { pageIndex: state.pageIndex, pageSize: state.pageSize }, globalFilter: state.globalFilter, rowSelection: state.rowSelection, columnVisibility: state.columnVisibility, selectedRowCount: selectedRowIds.length, selectedRowIds, visibleColumnIds, visibleColumnCount: visibleColumnIds.length, columnCount: 4 };
+      dispatch('rz:datatable:state-changed', payload);
+      if (reason === 'selection') dispatch('rz:datatable:selection-changed', { componentId: 'users-table', rowSelection: state.rowSelection, selectedRowCount: selectedRowIds.length, selectedRowIds });
+      if (reason === 'sorting') dispatch('rz:datatable:sort-changed', { componentId: 'users-table', sorting: state.sorting });
+      if (reason === 'filter') dispatch('rz:datatable:filter-changed', { componentId: 'users-table', globalFilter: state.globalFilter, columnFilters: [] });
+      if (reason === 'pagination') dispatch('rz:datatable:page-changed', { componentId: 'users-table', pagination: payload.pagination });
+      if (reason === 'columnVisibility') dispatch('rz:datatable:column-visibility-changed', { componentId: 'users-table', columnVisibility: state.columnVisibility, visibleColumnIds, visibleColumnCount: visibleColumnIds.length, columnCount: 4 });
+    }
+
+    function update() {
+      const focusedRowSelect = document.activeElement?.dataset?.rowSelect;
+      const focusedSelectVisible = document.activeElement === selectVisible;
+      const rows = pageRows();
+      const totalRows = filteredRows().length;
+      const pageCount = Math.max(1, Math.ceil(totalRows / state.pageSize));
+      state.pageIndex = Math.min(state.pageIndex, pageCount - 1);
+      tbody.replaceChildren(...rows.map((row) => {
+        const tr = document.createElement('tr');
+        tr.dataset.rowId = row.id;
+        tr.innerHTML = `<td><input type="checkbox" data-row-select="${row.id}" aria-label="Select row ${row.name}" ${state.rowSelection[row.id] ? 'checked' : ''}></td><th scope="row">${row.name}</th><td data-column="email">${row.email}</td><td data-column="role">${row.role}</td>`;
+        return tr;
+      }));
+      for (const column of ['email', 'role']) {
+        document.querySelectorAll(`[data-column="${column}"]`).forEach((element) => { element.hidden = !state.columnVisibility[column]; });
+      }
+      const selectedVisibleCount = rows.filter((row) => state.rowSelection[row.id]).length;
+      selectVisible.checked = rows.length > 0 && selectedVisibleCount === rows.length;
+      selectVisible.indeterminate = selectedVisibleCount > 0 && selectedVisibleCount < rows.length;
+      selectVisible.disabled = rows.length === 0;
+      const start = totalRows === 0 ? 0 : state.pageIndex * state.pageSize + 1;
+      const end = totalRows === 0 ? 0 : start + rows.length - 1;
+      resultCount.textContent = `Showing ${start} to ${end} of ${totalRows} results`;
+      pageSummary.textContent = `Page ${state.pageIndex + 1} of ${pageCount}`;
+      previousPage.setAttribute('aria-disabled', String(state.pageIndex === 0));
+      nextPage.setAttribute('aria-disabled', String(state.pageIndex >= pageCount - 1));
+      document.getElementById('name-header').setAttribute('aria-sort', state.sorting[0]?.id === 'name' ? (state.sorting[0].desc ? 'descending' : 'ascending') : 'none');
+      for (const button of document.querySelectorAll('[data-sort]')) {
+        const sort = state.sorting[0];
+        button.setAttribute('aria-label', !sort || sort.id !== button.dataset.sort ? 'Sort ascending' : sort.desc ? 'Clear sort' : 'Sort descending');
+      }
+      if (focusedSelectVisible) {
+        selectVisible.focus();
+      } else if (focusedRowSelect) {
+        document.querySelector(`[data-row-select="${focusedRowSelect}"]`)?.focus();
+      }
+    }
+
+    document.getElementById('users-filter').addEventListener('input', (event) => {
+      state.globalFilter = event.target.value;
+      state.pageIndex = 0;
+      update();
+      dispatchState('filter');
+      setAnnouncement('filter', `Filters applied. ${filteredRows().length} rows match.`);
+    });
+
+    document.addEventListener('change', (event) => {
+      const target = event.target;
+      if (target.matches('[data-row-select]')) {
+        state.rowSelection[target.dataset.rowSelect] = target.checked;
+        update();
+        dispatchState('selection');
+        setAnnouncement('selection', `${Object.values(state.rowSelection).filter(Boolean).length} row selected.`);
+      }
+      if (target === selectVisible) {
+        for (const row of pageRows()) state.rowSelection[row.id] = target.checked;
+        update();
+        dispatchState('selection');
+        setAnnouncement('selection', `${Object.values(state.rowSelection).filter(Boolean).length} rows selected.`);
+      }
+      if (target.matches('[data-column-toggle]')) {
+        state.columnVisibility[target.dataset.columnToggle] = target.checked;
+        update();
+        dispatchState('columnVisibility');
+        setAnnouncement('columnVisibility', `${Object.values(state.columnVisibility).filter(Boolean).length + 2} of 4 columns visible.`);
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+      if (target.matches('[data-sort]')) {
+        const current = state.sorting[0];
+        state.sorting = !current || current.id !== target.dataset.sort ? [{ id: target.dataset.sort, desc: false }] : current.desc ? [] : [{ id: target.dataset.sort, desc: true }];
+        update();
+        dispatchState('sorting');
+        setAnnouncement('sorting', state.sorting.length ? `Sorted by ${state.sorting[0].id} ${state.sorting[0].desc ? 'descending' : 'ascending'}.` : 'Sorting cleared.');
+      }
+      if (target === nextPage && nextPage.getAttribute('aria-disabled') !== 'true') {
+        state.pageIndex += 1;
+        update();
+        dispatchState('pagination');
+        setAnnouncement('pagination', `Page ${state.pageIndex + 1} loaded.`);
+      }
+      if (target === previousPage && previousPage.getAttribute('aria-disabled') !== 'true') {
+        state.pageIndex -= 1;
+        update();
+        dispatchState('pagination');
+        setAnnouncement('pagination', `Page ${state.pageIndex + 1} loaded.`);
+      }
+    });
+
+    update();
+  </script>
+</main>
+</body>
+</html>

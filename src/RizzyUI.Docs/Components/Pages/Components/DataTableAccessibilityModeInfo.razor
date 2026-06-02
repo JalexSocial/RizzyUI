@@ -1,0 +1,139 @@
+@page "/components/datatable/accessibility-mode"
+
+<PageTitle>DataTable accessibility mode decision</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem><BreadcrumbLink Href="/">Docs</BreadcrumbLink></BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem><BreadcrumbLink Href="/components">Components</BreadcrumbLink></BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem><BreadcrumbLink Href="/components/datatable">DataTable</BreadcrumbLink></BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem><BreadcrumbPage>Accessibility mode decision</BreadcrumbPage></BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="DataTable accessibility mode decision" class="scroll-mt-20">DataTable accessibility mode decision</RzHeading>
+            <RzParagraph>
+                <code>RzDataTable&lt;TItem&gt;</code> should remain an enhanced semantic table-composition component for future work.
+                It should not evolve into a full ARIA grid unless a separate, explicit grid roadmap accepts the required cell-level keyboard, focus, and screen-reader obligations.
+            </RzParagraph>
+            <RzParagraph>
+                This note is specific to the current DataTable implementation: an SSR shell that serializes TanStack Table configuration into an inert JSON script, initializes a lazy Alpine runtime named <code>rzDataTable</code>, and lets consumers author the rendered table structure with <code>RzTable</code> and table subcomponents.
+            </RzParagraph>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Decision" class="scroll-mt-20">Decision</RzHeading>
+                <RzAlert class="my-4">
+                    <AlertTitle>Keep semantic table composition</AlertTitle>
+                    <AlertDescription>
+                        Future prompts should preserve native table semantics and improve the current composition model instead of adding <code>role="grid"</code>, <code>role="row"</code>, <code>role="gridcell"</code>, roving tabindex, or cell-level navigation to <code>RzDataTable&lt;TItem&gt;</code>.
+                    </AlertDescription>
+                </RzAlert>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>The rendered semantics are authored by consumers through <code>ChildContent</code>, typically with <code>RzTable</code>, <code>TableHeader</code>, <code>TableBody</code>, <code>TableRow</code>, <code>TableHeaderCell</code>, and <code>TableCell</code>.</li>
+                    <li>The DataTable shell itself does not generate the table, rows, cells, or ARIA grid roles. It supplies state projections such as <code>headerGroups</code>, <code>rows</code>, <code>footerGroups</code>, and helper APIs for consumer-authored markup.</li>
+                    <li>Native table markup already provides a strong baseline for browsing tabular data with assistive technologies when consumers use the table subcomponents correctly.</li>
+                    <li>Interactive affordances are currently focused controls inside the table, such as buttons, checkboxes, filters, pagination links, and column visibility checkboxes, rather than a single composite grid widget.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Why not ARIA grid" class="scroll-mt-20">Why not ARIA grid</RzHeading>
+                <RzParagraph>
+                    A full ARIA grid changes the accessibility contract from document-style table reading to application-style composite widget navigation.
+                    If <code>RzDataTable&lt;TItem&gt;</code> declares grid semantics, the component must own a complete keyboard and focus model rather than relying on native table semantics and focusable controls.
+                </RzParagraph>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>Grid keyboard behavior requires deterministic arrow-key movement among cells, Home/End and Page Up/Page Down behavior, predictable entry and exit from interactive descendants, and clear behavior for sorting, selection, filtering, and pagination.</li>
+                    <li>Grid focus management requires roving <code>tabindex</code> or <code>aria-activedescendant</code>, stable row and cell ids, focus restoration after pagination/filtering/sorting changes, and rules for virtual or missing rows.</li>
+                    <li>Grid ARIA requires generated or enforced roles and relationships for the table, row groups, rows, column headers, row headers, grid cells, selected state, sort state, row counts, column counts, and active descendant state.</li>
+                    <li>The current runtime uses TanStack state and consumer-authored loops. It does not own enough generated DOM to guarantee a complete grid contract across arbitrary child content.</li>
+                    <li>Adding grid behavior now would risk duplicating or overriding the existing compliant behavior of native controls and would expand the public API beyond the current DataTable scope.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Current architecture inventory" class="scroll-mt-20">Current architecture inventory</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><strong>SSR shell:</strong> <code>RzDataTable.razor</code> renders a root <code>HtmlElement</code> with <code>data-slot="datatable"</code>, an Alpine host with <code>x-data="rzDataTable"</code>, lazy loading through <code>x-load</code>, asset and nonce attributes, and a referenced JSON config script.</li>
+                    <li><strong>Inert config:</strong> <code>RzDataTable.razor.cs</code> validates required items, config, columns, and row id selector, normalizes columns, enforces unique row ids server-side, and serializes transport JSON into the script rather than large data attributes.</li>
+                    <li><strong>Config JSON shape:</strong> <code>RzDataTableTransport.cs</code> transports data, column definitions, initial TanStack state, feature options, row model pipeline names, and <code>rowStructure.rowIdPath</code>.</li>
+                    <li><strong>Column config:</strong> <code>RzDataTableModels.cs</code> supports column ids, accessor paths, header/footer/cell strings, nested columns, sorting flags, filtering flags, global filter flags, and hiding flags.</li>
+                    <li><strong>Row ids:</strong> both the server component and JavaScript runtime require <code>RowIdSelector</code> / <code>rowStructure.rowIdPath</code> to resolve stable, non-empty, unique row ids for TanStack <code>getRowId</code>.</li>
+                    <li><strong>Runtime:</strong> <code>rzDataTable.js</code> reads the script config, normalizes accessors, builds TanStack Table, exposes rendering projections, refreshes derived state, and dispatches namespaced custom events.</li>
+                    <li><strong>Flex rendering:</strong> rendered header, cell, and footer content is supplied to consumer-authored markup through the <code>x-flexrender</code> directive and the runtime <code>_flex</code> helper.</li>
+                    <li><strong>Bundle ownership:</strong> <code>table-runtime.js</code> exports <code>rzDataTable</code>, and <code>componentBundleManifest.js</code> maps <code>rzDataTable</code> to <code>table-runtime</code>.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Existing accessibility behavior" class="scroll-mt-20">Existing accessibility behavior to preserve</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><strong>Native table structure:</strong> <code>RzTable</code> renders a real <code>table</code> inside a scroll container, while table subcomponents default to native <code>thead</code>, <code>tbody</code>, <code>tr</code>, <code>th</code>, <code>td</code>, <code>caption</code>, and <code>tfoot</code> elements.</li>
+                    <li><strong>Sorting semantics:</strong> examples bind <code>aria-sort</code> on header cells through <code>sort.ariaSort(header)</code>. <code>DataTableSortToggle</code> binds disabled state, a dynamic next-action <code>aria-label</code>, a <code>data-sort-direction</code> hook, and click handling to <code>sort.toggle(header)</code>.</li>
+                    <li><strong>Selection controls:</strong> row and select-all controls are native checkbox inputs with localized <code>aria-label</code> defaults, checked/disabled bindings, indeterminate state effects, and change handlers that update TanStack row selection state.</li>
+                    <li><strong>Selection cells:</strong> <code>DataTableSelectionCell</code> and <code>DataTableSelectionHeaderCell</code> preserve semantic <code>td</code> and <code>th</code> defaults while composing the checkbox controls.</li>
+                    <li><strong>Pagination examples:</strong> current examples bind disabled pagination links with <code>aria-disabled</code>, remove disabled controls from tab order with <code>tabindex="-1"</code>, and mark the current page with <code>aria-current="page"</code>.</li>
+                    <li><strong>Events:</strong> the runtime dispatches <code>rz:datatable:ready</code>, <code>rz:datatable:state-changed</code>, <code>rz:datatable:selection-changed</code>, <code>rz:datatable:page-changed</code>, <code>rz:datatable:sort-changed</code>, <code>rz:datatable:filter-changed</code>, and <code>rz:datatable:column-visibility-changed</code> with serializable state payloads and stable component ids.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Future target files" class="scroll-mt-20">Future target files</RzHeading>
+                <RzParagraph>Future DataTable accessibility work should target only the existing DataTable architecture unless a later prompt explicitly expands scope.</RzParagraph>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><code>src/RizzyUI/Components/DataTable/RzDataTable/RzDataTable.razor</code> and <code>RzDataTable.razor.cs</code> for SSR shell attributes, config serialization, row id validation, and public parameters.</li>
+                    <li><code>src/RizzyUI/Components/DataTable/RzDataTable/RzDataTableModels.cs</code> and <code>RzDataTableTransport.cs</code> for config, column, initial-state, row-structure, and transport changes.</li>
+                    <li><code>src/RizzyUI/Components/DataTable/RzDataTable/DataTableSortToggle.razor</code>, <code>DataTableSortIcon.razor</code>, selection checkbox components, and selection cell components for focused control semantics.</li>
+                    <li><code>src/RizzyUI/Components/DataTable/RzTable/</code> only when native table subcomponent semantics, attributes, or documentation examples require adjustment.</li>
+                    <li><code>packages/rizzyui/src/js/lib/components/rzDataTable.js</code> for TanStack state, helper APIs, event payloads, row id validation, and any future announcements or focus helpers.</li>
+                    <li><code>packages/rizzyui/src/js/bundles/table-runtime.js</code> and <code>packages/rizzyui/src/js/runtime/componentBundleManifest.js</code> only if runtime ownership changes are explicitly required.</li>
+                    <li><code>src/RizzyUI.Docs/Components/Pages/Components/DataTableInfo.razor</code> and this design note for consumer guidance and accessibility documentation.</li>
+                    <li><code>src/RizzyUI.Tests/Components/DataTable/RzDataTable/RzDataTableTests.cs</code> plus any future browser-level tests for behavior that bUnit cannot observe.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Recommended future changes" class="scroll-mt-20">Recommended future changes</RzHeading>
+                <ol class="list-decimal pl-6 space-y-2">
+                    <li>Document the semantic-table contract directly in the DataTable API docs: consumers must author valid table structure, label external filters, bind <code>aria-sort</code> when rendering sortable headers, and keep row ids stable.</li>
+                    <li>Add optional helper guidance for screen-reader status text, such as consumer-authored polite live regions for selected row count, current page range, and filtered result count.</li>
+                    <li>Characterize current SSR output before refactoring: root contract, inert config script, native table composition, sort toggle attributes, selection checkbox labels and indeterminate bindings, pagination attributes in examples, and custom event payloads.</li>
+                    <li>Improve helper components only where behavior is incomplete or inconsistent, such as providing documented label defaults or convenience APIs for common semantic-table patterns.</li>
+                    <li>Avoid adding grid-only features to <code>RzDataTable&lt;TItem&gt;</code>. If an application-style grid is needed later, design it as a separate effort with a complete APG grid contract and dedicated tests.</li>
+                </ol>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Future test categories" class="scroll-mt-20">Future test categories</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><strong>SSR contract tests:</strong> root <code>data-slot</code>, Alpine host attributes, config script id, nonce, no large payloads in data attributes, and <code>x-load</code> behavior.</li>
+                    <li><strong>Transport tests:</strong> column normalization, nested column ids, duplicate ids, row id path extraction, duplicate row ids, initial sorting, pagination, filters, column visibility, and selection state serialization.</li>
+                    <li><strong>Semantic markup tests:</strong> examples and helper components preserve native table elements and do not add grid roles unintentionally.</li>
+                    <li><strong>Control accessibility tests:</strong> sort toggle disabled state, next-action labels, <code>aria-sort</code> guidance, checkbox labels, checked/disabled/indeterminate bindings, and pagination <code>aria-current</code>/<code>aria-disabled</code> behavior.</li>
+                    <li><strong>Runtime event tests:</strong> <code>rz:datatable:*</code> events emit stable component ids and serializable state slices for sorting, selection, pagination, filters, and column visibility.</li>
+                    <li><strong>Browser interaction tests:</strong> TanStack sorting, selection, filtering, pagination, and focus behavior for native controls under the Alpine runtime.</li>
+                    <li><strong>CSP/runtime tests:</strong> lazy bundle resolution through <code>table-runtime</code>, manifest ownership, and CSP-safe alternatives for examples that currently use inline Alpine expressions.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Follow-up risks" class="scroll-mt-20">Follow-up risks</RzHeading>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>Because consumers author the table body, RizzyUI cannot guarantee accessible table structure unless docs, examples, and tests continue to model valid composition.</li>
+                    <li>The docs examples currently prioritize readability with inline Alpine expressions, so CSP-safe examples require a separate follow-up.</li>
+                    <li>There is no built-in live-region announcement strategy for changes to sorting, filtering, pagination, or selection; future work should add guidance or helpers without turning DataTable into a grid.</li>
+                    <li>Runtime focus restoration after sorting, filtering, and pagination is not centrally managed; future improvements should preserve native control focus and avoid grid-style roving focus unless a separate grid component is designed.</li>
+                </ul>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>

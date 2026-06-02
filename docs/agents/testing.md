@@ -6,6 +6,14 @@ When unit tests are specifically requested for a new or modified component, they
 
 * Do not write tests that depend on Blazor interactivity or client-side event dispatch into .NET (e.g., asserting an `EventCallback` was invoked by a simulated click). RizzyUI is SSR-only, so tests should primarily verify **rendered markup**, **attributes**, **classes**, **data-slot correctness**, and **Alpine integration elements**.
 
+**Existing accessibility behavior refactors (CRITICAL):**
+
+* Before refactoring existing accessibility behavior, inspect current bUnit tests, Playwright accessibility tests, JavaScript tests, and component docs.
+* Add characterization tests before changing behavior that is not already covered. Characterization tests should capture the currently compliant contract: keyboard handling, focus management, ARIA roles/states/properties, ID relationships, live-region behavior, `rz:` events, generated IDs, public data attributes, slot names, and docs examples that represent supported usage.
+* Do not duplicate key handling in tests or implementation. If a component already handles a key correctly, preserve that path or migrate it deliberately with tests.
+* When migrating behavior into a shared primitive from `packages/rizzyui/src/js/runtime/a11y/`, keep tests at the component boundary to prove the component still exposes the same public behavior.
+* Accessibility hardening tests should target existing components and paths such as `RzNativeSelect`, `RzCombobox`, `RzNavigationMenu`, `RzAlert`, `RzTooltip`, and `RzDataTable`; do not add tests for replacement components unless new component creation was explicitly requested.
+
 * **File Location and Naming:**
 
   * Test files should reside in the `src/RizzyUI.Tests/Components/` directory, mirroring the component's path under `src/RizzyUI/Components/`.

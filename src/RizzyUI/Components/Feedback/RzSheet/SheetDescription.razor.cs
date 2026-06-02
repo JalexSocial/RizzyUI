@@ -17,6 +17,12 @@ public partial class SheetDescription : RzComponent<SheetDescription.Slots>
     );
 
     /// <summary>
+    /// Gets the parent <see cref="RzSheet"/> component.
+    /// </summary>
+    [CascadingParameter]
+    protected RzSheet? ParentSheet { get; set; }
+
+    /// <summary>
     /// Gets or sets the content to be rendered as the description.
     /// </summary>
     [Parameter]

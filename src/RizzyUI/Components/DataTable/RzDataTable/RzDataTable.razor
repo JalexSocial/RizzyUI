@@ -19,5 +19,11 @@
         <CascadingValue Value="this" Name="ParentRzDataTable" IsFixed="true">
             @ChildContent
         </CascadingValue>
+        <div class="@SlotClasses.GetAnnouncement()"
+             data-slot="announcement"
+             role="status"
+             aria-live="polite"
+             aria-atomic="true"
+             x-text="announcement.message"></div>
     </div>
 </HtmlElement>

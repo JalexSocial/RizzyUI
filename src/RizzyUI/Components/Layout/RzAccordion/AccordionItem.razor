@@ -1,4 +1,3 @@
-
 @namespace RizzyUI
 @inherits RzComponent<AccordionItem.Slots>
 
@@ -6,27 +5,29 @@
      data-section-id="@SectionId"
      data-expanded-class="@SlotClasses.GetChevronIconExpanded()"
      class="@SlotClasses.GetBase()" data-slot="accordion-item">
-	<button id="@ButtonId" type="button" class="@SlotClasses.GetButton()" aria-controls="@ContentId"
-	        x-on:click="toggle" :aria-expanded="getAriaExpanded" data-slot="accordion-trigger">
-		@if (AccordionTrigger != null)
-		{
-			@AccordionTrigger
-		}
-		else
-		{
-			@Title
-		}
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
-		     stroke="currentColor" class="@SlotClasses.GetChevronIcon() motion-safe:transition-transform" aria-hidden="true"
-		     :class="getExpandedCss">
-			<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
-		</svg>
-	</button>
-	<div id="@ContentId" role="region" aria-labelledby="@ButtonId"
-	     x-cloak x-show="open" x-collapse
+    <h3 class="@SlotClasses.GetHeader()" data-slot="accordion-header">
+        <button id="@ButtonId" type="button" class="@SlotClasses.GetButton()" aria-controls="@ContentId" aria-expanded="@((!Collapsed).ToString().ToLowerInvariant())"
+                x-on:click="toggle" x-on:keydown="handleKeydown" x-bind:aria-expanded="getAriaExpanded" data-slot="accordion-trigger">
+            @if (AccordionTrigger != null)
+            {
+                @AccordionTrigger
+            }
+            else
+            {
+                @Title
+            }
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
+                 stroke="currentColor" class="@SlotClasses.GetChevronIcon() motion-safe:transition-transform" data-slot="accordion-chevron-icon" aria-hidden="true"
+                 x-bind:class="getExpandedCss">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+            </svg>
+        </button>
+    </h3>
+    <div id="@ContentId" role="region" aria-labelledby="@ButtonId"
+         x-cloak x-show="open" x-collapse
          class="@SlotClasses.GetContentContainerWrapper()" data-slot="accordion-content">
-		<div class="@SlotClasses.GetContentContainer()">
-			@AccordionContent
-		</div>
-	</div>
+        <div class="@SlotClasses.GetContentContainer()" data-slot="accordion-content-container">
+            @AccordionContent
+        </div>
+    </div>
 </div>

@@ -9,7 +9,8 @@
                   ContentDataSlot="dialog-content"
                   Role="dialog"
                   AriaLabelledBy="@ParentDialog?.AriaLabelId"
-                  AriaDescribedBy="@ParentDialog?.AriaDescriptionId">
+                  AriaDescribedBy="@ParentDialog?.AriaDescriptionId"
+                  AriaLabel="@AriaLabel">
     @ChildContent
 
     @if (ShowCloseButton)

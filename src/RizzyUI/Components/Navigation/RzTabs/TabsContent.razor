@@ -10,9 +10,14 @@
              role="tabpanel"
              aria-labelledby="@TriggerId"
              data-value="@Value"
+             tabindex="-1"
+             hidden
+             aria-hidden="true"
+             data-state="inactive"
              x-bind:aria-hidden="_attrAriaHidden"
              x-bind:hidden="_attrHidden"
              x-bind:tabIndex="_attrTabIndex"
+             x-bind:data-state="_attrDataState"
              x-cloak>
     @ChildContent
 </HtmlElement>

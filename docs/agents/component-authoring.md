@@ -58,6 +58,36 @@
 
 ---
 
+## 3.1 Existing-component accessibility refactors
+
+Accessibility hardening is normally an in-place refactor. Do not create a new component, wrapper, or replacement API unless the prompt explicitly authorizes component creation. Use the existing component path and documentation page, such as:
+
+* `src/RizzyUI/Components/Form/RzNativeSelect/` with `src/RizzyUI.Docs/Components/Pages/Components/NativeSelectInfo.razor`
+* `src/RizzyUI/Components/Form/RzCombobox/` with `src/RizzyUI.Docs/Components/Pages/Components/ComboboxInfo.razor`
+* `src/RizzyUI/Components/Navigation/RzNavigationMenu/` with `src/RizzyUI.Docs/Components/Pages/Components/NavigationMenuInfo.razor`
+* `src/RizzyUI/Components/Feedback/RzAlert/` with `src/RizzyUI.Docs/Components/Pages/Components/AlertInfo.razor`
+* `src/RizzyUI/Components/Feedback/RzTooltip/` with `src/RizzyUI.Docs/Components/Pages/Components/TooltipInfo.razor`
+* `src/RizzyUI/Components/DataTable/RzDataTable/` with `src/RizzyUI.Docs/Components/Pages/Components/DataTableInfo.razor`
+
+Before editing an existing component, inspect the current behavior across:
+
+* Razor and C# component files, including nested subcomponents, generated IDs, public parameters, slot names, `data-slot` values, `AdditionalAttributes`, and localized defaults.
+* JavaScript and Alpine files under `packages/rizzyui/src/js/`, including bundle registration and runtime primitive usage.
+* Existing bUnit and Playwright accessibility tests.
+* Component documentation, accessibility contract sections, examples, and contributor docs.
+
+Preserve behavior that already complies with `AGENTS.md` and delegated specs. Do not remove or replace compliant keyboard handling, focus handling, ARIA relationships, live-region behavior, id generation, `rz:` namespaced events, public parameters, data attributes, CSS hooks, slot names, localization keys, docs examples, or generated IDs merely because a shared primitive exists.
+
+Replace existing behavior only when it is incomplete, inconsistent, duplicated, inaccessible, untested, or incompatible with the SSR-only and CSP-safe contract. If a component-specific behavior is migrated into a shared primitive, first add characterization tests for the existing behavior when coverage is missing, then verify that the migrated version preserves the same public behavior. Do not duplicate key handling; if a key is already handled correctly, preserve it or migrate it deliberately with tests.
+
+Mature third-party integrations should not be replaced as part of accessibility hardening without a separate migration decision. For example, preserve `RzCombobox`'s Tom Select architecture unless the prompt explicitly approves a Tom Select migration or replacement.
+
+Shared primitive references:
+
+* Runtime primitive guide: `docs/internal/runtime-primitives/README.md`
+* Runtime source: `packages/rizzyui/src/js/runtime/a11y/`
+* Documentation template: `docs/templates/component-accessibility-template.md`
+
 ## 4. Code-behind skeleton (`.razor.cs`)
 
 ```csharp

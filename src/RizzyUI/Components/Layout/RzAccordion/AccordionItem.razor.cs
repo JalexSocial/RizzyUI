@@ -19,6 +19,7 @@ public partial class AccordionItem : RzComponent<AccordionItem.Slots>
         @base: "border-b last:border-b-0",
         slots: new()
         {
+            [s => s.Header] = "m-0",
             [s => s.Button] = "flex flex-1 items-start justify-between gap-4 py-4 text-left text-sm font-medium hover:underline w-full focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-all outline-none rounded-md",
             [s => s.ContentContainerWrapper] = "pb-4",
             [s => s.ContentContainer] = "text-sm",
@@ -62,26 +63,37 @@ public partial class AccordionItem : RzComponent<AccordionItem.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("accordion-item")]
         public string? Base { get; set; }
+        /// <summary>
+        /// The slot for the semantic heading that contains the trigger button.
+        /// </summary>
+        [Slot("accordion-header")]
+        public string? Header { get; set; }
         /// <summary>
         /// The slot for the trigger button.
         /// </summary>
+        [Slot("accordion-trigger")]
         public string? Button { get; set; }
         /// <summary>
         /// The slot for the wrapper around the content container.
         /// </summary>
+        [Slot("accordion-content")]
         public string? ContentContainerWrapper { get; set; }
         /// <summary>
         /// The slot for the main content container.
         /// </summary>
+        [Slot("accordion-content-container")]
         public string? ContentContainer { get; set; }
         /// <summary>
         /// The slot for the chevron icon.
         /// </summary>
+        [Slot("accordion-chevron-icon")]
         public string? ChevronIcon { get; set; }
         /// <summary>
         /// The slot for the expanded state of the chevron icon.
         /// </summary>
+        [Slot("accordion-chevron-icon-expanded")]
         public string? ChevronIconExpanded { get; set; }
     }
 }

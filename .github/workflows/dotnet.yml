@@ -58,6 +58,14 @@ jobs:
       working-directory: ./src/RizzyUI
       run: npm ci
 
+    - name: Accessibility inventory unit tests
+      working-directory: ./src/RizzyUI
+      run: npm test
+
+    - name: Accessibility inventory check
+      working-directory: ./src/RizzyUI
+      run: npm run check-accessibility-inventory
+
     - name: Link tailwindcss (RizzyUI)
       working-directory: ./src/RizzyUI
       run: npm link tailwindcss
@@ -80,6 +88,13 @@ jobs:
 
     - name: dotnet build (Release)
       run: dotnet build src/RizzyUI.sln --configuration Release --no-restore
+
+    - name: dotnet test (Release)
+      run: dotnet test src/RizzyUI.sln --configuration Release --no-build
+
+    - name: Accessibility Playwright tests
+      working-directory: ./src/RizzyUI.Docs
+      run: npm run test:a11y
 
     # ────────── Generate static docs (Jekyll) ──────────
     - name: Generate static docs

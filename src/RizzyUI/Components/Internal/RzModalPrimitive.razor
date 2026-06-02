@@ -29,7 +29,7 @@
                      x-trap.inert="modalOpen"
                      x-on:click.outside="handleClickOutside"
                      role="@Role"
-                     aria-modal="true"
+                     aria-modal="@(IsModal ? "true" : null)"
                      aria-label="@AriaLabel"
                      aria-labelledby="@AriaLabelledBy"
                      aria-describedby="@AriaDescribedBy"

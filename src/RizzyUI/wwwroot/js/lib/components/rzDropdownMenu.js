@@ -1,6 +1,8 @@
 
 // packages/rizzyui/src/js/lib/components/rzDropdownMenu.js
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
+import { registerDismissableLayer } from '../../runtime/a11y/dismissableLayer.js';
+import { createRovingFocusGroup } from '../../runtime/a11y/rovingFocusGroup.js';
 
 export default function rzDropdownMenu() {
     /**
@@ -20,9 +22,9 @@ export default function rzDropdownMenu() {
         anchor: 'bottom',
         pixelOffset: 3,
         isSubmenuActive: false,
-        navThrottle: 100,
-        _lastNavAt: 0,
         selfId: null,
+        _unregisterLayer: null,
+        _rovingFocus: null,
 
         // --- INIT ---
         init() {
@@ -36,16 +38,14 @@ export default function rzDropdownMenu() {
 
             this.$watch('open', (value) => {
                 if (value) {
-                    this._lastNavAt = 0;
                     this.$nextTick(() => {
                         this.contentEl = document.getElementById(`${this.selfId}-content`);
                         if (!this.contentEl) return;
 
                         this.updatePosition();
-                        this.menuItems = Array.from(
-                            this.contentEl.querySelectorAll(
-                                '[role^="menuitem"]:not([disabled],[aria-disabled="true"])'
-                            ));
+                        this.menuItems = this.getEnabledMenuItems();
+                        this.registerDismissableLayer();
+                        this.setupRovingFocus();
                     });
                     this.ariaExpanded = 'true';
                     this.triggerEl.dataset.state = 'open';
@@ -56,6 +56,8 @@ export default function rzDropdownMenu() {
                     this.ariaExpanded = 'false';
                     delete this.triggerEl.dataset.state;
                     this.trapActive = false;
+                    this.destroyRovingFocus();
+                    this.unregisterDismissableLayer();
                     this.contentEl = null;
                 }
             });
@@ -115,14 +117,57 @@ export default function rzDropdownMenu() {
             }
         },
 
+
+
+        getEnabledMenuItems() {
+            if (!this.contentEl) return [];
+            return Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled],[aria-disabled="true"])'));
+        },
+
+        registerDismissableLayer() {
+            this.unregisterDismissableLayer();
+            if (!this.contentEl) return;
+            this._unregisterLayer = registerDismissableLayer({
+                id: this.selfId,
+                root: this.contentEl,
+                onDismiss: () => {
+                    this.open = false;
+                    this.$nextTick(() => this.triggerEl?.focus());
+                }
+            });
+        },
+
+        unregisterDismissableLayer() {
+            if (this._unregisterLayer) {
+                this._unregisterLayer();
+                this._unregisterLayer = null;
+            }
+        },
+
+        setupRovingFocus() {
+            this.destroyRovingFocus();
+            if (!this.contentEl) return;
+            this._rovingFocus = createRovingFocusGroup(this.contentEl, {
+                orientation: 'vertical',
+                loop: true,
+                disabledItemPolicy: 'skip',
+                getItems: () => this.getEnabledMenuItems(),
+            });
+            this.menuItems = this._rovingFocus.updateItems();
+        },
+
+        destroyRovingFocus() {
+            if (this._rovingFocus) {
+                this._rovingFocus.destroy();
+                this._rovingFocus = null;
+            }
+        },
+
         /**
          * Executes the `focusNextItem` operation.
          * @returns {any} Returns the result of `focusNextItem` when applicable.
          */
         focusNextItem() {
-            const now = Date.now();
-            if (now - this._lastNavAt < this.navThrottle) return;
-            this._lastNavAt = now;
             if (!this.menuItems.length) return;
             this.focusedIndex = (this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1) ? 0 : this.focusedIndex + 1;
             this.focusCurrentItem();
@@ -133,9 +178,6 @@ export default function rzDropdownMenu() {
          * @returns {any} Returns the result of `focusPreviousItem` when applicable.
          */
         focusPreviousItem() {
-            const now = Date.now();
-            if (now - this._lastNavAt < this.navThrottle) return;
-            this._lastNavAt = now;
             if (!this.menuItems.length) return;
             this.focusedIndex = (this.focusedIndex === null || this.focusedIndex <= 0) ? this.menuItems.length - 1 : this.focusedIndex - 1;
             this.focusCurrentItem();
@@ -281,9 +323,9 @@ export function rzDropdownSubmenu() {
         focusedIndex: null,
         anchor: 'right-start',
         pixelOffset: 0,
-        navThrottle: 100,
-        _lastNavAt: 0,
         selfId: null,
+        _unregisterLayer: null,
+        _rovingFocus: null,
         siblingContainer: null,
         closeTimeout: null,
         closeDelay: 150,
@@ -336,6 +378,8 @@ export function rzDropdownSubmenu() {
                         if (!anyOpen) this.parentDropdown.isSubmenuActive = false;
                     });
 
+                    this.destroyRovingFocus();
+                    this.unregisterDismissableLayer();
                     this.contentEl = null;
                 }
             });
@@ -461,14 +505,57 @@ export function rzDropdownSubmenu() {
             }
         },
 
+
+
+        getEnabledMenuItems() {
+            if (!this.contentEl) return [];
+            return Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled],[aria-disabled="true"])'));
+        },
+
+        registerDismissableLayer() {
+            this.unregisterDismissableLayer();
+            if (!this.contentEl) return;
+            this._unregisterLayer = registerDismissableLayer({
+                id: this.selfId,
+                root: this.contentEl,
+                onDismiss: () => {
+                    this.open = false;
+                    this.$nextTick(() => this.triggerEl?.focus());
+                }
+            });
+        },
+
+        unregisterDismissableLayer() {
+            if (this._unregisterLayer) {
+                this._unregisterLayer();
+                this._unregisterLayer = null;
+            }
+        },
+
+        setupRovingFocus() {
+            this.destroyRovingFocus();
+            if (!this.contentEl) return;
+            this._rovingFocus = createRovingFocusGroup(this.contentEl, {
+                orientation: 'vertical',
+                loop: true,
+                disabledItemPolicy: 'skip',
+                getItems: () => this.getEnabledMenuItems(),
+            });
+            this.menuItems = this._rovingFocus.updateItems();
+        },
+
+        destroyRovingFocus() {
+            if (this._rovingFocus) {
+                this._rovingFocus.destroy();
+                this._rovingFocus = null;
+            }
+        },
+
         /**
          * Executes the `focusNextItem` operation.
          * @returns {any} Returns the result of `focusNextItem` when applicable.
          */
         focusNextItem() {
-            const now = Date.now();
-            if (now - this._lastNavAt < this.navThrottle) return;
-            this._lastNavAt = now;
             if (!this.menuItems.length) return;
             this.focusedIndex = (this.focusedIndex === null || this.focusedIndex >= this.menuItems.length - 1) ? 0 : this.focusedIndex + 1;
             this.focusCurrentItem();
@@ -479,9 +566,6 @@ export function rzDropdownSubmenu() {
          * @returns {any} Returns the result of `focusPreviousItem` when applicable.
          */
         focusPreviousItem() {
-            const now = Date.now();
-            if (now - this._lastNavAt < this.navThrottle) return;
-            this._lastNavAt = now;
             if (!this.menuItems.length) return;
             this.focusedIndex = (this.focusedIndex === null || this.focusedIndex <= 0) ? this.menuItems.length - 1 : this.focusedIndex - 1;
             this.focusCurrentItem();

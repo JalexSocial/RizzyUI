@@ -27,6 +27,15 @@ public partial class NavigationMenuLink : RzAsChildComponent<NavigationMenuLink.
     [Parameter]
     public string? Href { get; set; }
 
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (string.IsNullOrEmpty(Element))
+            Element = "a";
+    }
+
     /// <inheritdoc />
     protected override RenderFragment? GetAsChildContent() => ChildContent;
 

@@ -36,6 +36,7 @@ public partial class RzAccordion : RzComponent<RzAccordion.Slots>
         /// <summary>
         /// The base slot for the component's root element.
         /// </summary>
+        [Slot("accordion")]
         public string? Base { get; set; }
     }
 }

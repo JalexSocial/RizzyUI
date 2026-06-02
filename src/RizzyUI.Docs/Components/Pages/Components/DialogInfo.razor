@@ -331,6 +331,84 @@ public IResult CloseDialogAction()
                 </RzCodeViewer>
             </section>
 
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">Accessibility</RzHeading>
+                <RzParagraph>
+                    <strong>Pattern:</strong> Modal dialog aligned with the WAI-ARIA APG dialog pattern. Dialog semantics are applied on <code>DialogContent</code> through the internal modal primitive with <code>role="dialog"</code>, <code>aria-modal="true"</code>, and name/description wiring.
+                </RzParagraph>
+                <RzParagraph>
+                    <strong>Accessible naming:</strong> Prefer <code>DialogTitle</code> so the dialog is labelled via <code>aria-labelledby</code>. If no visible title is rendered, provide <code>DialogContent.AriaLabel</code> as the fallback accessible name. Optional supporting text can be wired with <code>DialogDescription</code> (<code>aria-describedby</code>).
+                </RzParagraph>
+
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/4 px-4 py-3">Key</th>
+                                <th scope="col" class="px-4 py-3">Behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono">Tab</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves forward through focusable elements inside the open dialog and wraps from last to first.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono">Shift+Tab</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves backward through focusable elements and wraps from first to last.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono">Escape</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Dismisses the topmost dialog layer via <code>dismissableLayer</code>, then restores focus to the invoking trigger when still connected.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono">Outside click</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Dismisses only the topmost dismissable layer. Nested overlays close before parent layers.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzParagraph>
+                    <strong>Focus management:</strong> On open, focus enters the dialog using <code>focusScope</code>. Tabbing is trapped to dialog descendants while open. On close, focus is restored to the invoking trigger; if unavailable, focus falls back to the dialog container.
+                </RzParagraph>
+                <RzParagraph>
+                    <strong>Screen reader behavior:</strong> The dialog announces through semantic role/name/description and focus transition. No dedicated live announcement channel is used for open/close transitions.
+                </RzParagraph>
+                <RzParagraph>
+                    <strong>SSR and enhanced navigation:</strong> Dialog behavior is initialized client-side and should be re-initialized after enhanced navigation or partial re-rendering when markup is replaced.
+                </RzParagraph>
+                <RzParagraph>
+                    <strong>Known limitations:</strong> This page documents modal usage. Complex nested overlay scenarios inside the dialog (for example popovers/menus with independent focus scopes) are validated separately in dedicated overlay-integration tests.
+                </RzParagraph>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10" ViewerTitle="Recommended named dialog pattern">
+&lt;RzDialog&gt;
+    &lt;DialogTrigger AsChild&gt;
+        &lt;RzButton Variant=&quot;ThemeVariant.Primary&quot;&gt;Open Preferences&lt;/RzButton&gt;
+    &lt;/DialogTrigger&gt;
+    &lt;DialogContent&gt;
+        &lt;DialogHeader&gt;
+            &lt;DialogTitle&gt;Account preferences&lt;/DialogTitle&gt;
+            &lt;DialogDescription&gt;Adjust account settings and save when complete.&lt;/DialogDescription&gt;
+        &lt;/DialogHeader&gt;
+        &lt;div class=&quot;p-6&quot;&gt;...content...&lt;/div&gt;
+        &lt;DialogFooter&gt;
+            &lt;DialogClose AsChild&gt;
+                &lt;RzButton Variant=&quot;ThemeVariant.Accent&quot;&gt;Close&lt;/RzButton&gt;
+            &lt;/DialogClose&gt;
+        &lt;/DialogFooter&gt;
+    &lt;/DialogContent&gt;
+&lt;/RzDialog&gt;
+                </RzCodeViewer>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10" ViewerTitle="AriaLabel fallback when no visible title">
+&lt;RzDialog&gt;
+    &lt;DialogTrigger AsChild&gt;
+        &lt;RzButton&gt;Open Support Details&lt;/RzButton&gt;
+    &lt;/DialogTrigger&gt;
+    &lt;DialogContent AriaLabel=&quot;Support details&quot; ShowCloseButton=&quot;true&quot;&gt;
+        &lt;div class=&quot;p-6&quot;&gt;
+            Support workflow details without a visible heading.
+        &lt;/div&gt;
+    &lt;/DialogContent&gt;
+&lt;/RzDialog&gt;
+                </RzCodeViewer>
+
+                <RzParagraph>
+                    Accessibility test reference: <code>src/RizzyUI.Docs/tests/accessibility/dialog.a11y.spec.ts</code>.
+                </RzParagraph>
+            </section>
+
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">Component Parameters</RzHeading>
                 <RzParagraph>The following tables summarize primary dialog component parameters.</RzParagraph>
@@ -349,6 +427,7 @@ public IResult CloseDialogAction()
                 <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ChildContent</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Content displayed inside the dialog surface.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment</code></td><td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td></tr>
                 <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ShowCloseButton</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Toggles the built-in close button.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">true</code></td></tr>
                 <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Size</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Controls dialog width preset.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">ModalSize</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">ModalSize.Large</code></td></tr>
+                <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AriaLabel</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Optional explicit accessible name used when no <code>DialogTitle</code> is rendered.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
                 </tbody></table></div>
             </section>
 

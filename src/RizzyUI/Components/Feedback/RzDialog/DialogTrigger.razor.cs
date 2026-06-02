@@ -51,7 +51,8 @@ public partial class DialogTrigger : RzAsChildComponent<DialogTrigger.Slots>
             ["id"] = Id,
             ["class"] = SlotClasses.GetBase(),
             ["onclick"] = $"window.dispatchEvent(new CustomEvent('{ParentDialog?.EventTriggerName}'))",
-            ["data-slot"] = "dialog-trigger"
+            ["data-slot"] = "dialog-trigger",
+            ["data-dialog-trigger"] = ParentDialog?.Id
         };
         return attributes;
     }

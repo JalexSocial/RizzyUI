@@ -214,6 +214,52 @@
                 </div>
             </section>
 
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">
+                    Accessibility
+                </RzHeading>
+                <RzParagraph>
+                    Popover follows a disclosure pattern: the trigger exposes <code>aria-haspopup</code>, <code>aria-expanded</code>, and <code>aria-controls</code>, while the content is referenced by id and can be labelled with <code>AriaLabel</code> or <code>AriaLabelledBy</code>.
+                    Popovers are non-modal by default: no focus trap and no <code>aria-modal</code>. Escape and outside click dismissal are handled by the shared dismissable layer, and focus is restored to the trigger when closed.
+                </RzParagraph>
+
+                <div class="not-prose mt-6 mb-8 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/4 px-4 py-3">Key</th>
+                                <th scope="col" class="px-4 py-3">Behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono">Enter / Space</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Activates the trigger and toggles popover visibility.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono">Escape</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the top-most open popover through the dismissable layer and restores focus to the trigger.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono">Tab / Shift+Tab</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus naturally into and out of popover content; focus is not trapped.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;RzPopover AriaHasPopup="dialog" FocusFirstElementOnOpen="false"&gt;
+    &lt;PopoverTrigger AsChild&gt;
+        &lt;RzButton&gt;Open details&lt;/RzButton&gt;
+    &lt;/PopoverTrigger&gt;
+    &lt;PopoverContent Role="dialog" AriaLabel="Account details"&gt;
+        ...
+    &lt;/PopoverContent&gt;
+&lt;/RzPopover&gt;
+                </RzCodeViewer>
+            </section>
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">
                     Alpine API
