@@ -62,7 +62,7 @@ public sealed class WebAppFixture : IAsyncLifetime
         });
     }
     
-    private static void SetCulture(string cultureName)
+    protected static void SetCulture(string cultureName)
     {
         var culture = CultureInfo.GetCultureInfo(cultureName);
 
