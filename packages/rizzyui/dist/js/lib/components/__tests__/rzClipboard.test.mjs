@@ -1,25 +1,50 @@
-import test from 'node:test';
+import test, { afterEach } from 'node:test';
 import assert from 'node:assert/strict';
-import registerRzClipboard from '../rzClipboard.js';
+import { resolveRegisteredComponentFactoryForTest } from './componentFactoryTestHelpers.mjs';
+
+const globalKeys = ['document', 'navigator', 'window'];
+const originalDescriptors = new Map(globalKeys.map((key) => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
+const createdComponents = new Set();
+
+function setGlobal(key, value) {
+  Object.defineProperty(globalThis, key, { value, configurable: true, writable: true });
+}
 
 function setNavigator(value) {
-  Object.defineProperty(globalThis, 'navigator', { value, configurable: true, writable: true });
+  setGlobal('navigator', value);
 }
 
 function setWindow(value) {
-  Object.defineProperty(globalThis, 'window', { value, configurable: true, writable: true });
+  setGlobal('window', value);
 }
 
-function createFactory() {
-  let factory = null;
-  const Alpine = {
-    data(name, fn) {
-      if (name === 'rzClipboard') factory = fn;
-    },
-  };
-  registerRzClipboard(Alpine);
-  assert.ok(factory, 'rzClipboard factory should be registered');
-  return factory;
+function restoreGlobal(key) {
+  const descriptor = originalDescriptors.get(key);
+
+  if (descriptor) {
+    Object.defineProperty(globalThis, key, descriptor);
+  } else {
+    delete globalThis[key];
+  }
+}
+
+afterEach(() => {
+  for (const component of createdComponents) {
+    if (component.timeoutHandle) {
+      clearTimeout(component.timeoutHandle);
+      component.timeoutHandle = null;
+    }
+  }
+
+  createdComponents.clear();
+
+  for (const key of globalKeys) {
+    restoreGlobal(key);
+  }
+});
+
+async function createFactory() {
+  return await resolveRegisteredComponentFactoryForTest('rzClipboard');
 }
 
 function createComponent(factory, datasetOverrides = {}) {
@@ -39,13 +64,14 @@ function createComponent(factory, datasetOverrides = {}) {
   };
   cmp.$dispatch = (name, detail) => events.push({ name, detail });
   cmp.init();
+  createdComponents.add(cmp);
   return { cmp, events };
 }
 
-test('uses preferValue when both source options exist', () => {
-  const factory = createFactory();
+test('uses preferValue when both source options exist', async () => {
+  const factory = await createFactory();
   const target = { value: 'from-target' };
-  global.document = { querySelector: () => target };
+  setGlobal('document', { querySelector: () => target });
 
   const { cmp } = createComponent(factory, {
     copyValue: 'from-value',
@@ -57,7 +83,7 @@ test('uses preferValue when both source options exist', () => {
 });
 
 test('dispatches copy-failed when text is empty', async () => {
-  const factory = createFactory();
+  const factory = await createFactory();
   setNavigator({ clipboard: { writeText: async () => {} } });
   setWindow({ isSecureContext: true });
 
@@ -71,7 +97,7 @@ test('dispatches copy-failed when text is empty', async () => {
 });
 
 test('dispatches copy-failed when clipboard API rejects', async () => {
-  const factory = createFactory();
+  const factory = await createFactory();
   const err = new Error('denied');
   setNavigator({ clipboard: { writeText: async () => { throw err; } } });
   setWindow({ isSecureContext: true });
@@ -87,7 +113,7 @@ test('dispatches copy-failed when clipboard API rejects', async () => {
 });
 
 test('isolates copied state across multiple instances', async () => {
-  const factory = createFactory();
+  const factory = await createFactory();
   setNavigator({ clipboard: { writeText: async () => {} } });
   setWindow({ isSecureContext: true });
 

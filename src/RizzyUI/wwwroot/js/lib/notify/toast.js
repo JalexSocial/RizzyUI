@@ -1,112 +1,87 @@
-﻿import Notify from 'simple-notify'
+import { toastManager } from './rzToastManager.js';
+import { getAllowedPositions, getAllowedStatuses } from './rzToastNormalize.js';
 
-// Valid statuses and positions
-const allowedStatuses = ['success', 'error', 'warning', 'info'];
-const allowedPositions = [
-    // Standard Corners
-    'right top',
-    'top right', 
-    'right bottom',
-    'bottom right', 
-    'left top',
-    'top left', 
-    'left bottom',
-    'bottom left', 
+const defaultConfig = {};
 
-    // Centered Horizontally
-    'center top',
-    'x-center top', 
-    'center bottom',
-    'x-center bottom', 
-
-    // Centered Vertically
-    'left center',
-    'left y-center', 
-    'y-center left', 
-    'right center',
-    'right y-center', 
-    'y-center right', 
-
-    // Aliases for Centered Horizontally (already covered but good for robustness)
-    'top center',
-    'top x-center',
-    'bottom center',
-    'bottom x-center',
-
-    // Absolute Center
-    'center'
-];
-
-// Default configuration
-const defaultConfig = {
-    status: 'info',
-    title: 'Notification',
-    text: '',
-    effect: 'fade',
-    speed: 300,
-    autoclose: true,
-    autotimeout: 4000,
-    position: 'right top',
-};
-
-// Internal handler for all toasts
-function renderToast(options = {}) {
-    const config = {
+function show(options = {}) {
+    return toastManager.show({
         ...defaultConfig,
         ...options,
-    };
-
-    if (!allowedStatuses.includes(config.status)) {
-        console.warn(`Invalid status '${config.status}' passed to Toast. Defaulting to 'info'.`);
-        config.status = 'info';
-    }
-
-    if (!allowedPositions.includes(config.position)) {
-        console.warn(`Invalid position '${config.position}' passed to Toast. Defaulting to 'right top'.`);
-        config.position = 'right top';
-    }
-
-    new Notify(config);
+    });
 }
 
-// Toast API
 const Toast = {
-    custom: renderToast,
+    show,
+
+    custom(options = {}) {
+        return show(options);
+    },
 
     success(text, title = 'Success', options = {}) {
-        renderToast({
+        return show({
             status: 'success',
             title,
             text,
-            ...options
+            ...options,
         });
     },
 
     error(text, title = 'Error', options = {}) {
-        renderToast({
+        return show({
             status: 'error',
             title,
             text,
-            ...options
+            ...options,
         });
     },
 
     warning(text, title = 'Warning', options = {}) {
-        renderToast({
+        return show({
             status: 'warning',
             title,
             text,
-            ...options
+            ...options,
         });
     },
 
     info(text, title = 'Info', options = {}) {
-        renderToast({
+        return show({
             status: 'info',
             title,
             text,
-            ...options
+            ...options,
         });
+    },
+
+    loading(text, title = 'Loading', options = {}) {
+        return show({
+            status: 'loading',
+            title,
+            text,
+            autoclose: false,
+            progress: false,
+            ...options,
+        });
+    },
+
+    update(id, options = {}) {
+        return toastManager.update(id, options);
+    },
+
+    dismiss(id) {
+        return toastManager.dismiss(id);
+    },
+
+    clear() {
+        return toastManager.clear();
+    },
+
+    configure(providerOrConfig) {
+        return toastManager.configure(providerOrConfig);
+    },
+
+    registerProvider(providerElement) {
+        return toastManager.registerProvider(providerElement);
     },
 
     setDefaults(newDefaults = {}) {
@@ -114,12 +89,12 @@ const Toast = {
     },
 
     get allowedStatuses() {
-        return [...allowedStatuses];
+        return getAllowedStatuses(toastManager.config);
     },
 
     get allowedPositions() {
-        return [...allowedPositions];
-    }
+        return getAllowedPositions(toastManager.config);
+    },
 };
 
 export default Toast;
