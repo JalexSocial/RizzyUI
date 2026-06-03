@@ -24,6 +24,7 @@
     "dist"
   ],
   "scripts": {
+    "test": "node --test \"src/js/**/*.test.mjs\"",
     "build": "node ./build/build-all.mjs",
     "build:clean": "node ./build/clean-generated.mjs",
     "build:js": "node ./build/build-js.mjs",

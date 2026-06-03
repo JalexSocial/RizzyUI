@@ -202,10 +202,11 @@ export function updateToastDom(toast, classMap) {
         return createToastDom(toast, classMap);
     }
 
-    const parent = toast.elements.root.parentElement;
+    const previousRoot = toast.elements.root;
+    const parent = previousRoot.parentElement;
     const replacement = createToastDom(toast, classMap);
     if (parent) {
-        parent.replaceChild(replacement, toast.elements.root);
+        parent.replaceChild(replacement, previousRoot);
     }
 
     return replacement;

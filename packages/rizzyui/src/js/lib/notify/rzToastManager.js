@@ -63,10 +63,15 @@ export class RzToastManager {
         this.boundWindowBlur = this.pauseWindowTimers.bind(this);
         this.boundWindowFocus = this.resumeWindowTimers.bind(this);
         this.seenInputEvents = new WeakSet();
+        this.nextSequence = 0;
         this.installInputEventListeners();
     }
 
     configure(providerOrConfig) {
+        if (providerOrConfig === undefined) {
+            return this;
+        }
+
         if (isElement(providerOrConfig)) {
             return this.registerProvider(providerOrConfig);
         }
@@ -112,7 +117,7 @@ export class RzToastManager {
             return this.update(existing.id, normalized);
         }
 
-        const stack = this.stacks.get(normalized.position);
+        const stack = this.getStackForPosition(normalized.position);
         if (!stack) {
             console.warn(`[RizzyUI] Toast stack '${normalized.position}' was not found.`);
             return null;
@@ -206,7 +211,10 @@ export class RzToastManager {
 
     clear() {
         const toasts = Array.from(this.toasts.values());
-        toasts.forEach(toast => this.dismiss(toast.id, 'clear'));
+        toasts.forEach(toast => {
+            toast.dismissed = true;
+            this.removeToast(toast, 'clear');
+        });
         this.dispatchLifecycle('rz:toast:cleared', { ids: toasts.map(toast => toast.id), reason: 'clear' });
     }
 
@@ -268,6 +276,7 @@ export class RzToastManager {
             options: { ...options, id },
             state: 'entering',
             createdAt: Date.now(),
+            sequence: ++this.nextSequence,
             count: 1,
             remaining: options.duration,
             startedAt: 0,
@@ -318,8 +327,23 @@ export class RzToastManager {
         stack.appendChild(element);
     }
 
+    getStackForPosition(position) {
+        const stack = this.stacks.get(position);
+        if (stack) {
+            return stack;
+        }
+
+        const fallback = this.stacks.get('top-right');
+        if (fallback) {
+            console.warn(`[RizzyUI] Toast stack '${position}' was not found. Falling back to 'top-right'.`);
+            return fallback;
+        }
+
+        return null;
+    }
+
     moveToastIfNeeded(toast) {
-        const stack = this.stacks.get(toast.options.position);
+        const stack = this.getStackForPosition(toast.options.position);
         const element = toast.elements?.root;
         if (!stack || !element || element.parentElement === stack) {
             return;
@@ -457,6 +481,8 @@ export class RzToastManager {
     }
 
     removeToast(toast, reason) {
+        this.clearTimer(toast);
+
         if (toast.elements?.root?.parentElement) {
             toast.elements.root.parentElement.removeChild(toast.elements.root);
         }
@@ -470,7 +496,7 @@ export class RzToastManager {
     }
 
     getMostRecent() {
-        return Array.from(this.toasts.values()).sort((a, b) => b.createdAt - a.createdAt)[0];
+        return Array.from(this.toasts.values()).sort((a, b) => (b.createdAt - a.createdAt) || (b.sequence - a.sequence))[0];
     }
 
     createHandle(id) {
