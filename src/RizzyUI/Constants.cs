@@ -68,6 +68,10 @@ public static class Constants
         /// <summary>Fired when clipboard copy fails.</summary>
         public const string CopyFailed = "rz:copy-failed";
 
+        /// <summary>
+        /// Toast broadcast event 
+        /// </summary>
+        public const string ToastBroadcast = "rz:toast-broadcast";        
     }
 
     /// <summary>
