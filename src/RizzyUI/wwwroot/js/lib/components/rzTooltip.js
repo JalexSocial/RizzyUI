@@ -29,6 +29,7 @@ export default function rzTooltip() {
         enableAutoUpdate: true,
         isControlledOpenState: false,
         cleanupAutoUpdate: null,
+        interactionHandlers: null,
 
         /**
          * Executes the `init` operation.
@@ -147,19 +148,58 @@ export default function rzTooltip() {
          * @returns {any} Returns the result of `bindInteractionEvents` when applicable.
          */
         bindInteractionEvents() {
+            this.unbindInteractionEvents();
+
             if (!this.triggerEl) return;
 
-            this.triggerEl.addEventListener('pointerenter', this.handleTriggerPointerEnter.bind(this));
-            this.triggerEl.addEventListener('pointerleave', this.handleTriggerPointerLeave.bind(this));
-            this.triggerEl.addEventListener('focus', this.handleTriggerFocus.bind(this));
-            this.triggerEl.addEventListener('blur', this.handleTriggerBlur.bind(this));
-            this.triggerEl.addEventListener('keydown', this.handleTriggerKeydown.bind(this));
+            this.interactionHandlers = {
+                triggerPointerEnter: this.handleTriggerPointerEnter.bind(this),
+                triggerPointerLeave: this.handleTriggerPointerLeave.bind(this),
+                triggerFocus: this.handleTriggerFocus.bind(this),
+                triggerBlur: this.handleTriggerBlur.bind(this),
+                triggerKeydown: this.handleTriggerKeydown.bind(this),
+                contentPointerEnter: this.handleContentPointerEnter.bind(this),
+                contentPointerLeave: this.handleContentPointerLeave.bind(this),
+                contentKeydown: this.handleContentKeydown.bind(this),
+            };
+
+            this.triggerEl.addEventListener('pointerenter', this.interactionHandlers.triggerPointerEnter);
+            this.triggerEl.addEventListener('pointerleave', this.interactionHandlers.triggerPointerLeave);
+            this.triggerEl.addEventListener('focus', this.interactionHandlers.triggerFocus);
+            this.triggerEl.addEventListener('blur', this.interactionHandlers.triggerBlur);
+            this.triggerEl.addEventListener('keydown', this.interactionHandlers.triggerKeydown);
 
             if (this.contentEl) {
-                this.contentEl.addEventListener('pointerenter', this.handleContentPointerEnter.bind(this));
-                this.contentEl.addEventListener('pointerleave', this.handleContentPointerLeave.bind(this));
-                this.contentEl.addEventListener('keydown', this.handleContentKeydown.bind(this));
+                this.contentEl.addEventListener('pointerenter', this.interactionHandlers.contentPointerEnter);
+                this.contentEl.addEventListener('pointerleave', this.interactionHandlers.contentPointerLeave);
+                this.contentEl.addEventListener('keydown', this.interactionHandlers.contentKeydown);
             }
+        },
+
+        /**
+         * Removes tooltip interaction listeners registered during initialization.
+         * @returns {void}
+         */
+        unbindInteractionEvents() {
+            if (!this.interactionHandlers) {
+                return;
+            }
+
+            if (this.triggerEl) {
+                this.triggerEl.removeEventListener('pointerenter', this.interactionHandlers.triggerPointerEnter);
+                this.triggerEl.removeEventListener('pointerleave', this.interactionHandlers.triggerPointerLeave);
+                this.triggerEl.removeEventListener('focus', this.interactionHandlers.triggerFocus);
+                this.triggerEl.removeEventListener('blur', this.interactionHandlers.triggerBlur);
+                this.triggerEl.removeEventListener('keydown', this.interactionHandlers.triggerKeydown);
+            }
+
+            if (this.contentEl) {
+                this.contentEl.removeEventListener('pointerenter', this.interactionHandlers.contentPointerEnter);
+                this.contentEl.removeEventListener('pointerleave', this.interactionHandlers.contentPointerLeave);
+                this.contentEl.removeEventListener('keydown', this.interactionHandlers.contentKeydown);
+            }
+
+            this.interactionHandlers = null;
         },
 
         /**
@@ -189,6 +229,12 @@ export default function rzTooltip() {
          * Executes the `clearTimers` operation.
          * @returns {any} Returns the result of `clearTimers` when applicable.
          */
+        destroy() {
+            this.clearTimers();
+            this.stopAutoUpdate();
+            this.unbindInteractionEvents();
+        },
+
         clearTimers() {
             if (this.openDelayTimer) {
                 window.clearTimeout(this.openDelayTimer);

@@ -1,8 +1,16 @@
+import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { defineConfig, devices } from '@playwright/test';
 
-const chromiumExecutablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || join(tmpdir(), 'chromium');
+const chromiumExecutablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+  || (process.platform === 'win32'
+    ? [
+      'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+      'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+      join(process.env.LOCALAPPDATA || '', 'Google\\Chrome\\Application\\chrome.exe')
+    ].find(path => path && existsSync(path))
+    : join(tmpdir(), 'chromium'));
 
 export default defineConfig({
   testDir: './tests/accessibility',
@@ -30,7 +38,7 @@ export default defineConfig({
     }
   ],
   webServer: {
-    command: 'python3 -m http.server 5150 --bind 127.0.0.1 --directory ./wwwroot',
+    command: 'node ./tests/accessibility/scripts/serve-static.mjs ./wwwroot',
     url: 'http://127.0.0.1:5150',
     reuseExistingServer: !process.env.CI,
     timeout: 120_000

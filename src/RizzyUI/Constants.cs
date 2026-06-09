@@ -68,6 +68,23 @@ public static class Constants
         /// <summary>Fired when clipboard copy fails.</summary>
         public const string CopyFailed = "rz:copy-failed";
 
+        /// <summary>Listened to by the toast runtime as a show request.</summary>
+        public const string Toast = "rz:toast";
+
+        /// <summary>Listened to by the toast runtime as an explicit show request.</summary>
+        public const string ToastShow = "rz:toast:show";
+
+        /// <summary>Listened to by the toast runtime as an update request.</summary>
+        public const string ToastUpdate = "rz:toast:update";
+
+        /// <summary>Listened to by the toast runtime as a dismiss request.</summary>
+        public const string ToastDismiss = "rz:toast:dismiss";
+
+        /// <summary>Listened to by the toast runtime as a clear request.</summary>
+        public const string ToastClear = "rz:toast:clear";
+
+        /// <summary>Listened to by the toast runtime as an ordered command batch.</summary>
+        public const string ToastBatch = "rz:toast:batch";
     }
 
     /// <summary>

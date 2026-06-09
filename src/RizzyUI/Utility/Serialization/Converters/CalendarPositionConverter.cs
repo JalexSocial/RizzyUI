@@ -1,9 +1,7 @@
-
-using RizzyUI;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Jalex.UI.Components.Form.Converters;
+namespace RizzyUI.Utility.Serialization.Converters;
 
 /// <summary>
 ///     Converts a Flatpickr CalendarPosition to/from json

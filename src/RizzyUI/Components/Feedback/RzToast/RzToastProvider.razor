@@ -1,0 +1,25 @@
+@namespace RizzyUI
+@inherits RzComponent<RzToastProviderSlots>
+
+<HtmlElement Element="@EffectiveElement"
+             id="@Id"
+             role="region"
+             aria-label="@ResolvedRegionAriaLabel"
+             @attributes="@AdditionalAttributes"
+             class="@SlotClasses.GetBase()"
+             data-rz-toast-provider
+             data-slot="@RzToastProviderSlotNames.NameOf(RzToastProviderSlotTypes.Base)">
+    @foreach (var position in SupportedPositions)
+    {
+        <div data-rz-toast-viewport
+             data-toast-position="@ToCanonicalPosition(position)"
+             class="@GetViewportClass(position)"
+             data-slot="@RzToastProviderSlotNames.NameOf(RzToastProviderSlotTypes.Viewport)">
+            <div data-rz-toast-stack
+                 data-toast-position="@ToCanonicalPosition(position)"
+                 class="@GetStackClass(position)"
+                 data-slot="@RzToastProviderSlotNames.NameOf(RzToastProviderSlotTypes.Stack)"></div>
+        </div>
+    }
+    <script type="application/json" data-rz-toast-config nonce="@Nonce">@((MarkupString)_serializedConfig)</script>
+</HtmlElement>

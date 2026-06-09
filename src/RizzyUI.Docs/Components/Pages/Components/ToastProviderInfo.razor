@@ -1,0 +1,701 @@
+@page "/components/toast-provider"
+@using RizzyUI
+@using RizzyUI.Services.RzToast
+
+<PageTitle>RzToastProvider</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Toast Provider</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="RzToastProvider" class="scroll-mt-20">RzToastProvider</RzHeading>
+            <RzParagraph>
+                RzToastProvider is the SSR-only root provider for toast notifications. It owns the toast viewport, renders the position stacks, and publishes the server-generated class map consumed by the <code>Rizzy.toast</code> JavaScript runtime.
+            </RzParagraph>
+            <RzParagraph>
+                Developers do not manually render toast items. Add one provider, then create toasts by calling <code>Rizzy.toast</code> or dispatching <code>rz:toast</code> events from client code, HTMX fragments, or other SSR-safe flows.
+            </RzParagraph>
+
+            <RzAlert Variant="ThemeVariant.Information" class="my-6">
+                <AlertTitle>Important setup</AlertTitle>
+                <AlertDescription>
+                    Place one <code>RzToastProvider</code> near the root layout, typically after <code>@@Body</code>. This documentation page renders a live provider directly on the page so the examples below can trigger real toast notifications.
+                </AlertDescription>
+            </RzAlert>
+
+            <RzToastProvider Id="docs-toast-provider"
+                             Position="ToastPosition.TopRight"
+                             MaxVisible="5"
+                             ShowProgress="true" />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Installation" class="scroll-mt-20">Installation / Root Layout Placement</RzHeading>
+                <RzParagraph>
+                    In an application, place one provider near the root layout, typically after <code>@@Body</code>. The provider renders all supported stacks up front; <code>Position</code> only controls the default stack for requests that do not provide a position.
+                </RzParagraph>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Root layout" class="mb-6">
+@@inherits LayoutComponentBase
+
+&lt;div class=&quot;min-h-screen&quot;&gt;
+    @@Body
+&lt;/div&gt;
+
+&lt;RzToastProvider /&gt;
+                </RzCodeViewer>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Documentation page demo provider" class="mb-10">
+&lt;RzToastProvider Id=&quot;docs-toast-provider&quot;
+                 Position=&quot;ToastPosition.TopRight&quot;
+                 MaxVisible=&quot;5&quot;
+                 ShowProgress=&quot;true&quot; /&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Server-triggered toasts with Rizzy" class="scroll-mt-20">Server-triggered toasts with Rizzy</RzHeading>
+                <RzParagraph>
+                    <code>AddRizzyUI()</code> registers the scoped <code>IRzToastService</code> and the internal ordered command queue. Add <code>UseRzToast()</code> to the request pipeline so commands queued during an HTMX request are emitted as one <code>rz:toast:batch</code> <code>HX-Trigger</code> event. The root layout must still render one <code>RzToastProvider</code>; the service only transports commands to the existing browser runtime.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Program setup" class="mb-6">
+builder.Services.AddRizzy();
+builder.Services.AddRizzyUI();
+
+var app = builder.Build();
+
+app.UseRizzy();
+app.UseRzToast();
+
+app.MapControllers();
+app.MapRazorComponents&lt;App&gt;();
+                </RzCodeViewer>
+
+                <RzParagraph>
+                    The C# API mirrors the server-compatible <code>Rizzy.toast</code> methods: <code>Show</code>, <code>Custom</code>, <code>Success</code>, <code>Error</code>, <code>Warning</code>, <code>Info</code>, <code>Loading</code>, <code>Update</code>, <code>Dismiss</code>, and <code>Clear</code>. Commands keep their insertion order in the batch, so a show followed by an update for the same stable id is processed in that order by the browser.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Success from an HTMX endpoint" class="mb-6">
+public IActionResult Save([FromServices] IRzToastService toastService)
+{
+    toastService.Success("Project settings saved.", "Saved");
+    return View();
+}
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="Equivalent JavaScript" class="mb-6">
+Rizzy.toast.success("Project settings saved.", "Saved");
+                </RzCodeViewer>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Custom show and stable id" class="mb-6">
+toastService.Show(new RzToastMessage
+{
+    Status = ToastStatus.Warning,
+    Title = "Session expiring",
+    Text = "Your session expires in two minutes.",
+    Position = ToastPosition.BottomRight,
+    Duration = 7000,
+    DedupeKey = "session-expiration"
+});
+
+var handle = toastService.Loading("Uploading file...", "Uploading", new RzToastOptions
+{
+    Id = "profile-photo-upload"
+});
+
+handle.Update(new RzToastUpdate
+{
+    Status = ToastStatus.Success,
+    Title = "Uploaded",
+    Text = "Your profile photo was updated.",
+    AutoClose = true,
+    Duration = 3000,
+    Progress = true
+});
+                </RzCodeViewer>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Update, dismiss, clear, and event action" class="mb-6">
+toastService.Update("profile-photo-upload", new RzToastUpdate
+{
+    Status = ToastStatus.Success,
+    Title = "Uploaded",
+    Text = "Your profile photo was updated."
+});
+
+toastService.Dismiss("obsolete-toast");
+toastService.Dismiss();
+toastService.Clear();
+
+toastService.Success("Message archived.", "Archived", new RzToastOptions
+{
+    Action = new RzToastAction
+    {
+        Label = "Undo",
+        EventName = "rz:message:restore",
+        Detail = new { MessageId = 42 }
+    }
+});
+                </RzCodeViewer>
+
+                <RzAlert Variant="ThemeVariant.Warning" class="my-6">
+                    <AlertTitle>HTMX request-scope limitation</AlertTitle>
+                    <AlertDescription>
+                        <code>UseRzToast()</code> emits commands only for HTMX responses. Commands queued during normal non-HTMX requests, redirects, or later requests are not persisted by this middleware. Use application-defined stable string ids for cross-request updates, and do not store <code>RzToastHandle</code> beyond the current request scope. Redirect persistence requires a separate TempData, session, distributed cache, or application-specific store.
+                    </AlertDescription>
+                </RzAlert>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Live Examples" class="scroll-mt-20">Live Examples</RzHeading>
+                <RzParagraph>
+                    These examples use delegated documentation event listeners and stable <code>data-rz-toast-demo</code> attributes. The buttons call the real <code>Rizzy.toast</code> facade in the same DOM context as the provider above.
+                </RzParagraph>
+
+                <div class="not-prose mt-6 flex flex-col gap-6">
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Default toast</CardTitle>
+                            <CardDescription>Use a default toast for neutral feedback that confirms an operation completed or provides lightweight status information.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="default">Show default toast</RzButton>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.show({
+    title: "Notification",
+    description: "The background check completed."
+});
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Title and description</CardTitle>
+                            <CardDescription>Use a title when the toast needs a scannable heading and a short supporting message.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="title-description">Start report toast</RzButton>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.info("The report is being generated. You can continue working.", "Report started");
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Success toast</CardTitle>
+                            <CardDescription>Use a success toast after a save, publish, upload, or completed background operation.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="success" Variant="ThemeVariant.Success">Show success toast</RzButton>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.success("Project settings saved.", "Saved");
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Info toast</CardTitle>
+                            <CardDescription>Use an info toast for non-critical status updates, background task starts, or contextual notices.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="info" Variant="ThemeVariant.Information">Show info toast</RzButton>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.info("Build started. You can continue working while it runs.", "Build started");
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Warning toast</CardTitle>
+                            <CardDescription>Use a warning toast for non-blocking conditions the user may need to notice soon.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="warning" Variant="ThemeVariant.Warning">Show warning toast</RzButton>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.warning("Your session expires in 2 minutes.", "Session expiring");
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Error toast</CardTitle>
+                            <CardDescription>Use an error toast when an operation fails but the user can continue working. For blocking failures, use an alert, dialog, or form validation message instead.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="error" Variant="ThemeVariant.Destructive">Show error toast</RzButton>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.error("Unable to upload image. Check the file type and try again.", "Upload failed");
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Action toast</CardTitle>
+                            <CardDescription>Use an action toast when the user can immediately recover from the event, such as undoing a delete or retrying a failed operation.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="action">Show action toast</RzButton>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.success("Message archived.", "Archived", {
+    action: {
+        label: "Undo",
+        dismissOnClick: true,
+        onClick: toast =&gt; {
+            Rizzy.toast.info("The message was restored.", "Undo complete");
+            toast.dismiss();
+        }
+    }
+});
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Persistent toast</CardTitle>
+                            <CardDescription>Use a persistent toast for progress or status that should remain visible until the user dismisses it or code updates it.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="persistent">Show persistent toast</RzButton>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.info("Waiting for the background worker to respond.", "Still working", {
+    autoclose: false,
+    progress: false
+});
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Custom duration</CardTitle>
+                            <CardDescription>Use a custom duration when the message needs slightly more or less reading time than the provider default.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="duration">Show 7-second toast</RzButton>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.success("Export completed and is ready to download.", "Export ready", {
+    duration: 7000
+});
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Loading and update flow</CardTitle>
+                            <CardDescription>Use a loading toast for long-running work, then update the same id when the operation completes.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="loading">Run loading demo</RzButton>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.loading("Uploading changes...", "Syncing", {
+    id: "docs-loading-demo"
+});
+
+setTimeout(() =&gt; {
+    Rizzy.toast.update("docs-loading-demo", {
+        status: "success",
+        title: "Synced",
+        text: "All changes are online.",
+        autoclose: true,
+        duration: 3000,
+        progress: true
+    });
+}, 1500);
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Positioning</CardTitle>
+                            <CardDescription>RzToastProvider renders separate stacks for every supported position, so different toast requests can appear in different regions at the same time.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <div class="flex flex-wrap gap-3">
+                                <RzButton type="button" data-rz-toast-demo="position-top-right">Top right</RzButton>
+                                <RzButton type="button" data-rz-toast-demo="position-bottom-left">Bottom left</RzButton>
+                                <RzButton type="button" data-rz-toast-demo="position-center">Center</RzButton>
+                                <RzButton type="button" data-rz-toast-demo="position-right-center">Right center</RzButton>
+                            </div>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.info("This toast appears in the top-right stack.", "Top right", {
+    position: "top-right"
+});
+
+Rizzy.toast.info("This toast uses the Simple Notify alias bottom left.", "Bottom left", {
+    position: "bottom left"
+});
+
+Rizzy.toast.info("This toast appears in the center stack.", "Center", {
+    position: "center"
+});
+
+Rizzy.toast.info("This toast uses the Simple Notify alias right y-center.", "Right center", {
+    position: "right y-center"
+});
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Programmatic dismiss and clear</CardTitle>
+                            <CardDescription>Use a stable id when you need to dismiss or update a specific toast later. Use clear when a context change makes existing notifications irrelevant.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <div class="flex flex-wrap gap-3">
+                                <RzButton type="button" data-rz-toast-demo="dismiss-show">Show dismissible toast</RzButton>
+                                <RzButton type="button" data-rz-toast-demo="dismiss-id" Outline>Dismiss tracked toast</RzButton>
+                                <RzButton type="button" data-rz-toast-demo="clear" Variant="ThemeVariant.Destructive">Clear all toasts</RzButton>
+                            </div>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.info("This toast can be dismissed by id.", "Tracked toast", {
+    id: "docs-dismiss-demo",
+    autoclose: false,
+    progress: false
+});
+
+Rizzy.toast.dismiss("docs-dismiss-demo");
+
+Rizzy.toast.clear();
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Event dispatch</CardTitle>
+                            <CardDescription>Use rz:toast events when a server-rendered fragment, HTMX response, or other client code needs to publish a toast without directly calling the facade.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="event">Dispatch rz:toast event</RzButton>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="Show event">
+window.dispatchEvent(new CustomEvent("rz:toast", {
+    detail: {
+        id: "docs-event-demo",
+        status: "success",
+        title: "Saved",
+        description: "The event API created this toast."
+    }
+}));
+                            </RzCodeViewer>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="Update, dismiss, and clear events">
+window.dispatchEvent(new CustomEvent("rz:toast:update", {
+    detail: {
+        id: "docs-event-demo",
+        text: "The event API updated this toast."
+    }
+}));
+
+window.dispatchEvent(new CustomEvent("rz:toast:dismiss", {
+    detail: { id: "docs-event-demo" }
+}));
+
+window.dispatchEvent(new CustomEvent("rz:toast:clear"));
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Dedupe behavior</CardTitle>
+                            <CardDescription>Use dedupeKey for one logical notification that may update repeatedly instead of stacking duplicates.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="dedupe">Show deduped warning</RzButton>
+                            <RzParagraph class="text-sm text-muted-foreground">Press repeatedly to update/coalesce the same logical warning.</RzParagraph>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+Rizzy.toast.show({
+    dedupeKey: "docs-storage-warning",
+    status: "warning",
+    title: "Storage warning",
+    text: "Storage is still almost full.",
+    incrementCount: true
+});
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Stacking and overflow</CardTitle>
+                            <CardDescription>MaxVisible limits the number of visible toasts per position stack. The default overflow strategy dismisses the oldest toast in the affected stack.</CardDescription>
+                        </CardHeader>
+                        <CardContent class="space-y-4">
+                            <RzButton type="button" data-rz-toast-demo="stack">Create stack</RzButton>
+                            <RzCodeViewer Language="@CodeLanguage.JavaScript">
+for (let index = 1; index &lt;= 7; index += 1) {
+    Rizzy.toast.info(`Stacked notification ${index}`, "Stack demo", {
+        position: "bottom-right",
+        duration: 8000
+    });
+}
+                            </RzCodeViewer>
+                        </CardContent>
+                    </RzCard>
+                </div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Usage Guidelines" class="scroll-mt-20">Usage Guidelines</RzHeading>
+                <div class="not-prose mt-6 grid gap-6 md:grid-cols-2">
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Use toast notifications for</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <ul class="list-disc space-y-2 pl-5 text-sm text-muted-foreground">
+                                <li>Save confirmations</li>
+                                <li>Background task completion</li>
+                                <li>Non-blocking errors</li>
+                                <li>Short status messages</li>
+                                <li>Undo or retry actions</li>
+                            </ul>
+                        </CardContent>
+                    </RzCard>
+                    <RzCard>
+                        <CardHeader>
+                            <CardTitle>Avoid toast notifications for</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <ul class="list-disc space-y-2 pl-5 text-sm text-muted-foreground">
+                                <li>Required decisions</li>
+                                <li>Field-level validation</li>
+                                <li>Blocking errors</li>
+                                <li>Long explanations</li>
+                                <li>Multi-step workflows</li>
+                            </ul>
+                        </CardContent>
+                    </RzCard>
+                </div>
+                <RzParagraph>
+                    Use <code>RzAlert</code> for persistent inline feedback, a dialog for required decisions, and form validation messages near the related field.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="API Reference" class="scroll-mt-20">API Reference</RzHeading>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Provider Parameters" class="scroll-mt-20">Provider Parameters</RzHeading>
+                @RenderTable(ProviderParameters, "Property", "Description", "Type", "Default")
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Toast Options" class="scroll-mt-20">Toast Request Options</RzHeading>
+                @RenderTable(ToastOptions, "Option", "Description", "Type", "Default")
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Statuses" class="scroll-mt-20">Statuses</RzHeading>
+                @RenderTable(Statuses, "Status", "Use", "ARIA", "Default tone")
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Positions" class="scroll-mt-20">Positions</RzHeading>
+                @RenderTable(Positions, "Canonical value", "Simple Notify-compatible aliases", "Region", "Notes")
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Overflow" class="scroll-mt-20">Overflow Strategies</RzHeading>
+                @RenderTable(OverflowStrategies, "Enum", "Request value", "Behavior", "Use when")
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">Accessibility</RzHeading>
+                <RzParagraph>
+                    Toasts do not steal focus. The provider root exposes a named region, while each JavaScript-rendered toast announces through live-region semantics instead of moving the user away from their current task.
+                </RzParagraph>
+                <RzParagraph>
+                    Default, info, success, warning, and loading toasts use <code>role=&quot;status&quot;</code> with <code>aria-live=&quot;polite&quot;</code>. Error toasts use <code>role=&quot;alert&quot;</code> with <code>aria-live=&quot;assertive&quot;</code>. Every toast uses <code>aria-atomic=&quot;true&quot;</code> so assistive technology announces the complete message.
+                </RzParagraph>
+                <RzParagraph>
+                    Close controls are native buttons with accessible labels, action buttons are keyboard reachable, and Escape can dismiss a focused toast when <code>CloseOnEscape</code> is enabled. Auto-dismiss timers pause on hover and focus when configured, helping users read or act on content before it disappears.
+                </RzParagraph>
+                <RzParagraph>
+                    Give users enough time for toast content, avoid long or critical messages, and never make a toast the only way critical information is communicated. Reduced-motion preferences are respected through the generated class map, and functional timing does not depend on animation.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Theming" class="scroll-mt-20">Theming</RzHeading>
+                <RzParagraph>
+                    Provider and toast item classes come from <code>Theme.RzToastProvider</code>. JavaScript reads the class map rendered by the provider and applies slot, status, tone, animation, state, and position classes without constructing Tailwind class strings at runtime.
+                </RzParagraph>
+                <RzParagraph>
+                    Override the descriptor in your theme to adjust the provider root, viewport stacks, toast item slots, status variants, tones, animations, and reduced-motion-safe states.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="CSP Notes" class="scroll-mt-20">CSP Notes</RzHeading>
+                <RzParagraph>
+                    The toast runtime is loaded through the normal RizzyUI JavaScript entries, including the CSP-safe entry. It avoids <code>eval</code>, <code>new Function</code>, inline event handlers, dynamic script injection, and runtime Tailwind construction.
+                </RzParagraph>
+                <RzParagraph>
+                    This documentation page uses a CSP-safe delegated listener in <code>/js/site.js</code>. Toast text is assigned as text content by the runtime; HTML content must be supplied as a trusted <code>HTMLElement</code>.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Migration" class="scroll-mt-20">Migration Notes</RzHeading>
+                <RzParagraph>
+                    The public <code>Rizzy.toast</code> facade preserves compatibility helpers such as <code>success</code>, <code>error</code>, <code>warning</code>, <code>info</code>, <code>custom</code>, and Simple Notify option aliases including <code>variant</code>, <code>message</code>, <code>description</code>, <code>autotimeout</code>, <code>effect</code>, <code>type</code>, <code>customClass</code>, and compatible position strings.
+                </RzParagraph>
+                <RzParagraph>
+                    Simple Notify CSS class names are not preserved. Style toast output through <code>Theme.RzToastProvider</code> and the provider-generated class map.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Troubleshooting" class="scroll-mt-20">Troubleshooting</RzHeading>
+                <div class="not-prose mt-6 space-y-4">
+                    @foreach (var item in TroubleshootingItems)
+                    {
+                        <RzCard>
+                            <CardHeader>
+                                <CardTitle>@item.Title</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p class="text-sm text-muted-foreground">@item.Description</p>
+                            </CardContent>
+                        </RzCard>
+                    }
+                </div>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private static readonly IReadOnlyList<TableRow> ProviderParameters =
+    [
+        new("Position", "Default stack for new toasts; all stacks are still rendered.", "ToastPosition", "ToastPosition.TopRight"),
+        new("DefaultStatus", "Default semantic status for new toasts.", "ToastStatus", "ToastStatus.Info"),
+        new("Tone", "Default visual tone.", "ToastTone", "ToastTone.Subtle"),
+        new("Animation", "Default animation preset.", "ToastAnimation", "ToastAnimation.Fade"),
+        new("OverflowStrategy", "Behavior when a stack reaches MaxVisible.", "ToastOverflowStrategy", "DismissOldest"),
+        new("Duration", "Default auto-dismiss duration in milliseconds.", "int", "4000"),
+        new("Speed", "Leaving transition speed in milliseconds.", "int", "300"),
+        new("MaxVisible", "Maximum visible toast count per position stack.", "int", "5"),
+        new("NewestOnTop", "Whether new toasts insert before older toasts.", "bool", "true"),
+        new("Dismissible", "Whether close buttons render by default.", "bool", "true"),
+        new("ShowIcon", "Whether status icons render by default.", "bool", "true"),
+        new("ShowProgress", "Whether progress indicators render by default.", "bool", "true"),
+        new("PauseOnHover", "Whether timers pause during pointer hover.", "bool", "true"),
+        new("PauseOnFocus", "Whether timers pause while focus is inside a toast.", "bool", "true"),
+        new("PauseOnWindowBlur", "Whether timers pause while the window is blurred.", "bool", "false"),
+        new("CloseOnEscape", "Whether Escape dismisses a focused toast.", "bool", "true"),
+        new("PreventDuplicates", "Whether duplicate requests update instead of stacking.", "bool", "false"),
+        new("CloseButtonAriaLabel", "Accessible label for close buttons.", "string?", "localized"),
+        new("RegionAriaLabel", "Accessible label for the provider region.", "string?", "localized")
+    ];
+
+    private static readonly IReadOnlyList<TableRow> ToastOptions =
+    [
+        new("id", "Stable id for update or dismiss.", "string", "generated"),
+        new("status", "Canonical toast status.", "string", "provider default"),
+        new("variant", "Alias for status.", "string", "none"),
+        new("title", "Scannable heading text.", "string", "empty"),
+        new("text", "Primary description text.", "string", "empty"),
+        new("message", "Alias for text.", "string", "none"),
+        new("description", "Alias for text.", "string", "none"),
+        new("position", "Canonical position or supported alias.", "string", "provider default"),
+        new("duration", "Auto-dismiss time in milliseconds.", "number", "provider default"),
+        new("autotimeout", "Alias for duration.", "number", "none"),
+        new("autoclose", "Whether the toast closes automatically.", "boolean", "duration > 0"),
+        new("tone", "Visual tone.", "string", "provider default"),
+        new("type", "Alias for tone; filled maps to solid.", "string", "none"),
+        new("animation", "Animation preset.", "string", "provider default"),
+        new("effect", "Alias for animation.", "string", "none"),
+        new("dismissible", "Whether the close button is shown.", "boolean", "provider default"),
+        new("showCloseButton", "Alias for dismissible.", "boolean", "none"),
+        new("action", "Action button label and JavaScript callback.", "object", "none"),
+        new("dedupeKey", "Logical key used to update instead of stack.", "string", "none"),
+        new("incrementCount", "Increment coalesced toast count.", "boolean", "false"),
+        new("data", "Serializable data forwarded to lifecycle events.", "any", "none"),
+        new("customClass", "Alias for root toast class.", "string", "none"),
+        new("className", "Alias for root toast class.", "string", "none"),
+        new("classNames", "Slot-specific class overrides.", "object", "{}")
+    ];
+
+    private static readonly IReadOnlyList<TableRow> Statuses =
+    [
+        new("default", "Neutral feedback.", "status / polite", "subtle"),
+        new("info", "Non-critical status updates.", "status / polite", "subtle"),
+        new("success", "Completed operations.", "status / polite", "subtle"),
+        new("warning", "Non-blocking concerns.", "status / polite", "subtle"),
+        new("error", "Recoverable failures.", "alert / assertive", "subtle"),
+        new("loading", "Long-running work.", "status / polite", "subtle")
+    ];
+
+    private static readonly IReadOnlyList<TableRow> Positions =
+    [
+        new("top-left", "left top, top left", "Top left", "Canonical corner stack."),
+        new("top-center", "top center, center top, x-center top, top x-center", "Top center", "Centered along top edge."),
+        new("top-right", "right top, top right", "Top right", "Default provider position."),
+        new("bottom-left", "left bottom, bottom left", "Bottom left", "Simple Notify alias supported."),
+        new("bottom-center", "bottom center, center bottom, x-center bottom, bottom x-center", "Bottom center", "Centered along bottom edge."),
+        new("bottom-right", "right bottom, bottom right", "Bottom right", "Useful for stack demos."),
+        new("center", "center", "Center", "Centered viewport stack."),
+        new("left-center", "left center, left y-center, y-center left", "Left center", "Vertical center alias supported."),
+        new("right-center", "right center, right y-center, y-center right", "Right center", "Vertical center alias supported.")
+    ];
+
+    private static readonly IReadOnlyList<TableRow> OverflowStrategies =
+    [
+        new("DismissOldest", "dismiss-oldest", "Dismisses the oldest toast in the affected stack.", "New information should still appear."),
+        new("IgnoreNewest", "ignore-newest", "Drops the newest request when the stack is full.", "Existing notifications are more important.")
+    ];
+
+    private static readonly IReadOnlyList<TroubleshootingItem> TroubleshootingItems =
+    [
+        new("No toast appears", "Ensure RzToastProvider is rendered on the current page or root layout and that the RizzyUI JavaScript runtime is loaded before calling Rizzy.toast."),
+        new("Toast does not work inside RzBrowser", "RzBrowser renders its inner content in an iframe. Place the provider directly on the page or in the application layout, not inside browser preview components."),
+        new("Toast appears in the wrong position", "Use canonical positions such as top-right or bottom-left, or one of the supported Simple Notify aliases such as bottom left or right y-center."),
+        new("Toast disappears too quickly", "Increase Duration or request-level duration, set autoclose to false for persistent toasts, and keep PauseOnHover or PauseOnFocus enabled when users may need more time."),
+        new("Action button does not run", "Action callbacks must be real JavaScript functions. Runtime callback errors are caught and logged to the console."),
+        new("Styles look wrong or missing", "Classes come from the provider’s server-generated class map and Theme.RzToastProvider. Make sure the provider renders and the Tailwind build includes RizzyUI descriptor classes.")
+    ];
+
+    private static RenderFragment RenderTable(IReadOnlyList<TableRow> rows, string firstHeader, string secondHeader, string thirdHeader, string fourthHeader) => @<div class="not-prose mt-4 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+        <table class="w-full text-sm">
+            <thead class="bg-zinc-100/75 text-left font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                <tr>
+                    <th scope="col" class="w-1/5 px-4 py-3">@firstHeader</th>
+                    <th scope="col" class="w-2/5 px-4 py-3">@secondHeader</th>
+                    <th scope="col" class="w-1/5 px-4 py-3">@thirdHeader</th>
+                    <th scope="col" class="px-4 py-3">@fourthHeader</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                @foreach (var row in rows)
+                {
+                    <tr class="align-top">
+                        <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">@row.First</code></td>
+                        <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">@row.Second</td>
+                        <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">@row.Third</code></td>
+                        <td class="px-4 py-4 text-zinc-500">@row.Fourth</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>;
+
+    private sealed record TableRow(string First, string Second, string Third, string Fourth);
+
+    private sealed record TroubleshootingItem(string Title, string Description);
+}

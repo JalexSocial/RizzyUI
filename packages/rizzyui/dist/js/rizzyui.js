@@ -1,5 +1,4 @@
-import { t as bootstrapRizzyUI } from "./chunks/bootstrap-BINYPciR.js";
-import "./chunks/rizzyRequire-C5t2y41V.js";
+import { t as bootstrapRizzyUI } from "./chunks/bootstrap-D7iIajoc.js";
 //#region node_modules/alpinejs/dist/module.esm.js
 var flushPending = false;
 var flushing = false;
@@ -1586,14 +1585,7 @@ var cacheStringFunction = (fn) => {
 		return cache[str] || (cache[str] = fn(str));
 	};
 };
-var camelizeRE = /-(\w)/g;
-cacheStringFunction((str) => {
-	return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : "");
-});
-var hyphenateRE = /\B([A-Z])/g;
-cacheStringFunction((str) => str.replace(hyphenateRE, "-$1").toLowerCase());
 var capitalize = cacheStringFunction((str) => str.charAt(0).toUpperCase() + str.slice(1));
-cacheStringFunction((str) => str ? `on${capitalize(str)}` : ``);
 var hasChanged = (value, oldValue) => value !== oldValue && (value === value || oldValue === oldValue);
 var targetMap = /* @__PURE__ */ new WeakMap();
 var effectStack = [];

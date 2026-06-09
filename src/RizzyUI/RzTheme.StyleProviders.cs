@@ -149,6 +149,8 @@ public partial class RzTheme
     public virtual TvDescriptor<RzAsChildComponent<PopoverTrigger.Slots>, PopoverTrigger.Slots> PopoverTrigger { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzAlert"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzAlert.Slots>, RzAlert.Slots> RzAlert { get; set; }
+    /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzToastProvider"/> component and JavaScript-rendered toast items. </summary>
+    public virtual TvDescriptor<RzComponent<RzToastProviderSlots>, RzToastProviderSlots> RzToastProvider { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzAlertDialog"/> component. </summary>
     public virtual TvDescriptor<RzComponent<RzAlertDialog.Slots>, RzAlertDialog.Slots> RzAlertDialog { get; set; }
     /// <summary> Gets or sets the style definitions for the <see cref="RizzyUI.RzDialog"/> component. </summary>

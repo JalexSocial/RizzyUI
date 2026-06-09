@@ -8,6 +8,8 @@ import {
 } from '@tanstack/table-core';
 import { flex } from '../directives/flexrender.js';
 
+const selectionInputSelector = 'input[data-rz-datatable-row-select][data-row-id]';
+
 function readJsonConfig(rootEl) {
     const configId = rootEl?.dataset?.configId;
     if (!configId) {
@@ -82,7 +84,13 @@ function normalizeColumns(columns) {
             normalized.cell = cellContext => {
                 const row = cellContext.row;
                 const isChecked = row.getIsSelected();
-                return flex.html(`<input type="checkbox" aria-label="Select row ${row.id}" ${isChecked ? 'checked' : ''} />`);
+                const canSelect = row.getCanSelect?.() !== false;
+                const rowId = escapeAttribute(row.id);
+                const label = escapeAttribute(formatSelectRowLabel(row.id));
+                const checked = isChecked ? ' checked' : '';
+                const disabled = canSelect ? '' : ' disabled';
+
+                return flex.html(`<input type="checkbox" data-rz-datatable-row-select data-row-id="${rowId}" aria-label="${label}" aria-checked="${isChecked ? 'true' : 'false'}"${checked}${disabled} />`);
             };
         } else if (!column.cell) {
             normalized.cell = cellContext => flex.text(cellContext.getValue?.() ?? '');
@@ -100,6 +108,19 @@ function normalizeColumns(columns) {
 
         return normalized;
     });
+}
+
+function escapeAttribute(value) {
+    return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;');
+}
+
+function formatSelectRowLabel(rowId) {
+    return `Select row ${String(rowId ?? '')}`.trim();
 }
 
 function buildRowModelGetters(pipeline) {
@@ -133,15 +154,84 @@ function normalizeInitialState(initialState) {
 }
 
 function normalizeStatePayload(state, componentId, table) {
+    const selectedRows = table.getSelectedRowModel().rows;
+    const visibleColumns = table.getVisibleLeafColumns?.() || [];
+    const allColumns = table.getAllLeafColumns?.() || [];
+
     return {
         componentId,
         sorting: state.sorting || [],
         pagination: state.pagination || null,
         globalFilter: state.globalFilter,
+        columnFilters: state.columnFilters || [],
         rowSelection: state.rowSelection || {},
         columnVisibility: state.columnVisibility || {},
-        selectedRowCount: table.getSelectedRowModel().rows.length,
+        selectedRowCount: selectedRows.length,
+        selectedRowIds: selectedRows.map(row => String(row.id)),
+        visibleColumnIds: visibleColumns.map(column => String(column.id)),
+        visibleColumnCount: visibleColumns.length,
+        columnCount: allColumns.length,
     };
+}
+
+function stateSliceChanged(previous, next, key) {
+    if (!previous) {
+        return false;
+    }
+
+    return JSON.stringify(previous[key]) !== JSON.stringify(next[key]);
+}
+
+function normalizePaginationSummary(component, pagination) {
+    if (!pagination) {
+        return 'Page changed.';
+    }
+
+    const pageNumber = (pagination.pageIndex ?? 0) + 1;
+    const pageCount = component.pagination?.pageCount ?? 0;
+    const totalRows = component.pagination?.totalRows ?? 0;
+    const startRow = component.pagination?.startRow ?? 0;
+    const endRow = component.pagination?.endRow ?? 0;
+
+    if (totalRows === 0) {
+        return `Page ${pageNumber} of ${pageCount}. No rows to display.`;
+    }
+
+    return `Page ${pageNumber} of ${pageCount}. Showing rows ${startRow} to ${endRow} of ${totalRows}.`;
+}
+
+function normalizeSortSummary(sorting) {
+    if (!sorting || sorting.length === 0) {
+        return 'Sorting cleared.';
+    }
+
+    const firstSort = sorting[0];
+    const direction = firstSort.desc ? 'descending' : 'ascending';
+    const suffix = sorting.length > 1 ? `, then ${sorting.length - 1} additional sort ${sorting.length === 2 ? 'column' : 'columns'}` : '';
+
+    return `Sorted by ${firstSort.id} ${direction}${suffix}.`;
+}
+
+function normalizeFilterSummary(component, payload) {
+    const totalRows = component.pagination?.totalRows ?? component.rows.length;
+    const hasGlobalFilter = payload.globalFilter !== undefined && payload.globalFilter !== null && String(payload.globalFilter) !== '';
+    const filterCount = payload.columnFilters?.length || 0;
+
+    if (!hasGlobalFilter && filterCount === 0) {
+        return `Filters cleared. ${totalRows} rows available.`;
+    }
+
+    return `Filters applied. ${totalRows} rows match.`;
+}
+
+function normalizeSelectionSummary(payload) {
+    const count = payload.selectedRowCount || 0;
+
+    return `${count} ${count === 1 ? 'row' : 'rows'} selected.`;
+}
+
+function normalizeColumnVisibilitySummary(payload) {
+    return `${payload.visibleColumnCount} of ${payload.columnCount} columns visible.`;
 }
 
 function normalizeRowIdValue(value, rowIdPath, index) {
@@ -374,6 +464,16 @@ function createSelectionApi(component) {
             row?.toggleSelected?.(!!value);
         },
 
+        setRowSelectedById: (rowId, value) => {
+            const row = component.table?.getRow?.(String(rowId));
+
+            if (row?.getCanSelect?.() === false) {
+                return;
+            }
+
+            row?.toggleSelected?.(!!value);
+        },
+
         toggleRow: row => {
             if (row?.getCanSelect?.() === false) {
                 return;
@@ -580,6 +680,13 @@ export default function rzDataTable() {
         pagination: null,
         filter: null,
         columns: null,
+        announcement: {
+            message: '',
+            politeness: 'polite',
+            reason: null,
+        },
+        _lastStatePayload: null,
+        _boundSelectionChange: null,
 
         init() {
             const root = this.$el;
@@ -634,10 +741,42 @@ export default function rzDataTable() {
             this.columns = createColumnsApi(this);
 
             this.refreshDerivedState();
+            this._lastStatePayload = normalizeStatePayload(this.table.getState(), componentId, this.table);
+            this.bindGeneratedSelectionCells(componentId);
 
             this.dispatchEvent('rz:datatable:ready', {
                 componentId,
             });
+        },
+
+        destroy() {
+            if (this._boundSelectionChange) {
+                this.$el?.removeEventListener?.('change', this._boundSelectionChange);
+                this._boundSelectionChange = null;
+            }
+        },
+
+        bindGeneratedSelectionCells(componentId) {
+            if (!this.$el?.addEventListener || this._boundSelectionChange) {
+                return;
+            }
+
+            this._boundSelectionChange = event => {
+                const target = event.target;
+
+                if (!target?.matches?.(selectionInputSelector)) {
+                    return;
+                }
+
+                this.selection?.setRowSelectedById(target.dataset.rowId, target.checked);
+                this.dispatchEvent('rz:datatable:row-selection-input-changed', {
+                    componentId,
+                    rowId: String(target.dataset.rowId),
+                    selected: !!target.checked,
+                });
+            };
+
+            this.$el.addEventListener('change', this._boundSelectionChange);
         },
 
         toggleColumnVisibility(id) {
@@ -705,28 +844,75 @@ export default function rzDataTable() {
 
             const state = this.table.getState();
             const payload = normalizeStatePayload(state, componentId, this.table);
+            const previous = this._lastStatePayload;
 
             this.dispatchEvent('rz:datatable:state-changed', payload);
-            this.dispatchEvent('rz:datatable:selection-changed', {
-                componentId,
-                rowSelection: payload.rowSelection,
-                selectedRowCount: payload.selectedRowCount,
-            });
-            this.dispatchEvent('rz:datatable:page-changed', {
-                componentId,
-                pagination: payload.pagination,
-            });
-            this.dispatchEvent('rz:datatable:sort-changed', {
-                componentId,
-                sorting: payload.sorting,
-            });
-            this.dispatchEvent('rz:datatable:filter-changed', {
-                componentId,
-                globalFilter: payload.globalFilter,
-            });
-            this.dispatchEvent('rz:datatable:column-visibility-changed', {
-                componentId,
-                columnVisibility: payload.columnVisibility,
+
+            if (stateSliceChanged(previous, payload, 'rowSelection')) {
+                this.dispatchEvent('rz:datatable:selection-changed', {
+                    componentId,
+                    rowSelection: payload.rowSelection,
+                    selectedRowCount: payload.selectedRowCount,
+                    selectedRowIds: payload.selectedRowIds,
+                });
+                this.setAnnouncement('selection', normalizeSelectionSummary(payload));
+            }
+
+            if (stateSliceChanged(previous, payload, 'pagination')) {
+                this.dispatchEvent('rz:datatable:page-changed', {
+                    componentId,
+                    pagination: payload.pagination,
+                });
+                this.setAnnouncement('pagination', normalizePaginationSummary(this, payload.pagination));
+            }
+
+            if (stateSliceChanged(previous, payload, 'sorting')) {
+                this.dispatchEvent('rz:datatable:sort-changed', {
+                    componentId,
+                    sorting: payload.sorting,
+                });
+                this.setAnnouncement('sorting', normalizeSortSummary(payload.sorting));
+            }
+
+            if (stateSliceChanged(previous, payload, 'globalFilter') || stateSliceChanged(previous, payload, 'columnFilters')) {
+                this.dispatchEvent('rz:datatable:filter-changed', {
+                    componentId,
+                    globalFilter: payload.globalFilter,
+                    columnFilters: payload.columnFilters,
+                });
+                this.setAnnouncement('filter', normalizeFilterSummary(this, payload));
+            }
+
+            if (stateSliceChanged(previous, payload, 'columnVisibility')) {
+                this.dispatchEvent('rz:datatable:column-visibility-changed', {
+                    componentId,
+                    columnVisibility: payload.columnVisibility,
+                    visibleColumnIds: payload.visibleColumnIds,
+                    visibleColumnCount: payload.visibleColumnCount,
+                    columnCount: payload.columnCount,
+                });
+                this.setAnnouncement('columnVisibility', normalizeColumnVisibilitySummary(payload));
+            }
+
+            this._lastStatePayload = payload;
+        },
+
+        setAnnouncement(reason, message) {
+            if (!message || this.announcement.message === message) {
+                return;
+            }
+
+            this.announcement = {
+                message,
+                politeness: 'polite',
+                reason,
+            };
+
+            this.dispatchEvent('rz:datatable:announcement', {
+                componentId: this._lastStatePayload?.componentId ?? null,
+                message,
+                politeness: 'polite',
+                reason,
             });
         },
 
