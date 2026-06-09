@@ -3,11 +3,21 @@ import { getAllowedPositions, getAllowedStatuses } from './rzToastNormalize.js';
 
 const defaultConfig = {};
 
+function hasStatusValue(options) {
+    return Object.prototype.hasOwnProperty.call(options, 'status') && String(options.status ?? '').trim() !== '';
+}
+
 function show(options = {}) {
-    return toastManager.show({
+    const request = {
         ...defaultConfig,
         ...options,
-    });
+    };
+
+    if (!hasStatusValue(options)) {
+        request.status = 'default';
+    }
+
+    return toastManager.show(request);
 }
 
 const Toast = {

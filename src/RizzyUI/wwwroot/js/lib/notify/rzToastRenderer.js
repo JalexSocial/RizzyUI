@@ -18,9 +18,33 @@ const slotAttributes = {
 };
 
 function appendClass(list, value) {
+    if (Array.isArray(value)) {
+        value.forEach(item => appendClass(list, item));
+        return;
+    }
+
     if (typeof value === 'string' && value.trim()) {
         list.push(value.trim());
     }
+}
+
+export function dedupeClasses(...values) {
+    const rawClasses = [];
+    const classes = [];
+    const seen = new Set();
+
+    values.forEach(value => appendClass(rawClasses, value));
+
+    rawClasses.join(' ').split(/\s+/).forEach(token => {
+        if (!token || seen.has(token)) {
+            return;
+        }
+
+        seen.add(token);
+        classes.push(token);
+    });
+
+    return classes.join(' ');
 }
 
 function getSlotClass(map, slot) {
@@ -29,17 +53,15 @@ function getSlotClass(map, slot) {
 
 export function composeToastClass(classMap, toast, slot) {
     const options = toast.options;
-    const classes = [];
-
-    appendClass(classes, getSlotClass(classMap.slots, slot));
-    appendClass(classes, getSlotClass(classMap.positions?.[options.position], slot));
-    appendClass(classes, getSlotClass(classMap.statuses?.[options.status], slot));
-    appendClass(classes, getSlotClass(classMap.tones?.[options.tone], slot));
-    appendClass(classes, getSlotClass(classMap.animations?.[options.animation], slot));
-    appendClass(classes, getSlotClass(classMap.states?.[toast.state || 'visible'], slot));
-    appendClass(classes, options.classNames?.[slot]);
-
-    return classes.join(' ');
+    return dedupeClasses(
+        getSlotClass(classMap.slots, slot),
+        getSlotClass(classMap.positions?.[options.position], slot),
+        getSlotClass(classMap.statuses?.[options.status], slot),
+        getSlotClass(classMap.tones?.[options.tone], slot),
+        getSlotClass(classMap.animations?.[options.animation], slot),
+        getSlotClass(classMap.states?.[toast.state || 'visible'], slot),
+        options.classNames?.[slot]
+    );
 }
 
 function setSlotClass(element, toast, classMap, slot) {
@@ -85,14 +107,15 @@ function createIconContainer(toast, classMap) {
         return iconContainer;
     }
 
+    const icon = resolveToastIcon(toast);
+    if (!icon) {
+        return null;
+    }
+
     const pulse = createSlotElement('span', 'iconPulse');
     setSlotClass(pulse, toast, classMap, 'iconPulse');
     iconContainer.appendChild(pulse);
-
-    const icon = resolveToastIcon(toast);
-    if (icon) {
-        iconContainer.appendChild(icon);
-    }
+    iconContainer.appendChild(icon);
 
     return iconContainer;
 }

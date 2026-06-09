@@ -125,7 +125,7 @@ public static class RzToastProviderStyles
             [s => s.Description] = "text-sm text-foreground/90 [&_p]:leading-relaxed",
             [s => s.ActionContainer] = "mt-3 flex items-center gap-2",
             [s => s.ActionButton] = "inline-flex h-8 items-center justify-center rounded-md border border-input bg-background px-3 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-            [s => s.CloseButton] = "ml-auto self-start rounded-full p-1 opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            [s => s.CloseButton] = "ml-auto self-start rounded-full p-1 text-foreground opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             [s => s.CloseButtonIcon] = "size-4 shrink-0",
             [s => s.ProgressTrack] = "absolute bottom-0 left-0 h-1 w-full bg-transparent",
             [s => s.ProgressIndicator] = "h-full w-full origin-left transition-transform ease-linear motion-reduce:transition-none",
@@ -135,12 +135,12 @@ public static class RzToastProviderStyles
         {
             [c => ((IHasRzToastProviderStylingProperties)c).Status] = new Variant<ToastStatus, RzToastProviderSlots>
             {
-                [ToastStatus.Default] = new() { [s => s.Toast] = "border-border bg-background text-foreground", [s => s.IconContainer] = "text-muted-foreground", [s => s.IconPulse] = "bg-muted/50", [s => s.ProgressIndicator] = "bg-muted-foreground" },
-                [ToastStatus.Info] = new() { [s => s.Toast] = "border-info bg-info/10 text-info-foreground", [s => s.IconContainer] = "text-info", [s => s.IconPulse] = "bg-info/15", [s => s.ProgressIndicator] = "bg-info", [s => s.LoadingIndicator] = "text-info" },
-                [ToastStatus.Success] = new() { [s => s.Toast] = "border-success bg-success/10 text-success-foreground", [s => s.IconContainer] = "text-success", [s => s.IconPulse] = "bg-success/15", [s => s.ProgressIndicator] = "bg-success" },
-                [ToastStatus.Warning] = new() { [s => s.Toast] = "border-warning bg-warning/10 text-warning-foreground", [s => s.IconContainer] = "text-warning", [s => s.IconPulse] = "bg-warning/15", [s => s.ProgressIndicator] = "bg-warning" },
-                [ToastStatus.Error] = new() { [s => s.Toast] = "border-destructive bg-destructive/10 text-destructive", [s => s.IconContainer] = "text-destructive", [s => s.IconPulse] = "bg-destructive/15", [s => s.ProgressIndicator] = "bg-destructive" },
-                [ToastStatus.Loading] = new() { [s => s.Toast] = "border-info bg-background text-info-foreground", [s => s.IconContainer] = "text-info", [s => s.IconPulse] = "bg-info/15", [s => s.ProgressIndicator] = "bg-info", [s => s.LoadingIndicator] = "text-info" }
+                [ToastStatus.Default] = new() { [s => s.Toast] = "!border-accent/50 !bg-[color-mix(in_oklab,var(--background)_90%,var(--accent)_10%)] !text-accent-foreground", [s => s.Title] = "!text-accent-foreground", [s => s.IconContainer] = "!text-accent-foreground", [s => s.IconPulse] = "!bg-accent/15", [s => s.ProgressIndicator] = "!bg-accent-foreground", [s => s.LoadingIndicator] = "!text-accent-foreground" },
+                [ToastStatus.Info] = new() { [s => s.Toast] = "border-info bg-[color-mix(in_oklab,var(--background)_90%,var(--info)_10%)] text-info-foreground", [s => s.Title] = "text-info", [s => s.IconContainer] = "text-info", [s => s.IconPulse] = "bg-info/15", [s => s.ProgressIndicator] = "bg-info", [s => s.LoadingIndicator] = "text-info" },
+                [ToastStatus.Success] = new() { [s => s.Toast] = "border-success bg-[color-mix(in_oklab,var(--background)_90%,var(--success)_10%)] text-success-foreground", [s => s.Title] = "text-success", [s => s.IconContainer] = "text-success", [s => s.IconPulse] = "bg-success/15", [s => s.ProgressIndicator] = "bg-success", [s => s.LoadingIndicator] = "text-success" },
+                [ToastStatus.Warning] = new() { [s => s.Toast] = "border-warning bg-[color-mix(in_oklab,var(--background)_90%,var(--warning)_10%)] text-warning-foreground", [s => s.Title] = "text-warning", [s => s.IconContainer] = "text-warning", [s => s.IconPulse] = "bg-warning/15", [s => s.ProgressIndicator] = "bg-warning", [s => s.LoadingIndicator] = "text-warning" },
+                [ToastStatus.Error] = new() { [s => s.Toast] = "!border-destructive !bg-[color-mix(in_oklab,var(--background)_90%,var(--destructive)_10%)] !text-destructive", [s => s.Title] = "!text-destructive", [s => s.IconContainer] = "!text-destructive", [s => s.IconPulse] = "!bg-destructive/15", [s => s.ProgressIndicator] = "!bg-destructive", [s => s.LoadingIndicator] = "!text-destructive" },
+                [ToastStatus.Loading] = new() { [s => s.Toast] = "border-info bg-[color-mix(in_oklab,var(--background)_90%,var(--info)_10%)] text-info-foreground", [s => s.Title] = "text-info", [s => s.IconContainer] = "text-info", [s => s.IconPulse] = "bg-info/15", [s => s.ProgressIndicator] = "bg-info", [s => s.LoadingIndicator] = "text-info" }
             },
             [c => ((IHasRzToastProviderStylingProperties)c).Position] = new Variant<ToastPosition, RzToastProviderSlots>
             {
@@ -163,9 +163,9 @@ public static class RzToastProviderStyles
             },
             [c => ((IHasRzToastProviderStylingProperties)c).Animation] = new Variant<ToastAnimation, RzToastProviderSlots>
             {
-                [ToastAnimation.Fade] = new() { [s => s.Toast] = "transition-opacity transition-transform" },
-                [ToastAnimation.Slide] = new() { [s => s.Toast] = "transition-opacity transition-transform" },
-                [ToastAnimation.None] = new() { [s => s.Toast] = "transition-none" }
+                [ToastAnimation.Fade] = new() { [s => s.Toast] = "!transition-opacity" },
+                [ToastAnimation.Slide] = new() { [s => s.Toast] = "!transition-[opacity,transform]" },
+                [ToastAnimation.None] = new() { [s => s.Toast] = "!transition-none" }
             },
             [c => ((IHasRzToastProviderStylingProperties)c).State] = new Variant<ToastState, RzToastProviderSlots>
             {

@@ -31,6 +31,27 @@ function scheduleFrame(callback) {
     window.setTimeout(callback, 0);
 }
 
+function forceLayout(element) {
+    if (!element) {
+        return;
+    }
+
+    if (typeof element.getBoundingClientRect === 'function') {
+        element.getBoundingClientRect();
+        return;
+    }
+
+    void element.offsetHeight;
+}
+
+function getElementTop(element) {
+    return typeof element.getBoundingClientRect === 'function' ? element.getBoundingClientRect().top : 0;
+}
+
+function getStackItems(stack) {
+    return Array.from(stack.children || []).filter(child => child.hasAttribute?.('data-rz-toast-item'));
+}
+
 function getLifecycleDetail(toast, reason) {
     const detail = {
         id: toast.id,
@@ -135,8 +156,11 @@ export class RzToastManager {
 
         const toast = this.createRecord(normalized);
         const element = createToastDom(toast, this.config);
+        const previousStackPositions = this.captureStackPositions(stack);
         this.bindToastEvents(toast);
         this.insertToast(stack, element, normalized.newestOnTop);
+        this.animateStackShift(stack, previousStackPositions, element, normalized.speed);
+        forceLayout(element);
         this.toasts.set(toast.id, toast);
         if (toast.dedupeKey) {
             this.dedupeIndex.set(toast.dedupeKey, toast.id);
@@ -327,6 +351,42 @@ export class RzToastManager {
         stack.appendChild(element);
     }
 
+    captureStackPositions(stack) {
+        const positions = new Map();
+        getStackItems(stack).forEach(item => positions.set(item, getElementTop(item)));
+        return positions;
+    }
+
+    animateStackShift(stack, previousPositions, insertedElement, speed) {
+        if (!previousPositions.size) {
+            return;
+        }
+
+        getStackItems(stack).forEach(item => {
+            if (item === insertedElement || !previousPositions.has(item)) {
+                return;
+            }
+
+            const delta = previousPositions.get(item) - getElementTop(item);
+            if (!delta) {
+                return;
+            }
+
+            item.style.transition = 'none';
+            item.style.transform = `translate3d(0, ${delta}px, 0)`;
+            forceLayout(item);
+            scheduleFrame(() => {
+                item.style.transition = `transform ${speed}ms cubic-bezier(0.22, 1, 0.36, 1)`;
+                item.style.transform = '';
+            });
+            window.setTimeout(() => {
+                if (item.style.transition?.includes('cubic-bezier(0.22, 1, 0.36, 1)')) {
+                    item.style.transition = '';
+                }
+            }, speed);
+        });
+    }
+
     getStackForPosition(position) {
         const stack = this.stacks.get(position);
         if (stack) {
@@ -349,7 +409,9 @@ export class RzToastManager {
             return;
         }
 
+        const previousStackPositions = this.captureStackPositions(stack);
         this.insertToast(stack, element, toast.options.newestOnTop);
+        this.animateStackShift(stack, previousStackPositions, element, toast.options.speed);
     }
 
     bindToastEvents(toast) {

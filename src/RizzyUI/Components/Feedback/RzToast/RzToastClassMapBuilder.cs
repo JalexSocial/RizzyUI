@@ -81,31 +81,45 @@ public static class RzToastClassMapBuilder
 
     private static RzToastSlotClassMap ApplySolidTone(RzToastSlotClassMap map, ToastStatus status)
     {
-        var (toast, icon, pulse, progress) = status switch
+        var (toast, title, icon, pulse, progress) = status switch
         {
-            ToastStatus.Info => ("border-info bg-info text-info-foreground", "text-info-foreground", "bg-info-foreground/20", "bg-info-foreground"),
-            ToastStatus.Success => ("border-success bg-success text-success-foreground", "text-success-foreground", "bg-success-foreground/20", "bg-success-foreground"),
-            ToastStatus.Warning => ("border-warning bg-warning text-warning-foreground", "text-warning-foreground", "bg-warning-foreground/20", "bg-warning-foreground"),
-            ToastStatus.Error => ("border-destructive bg-destructive text-destructive-foreground", "text-destructive-foreground", "bg-destructive-foreground/20", "bg-destructive-foreground"),
-            ToastStatus.Loading => ("border-info bg-info text-info-foreground", "text-info-foreground", "bg-info-foreground/20", "bg-info-foreground"),
-            _ => ("border-primary bg-primary text-primary-foreground", "text-primary-foreground", "bg-primary-foreground/20", "bg-primary-foreground")
+            ToastStatus.Info => ("border-info !bg-info !text-info-foreground", "text-info-foreground", "text-info-foreground", "bg-info-foreground/20", "bg-info-foreground"),
+            ToastStatus.Success => ("border-success !bg-success !text-success-foreground", "text-success-foreground", "text-success-foreground", "bg-success-foreground/20", "bg-success-foreground"),
+            ToastStatus.Warning => ("border-warning !bg-warning !text-warning-foreground", "text-warning-foreground", "text-warning-foreground", "bg-warning-foreground/20", "bg-warning-foreground"),
+            ToastStatus.Error => ("border-destructive !bg-destructive !text-destructive-foreground", "text-destructive-foreground", "text-destructive-foreground", "bg-destructive-foreground/20", "bg-destructive-foreground"),
+            ToastStatus.Loading => ("border-info !bg-info !text-info-foreground", "text-info-foreground", "text-info-foreground", "bg-info-foreground/20", "bg-info-foreground"),
+            _ => ("border-primary !bg-primary !text-primary-foreground", "text-primary-foreground", "text-primary-foreground", "bg-primary-foreground/20", "bg-primary-foreground")
         };
 
         return map with
         {
-            Toast = Append(map.Toast, toast),
-            IconContainer = Append(map.IconContainer, icon),
-            IconPulse = Append(map.IconPulse, pulse),
-            LoadingIndicator = Append(map.LoadingIndicator, icon),
-            ProgressIndicator = Append(map.ProgressIndicator, progress)
+            Toast = Append(RemoveImportantColorOverrides(map.Toast), toast),
+            Title = Append(RemoveImportantColorOverrides(map.Title), title),
+            IconContainer = Append(RemoveImportantColorOverrides(map.IconContainer), icon),
+            IconPulse = Append(RemoveImportantColorOverrides(map.IconPulse), pulse),
+            LoadingIndicator = Append(RemoveImportantColorOverrides(map.LoadingIndicator), icon),
+            ProgressIndicator = Append(RemoveImportantColorOverrides(map.ProgressIndicator), progress)
         };
     }
 
     private static string Append(string current, string next) => string.IsNullOrWhiteSpace(current) ? next : $"{current} {next}";
 
+    private static string RemoveImportantColorOverrides(string classes)
+    {
+        if (string.IsNullOrWhiteSpace(classes))
+        {
+            return string.Empty;
+        }
+
+        return string.Join(" ", classes.Split(' ', StringSplitOptions.RemoveEmptyEntries).Where(token =>
+            !token.StartsWith("!bg-", StringComparison.Ordinal) &&
+            !token.StartsWith("!border-", StringComparison.Ordinal) &&
+            !token.StartsWith("!text-", StringComparison.Ordinal)));
+    }
+
     private static Dictionary<string, string> CreateIcons() => new(StringComparer.Ordinal)
     {
-        ["default"] = "info",
+        ["default"] = string.Empty,
         ["info"] = "info",
         ["success"] = "success",
         ["warning"] = "warning",

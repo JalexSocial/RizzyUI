@@ -35,6 +35,10 @@ export function createCloseIcon() {
 }
 
 export function createStatusIcon(status) {
+    if (status === 'default') {
+        return null;
+    }
+
     if (status === 'loading') {
         return document.createElement('span');
     }

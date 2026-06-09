@@ -152,6 +152,7 @@ public class RzToastProviderTests : BunitAlbaContext, IClassFixture<WebAppFixtur
         Assert.Contains("flex-col", map.Slots.Stack);
         Assert.Contains("pointer-events-auto", map.Slots.Toast);
         Assert.Contains("rounded-full", map.Slots.CloseButton);
+        Assert.Contains("text-foreground", map.Slots.CloseButton);
         Assert.Contains("origin-left", map.Slots.ProgressIndicator);
     }
 
@@ -172,6 +173,51 @@ public class RzToastProviderTests : BunitAlbaContext, IClassFixture<WebAppFixtur
             Assert.False(string.IsNullOrWhiteSpace(classes.Viewport));
             Assert.False(string.IsNullOrWhiteSpace(classes.Stack));
         });
+    }
+
+
+    [Fact]
+    public void SubtleStatusClassesUseOpaqueTintedBackgroundsAndStatusTitleColors()
+    {
+        var map = BuildClassMap(new RzToastProviderOptions { Tone = ToastTone.Subtle });
+
+        Assert.Contains("!border-accent/50", map.Statuses["default"].Toast);
+        Assert.Contains("!bg-[color-mix(in_oklab,var(--background)_90%,var(--accent)_10%)]", map.Statuses["default"].Toast);
+        Assert.Contains("!text-accent-foreground", map.Statuses["default"].Toast);
+        Assert.Contains("!text-accent-foreground", map.Statuses["default"].Title);
+
+        AssertSubtleStatusClasses(map.Statuses["info"], "info", "text-info");
+        AssertSubtleStatusClasses(map.Statuses["success"], "success", "text-success");
+        AssertSubtleStatusClasses(map.Statuses["warning"], "warning", "text-warning");
+        AssertSubtleStatusClasses(map.Statuses["error"], "destructive", "text-destructive");
+        Assert.Contains("!bg-[color-mix(in_oklab,var(--background)_90%,var(--destructive)_10%)]", map.Statuses["error"].Toast);
+        Assert.Contains("!text-destructive", map.Statuses["error"].Title);
+        AssertSubtleStatusClasses(map.Statuses["loading"], "info", "text-info");
+    }
+
+    [Fact]
+    public void SolidToneOverridesUseImportantBackgroundsAndReadableTitleColors()
+    {
+        var map = BuildClassMap(new RzToastProviderOptions { Tone = ToastTone.Solid });
+
+        AssertSolidStatusClasses(map.Statuses["info"], "!bg-info", "text-info-foreground");
+        AssertSolidStatusClasses(map.Statuses["success"], "!bg-success", "text-success-foreground");
+        AssertSolidStatusClasses(map.Statuses["warning"], "!bg-warning", "text-warning-foreground");
+        AssertSolidStatusClasses(map.Statuses["error"], "!bg-destructive", "text-destructive-foreground");
+        Assert.DoesNotContain("!bg-[color-mix(in_oklab,var(--background)_90%,var(--destructive)_10%)]", map.Statuses["error"].Toast);
+        Assert.DoesNotContain("!text-destructive ", $"{map.Statuses["error"].Title} ");
+        AssertSolidStatusClasses(map.Statuses["loading"], "!bg-info", "text-info-foreground");
+    }
+
+
+    [Fact]
+    public void AnimationClassMapsApplyDistinctTransitionProperties()
+    {
+        var map = BuildClassMap(new RzToastProviderOptions());
+
+        Assert.Contains("!transition-opacity", map.Animations["fade"].Toast);
+        Assert.Contains("!transition-[opacity,transform]", map.Animations["slide"].Toast);
+        Assert.Contains("!transition-none", map.Animations["none"].Toast);
     }
 
     [Fact]
@@ -224,6 +270,29 @@ public class RzToastProviderTests : BunitAlbaContext, IClassFixture<WebAppFixtur
             Assert.Contains("viewport-override", position.Value.GetProperty("viewport").GetString());
             Assert.Contains("stack-override", position.Value.GetProperty("stack").GetString());
         });
+    }
+
+
+    private static void AssertSubtleStatusClasses(RzToastSlotClassMap classes, string colorToken, string titleClass)
+    {
+        Assert.Contains("color-mix(", classes.Toast);
+        Assert.Contains($"var(--{colorToken})", classes.Toast);
+        Assert.Contains(titleClass, classes.Title);
+        Assert.DoesNotContain("bg-info/10", classes.Toast);
+        Assert.DoesNotContain("bg-success/10", classes.Toast);
+        Assert.DoesNotContain("bg-warning/10", classes.Toast);
+        Assert.DoesNotContain("bg-destructive/10", classes.Toast);
+        Assert.DoesNotContain("before:bg-info/10", classes.Toast);
+        Assert.DoesNotContain("before:bg-success/10", classes.Toast);
+        Assert.DoesNotContain("before:bg-warning/10", classes.Toast);
+        Assert.DoesNotContain("before:bg-destructive/10", classes.Toast);
+        Assert.DoesNotContain("before:content", classes.Toast);
+    }
+
+    private static void AssertSolidStatusClasses(RzToastSlotClassMap classes, string backgroundClass, string titleClass)
+    {
+        Assert.Contains(backgroundClass, classes.Toast);
+        Assert.Contains(titleClass, classes.Title);
     }
 
     private RzToastClassMap BuildClassMap(RzToastProviderOptions options)

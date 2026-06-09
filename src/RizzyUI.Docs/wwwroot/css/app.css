@@ -2190,8 +2190,17 @@
     --tw-border-style: solid;
     border-style: solid;
   }
+  .\!border-accent\/50 {
+    border-color: var(--accent) !important;
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--accent) 50%, transparent) !important;
+    }
+  }
   .\!border-border {
     border-color: var(--border) !important;
+  }
+  .\!border-destructive {
+    border-color: var(--destructive) !important;
   }
   .border-accent {
     border-color: var(--accent);
@@ -2349,8 +2358,68 @@
   .border-l-transparent {
     border-left-color: transparent;
   }
+  .\!bg-\[color-mix\(in_oklab\,var\(--background\)_90\%\,var\(--accent\)_10\%\)\] {
+    background-color: var(--background) !important;
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab,var(--background) 90%,var(--accent) 10%) !important;
+    }
+  }
+  .\!bg-\[color-mix\(in_oklab\,var\(--background\)_90\%\,var\(--destructive\)_10\%\)\] {
+    background-color: var(--background) !important;
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab,var(--background) 90%,var(--destructive) 10%) !important;
+    }
+  }
+  .\!bg-accent-foreground {
+    background-color: var(--accent-foreground) !important;
+  }
+  .\!bg-accent\/15 {
+    background-color: var(--accent) !important;
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--accent) 15%, transparent) !important;
+    }
+  }
   .\!bg-card {
     background-color: var(--card) !important;
+  }
+  .\!bg-destructive {
+    background-color: var(--destructive) !important;
+  }
+  .\!bg-destructive\/15 {
+    background-color: var(--destructive) !important;
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--destructive) 15%, transparent) !important;
+    }
+  }
+  .\!bg-info {
+    background-color: var(--info) !important;
+  }
+  .\!bg-primary {
+    background-color: var(--primary) !important;
+  }
+  .\!bg-success {
+    background-color: var(--success) !important;
+  }
+  .\!bg-warning {
+    background-color: var(--warning) !important;
+  }
+  .bg-\[color-mix\(in_oklab\,var\(--background\)_90\%\,var\(--info\)_10\%\)\] {
+    background-color: var(--background);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab,var(--background) 90%,var(--info) 10%);
+    }
+  }
+  .bg-\[color-mix\(in_oklab\,var\(--background\)_90\%\,var\(--success\)_10\%\)\] {
+    background-color: var(--background);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab,var(--background) 90%,var(--success) 10%);
+    }
+  }
+  .bg-\[color-mix\(in_oklab\,var\(--background\)_90\%\,var\(--warning\)_10\%\)\] {
+    background-color: var(--background);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab,var(--background) 90%,var(--warning) 10%);
+    }
   }
   .bg-accent {
     background-color: var(--accent);
@@ -3372,8 +3441,29 @@
   .whitespace-pre-wrap {
     white-space: pre-wrap;
   }
+  .\!text-accent-foreground {
+    color: var(--accent-foreground) !important;
+  }
   .\!text-card-foreground {
     color: var(--card-foreground) !important;
+  }
+  .\!text-destructive {
+    color: var(--destructive) !important;
+  }
+  .\!text-destructive-foreground {
+    color: var(--destructive-foreground) !important;
+  }
+  .\!text-info-foreground {
+    color: var(--info-foreground) !important;
+  }
+  .\!text-primary-foreground {
+    color: var(--primary-foreground) !important;
+  }
+  .\!text-success-foreground {
+    color: var(--success-foreground) !important;
+  }
+  .\!text-warning-foreground {
+    color: var(--warning-foreground) !important;
   }
   .text-accent {
     color: var(--accent);
@@ -3805,6 +3895,16 @@
     -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
     backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
   }
+  .\!transition-\[opacity\,transform\] {
+    transition-property: opacity,transform !important;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function)) !important;
+    transition-duration: var(--tw-duration, var(--default-transition-duration)) !important;
+  }
+  .\!transition-opacity {
+    transition-property: opacity !important;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function)) !important;
+    transition-duration: var(--tw-duration, var(--default-transition-duration)) !important;
+  }
   .transition {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -3875,8 +3975,8 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
-  .transition-none {
-    transition-property: none;
+  .\!transition-none {
+    transition-property: none !important;
   }
   .duration-75 {
     --tw-duration: 75ms;
@@ -7409,11 +7509,6 @@
       }
     }
   }
-  .lg\:col-span-2 {
-    @media (width >= 64rem) {
-      grid-column: span 2 / span 2;
-    }
-  }
   .lg\:flex {
     @media (width >= 64rem) {
       display: flex;
@@ -7437,11 +7532,6 @@
   .lg\:basis-1\/3 {
     @media (width >= 64rem) {
       flex-basis: calc(1 / 3 * 100%);
-    }
-  }
-  .lg\:grid-cols-2 {
-    @media (width >= 64rem) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
   .lg\:grid-cols-3 {

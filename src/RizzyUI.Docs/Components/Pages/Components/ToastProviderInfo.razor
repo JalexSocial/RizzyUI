@@ -75,7 +75,7 @@
                     These examples use delegated documentation event listeners and stable <code>data-rz-toast-demo</code> attributes. The buttons call the real <code>Rizzy.toast</code> facade in the same DOM context as the provider above.
                 </RzParagraph>
 
-                <div class="not-prose mt-6 grid gap-6 lg:grid-cols-2">
+                <div class="not-prose mt-6 flex flex-col gap-6">
                     <RzCard>
                         <CardHeader>
                             <CardTitle>Default toast</CardTitle>
@@ -236,7 +236,7 @@ setTimeout(() =&gt; {
                         </CardContent>
                     </RzCard>
 
-                    <RzCard class="lg:col-span-2">
+                    <RzCard>
                         <CardHeader>
                             <CardTitle>Positioning</CardTitle>
                             <CardDescription>RzToastProvider renders separate stacks for every supported position, so different toast requests can appear in different regions at the same time.</CardDescription>
@@ -268,7 +268,7 @@ Rizzy.toast.info("This toast uses the Simple Notify alias right y-center.", "Rig
                         </CardContent>
                     </RzCard>
 
-                    <RzCard class="lg:col-span-2">
+                    <RzCard>
                         <CardHeader>
                             <CardTitle>Programmatic dismiss and clear</CardTitle>
                             <CardDescription>Use a stable id when you need to dismiss or update a specific toast later. Use clear when a context change makes existing notifications irrelevant.</CardDescription>
@@ -293,7 +293,7 @@ Rizzy.toast.clear();
                         </CardContent>
                     </RzCard>
 
-                    <RzCard class="lg:col-span-2">
+                    <RzCard>
                         <CardHeader>
                             <CardTitle>Event dispatch</CardTitle>
                             <CardDescription>Use rz:toast events when a server-rendered fragment, HTMX response, or other client code needs to publish a toast without directly calling the facade.</CardDescription>
