@@ -4,7 +4,7 @@ import { applyToastClasses, createToastDom, updateToastDom } from './rzToastRend
 const providerSelector = '[data-rz-toast-provider]';
 const configSelector = '[data-rz-toast-config]';
 const stackSelector = '[data-rz-toast-stack][data-toast-position]';
-const inputEvents = ['rz:toast', 'rz:toast:show', 'rz:toast:update', 'rz:toast:dismiss', 'rz:toast:clear'];
+const inputEvents = ['rz:toast', 'rz:toast:show', 'rz:toast:update', 'rz:toast:dismiss', 'rz:toast:clear', 'rz:toast:batch'];
 
 function createId() {
     if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -455,6 +455,14 @@ export class RzToastManager {
         try {
             if (typeof action.onClick === 'function') {
                 action.onClick(this.createHandle(toast.id));
+            } else if (typeof action.eventName === 'string' && action.eventName.trim()) {
+                window.dispatchEvent(new CustomEvent(action.eventName, {
+                    detail: action.detail ?? {
+                        id: toast.id,
+                        status: toast.options.status,
+                        data: toast.options.data,
+                    },
+                }));
             }
         } catch (error) {
             console.error('[RizzyUI] Toast action failed.', error);
@@ -573,6 +581,40 @@ export class RzToastManager {
         window.dispatchEvent(new CustomEvent(name, { detail }));
     }
 
+
+    processBatch(detail) {
+        const commands = detail?.commands;
+        if (!Array.isArray(commands)) {
+            return;
+        }
+
+        commands.forEach(command => {
+            if (!command || typeof command !== 'object') {
+                return;
+            }
+
+            switch (command.type) {
+                case 'show':
+                    this.show(command.options || {});
+                    break;
+                case 'update':
+                    if (command.id) {
+                        this.update(command.id, command.options || {});
+                    }
+                    break;
+                case 'dismiss':
+                    this.dismiss(command.id, 'api');
+                    break;
+                case 'clear':
+                    this.clear();
+                    break;
+                default:
+                    console.warn(`[RizzyUI] Unsupported toast batch command '${command.type}'.`);
+                    break;
+            }
+        });
+    }
+
     installInputEventListeners() {
         if (typeof window === 'undefined' || typeof document === 'undefined') {
             return;
@@ -594,6 +636,8 @@ export class RzToastManager {
                 this.dismiss(detail.id, 'api');
             } else if (event.type === 'rz:toast:clear') {
                 this.clear();
+            } else if (event.type === 'rz:toast:batch') {
+                this.processBatch(detail);
             }
         };
 

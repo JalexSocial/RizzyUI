@@ -998,3 +998,130 @@ test('missing normalized stack falls back to top-right when available', () => {
         env.restore();
     }
 });
+
+test('toast batch input event processes show update dismiss and clear commands in order', () => {
+    const env = setupManager();
+    const warnings = [];
+    console.warn = message => warnings.push(message);
+
+    try {
+        assert.ok(env.window.listeners.get('rz:toast:batch')?.length > 0);
+        env.window.dispatchEvent(new FakeEvent('rz:toast:batch', {
+            detail: {
+                commands: [
+                    { type: 'show', options: { id: 'first', text: 'First', autoclose: false } },
+                    { type: 'show', options: { id: 'second', text: 'Second', autoclose: false } },
+                    { type: 'update', id: 'first', options: { text: 'First updated', status: 'success' } },
+                    { type: 'dismiss', id: 'second' },
+                    { type: 'unsupported' },
+                    null,
+                    { type: 'show', options: { id: 'third', text: 'Third', autoclose: false } },
+                ],
+            },
+        }));
+        env.window.tick(0);
+
+        assert.equal(env.manager.get('first').options.text, 'First updated');
+        assert.equal(env.manager.get('first').options.status, 'success');
+        assert.equal(env.manager.get('second'), undefined);
+        assert.equal(env.manager.get('third').options.text, 'Third');
+        assert.match(warnings.at(-1), /Unsupported toast batch command/);
+
+        env.window.dispatchEvent(new FakeEvent('rz:toast:batch', { detail: { commands: [{ type: 'dismiss' }] } }));
+        env.window.tick(0);
+        assert.equal(env.manager.get('third'), undefined);
+        assert.notEqual(env.manager.get('first'), undefined);
+
+        env.window.dispatchEvent(new FakeEvent('rz:toast:batch', { detail: { commands: [{ type: 'clear' }] } }));
+        assert.equal(env.manager.getAll().length, 0);
+    } finally {
+        env.restore();
+    }
+});
+
+test('toast batch ignores malformed details and preserves existing single input events', () => {
+    const env = setupManager();
+
+    try {
+        assert.doesNotThrow(() => env.window.dispatchEvent(new FakeEvent('rz:toast:batch', { detail: null })));
+        assert.doesNotThrow(() => env.window.dispatchEvent(new FakeEvent('rz:toast:batch', { detail: { commands: 'bad' } })));
+
+        env.window.dispatchEvent(new FakeEvent('rz:toast', { detail: { id: 'single', text: 'Single', autoclose: false } }));
+        assert.equal(env.manager.get('single').options.text, 'Single');
+        env.window.dispatchEvent(new FakeEvent('rz:toast:update', { detail: { id: 'single', options: { text: 'Single updated' } } }));
+        assert.equal(env.manager.get('single').options.text, 'Single updated');
+        env.window.dispatchEvent(new FakeEvent('rz:toast:dismiss', { detail: { id: 'single' } }));
+        env.window.tick(0);
+        assert.equal(env.manager.get('single'), undefined);
+
+        env.window.dispatchEvent(new FakeEvent('rz:toast:show', { detail: { id: 'single-clear', text: 'Clear me', autoclose: false } }));
+        env.window.dispatchEvent(new FakeEvent('rz:toast:clear'));
+        assert.equal(env.manager.getAll().length, 0);
+    } finally {
+        env.restore();
+    }
+});
+
+test('toast server event actions dispatch browser events and honor dismissOnClick without evaluating strings', () => {
+    const env = setupManager();
+    const dispatched = [];
+    let callbackCalls = 0;
+
+    try {
+        env.window.addEventListener('rz:message:restore', event => dispatched.push(event.detail));
+        env.manager.show({
+            id: 'server-action',
+            text: 'Archived',
+            autoclose: false,
+            action: {
+                label: 'Undo',
+                eventName: 'rz:message:restore',
+                detail: { messageId: 42 },
+                dismissOnClick: false,
+                onClick: 'globalThis.__toastEvalMarker = true',
+            },
+        });
+
+        env.manager.get('server-action').elements.root.querySelector('[data-slot="toast-action-button"]').dispatchEvent(new FakeEvent('click'));
+        assert.deepEqual(dispatched[0], { messageId: 42 });
+        assert.notEqual(env.manager.get('server-action'), undefined);
+        assert.equal(globalThis.__toastEvalMarker, undefined);
+
+        env.manager.show({
+            id: 'server-action-dismiss',
+            text: 'Archived again',
+            data: { source: 'server' },
+            autoclose: false,
+            action: {
+                label: 'Undo',
+                eventName: 'rz:message:restore',
+            },
+        });
+        env.manager.get('server-action-dismiss').elements.root.querySelector('[data-slot="toast-action-button"]').dispatchEvent(new FakeEvent('click'));
+        env.window.tick(0);
+        assert.equal(dispatched[1].id, 'server-action-dismiss');
+        assert.equal(dispatched[1].status, 'info');
+        assert.deepEqual(dispatched[1].data, { source: 'server' });
+        assert.equal(env.manager.get('server-action-dismiss'), undefined);
+
+        env.manager.show({
+            id: 'callback-action',
+            text: 'Callback',
+            autoclose: false,
+            action: {
+                label: 'Run',
+                eventName: 'rz:message:restore',
+                onClick: handle => {
+                    callbackCalls += 1;
+                    assert.equal(handle.id, 'callback-action');
+                },
+            },
+        });
+        env.manager.get('callback-action').elements.root.querySelector('[data-slot="toast-action-button"]').dispatchEvent(new FakeEvent('click'));
+        assert.equal(callbackCalls, 1);
+        assert.equal(dispatched.length, 2);
+    } finally {
+        delete globalThis.__toastEvalMarker;
+        env.restore();
+    }
+});
