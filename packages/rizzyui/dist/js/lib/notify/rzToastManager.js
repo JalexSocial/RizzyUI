@@ -358,7 +358,7 @@ export class RzToastManager {
     }
 
     animateStackShift(stack, previousPositions, insertedElement, speed) {
-        if (!previousPositions.size) {
+        if (!previousPositions?.size) {
             return;
         }
 
@@ -382,6 +382,10 @@ export class RzToastManager {
             window.setTimeout(() => {
                 if (item.style.transition?.includes('cubic-bezier(0.22, 1, 0.36, 1)')) {
                     item.style.transition = '';
+                }
+
+                if (item.style.transform?.startsWith('translate3d(0,')) {
+                    item.style.transform = '';
                 }
             }, speed);
         });
@@ -550,11 +554,19 @@ export class RzToastManager {
         indicator.style.transform = computed === 'none' ? 'scaleX(1)' : computed;
     }
 
-    removeToast(toast, reason) {
+    removeToast(toast, reason, animateRemoval = reason !== 'clear') {
         this.clearTimer(toast);
 
-        if (toast.elements?.root?.parentElement) {
-            toast.elements.root.parentElement.removeChild(toast.elements.root);
+        const root = toast.elements?.root;
+        const stack = root?.parentElement;
+        const previousStackPositions = animateRemoval && stack ? this.captureStackPositions(stack) : null;
+
+        if (root && stack) {
+            stack.removeChild(root);
+
+            if (previousStackPositions) {
+                this.animateStackShift(stack, previousStackPositions, null, toast.options.speed);
+            }
         }
 
         this.toasts.delete(toast.id);

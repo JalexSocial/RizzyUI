@@ -3,7 +3,7 @@ import test from 'node:test';
 import Toast from '../toast.js';
 import { RzToastManager } from '../rzToastManager.js';
 import { normalizeToastOptions } from '../rzToastNormalize.js';
-import { createToastDom, dedupeClasses } from '../rzToastRenderer.js';
+import { composeToastClass, createToastDom, dedupeClasses } from '../rzToastRenderer.js';
 
 const positions = [
     'top-left',
@@ -695,6 +695,107 @@ test('toast insertion flushes initial state and animates existing stack items in
         assert.equal(first.style.transform, '');
         assert.equal(first.style.transition, 'transform 250ms cubic-bezier(0.22, 1, 0.36, 1)');
         assert.ok(first._rectReadCount > 1);
+
+        env.window.tick(250);
+        assert.equal(first.style.transform, '');
+        assert.equal(first.style.transition, '');
+    } finally {
+        env.restore();
+    }
+});
+
+
+test('dismiss applies leaving state before removal and removed toasts FLIP remaining stack items', () => {
+    const config = createConfig({ defaults: { speed: 250 } });
+    config.states = {
+        entering: { toast: 'state-entering opacity-0 translate-y-2 scale-95' },
+        visible: { toast: 'state-visible opacity-100 translate-y-0 scale-100' },
+        leaving: { toast: 'state-leaving opacity-0 translate-y-2 scale-95' },
+    };
+    const env = setupManager(config);
+
+    try {
+        env.manager.show({ id: 'first', title: 'First', text: 'First toast', autoclose: false });
+        env.manager.show({ id: 'second', title: 'Second', text: 'Second toast', autoclose: false });
+        env.window.tick(250);
+
+        const stack = env.manager.stacks.get('top-right');
+        const first = env.manager.get('first').elements.root;
+        const second = env.manager.get('second').elements.root;
+        const originalCaptureStackPositions = env.manager.captureStackPositions.bind(env.manager);
+        const originalAnimateStackShift = env.manager.animateStackShift.bind(env.manager);
+        let capturedToastIds = [];
+        let animatedRemoval = null;
+
+        env.manager.captureStackPositions = stackElement => {
+            const positions = originalCaptureStackPositions(stackElement);
+            capturedToastIds = [...positions.keys()].map(item => item.dataset.toastId);
+            return positions;
+        };
+        env.manager.animateStackShift = (stackElement, previousPositions, insertedElement, speed) => {
+            animatedRemoval = {
+                stackElement,
+                previousPositions,
+                insertedElement,
+                speed,
+                remainingToastIds: toastItems(stackElement).map(item => item.dataset.toastId),
+            };
+            return originalAnimateStackShift(stackElement, previousPositions, insertedElement, speed);
+        };
+
+        assert.equal(env.manager.dismiss('second', 'api'), true);
+        assert.equal(env.manager.get('second').state, 'leaving');
+        assert.ok(second.classList.includes('state-leaving'));
+        assert.ok(second.classList.includes('translate-y-2'));
+        assert.equal(toastItems(stack).length, 2);
+
+        env.window.tick(250);
+        assert.equal(env.manager.get('second'), undefined);
+        assert.deepEqual(capturedToastIds, ['second', 'first']);
+        assert.notEqual(animatedRemoval, null);
+        assert.equal(animatedRemoval.stackElement, stack);
+        assert.equal(animatedRemoval.insertedElement, null);
+        assert.equal(animatedRemoval.speed, 250);
+        assert.deepEqual(animatedRemoval.remainingToastIds, ['first']);
+        assert.equal(toastItems(stack).length, 1);
+        assert.equal(toastItems(stack)[0].dataset.toastId, 'first');
+        assert.equal(first.style.transform, '');
+        assert.equal(first.style.transition, 'transform 250ms cubic-bezier(0.22, 1, 0.36, 1)');
+
+        env.window.tick(250);
+        assert.equal(first.style.transform, '');
+        assert.equal(first.style.transition, '');
+    } finally {
+        env.restore();
+    }
+});
+
+
+test('animateStackShift accepts a null inserted element and clears temporary inline styles', () => {
+    const env = setupManager(createConfig({ defaults: { speed: 300 } }));
+
+    try {
+        assert.equal(env.manager.ensureProvider(), true);
+        const stack = env.manager.stacks.get('top-right');
+        const first = env.document.createElement('div');
+        const second = env.document.createElement('div');
+        first.dataset.rzToastItem = '';
+        first.dataset.toastId = 'first';
+        second.dataset.rzToastItem = '';
+        second.dataset.toastId = 'second';
+        stack.appendChild(first);
+        stack.appendChild(second);
+
+        const previousPositions = env.manager.captureStackPositions(stack);
+        stack.removeChild(first);
+        env.manager.animateStackShift(stack, previousPositions, null, 300);
+
+        assert.equal(second.style.transform, '');
+        assert.equal(second.style.transition, 'transform 300ms cubic-bezier(0.22, 1, 0.36, 1)');
+
+        env.window.tick(300);
+        assert.equal(second.style.transform, '');
+        assert.equal(second.style.transition, '');
     } finally {
         env.restore();
     }
@@ -771,8 +872,8 @@ test('renderer de-duplicates slot classes while preserving status title colors a
         config.statuses.error.title = 'text-destructive font-medium';
         config.statuses.default.title = 'text-accent-foreground font-medium';
         config.tones.subtle = { toast: 'border tone-subtle' };
-        config.animations.fade = { toast: 'transition-opacity animation-fade' };
-        config.states.visible = { toast: 'transition-opacity state-visible' };
+        config.animations.fade = { toast: 'transition-[opacity,transform] animation-fade' };
+        config.states.visible = { toast: 'opacity-100 translate-y-0 scale-100 state-visible' };
 
         const toast = {
             id: 'dedupe-rendered',
@@ -823,6 +924,19 @@ test('renderer de-duplicates slot classes while preserving status title colors a
         assert.ok(element.classList.includes('tone-subtle'));
         assert.ok(element.classList.includes('animation-fade'));
         assert.ok(element.classList.includes('state-visible'));
+        assert.ok(element.classList.includes('transition-[opacity,transform]'));
+        assert.ok(element.classList.includes('translate-y-0'));
+        assert.ok(element.classList.includes('scale-100'));
+        assert.ok(!element.classList.includes('!transition-opacity'));
+
+        toast.state = 'leaving';
+        config.states.leaving = { toast: 'opacity-0 translate-y-2 scale-95 state-leaving' };
+        const leavingClasses = composeToastClass(config, toast, 'toast');
+        assert.ok(leavingClasses.includes('transition-[opacity,transform]'));
+        assert.ok(leavingClasses.includes('translate-y-2'));
+        assert.ok(leavingClasses.includes('scale-95'));
+        assert.ok(!leavingClasses.includes('!transition-opacity'));
+        toast.state = 'visible';
 
         toast.options = normalizeToastOptions({ status: 'default', title: 'Default', text: 'No icon', autoclose: false }, config);
         const defaultElement = createToastDom(toast, config);
