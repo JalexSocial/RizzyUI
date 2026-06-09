@@ -16,7 +16,7 @@ namespace RizzyUI;
 public partial class FieldLabel<TValue> : RzComponent<FieldLabelSlots>, IHasFieldLabelStylingProperties
 {
     private string? _effectiveDisplayName;
-    private string _for = string.Empty;
+    private string? _effectiveForId;
 
     [CascadingParameter] private HttpContext? HttpContext { get; set; }
     [CascadingParameter] private EditContext? EditContext { get; set; }
@@ -32,6 +32,12 @@ public partial class FieldLabel<TValue> : RzComponent<FieldLabelSlots>, IHasFiel
     /// </summary>
     [Parameter]
     public Expression<Func<TValue>>? For { get; set; }
+
+    /// <summary>
+    /// Gets or sets the ID of the form control associated with this label. When specified, this value takes precedence over automatic ID resolution from <see cref="For"/>.
+    /// </summary>
+    [Parameter]
+    public string? ForId { get; set; }
 
     /// <summary>
     /// Gets or sets the display name for the label. If not set, it's inferred from the `For` expression's `DisplayAttribute` or property name.
@@ -54,7 +60,7 @@ public partial class FieldLabel<TValue> : RzComponent<FieldLabelSlots>, IHasFiel
     protected override void OnParametersSet()
     {
         SetEffectiveDisplayName();
-        SetForAttribute();
+        SetEffectiveForId();
         base.OnParametersSet();
     }
 
@@ -83,23 +89,37 @@ public partial class FieldLabel<TValue> : RzComponent<FieldLabelSlots>, IHasFiel
         }
     }
 
-    private void SetForAttribute()
+    private void SetEffectiveForId()
     {
-        _for = string.Empty;
-        if (For != null && HttpContext != null && EditContext != null)
+        if (!string.IsNullOrWhiteSpace(ForId))
         {
-            try
-            {
-                var field = FieldIdentifier.Create(For);
-                var fieldMap = HttpContext.GetOrAddFieldMapping(EditContext);
+            _effectiveForId = ForId;
+            return;
+        }
 
-                if (fieldMap != null && fieldMap.TryGetValue(field, out var map) && map != null)
-                    _for = map.Id;
-            }
-            catch (ArgumentException)
+        _effectiveForId = null;
+
+        if (For == null || HttpContext == null || EditContext == null)
+        {
+            return;
+        }
+
+        try
+        {
+            var field = FieldIdentifier.Create(For);
+            var fieldMap = HttpContext.GetOrAddFieldMapping(EditContext);
+
+            if (fieldMap != null &&
+                fieldMap.TryGetValue(field, out var map) &&
+                map != null &&
+                !string.IsNullOrWhiteSpace(map.Id))
             {
-                // Handle cases where For expression is not suitable for FieldIdentifier
+                _effectiveForId = map.Id;
             }
+        }
+        catch (ArgumentException)
+        {
+            // Handle cases where For expression is not suitable for FieldIdentifier
         }
     }
 
