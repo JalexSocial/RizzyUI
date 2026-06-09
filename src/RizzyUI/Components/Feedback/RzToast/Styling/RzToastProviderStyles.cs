@@ -115,7 +115,7 @@ public static class RzToastProviderStyles
         {
             [s => s.Viewport] = "pointer-events-none fixed inset-0 flex max-h-screen w-full p-4 sm:p-6",
             [s => s.Stack] = "flex w-full max-w-sm flex-col gap-3",
-            [s => s.Toast] = "not-prose pointer-events-auto relative w-full overflow-hidden rounded-lg border text-sm shadow-lg transition-all duration-200 ease-out motion-reduce:transition-none",
+            [s => s.Toast] = "not-prose pointer-events-auto relative w-full overflow-hidden rounded-lg border text-sm shadow-lg duration-200 ease-out motion-reduce:transition-none",
             [s => s.InnerContainer] = "flex w-full items-start gap-x-3 px-4 py-3",
             [s => s.IconContainer] = "relative flex size-6 shrink-0 items-center justify-center text-2xl translate-y-0.5",
             [s => s.IconPulse] = "absolute size-6 aspect-square rounded-full animate-ping motion-reduce:animate-none",
@@ -163,9 +163,9 @@ public static class RzToastProviderStyles
             },
             [c => ((IHasRzToastProviderStylingProperties)c).Animation] = new Variant<ToastAnimation, RzToastProviderSlots>
             {
-                [ToastAnimation.Fade] = new() { [s => s.Toast] = "!transition-opacity" },
-                [ToastAnimation.Slide] = new() { [s => s.Toast] = "!transition-[opacity,transform]" },
-                [ToastAnimation.None] = new() { [s => s.Toast] = "!transition-none" }
+                [ToastAnimation.Fade] = new() { [s => s.Toast] = "transition-[opacity,transform]" },
+                [ToastAnimation.Slide] = new() { [s => s.Toast] = "transition-[opacity,transform]" },
+                [ToastAnimation.None] = new() { [s => s.Toast] = "transition-none" }
             },
             [c => ((IHasRzToastProviderStylingProperties)c).State] = new Variant<ToastState, RzToastProviderSlots>
             {

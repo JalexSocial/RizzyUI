@@ -215,9 +215,38 @@ public class RzToastProviderTests : BunitAlbaContext, IClassFixture<WebAppFixtur
     {
         var map = BuildClassMap(new RzToastProviderOptions());
 
-        Assert.Contains("!transition-opacity", map.Animations["fade"].Toast);
-        Assert.Contains("!transition-[opacity,transform]", map.Animations["slide"].Toast);
-        Assert.Contains("!transition-none", map.Animations["none"].Toast);
+        Assert.Contains("transition-[opacity,transform]", map.Animations["fade"].Toast);
+        Assert.Contains("transition-[opacity,transform]", map.Animations["slide"].Toast);
+        Assert.Contains("transition-none", map.Animations["none"].Toast);
+        Assert.DoesNotContain("!transition-opacity", map.Animations["fade"].Toast);
+        Assert.DoesNotContain("!transition-opacity", map.Animations["slide"].Toast);
+        Assert.DoesNotContain("!transition-opacity", map.States["leaving"].Toast);
+    }
+
+    [Fact]
+    public void ToastTransformStatesTransitionOpacityAndTransformInFinalClassComposition()
+    {
+        var map = BuildClassMap(new RzToastProviderOptions());
+
+        var visibleClasses = string.Join(" ", map.Slots.Toast, map.Animations["fade"].Toast, map.States["visible"].Toast);
+        var leavingClasses = string.Join(" ", map.Slots.Toast, map.Animations["fade"].Toast, map.States["leaving"].Toast);
+        var slideLeavingClasses = string.Join(" ", map.Slots.Toast, map.Animations["slide"].Toast, map.States["leaving"].Toast);
+
+        Assert.Contains("transition-[opacity,transform]", visibleClasses);
+        Assert.Contains("opacity-100", visibleClasses);
+        Assert.Contains("translate-y-0", visibleClasses);
+        Assert.Contains("scale-100", visibleClasses);
+        Assert.DoesNotContain("!transition-opacity", visibleClasses);
+
+        Assert.Contains("transition-[opacity,transform]", leavingClasses);
+        Assert.Contains("opacity-0", leavingClasses);
+        Assert.Contains("translate-y-2", leavingClasses);
+        Assert.Contains("scale-95", leavingClasses);
+        Assert.DoesNotContain("!transition-opacity", leavingClasses);
+
+        Assert.Contains("transition-[opacity,transform]", slideLeavingClasses);
+        Assert.Contains("translate-y-2", slideLeavingClasses);
+        Assert.DoesNotContain("!transition-opacity", slideLeavingClasses);
     }
 
     [Fact]
