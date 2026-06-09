@@ -5,6 +5,8 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
 using RizzyUI.Localization;
+using RizzyUI.Services.RzToast;
+using RizzyUI.Services.RzToast.Internal;
 using TailwindMerge.Extensions;
 
 namespace RizzyUI;
@@ -58,6 +60,8 @@ public static class ServiceCollectionExtensions
         services.AddTailwindMerge();
         services.AddHttpContextAccessor();
         services.TryAddScoped<IRizzyNonceProvider, RizzyNonceProvider>();
+        services.TryAddScoped<RzToastCommandQueue>();
+        services.TryAddScoped<IRzToastService, RzToastService>();
 
         // Post-configure the options to ensure the default theme is always available.
         // This runs after any user-provided `configure` action.

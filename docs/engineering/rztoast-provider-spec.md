@@ -1053,3 +1053,107 @@ The implementation is complete when:
 - Accessibility contract is implemented and tested.
 - Docs page and nav entry exist.
 - Build/tests pass or any remaining failures are documented with exact commands and reasons.
+
+## 18. Server-side RzToastService and HTMX middleware contract
+
+RizzyUI provides a first-class server integration for applications that create toasts during HTMX requests. The public service API lives in `RizzyUI.Services.RzToast` and intentionally uses the `Rz` component prefix:
+
+- `IRzToastService` is the public scoped service interface.
+- `RzToastService` is the public scoped implementation.
+- `RzToastMiddleware` is the HTMX transport middleware.
+- `UseRzToast()` is the application-builder extension that adds the middleware.
+
+`AddRizzyUI()` registers the scoped service and its internal ordered command queue automatically. Applications still need to add the middleware explicitly because service registration and ASP.NET Core pipeline registration are separate concerns:
+
+```csharp
+builder.Services.AddRizzy();
+builder.Services.AddRizzyUI();
+
+var app = builder.Build();
+
+app.UseRizzy();
+app.UseRzToast();
+
+app.MapControllers();
+app.MapRazorComponents<App>();
+```
+
+The root layout must still render one `RzToastProvider` outside `RzBrowser` and outside iframes. The server service does not render toast DOM; it queues commands for the existing `Rizzy.toast` browser runtime.
+
+### 18.1 Public service API
+
+`IRzToastService` mirrors the server-compatible portion of `Rizzy.toast`:
+
+```csharp
+RzToastHandle Show(RzToastMessage message);
+RzToastHandle Custom(RzToastMessage message);
+RzToastHandle Success(string text, string title = "Success", RzToastOptions? options = null);
+RzToastHandle Error(string text, string title = "Error", RzToastOptions? options = null);
+RzToastHandle Warning(string text, string title = "Warning", RzToastOptions? options = null);
+RzToastHandle Info(string text, string title = "Info", RzToastOptions? options = null);
+RzToastHandle Loading(string text, string title = "Loading", RzToastOptions? options = null);
+void Update(string id, RzToastUpdate update);
+void Dismiss(string? id = null);
+void Clear();
+```
+
+`Show` requires at least one non-blank `Title` or `Text`, generates a server id when omitted, queues a `show` command, and returns an `RzToastHandle`. `Custom` is an alias of `Show`. The status helpers set `success`, `error`, `warning`, `info`, or `loading`; `Loading` defaults `AutoClose` and `Progress` to `false` unless explicitly supplied. `Update` requires a non-blank id and only transports caller-supplied values. `Dismiss()` without an id dismisses the most recent client toast. `Clear()` queues a client-side clear command and does not drain the server queue.
+
+`RzToastHandle` exposes `Id`, `Update(RzToastUpdate)`, and `Dismiss()`. It is request scoped: do not store it for later requests. Persist or reuse the string id and call `IRzToastService.Update(id, ...)` for cross-request updates.
+
+### 18.2 Models and canonical enums
+
+The server models are flat, serializable records that use the authoritative root RizzyUI toast enums from `RzToastProvider`:
+
+- `RzToastOptions`
+- `RzToastMessage : RzToastOptions`
+- `RzToastUpdate : RzToastOptions`
+- `RzToastAction`
+- `RzToastHandle`
+
+Do not introduce service-local `ToastStatus`, `ToastPosition`, `ToastEffect`, or `ToastType` enums. Transport mapping must explicitly serialize canonical JavaScript values: `default`, `info`, `success`, `warning`, `error`, `loading`; positions such as `bottom-right`; tones such as `solid`; animations such as `slide`; and overflow strategies such as `dismiss-oldest`.
+
+Obsolete Simple Notify options are not part of the server contract. Use `Duration` instead of `AutoTimeout`, `Dismissible` instead of `ShowCloseButton`, `Tone` instead of `ToastType`, and `Animation` instead of `ToastEffect`. Negative `Duration`, `Speed`, or `MaxVisible` values are invalid.
+
+### 18.3 Batch event transport
+
+The middleware emits at most one HTMX batch event per response when queued commands exist:
+
+```text
+rz:toast:batch
+```
+
+The `HX-Trigger` event detail has this JSON shape and command order must be preserved:
+
+```json
+{
+  "commands": [
+    { "type": "show", "options": { "id": "rz-toast-...", "status": "success", "title": "Saved", "text": "Project settings saved." } },
+    { "type": "update", "id": "upload-status", "options": { "status": "success", "title": "Uploaded" } },
+    { "type": "dismiss", "id": "obsolete-toast" },
+    { "type": "clear" }
+  ]
+}
+```
+
+Optional null properties are omitted. `update` command ids stay on the command envelope, not inside `options`. The old `rz:toast-broadcast` event and notification-list transport are obsolete and must not be emitted.
+
+### 18.4 Server action event model
+
+Server responses cannot safely serialize JavaScript callbacks. `RzToastAction` therefore defines a button label and browser event name:
+
+```csharp
+new RzToastAction
+{
+    Label = "Undo",
+    EventName = "rz:message:restore",
+    Detail = new { MessageId = 42 },
+    DismissOnClick = true
+}
+```
+
+The JavaScript runtime dispatches `action.eventName` with `action.detail` when supplied, or with a stable fallback detail containing the toast id, status, and data. Prefer `rz:`-namespaced event names. Existing client-only `action.onClick(handle)` callbacks remain supported for JavaScript-created toasts.
+
+### 18.5 Request-scope limitation
+
+This integration is designed for HTMX responses. Commands queued during an HTMX request are emitted in that response's `HX-Trigger` header. Commands queued during normal non-HTMX requests are not emitted by this middleware, and a scoped service does not persist commands across redirects or future requests. Redirect persistence requires a separate TempData, session, distributed cache, or application-specific store.

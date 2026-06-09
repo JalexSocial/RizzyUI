@@ -1,5 +1,6 @@
 @page "/components/toast-provider"
 @using RizzyUI
+@using RizzyUI.Services.RzToast
 
 <PageTitle>RzToastProvider</PageTitle>
 
@@ -67,6 +68,96 @@
                  MaxVisible=&quot;5&quot;
                  ShowProgress=&quot;true&quot; /&gt;
                 </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Server-triggered toasts with Rizzy" class="scroll-mt-20">Server-triggered toasts with Rizzy</RzHeading>
+                <RzParagraph>
+                    <code>AddRizzyUI()</code> registers the scoped <code>IRzToastService</code> and the internal ordered command queue. Add <code>UseRzToast()</code> to the request pipeline so commands queued during an HTMX request are emitted as one <code>rz:toast:batch</code> <code>HX-Trigger</code> event. The root layout must still render one <code>RzToastProvider</code>; the service only transports commands to the existing browser runtime.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Program setup" class="mb-6">
+builder.Services.AddRizzy();
+builder.Services.AddRizzyUI();
+
+var app = builder.Build();
+
+app.UseRizzy();
+app.UseRzToast();
+
+app.MapControllers();
+app.MapRazorComponents&lt;App&gt;();
+                </RzCodeViewer>
+
+                <RzParagraph>
+                    The C# API mirrors the server-compatible <code>Rizzy.toast</code> methods: <code>Show</code>, <code>Custom</code>, <code>Success</code>, <code>Error</code>, <code>Warning</code>, <code>Info</code>, <code>Loading</code>, <code>Update</code>, <code>Dismiss</code>, and <code>Clear</code>. Commands keep their insertion order in the batch, so a show followed by an update for the same stable id is processed in that order by the browser.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Success from an HTMX endpoint" class="mb-6">
+public IActionResult Save([FromServices] IRzToastService toastService)
+{
+    toastService.Success("Project settings saved.", "Saved");
+    return View();
+}
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.JavaScript" ViewerTitle="Equivalent JavaScript" class="mb-6">
+Rizzy.toast.success("Project settings saved.", "Saved");
+                </RzCodeViewer>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Custom show and stable id" class="mb-6">
+toastService.Show(new RzToastMessage
+{
+    Status = ToastStatus.Warning,
+    Title = "Session expiring",
+    Text = "Your session expires in two minutes.",
+    Position = ToastPosition.BottomRight,
+    Duration = 7000,
+    DedupeKey = "session-expiration"
+});
+
+var handle = toastService.Loading("Uploading file...", "Uploading", new RzToastOptions
+{
+    Id = "profile-photo-upload"
+});
+
+handle.Update(new RzToastUpdate
+{
+    Status = ToastStatus.Success,
+    Title = "Uploaded",
+    Text = "Your profile photo was updated.",
+    AutoClose = true,
+    Duration = 3000,
+    Progress = true
+});
+                </RzCodeViewer>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Update, dismiss, clear, and event action" class="mb-6">
+toastService.Update("profile-photo-upload", new RzToastUpdate
+{
+    Status = ToastStatus.Success,
+    Title = "Uploaded",
+    Text = "Your profile photo was updated."
+});
+
+toastService.Dismiss("obsolete-toast");
+toastService.Dismiss();
+toastService.Clear();
+
+toastService.Success("Message archived.", "Archived", new RzToastOptions
+{
+    Action = new RzToastAction
+    {
+        Label = "Undo",
+        EventName = "rz:message:restore",
+        Detail = new { MessageId = 42 }
+    }
+});
+                </RzCodeViewer>
+
+                <RzAlert Variant="ThemeVariant.Warning" class="my-6">
+                    <AlertTitle>HTMX request-scope limitation</AlertTitle>
+                    <AlertDescription>
+                        <code>UseRzToast()</code> emits commands only for HTMX responses. Commands queued during normal non-HTMX requests, redirects, or later requests are not persisted by this middleware. Use application-defined stable string ids for cross-request updates, and do not store <code>RzToastHandle</code> beyond the current request scope. Redirect persistence requires a separate TempData, session, distributed cache, or application-specific store.
+                    </AlertDescription>
+                </RzAlert>
             </section>
 
             <section class="my-8 py-2">
