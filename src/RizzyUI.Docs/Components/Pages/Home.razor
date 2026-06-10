@@ -1,17 +1,17 @@
 ﻿@page "/"
 @using RizzyUI.Docs.Examples
 
-<PageTitle>Home</PageTitle>
+<PageTitle>RizzyUI – SSR Razor Components for ASP.NET Core</PageTitle>
 
 <section class="w-full mx-auto max-w-7xl">
 	<div class="flex items-center gap-2 border border-slate-300 hover:border-slate-400/70 rounded-full w-max mx-auto px-4 py-2">
 		<span>Fully HTMX Compatible</span>
-		<button class="flex items-center gap-1 font-medium">
-			<span>Read more</span>
-			<svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<a href="/docs/interactivity/introduction" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML" class="flex items-center gap-1 font-medium">
+			<span>Read about RizzyUI interactivity</span>
+			<svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 				<path d="M3.959 9.5h11.083m0 0L9.501 3.958M15.042 9.5l-5.541 5.54" stroke="#050040" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
 			</svg>
-		</button>
+		</a>
 	</div>
 	<div class="flex items-center w-max mx-auto">
 		<img src="/images/rizzy-logo-wb.svg" alt="RizzyUI" class="my-5 h-16 md:h-24"/>
@@ -24,13 +24,13 @@
 
 	<div class="mx-auto w-full flex items-center justify-center gap-3 my-5">
 		<a href="/docs" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">
-			<RzButton Size="Size.ExtraLarge" Variant="ThemeVariant.Inverse" class="px-6 py-3 rounded-full font-medium transition">
+			<RzButton Size="Size.ExtraLarge" Variant="ThemeVariant.Inverse" AriaLabel="Get Started" class="px-6 py-3 rounded-full font-medium transition">
 				<span>Get Started</span>
 			</RzButton></a>
 		
 		<a href="/docs/interactivity/introduction" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">
-			<RzButton Size="Size.ExtraLarge" Variant="ThemeVariant.Inverse" Outline class="px-6 py-3 rounded-full font-medium transition">
-				<span>Learn More</span>
+			<RzButton Size="Size.ExtraLarge" Variant="ThemeVariant.Inverse" Outline AriaLabel="Explore" class="px-6 py-3 rounded-full font-medium transition">
+				<span>Explore</span>
 				<Blazicon Icon="@Lucide.ChevronRight"/>
 			</RzButton></a>
 	</div>

@@ -55,8 +55,8 @@
                     <div class="mx-auto mb-5 w-full max-w-sm p-8">
                         <EditForm Model="_model">
                             <Field>
-                                <FieldLabel For="@(() => _model.Email)">Email</FieldLabel>
-                                <RzInputText For="@(() => _model.Email)" Placeholder="Enter your email..." />
+                                <FieldLabel For="@(() => _model.Email)" ForId="basic-email">Email</FieldLabel>
+                                <RzInputText Id="basic-email" For="@(() => _model.Email)" Role="TextRole.Email" Placeholder="Enter your email..." />
                             </Field>
                         </EditForm>
                     </div>
@@ -65,11 +65,77 @@
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;EditForm Model="_model"&gt;
     &lt;Field&gt;
-        &lt;FieldLabel For="@@(() => _model.Email)"&gt;Email&lt;/FieldLabel&gt;
-        &lt;RzInputText For="@@(() => _model.Email)" Placeholder="Enter your email..." /&gt;
+        &lt;FieldLabel For="@@(() => _model.Email)" ForId="basic-email"&gt;Email&lt;/FieldLabel&gt;
+        &lt;RzInputText Id="basic-email" For="@@(() => _model.Email)" Role="TextRole.Email" Placeholder="Enter your email..." /&gt;
     &lt;/Field&gt;
 &lt;/EditForm&gt;
                 </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Explicit Label Association" class="scroll-mt-20">
+                    Explicit Label Association
+                </RzHeading>
+                <RzParagraph>
+                    Use <code>FieldLabel</code> with <code>ForId</code> when a control has a known <code>Id</code> and you need a deterministic native <code>&lt;label for=&quot;...&quot;&gt;</code> association. The <code>For</code> expression supplies model metadata and validation context, while <code>ForId</code> guarantees the rendered HTML association. The control's <code>Id</code> must exactly match <code>ForId</code>.
+                </RzParagraph>
+                <RzParagraph>
+                    <code>ForId</code> is different from the inherited <code>Id</code> parameter: <code>Id</code> identifies the <code>&lt;label&gt;</code> element itself, and <code>ForId</code> identifies the form control labeled by that element. Supplying <code>ForId</code> does not require a <code>For</code> expression or an <code>EditForm</code>, and <code>FieldLabel</code> does not verify that the target element exists elsewhere in the document.
+                </RzParagraph>
+
+                <div class="not-prose my-6 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="bg-zinc-100/75 text-left font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr><th class="px-4 py-3">Parameter</th><th class="px-4 py-3">Applies to</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr><td class="px-4 py-4"><code>Id</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The <code>&lt;label&gt;</code> element itself.</td></tr>
+                            <tr><td class="px-4 py-4"><code>ForId</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The form control labeled by the <code>&lt;label&gt;</code>.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto mb-5 w-full max-w-sm p-8">
+                        <EditForm Model="_model">
+                            <Field>
+                                <FieldLabel Id="email-label" For="@(() => _model.Email)" ForId="account-email">
+                                    Email address
+                                </FieldLabel>
+                                <RzInputText Id="account-email" For="@(() => _model.Email)" Role="TextRole.Email" />
+                            </Field>
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;EditForm Model=&quot;_model&quot;&gt;
+    &lt;Field&gt;
+        &lt;FieldLabel
+            Id=&quot;email-label&quot;
+            For=&quot;@@(() =&gt; _model.Email)&quot;
+            ForId=&quot;account-email&quot;&gt;
+            Email address
+        &lt;/FieldLabel&gt;
+
+        &lt;RzInputText
+            Id=&quot;account-email&quot;
+            For=&quot;@@(() =&gt; _model.Email)&quot;
+            Role=&quot;TextRole.Email&quot; /&gt;
+    &lt;/Field&gt;
+&lt;/EditForm&gt;
+                </RzCodeViewer>
+
+                <RzAlert Variant="ThemeVariant.Information" class="my-5">
+                    <AlertTitle>Accessibility</AlertTitle>
+                    <AlertDescription>
+                        A valid native label association improves screen-reader control announcements, expands click and tap targeting to the visible label, and helps automated accessibility validation. Placeholder text is not a substitute for a visible associated label.
+                    </AlertDescription>
+                </RzAlert>
+
+                <RzParagraph>
+                    When <code>ForId</code> is omitted, null, empty, or whitespace, <code>FieldLabel</code> preserves the existing automatic lookup based on <code>For</code>, the current form context, and the registered field map. If neither explicit nor automatic resolution finds a target ID, the <code>for</code> attribute is omitted. Prefer <code>ForId</code> when the control has an explicit ID, deterministic static HTML is required, an accessibility audit is validating label associations, or composition makes implicit registration uncertain.
+                </RzParagraph>
             </section>
             
             <section class="my-8 py-2">
@@ -338,6 +404,9 @@
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">Component Parameters</RzHeading>
                 <RzHeading Level="HeadingLevel.H3" class="mt-6">RzInputText</RzHeading>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th class="w-1/5 px-4 py-3">Property</th><th class="w-2/5 px-4 py-3">Description</th><th class="w-1/5 px-4 py-3">Type</th><th class="px-4 py-3">Default</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800"><tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">For</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Bound expression for model value and validation metadata.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Expression&lt;Func&lt;string&gt;&gt;</code></td><td class="px-4 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20">Required</span></td></tr><tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Role</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Semantic input type role.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">TextRole</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">TextRole.Text</code></td></tr><tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Placeholder</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Placeholder content.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr></tbody></table></div>
+
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">FieldLabel</RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800"><table class="w-full text-sm"><thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300"><tr><th class="w-1/5 px-4 py-3">Property</th><th class="w-2/5 px-4 py-3">Description</th><th class="w-1/5 px-4 py-3">Type</th><th class="px-4 py-3">Default</th></tr></thead><tbody class="divide-y divide-zinc-200 dark:divide-zinc-800"><tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">For</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Expression used for model metadata, display-name inference, and automatic field-map lookup when <code>ForId</code> is not supplied.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Expression&lt;Func&lt;TValue&gt;&gt;?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr><tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ForId</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Explicitly identifies the form control associated with the label. When supplied, <code>ForId</code> is rendered as the label's HTML <code>for</code> attribute and takes precedence over automatic ID resolution from <code>For</code>.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr><tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Id</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Inherited element ID for the <code>&lt;label&gt;</code> itself. This does not identify the labeled control.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td><td class="px-4 py-4 text-zinc-500">Generated</td></tr><tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">DisplayName</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Explicit label text used when no child content is supplied.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr></tbody></table></div>
             </section>
         </MainContent>
     </RzArticle>

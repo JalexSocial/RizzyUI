@@ -12,24 +12,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="algolia-site-verification" content="4C4FB49F5CF66914" />
+    <meta name="description" content="RizzyUI provides accessible, SSR-only Razor components for ASP.NET Core using Tailwind CSS, Alpine.js, and HTMX." />
 
     @if (UseContentSecurityPolicy)
     {
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' localhost:* http://localhost:* ws://localhost:* wss://localhost:*; script-src localhost:* wss://localhost:* 'nonce-@Nonce'; font-src fonts.gstatic.com; style-src 'self' fonts.googleapis.com 'nonce-@Nonce'; img-src 'self' data:;">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' localhost:* http://localhost:* ws://localhost:* wss://localhost:* https://*.algolia.net https://*.algolianet.com; script-src 'self' localhost:* wss://localhost:* https://cdn.jsdelivr.net 'nonce-@Nonce'; font-src 'self' fonts.gstatic.com; style-src 'self' fonts.googleapis.com https://cdn.jsdelivr.net 'nonce-@Nonce'; img-src 'self' data:;">
     }
     
     <HtmxConfigHeadOutlet/>
 
     <!--<link rel="stylesheet" href="_content/RizzyUI/dist/rizzyui.css" />-->
 
-    <link nonce="@Nonce" rel="stylesheet" href="/css/app.css" />
+    <link nonce="@Nonce" rel="stylesheet" href="@Assets["/css/app.css"]" />
     <link nonce="@Nonce" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@docsearch/css@4" />
 
     <HeadOutlet/>
     
-    <script nonce="@Nonce" src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-    <script nonce="@Nonce" defer src="/_content/Rizzy/js/rizzy.js"></script>
+    <script nonce="@Nonce" defer src="@Assets["/vendor/htmx/htmx.min.js"]"></script>
+    <script nonce="@Nonce" defer src="@Assets["/_content/Rizzy/js/rizzy.js"]"></script>
     
+
     @if (UseContentSecurityPolicy)
     {
         <script nonce="@Nonce" type="module" src="@Assets["/_content/RizzyUI/js/rizzyui-csp.js"]"></script>
@@ -38,15 +40,16 @@
     {
         <script nonce="@Nonce" type="module" src="@Assets["/_content/RizzyUI/js/rizzyui.js"]"></script>
     }
+
     <script nonce="@Nonce" src="/js/site.js"></script>
 
     <link rel="preconnect" defer nonce="@Nonce" href="https://fonts.googleapis.com">
     <link rel="preconnect" defer nonce="@Nonce" href="https://fonts.gstatic.com" crossorigin>
-    <link nonce="@Nonce" defer href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-	
+    <link nonce="@Nonce" defer href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
     <link rel="preconnect" defer nonce="@Nonce" href="https://fonts.gstatic.com" crossorigin>
-    <link nonce="@Nonce" defer href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-	
+    <link nonce="@Nonce" defer href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
 </head>
 
 <body class="bg-background" hx-ext="rizzy-nonce">

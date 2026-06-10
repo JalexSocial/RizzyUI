@@ -4,8 +4,9 @@
 
 <div class="grid w-full max-w-sm gap-6">
     <EditForm Model="_model" x-data @submit.prevent>
+        <FieldLabel For="@(() => _model.Search)" ForId="input-group-search" class="sr-only">Search</FieldLabel>
         <RzInputGroup>
-            <InputGroupInput For="@(() => _model.Search)" Placeholder="Search..." />
+            <RzInputText Id="input-group-search" For="@(() => _model.Search)" Placeholder="Search..." class="flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent" data-slot="input-group-control" />
             <InputGroupAddon>
                 <Blazicon Svg="Lucide.Search" />
             </InputGroupAddon>
@@ -14,8 +15,9 @@
             </InputGroupAddon>
         </RzInputGroup>
 
+        <FieldLabel For="@(() => _model.Domain)" ForId="input-group-domain" class="sr-only">Domain</FieldLabel>
         <RzInputGroup class="mt-6">
-            <InputGroupInput For="@(() => _model.Domain)" Placeholder="example.com" class="!pl-1" />
+            <RzInputText Id="input-group-domain" For="@(() => _model.Domain)" Placeholder="example.com" class="flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent !pl-1" data-slot="input-group-control" />
             <InputGroupAddon>
                 <InputGroupText>https://</InputGroupText>
             </InputGroupAddon>
@@ -33,15 +35,16 @@
             </InputGroupAddon>
         </RzInputGroup>
 
+        <FieldLabel For="@(() => _model.Prompt)" ForId="input-group-prompt" class="sr-only">Prompt</FieldLabel>
         <RzInputGroup class="mt-6">
-            <InputGroupTextarea For="@(() => _model.Prompt)" Placeholder="Ask, Search or Chat..." />
+            <RzInputTextArea Id="input-group-prompt" For="@(() => _model.Prompt)" Placeholder="Ask, Search or Chat..." class="flex-1 w-full resize-none rounded-none border-0 bg-transparent py-3 shadow-none focus-visible:ring-0 dark:bg-transparent" data-slot="input-group-control" />
             <InputGroupAddon Align="InputGroupAddonAlign.BlockEnd">
                 <InputGroupButton Variant="ThemeVariant.Default" Outline class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall" aria-label="Add">
                     <Blazicon Svg="Lucide.Plus" />
                 </InputGroupButton>
                 <RzDropdownMenu Anchor="AnchorPoint.TopStart">
                     <DropdownMenuTrigger AsChild>
-                        <InputGroupButton Variant="ThemeVariant.Ghost">Auto</InputGroupButton>
+                        <InputGroupButton Variant="ThemeVariant.Ghost" aria-label="Auto mode">Auto</InputGroupButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuItem>Auto</DropdownMenuItem>
@@ -51,15 +54,16 @@
                 </RzDropdownMenu>
                 <InputGroupText class="ml-auto">52% used</InputGroupText>
                 <RzSeparator Orientation="Orientation.Vertical" class="!h-4" />
-                <InputGroupButton Variant="ThemeVariant.Default" class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall">
+                <InputGroupButton Variant="ThemeVariant.Default" class="rounded-full" Size="InputGroupButtonSize.IconExtraSmall" aria-label="Send">
                     <Blazicon Svg="Lucide.ArrowUp" />
                     <span class="sr-only">Send</span>
                 </InputGroupButton>
             </InputGroupAddon>
         </RzInputGroup>
 
+        <FieldLabel For="@(() => _model.Username)" ForId="input-group-username" class="sr-only">Username</FieldLabel>
         <RzInputGroup class="mt-6">
-            <InputGroupInput For="@(() => _model.Username)" Placeholder="@("@shadcn")" />
+            <RzInputText Id="input-group-username" For="@(() => _model.Username)" Placeholder="@("@shadcn")" class="flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent" data-slot="input-group-control" />
             <InputGroupAddon Align="InputGroupAddonAlign.InlineEnd">
                 <div class="bg-primary text-foreground flex size-4 items-center justify-center rounded-full">
                     <Blazicon Svg="Lucide.Check" class="size-3 text-white" />

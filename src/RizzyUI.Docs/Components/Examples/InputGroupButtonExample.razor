@@ -4,8 +4,9 @@
 
 <div class="grid w-full max-w-sm gap-6">
     <EditForm Model="_model" x-data @submit.prevent>
+        <FieldLabel For="@(() => _model.Url)" ForId="input-secure" class="sr-only">Website URL</FieldLabel>
         <RzInputGroup class="[--radius:9999px]">
-            <InputGroupInput id="input-secure" For="@(() => _model.Url)" class="!pl-0.5" />
+            <RzInputText Id="input-secure" For="@(() => _model.Url)" class="flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent !pl-0.5" data-slot="input-group-control" />
             <RzPopover Anchor="AnchorPoint.BottomStart">
                 <PopoverTrigger AsChild>
                     <InputGroupAddon Align="InputGroupAddonAlign.InlineStart">

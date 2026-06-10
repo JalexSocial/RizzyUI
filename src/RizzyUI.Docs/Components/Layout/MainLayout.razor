@@ -42,7 +42,7 @@
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
-                            <a href="#" class="font-medium">Interactivity</a>
+                            <span class="font-medium">Interactivity</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/docs/interactivity/introduction" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Introduction</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -74,7 +74,7 @@
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
-                            <a href="#" class="font-medium">Feedback</a>
+                            <span class="font-medium">Feedback</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/alert" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Alert</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -91,7 +91,7 @@
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
-                            <a href="#" class="font-medium">Charts</a>
+                            <span class="font-medium">Charts</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Chart</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -103,105 +103,105 @@
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-polar-area" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Polar Area</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-radar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Radar Chart</span></a></SidebarMenuButton></SidebarMenuItem>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-scatter" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Scatter Chart</span></a></SidebarMenuButton></SidebarMenuItem>
-                            <RzCollapsible class="group/collapsible" DefaultOpen="false">
+                            <SidebarMenuItem>
+                                <RzCollapsible class="group/collapsible" DefaultOpen="false">
                                 <SidebarGroup class="p-0">
                                     <SidebarGroupLabel AsChild class="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm">
                                         <CollapsibleTrigger>
-                                            <a href="#">Plugins</a>
+                                            <span>Plugins</span>
                                             <Blazicon Svg="MdiIcon.ChevronRight" class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                                         </CollapsibleTrigger>
                                     </SidebarGroupLabel>
                                     <CollapsibleContent>
                                         <SidebarGroupContent>
-                                            <SidebarMenu>
-                                                <SidebarMenuSub>
+                                            <SidebarMenuSub>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-colors" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Colors</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-decimation" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Decimation</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-filler" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Filler</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-legend" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Legend</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-subtitle" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Subtitle</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-title" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Title</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-tooltip" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Tooltip</span></a></SidebarMenuButton></SidebarMenuItem>                                                </SidebarMenuSub>
-                                            </SidebarMenu>
+                                                    <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-tooltip" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Tooltip</span></a></SidebarMenuButton></SidebarMenuItem>                                            </SidebarMenuSub>
                                         </SidebarGroupContent>
                                     </CollapsibleContent>
                                 </SidebarGroup>
-                            </RzCollapsible>
-                            <RzCollapsible class="group/collapsible" DefaultOpen="false">
+                                </RzCollapsible>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <RzCollapsible class="group/collapsible" DefaultOpen="false">
                                 <SidebarGroup class="p-0">
                                     <SidebarGroupLabel AsChild class="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm">
                                         <CollapsibleTrigger>
-                                            <a href="#">Axes</a>
+                                            <span>Axes</span>
                                             <Blazicon Svg="MdiIcon.ChevronRight" class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                                         </CollapsibleTrigger>
                                     </SidebarGroupLabel>
                                     <CollapsibleContent>
                                         <SidebarGroupContent>
-                                            <SidebarMenu>
-                                                <SidebarMenuSub>
+                                            <SidebarMenuSub>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-axis-scales" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Axis Scales</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-axis-border" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Axis Border</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-axis-callbacks" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Axis Callbacks</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-axis-grid" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Axis Grid</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-axis-ticks" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Axis Ticks</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-axis-title" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Axis Title</span></a></SidebarMenuButton></SidebarMenuItem> 
-                                                </SidebarMenuSub>
-                                            </SidebarMenu>
+                                            </SidebarMenuSub>
                                         </SidebarGroupContent>
                                     </CollapsibleContent>
                                 </SidebarGroup>
-                            </RzCollapsible>                                 
-                            <RzCollapsible class="group/collapsible" DefaultOpen="false">
+                                </RzCollapsible>
+                            </SidebarMenuItem>                                 
+                            <SidebarMenuItem>
+                                <RzCollapsible class="group/collapsible" DefaultOpen="false">
                                 <SidebarGroup class="p-0">
                                     <SidebarGroupLabel AsChild class="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm">
                                         <CollapsibleTrigger>
-                                            <a href="#">Elements</a>
+                                            <span>Elements</span>
                                             <Blazicon Svg="MdiIcon.ChevronRight" class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                                         </CollapsibleTrigger>
                                     </SidebarGroupLabel>
                                     <CollapsibleContent>
                                         <SidebarGroupContent>
-                                            <SidebarMenu>
-                                                <SidebarMenuSub>
+                                            <SidebarMenuSub>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-element-arc" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Arc</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-element-bar" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Bar</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-element-line" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Line</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-element-point" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Point</span></a></SidebarMenuButton></SidebarMenuItem>
-                                                </SidebarMenuSub>
-                                            </SidebarMenu>
+                                            </SidebarMenuSub>
                                         </SidebarGroupContent>
                                     </CollapsibleContent>
                                 </SidebarGroup>
-                            </RzCollapsible>     
-                            <RzCollapsible class="group/collapsible" DefaultOpen="false">
+                                </RzCollapsible>
+                            </SidebarMenuItem>     
+                            <SidebarMenuItem>
+                                <RzCollapsible class="group/collapsible" DefaultOpen="false">
                                 <SidebarGroup class="p-0">
                                     <SidebarGroupLabel AsChild class="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm">
                                         <CollapsibleTrigger>
-                                            <a href="#">Other Options</a>
+                                            <span>Other Options</span>
                                             <Blazicon Svg="MdiIcon.ChevronRight" class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                                         </CollapsibleTrigger>
                                     </SidebarGroupLabel>
                                     <CollapsibleContent>
                                         <SidebarGroupContent>
-                                            <SidebarMenu>
-                                                <SidebarMenuSub>
+                                            <SidebarMenuSub>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-animation" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Animation</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-configuration" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Configuration</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-font" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Font</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-interaction" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Interaction</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-layout" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Layout</span></a></SidebarMenuButton></SidebarMenuItem>
                                                     <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/chart-padding" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Padding</span></a></SidebarMenuButton></SidebarMenuItem>                                                    
-                                                </SidebarMenuSub>
-                                            </SidebarMenu>
+                                            </SidebarMenuSub>
                                         </SidebarGroupContent>
                                     </CollapsibleContent>
                                 </SidebarGroup>
-                            </RzCollapsible>                               
+                                </RzCollapsible>
+                            </SidebarMenuItem>                               
                         </SidebarMenuSub>
                     </SidebarMenuItem>                    
                     <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
-                            <a href="#" class="font-medium">Forms</a>
+                            <span class="font-medium">Forms</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem>
@@ -288,7 +288,7 @@
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
-                            <a href="#" class="font-medium">Navigation</a>
+                            <span class="font-medium">Navigation</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/breadcrumb" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Breadcrumb</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -307,7 +307,7 @@
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
-                            <a href="#" class="font-medium">Layout</a>
+                            <span class="font-medium">Layout</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/accordion" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Accordion</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -319,7 +319,7 @@
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
-                            <a href="#" class="font-medium">Special Effects</a>
+                            <span class="font-medium">Special Effects</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/shine-border" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Shine Border</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -328,7 +328,7 @@
                     </SidebarMenuItem>     
                     <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
-                            <a href="#" class="font-medium">Text Animation</a>
+                            <span class="font-medium">Text Animation</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/aurora-text" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Aurora Text</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -341,7 +341,7 @@
                     
                     <SidebarMenuItem>
                         <SidebarMenuButton AsChild>
-                            <a href="#" class="font-medium">Utility</a>
+                            <span class="font-medium">Utility</span>
                         </SidebarMenuButton>
                         <SidebarMenuSub>
                             <SidebarMenuItem><SidebarMenuButton AsChild><a href="/components/clipboard" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML show:window:top" x-on:click="close" aria-current="page"><span>Clipboard</span></a></SidebarMenuButton></SidebarMenuItem>
@@ -369,7 +369,7 @@
             <div class="flex items-center gap-4">
                 <div x-data="docSearch" id="docsearch" class="bg-background [&>button:first-child]:!h-8"></div>
                 <RzDarkModeToggle/>
-                <a href="https://github.com/jalexsocial/RizzyUI"><RzButton Variant=ThemeVariant.Default Size="Size.Small" class="text-xl bg-background px-2" Outline><Blazicon Svg="MdiIcon.Github" /></RzButton></a>
+                <a href="https://github.com/jalexsocial/RizzyUI" class="border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border text-xl outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2" aria-label="Open RizzyUI on GitHub"><Blazicon Svg="MdiIcon.Github" /></a>
             </div>
         </header>
 

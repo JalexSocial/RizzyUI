@@ -3,14 +3,12 @@
 @using RizzyUI
 
 <EditForm Model="_model">
-    <FieldLabel For="() => _model.Agreed">
-        <Field Orientation="FieldOrientation.Horizontal">
-            <RzInputCheckbox id="checkbox-demo" For="@(() => _model.Agreed)" />
-            <FieldLabel For="(() => _model.Agreed)" class="line-clamp-1">
-                I agree to the terms and conditions
-            </FieldLabel>
-        </Field>
-    </FieldLabel>
+    <Field Orientation="FieldOrientation.Horizontal">
+        <RzInputCheckbox Id="checkbox-demo" For="@(() => _model.Agreed)" />
+        <FieldLabel For="() => _model.Agreed" ForId="checkbox-demo" class="line-clamp-1">
+            I agree to the terms and conditions
+        </FieldLabel>
+    </Field>
 </EditForm>
 
 @code {
