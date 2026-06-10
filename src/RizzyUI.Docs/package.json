@@ -6,10 +6,11 @@
   "scripts": {
     "pretest": "node ./tests/accessibility/scripts/copy-tom-select-assets.mjs",
     "test": "node ./tests/accessibility/scripts/run-playwright.mjs",
-    "build:css": "npx @tailwindcss/cli -i ./Assets/css/app.css -o ./wwwroot/css/app.css",
+    "build:css": "npm run copy:vendor && npx @tailwindcss/cli -i ./Assets/css/app.css -o ./wwwroot/css/app.css --minify",
     "pretest:a11y": "node ./tests/accessibility/scripts/copy-tom-select-assets.mjs",
     "test:a11y": "node ./tests/accessibility/scripts/run-playwright.mjs",
-    "prebuild:css": "npm install --prefix ../../packages/rizzyui"
+    "prebuild:css": "npm install --prefix ../../packages/rizzyui",
+    "copy:vendor": "node ./scripts/copy-vendor-assets.mjs"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "@tailwindcss/cli": "^4.2.1"
+    "@tailwindcss/cli": "^4.2.1",
+    "htmx.org": "^2.0.4"
   }
 }

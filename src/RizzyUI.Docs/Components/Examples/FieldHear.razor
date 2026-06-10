@@ -11,35 +11,25 @@
                         Select the option that best describes how you heard about us.
                     </FieldDescription>
                     <RzFieldGroup class="flex flex-row flex-wrap gap-2 [--radius:9999rem]">
-                        
-                        <FieldLabel For="(() => _model.SocialMedia)" class="!w-fit">
-                            <Field Orientation="FieldOrientation.Horizontal" class="gap-1.5 overflow-hidden px-3! py-1.5! transition-all duration-100 ease-linear">
-                                <RzInputCheckbox id="social-media" For="@(() => _model.SocialMedia)" class="-ml-6 -translate-x-1 rounded-full transition-all duration-100 ease-linear data-[state=checked]:ml-0 data-[state=checked]:translate-x-0" />
-                                <FieldTitle>Social Media</FieldTitle>
-                            </Field>
-                        </FieldLabel>
+                        <Field Orientation="FieldOrientation.Horizontal" class="gap-1.5 p-0!">
+                            <RzInputCheckbox Id="social-media" For="@(() => _model.SocialMedia)" class="peer sr-only" />
+                            <FieldLabel For="(() => _model.SocialMedia)" ForId="social-media" class="!w-fit cursor-pointer rounded-full border px-3! py-1.5! transition-colors peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground">Social Media</FieldLabel>
+                        </Field>
 
-                        <FieldLabel For="(() => _model.SearchEngine)" class="!w-fit">
-                            <Field Orientation="FieldOrientation.Horizontal" class="gap-1.5 overflow-hidden px-3! py-1.5! transition-all duration-100 ease-linear">
-                                <RzInputCheckbox id="search-engine" For="@(() => _model.SearchEngine)" class="-ml-6 -translate-x-1 rounded-full transition-all duration-100 ease-linear data-[state=checked]:ml-0 data-[state=checked]:translate-x-0" />
-                                <FieldTitle>Search Engine</FieldTitle>
-                            </Field>
-                        </FieldLabel>
+                        <Field Orientation="FieldOrientation.Horizontal" class="gap-1.5 p-0!">
+                            <RzInputCheckbox Id="search-engine" For="@(() => _model.SearchEngine)" class="peer sr-only" />
+                            <FieldLabel For="(() => _model.SearchEngine)" ForId="search-engine" class="!w-fit cursor-pointer rounded-full border px-3! py-1.5! transition-colors peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground">Search Engine</FieldLabel>
+                        </Field>
 
-                        <FieldLabel For="(() => _model.Referral)" class="!w-fit">
-                            <Field Orientation="FieldOrientation.Horizontal" class="gap-1.5 overflow-hidden px-3! py-1.5! transition-all duration-100 ease-linear">
-                                <RzInputCheckbox id="referral" For="@(() => _model.Referral)" class="-ml-6 -translate-x-1 rounded-full transition-all duration-100 ease-linear data-[state=checked]:ml-0 data-[state=checked]:translate-x-0" />
-                                <FieldTitle>Referral</FieldTitle>
-                            </Field>
-                        </FieldLabel>
+                        <Field Orientation="FieldOrientation.Horizontal" class="gap-1.5 p-0!">
+                            <RzInputCheckbox Id="referral" For="@(() => _model.Referral)" class="peer sr-only" />
+                            <FieldLabel For="(() => _model.Referral)" ForId="referral" class="!w-fit cursor-pointer rounded-full border px-3! py-1.5! transition-colors peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground">Referral</FieldLabel>
+                        </Field>
 
-                        <FieldLabel For="(() => _model.Other)" class="!w-fit">
-                            <Field Orientation="FieldOrientation.Horizontal" class="gap-1.5 overflow-hidden px-3! py-1.5! transition-all duration-100 ease-linear">
-                                <RzInputCheckbox id="other" For="@(() => _model.Other)" class="-ml-6 -translate-x-1 rounded-full transition-all duration-100 ease-linear data-[state=checked]:ml-0 data-[state=checked]:translate-x-0" />
-                                <FieldTitle>Other</FieldTitle>
-                            </Field>
-                        </FieldLabel>
-
+                        <Field Orientation="FieldOrientation.Horizontal" class="gap-1.5 p-0!">
+                            <RzInputCheckbox Id="other" For="@(() => _model.Other)" class="peer sr-only" />
+                            <FieldLabel For="(() => _model.Other)" ForId="other" class="!w-fit cursor-pointer rounded-full border px-3! py-1.5! transition-colors peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground">Other</FieldLabel>
+                        </Field>
                     </RzFieldGroup>
                 </RzFieldSet>
             </RzFieldGroup>

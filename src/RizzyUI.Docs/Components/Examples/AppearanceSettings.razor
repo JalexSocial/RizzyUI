@@ -38,11 +38,11 @@
 
             <Field Orientation="FieldOrientation.Horizontal">
                 <FieldContent>
-                    <FieldLabel For="() => _model.GpuCount">Number of GPUs</FieldLabel>
+                    <FieldLabel For="() => _model.GpuCount" ForId="gpu-count">Number of GPUs</FieldLabel>
                     <FieldDescription>You can add more later.</FieldDescription>
                 </FieldContent>
                 <RzButtonGroup>
-                    <RzInputNumber id="gpu-count" For="@(() => _model.GpuCount)" class="h-7 !w-14 font-mono" />
+                    <RzInputNumber Id="gpu-count" For="@(() => _model.GpuCount)" class="h-7 !w-14 font-mono" />
                     <RzButton Variant="ThemeVariant.Default" Outline Size="Size.Small" aria-label="Decrement" x-on:click="_model.GpuCount = Math.Max(1, _model.GpuCount - 1)">
                         <Blazicon Svg="@Lucide.Minus" />
                     </RzButton>
@@ -61,7 +61,7 @@
                         Allow the wallpaper to be tinted.
                     </FieldDescription>
                 </FieldContent>
-                <RzSwitch id="tinting" For="@(() => _model.WallpaperTinting)" />
+                <RzSwitch Id="tinting" For="@(() => _model.WallpaperTinting)" />
             </Field>
         </RzFieldGroup>
     </RzFieldSet>

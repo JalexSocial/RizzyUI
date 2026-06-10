@@ -4,12 +4,12 @@
 
 <div class="w-full max-w-md">
     <Field>
-        <FieldTitle>Price Range</FieldTitle>
-        <FieldDescription>
+        <FieldLabel TValue="int" ForId="price-range">Price Range</FieldLabel>
+        <FieldDescription id="price-range-description">
             Set your budget range ($<span class="font-medium tabular-nums">@_values[0]</span> - <span class="font-medium tabular-nums">@_values[1]</span>).
         </FieldDescription>
         <div class="mt-2 w-full">
-            <input type="range" class="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer" />
+            <input id="price-range" type="range" min="0" max="1000" step="50" value="@_values[1]" aria-describedby="price-range-description" class="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer" />
         </div>
     </Field>
 </div>

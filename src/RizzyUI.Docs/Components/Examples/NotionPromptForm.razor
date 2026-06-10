@@ -4,9 +4,9 @@
 
 <EditForm Model="_model" x-data @submit.prevent>
     <Field>
-        <FieldLabel For="() => _model.Prompt" class="sr-only">Prompt</FieldLabel>
+        <FieldLabel For="() => _model.Prompt" ForId="notion-prompt" class="sr-only">Prompt</FieldLabel>
         <RzInputGroup class="rounded-xl">
-            <InputGroupTextarea id="notion-prompt" For="@(() => _model.Prompt)" Placeholder="Ask, search, or make anything..." />
+            <RzInputTextArea Id="notion-prompt" For="@(() => _model.Prompt)" Placeholder="Ask, search, or make anything..." class="flex-1 w-full resize-none rounded-none border-0 bg-transparent py-3 shadow-none focus-visible:ring-0 dark:bg-transparent" data-slot="input-group-control" />
             
             <InputGroupAddon Align="InputGroupAddonAlign.BlockStart" class="pt-3">
                 <RzPopover Anchor="AnchorPoint.BottomStart">
@@ -14,7 +14,7 @@
                         <RzTooltip Anchor="AnchorPoint.Top">
                             <TooltipTrigger AsChild>
                                 <PopoverTrigger AsChild>
-                                    <InputGroupButton Variant="ThemeVariant.Default" Outline Size="InputGroupButtonSize.Small">
+                                    <InputGroupButton Variant="ThemeVariant.Default" Outline Size="InputGroupButtonSize.Small" aria-label="Add context">
                                         <Blazicon Svg="Lucide.AtSign" /> Add context
                                     </InputGroupButton>
                                 </PopoverTrigger>
@@ -42,7 +42,7 @@
 
                 <RzDropdownMenu Anchor="AnchorPoint.TopStart">
                     <DropdownMenuTrigger AsChild>
-                        <InputGroupButton Size="InputGroupButtonSize.Small" class="rounded-full">
+                        <InputGroupButton Size="InputGroupButtonSize.Small" class="rounded-full" aria-label="Auto mode">
                             Auto
                         </InputGroupButton>
                     </DropdownMenuTrigger>
@@ -55,7 +55,7 @@
 
                 <RzDropdownMenu Anchor="AnchorPoint.TopEnd">
                     <DropdownMenuTrigger AsChild>
-                        <InputGroupButton Size="InputGroupButtonSize.Small" class="rounded-full">
+                        <InputGroupButton Size="InputGroupButtonSize.Small" class="rounded-full" aria-label="All Sources">
                             <Blazicon Svg="Lucide.Globe" /> All Sources
                         </InputGroupButton>
                     </DropdownMenuTrigger>

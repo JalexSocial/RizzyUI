@@ -10,8 +10,9 @@
             </RzButton>
         </RzButtonGroup>
         <RzButtonGroup class="flex-1">
+            <FieldLabel For="@(() => _model.Message)" ForId="button-group-message" class="sr-only">Message</FieldLabel>
             <RzInputGroup>
-                <InputGroupInput For="@(() => _model.Message)" 
+                <RzInputText Id="button-group-message" For="@(() => _model.Message)" class="flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent" data-slot="input-group-control" 
                                  Placeholder="@(_model.VoiceEnabled ? "Record and send audio..." : "Send a message...")" 
                                  disabled="@_model.VoiceEnabled" />
                 <InputGroupAddon Align="InputGroupAddonAlign.InlineEnd">
