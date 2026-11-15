@@ -10,6 +10,9 @@ Fails (exit code 1) when a package:
   * does not depend on Rizzy 6.x (NuGet);
   * has a `file:`/`link:` dependency, a non-peer htmx dependency, or an `exports` target that is
     not in the tarball (npm).
+
+When <nupkg-dir> also holds a RizzyUI.Tasks package, it must contain the task assembly and its
+build/buildTransitive targets, and its version must be the one RizzyUI depends on.
 """
 from __future__ import annotations
 
@@ -32,7 +35,7 @@ def is_test_file(name: str) -> bool:
     return "/__tests__/" in name or re.search(r"\.test\.m?js$", name) is not None
 
 
-def check_nupkg(path: Path) -> None:
+def check_nupkg(path: Path) -> str | None:
     with zipfile.ZipFile(path) as archive:
         names = archive.namelist()
         nuspec_name = next((n for n in names if n.endswith(".nuspec")), None)
@@ -75,6 +78,41 @@ def check_nupkg(path: Path) -> None:
         fail(f"{path.name}: depends on Rizzy {rizzy.group(1)}; RizzyUI targets Rizzy 6.x")
     else:
         print(f"  depends on Rizzy {rizzy.group(1)}")
+
+    tasks = re.search(r'<dependency id="RizzyUI.Tasks" version="([^"]+)"', nuspec)
+    if tasks is None:
+        fail(f"{path.name}: no dependency on RizzyUI.Tasks")
+        return None
+    print(f"  depends on RizzyUI.Tasks {tasks.group(1)}")
+    return tasks.group(1).strip("[]")
+
+
+def check_tasks_nupkg(path: Path) -> str | None:
+    with zipfile.ZipFile(path) as archive:
+        names = archive.namelist()
+        nuspec_name = next((n for n in names if n.endswith(".nuspec")), None)
+        if nuspec_name is None:
+            fail(f"{path.name}: no .nuspec")
+            return None
+        nuspec = archive.read(nuspec_name).decode("utf-8-sig")
+
+    print(f"{path.name}: {len(names)} entries")
+
+    for entry in ("build/RizzyUI.Tasks.targets", "buildTransitive/RizzyUI.Tasks.targets", "README.md", "LICENSE.md"):
+        if entry not in names:
+            fail(f"{path.name}: missing {entry}")
+
+    task_dlls = [n for n in names if re.fullmatch(r"tasks/[^/]+/RizzyUI\.Tasks\.dll", n)]
+    if not task_dlls:
+        fail(f"{path.name}: no tasks/<tfm>/RizzyUI.Tasks.dll (the task assembly was not packed)")
+    else:
+        print(f"  {', '.join(task_dlls)}")
+
+    if any(n.startswith("lib/") for n in names):
+        fail(f"{path.name}: ships lib/ assets; the task assembly belongs under tasks/<tfm>/ only")
+
+    version = re.search(r"<version>([^<]+)</version>", nuspec)
+    return version.group(1) if version else None
 
 
 def check_npm(path: Path) -> None:
@@ -133,8 +171,13 @@ def main(argv: list[str]) -> int:
     packages = sorted(p for p in nupkg_dir.glob("RizzyUI.*.nupkg") if not p.name.startswith("RizzyUI.Tasks."))
     if not packages:
         fail(f"no RizzyUI.*.nupkg in {nupkg_dir}")
-    for package in packages:
-        check_nupkg(package)
+    required_tasks_versions = {v for v in (check_nupkg(p) for p in packages) if v}
+
+    tasks_packages = sorted(nupkg_dir.glob("RizzyUI.Tasks.*.nupkg"))
+    tasks_versions = {v for v in (check_tasks_nupkg(p) for p in tasks_packages) if v}
+    if tasks_packages:
+        for required in sorted(required_tasks_versions - tasks_versions):
+            fail(f"RizzyUI depends on RizzyUI.Tasks {required}, but {nupkg_dir} only has {sorted(tasks_versions)}")
 
     if len(argv) > 2:
         check_npm(Path(argv[2]))

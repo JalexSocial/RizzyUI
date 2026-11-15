@@ -1,7 +1,9 @@
 name: Release
 
 # Publishes the RizzyUI NuGet package and the @jalexsocial/rizzyui npm package with one version,
-# taken from a vX.Y.Z git tag (for example v1.0.0-preview.1). Nothing is published by pull requests
+# taken from a vX.Y.Z git tag (for example v1.0.0-preview.1). The same run publishes the
+# RizzyUI.Tasks NuGet package (the MSBuild task RizzyUI depends on) when its version, set in
+# src/Directory.Build.props, is not on nuget.org yet. Nothing is published by pull requests
 # or ordinary pushes to main: those run ci.yml only. A pushed tag waits for approval in the
 # `release` environment before anything is published.
 #
@@ -81,10 +83,32 @@ jobs:
           git add -N packages/rizzyui/dist src/RizzyUI/wwwroot
           git diff --exit-code --stat -- packages/rizzyui/dist src/RizzyUI/wwwroot
 
+      # RizzyUI and the docs app reference RizzyUI.Tasks as a package. Pack it first and restore
+      # with ./artifacts/nupkgs as an extra source, so a new Tasks version builds before it is on
+      # nuget.org. It is pushed later only when nuget.org does not have that version.
+      # (RestoreAdditionalProjectSources keeps the configured sources; restoring the solution with
+      # two --source options resolved the nuget.org URL as a local folder in testing.)
+      - name: Pack RizzyUI.Tasks
+        id: tasks
+        run: |
+          version=$(bash eng/pack-tasks.sh ./artifacts/nupkgs)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          status=$(curl -sS --retry 5 --retry-all-errors --connect-timeout 10 --max-time 60 -o tasks-versions.json -w '%{http_code}' https://api.nuget.org/v3-flatcontainer/rizzyui.tasks/index.json)
+          lower=$(echo "$version" | tr '[:upper:]' '[:lower:]')
+          case "$status" in
+            200) if jq -e --arg v "$lower" '.versions | index($v)' tasks-versions.json > /dev/null; then publish=false; else publish=true; fi ;;
+            404) publish=true ;;
+            *) echo "::error::Could not read RizzyUI.Tasks versions from nuget.org (HTTP $status)"; exit 1 ;;
+          esac
+          rm -f tasks-versions.json
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
+          echo "RizzyUI.Tasks $version: publish=$publish"
+
       - name: Build and test
         run: |
           (cd src/RizzyUI.Docs && npm ci)
-          dotnet build src/RizzyUI.sln -c Release
+          dotnet restore src/RizzyUI.sln -p:RestoreAdditionalProjectSources="$PWD/artifacts/nupkgs"
+          dotnet build src/RizzyUI.sln -c Release --no-restore
           dotnet test src/RizzyUI.sln -c Release --no-build
 
       - name: Pack
@@ -122,6 +146,14 @@ jobs:
         with:
           user: ${{ vars.NUGET_USER }}
 
+      # Before RizzyUI, which depends on it. Skipped when nuget.org already has this version.
+      - name: Push RizzyUI.Tasks to NuGet
+        if: ${{ !inputs.npm_only && steps.tasks.outputs.publish == 'true' }}
+        run: >
+          dotnet nuget push "./artifacts/nupkgs/RizzyUI.Tasks.${{ steps.tasks.outputs.version }}.nupkg"
+          --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
+          --source https://api.nuget.org/v3/index.json
+
       - name: Push to NuGet
         if: ${{ !inputs.npm_only }}
         run: >
@@ -143,5 +175,9 @@ jobs:
           bash eng/changelog-section.sh "$version" > release-notes.md
           prerelease=""
           if [[ "$version" == *-* ]]; then prerelease="--prerelease"; fi
-          gh release create "v$version" ./artifacts/nupkgs/*.nupkg ./artifacts/npm/*.tgz \
+          assets=("./artifacts/nupkgs/RizzyUI.$version.nupkg" ./artifacts/npm/*.tgz)
+          if [ "${{ steps.tasks.outputs.publish }}" = "true" ]; then
+            assets+=("./artifacts/nupkgs/RizzyUI.Tasks.${{ steps.tasks.outputs.version }}.nupkg")
+          fi
+          gh release create "v$version" "${assets[@]}" \
             --title "v$version" --notes-file release-notes.md --generate-notes $prerelease --verify-tag

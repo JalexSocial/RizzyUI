@@ -73,6 +73,8 @@ RizzyUI now targets **Rizzy 6** (`6.0.0-preview.2`) and **htmx 4**. See the
 - Neither package ships unit tests, and the NuGet package no longer adds RizzyUI's own
   `package.json`, `package-lock.json` and tool configuration files to consuming projects.
   (RZUI-021, RZUI-022)
+- Packing `RizzyUI.Tasks` from a clean checkout produced a package without the task assembly
+  (`tasks/<tfm>/` was collected before the build ran). The files are now collected after the build.
 
 ### Changed
 
@@ -86,3 +88,7 @@ RizzyUI now targets **Rizzy 6** (`6.0.0-preview.2`) and **htmx 4**. See the
   The client bundles stay committed, and CI checks them against a fresh build. (RZUI-020)
 - The project version is `1.0.0-preview.1-dev` in both `RizzyUI.csproj` and the npm manifest
   (previously `0.9.2-alpha` and `0.9.2`). (RZUI-042)
+- `RizzyUI.Tasks` is released by the same tag as `RizzyUI`, pushed first and only when its version
+  is not on nuget.org yet. Its version is set once, in `src/Directory.Build.props`. CI and the docs
+  workflow pack it and restore from the local package, and the package checker verifies it.
+  (RZUI-042)

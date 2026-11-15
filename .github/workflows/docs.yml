@@ -44,8 +44,13 @@ jobs:
           (cd packages/rizzyui && npm ci)
           (cd src/RizzyUI.Docs && npm ci)
 
+      # The docs app references RizzyUI.Tasks as a package; restore it from a local pack so an
+      # unreleased Tasks version does not break the docs deployment.
       - name: Build the docs app (Release)
-        run: dotnet build src/RizzyUI.Docs/RizzyUI.Docs.csproj -c Release
+        run: |
+          bash eng/pack-tasks.sh ./artifacts/nupkgs
+          dotnet restore src/RizzyUI.Docs/RizzyUI.Docs.csproj -p:RestoreAdditionalProjectSources="$PWD/artifacts/nupkgs"
+          dotnet build src/RizzyUI.Docs/RizzyUI.Docs.csproj -c Release --no-restore
 
       # A Release build of the docs app writes the static site into ./docs and exits
       # (see the #if !DEBUG block in src/RizzyUI.Docs/Program.cs).

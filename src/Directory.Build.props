@@ -1,0 +1,11 @@
+<Project>
+
+    <!-- The single source of the RizzyUI.Tasks version: RizzyUI.Tasks.csproj packs this version, and
+         RizzyUI (a package dependency) and RizzyUI.Docs reference it. A new value is published by
+         release.yml together with RizzyUI; until then, builds restore it from the locally packed
+         package (see eng/pack-tasks.sh and docs/contributing/releasing.md). -->
+    <PropertyGroup>
+        <RizzyUITasksVersion>1.3.5</RizzyUITasksVersion>
+    </PropertyGroup>
+
+</Project>

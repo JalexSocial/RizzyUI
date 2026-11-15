@@ -26,7 +26,19 @@ you change `packages/rizzyui/src`; CI fails if they differ from a fresh build.
 cd packages/rizzyui && npm ci && npm test && npm run build
 ```
 
-.NET build and tests:
+.NET build and tests. If you changed `RizzyUITasksVersion` in `src/Directory.Build.props` (because
+`src/RizzyUI.Tasks` changed), that version is not on nuget.org yet, so first pack it and restore
+from the local folder (see [releasing.md](releasing.md#rizzyuitasks)):
+
+```bash
+bash eng/pack-tasks.sh ./artifacts/nupkgs
+```
+
+```bash
+dotnet restore src/RizzyUI.sln -p:RestoreAdditionalProjectSources="$PWD/artifacts/nupkgs"
+```
+
+Then:
 
 ```bash
 dotnet build src/RizzyUI.sln -c Release
@@ -58,7 +70,12 @@ cd src/RizzyUI.Docs && npm ci && npm run test:a11y && npm run test:integration
 - `test:integration` starts the docs app and tests real component output with htmx 4, Rizzy 6 and
   the RizzyUI runtime (`tests/integration/`). Add a scenario here when you change runtime behavior.
 
-Packages, checked the way consumers get them:
+Packages, checked the way consumers get them (the checker also verifies the `RizzyUI.Tasks`
+package when it is in the folder):
+
+```bash
+bash eng/pack-tasks.sh ./artifacts/nupkgs
+```
 
 ```bash
 dotnet pack src/RizzyUI/RizzyUI.csproj -c Release -p:Version=0.0.0-local.1 -o ./artifacts/nupkgs

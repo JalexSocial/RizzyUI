@@ -89,7 +89,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', 'global.json') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', 'src/Directory.Build.props', 'global.json') }}
           restore-keys: ${{ runner.os }}-nuget-
 
       # The docs project builds its Tailwind CSS during dotnet build.
@@ -98,8 +98,13 @@ jobs:
           (cd packages/rizzyui && npm ci)
           (cd src/RizzyUI.Docs && npm ci)
 
+      # RizzyUI references RizzyUI.Tasks as a package. Packing it first fails CI on a broken Tasks
+      # package and lets a new Tasks version restore before it is published (see release.yml).
+      - name: Pack RizzyUI.Tasks
+        run: bash eng/pack-tasks.sh ./artifacts/nupkgs
+
       - name: Restore
-        run: dotnet restore src/RizzyUI.sln
+        run: dotnet restore src/RizzyUI.sln -p:RestoreAdditionalProjectSources="$PWD/artifacts/nupkgs"
 
       - name: Build
         run: dotnet build src/RizzyUI.sln -c Release --no-restore
@@ -171,7 +176,10 @@ jobs:
       # Debug: a Release build of the docs app generates the static site and exits on startup
       # (see the #if !DEBUG block in src/RizzyUI.Docs/Program.cs).
       - name: Build the docs app
-        run: dotnet build src/RizzyUI.Docs/RizzyUI.Docs.csproj -c Debug
+        run: |
+          bash eng/pack-tasks.sh ./artifacts/nupkgs
+          dotnet restore src/RizzyUI.Docs/RizzyUI.Docs.csproj -p:RestoreAdditionalProjectSources="$PWD/artifacts/nupkgs"
+          dotnet build src/RizzyUI.Docs/RizzyUI.Docs.csproj -c Debug --no-restore
 
       # Hand-written fixture pages (keyboard/focus/axe contracts).
       - name: Accessibility fixture tests

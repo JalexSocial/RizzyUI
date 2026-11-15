@@ -33,6 +33,8 @@ cp -R "$repo_root/eng/consumer-smoke/app/." "$work/app/"
 
 # Isolated package cache and sources: the consumer must restore the RizzyUI package from
 # <nupkg-dir>, never a copy of the same version from nuget.org or the machine cache.
+# RizzyUI.Tasks may come from either source: <nupkg-dir> holds it when RizzyUI depends on a
+# Tasks version that is not on nuget.org yet.
 packages_dir="$work/.nuget/packages"
 export NUGET_PACKAGES="$(native_path "$packages_dir")"
 cat > "$work/app/nuget.config" <<EOF
@@ -46,8 +48,10 @@ cat > "$work/app/nuget.config" <<EOF
   <packageSourceMapping>
     <packageSource key="local">
       <package pattern="RizzyUI" />
+      <package pattern="RizzyUI.Tasks" />
     </packageSource>
     <packageSource key="nuget.org">
+      <package pattern="RizzyUI.Tasks" />
       <package pattern="*" />
     </packageSource>
   </packageSourceMapping>
