@@ -128,6 +128,35 @@
                 </RzCodeViewer>
             </section>
 
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Security" class="scroll-mt-20">
+                    Security and Raw HTML
+                </RzHeading>
+                <RzParagraph>
+                    By default, <code>RzMarkdown</code> does not render raw HTML: tags written in the Markdown are escaped and shown as text.
+                    Markdig generic attributes such as <code>{onclick="..."}</code> are not parsed either. HTML entities like <code>&amp;lt;</code>
+                    and fenced code blocks work as usual.
+                </RzParagraph>
+                <RzParagraph>
+                    For trusted content that you write yourself, set <code>AllowUnsafeHtml="true"</code> to render raw HTML and generic attributes.
+                    The output is rendered inside an Alpine scope, so injected <code>x-*</code> and <code>hx-*</code> attributes are live as well.
+                </RzParagraph>
+                <RzAlert Variant="ThemeVariant.Destructive" class="mb-6">
+                    <AlertTitle>Never enable AllowUnsafeHtml for user-supplied content</AlertTitle>
+                    <AlertDescription>
+                        It allows script injection (XSS). The safe default also does not filter link or image URLs, so validate URLs such as
+                        <code>javascript:</code> links in untrusted Markdown before rendering it. A custom <code>Pipeline</code> replaces the
+                        default, and its HTML handling is your responsibility.
+                    </AlertDescription>
+                </RzAlert>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+                    &lt;RzMarkdown AllowUnsafeHtml="true"&gt;
+                    This trusted content uses &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;K&lt;/kbd&gt;.
+                    &lt;/RzMarkdown&gt;
+                </RzCodeViewer>
+            </section>
+
             <!-- Markdown Component Parameters -->
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Markdown Parameters" class="scroll-mt-20">
@@ -164,9 +193,15 @@
                             </tr>
                             <tr class="align-top">
                                 <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Pipeline</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>MarkdownPipeline?</code> – The Markdig pipeline used for conversion. Defaults to a pipeline with advanced extensions and custom code block rendering.</td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>MarkdownPipeline?</code> – A custom Markdig pipeline, used as-is. When set, <code>AllowUnsafeHtml</code> is ignored and the pipeline's HTML handling is your responsibility. When <code>null</code>, a cached default pipeline with advanced extensions and RizzyUI code block rendering is used.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">MarkdownPipeline?</code></td>
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">AllowUnsafeHtml</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>bool</code> – When <code>true</code>, the default pipeline renders raw HTML and Markdig generic attributes (<code>{onclick=...}</code>). Use only for trusted, developer-authored content. Ignored when <code>Pipeline</code> is set.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">bool</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">false</code></td>
                             </tr>
                         </tbody>
                     </table>

@@ -106,10 +106,15 @@ so `hx-*` attributes inside it work (RZUI-009).
 | `RzButton` rendered `aria-label="Action Button"` (localized) unless `AssistiveLabel` was set, and overwrote an `aria-label` attribute | No default `aria-label`: the visible text names the button. `AssistiveLabel`, or an `aria-label` attribute, is rendered when set | RZUI-013 |
 | `DialogTrigger`/`AlertDialogTrigger` rendered `onclick="window.dispatchEvent(...)"` | Render `x-on:click="openFromTrigger"`, which raises the same `EventTriggerName` window event | RZUI-012 |
 | npm `module`/`exports` pointed at `*.es.js` files that were never built | Point at `dist/js/rizzyui.js` / `rizzyui-csp.js`; `./dist/*` is exported | RZUI-002 |
+| `RzMarkdown` rendered raw HTML and Markdig generic attributes (`{onclick=...}`) | Raw HTML is escaped and generic attributes are not parsed; set `AllowUnsafeHtml="true"` for trusted content, or pass your own `Pipeline` | RZUI-017 |
 
 **Icon-only buttons.** Before, an icon-only `RzButton` was announced as "Action Button". It now has
 no accessible name unless you give it one, which accessibility checkers will report. Add
 `AssistiveLabel="Close"` (or similar) to icon-only buttons.
+
+**Markdown with HTML.** If your own Markdown (not user input) contains HTML tags such as `<kbd>` or
+`<details>`, they are now shown as text. Add `AllowUnsafeHtml="true"` to those `RzMarkdown`
+instances. Keep the default for anything users can write: enabling it allows script injection.
 
 ## Behavior fixes you may notice
 

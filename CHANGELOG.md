@@ -41,6 +41,13 @@ RizzyUI now targets **Rizzy 6** (`6.0.0-preview.2`) and **htmx 4**. See the
   for it keeps working, but markup tests that looked for the `onclick` attribute must be updated.
   (RZUI-012)
 
+- **`RzMarkdown` no longer renders raw HTML or Markdig generic attributes by default.** HTML in the
+  Markdown is escaped and shown as text, and `{onclick=...}` attribute blocks are not parsed, so
+  user-supplied Markdown cannot inject scripts or live Alpine/htmx attributes. Set the new
+  `AllowUnsafeHtml="true"` parameter for trusted content that needs HTML. A custom `Pipeline` is
+  used as-is. Link URLs are not filtered: validate `javascript:` links in untrusted content.
+  The default pipelines are now built once and shared. (RZUI-017)
+
 ### Fixed
 
 - Dialogs, alert dialogs and sheets close on Escape, trap focus with their focus scope and return
