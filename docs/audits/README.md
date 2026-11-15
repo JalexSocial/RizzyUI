@@ -14,7 +14,7 @@ site (`docs/_config.yml`).
 
 | Date | Audit | Reviewed commit | Summary |
 |------|-------|-----------------|---------|
-| 2026-11-15 | [RizzyUI initial audit](2026-11-15-rizzyui-initial-audit/00-executive-summary.md) | `3fda79b2` (main) | First comprehensive baseline; Rizzy 6.0.0-preview.2 / htmx 4 migration and its verification |
+| 2026-11-15 | [RizzyUI initial audit](2026-11-15-rizzyui-initial-audit/00-executive-summary.md) ([owner decisions](2026-11-15-rizzyui-initial-audit/DECISIONS.md)) | `3fda79b2` (main) | First comprehensive baseline; Rizzy 6.0.0-preview.2 / htmx 4 migration and its verification |
 
 ## Directory and naming conventions
 

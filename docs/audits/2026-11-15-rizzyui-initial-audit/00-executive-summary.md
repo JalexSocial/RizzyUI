@@ -59,6 +59,8 @@ the packaging defects degrade installs rather than prevent them.
 
 ## Owner decisions required
 
+> Decided on 2026-11-15. All eight follow the recommendations below; see [DECISIONS.md](DECISIONS.md).
+
 **D-1 — Does the next RizzyUI release support Rizzy 6 only?**
 - **Context:** Rizzy 6 requires htmx 4, and Rizzy 5.4.0 is broken upstream (RIZZY-001). The
   migration branch drops Rizzy 5 support.
