@@ -124,6 +124,13 @@ export default function rzDropdownMenu() {
             return Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled],[aria-disabled="true"])'));
         },
 
+        destroy() {
+            // Alpine calls destroy() when the menu is removed (for example by an htmx swap) while
+            // it may still be open; release the dismissable layer and roving focus listeners.
+            this.unregisterDismissableLayer();
+            this.destroyRovingFocus();
+        },
+
         registerDismissableLayer() {
             this.unregisterDismissableLayer();
             if (!this.contentEl) return;
@@ -510,6 +517,13 @@ export function rzDropdownSubmenu() {
         getEnabledMenuItems() {
             if (!this.contentEl) return [];
             return Array.from(this.contentEl.querySelectorAll('[role^="menuitem"]:not([disabled],[aria-disabled="true"])'));
+        },
+
+        destroy() {
+            // Alpine calls destroy() when the menu is removed (for example by an htmx swap) while
+            // it may still be open; release the dismissable layer and roving focus listeners.
+            this.unregisterDismissableLayer();
+            this.destroyRovingFocus();
         },
 
         registerDismissableLayer() {

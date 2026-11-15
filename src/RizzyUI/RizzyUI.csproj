@@ -42,7 +42,7 @@
         <PackageReference Include="Blazicons.Ionicons" Version="3.1.22" />
         <PackageReference Include="Blazicons.Lucide" Version="1.14.37" />
         <PackageReference Include="Markdig" Version="0.45.0" />
-        <PackageReference Include="Rizzy" Version="5.3.0" />
+        <PackageReference Include="Rizzy" Version="6.0.0-preview.2" />
         <PackageReference Include="Blazicons" Version="3.0.12" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.2.26" />
         <PackageReference Include="Scrutor" Version="7.0.0" />
@@ -93,6 +93,12 @@
     <ItemGroup>
         <Content Remove="Themes\vercel.json" />
         <EmbeddedResource Include="Themes\vercel.json" />
+    </ItemGroup>
+
+    <!-- Repository tooling files, not runtime assets: without this they are packed as
+         content/contentFiles and added to every consuming project as Content items. -->
+    <ItemGroup>
+        <Content Update="package.json;package-lock.json;DefaultDocumentation.json;tailwind.extension.json" Pack="false" CopyToPublishDirectory="Never" />
     </ItemGroup>
 
     <ItemGroup>

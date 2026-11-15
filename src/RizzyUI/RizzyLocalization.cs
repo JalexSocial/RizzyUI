@@ -1,5 +1,12 @@
 
+using System.Resources;
 using Microsoft.Extensions.Localization; // Added for xmldoc reference
+
+// The library has no culture-neutral RizzyLocalization.resx; English lives in the "en" satellite.
+// Declaring English as the neutral language makes the resource manager fall back to it, so a
+// key missing from a partial translation (de, es, fr, pt) or a culture without its own file
+// renders the English text instead of the raw resource key.
+[assembly: NeutralResourcesLanguage("en", UltimateResourceFallbackLocation.Satellite)]
 
 namespace RizzyUI;
 

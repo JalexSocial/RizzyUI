@@ -25,10 +25,15 @@ export default function rzSheet() {
                 this.applyClosedState(true);
             });
 
-            this.applyClosedState(!this.open);
-            if (this.open) {
-                this.registerInteractions();
-            }
+            // The panel is teleported, and its x-ref is registered only after this init() runs.
+            // Alpine caches the $refs proxy on first access, so reading $refs here would cache an
+            // empty set. Defer the initial lookup until the teleported content is initialized.
+            this.$nextTick(() => {
+                this.applyClosedState(!this.open);
+                if (this.open) {
+                    this.registerInteractions();
+                }
+            });
         },
 
         registerInteractions() {
@@ -54,6 +59,13 @@ export default function rzSheet() {
             }
         },
 
+        destroy() {
+            // Alpine calls destroy() when the sheet is removed (for example replaced by an htmx
+            // swap). Without this, an open sheet would leave its dismissable layer, and that
+            // layer's document listeners, registered after the DOM is gone.
+            this.teardownInteractions();
+        },
+
         teardownInteractions() {
             if (this.focusScope) {
                 this.focusScope.deactivate();
@@ -76,7 +88,8 @@ export default function rzSheet() {
         },
 
         getPanel() {
-            return this.$root.querySelector('[data-rz-sheet-panel]');
+            // SheetContent teleports the panel to <body>; Alpine keeps its x-ref on this component.
+            return this.$refs?.rzSheetPanel ?? this.$root.querySelector('[data-rz-sheet-panel]');
         },
 
         toggle() {

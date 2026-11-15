@@ -293,8 +293,19 @@ internal static class HtmlUtils
 
     private static void EmitAttrAlwaysQuoted(StringBuilder sb, string name, string value)
     {
-        sb.Append(' ').Append(name).Append('=').Append('"').Append(value).Append('"');
+        sb.Append(' ').Append(name).Append('=').Append('"').Append(EscapeQuotes(value)).Append('"');
     }
+
+    // Values supplied by the caller (component parameters and additional attributes) are plain
+    // strings, not HTML. A quote in such a value would end the attribute and let the rest be parsed
+    // as new attributes. Escaping both quote characters keeps the value inside its attribute in
+    // either quoting style; browsers decode the entities back to the original characters. Other
+    // characters (such as '&' in Tailwind arbitrary variants like [&_svg]) are left as they are so
+    // values that came from the original markup are not double-encoded.
+    private static string EscapeQuotes(string value)
+        => value.AsSpan().IndexOfAny('"', '\'') < 0
+            ? value
+            : value.Replace("\"", "&quot;", StringComparison.Ordinal).Replace("'", "&#39;", StringComparison.Ordinal);
 
     private static void EmitAttr(
         StringBuilder sb,
@@ -318,10 +329,7 @@ internal static class HtmlUtils
             _ => '"'
         };
 
-        if (q == '\'' && value.IndexOf('\'') >= 0)
-            q = '"';
-
-        sb.Append(q).Append(value).Append(q);
+        sb.Append(q).Append(EscapeQuotes(value)).Append(q);
     }
 
     // HTML5: unquoted value must not contain whitespace or: " ' ` = < >

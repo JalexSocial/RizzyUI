@@ -69,15 +69,22 @@ npm install @jalexsocial/rizzyui
 npm install -D tailwindcss @tailwindcss/cli
 ```
 
+RizzyUI targets **Rizzy 6** (htmx 4) and .NET 10. The `RizzyUI` package brings the matching
+`Rizzy` package. Upgrading from a release built on Rizzy 5 (htmx 2)? See
+[docs/migration/rizzy5-to-rizzy6.md](docs/migration/rizzy5-to-rizzy6.md).
+
 ### 2) Register services + middleware
 
 In `Program.cs`:
 
 ```csharp
+using Rizzy;
 using RizzyUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Rizzy 6: registers htmx support and Razor components too.
+builder.Services.AddRizzy();
 builder.Services.AddRizzyUI(config =>
 {
     config.DefaultTheme = RzTheme.ArcticTheme;
@@ -85,6 +92,7 @@ builder.Services.AddRizzyUI(config =>
 
 var app = builder.Build();
 
+app.UseAntiforgery();
 app.UseRizzy();
 
 app.Run();
@@ -95,17 +103,24 @@ app.Run();
 In `App.razor` (or your main layout):
 
 ```razor
+@inject Rizzy.Htmx.IRizzyNonceProvider NonceProvider
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
 
     <!-- Your compiled Tailwind CSS -->
     <link rel="stylesheet" href="app.css" />
 
-    <!-- RizzyUI scripts/metadata -->
+    <!-- Rizzy 6: page head + htmx-config meta tag, then htmx 4, rizzy.js and its extensions -->
     <RzHeadOutlet />
+    <RzScripts />
+
+    <!-- RizzyUI runtime (Alpine.js + component behaviors). Use rizzyui-csp.js with a CSP. -->
+    <script type="module" nonce="@NonceProvider.GetNonce()" src="_content/RizzyUI/js/rizzyui.js"></script>
 
     <!-- Theme provider (CSS variables) -->
     <RzThemeProvider />
@@ -115,6 +130,11 @@ In `App.razor` (or your main layout):
 </body>
 </html>
 ```
+
+RizzyUI does not load htmx itself: `<RzScripts />` does, from jsDelivr with subresource integrity
+by default (set `HtmxConfig.Scripts` to serve your own copy). If your layout has no
+`<base href="/">`, set `RizzyConfig.ClientScriptUrl = "/_content/Rizzy/js/rizzy.js"`, because the
+default script URL is relative.
 
 ---
 

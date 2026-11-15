@@ -354,3 +354,7 @@ MigrationBackup/
 !docs/_config.yml
 docs/reference/*
 docs/_content/*
+
+# Playwright output (accessibility, integration and consumer smoke suites)
+src/RizzyUI.Docs/test-results*/
+src/RizzyUI.Docs/playwright-report*/

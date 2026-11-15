@@ -3,28 +3,27 @@
   "version": "0.9.2",
   "description": "Client library for Asp.net RizzyUI",
   "main": "dist/js/rizzyui.js",
-  "module": "dist/js/rizzyui.es.js",
+  "module": "dist/js/rizzyui.js",
   "exports": {
     ".": {
-      "import": "./dist/js/rizzyui.es.js",
-      "require": "./dist/js/rizzyui.js"
+      "import": "./dist/js/rizzyui.js",
+      "default": "./dist/js/rizzyui.js"
     },
     "./csp": {
-      "import": "./dist/js/rizzyui-csp.es.js",
-      "require": "./dist/js/rizzyui-csp.js"
+      "import": "./dist/js/rizzyui-csp.js",
+      "default": "./dist/js/rizzyui-csp.js"
     },
-    "./antiforgerySnippet": {
-      "import": "./dist/js/antiforgerySnippet.es.js",
-      "require": "./dist/js/antiforgerySnippet.min.js"
-    },
+    "./antiforgerySnippet": "./dist/js/antiforgerySnippet.js",
     "./antiforgerySnippet.js": "./dist/js/antiforgerySnippet.js",
-    "./antiforgerySnippet.min.js": "./dist/js/antiforgerySnippet.min.js"
+    "./antiforgerySnippet.min.js": "./dist/js/antiforgerySnippet.min.js",
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "test": "node --test \"src/js/**/*.test.mjs\"",
+    "test": "node --test \"src/js/**/*.test.mjs\" \"tests/**/*.test.mjs\"",
     "build": "node ./build/build-all.mjs",
     "build:clean": "node ./build/clean-generated.mjs",
     "build:js": "node ./build/build-js.mjs",
@@ -78,10 +77,16 @@
     "aspnet-client-validation": "^0.11.1",
     "async-alpine": "^2.0.3",
     "canvas-confetti": "^1.9.3",
-    "htmx.org": "^2.0.4",
-    "rizzyui.docs": "file:../../src/RizzyUI.Docs",
     "shadcn-prose": "^1.0.8",
     "tailwindcss": "^4.2.1",
     "tailwindcss-inset": "^1.0.0"
+  },
+  "peerDependencies": {
+    "htmx.org": "^4.0.1"
+  },
+  "peerDependenciesMeta": {
+    "htmx.org": {
+      "optional": true
+    }
   }
 }

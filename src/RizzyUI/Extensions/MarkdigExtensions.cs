@@ -77,8 +77,11 @@ public class RizzyCodeBlockRenderer : HtmlObjectRenderer<CodeBlock>
 
         if (obj is FencedCodeBlock fencedCodeBlock)
         {
+            // The info string comes from the Markdown source. It cannot contain whitespace but can
+            // contain quotes and angle brackets, so it must be encoded before it goes into the
+            // class attribute (```x"onmouseover="... would otherwise add an event handler).
             var language = fencedCodeBlock.Info?.Trim() ?? string.Empty;
-            if (!string.IsNullOrEmpty(language)) classes += $" language-{language}";
+            if (!string.IsNullOrEmpty(language)) classes += $" language-{System.Net.WebUtility.HtmlEncode(language)}";
 
             // Write the opening tags for a fenced code block.
             renderer.Write("<pre class=\"border-muted border\"><code");

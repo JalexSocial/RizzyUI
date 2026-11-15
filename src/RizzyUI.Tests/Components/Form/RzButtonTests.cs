@@ -68,4 +68,44 @@ public class RzButtonTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Contains("border-primary", btn.ClassList);
         Assert.Contains("bg-transparent", btn.ClassList);
     }
+
+    [Fact]
+    public void ButtonWithVisibleText_HasNoGenericAriaLabel()
+    {
+        // A generic default aria-label ("Action Button") replaced the visible text as the
+        // accessible name (WCAG 2.5.3 Label in Name). The visible text must name the button.
+        var cut = Render<RzButton>(parameters => parameters.Add(p => p.Label, "Save changes"));
+
+        var btn = cut.Find("button");
+        Assert.Null(btn.GetAttribute("aria-label"));
+        Assert.Equal("Save changes", btn.TextContent.Trim());
+    }
+
+    [Fact]
+    public void AssistiveLabel_IsRenderedAsAriaLabel()
+    {
+        var cut = Render<RzButton>(parameters => parameters.Add(p => p.AssistiveLabel, "Close panel"));
+
+        Assert.Equal("Close panel", cut.Find("button").GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void AriaLabelAttribute_IsNotOverwritten()
+    {
+        var cut = Render<RzButton>(parameters => parameters
+            .AddUnmatched("aria-label", "Delete item")
+            .Add(p => p.Label, "×"));
+
+        Assert.Equal("Delete item", cut.Find("button").GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void AssistiveLabel_TakesPrecedenceOverAriaLabelAttribute()
+    {
+        var cut = Render<RzButton>(parameters => parameters
+            .AddUnmatched("aria-label", "From attribute")
+            .Add(p => p.AssistiveLabel, "From parameter"));
+
+        Assert.Equal("From parameter", cut.Find("button").GetAttribute("aria-label"));
+    }
 }

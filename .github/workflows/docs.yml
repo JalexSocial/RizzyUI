@@ -1,0 +1,80 @@
+name: Docs site
+
+# Builds the static RizzyUI documentation site and deploys it to GitHub Pages. Separate from CI
+# (which validates) and release.yml (which publishes packages): a docs deployment never publishes
+# a package, and a package release never depends on the docs deployment.
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            packages/rizzyui/package-lock.json
+            src/RizzyUI.Docs/package-lock.json
+
+      - name: Install npm packages
+        run: |
+          (cd packages/rizzyui && npm ci)
+          (cd src/RizzyUI.Docs && npm ci)
+
+      - name: Build the docs app (Release)
+        run: dotnet build src/RizzyUI.Docs/RizzyUI.Docs.csproj -c Release
+
+      # A Release build of the docs app writes the static site into ./docs and exits
+      # (see the #if !DEBUG block in src/RizzyUI.Docs/Program.cs).
+      - name: Generate static docs
+        working-directory: src/RizzyUI.Docs
+        run: dotnet run -c Release --no-build --project RizzyUI.Docs.csproj
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build site with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./docs
+          destination: ./_site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

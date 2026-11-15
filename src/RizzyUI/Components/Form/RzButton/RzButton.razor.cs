@@ -65,9 +65,15 @@ public partial class RzButton : RzComponent<RzButton.Slots>
     protected ThemeVariant? GroupVariant { get; set; }
 
     /// <summary>
-    /// Gets or sets the accessible label for the button, used for screen readers.
-    /// If not provided, it defaults to a localized value.
+    /// Gets or sets the accessible label for the button (rendered as <c>aria-label</c>).
+    /// Leave it unset for buttons with visible text, so the visible text is the accessible name.
+    /// Set it for icon-only buttons, which have no text of their own.
     /// </summary>
+    /// <remarks>
+    /// Earlier versions rendered a generic localized default ("Action Button") when this was not set.
+    /// That default replaced the visible text for assistive technology, so it is no longer rendered.
+    /// An <c>aria-label</c> passed as an additional attribute is used when this parameter is not set.
+    /// </remarks>
     [Parameter]
     public string? AssistiveLabel { get; set; }
 
@@ -109,9 +115,29 @@ public partial class RzButton : RzComponent<RzButton.Slots>
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Gets the effective assistive label for the `aria-label` attribute.
+    /// Gets the effective <c>aria-label</c>: <see cref="AssistiveLabel"/>, otherwise an
+    /// <c>aria-label</c> supplied through additional attributes, otherwise none (the button's
+    /// content provides its accessible name).
     /// </summary>
-    protected string EffectiveAssistiveLabel => AssistiveLabel ?? Localizer["RzButton.AssistiveLabelDefault"];
+    protected string? EffectiveAssistiveLabel
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(AssistiveLabel))
+                return AssistiveLabel;
+
+            if (AdditionalAttributes is not null)
+            {
+                foreach (var (key, value) in AdditionalAttributes)
+                {
+                    if (string.Equals(key, "aria-label", StringComparison.OrdinalIgnoreCase))
+                        return value?.ToString();
+                }
+            }
+
+            return null;
+        }
+    }
 
     /// <summary>
     /// Gets the effective variant, prioritizing the explicit Variant parameter, then the GroupVariant, and defaulting to Default.

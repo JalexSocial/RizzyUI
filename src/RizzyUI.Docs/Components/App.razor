@@ -19,18 +19,11 @@
         <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' localhost:* http://localhost:* ws://localhost:* wss://localhost:* https://*.algolia.net https://*.algolianet.com; script-src 'self' localhost:* wss://localhost:* https://cdn.jsdelivr.net 'nonce-@Nonce'; font-src 'self' fonts.gstatic.com; style-src 'self' fonts.googleapis.com https://cdn.jsdelivr.net 'nonce-@Nonce'; img-src 'self' data:;">
     }
     
-    <HtmxConfigHeadOutlet/>
-
-    <!--<link rel="stylesheet" href="_content/RizzyUI/dist/rizzyui.css" />-->
-
     <link nonce="@Nonce" rel="stylesheet" href="@Assets["/css/app.css"]" />
     <link nonce="@Nonce" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@docsearch/css@4" />
 
-    <HeadOutlet/>
-    
-    <script nonce="@Nonce" defer src="@Assets["/vendor/htmx/htmx.min.js"]"></script>
-    <script nonce="@Nonce" defer src="@Assets["/_content/Rizzy/js/rizzy.js"]"></script>
-    
+    <RzHeadOutlet/>
+    <RzScripts/>
 
     @if (UseContentSecurityPolicy)
     {
@@ -52,7 +45,7 @@
 
 </head>
 
-<body class="bg-background" hx-ext="rizzy-nonce">
+<body class="bg-background">
 
 <RzThemeProvider>
     <Routes/>

@@ -1,37 +1,15 @@
-if (!document.body.attributes.__htmx_antiforgery) {
-    document.addEventListener("htmx:configRequest", evt => {
-        let httpVerb = evt.detail.verb.toUpperCase();
-        if (httpVerb === 'GET') return;
-        let antiforgery = htmx.config.antiforgery;
-        if (antiforgery) {
-            // already specified on the form, short circuit
-            if (evt.detail.parameters[antiforgery.formFieldName])
-                return;
-
-            if (antiforgery.headerName) {
-                evt.detail.headers[antiforgery.headerName]
-                    = antiforgery.requestToken;
-            } else {
-                evt.detail.parameters[antiforgery.formFieldName]
-                    = antiforgery.requestToken;
-            }
-        }
-    });
-    document.addEventListener("htmx:afterOnLoad", evt => {
-        if (evt.detail.boosted) {
-            const parser = new DOMParser();
-            const html = parser.parseFromString(evt.detail.xhr.responseText, 'text/html');
-            const selector = 'meta[name=htmx-config]';
-            const config = html.querySelector(selector);
-            if (config) {
-                const current = document.querySelector(selector);
-                // only change the anti-forgery token
-                const key = 'antiforgery';
-                htmx.config[key] = JSON.parse(config.attributes['content'].value)[key];
-                // update DOM, probably not necessary, but for sanity's sake
-                current.replaceWith(config);
-            }
-        }
-    });
-    document.body.attributes.__htmx_antiforgery = true;
+// Deprecated: htmx 2 antiforgery snippet.
+//
+// RizzyUI now targets Rizzy 6 and htmx 4. This snippet listened for htmx 2's request
+// configuration and after-load events, which htmx 4 renamed and reshaped, so it can no longer
+// attach the antiforgery token. Rizzy 6 handles antiforgery itself through its
+// `rizzy-antiforgery` extension: render `<RzHeadOutlet />` and `<RzScripts />` in the root
+// layout and remove this script. The file is kept so existing script tags and package imports
+// do not fail; it only logs a warning. It will be removed in a later release.
+if (typeof window !== 'undefined' && !window.__rizzyUIAntiforgerySnippetWarned) {
+    window.__rizzyUIAntiforgerySnippetWarned = true;
+    console.warn(
+        '[RizzyUI] antiforgerySnippet.js is deprecated and does nothing with htmx 4. ' +
+        'Rizzy 6 attaches the antiforgery token itself (render <RzHeadOutlet /> and <RzScripts />); remove this script.'
+    );
 }

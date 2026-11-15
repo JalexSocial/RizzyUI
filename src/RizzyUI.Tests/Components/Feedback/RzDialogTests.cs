@@ -53,8 +53,40 @@ public class RzDialogTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 
         // Assert
         var btn = cut.Find("button[data-slot='dialog-trigger']");
-        Assert.Contains(eventName, btn.GetAttribute("onclick"));
+        Assert.Equal("openFromTrigger", btn.GetAttribute("x-on:click"));
         Assert.Contains("Trigger Button", btn.TextContent);
+
+        // The window event the trigger raises is configured on the Alpine root.
+        var root = cut.Find("[x-data='rzModal']");
+        Assert.Equal(eventName, root.GetAttribute("data-event-trigger-name"));
+    }
+
+    [Fact]
+    public void DialogTrigger_DoesNotUseInlineEventHandler()
+    {
+        // Inline handlers are blocked by a nonce-based CSP (RZUI finding: dialog triggers under CSP).
+        var cut = Render<RzDialog>(parameters => parameters
+            .AddChildContent<DialogTrigger>(trigger => trigger.AddChildContent("Open"))
+            .AddChildContent<DialogContent>(content => content.AddChildContent("Content")));
+
+        var btn = cut.Find("button[data-slot='dialog-trigger']");
+        Assert.Null(btn.GetAttribute("onclick"));
+    }
+
+    [Fact]
+    public void DialogContent_PanelExposesTeleportSafeRef()
+    {
+        // The panel is teleported to <body>; rzModal resolves it through $refs.rzModalPanel.
+        var cut = Render<RzDialog>(parameters => parameters
+            .AddChildContent<DialogContent>(content => content.AddChildContent("Content")));
+
+        var templateHtml = cut.Find("template").ToHtml() ?? string.Empty;
+        Assert.Contains("data-modal-panel=\"true\"", templateHtml);
+        Assert.Contains("x-ref=\"rzModalPanel\"", templateHtml);
+
+        // rzModal owns focus restoration; x-trap must not also return focus, or it returns it to
+        // the (hidden) close button it captured on the first open.
+        Assert.Contains("x-trap.inert.noreturn=\"modalOpen\"", templateHtml);
     }
 
     [Fact]

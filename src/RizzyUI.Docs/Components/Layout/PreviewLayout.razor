@@ -12,16 +12,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <HtmxConfigHeadOutlet/>
-
     <link nonce="@Nonce" rel="stylesheet" href="/css/app.css" />
 
     <RzHeadOutlet />
     <RzThemeProvider />
 
-    <script nonce="@Nonce" src="https://unpkg.com/htmx.org@@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-
-    <script nonce="@Nonce" defer type="module" src="/_content/Rizzy/js/rizzy.js"></script>
+    <RzScripts />
     @if (App.UseContentSecurityPolicy)
     {
         <script nonce="@Nonce" defer type="module" src="@Assets["/_content/RizzyUI/js/rizzyui-csp.js"]"></script>
@@ -48,7 +44,7 @@
     </script>
 </head>
 
-<body class="bg-background text-foreground overflow-hidden" hx-ext="rizzy-nonce">
+<body class="bg-background text-foreground overflow-hidden">
     @Body
 </body>
 

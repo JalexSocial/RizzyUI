@@ -4,7 +4,8 @@ import { test } from 'node:test';
 
 async function loadTooltipFactory() {
   const source = await readFile(new URL('../src/js/lib/components/rzTooltip.js', import.meta.url), 'utf8');
-  const withoutImports = source.replace(/import \{[^}]+\} from '@floating-ui\/dom';\n/, '');
+  // \r?\n: Windows checkouts (core.autocrlf) have CRLF line endings.
+  const withoutImports = source.replace(/import \{[^}]+\} from '@floating-ui\/dom';\r?\n/, '');
   const executableSource = `${withoutImports.replace('export default function rzTooltip()', 'function rzTooltip()')}\nreturn rzTooltip;`;
   return new Function('autoUpdate', 'computePosition', 'offset', 'flip', 'shift', 'arrow', executableSource)(
     () => () => {},

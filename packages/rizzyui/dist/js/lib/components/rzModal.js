@@ -69,7 +69,11 @@ export default function rzModal() {
         },
 
         _resolveDialogElement() {
-            return this.$el.querySelector('[role="dialog"], [role="alertdialog"], [data-modal-panel="true"]');
+            // The panel is rendered inside <template x-teleport="body">, so it is not a DOM
+            // descendant of this component. Alpine keeps x-ref entries of teleported content on
+            // the owning component, so resolve it through $refs first.
+            return this.$refs?.rzModalPanel
+                ?? this.$el.querySelector('[role="dialog"], [role="alertdialog"], [data-modal-panel="true"]');
         },
 
         _ensureAriaRelationships(dialogElement) {
@@ -111,17 +115,40 @@ export default function rzModal() {
                 this._unregisterLayer = null;
             }
             if (this._focusScope) {
+                const dialogElement = this._resolveDialogElement();
                 const restored = this._focusScope.deactivate();
                 this._focusScope = null;
-                if ((!restored || restored === document.body) && this._lastInvoker?.isConnected) {
+                // The scope activates after x-trap has already moved focus into the panel, so its
+                // remembered element can be inside the panel that is closing. Return focus to the
+                // trigger instead of to an element that is about to be hidden.
+                const restoredInsidePanel = !!(restored && dialogElement?.contains?.(restored));
+                if ((!restored || restored === document.body || restoredInsidePanel) && this._lastInvoker?.isConnected) {
                     this._lastInvoker.focus();
                 }
             }
         },
 
+        /**
+         * Click handler for DialogTrigger / AlertDialogTrigger. Records the trigger for focus
+         * restoration and raises the dialog's open event on window, so every dialog that shares
+         * the event name opens as before. Bound with x-on:click (CSP-safe, unlike an inline onclick).
+         */
+        openFromTrigger(event) {
+            const invoker = event?.currentTarget?.nodeType === 1 ? event.currentTarget : null;
+            if (this.eventTriggerName) {
+                window.dispatchEvent(new CustomEvent(this.eventTriggerName, { detail: { invoker } }));
+            } else {
+                this.openModal(event);
+            }
+        },
+
         openModal(event = null) {
-            const invoker = event?.target ?? document.activeElement;
-            if (invoker?.nodeType === 1) this._lastInvoker = invoker;
+            // A window event (from a trigger or from app code) has window as its target; prefer the
+            // invoker passed in the detail, then the element that had focus when it was raised.
+            const invoker = event?.detail?.invoker
+                ?? (event?.target?.nodeType === 1 ? event.target : null)
+                ?? document.activeElement;
+            if (invoker?.nodeType === 1 && invoker !== document.body) this._lastInvoker = invoker;
             const beforeOpenEvent = new CustomEvent('rz:modal-before-open', { detail: { modalId: this.modalId, originalEvent: event }, bubbles: true, cancelable: true });
             this.$el.dispatchEvent(beforeOpenEvent);
             if (!beforeOpenEvent.defaultPrevented) this.modalOpen = true;

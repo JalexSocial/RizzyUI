@@ -44,7 +44,9 @@ public partial class AlertDialogTrigger : RzAsChildComponent<AlertDialogTrigger.
         {
             ["id"] = Id,
             ["class"] = SlotClasses.GetBase(),
-            ["onclick"] = $"window.dispatchEvent(new CustomEvent('{ParentAlertDialog?.EventTriggerName}'))",
+            // CSP-safe: an inline onclick is blocked by a nonce-based Content Security Policy.
+            // openFromTrigger raises the same window event (EventTriggerName) as before.
+            ["x-on:click"] = "openFromTrigger",
             ["data-slot"] = "alert-dialog-trigger"
         };
         return attributes;

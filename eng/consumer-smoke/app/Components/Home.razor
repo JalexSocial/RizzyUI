@@ -1,0 +1,33 @@
+@page "/"
+
+<main>
+    <h1>RizzyUI consumer smoke test</h1>
+
+    <RzButton Label="Plain button" />
+
+    <RzDialog>
+        <DialogTrigger AsChild>
+            <RzButton hx-get="/fragments/alert" hx-target="#dialog-body" hx-swap="innerHTML">Open dialog</RzButton>
+        </DialogTrigger>
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle>Smoke dialog</DialogTitle>
+            </DialogHeader>
+            <div id="dialog-body">Loading…</div>
+            <form hx-post="/fragments/echo" hx-target="#echo-target" hx-swap="innerHTML">
+                <input type="text" name="message" value="hello" aria-label="Message" />
+                <RzButton type="submit">Send</RzButton>
+            </form>
+            <div id="echo-target"></div>
+        </DialogContent>
+    </RzDialog>
+
+    <RzTabs DefaultValue="one">
+        <TabsList>
+            <TabsTrigger Value="one">One</TabsTrigger>
+            <TabsTrigger Value="two">Two</TabsTrigger>
+        </TabsList>
+        <TabsContent Value="one">First panel</TabsContent>
+        <TabsContent Value="two">Second panel</TabsContent>
+    </RzTabs>
+</main>
