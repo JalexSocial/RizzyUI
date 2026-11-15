@@ -152,3 +152,67 @@ All commands were run on Windows 11 with .NET SDK 10.0.115 (selected by `global.
 - `RZUI-030`, `RZUI-050`, `RZUI-054`, `RZUI-059` and `RZUI-060` remain "Needs investigation".
 - The consumer smoke test was not run against the baseline packages (they target Rizzy 5); the
   defects it guards against were reproduced individually (§2).
+
+## 5. Post-audit implementation of owner decisions
+
+Added 2026-11-15, after [DECISIONS.md](DECISIONS.md). Sections 1–4 above are the baseline and were
+not changed. Four decisions were implemented on `chore/rizzy6-preview-migration-audit`, one commit
+each (nothing pushed, tagged or published):
+
+| Decision | Roadmap | Commit | What changed |
+|---|---|---|---|
+| D-6 | RM-2.1 | `build: remove dead client-asset targets` | Deleted `InstallClientPackages`/`BuildClientAssets` and their properties from `src/RizzyUI/RizzyUI.csproj`. Committed bundles and the CI drift check are unchanged. |
+| D-3 | RM-0.1 | `chore: set version 1.0.0-preview.1-dev` | `<Version>` and the npm manifest (and lockfile) are `1.0.0-preview.1-dev`; migration guide compatibility row is `1.0.0-preview.1`; version scheme stated in the CHANGELOG intro. No release cut. |
+| D-4 | RM-0.3 | `feat(markdown)!: safe-by-default RzMarkdown with AllowUnsafeHtml` | Default pipeline: advanced extensions without `GenericAttributesExtension`, plus `DisableHtml()`. New `AllowUnsafeHtml` (default `false`) restores the previous pipeline; a caller `Pipeline` is used as-is. Both default pipelines are `static readonly`. 7 new tests; docs page (security section, parameters), CHANGELOG "Breaking", migration guide row. |
+| D-5 | RM-2.6 | `ci: release RizzyUI.Tasks with RizzyUI` | `RizzyUITasksVersion` in `src/Directory.Build.props` is the single Tasks version. `eng/pack-tasks.sh` packs Tasks; release/CI/docs workflows pack it first and restore with `-p:RestoreAdditionalProjectSources`. `release.yml` pushes Tasks before RizzyUI only when nuget.org lacks that version (flat-container check with retries). Package checker verifies the Tasks package and the RizzyUI → Tasks version; smoke test may restore Tasks locally. `releasing.md`/`development.md` updated. |
+
+### Findings during implementation
+
+- **`RizzyUI.Tasks` packed empty from a clean checkout.** `<None Include="$(OutputPath)\*">` was
+  evaluated before the build, so `dotnet pack` on a fresh clone produced a package with no
+  `tasks/` folder (reproduced: 0 task files; after the fix: 21). Fixed in the D-5 commit with a
+  `TargetsForTfmSpecificContentInPackage` target.
+- **Source/package drift for `RizzyUI.Tasks` 1.3.5.** The published 1.3.5 ships
+  `tasks/netstandard2.0`; the source targets `net10.0` and its `.targets` probes `tasks/net10.0`.
+  The release workflow correctly skips 1.3.5 (already published), but the next Tasks bump would
+  publish a `net10.0`-only task, which .NET Framework MSBuild (Visual Studio) may not load. Not
+  changed; needs an owner decision.
+- **`dotnet restore <sln> --source <dir> --source <url>`** resolved the nuget.org URL as a local
+  folder (`src\https:\api.nuget.org\...`, NU1301) in both Git Bash and PowerShell. The workflows use
+  `-p:RestoreAdditionalProjectSources=<absolute dir>` instead, which keeps the configured sources.
+- **`RzMarkdown` safe mode does not filter URLs.** `[x](javascript:alert(1))` still renders a
+  `javascript:` link (a test documents this). The XML docs and the component page say so. Not in
+  D-4's scope; a candidate follow-up (for example a `LinkRewriter` in safe mode).
+- **Docs pages and `AllowUnsafeHtml`.** All 32 pages using `<RzMarkdown>` were rendered before and
+  after the change and the Markdown output compared. Only `/themes` differed: `L<number>` had been
+  swallowed as an unknown HTML tag and now renders as text. No page needs the opt-in.
+
+### Verification
+
+Run locally on Windows (Git Bash), .NET 10 SDK, Node 22.
+
+| Check | Command | Result |
+|---|---|---|
+| JS tests, build, drift | `cd packages/rizzyui && npm ci && npm test && npm run build`, then `git status -- packages/rizzyui/dist src/RizzyUI/wwwroot` | 117 passed; no drift |
+| .NET build and tests | `dotnet build src/RizzyUI.sln -c Release && dotnet test src/RizzyUI.sln -c Release --no-build` | 0 errors; 497 → 504 passed (7 new `RzMarkdown` tests) |
+| Accessibility inventory | `cd src/RizzyUI && npm test && npm run check-accessibility-inventory` | 4 passed; exit 0 |
+| Browser suites | `dotnet build src/RizzyUI.Docs -c Debug && cd src/RizzyUI.Docs && npm run test:a11y && npm run test:integration` | 63 passed / 2 skipped; 5 passed |
+| Markdown pages | before/after snapshot of the `data-slot="markdown"` output of all 32 pages, plus manual check in a browser (`/themes`, `/markdown-demo`, `/components/markdown`, `/components/chart-bar`) | only the `/themes` fix above; no console errors |
+| Packages (CI version) | `bash eng/pack-tasks.sh ./artifacts/nupkgs`; restore with `-p:RestoreAdditionalProjectSources`; `dotnet pack … -p:Version=1.0.0-preview.1-dev-ci.12.1`; `npm pack`; `python eng/check-package-contents.py …` | passed; RizzyUI depends on Rizzy 6.0.0-preview.2 and RizzyUI.Tasks 1.3.5 |
+| Consumer smoke test | `bash eng/consumer-smoke-test.sh ./artifacts/nupkgs 1.0.0-preview.1-dev-ci.12.1 ./artifacts/npm/*.tgz` | passed |
+| Release dry run, bumped Tasks | the steps of `release.yml` without changelog check, push, publish and GitHub release, with `RizzyUITasksVersion` temporarily `1.3.6-local.1` and an isolated `NUGET_PACKAGES` | Tasks `publish=true`; restore used the local Tasks; 504 passed; checker and smoke test passed |
+| Release dry run, unchanged Tasks | the same with 1.3.5 | Tasks found on nuget.org (`publish=false`) |
+| Checker mismatch | RizzyUI depending on Tasks 1.3.5 next to only a Tasks 1.3.6-local.1 package | checker fails as intended |
+| SemVer of CI versions | `1.0.0-preview.1-dev-ci.12.1` against the `release.yml` regex, and as a NuGet/npm version | valid |
+
+Not verified: the workflows on GitHub (still RM-0.6), the real `dotnet nuget push` / trusted
+publishing path (D-7, owner-only), the Release docs generation (`docs.yml`), and `jq` in the
+Tasks check (not installed locally; an equivalent Python check was used in the dry run).
+
+### Finding status changes
+
+| Finding | Before | Now |
+|---|---|---|
+| RZUI-017 | Open (D-4) | **Resolved** (safe default; URL filtering is a separate, documented limitation) |
+| RZUI-020 | Mitigated | **Resolved** (dead targets removed) |
+| RZUI-042 | Open | **Resolved in the repository** (version scheme set; Tasks released with RizzyUI); the `[1.0.0-preview.1]` CHANGELOG section is added at release |
