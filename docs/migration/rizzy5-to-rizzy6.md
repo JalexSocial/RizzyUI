@@ -20,7 +20,7 @@ Finding IDs (RZUI-0xx) refer to the
 
 | RizzyUI | Rizzy | htmx | .NET |
 |---|---|---|---|
-| Unreleased (this guide) | 6.0.0-preview.2 | 4.0.1+ (4.x) | 10 |
+| 1.0.0-preview.1 (this guide) | 6.0.0-preview.2 | 4.0.1+ (4.x) | 10 |
 | 0.9.2-alpha and earlier | 5.3.x | 2.x | 10 |
 
 The `RizzyUI` NuGet package depends on `Rizzy`, which brings the matching `Rizzy.Htmx`. You do not
