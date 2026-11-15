@@ -70,3 +70,6 @@ RizzyUI now targets **Rizzy 6** (`6.0.0-preview.2`) and **htmx 4**. See the
 - CI runs on every pull request and never publishes. Releases are published by a separate,
   tag-triggered workflow that requires approval. The documentation site deploys from its own
   workflow. (RZUI-019)
+- Removed the `InstallClientPackages` and `BuildClientAssets` MSBuild targets from
+  `RizzyUI.csproj`. They never ran (they hooked a target that only multi-targeted projects have).
+  The client bundles stay committed, and CI checks them against a fresh build. (RZUI-020)
