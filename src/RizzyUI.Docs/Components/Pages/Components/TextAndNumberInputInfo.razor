@@ -134,7 +134,7 @@
                 </RzAlert>
 
                 <RzParagraph>
-                    When <code>ForId</code> is omitted, null, empty, or whitespace, <code>FieldLabel</code> preserves the existing automatic lookup based on <code>For</code>, the current form context, and the registered field map. If neither explicit nor automatic resolution finds a target ID, the <code>for</code> attribute is omitted. Prefer <code>ForId</code> when the control has an explicit ID, deterministic static HTML is required, an accessibility audit is validating label associations, or composition makes implicit registration uncertain.
+                    When <code>ForId</code> is omitted, null, empty, or whitespace, <code>FieldLabel</code> resolves the target from <code>For</code> and the current form's field map: it uses the id the field's input registered, or, when the label renders first, reserves an id that the RizzyUI input for the same field adopts. The label can therefore come before or after its input. An input with an explicit <code>Id</code> keeps it, so a label placed before such an input should use <code>ForId</code>. When no RizzyUI input renders the field (a checkbox or radio group, or a custom control), pass <code>ForId</code> or omit <code>For</code>; otherwise the label points at the reserved id, which no element uses. Outside an <code>EditForm</code> and without <code>ForId</code>, the <code>for</code> attribute is omitted. Prefer <code>ForId</code> when the control has an explicit ID, deterministic static HTML is required, an accessibility audit is validating label associations, or composition makes implicit registration uncertain.
                 </RzParagraph>
             </section>
             

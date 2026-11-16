@@ -63,14 +63,20 @@
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 min-h-96 max-w-sm">
                         <EditForm Model="_model">
-                            <RzDateEdit For="@(() => _model.StartDate)" Placeholder="Select a date" />
+                            <Field>
+                                <FieldLabel For="@(() => _model.StartDate)">Start date</FieldLabel>
+                                <RzDateEdit For="@(() => _model.StartDate)" Placeholder="Select a date" />
+                            </Field>
                         </EditForm>
                     </div>
                 </RzBrowser>
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;EditForm Model="_model"&gt;
-    &lt;RzDateEdit For="@@(() =&gt; _model.StartDate)" Placeholder="Select a date" /&gt;
+    &lt;Field&gt;
+        &lt;FieldLabel For="@@(() =&gt; _model.StartDate)"&gt;Start date&lt;/FieldLabel&gt;
+        &lt;RzDateEdit For="@@(() =&gt; _model.StartDate)" Placeholder="Select a date" /&gt;
+    &lt;/Field&gt;
 &lt;/EditForm&gt;
 
 @@code {
@@ -190,7 +196,8 @@
                 <RzAlert Variant="ThemeVariant.Warning" class="mb-6">
                     <AlertTitle>Known limitations</AlertTitle>
                     <AlertDescription>
-                        The input id is generated, so a <code>FieldLabel</code> placed before the field cannot point at it. <kbd>Tab</kbd> from a calendar day moves focus
+                        The input has <code>aria-label="Select date"</code>, which screen readers use instead of the text of a
+                        <code>FieldLabel</code> (the label still points at the input and focuses it on click). <kbd>Tab</kbd> from a calendar day moves focus
                         out of the calendar (it is appended to the end of the page) while it stays open. The labels are fixed English strings, and
                         the calendar has not been tested with screen readers.
                     </AlertDescription>

@@ -192,6 +192,14 @@ test.describe('RzDateEdit', () => {
       });
       expect(state).toEqual({ value: '2026-11-20', min: [2026, 11, 1], max: [2026, 12, 31], selected: [[2026, 11, 20]] });
 
+      // The FieldLabel before the field points at the input (the id comes from the form field
+      // mapping), and clicking it focuses the input.
+      const label = target.locator('label');
+      expect(await label.getAttribute('for')).toBe(await input.getAttribute('id'));
+      await label.click();
+      await expect(input).toBeFocused();
+      await page.keyboard.press('Escape');
+
       // One calendar: the instances of the replaced fields were destroyed with them.
       expect(await calendarsInPage()).toBe(1);
     }

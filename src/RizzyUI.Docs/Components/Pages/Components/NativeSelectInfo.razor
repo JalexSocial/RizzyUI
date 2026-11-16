@@ -83,7 +83,7 @@
                     <div class="mx-auto mb-5 w-full max-w-sm p-8">
                         <EditForm Model="_model">
                             <Field>
-                                <FieldLabel For="@(() => _model.SelectedCar)">Car Brand</FieldLabel>
+                                <FieldLabel For="@(() => _model.SelectedCar)" ForId="car-select">Car Brand</FieldLabel>
                                 <RzNativeSelect @bind-Value="_model.SelectedCar" For="@(() => _model.SelectedCar)" id="car-select">
                                     <option value="">Select a car</option>
                                     <RzNativeSelectOptGroup Label="German">
@@ -105,7 +105,7 @@
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;Field&gt;
-    &lt;FieldLabel For=&quot;@@(() =&gt; _model.SelectedCar)&quot;&gt;Car Brand&lt;/FieldLabel&gt;
+    &lt;FieldLabel For=&quot;@@(() =&gt; _model.SelectedCar)&quot; ForId=&quot;car-select&quot;&gt;Car Brand&lt;/FieldLabel&gt;
     &lt;RzNativeSelect @@bind-Value=&quot;_model.SelectedCar&quot; For=&quot;@@(() =&gt; _model.SelectedCar)&quot; id=&quot;car-select&quot;&gt;
         &lt;option value=&quot;&quot;&gt;Select a car&lt;/option&gt;
         &lt;RzNativeSelectOptGroup Label=&quot;German&quot;&gt;
@@ -155,7 +155,7 @@
                     <div class="mx-auto mb-5 w-full max-w-sm p-8">
                         <EditForm Model="_model">
                             <Field>
-                                <FieldLabel For="@(() => _model.SelectedCar)">Car Brand</FieldLabel>
+                                <FieldLabel For="@(() => _model.SelectedCar)" ForId="car-brand">Car Brand</FieldLabel>
                                 <RzNativeSelect @bind-Value="_model.SelectedCar"
                                                 For="@(() => _model.SelectedCar)"
                                                 id="car-brand"
@@ -172,7 +172,7 @@
                 </RzBrowser>
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;Field&gt;
-    &lt;FieldLabel For=&quot;@@(() =&gt; _model.SelectedCar)&quot;&gt;Car Brand&lt;/FieldLabel&gt;
+    &lt;FieldLabel For=&quot;@@(() =&gt; _model.SelectedCar)&quot; ForId=&quot;car-brand&quot;&gt;Car Brand&lt;/FieldLabel&gt;
     &lt;RzNativeSelect @@bind-Value=&quot;_model.SelectedCar&quot;
                     For=&quot;@@(() =&gt; _model.SelectedCar)&quot;
                     id=&quot;car-brand&quot;

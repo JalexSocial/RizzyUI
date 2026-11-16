@@ -106,16 +106,9 @@ public partial class FieldLabel<TValue> : RzComponent<FieldLabelSlots>, IHasFiel
 
         try
         {
-            var field = FieldIdentifier.Create(For);
-            var fieldMap = HttpContext.GetOrAddFieldMapping(EditContext);
-
-            if (fieldMap != null &&
-                fieldMap.TryGetValue(field, out var map) &&
-                map != null &&
-                !string.IsNullOrWhiteSpace(map.Id))
-            {
-                _effectiveForId = map.Id;
-            }
+            // The input's id when it has registered; when the label renders first, an id reserved
+            // for the field, which the Rizzy input adopts when it renders.
+            _effectiveForId = HttpContext.GetOrReserveFieldId(EditContext, FieldIdentifier.Create(For));
         }
         catch (ArgumentException)
         {
