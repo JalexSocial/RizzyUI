@@ -51,6 +51,10 @@ RizzyUI now targets **Rizzy 6** (`6.0.0-preview.2`) and **htmx 4**. See the
 
 ### Fixed
 
+- The carousel wheel-gestures plugin loads. Its default URL pointed at
+  `embla-carousel-wheel-gestures@8.1.7`, a version that does not exist (that package has its own
+  version line); it now uses 8.1.0 from `dist/`. Canvas confetti loads the published
+  `dist/confetti.browser.js` rather than a file jsDelivr minifies on request. (RZUI-018)
 - Dialogs, alert dialogs and sheets close on Escape, trap focus with their focus scope and return
   focus to the trigger. The panels are teleported to `<body>`, and the runtime looked for them
   inside the component, so this behavior never activated. (RZUI-010, RZUI-011)
@@ -92,6 +96,12 @@ RizzyUI now targets **Rizzy 6** (`6.0.0-preview.2`) and **htmx 4**. See the
 
 ### Changed
 
+- Default CDN assets are pinned to exact versions and load with Subresource Integrity
+  (`integrity` plus `crossorigin="anonymous"`). The previously unpinned defaults are pinned at the
+  versions they resolved to: flatpickr 4.6.13, Chart.js 4.6.1, Coloris 0.25.1, rough-notation
+  0.5.1 and vanilla-calendar-pro 3.4.0. New `RizzyUIConfig.AssetIntegrity` maps a URL to its hash;
+  an overridden `AssetUrls` entry does not inherit the default hash. The client loader accepts
+  `{ src, integrity }` entries as well as URL strings. (RZUI-018)
 - Documentation app and examples use `<RzHeadOutlet />` and `<RzScripts />` (Rizzy 6) and htmx 4
   syntax (`show:top showTarget:window`). (RZUI-005, RZUI-006)
 - CI runs on every pull request and never publishes. Releases are published by a separate,

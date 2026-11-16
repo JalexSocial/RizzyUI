@@ -86,7 +86,7 @@ need to reference `Rizzy` yourself unless you want to pin it.
 | `rizzy.js` + Rizzy's htmx extensions | `<RzScripts />` | `rizzy-nonce`, `rizzy-streaming`, `rizzy-antiforgery`, `rizzy-confirm`. |
 | Alpine.js and its plugins | RizzyUI (`rizzyui.js` / `rizzyui-csp.js`) | Bundled; do not load Alpine separately. RizzyUI starts Alpine. |
 | RizzyUI component code | RizzyUI, on demand | Chunks under `_content/RizzyUI/js/chunks/`, imported when a component with `x-load` appears. |
-| Third-party libraries (Chart.js, Tom Select, flatpickr, …) | RizzyUI components, on demand | URLs come from `RizzyUIConfig.AssetUrls`; override them to self-host. |
+| Third-party libraries (Chart.js, Tom Select, flatpickr, …) | RizzyUI components, on demand | URLs come from `RizzyUIConfig.AssetUrls`; override them to self-host. Defaults are pinned jsDelivr versions loaded with SRI; add `RizzyUIConfig.AssetIntegrity[url]` for your own cross-origin URLs. |
 
 The order in `<head>` is: `<RzHeadOutlet />`, then `<RzScripts />`, then the RizzyUI module.
 htmx reads the `htmx-config` meta tag once, when it loads, so `<RzHeadOutlet />` must come first.

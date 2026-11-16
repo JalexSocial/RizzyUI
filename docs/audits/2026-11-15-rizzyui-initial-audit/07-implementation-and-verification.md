@@ -221,6 +221,7 @@ Tasks check (not installed locally; an equivalent Python check was used in the d
 | RZUI-017 | Open (D-4) | **Resolved** (safe default; unsafe Markdown link URLs stripped) |
 | RZUI-020 | Mitigated | **Resolved** (dead targets removed) |
 | RZUI-025 | Open (RM-0.5) | **Resolved** (see section 6) |
+| RZUI-018 | Open (RM-0.4) | **Resolved** (see section 7; self-hosted copies not added) |
 | RZUI-042 | Open | **Resolved in the repository** (version scheme set; Tasks released with RizzyUI); the `[1.0.0-preview.1]` CHANGELOG section is added at release |
 
 ## 6. RM-0.5: `rzDateEdit` (RZUI-025)
@@ -268,3 +269,40 @@ POST endpoint); the submitted value is in `DateFormat`, which the docs page poin
 | New bUnit tests (`RzDateEditTests`) against the old and new code-behind | 18/23 before; 23/23 after |
 | New integration test (3 htmx swaps of `/demo/date-edit-sample`) against the old and new bundle | failed before (no options reached Flatpickr); passed after, with exactly one calendar in the page after each swap |
 | Browser check | default and `d/m/Y` examples: server value, Flatpickr value, min/max and selection agree; keyboard behaviour as documented; no console errors |
+
+## 7. RM-0.4: pinned CDN assets with SRI (RZUI-018)
+
+**Status: resolved** (RZUI-018), except for the optional self-hosted copies the finding also
+recommends, which are not part of the RM-0.4 acceptance.
+
+- Every default CDN asset in `ServiceCollectionExtensions.DefaultCdnAssets` names an exact version.
+  The five that were unpinned are pinned at the versions jsDelivr resolved them to on 2026-11-15:
+  flatpickr 4.6.13, Chart.js 4.6.1, Coloris 0.25.1 (was `@latest`), rough-notation 0.5.1 and
+  vanilla-calendar-pro 3.4.0 (JS and CSS). Pinned assets keep their versions; Tom Select stays at
+  2.4.1.
+- Each default has a SHA-256 Subresource Integrity hash. New `RizzyUIConfig.AssetIntegrity` maps
+  URL → hash, so an application that overrides an `AssetUrls` entry with another URL does not
+  inherit the default hash, and can add its own.
+- Components resolve assets through `RizzyUIConfig.ResolveAssets`, which emits `{ src, integrity }`
+  for hashed URLs and plain strings otherwise (16 components and the carousel). `rizzyRequire`
+  accepts both forms and sets `integrity` and `crossorigin="anonymous"` on the injected
+  `<script>`/`<link>`; bundle ids are unchanged for the same URLs.
+
+**Found during implementation.**
+
+- The `EmblaWheelGestures` default pointed at `embla-carousel-wheel-gestures@8.1.7`, which does not
+  exist (that package has its own version line; 404). It now points at 8.1.0, `dist/…umd.js`, which
+  exposes the `EmblaCarouselWheelGestures` global the plugin expects.
+- The `CanvasConfetti` default (`dist/confetti.browser.min.js`) is not a published file; jsDelivr
+  minifies it on request, so its bytes (and hash) are not guaranteed. It now loads the published
+  `dist/confetti.browser.js`.
+
+**Verification.**
+
+| Check | Result |
+|---|---|
+| Hashes | All 15 default files downloaded and hashed locally; every hash matches, and jsDelivr sends `Access-Control-Allow-Origin: *` |
+| Browser check (docs app) | Chart, carousel (core + autoplay), combobox, calendar (JS + CSS), color picker provider, date edit, highlighter and confetti pages: each injected tag has `integrity` and `crossorigin="anonymous"`, the library global is present and the components render. Wheel gestures loaded directly with its pinned URL and hash. The rough-notation file with a wrong hash is blocked by the browser |
+| New bUnit tests (`AssetIntegrityTests`, 7) | Defaults pinned and hashed, unique keys/URLs, `{ src, integrity }` shape, overrides drop the default hash, configured hashes apply |
+| New JS tests (`rizzyRequire.test.mjs`, 4) against the old and new loader | 1/4 before; 4/4 after |
+| Full suites | .NET 551 passed; JS 127 passed; a11y 63 passed, 2 skipped; integration 7 passed; accessibility inventory exit 0; htmx checker no issues outside `node_modules`; package check and consumer smoke test passed |

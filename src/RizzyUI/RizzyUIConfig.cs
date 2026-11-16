@@ -13,6 +13,42 @@ public sealed class RizzyUIConfig
     public Dictionary<string, string> AssetUrls { get; set; } = new();
 
     /// <summary>
+    /// Gets or sets Subresource Integrity hashes (for example <c>sha256-…</c>) keyed by asset URL.
+    /// When a component loads a URL listed here, the injected <c>&lt;script&gt;</c> or
+    /// <c>&lt;link&gt;</c> gets the <c>integrity</c> attribute and <c>crossorigin="anonymous"</c>,
+    /// so the browser refuses a file whose contents changed. The default CDN assets have hashes;
+    /// overriding an <see cref="AssetUrls"/> entry with a different URL drops the default hash.
+    /// </summary>
+    public Dictionary<string, string> AssetIntegrity { get; set; } = new(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Resolves logical asset keys to the entries a component sends to the client loader: the URL,
+    /// or an object with <c>src</c> and <c>integrity</c> when <see cref="AssetIntegrity"/> has a hash
+    /// for it. Unknown keys and empty URLs are skipped.
+    /// </summary>
+    internal List<object> ResolveAssets(IEnumerable<string> keys) =>
+        WithIntegrity(keys.Select(key => AssetUrls.TryGetValue(key, out var url) ? url : null));
+
+    /// <summary>
+    /// Pairs asset URLs with their <see cref="AssetIntegrity"/> hash, skipping empty and duplicate URLs.
+    /// </summary>
+    internal List<object> WithIntegrity(IEnumerable<string?> urls) =>
+        urls
+            .Where(url => !string.IsNullOrWhiteSpace(url))
+            .Distinct(StringComparer.Ordinal)
+            .Select(url => AssetIntegrity.TryGetValue(url!, out var hash) && !string.IsNullOrWhiteSpace(hash)
+                ? (object)new AssetReference(url!, hash)
+                : url!)
+            .ToList();
+
+    /// <summary>
+    /// An asset URL with its Subresource Integrity hash, serialized for the client loader.
+    /// </summary>
+    internal sealed record AssetReference(
+        [property: System.Text.Json.Serialization.JsonPropertyName("src")] string Src,
+        [property: System.Text.Json.Serialization.JsonPropertyName("integrity")] string Integrity);
+
+    /// <summary>
     /// Gets or sets the default theme to be used by RizzyUI components if no theme is
     /// explicitly provided via <see cref="RzThemeProvider"/>.
     /// Defaults to <see cref="RzTheme.ArcticTheme"/>.

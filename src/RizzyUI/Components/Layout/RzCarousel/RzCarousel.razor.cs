@@ -93,23 +93,10 @@ public partial class RzCarousel : RzComponent<RzCarousel.Slots>
 
     private string BuildAssetList()
     {
-        var assetUrls = new HashSet<string>();
-        var configAssets = RizzyUIConfig.Value.AssetUrls;
+        var keys = new List<string> { "EmblaCore" };
+        keys.AddRange(Plugins.Select(plugin => plugin.AssetKey).Where(key => !string.IsNullOrEmpty(key))!);
 
-        if (configAssets.TryGetValue("EmblaCore", out var coreUrl))
-        {
-            assetUrls.Add(coreUrl);
-        }
-
-        foreach (var plugin in Plugins)
-        {
-            if (!string.IsNullOrEmpty(plugin.AssetKey) && configAssets.TryGetValue(plugin.AssetKey, out var pluginUrl))
-            {
-                assetUrls.Add(pluginUrl);
-            }
-        }
-
-        return JsonSerializer.Serialize(assetUrls);
+        return JsonSerializer.Serialize(RizzyUIConfig.Value.ResolveAssets(keys));
     }
 
     /// <inheritdoc/>

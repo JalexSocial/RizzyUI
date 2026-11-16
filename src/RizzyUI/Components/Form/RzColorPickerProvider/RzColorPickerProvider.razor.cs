@@ -117,10 +117,7 @@ public partial class RzColorPickerProvider : RzComponent<RzColorPickerProvider.S
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         });
 
-        var assetUrls = ComponentAssetKeys
-            .Select(key => RizzyUIConfig.Value.AssetUrls.TryGetValue(key, out var url) ? url : null)
-            .Where(url => !string.IsNullOrEmpty(url))
-            .ToList();
+        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys);
         _assets = JsonSerializer.Serialize(assetUrls);
     }
 
