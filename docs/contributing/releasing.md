@@ -75,10 +75,17 @@ done.
 
 - **`release` environment** (Settings → Environments) with required reviewers, so a pushed tag
   waits for approval.
-- **NuGet trusted publishing:** on nuget.org, add a Trusted Publishing policy for the account that
-  owns `RizzyUI`, `RizzyUI.Tasks` **and** `RizzyUI.Templates` (the policy must cover all three packages): repository owner
-  `JalexSocial`, repository `RizzyUI`, workflow `release.yml`, environment `release`. Add a **variable** `NUGET_USER` (the nuget.org profile name) to the
-  `release` environment. Then delete the old `NUGET_API_KEY` secret and revoke that key.
+- **NuGet trusted publishing:** on nuget.org (your profile → **Trusted Publishing**), add a policy
+  owned by the account that owns `RizzyUI` and `RizzyUI.Tasks`: repository owner `JalexSocial`,
+  repository `RizzyUI`, workflow `release.yml`, environment `release`. A policy applies to every
+  package its owner owns; its **scopes** decide whether it may push new versions only or new
+  package IDs too. Allow **new packages** with a package glob that matches `RizzyUI.Templates`
+  (for example `RizzyUI*`): that package does not exist on nuget.org until its first release, and
+  the first push creates it under the `NUGET_USER` account. Add a **variable** `NUGET_USER` (the
+  nuget.org profile name, not an email) to the `release` environment. Then delete the old
+  `NUGET_API_KEY` secret and revoke that key. A policy for a repository nuget.org has not seen yet
+  can start as temporarily active for 7 days and becomes permanent after its first successful
+  publish; restart the window from the policy page if it lapses.
 - **npm trusted publishing:** on npmjs.com, `@jalexsocial/rizzyui` → Settings → Trusted Publisher →
   GitHub Actions: `JalexSocial` / `RizzyUI` / `release.yml` / `release`. Then delete the old
   `NPM_TOKEN` secret.

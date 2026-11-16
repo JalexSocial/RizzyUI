@@ -1,0 +1,333 @@
+@page "/docs/getting-started"
+@namespace RizzyUI.Docs.Components.Pages
+
+@using RizzyUI
+
+<PageTitle>Getting Started</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/docs" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Getting Started</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Getting Started">
+                Getting Started
+            </RzHeading>
+
+            <RzParagraph class="lead">
+                The quickest way to start is the <code>dotnet new rizzyui</code> template. It creates an ASP.NET Core
+                app with a sidebar layout, a few starter pages, and the Tailwind CSS build already wired up, so you
+                can run it and start replacing the sample pages with your own.
+            </RzParagraph>
+
+            <RzSeparator />
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Requirements">
+                    Requirements
+                </RzHeading>
+                <ul class="list-disc space-y-2 pl-6 my-6 text-foreground">
+                    <li>The <strong>.NET 10 SDK</strong> or later.</li>
+                    <li><strong>Node.js 20</strong> or later. RizzyUI is styled with Tailwind CSS, which the project builds with npm.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Create a Project">
+                    Create a Project
+                </RzHeading>
+                <RzParagraph>
+                    Install the template package once, then create and run an app:
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Bash" ViewerTitle="Terminal" class="mt-4">
+dotnet new install RizzyUI.Templates
+dotnet new rizzyui -o MyApp
+cd MyApp
+dotnet run
+                </RzCodeViewer>
+                <RzParagraph>
+                    The first build runs <code>npm install</code>, and every build compiles <code>Styles/app.css</code>
+                    to <code>wwwroot/css/app.css</code>. Open the URL that <code>dotnet run</code> prints.
+                </RzParagraph>
+
+                <RzAlert Variant="ThemeVariant.Information" class="my-5">
+                    <AlertTitle>Template versions</AlertTitle>
+                    <AlertDescription>
+                        Each template release pins the <code>RizzyUI</code> NuGet package and the
+                        <code>@@jalexsocial/rizzyui</code> npm package to its own version. To pick up a newer RizzyUI
+                        for new projects, run <code>dotnet new install RizzyUI.Templates</code> again.
+                    </AlertDescription>
+                </RzAlert>
+
+                <RzHeading Level="HeadingLevel.H3" QuickReferenceTitle="Template Options">
+                    Template Options
+                </RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr>
+                                <th class="p-4 w-1/4">Option</th>
+                                <th class="p-4 w-1/4">Values</th>
+                                <th class="p-4 w-1/2">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top">
+                                <td class="p-4"><code>-f</code>, <code>--framework</code></td>
+                                <td class="p-4"><code>net10.0</code> (default), <code>net11.0</code></td>
+                                <td class="p-4">The target framework.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4"><code>--theme</code></td>
+                                <td class="p-4"><code>Arctic</code> (default), <code>Vercel</code></td>
+                                <td class="p-4">The RizzyUI theme set in <code>Program.cs</code>. See <a href="/themes">Themes</a>.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4"><code>--no-restore</code></td>
+                                <td class="p-4">flag</td>
+                                <td class="p-4">Skip <code>dotnet restore</code> after the project is created.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="What's in the Project">
+                    What's in the Project
+                </RzHeading>
+                <RzParagraph>
+                    The app is server-rendered: pages are Razor components returned from controllers, htmx swaps parts of
+                    the page, and Alpine.js (loaded by RizzyUI) handles behavior in the browser such as the sidebar and
+                    dialogs.
+                </RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-muted/50 font-semibold">
+                            <tr>
+                                <th class="p-4 w-1/3">Path</th>
+                                <th class="p-4 w-2/3">What it does</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="align-top">
+                                <td class="p-4"><code>Program.cs</code></td>
+                                <td class="p-4">Registers Rizzy and RizzyUI, sets the theme, maps the controllers and the fragment endpoints.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4"><code>Components/Layout/AppLayout.razor</code></td>
+                                <td class="p-4">The HTML document: the stylesheet, <code>&lt;RzHeadOutlet /&gt;</code>, <code>&lt;RzScripts /&gt;</code> (htmx and Rizzy), <code>rizzyui.js</code>, and <code>RzThemeProvider</code>.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4"><code>Components/Layout/MainLayout.razor</code></td>
+                                <td class="p-4">The page shell: <code>RzSidebarProvider</code>, the header with the sidebar trigger and dark mode toggle, and the content area.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4"><code>Components/Layout/AppSidebar.razor</code></td>
+                                <td class="p-4">The sidebar navigation. Add your pages to its <code>Items</code> list.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4"><code>Features/Home</code></td>
+                                <td class="p-4">The dashboard: stat cards, a table, and an activity feed loaded after the page.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4"><code>Features/Customers</code></td>
+                                <td class="p-4">A searchable, paged table. The search box and pager fetch only the table.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4"><code>Features/Settings</code></td>
+                                <td class="p-4">A validated form posted with htmx. Invalid input comes back with status 422 and the errors next to each field.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4"><code>Features/Activity</code></td>
+                                <td class="p-4">Minimal API endpoints that return htmx fragments.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4"><code>Features/Errors</code></td>
+                                <td class="p-4">The 404 and error pages.</td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="p-4"><code>Styles/app.css</code></td>
+                                <td class="p-4">The Tailwind entry point. It imports RizzyUI's theme and plugin from the npm package.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Pages and Fragments">
+                    Pages and Fragments
+                </RzHeading>
+                <RzParagraph>
+                    A <strong>page</strong> is a Razor component that a controller action returns with <code>View&lt;T&gt;()</code>.
+                    Rizzy wraps it in <code>MainLayout</code> for normal requests and boosted navigation. A
+                    <strong>fragment</strong> is a component returned with <code>PartialView&lt;T&gt;()</code>; htmx swaps it into
+                    the element named by <code>hx-target</code>. The customers page uses both:
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" ViewerTitle="Features/Customers/CustomersController.cs" class="mt-4">
+public sealed class CustomersController(CustomerStore store) : RzController
+{
+    // The full page: the layout, the search box and the first page of results.
+    [HttpGet("/customers")]
+    public IResult Index(string? q, int page = 1) =&gt;
+        View&lt;CustomersPage&gt;(new { Result = store.Search(q, page) });
+
+    // Only the table, for the search box and the pager.
+    [HttpGet("/customers/table")]
+    public IResult Table(string? q, int page = 1) =&gt;
+        PartialView&lt;CustomerTable&gt;(new { Result = store.Search(q, page) });
+}
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Features/Customers/CustomersPage.razor" class="mt-4">
+&lt;input type=&quot;search&quot; name=&quot;q&quot;
+       hx-get=&quot;/customers/table&quot;
+       hx-trigger=&quot;input changed delay:300ms, search&quot;
+       hx-target=&quot;#customer-table&quot;
+       hx-swap=&quot;outerHTML&quot; /&gt;
+
+&lt;CustomerTable Result=&quot;Result&quot; /&gt;
+                </RzCodeViewer>
+                <RzParagraph>
+                    Minimal API endpoints render components the same way through <code>IRizzyService</code>, so endpoints and
+                    controllers can share components:
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" ViewerTitle="Features/Activity/ActivityEndpoints.cs" class="mt-4">
+var fragments = endpoints.MapGroup(&quot;/fragments&quot;);
+
+fragments.MapGet(&quot;/activity&quot;, ([FromServices] IRizzyService rizzy) =&gt;
+    rizzy.PartialView&lt;ActivityFeed&gt;(new { Items = LoadActivity() }));
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Forms and Validation">
+                    Forms and Validation
+                </RzHeading>
+                <RzParagraph>
+                    The settings form posts with <code>hx-post</code>. The controller validates the model; on errors it answers
+                    with status 422 and the form again, which htmx swaps in place. <code>RzModelStateProvider</code> shows each
+                    error next to its field, and each input shows the value the user posted. The antiforgery token is added to
+                    htmx requests for you.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" ViewerTitle="Features/Settings/SettingsController.cs" class="mt-4">
+[HttpPost(&quot;/settings&quot;), ValidateAntiForgeryToken]
+public IResult Save([FromForm] ProfileSettings profile)
+{
+    if (!ModelState.IsValid)
+    {
+        // 422 with the form and its errors.
+        // htmx 4 swaps 4xx responses into the target.
+        Response.Htmx().ValidationFailed();
+        return PartialView&lt;SettingsForm&gt;();
+    }
+
+    // Save the profile here.
+    return PartialView&lt;SettingsForm&gt;(new { Saved = true });
+}
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.Razor" ViewerTitle="Features/Settings/SettingsForm.razor" class="mt-4">
+&lt;EditForm Model=&quot;Profile&quot; FormName=&quot;Profile&quot;
+          hx-post=&quot;/settings&quot;
+          hx-target=&quot;#settings-form&quot;
+          hx-swap=&quot;outerHTML&quot;&gt;
+    &lt;RzModelStateProvider /&gt;
+
+    &lt;Field&gt;
+        &lt;FieldLabel For=&quot;@@(() =&gt; Profile!.Email)&quot; /&gt;
+        &lt;RzInputText For=&quot;@@(() =&gt; Profile!.Email)&quot;
+                     Role=&quot;TextRole.Email&quot; /&gt;
+        &lt;RzValidationMessageBase For=&quot;@@(() =&gt; Profile!.Email)&quot;
+                                 class=&quot;text-destructive text-sm&quot; /&gt;
+    &lt;/Field&gt;
+
+    &lt;RzButton type=&quot;submit&quot;&gt;Save profile&lt;/RzButton&gt;
+&lt;/EditForm&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Add a Page">
+                    Add a Page
+                </RzHeading>
+                <ol class="list-decimal space-y-2 pl-6 my-6 text-foreground">
+                    <li>Create a folder under <code>Features</code>, for example <code>Features/Reports</code>.</li>
+                    <li>Add a component, <code>ReportsPage.razor</code>, with your markup.</li>
+                    <li>Add a controller that returns it.</li>
+                    <li>Add the page to the <code>Items</code> list in <code>Components/Layout/AppSidebar.razor</code>.</li>
+                </ol>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" ViewerTitle="Features/Reports/ReportsController.cs" class="mt-4">
+public sealed class ReportsController : RzController
+{
+    [HttpGet(&quot;/reports&quot;)]
+    public IResult Index() =&gt; View&lt;ReportsPage&gt;();
+}
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.CSharp" ViewerTitle="Components/Layout/AppSidebar.razor" class="mt-4">
+private static readonly NavItem[] Items =
+[
+    new(&quot;Dashboard&quot;, &quot;/&quot;, Lucide.LayoutDashboard),
+    new(&quot;Customers&quot;, &quot;/customers&quot;, Lucide.Users),
+    new(&quot;Reports&quot;, &quot;/reports&quot;, Lucide.ChartBar),
+    new(&quot;Settings&quot;, &quot;/settings&quot;, Lucide.Settings),
+];
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Styling">
+                    Styling
+                </RzHeading>
+                <RzParagraph>
+                    Tailwind scans the project for class names on every build. While you edit markup, keep it watching in a
+                    second terminal so new classes show up without a rebuild:
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Bash" ViewerTitle="Terminal" class="mt-4">
+npm run watch:css
+                </RzCodeViewer>
+                <RzParagraph>
+                    <code>Styles/app.css</code> imports RizzyUI's plugin, which brings the theme tokens, the dark mode variant,
+                    and the classes RizzyUI's components use. Add your own CSS below the imports.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Css" ViewerTitle="Styles/app.css" class="mt-4">
+@@import &quot;tailwindcss&quot;;
+@@import &quot;@@jalexsocial/rizzyui/dist/css/rizzyui-plugin.css&quot;;
+
+@@plugin &quot;@@tailwindcss/forms&quot;;
+                </RzCodeViewer>
+                <RzParagraph>
+                    To build without Node.js (for example in a .NET-only CI step that already has the compiled CSS), pass
+                    <code>-p:SkipTailwind=true</code>.
+                </RzParagraph>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Next Steps">
+                    Next Steps
+                </RzHeading>
+                <ul class="list-disc space-y-2 pl-6 my-6 text-foreground">
+                    <li>Browse the <a href="/components">components</a> and copy examples into your pages.</li>
+                    <li>Change the look with a different <a href="/themes">theme</a>.</li>
+                    <li>Add browser behavior with Alpine.js: start with <a href="/docs/interactivity/introduction">Interactivity</a>.</li>
+                    <li>
+                        Adding RizzyUI to an existing app instead? Follow the installation steps in the
+                        <a href="https://github.com/jalexsocial/RizzyUI#installation">README</a>.
+                    </li>
+                </ul>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
