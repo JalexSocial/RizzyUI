@@ -220,4 +220,45 @@ Tasks check (not installed locally; an equivalent Python check was used in the d
 |---|---|---|
 | RZUI-017 | Open (D-4) | **Resolved** (safe default; unsafe Markdown link URLs stripped) |
 | RZUI-020 | Mitigated | **Resolved** (dead targets removed) |
+| RZUI-025 | Open (RM-0.5) | **Resolved** (see section 6) |
 | RZUI-042 | Open | **Resolved in the repository** (version scheme set; Tasks released with RizzyUI); the `[1.0.0-preview.1]` CHANGELOG section is added at release |
+
+## 6. RM-0.5: `rzDateEdit` (RZUI-025)
+
+Added 2026-11-15, after section 5.
+
+**What changed.** `rzDateEdit.js`: the Flatpickr instance is created by an arrow-function callback
+with the parsed options (the old `function` callback read `this.options` from the callback object,
+so Flatpickr always got `undefined`), kept outside Alpine's reactive state, and destroyed in a new
+`destroy()` hook; a `destroy()` before the assets load prevents a late instance. Invalid or missing
+`data-config`/`data-assets` no longer throw, and an empty asset list uses an application-loaded
+`window.flatpickr`.
+
+Fixing the options exposed three server-side defects, fixed in the same change:
+
+- The value was formatted with the Flatpickr format string as a .NET format (`Y-m-d` rendered
+  `Y-0-20`, because `m` is minutes in .NET). A token converter (`FlatpickrDateFormat`) now maps
+  Flatpickr tokens to .NET; formats with no .NET equivalent fall back to ISO.
+- Flatpickr parses date strings with `dateFormat`, so the ISO dates the server sends were misread with
+  a custom format (`d/m/Y` turned every date into 20 June 2026 in a browser check). The runtime now
+  converts ISO dates (`defaultDate`, `minDate`, `maxDate`, `enable`, `disable`) to local `Date`
+  objects and `minTime`/`maxTime` to `HH:MM`.
+- `DefaultDate` was written into the caller's `Options` object, so a shared instance kept the first
+  field's date. The default date is now added to the serialized copy, with its time.
+
+`RzDateEdit` had no documentation page, examples or tests. Added `DateEditInfo.razor` (navigation
+entry, an htmx section backed by `/demo/date-edit-sample`, keyboard table verified in a browser,
+known limitations), 6 JS unit tests, 23 bUnit tests and an integration test.
+
+**Found, not fixed (owner decision).** The date `<input>` has no `name` attribute, so its value is
+not included in a native form post. Fixing it needs an API choice (a `Name` parameter like
+`RzCombobox`, and how nested model paths are named). Documented on the component page.
+
+**Verification.**
+
+| Check | Result |
+|---|---|
+| New JS unit tests (`rzDateEdit.test.mjs`) against the old and new `rzDateEdit.js` | 0/5 passed before; 6/6 after (one added for the date conversion). Full JS suite 123 passed, 5 consecutive runs (one timing flake in the first draft of the test fixed by waiting on time instead of ticks) |
+| New bUnit tests (`RzDateEditTests`) against the old and new code-behind | 18/23 before; 23/23 after |
+| New integration test (3 htmx swaps of `/demo/date-edit-sample`) against the old and new bundle | failed before (no options reached Flatpickr); passed after, with exactly one calendar in the page after each swap |
+| Browser check | default and `d/m/Y` examples: server value, Flatpickr value, min/max and selection agree; keyboard behaviour as documented; no console errors |

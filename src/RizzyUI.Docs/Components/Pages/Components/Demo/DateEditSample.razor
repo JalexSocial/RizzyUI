@@ -1,0 +1,21 @@
+@page "/demo/date-edit-sample"
+@layout RizzyUI.Docs.Components.Layout.EmptyLayout
+@using RizzyUI
+
+<div data-date-edit-sample>
+    <p class="mb-2 text-sm text-muted-foreground">Loaded at @DateTime.Now.ToString("HH:mm:ss.fff")</p>
+    <EditForm Model="_model">
+        <RzDateEdit For="@(() => _model.Deadline)"
+                    Options="@(new FlatpickrOptions { Locale = "en", MinDate = new DateTime(2026, 11, 1), MaxDate = new DateTime(2026, 12, 31) })"
+                    Placeholder="Select a deadline" />
+    </EditForm>
+</div>
+
+@code {
+    private readonly DeadlineModel _model = new() { Deadline = new DateTime(2026, 11, 20) };
+
+    private sealed class DeadlineModel
+    {
+        public DateTime? Deadline { get; set; }
+    }
+}

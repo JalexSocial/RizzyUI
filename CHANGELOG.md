@@ -74,6 +74,13 @@ RizzyUI now targets **Rizzy 6** (`6.0.0-preview.2`) and **htmx 4**. See the
 - Neither package ships unit tests, and the NuGet package no longer adds RizzyUI's own
   `package.json`, `package-lock.json` and tool configuration files to consuming projects.
   (RZUI-021, RZUI-022)
+- `RzDateEdit` passes its `Options` to Flatpickr. They were silently dropped, so format, locale and
+  min/max dates had no effect. The picker is destroyed when the field is removed (for example by an
+  htmx swap), so calendars and their document listeners no longer pile up, and missing or invalid
+  data attributes no longer throw. (RZUI-025)
+- `RzDateEdit` renders its value in the configured `DateFormat` (it rendered `Y-0-20` for
+  `Y-m-d`), sends dates to the browser so a custom `DateFormat` cannot misread them, includes the
+  time in the default date, and no longer writes `DefaultDate` into a shared `Options` instance.
 - Packing `RizzyUI.Tasks` from a clean checkout produced a package without the task assembly
   (`tasks/<tfm>/` was collected before the build ran). The files are now collected after the build.
 - `RizzyUI.Tasks` targets `netstandard2.0` again, as the published 1.3.5 does, so the task also loads

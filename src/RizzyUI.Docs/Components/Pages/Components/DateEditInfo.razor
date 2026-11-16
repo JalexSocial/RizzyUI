@@ -1,0 +1,279 @@
+@page "/components/date-edit"
+@namespace RizzyUI.Pages
+@using RizzyUI
+@using Rizzy.Htmx
+@inherits RzComponent
+
+<PageTitle>Date Edit</PageTitle>
+
+<RzQuickReferenceContainer>
+    <RzArticle ProseWidth="ProseWidth.UltraWide">
+        <SideContent>
+            <RzQuickReference />
+        </SideContent>
+        <MainContent>
+            <RzBreadcrumb class="mb-4 not-prose">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Docs</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink Href="/components" hx-boost="true" hx-select="#content" hx-target="#content" hx-swap="outerHTML">Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Date Edit</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </RzBreadcrumb>
+
+            <RzHeading Level="HeadingLevel.H1" QuickReferenceTitle="Date Edit" class="scroll-mt-20">Date Edit</RzHeading>
+
+            <RzParagraph>
+                <code>RzDateEdit</code> is a date input with a calendar popup, bound to a nullable <code>DateTime</code> model property through
+                <code>For</code>. It must be placed inside an <code>EditForm</code>. The calendar is provided by
+                <a href="https://flatpickr.js.org/" target="_blank" rel="noopener">Flatpickr</a>, configured from the server with
+                <code>FlatpickrOptions</code>; the <code>rzDateEdit</code> Alpine component loads Flatpickr and creates the picker. There is no
+                Blazor interactivity.
+            </RzParagraph>
+
+            <RzAlert Variant="ThemeVariant.Information" class="mb-8">
+                <AlertTitle>Under the Hood</AlertTitle>
+                <AlertDescription>
+                    The component renders <code>x-data="rzDateEdit"</code> with the serialized options in <code>data-config</code>. On
+                    initialization it loads the <code>FlatpickrCore</code> asset (see <code>ComponentAssetKeys</code>) and calls
+                    <code>flatpickr(input, options)</code> with a copy of those options. When the element is removed, for example by an htmx swap,
+                    the Alpine <code>destroy()</code> hook destroys the Flatpickr instance, which removes its calendar element and document
+                    listeners.
+                </AlertDescription>
+            </RzAlert>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Basic Usage" class="scroll-mt-20">
+                    Basic Usage
+                </RzHeading>
+                <RzParagraph>
+                    Bind the component to a <code>DateTime?</code> property with <code>For</code>. The current value is shown in the input and
+                    preselected in the calendar.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 min-h-96 max-w-sm">
+                        <EditForm Model="_model">
+                            <RzDateEdit For="@(() => _model.StartDate)" Placeholder="Select a date" />
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;EditForm Model="_model"&gt;
+    &lt;RzDateEdit For="@@(() =&gt; _model.StartDate)" Placeholder="Select a date" /&gt;
+&lt;/EditForm&gt;
+
+@@code {
+    private readonly EventModel _model = new() { StartDate = new DateTime(2026, 11, 15) };
+
+    private sealed class EventModel
+    {
+        public DateTime? StartDate { get; set; }
+    }
+}
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Options" class="scroll-mt-20">
+                    Flatpickr Options
+                </RzHeading>
+                <RzParagraph>
+                    Pass a <code>FlatpickrOptions</code> object to <code>Options</code> to configure the calendar. This example shows dates as
+                    day/month/year with <code>DateFormat</code> (Flatpickr tokens; the server renders the value in the same format), limits the
+                    selectable range with <code>MinDate</code> and <code>MaxDate</code>, and adds a calendar icon with <code>PrependIcon</code>.
+                    Dates outside the range are disabled in the calendar.
+                </RzParagraph>
+
+                <RzBrowser Layout="typeof(PreviewLayout)">
+                    <div class="mx-auto p-8 mb-5 min-h-96 max-w-sm">
+                        <EditForm Model="_model">
+                            <RzDateEdit For="@(() => _model.EndDate)"
+                                        Options="@(new FlatpickrOptions { Locale = "en", DateFormat = "d/m/Y", MinDate = new DateTime(2026, 11, 1), MaxDate = new DateTime(2026, 12, 31) })"
+                                        PrependIcon="MdiIcon.Calendar"
+                                        Placeholder="November or December" />
+                        </EditForm>
+                    </div>
+                </RzBrowser>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
+&lt;EditForm Model="_model"&gt;
+    &lt;RzDateEdit For="@@(() =&gt; _model.EndDate)"
+                Options="@@(new FlatpickrOptions { Locale = "en", DateFormat = "d/m/Y", MinDate = new DateTime(2026, 11, 1), MaxDate = new DateTime(2026, 12, 31) })"
+                PrependIcon="MdiIcon.Calendar"
+                Placeholder="November or December" /&gt;
+&lt;/EditForm&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="htmx" class="scroll-mt-20">
+                    Loading with htmx
+                </RzHeading>
+                <RzParagraph>
+                    A date field can be loaded or replaced by an htmx request. Each time the button is used, the previous field is removed and
+                    its Flatpickr instance destroyed, so calendars do not accumulate in the page.
+                </RzParagraph>
+
+                <div class="not-prose mb-5 rounded-md border p-6">
+                    <RzButton hx-get="/demo/date-edit-sample"
+                              hx-target="#date-edit-htmx-target"
+                              hx-swap="innerHTML"
+                              data-date-edit-load>
+                        Load date field
+                    </RzButton>
+                    <div id="date-edit-htmx-target" class="mt-4 min-h-16 max-w-sm"></div>
+                </div>
+
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-4" ViewerTitle="Page">
+&lt;RzButton hx-get="/demo/date-edit-sample"
+          hx-target="#date-edit-htmx-target"
+          hx-swap="innerHTML"&gt;
+    Load date field
+&lt;/RzButton&gt;
+&lt;div id="date-edit-htmx-target"&gt;&lt;/div&gt;
+                </RzCodeViewer>
+                <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10" ViewerTitle="Demo Content Page (/demo/date-edit-sample)">
+@@page "/demo/date-edit-sample"
+@@layout EmptyLayout
+
+&lt;EditForm Model="_model"&gt;
+    &lt;RzDateEdit For="@@(() =&gt; _model.Deadline)"
+                Options="@@(new FlatpickrOptions { Locale = "en", MinDate = new DateTime(2026, 11, 1), MaxDate = new DateTime(2026, 12, 31) })"
+                Placeholder="Select a deadline" /&gt;
+&lt;/EditForm&gt;
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">
+                    Accessibility
+                </RzHeading>
+                <RzParagraph>
+                    The component renders a <code>role="group"</code> container labelled "Date picker" around a text input labelled "Select date".
+                    Keyboard support comes from Flatpickr. By default Flatpickr makes the input read-only; set <code>AllowInput = true</code> in
+                    <code>FlatpickrOptions</code> to let users type a date.
+                </RzParagraph>
+                <div class="not-prose mt-6 mb-6 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr><th scope="col" class="w-1/4 px-4 py-3">Key</th><th scope="col" class="px-4 py-3">Effect</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4">Click or focus the input</td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Opens the calendar; focus stays on the input.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><kbd>Down Arrow</kbd> (on the input)</td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Moves focus into the calendar, onto the selected day.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><kbd>Left</kbd> / <kbd>Right Arrow</kbd> (on a day)</td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Previous / next day.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><kbd>Up</kbd> / <kbd>Down Arrow</kbd> (on a day)</td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Same day of the previous / next week.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><kbd>Enter</kbd> (on a day)</td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Selects the day, closes the calendar and returns focus to the input.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><kbd>Escape</kbd></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Closes the calendar without changing the value and returns focus to the input.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <RzAlert Variant="ThemeVariant.Warning" class="mb-6">
+                    <AlertTitle>Known limitations</AlertTitle>
+                    <AlertDescription>
+                        The input has no <code>name</code> attribute, so its value is not included when the form is submitted natively. The input id
+                        is generated, so a separate <code>&lt;label for&gt;</code> cannot be attached. <kbd>Tab</kbd> from a calendar day moves focus
+                        out of the calendar (it is appended to the end of the page) while it stays open. The labels are fixed English strings, and
+                        the calendar has not been tested with screen readers.
+                    </AlertDescription>
+                </RzAlert>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Component Parameters" class="scroll-mt-20">
+                    Component Parameters
+                </RzHeading>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr>
+                                <th scope="col" class="w-1/5 px-4 py-3">Property</th>
+                                <th scope="col" class="w-2/5 px-4 py-3">Description</th>
+                                <th scope="col" class="w-1/5 px-4 py-3">Type</th>
+                                <th scope="col" class="px-4 py-3">Default</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">For</code> <span class="ml-1 rounded bg-rose-100 px-1.5 py-0.5 text-xs font-semibold text-rose-700 dark:bg-rose-900/40 dark:text-rose-300">Required</span></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">The model property the date is bound to. The component must be inside an <code>EditForm</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Expression&lt;Func&lt;DateTime?&gt;&gt;</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Options</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Flatpickr configuration (for example <code>DateFormat</code>, <code>MinDate</code>, <code>MaxDate</code>, <code>EnableTime</code>, <code>AllowInput</code>). Dates are sent as ISO strings and converted to local dates before Flatpickr reads them, so they work with any <code>DateFormat</code>. <code>DefaultDate</code> is filled from the bound value when not set; the <code>Options</code> instance itself is not modified.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">FlatpickrOptions</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">new() { Locale = "en" }</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Placeholder</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Placeholder text for the input.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">""</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">PrependText</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Text shown at the start of the input. Takes precedence over <code>PrependIcon</code>.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">PrependIcon</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Icon shown at the start of the input.</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">SvgIcon?</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                            </tr>
+                            <tr class="align-top">
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ComponentAssetKeys</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Keys in <code>RizzyUIConfig.AssetUrls</code> for the scripts to load. With an empty array, Flatpickr must already be loaded by the page (<code>window.flatpickr</code>).</td>
+                                <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string[]</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">["FlatpickrCore"]</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">
+                    Alpine API
+                </RzHeading>
+                <RzParagraph>
+                    The <code>rzDateEdit</code> Alpine component has no public methods for application code and raises no events. Its
+                    lifecycle hooks are listed for reference.
+                </RzParagraph>
+                <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="text-left bg-zinc-100/75 font-semibold text-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-300">
+                            <tr><th scope="col" class="w-1/5 px-4 py-3">Method</th><th scope="col" class="w-1/5 px-4 py-3">Parameters</th><th scope="col" class="px-4 py-3">Description</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">init()</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Reads <code>data-config</code>, loads the assets and creates the Flatpickr instance with a copy of the options.</td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">destroy()</code></td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">—</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Called by Alpine when the element is removed. Destroys the Flatpickr instance, or prevents it from being created if the assets are still loading.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </MainContent>
+    </RzArticle>
+</RzQuickReferenceContainer>
+
+@code {
+    private readonly EventModel _model = new() { StartDate = new DateTime(2026, 11, 15), EndDate = new DateTime(2026, 12, 1) };
+
+    private sealed class EventModel
+    {
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+    }
+}

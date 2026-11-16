@@ -159,3 +159,50 @@ test.describe('Rizzy 6 / htmx 4 runtime', () => {
     await expect(panel).toBeHidden();
   });
 });
+
+test.describe('RzDateEdit', () => {
+  test('applies the server options and destroys its calendar when htmx replaces it, repeatedly', async ({ page }) => {
+    const errors = collectPageErrors(page);
+    await page.goto('/components/date-edit');
+
+    const calendarsInPage = () => page.evaluate(() => document.querySelectorAll('.flatpickr-calendar').length);
+    // The examples above render inside RzBrowser iframes, so the page itself starts without calendars.
+    expect(await calendarsInPage()).toBe(0);
+
+    const target = page.locator('#date-edit-htmx-target');
+    let previousStamp = '';
+    for (let round = 1; round <= 3; round++) {
+      await page.locator('[data-date-edit-load]').click();
+      const stamp = target.locator('p');
+      await expect(stamp).not.toHaveText(previousStamp);
+      previousStamp = (await stamp.textContent()) ?? '';
+
+      const input = target.locator('input[data-input]');
+      await expect.poll(() => input.evaluate(el => Boolean((el as any)._flatpickr))).toBe(true);
+
+      const state = await input.evaluate(el => {
+        const fp = (el as any)._flatpickr;
+        const day = (d: Date | undefined) => d ? [d.getFullYear(), d.getMonth() + 1, d.getDate()] : null;
+        return {
+          value: (el as HTMLInputElement).value,
+          min: day(fp.config.minDate),
+          max: day(fp.config.maxDate),
+          selected: fp.selectedDates.map(day),
+        };
+      });
+      expect(state).toEqual({ value: '2026-11-20', min: [2026, 11, 1], max: [2026, 12, 31], selected: [[2026, 11, 20]] });
+
+      // One calendar: the instances of the replaced fields were destroyed with them.
+      expect(await calendarsInPage()).toBe(1);
+    }
+
+    // Dates outside MinDate/MaxDate cannot be picked.
+    const enabled = await target.locator('input[data-input]').evaluate(el => {
+      const fp = (el as any)._flatpickr;
+      return [fp.isEnabled(new Date(2026, 9, 31)), fp.isEnabled(new Date(2026, 10, 15)), fp.isEnabled(new Date(2027, 0, 1))];
+    });
+    expect(enabled).toEqual([false, true, false]);
+
+    expect(errors).toEqual([]);
+  });
+});

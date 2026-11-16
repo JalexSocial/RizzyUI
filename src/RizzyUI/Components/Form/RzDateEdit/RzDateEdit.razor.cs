@@ -85,7 +85,8 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
             if (_inputValue == value) return;
 
             _inputValue = value;
-            if (DateTime.TryParseExact(value, GetFlatpickrFormat(), CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDate))
+            var format = GetDotNetFormat();
+            if (format != null && DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDate))
                 UpdateValue(parsedDate);
             else if (string.IsNullOrEmpty(value))
                 UpdateValue(null);
@@ -127,21 +128,28 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
 
     private void FormatInputValue()
     {
+        // Without a .NET equivalent of the Flatpickr format, render ISO; Flatpickr rewrites the value
+        // from defaultDate when it initializes.
         if (_currentValue.HasValue)
-            _inputValue = _currentValue.Value.ToString(GetFlatpickrFormat(), CultureInfo.InvariantCulture);
+            _inputValue = _currentValue.Value.ToString(GetDotNetFormat() ?? "yyyy-MM-dd", CultureInfo.InvariantCulture);
         else
             _inputValue = string.Empty;
     }
 
-    private string GetFlatpickrFormat() => Options.DateFormat ?? "Y-m-d";
+    private string? GetDotNetFormat() => FlatpickrDateFormat.ToDotNet(Options.DateFormat ?? "Y-m-d");
 
     private void SerializeConfigAndAssets()
     {
-        if (string.IsNullOrEmpty(Options.DefaultDate) && _currentValue.HasValue)
-            Options.DefaultDate = _currentValue.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        var serializerOptions = new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
+        var options = JsonSerializer.SerializeToNode(Options, serializerOptions)!.AsObject();
 
-        var alpineData = new { options = Options, placeholder = Placeholder, prependText = PrependText ?? string.Empty };
-        _serializedConfig = JsonSerializer.Serialize(alpineData, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+        // The bound value preselects the date unless DefaultDate was set. Sent as ISO (the runtime
+        // converts it for Flatpickr), and without changing the caller's Options instance.
+        if (string.IsNullOrEmpty(Options.DefaultDate) && _currentValue.HasValue)
+            options["defaultDate"] = _currentValue.Value.ToString("yyyy-MM-dd'T'HH:mm:ss", CultureInfo.InvariantCulture);
+
+        var alpineData = new { options, placeholder = Placeholder, prependText = PrependText ?? string.Empty };
+        _serializedConfig = JsonSerializer.Serialize(alpineData, serializerOptions);
 
         var assetUrls = ComponentAssetKeys
             .Select(key => RizzyUIConfig.Value.AssetUrls.TryGetValue(key, out var url) ? url : null)
