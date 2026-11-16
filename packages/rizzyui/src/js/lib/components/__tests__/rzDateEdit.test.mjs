@@ -36,8 +36,8 @@ function installFakeFlatpickr() {
 
 const inputs = new Map();
 
-function createComponent(factory, { config, assets = JSON.stringify([FLATPICKR_URL]), uid = 'rzdate-1' } = {}) {
-  const input = { id: `${uid}-input` };
+function createComponent(factory, { config, assets = JSON.stringify([FLATPICKR_URL]), uid = 'rzdate-1', inputId } = {}) {
+  const input = { id: inputId ?? `${uid}-input` };
   inputs.set(input.id, input);
   setGlobal('document', { getElementById: (id) => inputs.get(id) ?? null });
   const component = factory();
@@ -45,6 +45,7 @@ function createComponent(factory, { config, assets = JSON.stringify([FLATPICKR_U
     dataset: {
       config: config === undefined ? JSON.stringify({ options: { dateFormat: 'd/m/Y', minDate: '2026-01-01', locale: 'en' }, placeholder: 'Pick a date', prependText: 'On' }) : config,
       uid,
+      ...(inputId === undefined ? {} : { inputId }),
       ...(assets === null ? {} : { assets }),
       nonce: 'nonce-1',
     },
@@ -187,4 +188,17 @@ test('toFlatpickrOptions converts the server ISO dates so custom date formats ca
   // Non-ISO values are passed through, and the input is not changed.
   assert.equal(toFlatpickrOptions({ minDate: 'today' }).minDate, 'today');
   assert.equal(input.minDate, '2026-11-01T00:00:00');
+});
+
+test('rzDateEdit finds its input by data-input-id (the form field id)', async () => {
+  const fake = installFakeFlatpickr();
+  setGlobal('window', { flatpickr: fake.flatpickr });
+  const factory = await resolveRegisteredComponentFactoryForTest('rzDateEdit');
+  const { component, input } = createComponent(factory, { inputId: 'StartDate-x1' });
+
+  component.init();
+  await waitFor(() => fake.calls.length === 1, 'flatpickr was not initialized');
+
+  assert.equal(input.id, 'StartDate-x1');
+  assert.equal(fake.calls[0].element, input);
 });

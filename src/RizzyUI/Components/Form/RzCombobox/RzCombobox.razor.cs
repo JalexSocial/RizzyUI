@@ -18,6 +18,10 @@ namespace RizzyUI;
 /// <typeparam name="TValue">The type of the bound value (string or IEnumerable&lt;string&gt;).</typeparam>
 public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlots>, IHasRzComboboxStylingProperties
 {
+    /// <inheritdoc />
+    /// <remarks><c>Id</c> is rendered on the Alpine root element; Tom Select labels its own control.</remarks>
+    protected override bool IdIsLabelTarget => false;
+
     [Inject] private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
 
     private string ConfigScriptId => $"{Id}-config";

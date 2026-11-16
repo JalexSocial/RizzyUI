@@ -17,12 +17,12 @@ Finding IDs (RZUI-0xx) refer to the
 
 ## [Unreleased]
 
-RizzyUI now targets **Rizzy 6** (`6.0.0-preview.2`) and **htmx 4**. See the
+RizzyUI now targets **Rizzy 6** (`6.0.0-preview.3`) and **htmx 4**. See the
 [migration guide](docs/migration/rizzy5-to-rizzy6.md).
 
 ### Breaking
 
-- **Rizzy 6 and htmx 4 are required.** The `RizzyUI` package depends on `Rizzy` 6.0.0-preview.2,
+- **Rizzy 6 and htmx 4 are required.** The `RizzyUI` package depends on `Rizzy` 6.0.0-preview.3,
   which targets htmx 4.0.1 or later. Follow Rizzy's
   [htmx 2 to htmx 4 guide](https://github.com/JalexSocial/Rizzy/blob/main/docs/migration/htmx2-to-htmx4.md)
   for your own markup, then RizzyUI's [migration guide](docs/migration/rizzy5-to-rizzy6.md).
@@ -51,6 +51,13 @@ RizzyUI now targets **Rizzy 6** (`6.0.0-preview.2`) and **htmx 4**. See the
 
 ### Fixed
 
+- `FieldLabel` with `For` points at its input whether it comes before or after it. RizzyUI inputs
+  rendered their own id on the control while Rizzy registered a different, generated one for the
+  field, so the label's `for` never matched, and a label before its input found no id at all. Text,
+  number, text area, native select, switch, checkbox, sidebar and input-group inputs and
+  `RzDateEdit` now use the id registered or reserved for the field (an explicit `Id` is kept and
+  registered). Requires Rizzy 6.0.0-preview.3 (`GetOrReserveFieldId`). A label for a field no
+  RizzyUI input renders (a checkbox or radio group) should use `ForId` or omit `For`.
 - The carousel wheel-gestures plugin loads. Its default URL pointed at
   `embla-carousel-wheel-gestures@8.1.7`, a version that does not exist (that package has its own
   version line); it now uses 8.1.0 from `dist/`. Canvas confetti loads the published

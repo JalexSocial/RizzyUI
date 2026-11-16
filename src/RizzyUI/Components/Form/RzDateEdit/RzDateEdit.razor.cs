@@ -2,6 +2,8 @@
 using Blazicons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http;
+using Rizzy;
 using Microsoft.Extensions.Options;
 using Rizzy.Utility;
 using System.Globalization;
@@ -43,7 +45,11 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
 
     [CascadingParameter] private EditContext? EditContext { get; set; }
 
-    private string _uidInputId => $"{_uid}-input";
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+
+    // The input's id: the id registered or reserved for the field (so a FieldLabel before or after
+    // the field points at it), or "{uid}-input" without an HttpContext.
+    private string _inputId = string.Empty;
 
     /// <summary>
     /// Gets or sets the expression that identifies the bound value. This is a required parameter.
@@ -91,6 +97,9 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
     {
         base.OnParametersSet();
         _currentValue = For?.Compile().Invoke();
+        _inputId = HttpContext != null && EditContext != null && For != null
+            ? HttpContext.GetOrReserveFieldId(EditContext, FieldIdentifier.Create(For))
+            : $"{_uid}-input";
         SerializeConfigAndAssets();
     }
 
@@ -101,7 +110,7 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
     private RenderFragment RenderInput() => builder =>
     {
         builder.OpenComponent<DateEditInput>(0);
-        builder.AddComponentParameter(1, nameof(DateEditInput.Id), _uidInputId);
+        builder.AddComponentParameter(1, nameof(DateEditInput.Id), _inputId);
         builder.AddComponentParameter(2, nameof(DateEditInput.ValueExpression), For);
         builder.AddComponentParameter(3, nameof(DateEditInput.Value), _currentValue);
         builder.AddComponentParameter(4, nameof(DateEditInput.DotNetFormat), GetDotNetFormat());

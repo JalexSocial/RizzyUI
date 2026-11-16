@@ -86,7 +86,8 @@ export default function rzDateEdit() {
             this.placeholder = config.placeholder || '';
             this.prependText = config.prependText || '';
 
-            const inputElem = document.getElementById(this.$el.dataset.uid + '-input');
+            // The input's id follows the form field mapping (data-input-id); older markup used "{uid}-input".
+            const inputElem = document.getElementById(this.$el.dataset.inputId || this.$el.dataset.uid + '-input');
             const assets = parseDataJson(this.$el.dataset.assets, [], 'assets');
             const nonce = this.$el.dataset.nonce;
 

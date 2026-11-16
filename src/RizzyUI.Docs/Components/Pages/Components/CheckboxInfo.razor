@@ -118,7 +118,7 @@
                     <div class="mx-auto mb-5 w-full max-w-sm p-8">
                         <EditForm Model="_model">
                             <Field>
-                                <FieldLabel For="@(() => _model.TaskNotifications)">Tasks</FieldLabel>
+                                <FieldTitle>Tasks</FieldTitle>
                                 <FieldDescription>
                                     Get notified when tasks you've created have updates.
                                     <RzLink Href="#">Manage tasks</RzLink>
@@ -138,7 +138,7 @@
 
                 <RzCodeViewer Language="@CodeLanguage.Razor" class="mb-10">
 &lt;Field&gt;
-    &lt;FieldLabel For=&quot;@@(() =&gt; _model.TaskNotifications)&quot;&gt;Tasks&lt;/FieldLabel&gt;
+    &lt;FieldTitle&gt;Tasks&lt;/FieldTitle&gt;
     &lt;FieldDescription&gt;
         Get notified when tasks you&#39;ve created have updates.
         &lt;RzLink Href=&quot;#&quot;&gt;Manage tasks&lt;/RzLink&gt;

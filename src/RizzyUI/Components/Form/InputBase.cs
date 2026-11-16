@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Http;
+using Rizzy;
+using Rizzy.Htmx;
 using TailwindVariants.NET;
 
 namespace RizzyUI;
@@ -70,6 +73,27 @@ public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
         _fieldIdentifier = FieldIdentifier.Create(For);
     }
 
+    /// <summary>
+    /// Initializes the component and records the generated default <see cref="RzComponent{TSlots}.Id"/>,
+    /// so an <c>Id</c> set by the caller can be told apart from it.
+    /// </summary>
+    protected InputBase()
+    {
+        _generatedId = Id;
+    }
+
+    private readonly string _generatedId;
+
+    [CascadingParameter]
+    private HttpContext? HttpContext { get; set; }
+
+    /// <summary>
+    /// Gets a value indicating whether <see cref="RzComponent{TSlots}.Id"/> is rendered on the
+    /// labelable form control, so the field's label can point at it. Components that render
+    /// <c>Id</c> on a wrapper element return <c>false</c>.
+    /// </summary>
+    protected virtual bool IdIsLabelTarget => true;
+
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
@@ -78,5 +102,30 @@ public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
         {
             _fieldIdentifier = FieldIdentifier.Create(For);
         }
+
+        if (IdIsLabelTarget && HttpContext != null && EditContext != null && For != null)
+            ResolveFieldId(HttpContext, EditContext);
+    }
+
+    /// <summary>
+    /// Aligns <see cref="RzComponent{TSlots}.Id"/> with the field mapping that
+    /// <see cref="FieldLabel{TValue}"/> reads. Without an explicit <c>Id</c>, the component uses the id
+    /// already registered or reserved for the field (a label rendered earlier reserves one). An
+    /// explicit <c>Id</c> is written into a reservation, so the Rizzy input registers the id that is
+    /// rendered.
+    /// </summary>
+    private void ResolveFieldId(HttpContext httpContext, EditContext editContext)
+    {
+        if (Id == _generatedId)
+        {
+            Id = httpContext.GetOrReserveFieldId(editContext, _fieldIdentifier);
+            return;
+        }
+
+        var mapping = httpContext.GetOrAddFieldMapping(editContext);
+        if (!mapping.TryGetValue(_fieldIdentifier, out var existing))
+            mapping[_fieldIdentifier] = new RzFormFieldMap { Id = Id };
+        else if (string.IsNullOrEmpty(existing.FieldName))
+            existing.Id = Id;
     }
 }

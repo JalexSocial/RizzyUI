@@ -5,6 +5,7 @@
 <div data-date-edit-sample>
     <p class="mb-2 text-sm text-muted-foreground">Loaded at @DateTime.Now.ToString("HH:mm:ss.fff")</p>
     <EditForm Model="_model">
+        <FieldLabel For="@(() => _model.Deadline)">Deadline</FieldLabel>
         <RzDateEdit For="@(() => _model.Deadline)"
                     Options="@(new FlatpickrOptions { Locale = "en", MinDate = new DateTime(2026, 11, 1), MaxDate = new DateTime(2026, 12, 31) })"
                     Placeholder="Select a deadline" />

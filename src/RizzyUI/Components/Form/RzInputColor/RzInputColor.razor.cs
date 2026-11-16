@@ -8,6 +8,10 @@ namespace RizzyUI;
 /// </summary>
 public partial class RzInputColor : InputBase<string, RzInputColor.Slots>
 {
+    /// <inheritdoc />
+    /// <remarks><c>Id</c> is rendered on the wrapper; the text input inside has its own id.</remarks>
+    protected override bool IdIsLabelTarget => false;
+
     /// <summary>
     /// Defines the default styling for <see cref="RzInputColor"/>.
     /// </summary>

@@ -19,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="AspNetStatic" Version="0.27.2" />
     <PackageReference Include="Blazicons.FluentUI" Version="2.21.119" />
-    <PackageReference Include="Rizzy" Version="6.0.0-preview.2" />
+    <PackageReference Include="Rizzy" Version="6.0.0-preview.3" />
     <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.2.26" />
     <PackageReference Include="RizzyUI.Tasks" Version="$(RizzyUITasksVersion)" PrivateAssets="all" />
   </ItemGroup>
