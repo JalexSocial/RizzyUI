@@ -175,8 +175,11 @@ each (nothing pushed, tagged or published):
 - **Source/package drift for `RizzyUI.Tasks` 1.3.5.** The published 1.3.5 ships
   `tasks/netstandard2.0`; the source targets `net10.0` and its `.targets` probes `tasks/net10.0`.
   The release workflow correctly skips 1.3.5 (already published), but the next Tasks bump would
-  publish a `net10.0`-only task, which .NET Framework MSBuild (Visual Studio) may not load. Not
-  changed; needs an owner decision.
+  publish a `net10.0`-only task, which .NET Framework MSBuild (Visual Studio) may not load.
+  **Owner decision: `RizzyUI.Tasks` must target `netstandard2.0`.** Retargeted (project and
+  `.targets` probe path); the package checker requires `tasks/netstandard2.0/RizzyUI.Tasks.dll` and
+  rejects packed MSBuild assemblies. Verified with an unpublished `1.3.6-local.2`: RizzyUI's build
+  and the consumer smoke test loaded the task from `tasks/netstandard2.0` and passed.
 - **`dotnet restore <sln> --source <dir> --source <url>`** resolved the nuget.org URL as a local
   folder (`src\https:\api.nuget.org\...`, NU1301) in both Git Bash and PowerShell. The workflows use
   `-p:RestoreAdditionalProjectSources=<absolute dir>` instead, which keeps the configured sources.

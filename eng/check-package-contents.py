@@ -102,11 +102,17 @@ def check_tasks_nupkg(path: Path) -> str | None:
         if entry not in names:
             fail(f"{path.name}: missing {entry}")
 
-    task_dlls = [n for n in names if re.fullmatch(r"tasks/[^/]+/RizzyUI\.Tasks\.dll", n)]
-    if not task_dlls:
-        fail(f"{path.name}: no tasks/<tfm>/RizzyUI.Tasks.dll (the task assembly was not packed)")
+    # netstandard2.0 so the task also loads in .NET Framework MSBuild (Visual Studio).
+    task_dll = "tasks/netstandard2.0/RizzyUI.Tasks.dll"
+    if task_dll not in names:
+        found = [n for n in names if re.fullmatch(r"tasks/[^/]+/RizzyUI\.Tasks\.dll", n)]
+        fail(f"{path.name}: missing {task_dll} (found {found or 'no task assembly'}); RizzyUI.Tasks must target netstandard2.0")
     else:
-        print(f"  {', '.join(task_dlls)}")
+        print(f"  {task_dll}")
+
+    msbuild = [n for n in names if re.fullmatch(r"tasks/[^/]+/Microsoft\.Build(\.[A-Za-z.]+)?\.dll", n)]
+    if msbuild:
+        fail(f"{path.name}: ships MSBuild's own assemblies, which the host MSBuild provides: {msbuild}")
 
     if any(n.startswith("lib/") for n in names):
         fail(f"{path.name}: ships lib/ assets; the task assembly belongs under tasks/<tfm>/ only")

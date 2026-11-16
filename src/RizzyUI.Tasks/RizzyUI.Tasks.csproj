@@ -3,7 +3,7 @@
 
     <PropertyGroup>
         <!-- Task DLL -->
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
 
         <!-- Build hygiene -->
         <LangVersion>Latest</LangVersion>

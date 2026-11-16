@@ -75,6 +75,9 @@ RizzyUI now targets **Rizzy 6** (`6.0.0-preview.2`) and **htmx 4**. See the
   (RZUI-021, RZUI-022)
 - Packing `RizzyUI.Tasks` from a clean checkout produced a package without the task assembly
   (`tasks/<tfm>/` was collected before the build ran). The files are now collected after the build.
+- `RizzyUI.Tasks` targets `netstandard2.0` again, as the published 1.3.5 does, so the task also loads
+  in .NET Framework MSBuild (Visual Studio). The source had moved to `net10.0` without a version
+  bump; the package checker now requires `tasks/netstandard2.0/`.
 
 ### Changed
 
