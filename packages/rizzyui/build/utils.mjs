@@ -43,6 +43,12 @@ export async function emptyDir(targetPath) {
     await Promise.all(entries.map(entry => removeIfExists(path.join(targetPath, entry))));
 }
 
+// Unit tests live next to the sources (__tests__/*.test.mjs) and must not be shipped in the
+// npm package or the RizzyUI NuGet package's wwwroot.
+function isTestArtifact(entry) {
+    return entry.isDirectory() ? entry.name === '__tests__' : /\.test\.m?js$/.test(entry.name);
+}
+
 export async function copyFileOrDir(fromPath, toPath) {
     const stats = await fs.stat(fromPath);
 
@@ -50,6 +56,9 @@ export async function copyFileOrDir(fromPath, toPath) {
         await ensureDir(toPath);
         const entries = await fs.readdir(fromPath, { withFileTypes: true });
         for (const entry of entries) {
+            if (isTestArtifact(entry)) {
+                continue;
+            }
             const source = path.join(fromPath, entry.name);
             const destination = path.join(toPath, entry.name);
             if (entry.isDirectory()) {

@@ -1,5 +1,6 @@
 
 using Markdig;
+using Markdig.Extensions.GenericAttributes;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
@@ -40,6 +41,9 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
         }
     );
 
+    private static readonly MarkdownPipeline SafePipeline = CreateDefaultPipeline(allowUnsafeHtml: false);
+    private static readonly MarkdownPipeline UnsafePipeline = CreateDefaultPipeline(allowUnsafeHtml: true);
+
     private string _assets = string.Empty;
 
     [Inject]
@@ -49,10 +53,31 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
     private RzQuickReferenceContainer? QuickReferenceContainer { get; set; }
 
     /// <summary>
-    /// Gets or sets the Markdig pipeline to use for rendering. If null, a default pipeline with advanced extensions is used.
+    /// Gets or sets a custom Markdig pipeline to use for rendering. When set, it is used as-is and
+    /// <see cref="AllowUnsafeHtml"/> has no effect: whether the pipeline allows raw HTML or generic
+    /// attributes is the caller's responsibility. When null, a cached default pipeline with advanced
+    /// extensions and RizzyUI syntax highlighting is used. Unsafe Markdown link URLs (see
+    /// <see cref="AllowUnsafeHtml"/>) are removed with any pipeline.
     /// </summary>
     [Parameter]
     public MarkdownPipeline? Pipeline { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the default pipeline renders raw HTML and Markdig generic attributes
+    /// (for example <c>{onclick="..."}</c>). Defaults to <c>false</c>: raw HTML is escaped and shown
+    /// as text, and generic attribute blocks are not parsed.
+    /// </summary>
+    /// <remarks>
+    /// Set this to <c>true</c> only for trusted, developer-authored content. With it enabled, Markdown
+    /// can inject any element and attribute, including event handlers and Alpine (<c>x-*</c>) or htmx
+    /// (<c>hx-*</c>) attributes, which are live because the output is rendered inside an Alpine scope.
+    /// Never enable it for user-supplied content. Ignored when <see cref="Pipeline"/> is set.
+    /// Markdown links, images and autolinks with a script-capable URL (<c>javascript:</c>,
+    /// <c>vbscript:</c>, or <c>data:</c> other than a raster image) are always reduced to their text,
+    /// but URLs inside raw HTML are not filtered.
+    /// </remarks>
+    [Parameter]
+    public bool AllowUnsafeHtml { get; set; }
 
     /// <summary>
     /// Gets or sets the Markdown content as a RenderFragment. This is used if the `Content` parameter is not set.
@@ -88,13 +113,27 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        Pipeline ??= new MarkdownPipelineBuilder()
-            .UseAdvancedExtensions()
-            .UseRizzySyntaxHighlighting()
-            .Build();
-
         UpdateAssets();
+    }
+
+    private MarkdownPipeline EffectivePipeline => Pipeline ?? (AllowUnsafeHtml ? UnsafePipeline : SafePipeline);
+
+    /// <summary>
+    /// Builds a default pipeline: advanced extensions plus RizzyUI syntax highlighting. Unless
+    /// <paramref name="allowUnsafeHtml"/> is true, raw HTML is disabled and the generic attributes
+    /// extension is removed.
+    /// </summary>
+    internal static MarkdownPipeline CreateDefaultPipeline(bool allowUnsafeHtml)
+    {
+        var builder = new MarkdownPipelineBuilder().UseAdvancedExtensions();
+
+        if (!allowUnsafeHtml)
+        {
+            builder.Extensions.TryRemove<GenericAttributesExtension>();
+            builder.DisableHtml();
+        }
+
+        return builder.UseRizzySyntaxHighlighting().Build();
     }
 
     /// <inheritdoc />
@@ -107,10 +146,7 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = ComponentAssetKeys
-            .Select(key => RizzyUIConfig.Value.AssetUrls.TryGetValue(key, out var url) ? url : null)
-            .Where(url => !string.IsNullOrEmpty(url))
-            .ToList();
+        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys);
         _assets = JsonSerializer.Serialize(assetUrls);
     }
 
@@ -144,7 +180,9 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
 
     private string RenderOutput(string markdownText)
     {
-        var document = Markdown.Parse(markdownText, Pipeline);
+        var pipeline = EffectivePipeline;
+        var document = Markdown.Parse(markdownText, pipeline);
+        RemoveUnsafeLinks(document);
 
         if (QuickReferenceContainer != null)
             foreach (var block in document)
@@ -169,7 +207,66 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
                     QuickReferenceContainer.RegisterHeading(headingLevel, headingText, attributes.Id);
                 }
 
-        return document.ToHtml(Pipeline);
+        return document.ToHtml(pipeline);
+    }
+
+    /// <summary>
+    /// Replaces Markdown links, images and autolinks whose URL can run script with their content:
+    /// a link keeps its text, an image its alt text, and an autolink its URL as plain text.
+    /// </summary>
+    private static void RemoveUnsafeLinks(MarkdownDocument document)
+    {
+        foreach (var link in document.Descendants<LinkInline>().ToList())
+        {
+            if (!IsUnsafeUrl(link.Url, link.IsImage))
+                continue;
+
+            var child = link.FirstChild;
+            while (child != null)
+            {
+                var next = child.NextSibling;
+                child.Remove();
+                link.InsertBefore(child);
+                child = next;
+            }
+            link.Remove();
+        }
+
+        foreach (var autolink in document.Descendants<AutolinkInline>().ToList())
+        {
+            if (IsUnsafeUrl(autolink.Url, isImage: false))
+                autolink.ReplaceBy(new LiteralInline(autolink.Url));
+        }
+    }
+
+    /// <summary>
+    /// Returns true for URLs with a scheme that can run script when followed or loaded:
+    /// <c>javascript:</c>, <c>vbscript:</c>, and <c>data:</c> (except raster images in an image).
+    /// Whitespace and control characters are ignored, as browsers ignore them inside a scheme.
+    /// </summary>
+    internal static bool IsUnsafeUrl(string? url, bool isImage)
+    {
+        if (string.IsNullOrEmpty(url))
+            return false;
+
+        var normalized = new StringBuilder(16);
+        foreach (var c in url)
+        {
+            if (c <= ' ' || char.IsControl(c))
+                continue;
+            normalized.Append(char.ToLowerInvariant(c));
+            if (normalized.Length == 16)
+                break;
+        }
+
+        var prefix = normalized.ToString();
+        if (prefix.StartsWith("javascript:", StringComparison.Ordinal) || prefix.StartsWith("vbscript:", StringComparison.Ordinal))
+            return true;
+
+        if (!prefix.StartsWith("data:", StringComparison.Ordinal))
+            return false;
+
+        return !(isImage && prefix.StartsWith("data:image/", StringComparison.Ordinal) && !prefix.StartsWith("data:image/svg", StringComparison.Ordinal));
     }
 
     private string ExtractPlainText(ContainerInline? inline)

@@ -30,6 +30,20 @@ public class RzSheetTests : BunitAlbaContext, IClassFixture<WebAppFixture>
     }
 
     [Fact]
+    public void SheetContent_PanelExposesTeleportSafeRef()
+    {
+        // The panel is teleported to <body>; rzSheet resolves it through $refs.rzSheetPanel
+        // because a querySelector on the component root cannot reach it.
+        var cut = Render<RzSheet>(parameters => parameters
+            .AddChildContent<SheetTrigger>(t => t.AddChildContent("Open"))
+            .AddChildContent<SheetContent>(c => c.AddChildContent("Content"))
+        );
+
+        var templateHtml = cut.Find("template").ToHtml() ?? string.Empty;
+        Assert.Contains("x-ref=\"rzSheetPanel\"", templateHtml);
+    }
+
+    [Fact]
     public void DefaultOpenParameter_SetsDataAttribute()
     {
         // Act

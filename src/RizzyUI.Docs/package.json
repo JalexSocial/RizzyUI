@@ -9,8 +9,9 @@
     "build:css": "npm run copy:vendor && npx @tailwindcss/cli -i ./Assets/css/app.css -o ./wwwroot/css/app.css --minify",
     "pretest:a11y": "node ./tests/accessibility/scripts/copy-tom-select-assets.mjs",
     "test:a11y": "node ./tests/accessibility/scripts/run-playwright.mjs",
-    "prebuild:css": "npm install --prefix ../../packages/rizzyui",
-    "copy:vendor": "node ./scripts/copy-vendor-assets.mjs"
+    "prebuild:css": "npm ci --prefix ../../packages/rizzyui --no-audit --no-fund",
+    "copy:vendor": "node ./scripts/copy-vendor-assets.mjs",
+    "test:integration": "playwright test -c playwright.integration.config.ts"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +34,6 @@
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.2.1",
-    "htmx.org": "^2.0.4"
+    "htmx.org": "4.0.1"
   }
 }

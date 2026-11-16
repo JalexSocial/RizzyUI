@@ -44,17 +44,13 @@ public sealed class WebAppFixture : IAsyncLifetime
 
         SetCulture("en");
         
+        // Rizzy 6: AddRizzy() also registers htmx support and Razor components (idempotently).
         builder.Services.AddRizzy();
-        builder.Services.AddHtmx(config =>
-        {
-            config.GenerateStyleNonce = true;
-        });
         builder.Services.AddRizzyUI(config =>
         {
             config.DefaultTheme = RzTheme.ArcticTheme;
         });
 
-        builder.Services.AddRazorComponents();
         builder.Services.AddControllers();
 
         Host = await builder.StartAlbaAsync(configureRoutes: config =>

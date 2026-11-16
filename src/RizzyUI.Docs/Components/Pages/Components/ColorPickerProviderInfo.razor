@@ -311,12 +311,19 @@ Coloris.close(true);
                     <code>RzColorPickerProvider</code> loads Coloris JavaScript from configured asset URLs at runtime.
                 </RzParagraph>
                 <RzParagraph>
-                    To override default sources (CDN/self-hosted), configure <code>AssetUrls</code> during service registration:
+                    The default is Coloris 0.25.1 from jsDelivr, pinned to that version and loaded with a Subresource Integrity hash.
+                    To use another source (another CDN or a self-hosted copy), configure <code>AssetUrls</code> during service registration.
+                    An overridden URL does not inherit the default hash; add one to <code>AssetIntegrity</code> for a cross-origin URL:
                 </RzParagraph>
                 <RzCodeViewer Language="@CodeLanguage.CSharp" class="mb-10">
 builder.Services.AddRizzyUI(config =>
 {
-    config.AssetUrls["Coloris"] = "https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js";
+    // Self-hosted copy (same origin): no hash needed.
+    config.AssetUrls["Coloris"] = "/lib/coloris/coloris.min.js";
+
+    // Or another CDN, with the file's SRI hash:
+    // config.AssetUrls["Coloris"] = "https://cdn.example.com/coloris@0.25.1/coloris.min.js";
+    // config.AssetIntegrity["https://cdn.example.com/coloris@0.25.1/coloris.min.js"] = "sha256-...";
 });
                 </RzCodeViewer>
             </section>

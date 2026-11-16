@@ -1,2 +1,12 @@
 include:
   - _content
+
+# Repository documentation that is not part of the published component site. Without this,
+# Jekyll copies these Markdown files (they have no front matter) to the site verbatim.
+exclude:
+  - agents
+  - audits
+  - contributing
+  - engineering
+  - internal
+  - templates

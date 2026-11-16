@@ -26,7 +26,7 @@
                      x-transition:leave="ease-in duration-200"
                      x-transition:leave-start="opacity-100 scale-100"
                      x-transition:leave-end="opacity-0 scale-95"
-                     x-trap.inert="modalOpen"
+                     x-trap.inert.noreturn="modalOpen"
                      x-on:click.outside="handleClickOutside"
                      role="@Role"
                      aria-modal="@(IsModal ? "true" : null)"
@@ -34,6 +34,7 @@
                      aria-labelledby="@AriaLabelledBy"
                      aria-describedby="@AriaDescribedBy"
                      data-modal-panel="true"
+                     x-ref="rzModalPanel"
                      data-slot="@ContentDataSlot"
                      class="@ContentClass">
             @ChildContent

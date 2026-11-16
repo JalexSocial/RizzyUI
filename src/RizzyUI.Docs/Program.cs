@@ -14,10 +14,20 @@ var provider = new StaticResourcesInfoProvider();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-builder.Services.AddRizzy();
+// Rizzy 6: AddRizzy() also registers htmx support and Razor components. AddHtmx is only
+// needed to configure HtmxConfig. htmx 4 is served from the docs site's own copy
+// (wwwroot/vendor/htmx, copied from the pinned htmx.org package by scripts/copy-vendor-assets.mjs)
+// so the static site does not depend on a CDN; <RzScripts /> still checks the SRI hashes for the
+// htmx version Rizzy is tested with.
+builder.Services.AddRizzy(config =>
+{
+    // The docs layouts have no <base href="/">, so the default relative script URL would
+    // resolve against nested routes such as /components/dialog.
+    config.ClientScriptUrl = "/_content/Rizzy/js/rizzy.js";
+});
 builder.Services.AddHtmx(config =>
 {
-    config.GenerateStyleNonce = true;
+    config.Scripts = new HtmxScriptOptions { BaseUrl = "/vendor/htmx/", Integrity = true };
 });
 builder.Services.AddRizzyUI(config =>
 {
@@ -32,9 +42,6 @@ builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
         .AddAllBlazorPages()
         .AddAllWebRootContent(builder.Environment));  // from AspNetStaticContrib project
 #endif
-
-// Add localization
-builder.Services.AddRazorComponents();
 
 var app = builder.Build();
 

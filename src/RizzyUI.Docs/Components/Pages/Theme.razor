@@ -125,13 +125,19 @@ In `App.razor`, add the head components. This file owns the HTML document struct
     &lt;!-- 1. Your compiled Tailwind CSS --&gt;
     &lt;link rel="stylesheet" href="app.css" /&gt;
     
-    &lt;!-- 2. RizzyUI Head Outlet 
-         - Manages Page Titles / Meta
-         - Injects the Alpine.js runtime (required for interactivity) 
+    &lt;!-- 2. Rizzy 6 head outlet and scripts
+         - RzHeadOutlet: page titles / HeadContent plus the htmx-config meta tag
+           (htmx settings and the antiforgery token). It must come before htmx.
+         - RzScripts: htmx 4, Rizzy's client script and its htmx extensions (with the CSP nonce)
     --&gt;
     &lt;RzHeadOutlet /&gt;
-    
-    &lt;!-- 3. The Theme Provider 
+    &lt;RzScripts /&gt;
+
+    &lt;!-- 3. The RizzyUI runtime (Alpine.js and the component behaviors).
+         Use rizzyui-csp.js instead when the page has a Content Security Policy. --&gt;
+    &lt;script type="module" nonce="@@Nonce" src="/_content/RizzyUI/js/rizzyui.js"&gt;&lt;/script&gt;
+
+    &lt;!-- 4. The Theme Provider
          - Must be in &lt;head&gt; to prevent Flash of Unstyled Content (FOUC)
          - Calculates and injects CSS variables for the current theme
     --&gt;
@@ -152,13 +158,17 @@ In `App.razor`, add the head components. This file owns the HTML document struct
 @@code {
     // We bind this to the provider to allow runtime switching later
     private RzTheme CurrentTheme { get; set; } = RzTheme.ArcticTheme;
+
+    [Inject] private Rizzy.Htmx.IRizzyNonceProvider NonceProvider { get; set; } = default!;
+    private string Nonce => NonceProvider.GetNonce();
 }
 ```
 
-### Note on Alpine.js
-RizzyUI components use **Alpine.js** for client-side interactivity (dropdowns, toggles, etc.). 
-*   **How it loads:** The `&lt;RzHeadOutlet /&gt;` automatically injects a script tag pointing to the bundled Alpine runtime in `_content/RizzyUI/js/rizzyui.js`.
-*   **CSP:** If you use a Content Security Policy, allow scripts from `_content/RizzyUI`.
+### Note on Alpine.js and htmx
+RizzyUI components use **Alpine.js** for client-side interactivity (dropdowns, toggles, etc.) and work with **htmx 4** through Rizzy 6.
+*   **How it loads:** `&lt;RzScripts /&gt;` (from Rizzy) loads htmx and Rizzy's client. The RizzyUI runtime is a separate module script, `_content/RizzyUI/js/rizzyui.js` (or `rizzyui-csp.js` with a Content Security Policy). It bundles Alpine.js, so do not load Alpine yourself. RizzyUI does not load htmx.
+*   **CSP:** Put the request's nonce on the RizzyUI script. A policy such as `script-src 'nonce-…' 'strict-dynamic'` lets the runtime load its own chunks. Use the CSP build, which avoids `eval`.
+*   **Upgrading from Rizzy 5:** see the migration guide in `docs/migration/rizzy5-to-rizzy6.md` in the RizzyUI repository.
 
 ## Understanding Design Tokens (Shadcn/UI)
 

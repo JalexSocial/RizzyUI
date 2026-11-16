@@ -25,4 +25,20 @@ public class RzAlertDialogTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var templateHtml = cut.Find("template").ToHtml() ?? string.Empty;
         Assert.Contains("role=\"alertdialog\"", templateHtml);
     }
+
+    [Fact]
+    public void AlertDialogTrigger_UsesCspSafeAlpineHandler()
+    {
+        var cut = Render<RzAlertDialog>(parameters => parameters
+            .AddChildContent<AlertDialogTrigger>(trigger => trigger.AddChildContent("Open"))
+            .AddChildContent<AlertDialogContent>(content => content.AddChildContent("Alert body"))
+        );
+
+        var trigger = cut.Find("[data-slot='alert-dialog-trigger']");
+        Assert.Null(trigger.GetAttribute("onclick"));
+        Assert.Equal("openFromTrigger", trigger.GetAttribute("x-on:click"));
+
+        var templateHtml = cut.Find("template").ToHtml() ?? string.Empty;
+        Assert.Contains("x-ref=\"rzModalPanel\"", templateHtml);
+    }
 }

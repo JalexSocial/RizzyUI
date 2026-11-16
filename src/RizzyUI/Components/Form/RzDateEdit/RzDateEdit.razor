@@ -33,14 +33,7 @@
 				</div>
 			}
 
-			<input x-ref="textInput"
-			       id="@_uidInputId"
-			       type="text"
-			       @bind="CurrentValue"
-			       placeholder="@Placeholder"
-			       class="@SlotClasses.GetInput()"
-			       data-input
-			       aria-label="Select date"/>
+			@RenderInput()
 		</div>
 	</div>	
 </HtmlElement>

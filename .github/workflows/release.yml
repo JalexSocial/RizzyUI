@@ -1,0 +1,183 @@
+name: Release
+
+# Publishes the RizzyUI NuGet package and the @jalexsocial/rizzyui npm package with one version,
+# taken from a vX.Y.Z git tag (for example v1.0.0-preview.1). The same run publishes the
+# RizzyUI.Tasks NuGet package (the MSBuild task RizzyUI depends on) when its version, set in
+# src/Directory.Build.props, is not on nuget.org yet. Nothing is published by pull requests
+# or ordinary pushes to main: those run ci.yml only. A pushed tag waits for approval in the
+# `release` environment before anything is published.
+#
+# The version in the tag must equal <Version> in src/RizzyUI/RizzyUI.csproj, and CHANGELOG.md must
+# have a section for it. Re-using a version fails loudly (no --skip-duplicate).
+#
+# Recovering a partial release (NuGet published, a later step failed): run this workflow manually
+# from main with the version and "npm only" ticked. It checks out the tag, skips NuGet, and
+# publishes npm and the GitHub release. See docs/contributing/releasing.md.
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (without the leading v), e.g. 1.0.0-preview.1'
+        required: true
+      npm_only:
+        description: 'npm only: the version is already on NuGet; publish npm and the GitHub release from its tag'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write   # create the GitHub release
+  id-token: write   # OIDC: NuGet and npm trusted publishing, npm provenance
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.npm_only && format('refs/tags/v{0}', inputs.version) || '' }}
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            version="${{ github.event.inputs.version }}"
+          else
+            version="${GITHUB_REF_NAME#v}"
+          fi
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::'$version' is not a valid SemVer version"
+            exit 1
+          fi
+          project_version=$(grep -oPm1 '(?<=<Version>)[^<]+' src/RizzyUI/RizzyUI.csproj)
+          if [ "$project_version" != "$version" ]; then
+            echo "::error::Tag version $version does not match <Version>$project_version</Version> in src/RizzyUI/RizzyUI.csproj"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if [[ "$version" == *-* ]]; then echo "npm_tag=next" >> "$GITHUB_OUTPUT"; else echo "npm_tag=latest" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Check the changelog has a section for this version
+        run: bash eng/changelog-section.sh "${{ steps.version.outputs.version }}" > /dev/null
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      # No registry-url: npm publishes through trusted publishing (OIDC), not NODE_AUTH_TOKEN.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: JS tests, build and drift check
+        run: |
+          (cd packages/rizzyui && npm ci && npm test && npm run build)
+          git add -N packages/rizzyui/dist src/RizzyUI/wwwroot
+          git diff --exit-code --stat -- packages/rizzyui/dist src/RizzyUI/wwwroot
+
+      # RizzyUI and the docs app reference RizzyUI.Tasks as a package. Pack it first and restore
+      # with ./artifacts/nupkgs as an extra source, so a new Tasks version builds before it is on
+      # nuget.org. It is pushed later only when nuget.org does not have that version.
+      # (RestoreAdditionalProjectSources keeps the configured sources; restoring the solution with
+      # two --source options resolved the nuget.org URL as a local folder in testing.)
+      - name: Pack RizzyUI.Tasks
+        id: tasks
+        run: |
+          version=$(bash eng/pack-tasks.sh ./artifacts/nupkgs)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          status=$(curl -sS --retry 5 --retry-all-errors --connect-timeout 10 --max-time 60 -o tasks-versions.json -w '%{http_code}' https://api.nuget.org/v3-flatcontainer/rizzyui.tasks/index.json)
+          lower=$(echo "$version" | tr '[:upper:]' '[:lower:]')
+          case "$status" in
+            200) if jq -e --arg v "$lower" '.versions | index($v)' tasks-versions.json > /dev/null; then publish=false; else publish=true; fi ;;
+            404) publish=true ;;
+            *) echo "::error::Could not read RizzyUI.Tasks versions from nuget.org (HTTP $status)"; exit 1 ;;
+          esac
+          rm -f tasks-versions.json
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
+          echo "RizzyUI.Tasks $version: publish=$publish"
+
+      - name: Build and test
+        run: |
+          (cd src/RizzyUI.Docs && npm ci)
+          dotnet restore src/RizzyUI.sln -p:RestoreAdditionalProjectSources="$PWD/artifacts/nupkgs"
+          dotnet build src/RizzyUI.sln -c Release --no-restore
+          dotnet test src/RizzyUI.sln -c Release --no-build
+
+      - name: Pack
+        run: |
+          dotnet pack src/RizzyUI/RizzyUI.csproj -c Release --no-build -o ./artifacts/nupkgs
+          mkdir -p ./artifacts/npm
+          (cd packages/rizzyui && npm pkg set version=${{ steps.version.outputs.version }} && npm pack --pack-destination ../../artifacts/npm)
+
+      - name: Check package contents
+        run: python3 eng/check-package-contents.py ./artifacts/nupkgs ./artifacts/npm/*.tgz
+
+      - name: Consumer smoke test
+        run: |
+          (cd src/RizzyUI.Docs && npx playwright install --with-deps chromium)
+          bash eng/consumer-smoke-test.sh ./artifacts/nupkgs ${{ steps.version.outputs.version }} ./artifacts/npm/*.tgz
+
+      # NuGet trusted publishing: NuGet/login exchanges this run's OIDC token for a short-lived API
+      # key when nuget.org has a Trusted Publishing policy for this repository, release.yml and the
+      # release environment. NUGET_USER (a variable on the release environment) is the nuget.org
+      # profile name of the policy owner.
+      - name: Check NUGET_USER is set
+        if: ${{ !inputs.npm_only }}
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          if [ -z "$NUGET_USER" ]; then
+            echo "::error::Set the NUGET_USER variable (the nuget.org profile name) on the release environment."
+            exit 1
+          fi
+
+      - name: Log in to NuGet (trusted publishing)
+        id: nuget-login
+        if: ${{ !inputs.npm_only }}
+        uses: NuGet/login@v1
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      # Before RizzyUI, which depends on it. Skipped when nuget.org already has this version.
+      - name: Push RizzyUI.Tasks to NuGet
+        if: ${{ !inputs.npm_only && steps.tasks.outputs.publish == 'true' }}
+        run: >
+          dotnet nuget push "./artifacts/nupkgs/RizzyUI.Tasks.${{ steps.tasks.outputs.version }}.nupkg"
+          --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
+          --source https://api.nuget.org/v3/index.json
+
+      - name: Push to NuGet
+        if: ${{ !inputs.npm_only }}
+        run: >
+          dotnet nuget push "./artifacts/nupkgs/RizzyUI.${{ steps.version.outputs.version }}.nupkg"
+          --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
+          --source https://api.nuget.org/v3/index.json
+
+      # npm trusted publishing (OIDC) needs npm 11.5.1+.
+      - name: Publish npm package
+        run: |
+          npm install -g npm@^11.5.1
+          npm publish ./artifacts/npm/*.tgz --access public --provenance --tag ${{ steps.version.outputs.npm_tag }} --loglevel verbose
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${{ steps.version.outputs.version }}"
+          bash eng/changelog-section.sh "$version" > release-notes.md
+          prerelease=""
+          if [[ "$version" == *-* ]]; then prerelease="--prerelease"; fi
+          assets=("./artifacts/nupkgs/RizzyUI.$version.nupkg" ./artifacts/npm/*.tgz)
+          if [ "${{ steps.tasks.outputs.publish }}" = "true" ]; then
+            assets+=("./artifacts/nupkgs/RizzyUI.Tasks.${{ steps.tasks.outputs.version }}.nupkg")
+          fi
+          gh release create "v$version" "${assets[@]}" \
+            --title "v$version" --notes-file release-notes.md --generate-notes $prerelease --verify-tag

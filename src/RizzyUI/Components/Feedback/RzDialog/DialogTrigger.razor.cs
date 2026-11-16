@@ -50,7 +50,9 @@ public partial class DialogTrigger : RzAsChildComponent<DialogTrigger.Slots>
         {
             ["id"] = Id,
             ["class"] = SlotClasses.GetBase(),
-            ["onclick"] = $"window.dispatchEvent(new CustomEvent('{ParentDialog?.EventTriggerName}'))",
+            // CSP-safe: an inline onclick is blocked by a nonce-based Content Security Policy.
+            // openFromTrigger raises the same window event (EventTriggerName) as before.
+            ["x-on:click"] = "openFromTrigger",
             ["data-slot"] = "dialog-trigger",
             ["data-dialog-trigger"] = ParentDialog?.Id
         };

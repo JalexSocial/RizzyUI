@@ -17,6 +17,8 @@ import {
 } from '../runtime/asyncBundleRegistrar.js';
 import { require } from '../runtime/rizzyRequire.js';
 import { registerAsyncComponent } from '../runtime/asyncComponentRegistrar.js';
+import { mergeIntoRizzyGlobal } from '../runtime/rizzyGlobal.js';
+import { installHtmxTeleportBridge } from '../runtime/htmxTeleportBridge.js';
 
 let cachedRizzyUI;
 
@@ -74,7 +76,8 @@ export function bootstrapRizzyUI(Alpine) {
         themeController.init();
 
         window.Alpine = Alpine;
-        window.Rizzy = { ...(window.Rizzy || {}), ...cachedRizzyUI };
+        window.Rizzy = mergeIntoRizzyGlobal(window.Rizzy, cachedRizzyUI);
+        installHtmxTeleportBridge(window);
 
         document.dispatchEvent(new CustomEvent('rz:init', {
             detail: { Rizzy: window.Rizzy },

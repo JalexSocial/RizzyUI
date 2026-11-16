@@ -324,6 +324,14 @@
       <value>Close</value>
       <comment>Screen reader text for the close button in the Sheet component</comment>
     </data>
+    <data name="RzSheet.CloseButtonAriaLabel" xml:space="preserve">
+      <value>Close sheet</value>
+      <comment>ARIA label for the close button in the Sheet component</comment>
+    </data>
+    <data name="RzSpinner.DefaultAriaLabel" xml:space="preserve">
+      <value>Loading</value>
+      <comment>Default ARIA label for the RzSpinner component</comment>
+    </data>
     <data name="RzSidebarRail.DefaultAriaLabel" xml:space="preserve">
       <value>Toggle Sidebar</value>
       <comment>Default ARIA label for the SidebarRail component</comment>

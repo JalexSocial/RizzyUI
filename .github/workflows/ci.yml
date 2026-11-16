@@ -1,0 +1,202 @@
+name: CI
+
+# Validates every pull request and every push to main. This workflow never publishes anything:
+# packages are released by release.yml from a version tag, and the documentation site is deployed
+# by docs.yml.
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  client:
+    name: JS tests, build and drift check
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            packages/rizzyui/package-lock.json
+            src/RizzyUI/package-lock.json
+
+      - name: Install (packages/rizzyui)
+        working-directory: packages/rizzyui
+        run: npm ci
+
+      - name: JS unit tests
+        working-directory: packages/rizzyui
+        run: npm test
+
+      - name: Build client assets
+        working-directory: packages/rizzyui
+        run: npm run build
+
+      # dist/ and src/RizzyUI/wwwroot are committed and are what the NuGet and npm packages ship
+      # (dotnet build does not rebuild them). A fresh build must reproduce them exactly.
+      - name: Check committed client assets are up to date
+        run: |
+          git add -N packages/rizzyui/dist src/RizzyUI/wwwroot
+          if ! git diff --exit-code --stat -- packages/rizzyui/dist src/RizzyUI/wwwroot; then
+            echo "::error::Committed client assets are out of date. Run 'npm run build' in packages/rizzyui and commit the result."
+            exit 1
+          fi
+
+      - name: Accessibility inventory tests and check
+        working-directory: src/RizzyUI
+        run: |
+          npm ci
+          npm test
+          npm run check-accessibility-inventory
+
+  dotnet:
+    name: .NET build, test, pack and consumer smoke test
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            packages/rizzyui/package-lock.json
+            src/RizzyUI.Docs/package-lock.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', 'src/Directory.Build.props', 'global.json') }}
+          restore-keys: ${{ runner.os }}-nuget-
+
+      # The docs project builds its Tailwind CSS during dotnet build.
+      - name: Install npm packages
+        run: |
+          (cd packages/rizzyui && npm ci)
+          (cd src/RizzyUI.Docs && npm ci)
+
+      # RizzyUI references RizzyUI.Tasks as a package. Packing it first fails CI on a broken Tasks
+      # package and lets a new Tasks version restore before it is published (see release.yml).
+      - name: Pack RizzyUI.Tasks
+        run: bash eng/pack-tasks.sh ./artifacts/nupkgs
+
+      - name: Restore
+        run: dotnet restore src/RizzyUI.sln -p:RestoreAdditionalProjectSources="$PWD/artifacts/nupkgs"
+
+      - name: Build
+        run: dotnet build src/RizzyUI.sln -c Release --no-restore
+
+      - name: Test
+        run: >
+          dotnet test src/RizzyUI.sln -c Release --no-build
+          --logger "trx;LogFilePrefix=test-results"
+          --collect:"XPlat Code Coverage"
+          --results-directory ./artifacts/test-results
+
+      # CI packages get a unique pre-release version so the smoke test can never resolve a
+      # published package of the same version.
+      - name: Pack
+        id: pack
+        run: |
+          base=$(grep -oPm1 '(?<=<Version>)[^<]+' src/RizzyUI/RizzyUI.csproj)
+          version="${base}-ci.${{ github.run_number }}.${{ github.run_attempt }}"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          dotnet pack src/RizzyUI/RizzyUI.csproj -c Release --no-build -p:Version="$version" -o ./artifacts/nupkgs
+          mkdir -p ./artifacts/npm
+          (cd packages/rizzyui && npm pkg set version="$version" && npm pack --pack-destination ../../artifacts/npm && git checkout -- package.json)
+
+      - name: Check package contents
+        run: python3 eng/check-package-contents.py ./artifacts/nupkgs ./artifacts/npm/*.tgz
+
+      - name: Install Playwright Chromium
+        working-directory: src/RizzyUI.Docs
+        run: npx playwright install --with-deps chromium
+
+      - name: Consumer smoke test
+        run: bash eng/consumer-smoke-test.sh ./artifacts/nupkgs "${{ steps.pack.outputs.version }}" ./artifacts/npm/*.tgz
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-artifacts
+          path: artifacts/
+          if-no-files-found: warn
+
+  browser:
+    name: Browser tests (accessibility fixtures and docs integration)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            packages/rizzyui/package-lock.json
+            src/RizzyUI.Docs/package-lock.json
+
+      - name: Install npm packages and Playwright
+        run: |
+          (cd packages/rizzyui && npm ci)
+          cd src/RizzyUI.Docs
+          npm ci
+          npx playwright install --with-deps chromium
+
+      # Debug: a Release build of the docs app generates the static site and exits on startup
+      # (see the #if !DEBUG block in src/RizzyUI.Docs/Program.cs).
+      - name: Build the docs app
+        run: |
+          bash eng/pack-tasks.sh ./artifacts/nupkgs
+          dotnet restore src/RizzyUI.Docs/RizzyUI.Docs.csproj -p:RestoreAdditionalProjectSources="$PWD/artifacts/nupkgs"
+          dotnet build src/RizzyUI.Docs/RizzyUI.Docs.csproj -c Debug --no-restore
+
+      # Hand-written fixture pages (keyboard/focus/axe contracts).
+      - name: Accessibility fixture tests
+        working-directory: src/RizzyUI.Docs
+        run: npm run test:a11y
+
+      # The real docs app: server-rendered components, packaged RizzyUI runtime, htmx 4 and Rizzy 6.
+      - name: Integration tests (docs app)
+        working-directory: src/RizzyUI.Docs
+        run: npm run test:integration
+
+      - name: Upload Playwright output
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-output
+          path: |
+            src/RizzyUI.Docs/playwright-report*/
+            src/RizzyUI.Docs/test-results*/
+          if-no-files-found: ignore

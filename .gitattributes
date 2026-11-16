@@ -1,0 +1,6 @@
+# The client bundles' source maps embed the source text, and CI checks the committed bundles
+# against a fresh build on Linux. Check the client sources out with LF on every OS so a build on
+# Windows (core.autocrlf=true) produces the same maps.
+packages/rizzyui/src/** text eol=lf
+packages/rizzyui/dist/** -text
+src/RizzyUI/wwwroot/js/** -text
