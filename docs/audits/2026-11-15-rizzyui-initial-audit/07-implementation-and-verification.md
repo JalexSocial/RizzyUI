@@ -183,9 +183,11 @@ each (nothing pushed, tagged or published):
 - **`dotnet restore <sln> --source <dir> --source <url>`** resolved the nuget.org URL as a local
   folder (`src\https:\api.nuget.org\...`, NU1301) in both Git Bash and PowerShell. The workflows use
   `-p:RestoreAdditionalProjectSources=<absolute dir>` instead, which keeps the configured sources.
-- **`RzMarkdown` safe mode does not filter URLs.** `[x](javascript:alert(1))` still renders a
-  `javascript:` link (a test documents this). The XML docs and the component page say so. Not in
-  D-4's scope; a candidate follow-up (for example a `LinkRewriter` in safe mode).
+- **`RzMarkdown` safe mode did not filter URLs.** `[x](javascript:alert(1))` still rendered a
+  `javascript:` link. **Owner follow-up: strip them.** Links, images and autolinks with a
+  `javascript:`, `vbscript:` or (non-raster-image) `data:` URL are now reduced to their text in every
+  mode, ignoring case, whitespace and control characters; entity-encoded and reference-style
+  variants are covered by tests. URLs inside raw HTML (`AllowUnsafeHtml`) are not filtered.
 - **Docs pages and `AllowUnsafeHtml`.** All 32 pages using `<RzMarkdown>` were rendered before and
   after the change and the Markdown output compared. Only `/themes` differed: `L<number>` had been
   swallowed as an unknown HTML tag and now renders as text. No page needs the opt-in.
@@ -216,6 +218,6 @@ Tasks check (not installed locally; an equivalent Python check was used in the d
 
 | Finding | Before | Now |
 |---|---|---|
-| RZUI-017 | Open (D-4) | **Resolved** (safe default; URL filtering is a separate, documented limitation) |
+| RZUI-017 | Open (D-4) | **Resolved** (safe default; unsafe Markdown link URLs stripped) |
 | RZUI-020 | Mitigated | **Resolved** (dead targets removed) |
 | RZUI-042 | Open | **Resolved in the repository** (version scheme set; Tasks released with RizzyUI); the `[1.0.0-preview.1]` CHANGELOG section is added at release |

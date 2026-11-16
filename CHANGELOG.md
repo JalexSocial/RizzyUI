@@ -45,8 +45,9 @@ RizzyUI now targets **Rizzy 6** (`6.0.0-preview.2`) and **htmx 4**. See the
   Markdown is escaped and shown as text, and `{onclick=...}` attribute blocks are not parsed, so
   user-supplied Markdown cannot inject scripts or live Alpine/htmx attributes. Set the new
   `AllowUnsafeHtml="true"` parameter for trusted content that needs HTML. A custom `Pipeline` is
-  used as-is. Link URLs are not filtered: validate `javascript:` links in untrusted content.
-  The default pipelines are now built once and shared. (RZUI-017)
+  used as-is. In every mode, Markdown links, images and autolinks with a `javascript:`,
+  `vbscript:` or `data:` URL (except raster images) are reduced to their text. The default
+  pipelines are now built once and shared. (RZUI-017)
 
 ### Fixed
 

@@ -141,12 +141,16 @@
                     For trusted content that you write yourself, set <code>AllowUnsafeHtml="true"</code> to render raw HTML and generic attributes.
                     The output is rendered inside an Alpine scope, so injected <code>x-*</code> and <code>hx-*</code> attributes are live as well.
                 </RzParagraph>
+                <RzParagraph>
+                    In every mode, Markdown links, images and autolinks whose URL can run script are reduced to their text: <code>javascript:</code>,
+                    <code>vbscript:</code>, and <code>data:</code> URLs (an image may still use a raster <code>data:image/...</code> URL). Spaces,
+                    tabs and letter case do not get past the check. Other URLs, including relative ones, are kept.
+                </RzParagraph>
                 <RzAlert Variant="ThemeVariant.Destructive" class="mb-6">
                     <AlertTitle>Never enable AllowUnsafeHtml for user-supplied content</AlertTitle>
                     <AlertDescription>
-                        It allows script injection (XSS). The safe default also does not filter link or image URLs, so validate URLs such as
-                        <code>javascript:</code> links in untrusted Markdown before rendering it. A custom <code>Pipeline</code> replaces the
-                        default, and its HTML handling is your responsibility.
+                        It allows script injection (XSS): URLs and attributes inside raw HTML are not filtered. A custom
+                        <code>Pipeline</code> replaces the default, and its HTML handling is your responsibility.
                     </AlertDescription>
                 </RzAlert>
 

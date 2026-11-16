@@ -146,14 +146,81 @@ public class RzMarkdownTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.NotSame(pipelineProperty.GetValue(first.Instance), pipelineProperty.GetValue(unsafeFirst.Instance));
     }
 
-    [Fact]
-    public void Default_DoesNotRewriteJavaScriptLinkUrls()
+    [Theory]
+    [InlineData("[click me](javascript:alert(5))")]
+    [InlineData("[click me](JavaScript:alert(5))")]
+    [InlineData("[click me](<java\tscript:alert(5)>)")]
+    [InlineData("[click me](&#106;avascript:alert(5))")]
+    [InlineData("[click me](vbscript:msgbox(1))")]
+    [InlineData("[click me](data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==)")]
+    [InlineData("[click me][ref]\n\n[ref]: javascript:alert(5)")]
+    public void UnsafeLinks_AreReducedToTheirText(string markdown)
     {
-        // Documents a known limitation of the safe default: link URLs are not filtered.
-        var cut = Render<RzMarkdown>(parameters => parameters
-            .Add(p => p.Content, "[x](javascript:alert(5))"));
+        var cut = Render<RzMarkdown>(parameters => parameters.Add(p => p.Content, markdown));
 
-        var link = cut.Find("[x-data='rzMarkdown'] a");
-        Assert.StartsWith("javascript:", link.GetAttribute("href"));
+        var root = cut.Find("[x-data='rzMarkdown']");
+        Assert.Empty(root.QuerySelectorAll("a"));
+        Assert.Equal("click me", root.QuerySelector("p")!.TextContent.Trim());
+    }
+
+    [Fact]
+    public void UnsafeLink_KeepsFormattedText()
+    {
+        var cut = Render<RzMarkdown>(parameters => parameters
+            .Add(p => p.Content, "Before [**bold** text](javascript:alert(1)) after"));
+
+        var paragraph = cut.Find("[x-data='rzMarkdown'] p");
+        Assert.Empty(paragraph.QuerySelectorAll("a"));
+        Assert.Equal("bold", paragraph.QuerySelector("strong")!.TextContent);
+        Assert.Equal("Before bold text after", paragraph.TextContent);
+    }
+
+    [Fact]
+    public void UnsafeAutolink_IsRenderedAsText()
+    {
+        var cut = Render<RzMarkdown>(parameters => parameters
+            .Add(p => p.Content, "<javascript:alert(1)>"));
+
+        var paragraph = cut.Find("[x-data='rzMarkdown'] p");
+        Assert.Empty(paragraph.QuerySelectorAll("a"));
+        Assert.Equal("javascript:alert(1)", paragraph.TextContent);
+    }
+
+    [Fact]
+    public void UnsafeImages_AreReducedToAltText_RasterDataImagesAreKept()
+    {
+        var cut = Render<RzMarkdown>(parameters => parameters
+            .Add(p => p.Content, "![svg](data:image/svg+xml;base64,PHN2Zz48L3N2Zz4=) ![js](javascript:alert(1)) ![png](data:image/png;base64,iVBORw0KGgo=)"));
+
+        var paragraph = cut.Find("[x-data='rzMarkdown'] p");
+        var image = Assert.Single(paragraph.QuerySelectorAll("img"));
+        Assert.Equal("png", image.GetAttribute("alt"));
+        Assert.StartsWith("svg js", paragraph.TextContent.Trim());
+    }
+
+    [Theory]
+    [InlineData("[site](https://example.com)", "https://example.com")]
+    [InlineData("[mail](mailto:a@example.com)", "mailto:a@example.com")]
+    [InlineData("[rel](/docs/javascript:intro)", "/docs/javascript:intro")]
+    [InlineData("[anchor](#section)", "#section")]
+    public void SafeLinks_AreKept(string markdown, string expectedHref)
+    {
+        var cut = Render<RzMarkdown>(parameters => parameters.Add(p => p.Content, markdown));
+
+        Assert.Equal(expectedHref, cut.Find("[x-data='rzMarkdown'] a").GetAttribute("href"));
+    }
+
+    [Fact]
+    public void UnsafeLinks_AreRemovedInEveryMode()
+    {
+        var withUnsafeHtml = Render<RzMarkdown>(parameters => parameters
+            .Add(p => p.Content, "[x](javascript:alert(1))")
+            .Add(p => p.AllowUnsafeHtml, true));
+        Assert.Empty(withUnsafeHtml.Find("[x-data='rzMarkdown']").QuerySelectorAll("a"));
+
+        var withCustomPipeline = Render<RzMarkdown>(parameters => parameters
+            .Add(p => p.Content, "[x](javascript:alert(1))")
+            .Add(p => p.Pipeline, new MarkdownPipelineBuilder().Build()));
+        Assert.Empty(withCustomPipeline.Find("[x-data='rzMarkdown']").QuerySelectorAll("a"));
     }
 }
