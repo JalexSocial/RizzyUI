@@ -23,7 +23,7 @@ defaults:
 jobs:
   client:
     name: JS tests, build and drift check
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -67,7 +67,7 @@ jobs:
 
   dotnet:
     name: .NET build, test, pack and consumer smoke test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -148,7 +148,7 @@ jobs:
 
   browser:
     name: Browser tests (accessibility fixtures and docs integration)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
