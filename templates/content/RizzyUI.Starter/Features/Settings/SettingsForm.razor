@@ -1,0 +1,61 @@
+<RzCard id="settings-form">
+    <CardHeader>
+        <CardTitle>Profile</CardTitle>
+        <CardDescription>Try saving with an empty name, an invalid email or the name "admin".</CardDescription>
+    </CardHeader>
+    <CardContent>
+        @if (Saved)
+        {
+            <RzAlert Variant="ThemeVariant.Success" Dismissable="true" LiveRegionMode="RzAlertLiveRegionMode.Status" class="mb-4">
+                <AlertTitle>Saved</AlertTitle>
+                <AlertDescription>Your profile was updated.</AlertDescription>
+            </RzAlert>
+        }
+
+        <EditForm Model="Profile" FormName="Profile" class="flex flex-col gap-6"
+                  hx-post="/settings" hx-target="#settings-form" hx-swap="outerHTML">
+            @* Shows the controller's ModelState errors next to each field. *@
+            <RzModelStateProvider />
+
+            <Field>
+                <FieldLabel For="@(() => Profile!.DisplayName)" />
+                <RzInputText For="@(() => Profile!.DisplayName)" Placeholder="Your name" />
+                <RzValidationMessageBase For="@(() => Profile!.DisplayName)" class="text-destructive text-sm" />
+            </Field>
+
+            <Field>
+                <FieldLabel For="@(() => Profile!.Email)" />
+                <RzInputText For="@(() => Profile!.Email)" Role="TextRole.Email" Placeholder="you@example.com" />
+                <RzValidationMessageBase For="@(() => Profile!.Email)" class="text-destructive text-sm" />
+            </Field>
+
+            <Field>
+                <FieldLabel For="@(() => Profile!.Bio)" />
+                <RzInputTextArea For="@(() => Profile!.Bio)" Placeholder="A sentence or two about you" />
+                <FieldDescription>Up to 200 characters.</FieldDescription>
+                <RzValidationMessageBase For="@(() => Profile!.Bio)" class="text-destructive text-sm" />
+            </Field>
+
+            <Field Orientation="FieldOrientation.Horizontal">
+                <RzSwitch For="@(() => Profile!.ProductUpdates)" />
+                <FieldLabel For="@(() => Profile!.ProductUpdates)" />
+            </Field>
+
+            <div>
+                <RzButton type="submit">Save profile</RzButton>
+            </div>
+        </EditForm>
+    </CardContent>
+</RzCard>
+
+@code {
+    // No initializer: a property initializer on a [SupplyParameterFromForm] property can be
+    // overwritten with null during form posts (BL0008).
+    [SupplyParameterFromForm(FormName = "Profile")]
+    public ProfileSettings? Profile { get; set; }
+
+    [Parameter]
+    public bool Saved { get; set; }
+
+    protected override void OnInitialized() => Profile ??= new() { DisplayName = "Ada Lovelace", Email = "ada@example.com" };
+}

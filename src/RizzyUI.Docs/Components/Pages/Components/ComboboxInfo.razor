@@ -176,6 +176,11 @@
                 <RzParagraph>
                     RzCombobox natively supports <code>SelectListItem</code> grouping.
                 </RzParagraph>
+                <RzParagraph>
+                    Selection comes from <code>Value</code> when you pass it. Otherwise it comes from the field named by
+                    <code>For</code>, and when that field is null, an empty string or an empty collection,
+                    from each <code>SelectListItem.Selected</code>.
+                </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto mb-5 w-full max-w-md p-8 min-h-[300px]">

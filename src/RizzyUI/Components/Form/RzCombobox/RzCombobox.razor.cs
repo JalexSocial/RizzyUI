@@ -172,14 +172,15 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     /// <summary>
     /// Determines if an item is selected.
     /// Priority:
-    /// 1. If Value (bound parameter) is set, use that.
-    /// 2. If Value is null AND item is SelectListItem, use SelectListItem.Selected.
+    /// 1. If Value was passed, use that.
+    /// 2. Otherwise, if the value read from For is not null, an empty string or an empty collection, use that.
+    /// 3. Otherwise, if the item is a SelectListItem, use SelectListItem.Selected.
     /// </summary>
     private bool IsSelected(TItem item, string val)
     {
-        if (Value != null)
+        if (Value is { } value && (ValueIsParameter || !IsEmptySelection(value)))
         {
-            if (Multiple && Value is System.Collections.IEnumerable enumerable)
+            if (Multiple && value is System.Collections.IEnumerable enumerable and not string)
             {
                 foreach (var v in enumerable)
                 {
@@ -187,7 +188,7 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
                 }
                 return false;
             }
-            return Value.ToString() == val;
+            return value.ToString() == val;
         }
 
         if (_isSelectListItem && item is SelectListItem sli)
@@ -197,6 +198,13 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
 
         return false;
     }
+
+    private static bool IsEmptySelection(object value) => value switch
+    {
+        string text => text.Length == 0,
+        System.Collections.IEnumerable enumerable => !enumerable.GetEnumerator().MoveNext(),
+        _ => false
+    };
 
     private string SerializeItem(TItem item) => JsonSerializer.Serialize(item, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 

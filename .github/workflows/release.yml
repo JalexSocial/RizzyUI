@@ -1,6 +1,7 @@
 name: Release
 
-# Publishes the RizzyUI NuGet package and the @jalexsocial/rizzyui npm package with one version,
+# Publishes the RizzyUI and RizzyUI.Templates NuGet packages and the @jalexsocial/rizzyui npm
+# package with one version,
 # taken from a vX.Y.Z git tag (for example v1.0.0-preview.1). The same run publishes the
 # RizzyUI.Tasks NuGet package (the MSBuild task RizzyUI depends on) when its version, set in
 # src/Directory.Build.props, is not on nuget.org yet. Nothing is published by pull requests
@@ -114,6 +115,7 @@ jobs:
       - name: Pack
         run: |
           dotnet pack src/RizzyUI/RizzyUI.csproj -c Release --no-build -o ./artifacts/nupkgs
+          dotnet pack templates/RizzyUI.Templates.csproj -c Release -p:RizzyUIVersion=${{ steps.version.outputs.version }} -o ./artifacts/nupkgs
           mkdir -p ./artifacts/npm
           (cd packages/rizzyui && npm pkg set version=${{ steps.version.outputs.version }} && npm pack --pack-destination ../../artifacts/npm)
 
@@ -124,6 +126,15 @@ jobs:
         run: |
           (cd src/RizzyUI.Docs && npx playwright install --with-deps chromium)
           bash eng/consumer-smoke-test.sh ./artifacts/nupkgs ${{ steps.version.outputs.version }} ./artifacts/npm/*.tgz
+
+      # The generated app builds outside the repository with the newest SDK, so add .NET 11 for net11.0.
+      - name: Setup .NET 11 for the template test
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 11.0.x
+
+      - name: Template test
+        run: bash eng/template-test.sh ./artifacts/nupkgs ${{ steps.version.outputs.version }} ./artifacts/npm/*.tgz net10.0 net11.0
 
       # NuGet trusted publishing: NuGet/login exchanges this run's OIDC token for a short-lived API
       # key when nuget.org has a Trusted Publishing policy for this repository, release.yml and the
@@ -161,6 +172,14 @@ jobs:
           --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
           --source https://api.nuget.org/v3/index.json
 
+      # After RizzyUI: the template pins this RizzyUI version.
+      - name: Push RizzyUI.Templates to NuGet
+        if: ${{ !inputs.npm_only }}
+        run: >
+          dotnet nuget push "./artifacts/nupkgs/RizzyUI.Templates.${{ steps.version.outputs.version }}.nupkg"
+          --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
+          --source https://api.nuget.org/v3/index.json
+
       # npm trusted publishing (OIDC) needs npm 11.5.1+.
       - name: Publish npm package
         run: |
@@ -175,7 +194,7 @@ jobs:
           bash eng/changelog-section.sh "$version" > release-notes.md
           prerelease=""
           if [[ "$version" == *-* ]]; then prerelease="--prerelease"; fi
-          assets=("./artifacts/nupkgs/RizzyUI.$version.nupkg" ./artifacts/npm/*.tgz)
+          assets=("./artifacts/nupkgs/RizzyUI.$version.nupkg" "./artifacts/nupkgs/RizzyUI.Templates.$version.nupkg" ./artifacts/npm/*.tgz)
           if [ "${{ steps.tasks.outputs.publish }}" = "true" ]; then
             assets+=("./artifacts/nupkgs/RizzyUI.Tasks.${{ steps.tasks.outputs.version }}.nupkg")
           fi

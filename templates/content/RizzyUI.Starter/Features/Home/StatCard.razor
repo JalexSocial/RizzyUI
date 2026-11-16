@@ -1,0 +1,26 @@
+<RzCard>
+    <CardHeader>
+        <CardDescription>@Title</CardDescription>
+        <CardTitle class="text-2xl tabular-nums">@Value</CardTitle>
+        <CardAction>
+            <Blazicon Svg="Icon" class="text-muted-foreground size-5" />
+        </CardAction>
+    </CardHeader>
+    <CardFooter>
+        <p class="text-muted-foreground text-xs">@Note</p>
+    </CardFooter>
+</RzCard>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string Value { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public SvgIcon Icon { get; set; } = default!;
+
+    [Parameter]
+    public string? Note { get; set; }
+}

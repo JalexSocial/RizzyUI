@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+/* RizzyUI's theme tokens, dark mode variant, and the classes its components use (via a safelist). */
+@import "@jalexsocial/rizzyui/dist/css/rizzyui-plugin.css";
+
+@plugin "@tailwindcss/forms";

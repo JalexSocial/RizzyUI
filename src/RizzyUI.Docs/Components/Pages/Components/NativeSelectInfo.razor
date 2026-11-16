@@ -224,7 +224,7 @@
                         </thead>
                         <tbody class="divide-y">
                             <tr class="align-top"><td class="p-4"><code>For</code></td><td class="p-4"><code>Expression&lt;Func&lt;TValue&gt;&gt;</code></td><td class="p-4">Required</td><td class="p-4">An expression that identifies the bound value.</td></tr>
-                            <tr class="align-top"><td class="p-4"><code>Value</code></td><td class="p-4"><code>TValue?</code></td><td class="p-4"><code>default</code></td><td class="p-4">The current value of the select.</td></tr>
+                            <tr class="align-top"><td class="p-4"><code>Value</code></td><td class="p-4"><code>TValue?</code></td><td class="p-4"><code>default</code></td><td class="p-4">The selected value. When omitted, the select shows the current value of the field named by <code>For</code>; a value passed here takes precedence.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>ChildContent</code></td><td class="p-4"><code>RenderFragment</code></td><td class="p-4"><code>null</code></td><td class="p-4">The options to display within the select element.</td></tr>
                             <tr class="align-top"><td class="p-4"><code>AriaDescribedBy</code></td><td class="p-4"><code>string?</code></td><td class="p-4"><code>null</code></td><td class="p-4">Appends additional description ids to the inner select's <code>aria-describedby</code> without removing consumer-provided values.</td></tr>
                         </tbody>

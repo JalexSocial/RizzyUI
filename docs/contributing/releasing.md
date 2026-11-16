@@ -1,7 +1,7 @@
 # Releasing RizzyUI
 
-The `RizzyUI` NuGet package and the `@jalexsocial/rizzyui` npm package are released together with
-one version number by `.github/workflows/release.yml`, from a `vX.Y.Z` tag. Pull requests and
+The `RizzyUI` and `RizzyUI.Templates` NuGet packages and the `@jalexsocial/rizzyui` npm package are
+released together with one version number by `.github/workflows/release.yml`, from a `vX.Y.Z` tag. Pull requests and
 pushes to `main` never publish (they run `ci.yml`; the documentation site is deployed by `docs.yml`).
 
 RizzyUI's version is independent of Rizzy's. The `RizzyUI` package declares which Rizzy version it
@@ -45,15 +45,19 @@ app reference it.
    ```
    Versions with a pre-release suffix are published to npm under the `next` dist-tag and marked as
    pre-releases on GitHub.
-7. **Check** the GitHub release, `dotnet add package RizzyUI --version X.Y.Z` in a fresh app, and
-   `npm view @jalexsocial/rizzyui dist-tags`.
+7. **Check** the GitHub release, `dotnet add package RizzyUI --version X.Y.Z` in a fresh app,
+   `npm view @jalexsocial/rizzyui dist-tags`, and the template:
+   ```bash
+   dotnet new install RizzyUI.Templates::X.Y.Z && dotnet new rizzyui -o TemplateCheck && cd TemplateCheck && dotnet run
+   ```
 8. **Bump** `<Version>` to the next development version (for example `X.Y.(Z+1)-dev`) so CI builds
    never carry a published version number.
 
 ## Recovering a partial release
 
-The workflow publishes NuGet first (`RizzyUI.Tasks` when its version is new, then `RizzyUI`), then
-npm, then the GitHub release.
+The workflow publishes NuGet first (`RizzyUI.Tasks` when its version is new, then `RizzyUI`, then
+`RizzyUI.Templates`), then npm, then the GitHub release. The template pins the npm version, so it
+does not work until npm is published.
 
 - **Failed before NuGet:** fix the cause and re-run. Nothing was published.
 - **`RizzyUI.Tasks` published, `RizzyUI` failed:** fix the cause and re-run the tag. The run finds
@@ -72,7 +76,7 @@ done.
 - **`release` environment** (Settings → Environments) with required reviewers, so a pushed tag
   waits for approval.
 - **NuGet trusted publishing:** on nuget.org, add a Trusted Publishing policy for the account that
-  owns `RizzyUI` **and** `RizzyUI.Tasks` (the policy must cover both packages): repository owner
+  owns `RizzyUI`, `RizzyUI.Tasks` **and** `RizzyUI.Templates` (the policy must cover all three packages): repository owner
   `JalexSocial`, repository `RizzyUI`, workflow `release.yml`, environment `release`. Add a **variable** `NUGET_USER` (the nuget.org profile name) to the
   `release` environment. Then delete the old `NUGET_API_KEY` secret and revoke that key.
 - **npm trusted publishing:** on npmjs.com, `@jalexsocial/rizzyui` → Settings → Trusted Publisher →

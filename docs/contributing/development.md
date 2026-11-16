@@ -82,6 +82,10 @@ dotnet pack src/RizzyUI/RizzyUI.csproj -c Release -p:Version=0.0.0-local.1 -o ./
 ```
 
 ```bash
+dotnet pack templates/RizzyUI.Templates.csproj -c Release -p:RizzyUIVersion=0.0.0-local.1 -o ./artifacts/nupkgs
+```
+
+```bash
 cd packages/rizzyui && npm pack --pack-destination ../../artifacts/npm && cd ../..
 ```
 
@@ -93,8 +97,16 @@ python eng/check-package-contents.py ./artifacts/nupkgs ./artifacts/npm/jalexsoc
 bash eng/consumer-smoke-test.sh ./artifacts/nupkgs 0.0.0-local.1 ./artifacts/npm/jalexsocial-rizzyui-*.tgz
 ```
 
-Use a version that is not published (as above), so the smoke test cannot resolve a package from
-nuget.org instead of your local one.
+```bash
+bash eng/template-test.sh ./artifacts/nupkgs 0.0.0-local.1 ./artifacts/npm/jalexsocial-rizzyui-*.tgz net10.0 net11.0
+```
+
+Use a version that is not published (as above), so the smoke and template tests cannot resolve a
+package from nuget.org instead of your local one.
+
+The `dotnet new rizzyui` starter app lives in `templates/content/RizzyUI.Starter`. Its package
+versions are the `RIZZYUI_VERSION` token, replaced when the template is packed, so the folder does
+not build in place: change it, pack, and run `eng/template-test.sh` (see `templates/README.md`).
 
 ## htmx checks
 

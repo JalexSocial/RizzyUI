@@ -54,6 +54,21 @@ RizzyUI is not a new platform. It’s a set of components + conventions built on
 
 ---
 
+## Quick start
+
+Create a new app with a sidebar layout and starter pages:
+
+```bash
+dotnet new install RizzyUI.Templates
+dotnet new rizzyui -o MyApp
+cd MyApp
+dotnet run
+```
+
+You need the .NET 10 SDK or later and Node.js 20 or later; the first build installs the npm
+packages and compiles the Tailwind CSS. To add RizzyUI to an existing app instead, follow the
+steps below.
+
 ## Installation
 
 You install:

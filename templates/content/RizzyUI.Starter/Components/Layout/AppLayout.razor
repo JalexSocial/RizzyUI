@@ -1,0 +1,26 @@
+@inherits LayoutComponentBase
+@inject IRizzyNonceProvider NonceProvider
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/css/app.css" />
+
+    @* The htmx-config meta tag and page head content, then htmx 4, rizzy.js and its extensions. *@
+    <RzHeadOutlet />
+    <RzScripts />
+
+    @* RizzyUI's runtime: Alpine.js and the component behaviors. *@
+    <script type="module" nonce="@NonceProvider.GetNonce()" src="/_content/RizzyUI/js/rizzyui.js"></script>
+</head>
+@* hx-boost turns links and forms into htmx requests that swap the page body without a full reload. *@
+<body class="bg-background text-foreground antialiased" hx-boost="true">
+    <RzThemeProvider>
+        @Body
+    </RzThemeProvider>
+</body>
+</html>

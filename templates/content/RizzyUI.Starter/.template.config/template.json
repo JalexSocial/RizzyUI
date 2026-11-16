@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Michael Tanczos",
+  "classifications": [ "Web", "ASP.NET Core", "RizzyUI", "htmx" ],
+  "identity": "RizzyUI.Starter.CSharp",
+  "groupIdentity": "RizzyUI.Starter",
+  "name": "RizzyUI App",
+  "description": "An ASP.NET Core server-rendered app with RizzyUI: a sidebar layout, starter pages, controllers and minimal APIs returning htmx fragments, and Tailwind CSS v4 built with npm.",
+  "shortName": "rizzyui",
+  "defaultName": "RizzyApp",
+  "sourceName": "RizzyUI.Starter",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "Framework": {
+      "type": "parameter",
+      "description": "The target framework for the project.",
+      "datatype": "choice",
+      "choices": [
+        { "choice": "net10.0", "description": "Target .NET 10" },
+        { "choice": "net11.0", "description": "Target .NET 11" }
+      ],
+      "replaces": "net10.0",
+      "defaultValue": "net10.0"
+    },
+    "Theme": {
+      "type": "parameter",
+      "description": "The RizzyUI theme the app starts with.",
+      "datatype": "choice",
+      "choices": [
+        { "choice": "Arctic", "description": "RzTheme.ArcticTheme (the default theme)" },
+        { "choice": "Vercel", "description": "RzTheme.VercelTheme" }
+      ],
+      "defaultValue": "Arctic"
+    },
+    "ThemeProperty": {
+      "type": "generated",
+      "generator": "switch",
+      "datatype": "string",
+      "replaces": "RzTheme.ArcticTheme",
+      "parameters": {
+        "evaluator": "C++",
+        "cases": [
+          { "condition": "(Theme == 'Vercel')", "value": "RzTheme.VercelTheme" },
+          { "condition": "", "value": "RzTheme.ArcticTheme" }
+        ]
+      }
+    },
+    "skipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Skip the automatic restore of the project on create.",
+      "defaultValue": "false"
+    },
+    "HttpPort": {
+      "type": "generated",
+      "generator": "port",
+      "replaces": "5080",
+      "parameters": { "low": 5000, "high": 5300 }
+    },
+    "HttpsPort": {
+      "type": "generated",
+      "generator": "port",
+      "replaces": "7080",
+      "parameters": { "low": 7000, "high": 7300 }
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [ "**/bin/**", "**/obj/**", "**/node_modules/**", "wwwroot/css/app.css", "**/*.user", ".template.config/**" ]
+        }
+      ]
+    }
+  ],
+  "primaryOutputs": [
+    { "path": "RizzyUI.Starter.csproj" }
+  ],
+  "postActions": [
+    {
+      "id": "restore",
+      "condition": "(!skipRestore)",
+      "description": "Restore NuGet packages required by this project.",
+      "manualInstructions": [ { "text": "Run 'dotnet restore'" } ],
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
+    }
+  ]
+}

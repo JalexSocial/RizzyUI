@@ -1,7 +1,8 @@
 # Changelog
 
-All notable changes to the `RizzyUI` NuGet package and the `@jalexsocial/rizzyui` npm package are
-recorded here. The two packages are released together, with one version number, from a `vX.Y.Z`
+All notable changes to the `RizzyUI` and `RizzyUI.Templates` NuGet packages and the
+`@jalexsocial/rizzyui` npm package are recorded here. The packages are released together, with one
+version number, from a `vX.Y.Z`
 git tag (see [docs/contributing/releasing.md](docs/contributing/releasing.md)).
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and RizzyUI uses
@@ -49,8 +50,29 @@ RizzyUI now targets **Rizzy 6** (`6.0.0-preview.3`) and **htmx 4**. See the
   `vbscript:` or `data:` URL (except raster images) are reduced to their text. The default
   pipelines are now built once and shared. (RZUI-017)
 
+### Added
+
+- **`dotnet new rizzyui`.** The new `RizzyUI.Templates` NuGet package (released with RizzyUI, same
+  version) creates an ASP.NET Core app with a collapsible sidebar layout, light and dark mode, a
+  dashboard, a searchable and paged table, a validated form posted with htmx, 404 and error
+  pages, `RzController` pages and minimal API fragment endpoints, and Tailwind CSS v4 built with
+  npm. Options: `--framework net10.0|net11.0`, `--theme Arctic|Vercel`. The template pins the
+  `RizzyUI` and `@jalexsocial/rizzyui` versions it was released with. CI and the release workflow
+  generate, build, publish and run the app (`eng/template-test.sh`).
+
 ### Fixed
 
+- Form inputs render the value of the field named by `For` when `Value` is not passed. Before,
+  `<RzInputText For="@(() => Model.Email)" />` rendered an empty control unless `Value` was also
+  set, so a form re-rendered after a failed post (422) lost what the user entered. This applies to
+  every input built on `InputBase` (`RzInputText`, `RzInputTextArea`, `RzInputNumber`,
+  `RzInputCheckbox`, `RzSwitch`, `RzNativeSelect`, `RzInputColor`, `RzCombobox`, `SidebarInput`).
+  A `Value` you pass, including `null`, still wins. `RzCombobox` keeps using
+  `SelectListItem.Selected` when the field is null, an empty string or an empty collection.
+- `@jalexsocial/rizzyui` lists `tw-animate-css` as a dependency. `rizzyui-theme.css` imports it,
+  so compiling `rizzyui-plugin.css` with Tailwind in an app failed with an unresolved import unless
+  the app installed it itself. The package check now fails when the package's CSS imports a
+  package it does not depend on.
 - `FieldLabel` with `For` points at its input whether it comes before or after it. RizzyUI inputs
   rendered their own id on the control while Rizzy registered a different, generated one for the
   field, so the label's `for` never matched, and a label before its input found no id at all. Text,

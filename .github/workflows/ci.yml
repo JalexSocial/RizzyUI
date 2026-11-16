@@ -125,6 +125,7 @@ jobs:
           version="${base}-ci.${{ github.run_number }}.${{ github.run_attempt }}"
           echo "version=$version" >> "$GITHUB_OUTPUT"
           dotnet pack src/RizzyUI/RizzyUI.csproj -c Release --no-build -p:Version="$version" -o ./artifacts/nupkgs
+          dotnet pack templates/RizzyUI.Templates.csproj -c Release -p:RizzyUIVersion="$version" -o ./artifacts/nupkgs
           mkdir -p ./artifacts/npm
           (cd packages/rizzyui && npm pkg set version="$version" && npm pack --pack-destination ../../artifacts/npm && git checkout -- package.json)
 
@@ -137,6 +138,17 @@ jobs:
 
       - name: Consumer smoke test
         run: bash eng/consumer-smoke-test.sh ./artifacts/nupkgs "${{ steps.pack.outputs.version }}" ./artifacts/npm/*.tgz
+
+      # dotnet new rizzyui: generate, build (npm + Tailwind), publish, run and check the starter app
+      # against the packages above. The generated app builds outside this repository, with the
+      # newest SDK installed here, so .NET 11 is added for the net11.0 variant.
+      - name: Setup .NET 11 for the template test
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 11.0.x
+
+      - name: Template test
+        run: bash eng/template-test.sh ./artifacts/nupkgs "${{ steps.pack.outputs.version }}" ./artifacts/npm/*.tgz net10.0 net11.0
 
       - name: Upload artifacts
         if: always()
