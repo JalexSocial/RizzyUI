@@ -250,9 +250,15 @@ Fixing the options exposed three server-side defects, fixed in the same change:
 entry, an htmx section backed by `/demo/date-edit-sample`, keyboard table verified in a browser,
 known limitations), 6 JS unit tests, 23 bUnit tests and an integration test.
 
-**Found, not fixed (owner decision).** The date `<input>` has no `name` attribute, so its value is
-not included in a native form post. Fixing it needs an API choice (a `Name` parameter like
-`RzCombobox`, and how nested model paths are named). Documented on the component page.
+**Found and fixed afterwards (owner request).** The date `<input>` had no `name` attribute, so its
+value was not included in a form post. The input is now rendered by an internal `DateEditInput`
+derived from Rizzy's `RzInputDateBase<DateTime?>`: it renders `type="text"` with the value in the
+display format, and inherits Blazor's field name (identical to `InputDate` for the same expression,
+including nested paths and form prefixes), Rizzy's field registration and the data-annotation
+validation attributes. Tests: 3 more bUnit tests (26 in `RzDateEditTests`) and an integration test
+that picks a date with the keyboard and checks the form data, which fails on the previous component
+(`name` was `null`). A server-side bind of the posted value was not exercised (the docs app has no
+POST endpoint); the submitted value is in `DateFormat`, which the docs page points out.
 
 **Verification.**
 

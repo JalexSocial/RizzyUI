@@ -35,7 +35,9 @@
                 <code>For</code>. It must be placed inside an <code>EditForm</code>. The calendar is provided by
                 <a href="https://flatpickr.js.org/" target="_blank" rel="noopener">Flatpickr</a>, configured from the server with
                 <code>FlatpickrOptions</code>; the <code>rzDateEdit</code> Alpine component loads Flatpickr and creates the picker. There is no
-                Blazor interactivity.
+                Blazor interactivity: the input carries the same <code>name</code> as Blazor's own inputs (for example
+                <code>Model.StartDate</code>), so the date is submitted with the form and binds to the model, and validation attributes
+                from data annotations such as <code>[Required]</code> are added.
             </RzParagraph>
 
             <RzAlert Variant="ThemeVariant.Information" class="mb-8">
@@ -92,6 +94,14 @@
                     selectable range with <code>MinDate</code> and <code>MaxDate</code>, and adds a calendar icon with <code>PrependIcon</code>.
                     Dates outside the range are disabled in the calendar.
                 </RzParagraph>
+                <RzAlert Variant="ThemeVariant.Information" class="mb-6">
+                    <AlertTitle>Submitted format</AlertTitle>
+                    <AlertDescription>
+                        The form submits the value as it is displayed, in <code>DateFormat</code>. The default <code>Y-m-d</code> posts
+                        <code>2026-11-20</code>, which binds to <code>DateTime</code>. With another format (here <code>01/12/2026</code>), make sure
+                        the server parses it.
+                    </AlertDescription>
+                </RzAlert>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
                     <div class="mx-auto p-8 mb-5 min-h-96 max-w-sm">
@@ -180,8 +190,7 @@
                 <RzAlert Variant="ThemeVariant.Warning" class="mb-6">
                     <AlertTitle>Known limitations</AlertTitle>
                     <AlertDescription>
-                        The input has no <code>name</code> attribute, so its value is not included when the form is submitted natively. The input id
-                        is generated, so a separate <code>&lt;label for&gt;</code> cannot be attached. <kbd>Tab</kbd> from a calendar day moves focus
+                        The input id is generated, so a <code>FieldLabel</code> placed before the field cannot point at it. <kbd>Tab</kbd> from a calendar day moves focus
                         out of the calendar (it is appended to the end of the page) while it stays open. The labels are fixed English strings, and
                         the calendar has not been tested with screen readers.
                     </AlertDescription>

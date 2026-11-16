@@ -205,4 +205,31 @@ test.describe('RzDateEdit', () => {
 
     expect(errors).toEqual([]);
   });
+
+  test('submits the picked date with its form under the field name', async ({ page }) => {
+    const errors = collectPageErrors(page);
+    await page.goto('/components/date-edit');
+    await page.locator('[data-date-edit-load]').click();
+
+    const input = page.locator('#date-edit-htmx-target input[data-input]');
+    await expect.poll(() => input.evaluate(el => Boolean((el as any)._flatpickr))).toBe(true);
+    const name = await input.getAttribute('name');
+    expect(name).toBeTruthy();
+
+    const submitted = () => input.evaluate(el => {
+      const field = el as HTMLInputElement;
+      return new FormData(field.form!).get(field.name);
+    });
+    expect(await submitted()).toBe('2026-11-20');
+
+    // Pick the next day with the keyboard: into the calendar, one day right, select.
+    await input.click();
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('Enter');
+    await expect(input).toHaveValue('2026-11-21');
+    expect(await submitted()).toBe('2026-11-21');
+
+    expect(errors).toEqual([]);
+  });
 });

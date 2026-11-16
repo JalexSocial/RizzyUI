@@ -36,8 +36,6 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
     private readonly string _uid = IdGenerator.UniqueId("rzdate");
     private string _assets = "[]";
     private DateTime? _currentValue;
-    private FieldIdentifier _fieldIdentifier;
-    private string _inputValue = string.Empty;
     private string _serializedConfig = "{}";
 
     [Inject]
@@ -77,22 +75,6 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
     /// </summary>
     [Parameter] public string[] ComponentAssetKeys { get; set; } = ["FlatpickrCore"];
 
-    private string CurrentValue
-    {
-        get => _inputValue;
-        set
-        {
-            if (_inputValue == value) return;
-
-            _inputValue = value;
-            var format = GetDotNetFormat();
-            if (format != null && DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDate))
-                UpdateValue(parsedDate);
-            else if (string.IsNullOrEmpty(value))
-                UpdateValue(null);
-        }
-    }
-
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
@@ -100,9 +82,7 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         if (For == null) throw new InvalidOperationException($"{GetType()} requires a 'For' parameter.");
         if (EditContext == null) throw new InvalidOperationException($"{GetType()} must be used within an EditForm.");
 
-        _fieldIdentifier = FieldIdentifier.Create(For);
         _currentValue = For.Compile().Invoke();
-        FormatInputValue();
         SerializeConfigAndAssets();
     }
 
@@ -110,32 +90,33 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        var modelValue = For?.Compile().Invoke();
-        if (_currentValue != modelValue)
-        {
-            _currentValue = modelValue;
-            FormatInputValue();
-        }
+        _currentValue = For?.Compile().Invoke();
         SerializeConfigAndAssets();
     }
 
-    private void UpdateValue(DateTime? newValue)
+    /// <summary>
+    /// Renders the date input through <see cref="DateEditInput"/>, which supplies Blazor's form
+    /// field name, the field registration and validation attributes.
+    /// </summary>
+    private RenderFragment RenderInput() => builder =>
     {
-        var valueChanged = _currentValue != newValue;
-        _currentValue = newValue;
-        if (valueChanged) EditContext?.NotifyFieldChanged(_fieldIdentifier);
-    }
+        builder.OpenComponent<DateEditInput>(0);
+        builder.AddComponentParameter(1, nameof(DateEditInput.Id), _uidInputId);
+        builder.AddComponentParameter(2, nameof(DateEditInput.ValueExpression), For);
+        builder.AddComponentParameter(3, nameof(DateEditInput.Value), _currentValue);
+        builder.AddComponentParameter(4, nameof(DateEditInput.DotNetFormat), GetDotNetFormat());
+        builder.AddAttribute(5, "x-ref", "textInput");
+        builder.AddAttribute(6, "placeholder", Placeholder);
+        builder.AddAttribute(7, "class", SlotClasses.GetInput());
+        builder.AddAttribute(8, "data-input", true);
+        builder.AddAttribute(9, "aria-label", "Select date");
+        builder.CloseComponent();
+    };
 
-    private void FormatInputValue()
-    {
-        // Without a .NET equivalent of the Flatpickr format, render ISO; Flatpickr rewrites the value
-        // from defaultDate when it initializes.
-        if (_currentValue.HasValue)
-            _inputValue = _currentValue.Value.ToString(GetDotNetFormat() ?? "yyyy-MM-dd", CultureInfo.InvariantCulture);
-        else
-            _inputValue = string.Empty;
-    }
-
+    /// <summary>
+    /// The .NET format for the displayed value, or <c>null</c> (ISO) when the Flatpickr format has no
+    /// .NET equivalent; Flatpickr then rewrites the value from <c>defaultDate</c> when it initializes.
+    /// </summary>
     private string? GetDotNetFormat() => FlatpickrDateFormat.ToDotNet(Options.DateFormat ?? "Y-m-d");
 
     private void SerializeConfigAndAssets()

@@ -1,7 +1,11 @@
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.Json;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http;
+using Rizzy.Htmx;
 
 namespace RizzyUI.Tests.Components.Form;
 
@@ -139,5 +143,63 @@ public class RzDateEditTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Equal("Select date", input.GetAttribute("aria-label"));
         Assert.Equal("", input.GetAttribute("value") ?? "");
         Assert.Equal(JsonValueKind.Array, JsonDocument.Parse(root.GetAttribute("data-assets")!).RootElement.ValueKind);
+    }
+
+    private sealed class RequiredDateModel
+    {
+        [Required]
+        public DateTime? Date { get; set; }
+    }
+
+    [Fact]
+    public void Input_HasTheNameBlazorFormBindingUses()
+    {
+        var model = new DateModel { Date = new DateTime(2026, 11, 20) };
+        var editContext = new EditContext(model);
+
+        var dateEdit = Render<RzDateEdit>(parameters => parameters
+            .Add(p => p.For, () => model.Date)
+            .AddCascadingValue(editContext));
+        var blazorInput = Render<InputDate<DateTime?>>(parameters => parameters
+            .Add(p => p.ValueExpression, () => model.Date)
+            .Add(p => p.Value, model.Date)
+            .AddCascadingValue(editContext));
+
+        var name = dateEdit.Find("input[data-input]").GetAttribute("name");
+        Assert.False(string.IsNullOrEmpty(name));
+        Assert.Equal(blazorInput.Find("input").GetAttribute("name"), name);
+        Assert.Equal("text", dateEdit.Find("input[data-input]").GetAttribute("type"));
+    }
+
+    [Fact]
+    public void Input_IsRegisteredForLabelsAndValidationMessages()
+    {
+        var model = new DateModel();
+        var editContext = new EditContext(model);
+        var httpContext = new DefaultHttpContext();
+
+        var cut = Render<CascadingValue<HttpContext>>(parameters => parameters
+            .Add(p => p.Value, httpContext)
+            .AddChildContent<CascadingValue<EditContext>>(edit => edit
+                .Add(p => p.Value, editContext)
+                .AddChildContent<RzDateEdit>(date => date.Add(p => p.For, () => model.Date))));
+
+        var input = cut.Find("input[data-input]");
+        var mapping = httpContext.GetOrAddFieldMapping(editContext)[FieldIdentifier.Create(() => model.Date)];
+        Assert.Equal(input.Id, mapping.Id);
+        Assert.Equal(input.GetAttribute("name"), mapping.FieldName);
+    }
+
+    [Fact]
+    public void RequiredField_GetsValidationAttributes()
+    {
+        var model = new RequiredDateModel();
+
+        var cut = Render<RzDateEdit>(parameters => parameters
+            .Add(p => p.For, () => model.Date)
+            .AddCascadingValue(new EditContext(model)));
+
+        var input = cut.Find("input[data-input]");
+        Assert.Contains(input.Attributes, attribute => attribute.Name.StartsWith("data-val", StringComparison.Ordinal));
     }
 }

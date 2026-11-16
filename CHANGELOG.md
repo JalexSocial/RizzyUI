@@ -81,6 +81,9 @@ RizzyUI now targets **Rizzy 6** (`6.0.0-preview.2`) and **htmx 4**. See the
 - `RzDateEdit` renders its value in the configured `DateFormat` (it rendered `Y-0-20` for
   `Y-m-d`), sends dates to the browser so a custom `DateFormat` cannot misread them, includes the
   time in the default date, and no longer writes `DefaultDate` into a shared `Options` instance.
+- `RzDateEdit` values are submitted with their form. The input had no `name` attribute; it now has
+  the name Blazor's own inputs use (for example `Model.StartDate`), is registered for labels and
+  validation messages, and gets validation attributes such as `[Required]`.
 - Packing `RizzyUI.Tasks` from a clean checkout produced a package without the task assembly
   (`tasks/<tfm>/` was collected before the build ran). The files are now collected after the build.
 - `RizzyUI.Tasks` targets `netstandard2.0` again, as the published 1.3.5 does, so the task also loads
