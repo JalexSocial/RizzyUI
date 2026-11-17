@@ -1,0 +1,74 @@
+@using RizzyUI.Starter.Features.Customers
+
+<RzPageTitle>Dashboard</RzPageTitle>
+
+<div class="flex flex-col gap-1">
+    <h1 class="text-2xl font-semibold tracking-tight">Dashboard</h1>
+    <p class="text-muted-foreground text-sm">
+        A starting point built from RizzyUI components. Edit <code>Features/Home/Dashboard.razor</code> to make it yours.
+    </p>
+</div>
+
+<div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <StatCard Title="Customers" Value="@Store.TotalCount.ToString("N0")" Icon="Lucide.Users" Note="In the sample data" />
+    <StatCard Title="Active" Value="@Store.ActiveCount.ToString("N0")" Icon="Lucide.UserCheck" Note="Paying customers" />
+    <StatCard Title="On trial" Value="@Store.TrialCount.ToString("N0")" Icon="Lucide.Hourglass" Note="Not converted yet" />
+    <StatCard Title="Monthly revenue" Value="@Store.MonthlyRevenue.ToString("C0")" Icon="Lucide.DollarSign" Note="From active and trial plans" />
+</div>
+
+<div class="grid gap-4 lg:grid-cols-7">
+    <RzCard class="lg:col-span-4">
+        <CardHeader>
+            <CardTitle>Newest customers</CardTitle>
+            <CardDescription>The five most recent sign-ups.</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <RzTable>
+                <TableHeader>
+                    <TableRow>
+                        <TableHeaderCell>Name</TableHeaderCell>
+                        <TableHeaderCell>Plan</TableHeaderCell>
+                        <TableHeaderCell>Status</TableHeaderCell>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    @foreach (var customer in Store.Newest(5))
+                    {
+                        <TableRow>
+                            <TableCell class="font-medium">@customer.Name</TableCell>
+                            <TableCell>@customer.Plan</TableCell>
+                            <TableCell><CustomerStatusBadge Status="customer.Status" /></TableCell>
+                        </TableRow>
+                    }
+                </TableBody>
+            </RzTable>
+        </CardContent>
+        <CardFooter>
+            <RzLink Href="/customers" class="text-sm">View all customers</RzLink>
+        </CardFooter>
+    </RzCard>
+
+    <RzCard class="lg:col-span-3">
+        <CardHeader>
+            <CardTitle>Recent activity</CardTitle>
+            <CardDescription>Loaded after the page from a minimal API endpoint.</CardDescription>
+            <CardAction>
+                <RzButton Variant="ThemeVariant.Ghost" Size="Size.Small" aria-label="Refresh activity"
+                          hx-get="/fragments/activity" hx-target="#activity-feed" hx-swap="outerHTML">
+                    <Blazicon Svg="Lucide.RefreshCw" class="size-4" />
+                </RzButton>
+            </CardAction>
+        </CardHeader>
+        <CardContent>
+            @* hx-trigger="load" fetches the feed as soon as this element is processed. *@
+            <div id="activity-feed" hx-get="/fragments/activity" hx-trigger="load" hx-swap="outerHTML" aria-busy="true">
+                <p class="text-muted-foreground text-sm">Loading activity…</p>
+            </div>
+        </CardContent>
+    </RzCard>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public CustomerStore Store { get; set; } = default!;
+}

@@ -8,8 +8,11 @@ Fails (exit code 1) when a package:
   * is missing the runtime entry points (rizzyui.js, rizzyui-csp.js, chunks, CSS);
   * ships unit tests or repository tooling files (package.json, lock files) as content;
   * does not depend on Rizzy 6.x (NuGet);
-  * has a `file:`/`link:` dependency, a non-peer htmx dependency, or an `exports` target that is
-    not in the tarball (npm).
+  * has a `file:`/`link:` dependency, a non-peer htmx dependency, an `exports` target that is
+    not in the tarball, or CSS that imports a package it does not depend on (npm).
+
+When <nupkg-dir> also holds a RizzyUI.Templates package, it must be a Template package with the
+starter app, no build output, and RizzyUI and @jalexsocial/rizzyui pinned to its own version.
 
 When <nupkg-dir> also holds a RizzyUI.Tasks package, it must contain the task assembly and its
 build/buildTransitive targets, and its version must be the one RizzyUI depends on.
@@ -121,10 +124,64 @@ def check_tasks_nupkg(path: Path) -> str | None:
     return version.group(1) if version else None
 
 
+def check_templates_nupkg(path: Path) -> None:
+    with zipfile.ZipFile(path) as archive:
+        names = archive.namelist()
+        nuspec_name = next((n for n in names if n.endswith(".nuspec")), None)
+        if nuspec_name is None:
+            fail(f"{path.name}: no .nuspec")
+            return
+        nuspec = archive.read(nuspec_name).decode("utf-8-sig")
+        content = {n: archive.read(n) for n in names if n.startswith("content/")}
+
+    print(f"{path.name}: {len(names)} entries")
+
+    if not re.search(r'<packageType name="Template"', nuspec):
+        fail(f"{path.name}: package type is not Template")
+    version_match = re.search(r"<version>([^<]+)</version>", nuspec)
+    version = version_match.group(1) if version_match else None
+
+    root = "content/RizzyUI.Starter/"
+    for entry in (".template.config/template.json", ".template.config/dotnetcli.host.json", "RizzyUI.Starter.csproj",
+                  "package.json", "Program.cs", "Styles/app.css", ".gitignore"):
+        if root + entry not in content:
+            fail(f"{path.name}: missing {root}{entry}")
+
+    unwanted = [n for n in content if re.search(r"/(bin|obj|node_modules)/", n) or n.endswith("wwwroot/css/app.css")]
+    if unwanted:
+        fail(f"{path.name}: ships build output or packages: {unwanted[:5]}")
+
+    tokens = [n for n, data in content.items() if b"RIZZYUI_VERSION" in data]
+    if tokens:
+        fail(f"{path.name}: RIZZYUI_VERSION was not replaced in {tokens}")
+
+    # The template must pin the RizzyUI packages of its own version.
+    csproj = content.get(root + "RizzyUI.Starter.csproj", b"").decode("utf-8")
+    pinned = re.search(r'<PackageReference Include="RizzyUI" Version="([^"]+)"', csproj)
+    if not pinned or pinned.group(1) != version:
+        fail(f"{path.name}: the starter references RizzyUI {pinned.group(1) if pinned else None}, expected {version}")
+    package_json = json.loads(content.get(root + "package.json", b"{}"))
+    npm_pin = (package_json.get("devDependencies") or {}).get("@jalexsocial/rizzyui")
+    if npm_pin != version:
+        fail(f"{path.name}: the starter's package.json pins @jalexsocial/rizzyui {npm_pin!r}, expected {version}")
+    print(f"  pins RizzyUI and @jalexsocial/rizzyui {version}")
+
+
 def check_npm(path: Path) -> None:
     with tarfile.open(path, "r:gz") as archive:
         names = [m.name for m in archive.getmembers() if m.isfile()]
         manifest = json.load(io.TextIOWrapper(archive.extractfile("package/package.json"), "utf-8"))
+        css = {m.name: archive.extractfile(m).read().decode("utf-8", "replace")
+               for m in archive.getmembers() if m.isfile() and m.name.startswith("package/dist/css/") and m.name.endswith(".css")}
+
+    # Consumers compile rizzyui-plugin.css with Tailwind, so every package its CSS imports by name
+    # must be installed with it.
+    installed = set(manifest.get("dependencies") or {}) | set(manifest.get("peerDependencies") or {})
+    for name, text in css.items():
+        for spec in re.findall(r'@(?:import|plugin)\s+"([^"./][^"]*)"', text):
+            package = "/".join(spec.split("/")[:2]) if spec.startswith("@") else spec.split("/")[0]
+            if package != "tailwindcss" and package not in installed:
+                fail(f"{path.name}: {name.removeprefix('package/')} imports {spec!r}, but {package} is not a dependency")
 
     files = {n.removeprefix("package/") for n in names}
     print(f"{path.name}: {len(files)} files, version {manifest.get('version')}")
@@ -174,10 +231,14 @@ def main(argv: list[str]) -> int:
         return 2
 
     nupkg_dir = Path(argv[1])
-    packages = sorted(p for p in nupkg_dir.glob("RizzyUI.*.nupkg") if not p.name.startswith("RizzyUI.Tasks."))
+    packages = sorted(p for p in nupkg_dir.glob("RizzyUI.*.nupkg")
+                      if not p.name.startswith(("RizzyUI.Tasks.", "RizzyUI.Templates.")))
     if not packages:
         fail(f"no RizzyUI.*.nupkg in {nupkg_dir}")
     required_tasks_versions = {v for v in (check_nupkg(p) for p in packages) if v}
+
+    for templates in sorted(nupkg_dir.glob("RizzyUI.Templates.*.nupkg")):
+        check_templates_nupkg(templates)
 
     tasks_packages = sorted(nupkg_dir.glob("RizzyUI.Tasks.*.nupkg"))
     tasks_versions = {v for v in (check_tasks_nupkg(p) for p in tasks_packages) if v}

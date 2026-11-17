@@ -1,0 +1,103 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Packs the `dotnet new rizzyui` template. The starter app lives in content/RizzyUI.Starter.
+    It references RizzyUI (NuGet) and @jalexsocial/rizzyui (npm) through the RIZZYUI_VERSION token,
+    which _RizzyUI_StageTemplateContent replaces with this package's version while packing, so the
+    template always ships pinned to the RizzyUI release it was packed with.
+
+    Pack:  dotnet pack templates/RizzyUI.Templates.csproj -o ./artifacts/nupkgs
+    Test:  bash eng/template-test.sh ./artifacts/nupkgs <version> [<npm-tarball>]
+  -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageType>Template</PackageType>
+    <PackageId>RizzyUI.Templates</PackageId>
+    <Title>RizzyUI project templates</Title>
+    <Description>Project templates for RizzyUI: `dotnet new rizzyui` creates an ASP.NET Core app with a sidebar layout, starter pages, Tailwind CSS v4, Alpine.js and htmx 4.</Description>
+    <Authors>Michael Tanczos</Authors>
+    <Copyright>Copyright © Michael Tanczos</Copyright>
+    <PackageTags>dotnet-new;templates;rizzyui;rizzy;htmx;alpinejs;tailwindcss;blazor;ssr</PackageTags>
+    <PackageProjectUrl>https://rizzyui.jalex.io</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jalexsocial/RizzyUI</RepositoryUrl>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>rizzy.png</PackageIcon>
+
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <NoDefaultExcludes>true</NoDefaultExcludes>
+    <NoWarn>$(NoWarn);NU5128;NU5110;NU5111</NoWarn>
+    <EnableDefaultItems>false</EnableDefaultItems>
+  </PropertyGroup>
+
+  <!-- The template version is RizzyUI's version: -p:RizzyUIVersion=x.y.z (CI and releases), or else
+       <Version> read from src/RizzyUI/RizzyUI.csproj. -->
+  <PropertyGroup Condition="'$(RizzyUIVersion)' != ''">
+    <Version>$(RizzyUIVersion)</Version>
+    <PackageVersion>$(RizzyUIVersion)</PackageVersion>
+  </PropertyGroup>
+
+  <Target Name="_RizzyUI_ReadLibraryVersion" BeforeTargets="_GetOutputItemsFromPack;GenerateNuspec;_RizzyUI_StageTemplateContent" Condition="'$(RizzyUIVersion)' == ''">
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)../src/RizzyUI/RizzyUI.csproj" Query="/Project/PropertyGroup/Version/text()">
+      <Output TaskParameter="Result" PropertyName="RizzyUIVersion" />
+    </XmlPeek>
+    <PropertyGroup>
+      <Version>$(RizzyUIVersion)</Version>
+      <PackageVersion>$(RizzyUIVersion)</PackageVersion>
+    </PropertyGroup>
+  </Target>
+
+  <ItemGroup>
+    <_RizzyUI_TemplateSource Include="content/**/*" Exclude="content/**/bin/**;content/**/obj/**;content/**/node_modules/**;content/**/wwwroot/css/app.css;content/**/*.user" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\LICENSE.md" Pack="true" PackagePath="\" />
+    <None Include="..\docs\media\rizzy.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <!-- Copies files under SourceRoot to DestinationRoot, replacing Token with Value in text files. -->
+  <UsingTask TaskName="_RizzyUI_CopyReplacing" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+      <SourceRoot Required="true" />
+      <DestinationRoot Required="true" />
+      <Token Required="true" />
+      <Value Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Code Type="Fragment" Language="cs"><![CDATA[
+        var root = System.IO.Path.GetFullPath(SourceRoot);
+        var textExtensions = new System.Collections.Generic.HashSet<string>(System.StringComparer.OrdinalIgnoreCase)
+          { ".cs", ".razor", ".csproj", ".json", ".css", ".md", ".js", ".svg", ".gitignore", ".txt", ".html" };
+        foreach (var item in Files)
+        {
+          var source = item.GetMetadata("FullPath");
+          var relative = source.Substring(root.Length);
+          var destination = System.IO.Path.Combine(DestinationRoot, relative);
+          System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(destination));
+          var extension = System.IO.Path.GetExtension(source);
+          if (textExtensions.Contains(extension) || extension == string.Empty)
+            System.IO.File.WriteAllText(destination, System.IO.File.ReadAllText(source).Replace(Token, Value), new System.Text.UTF8Encoding(false));
+          else
+            System.IO.File.Copy(source, destination, true);
+        }
+      ]]></Code>
+    </Task>
+  </UsingTask>
+
+  <!-- Copy the content to obj/, replacing RIZZYUI_VERSION, and pack the copy. -->
+  <Target Name="_RizzyUI_StageTemplateContent" BeforeTargets="_GetPackageFiles;GenerateNuspec" DependsOnTargets="_RizzyUI_ReadLibraryVersion">
+    <Error Condition="'$(RizzyUIVersion)' == ''" Text="Could not determine the RizzyUI version. Pass -p:RizzyUIVersion=x.y.z." />
+    <PropertyGroup>
+      <_RizzyUI_StageDir>$(IntermediateOutputPath)template-content/</_RizzyUI_StageDir>
+    </PropertyGroup>
+    <RemoveDir Directories="$(_RizzyUI_StageDir)" />
+    <_RizzyUI_CopyReplacing Files="@(_RizzyUI_TemplateSource)" SourceRoot="$(MSBuildThisFileDirectory)content/" DestinationRoot="$(_RizzyUI_StageDir)" Token="RIZZYUI_VERSION" Value="$(RizzyUIVersion)" />
+    <ItemGroup>
+      <_RizzyUI_StagedContent Include="$(_RizzyUI_StageDir)**/*" />
+      <None Include="@(_RizzyUI_StagedContent)" Pack="true" PackagePath="content/%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+  </Target>
+
+</Project>

@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RizzyUI" Version="RIZZYUI_VERSION" />
+  </ItemGroup>
+
+  <!--
+    Tailwind CSS v4 builds Styles/app.css into wwwroot/css/app.css before every build.
+    It needs Node.js: the first build runs `npm install`. While you work on markup, run
+    `npm run watch:css` in another terminal so classes you add show up without a rebuild.
+    Pass -p:SkipTailwind=true to build without Node (for example in a .NET-only CI step that
+    already has wwwroot/css/app.css).
+  -->
+  <ItemGroup>
+    <Content Update="package.json;package-lock.json" CopyToPublishDirectory="Never" />
+    <None Remove="node_modules/**" />
+    <Content Remove="node_modules/**" />
+  </ItemGroup>
+
+  <Target Name="NpmInstall" BeforeTargets="Build" Condition="'$(SkipTailwind)' != 'true' and !Exists('node_modules/.package-lock.json')">
+    <Exec Command="npm install --no-audit --no-fund" />
+  </Target>
+
+  <Target Name="TailwindBuild" BeforeTargets="Build" AfterTargets="NpmInstall" Condition="'$(SkipTailwind)' != 'true'">
+    <Exec Command="npm run build:css" />
+  </Target>
+
+  <!-- On the first build the CSS did not exist when the project was evaluated. Add it so it is served and published. -->
+  <Target Name="IncludeTailwindOutput" AfterTargets="TailwindBuild" BeforeTargets="AssignTargetPaths;ResolveStaticWebAssetsInputs">
+    <ItemGroup>
+      <Content Include="wwwroot/css/app.css" Exclude="@(Content)" Condition="Exists('wwwroot/css/app.css')" />
+    </ItemGroup>
+  </Target>
+
+</Project>

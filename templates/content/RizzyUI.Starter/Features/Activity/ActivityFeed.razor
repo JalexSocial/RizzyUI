@@ -1,0 +1,28 @@
+<ul id="activity-feed" class="flex flex-col gap-4">
+    @foreach (var item in Items)
+    {
+        <li class="flex items-start gap-3">
+            <RzAvatar class="size-8">
+                <AvatarFallback>@Initials(item.Who)</AvatarFallback>
+            </RzAvatar>
+            <div class="flex flex-col text-sm">
+                <span><span class="font-medium">@item.Who</span> @item.What</span>
+                <span class="text-muted-foreground text-xs">@Ago(item.When)</span>
+            </div>
+        </li>
+    }
+</ul>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<ActivityItem> Items { get; set; } = [];
+
+    private static string Initials(string name) =>
+        string.Concat(name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(part => part[0])).ToUpperInvariant();
+
+    private static string Ago(DateTimeOffset when)
+    {
+        var minutes = (int)(DateTimeOffset.UtcNow - when).TotalMinutes;
+        return minutes < 60 ? $"{minutes} min ago" : $"{minutes / 60} h ago";
+    }
+}

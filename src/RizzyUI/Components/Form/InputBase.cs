@@ -24,10 +24,28 @@ public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
     public required Expression<Func<TValue>> For { get; set; }
 
     /// <summary>
-    /// Gets or sets the current value for the input.
+    /// Gets or sets the current value for the input. When it is not set, the input renders the
+    /// current value of the field named by <see cref="For"/>, so a form re-rendered from its model
+    /// (for example after a failed post) shows what the user entered. A value passed here, including
+    /// <c>null</c>, takes precedence.
     /// </summary>
     [Parameter]
     public TValue? Value { get; set; }
+
+    private bool _valueIsParameter;
+
+    /// <summary>
+    /// Gets a value indicating whether the caller passed <see cref="Value"/>, as opposed to it being
+    /// read from <see cref="For"/>.
+    /// </summary>
+    protected bool ValueIsParameter => _valueIsParameter;
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        _valueIsParameter = parameters.TryGetValue<TValue?>(nameof(Value), out _);
+        return base.SetParametersAsync(parameters);
+    }
 
     /// <summary>
     /// Gets or sets a display-friendly field name.
@@ -101,6 +119,9 @@ public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
         if (For != null)
         {
             _fieldIdentifier = FieldIdentifier.Create(For);
+
+            if (!_valueIsParameter)
+                Value = For.Compile().Invoke();
         }
 
         if (IdIsLabelTarget && HttpContext != null && EditContext != null && For != null)

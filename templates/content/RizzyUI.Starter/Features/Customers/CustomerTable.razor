@@ -1,0 +1,58 @@
+<div id="customer-table" class="flex flex-col gap-4">
+    <RzTable Border>
+        <TableHeader>
+            <TableRow>
+                <TableHeaderCell>Name</TableHeaderCell>
+                <TableHeaderCell>Plan</TableHeaderCell>
+                <TableHeaderCell>Status</TableHeaderCell>
+                <TableHeaderCell class="text-right">MRR</TableHeaderCell>
+                <TableHeaderCell class="hidden md:table-cell">Joined</TableHeaderCell>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            @if (Result.Items.Count == 0)
+            {
+                <TableRow>
+                    <TableCell colspan="5" class="text-muted-foreground py-8 text-center">No customers match "@Result.Query".</TableCell>
+                </TableRow>
+            }
+            @foreach (var customer in Result.Items)
+            {
+                <TableRow>
+                    <TableCell>
+                        <div class="font-medium">@customer.Name</div>
+                        <div class="text-muted-foreground text-xs">@customer.Email</div>
+                    </TableCell>
+                    <TableCell>@customer.Plan</TableCell>
+                    <TableCell><CustomerStatusBadge Status="customer.Status" /></TableCell>
+                    <TableCell class="text-right tabular-nums">@customer.MonthlyRevenue.ToString("C0")</TableCell>
+                    <TableCell class="hidden md:table-cell">@customer.Joined.ToString("d")</TableCell>
+                </TableRow>
+            }
+        </TableBody>
+    </RzTable>
+
+    <div class="flex items-center justify-between gap-2 text-sm">
+        <span class="text-muted-foreground" aria-live="polite">
+            Page @Result.Page of @Result.PageCount · @Result.TotalCount results
+        </span>
+        <div class="flex gap-2">
+            <RzButton Outline Size="Size.Small" disabled="@(!Result.HasPrevious)"
+                      hx-get="@PageUrl(Result.Page - 1)" hx-target="#customer-table" hx-swap="outerHTML">
+                Previous
+            </RzButton>
+            <RzButton Outline Size="Size.Small" disabled="@(!Result.HasNext)"
+                      hx-get="@PageUrl(Result.Page + 1)" hx-target="#customer-table" hx-swap="outerHTML">
+                Next
+            </RzButton>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public CustomerPage Result { get; set; } = default!;
+
+    private string PageUrl(int page) =>
+        $"/customers/table?q={Uri.EscapeDataString(Result.Query)}&page={page}";
+}

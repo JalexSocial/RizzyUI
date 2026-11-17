@@ -1,0 +1,16 @@
+<RzPageTitle>Error</RzPageTitle>
+
+<div class="flex flex-1 flex-col items-center justify-center gap-4 py-16 text-center">
+    <Blazicon Svg="Lucide.TriangleAlert" class="text-destructive size-12" />
+    <h1 class="text-2xl font-semibold tracking-tight">Something went wrong</h1>
+    <p class="text-muted-foreground max-w-md text-sm">An error occurred while processing your request.</p>
+    @if (!string.IsNullOrEmpty(RequestId))
+    {
+        <p class="text-muted-foreground text-xs">Request ID: <code>@RequestId</code></p>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string? RequestId { get; set; }
+}

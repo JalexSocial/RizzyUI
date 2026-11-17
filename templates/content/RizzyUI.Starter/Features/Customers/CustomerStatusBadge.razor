@@ -1,0 +1,13 @@
+<RzBadge Variant="@Variant" Soft="@(Status != CustomerStatus.Active)">@Status</RzBadge>
+
+@code {
+    [Parameter, EditorRequired]
+    public CustomerStatus Status { get; set; }
+
+    private ThemeVariant Variant => Status switch
+    {
+        CustomerStatus.Active => ThemeVariant.Success,
+        CustomerStatus.Trial => ThemeVariant.Information,
+        _ => ThemeVariant.Secondary
+    };
+}

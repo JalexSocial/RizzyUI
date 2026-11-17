@@ -1,0 +1,29 @@
+<RzPageTitle>Settings</RzPageTitle>
+
+<div class="flex flex-col gap-1">
+    <h1 class="text-2xl font-semibold tracking-tight">Settings</h1>
+    <p class="text-muted-foreground text-sm">
+        The form posts to <code>SettingsController.Save</code>. Invalid input comes back with status 422 and the errors next to each field.
+    </p>
+</div>
+
+<RzTabs DefaultValue="profile" class="max-w-2xl">
+    <TabsList>
+        <TabsTrigger Value="profile">Profile</TabsTrigger>
+        <TabsTrigger Value="appearance">Appearance</TabsTrigger>
+    </TabsList>
+    <TabsContent Value="profile">
+        <SettingsForm />
+    </TabsContent>
+    <TabsContent Value="appearance">
+        <RzCard>
+            <CardHeader>
+                <CardTitle>Appearance</CardTitle>
+                <CardDescription>Switch between light and dark mode. RizzyUI remembers the choice in the browser.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <RzDarkModeToggle />
+            </CardContent>
+        </RzCard>
+    </TabsContent>
+</RzTabs>
