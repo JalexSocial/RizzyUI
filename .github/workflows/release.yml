@@ -117,7 +117,9 @@ jobs:
           dotnet pack src/RizzyUI/RizzyUI.csproj -c Release --no-build -o ./artifacts/nupkgs
           dotnet pack templates/RizzyUI.Templates.csproj -c Release -p:RizzyUIVersion=${{ steps.version.outputs.version }} -o ./artifacts/nupkgs
           mkdir -p ./artifacts/npm
-          (cd packages/rizzyui && npm pkg set version=${{ steps.version.outputs.version }} && npm pack --pack-destination ../../artifacts/npm)
+          # npm provenance requires repository.url to match this repository exactly, including case.
+          # Setting it from github.repository also fixes npm-only runs of tags made before the fix.
+          (cd packages/rizzyui && npm pkg set version=${{ steps.version.outputs.version }} "repository.url=git+https://github.com/${{ github.repository }}.git" && npm pack --pack-destination ../../artifacts/npm)
 
       - name: Check package contents
         run: python3 eng/check-package-contents.py ./artifacts/nupkgs ./artifacts/npm/*.tgz
