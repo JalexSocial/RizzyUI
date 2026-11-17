@@ -18,6 +18,21 @@ Finding IDs (RZUI-0xx) refer to the
 
 ## [Unreleased]
 
+### Removed
+
+- `@jalexsocial/rizzyui` no longer depends on `shadcn-prose` (deprecated) or `tailwindcss-inset`.
+  Neither was imported by the package's CSS or JavaScript. If your own stylesheet imports one of
+  them, add it to your `package.json`.
+
+### Security
+
+- Removed unused build tooling (`repomix`, `webpack`, `babel`, `eslint` 8 and others) and updated
+  `vite`, `esbuild` and `postcss`, which clears the npm audit findings, including every critical one,
+  in the repository's lockfiles. None of these packages ship to users. The one remaining finding,
+  a ReDoS in `picomatch` (GHSA-fc5q-39xc-vjpf), has no patched release; the build passes it only
+  patterns from its own configuration.
+- The test project uses bUnit 2.15.2, which brings AngleSharp 1.10.1 (fixes GHSA-pgww-w46g-26qg).
+
 ## [1.0.0-preview.1] - 2026-11-17
 
 RizzyUI now targets **Rizzy 6** (`6.0.0-preview.3`) and **htmx 4**. See the

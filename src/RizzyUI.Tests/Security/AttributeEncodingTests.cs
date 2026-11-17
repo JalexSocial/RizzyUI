@@ -47,7 +47,7 @@ public class AttributeEncodingTests : BunitAlbaContext, IClassFixture<WebAppFixt
     }
 
     [Fact]
-    public void MarkdownCodeFence_InfoStringCannotInjectAttributes()
+    public async Task MarkdownCodeFence_InfoStringCannotInjectAttributes()
     {
         var pipeline = new MarkdownPipelineBuilder().UseRizzySyntaxHighlighting().Build();
         var markdown = "```x\"onmouseover=\"alert(1)\"\ncode\n```";
@@ -55,7 +55,7 @@ public class AttributeEncodingTests : BunitAlbaContext, IClassFixture<WebAppFixt
         var html = Markdown.ToHtml(markdown, pipeline);
 
         var context = BrowsingContext.New(AngleSharp.Configuration.Default);
-        var document = context.OpenAsync(request => request.Content(html)).GetAwaiter().GetResult();
+        var document = await context.OpenAsync(request => request.Content(html));
         var code = document.QuerySelector("code")!;
 
         Assert.Null(code.GetAttribute("onmouseover"));
