@@ -23,7 +23,7 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Alba" Version="8.4.0" />
-        <PackageReference Include="bunit" Version="2.5.3" />
+        <PackageReference Include="bunit" Version="2.15.2" />
         <PackageReference Include="AwesomeAssertions" Version="9.4.0" />
         <PackageReference Include="AwesomeAssertions.Analyzers" Version="9.0.8">
             <PrivateAssets>all</PrivateAssets>

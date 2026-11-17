@@ -92,7 +92,7 @@ public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
     }
 
     /// <summary>
-    /// Initializes the component and records the generated default <see cref="RzComponent{TSlots}.Id"/>,
+    /// Initializes the component and records the generated default <see cref="RzComponent.Id"/>,
     /// so an <c>Id</c> set by the caller can be told apart from it.
     /// </summary>
     protected InputBase()
@@ -106,7 +106,7 @@ public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
     private HttpContext? HttpContext { get; set; }
 
     /// <summary>
-    /// Gets a value indicating whether <see cref="RzComponent{TSlots}.Id"/> is rendered on the
+    /// Gets a value indicating whether <see cref="RzComponent.Id"/> is rendered on the
     /// labelable form control, so the field's label can point at it. Components that render
     /// <c>Id</c> on a wrapper element return <c>false</c>.
     /// </summary>
@@ -129,7 +129,7 @@ public abstract partial class InputBase<TValue, TSlots> : RzComponent<TSlots>
     }
 
     /// <summary>
-    /// Aligns <see cref="RzComponent{TSlots}.Id"/> with the field mapping that
+    /// Aligns <see cref="RzComponent.Id"/> with the field mapping that
     /// <see cref="FieldLabel{TValue}"/> reads. Without an explicit <c>Id</c>, the component uses the id
     /// already registered or reserved for the field (a label rendered earlier reserves one). An
     /// explicit <c>Id</c> is written into a reservation, so the Rizzy input registers the id that is

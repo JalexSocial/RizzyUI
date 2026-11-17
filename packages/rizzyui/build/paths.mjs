@@ -47,5 +47,5 @@ export const generatedTopLevelFiles = ['stats.html'];
 
 export const generatedJsFolders = ['chunks', 'assets', 'lib'];
 
-export const viteConfigPath = path.resolve(packageRoot, 'vite.config.js');
+export const viteConfigPath = path.resolve(packageRoot, 'vite.config.mjs');
 export const tailwindInputPath = path.resolve(srcCssRoot, 'rizzyui-plugin.css');

@@ -38,8 +38,10 @@
         <EnablePackageValidation>true</EnablePackageValidation>
         <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
 
-        <!-- Optional: suppress “no lib assets” warning when packing a pure build/targets package -->
-        <NoWarn>$(NoWarn);NU5128</NoWarn>
+        <!-- NU5128: no lib assets, by design for a build/targets package.
+             NU5100: the task assembly and its dependencies belong under tasks/<tfm>/, not lib/, so
+             consumers never reference them. -->
+        <NoWarn>$(NoWarn);NU5128;NU5100</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

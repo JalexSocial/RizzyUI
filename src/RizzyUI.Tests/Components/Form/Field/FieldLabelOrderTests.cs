@@ -45,9 +45,9 @@ public class FieldLabelOrderTests : BunitAlbaContext, IClassFixture<WebAppFixtur
         where TComponent : IComponent => builder =>
     {
         builder.OpenComponent<TComponent>(0);
-        var sequence = 1;
+        // Every parameter shares one literal sequence number, the usual pattern for frames emitted in a loop.
         foreach (var (name, value) in parameters)
-            builder.AddComponentParameter(sequence++, name, value);
+            builder.AddComponentParameter(1, name, value);
         builder.CloseComponent();
     };
 

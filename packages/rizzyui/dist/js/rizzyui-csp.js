@@ -1,5 +1,5 @@
-import { t as bootstrapRizzyUI } from "./chunks/bootstrap-BnnK3_WF.js";
-//#region node_modules/@alpinejs/csp/dist/module.esm.js
+import { t as bootstrapRizzyUI } from "./chunks/bootstrap-B1pJZrbh.js";
+// node_modules/@alpinejs/csp/dist/module.esm.js
 var flushPending = false;
 var flushing = false;
 var queue = [];
@@ -328,7 +328,8 @@ function interceptor(callback, mutateObj = () => {}) {
 		if (typeof initialValue === "object" && initialValue !== null && initialValue._x_interceptor) {
 			let initialize = obj.initialize.bind(obj);
 			obj.initialize = (data2, path, key) => {
-				obj.initialValue = initialValue.initialize(data2, path, key);
+				let innerValue = initialValue.initialize(data2, path, key);
+				obj.initialValue = innerValue;
 				return initialize(data2, path, key);
 			};
 		} else obj.initialValue = initialValue;
@@ -1195,21 +1196,22 @@ function bind(el, name, value, modifiers = []) {
 		case "checked":
 			bindAttributeAndProperty(el, name, value);
 			break;
-		default:
-			bindAttribute(el, name, value);
-			break;
+		default: bindAttribute(el, name, value);
 	}
 }
 function bindInputValue(el, value) {
 	if (isRadio(el)) {
 		if (el.attributes.value === void 0) el.value = value;
-		if (window.fromModel) if (typeof value === "boolean") el.checked = safeParseBoolean(el.value) === value;
-		else el.checked = checkedAttrLooseCompare(el.value, value);
-	} else if (isCheckbox(el)) if (Number.isInteger(value)) el.value = value;
-	else if (!Array.isArray(value) && typeof value !== "boolean" && ![null, void 0].includes(value)) el.value = String(value);
-	else if (Array.isArray(value)) el.checked = value.some((val) => checkedAttrLooseCompare(val, el.value));
-	else el.checked = !!value;
-	else if (el.tagName === "SELECT") updateSelect(el, value);
+		if (window.fromModel) {
+			if (typeof value === "boolean") el.checked = safeParseBoolean(el.value) === value;
+			else el.checked = checkedAttrLooseCompare(el.value, value);
+		}
+	} else if (isCheckbox(el)) {
+		if (Number.isInteger(value)) el.value = value;
+		else if (!Array.isArray(value) && typeof value !== "boolean" && ![null, void 0].includes(value)) el.value = String(value);
+		else if (Array.isArray(value)) el.checked = value.some((val) => checkedAttrLooseCompare(val, el.value));
+		else el.checked = !!value;
+	} else if (el.tagName === "SELECT") updateSelect(el, value);
 	else {
 		if (el.value === value) return;
 		el.value = value === void 0 ? "" : value;
@@ -1623,11 +1625,12 @@ var Tokenizer = class {
 			"delete",
 			"in",
 			"instanceof"
-		].includes(value)) if (value === "true" || value === "false") this.tokens.push(new Token("BOOLEAN", value === "true", start2, this.position));
-		else if (value === "null") this.tokens.push(new Token("NULL", null, start2, this.position));
-		else if (value === "undefined") this.tokens.push(new Token("UNDEFINED", void 0, start2, this.position));
-		else this.tokens.push(new Token("KEYWORD", value, start2, this.position));
-		else this.tokens.push(new Token("IDENTIFIER", value, start2, this.position));
+		].includes(value)) {
+			if (value === "true" || value === "false") this.tokens.push(new Token("BOOLEAN", value === "true", start2, this.position));
+			else if (value === "null") this.tokens.push(new Token("NULL", null, start2, this.position));
+			else if (value === "undefined") this.tokens.push(new Token("UNDEFINED", void 0, start2, this.position));
+			else this.tokens.push(new Token("KEYWORD", value, start2, this.position));
+		} else this.tokens.push(new Token("IDENTIFIER", value, start2, this.position));
 	}
 	readString() {
 		const start2 = this.position;
@@ -2068,8 +2071,10 @@ var Evaluator = class {
 				this.checkForDangerousKeywords(property);
 				let memberValue = object[property];
 				this.checkForDangerousValues(memberValue);
-				if (typeof memberValue === "function") if (forceBindingRootScopeToFunctions) return memberValue.bind(scope2);
-				else return memberValue.bind(object);
+				if (typeof memberValue === "function") {
+					if (forceBindingRootScopeToFunctions) return memberValue.bind(scope2);
+					else return memberValue.bind(object);
+				}
 				return memberValue;
 			case "CallExpression":
 				const args = node.arguments.map((arg) => this.evaluate({
@@ -2467,9 +2472,7 @@ function trigger(target, type, key, newValue, oldValue, oldTarget) {
 					if (isMap(target)) add2(depsMap.get(MAP_KEY_ITERATE_KEY));
 				}
 				break;
-			case "set":
-				if (isMap(target)) add2(depsMap.get(ITERATE_KEY));
-				break;
+			case "set": if (isMap(target)) add2(depsMap.get(ITERATE_KEY));
 		}
 	}
 	const run = (effect3) => {
@@ -3258,14 +3261,15 @@ directive("model", (el, { modifiers, expression }, { effect: effect3, cleanup: c
 function getInputValue(el, modifiers, event, currentValue) {
 	return mutateDom(() => {
 		if (event instanceof CustomEvent && event.detail !== void 0) return event.detail !== null && event.detail !== void 0 ? event.detail : event.target.value;
-		else if (isCheckbox(el)) if (Array.isArray(currentValue)) {
-			let newValue = null;
-			if (modifiers.includes("number")) newValue = safeParseNumber(event.target.value);
-			else if (modifiers.includes("boolean")) newValue = safeParseBoolean(event.target.value);
-			else newValue = event.target.value;
-			return event.target.checked ? currentValue.includes(newValue) ? currentValue : currentValue.concat([newValue]) : currentValue.filter((el2) => !checkedAttrLooseCompare2(el2, newValue));
-		} else return event.target.checked;
-		else if (el.tagName.toLowerCase() === "select" && el.multiple) {
+		else if (isCheckbox(el)) {
+			if (Array.isArray(currentValue)) {
+				let newValue = null;
+				if (modifiers.includes("number")) newValue = safeParseNumber(event.target.value);
+				else if (modifiers.includes("boolean")) newValue = safeParseBoolean(event.target.value);
+				else newValue = event.target.value;
+				return event.target.checked ? currentValue.includes(newValue) ? currentValue : currentValue.concat([newValue]) : currentValue.filter((el2) => !checkedAttrLooseCompare2(el2, newValue));
+			} else return event.target.checked;
+		} else if (el.tagName.toLowerCase() === "select" && el.multiple) {
 			if (modifiers.includes("number")) return Array.from(event.target.selectedOptions).map((option) => {
 				return safeParseNumber(option.value || option.text);
 			});
@@ -3277,9 +3281,10 @@ function getInputValue(el, modifiers, event, currentValue) {
 			});
 		} else {
 			let newValue;
-			if (isRadio(el)) if (event.target.checked) newValue = event.target.value;
-			else newValue = currentValue;
-			else newValue = event.target.value;
+			if (isRadio(el)) {
+				if (event.target.checked) newValue = event.target.value;
+				else newValue = currentValue;
+			} else newValue = event.target.value;
 			if (modifiers.includes("number")) return safeParseNumber(newValue);
 			else if (modifiers.includes("boolean")) return safeParseBoolean(newValue);
 			else if (modifiers.includes("trim")) return newValue.trim();
@@ -3669,6 +3674,5 @@ bootstrapRizzyUI(module_default).ready.then(() => {
 }).catch((error) => {
 	console.error("[RizzyUI] Failed to initialize CSP runtime.", error);
 });
-//#endregion
 
 //# sourceMappingURL=rizzyui-csp.js.map

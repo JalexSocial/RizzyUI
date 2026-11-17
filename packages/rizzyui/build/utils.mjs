@@ -6,6 +6,8 @@ export function logStep(message) {
     console.log(`\n[build] ${message}`);
 }
 
+// Runs a command without a shell, so arguments reach it unchanged on every platform. Use
+// runNode or runPackageBin rather than naming npx/npm, which are .cmd scripts on Windows.
 export async function run(command, args = [], options = {}) {
     const { cwd, env } = options;
 
@@ -14,7 +16,6 @@ export async function run(command, args = [], options = {}) {
             cwd,
             env: { ...process.env, ...env },
             stdio: 'inherit',
-            shell: process.platform === 'win32',
         });
 
         child.on('error', reject);
@@ -27,6 +28,21 @@ export async function run(command, args = [], options = {}) {
             reject(new Error(`${command} ${args.join(' ')} exited with code ${code}`));
         });
     });
+}
+
+export async function runNode(scriptPath, args = [], options = {}) {
+    await run(process.execPath, [scriptPath, ...args], options);
+}
+
+// Runs the command-line entry point of a package installed in <cwd>/node_modules.
+export async function runPackageBin(packageName, args = [], options = {}) {
+    const manifestPath = path.join(options.cwd ?? process.cwd(), 'node_modules', packageName, 'package.json');
+    const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
+    const bin = typeof manifest.bin === 'string' ? manifest.bin : Object.values(manifest.bin ?? {})[0];
+    if (!bin) {
+        throw new Error(`${packageName} has no bin entry`);
+    }
+    await runNode(path.resolve(path.dirname(manifestPath), bin), args, options);
 }
 
 export async function ensureDir(targetPath) {
