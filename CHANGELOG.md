@@ -18,6 +18,8 @@ Finding IDs (RZUI-0xx) refer to the
 
 ## [Unreleased]
 
+## [1.0.0-preview.1] - 2026-11-17
+
 RizzyUI now targets **Rizzy 6** (`6.0.0-preview.3`) and **htmx 4**. See the
 [migration guide](docs/migration/rizzy5-to-rizzy6.md).
 
