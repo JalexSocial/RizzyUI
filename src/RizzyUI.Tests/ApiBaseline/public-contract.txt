@@ -1477,6 +1477,7 @@ RizzyUI.RzCombobox<TItem, TValue>
   Element: System.String
   For: System.Linq.Expressions.Expression<System.Func<TValue>> [EditorRequired]
   Id: System.String
+  ItemDataSelector: System.Func<TItem, System.Object>
   ItemTemplate: Microsoft.AspNetCore.Components.RenderFragment
   Items: System.Collections.Generic.IEnumerable<TItem>
   LoadStrategy: System.String

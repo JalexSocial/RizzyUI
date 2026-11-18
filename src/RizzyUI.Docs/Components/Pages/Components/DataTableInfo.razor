@@ -46,6 +46,11 @@
                 <AlertTitle>SSR and CSP note</AlertTitle>
                 <AlertDescription>
                     The shell is server rendered and does not use Blazor event callbacks for browser interaction.
+                    <strong>Pass view models, not entities.</strong> The table renders in the browser, so every public property of every
+                    item in <code>Items</code> is written into the page, including columns that are hidden. Use a DTO with only the fields
+                    the table shows.
+                </RzParagraph>
+                <RzParagraph>
                     The examples intentionally use inline Alpine expressions over TanStack objects for readability and target the standard <code>rizzyui</code> runtime; CSP deployments using <code>rizzyui-csp</code> must move those expressions into approved CSP-safe Alpine APIs before shipping.
                 </AlertDescription>
             </RzAlert>

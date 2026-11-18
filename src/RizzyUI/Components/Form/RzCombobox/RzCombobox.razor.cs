@@ -75,6 +75,19 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     [Parameter] public Func<TItem, string>? TextSelector { get; set; }
 
     /// <summary>
+    /// Chooses the item data that <see cref="OptionTemplate"/> and <see cref="ItemTemplate"/> can read
+    /// as <c>item</c> in the browser. The result is serialized into the page (property names in
+    /// camelCase), so return only what the templates display, for example
+    /// <c>u =&gt; new { u.Name, u.Email, u.Photo }</c>.
+    /// </summary>
+    /// <remarks>
+    /// When not set, only <c>value</c> and <c>text</c> are sent. Before 1.0.0-preview.2 every public
+    /// property of the item was written into the page, which exposed fields the page never shows
+    /// (RZUI-033).
+    /// </remarks>
+    [Parameter] public Func<TItem, object?>? ItemDataSelector { get; set; }
+
+    /// <summary>
     /// Custom template for rendering dropdown options.
     /// </summary>
     [Parameter] public RenderFragment? OptionTemplate { get; set; }
@@ -206,7 +219,15 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
         _ => false
     };
 
-    private string SerializeItem(TItem item) => JsonSerializer.Serialize(item, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+    private static readonly JsonSerializerOptions ItemDataJsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
+    private string SerializeItem(TItem item)
+    {
+        var data = ItemDataSelector is not null
+            ? ItemDataSelector(item)
+            : new { value = GetValue(item), text = GetText(item) };
+        return JsonSerializer.Serialize(data, ItemDataJsonOptions);
+    }
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<RzComboboxSlots>, RzComboboxSlots> GetDescriptor() => Theme.RzCombobox;

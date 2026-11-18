@@ -18,6 +18,15 @@ Finding IDs (RZUI-0xx) refer to the
 
 ## [Unreleased]
 
+### Breaking
+
+- **`RzCombobox` sends only `value` and `text` to the browser by default.** It used to write every
+  public property of each item into the page (`data-item`), including fields the page never shows.
+  If your `OptionTemplate` or `ItemTemplate` reads other fields, choose them with the new
+  `ItemDataSelector` parameter, for example
+  `ItemDataSelector="@(u => new { u.Name, u.Email, u.Photo })"` (property names become camelCase,
+  as before). (RZUI-033)
+
 ### Fixed
 
 - Toasts appear after an htmx swap replaces the region that holds `RzToastProvider`. The runtime
@@ -61,6 +70,8 @@ Finding IDs (RZUI-0xx) refer to the
 - `RzDialog`, `RzAlertDialog` and `RzCommandDialog` render attributes you pass (for example
   `data-testid` or `aria-describedby`) on their root element; they were dropped. They cannot
   replace the component's own attributes. (RZUI-053)
+- `RzCarousel` escapes `<`, `>` and `&` in its configuration script, so a `</script>` in an option
+  string cannot end the script element. (RZUI-034)
 
 ### Removed
 
