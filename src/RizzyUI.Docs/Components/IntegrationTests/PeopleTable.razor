@@ -1,0 +1,114 @@
+@using static RizzyUI.Docs.Components.IntegrationTests.DataTableHarnessData
+@* A full-featured RzDataTable composed the documented way: developer-authored RzTable markup over the
+   runtime projections (headerGroups, rows, sort, selection, pagination, filter, columns), the
+   DataTable helper components, a grouped header, a custom-presented cell and a footer. Every
+   expression here must work under the standard runtime and rizzyui-csp.js. Swapped by htmx in the
+   DataTable integration specs. *@
+<div id="people-region" data-round="@Round">
+    <RzDataTable TItem="PersonRow" Id="people-table" Items="People" Config="PeopleConfig" RowIdSelector="x => x.Id">
+        <div class="flex flex-wrap items-end gap-6 pb-4">
+            <div class="flex flex-col gap-1">
+                <label for="people-filter" class="text-sm font-medium">Filter people</label>
+                <input id="people-filter" type="search" class="rounded border px-2 py-1"
+                       x-on:input="filter.setGlobalFilter($event.target.value)" />
+            </div>
+            <fieldset class="flex flex-wrap gap-3">
+                <legend class="text-sm font-medium">Columns</legend>
+                <label class="flex items-center gap-1">
+                    <input type="checkbox" id="people-columns-all"
+                           x-bind:checked="columns.getIsAllColumnsVisible()"
+                           x-indeterminate="columns.getIsSomeColumnsVisible() && !columns.getIsAllColumnsVisible()"
+                           x-on:change="columns.toggleAllColumnsVisible($event.target.checked)" />
+                    All columns
+                </label>
+                <template x-for="column in columns.leaf" :key="column.id">
+                    <label class="flex items-center gap-1">
+                        <input type="checkbox" x-bind:data-column-toggle="column.id"
+                               x-bind:checked="columns.getIsVisible(column)"
+                               x-bind:disabled="!columns.getCanHide(column)"
+                               x-on:change="columns.toggleVisibility(column, $event.target.checked)" />
+                        <span x-text="column.id"></span>
+                    </label>
+                </template>
+            </fieldset>
+            <p id="people-selected"><span x-text="selectedRowCount"></span> selected</p>
+        </div>
+
+        <RzTable Border>
+            <TableCaption>People</TableCaption>
+            <TableHeader>
+                <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                    <TableRow>
+                        <template x-for="header in headerGroup.headers" :key="header.id">
+                            <TableHeaderCell x-bind:colspan="header.colSpan"
+                                             x-bind:data-column-id="header.column.id"
+                                             x-bind:aria-sort="sort.can(header) ? sort.ariaSort(header) : null">
+                                <template x-if="header.column.id === 'select' && !header.isPlaceholder">
+                                    <DataTableSelectAllCheckbox AriaLabel="Select all people on this page" />
+                                </template>
+                                <template x-if="sort.can(header) && !header.isPlaceholder">
+                                    <DataTableSortToggle HeaderExpr="header" />
+                                </template>
+                                <template x-if="!sort.can(header) && header.column.id !== 'select' && !header.isPlaceholder">
+                                    <span x-flexrender="_flex.header(header)"></span>
+                                </template>
+                            </TableHeaderCell>
+                        </template>
+                    </TableRow>
+                </template>
+            </TableHeader>
+            <TableBody>
+                <template x-if="isEmpty">
+                    <TableRow>
+                        <TableCell id="people-empty" colspan="5">No people match.</TableCell>
+                    </TableRow>
+                </template>
+                <template x-for="row in rows" :key="row.id">
+                    <TableRow x-bind:data-row-id="row.id">
+                        <template x-for="cell in row.cells" :key="cell.id">
+                            <TableCell x-bind:data-column-id="cell.column.id">
+                                <template x-if="cell.column.id === 'select'">
+                                    <DataTableRowSelectCheckbox RowExpr="row.row" />
+                                </template>
+                                <template x-if="cell.column.id === 'Role'">
+                                    <RzBadge><span x-text="cell.getValue()"></span></RzBadge>
+                                </template>
+                                <template x-if="cell.column.id !== 'select' && cell.column.id !== 'Role'">
+                                    <span x-flexrender="_flex.cell(cell)"></span>
+                                </template>
+                            </TableCell>
+                        </template>
+                    </TableRow>
+                </template>
+            </TableBody>
+        </RzTable>
+
+        <nav aria-label="People pages" class="flex items-center gap-2 pt-4">
+            <button type="button" id="people-prev" class="rounded border px-2 py-1"
+                    x-bind:disabled="!pagination.canPreviousPage"
+                    x-on:click="pagination.previousPage()">Previous</button>
+            <template x-for="item in pagination.items" :key="item.id">
+                <span>
+                    <template x-if="item.kind === 'page'">
+                        <button type="button" class="rounded border px-2 py-1"
+                                x-bind:aria-current="item.isActive ? 'page' : null"
+                                x-bind:aria-label="'Page ' + item.label"
+                                x-on:click="pagination.setPageIndex(item.pageIndex)"
+                                x-text="item.label"></button>
+                    </template>
+                    <template x-if="item.kind === 'ellipsis'">
+                        <span aria-hidden="true">…</span>
+                    </template>
+                </span>
+            </template>
+            <button type="button" id="people-next" class="rounded border px-2 py-1"
+                    x-bind:disabled="!pagination.canNextPage"
+                    x-on:click="pagination.nextPage()">Next</button>
+            <p id="people-summary">Showing <span x-text="pagination.startRow"></span>–<span x-text="pagination.endRow"></span> of <span x-text="pagination.totalRows"></span></p>
+        </nav>
+    </RzDataTable>
+</div>
+
+@code {
+    [Parameter] public int Round { get; set; }
+}

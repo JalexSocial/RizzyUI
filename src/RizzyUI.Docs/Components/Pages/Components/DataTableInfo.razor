@@ -26,6 +26,17 @@
                 You provide the semantic table composition through <code>ChildContent</code>, usually with <code>RzTable</code>, table subcomponents, Alpine loops, and <code>x-flexrender</code> for TanStack header, cell, and footer renderers.
             </RzParagraph>
 
+            <RzAlert class="my-4" Variant="ThemeVariant.Information">
+                <AlertTitle>Headless and composable by design</AlertTitle>
+                <AlertDescription>
+                    RzDataTable is a headless, composable data-table component. It manages table state, data operations, and reactive
+                    behavior while leaving the rendered table structure under developer control. It complements <code>RzTable</code>
+                    rather than replacing it: <code>RzTable</code> gives you semantic table markup and styling, <code>RzDataTable</code>
+                    gives that markup sorting, filtering, pagination, selection and column visibility. You decide what every row and cell
+                    looks like. See <a href="#architecture-and-author-responsibilities" class="underline underline-offset-4">Architecture</a>.
+                </AlertDescription>
+            </RzAlert>
+
             <RzAlert class="my-4">
                 <AlertTitle>Under the hood</AlertTitle>
                 <AlertDescription>
@@ -43,18 +54,21 @@
             </RzAlert>
 
             <RzAlert class="my-4" Variant="ThemeVariant.Warning">
-                <AlertTitle>Pass view models, not entities</AlertTitle>
+                <AlertTitle>Everything in Items is sent to the browser</AlertTitle>
                 <AlertDescription>
-                    The table renders in the browser, so every public property of every item in <code>Items</code> is written into the
-                    page, including columns that are hidden. Use a DTO with only the fields the table shows.
+                    Every serializable property of every item in <code>Items</code> can be read in the page, including properties of
+                    columns that are hidden or not defined. Pass a table DTO with only the fields the table needs, and filter by
+                    authorization before the data reaches the component. See <a href="#client-data-and-dtos" class="underline underline-offset-4">Client data and DTOs</a>.
                 </AlertDescription>
             </RzAlert>
 
             <RzAlert class="my-4">
-                <AlertTitle>SSR and CSP note</AlertTitle>
+                <AlertTitle>Works with a strict Content Security Policy</AlertTitle>
                 <AlertDescription>
                     The shell is server rendered and does not use Blazor event callbacks for browser interaction.
-                    The examples intentionally use inline Alpine expressions over TanStack objects for readability and target the standard <code>rizzyui</code> runtime; CSP deployments using <code>rizzyui-csp</code> must move those expressions into approved CSP-safe Alpine APIs before shipping.
+                    Every example on this page runs unchanged with the CSP build (<code>rizzyui-csp.js</code>) under a policy without
+                    <code>unsafe-eval</code> or <code>unsafe-inline</code>; this is tested in the browser. See
+                    <a href="#strict-csp" class="underline underline-offset-4">Strict CSP</a> for the expression rules your own markup must follow.
                 </AlertDescription>
             </RzAlert>
 
@@ -288,7 +302,7 @@
                                 <label class="inline-flex items-center gap-2 text-sm font-medium">
                                     <input type="checkbox"
                                            x-bind:checked="columns.getIsAllColumnsVisible()"
-                                           x-effect="$el.indeterminate = columns.getIsSomeColumnsVisible() && !columns.getIsAllColumnsVisible()"
+                                           x-indeterminate="columns.getIsSomeColumnsVisible() && !columns.getIsAllColumnsVisible()"
                                            x-on:change="columns.toggleAllColumnsVisible($event.target.checked)" />
                                     Toggle all columns
                                 </label>
@@ -469,7 +483,98 @@
             </section>
 
             <section class="my-8 py-2">
-                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Architecture and author responsibilities" class="scroll-mt-20">Architecture and author responsibilities</RzHeading>
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Grouped columns and custom cells" class="scroll-mt-20">Grouped columns and custom cells</RzHeading>
+                <RzParagraph>
+                    Columns can be grouped (<code>Columns</code> on a column), which produces one header row per level. Each header and
+                    cell is yours to render: branch on <code>header.column.id</code> or <code>cell.column.id</code> with
+                    <code>template x-if</code> and render anything, or fall back to <code>x-flexrender</code>. Here the Name header uses the
+                    sort helpers and the Email cell is a link.
+                </RzParagraph>
+                    <div>
+                        <RzDataTable Items="_users" Config="_groupedConfig" RowIdSelector="x => x.Id">
+                            <RzTable Border>
+                                <TableCaption>Users, grouped columns</TableCaption>
+                                <TableHeader>
+                                    <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                                        <TableRow>
+                                            <template x-for="header in headerGroup.headers" :key="header.id">
+                                                <TableHeaderCell x-bind:colspan="header.colSpan" x-bind:aria-sort="sort.can(header) ? sort.ariaSort(header) : null">
+                                                    <template x-if="sort.can(header) && !header.isPlaceholder">
+                                                        <DataTableSortToggle HeaderExpr="header" />
+                                                    </template>
+                                                    <template x-if="!sort.can(header) && !header.isPlaceholder">
+                                                        <span x-flexrender="_flex.header(header)"></span>
+                                                    </template>
+                                                </TableHeaderCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableHeader>
+                                <TableBody>
+                                    <template x-for="row in rows" :key="row.id">
+                                        <TableRow>
+                                            <template x-for="cell in row.cells" :key="cell.id">
+                                                <TableCell>
+                                                    <template x-if="cell.column.id === 'Email'">
+                                                        <a class="underline underline-offset-4" x-bind:href="'mailto:' + cell.getValue()" x-text="cell.getValue()"></a>
+                                                    </template>
+                                                    <template x-if="cell.column.id !== 'Email'">
+                                                        <span x-flexrender="_flex.cell(cell)"></span>
+                                                    </template>
+                                                </TableCell>
+                                            </template>
+                                        </TableRow>
+                                    </template>
+                                </TableBody>
+                            </RzTable>
+                        </RzDataTable>
+                    </div>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_groupedCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Client data and DTOs" class="scroll-mt-20" Id="client-data-and-dtos">Client data and DTOs</RzHeading>
+                <RzParagraph>
+                    The table runs in the browser, so <code>Items</code> is serialized into the page. Every serializable property of
+                    every item can be read there, whether or not a column shows it; hiding a column is presentation, not access
+                    control. You decide what is sent: pass a DTO or view model with the fields the table needs, and apply authorization
+                    (which rows, which fields) before the data reaches <code>RzDataTable</code>. RizzyUI does not try to work out which
+                    fields are sensitive.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.CSharp">
+                    @((MarkupString)EncodeCode(_dtoCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Responding to events" class="scroll-mt-20">Responding to events</RzHeading>
+                <RzParagraph>
+                    The runtime dispatches bubbling <code>rz:datatable:*</code> events with serializable details that include the
+                    table's <code>componentId</code> (its <code>Id</code>), so one listener can serve several tables. A module script with
+                    the request nonce works with a strict CSP.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_eventsCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="htmx swaps" class="scroll-mt-20">htmx swaps</RzHeading>
+                <RzParagraph>
+                    Render the whole table from an endpoint and swap it with htmx. A table that is swapped in initializes itself and
+                    raises <code>rz:datatable:ready</code>; one that is removed is cleaned up. Sorting, page and selection belong to the
+                    table instance, so a replacement starts from <code>InitialState</code>: put the state you want to keep there (for
+                    example the current sort from the request).
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_htmxCode))
+                </RzCodeViewer>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Architecture and author responsibilities" class="scroll-mt-20" Id="architecture-and-author-responsibilities">Architecture and author responsibilities</RzHeading>
                 <RzParagraph>
                     <code>RzDataTable&lt;TItem&gt;</code> owns data transport and TanStack state; it does not generate the visible table, rows, or cells for you.
                     Author the table in <code>ChildContent</code> and bind it to the runtime projections.
@@ -481,6 +586,30 @@
                     <li>Keep <code>RowIdSelector</code> stable and unique because the server and runtime both reject duplicate or empty row ids.</li>
                     <li>Add accessible labels, captions, filter labels, pagination labels, and current/disabled states in your authored markup when the helper components do not provide them automatically.</li>
                 </ul>
+                <RzHeading Level="HeadingLevel.H3" class="mt-6">Why you write the table</RzHeading>
+                <RzParagraph>
+                    The state of a data table (which rows, in which order, which page, what is selected or hidden) is the same whatever
+                    the table looks like; the presentation is not. Keeping them apart lets you build a plain semantic table, a dense
+                    list, rows with inline actions or rich cells on one state engine, use <code>RzTable</code> or your own markup, and
+                    change the layout without touching sorting or selection.
+                </RzParagraph>
+                <div class="not-prose my-4 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                    <table class="w-full text-sm">
+                        <thead class="bg-zinc-50 dark:bg-zinc-900">
+                            <tr><th class="px-4 py-3 text-left font-medium">RzDataTable provides</th><th class="px-4 py-3 text-left font-medium">You control</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tr class="align-top"><td class="px-4 py-3">TanStack state and algorithms: sorting, filtering, pagination, selection, column visibility, header groups</td><td class="px-4 py-3">The table structure, captions and labels</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3">Reactive projections: <code>headerGroups</code>, <code>rows</code>, <code>footerGroups</code>, <code>pagination</code>, ...</td><td class="px-4 py-3">How each header and cell is rendered</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3">Helper APIs (<code>sort</code>, <code>selection</code>, <code>pagination</code>, <code>filter</code>, <code>columns</code>) and accessible helper components</td><td class="px-4 py-3">Which controls exist and where (filter inputs, pagination, column menus)</td></tr>
+                            <tr class="align-top"><td class="px-4 py-3"><code>rz:datatable:*</code> events and live announcements</td><td class="px-4 py-3">Which data is sent (<code>Items</code>) and how the page reacts to events</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <RzParagraph>
+                    The engineering contract (responsibilities, design boundaries, what must stay stable) is in
+                    <a href="https://github.com/JalexSocial/RizzyUI/blob/main/docs/engineering/rzdatatable-architecture.md" class="underline underline-offset-4" target="_blank" rel="noopener noreferrer">RzDataTable architecture</a>.
+                </RzParagraph>
             </section>
 
             <section class="my-8 py-2">
@@ -553,7 +682,36 @@
                     <li>The server output contains the shell, <code>data-config-id</code>, and an inert <code>script type="application/json"</code> with serialized transport data.</li>
                     <li>The Alpine runtime <code>rzDataTable</code> reads that config by id, creates the TanStack Table instance, and dispatches browser <code>rz:</code> custom events.</li>
                     <li>No Blazor <code>EventCallback</code>, <code>@@onclick</code>, <code>@@onchange</code>, <code>@@bind</code>, or interactive circuit is required for DataTable behavior.</li>
-                    <li>The inline Alpine expressions shown in these examples are documentation examples for the standard runtime. For strict CSP usage, keep the same runtime contract but move expressions into CSP-safe Alpine factories or helpers.</li>
+                    <li>The table runtime is loaded on demand (<code>LoadStrategy</code>), with both the standard and the CSP build.</li>
+                </ul>
+            </section>
+
+            <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Strict CSP" class="scroll-mt-20" Id="strict-csp">Strict CSP</RzHeading>
+                <RzParagraph>
+                    Load the CSP build of the runtime with the request nonce. The DataTable runtime, its helper components and every
+                    example on this page then work under a policy without <code>unsafe-eval</code> or <code>unsafe-inline</code>; the
+                    integration tests run them in the browser with both builds.
+                </RzParagraph>
+                <RzCodeViewer Language="@CodeLanguage.Razor">
+                    @((MarkupString)EncodeCode(_cspCode))
+                </RzCodeViewer>
+                <RzParagraph class="mt-4">
+                    The CSP build evaluates Alpine expressions without <code>eval</code>, so it accepts a subset of JavaScript. Tested
+                    with the Alpine version RizzyUI ships:
+                </RzParagraph>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><strong>Works:</strong> property reads (<code>pagination.canNextPage</code>), method calls with arguments
+                        (<code>sort.ariaSort(header)</code>, <code>filter.setGlobalFilter($event.target.value)</code>), comparisons and
+                        <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>, ternaries (<code>item.isActive ? 'page' : null</code>),
+                        arithmetic and string concatenation (<code>pagination.pageIndex + 1</code>), <code>x-for</code>, <code>x-if</code>,
+                        <code>:key</code> and <code>x-flexrender</code>.</li>
+                    <li><strong>Does not work:</strong> assigning to a property. <code>x-model="filter.globalFilter"</code> and
+                        <code>x-effect="$el.indeterminate = ..."</code> both assign; use a method
+                        (<code>x-on:input="filter.setGlobalFilter($event.target.value)"</code>) and
+                        <code>x-indeterminate="..."</code> instead. Bind <code>x-bind:style</code> to an object, not a string.</li>
+                    <li>RizzyUI is responsible for its runtime, helpers and documented patterns. Expressions you write yourself must
+                        follow these rules; move anything more complex into a method of your own Alpine component.</li>
                 </ul>
             </section>
 
@@ -565,6 +723,8 @@
                     <li>The shell cannot verify every possible <code>ChildContent</code> composition, so authors must preserve semantic table structure, labels, captions, and relationships in custom markup.</li>
                     <li>Generated <code>rowSelection</code> cell renderers produce checkbox HTML for convenience; use the Razor selection helper components when you need more control over surrounding table semantics or labels.</li>
                     <li>The runtime is client-side TanStack state only. It does not perform server paging, server filtering, or server sorting by itself.</li>
+                    <li>Under the CSP build, your own expressions in <code>ChildContent</code> must follow the rules in <a href="#strict-csp" class="underline underline-offset-4">Strict CSP</a>; RizzyUI cannot rewrite them.</li>
+                    <li><code>flex.html(...)</code> inserts HTML as is. Return it only for trusted content; the built-in renderers use text, and the generated <code>rowSelection</code> cell escapes the row id.</li>
                 </ul>
             </section>
 
@@ -620,7 +780,19 @@
             <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Alpine API" class="scroll-mt-20">Alpine API</RzHeading>
                 <RzParagraph><strong>Rendering state</strong>: <code>headerGroups</code>, <code>rows</code>, <code>footerGroups</code>, <code>hasRows</code>, <code>isEmpty</code>, and <code>selectedRowCount</code>.</RzParagraph>
-                <RzParagraph><strong>Advanced/internal</strong>: <code>table</code> (escape hatch), <code>_stateVersion</code>, and <code>_flex</code>.</RzParagraph>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><code>headerGroups</code> — one entry per header row (<code>id</code>, <code>headers</code>); grouped columns produce several. Each header is a TanStack header: <code>header.id</code>, <code>header.colSpan</code>, <code>header.isPlaceholder</code>, <code>header.column</code>.</li>
+                    <li><code>rows</code> — the rows of the current page after filtering and sorting: <code>id</code> (your row id), <code>row</code> (the TanStack row, for <code>selection.*</code> and <code>row.original</code>) and <code>cells</code> (visible cells: <code>cell.id</code>, <code>cell.column</code>, <code>cell.getValue()</code>).</li>
+                    <li><code>footerGroups</code> — like <code>headerGroups</code>, for footers.</li>
+                    <li>These are recomputed whenever TanStack state changes, so <code>x-for</code> loops and bindings over them update by themselves.</li>
+                </ul>
+                <RzParagraph>
+                    <strong>Rendering helpers</strong>: <code>x-flexrender="_flex.header(header)"</code>, <code>_flex.cell(cell)</code> and
+                    <code>_flex.footer(footer)</code> render the column's TanStack definition into the element you put the directive on.
+                    String headers, footers and default cells render as text; a renderer that returns <code>flex.html(...)</code> renders
+                    HTML (trusted content only). This is how column definitions from C# reach markup you author.
+                </RzParagraph>
+                <RzParagraph><strong>Advanced/internal</strong>: <code>table</code> (escape hatch to the TanStack instance), <code>_stateVersion</code>, and other <code>_flex</code> members. These are not covered by compatibility guarantees.</RzParagraph>
 
                 <RzHeading Level="HeadingLevel.H3">Sorting API (<code>sort.*</code>)</RzHeading>
                 <ul>
@@ -727,7 +899,156 @@
         },
     };
 
+    private readonly RzDataTableConfig<UserRow> _groupedConfig = new()
+    {
+        Columns =
+        [
+            new RzDataTableColumn<UserRow>
+            {
+                Id = "user",
+                Header = "User",
+                Columns =
+                [
+                    new RzDataTableColumn<UserRow> { Accessor = x => x.Name, Header = "Name" },
+                    new RzDataTableColumn<UserRow> { Accessor = x => x.Email, Header = "Email", EnableSorting = false },
+                ],
+            },
+        ],
+        InitialState = new RzDataTableInitialState { Pagination = new RzPaginationState { PageIndex = 0, PageSize = 5 } },
+    };
+
     private static string EncodeCode(string code) => HtmlEncoder.Default.Encode(code);
+
+    private const string _groupedCode =
+"""
+<RzDataTable Items="_users" Config="_groupedConfig" RowIdSelector="x => x.Id">
+    <RzTable Border>
+        <TableCaption>Users, grouped columns</TableCaption>
+        <TableHeader>
+            <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                <TableRow>
+                    <template x-for="header in headerGroup.headers" :key="header.id">
+                        <TableHeaderCell x-bind:colspan="header.colSpan"
+                                         x-bind:aria-sort="sort.can(header) ? sort.ariaSort(header) : null">
+                            <template x-if="sort.can(header) && !header.isPlaceholder">
+                                <DataTableSortToggle HeaderExpr="header" />
+                            </template>
+                            <template x-if="!sort.can(header) && !header.isPlaceholder">
+                                <span x-flexrender="_flex.header(header)"></span>
+                            </template>
+                        </TableHeaderCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableHeader>
+        <TableBody>
+            <template x-for="row in rows" :key="row.id">
+                <TableRow>
+                    <template x-for="cell in row.cells" :key="cell.id">
+                        <TableCell>
+                            <template x-if="cell.column.id === 'Email'">
+                                <a x-bind:href="'mailto:' + cell.getValue()" x-text="cell.getValue()"></a>
+                            </template>
+                            <template x-if="cell.column.id !== 'Email'">
+                                <span x-flexrender="_flex.cell(cell)"></span>
+                            </template>
+                        </TableCell>
+                    </template>
+                </TableRow>
+            </template>
+        </TableBody>
+    </RzTable>
+</RzDataTable>
+
+@code {
+    private readonly RzDataTableConfig<UserRow> _groupedConfig = new()
+    {
+        Columns =
+        [
+            new RzDataTableColumn<UserRow>
+            {
+                Id = "user",
+                Header = "User",
+                Columns =
+                [
+                    new RzDataTableColumn<UserRow> { Accessor = x => x.Name, Header = "Name" },
+                    new RzDataTableColumn<UserRow> { Accessor = x => x.Email, Header = "Email", EnableSorting = false },
+                ],
+            },
+        ],
+        InitialState = new RzDataTableInitialState { Pagination = new RzPaginationState { PageIndex = 0, PageSize = 5 } },
+    };
+}
+""";
+
+    private const string _dtoCode =
+"""
+// A table DTO: only the fields the table needs.
+public sealed record UserRow(string Id, string Name, string Email);
+
+// Authorization and field selection happen here, before the data reaches the component.
+var rows = await db.Users
+    .Where(u => u.TenantId == tenantId && u.IsActive)
+    .OrderBy(u => u.DisplayName)
+    .Select(u => new UserRow(u.Id.ToString(), u.DisplayName, u.Email))
+    .ToListAsync();
+
+// <RzDataTable Items="rows" Config="_config" RowIdSelector="x => x.Id"> ... </RzDataTable>
+// Passing db.Users directly would send every property (password hashes, internal flags,
+// other tenants' columns) to the browser, even if no column displays them.
+""";
+
+    private const string _eventsCode =
+"""
+<RzDataTable Id="users-table" Items="_users" Config="_config" RowIdSelector="x => x.Id">
+    ...
+</RzDataTable>
+
+<script type="module" nonce="@Nonce">
+    document.addEventListener('rz:datatable:selection-changed', event => {
+        const { componentId, selectedRowIds } = event.detail;
+        if (componentId !== 'users-table') return;
+        document.querySelector('#bulk-actions').hidden = selectedRowIds.length === 0;
+    });
+
+    document.addEventListener('rz:datatable:sort-changed', event => {
+        // event.detail.sorting: [{ id: 'Name', desc: false }]
+    });
+</script>
+""";
+
+    private const string _htmxCode =
+"""
+@* Page *@
+<RzButton hx-get="/users/table?role=admin" hx-target="#users-table-host" hx-swap="innerHTML">Admins</RzButton>
+<div id="users-table-host">
+    <UsersTable Role="all" />
+</div>
+
+@* UsersTable.razor renders the complete <RzDataTable> for the given role. *@
+
+// Program.cs
+app.MapGet("/users/table", (IRizzyService rizzy, string? role) =>
+    rizzy.PartialView<UsersTable>(new { Role = role ?? "all" }));
+""";
+
+    private const string _cspCode =
+"""
+@* App.razor: the CSP build of the runtime, with the request nonce *@
+<script type="module" nonce="@Nonce" src="/_content/RizzyUI/js/rizzyui-csp.min.js"></script>
+
+@* Inside RzDataTable: methods and read-only bindings work with the CSP build *@
+<input x-on:input="filter.setGlobalFilter($event.target.value)" aria-label="Filter" />
+
+<input type="checkbox" aria-label="All columns"
+       x-bind:checked="columns.getIsAllColumnsVisible()"
+       x-indeterminate="columns.getIsSomeColumnsVisible() && !columns.getIsAllColumnsVisible()"
+       x-on:change="columns.toggleAllColumnsVisible($event.target.checked)" />
+
+@* Not with the CSP build (property assignments):
+   x-model="filter.globalFilter"
+   x-effect="$el.indeterminate = columns.getIsSomeColumnsVisible()" *@
+""";
 
     private const string _basicUsageCode =
 """
@@ -941,7 +1262,7 @@
         <label class="inline-flex items-center gap-2 text-sm font-medium">
             <input type="checkbox"
                    x-bind:checked="columns.getIsAllColumnsVisible()"
-                   x-effect="$el.indeterminate = columns.getIsSomeColumnsVisible() && !columns.getIsAllColumnsVisible()"
+                   x-indeterminate="columns.getIsSomeColumnsVisible() && !columns.getIsAllColumnsVisible()"
                    x-on:change="columns.toggleAllColumnsVisible($event.target.checked)" />
             Toggle all columns
         </label>

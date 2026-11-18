@@ -55,7 +55,8 @@ public class RzDataTableTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var selectAll = cut.Find("[data-slot='data-table-select-all-checkbox']");
         Assert.Equal("Select visible rows", selectAll.GetAttribute("aria-label"));
         Assert.Equal("selection.allPageRowsSelected()", selectAll.GetAttribute("x-bind:checked"));
-        Assert.Equal("$el.indeterminate = selection.somePageRowsSelected() && !selection.allPageRowsSelected()", selectAll.GetAttribute("x-effect"));
+        Assert.Equal("selection.somePageRowsSelected() && !selection.allPageRowsSelected()", selectAll.GetAttribute("x-indeterminate"));
+        Assert.Null(selectAll.GetAttribute("x-effect")); // CSP build rejects $el.indeterminate = ...
 
         var rowSelect = cut.Find("[data-slot='data-table-row-select-checkbox']");
         Assert.Equal("Select Ada", rowSelect.GetAttribute("aria-label"));
@@ -107,7 +108,8 @@ public class RzDataTableTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Equal("input", selectAll.TagName.ToLowerInvariant());
         Assert.Equal("checkbox", selectAll.GetAttribute("type"));
         Assert.Equal("selection.allRowsSelected()", selectAll.GetAttribute("x-bind:checked"));
-        Assert.Equal("$el.indeterminate = selection.someRowsSelected() && !selection.allRowsSelected()", selectAll.GetAttribute("x-effect"));
+        Assert.Equal("selection.someRowsSelected() && !selection.allRowsSelected()", selectAll.GetAttribute("x-indeterminate"));
+        Assert.Null(selectAll.GetAttribute("x-effect")); // CSP build rejects $el.indeterminate = ...
         Assert.Equal("selection.setAllRows($event.target.checked)", selectAll.GetAttribute("x-on:change"));
 
         var rowSelect = cellCut.Find("[data-slot='data-table-row-select-checkbox']");
@@ -115,7 +117,8 @@ public class RzDataTableTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Equal("checkbox", rowSelect.GetAttribute("type"));
         Assert.Equal("selection.isSelected(row)", rowSelect.GetAttribute("x-bind:checked"));
         Assert.Equal("!selection.canSelect(row)", rowSelect.GetAttribute("x-bind:disabled"));
-        Assert.Equal("$el.indeterminate = selection.isSomeSelected(row) && !selection.isSelected(row)", rowSelect.GetAttribute("x-effect"));
+        Assert.Equal("selection.isSomeSelected(row) && !selection.isSelected(row)", rowSelect.GetAttribute("x-indeterminate"));
+        Assert.Null(rowSelect.GetAttribute("x-effect")); // CSP build rejects $el.indeterminate = ...
         Assert.Equal("selection.setRowSelected(row, $event.target.checked)", rowSelect.GetAttribute("x-on:change"));
     }
 

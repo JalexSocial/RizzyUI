@@ -50,8 +50,11 @@ export async function collectCspViolations(page: Page): Promise<() => Promise<st
       (window as any).__cspViolations.push(`${event.violatedDirective} ${event.blockedURI}${source}${sample}`);
     });
   });
+  // The docs site's own fonts and search stylesheet (fetched by axe when it scans the page) are
+  // blocked by its connect-src; they are docs-site resources, not RizzyUI.
   return async () => (await page.evaluate(() => (window as any).__cspViolations as string[]))
-    .filter(violation => !docsSiteViolationSources.some(source => violation.includes(` at ${source}`)));
+    .filter(violation => !docsSiteViolationSources.some(source => violation.includes(` at ${source}`)))
+    .filter(violation => !(violation.startsWith('connect-src ') && docsSiteThirdParty.test(violation)));
 }
 
 /** Number of event listeners the runtime has registered on window/document (Chromium CDP). */

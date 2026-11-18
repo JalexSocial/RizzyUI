@@ -423,9 +423,8 @@ export function defineRealComponentA11ySpecs(variant: string) {
     });
 
     test('data table: captioned table with column headers and rows', async ({ page }) => {
-      // The table's row and cell templates are inline Alpine expressions, which the CSP build does
-      // not run (documented on the DataTable page); the CSP variant is not applicable.
-      test.skip(variant === 'CSP build', 'DataTable templates use inline Alpine expressions (standard runtime only).');
+      // Runs under both runtimes: the documented composition (x-for, x-if, x-flexrender) is
+      // CSP-safe. Interactions are covered by datatable.ts.
       const errors = await open(page, 'data-table');
       const table = page.getByRole('table', { name: 'Team members' });
       await expect(table).toBeVisible();
