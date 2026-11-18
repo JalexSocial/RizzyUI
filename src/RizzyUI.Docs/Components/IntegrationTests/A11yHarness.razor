@@ -364,6 +364,34 @@
             </RzAlert>
             break;
 
+        case "sidebar":
+            <RzSidebarProvider id="harness-sidebar">
+                <Sidebar>
+                    <SidebarContent>
+                        <SidebarGroup>
+                            <SidebarGroupLabel>Getting started</SidebarGroupLabel>
+                            <SidebarGroupContent>
+                                <SidebarMenu>
+                                    <SidebarMenuItem>
+                                        <SidebarMenuButton AsChild IsActive="true"><a href="#installation">Installation</a></SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                    <SidebarMenuItem>
+                                        <SidebarMenuButton AsChild><a href="#theming">Theming</a></SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                </SidebarMenu>
+                            </SidebarGroupContent>
+                        </SidebarGroup>
+                    </SidebarContent>
+                </Sidebar>
+                <SidebarInset>
+                    <header class="flex h-16 items-center gap-2 px-4">
+                        <SidebarTrigger />
+                        <span>Page content</span>
+                    </header>
+                </SidebarInset>
+            </RzSidebarProvider>
+            break;
+
         case "back-to-top":
             @* A class, not style="": the CSP-mode policy blocks inline style attributes. *@
             <div class="h-[3000px]">Long content</div>

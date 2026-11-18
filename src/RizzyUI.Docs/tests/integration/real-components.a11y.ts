@@ -538,5 +538,37 @@ export function defineRealComponentA11ySpecs(variant: string) {
       await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(50);
       expect(errors).toEqual([]);
     });
+
+    test('sidebar: named trigger that collapses the desktop sidebar and opens the mobile sheet', async ({ page }) => {
+      const errors = await open(page, 'sidebar');
+      const trigger = page.locator('[data-sidebar="trigger"]');
+      await expect(trigger).toHaveAccessibleName(/.+/);
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      await expect(page.getByRole('link', { name: 'Installation' })).toBeVisible();
+      await expectNoAxeViolations(page);
+      await expectNoDanglingAriaReferences(page);
+
+      await trigger.focus();
+      await page.keyboard.press('Enter');
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      await expect(page.locator('[data-slot="sidebar"]')).toHaveAttribute('data-state', 'collapsed');
+      await expectNoAxeViolations(page);
+
+      // Below the mobile breakpoint the sidebar is a modal sheet: it opens from the trigger, takes
+      // focus, and Escape returns focus to the trigger.
+      await page.setViewportSize({ width: 375, height: 800 });
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      await trigger.focus();
+      await page.keyboard.press('Enter');
+      const sheet = page.getByRole('dialog');
+      await expect(sheet).toBeVisible();
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      await expect(sheet.getByRole('link', { name: 'Installation' })).toBeVisible();
+      await expectNoAxeViolations(page);
+      await page.keyboard.press('Escape');
+      await expect(sheet).toBeHidden();
+      await expect(trigger).toBeFocused();
+      expect(errors).toEqual([]);
+    });
   });
 }
