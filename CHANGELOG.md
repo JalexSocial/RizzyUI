@@ -18,6 +18,15 @@ Finding IDs (RZUI-0xx) refer to the
 
 ## [Unreleased]
 
+## [1.0.0-preview.2] - 2026-11-18
+
+Still on **Rizzy 6** (`6.0.0-preview.3`) and **htmx 4**. This preview collects the changes planned
+before 1.0: components tested in the browser under the standard and CSP runtimes, the accessibility
+fixes those tests found, a smaller download, and the breaking changes that had to land before a
+stable release. Coming from 1.0.0-preview.1, see
+[Changes in 1.0.0-preview.2](docs/migration/rizzy5-to-rizzy6.md#changes-in-100-preview2) in the
+migration guide.
+
 ### Breaking
 
 - **`RzCombobox` sends only `value` and `text` to the browser by default.** It used to write every
