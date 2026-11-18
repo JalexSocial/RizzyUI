@@ -79,6 +79,9 @@ Finding IDs (RZUI-0xx) refer to the
   not accumulate changes across components or renders. (RZUI-055)
 - Toasts queued with `IRzToastService` during a non-htmx request are logged at Debug level when
   discarded (toasts travel in htmx response headers). (RZUI-052)
+- `RzNumberTicker`, `RzProgress` and `RzEmbeddedPreview` release their observers and timers when
+  an htmx swap removes them. `RzEmbeddedPreview` also no longer starts a new, never-cleared interval
+  on each resize attempt while its iframe is loading. (RZUI-029)
 
 ### Removed
 

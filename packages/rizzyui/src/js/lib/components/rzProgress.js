@@ -30,10 +30,10 @@ export default function rzProgress() {
             element.setAttribute('aria-valuetext', `${this.percentage}%`);
             this.updateProgressBar();
 
-            const resizeObserver = new ResizeObserver(entries => {
+            this.resizeObserver = new ResizeObserver(() => {
                 this.updateProgressBar();
             });
-            resizeObserver.observe(element);
+            this.resizeObserver.observe(element);
 
             // Watch for changes in currentVal to update progress dynamically
             this.$watch('currentVal', () => {
@@ -42,6 +42,11 @@ export default function rzProgress() {
                 element.setAttribute('aria-valuenow', this.currentVal);
                 element.setAttribute('aria-valuetext', `${this.percentage}%`);
             });
+        },
+        // Disconnect the observer when Alpine removes the element (RZUI-029).
+        destroy() {
+            this.resizeObserver?.disconnect();
+            this.resizeObserver = null;
         },
         /**
          * Executes the `calculatePercentage` operation.
