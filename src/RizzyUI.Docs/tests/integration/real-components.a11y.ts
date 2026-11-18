@@ -229,5 +229,149 @@ export function defineRealComponentA11ySpecs(variant: string) {
       await expect(first).toHaveAttribute('aria-expanded', 'false');
       expect(errors).toEqual([]);
     });
+
+    test('navigation menu: disclosure triggers that do not open on focus; Escape closes', async ({ page }) => {
+      const errors = await open(page, 'navigation-menu');
+      await expectNoAxeViolations(page);
+      await expectNoDanglingAriaReferences(page);
+
+      const products = page.getByRole('button', { name: 'Products' });
+      await expect(products).toHaveAttribute('aria-expanded', 'false');
+
+      // RZUI-059: moving focus onto a trigger must not open its panel.
+      await products.focus();
+      await page.waitForTimeout(300);
+      await expect(products).toHaveAttribute('aria-expanded', 'false');
+
+      await page.keyboard.press('Enter');
+      await expect(products).toHaveAttribute('aria-expanded', 'true');
+      await expect(page.getByRole('link', { name: 'Analytics' })).toBeVisible();
+      await expectNoDanglingAriaReferences(page);
+
+      await page.keyboard.press('Escape');
+      await expect(products).toHaveAttribute('aria-expanded', 'false');
+      await expect(products).toBeFocused();
+      expect(errors).toEqual([]);
+    });
+
+    test('menubar: menubar of menu buttons with arrow-key navigation', async ({ page }) => {
+      const errors = await open(page, 'menubar');
+      await expectNoAxeViolations(page);
+      await expectNoDanglingAriaReferences(page);
+
+      const menubar = page.getByRole('menubar');
+      await expect(menubar).toBeVisible();
+      const file = menubar.getByRole('menuitem', { name: 'File' });
+      const edit = menubar.getByRole('menuitem', { name: 'Edit' });
+
+      await file.focus();
+      await page.keyboard.press('ArrowRight');
+      await expect(edit).toBeFocused();
+      await page.keyboard.press('ArrowLeft');
+      await expect(file).toBeFocused();
+
+      await page.keyboard.press('ArrowDown');
+      const menu = page.getByRole('menu');
+      await expect(menu).toBeVisible();
+      await expect(page.getByRole('menuitem', { name: 'New Tab' })).toBeFocused();
+
+      await page.keyboard.press('Escape');
+      await expect(menu).toBeHidden();
+      await expect(file).toBeFocused();
+      expect(errors).toEqual([]);
+    });
+
+    test('command: combobox input that controls a listbox with an active descendant', async ({ page }) => {
+      const errors = await open(page, 'command');
+      await expectNoAxeViolations(page);
+      await expectNoDanglingAriaReferences(page);
+
+      const input = page.getByRole('combobox');
+      await expect(input).toBeVisible();
+      const listbox = page.getByRole('listbox');
+      await expect(listbox).toBeVisible();
+      await expect(listbox.getByRole('option')).toHaveCount(3);
+
+      await input.focus();
+      await page.keyboard.press('ArrowDown');
+      const active = await input.getAttribute('aria-activedescendant');
+      expect(active).toBeTruthy();
+      await expect(page.locator(`[id="${active}"]`)).toHaveAttribute('role', 'option');
+
+      await input.fill('calc');
+      await expect(listbox.getByRole('option')).toHaveCount(1);
+      await expectNoDanglingAriaReferences(page);
+      expect(errors).toEqual([]);
+    });
+
+    test('collapsible: trigger reports and controls its content', async ({ page }) => {
+      const errors = await open(page, 'collapsible');
+      await expectNoAxeViolations(page);
+      await expectNoDanglingAriaReferences(page);
+
+      const trigger = page.locator('#collapsible-trigger');
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      await expect(page.locator('#collapsible-body')).toBeHidden();
+
+      await trigger.focus();
+      await page.keyboard.press('Enter');
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      await expect(page.locator('#collapsible-body')).toBeVisible();
+      const controls = await trigger.getAttribute('aria-controls');
+      expect(controls).toBeTruthy();
+      await expect(page.locator(`[id="${controls}"]`)).toContainText('rizzy, rizzyui');
+      expect(errors).toEqual([]);
+    });
+
+    test('slider: labelled slider with value semantics and arrow, Home and End keys', async ({ page }) => {
+      const errors = await open(page, 'slider');
+      await expectNoAxeViolations(page);
+      await expectNoDanglingAriaReferences(page);
+
+      const slider = page.getByRole('slider', { name: 'Volume' });
+      await expect(slider).toHaveAttribute('aria-valuenow', '35');
+      await expect(slider).toHaveAttribute('aria-valuemin', '0');
+      await expect(slider).toHaveAttribute('aria-valuemax', '100');
+
+      await slider.focus();
+      await page.keyboard.press('ArrowRight');
+      await expect(slider).toHaveAttribute('aria-valuenow', '36');
+      await page.keyboard.press('End');
+      await expect(slider).toHaveAttribute('aria-valuenow', '100');
+      await page.keyboard.press('Home');
+      await expect(slider).toHaveAttribute('aria-valuenow', '0');
+      expect(errors).toEqual([]);
+    });
+
+    test('radio group: one tab stop and arrow keys move the selection', async ({ page }) => {
+      const errors = await open(page, 'radio-group');
+      await expectNoAxeViolations(page);
+      await expectNoDanglingAriaReferences(page);
+
+      const group = page.getByRole('radiogroup');
+      await expect(group).toBeVisible();
+      const defaultRadio = group.getByRole('radio', { name: 'Default' });
+      const comfortable = group.getByRole('radio', { name: 'Comfortable' });
+      await expect(defaultRadio).toBeChecked();
+
+      await defaultRadio.focus();
+      await page.keyboard.press('ArrowDown');
+      await expect(comfortable).toBeFocused();
+      await expect(comfortable).toBeChecked();
+      expect(errors).toEqual([]);
+    });
+
+    test('carousel: labelled carousel region with named previous and next controls', async ({ page }) => {
+      const errors = await open(page, 'carousel');
+      await expectNoAxeViolations(page);
+      await expectNoDanglingAriaReferences(page);
+
+      const carousel = page.getByRole('region', { name: 'Featured items' });
+      await expect(carousel).toBeVisible();
+      await expect(carousel).toHaveAttribute('aria-roledescription', 'carousel');
+      await expect(carousel.getByRole('button', { name: /previous/i })).toBeVisible();
+      await expect(carousel.getByRole('button', { name: /next/i })).toBeVisible();
+      expect(errors).toEqual([]);
+    });
   });
 }

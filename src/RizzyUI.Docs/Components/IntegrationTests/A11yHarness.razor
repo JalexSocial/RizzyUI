@@ -131,6 +131,106 @@
             </RzAccordion>
             break;
 
+        case "navigation-menu":
+            <RzNavigationMenu>
+                <NavigationMenuList>
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <div class="grid gap-2 p-4">
+                                <a href="#analytics">Analytics</a>
+                                <a href="#reports">Reports</a>
+                            </div>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <div class="grid gap-2 p-4">
+                                <a href="#guides">Guides</a>
+                            </div>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                </NavigationMenuList>
+            </RzNavigationMenu>
+            break;
+
+        case "menubar":
+            <RzMenubar>
+                <MenubarMenu Value="file">
+                    <MenubarTrigger>File</MenubarTrigger>
+                    <MenubarContent>
+                        <MenubarItem>New Tab</MenubarItem>
+                        <MenubarItem>New Window</MenubarItem>
+                    </MenubarContent>
+                </MenubarMenu>
+                <MenubarMenu Value="edit">
+                    <MenubarTrigger>Edit</MenubarTrigger>
+                    <MenubarContent>
+                        <MenubarItem>Undo</MenubarItem>
+                        <MenubarItem>Redo</MenubarItem>
+                    </MenubarContent>
+                </MenubarMenu>
+            </RzMenubar>
+            break;
+
+        case "command":
+            <RzCommand>
+                <CommandInput Placeholder="Type a command or search..." />
+                <CommandList>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandGroup Heading="Suggestions">
+                        <CommandItem Value="Calendar"><span>Calendar</span></CommandItem>
+                        <CommandItem Value="Search Emoji"><span>Search Emoji</span></CommandItem>
+                        <CommandItem Value="Calculator"><span>Calculator</span></CommandItem>
+                    </CommandGroup>
+                </CommandList>
+            </RzCommand>
+            break;
+
+        case "collapsible":
+            <RzCollapsible>
+                <div class="flex items-center gap-2">
+                    <h2 class="text-sm font-semibold">Repositories</h2>
+                    <CollapsibleTrigger AsChild>
+                        <RzButton id="collapsible-trigger">Show all repositories</RzButton>
+                    </CollapsibleTrigger>
+                </div>
+                <CollapsibleContent>
+                    <p id="collapsible-body">rizzy, rizzyui, rizzy.docs</p>
+                </CollapsibleContent>
+            </RzCollapsible>
+            break;
+
+        case "slider":
+            <label id="slider-label" class="block">Volume</label>
+            <RzSlider Name="Volume" DefaultValue="@(new double[] { 35 })" Min="0" Max="100" Step="1" AriaLabelledBy="slider-label" />
+            break;
+
+        case "radio-group":
+            <EditForm Model="_model" FormName="harness-radio">
+                <RzRadioGroup For="@(() => _model.Layout)" DisplayName="Layout">
+                    <RadioGroupItem TValue="string" Value="@("default")"><span>Default</span></RadioGroupItem>
+                    <RadioGroupItem TValue="string" Value="@("comfortable")"><span>Comfortable</span></RadioGroupItem>
+                    <RadioGroupItem TValue="string" Value="@("compact")"><span>Compact</span></RadioGroupItem>
+                </RzRadioGroup>
+            </EditForm>
+            break;
+
+        case "carousel":
+            <RzCarousel class="w-full max-w-xs" AriaLabel="Featured items">
+                <CarouselContent>
+                    @for (var i = 1; i <= 3; i++)
+                    {
+                        var n = i;
+                        <CarouselItem><div class="p-6 border rounded-md">Slide @n</div></CarouselItem>
+                    }
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+            </RzCarousel>
+            break;
+
         default:
             <p id="unknown-family">Unknown family.</p>
             break;
@@ -142,4 +242,11 @@
 
 @code {
     [Parameter] public string Family { get; set; } = "";
+
+    private readonly HarnessChoices _model = new() { Layout = "default" };
+
+    private sealed class HarnessChoices
+    {
+        public string Layout { get; set; } = "";
+    }
 }
