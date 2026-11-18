@@ -94,6 +94,52 @@ audit run** (details in [07](07-implementation-and-verification.md)). Section B 
 | RM-5.3 | — | Stable-release criteria: zero open P0/P1, real-component a11y coverage, API baseline, two previews without breaking changes | — | Phases 0–4 | — | Checklist in `docs/contributing/releasing.md` |
 | RM-5.4 | — | Decide .NET 11 multi-targeting (Rizzy 6 ships `net11.0`) | P3 | — | S | Decision recorded |
 
+## C. Current status (reconciled 2026-11-17)
+
+Sections A and B are the audit's original plan and stay as written. This section records where each
+task stands on `main` after 1.0.0-preview.1. Evidence for work done after this reconciliation is in
+[08-roadmap-execution.md](08-roadmap-execution.md); that file and this table are updated together.
+
+Status values: **Complete** (implemented and its acceptance criteria verified), **Partial**,
+**Outstanding**, **Blocked** (needs an owner or external action), **Deferred** (after 1.0, with a
+reason in the [deferral list](08-roadmap-execution.md#deferred-after-10)).
+
+Rizzy: RizzyUI depends on `Rizzy` 6.0.0-preview.3, the newest published Rizzy (checked on nuget.org
+2026-11-17). No Rizzy defect blocks this roadmap.
+
+| Task | Status | Evidence / what is left |
+|---|---|---|
+| RM-0.1 | Complete | Version scheme in place (#73); `release.yml` refuses a tag that differs from `<Version>`; 1.0.0-preview.1 released (#76); `main` at `1.0.0-preview.2-dev` (#78) |
+| RM-0.2 | Partial | NuGet and npm published 1.0.0-preview.1 through OIDC (release runs 44169982160, 44185955659); no publish secrets remain. **Owner:** the `release` environment has no required reviewers, so a tag publishes without approval |
+| RM-0.3 | Complete | Safe-by-default `RzMarkdown` with `AllowUnsafeHtml` (#73), tests for both modes |
+| RM-0.4 | Complete | Pinned CDN assets with SRI (#73); consumer smoke test under CSP passes in CI |
+| RM-0.5 | Complete | `rzDateEdit` options and `destroy()` (#73); integration test swaps the field 3× |
+| RM-0.6 | Complete | All `ci.yml` jobs green on PRs #73–#80 |
+| RM-1.1 | Outstanding | Confirmed: `ensureProvider()` returns early while `this.provider` is set, even after a swap detached it |
+| RM-1.2 | Outstanding | `SliderScript` still defaults to `js/rizzyui.js` |
+| RM-1.3 | Outstanding | Confirmed: `loadedBundles` keeps a rejected `import()` promise, so a failed bundle never retries |
+| RM-1.4 | Outstanding | `RzInputColor` still binds `x-model="colorPicker.value"`; to verify under the CSP build |
+| RM-1.5 | Outstanding | `rizzyRequire` hashes bundle IDs with `crypto.subtle` (undefined on plain HTTP) |
+| RM-1.6 | Partial | Integration suite covers dialog swaps, boosted navigation and back, antiforgery, sheet Escape, `RzDateEdit` swaps. Missing: popover/dropdown with htmx content, out-of-band swap, 422 validation swap, listener counts |
+| RM-1.7 | Outstanding | `Constants.ContentUrl` returns `/_content/...` without the request `PathBase` |
+| RM-2.1 | Complete | Dead MSBuild targets removed (#73, D-6) |
+| RM-2.2 | Outstanding | `RizzyUI.Docs.csproj` runs `npm install` on every build |
+| RM-2.3 | Outstanding | To verify against the checker |
+| RM-2.4 | Partial | 0 build warnings, CS0628 fixed, bUnit 2.15.2 / AngleSharp 1.10.1 (#79); no hard-coded path remains. Left: the test host shares one `HttpContext` across all tests |
+| RM-2.5 | Outstanding | `EnablePackageValidation` is on but has no baseline version; no parameter contract test |
+| RM-2.6 | Complete | `RizzyUI.Tasks` released from the same tag when its version is new (#73, D-5) |
+| RM-3.1 – RM-3.7 | Outstanding | Not started; classified in [08](08-roadmap-execution.md#phase-3-classification) |
+| RM-4.1 | Partial | Real-component specs exist for dialog, sheet and `RzDateEdit` (integration suite); the a11y suite still runs on static fixtures |
+| RM-4.2 – RM-4.4 | Outstanding | Not started |
+| RM-5.1 | Partial | RizzyUI release page in `rizzy.docs` (rizzy.docs#6); migration guide is in the repository but not on the docs site |
+| RM-5.2 | Outstanding | |
+| RM-5.3 | Outstanding | `docs/contributing/releasing.md` has no stable-release checklist |
+| RM-5.4 | Outstanding | RizzyUI targets `net10.0`; the template test builds and runs a `net11.0` app on it in CI |
+
+Work done since the audit that is not a roadmap task: the `dotnet new rizzyui` template (#75), inputs
+rendering the `For` value (#75), `FieldLabel` registration (#74), npm audit and warning cleanup (#79),
+GitHub Actions on Node 24 (#80).
+
 ## Recommended execution order
 
 RM-0.6 → RM-0.1 → RM-0.2 → RM-0.5 → RM-0.4 → RM-0.3 (after D-4) → first preview release →
