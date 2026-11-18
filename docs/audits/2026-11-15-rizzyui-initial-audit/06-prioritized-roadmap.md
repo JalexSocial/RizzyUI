@@ -128,7 +128,13 @@ Rizzy: RizzyUI depends on `Rizzy` 6.0.0-preview.3, the newest published Rizzy (c
 | RM-2.4 | Complete | 0 build warnings (#79); per-test `HttpContext` (`555bf0fb`) |
 | RM-2.5 | Complete | Package validation against 1.0.0-preview.1 with suppression generation off; `PublicContractTests` baseline of parameters, enums, config and services; both shown to fail on a rename / removed `[Parameter]` (`4937adb3`) |
 | RM-2.6 | Complete | `RizzyUI.Tasks` released from the same tag when its version is new (#73, D-5) |
-| RM-3.1 – RM-3.7 | Outstanding | Not started; classified in [08](08-roadmap-execution.md#phase-3-classification) |
+| RM-3.1 | Complete | Idempotent registration, Vercel listed once and parsed once, localization decided at resolve time with an English fallback (`15434ec2`) |
+| RM-3.2 | Complete | Element path remap fixed; TwMerge with child precedence on both paths (`be994ef1`) |
+| RM-3.3 | Partial (by design) | Before-1.0 part done: caller attributes on dialog roots (`7ad6d30b`). Shared helpers, `data-slot` coverage and precedence unification deferred to 1.1 ([08](08-roadmap-execution.md#deferred-after-10)) |
+| RM-3.4 | Complete | Combobox `{ value, text }` default + `ItemDataSelector` (breaking, D-9); DataTable DTO guidance; carousel default encoder (`e0f800a7`) |
+| RM-3.5 | Complete | Agent guidance aligned with the code (`041eeaa2`, `837b49ed`) |
+| RM-3.6 | Partial (by design) | RZUI-050, 051, 052, 055 (`f2c37935`) and RZUI-054 (`36649cd6`) fixed with tests; RZUI-061 deferred |
+| RM-3.7 | Complete | `destroy()` for NumberTicker, Progress, EmbeddedPreview; stacking intervals fixed (`f88294f5`) |
 | RM-4.1 | Partial | Real-component specs exist for dialog, sheet and `RzDateEdit` (integration suite); the a11y suite still runs on static fixtures |
 | RM-4.2 – RM-4.4 | Outstanding | Not started |
 | RM-5.1 | Partial | RizzyUI release page in `rizzy.docs` (rizzy.docs#6); migration guide is in the repository but not on the docs site |

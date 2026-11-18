@@ -47,7 +47,7 @@ accessibility, compatibility, packaging or the public API.
 
 | Task / finding | Risk if deferred | Target |
 |---|---|---|
-| RM-3.3 / RZUI-053 helpers, `data-slot` coverage, attribute-precedence unification | Maintenance cost only; no behavior change intended | 1.1 |
+| RM-3.3 / RZUI-053 helpers, `data-slot` coverage, attribute-precedence unification | Maintenance cost only; no behavior change intended. The consumer-facing part (dialog roots dropping attributes) is fixed. `data-slot` additions are additive, so they can ship in any minor release | 1.1 |
 | RM-3.6 / RZUI-061 deterministic IDs | Snapshot tests and future morph swaps; no current defect | 1.x |
 
 (Updated as work proceeds.)
@@ -103,3 +103,27 @@ release (app built, ran and passed its page checks). Bump `RizzyUITasksVersion` 
 `src/RizzyUI.Tasks`, so the published package is replaced rather than diverging further.
 
 **Phase 2 checkpoint.** Done: RM-2.2 to RM-2.5 (RM-2.1, RM-2.6 were already complete). Next: Phase 3.
+
+### Phase 3 — Architecture and code quality (2026-11-17)
+
+| Task | Finding | Change | Verification |
+|---|---|---|---|
+| RM-3.1 | RZUI-036, RZUI-037 | Registration marker; Vercel guard and `Lazy`; `RizzyLocalizerProvider` at resolve time; Scrutor and the dummy localizer removed | `RegistrationTests` (5): double registration, Vercel once, English without `AddLocalization`, overrides before and after `AddLocalization` |
+| RM-3.2 | RZUI-039 | Remove-then-set remap; TwMerge on the element path; child classes win on both paths (D-11) | `AsChildMergeTests` (element and markup child give identical results) |
+| RM-3.3 (part) | RZUI-053 | Caller attributes on `RzDialog`, `RzAlertDialog`, `RzCommandDialog` roots, before the component's own | `DialogRootAttributesTests` (3) |
+| RM-3.4 | RZUI-033, RZUI-034 | `ItemDataSelector`, `{ value, text }` default (D-9); DataTable DTO note (XML docs + page); carousel default encoder | `RzComboboxItemDataTests` (2), carousel escaping test |
+| RM-3.5 | RZUI-040 | `alpine.md` 10.1/10.2/10.4/10.5, `output.md`, `testing.md`, `checklists.md`, `documentation.md`, `repository-structure.md`, AGENTS.md | No remaining reference to `components.js`, `registerComponents`, `Layout/ComponentList.razor` or "keys only" |
+| RM-3.6 | RZUI-050, 051, 052, 055 | `RenderFragmentSource.GetSourceText`; `Random.Shared`; Debug log for discarded toasts; `ConfigureClasses` on a copy | `DynamicChildContentTests` (3), `Phase3CorrectnessTests` (2) |
+| RM-3.7 | RZUI-029 | `destroy()` in three components; single retry instead of stacking intervals in `rzEmbeddedPreview` | `lifecycleCleanup.test.mjs` (3) |
+
+Found while doing RM-3.1: apps that do not call `AddLocalization()`, including apps made from the
+`dotnet new rizzyui` template, rendered resource keys as accessible names. Fixed by the English
+fallback in the same change.
+
+The public contract test (RM-2.5) reported the two intentional contract changes in this phase (the
+localizer registration and `ItemDataSelector`), and the baseline was regenerated with them.
+
+Totals after Phase 3: 619 .NET tests, 140 JS tests.
+
+**Phase 3 checkpoint.** Required items done; RM-3.3's helper refactoring and RZUI-061 deferred with
+reasons (see Deferred after 1.0). Next: Phase 4.
