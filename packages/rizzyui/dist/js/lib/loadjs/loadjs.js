@@ -298,6 +298,17 @@ loadjs.reset = function reset() {
 };
 
 /**
+ * Forget one bundle so that a later loadjs() call with the same id loads it again (RizzyUI:
+ * used after a failed load, RZUI-031).
+ * @param {string} bundleId - The bundle id
+ */
+loadjs.forget = function forget(bundleId) {
+    delete bundleIdCache[bundleId];
+    delete bundleResultCache[bundleId];
+    delete bundleCallbackQueue[bundleId];
+};
+
+/**
  * Determine if bundle has already been defined
  * @param {string} bundleId - The bundle id
  */

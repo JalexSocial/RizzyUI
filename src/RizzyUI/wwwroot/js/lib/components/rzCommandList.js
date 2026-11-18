@@ -88,6 +88,8 @@ export default function rzCommandList() {
          */
         applyItemAttributes(itemEl, item, itemIndex) {
             itemEl.setAttribute('data-command-item-id', item.id);
+            // The rendered option is what aria-activedescendant must point at (not the item's hidden source element).
+            itemEl.id = `${item.id}-option`;
             itemEl.setAttribute('data-value', item.value || '');
 
             if (item.keywords) {

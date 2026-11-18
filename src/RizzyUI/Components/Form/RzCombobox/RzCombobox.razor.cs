@@ -1,6 +1,8 @@
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http;
+using Rizzy;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
@@ -25,7 +27,10 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     [Inject] private IOptions<RizzyUIConfig> RizzyUIConfig { get; set; } = default!;
 
     private string ConfigScriptId => $"{Id}-config";
-    private string SelectId => $"{Id}-select";
+    // The native <select> carries the field's id when the combobox is in a form field, so a
+    // FieldLabel (before or after it) points at it and Tom Select names its control from that label.
+    private string? _fieldSelectId;
+    private string SelectId => _fieldSelectId ?? $"{Id}-select";
 
     private string _serializedConfig = "{}";
     private string _assets = "[]";
@@ -75,6 +80,19 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     [Parameter] public Func<TItem, string>? TextSelector { get; set; }
 
     /// <summary>
+    /// Chooses the item data that <see cref="OptionTemplate"/> and <see cref="ItemTemplate"/> can read
+    /// as <c>item</c> in the browser. The result is serialized into the page (property names in
+    /// camelCase), so return only what the templates display, for example
+    /// <c>u =&gt; new { u.Name, u.Email, u.Photo }</c>.
+    /// </summary>
+    /// <remarks>
+    /// When not set, only <c>value</c> and <c>text</c> are sent. Before 1.0.0-preview.2 every public
+    /// property of the item was written into the page, which exposed fields the page never shows
+    /// (RZUI-033).
+    /// </remarks>
+    [Parameter] public Func<TItem, object?>? ItemDataSelector { get; set; }
+
+    /// <summary>
     /// Custom template for rendering dropdown options.
     /// </summary>
     [Parameter] public RenderFragment? OptionTemplate { get; set; }
@@ -116,6 +134,9 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
     {
         base.OnParametersSet();
 
+        if (CurrentHttpContext != null && CurrentEditContext != null && For != null)
+            _fieldSelectId = CurrentHttpContext.GetOrReserveFieldId(CurrentEditContext, FieldIdentifier.Create(For));
+
         if (_isSelectListItem)
         {
             ValueSelector ??= i => ((SelectListItem)(object)i!).Value ?? string.Empty;
@@ -136,7 +157,7 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
 
     private void UpdateConfiguration()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys);
+        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
         _assets = JsonSerializer.Serialize(assetUrls);
 
         _effectiveOptions.ValueField = "value";
@@ -206,7 +227,15 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
         _ => false
     };
 
-    private string SerializeItem(TItem item) => JsonSerializer.Serialize(item, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+    private static readonly JsonSerializerOptions ItemDataJsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
+    private string SerializeItem(TItem item)
+    {
+        var data = ItemDataSelector is not null
+            ? ItemDataSelector(item)
+            : new { value = GetValue(item), text = GetText(item) };
+        return JsonSerializer.Serialize(data, ItemDataJsonOptions);
+    }
 
     /// <inheritdoc/>
     protected override TvDescriptor<RzComponent<RzComboboxSlots>, RzComboboxSlots> GetDescriptor() => Theme.RzCombobox;

@@ -2,7 +2,9 @@
 @inherits RzComponent<RzAlertDialog.Slots>
 
 <CascadingValue Value="this" IsFixed="true">
-    <div x-data="rzModal" x-load="@LoadStrategyOrNull"
+    @* Caller attributes first, so they cannot replace the component's own (RZUI-053). *@
+    <div @attributes="AdditionalAttributes"
+         x-data="rzModal" x-load="@LoadStrategyOrNull"
          id="@Id"
          data-slot="alert-dialog"
          data-alpine-root="@Id"

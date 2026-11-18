@@ -36,7 +36,7 @@
       "muted-foreground": "oklch(0.4400 0 0)",
       "accent": "oklch(0.9400 0 0)",
       "accent-foreground": "oklch(0 0 0)",
-      "destructive": "oklch(0.6300 0.1900 23.0300)",
+      "destructive": "oklch(0.5770 0.2450 27.3250)",
       "destructive-foreground": "oklch(1 0 0)",
       "border": "oklch(0.9200 0 0)",
       "input": "oklch(0.9400 0 0)",

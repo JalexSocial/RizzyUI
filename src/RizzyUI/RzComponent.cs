@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization; // Required for IStringLocalizer
 using Microsoft.Extensions.Options;
 using Rizzy.Htmx;
@@ -22,6 +23,26 @@ public abstract partial class RzComponent : ComponentBase
     /// </summary>
     [CascadingParameter]
     protected RzTheme? CascadedTheme { get; set; }
+
+    /// <summary>
+    /// The current request, cascaded by ASP.NET Core during static server rendering. Null when a
+    /// component renders outside a request (for example in some tests).
+    /// </summary>
+    [CascadingParameter]
+    private HttpContext? RequestHttpContext { get; set; }
+
+    /// <summary>
+    /// Gets the request's path base (for example <c>/app</c> under <c>UsePathBase("/app")</c>), or an
+    /// empty path. Components use it to build URLs for their own static assets.
+    /// </summary>
+    protected PathString RequestPathBase => RequestHttpContext?.Request.PathBase ?? PathString.Empty;
+
+    /// <summary>
+    /// Gets the current request, or <c>null</c> when the component renders outside one. Derived
+    /// components use this instead of declaring their own cascading <see cref="HttpContext"/>
+    /// parameter: Blazor rejects two parameters with the same name in one class hierarchy.
+    /// </summary>
+    protected HttpContext? CurrentHttpContext => RequestHttpContext;
 
     /// <summary>
     /// Injected configuration options for RizzyUI. Used primarily to access the default theme

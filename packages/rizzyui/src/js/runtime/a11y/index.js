@@ -1,4 +1,5 @@
 export { createFocusScope } from './focusScope.js';
+export { linkToTrigger, removeMissingReferences } from './triggerReference.js';
 export { createDismissableLayer } from './dismissableLayer.js';
 export { createRovingFocusGroup } from './rovingFocusGroup.js';
 export { createTypeahead, createActiveDescendantTypeahead } from './typeahead.js';

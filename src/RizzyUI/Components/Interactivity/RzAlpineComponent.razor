@@ -23,10 +23,14 @@ else
 
 @if (!string.IsNullOrEmpty(_modulePath))
 {
+    @* The arguments are JSON string literals (RZUI-054): HTML-encoding them inside a script turned
+       quotes and non-ASCII characters into entities. *@
     <script nonce="@Nonce">
-        if (window.Rizzy) 
-            window.Rizzy.registerAsyncComponent('@Name', '@_modulePath');
-        else 
-            document.addEventListener("rz:init", e => e.detail.Rizzy.registerAsyncComponent('@Name', '@_modulePath'), { once: true });
+        (function (name, path) {
+            if (window.Rizzy)
+                window.Rizzy.registerAsyncComponent(name, path);
+            else
+                document.addEventListener("rz:init", e => e.detail.Rizzy.registerAsyncComponent(name, path), { once: true });
+        })(@((MarkupString)_registrationArguments));
     </script>
 }

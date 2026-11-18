@@ -94,6 +94,60 @@ audit run** (details in [07](07-implementation-and-verification.md)). Section B 
 | RM-5.3 | — | Stable-release criteria: zero open P0/P1, real-component a11y coverage, API baseline, two previews without breaking changes | — | Phases 0–4 | — | Checklist in `docs/contributing/releasing.md` |
 | RM-5.4 | — | Decide .NET 11 multi-targeting (Rizzy 6 ships `net11.0`) | P3 | — | S | Decision recorded |
 
+## C. Current status (reconciled 2026-11-17)
+
+Sections A and B are the audit's original plan and stay as written. This section records where each
+task stands on `main` after 1.0.0-preview.1. Evidence for work done after this reconciliation is in
+[08-roadmap-execution.md](08-roadmap-execution.md); that file and this table are updated together.
+
+Status values: **Complete** (implemented and its acceptance criteria verified), **Partial**,
+**Outstanding**, **Blocked** (needs an owner or external action), **Deferred** (after 1.0, with a
+reason in the [deferral list](08-roadmap-execution.md#deferred-after-10)).
+
+Rizzy: RizzyUI depends on `Rizzy` 6.0.0-preview.3, the newest published Rizzy (checked on nuget.org
+2026-11-17). No Rizzy defect blocks this roadmap.
+
+| Task | Status | Evidence / what is left |
+|---|---|---|
+| RM-0.1 | Complete | Version scheme in place (#73); `release.yml` refuses a tag that differs from `<Version>`; 1.0.0-preview.1 released (#76); `main` at `1.0.0-preview.2-dev` (#78) |
+| RM-0.2 | Partial | NuGet and npm published 1.0.0-preview.1 through OIDC (release runs 44169982160, 44185955659); no publish secrets remain. **Owner:** the `release` environment has no required reviewers, so a tag publishes without approval |
+| RM-0.3 | Complete | Safe-by-default `RzMarkdown` with `AllowUnsafeHtml` (#73), tests for both modes |
+| RM-0.4 | Complete | Pinned CDN assets with SRI (#73); consumer smoke test under CSP passes in CI |
+| RM-0.5 | Complete | `rzDateEdit` options and `destroy()` (#73); integration test swaps the field 3× |
+| RM-0.6 | Complete | All `ci.yml` jobs green on PRs #73–#80 |
+| RM-1.1 | Complete | Provider re-resolved when detached (`14d66fa6`); unit tests; integration: server toast after the provider is swapped (harness) |
+| RM-1.2 | Complete | No default slider asset; `SliderScript` key removed (`c1b7a747`); test against the real registration |
+| RM-1.3 | Complete | Failed bundle imports and `rizzyRequire` loads are evicted and retried (`b5b37c66`); unit tests |
+| RM-1.4 | Complete | CSP-safe `RzInputColor`/`RzColorSwatch` bindings and style objects (`28968b34`); integration test under `rizzyui-csp.js` with no RizzyUI CSP violations |
+| RM-1.5 | Complete | Bundle ids no longer use `crypto.subtle` (`b5b37c66`); unit test runs with `crypto` undefined |
+| RM-1.6 | Complete | Integration harness (`3530b145`): popover/dropdown htmx content, OOB swap, 422 swap, 5× replacement with listener and panel counts, server toasts; CSP project (`7e431ce3`). Each defect fixed in this phase has a unit test that fails without the fix; the browser scenarios were not mutation-tested |
+| RM-1.7 | Complete | `RequestPathBase` applied to asset and code-behind URLs (`36649cd6`); unit tests plus an in-process host under `UsePathBase("/app")` through `RazorComponentResult` and `IRizzyService` |
+| RM-2.1 | Complete | Dead MSBuild targets removed (#73, D-6) |
+| RM-2.2 | Complete | `npm ci` only when needed (MSBuild Inputs/Outputs, `ensure-npm-deps.mjs`); generated docs assets `-text`; CI fails when building or testing changes tracked files (`1a238b78`, green in CI) |
+| RM-2.3 | Complete | Windows entry guard fixed; matching tests must assert accessibility; contract list extended; integration specs count (`099121fc`). It found five components without accessibility tests; fixed in `eae79a3b` |
+| RM-2.4 | Complete | 0 build warnings (#79); per-test `HttpContext` (`555bf0fb`) |
+| RM-2.5 | Complete | Package validation against 1.0.0-preview.1 with suppression generation off; `PublicContractTests` baseline of parameters, enums, config and services; both shown to fail on a rename / removed `[Parameter]` (`4937adb3`) |
+| RM-2.6 | Complete | `RizzyUI.Tasks` released from the same tag when its version is new (#73, D-5) |
+| RM-3.1 | Complete | Idempotent registration, Vercel listed once and parsed once, localization decided at resolve time with an English fallback (`15434ec2`) |
+| RM-3.2 | Complete | Element path remap fixed; TwMerge with child precedence on both paths (`be994ef1`) |
+| RM-3.3 | Partial (by design) | Before-1.0 part done: caller attributes on dialog roots (`7ad6d30b`). Shared helpers, `data-slot` coverage and precedence unification deferred to 1.1 ([08](08-roadmap-execution.md#deferred-after-10)) |
+| RM-3.4 | Complete | Combobox `{ value, text }` default + `ItemDataSelector` (breaking, D-9); DataTable DTO guidance; carousel default encoder (`e0f800a7`) |
+| RM-3.5 | Complete | Agent guidance aligned with the code (`041eeaa2`, `837b49ed`) |
+| RM-3.6 | Partial (by design) | RZUI-050, 051, 052, 055 (`f2c37935`) and RZUI-054 (`36649cd6`) fixed with tests; RZUI-061 deferred |
+| RM-3.7 | Complete | `destroy()` for NumberTicker, Progress, EmbeddedPreview; stacking intervals fixed (`f88294f5`) |
+| RM-4.1 | Complete | Real-component specs under the standard and CSP runtimes for 29 families: dialog, alert dialog, sheet, popover, dropdown menu, tabs, tooltip, accordion, navigation menu, menubar, command, collapsible, slider, radio group, carousel, calendar, date edit, color input, combobox, data table, toast, file input, input OTP, switch, checkbox group, native select, alert, back-to-top, sidebar (`acc0a943`, `7c0686ee`, `925b7625`, `8d666eba`, `0884441c`, `0006b251`); 72 integration tests. Data table is standard-runtime only: its templates are inline Alpine expressions, which the CSP build does not run (documented) |
+| RM-4.2 | Complete | RZUI-047 (`eae79a3b`), RZUI-048 and RZUI-049 (`925b7625`), plus defects found by the new specs: tooltip naming, trigger references, dropdown keyboard focus, destructive contrast (`ceb3de38`); switch and OTP labels, combobox and OTP not labelled by `FieldLabel`, the combobox's duplicate unnamed `<select>`, subtle toast contrast (`8d666eba`, `0884441c`) |
+| RM-4.3 | Partial | RZUI-059 fixed (`07f4878b`). RZUI-060 (toast announcements) and the manual NVDA/VoiceOver pass need assistive-technology testing that this environment cannot perform: release gate in `docs/accessibility/manual-testing.md` |
+| RM-4.4 | Partial (measured; optimizations deferred) | Payload measured (eager JS 37.0 KB gz standard, 40.6 KB CSP; audit 36.7 / 40.4); no regression. Theme-allocation benchmark and payload trimming (RZUI-035, 056, 062) deferred to 1.1 |
+| RM-5.1 | Partial (rest at the next release) | Migration guide covers changes after 1.0.0-preview.1 (`24a6f3ad`) and is linked from the README; RizzyUI release page in `rizzy.docs` (rizzy.docs#6). Left: link the guide and the new preview from `rizzy.docs` when the preview is published |
+| RM-5.2 | Complete | README "RizzyUI owns Alpine" and a console warning for a second Alpine instance (`d6cb5a99`); Getting Started troubleshooting (`0ad698c8`) |
+| RM-5.3 | Complete | Stable-release criteria in `docs/contributing/releasing.md` (`0ad698c8`); assessed in [08](08-roadmap-execution.md#release-readiness-assessment-2026-11-18) |
+| RM-5.4 | Complete (decision) | D-14: RizzyUI targets `net10.0` only; `net11.0` apps are verified by the template test in CI and release |
+
+Work done since the audit that is not a roadmap task: the `dotnet new rizzyui` template (#75), inputs
+rendering the `For` value (#75), `FieldLabel` registration (#74), npm audit and warning cleanup (#79),
+GitHub Actions on Node 24 (#80).
+
 ## Recommended execution order
 
 RM-0.6 → RM-0.1 → RM-0.2 → RM-0.5 → RM-0.4 → RM-0.3 (after D-4) → first preview release →
@@ -103,3 +157,6 @@ Phase 3 → RM-4.2 to RM-4.4 → Phase 5.
 **Next development slice (recommended):** RM-0.6 + RM-0.5 + RM-0.4. Get CI green on GitHub, fix the
 remaining P1 runtime defect (`rzDateEdit`) and pin the CDN assets. Together with the owner-only
 release setup (RM-0.1/0.2), that is everything between this branch and a first Rizzy 6 preview.
+
+*(Superseded 2026-11-18: that slice and Phases 1–5 are done on `roadmap/1.0-readiness`. What is
+left before 1.0 is in [08, Release readiness assessment](08-roadmap-execution.md#release-readiness-assessment-2026-11-18).)*

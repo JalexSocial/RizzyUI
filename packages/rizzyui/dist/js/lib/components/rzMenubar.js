@@ -86,6 +86,12 @@ export default function rzMenubar() {
             });
         },
 
+        focusFirstMenuItem(value) {
+            const menuContent = this.$root.querySelector(`[data-menu-content="${value}"]`) ?? document.querySelector(`[data-menu-content="${value}"]`);
+            const firstItem = menuContent?.querySelector('[role^="menuitem"]:not([disabled]):not([aria-disabled="true"])');
+            firstItem?.focus();
+        },
+
         closeMenus() {
             this.cancelCloseAll();
             this.currentMenuValue = '';
@@ -125,11 +131,15 @@ export default function rzMenubar() {
             if (['Enter', ' ', 'ArrowDown'].includes(event.key)) {
                 this.openMenu(value, trigger);
                 event.preventDefault();
+                // APG menubar: opening a menu from the keyboard moves focus to its first item.
+                this.$nextTick(() => requestAnimationFrame(() => this.focusFirstMenuItem(value)));
                 return;
             }
 
             if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-                const triggers = Array.from(this.$el.querySelectorAll('[data-slot="menubar-trigger"]'));
+                // $root, not $el: in an event handler $el is the trigger itself, so the lookup found
+                // no triggers and ArrowLeft/ArrowRight did nothing.
+                const triggers = Array.from(this.$root.querySelectorAll('[data-slot="menubar-trigger"]'));
                 const currentIndex = triggers.indexOf(trigger);
                 if (currentIndex < 0) return;
                 const nextIndex = event.key === 'ArrowRight'
@@ -147,8 +157,10 @@ export default function rzMenubar() {
 
         handleContentKeydown(event) {
             if (event.key === 'Escape') {
+                // closeMenus() clears currentTrigger, so keep it to return focus there.
+                const trigger = this.currentTrigger;
                 this.closeMenus();
-                this.currentTrigger?.focus();
+                trigger?.focus();
             }
             if (event.key === 'Tab') {
                 this.closeMenus();
@@ -178,8 +190,9 @@ export default function rzMenubar() {
             const item = event.currentTarget;
             if (item.hasAttribute('disabled') || item.getAttribute('aria-disabled') === 'true') return;
             if (item.getAttribute('aria-haspopup') === 'menu') return;
+            const trigger = this.currentTrigger;
             this.closeMenus();
-            this.currentTrigger?.focus();
+            trigger?.focus();
         },
 
         toggleCheckboxItem(event) {

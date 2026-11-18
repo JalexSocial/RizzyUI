@@ -4,6 +4,7 @@ import { require } from '../../runtime/rizzyRequire.js';
 export default function rzCombobox() {
     return {
         tomSelect: null,
+        _selectAriaHidden: null,
         value: '',
         values: [],
         text: '',
@@ -127,6 +128,12 @@ export default function rzCombobox() {
                     if (dropdown && this.dropdown_content?.id) {
                         dropdown.setAttribute('aria-controls', this.dropdown_content.id);
                     }
+
+                    // The original <select> stays in the DOM (visually hidden, tabindex -1) so the form
+                    // posts its value. Tom Select moves its <label for> to the control input, which
+                    // left a second, unnamed combobox in the accessibility tree; hide it from AT.
+                    alpine._selectAriaHidden = selectEl.getAttribute('aria-hidden');
+                    selectEl.setAttribute('aria-hidden', 'true');
                 },
                 onChange: function() {
                     this.sync();
@@ -193,6 +200,14 @@ export default function rzCombobox() {
             if (this.tomSelect) {
                 this.tomSelect.destroy();
                 this.tomSelect = null;
+                const selectEl = this.$refs.selectInput;
+                if (selectEl) {
+                    if (this._selectAriaHidden === null || this._selectAriaHidden === undefined) {
+                        selectEl.removeAttribute('aria-hidden');
+                    } else {
+                        selectEl.setAttribute('aria-hidden', this._selectAriaHidden);
+                    }
+                }
             }
         }
     };

@@ -197,6 +197,15 @@ class FakeElement {
         return child;
     }
 
+    get isConnected() {
+        for (let node = this; node; node = node.parentElement) {
+            if (node === this.ownerDocument.body) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     contains(node) {
         return node === this || this.children.some(child => child.contains(node));
     }
@@ -573,6 +582,50 @@ test('registers provider stacks and warns once when provider is missing', () => 
         assert.equal(manager.ensureProvider(), true);
         assert.equal(manager.stacks.size, 9);
     } finally {
+        env.restore();
+    }
+});
+
+test('a provider replaced by an htmx swap is re-resolved before the next toast (RZUI-027)', () => {
+    const env = installDom();
+
+    try {
+        const first = createProvider(env.document);
+        const manager = new RzToastManager();
+        assert.notEqual(manager.show({ text: 'Before the swap' }), null);
+        assert.equal(manager.provider, first);
+
+        // An htmx swap replaces the layout region that holds the provider.
+        env.document.body.removeChild(first);
+        const second = createProvider(env.document);
+
+        assert.notEqual(manager.show({ text: 'After the swap', position: 'top-right' }), null);
+        assert.equal(manager.provider, second);
+        const stack = second.querySelector('[data-toast-position="top-right"]');
+        assert.equal(toastItems(stack).length, 1);
+    } finally {
+        env.restore();
+    }
+});
+
+test('a detached provider with no replacement reports that no provider is available', () => {
+    const env = installDom();
+    const warnings = [];
+    const previousWarn = console.warn;
+    console.warn = message => warnings.push(message);
+
+    try {
+        const provider = createProvider(env.document);
+        const manager = new RzToastManager();
+        assert.equal(manager.ensureProvider(), true);
+
+        env.document.body.removeChild(provider);
+
+        assert.equal(manager.show({ text: 'Nowhere to show this' }), null);
+        assert.equal(manager.provider, null);
+        assert.equal(warnings.length, 1);
+    } finally {
+        console.warn = previousWarn;
         env.restore();
     }
 });

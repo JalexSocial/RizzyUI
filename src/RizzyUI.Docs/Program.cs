@@ -43,6 +43,10 @@ builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
         .AddAllWebRootContent(builder.Environment));  // from AspNetStaticContrib project
 #endif
 
+// CSP mode (meta-tag Content Security Policy and the rizzyui-csp.js build) for testing components
+// under the Alpine CSP build: Docs__UseContentSecurityPolicy=true or --Docs:UseContentSecurityPolicy=true.
+App.UseContentSecurityPolicy = builder.Configuration.GetValue("Docs:UseContentSecurityPolicy", false);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -78,6 +82,23 @@ app.UseHttpsRedirection();
 app.MapStaticAssets();
 app.UseAntiforgery();
 
+// Integration test harness (/_tests): only with Docs:EnableTestPages=true. Otherwise its page
+// returns 404, and the static site generator never sees it (it lives outside Components/Pages).
+var enableTestPages = app.Configuration.GetValue(IntegrationTestEndpoints.ConfigurationKey, false);
+if (!enableTestPages)
+{
+    app.Use(async (context, next) =>
+    {
+        if (context.Request.Path.StartsWithSegments(IntegrationTestEndpoints.PathPrefix))
+        {
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            return;
+        }
+
+        await next();
+    });
+}
+
 #if !DEBUG
 app.Use(async (context, next) =>
 {
@@ -87,6 +108,12 @@ app.Use(async (context, next) =>
 #endif
 
 app.UseRizzy();
+
+if (enableTestPages)
+{
+    app.UseRzToast();
+    IntegrationTestEndpoints.Map(app);
+}
 
 app.MapRazorComponents<App>();
 

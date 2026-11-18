@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Rizzy;
 using Microsoft.Extensions.Options;
 using System.Linq.Expressions;
 using System.Text.Json;
@@ -111,7 +112,9 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
     public bool? Invalid { get; set; }
 
     /// <summary>
-    /// Gets or sets the input aria-label.
+    /// Gets or sets an accessible label for an input that has no visible label. Prefer a visible
+    /// label (<c>FieldLabel</c>, <c>&lt;label for&gt;</c> or <c>aria-labelledby</c>): an
+    /// <c>aria-label</c> replaces it for screen readers, which is why none is rendered by default.
     /// </summary>
     [Parameter]
     public string? AriaLabel { get; set; }
@@ -130,13 +133,14 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
 
     private bool IsInvalid => Invalid ?? (For is not null && EditContext?.GetValidationMessages(_fieldIdentifier).Any() == true);
 
-    internal string InputId => $"{Id}-input";
+    // In a form field the input carries the field's id, so a FieldLabel (before or after it) names it.
+    private string? _fieldInputId;
+    internal string InputId => _fieldInputId ?? $"{Id}-input";
 
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        AriaLabel ??= Localizer["RzInputOTP.DefaultAriaLabel"];
         SetElementDefault();
         UpdateFieldIdentifier();
         UpdateAssets();
@@ -146,7 +150,6 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        AriaLabel ??= Localizer["RzInputOTP.DefaultAriaLabel"];
         SetElementDefault();
         UpdateFieldIdentifier();
         UpdateAssets();
@@ -163,15 +166,19 @@ public partial class RzInputOTP : RzComponent<RzInputOTP.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys);
+        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
 
         _assets = JsonSerializer.Serialize(assetUrls);
     }
 
     private void UpdateFieldIdentifier()
     {
-        if (For is not null)
-            _fieldIdentifier = FieldIdentifier.Create(For);
+        if (For is null)
+            return;
+
+        _fieldIdentifier = FieldIdentifier.Create(For);
+        if (CurrentHttpContext is not null && EditContext is not null)
+            _fieldInputId = CurrentHttpContext.GetOrReserveFieldId(EditContext, _fieldIdentifier);
     }
 
     internal bool GetInvalidValue() => IsInvalid;

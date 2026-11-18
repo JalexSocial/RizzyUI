@@ -28,8 +28,10 @@
     <ProjectReference Include="..\RizzyUI\RizzyUI.csproj" />
   </ItemGroup>
 
-  <Target Name="EnsureNodeModules" BeforeTargets="Build">
-    <Exec Command="npm install" />
+  <!-- npm ci only when node_modules is missing or older than package-lock.json (RZUI-046). `npm install`
+       on every build reinstalled packages and could rewrite the tracked lockfile. -->
+  <Target Name="EnsureNodeModules" BeforeTargets="Build" Inputs="package-lock.json" Outputs="node_modules/.package-lock.json">
+    <Exec Command="npm ci --no-audit --no-fund" />
   </Target>
 
   <Target Name="Tailwind" BeforeTargets="Build">

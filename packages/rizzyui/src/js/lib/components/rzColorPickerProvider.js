@@ -131,6 +131,12 @@ export default function rzColorPickerProvider() {
             this.colorPicker.value = value;
         },
 
+        // x-on:input handler for text inputs bound to the picker. CSP-safe replacement for
+        // x-model="colorPicker.value", which compiles to a property assignment (RZUI-032).
+        setValueFromInput(event) {
+            this.colorPicker.value = this.readValue(event?.target?.value ?? '');
+        },
+
         updateConfiguration(config) {
             this.config = {
                 ...this.config,

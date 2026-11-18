@@ -284,6 +284,9 @@ private ComboboxOptions _clearButtonOptions = new()
                 <RzParagraph>
                     Customize how options and selected items are rendered using <code>OptionTemplate</code> and <code>ItemTemplate</code>.
                     Alpine.js syntax is used within the template, with access to the <code>item</code> object.
+                    <code>item</code> contains what <code>ItemDataSelector</code> returns (property names in camelCase), and only
+                    <code>value</code> and <code>text</code> when it is not set. The selected data is written into the page, so
+                    return only the fields the templates display.
                 </RzParagraph>
 
                 <RzBrowser Layout="typeof(PreviewLayout)">
@@ -295,6 +298,7 @@ private ComboboxOptions _clearButtonOptions = new()
                                             Items="@_users"
                                             ValueSelector="@(u => u.Id.ToString())"
                                             TextSelector="@(u => u.Name)"
+                                            ItemDataSelector="@(u => new { u.Name, u.Email, u.Photo })"
                                             Value="_model.AssigneeId"
                                             For="@(() => _model.AssigneeId)"
                                             Placeholder="Search users...">
@@ -325,6 +329,7 @@ private ComboboxOptions _clearButtonOptions = new()
                                             Items=&quot;@@_users&quot;
                                             ValueSelector=&quot;@@(u =&gt; u.Id.ToString())&quot;
                                             TextSelector=&quot;@@(u =&gt; u.Name)&quot;
+                                            ItemDataSelector=&quot;@@(u =&gt; new { u.Name, u.Email, u.Photo })&quot;
                                             Value=&quot;_model.AssigneeId&quot;
                                             For=&quot;@@(() =&gt; _model.AssigneeId)&quot;
                                             Placeholder=&quot;Search users...&quot;&gt;
@@ -447,6 +452,7 @@ private ComboboxOptions _clearButtonOptions = new()
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">Placeholder</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Placeholder text shown when no value is selected.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">Localized default</code></td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ValueSelector</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Maps an item to the stored option value.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Func&lt;TItem, string&gt;?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">Auto for SelectListItem</code></td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">TextSelector</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Maps an item to display text.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Func&lt;TItem, string&gt;?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">Auto for SelectListItem</code></td></tr>
+                            <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ItemDataSelector</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Chooses the item data the option and item templates can read as <code>item</code>. It is serialized into the page.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">Func&lt;TItem, object?&gt;?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">value and text only</code></td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">OptionTemplate</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Custom template for dropdown options.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
                             <tr class="align-top"><td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ItemTemplate</code></td><td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Custom template for selected item rendering.</td><td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">RenderFragment?</code></td><td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td></tr>
                         </tbody>

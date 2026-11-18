@@ -176,6 +176,12 @@ export default function rzNumberTicker() {
             }
         },
 
+        // Alpine calls destroy() when the element is removed (for example by an htmx swap); it
+        // never called cleanup(), so the observer and animation frame outlived the element (RZUI-029).
+        destroy() {
+            this.cleanup();
+        },
+
         cleanup() {
             this.cleanupAnimation();
 

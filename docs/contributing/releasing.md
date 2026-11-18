@@ -51,7 +51,32 @@ app reference it.
    dotnet new install RizzyUI.Templates::X.Y.Z && dotnet new rizzyui -o TemplateCheck && cd TemplateCheck && dotnet run
    ```
 8. **Bump** `<Version>` to the next development version (for example `X.Y.(Z+1)-dev`) so CI builds
-   never carry a published version number.
+   never carry a published version number, and set `PackageValidationBaselineVersion` in
+   `src/RizzyUI/RizzyUI.csproj` to the version just released (see
+   [api-compatibility.md](api-compatibility.md)).
+
+## Stable release (1.0.0) criteria
+
+1.0.0 is cut only when all of these hold. Record the evidence in the release PR. The current status
+is in `docs/audits/2026-11-15-rizzyui-initial-audit/08-roadmap-execution.md` (release readiness).
+
+1. **No open P0 or P1 defects.** Every P0/P1 finding in the audit and every P0/P1 issue on GitHub is
+   fixed, or closed with evidence that it does not apply.
+2. **Real-component accessibility coverage.** CI's integration suite runs the accessibility specs
+   on real components (`src/RizzyUI.Docs/tests/integration/*.a11y*.ts`) under the standard and CSP
+   runtimes, `npm run check-accessibility-inventory` passes, and the manual NVDA + Chrome and
+   VoiceOver + Safari runs in `docs/accessibility/manual-testing.md` are recorded with no open
+   blocking issue.
+3. **Public API baseline.** `dotnet pack` package validation and `PublicContractTests` pass against
+   the previous release ([api-compatibility.md](api-compatibility.md)).
+4. **Two previews without breaking changes.** The last two published previews (or release
+   candidates) before 1.0.0 have no entry under "Breaking" in `CHANGELOG.md`, no new
+   `CompatibilitySuppressions.xml` entries, and no removed lines in `public-contract.txt`.
+
+Also check before tagging 1.0.0: the `release` environment requires a reviewer; the template test
+passes for net10.0 and net11.0; the npm package is published under `latest` (a version without a
+pre-release suffix is, automatically) and the README and rizzy.docs no longer tell users to pass
+`--prerelease` or `@next`.
 
 ## Recovering a partial release
 

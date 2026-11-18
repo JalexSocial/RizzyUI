@@ -34,6 +34,13 @@ public partial class RzColorSwatch : RzComponent<RzColorSwatch.Slots>
 
     private string? SwatchModelBinding { get; set; }
 
+    /// <summary>
+    /// The swatch only displays a color, so an <c>x-model</c> binding is applied one way, as
+    /// <c>x-effect="setValue(expression)"</c>. A two-way <c>x-modelable</c> binding writes back with a
+    /// property assignment, which the Alpine CSP build rejects (RZUI-032).
+    /// </summary>
+    private string? SwatchValueEffect => string.IsNullOrWhiteSpace(SwatchModelBinding) ? null : $"setValue({SwatchModelBinding})";
+
     private IReadOnlyDictionary<string, object?>? RootAttributes { get; set; }
 
     /// <summary>

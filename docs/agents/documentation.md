@@ -180,7 +180,7 @@ When behavior is deliberately replaced, the docs must state the new behavior and
 
 ### 12.8 Updating ComponentList.razor
 
-*   Any new component must be added to the side navigation in `src/RizzyUI.Docs/Components/Layout/ComponentList.razor`.
+*   Any new component must be added to the side navigation in `src/RizzyUI.Docs/Components/ComponentList.razor`.
 *   This ensures the new documentation page is discoverable.
 
 

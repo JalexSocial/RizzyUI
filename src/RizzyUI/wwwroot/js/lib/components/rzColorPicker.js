@@ -3,7 +3,7 @@ import { require } from '../../runtime/rizzyRequire.js';
 export default function rzColorPicker() {
     return {
         colorValue: '',
-        swatchStyle: 'background-color: transparent;',
+        swatchStyle: { 'background-color': 'transparent' },
         config: {},
         inputId: '',
 
@@ -100,7 +100,7 @@ export default function rzColorPicker() {
                 ? this.colorValue
                 : 'transparent';
 
-            this.swatchStyle = 'background-color: ' + normalized + ';';
+            this.swatchStyle = { 'background-color': normalized };
         },
 
         handleAssetError(error) {

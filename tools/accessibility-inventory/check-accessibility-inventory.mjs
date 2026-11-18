@@ -1,19 +1,34 @@
 #!/usr/bin/env node
 import path from 'node:path';
 import { promises as fs } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 
+// Root-level interactive components whose accessibility behavior is a public contract (AGENTS.md).
 const DEFAULT_CONTRACT_DIRECTORIES = [
   'DataTable/RzDataTable',
   'Feedback/RzAlert',
+  'Feedback/RzAlertDialog',
   'Feedback/RzDialog',
   'Feedback/RzPopover',
   'Feedback/RzSheet',
   'Feedback/RzSpinner',
+  'Feedback/RzToast',
   'Feedback/RzTooltip',
+  'Form/RzCalendar',
+  'Form/RzCheckboxGroup',
+  'Form/RzColorPickerProvider',
   'Form/RzCombobox',
+  'Form/RzDateEdit',
   'Form/RzFileInput',
+  'Form/RzInputOTP',
   'Form/RzNativeSelect',
+  'Form/RzRadioGroup',
+  'Form/RzSlider',
+  'Form/RzSwitch',
+  'Form/RzToggle',
   'Layout/RzAccordion',
+  'Layout/RzCarousel',
+  'Layout/RzCollapsible',
   'Navigation/RzCommand',
   'Navigation/RzDropdown',
   'Navigation/RzMenubar',
@@ -36,7 +51,8 @@ function parseArgs(argv) {
   const options = {
     componentsDir: 'Components',
     docsDir: '../RizzyUI.Docs/Components/Pages/Components',
-    testsDirs: ['../RizzyUI.Tests/Components', '../RizzyUI.Docs/tests/accessibility'],
+    // bUnit tests, fixture specs, and real-component specs against the docs app (tests/integration).
+    testsDirs: ['../RizzyUI.Tests/Components', '../RizzyUI.Docs/tests/accessibility', '../RizzyUI.Docs/tests/integration'],
     interactivePrefixes: ['Rz'],
     ignoreDirs: ['_Internal', 'obj', 'bin', 'node_modules'],
     exts: ['.razor'],
@@ -153,14 +169,22 @@ function parentDocStem(filePath, componentsDir) {
 function docCandidates(componentName, filePath, componentsDir) {
   return [...new Set([
     `${toDocStem(componentName)}Info.razor`,
+    `${componentName.replace(/^Rz/, '')}Info.razor`,
     `${componentName}Info.razor`,
     parentDocStem(filePath, componentsDir) ? `${parentDocStem(filePath, componentsDir)}Info.razor` : undefined
   ].filter(Boolean))];
 }
 
-function hasMatchingDoc(docsFiles, candidates) {
+async function hasMatchingDoc(docsFiles, componentName, candidates) {
   const docsByName = new Set(docsFiles.map(file => path.basename(file)));
-  return candidates.some(candidate => docsByName.has(candidate));
+  if (candidates.some(candidate => docsByName.has(candidate))) return true;
+
+  // A sub-component documented on its family's page (for example RzInputCheckbox on CheckboxInfo).
+  const usage = new RegExp(`<${componentName}[\\s/>]`);
+  for (const file of docsFiles) {
+    if (usage.test(await fs.readFile(file, 'utf8'))) return true;
+  }
+  return false;
 }
 
 function testCandidates(componentName, filePath, componentsDir) {
@@ -179,15 +203,25 @@ function testCandidates(componentName, filePath, componentsDir) {
   ].filter(Boolean))];
 }
 
-function hasMatchingTest(testFiles, componentName, candidates) {
-  const stem = toDocStem(componentName).toLowerCase();
-  const testsByName = new Set(testFiles.map(file => path.basename(file)));
-  if (candidates.some(candidate => testsByName.has(candidate))) return true;
+// A matching test file only counts when it asserts accessibility behavior, not merely because a
+// file with the right name exists (RZUI-043).
+const ACCESSIBILITY_ASSERTION = /aria-|\brole\b|tabindex|keyboard|toHaveAccessibleName|AxeBuilder|toBeFocused/i;
 
-  return testFiles.some(file => {
-    const fileName = path.basename(file).toLowerCase();
-    return fileName.includes(`${stem}.a11y.`) || fileName.includes(`${stem}a11y`);
+function matchingTestFiles(testFiles, componentName, candidates) {
+  const stem = toDocStem(componentName).toLowerCase();
+  return testFiles.filter(file => {
+    const fileName = path.basename(file);
+    if (candidates.includes(fileName)) return true;
+    const lower = fileName.toLowerCase();
+    return lower.includes(`${stem}.a11y.`) || lower.includes(`${stem}a11y`);
   });
+}
+
+async function hasMatchingTest(testFiles, componentName, candidates) {
+  for (const file of matchingTestFiles(testFiles, componentName, candidates)) {
+    if (ACCESSIBILITY_ASSERTION.test(await fs.readFile(file, 'utf8'))) return true;
+  }
+  return false;
 }
 
 function expectedPaths(baseDir, names) {
@@ -223,11 +257,11 @@ export async function runInventoryCheck(options) {
     .filter((value, index, self) => self.findIndex(x => x.component === value.component) === index)
     .sort((a, b) => a.component.localeCompare(b.component));
 
-  return rootInteractiveComponents.map(({ component, path: componentPath, file }) => {
+  return Promise.all(rootInteractiveComponents.map(async ({ component, path: componentPath, file }) => {
     const expectedDocNames = docCandidates(component, file, normalizedOptions.componentsDir);
     const expectedTestNames = testCandidates(component, file, normalizedOptions.componentsDir);
-    const hasDoc = hasMatchingDoc(docsFiles, expectedDocNames);
-    const hasTest = hasMatchingTest(testFiles, component, expectedTestNames);
+    const hasDoc = await hasMatchingDoc(docsFiles, component, expectedDocNames);
+    const hasTest = await hasMatchingTest(testFiles, component, expectedTestNames);
     return {
       component,
       componentPath,
@@ -236,7 +270,7 @@ export async function runInventoryCheck(options) {
       expectedDocs: expectedPaths(normalizedOptions.docsDir, expectedDocNames),
       expectedTests: normalizedOptions.testsDirs.flatMap(dir => expectedPaths(dir, expectedTestNames))
     };
-  });
+  }));
 }
 
 function printSummary(report) {
@@ -259,7 +293,7 @@ function printSummary(report) {
         for (const expectedDoc of row.expectedDocs) console.error(`   - ${expectedDoc}`);
       }
       if (!row.hasTest) {
-        console.error('   Missing tests. Expected one of:');
+        console.error('   Missing tests (a matching file that asserts ARIA, roles, focus or keyboard behavior). Expected one of:');
         for (const expectedTest of row.expectedTests) console.error(`   - ${expectedTest}`);
       }
     }
@@ -271,7 +305,9 @@ function printSummary(report) {
   return missing.length;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Run when executed directly. pathToFileURL makes this work on Windows, where the previous
+// `file://${argv[1]}` comparison never matched and the check silently did nothing (RZUI-043).
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   const options = parseArgs(process.argv.slice(2));
   runInventoryCheck(options)
     .then(report => {

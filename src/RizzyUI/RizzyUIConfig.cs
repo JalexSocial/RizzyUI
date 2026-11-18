@@ -1,4 +1,4 @@
-
+using Microsoft.AspNetCore.Http;
 namespace RizzyUI;
 
 /// <summary>
@@ -26,20 +26,40 @@ public sealed class RizzyUIConfig
     /// or an object with <c>src</c> and <c>integrity</c> when <see cref="AssetIntegrity"/> has a hash
     /// for it. Unknown keys and empty URLs are skipped.
     /// </summary>
-    internal List<object> ResolveAssets(IEnumerable<string> keys) =>
-        WithIntegrity(keys.Select(key => AssetUrls.TryGetValue(key, out var url) ? url : null));
+    internal List<object> ResolveAssets(IEnumerable<string> keys, PathString pathBase = default) =>
+        WithIntegrity(keys.Select(key => AssetUrls.TryGetValue(key, out var url) ? url : null), pathBase);
 
     /// <summary>
     /// Pairs asset URLs with their <see cref="AssetIntegrity"/> hash, skipping empty and duplicate URLs.
+    /// Root-relative URLs get the request's path base (see <see cref="ApplyPathBase"/>); the hash is
+    /// looked up by the configured URL.
     /// </summary>
-    internal List<object> WithIntegrity(IEnumerable<string?> urls) =>
+    internal List<object> WithIntegrity(IEnumerable<string?> urls, PathString pathBase = default) =>
         urls
             .Where(url => !string.IsNullOrWhiteSpace(url))
             .Distinct(StringComparer.Ordinal)
             .Select(url => AssetIntegrity.TryGetValue(url!, out var hash) && !string.IsNullOrWhiteSpace(hash)
-                ? (object)new AssetReference(url!, hash)
-                : url!)
+                ? (object)new AssetReference(ApplyPathBase(url!, pathBase), hash)
+                : ApplyPathBase(url!, pathBase))
             .ToList();
+
+    /// <summary>
+    /// Prefixes a root-relative URL (<c>/_content/...</c>) with the application's path base, so apps
+    /// hosted under a virtual directory (<c>UsePathBase("/app")</c>) load RizzyUI's own assets.
+    /// Absolute and protocol-relative URLs, and URLs that already start with the path base, are
+    /// returned unchanged.
+    /// </summary>
+    internal static string ApplyPathBase(string url, PathString pathBase)
+    {
+        if (!pathBase.HasValue || url.Length < 2 || url[0] != '/' || url[1] == '/')
+            return url;
+
+        var prefix = pathBase.Value!.TrimEnd('/');
+        if (prefix.Length == 0 || url.StartsWith(prefix + "/", StringComparison.OrdinalIgnoreCase))
+            return url;
+
+        return prefix + url;
+    }
 
     /// <summary>
     /// An asset URL with its Subresource Integrity hash, serialized for the client loader.

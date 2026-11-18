@@ -23,7 +23,7 @@
 
    * **Every** new component must have a corresponding documentation page in `src/RizzyUI.Docs/Components/Pages/Components/`.
    * **Every** modified component must have its documentation page updated to reflect API, parameter, or behavior changes.
-   * **Every** new component must be added to the navigation menu in `src/RizzyUI.Docs/Components/Layout/ComponentList.razor`.
+   * **Every** new component must be added to the navigation menu in `src/RizzyUI.Docs/Components/ComponentList.razor`.
 
 4. **SSR interaction event policy (mandatory)**
 
@@ -212,7 +212,7 @@ The NPM package responsible for building the CSS (Tailwind) and JavaScript bundl
 A Blazor Web App that acts as the documentation site and component playground.
 
 * **`Components/Pages/Components/`**: Contains the documentation pages for specific components (e.g., `ButtonInfo.razor`). These pages serve as the primary source of usage examples.
-* **`Components/Layout/ComponentList.razor`**: The side navigation menu listing all available components.
+* **`Components/ComponentList.razor`**: The side navigation menu listing all available components.
 
 ### `src/RizzyUI.Tests` (Unit Tests)
 
@@ -298,9 +298,9 @@ For the full syntax, examples, and cross-file edit rules, read `docs/agents/outp
   * Define the non-generic `Slots` class.
   * Define the `static class` containing the `DefaultDescriptor`.
   * Variant expressions in the descriptor **MUST** cast to the `IHas...StylingProperties` interface.
-* Alpine.js: Strictly adhere to API restrictions by always using `Alpine.data` and referencing properties/methods by key only.
+* Alpine.js: Follow the CSP-build restrictions in `docs/agents/alpine.md` (10.1): no property assignment in markup expressions, object style bindings, logic in the component factory.
 * Documentation: Ensure the generated documentation page (`Info.razor`) strictly follows the layout, structure, and content rules in `docs/agents/documentation.md`.
-* Include unit tests *only* when specifically requested (`docs/agents/testing.md`).
+* Behavior changes, defect fixes and accessibility behavior always need tests; a full scaffolded test suite for a new component is written when requested (`docs/agents/testing.md`).
 * Adhere to all specified conventions and avoid manual concatenation of class strings.
 * Do not include comments in Razor markup or using statements. Any comments in code blocks should be production-ready.
 * If Alpine is used, ensure the Alpine root element includes `x-data` and `x-load="@LoadStrategy"` on the same element.
@@ -355,7 +355,7 @@ For the full syntax, examples, and cross-file edit rules, read `docs/agents/outp
 * **[ ] 18. Documentation Page Exists:** A file in `src/RizzyUI.Docs/Components/Pages/Components/` exists and matches the component name.
 * **[ ] 19. Structure Compliance:** The documentation page uses `RzQuickReferenceContainer`, `RzBreadcrumb`, and `RzCodeViewer` correctly.
 * **[ ] 20. Content Compliance:** The documentation includes a Parameters table and (if applicable) Alpine API/Event details.
-* **[ ] 21. Navigation Updated:** The new component is listed in `src/RizzyUI.Docs/Components/Layout/ComponentList.razor`.
+* **[ ] 21. Navigation Updated:** The new component is listed in `src/RizzyUI.Docs/Components/ComponentList.razor`.
 
 #### **Part C: Human Developer Validation Checklist**
 

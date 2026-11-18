@@ -159,10 +159,12 @@ public partial class RzSlider : RzComponent<RzSlider.Slots>
     public int? TabIndex { get; set; }
 
     /// <summary>
-    /// Gets or sets logical asset keys used to resolve slider script dependencies.
+    /// Gets or sets logical asset keys (see <see cref="RizzyUIConfig.AssetUrls"/>) for extra scripts or
+    /// styles the slider should load. The slider behavior is part of the RizzyUI runtime, so the default
+    /// is none.
     /// </summary>
     [Parameter]
-    public string[] ComponentAssetKeys { get; set; } = ["SliderScript"];
+    public string[] ComponentAssetKeys { get; set; } = [];
 
     /// <summary>
     /// Gets the server-resolved and sanitized slider values.
@@ -205,7 +207,7 @@ public partial class RzSlider : RzComponent<RzSlider.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys);
+        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
 
         _assets = JsonSerializer.Serialize(assetUrls);
     }

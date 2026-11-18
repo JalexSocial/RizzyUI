@@ -70,6 +70,12 @@ public partial class RzToggle : RzComponent<RzToggle.Slots>
     /// </summary>
     protected string? PressedAttributeValue => Pressed.HasValue ? Pressed.Value.ToString().ToLowerInvariant() : null;
 
+    /// <summary>
+    /// The initial <c>aria-pressed</c> state, rendered on the server so the toggle announces its state
+    /// before (or without) the Alpine runtime; Alpine keeps it current afterwards.
+    /// </summary>
+    protected string SsrAriaPressed => (Pressed ?? DefaultPressed) ? "true" : "false";
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {

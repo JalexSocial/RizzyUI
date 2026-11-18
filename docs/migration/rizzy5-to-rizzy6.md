@@ -13,8 +13,9 @@ Finding IDs (RZUI-0xx) refer to the
 3. [Who loads which script](#who-loads-which-script)
 4. [Breaking changes in RizzyUI](#breaking-changes-in-rizzyui)
 5. [Behavior fixes you may notice](#behavior-fixes-you-may-notice)
-6. [Worked example](#worked-example)
-7. [Troubleshooting](#troubleshooting)
+6. [Changes after 1.0.0-preview.1](#changes-after-100-preview1)
+7. [Worked example](#worked-example)
+8. [Troubleshooting](#troubleshooting)
 
 ## Compatibility
 
@@ -129,6 +130,19 @@ instances. Keep the default for anything users can write: enabling it allows scr
 - **Server toasts** (`IRzToastService` + `UseRzToast()`) are unchanged. They are sent with
   `HX-Trigger`, which htmx 4 raises after the swap; when the element that made the request was
   replaced, htmx raises the event on `document`, where RizzyUI listens.
+
+## Changes after 1.0.0-preview.1
+
+If you already moved to 1.0.0-preview.1, these are the changes in the next preview that may need
+code changes. The full list is in [CHANGELOG.md](../../CHANGELOG.md) under "Unreleased".
+
+| Before | Now | What to do |
+|---|---|---|
+| `RzCombobox` wrote every public property of each item into the page (`data-item`) | Only `value` and `text` are sent (RZUI-033) | If an `OptionTemplate`/`ItemTemplate` reads other fields, list them: `ItemDataSelector="@(u => new { u.Name, u.Email })"` |
+| `RzSwitch` and `RzInputOTP` rendered a default `aria-label` ("Toggle", "One-time password") that replaced the name from a label | No default `aria-label` | Label them with `FieldLabel For` or `<label for>`; pass `aria-label` when there is no visible label |
+| `AsChild` with plain markup kept the component's classes on a Tailwind conflict | The child's own classes win on both paths, as documented (RZUI-039) | Check `AsChild` children whose classes conflict with the component's (for example two padding classes) |
+| Without `AddLocalization()`, components rendered resource keys; RizzyUI decorated your `IStringLocalizerFactory` | English text is the fallback, and RizzyUI registers only `IStringLocalizer<RizzyLocalization>` (RZUI-036, RZUI-037) | Nothing, unless you resolved RizzyUI strings through your own factory; `Scrutor` is no longer brought in, so add it yourself if your app used it |
+| `RzSlider` loaded an extra `SliderScript` asset | No default assets; the key is gone (RZUI-030) | Remove references to the `SliderScript` asset key |
 
 ## Worked example
 

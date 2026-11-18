@@ -46,4 +46,16 @@ public class RzCarouselTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         var config = cut.Find($"script#{cut.Instance.Id}-config").TextContent;
         Assert.Contains("autoplay", config, StringComparison.OrdinalIgnoreCase);
     }
+
+    [Fact]
+    public void ConfigurationScriptEscapesHtmlSensitiveCharacters()
+    {
+        // RZUI-034: relaxed escaping let "</script>" in an option string end the JSON element.
+        var cut = Render<RzCarousel>(p => p.Add(x => x.Options, new CarouselOptions { Align = "</script><script>alert(1)</script>" }));
+
+        var script = cut.Find("script[type='application/json']");
+        Assert.DoesNotContain("</script>", script.InnerHtml);
+        Assert.Contains(@"\u003C/script\u003E", script.InnerHtml);
+        Assert.Single(cut.FindAll("script[type='application/json']"));
+    }
 }

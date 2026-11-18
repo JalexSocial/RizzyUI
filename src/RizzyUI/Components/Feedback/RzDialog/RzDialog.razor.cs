@@ -85,6 +85,14 @@ public partial class RzDialog : RzComponent<RzDialog.Slots>
     protected override TvDescriptor<RzComponent<Slots>, Slots> GetDescriptor() => Theme.RzDialog;
 
     /// <summary>
+    /// Caller attributes for the root element. <c>x-ref</c> is excluded: it goes on the inert proxy
+    /// element rendered before the root (see the markup).
+    /// </summary>
+    private IReadOnlyDictionary<string, object>? RootAttributes => AdditionalAttributes?
+        .Where(attribute => !string.Equals(attribute.Key, "x-ref", StringComparison.OrdinalIgnoreCase))
+        .ToDictionary(attribute => attribute.Key, attribute => attribute.Value, StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
     /// Defines the slots available for styling in the RzDialog component.
     /// </summary>
     public sealed partial class Slots : ISlots

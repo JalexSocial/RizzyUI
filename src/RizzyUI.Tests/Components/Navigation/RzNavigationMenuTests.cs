@@ -34,7 +34,9 @@ public class RzNavigationMenuTests : BunitAlbaContext, IClassFixture<WebAppFixtu
         var trigger = cut.Find("[data-slot='navigation-menu-trigger']");
         var content = cut.Find("[data-slot='navigation-menu-content']");
 
-        Assert.Equal("true", trigger.GetAttribute("aria-haspopup"));
+        // APG disclosure navigation: a button with aria-expanded/aria-controls. aria-haspopup would
+        // announce a menu (RZUI-059).
+        Assert.Null(trigger.GetAttribute("aria-haspopup"));
         Assert.Equal("false", trigger.GetAttribute("aria-expanded"));
         Assert.Equal(content.Id, trigger.GetAttribute("aria-controls"));
         Assert.Equal("true", content.HasAttribute("x-cloak").ToString().ToLowerInvariant());
@@ -99,7 +101,8 @@ public class RzNavigationMenuTests : BunitAlbaContext, IClassFixture<WebAppFixtu
         Assert.Equal("button", trigger.TagName.ToLowerInvariant());
         Assert.Equal("button", trigger.GetAttribute("type"));
         Assert.Equal("toggleActive", trigger.GetAttribute("x-on:click.prevent"));
-        Assert.Equal("handleTriggerEnter", trigger.GetAttribute("x-on:focus"));
+        // RZUI-059: focusing a trigger (for example with Tab) must not open its panel.
+        Assert.Null(trigger.GetAttribute("x-on:focus"));
     }
 
     [Fact]

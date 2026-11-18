@@ -116,25 +116,22 @@ Please add the following default asset URLs to the `PostConfigure` action in `sr
 
 **JavaScript Integration (if new Alpine component `rzFancyThing` was created):**
 
-1. **Modify `packages/rizzyui/src/js/lib/components.js`**:
+1. **Export the factory from one bundle** in `packages/rizzyui/src/js/bundles/`:
 
-   * Add an import statement for your new component module at the top of the file:
+   ```javascript
+   export { default as rzFancyThing } from '../lib/components/rzFancyThing.js';
+   ```
+2. **Map it in `packages/rizzyui/src/js/runtime/componentBundleManifest.js`**:
 
-     ```javascript
-     import registerRzFancyThing from './components/rzFancyThing.js'; 
-     ```
-   * Call the imported registration function within the `registerComponents(Alpine)` function:
-
-     ```javascript
-     function registerComponents(Alpine) {
-         // ...
-         registerRzFancyThing(Alpine, rizzyRequire); 
-     }
-     ```
+   ```javascript
+   rzFancyThing: 'menu-runtime',
+   ```
+3. Rebuild with `npm run build` in `packages/rizzyui` and include the regenerated `dist/` and
+   `src/RizzyUI/wwwroot` files (see `docs/agents/alpine.md`, 10.5).
 
 **Documentation Navigation (if new component):**
 
-1. **Add to `src/RizzyUI.Docs/Components/Layout/ComponentList.razor`**:
+1. **Add to `src/RizzyUI.Docs/Components/ComponentList.razor`**:
 
    ```razor
    <RzSideNavLink Href="components/fancy-thing">Fancy Thing</RzSideNavLink>

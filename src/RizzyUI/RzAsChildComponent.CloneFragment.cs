@@ -123,12 +123,15 @@ public abstract partial class RzAsChildComponent : RzComponent
 
                 if (!char.IsUpper(key[0])) continue;
 
+                var value = baseAttrs[key];
+                baseAttrs.Remove(key);
+
+                // Id and Href become the element's id and href. The dictionary is case-insensitive,
+                // so Add("id") while "Id" was present threw (RZUI-039): remove first, then set.
                 if (key is "Id" or "Href")
                 {
-                    baseAttrs.Add(key.ToLowerInvariant(), baseAttrs[key]);
+                    baseAttrs[key.ToLowerInvariant()] = value;
                 }
-
-                baseAttrs.Remove(key);
             }
         }
 
@@ -200,10 +203,9 @@ public abstract partial class RzAsChildComponent : RzComponent
             {
                 baseAttrs.TryGetValue("class", out var baseClassObj);
                 var baseClass = baseClassObj?.ToString();
-                var originalClas = val?.ToString();
-                // Assuming TwMerge is available in the project context
-                // val = TwMerge.Merge(baseClass, originalClas);
-                val = $"{baseClass} {originalClas}".Trim(); // Simple merge as fallback
+                var originalClass = val?.ToString();
+                // The child's classes win Tailwind conflicts, as on the markup path (RZUI-039).
+                val = TwMerge.Merge([baseClass, originalClass]) ?? string.Empty;
                 baseAttrs.Remove("class");
             }
             else

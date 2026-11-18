@@ -26,7 +26,8 @@ public class RzSwitchTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 
         var input = cut.Find("input[type='checkbox']");
         Assert.Equal("switch", input.GetAttribute("role"));
-        Assert.False(string.IsNullOrWhiteSpace(input.GetAttribute("aria-label")));
+        // No default aria-label: it would replace the switch's visible label for screen readers.
+        Assert.Null(input.GetAttribute("aria-label"));
 
         Assert.NotNull(cut.Find("label"));
         Assert.NotNull(cut.Find("label > span"));

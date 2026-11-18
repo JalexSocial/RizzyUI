@@ -1,4 +1,5 @@
 
+using RizzyUI.Utility;
 using Microsoft.AspNetCore.Components;
 using Rizzy.Utility;
 using TailwindVariants.NET;
@@ -120,7 +121,7 @@ public partial class RzHeading : RzTypographyBase<RzHeading.Slots>
         if (!_registered && QuickReferenceContainer != null)
         {
             if (string.IsNullOrEmpty(QuickReferenceTitle))
-                QuickReferenceTitle = ChildContent?.AsMarkupString() ?? "[Missing QuickReferenceTitle]";
+                QuickReferenceTitle = ChildContent is null ? "[Missing QuickReferenceTitle]" : ChildContent.GetSourceText();
 
             QuickReferenceContainer.RegisterHeading(Level, QuickReferenceTitle, Id);
 

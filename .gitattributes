@@ -4,3 +4,8 @@
 packages/rizzyui/src/** text eol=lf
 packages/rizzyui/dist/** -text
 src/RizzyUI/wwwroot/js/** -text
+
+# Written by the docs build (Tailwind) and the accessibility pretest (copied from node_modules).
+# Byte-for-byte on every OS, so building and testing leave `git status` clean on Windows too.
+src/RizzyUI.Docs/wwwroot/css/app.css -text
+src/RizzyUI.Docs/wwwroot/vendor/** -text

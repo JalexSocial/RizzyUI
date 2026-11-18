@@ -22,7 +22,8 @@ public class RzColorSwatchTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 
         var alpine = cut.Find("[data-alpine-root='swatch-1']");
         Assert.Equal("rzColorSwatch", alpine.GetAttribute("x-data"));
-        Assert.Equal("value", alpine.GetAttribute("x-modelable"));
+        Assert.False(alpine.HasAttribute("x-modelable"));
+        Assert.False(alpine.HasAttribute("x-effect"));
         Assert.Equal("true", alpine.GetAttribute("data-without-transparency"));
 
         Assert.NotNull(cut.Find("[data-slot='swatch']"));
@@ -40,6 +41,10 @@ public class RzColorSwatchTests : BunitAlbaContext, IClassFixture<WebAppFixture>
 
         var alpine = cut.Find("[x-data='rzColorSwatch']");
         Assert.Equal("true", alpine.GetAttribute("data-disabled"));
-        Assert.Equal("colorPicker.value", alpine.GetAttribute("x-model"));
+        // RZUI-032: one-way and CSP-safe. No x-model (a two-way binding writes back with a property
+        // assignment, which the Alpine CSP build rejects).
+        Assert.Equal("setValue(colorPicker.value)", alpine.GetAttribute("x-effect"));
+        Assert.False(alpine.HasAttribute("x-model"));
+        Assert.False(alpine.HasAttribute("x-modelable"));
     }
 }

@@ -1,0 +1,32 @@
+@* Interactive overlays whose content loads more content with htmx. The tests replace the region
+   repeatedly to check that nothing leaks (listeners, teleported panels). *@
+<div id="overlay-region" data-round="@Round" class="flex gap-4">
+    <RzPopover>
+        <PopoverTrigger AsChild>
+            <RzButton id="popover-trigger">Open popover</RzButton>
+        </PopoverTrigger>
+        <PopoverContent>
+            <div class="grid gap-2">
+                <p>Popover round @Round</p>
+                <RzButton id="popover-load" hx-get="/_tests/fragment?source=popover" hx-target="#popover-result" hx-swap="innerHTML">Load into popover</RzButton>
+                <div id="popover-result"></div>
+            </div>
+        </PopoverContent>
+    </RzPopover>
+
+    <RzDropdownMenu>
+        <DropdownMenuTrigger AsChild>
+            <RzButton id="dropdown-trigger">Open menu</RzButton>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+            <DropdownMenuItem id="dropdown-load" hx-get="/_tests/fragment?source=dropdown" hx-target="#dropdown-result" hx-swap="innerHTML">Load from menu</DropdownMenuItem>
+            <DropdownMenuItem>Second item</DropdownMenuItem>
+        </DropdownMenuContent>
+    </RzDropdownMenu>
+
+    <div id="dropdown-result"></div>
+</div>
+
+@code {
+    [Parameter] public int Round { get; set; }
+}

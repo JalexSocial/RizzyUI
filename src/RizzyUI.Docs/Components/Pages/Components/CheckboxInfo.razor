@@ -124,10 +124,10 @@
                                     <RzLink Href="#">Manage tasks</RzLink>
                                 </FieldDescription>
                                 <RzCheckboxGroup For="@(() => _model.TaskNotifications)" class="mt-2">
-                                    <RzCheckboxGroupItem TValue="string" Name="@("push")">
+                                    <RzCheckboxGroupItem TValue="string" Value="@("push")">
                                         <span class="text-sm">Push notifications</span>
                                     </RzCheckboxGroupItem>
-                                    <RzCheckboxGroupItem TValue="string" Name="@("email")">
+                                    <RzCheckboxGroupItem TValue="string" Value="@("email")">
                                         <span class="text-sm">Email notifications</span>
                                     </RzCheckboxGroupItem>
                                 </RzCheckboxGroup>

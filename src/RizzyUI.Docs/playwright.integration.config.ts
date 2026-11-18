@@ -37,16 +37,36 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      testIgnore: /\.csp\.spec\.ts$/,
       use: {
         ...devices['Desktop Chrome'],
         ...(chromiumExecutablePath ? { launchOptions: { executablePath: chromiumExecutablePath } } : {})
       }
+    },
+    {
+      // The same docs app in CSP mode: a Content Security Policy without 'unsafe-eval' and the
+      // rizzyui-csp.js build, so these specs exercise the Alpine CSP build on real components.
+      name: 'chromium-csp',
+      testMatch: /\.csp\.spec\.ts$/,
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'http://127.0.0.1:5151',
+        ...(chromiumExecutablePath ? { launchOptions: { executablePath: chromiumExecutablePath } } : {})
+      }
     }
   ],
-  webServer: {
-    command: `dotnet run --no-build -c ${configuration} --launch-profile http`,
-    url: 'http://127.0.0.1:5150',
-    reuseExistingServer: !process.env.CI,
-    timeout: 180_000
-  }
+  webServer: [
+    {
+      command: `dotnet run --no-build -c ${configuration} --launch-profile http -- --Docs:EnableTestPages=true`,
+      url: 'http://127.0.0.1:5150',
+      reuseExistingServer: !process.env.CI,
+      timeout: 180_000
+    },
+    {
+      command: `dotnet run --no-build -c ${configuration} --launch-profile http -- --urls http://127.0.0.1:5151 --Docs:UseContentSecurityPolicy=true --Docs:EnableTestPages=true`,
+      url: 'http://127.0.0.1:5151',
+      reuseExistingServer: !process.env.CI,
+      timeout: 180_000
+    }
+  ]
 });

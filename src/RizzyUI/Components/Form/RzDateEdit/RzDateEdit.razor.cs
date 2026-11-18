@@ -141,7 +141,7 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         var alpineData = new { options, placeholder = Placeholder, prependText = PrependText ?? string.Empty };
         _serializedConfig = JsonSerializer.Serialize(alpineData, serializerOptions);
 
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys);
+        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
         _assets = JsonSerializer.Serialize(assetUrls);
     }
 

@@ -18,8 +18,115 @@ Finding IDs (RZUI-0xx) refer to the
 
 ## [Unreleased]
 
+### Breaking
+
+- **`RzCombobox` sends only `value` and `text` to the browser by default.** It used to write every
+  public property of each item into the page (`data-item`), including fields the page never shows.
+  If your `OptionTemplate` or `ItemTemplate` reads other fields, choose them with the new
+  `ItemDataSelector` parameter, for example
+  `ItemDataSelector="@(u => new { u.Name, u.Email, u.Photo })"` (property names become camelCase,
+  as before). (RZUI-033)
+- **`RzSwitch` and `RzInputOTP` no longer set a default `aria-label`.** The default ("Toggle",
+  "One-time password") replaced the name a `<label>` or `FieldLabel` gave the control, so screen
+  readers announced the generic text instead of the field's name. Label them with `FieldLabel For`
+  (or a `<label for>`); a control with no visible label needs `aria-label` passed explicitly.
+
+### Added
+
+- `RzCombobox.ItemDataSelector` chooses the item data option and item templates can read (see
+  Breaking).
+- The runtime logs a console warning when the page already has another Alpine.js instance; RizzyUI
+  bundles and starts Alpine itself, and a second copy initializes components twice. (RZUI-058)
+
+### Fixed
+
+- Toasts appear after an htmx swap replaces the region that holds `RzToastProvider`. The runtime
+  kept the removed provider and sent later toasts to its detached stacks. (RZUI-027)
+- A lazy component bundle or asset that fails to load (for example during a network blip) is
+  retried the next time it is needed, instead of failing from a cached error until the page
+  reloads. The console error names the bundle and component. (RZUI-031)
+- Components that load assets work on plain HTTP. `Rizzy.require` hashed bundle ids with
+  `crypto.subtle`, which browsers only provide on HTTPS and localhost. (RZUI-026)
+- `RzSlider` no longer loads `rizzyui.js` a second time as a classic script (which failed with a
+  console error). Its default `ComponentAssetKeys` is now empty and the `SliderScript` asset key is
+  gone. (RZUI-030)
+- Apps hosted under a path base (`app.UsePathBase("/app")`) load RizzyUI's own assets and Alpine
+  code-behind modules from under that base. Root-relative asset URLs get the request's `PathBase`
+  when rendered; absolute URLs are unchanged. (RZUI-038)
+- Alpine code-behind modules registered by `RzAlpineComponent` work when the library was built on
+  Windows and runs on Linux, and component names with quotes or non-ASCII characters register
+  correctly. (RZUI-054)
+- `RzInputColor` works with the CSP build (`rizzyui-csp.js`). Its `x-model` bindings compiled to
+  property assignments, which the Alpine CSP build rejects, so every change logged an error and the
+  swatch never updated. An `x-model` passed to `RzColorSwatch` is now applied one way. (RZUI-032)
+- Popover positioning, color swatches and `RzShineBorder` set their styles through the CSSOM
+  instead of a `style` attribute, so they work under a Content Security Policy that does not allow
+  inline styles.
+- Components show English text instead of resource keys (for example an `aria-label` of
+  `RzSheet.CloseButtonAriaLabel`) in apps that do not call `AddLocalization()`, including apps made
+  from the `dotnet new rizzyui` template. RizzyUI uses its embedded resources when ASP.NET Core
+  localization is not configured.
+- Localization overrides (`LocalizationResourceType`, `LocalizationResourceLocation`) apply whether
+  `AddLocalization()` is called before or after `AddRizzyUI()`. Calling it afterwards used to
+  disable RizzyUI's localization. (RZUI-037)
+- Calling `AddRizzyUI()` more than once registers RizzyUI's services once (each call's configure
+  action still applies), and the Vercel theme is listed once in `AvailableThemes`. (RZUI-036)
+- The `RzSpinner` status is announced: `role="status"` and its label are on the wrapper instead of
+  an `aria-hidden` SVG. (RZUI-047)
+- `RzToggle` renders its initial `aria-pressed` state on the server.
+- `AsChild` with an element child no longer throws when the component passes `Id` or `Href`, and
+  merges classes with TwMerge like the markup path. On both paths the child's own classes now win
+  Tailwind conflicts (for example `<button class="px-6">` keeps `px-6` over a component's `px-2`);
+  the markup path used to let the component's classes win. (RZUI-039)
+- `RzDialog`, `RzAlertDialog` and `RzCommandDialog` render attributes you pass (for example
+  `data-testid` or `aria-describedby`) on their root element; they were dropped. They cannot
+  replace the component's own attributes. (RZUI-053)
+- `RzCarousel` escapes `<`, `>` and `&` in its configuration script, so a `</script>` in an option
+  string cannot end the script element. (RZUI-034)
+- `RzMarkdown`, `RzCodeViewer` and `RzHeading` (its quick-reference title) render child content
+  that comes from a Razor expression, for example `<RzMarkdown>@model.Text</RzMarkdown>`; it was
+  dropped. (RZUI-050)
+- `ConfigureClasses` no longer modifies the `Classes` instance you pass, so a shared instance does
+  not accumulate changes across components or renders. (RZUI-055)
+- Toasts queued with `IRzToastService` during a non-htmx request are logged at Debug level when
+  discarded (toasts travel in htmx response headers). (RZUI-052)
+- `RzNumberTicker`, `RzProgress` and `RzEmbeddedPreview` release their observers and timers when
+  an htmx swap removes them. `RzEmbeddedPreview` also no longer starts a new, never-cleared interval
+  on each resize attempt while its iframe is loading. (RZUI-029)
+- Tooltips are announced correctly: the tooltip element was labelled by its trigger, so the
+  trigger's description repeated the trigger's own text (a "Save" button was described as "Save")
+  instead of the tooltip text.
+- Popovers and dropdown menus keep a valid `aria-labelledby` when the trigger child has its own
+  `id` (common with `AsChild`); it pointed at an element that did not exist. (RZUI-048)
+- Opening a dropdown menu with Enter, Space or the arrow keys moves focus to the first (or last)
+  item; focus stayed on the trigger.
+- The destructive color meets WCAG AA contrast with white text (4.8:1, was 3.8:1) in the Arctic
+  theme and the Vercel light theme. It is now `oklch(0.577 0.245 27.325)`.
+- `RzNavigationMenu` follows the disclosure navigation pattern: moving focus onto a trigger (for
+  example with Tab) no longer opens its panel, and triggers no longer announce a menu
+  (`aria-haspopup` removed). Panels open with Enter, Space, click or hover. (RZUI-059)
+- `RzMenubar`: ArrowLeft/ArrowRight move between top-level menus (the handler searched the wrong
+  element and did nothing); opening a menu with Enter, Space or ArrowDown focuses its first item;
+  Escape and choosing an item return focus to the menu's trigger.
+- `RzCommand` points `aria-activedescendant` at the rendered option (`role="option"`), not at the
+  item's hidden source element.
+- Dialogs, alert dialogs and sheets without a title or description no longer reference missing
+  elements in `aria-labelledby`/`aria-describedby`, also while closed. (RZUI-048)
+- `RzTabs` values with spaces or other characters that are invalid in an HTML id (for example
+  `Value="first tab"`) produce valid ids, so `aria-controls`/`aria-labelledby` work. Values made of
+  letters, digits, `-` and `_` keep their current ids. (RZUI-049)
+- `FieldLabel For` names `RzCombobox` and `RzInputOTP`. Their inputs had ids no label could target;
+  they now use the form field's id, like the other inputs. The combobox's hidden native `<select>`
+  is hidden from assistive technology once the widget starts, so it no longer shows as a second,
+  unnamed combobox.
+- Subtle success, warning and information toasts show their title and text in the foreground color
+  (the status color stays on the icon). The status-colored text measured 2.9:1 on the tinted
+  background, below WCAG AA.
+
 ### Removed
 
+- `RizzyUI` no longer depends on `Scrutor`, and it no longer decorates the application's
+  `IStringLocalizerFactory`; it registers its own `IStringLocalizer<RizzyLocalization>`.
 - `@jalexsocial/rizzyui` no longer depends on `shadcn-prose` (deprecated) or `tailwindcss-inset`.
   Neither was imported by the package's CSS or JavaScript. If your own stylesheet imports one of
   them, add it to your `package.json`.

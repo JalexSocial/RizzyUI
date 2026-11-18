@@ -24,6 +24,11 @@ public partial class RzDataTable<TItem> : RzComponent<RzDataTableSlots>, IHasRzD
     /// <summary>
     /// Gets or sets source data items.
     /// </summary>
+    /// <remarks>
+    /// The table renders in the browser, so every public property of every item is serialized into
+    /// the page, including columns you hide. Pass view models (DTOs) with only the fields the table
+    /// shows, never entities with internal or sensitive data (RZUI-033).
+    /// </remarks>
     [Parameter, EditorRequired]
     public IReadOnlyList<TItem> Items { get; set; } = Array.Empty<TItem>();
 

@@ -1,7 +1,6 @@
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TailwindVariants.NET;
@@ -27,9 +26,10 @@ public partial class RzCarousel : RzComponent<RzCarousel.Slots>
         }
     );
 
+    // The default encoder escapes <, > and & (RZUI-034): the configuration is written into a
+    // <script type="application/json"> element, where a "</script>" in an option string would end it.
     private static readonly JsonSerializerOptions _serializerOptions = new()
     {
-        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
     private string _serializedConfig = "{}";
@@ -96,7 +96,7 @@ public partial class RzCarousel : RzComponent<RzCarousel.Slots>
         var keys = new List<string> { "EmblaCore" };
         keys.AddRange(Plugins.Select(plugin => plugin.AssetKey).Where(key => !string.IsNullOrEmpty(key))!);
 
-        return JsonSerializer.Serialize(RizzyUIConfig.Value.ResolveAssets(keys));
+        return JsonSerializer.Serialize(RizzyUIConfig.Value.ResolveAssets(keys, RequestPathBase));
     }
 
     /// <inheritdoc/>

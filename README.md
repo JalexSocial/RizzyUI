@@ -146,6 +146,10 @@ In `App.razor` (or your main layout):
 </html>
 ```
 
+RizzyUI owns Alpine.js: `rizzyui.js` bundles and starts it, so do not add a separate Alpine script
+(RizzyUI logs a console warning if it finds one). Components render without the runtime, but stay
+non-interactive until `rizzyui.js` (or `rizzyui-csp.js`) loads as a module.
+
 RizzyUI does not load htmx itself: `<RzScripts />` does, from jsDelivr with subresource integrity
 by default (set `HtmxConfig.Scripts` to serve your own copy). If your layout has no
 `<base href="/">`, set `RizzyConfig.ClientScriptUrl = "/_content/Rizzy/js/rizzy.js"`, because the

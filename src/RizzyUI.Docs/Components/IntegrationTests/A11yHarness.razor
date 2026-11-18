@@ -1,0 +1,450 @@
+@page "/_tests/a11y/{Family}"
+@layout HarnessLayout
+@using Microsoft.AspNetCore.Mvc.Rendering
+@* Real RizzyUI components for the accessibility specs in tests/integration/*.a11y.spec.ts (RM-4.1).
+   One component family per URL, rendered at the top level of the page (no preview iframe). Mapped
+   only with Docs:EnableTestPages=true; outside Components/Pages, so the static site never has it. *@
+
+<PageTitle>A11y harness: @Family</PageTitle>
+
+<div class="space-y-8 p-6" id="harness" data-family="@Family">
+    <h1 class="text-2xl font-semibold">Accessibility harness: @Family</h1>
+
+    @switch (Family)
+    {
+        case "dialog":
+            <RzDialog>
+                <DialogTrigger AsChild>
+                    <RzButton id="dialog-trigger">Open Account Preferences</RzButton>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Account Preferences</DialogTitle>
+                        <DialogDescription>Update your account preferences and close when finished.</DialogDescription>
+                    </DialogHeader>
+                    <div class="grid gap-3 p-6">
+                        <label for="dialog-input">Display name</label>
+                        <input id="dialog-input" type="text" class="border rounded-md px-2 py-1" />
+                        <RzButton id="dialog-secondary">Secondary action</RzButton>
+                    </div>
+                </DialogContent>
+            </RzDialog>
+            break;
+
+        case "alert-dialog":
+            <RzAlertDialog>
+                <AlertDialogTrigger AsChild>
+                    <RzButton id="alert-dialog-trigger" Variant="ThemeVariant.Destructive">Delete Project</RzButton>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction>Yes, delete project</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </RzAlertDialog>
+            break;
+
+        case "sheet":
+            <RzSheet>
+                <SheetTrigger AsChild>
+                    <RzButton id="sheet-trigger">Open Sheet</RzButton>
+                </SheetTrigger>
+                <SheetContent>
+                    <SheetHeader>
+                        <SheetTitle>Edit Profile</SheetTitle>
+                        <SheetDescription>Make changes to your profile here.</SheetDescription>
+                    </SheetHeader>
+                    <div class="grid gap-3 p-6">
+                        <label for="sheet-name">Name</label>
+                        <input id="sheet-name" type="text" class="border rounded-md px-2 py-1" />
+                    </div>
+                </SheetContent>
+            </RzSheet>
+            break;
+
+        case "popover":
+            <RzPopover>
+                <PopoverTrigger AsChild>
+                    <RzButton id="popover-trigger">Open Popover</RzButton>
+                </PopoverTrigger>
+                <PopoverContent>
+                    <div class="grid gap-2">
+                        <h4 class="font-medium">Dimensions</h4>
+                        <label for="popover-width">Width</label>
+                        <input id="popover-width" type="text" class="border rounded-md px-2 py-1" />
+                    </div>
+                </PopoverContent>
+            </RzPopover>
+            break;
+
+        case "dropdown-menu":
+            <RzDropdownMenu>
+                <DropdownMenuTrigger AsChild>
+                    <RzButton id="dropdown-trigger">Open Menu</RzButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem>Billing</DropdownMenuItem>
+                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                </DropdownMenuContent>
+            </RzDropdownMenu>
+            break;
+
+        case "tabs":
+            <RzTabs DefaultValue="account">
+                <TabsList>
+                    <TabsTrigger Value="account">Account</TabsTrigger>
+                    <TabsTrigger Value="password">Password</TabsTrigger>
+                    <TabsTrigger Value="billing">Billing</TabsTrigger>
+                </TabsList>
+                <TabsContent Value="account">Account settings</TabsContent>
+                <TabsContent Value="password">Password settings</TabsContent>
+                <TabsContent Value="billing">Billing settings</TabsContent>
+            </RzTabs>
+            break;
+
+        case "tooltip":
+            <RzTooltip>
+                <TooltipTrigger AsChild>
+                    <RzButton id="tooltip-trigger">Save</RzButton>
+                </TooltipTrigger>
+                <TooltipContent>Save your current changes.</TooltipContent>
+            </RzTooltip>
+            break;
+
+        case "accordion":
+            @* AccordionTrigger renders an h3, so the page provides the h2 above it. *@
+            <h2 class="text-lg font-medium">Frequently asked questions</h2>
+            <RzAccordion Type="AccordionType.Single">
+                <AccordionItem>
+                    <AccordionTrigger>What browsers are supported?</AccordionTrigger>
+                    <AccordionContent>The latest Chrome, Firefox, Safari and Edge.</AccordionContent>
+                </AccordionItem>
+                <AccordionItem>
+                    <AccordionTrigger>How can I contact support?</AccordionTrigger>
+                    <AccordionContent>Email support at any time.</AccordionContent>
+                </AccordionItem>
+            </RzAccordion>
+            break;
+
+        case "navigation-menu":
+            <RzNavigationMenu>
+                <NavigationMenuList>
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <div class="grid gap-2 p-4">
+                                <a href="#analytics">Analytics</a>
+                                <a href="#reports">Reports</a>
+                            </div>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <div class="grid gap-2 p-4">
+                                <a href="#guides">Guides</a>
+                            </div>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                </NavigationMenuList>
+            </RzNavigationMenu>
+            break;
+
+        case "menubar":
+            <RzMenubar>
+                <MenubarMenu Value="file">
+                    <MenubarTrigger>File</MenubarTrigger>
+                    <MenubarContent>
+                        <MenubarItem>New Tab</MenubarItem>
+                        <MenubarItem>New Window</MenubarItem>
+                    </MenubarContent>
+                </MenubarMenu>
+                <MenubarMenu Value="edit">
+                    <MenubarTrigger>Edit</MenubarTrigger>
+                    <MenubarContent>
+                        <MenubarItem>Undo</MenubarItem>
+                        <MenubarItem>Redo</MenubarItem>
+                    </MenubarContent>
+                </MenubarMenu>
+            </RzMenubar>
+            break;
+
+        case "command":
+            <RzCommand>
+                <CommandInput Placeholder="Type a command or search..." />
+                <CommandList>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandGroup Heading="Suggestions">
+                        <CommandItem Value="Calendar"><span>Calendar</span></CommandItem>
+                        <CommandItem Value="Search Emoji"><span>Search Emoji</span></CommandItem>
+                        <CommandItem Value="Calculator"><span>Calculator</span></CommandItem>
+                    </CommandGroup>
+                </CommandList>
+            </RzCommand>
+            break;
+
+        case "collapsible":
+            <RzCollapsible>
+                <div class="flex items-center gap-2">
+                    <h2 class="text-sm font-semibold">Repositories</h2>
+                    <CollapsibleTrigger AsChild>
+                        <RzButton id="collapsible-trigger">Show all repositories</RzButton>
+                    </CollapsibleTrigger>
+                </div>
+                <CollapsibleContent>
+                    <p id="collapsible-body">rizzy, rizzyui, rizzy.docs</p>
+                </CollapsibleContent>
+            </RzCollapsible>
+            break;
+
+        case "slider":
+            <label id="slider-label" class="block">Volume</label>
+            <RzSlider Name="Volume" DefaultValue="@(new double[] { 35 })" Min="0" Max="100" Step="1" AriaLabelledBy="slider-label" />
+            break;
+
+        case "radio-group":
+            <EditForm Model="_model" FormName="harness-radio">
+                <RzRadioGroup For="@(() => _model.Layout)" DisplayName="Layout">
+                    <RadioGroupItem TValue="string" Value="@("default")"><span>Default</span></RadioGroupItem>
+                    <RadioGroupItem TValue="string" Value="@("comfortable")"><span>Comfortable</span></RadioGroupItem>
+                    <RadioGroupItem TValue="string" Value="@("compact")"><span>Compact</span></RadioGroupItem>
+                </RzRadioGroup>
+            </EditForm>
+            break;
+
+        case "carousel":
+            <RzCarousel class="w-full max-w-xs" AriaLabel="Featured items">
+                <CarouselContent>
+                    @for (var i = 1; i <= 3; i++)
+                    {
+                        var n = i;
+                        <CarouselItem><div class="p-6 border rounded-md">Slide @n</div></CarouselItem>
+                    }
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+            </RzCarousel>
+            break;
+
+        case "untitled-overlays":
+            @* RZUI-048: no DialogTitle/DialogDescription; the content is named with aria-label instead. *@
+            <RzDialog>
+                <DialogTrigger AsChild>
+                    <RzButton id="untitled-dialog-trigger">Open untitled dialog</RzButton>
+                </DialogTrigger>
+                <DialogContent AriaLabel="Quick settings">
+                    <div class="p-6"><p>Dialog without a title.</p></div>
+                </DialogContent>
+            </RzDialog>
+            <RzSheet>
+                <SheetTrigger AsChild>
+                    <RzButton id="untitled-sheet-trigger">Open untitled sheet</RzButton>
+                </SheetTrigger>
+                <SheetContent AriaLabel="Filters">
+                    <div class="p-6"><p>Sheet without a title.</p></div>
+                </SheetContent>
+            </RzSheet>
+            break;
+
+        case "tabs-spaced-values":
+            @* RZUI-049: values with spaces must still produce valid id references. *@
+            <RzTabs DefaultValue="first tab">
+                <TabsList>
+                    <TabsTrigger Value="first tab">First</TabsTrigger>
+                    <TabsTrigger Value="second tab">Second</TabsTrigger>
+                </TabsList>
+                <TabsContent Value="first tab">First panel</TabsContent>
+                <TabsContent Value="second tab">Second panel</TabsContent>
+            </RzTabs>
+            break;
+
+        case "combobox":
+            <EditForm Model="_model" FormName="harness-combobox">
+                <FieldLabel For="@(() => _model.Fruit)">Fruit</FieldLabel>
+                <RzCombobox TItem="SelectListItem" TValue="string" For="@(() => _model.Fruit)" Items="_fruits" Placeholder="Choose a fruit" />
+            </EditForm>
+            break;
+
+        case "data-table":
+            <RzDataTable Items="_rows" Config="_tableConfig" RowIdSelector="x => x.Id">
+                <RzTable Border>
+                    <TableCaption>Team members</TableCaption>
+                    <TableHeader>
+                        <template x-for="headerGroup in headerGroups" :key="headerGroup.id">
+                            <TableRow>
+                                <template x-for="header in headerGroup.headers" :key="header.id">
+                                    <TableHeaderCell x-bind:colspan="header.colSpan">
+                                        <template x-if="!header.isPlaceholder">
+                                            <span x-flexrender="_flex.header(header)"></span>
+                                        </template>
+                                    </TableHeaderCell>
+                                </template>
+                            </TableRow>
+                        </template>
+                    </TableHeader>
+                    <TableBody>
+                        <template x-for="row in rows" :key="row.id">
+                            <TableRow>
+                                <template x-for="cell in row.cells" :key="cell.id">
+                                    <TableCell x-flexrender="_flex.cell(cell)"></TableCell>
+                                </template>
+                            </TableRow>
+                        </template>
+                    </TableBody>
+                </RzTable>
+            </RzDataTable>
+            break;
+
+        case "toast":
+            <RzToastProvider />
+            <RzButton id="toast-success" hx-post="/_tests/toast" hx-swap="none">Save (server toast)</RzButton>
+            break;
+
+        case "file-input":
+            <label id="file-input-label" class="block">Attachments</label>
+            <RzFileInput Name="attachments" Variant="FileInputVariant.Button" aria-labelledby="file-input-label" />
+            break;
+
+        case "input-otp":
+            <EditForm Model="_model" FormName="harness-otp">
+            <FieldLabel For="@(() => _model.VerificationCode)">Verification code</FieldLabel>
+            <RzInputOTP Length="6" Name="VerificationCode" For="@(() => _model.VerificationCode)">
+                <InputOTPGroup>
+                    @for (var i = 0; i < 6; i++)
+                    {
+                        var index = i;
+                        <InputOTPSlot Index="@index" />
+                    }
+                </InputOTPGroup>
+            </RzInputOTP>
+            </EditForm>
+            break;
+
+        case "switch":
+            <EditForm Model="_model" FormName="harness-switch">
+                <div class="flex items-center gap-2">
+                    <RzSwitch For="@(() => _model.AirplaneMode)" Id="airplane-mode" />
+                    <label for="airplane-mode">Airplane Mode</label>
+                </div>
+            </EditForm>
+            break;
+
+        case "checkbox-group":
+            <EditForm Model="_model" FormName="harness-checkbox-group">
+                <fieldset>
+                    <legend>Notifications</legend>
+                    <RzCheckboxGroup For="@(() => _model.Notifications)">
+                        <RzCheckboxGroupItem TValue="string" Value="@("push")"><span>Push notifications</span></RzCheckboxGroupItem>
+                        <RzCheckboxGroupItem TValue="string" Value="@("email")"><span>Email notifications</span></RzCheckboxGroupItem>
+                    </RzCheckboxGroup>
+                </fieldset>
+            </EditForm>
+            break;
+
+        case "native-select":
+            <EditForm Model="_model" FormName="harness-native-select">
+                <label for="@_nativeSelectId">Fruit</label>
+                <RzNativeSelect TValue="string" Id="@_nativeSelectId" For="@(() => _model.Fruit)">
+                    <RzNativeSelectOption Value="@("apple")">Apple</RzNativeSelectOption>
+                    <RzNativeSelectOption Value="@("banana")">Banana</RzNativeSelectOption>
+                </RzNativeSelect>
+            </EditForm>
+            break;
+
+        case "alert":
+            <RzAlert Variant="ThemeVariant.Information" Dismissable="true">
+                <AlertTitle>Update available</AlertTitle>
+                <AlertDescription>A new version is available.</AlertDescription>
+            </RzAlert>
+            break;
+
+        case "sidebar":
+            <RzSidebarProvider id="harness-sidebar">
+                <Sidebar>
+                    <SidebarContent>
+                        <SidebarGroup>
+                            <SidebarGroupLabel>Getting started</SidebarGroupLabel>
+                            <SidebarGroupContent>
+                                <SidebarMenu>
+                                    <SidebarMenuItem>
+                                        <SidebarMenuButton AsChild IsActive="true"><a href="#installation">Installation</a></SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                    <SidebarMenuItem>
+                                        <SidebarMenuButton AsChild><a href="#theming">Theming</a></SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                </SidebarMenu>
+                            </SidebarGroupContent>
+                        </SidebarGroup>
+                    </SidebarContent>
+                </Sidebar>
+                <SidebarInset>
+                    <header class="flex h-16 items-center gap-2 px-4">
+                        <SidebarTrigger />
+                        <span>Page content</span>
+                    </header>
+                </SidebarInset>
+            </RzSidebarProvider>
+            break;
+
+        case "back-to-top":
+            @* A class, not style="": the CSP-mode policy blocks inline style attributes. *@
+            <div class="h-[3000px]">Long content</div>
+            <RzBackToTop />
+            break;
+
+        default:
+            <p id="unknown-family">Unknown family.</p>
+            break;
+    }
+
+    @* Something focusable after the component, for Tab-order checks. *@
+    <button id="after-component" type="button" class="border rounded-md px-2 py-1">After the component</button>
+</div>
+
+@code {
+    [Parameter] public string Family { get; set; } = "";
+
+    private readonly HarnessChoices _model = new() { Layout = "default", Fruit = "banana" };
+    private readonly string _comboboxId = "harness-combobox";
+    private readonly string _nativeSelectId = "harness-native-select";
+
+    private readonly SelectListItem[] _fruits =
+    [
+        new() { Text = "Apple", Value = "apple" },
+        new() { Text = "Banana", Value = "banana" },
+        new() { Text = "Cherry", Value = "cherry" },
+    ];
+
+    private readonly IReadOnlyList<MemberRow> _rows =
+    [
+        new("1", "Ada Lovelace", "ada@example.com"),
+        new("2", "Grace Hopper", "grace@example.com"),
+        new("3", "Alan Turing", "alan@example.com"),
+    ];
+
+    private readonly RzDataTableConfig<MemberRow> _tableConfig = new()
+    {
+        Columns =
+        [
+            new RzDataTableColumn<MemberRow> { Accessor = x => x.Name, Header = "Name" },
+            new RzDataTableColumn<MemberRow> { Accessor = x => x.Email, Header = "Email" },
+        ],
+    };
+
+    private sealed record MemberRow(string Id, string Name, string Email);
+
+    private sealed class HarnessChoices
+    {
+        public string Layout { get; set; } = "";
+        public string Fruit { get; set; } = "";
+        public bool AirplaneMode { get; set; }
+        public List<string> Notifications { get; set; } = ["email"];
+        public string VerificationCode { get; set; } = "";
+    }
+}

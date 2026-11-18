@@ -26,11 +26,15 @@ public class RzInputColorTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.NotNull(cut.Find("[data-slot='input-group']"));
 
         var input = cut.Find("input[data-slot='input']");
-        Assert.Equal("colorPicker.value", input.GetAttribute("x-model"));
+        // RZUI-032: CSP-safe bindings; x-model would compile to a property assignment.
+        Assert.False(input.HasAttribute("x-model"));
+        Assert.Equal("colorPicker.value", input.GetAttribute("x-bind:value"));
+        Assert.Equal("setValueFromInput", input.GetAttribute("x-on:input"));
         Assert.Equal("Pick a color", input.GetAttribute("placeholder"));
 
-        var swatchModelHost = cut.Find("[data-slot='color-swatch'] [x-model='colorPicker.value']");
-        Assert.NotNull(swatchModelHost);
+        var swatchHost = cut.Find("[data-slot='color-swatch'] [x-data='rzColorSwatch']");
+        Assert.Equal("setValue(colorPicker.value)", swatchHost.GetAttribute("x-effect"));
+        Assert.Empty(cut.FindAll("[x-model]"));
     }
 
     [Fact]

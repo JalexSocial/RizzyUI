@@ -9,7 +9,6 @@ namespace RizzyUI.Extensions;
 /// </summary>
 internal static class StringExtensions
 {
-    private static readonly Random _random = new(Environment.TickCount);
 
     /// <summary>
     ///     Removes the minimum shared run of leading whitespace characters
@@ -98,7 +97,7 @@ internal static class StringExtensions
     public static string Shuffle(this string input)
     {
         return new string(input.ToCharArray()
-            .OrderBy(x => _random.Next())
+            .OrderBy(x => Random.Shared.Next())
             .ToArray());
     }
 

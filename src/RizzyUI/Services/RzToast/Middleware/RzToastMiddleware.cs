@@ -37,6 +37,11 @@ public sealed class RzToastMiddleware
         if (!context.Request.IsHtmx())
         {
             await _next(context);
+
+            // Toasts travel in an htmx response header; a normal request cannot carry them
+            // (RZUI-052: they used to disappear without a trace).
+            if (context.RequestServices.GetService<RzToastCommandQueue>() is { IsEmpty: false } && _logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("Discarded RizzyUI toast commands queued during a non-htmx request to {Path}. IRzToastService delivers toasts only in htmx responses.", context.Request.Path);
             return;
         }
 

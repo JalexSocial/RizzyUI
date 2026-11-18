@@ -1,0 +1,49 @@
+<div id="harness-form-region">
+    @if (Saved)
+    {
+        <RzAlert id="harness-form-saved" Variant="ThemeVariant.Success" LiveRegionMode="RzAlertLiveRegionMode.Status">
+            <AlertTitle>Saved</AlertTitle>
+        </RzAlert>
+    }
+
+    @* novalidate: these tests exercise server-side validation, which the browser's own email check
+       would otherwise pre-empt. *@
+    <EditForm Model="Model" FormName="Harness" class="flex flex-col gap-4" novalidate
+              hx-post="/_tests/form" hx-target="#harness-form-region" hx-swap="outerHTML">
+        <DataAnnotationsValidator />
+        @if (Validate)
+        {
+            <RzInitialValidator />
+        }
+
+        <Field>
+            <FieldLabel For="@(() => Model!.Name)" />
+            <RzInputText For="@(() => Model!.Name)" />
+            <RzValidationMessageBase For="@(() => Model!.Name)" class="text-destructive text-sm" />
+        </Field>
+
+        <Field>
+            <FieldLabel For="@(() => Model!.Email)" />
+            <RzInputText For="@(() => Model!.Email)" Role="TextRole.Email" />
+            <RzValidationMessageBase For="@(() => Model!.Email)" class="text-destructive text-sm" />
+        </Field>
+
+        <div>
+            <RzButton id="harness-form-submit" type="submit">Save</RzButton>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    // No initializer: a [SupplyParameterFromForm] property initializer can be overwritten with null
+    // during form posts (BL0008).
+    [SupplyParameterFromForm(FormName = "Harness")]
+    public HarnessModel? Model { get; set; }
+
+    /// <summary>Validate on render (a posted form); the initial page shows no errors.</summary>
+    [Parameter] public bool Validate { get; set; }
+
+    [Parameter] public bool Saved { get; set; }
+
+    protected override void OnInitialized() => Model ??= new HarnessModel { Name = "Ada", Email = "ada@example.com" };
+}

@@ -39,7 +39,10 @@ public class RzTooltipTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Equal("ariaHidden", content.GetAttribute("x-bind:aria-hidden"));
         Assert.Equal(content.Id, trigger.GetAttribute("aria-describedby"));
         Assert.Equal(content.Id, trigger.GetAttribute("aria-controls"));
-        Assert.Equal(trigger.Id, content.GetAttribute("aria-labelledby"));
+        // APG tooltip: the tooltip's text is its name and the trigger's description. Labelling the
+        // tooltip by its trigger made the trigger describe itself ("Save, button, Save").
+        Assert.Null(content.GetAttribute("aria-labelledby"));
+        Assert.Equal(content.Id, trigger.GetAttribute("aria-describedby"));
         Assert.Null(content.GetAttribute("tabindex"));
     }
 

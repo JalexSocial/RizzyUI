@@ -22,12 +22,8 @@ export default function rzEmbeddedPreview() {
                     // Resize iframe immediately and on any subsequent size changes
                     this.resizeIframe(this.iframe);
 
-                    const resizeObserver = new ResizeObserver(entries => {
-                        for (let entry of entries) {
-                            resize();
-                        }
-                    });
-                    resizeObserver.observe(this.iframe);
+                    this.resizeObserver = new ResizeObserver(() => resize());
+                    this.resizeObserver.observe(this.iframe);
 
                     const iframe = this.iframe;
                     this.onDarkModeToggle = (event) => {
@@ -46,9 +42,14 @@ export default function rzEmbeddedPreview() {
                         if (iframeDocument) {
                             const iframeBody = iframeDocument.body;
                             if (!iframeBody) {
-                                setInterval(() => {
-                                    this.resizeIframe(iframe);
-                                }, 150);
+                                // One pending retry. This used to start a new setInterval on every
+                                // attempt, and none were ever cleared (RZUI-029).
+                                if (!this.retryTimer) {
+                                    this.retryTimer = setTimeout(() => {
+                                        this.retryTimer = null;
+                                        this.resizeIframe(iframe);
+                                    }, 150);
+                                }
                             } else {
                                 const newHeight = iframeBody.scrollHeight + 15;
                                 iframe.style.height = newHeight + 'px';
@@ -75,6 +76,10 @@ export default function rzEmbeddedPreview() {
              */
             destroy() {
                 window.removeEventListener('darkModeToggle', this.onDarkModeToggle);
+                this.resizeObserver?.disconnect();
+                this.resizeObserver = null;
+                clearTimeout(this.retryTimer);
+                this.retryTimer = null;
             }
     };
 }

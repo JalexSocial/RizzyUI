@@ -461,7 +461,12 @@ public partial class RzTheme
     /// <summary>
     /// Vercel theme instance, loaded from embedded resource.
     /// </summary>
-    public static RzTheme VercelTheme => ThemeLoader.LoadFromEmbeddedResourceAsync(typeof(RzTheme).Assembly, "RizzyUI.Themes.vercel.json").GetAwaiter().GetResult()!;
+    public static RzTheme VercelTheme => VercelThemeInstance.Value;
+
+    // Parsed once from the embedded JSON (RZUI-036), like the other built-in themes it is an
+    // application-wide instance.
+    private static readonly Lazy<RzTheme> VercelThemeInstance = new(() =>
+        ThemeLoader.LoadFromEmbeddedResourceAsync(typeof(RzTheme).Assembly, "RizzyUI.Themes.vercel.json").GetAwaiter().GetResult()!);
 }
 
 #pragma warning restore CS8618

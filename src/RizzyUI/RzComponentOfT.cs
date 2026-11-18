@@ -68,13 +68,29 @@ public abstract class RzComponent<TSlots> : RzComponent, ISlottable<TSlots>
         }
         else
         {
-            // Use the provided instance or create a new one to hold tweaks
-            _effectiveClasses = Classes ?? new TSlots();
+            // ConfigureClasses works on a copy, so a Classes instance shared between components or
+            // renders does not accumulate changes (RZUI-055).
+            _effectiveClasses = Classes is null ? new TSlots()
+                : ConfigureClasses is null ? Classes
+                : CopySlots(Classes);
             ConfigureClasses?.Invoke(_effectiveClasses);
         }
 
         // Tv.Invoke will look at 'this.Classes' (via the interface) and 
         // append any non-null properties to the theme/variant results.
         _slots = Tv.Invoke(this, GetDescriptor());
+    }
+
+    private static readonly System.Reflection.PropertyInfo[] SlotProperties = typeof(TSlots)
+        .GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
+        .Where(p => p.CanRead && p.CanWrite && p.GetIndexParameters().Length == 0)
+        .ToArray();
+
+    private static TSlots CopySlots(TSlots source)
+    {
+        var copy = new TSlots();
+        foreach (var property in SlotProperties)
+            property.SetValue(copy, property.GetValue(source));
+        return copy;
     }
 }

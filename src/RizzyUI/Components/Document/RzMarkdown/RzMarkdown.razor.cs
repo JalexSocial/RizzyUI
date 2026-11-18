@@ -1,4 +1,5 @@
 
+using RizzyUI.Utility;
 using Markdig;
 using Markdig.Extensions.GenericAttributes;
 using Markdig.Renderers.Html;
@@ -146,7 +147,7 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys);
+        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
         _assets = JsonSerializer.Serialize(assetUrls);
     }
 
@@ -163,7 +164,7 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
         }
         else if (ChildContent != null)
         {
-            markdownText = ChildContent.AsMarkupString().Outdent();
+            markdownText = ChildContent.GetSourceText().Outdent();
             markdownText = HttpUtility.HtmlDecode(markdownText);
         }
         else

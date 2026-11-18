@@ -25,14 +25,17 @@
         <Copyright>Michael Tanczos</Copyright>
         <PackageIcon>rizzy.png</PackageIcon>
         <PackageProjectUrl>https://github.com/jalexsocial/Rizzy</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/jalexsocial/RizzyUI</RepositoryUrl>
+        <RepositoryUrl>https://github.com/JalexSocial/RizzyUI</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <Version>1.0.0-preview.2-dev</Version>
+        <!-- Public API compatibility (RM-2.5): pack fails when the public API breaks compatibility with
+             the baseline release. Update the baseline after each release; accept an intentional break
+             with `dotnet pack -p:ApiCompatGenerateSuppressionFile=true` (see docs/contributing/api-compatibility.md). -->
         <EnablePackageValidation>true</EnablePackageValidation>
-        <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
+        <PackageValidationBaselineVersion>1.0.0-preview.1</PackageValidationBaselineVersion>
         <StaticWebAssetBasePath>_content/RizzyUI</StaticWebAssetBasePath>
 		<HotReloadAutoRestart>true</HotReloadAutoRestart>
 	</PropertyGroup>
@@ -45,7 +48,6 @@
         <PackageReference Include="Rizzy" Version="6.0.0-preview.3" />
         <PackageReference Include="Blazicons" Version="3.0.12" />
         <PackageReference Include="Blazicons.MaterialDesignIcons" Version="2.2.26" />
-        <PackageReference Include="Scrutor" Version="7.0.0" />
         <PackageReference Include="TailwindVariants.NET" Version="0.2.9" />
         <PackageReference Include="RizzyUI.Tasks" Version="$(RizzyUITasksVersion)" />
     </ItemGroup>

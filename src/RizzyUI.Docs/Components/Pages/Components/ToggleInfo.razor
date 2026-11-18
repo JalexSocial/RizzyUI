@@ -187,6 +187,16 @@
             </section>
 
             <section class="my-8 py-2">
+                <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="Accessibility" class="scroll-mt-20">Accessibility</RzHeading>
+                <p>
+                    <code>RzToggle</code> follows the WAI-ARIA APG toggle button pattern: a native <code>&lt;button type="button"&gt;</code> with
+                    <code>aria-pressed</code>. The pressed state is rendered on the server (from <code>Pressed</code>, or <code>DefaultPressed</code>),
+                    so it is announced before the RizzyUI runtime starts, and Alpine keeps it current. <kbd>Space</kbd> and <kbd>Enter</kbd> toggle it.
+                    Give an icon-only toggle an accessible name with <code>aria-label</code>.
+                </p>
+            </section>
+
+            <section class="my-8 py-2">
                 <RzHeading Level="HeadingLevel.H2" QuickReferenceTitle="RzToggle Parameters" class="scroll-mt-20">RzToggle Component Parameters</RzHeading>
                 <div class="not-prose mt-6 mb-10 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
                     <table class="w-full text-sm">

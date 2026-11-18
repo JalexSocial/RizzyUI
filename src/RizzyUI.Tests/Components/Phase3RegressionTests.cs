@@ -106,7 +106,8 @@ public class Phase3RegressionTests : BunitAlbaContext, IClassFixture<WebAppFixtu
         Assert.Equal("trigger", tooltipTrigger.GetAttribute("x-ref"));
         Assert.Equal(tooltipContent.Id, tooltipTrigger.GetAttribute("aria-describedby"));
         Assert.Equal(tooltipContent.Id, tooltipTrigger.GetAttribute("aria-controls"));
-        Assert.Equal(tooltipTrigger.Id, tooltipContent.GetAttribute("aria-labelledby"));
+        // The tooltip is named by its own text (APG); it is not labelled by its trigger.
+        Assert.Null(tooltipContent.GetAttribute("aria-labelledby"));
         Assert.Equal("tooltip", tooltipContent.GetAttribute("role"));
 
         var sidebarButton = cut.Find("[data-slot='sidebar-menu-button']");

@@ -28,3 +28,20 @@ IDs refer to [06-prioritized-roadmap.md](06-prioritized-roadmap.md).
 3. RM-2.1: remove the dead MSBuild targets (D-6).
 4. RM-2.6: publish `RizzyUI.Tasks` from `release.yml` (D-5).
 5. RM-0.2: owner-only registry and environment setup (D-7).
+
+## Decisions taken under delegation (2026-11-17)
+
+The owner delegated decisions for the Phase 1–5 run ("you have control to make decisions on my
+behalf that are in the best interest and spirit of the project"). These are recorded here so they
+can be reviewed and reversed before 1.0.
+
+| ID | Decision | Reason / consequence |
+|---|---|---|
+| D-9 | **`RzCombobox` is safe by default:** `data-item` carries `{ value, text }` unless `ItemDataSelector` chooses fields. Breaking for templates that read other fields. | Same reasoning as D-4 (`RzMarkdown`): full entity graphs in page source are a data-exposure risk, and changing the default after 1.0 would be breaking. `RzDataTable` keeps sending its rows (cell templates need them) and documents DTOs instead. |
+| D-10 | **Phase 3 classification** in [08](08-roadmap-execution.md#phase-3-classification): RM-3.3's shared helpers and RZUI-061 (deterministic IDs) are deferred to after 1.0. | Internal refactoring with no consumer-facing defect. |
+| D-11 | **`AsChild` class precedence: the child's own classes win** Tailwind conflicts on both the element and markup paths. | The element path documented this; the markup path did the opposite. It matches Radix's `asChild`. Recorded in CHANGELOG. |
+| D-12 | **No `AddLocalization()` means RizzyUI's English resources, not resource keys**, and RizzyUI no longer decorates the application's `IStringLocalizerFactory`. | The template and consumer apps rendered keys as accessible names. Removes the Scrutor dependency. |
+| D-13 | **The docs app hosts the integration harness** at `/_tests/harness`, mapped only with `Docs:EnableTestPages=true`, outside `Components/Pages` so the static site never contains it; CSP mode is configuration (`Docs:UseContentSecurityPolicy`). | Real-component scenarios (swaps, OOB, 422, toasts, CSP build) without a second test application. |
+| D-14 | **RizzyUI targets `net10.0` only for 1.0** (RM-5.4). | A `net10.0` library runs in `net11.0` apps; the template test builds and runs a `net11.0` app against the packed library in CI and in `release.yml`. A second target doubles build and test time and adds nothing until RizzyUI needs a .NET 11-only API. Revisit when Rizzy or RizzyUI needs one. |
+| D-15 | **`RzSwitch` and `RzInputOTP` no longer render a default `aria-label`.** Breaking. | Same reasoning as D-8 (`RzButton`): an `aria-label` overrides the `<label>`, so every labelled switch and OTP was announced as "Toggle" / "One-time password". `FieldLabel For` now reaches both controls. In CHANGELOG ("Breaking") and the migration guide. |
+| D-16 | **Subtle status toasts use the foreground color for title and text**; the status color stays on the icon. | The status-colored text was 2.9:1 on the tinted background (WCAG AA needs 4.5:1). Darkening each theme's status colors would change every theme; the foreground color passes in all of them. |

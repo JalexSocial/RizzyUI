@@ -177,7 +177,7 @@ public class RzToastProviderTests : BunitAlbaContext, IClassFixture<WebAppFixtur
 
 
     [Fact]
-    public void SubtleStatusClassesUseOpaqueTintedBackgroundsAndStatusTitleColors()
+    public void SubtleStatusClassesUseOpaqueTintedBackgroundsAndReadableText()
     {
         var map = BuildClassMap(new RzToastProviderOptions { Tone = ToastTone.Subtle });
 
@@ -186,13 +186,16 @@ public class RzToastProviderTests : BunitAlbaContext, IClassFixture<WebAppFixtur
         Assert.Contains("!text-accent-foreground", map.Statuses["default"].Toast);
         Assert.Contains("!text-accent-foreground", map.Statuses["default"].Title);
 
-        AssertSubtleStatusClasses(map.Statuses["info"], "info", "text-info");
-        AssertSubtleStatusClasses(map.Statuses["success"], "success", "text-success");
-        AssertSubtleStatusClasses(map.Statuses["warning"], "warning", "text-warning");
-        AssertSubtleStatusClasses(map.Statuses["error"], "destructive", "text-destructive");
+        // Text is the foreground color on the tinted background (WCAG AA); the status color is on
+        // the icon. Status-colored titles were 2.9:1 for success.
+        AssertSubtleStatusClasses(map.Statuses["info"], "info", "text-foreground");
+        AssertSubtleStatusClasses(map.Statuses["success"], "success", "text-foreground");
+        AssertSubtleStatusClasses(map.Statuses["warning"], "warning", "text-foreground");
+        AssertSubtleStatusClasses(map.Statuses["error"], "destructive", "text-foreground");
         Assert.Contains("!bg-[color-mix(in_oklab,var(--background)_90%,var(--destructive)_10%)]", map.Statuses["error"].Toast);
-        Assert.Contains("!text-destructive", map.Statuses["error"].Title);
-        AssertSubtleStatusClasses(map.Statuses["loading"], "info", "text-info");
+        Assert.Contains("!text-destructive", map.Statuses["error"].IconContainer);
+        Assert.Contains("text-success", map.Statuses["success"].IconContainer);
+        AssertSubtleStatusClasses(map.Statuses["loading"], "info", "text-foreground");
     }
 
     [Fact]

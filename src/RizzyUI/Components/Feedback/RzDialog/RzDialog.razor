@@ -11,7 +11,9 @@
 			<rz-proxy id="rz-ref-@Id" x-ref="@(attribute)" data-for="@Id"></rz-proxy>
 		}
 	}	
-	<div x-data="rzModal" x-load="@LoadStrategyOrNull"
+	@* Caller attributes first, so they cannot replace the component's own (RZUI-053). *@
+	<div @attributes="RootAttributes"
+	     x-data="rzModal" x-load="@LoadStrategyOrNull"
 	     id="@Id"
 	     data-slot="dialog"
 	     data-alpine-root="@Id"

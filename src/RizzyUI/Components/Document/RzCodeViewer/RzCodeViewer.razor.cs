@@ -1,4 +1,5 @@
 
+using RizzyUI.Utility;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using Rizzy.Utility;
@@ -92,7 +93,7 @@ public partial class RzCodeViewer : RzComponent<RzCodeViewer.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys);
+        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
         _assets = JsonSerializer.Serialize(assetUrls);
     }
 
@@ -105,7 +106,7 @@ public partial class RzCodeViewer : RzComponent<RzCodeViewer.Slots>
         }
         else if (ChildContent != null)
         {
-            rawContent = ChildContent.AsMarkupString();
+            rawContent = ChildContent.GetSourceText();
             rawContent = HttpUtility.HtmlDecode(rawContent);
         }
         else

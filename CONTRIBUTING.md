@@ -14,7 +14,9 @@ Thank you for considering a contribution to RizzyUI, the SSR-first Razor compone
   SSR-only: interactivity uses Alpine.js and htmx, never Blazor interactive rendering.
 - **Build and test:** [docs/contributing/development.md](docs/contributing/development.md) lists the
   commands CI runs.
-- **Breaking changes:** list them in `CHANGELOG.md` with a migration note.
+- **Breaking changes:** list them in `CHANGELOG.md` with a migration note. CI fails on an
+  unrecorded public API change; see
+  [docs/contributing/api-compatibility.md](docs/contributing/api-compatibility.md).
 - **Releases** are cut by maintainers from a version tag:
   [docs/contributing/releasing.md](docs/contributing/releasing.md).
 
