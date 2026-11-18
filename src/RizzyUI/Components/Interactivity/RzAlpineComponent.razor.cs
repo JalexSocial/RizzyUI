@@ -19,6 +19,7 @@ public partial class RzAlpineComponent : RzAsChildComponent
 {
     private static readonly ConcurrentDictionary<Type, string?> _pathCache = new();
     private string? _modulePath;
+    private string _registrationArguments = string.Empty;
     private string _serializedProps = "{}";
     private string _propsScriptId = string.Empty;
 
@@ -56,6 +57,9 @@ public partial class RzAlpineComponent : RzAsChildComponent
         if (string.IsNullOrWhiteSpace(Name)) throw new InvalidOperationException("'Name' is required.");
 
         _modulePath = _pathCache.GetOrAdd(For.GetType(), GetComponentModulePath);
+        _registrationArguments = _modulePath is null
+            ? string.Empty
+            : $"{JsonSerializer.Serialize(Name)}, {JsonSerializer.Serialize(RizzyUIConfig.ApplyPathBase(_modulePath, RequestPathBase))}";
 
         if (Props is not null)
         {
@@ -123,7 +127,9 @@ public partial class RzAlpineComponent : RzAsChildComponent
 
         var relative = razorFilePath.Substring(pathPrefix.Length);
         var jsPath = Path.ChangeExtension(relative, ".razor.js");
-        var webPath = jsPath.Replace(Path.DirectorySeparatorChar, '/');
+        // RazorFilePath is a compile-time path: a library built on Windows and run on Linux still
+        // has backslashes, so normalize both separators (RZUI-054).
+        var webPath = jsPath.Replace('\\', '/');
 
         return BuildAbsoluteUrl(assemblyAttr.StaticWebAssetBasePath, webPath);
     }

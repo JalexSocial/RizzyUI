@@ -153,7 +153,7 @@ public partial class RzTypingAnimation : RzComponent<RzTypingAnimation.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys);
+        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
 
         _assets = JsonSerializer.Serialize(assetUrls);
     }

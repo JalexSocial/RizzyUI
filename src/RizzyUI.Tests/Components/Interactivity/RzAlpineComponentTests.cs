@@ -49,6 +49,28 @@ public class RzAlpineComponentTests : BunitAlbaContext, IClassFixture<WebAppFixt
     }
 
     [Fact]
+    public void RegistersTheCodeBehindModuleWithJsonStringArguments()
+    {
+        // RZUI-054: the name and path were HTML-encoded inside the script, so quotes and non-ASCII
+        // characters became entities.
+        var cut = Render<RzAlpineComponent>(p => p
+            .Add(x => x.For, new FakeAlpineHost())
+            .Add(x => x.Name, "café's"));
+
+        var script = cut.FindAll("script").Single(s => s.TextContent.Contains("registerAsyncComponent")).TextContent;
+        Assert.Contains(@"(""caf\u00E9\u0027s"", ""/_content/RizzyUI.Tests/Components/Interactivity/FakeAlpineHost.razor.js"")", script);
+        Assert.DoesNotContain("&#", script);
+    }
+
+    [Fact]
+    public void ModulePathUsesForwardSlashesForComponentsBuiltOnWindows()
+    {
+        Assert.Equal(
+            "/_content/RizzyUI.Tests/Components/Interactivity/WindowsBuiltHost.razor.js",
+            RzAlpineComponent.GetComponentModulePath(typeof(WindowsBuiltHost)));
+    }
+
+    [Fact]
     public void MissingNameThrowsForInvalidPartialConfiguration()
     {
         Assert.Throws<InvalidOperationException>(() => Render<RzAlpineComponent>(p => p

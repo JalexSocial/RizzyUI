@@ -96,7 +96,7 @@ public partial class RzCarousel : RzComponent<RzCarousel.Slots>
         var keys = new List<string> { "EmblaCore" };
         keys.AddRange(Plugins.Select(plugin => plugin.AssetKey).Where(key => !string.IsNullOrEmpty(key))!);
 
-        return JsonSerializer.Serialize(RizzyUIConfig.Value.ResolveAssets(keys));
+        return JsonSerializer.Serialize(RizzyUIConfig.Value.ResolveAssets(keys, RequestPathBase));
     }
 
     /// <inheritdoc/>

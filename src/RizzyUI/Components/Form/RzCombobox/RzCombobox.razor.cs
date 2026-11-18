@@ -136,7 +136,7 @@ public partial class RzCombobox<TItem, TValue> : InputBase<TValue, RzComboboxSlo
 
     private void UpdateConfiguration()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys);
+        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
         _assets = JsonSerializer.Serialize(assetUrls);
 
         _effectiveOptions.ValueField = "value";

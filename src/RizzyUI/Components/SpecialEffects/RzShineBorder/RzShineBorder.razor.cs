@@ -97,7 +97,7 @@ public partial class RzShineBorder : RzComponent<RzShineBorder.Slots>
 
     private void UpdateAlpinePayload()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys);
+        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
 
         _assets = JsonSerializer.Serialize(assetUrls);
 

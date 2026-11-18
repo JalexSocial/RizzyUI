@@ -92,7 +92,7 @@ public partial class RzCodeViewer : RzComponent<RzCodeViewer.Slots>
 
     private void UpdateAssets()
     {
-        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys);
+        var assetUrls = RizzyUIConfig.Value.ResolveAssets(ComponentAssetKeys, RequestPathBase);
         _assets = JsonSerializer.Serialize(assetUrls);
     }
 
