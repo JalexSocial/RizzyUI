@@ -59,3 +59,26 @@ accessibility, compatibility, packaging or the public API.
 ## Evidence log
 
 Each slice records the problem, change, tests and result.
+
+### Phase 1 — Compatibility stabilization (2026-11-17)
+
+| Task | Finding | Reproduced before the fix | Change | Verification |
+|---|---|---|---|---|
+| RM-1.1 | RZUI-027 | New unit tests failed: after the provider was removed, `show()` used the detached provider | `ensureProvider()` drops a disconnected provider and its stacks, then resolves again | 21/21 toast unit tests; harness: server toast before and after the provider is swapped |
+| RM-1.2 | RZUI-030 | Test against the real `AddRizzyUI` registration failed (`SliderScript` → `js/rizzyui.js`) | Default `ComponentAssetKeys = []`; key removed | Slider tests 4/4 |
+| RM-1.3 | RZUI-031 | Static: rejected promise cached in `loadedBundles`; loadjs keeps a failed bundle id | `createComponentFactoryLoader` evicts failed imports and logs bundle + component; `loadjs.forget` after a failed `require` | Registrar tests 4/4; `require` retry test |
+| RM-1.4 | RZUI-032 | Integration (CSP mode): "Property assignments are prohibited in the CSP build"; swatch never updated; three `style-src-attr` violations from string style bindings | One-way, CSP-safe bindings (`x-bind:value` + `x-on:input`, swatch `x-effect`); style objects in four components | `components.csp.spec.ts` passes with no RizzyUI CSP violations (DocSearch's `eval` on the docs site is excluded) |
+| RM-1.5 | RZUI-026 | All `rizzyRequire` unit tests failed with `crypto` undefined | Bundle id = sorted URL list | 7/7 `rizzyRequire` tests |
+| RM-1.6 | RZUI-023 | — | Gated harness `/_tests/harness` (`Docs:EnableTestPages`), CSP Playwright project, shared helpers | 14/14 integration tests (7 existing, 5 harness, 2 CSP) |
+| RM-1.7 | RZUI-038, RZUI-054 | Static (no prefix); Windows separator normalization only | `RzComponent.RequestPathBase`; `RizzyUIConfig.ApplyPathBase`; JSON-encoded code-behind registration | `PathBaseTests` (12), `PathBaseHostTests` (2), `RzAlpineComponentTests` (5) |
+
+Totals after Phase 1: 592 .NET tests, 137 JS tests, 14 integration tests passing locally (Windows);
+CI green on the pushed commits.
+
+Also found: the docs app's CSP mode was a hard-coded `false`, so no test had exercised
+`rizzyui-csp.js` on real components; it is now configuration. RZUI-054 (an RM-3.6 item) was fixed
+with RM-1.7 because both change the same lines.
+
+**Phase 1 checkpoint.** Done: RM-1.1 to RM-1.7. Remaining risk: other components may still bind
+string styles or use expressions the CSP build rejects; only the color input and the components
+found while fixing it were checked under CSP. RM-4.1 extends CSP coverage. Next: Phase 2.

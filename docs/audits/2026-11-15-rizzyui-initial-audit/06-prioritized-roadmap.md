@@ -115,13 +115,13 @@ Rizzy: RizzyUI depends on `Rizzy` 6.0.0-preview.3, the newest published Rizzy (c
 | RM-0.4 | Complete | Pinned CDN assets with SRI (#73); consumer smoke test under CSP passes in CI |
 | RM-0.5 | Complete | `rzDateEdit` options and `destroy()` (#73); integration test swaps the field 3× |
 | RM-0.6 | Complete | All `ci.yml` jobs green on PRs #73–#80 |
-| RM-1.1 | Outstanding | Confirmed: `ensureProvider()` returns early while `this.provider` is set, even after a swap detached it |
-| RM-1.2 | Outstanding | `SliderScript` still defaults to `js/rizzyui.js` |
-| RM-1.3 | Outstanding | Confirmed: `loadedBundles` keeps a rejected `import()` promise, so a failed bundle never retries |
-| RM-1.4 | Outstanding | `RzInputColor` still binds `x-model="colorPicker.value"`; to verify under the CSP build |
-| RM-1.5 | Outstanding | `rizzyRequire` hashes bundle IDs with `crypto.subtle` (undefined on plain HTTP) |
-| RM-1.6 | Partial | Integration suite covers dialog swaps, boosted navigation and back, antiforgery, sheet Escape, `RzDateEdit` swaps. Missing: popover/dropdown with htmx content, out-of-band swap, 422 validation swap, listener counts |
-| RM-1.7 | Outstanding | `Constants.ContentUrl` returns `/_content/...` without the request `PathBase` |
+| RM-1.1 | Complete | Provider re-resolved when detached (`14d66fa6`); unit tests; integration: server toast after the provider is swapped (harness) |
+| RM-1.2 | Complete | No default slider asset; `SliderScript` key removed (`c1b7a747`); test against the real registration |
+| RM-1.3 | Complete | Failed bundle imports and `rizzyRequire` loads are evicted and retried (`b5b37c66`); unit tests |
+| RM-1.4 | Complete | CSP-safe `RzInputColor`/`RzColorSwatch` bindings and style objects (`28968b34`); integration test under `rizzyui-csp.js` with no RizzyUI CSP violations |
+| RM-1.5 | Complete | Bundle ids no longer use `crypto.subtle` (`b5b37c66`); unit test runs with `crypto` undefined |
+| RM-1.6 | Complete | Integration harness (`3530b145`): popover/dropdown htmx content, OOB swap, 422 swap, 5× replacement with listener and panel counts, server toasts; CSP project (`7e431ce3`). Each defect fixed in this phase has a unit test that fails without the fix; the browser scenarios were not mutation-tested |
+| RM-1.7 | Complete | `RequestPathBase` applied to asset and code-behind URLs (`36649cd6`); unit tests plus an in-process host under `UsePathBase("/app")` through `RazorComponentResult` and `IRizzyService` |
 | RM-2.1 | Complete | Dead MSBuild targets removed (#73, D-6) |
 | RM-2.2 | Outstanding | `RizzyUI.Docs.csproj` runs `npm install` on every build |
 | RM-2.3 | Outstanding | To verify against the checker |

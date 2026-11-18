@@ -18,6 +18,31 @@ Finding IDs (RZUI-0xx) refer to the
 
 ## [Unreleased]
 
+### Fixed
+
+- Toasts appear after an htmx swap replaces the region that holds `RzToastProvider`. The runtime
+  kept the removed provider and sent later toasts to its detached stacks. (RZUI-027)
+- A lazy component bundle or asset that fails to load (for example during a network blip) is
+  retried the next time it is needed, instead of failing from a cached error until the page
+  reloads. The console error names the bundle and component. (RZUI-031)
+- Components that load assets work on plain HTTP. `Rizzy.require` hashed bundle ids with
+  `crypto.subtle`, which browsers only provide on HTTPS and localhost. (RZUI-026)
+- `RzSlider` no longer loads `rizzyui.js` a second time as a classic script (which failed with a
+  console error). Its default `ComponentAssetKeys` is now empty and the `SliderScript` asset key is
+  gone. (RZUI-030)
+- Apps hosted under a path base (`app.UsePathBase("/app")`) load RizzyUI's own assets and Alpine
+  code-behind modules from under that base. Root-relative asset URLs get the request's `PathBase`
+  when rendered; absolute URLs are unchanged. (RZUI-038)
+- Alpine code-behind modules registered by `RzAlpineComponent` work when the library was built on
+  Windows and runs on Linux, and component names with quotes or non-ASCII characters register
+  correctly. (RZUI-054)
+- `RzInputColor` works with the CSP build (`rizzyui-csp.js`). Its `x-model` bindings compiled to
+  property assignments, which the Alpine CSP build rejects, so every change logged an error and the
+  swatch never updated. An `x-model` passed to `RzColorSwatch` is now applied one way. (RZUI-032)
+- Popover positioning, color swatches and `RzShineBorder` set their styles through the CSSOM
+  instead of a `style` attribute, so they work under a Content Security Policy that does not allow
+  inline styles.
+
 ### Removed
 
 - `@jalexsocial/rizzyui` no longer depends on `shadcn-prose` (deprecated) or `tailwindcss-inset`.
