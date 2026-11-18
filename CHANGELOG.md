@@ -146,6 +146,10 @@ Finding IDs (RZUI-0xx) refer to the
 
 ### Changed
 
+- `Element` is honored on every component. 55 components (for example `RzSeparator`,
+  `DialogTitle`, `SheetTrigger`, `CardContent`, `RzCheckboxGroup`) replaced it with their own tag;
+  they now use it when it is set. Components no longer write their default tag into the `Element`
+  parameter: derived components override `DefaultElement` instead. (RZUI-053)
 - The README, Getting Started, the theme guide, the migration guide and the `dotnet new rizzyui`
   template load the minified runtime (`rizzyui.min.js`, `rizzyui-csp.min.js`), about half the bytes
   of `rizzyui.js`. The unminified files remain for debugging. (RZUI-056)
