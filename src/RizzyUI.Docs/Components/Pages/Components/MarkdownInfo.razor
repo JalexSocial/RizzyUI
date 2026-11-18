@@ -184,10 +184,10 @@
                                 <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
                             </tr>
                             <tr class="align-top">
-                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ComponentAssets</code></td>
-                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400"><code>string[]</code> – Optional array of asset URLs (JavaScript/CSS) to load for syntax highlighting.</td>
+                                <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ComponentAssetKeys</code></td>
+                                <td class="px-4 py-4 text-zinc-600 dark:text-zinc-400">Asset keys loaded, in order, for syntax highlighting. The default highlight.js build covers common languages (C#, JavaScript, TypeScript, HTML/XML, CSS, JSON, YAML, SQL, Bash, PowerShell, Python, Markdown and others) plus Razor. To add another, register <code>vendor/highlightjs/languages/&lt;name&gt;.min.js</code> under a new key in <code>AssetUrls</code> and list it after <code>HighlightJsCore</code>.</td>
                                 <td class="px-4 py-4"><code class="font-mono text-violet-600 dark:text-violet-400">string[]</code></td>
-                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">null</code></td>
+                                <td class="px-4 py-4 text-zinc-500"><code class="font-mono">["HighlightJsCore", "HighlightJsRazor"]</code></td>
                             </tr>
                             <tr class="align-top">
                                 <td class="px-4 py-4"><code class="font-mono font-medium text-sky-600 dark:text-sky-400">ProseWidth</code></td>

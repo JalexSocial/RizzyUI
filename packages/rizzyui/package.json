@@ -29,6 +29,7 @@
     "build:js": "node ./build/build-js.mjs",
     "build:assets": "node ./build/build-assets.mjs",
     "build:antiforgery": "node ./build/build-antiforgery.mjs",
+    "build:highlightjs": "node ./build/build-highlightjs.mjs",
     "build:css": "node ./build/build-css.mjs",
     "build:safelist": "node ./build/parse-tailwind-css.js",
     "build:copy": "node ./build/copy-dist.mjs",
@@ -58,6 +59,7 @@
   "devDependencies": {
     "@tailwindcss/cli": "^4.2.1",
     "esbuild": "^0.28.2",
+    "highlight.js": "11.10.0",
     "postcss": "^8.5.33",
     "postcss-selector-parser": "^7.2.1",
     "vite": "^8.3.8"

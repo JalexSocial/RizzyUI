@@ -115,7 +115,7 @@ public static class ServiceCollectionExtensions
                 config.AssetIntegrity.TryAdd(url, integrity);
             }
 
-            config.AssetUrls.TryAdd("HighlightJsCore", Constants.ContentUrl("vendor/highlightjs/highlight.js"));
+            config.AssetUrls.TryAdd("HighlightJsCore", Constants.ContentUrl("vendor/highlightjs/highlight.min.js"));
             config.AssetUrls.TryAdd("HighlightJsRazor", Constants.ContentUrl("js/lib/highlightjs-plugin/cshtml-razor.min.js"));
         });
 

@@ -596,5 +596,19 @@ export function defineRealComponentA11ySpecs(variant: string) {
       await expect.poll(() => toastChunks.length).toBeGreaterThan(0);
       expect(errors).toEqual([]);
     });
+
+    test('code viewer and markdown: the bundled highlight.js highlights C#, Razor and PowerShell (RZUI-062)', async ({ page }) => {
+      const missingLanguages: string[] = [];
+      page.on('console', message => {
+        if (/Could not find the language/i.test(message.text())) missingLanguages.push(message.text());
+      });
+
+      const errors = await open(page, 'code-viewer');
+      await expect(page.locator('#code-csharp code .hljs-keyword').first()).toBeVisible();
+      await expect(page.locator('#code-razor code .hljs-keyword, #code-razor code .hljs-tag').first()).toBeVisible();
+      await expect(page.locator('#markdown-powershell code [class^="hljs-"]').first()).toBeVisible();
+      expect(missingLanguages).toEqual([]);
+      expect(errors).toEqual([]);
+    });
   });
 }

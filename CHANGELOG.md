@@ -43,6 +43,13 @@ Finding IDs (RZUI-0xx) refer to the
   `_content/RizzyUI/js/lib` (NuGet), about 0.6 MB that nothing loaded. The stylesheets that
   `rizzyui-theme.css` imports and the highlight.js Razor grammar remain. Import from the package
   entry points instead of `dist/js/lib/...`. (RZUI-056)
+- **The vendored highlight.js is a smaller build.** `HighlightJsCore` now loads
+  `vendor/highlightjs/highlight.min.js` (164 KB, was the 1.75 MB unminified build of every
+  language), which has highlight.js's common languages plus PowerShell, Dockerfile, F#, HTTP, nginx
+  and properties; Razor still comes from `HighlightJsRazor`. Every other language ships as
+  `vendor/highlightjs/languages/<name>.min.js`: register it as an asset and list its key after
+  `HighlightJsCore` (see `vendor/highlightjs/README.md`). The unused ESM build, unminified files and
+  500 theme stylesheets are gone; the `RizzyUI` package is 2.9 MB (was 6.1 MB) with 246 files (was 1,444). (RZUI-062)
 
 ### Added
 
