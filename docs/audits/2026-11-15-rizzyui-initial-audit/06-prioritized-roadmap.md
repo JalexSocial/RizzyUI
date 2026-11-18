@@ -80,7 +80,7 @@ audit run** (details in [07](07-implementation-and-verification.md)). Section B 
 
 | Task | Findings | Description | Sev. | Depends on | Effort | Acceptance criteria |
 |---|---|---|---|---|---|---|
-| RM-4.1 | Partial | Real-component specs (standard + CSP runtime) for dialog, alert dialog, sheet, popover, dropdown menu, tabs, tooltip, accordion, navigation menu, menubar, command, collapsible, slider, radio group, carousel, calendar, date edit, color input, plus harness scenarios (`acc0a943`, `7c0686ee`, `925b7625`). Not yet on real components: combobox, data table, toast (beyond the harness scenario), file input, input OTP, switch, checkbox group, sidebar, back-to-top; their fixture/bUnit tests remain |
+| RM-4.1 | RZUI-023 | Port each fixture spec to the real component in the docs app; real CSP for CSP variants | P1 | RM-1.6 | L | Every interactive root in the inventory has a real-component Playwright spec |
 | RM-4.2 | RZUI-047, RZUI-048, RZUI-049 | Spinner status, conditional ARIA relationships, tabs SSR state and ID escaping | P2 | — | M | axe clean on real pages; tests |
 | RM-4.3 | RZUI-059, RZUI-060 | Navigation-menu activation semantics; persistent toast live regions; manual AT pass (NVDA, VoiceOver) | P2 | — | M | Documented AT results in `docs/accessibility/manual-testing.md` |
 | RM-4.4 | RZUI-035, RZUI-056, RZUI-062 | Benchmark render cost (theme allocation, serializers); trim eager bundle; recommend minified bundles; trim highlight.js payload | P3 | — | M | BenchmarkDotNet baseline committed; eager JS reduced with measurements |
@@ -135,14 +135,14 @@ Rizzy: RizzyUI depends on `Rizzy` 6.0.0-preview.3, the newest published Rizzy (c
 | RM-3.5 | Complete | Agent guidance aligned with the code (`041eeaa2`, `837b49ed`) |
 | RM-3.6 | Partial (by design) | RZUI-050, 051, 052, 055 (`f2c37935`) and RZUI-054 (`36649cd6`) fixed with tests; RZUI-061 deferred |
 | RM-3.7 | Complete | `destroy()` for NumberTicker, Progress, EmbeddedPreview; stacking intervals fixed (`f88294f5`) |
-| RM-4.1 | Partial | Real-component specs (standard + CSP runtime) for dialog, alert dialog, sheet, popover, dropdown menu, tabs, tooltip, accordion, navigation menu, menubar, command, collapsible, slider, radio group, carousel, calendar, date edit, color input, plus harness scenarios (`acc0a943`, `7c0686ee`, `925b7625`). Not yet on real components: combobox, data table, toast (beyond the harness scenario), file input, input OTP, switch, checkbox group, sidebar, back-to-top; their fixture/bUnit tests remain |
-| RM-4.2 | Complete | RZUI-047 (`eae79a3b`), RZUI-048 and RZUI-049 (`925b7625`), plus defects found by the new specs: tooltip naming, trigger references, dropdown keyboard focus, destructive contrast (`ceb3de38`) |
+| RM-4.1 | Complete | Real-component specs under the standard and CSP runtimes for 29 families: dialog, alert dialog, sheet, popover, dropdown menu, tabs, tooltip, accordion, navigation menu, menubar, command, collapsible, slider, radio group, carousel, calendar, date edit, color input, combobox, data table, toast, file input, input OTP, switch, checkbox group, native select, alert, back-to-top, sidebar (`acc0a943`, `7c0686ee`, `925b7625`, `8d666eba`, `0884441c`, `0006b251`); 72 integration tests. Data table is standard-runtime only: its templates are inline Alpine expressions, which the CSP build does not run (documented) |
+| RM-4.2 | Complete | RZUI-047 (`eae79a3b`), RZUI-048 and RZUI-049 (`925b7625`), plus defects found by the new specs: tooltip naming, trigger references, dropdown keyboard focus, destructive contrast (`ceb3de38`); switch and OTP labels, combobox and OTP not labelled by `FieldLabel`, the combobox's duplicate unnamed `<select>`, subtle toast contrast (`8d666eba`, `0884441c`) |
 | RM-4.3 | Partial | RZUI-059 fixed (`07f4878b`). RZUI-060 (toast announcements) and the manual NVDA/VoiceOver pass need assistive-technology testing that this environment cannot perform: release gate in `docs/accessibility/manual-testing.md` |
 | RM-4.4 | Partial (measured; optimizations deferred) | Payload measured (eager JS 37.0 KB gz standard, 40.6 KB CSP; audit 36.7 / 40.4); no regression. Theme-allocation benchmark and payload trimming (RZUI-035, 056, 062) deferred to 1.1 |
-| RM-5.1 | Partial | RizzyUI release page in `rizzy.docs` (rizzy.docs#6); migration guide is in the repository but not on the docs site |
-| RM-5.2 | Outstanding | |
-| RM-5.3 | Outstanding | `docs/contributing/releasing.md` has no stable-release checklist |
-| RM-5.4 | Outstanding | RizzyUI targets `net10.0`; the template test builds and runs a `net11.0` app on it in CI |
+| RM-5.1 | Partial (rest at the next release) | Migration guide covers changes after 1.0.0-preview.1 (`24a6f3ad`) and is linked from the README; RizzyUI release page in `rizzy.docs` (rizzy.docs#6). Left: link the guide and the new preview from `rizzy.docs` when the preview is published |
+| RM-5.2 | Complete | README "RizzyUI owns Alpine" and a console warning for a second Alpine instance (`d6cb5a99`); Getting Started troubleshooting (`0ad698c8`) |
+| RM-5.3 | Complete | Stable-release criteria in `docs/contributing/releasing.md` (`0ad698c8`); assessed in [08](08-roadmap-execution.md#release-readiness-assessment-2026-11-18) |
+| RM-5.4 | Complete (decision) | D-14: RizzyUI targets `net10.0` only; `net11.0` apps are verified by the template test in CI and release |
 
 Work done since the audit that is not a roadmap task: the `dotnet new rizzyui` template (#75), inputs
 rendering the `For` value (#75), `FieldLabel` registration (#74), npm audit and warning cleanup (#79),
@@ -157,3 +157,6 @@ Phase 3 → RM-4.2 to RM-4.4 → Phase 5.
 **Next development slice (recommended):** RM-0.6 + RM-0.5 + RM-0.4. Get CI green on GitHub, fix the
 remaining P1 runtime defect (`rzDateEdit`) and pin the CDN assets. Together with the owner-only
 release setup (RM-0.1/0.2), that is everything between this branch and a first Rizzy 6 preview.
+
+*(Superseded 2026-11-18: that slice and Phases 1–5 are done on `roadmap/1.0-readiness`. What is
+left before 1.0 is in [08, Release readiness assessment](08-roadmap-execution.md#release-readiness-assessment-2026-11-18).)*

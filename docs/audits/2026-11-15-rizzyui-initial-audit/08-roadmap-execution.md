@@ -49,16 +49,26 @@ accessibility, compatibility, packaging or the public API.
 |---|---|---|
 | RM-3.3 / RZUI-053 helpers, `data-slot` coverage, attribute-precedence unification | Maintenance cost only; no behavior change intended. The consumer-facing part (dialog roots dropping attributes) is fixed. `data-slot` additions are additive, so they can ship in any minor release | 1.1 |
 | RM-3.6 / RZUI-061 deterministic IDs | Snapshot tests and future morph swaps; no current defect | 1.x |
-| RM-4.1 remainder: real-component specs for combobox, data table, file input, input OTP, switch, checkbox group, sidebar, back-to-top | Those components keep bUnit and fixture coverage; the harness pattern makes each a small addition | 1.0 RC or 1.1 |
 | RM-4.4 / RZUI-035 theme allocation per component | Unmeasured CPU cost; no reported problem | 1.1 (benchmark first) |
 | RM-4.4 / RZUI-056 eager payload (toast system, focus plugin, unused intersect plugin) and minified bundle recommendation | ~37 KB gz eager today; optimization, not a defect | 1.1 |
 | RM-4.4 / RZUI-062 highlight.js share of the NuGet package (6.1 MB) | Package size and restore time only | 1.1 |
+| RZUI-015 follow-up: fully encode caller attribute values on the `AsChild` markup path | None for security: both quote characters are escaped and values are left unquoted only when safe, so a value cannot leave its attribute. A caller value that contains an entity (`&amp;`) is decoded by the browser, a fidelity issue only | 1.x |
 
-(Updated as work proceeds.)
+Not deferrable: the manual screen-reader pass and RZUI-060 (toast announcements) are 1.0 gates
+(see [Release readiness](#release-readiness-assessment-2026-11-18)).
 
 ## Owner actions
 
-(Collected as work proceeds; see the final assessment.)
+Only the owner can do these; nothing in the repository can substitute for them.
+
+| # | Action | Why | Blocks |
+|---|---|---|---|
+| 1 | Review and merge PR #81 (`roadmap/1.0-readiness`), or ask for changes to any delegated decision (D-9 to D-16) | Everything below builds on it | All |
+| 2 | Add a required reviewer to the `release` GitHub environment (Settings → Environments → release) | A pushed tag publishes to NuGet and npm without approval today (RM-0.2, RZUI-019) | 1.0 |
+| 3 | Publish 1.0.0-preview.2 from `main` (`docs/contributing/releasing.md`); then link it and the migration guide from `rizzy.docs` | preview.2 contains breaking changes (D-9, D-15, D-11), so the two-preview clock starts after it | 1.0 |
+| 4 | Run the manual NVDA + Chrome and VoiceOver + Safari pass, including the 1.0 focus scenarios and RZUI-060, and record it in `docs/accessibility/manual-testing.md` | Screen-reader behavior cannot be automated here | 1.0 |
+| 5 | Publish two more previews (or release candidates) with no "Breaking" changelog entries, no new `CompatibilitySuppressions.xml` entries and no removed `public-contract.txt` lines | Stable-release criterion 4 | 1.0 |
+| 6 | Tag 1.0.0 when the checklist in `releasing.md` → "Stable release (1.0.0) criteria" holds; update README and `rizzy.docs` to drop `--prerelease` / `@next` | | 1.0 |
 
 ## Evidence log
 
@@ -175,3 +185,64 @@ optimization was made, so no before/after claim is needed; the deferrals are lis
 
 **Phase 4 checkpoint.** Remaining risk: the manual AT pass and RZUI-060 are open gates; nine
 interactive components still lack real-component specs (deferred, listed). Next: Phase 5.
+
+### Phase 4 completion (2026-11-18)
+
+**Remaining real-component specs (RM-4.1).** Combobox, data table, toast, file input, input OTP,
+switch, checkbox group, native select, alert, back-to-top (`8d666eba`, `0884441c`) and sidebar,
+desktop and mobile (`0006b251`). 72 integration tests: 71 pass and 1 is skipped by design (data
+table under the CSP build). `npm run check-accessibility-inventory` passes.
+
+**Defects these specs found, all fixed with tests:**
+
+| Component | Defect | Commit |
+|---|---|---|
+| `RzSwitch`, `RzInputOTP` | A default `aria-label` replaced the name from the field's `<label>` (D-15, breaking) | `8d666eba` |
+| `RzCombobox`, `RzInputOTP` | Ids no `<label for>` could target, so `FieldLabel For` did not name them | `8d666eba`, `0884441c` |
+| `RzCombobox` | Declared a second `[CascadingParameter] HttpContext`, which Blazor rejects ("more than one parameter matching the name 'httpcontext'"); every combobox render threw. Caught by CI on PR #81 | `0884441c` |
+| `RzCombobox` | The hidden native `<select>` showed as a second, unnamed combobox once Tom Select moved its label | `0884441c` |
+| Toasts | Subtle status title/text 2.9:1 (D-16) | `0884441c` |
+| Docs | `CheckboxInfo` example used `Name=` where `Value=` was meant | `8d666eba` |
+
+`8d666eba` was pushed with failing .NET and browser tests (the HttpContext clash); CI on PR #81
+caught it and `0884441c` fixed it. Every commit after it was run against the full .NET, JS and
+integration suites before pushing.
+
+### Phase 5 — Product readiness (2026-11-18)
+
+| Task | Result |
+|---|---|
+| RM-5.1 | Migration guide section for changes after preview.1 (`24a6f3ad`); README links it. Publishing it on `rizzy.docs` waits for the preview it describes (owner action 3) |
+| RM-5.2 | README section and console warning for a second Alpine instance (`d6cb5a99`); Getting Started troubleshooting (`0ad698c8`) |
+| RM-5.3 | Stable-release criteria in `releasing.md` (`0ad698c8`) |
+| RM-5.4 | D-14: `net10.0` only |
+
+**P0/P1 review.** Every P0 and P1 finding in the audit is resolved in the repository: RZUI-017
+(RM-0.3), RZUI-018 (RM-0.4), RZUI-023 (RM-1.6, RM-4.1) and RZUI-025 (RM-0.5) since report 07, and
+RZUI-015 is reclassified from "mitigated" to resolved for security (the deferral list has the
+fidelity follow-up). RZUI-019's remaining part is owner action 2. GitHub has one open issue
+(#72, a support question, answered); no open bug is P0/P1.
+
+## Release readiness assessment (2026-11-18)
+
+**Verdict: not ready for 1.0.0. Ready for 1.0.0-preview.2** once PR #81 is merged.
+
+| Stable criterion (`releasing.md`) | Status | Evidence / what is left |
+|---|---|---|
+| 1. No open P0/P1 defects | **Met in the repository**; one owner step | P0/P1 review above; `release` environment reviewer (owner action 2) |
+| 2. Real-component accessibility coverage | **Automated part met; manual part open** | 29 families on real components, both runtimes; inventory check passes. NVDA/VoiceOver pass and RZUI-060 not performed (owner action 4) |
+| 3. Public API baseline | **Met** | Package validation against 1.0.0-preview.1 and `PublicContractTests` in CI (RM-2.5) |
+| 4. Two previews without breaking changes | **Not met** | preview.2 will contain breaking changes (D-9, D-11, D-15); needs preview.2, then two clean previews (owner actions 3, 5) |
+
+**Verification on the final branch state** (local, Windows, .NET 10, Node 24, Chromium):
+`dotnet test` 623 passed; `npm test` (packages/rizzyui) 144 passed; integration suite 71 passed, 1
+skipped by design; accessibility inventory passes; client bundles rebuilt and committed. CI on PR
+#81 is the authority for Linux, pack, consumer smoke and template tests.
+
+**Risk carried into the previews:** screen-reader behavior is unverified (toast live regions in
+particular, RZUI-060); eight delegated decisions (D-9 to D-16) await owner review; the payload and
+theme-allocation optimizations are deferred to 1.1.
+
+**Recommended next action:** the owner reviews PR #81 (the delegated decisions first), merges it,
+adds the `release` environment reviewer, and publishes 1.0.0-preview.2. Run the manual
+screen-reader pass against preview.2 so any fix lands in the first clean preview.
