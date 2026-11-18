@@ -45,14 +45,9 @@ accessibility, compatibility, packaging or the public API.
 
 ## Deferred after 1.0
 
-| Task / finding | Risk if deferred | Target |
-|---|---|---|
-| RM-3.3 / RZUI-053 helpers, `data-slot` coverage, attribute-precedence unification | Maintenance cost only; no behavior change intended. The consumer-facing part (dialog roots dropping attributes) is fixed. `data-slot` additions are additive, so they can ship in any minor release | 1.1 |
-| RM-3.6 / RZUI-061 deterministic IDs | Snapshot tests and future morph swaps; no current defect | 1.x |
-| RM-4.4 / RZUI-035 theme allocation per component | Unmeasured CPU cost; no reported problem | 1.1 (benchmark first) |
-| RM-4.4 / RZUI-056 eager payload (toast system, focus plugin, unused intersect plugin) and minified bundle recommendation | ~37 KB gz eager today; optimization, not a defect | 1.1 |
-| RM-4.4 / RZUI-062 highlight.js share of the NuGet package (6.1 MB) | Package size and restore time only | 1.1 |
-| RZUI-015 follow-up: fully encode caller attribute values on the `AsChild` markup path | None for security: both quote characters are escaped and values are left unquoted only when safe, so a value cannot leave its attribute. A caller value that contains an entity (`&amp;`) is decoded by the browser, a fidelity issue only | 1.x |
+Nothing. The items deferred on 2026-11-17 (RM-3.3 helpers and conventions, RZUI-035, RZUI-056,
+RZUI-061, RZUI-062 and the RZUI-015 encoding follow-up) were done before 1.0 at the owner's request
+on 2026-11-18; see [Deferred items done before 1.0](#deferred-items-done-before-10-2026-11-18).
 
 Not deferrable: the manual screen-reader pass and RZUI-060 (toast announcements) are 1.0 gates
 (see [Release readiness](#release-readiness-assessment-2026-11-18)).
@@ -63,9 +58,9 @@ Only the owner can do these; nothing in the repository can substitute for them.
 
 | # | Action | Why | Blocks |
 |---|---|---|---|
-| 1 | Review and merge PR #81 (`roadmap/1.0-readiness`), or ask for changes to any delegated decision (D-9 to D-16) | Everything below builds on it | All |
+| 1 | Review and merge PR #81 (`roadmap/1.0-readiness`), then the stacked PR for `roadmap/deferred-before-1.0`, or ask for changes to any delegated decision (D-9 to D-21) | Everything below builds on them | All |
 | 2 | Add a required reviewer to the `release` GitHub environment (Settings → Environments → release) | A pushed tag publishes to NuGet and npm without approval today (RM-0.2, RZUI-019) | 1.0 |
-| 3 | Publish 1.0.0-preview.2 from `main` (`docs/contributing/releasing.md`); then link it and the migration guide from `rizzy.docs` | preview.2 contains breaking changes (D-9, D-15, D-11), so the two-preview clock starts after it | 1.0 |
+| 3 | Publish 1.0.0-preview.2 from `main` (`docs/contributing/releasing.md`); then link it and the migration guide from `rizzy.docs` | preview.2 contains breaking changes (D-9, D-11, D-15, D-18 to D-20), so the two-preview clock starts after it | 1.0 |
 | 4 | Run the manual NVDA + Chrome and VoiceOver + Safari pass, including the 1.0 focus scenarios and RZUI-060, and record it in `docs/accessibility/manual-testing.md` | Screen-reader behavior cannot be automated here | 1.0 |
 | 5 | Publish two more previews (or release candidates) with no "Breaking" changelog entries, no new `CompatibilitySuppressions.xml` entries and no removed `public-contract.txt` lines | Stable-release criterion 4 | 1.0 |
 | 6 | Tag 1.0.0 when the checklist in `releasing.md` → "Stable release (1.0.0) criteria" holds; update README and `rizzy.docs` to drop `--prerelease` / `@next` | | 1.0 |
@@ -232,17 +227,38 @@ fidelity follow-up). RZUI-019's remaining part is owner action 2. GitHub has one
 | 1. No open P0/P1 defects | **Met in the repository**; one owner step | P0/P1 review above; `release` environment reviewer (owner action 2) |
 | 2. Real-component accessibility coverage | **Automated part met; manual part open** | 29 families on real components, both runtimes; inventory check passes. NVDA/VoiceOver pass and RZUI-060 not performed (owner action 4) |
 | 3. Public API baseline | **Met** | Package validation against 1.0.0-preview.1 and `PublicContractTests` in CI (RM-2.5) |
-| 4. Two previews without breaking changes | **Not met** | preview.2 will contain breaking changes (D-9, D-11, D-15); needs preview.2, then two clean previews (owner actions 3, 5) |
+| 4. Two previews without breaking changes | **Not met** | preview.2 will contain breaking changes (D-9, D-11, D-15, D-18 to D-20); needs preview.2, then two clean previews (owner actions 3, 5) |
 
-**Verification on the final branch state** (local, Windows, .NET 10, Node 24, Chromium):
-`dotnet test` 623 passed; `npm test` (packages/rizzyui) 144 passed; integration suite 71 passed, 1
-skipped by design; accessibility inventory passes; client bundles rebuilt and committed. CI on PR
-#81 is the authority for Linux, pack, consumer smoke and template tests.
+**Verification on the final branch state** (`roadmap/deferred-before-1.0`, local, Windows, .NET 10,
+Node 24, Chromium): `dotnet test` 636 passed; `npm test` (packages/rizzyui) 146 passed; integration
+suite 77 passed, 1 skipped by design; accessibility fixture suite 63 passed, 2 skipped; accessibility
+inventory passes; client bundles rebuilt and committed. CI on the PRs is the authority for Linux,
+pack, consumer smoke and template tests.
 
 **Risk carried into the previews:** screen-reader behavior is unverified (toast live regions in
-particular, RZUI-060); eight delegated decisions (D-9 to D-16) await owner review; the payload and
-theme-allocation optimizations are deferred to 1.1.
+particular, RZUI-060); thirteen delegated decisions (D-9 to D-21) await owner review. Nothing is
+deferred past 1.0.
 
-**Recommended next action:** the owner reviews PR #81 (the delegated decisions first), merges it,
+**Recommended next action:** the owner reviews PR #81 and the stacked PR (the delegated decisions first), merges them,
 adds the `release` environment reviewer, and publishes 1.0.0-preview.2. Run the manual
 screen-reader pass against preview.2 so any fix lands in the first clean preview.
+
+### Deferred items done before 1.0 (2026-11-18)
+
+The owner chose to do every deferred item before 1.0 ("breaking changes are fine before the first
+non-alpha release"). Branch `roadmap/deferred-before-1.0`, stacked on PR #81.
+
+| Item | Change | Evidence | Commit |
+|---|---|---|---|
+| RZUI-035 theme allocation | `Theme` resolves once (lazy); no theme is built per component instance (D-17) | Test: constructing a component builds no theme; rendered components share the configured instance | `33390ec7` |
+| RZUI-056 eager payload | Toast runtime on demand behind the same API; `lib/` ships only the stylesheets and the Razor grammar it loads (660 KB to 44 KB); confetti CDN key removed (it duplicated the bundled library); docs and template load `*.min.js` (D-18) | Eager JS 33.0 / 36.7 KB gz (was 37.0 / 40.6); unit tests for queued calls and queued events; browser tests: no toast chunk on a page without a provider until used, preloaded with one | `530cefb5` |
+| RZUI-062 highlight.js | `highlight.min.js` built from highlight.js 11.10.0 (common + 6 languages, 164 KB) replaces the unminified 1.75 MB build of every language; other languages as local files (D-19) | nupkg 2.9 MB / 246 files (was 6.1 MB / 1,444); browser test highlights C#, Razor and PowerShell with no missing-language warnings | `63850d75` |
+| RZUI-053 default element | `DefaultElement` in 143 components; 55 that overwrote a caller's `Element` now honor it | Tests: default tag rendered, `Element` not mutated, caller `Element` honored | `71aa7c42` |
+| RZUI-053 attribute copies | `CopyAdditionalAttributes()` in 29 components; a case-sensitive dictionary with case-duplicate keys threw | Test reproduced the exception, passes after | `75e189f7` |
+| RZUI-053 assets, localized defaults | `SerializeAssetUrls` (17 copies); 41 components no longer assign localized defaults to parameters | Test: parameter stays null, default rendered | `9dc51b36` |
+| RZUI-053 precedence, `data-slot` | One rule on all roots (D-20); `class` replaced instead of merged in four components and `x-data` overridable in two, fixed; collapsible sidebar dropped attributes, fixed; 16 roots gain `data-slot` | Tests: caller class merged; role/data-slot overridable; `x-data` not | `59d7cfcf` |
+| RZUI-061 deterministic ids | `RzIdScope`; 20 generated sub-ids derive from the component id; an explicit `Id` allocates none (D-21) | Tests: same markup renders identical ids; derived ids follow; explicit id kept | `d2fa123c` |
+| RZUI-015 follow-up | Markup values decoded before merging, every merged/caller value encoded once | Test: `Tom &amp; Jerry` shown as typed (fails without the fix); Tailwind `[&_svg]` round-trips | `8843a4b2` |
+
+Every commit was checked against the full .NET suite and, where markup or runtime changed, the
+integration suite under both runtimes before it was pushed.

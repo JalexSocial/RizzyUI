@@ -301,9 +301,9 @@ internal static class HtmlUtils
     // Values merged into the markup are plain text: caller values (component parameters and
     // additional attributes) are not HTML, and values read from the child's markup are decoded first
     // (DecodeMarkupValue). Every value written is then encoded once, so a caller's "a &amp; b" is shown
-    // as typed, a quote cannot end the attribute, and a markup value such as the Tailwind class
-    // [&_svg]:size-4 round-trips unchanged (RZUI-015). Attributes that are not merged are copied as
-    // they were written.
+    // as typed, a quote cannot end the attribute, and a markup value such as a Tailwind arbitrary
+    // variant ([&_svg]) round-trips unchanged (RZUI-015). Attributes that are not merged are copied
+    // as they were written.
     private static string DecodeMarkupValue(ReadOnlySpan<char> value)
         => value.IsEmpty ? string.Empty : WebUtility.HtmlDecode(value.ToString());
 
