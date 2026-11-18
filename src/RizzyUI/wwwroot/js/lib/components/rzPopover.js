@@ -1,4 +1,5 @@
 import { registerDismissableLayer } from '../../runtime/a11y/dismissableLayer.js';
+import { linkToTrigger } from '../../runtime/a11y/triggerReference.js';
 import { autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
 
 export default function rzPopover() {
@@ -51,6 +52,7 @@ export default function rzPopover() {
                 return;
             }
 
+            linkToTrigger(this.triggerEl, this.contentEl);
             this.registerLayer();
             await this.updatePosition();
             this.startAutoUpdate();

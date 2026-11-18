@@ -82,6 +82,15 @@ Finding IDs (RZUI-0xx) refer to the
 - `RzNumberTicker`, `RzProgress` and `RzEmbeddedPreview` release their observers and timers when
   an htmx swap removes them. `RzEmbeddedPreview` also no longer starts a new, never-cleared interval
   on each resize attempt while its iframe is loading. (RZUI-029)
+- Tooltips are announced correctly: the tooltip element was labelled by its trigger, so the
+  trigger's description repeated the trigger's own text (a "Save" button was described as "Save")
+  instead of the tooltip text.
+- Popovers and dropdown menus keep a valid `aria-labelledby` when the trigger child has its own
+  `id` (common with `AsChild`); it pointed at an element that did not exist. (RZUI-048)
+- Opening a dropdown menu with Enter, Space or the arrow keys moves focus to the first (or last)
+  item; focus stayed on the trigger.
+- The destructive color meets WCAG AA contrast with white text (4.8:1, was 3.8:1) in the Arctic
+  theme and the Vercel light theme. It is now `oklch(0.577 0.245 27.325)`.
 
 ### Removed
 

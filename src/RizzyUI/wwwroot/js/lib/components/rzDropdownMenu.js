@@ -1,3 +1,4 @@
+import { linkToTrigger } from '../../runtime/a11y/triggerReference.js';
 
 // packages/rizzyui/src/js/lib/components/rzDropdownMenu.js
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
@@ -42,6 +43,7 @@ export default function rzDropdownMenu() {
                         this.contentEl = document.getElementById(`${this.selfId}-content`);
                         if (!this.contentEl) return;
 
+                        linkToTrigger(this.triggerEl, this.contentEl);
                         this.updatePosition();
                         this.menuItems = this.getEnabledMenuItems();
                         this.registerDismissableLayer();
@@ -195,9 +197,17 @@ export default function rzDropdownMenu() {
          * @returns {any} Returns the result of `focusFirstItem` when applicable.
          */
         focusFirstItem() {
-            if (!this.menuItems.length) return;
+            if (!this.ensureMenuItems()) return;
             this.focusedIndex = 0;
             this.focusCurrentItem();
+        },
+
+        // Opening from the keyboard moves focus into the menu before the open watcher has resolved
+        // the content element, so look the items up here when needed (Enter left focus on the trigger).
+        ensureMenuItems() {
+            if (!this.contentEl) this.contentEl = document.getElementById(`${this.selfId}-content`);
+            if (!this.menuItems?.length) this.menuItems = this.getEnabledMenuItems();
+            return this.menuItems.length > 0;
         },
 
         /**
@@ -205,7 +215,7 @@ export default function rzDropdownMenu() {
          * @returns {any} Returns the result of `focusLastItem` when applicable.
          */
         focusLastItem() {
-            if (!this.menuItems.length) return;
+            if (!this.ensureMenuItems()) return;
             this.focusedIndex = this.menuItems.length - 1;
             this.focusCurrentItem();
         },
