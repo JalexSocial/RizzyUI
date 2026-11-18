@@ -1,8 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-// A minimal document: records appended elements and fires `load` on them.
+// Browsers expose crypto.subtle only in secure contexts; rizzyRequire must not need it (RZUI-026).
+Object.defineProperty(globalThis, 'crypto', { value: undefined, configurable: true, writable: true });
+
+// A minimal document: records appended elements and fires `load` on them (or `error` for URLs in
+// `failingUrls`).
 const appended = [];
+const failingUrls = new Set();
 function createElement(tagName) {
     const listeners = {};
     return {
@@ -19,7 +24,7 @@ globalThis.document = {
     head: {
         appendChild(element) {
             appended.push(element);
-            queueMicrotask(() => element.fire('load'));
+            queueMicrotask(() => element.fire(failingUrls.has(element.src || element.href) ? 'error' : 'load'));
         },
     },
 };
@@ -76,4 +81,29 @@ test('an entry with integrity shares the bundle of the same URL as a string', as
 
     assert.equal(first.bundleId, second.bundleId);
     assert.equal(appended.length, before + 1);
+});
+
+test('loads without crypto.subtle (plain HTTP)', async () => {
+    assert.equal(globalThis.crypto, undefined);
+    const result = await require(['http://intranet.example.test/no-crypto.js']);
+    assert.match(result.bundleId, /no-crypto\.js/);
+});
+
+test('the same URLs in any order share one bundle id', async () => {
+    const first = await require(['https://cdn.example.test/order-a.js', 'https://cdn.example.test/order-b.js']);
+    const second = await require(['https://cdn.example.test/order-b.js', 'https://cdn.example.test/order-a.js']);
+    assert.equal(first.bundleId, second.bundleId);
+});
+
+test('a failed load is retried by the next require of the same assets (RZUI-031)', async () => {
+    const url = 'https://cdn.example.test/flaky.js';
+    failingUrls.add(url);
+    const errors = [];
+    await assert.rejects(require([url], { error: missing => errors.push(missing) }), /Failed to load bundle/);
+    assert.equal(errors.length, 1);
+
+    failingUrls.delete(url);
+    const attemptsBefore = appended.filter(element => element.src === url).length;
+    await require([url]);
+    assert.equal(appended.filter(element => element.src === url).length, attemptsBefore + 1);
 });

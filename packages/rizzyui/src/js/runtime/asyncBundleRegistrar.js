@@ -1,32 +1,56 @@
 import { bundleLoaderRegistry } from './bundleLoaderRegistry.js';
 import { componentBundleManifest } from './componentBundleManifest.js';
 
-// Cache the promises so we only fetch a bundle once
-const loadedBundles = new Map();
+/**
+ * Creates a component-factory loader over a bundle registry. Each bundle is imported once and the
+ * promise is shared; a failed import is evicted so the next use of any of its components retries
+ * it instead of failing from the cache (RZUI-031).
+ * @param {Record<string, () => Promise<object>>} registry bundle name → dynamic import
+ * @param {Record<string, string>} manifest component name → bundle name
+ */
+export function createComponentFactoryLoader(registry, manifest) {
+    const loadedBundles = new Map();
 
-async function loadComponentFactory(componentName) {
-    const bundleName = componentBundleManifest[componentName];
-    if (!bundleName) {
-        throw new Error(`[RizzyUI] No owning bundle was found for component '${componentName}'.`);
-    }
+    function loadBundle(bundleName, componentName) {
+        if (!loadedBundles.has(bundleName)) {
+            const loader = registry[bundleName];
+            if (!loader) {
+                throw new Error(`[RizzyUI] Bundle loader '${bundleName}' is missing.`);
+            }
 
-    if (!loadedBundles.has(bundleName)) {
-        const loader = bundleLoaderRegistry[bundleName];
-        if (!loader) {
-            throw new Error(`[RizzyUI] Bundle loader '${bundleName}' is missing.`);
+            const pending = Promise.resolve()
+                .then(() => loader())
+                .catch(error => {
+                    if (loadedBundles.get(bundleName) === pending) {
+                        loadedBundles.delete(bundleName);
+                    }
+                    console.error(`[RizzyUI] Failed to load bundle '${bundleName}' for component '${componentName}'. It will be retried the next time it is needed.`, error);
+                    throw error;
+                });
+            loadedBundles.set(bundleName, pending);
         }
-        loadedBundles.set(bundleName, loader());
+
+        return loadedBundles.get(bundleName);
     }
 
-    const bundleModule = await loadedBundles.get(bundleName);
-    const factory = bundleModule[componentName];
-    
-    if (!factory) {
-        throw new Error(`[RizzyUI] Component '${componentName}' is not exported by bundle '${bundleName}'.`);
-    }
+    return async function loadComponentFactory(componentName) {
+        const bundleName = manifest[componentName];
+        if (!bundleName) {
+            throw new Error(`[RizzyUI] No owning bundle was found for component '${componentName}'.`);
+        }
 
-    return factory;
+        const bundleModule = await loadBundle(bundleName, componentName);
+        const factory = bundleModule[componentName];
+
+        if (!factory) {
+            throw new Error(`[RizzyUI] Component '${componentName}' is not exported by bundle '${bundleName}'.`);
+        }
+
+        return factory;
+    };
 }
+
+const loadComponentFactory = createComponentFactoryLoader(bundleLoaderRegistry, componentBundleManifest);
 
 export function registerAsyncBundleComponents(Alpine) {
     for (const componentName of Object.keys(componentBundleManifest)) {

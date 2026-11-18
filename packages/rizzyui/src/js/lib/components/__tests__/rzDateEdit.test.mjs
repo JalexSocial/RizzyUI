@@ -1,6 +1,7 @@
 import test, { afterEach, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import loadjs from '../../loadjs/loadjs.js';
+import { getBundleId } from '../../../runtime/rizzyRequire.js';
 import { toFlatpickrOptions } from '../rzDateEdit.js';
 import { resolveRegisteredComponentFactoryForTest } from './componentFactoryTestHelpers.mjs';
 
@@ -12,12 +13,10 @@ function setGlobal(key, value) {
   Object.defineProperty(globalThis, key, { value, configurable: true, writable: true });
 }
 
-// rizzyRequire names a bundle after the SHA-256 of its sorted URLs and skips loading a bundle that
-// loadjs already knows. Registering that bundle as loaded lets the success callback run without a DOM.
-async function markAssetsLoaded(paths) {
-  const data = new TextEncoder().encode([...paths].sort().join('|'));
-  const digest = await crypto.subtle.digest('SHA-256', data);
-  const bundleId = Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, '0')).join('');
+// rizzyRequire skips loading a bundle that loadjs already knows. Registering the bundle as loaded
+// lets the success callback run without a DOM.
+function markAssetsLoaded(paths) {
+  const bundleId = getBundleId(paths);
   loadjs([], bundleId);
   loadjs.done(bundleId);
 }
@@ -53,7 +52,7 @@ function createComponent(factory, { config, assets = JSON.stringify([FLATPICKR_U
   return { component, input };
 }
 
-// rizzyRequire hashes the asset list with crypto.subtle (a worker thread), so wait on time, not ticks.
+// rizzyRequire resolves asynchronously, so wait on time, not ticks.
 async function waitFor(predicate, message, timeoutMs = 2000) {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {

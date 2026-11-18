@@ -1,13 +1,13 @@
 import loadjs from '../lib/loadjs/loadjs.js';
 
-async function generateBundleId(paths) {
-    const normalized = [...paths].sort();
-    const joinedPaths = normalized.join('|');
-    const encoder = new TextEncoder();
-    const data = encoder.encode(joinedPaths);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+/**
+ * A stable id for a set of asset URLs: the same set (in any order) shares one loadjs bundle.
+ * Uses the URLs themselves rather than a hash, so it needs no `crypto.subtle`, which browsers only
+ * provide in secure contexts (HTTPS or localhost). (RZUI-026)
+ * @param {string[]} paths
+ */
+function getBundleId(paths) {
+    return `rz-bundle:${[...paths].sort().join('|')}`;
 }
 
 /**
@@ -49,7 +49,7 @@ function rizzyRequire(paths, callbackOrNonce, nonce) {
 
     const { files, integrity } = normalizeAssets(Array.isArray(paths) ? paths : [paths]);
 
-    return generateBundleId(files).then(bundleId => {
+    return Promise.resolve(getBundleId(files)).then(bundleId => {
         if (!loadjs.isDefined(bundleId)) {
             loadjs(files, bundleId, {
                 async: false,
@@ -78,6 +78,9 @@ function rizzyRequire(paths, callbackOrNonce, nonce) {
                     resolve({ bundleId });
                 },
                 error: depsNotFound => {
+                    // Let the next require() of these assets try again instead of failing from
+                    // the cached result (RZUI-031).
+                    loadjs.forget(bundleId);
                     try {
                         if (callbackObject && typeof callbackObject.error === 'function') {
                             callbackObject.error(depsNotFound);
@@ -95,4 +98,4 @@ function rizzyRequire(paths, callbackOrNonce, nonce) {
     });
 }
 
-export { rizzyRequire as require };
+export { rizzyRequire as require, getBundleId };
