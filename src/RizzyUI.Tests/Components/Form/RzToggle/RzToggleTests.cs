@@ -22,6 +22,26 @@ public class RzToggleTests : BunitAlbaContext, IClassFixture<WebAppFixture>
         Assert.Equal("false", toggle.GetAttribute("data-default-pressed"));
     }
 
+    [Theory]
+    [InlineData(null, false, "false")]
+    [InlineData(null, true, "true")]
+    [InlineData(true, false, "true")]
+    [InlineData(false, true, "false")]
+    public void RendersAriaPressedOnTheServer(bool? pressed, bool defaultPressed, string expected)
+    {
+        // The toggle is a button with a pressed state (APG toggle button). The state is in the
+        // server-rendered markup, not only after Alpine starts.
+        var cut = Render<global::RizzyUI.RzToggle>(p => p
+            .Add(x => x.Pressed, pressed)
+            .Add(x => x.DefaultPressed, defaultPressed)
+            .AddChildContent("Bold"));
+
+        var toggle = cut.Find("button[data-slot='toggle']");
+        Assert.Equal("button", toggle.GetAttribute("type"));
+        Assert.Equal(expected, toggle.GetAttribute("aria-pressed"));
+        Assert.Equal("ariaPressed", toggle.GetAttribute("x-bind:aria-pressed"));
+    }
+
     [Fact]
     public void ControlledPressedDisabledAndClassMergingRenderAsExpected()
     {
