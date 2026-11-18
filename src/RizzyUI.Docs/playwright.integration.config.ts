@@ -57,13 +57,13 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: `dotnet run --no-build -c ${configuration} --launch-profile http`,
+      command: `dotnet run --no-build -c ${configuration} --launch-profile http -- --Docs:EnableTestPages=true`,
       url: 'http://127.0.0.1:5150',
       reuseExistingServer: !process.env.CI,
       timeout: 180_000
     },
     {
-      command: `dotnet run --no-build -c ${configuration} --launch-profile http -- --urls http://127.0.0.1:5151 --Docs:UseContentSecurityPolicy=true`,
+      command: `dotnet run --no-build -c ${configuration} --launch-profile http -- --urls http://127.0.0.1:5151 --Docs:UseContentSecurityPolicy=true --Docs:EnableTestPages=true`,
       url: 'http://127.0.0.1:5151',
       reuseExistingServer: !process.env.CI,
       timeout: 180_000

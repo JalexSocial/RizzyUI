@@ -1,0 +1,8 @@
+@* Loaded with htmx. It contains an Alpine component, so the tests can check that Alpine initialized it. *@
+<RzAlert id="@($"fragment-{Source}")" Variant="ThemeVariant.Information" Dismissable="true">
+    <AlertTitle>Loaded from @Source</AlertTitle>
+</RzAlert>
+
+@code {
+    [Parameter] public string Source { get; set; } = "unknown";
+}

@@ -1,0 +1,36 @@
+@page "/_tests/harness"
+@* Integration test harness. Mapped only when Docs:EnableTestPages is true (see Program.cs); it lives
+   outside Components/Pages, so the static site generator never publishes it. *@
+
+<PageTitle>Integration harness</PageTitle>
+
+<div class="space-y-10 p-6">
+    <h1 class="text-2xl font-semibold">RizzyUI integration harness</h1>
+
+    <section aria-labelledby="harness-toasts" class="space-y-3">
+        <h2 id="harness-toasts" class="text-lg font-medium">Toasts</h2>
+        <ToastRegion Round="0" />
+        <div class="flex gap-2">
+            <RzButton id="replace-toast-region" hx-get="/_tests/toast-region" hx-target="#toast-region" hx-swap="outerHTML">Replace toast provider</RzButton>
+            <RzButton id="server-toast" hx-post="/_tests/toast" hx-swap="none">Server toast</RzButton>
+        </div>
+    </section>
+
+    <section aria-labelledby="harness-overlays" class="space-y-3">
+        <h2 id="harness-overlays" class="text-lg font-medium">Overlays</h2>
+        <OverlayRegion Round="0" />
+        <RzButton id="replace-overlays" hx-get="/_tests/overlay-region" hx-target="#overlay-region" hx-swap="outerHTML">Replace overlays</RzButton>
+    </section>
+
+    <section aria-labelledby="harness-oob" class="space-y-3">
+        <h2 id="harness-oob" class="text-lg font-medium">Out-of-band swap</h2>
+        <div id="oob-main">Main content</div>
+        <div id="oob-target">Waiting for out-of-band content</div>
+        <RzButton id="load-oob" hx-get="/_tests/oob" hx-target="#oob-main" hx-swap="innerHTML">Load with out-of-band content</RzButton>
+    </section>
+
+    <section aria-labelledby="harness-form" class="space-y-3">
+        <h2 id="harness-form" class="text-lg font-medium">Validated form</h2>
+        <HarnessForm />
+    </section>
+</div>
