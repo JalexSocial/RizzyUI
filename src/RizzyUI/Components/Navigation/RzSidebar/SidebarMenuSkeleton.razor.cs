@@ -10,7 +10,6 @@ namespace RizzyUI;
 /// </summary>
 public partial class SidebarMenuSkeleton : RzComponent<SidebarMenuSkeleton.Slots>
 {
-    private static readonly Random _random = new();
     private string _width = "100%";
 
     /// <summary>
@@ -36,7 +35,7 @@ public partial class SidebarMenuSkeleton : RzComponent<SidebarMenuSkeleton.Slots
     {
         base.OnInitialized();
         Element = "div";
-        _width = $"{_random.Next(50, 90)}%";
+        _width = $"{Random.Shared.Next(50, 90)}%";
     }
 
     /// <inheritdoc/>

@@ -12,6 +12,8 @@ internal sealed class RzToastCommandQueue
         _commands.Enqueue(command);
     }
 
+    public bool IsEmpty => _commands.IsEmpty;
+
     public IReadOnlyList<RzToastTransportCommand> Drain()
     {
         var commands = new List<RzToastTransportCommand>();

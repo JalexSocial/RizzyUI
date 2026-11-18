@@ -72,6 +72,13 @@ Finding IDs (RZUI-0xx) refer to the
   replace the component's own attributes. (RZUI-053)
 - `RzCarousel` escapes `<`, `>` and `&` in its configuration script, so a `</script>` in an option
   string cannot end the script element. (RZUI-034)
+- `RzMarkdown`, `RzCodeViewer` and `RzHeading` (its quick-reference title) render child content
+  that comes from a Razor expression, for example `<RzMarkdown>@model.Text</RzMarkdown>`; it was
+  dropped. (RZUI-050)
+- `ConfigureClasses` no longer modifies the `Classes` instance you pass, so a shared instance does
+  not accumulate changes across components or renders. (RZUI-055)
+- Toasts queued with `IRzToastService` during a non-htmx request are logged at Debug level when
+  discarded (toasts travel in htmx response headers). (RZUI-052)
 
 ### Removed
 
