@@ -22,7 +22,7 @@ internal interface IHasCheckboxGroupIcon
 /// </xmldoc>
 public partial class RzCheckboxGroup<TValue> : RzComponent<RzCheckboxGroupSlots>, IHasCheckboxGroupStylingProperties, IHasCheckboxGroupIcon
 {
-    private readonly string _legendId = IdGenerator.UniqueId("rz-cbg-legend");
+    private string LegendId => $"{Id}-legend";
     private IList<TValue>? _currentValue;
 
     [CascadingParameter] private EditContext? EditContext { get; set; }

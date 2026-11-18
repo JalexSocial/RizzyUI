@@ -38,7 +38,7 @@ public partial class RzCodeViewer : RzComponent<RzCodeViewer.Slots>
     );
 
     private string _assets = string.Empty;
-    private string CodeId { get; } = IdGenerator.UniqueId("rzcode");
+    private string CodeId => $"{Id}-code";
     private string CodeContent { get; set; } = string.Empty;
 
     [Inject]

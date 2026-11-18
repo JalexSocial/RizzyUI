@@ -20,7 +20,7 @@ public partial class SidebarGroup : RzComponent<SidebarGroup.Slots>
     /// <summary>
     /// Internal ID used to link the group to its label for accessibility.
     /// </summary>
-    public string LabelId { get; } = IdGenerator.UniqueId("rzsb-grouplabel-");
+    public string LabelId => $"{Id}-label";
 
     /// <summary>
     /// The content of the group, which typically includes a SidebarGroupLabel and SidebarGroupContent.

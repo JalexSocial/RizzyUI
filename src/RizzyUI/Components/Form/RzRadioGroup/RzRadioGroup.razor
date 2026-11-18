@@ -9,8 +9,8 @@
              data-slot="@RzRadioGroupSlotNames.NameOf(RzRadioGroupSlotTypes.Base)" role="radiogroup" @attributes="AdditionalAttributes" 
              id="@Id" 
              class="@SlotClasses.GetBase()"
-             aria-labelledby="@_legendId">
-    <legend id="@_legendId" class="sr-only">@DisplayName</legend>
+             aria-labelledby="@LegendId">
+    <legend id="@LegendId" class="sr-only">@DisplayName</legend>
     <CascadingValue Value="ShowIndicators" Name="ShowIndicators">
         <RzInputRadioGroupBase TValue="TValue"
                                ValueExpression="@For"

@@ -17,22 +17,22 @@ public partial class RzAlertDialog : RzComponent<RzAlertDialog.Slots>
     /// <summary>
     /// Gets the unique identifier for the <c>aria-labelledby</c> attribute.
     /// </summary>
-    internal string AriaLabelId { get; } = IdGenerator.UniqueId("rzalrtttl");
+    internal string AriaLabelId => $"{Id}-title";
 
     /// <summary>
     /// Gets the unique identifier for the <c>aria-describedby</c> attribute.
     /// </summary>
-    internal string AriaDescriptionId { get; } = IdGenerator.UniqueId("rzalrtdesc");
+    internal string AriaDescriptionId => $"{Id}-description";
 
     /// <summary>
     /// Gets the unique identifier for the alert dialog body container.
     /// </summary>
-    public string BodyId { get; } = IdGenerator.UniqueId("rzalrtbody");
+    public string BodyId => $"{Id}-body";
 
     /// <summary>
     /// Gets the unique identifier for the alert dialog footer container.
     /// </summary>
-    public string FooterId { get; } = IdGenerator.UniqueId("rzalrtfoot");
+    public string FooterId => $"{Id}-footer";
 
     /// <summary>
     /// Gets or sets the content of the alert dialog.

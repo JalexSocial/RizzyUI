@@ -35,7 +35,7 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         }
     );
 
-    private readonly string _uid = IdGenerator.UniqueId("rzdate");
+    private string DateUid => $"{Id}-date";
     private string _assets = "[]";
     private DateTime? _currentValue;
     private string _serializedConfig = "{}";
@@ -96,7 +96,7 @@ public sealed partial class RzDateEdit : RzComponent<RzDateEdit.Slots>
         _currentValue = For?.Compile().Invoke();
         _inputId = HttpContext != null && EditContext != null && For != null
             ? HttpContext.GetOrReserveFieldId(EditContext, FieldIdentifier.Create(For))
-            : $"{_uid}-input";
+            : $"{DateUid}-input";
         SerializeConfigAndAssets();
     }
 

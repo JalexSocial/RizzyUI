@@ -7,8 +7,8 @@
              data-slot="@RzCheckboxGroupSlotNames.NameOf(RzCheckboxGroupSlotTypes.Base)" role="group" @attributes="AdditionalAttributes" 
              id="@Id" 
              class="@SlotClasses.GetBase()"
-             aria-labelledby="@_legendId">
-    <legend id="@_legendId" class="sr-only">@DisplayName</legend>
+             aria-labelledby="@LegendId">
+    <legend id="@LegendId" class="sr-only">@DisplayName</legend>
     <CascadingValue Value="this" IsFixed="true">
         <CascadingValue Value="ShowIndicators" Name="ShowIndicators">
             @ChildContent

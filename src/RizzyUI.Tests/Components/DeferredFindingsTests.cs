@@ -1,5 +1,6 @@
 using System.Reflection;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -114,6 +115,58 @@ public class DeferredFindingsTests : BunitAlbaContext, IClassFixture<WebAppFixtu
 
         var dropdown = Render<RzDropdownMenu>(p => p.AddUnmatched("x-data", "somethingElse"));
         Assert.Equal("rzDropdownMenu", dropdown.Find("[x-data]").GetAttribute("x-data"));
+    }
+
+    private string RenderScoped(string prefix)
+    {
+        var cut = Render<RzIdScope>(p => p
+            .Add(x => x.Prefix, prefix)
+            .AddChildContent(b =>
+            {
+                b.OpenComponent<RzBadge>(0);
+                b.AddComponentParameter(1, "ChildContent", (RenderFragment)(c => c.AddContent(0, "One")));
+                b.CloseComponent();
+                b.OpenComponent<RzBadge>(2);
+                b.AddComponentParameter(3, "Id", "explicit");
+                b.AddComponentParameter(4, "ChildContent", (RenderFragment)(c => c.AddContent(0, "Two")));
+                b.CloseComponent();
+                b.OpenComponent<RzCodeViewer>(5);
+                b.AddComponentParameter(6, "Source", "var x = 1;");
+                b.CloseComponent();
+            }));
+        return cut.Markup;
+    }
+
+    [Fact]
+    public void IdScope_RendersTheSameIdsForTheSameMarkup()
+    {
+        // RZUI-061: ids were process-unique, so every render produced different ids.
+        var first = RenderScoped("cart");
+        var second = RenderScoped("cart");
+
+        Assert.Equal(first, second);
+        Assert.Contains("id=\"cart-1\"", first);
+        Assert.Contains("id=\"explicit\"", first);   // a caller's Id is kept and uses no number
+        Assert.Contains("id=\"cart-2\"", first);     // the code viewer
+        Assert.Contains("cart-2-code", first);       // derived ids follow the component id
+    }
+
+    [Fact]
+    public void IdsOutsideAScope_AreUniqueAndAnExplicitIdAllocatesNone()
+    {
+        var a = Render<RzBadge>(p => p.AddChildContent("A"));
+        var b = Render<RzBadge>(p => p.AddChildContent("B"));
+        Assert.NotEqual(a.Instance.Id, b.Instance.Id);
+        Assert.StartsWith("rz", a.Instance.Id);
+
+        var named = new RzBadge { Id = "given" };
+        Assert.Equal("given", named.Id);
+    }
+
+    [Fact]
+    public void IdScope_RequiresAPrefixWithoutWhitespace()
+    {
+        Assert.Throws<InvalidOperationException>(() => Render<RzIdScope>(p => p.Add(x => x.Prefix, "two words")));
     }
 
     [Fact]

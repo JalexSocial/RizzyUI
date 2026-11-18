@@ -417,7 +417,6 @@
     [Parameter] public string Family { get; set; } = "";
 
     private readonly HarnessChoices _model = new() { Layout = "default", Fruit = "banana" };
-    private readonly string _comboboxId = "harness-combobox";
     private readonly string _csharpSample = "public sealed class Greeter { public string Name { get; init; } = \"World\"; }";
     private readonly string _razorSample = "@foreach (var item in Items) { <li>@item.Name</li> }";
     private readonly string _markdownSample = string.Join(Environment.NewLine, "```powershell", "Get-ChildItem -Path . | Where-Object { $_.Length -gt 1KB }", "```");

@@ -1751,6 +1751,9 @@ RizzyUI.RzHighlighter
   StartOnView: System.Boolean
   StrokeWidth: System.Double
   ViewMargin: System.String
+RizzyUI.RzIdScope
+  ChildContent: Microsoft.AspNetCore.Components.RenderFragment
+  Prefix: System.String [EditorRequired]
 RizzyUI.RzIndicator
   AdditionalAttributes: System.Collections.Generic.Dictionary<System.String, System.Object> [CaptureUnmatchedValues]
   AriaLabel: System.String

@@ -19,22 +19,22 @@ public partial class RzDialog : RzComponent<RzDialog.Slots>
     /// <summary>
     /// Gets the unique identifier for the `aria-labelledby` attribute, linking the dialog to its title.
     /// </summary>
-    internal string AriaLabelId { get; } = IdGenerator.UniqueId("rzdlgttl");
+    internal string AriaLabelId => $"{Id}-title";
 
     /// <summary>
     /// Gets the unique identifier for the <c>aria-describedby</c> attribute, linking the dialog to its description.
     /// </summary>
-    internal string AriaDescriptionId { get; } = IdGenerator.UniqueId("rzdlgdesc");
+    internal string AriaDescriptionId => $"{Id}-description";
 
     /// <summary>
     /// Gets the unique identifier for the dialog body container, usable as an HTMX target ID.
     /// </summary>
-    public string BodyId { get; } = IdGenerator.UniqueId("rzdlgbody");
+    public string BodyId => $"{Id}-body";
 
     /// <summary>
     /// Gets the unique identifier for the dialog footer container, usable as an HTMX target ID.
     /// </summary>
-    public string FooterId { get; } = IdGenerator.UniqueId("rzdlgfoot");
+    public string FooterId => $"{Id}-footer";
 
     /// <summary>
     /// Gets or sets the content of the dialog, which should include a <see cref="DialogTrigger"/>

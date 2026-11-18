@@ -56,6 +56,9 @@ Finding IDs (RZUI-0xx) refer to the
 - `RzCombobox.ItemDataSelector` chooses the item data option and item templates can read (see
   Breaking).
 - `Rizzy.toast.ready()` resolves when the toast runtime has loaded (see Breaking).
+- `RzIdScope Prefix="..."` gives the components inside it deterministic ids (`{Prefix}-1`,
+  `{Prefix}-2`, ... in render order), so the same markup renders the same ids: for fragments that
+  are re-rendered and swapped, morph swaps and snapshot tests. (RZUI-061)
 - The runtime logs a console warning when the page already has another Alpine.js instance; RizzyUI
   bundles and starts Alpine itself, and a second copy initializes components twice. (RZUI-058)
 
@@ -166,6 +169,11 @@ Finding IDs (RZUI-0xx) refer to the
   (use `AriaLabel`, `RzAlert.LiveRegionMode` and `RegionAriaLabel`). `RzSidebar` renders caller attributes when it is
   collapsible (they were dropped). Wrapping components now set the `data-slot` they declare on the
   component they render (for example the `RzInputColor` swatch is `thumbnail`). (RZUI-053)
+- Ids that components derive (dialog and sheet titles and descriptions, dialog body and footer,
+  accordion sections, checkbox and radio group legends, command group headings, sidebar group labels,
+  the code viewer's code element, calendar and date edit elements, Markdown heading anchors) are now
+  `{Id}-<part>` instead of separately generated, and a component given an `Id` no longer generates
+  one it does not use. (RZUI-061)
 - Every component's root has a `data-slot`; 16 did not (`RzSwitch`, `RzLink`, `RzCarousel` and its
   parts, `RzDateEdit`, `RzSteps`, `RzSearchButton`, `RzDarkModeToggle`, `RzFormSection` and others).
   (RZUI-053)

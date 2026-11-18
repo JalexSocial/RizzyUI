@@ -94,12 +94,11 @@ public partial class RzCalendar : RzComponent<RzCalendar.Slots>
 
     private string _serializedConfig = "{}";
     private string _assets = "[]";
-    private readonly string _calendarId = IdGenerator.UniqueId("vc");
 
     /// <summary>
     /// Gets the unique DOM ID for the calendar instance.
     /// </summary>
-    protected string CalendarId => _calendarId;
+    protected string CalendarId => $"{Id}-calendar";
 
     /// <summary>
     /// Gets the unique ID for the configuration script tag.

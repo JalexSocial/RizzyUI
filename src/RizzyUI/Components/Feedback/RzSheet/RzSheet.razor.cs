@@ -21,12 +21,12 @@ public partial class RzSheet : RzComponent<RzSheet.Slots>
     /// <summary>
     /// Gets the unique identifier used for <c>aria-labelledby</c> when a <see cref="SheetTitle"/> is rendered.
     /// </summary>
-    internal string AriaLabelId { get; } = IdGenerator.UniqueId("rzshtttl");
+    internal string AriaLabelId => $"{Id}-title";
 
     /// <summary>
     /// Gets the unique identifier used for <c>aria-describedby</c> when a <see cref="SheetDescription"/> is rendered.
     /// </summary>
-    internal string AriaDescriptionId { get; } = IdGenerator.UniqueId("rzshtdesc");
+    internal string AriaDescriptionId => $"{Id}-description";
 
     /// <summary>
     /// Gets or sets the content of the sheet, which should include a <see cref="SheetTrigger"/>

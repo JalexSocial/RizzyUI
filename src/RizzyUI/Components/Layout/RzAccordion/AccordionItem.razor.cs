@@ -28,7 +28,7 @@ public partial class AccordionItem : RzComponent<AccordionItem.Slots>
         }
     );
 
-    private string SectionId { get; } = IdGenerator.UniqueId("rzaccsec");
+    private string SectionId => $"{Id}-section";
 
     /// <summary> Gets the unique ID for the button element. </summary>
     protected string ButtonId => $"rzaccordion-button-{SectionId}";

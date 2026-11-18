@@ -184,6 +184,7 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
         var document = Markdown.Parse(markdownText, pipeline);
         RemoveUnsafeLinks(document);
 
+        var headingNumber = 0;
         if (QuickReferenceContainer != null)
             foreach (var block in document)
                 if (block is HeadingBlock heading)
@@ -191,7 +192,7 @@ public partial class RzMarkdown : RzComponent<RzMarkdown.Slots>
                     var level = heading.Level;
                     var headingText = ExtractPlainText(heading.Inline);
                     var attributes = heading.GetAttributes();
-                    attributes.Id ??= IdGenerator.UniqueId("heading");
+                    attributes.Id ??= $"{Id}-heading-{++headingNumber}";
                     attributes.AddProperty("x-data", "rzHeading");
                     if (!string.IsNullOrWhiteSpace(LoadStrategy))
                         attributes.AddProperty("x-load", LoadStrategy);

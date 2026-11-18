@@ -16,6 +16,7 @@ namespace RizzyUI;
 public abstract partial class RzComponent : ComponentBase
 {
     private RzTheme? _theme;
+    private string? _id;
     private string? _nonce;
 
     /// <summary>
@@ -31,6 +32,12 @@ public abstract partial class RzComponent : ComponentBase
     /// </summary>
     [CascadingParameter]
     private HttpContext? RequestHttpContext { get; set; }
+
+    /// <summary>
+    /// The enclosing <see cref="RzIdScope"/>, if any. Components inside one get deterministic ids.
+    /// </summary>
+    [CascadingParameter]
+    private RzIdScope? IdScope { get; set; }
 
     /// <summary>
     /// Gets the request's path base (for example <c>/app</c> under <c>UsePathBase("/app")</c>), or an
@@ -100,10 +107,17 @@ public abstract partial class RzComponent : ComponentBase
     public string Element { get; set; } = string.Empty;
 
     /// <summary>
-    /// Unique identifier for the component instance. 
+    /// Unique identifier for the component instance. When not set, one is generated on first use:
+    /// inside an <see cref="RzIdScope"/> it is the scope's prefix and a counter (the same markup
+    /// renders the same ids), otherwise a process-unique id (RZUI-061).
     /// </summary>
     [Parameter]
-    public string Id { get; set; } = IdGenerator.UniqueId("rz");
+    [SuppressMessage("Usage", "BL0007:Component parameters should be auto properties", Justification = "The setter only stores the value; the getter generates the id once, on first use, so a caller's Id never allocates one (RZUI-061).")]
+    public string Id
+    {
+        get => _id ??= IdScope?.NextId() ?? IdGenerator.UniqueId("rz");
+        set => _id = string.IsNullOrEmpty(value) ? null : value;
+    }
 
     /// <summary>
     /// An optional loading strategy for `async-alpine`, corresponding to the `x-load` attribute (e.g., "visible", "idle").

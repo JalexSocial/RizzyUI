@@ -14,7 +14,7 @@ public partial class RzRadioGroup<TValue> : RzComponent<RzRadioGroupSlots>, IHas
 {
     private TValue? _currentValue;
     private FieldIdentifier _fieldIdentifier;
-    private readonly string _legendId = IdGenerator.UniqueId("rz-rg-legend");
+    private string LegendId => $"{Id}-legend";
 
     [CascadingParameter] private EditContext? EditContext { get; set; }
 
