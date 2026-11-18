@@ -13,7 +13,7 @@ Finding IDs (RZUI-0xx) refer to the
 3. [Who loads which script](#who-loads-which-script)
 4. [Breaking changes in RizzyUI](#breaking-changes-in-rizzyui)
 5. [Behavior fixes you may notice](#behavior-fixes-you-may-notice)
-6. [Changes after 1.0.0-preview.1](#changes-after-100-preview1)
+6. [Changes in 1.0.0-preview.2](#changes-in-100-preview2)
 7. [Worked example](#worked-example)
 8. [Troubleshooting](#troubleshooting)
 
@@ -21,7 +21,8 @@ Finding IDs (RZUI-0xx) refer to the
 
 | RizzyUI | Rizzy | htmx | .NET |
 |---|---|---|---|
-| 1.0.0-preview.1 (this guide) | 6.0.0-preview.3 | 4.0.1+ (4.x) | 10 |
+| 1.0.0-preview.2 (this guide) | 6.0.0-preview.3 | 4.0.1+ (4.x) | 10 |
+| 1.0.0-preview.1 | 6.0.0-preview.3 | 4.0.1+ (4.x) | 10 |
 | 0.9.2-alpha and earlier | 5.3.x | 2.x | 10 |
 
 The `RizzyUI` NuGet package depends on `Rizzy`, which brings the matching `Rizzy.Htmx`. You do not
@@ -131,10 +132,10 @@ instances. Keep the default for anything users can write: enabling it allows scr
   `HX-Trigger`, which htmx 4 raises after the swap; when the element that made the request was
   replaced, htmx raises the event on `document`, where RizzyUI listens.
 
-## Changes after 1.0.0-preview.1
+## Changes in 1.0.0-preview.2
 
-If you already moved to 1.0.0-preview.1, these are the changes in the next preview that may need
-code changes. The full list is in [CHANGELOG.md](../../CHANGELOG.md) under "Unreleased".
+If you already moved to 1.0.0-preview.1, these are the changes in 1.0.0-preview.2 that may need
+code changes. The full list is in [CHANGELOG.md](../../CHANGELOG.md) under "1.0.0-preview.2".
 
 | Before | Now | What to do |
 |---|---|---|
